@@ -909,9 +909,6 @@ namespace JJ.Business.Synthesizer.Tests
 
                 customOperator.Operands[patchInlet.Name] = operand;
 
-                Patch underlyingPatch2 = customOperator.UnderlyingPatch;
-                int? underlyingPatchID = customOperator.UnderlyingPatchID;
-
                 foreach (Inlet inlet2 in customOperator.Inlets)
                 {
                 }

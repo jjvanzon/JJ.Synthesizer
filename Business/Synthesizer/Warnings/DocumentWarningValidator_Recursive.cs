@@ -13,20 +13,17 @@ namespace JJ.Business.Synthesizer.Warnings
     {
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
-        private readonly IPatchRepository _patchRepository;
         private readonly HashSet<object> _alreadyDone;
 
         public DocumentWarningValidator_Recursive(
             [NotNull] Document document,
             [NotNull] ICurveRepository curveRepository,
             [NotNull] ISampleRepository sampleRepository,
-            [NotNull] IPatchRepository patchRepository,
             [NotNull] HashSet<object> alreadyDone)
             : base(document, postponeExecute: true)
         {
             _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
             _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
             _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
 
             // ReSharper disable once VirtualMemberCallInConstructor
@@ -61,7 +58,7 @@ namespace JJ.Business.Synthesizer.Warnings
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
                 ExecuteValidator(
-                    new PatchWarningValidator_WithRelatedEntities(patch, _sampleRepository, _curveRepository, _patchRepository, _alreadyDone),
+                    new PatchWarningValidator_WithRelatedEntities(patch, _sampleRepository, _curveRepository, _alreadyDone),
                     messagePrefix);
             }
 

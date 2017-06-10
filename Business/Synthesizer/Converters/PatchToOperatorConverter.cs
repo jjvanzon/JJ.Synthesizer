@@ -59,11 +59,7 @@ namespace JJ.Business.Synthesizer.Converters
             ConvertInlets(sourcePatchInlets, destCustomOperator);
             ConvertOutlets(sourcePatchOutlets, destCustomOperator);
 
-            new CustomOperator_OperatorWrapper(destCustomOperator, _repositories.PatchRepository)
-            {
-                UnderlyingPatch = sourceUnderlyingPatch
-            };
-
+            destCustomOperator.LinkToUnderlyingPatch(sourceUnderlyingPatch);
             destCustomOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories);
         }
 

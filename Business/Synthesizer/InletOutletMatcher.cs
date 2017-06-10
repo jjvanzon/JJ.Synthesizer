@@ -15,10 +15,10 @@ namespace JJ.Business.Synthesizer
     {
         // Patch to CustomOperator (e.g. for Converters and validators)
 
-        public static IList<InletTuple> Match_PatchInlets_With_CustomOperatorInlets(Operator customOperator, IPatchRepository patchRepository)
+        public static IList<InletTuple> Match_PatchInlets_With_CustomOperatorInlets(Operator customOperator)
         {
             IList<Inlet> customOperatorInlets = customOperator.Inlets.ToList();
-            IList<Operator> underlyingPatchInlets = GetUnderlyingPatchInlets(customOperator, patchRepository);
+            IList<Operator> underlyingPatchInlets = GetUnderlyingPatchInlets(customOperator);
 
             return Match_PatchInlets_With_CustomOperatorInlets(underlyingPatchInlets, customOperatorInlets);
         }
@@ -87,10 +87,10 @@ namespace JJ.Business.Synthesizer
             return customOperatorInlet_WithMatchingListIndex;
         }
 
-        public static IList<OutletTuple> Match_PatchOutlets_With_CustomOperatorOutlets(Operator customOperator, IPatchRepository patchRepository)
+        public static IList<OutletTuple> Match_PatchOutlets_With_CustomOperatorOutlets(Operator customOperator)
         {
             IList<Outlet> customOperatorOutlets = customOperator.Outlets.ToList();
-            IList<Operator> underlyingPatchOutlets = GetUnderlyingPatchOutlets(customOperator, patchRepository);
+            IList<Operator> underlyingPatchOutlets = GetUnderlyingPatchOutlets(customOperator);
 
             return Match_PatchOutlets_With_CustomOperatorOutlets(underlyingPatchOutlets, customOperatorOutlets);
         }
@@ -159,11 +159,9 @@ namespace JJ.Business.Synthesizer
             return customOperatorOutlet_WithMatchingListIndex;
         }
 
-        private static IList<Operator> GetUnderlyingPatchInlets(Operator sourceCustomOperator, IPatchRepository patchRepository)
+        private static IList<Operator> GetUnderlyingPatchInlets(Operator sourceCustomOperator)
         {
-            var sourceCustomOperatorWrapper = new CustomOperator_OperatorWrapper(sourceCustomOperator, patchRepository);
-
-            Patch destUnderlyingPatch = sourceCustomOperatorWrapper.UnderlyingPatch;
+            Patch destUnderlyingPatch = sourceCustomOperator.UnderlyingPatch;
 
             if (destUnderlyingPatch == null)
             {
@@ -175,11 +173,9 @@ namespace JJ.Business.Synthesizer
             return destUnderlyingPatchInlets;
         }
 
-        private static IList<Operator> GetUnderlyingPatchOutlets(Operator customOperator, IPatchRepository patchRepository)
+        private static IList<Operator> GetUnderlyingPatchOutlets(Operator customOperator)
         {
-            var customOperatorWrapper = new CustomOperator_OperatorWrapper(customOperator, patchRepository);
-
-            Patch underlyingPatch = customOperatorWrapper.UnderlyingPatch;
+            Patch underlyingPatch = customOperator.UnderlyingPatch;
 
             if (underlyingPatch == null)
             {
@@ -202,9 +198,9 @@ namespace JJ.Business.Synthesizer
         /// 
         /// Note that even though a CustomOperator can have multiple outlets, you will only be using one at a time in your calculations.
         /// </summary>
-        public static Outlet ApplyCustomOperatorToUnderlyingPatch(Outlet sourceCustomOperatorOutlet, IPatchRepository patchRepository)
+        public static Outlet ApplyCustomOperatorToUnderlyingPatch(Outlet sourceCustomOperatorOutlet)
         {
-            Outlet destPatchOutletOutlet = TryApplyCustomOperatorToUnderlyingPatch(sourceCustomOperatorOutlet, patchRepository);
+            Outlet destPatchOutletOutlet = TryApplyCustomOperatorToUnderlyingPatch(sourceCustomOperatorOutlet);
             if (destPatchOutletOutlet == null)
             {
                 // TODO: Low priority: This is a vague error message. Can it be made more specific?
@@ -223,21 +219,19 @@ namespace JJ.Business.Synthesizer
         /// 
         /// Note that even though a CustomOperator can have multiple outlets, you will only be using one at a time in your calculations.
         /// </summary>
-        private static Outlet TryApplyCustomOperatorToUnderlyingPatch(Outlet customOperatorOutlet, IPatchRepository patchRepository)
+        private static Outlet TryApplyCustomOperatorToUnderlyingPatch(Outlet customOperatorOutlet)
         {
             if (customOperatorOutlet == null) throw new NullException(() => customOperatorOutlet);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             Operator customOperator = customOperatorOutlet.Operator;
-            var customOperatorWrapper = new CustomOperator_OperatorWrapper(customOperator, patchRepository);
-            Patch underlyingPatch = customOperatorWrapper.UnderlyingPatch;
+            Patch underlyingPatch = customOperator.UnderlyingPatch;
 
             if (underlyingPatch == null)
             {
                 return null;
             }
 
-            IList<InletTuple> inletTuples = Match_PatchInlets_With_CustomOperatorInlets(customOperator, patchRepository);
+            IList<InletTuple> inletTuples = Match_PatchInlets_With_CustomOperatorInlets(customOperator);
 
             foreach (InletTuple tuple in inletTuples)
             {
@@ -254,7 +248,7 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            IList<OutletTuple> outletTuples = Match_PatchOutlets_With_CustomOperatorOutlets(customOperator, patchRepository);
+            IList<OutletTuple> outletTuples = Match_PatchOutlets_With_CustomOperatorOutlets(customOperator);
 
             Operator destUnderlyingPatchOutlet = outletTuples.Where(x => x.CustomOperatorOutlet == customOperatorOutlet).Single().UnderlyingPatchOutlet;
             // ReSharper disable once InvertIf

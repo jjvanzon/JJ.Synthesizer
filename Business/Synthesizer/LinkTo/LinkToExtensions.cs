@@ -203,6 +203,29 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
+        public static void LinkToUnderlyingPatch([NotNull] this Operator derivedOperator, [CanBeNull] Patch underlyingPatch)
+        {
+            if (derivedOperator == null) throw new NullException(() => derivedOperator);
+
+            if (derivedOperator.UnderlyingPatch != null)
+            {
+                if (derivedOperator.UnderlyingPatch.DerivedOperators.Contains(derivedOperator))
+                {
+                    derivedOperator.UnderlyingPatch.DerivedOperators.Remove(derivedOperator);
+                }
+            }
+
+            derivedOperator.UnderlyingPatch = underlyingPatch;
+
+            if (derivedOperator.UnderlyingPatch != null)
+            {
+                if (!derivedOperator.UnderlyingPatch.DerivedOperators.Contains(derivedOperator))
+                {
+                    derivedOperator.UnderlyingPatch.DerivedOperators.Add(derivedOperator);
+                }
+            }
+        }
+
         public static void LinkTo([NotNull] this Inlet inlet, [CanBeNull] Operator op)
         {
             if (inlet == null) throw new NullException(() => inlet);

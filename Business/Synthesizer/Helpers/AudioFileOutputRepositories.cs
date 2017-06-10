@@ -12,7 +12,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public IOutletRepository OutletRepository { get; }
         public ICurveRepository CurveRepository { get; }
         public ISampleRepository SampleRepository { get; }
-        public IPatchRepository PatchRepository { get; }
         public IIDRepository IDRepository { get; }
 
         public AudioFileOutputRepositories(RepositoryWrapper repositoryWrapper)
@@ -26,7 +25,6 @@ namespace JJ.Business.Synthesizer.Helpers
             OutletRepository = repositoryWrapper.OutletRepository;
             CurveRepository = repositoryWrapper.CurveRepository;
             SampleRepository = repositoryWrapper.SampleRepository;
-            PatchRepository = repositoryWrapper.PatchRepository;
             IDRepository = repositoryWrapper.IDRepository;
         }
 
@@ -38,7 +36,6 @@ namespace JJ.Business.Synthesizer.Helpers
             IOutletRepository outletRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IPatchRepository patchRepository,
             IIDRepository idRepository)
         {
             AudioFileOutputRepository = audioFileOutputRepository ?? throw new NullException(() => audioFileOutputRepository);
@@ -48,7 +45,6 @@ namespace JJ.Business.Synthesizer.Helpers
             OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
             CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
             SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-            PatchRepository = patchRepository ?? throw new NullException(() => patchRepository);
             IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 

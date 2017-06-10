@@ -475,23 +475,20 @@ namespace JJ.Business.Synthesizer
 
             _repositories.OperatorRepository.Insert(op);
 
-            var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository)
-            {
-                // Needed to create Operator.Data key "UnderlyingPatchID"
-                UnderlyingPatch = null
-            };
-
             op.LinkTo(Patch);
 
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
+            var wrapper = new CustomOperator_OperatorWrapper(op);
             return wrapper;
         }
 
         public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch)
         {
-            CustomOperator_OperatorWrapper op = CustomOperator();
+            CustomOperator_OperatorWrapper wrapper = CustomOperator();
+            Operator op = wrapper;
+
             op.UnderlyingPatch = underlyingPatch;
 
             new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
@@ -499,7 +496,7 @@ namespace JJ.Business.Synthesizer
             VoidResultDto result = ValidateOperatorNonRecursive(op);
             ResultHelper.Assert(result);
 
-            return op;
+            return wrapper;
         }
 
         /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>

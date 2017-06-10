@@ -5,67 +5,41 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Framework.Validation.Resources;
 using JJ.Framework.Exceptions;
 using System.Text;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
     /// <summary> Does not derive from OperatorValidator_Base, because CustomOperator has very specific requirements. </summary>
     internal class CustomOperator_OperatorValidator : VersatileValidator<Operator>
     {
-        private static readonly string[] _allowedDataKeys = { nameof(CustomOperator_OperatorWrapper.UnderlyingPatchID) };
-
-        private readonly IPatchRepository _patchRepository;
-
-        public CustomOperator_OperatorValidator(Operator op, IPatchRepository patchRepository)
-            : base(op, postponeExecute: true)
-        {
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
-
-            Execute();
-        }
+        public CustomOperator_OperatorValidator(Operator op)
+            : base(op)
+        { }
 
         protected override void Execute()
         {
             Operator op = Obj;
 
-            ExecuteValidator(new DataPropertyValidator(op.Data, _allowedDataKeys));
+            For(() => op.Data, ResourceFormatter.Data).IsNullOrEmpty();
 
-            if (!DataPropertyParser.DataIsWellFormed(op))
+            if (op.UnderlyingPatch == null)
             {
                 return;
             }
 
-            string underlyingPatchIDString = DataPropertyParser.TryGetString(op, nameof(CustomOperator_OperatorWrapper.UnderlyingPatchID));
-
-            For(() => underlyingPatchIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.UnderlyingPatch)).IsInteger();
-
-            if (!int.TryParse(underlyingPatchIDString, out int underlyingPatchID))
-            {
-                return;
-            }
-
-            Patch underlyingPatch = _patchRepository.TryGet(underlyingPatchID);
-            if (underlyingPatch == null)
-            {
-                ValidationMessages.Add(() => underlyingPatch, CommonResourceFormatter.NotFound_WithName_AndID(ResourceFormatter.UnderlyingPatch, underlyingPatchID));
-            }
-            else
-            {
-                ValidateUnderlyingPatchReferenceConstraint(underlyingPatch);
-                ValidateInletsAgainstUnderlyingPatch();
-                ValidateOutletsAgainstUnderlyingPatch();
-            }
+            ValidateUnderlyingPatchReferenceConstraint();
+            ValidateInletsAgainstUnderlyingPatch();
+            ValidateOutletsAgainstUnderlyingPatch();
         }
 
-        private void ValidateUnderlyingPatchReferenceConstraint(Patch underlyingPatch)
+        private void ValidateUnderlyingPatchReferenceConstraint()
         {
             Operator op = Obj;
+            Patch underlyingPatch = op.UnderlyingPatch;
 
             // We are quite tollerant here: we omit the check if it is not in a patch or document.
             bool mustCheckReference = op.Patch?.Document != null;
@@ -78,7 +52,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             
             if (!isInList)
             {
-                ValidationMessages.AddNotInListMessage(nameof(CustomOperator_OperatorWrapper.UnderlyingPatch), ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);
+                ValidationMessages.AddNotInListMessage(nameof(Operator.UnderlyingPatch), ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);
             }
         }
 
@@ -86,7 +60,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Obj;
 
-            IList<InletTuple> tuples = InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(customOperator, _patchRepository);
+            IList<InletTuple> tuples = InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(customOperator);
             
             foreach (InletTuple tuple in tuples)
             {
@@ -187,7 +161,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator customOperator = Obj;
 
-            IList<OutletTuple> tuples = InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(customOperator, _patchRepository);
+            IList<OutletTuple> tuples = InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(customOperator);
 
             foreach (OutletTuple tuple in tuples)
             {

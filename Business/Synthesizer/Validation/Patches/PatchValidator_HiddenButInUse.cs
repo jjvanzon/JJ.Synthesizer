@@ -1,26 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_HiddenButInUse : VersatileValidator<Patch>
     {
-        private readonly IPatchRepository _patchRepository;
-
-        public PatchValidator_HiddenButInUse(Patch entity, [NotNull] IPatchRepository patchRepository)
-            : base(entity, postponeExecute: true)
-        {
-            _patchRepository = patchRepository ?? throw new ArgumentNullException(nameof(patchRepository));
-
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Execute();
-        }
+        public PatchValidator_HiddenButInUse(Patch entity)
+            : base(entity)
+        { }
 
         protected override void Execute()
         {
@@ -31,7 +22,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             {
                 string lowerPatchIdentifier = ResourceFormatter.Patch + " " + ValidationHelper.GetUserFriendlyIdentifier(lowerPatch);
 
-                IEnumerable<Operator> customOperators = lowerPatch.EnumerateDependentCustomOperators(_patchRepository);
+                IEnumerable<Operator> customOperators = lowerPatch.EnumerateDependentCustomOperators();
                 foreach (Operator op in customOperators)
                 {
                     bool isExternal = op.Patch.Document != lowerPatch.Document;
@@ -43,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                     Patch higherPatch = op.Patch;
                     string higherDocumentPrefix = ValidationHelper.TryGetHigherDocumentPrefix(lowerPatch, higherPatch);
                     string higherPatchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
-                    string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCustomOperator(op, _patchRepository);
+                    string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCustomOperator(op);
 
                     ValidationMessages.Add(
                         nameof(Patch),

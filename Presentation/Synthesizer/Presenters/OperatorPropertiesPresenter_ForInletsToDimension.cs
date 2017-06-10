@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override OperatorPropertiesViewModel_ForInletsToDimension ToViewModel(Operator op)
         {
-            return op.ToPropertiesViewModel_ForInletsToDimension(_repositories.PatchRepository);
+            return op.ToPropertiesViewModel_ForInletsToDimension();
         }
 
         protected override void UpdateEntity(OperatorPropertiesViewModel_ForInletsToDimension viewModel)

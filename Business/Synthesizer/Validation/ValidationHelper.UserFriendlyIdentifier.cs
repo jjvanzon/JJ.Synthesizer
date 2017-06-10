@@ -115,8 +115,7 @@ namespace JJ.Business.Synthesizer.Validation
         public static string GetUserFriendlyIdentifier(
             [NotNull] Operator entity,
             [NotNull] ISampleRepository sampleRepository,
-            [NotNull] ICurveRepository curveRepository,
-            [NotNull] IPatchRepository patchRepository)
+            [NotNull] ICurveRepository curveRepository)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -128,7 +127,7 @@ namespace JJ.Business.Synthesizer.Validation
                     return GetUserFriendlyIdentifier_ForCurveOperator(entity, curveRepository);
 
                 case OperatorTypeEnum.CustomOperator:
-                    return GetUserFriendlyIdentifier_ForCustomOperator(entity, patchRepository);
+                    return GetUserFriendlyIdentifier_ForCustomOperator(entity);
 
                 case OperatorTypeEnum.Number:
                     return GetUserFriendlyIdentifier_ForNumberOperator(entity);
@@ -183,10 +182,9 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        public static string GetUserFriendlyIdentifier_ForCustomOperator([NotNull] Operator entity, [NotNull] IPatchRepository patchRepository)
+        public static string GetUserFriendlyIdentifier_ForCustomOperator([NotNull] Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             // Use Operator Name
             if (!string.IsNullOrWhiteSpace(entity.Name))
@@ -195,19 +193,10 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Underlying Entity Name
-            // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(entity))
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (entity.UnderlyingPatch != null)
             {
-                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, nameof(CustomOperator_OperatorWrapper.UnderlyingPatchID));
-                // ReSharper disable once InvertIf
-                if (underlyingEntityID.HasValue)
-                {
-                    Patch underlyingEntity = patchRepository.TryGet(underlyingEntityID.Value);
-                    if (underlyingEntity != null)
-                    {
-                        return GetUserFriendlyIdentifier(underlyingEntity);
-                    }
-                }
+                return GetUserFriendlyIdentifier(entity.UnderlyingPatch);
             }
 
             // Mention 'no name' only

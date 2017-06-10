@@ -597,7 +597,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorViewModel destOperatorViewModel,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
             if (sourceInlets == null) throw new NullException(() => sourceInlets);
@@ -613,7 +612,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     destOperatorViewModel.Inlets.Add(inletViewModel);
                 }
 
-                inlet.ToViewModel(inletViewModel, curveRepository, sampleRepository, patchRepository, entityPositionManager);
+                inlet.ToViewModel(inletViewModel, curveRepository, sampleRepository, entityPositionManager);
 
                 inletViewModelsToKeep.Add(inletViewModel);
             }
@@ -638,7 +637,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorViewModel destOperatorViewModel,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
             if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
@@ -657,7 +655,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     outletViewModel.Operator = destOperatorViewModel;
                 }
 
-                outlet.ToViewModel(outletViewModel, curveRepository, sampleRepository, patchRepository, entityPositionManager);
+                outlet.ToViewModel(outletViewModel, curveRepository, sampleRepository, entityPositionManager);
 
                 outletViewModelsToKeep.Add(outletViewModel);
             }
@@ -684,12 +682,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorViewModel operatorViewModel,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
-            RefreshViewModel(entity, operatorViewModel, sampleRepository, curveRepository, patchRepository, entityPositionManager);
-            RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, sampleRepository, patchRepository, entityPositionManager);
-            RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, sampleRepository, patchRepository, entityPositionManager);
+            RefreshViewModel(entity, operatorViewModel, sampleRepository, curveRepository, entityPositionManager);
+            RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, sampleRepository, entityPositionManager);
+            RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, sampleRepository, entityPositionManager);
         }
 
         /// <summary>
@@ -701,7 +698,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorViewModel viewModel,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -710,7 +706,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.ID = entity.ID;
             viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
-            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
+            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository);
             viewModel.IsOwned = GetOperatorIsOwned(entity);
             viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
 
@@ -736,13 +732,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static string GetOperatorCaption(
             Operator op,
             ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository)
+            ICurveRepository curveRepository)
         {
             if (op == null) throw new NullException(() => op);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
@@ -770,7 +764,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     break;
 
                 case OperatorTypeEnum.CustomOperator:
-                    operatorCaption = GetOperatorCaption_ForCustomOperator(op, patchRepository);
+                    operatorCaption = GetOperatorCaption_ForCustomOperator(op);
                     break;
 
                 case OperatorTypeEnum.GetDimension:
@@ -857,7 +851,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return caption;
         }
 
-        private static string GetOperatorCaption_ForCustomOperator(Operator op, IPatchRepository patchRepository)
+        private static string GetOperatorCaption_ForCustomOperator(Operator op)
         {
             // Use Operator.Name
             if (!string.IsNullOrWhiteSpace(op.Name))
@@ -866,8 +860,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use UnderlyingPatch.Name
-            var wrapper = new CustomOperator_OperatorWrapper(op, patchRepository);
-            Patch underlyingPatch = wrapper.UnderlyingPatch;
+            Patch underlyingPatch = op.UnderlyingPatch;
             if (!string.IsNullOrWhiteSpace(underlyingPatch?.Name))
             {
                 return underlyingPatch.Name;
@@ -1042,8 +1035,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static string GetInletCaption(
             Inlet inlet,
             ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository)
+            ICurveRepository curveRepository)
         {
             var sb = new StringBuilder();
 
@@ -1055,8 +1047,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
                         inlet.Operator,
                         curveRepository,
-                        sampleRepository,
-                        patchRepository);
+                        sampleRepository);
                     string inletDisplayName = wrapper.GetInletDisplayName(inlet);
                     sb.Append(inletDisplayName);
                 }
@@ -1090,32 +1081,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static string GetOutletCaption(
             Outlet outlet,
             ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository)
+            ICurveRepository curveRepository)
         {
             if (outlet == null) throw new NullException(() => outlet);
 
             switch (outlet.Operator.GetOperatorTypeEnum())
             {
                 case OperatorTypeEnum.CustomOperator:
-                    return GetOutletCaption_ForCustomOperator(outlet, patchRepository);
+                    return GetOutletCaption_ForCustomOperator(outlet);
 
                 case OperatorTypeEnum.RangeOverOutlets:
                     return GetOutletCaption_ForRangeOverOutlets(outlet);
 
                 default:
-                    return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository, patchRepository);
+                    return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository);
             }
         }
 
-        private static string GetOutletCaption_ForCustomOperator(Outlet outlet, IPatchRepository patchRepository)
+        private static string GetOutletCaption_ForCustomOperator(Outlet outlet)
         {
             var sb = new StringBuilder();
 
             bool hasSingleOutlet = outlet.Operator.Outlets.Count == 1;
             if (!hasSingleOutlet)
             {
-                var wrapper = new CustomOperator_OperatorWrapper(outlet.Operator, patchRepository);
+                var wrapper = new CustomOperator_OperatorWrapper(outlet.Operator);
 
                 string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
                 sb.Append(inletDisplayName);
@@ -1174,8 +1164,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static string GetOutletCaption_ForOtherOperatorType(
             Outlet outlet,
             ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository)
+            ICurveRepository curveRepository)
         {
             var sb = new StringBuilder();
 
@@ -1185,8 +1174,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
                     outlet.Operator,
                     curveRepository,
-                    sampleRepository,
-                    patchRepository);
+                    sampleRepository);
 
                 string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
                 sb.Append(inletDisplayName);

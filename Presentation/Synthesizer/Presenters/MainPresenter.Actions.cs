@@ -390,7 +390,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AutoPatchPopupViewModel autoPatchPopupViewModel = autoPatch.ToAutoPatchViewModel(
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
-                _repositories.PatchRepository,
                 _repositories.InterpolationTypeRepository,
                 _entityPositionManager);
 
@@ -474,7 +473,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         viewModel2 = patch.ToAutoPatchViewModel(
                             _repositories.SampleRepository,
                             _repositories.CurveRepository,
-                            _repositories.PatchRepository,
                             _repositories.InterpolationTypeRepository,
                             _entityPositionManager);
 

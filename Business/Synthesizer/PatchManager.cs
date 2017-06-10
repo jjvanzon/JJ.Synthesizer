@@ -176,7 +176,7 @@ namespace JJ.Business.Synthesizer
         {
             if (op == null) throw new NullException(() => op);
 
-            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, Patch, _repositories.SampleRepository, _repositories.CurveRepository, _repositories.PatchRepository);
+            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, Patch, _repositories.SampleRepository, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
                 return validator.ToCanonical();
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer
         {
             AssertPatchNotNull();
 
-            IValidator validator = new PatchValidator_Delete(Patch, _repositories.PatchRepository);
+            IValidator validator = new PatchValidator_Delete(Patch);
             if (!validator.IsValid)
             {
                 return validator.ToResult();
@@ -312,8 +312,7 @@ namespace JJ.Business.Synthesizer
             IValidator validator = new PatchValidator_WithRelatedEntities(
                 Patch,
                 _repositories.CurveRepository,
-                _repositories.SampleRepository,
-                _repositories.PatchRepository, new HashSet<object>());
+                _repositories.SampleRepository, new HashSet<object>());
 
             VoidResultDto result = validator.ToCanonical();
 
@@ -322,7 +321,7 @@ namespace JJ.Business.Synthesizer
 
         private VoidResultDto ValidateOperatorNonRecursive(Operator op)
         {
-            IValidator validator = new Versatile_OperatorValidator(op, _repositories.PatchRepository);
+            IValidator validator = new Versatile_OperatorValidator(op);
 
             return new VoidResultDto
             {
@@ -547,7 +546,6 @@ namespace JJ.Business.Synthesizer
                     var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
                         calculatorCache,
                         _repositories.CurveRepository,
-                        _repositories.PatchRepository,
                         _repositories.SampleRepository,
                         _repositories.SpeakerSetupRepository);
                     IOperatorDto dto = entityToDtoVisitor.Execute(outlet);
@@ -611,7 +609,6 @@ namespace JJ.Business.Synthesizer
                         _secondsBetweenApplyFilterVariables,
                         _repositories.CurveRepository,
                         _repositories.SampleRepository,
-                        _repositories.PatchRepository,
                         _repositories.SpeakerSetupRepository);
                     break;
 
@@ -621,7 +618,6 @@ namespace JJ.Business.Synthesizer
                     var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
                         calculatorCache,
                         _repositories.CurveRepository,
-                        _repositories.PatchRepository,
                         _repositories.SampleRepository,
                         _repositories.SpeakerSetupRepository);
                     IOperatorDto dto = entityToDtoVisitor.Execute(outlet);

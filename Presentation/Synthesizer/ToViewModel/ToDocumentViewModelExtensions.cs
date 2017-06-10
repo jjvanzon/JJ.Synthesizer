@@ -51,19 +51,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 LibraryPatchPropertiesDictionary = document.ToLibraryPatchPropertiesViewModelList().ToDictionary(x => x.PatchID),
                 LibraryPropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.DocumentReferenceID),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
-                OperatorPropertiesDictionary = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView(repositories.PatchRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForCaches = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.PatchRepository, repositories.InterpolationTypeRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForCurves = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.PatchRepository, repositories.CurveRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForInletsToDimension = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForInletsToDimension(repositories.PatchRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForNumbers = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers(repositories.PatchRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForPatchInlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets(repositories.PatchRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForPatchOutlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets(repositories.PatchRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForSamples = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.PatchRepository, repositories.SampleRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_WithCollectionRecalculation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithCollectionRecalculation(repositories.PatchRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_WithInterpolation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInterpolation(repositories.PatchRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_WithOutletCount = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithOutletCount(repositories.PatchRepository)).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_WithInletCount = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInletCount(repositories.PatchRepository)).ToDictionary(x => x.ID),
-                PatchDetailsDictionary = document.Patches.Select(x => x.ToDetailsViewModel(repositories.SampleRepository, repositories.CurveRepository, repositories.PatchRepository, entityPositionManager)).ToDictionary(x => x.Entity.ID),
+                OperatorPropertiesDictionary = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCaches = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCurves = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForInletsToDimension = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForInletsToDimension()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForNumbers = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForPatchInlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForPatchOutlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForSamples = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithCollectionRecalculation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithCollectionRecalculation()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithInterpolation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInterpolation()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithOutletCount = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithOutletCount()).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithInletCount = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInletCount()).ToDictionary(x => x.ID),
+                PatchDetailsDictionary = document.Patches.Select(x => x.ToDetailsViewModel(repositories.SampleRepository, repositories.CurveRepository, entityPositionManager)).ToDictionary(x => x.Entity.ID),
                 PatchGridDictionary = ViewModelHelper.CreatePatchGridViewModelDictionary(grouplessPatchUsedInDtos, patchGroupDtos_WithUsedIn, document.ID),
                 PatchPropertiesDictionary = document.Patches.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document),
@@ -95,32 +95,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             this Patch patch,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
             IInterpolationTypeRepository interpolationTypeRepository,
             EntityPositionManager entityPositionManager)
         {
             if (patch == null) throw new NullException(() => patch);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
             if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
             var viewModel = new AutoPatchPopupViewModel
             {
-                OperatorPropertiesDictionary = patch.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView(patchRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForCaches = patch.ToPropertiesViewModelList_ForCaches(patchRepository, interpolationTypeRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForCurves = patch.ToPropertiesViewModelList_ForCurves(patchRepository, curveRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForInletsToDimension = patch.ToPropertiesViewModelList_ForInletsToDimension(patchRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForNumbers = patch.ToPropertiesViewModelList_ForNumbers(patchRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForPatchInlets = patch.ToPropertiesViewModelList_ForPatchInlets(patchRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForPatchOutlets = patch.ToPropertiesViewModelList_ForPatchOutlets(patchRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForSamples = patch.ToPropertiesViewModelList_ForSamples(patchRepository, sampleRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_WithCollectionRecalculation = patch.ToPropertiesViewModelList_WithCollectionRecalculation(patchRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_WithInterpolation = patch.ToPropertiesViewModelList_WithInterpolation(patchRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_WithOutletCount = patch.ToPropertiesViewModelList_WithOutletCount(patchRepository).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_WithInletCount = patch.ToPropertiesViewModelList_WithInletCount(patchRepository).ToDictionary(x => x.ID),
-                PatchDetails = patch.ToDetailsViewModel(sampleRepository, curveRepository, patchRepository, entityPositionManager),
+                OperatorPropertiesDictionary = patch.ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCaches = patch.ToPropertiesViewModelList_ForCaches(interpolationTypeRepository).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForCurves = patch.ToPropertiesViewModelList_ForCurves(curveRepository).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForInletsToDimension = patch.ToPropertiesViewModelList_ForInletsToDimension().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForNumbers = patch.ToPropertiesViewModelList_ForNumbers().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForPatchInlets = patch.ToPropertiesViewModelList_ForPatchInlets().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForPatchOutlets = patch.ToPropertiesViewModelList_ForPatchOutlets().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForSamples = patch.ToPropertiesViewModelList_ForSamples(sampleRepository).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithCollectionRecalculation = patch.ToPropertiesViewModelList_WithCollectionRecalculation().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithInterpolation = patch.ToPropertiesViewModelList_WithInterpolation().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithOutletCount = patch.ToPropertiesViewModelList_WithOutletCount().ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_WithInletCount = patch.ToPropertiesViewModelList_WithInletCount().ToDictionary(x => x.ID),
+                PatchDetails = patch.ToDetailsViewModel(sampleRepository, curveRepository, entityPositionManager),
                 PatchProperties = patch.ToPropertiesViewModel(),
                 ValidationMessages = new List<MessageDto>()
             };

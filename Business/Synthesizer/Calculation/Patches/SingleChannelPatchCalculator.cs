@@ -41,7 +41,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double secondsBetweenApplyFilterVariables,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
             : base(samplingRate, channelCount, channelIndex)
         {
@@ -60,7 +59,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             calculatorCache,
                             curveRepository,
                             sampleRepository,
-                            patchRepository,
                             speakerSetupRepository);
 
                         result = visitor.Execute();
@@ -75,7 +73,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                             secondsBetweenApplyFilterVariables,
                             calculatorCache,
                             curveRepository,
-                            patchRepository,
                             sampleRepository,
                             speakerSetupRepository);
 

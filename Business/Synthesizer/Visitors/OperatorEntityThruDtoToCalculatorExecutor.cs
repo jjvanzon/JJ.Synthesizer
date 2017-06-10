@@ -12,7 +12,6 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly double _secondsBetweenApplyFilterVariables;
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
-        private readonly IPatchRepository _patchRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
 
@@ -22,7 +21,6 @@ namespace JJ.Business.Synthesizer.Visitors
             double secondsBetweenApplyFilterVariables,
             CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
             ISampleRepository sampleRepository,
             ISpeakerSetupRepository speakerSetupRepository)
         {
@@ -32,14 +30,13 @@ namespace JJ.Business.Synthesizer.Visitors
             _secondsBetweenApplyFilterVariables = secondsBetweenApplyFilterVariables;
             _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
-            _patchRepository = patchRepository;
             _sampleRepository = sampleRepository;
             _speakerSetupRepository = speakerSetupRepository;
         }
 
         public ToCalculatorResult Execute(Outlet topLevelOutlet)
         {
-            var visitor1 = new OperatorEntityToDtoVisitor(_calculatorCache, _curveRepository, _patchRepository, _sampleRepository, _speakerSetupRepository);
+            var visitor1 = new OperatorEntityToDtoVisitor(_calculatorCache, _curveRepository, _sampleRepository, _speakerSetupRepository);
             IOperatorDto dto = visitor1.Execute(topLevelOutlet);
             
             dto = new OperatorDtoPreProcessingExecutor(_targetSamplingRate, _targetChannelCount).Execute(dto);

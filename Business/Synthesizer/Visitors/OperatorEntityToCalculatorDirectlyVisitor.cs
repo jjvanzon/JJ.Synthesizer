@@ -42,7 +42,6 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
-        private readonly IPatchRepository _patchRepository;
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
 
         private Stack<OperatorCalculatorBase> _stack;
@@ -58,7 +57,6 @@ namespace JJ.Business.Synthesizer.Visitors
             CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IPatchRepository patchRepository,
             ISpeakerSetupRepository speakerSetupRepository)
         {
             _topLevelOutlet = topLevelOutlet ?? throw new NullException(() => topLevelOutlet);
@@ -67,7 +65,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _calculatorCache = calculatorCache ?? throw new NullException(() => calculatorCache);
             _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
             _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
             _speakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
 
             _nyquistFrequency = _targetSamplingRate / 2.0;
@@ -79,7 +76,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             IValidator validator = new PatchValidator_WithRelatedEntities(
                 _topLevelOutlet.Operator?.Patch,
-                _curveRepository, _sampleRepository, _patchRepository,
+                _curveRepository, _sampleRepository,
                 // ReSharper disable once ArgumentsStyleOther
                 alreadyDone: new HashSet<object>());
             validator.Assert();
@@ -4433,7 +4430,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
         {
             // Resolve the underlying patch's outlet
-            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
+            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet);
 
             // Visit the underlying patch's outlet.
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);

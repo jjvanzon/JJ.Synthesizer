@@ -193,7 +193,6 @@ namespace JJ.Business.Synthesizer
                 entity,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,
-                _repositories.PatchRepository,
                 new HashSet<object>());
 
             var result = new VoidResultDto
@@ -294,23 +293,19 @@ namespace JJ.Business.Synthesizer
         [NotNull]
         public IList<IDAndName> GetUsedIn([NotNull] Patch patch)
         {
-            // ReSharper disable once ImplicitlyCapturedClosure
             if (patch == null) throw new NullException(() => patch);
-            // ReSharper disable once ImplicitlyCapturedClosure
             if (patch.Document == null) throw new NullException(() => patch.Document);
 
             IList<Operator> internalOperators =
                 patch.Document
                      .Patches
                      .SelectMany(x => x.Operators)
-                     .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
-                                 new CustomOperator_OperatorWrapper(x, _repositories.PatchRepository).UnderlyingPatchID == patch.ID)
+                     .Where(x => x.UnderlyingPatch?.ID == patch.ID)
                      .ToArray();
 
-            IList<Operator> flushedOperators = _repositories.OperatorRepository.GetManyByOperatorTypeID_AndSingleDataKeyAndValue(
+            IList<Operator> flushedOperators = _repositories.OperatorRepository.GetMany_ByOperatorTypeID_AndUnderlyingPatchID(
                 (int)OperatorTypeEnum.CustomOperator,
-                nameof(CustomOperator_OperatorWrapper.UnderlyingPatchID),
-                patch.ID.ToString());
+                patch.ID);
             
             IList<Operator> externalOperators = flushedOperators.Where(x => x.Patch != null && // Handles orphaned operators up for deletion.
                                                                             x.Patch.Document.ID != patch.Document.ID)

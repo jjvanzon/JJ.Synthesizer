@@ -969,16 +969,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             // ReSharper disable once InvertIf
             if (canHaveUnderlyingPatch)
             {
-                var wrapper = new CustomOperator_OperatorWrapper(entity, repositories.PatchRepository);
-
                 bool underlyingPatchIsFilledIn = viewModel.UnderlyingPatch != null && viewModel.UnderlyingPatch.ID != 0;
                 if (underlyingPatchIsFilledIn)
                 {
-                    wrapper.UnderlyingPatchID = viewModel.UnderlyingPatch.ID;
+                    Patch underlyingPatch = repositories.PatchRepository.Get(viewModel.UnderlyingPatch.ID);
+                    entity.LinkToUnderlyingPatch(underlyingPatch);
                 }
                 else
                 {
-                    wrapper.UnderlyingPatchID = null;
+                    entity.UnlinkUnderlyingPatch();
                 }
             }
 

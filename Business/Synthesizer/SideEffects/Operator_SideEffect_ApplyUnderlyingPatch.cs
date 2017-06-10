@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Converters;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -26,8 +25,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             // ReSharper disable once InvertIf
             if (mustExecute)
             {
-                var wrapper = new CustomOperator_OperatorWrapper(_entity, _repositories.PatchRepository);
-                Patch sourceUnderlyingPatch = wrapper.UnderlyingPatch;
+                Patch sourceUnderlyingPatch = _entity.UnderlyingPatch;
 
                 var converter = new PatchToOperatorConverter(_repositories);
                 converter.Convert(sourceUnderlyingPatch, _entity);

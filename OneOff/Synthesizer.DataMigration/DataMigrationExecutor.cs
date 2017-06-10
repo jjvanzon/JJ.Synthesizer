@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 
@@ -506,10 +507,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 {
                     Operator op = operators[i];
 
-                    new CustomOperator_OperatorWrapper(op, repositories.PatchRepository)
-                    {
-                        UnderlyingPatch = underlyingPatch
-                    };
+                    DataPropertyParser.SetValue(op, "UnderlyingPatchID", underlyingPatch.ID);
 
                     string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
                     progressCallback(progressMessage);
@@ -570,7 +568,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
-        public static void Migrate_SystemDocument_AsLibrary_ToAllDocument(Action<string> progressCallback)
+        public static void Migrate_AddSystemDocument_AsLibrary_ToAllDocuments(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -594,6 +592,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         continue;
                     }
 
+                    bool alreadyExists = document.LowerDocumentReferences
+                                                 .Where(x => x.LowerDocument.ID == systemDocument.ID)
+                                                 .Any();
+                    if (alreadyExists)
+                    {
+                        continue;
+                    }
+
                     documentManager.CreateDocumentReference(document, systemDocument);
 
                     string progressMessage = $"Migrated {nameof(Document)} {i + 1}/{documents.Count}.";
@@ -604,6 +610,51 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 //throw new Exception("Temporarily not committing, for debugging.");
                 
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
+        public static void Migrate_UnderlyingPatch_DataKey_ToForeignKey(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                IList<Operator> customOperators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.CustomOperator);
+                IList<Operator> absoluteOperators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Absolute);
+                IList<Operator> operators = customOperators.Union(absoluteOperators).ToArray();
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    int? underlyingPatchID = DataPropertyParser.TryGetInt32(op, "UnderlyingPatchID");
+                    DataPropertyParser.RemoveKey(op, "UnderlyingPatchID");
+
+                    if (!underlyingPatchID.HasValue)
+                    {
+                        op.UnlinkUnderlyingPatch();
+                    }
+                    else
+                    {
+                        Patch underlyingPatch = repositories.PatchRepository.Get(underlyingPatchID.Value);
+                        op.LinkToUnderlyingPatch(underlyingPatch);
+                    }
+
+                    string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+
                 context.Commit();
             }
 

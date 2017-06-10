@@ -4,14 +4,11 @@ using JJ.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class Versatile_OperatorValidator : ValidatorBase<Operator>
     {
-        private readonly IPatchRepository _patchRepository;
-
         private readonly Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
             { OperatorTypeEnum.Absolute, typeof(Absolute_OperatorValidator) },
@@ -97,11 +94,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorValidator) },
         };
 
-        public Versatile_OperatorValidator(Operator obj, IPatchRepository patchRepository)
+        public Versatile_OperatorValidator(Operator obj)
             : base(obj, postponeExecute: true)
         {
-            _patchRepository = patchRepository;
-
             // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
         }
@@ -118,11 +113,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     break;
 
                 case OperatorTypeEnum.Absolute:
-                    ExecuteValidator(new Absolute_OperatorValidator(Obj, _patchRepository));
+                    ExecuteValidator(new Absolute_OperatorValidator(Obj));
                     break;
 
                 case OperatorTypeEnum.CustomOperator:
-                    ExecuteValidator(new CustomOperator_OperatorValidator(Obj, _patchRepository));
+                    ExecuteValidator(new CustomOperator_OperatorValidator(Obj));
                     break;
 
                 default:

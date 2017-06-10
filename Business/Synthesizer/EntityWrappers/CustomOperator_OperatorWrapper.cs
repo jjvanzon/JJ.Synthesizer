@@ -1,22 +1,15 @@
-﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class CustomOperator_OperatorWrapper : OperatorWrapperBase
     {
-        private readonly IPatchRepository _patchRepository;
-
-        public CustomOperator_OperatorWrapper(Operator op, IPatchRepository patchRepository)
+        public CustomOperator_OperatorWrapper(Operator op)
             : base(op)
         {
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
-
             Operands = new CustomOperator_OperatorWrapper_Operands(op);
             Inlets = new CustomOperator_OperatorWrapper_Inlets(op);
             Outlets = new CustomOperator_OperatorWrapper_Outlets(op);
@@ -27,37 +20,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public CustomOperator_OperatorWrapper_Inlets Inlets { get; }
 
         public CustomOperator_OperatorWrapper_Outlets Outlets { get; }
-
-        public int? UnderlyingPatchID
-        {
-            get => DataPropertyParser.TryGetInt32(WrappedOperator, nameof(UnderlyingPatchID));
-            set => DataPropertyParser.SetValue(WrappedOperator, nameof(UnderlyingPatchID), value);
-        }
-
-        /// <summary> nullable </summary>
-        public Patch UnderlyingPatch
-        {
-            get
-            {
-                int? id = UnderlyingPatchID;
-                if (!id.HasValue)
-                {
-                    return null;
-                }
-
-                return _patchRepository.Get(id.Value);
-            }
-            set
-            {
-                if (value == null)
-                {
-                    UnderlyingPatchID = null;
-                    return;
-                }
-
-                UnderlyingPatchID = value.ID;
-            }
-        }
 
         public override string GetInletDisplayName(Inlet inlet)
         {

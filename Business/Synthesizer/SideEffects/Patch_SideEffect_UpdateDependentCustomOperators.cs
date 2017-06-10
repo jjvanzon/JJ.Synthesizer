@@ -6,14 +6,12 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
     internal class Patch_SideEffect_UpdateDependentCustomOperators : ISideEffect
     {
         private readonly Patch _underlyingPatch;
-        private readonly IPatchRepository _patchRepository;
         private readonly PatchToOperatorConverter _patchToOperatorConverter;
 
         public Patch_SideEffect_UpdateDependentCustomOperators(Patch underlyingPatch, RepositoryWrapper repositories)
@@ -21,14 +19,13 @@ namespace JJ.Business.Synthesizer.SideEffects
             if (repositories == null) throw new NullException(() => repositories);
 
             _underlyingPatch = underlyingPatch ?? throw new NullException(() => underlyingPatch);
-            _patchRepository = repositories.PatchRepository;
 
             _patchToOperatorConverter = new PatchToOperatorConverter(repositories);
         }
 
         public void Execute()
         {
-            IList<Operator> customOperators = _underlyingPatch.EnumerateDependentCustomOperators(_patchRepository).ToArray();
+            IList<Operator> customOperators = _underlyingPatch.EnumerateDependentCustomOperators().ToArray();
 
             foreach (Operator customOperator in customOperators)
             {

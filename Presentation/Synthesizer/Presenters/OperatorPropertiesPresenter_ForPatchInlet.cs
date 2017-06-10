@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override OperatorPropertiesViewModel_ForPatchInlet ToViewModel(Operator op)
         {
-            return op.ToPropertiesViewModel_ForPatchInlet(_repositories.PatchRepository);
+            return op.ToPropertiesViewModel_ForPatchInlet();
         }
 
         protected override void UpdateEntity(OperatorPropertiesViewModel_ForPatchInlet viewModel)

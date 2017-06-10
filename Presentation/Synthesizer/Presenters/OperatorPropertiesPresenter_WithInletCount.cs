@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override OperatorPropertiesViewModel_WithInletCount ToViewModel(Operator op)
         {
-            return op.ToPropertiesViewModel_WithInletCount(_repositories.PatchRepository);
+            return op.ToPropertiesViewModel_WithInletCount();
         }
 
         protected override void UpdateEntity(OperatorPropertiesViewModel_WithInletCount viewModel)

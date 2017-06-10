@@ -411,7 +411,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return patch.ToDetailsViewModel(
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
-                _repositories.PatchRepository,
                 _entityPositionManager);
         }
 

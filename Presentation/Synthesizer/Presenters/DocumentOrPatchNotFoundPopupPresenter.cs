@@ -16,12 +16,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentOrPatchNotFoundPopupPresenter : PresenterBase<DocumentOrPatchNotFoundPopupViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
-        private readonly IPatchRepository _patchRepository;
 
-        public DocumentOrPatchNotFoundPopupPresenter([NotNull] IDocumentRepository documentRepository, [NotNull] IPatchRepository patchRepository)
+        public DocumentOrPatchNotFoundPopupPresenter([NotNull] IDocumentRepository documentRepository)
         {
             _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
         }
 
         public DocumentOrPatchNotFoundPopupViewModel Show(DocumentOrPatchNotFoundPopupViewModel userInput, string documentName, string patchName = null)

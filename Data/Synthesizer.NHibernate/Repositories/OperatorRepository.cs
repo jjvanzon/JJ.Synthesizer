@@ -26,17 +26,13 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                                    .List();
         }
 
-        public override IList<Operator> GetManyByOperatorTypeID_AndSingleDataKeyAndValue(int operatorTypeID, string dataKey, string dataValue)
+        public override IList<Operator> GetMany_ByOperatorTypeID_AndUnderlyingPatchID(int operatorTypeID, int underlyingPatchID)
         {
-            var sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-            
-            int[] ids = sqlExecutor.Operator_GetIDs_ByOperatorTypeID_AndSingleDataKeyAndValue(operatorTypeID, dataKey, dataValue).ToArray();
-
-            IList<Operator> entities = _context.Session.QueryOver<Operator>()
-                                               .WhereRestrictionOn(x => x.ID)
-                                               .IsIn(ids)
-                                               .List();
-            return entities;
+            return _context.Session.QueryOver<Operator>()
+                           .Where(
+                               x => x.OperatorType.ID == operatorTypeID &&
+                                    x.UnderlyingPatch.ID == underlyingPatchID)
+                           .List();
         }
     }
 }

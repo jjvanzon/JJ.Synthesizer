@@ -13,14 +13,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
         protected override void Execute()
         {
-            // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(Obj.Data))
-            {
-                string underlyingPatchIDString = DataPropertyParser.TryGetString(Obj, nameof(CustomOperator_OperatorWrapper.UnderlyingPatchID));
-
-                For(() => underlyingPatchIDString, ResourceFormatter.UnderlyingPatch)
-                    .NotNullOrEmpty();
-            }
+            For(() => Obj.UnderlyingPatch, ResourceFormatter.UnderlyingPatch).NotNull();
         }
     }
 }

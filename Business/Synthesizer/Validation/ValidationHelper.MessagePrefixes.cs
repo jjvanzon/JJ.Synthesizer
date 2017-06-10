@@ -52,10 +52,9 @@ namespace JJ.Business.Synthesizer.Validation
         public static string GetMessagePrefix(
             [NotNull] Operator entity,
             [NotNull] ISampleRepository sampleRepository,
-            [NotNull] ICurveRepository curveRepository,
-            [NotNull] IPatchRepository patchRepository)
+            [NotNull] ICurveRepository curveRepository)
         {
-            return GetMessagePrefix(ResourceFormatter.Operator, GetUserFriendlyIdentifier(entity, sampleRepository, curveRepository, patchRepository));
+            return GetMessagePrefix(ResourceFormatter.Operator, GetUserFriendlyIdentifier(entity, sampleRepository, curveRepository));
         }
 
         [NotNull] public static string GetMessagePrefix([NotNull] Outlet entity) => GetMessagePrefix(ResourceFormatter.Outlet, GetUserFriendlyIdentifier(entity));

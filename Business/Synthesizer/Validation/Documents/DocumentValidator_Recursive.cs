@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
     internal class DocumentValidator_Recursive : VersatileValidator<Document>
     {
         private readonly HashSet<object> _alreadyDone;
-        private RepositoryWrapper _repositories;
+        private readonly RepositoryWrapper _repositories;
 
         public DocumentValidator_Recursive(
             Document document,
@@ -76,7 +76,6 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                         patch,
                         _repositories.CurveRepository,
                         _repositories.SampleRepository,
-                        _repositories.PatchRepository,
                         _alreadyDone),
                     messagePrefix);
             }

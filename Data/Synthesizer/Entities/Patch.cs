@@ -13,6 +13,7 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual string GroupName { get; set; }
         public virtual bool Hidden { get; set; }
         public virtual IList<Operator> Operators { get; set; } = new List<Operator>();
+        public virtual IList<Operator> DerivedOperators { get; set; } = new List<Operator>();
 
         /// <summary> nullable </summary>
         [CanBeNull]

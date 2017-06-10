@@ -16,7 +16,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
-        private readonly IPatchRepository _patchRepository;
         private readonly HashSet<object> _alreadyDone;
 
         /// <summary>
@@ -33,13 +32,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             [NotNull] Operator obj,
             [NotNull] ICurveRepository curveRepository,
             [NotNull] ISampleRepository sampleRepository,
-            [NotNull] IPatchRepository patchRepository,
             [NotNull] HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {
             _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
             _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
             _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
 
             Execute();
@@ -55,7 +52,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
             _alreadyDone.Add(op);
 
-            ExecuteValidator(new Versatile_OperatorValidator(op, _patchRepository));
+            ExecuteValidator(new Versatile_OperatorValidator(op));
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 

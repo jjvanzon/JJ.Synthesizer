@@ -14,18 +14,15 @@ namespace JJ.Business.Synthesizer.Validation.Patches
     {
         private readonly ISampleRepository _sampleRepository;
         private readonly ICurveRepository _curveRepository;
-        private readonly IPatchRepository _patchRepository;
 
         public PatchValidator_IsOperatorsListComplete(
             [NotNull] Patch obj,
             [NotNull] ISampleRepository sampleRepository,
-            [NotNull] ICurveRepository curveRepository,
-            [NotNull] IPatchRepository patchRepository)
+            [NotNull] ICurveRepository curveRepository)
             : base(obj)
         {
             _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
             _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
         }
 
         protected override void Execute()
@@ -37,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
             foreach (Operator operatorMissingInList in operatorsMissingInList)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(operatorMissingInList, _sampleRepository, _curveRepository, _patchRepository);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(operatorMissingInList, _sampleRepository, _curveRepository);
                 string message = ResourceFormatter.OperatorIsInGraphButNotInList;
 
                 ValidationMessages.Add(nameof(patch.Operators), messagePrefix + message);

@@ -14,7 +14,6 @@ namespace JJ.Business.Synthesizer.Warnings
     {
         private readonly ISampleRepository _sampleRepository;
         private readonly ICurveRepository _curveRepository;
-        private readonly IPatchRepository _patchRepository;
 
         private readonly HashSet<object> _alreadyDone;
 
@@ -22,14 +21,12 @@ namespace JJ.Business.Synthesizer.Warnings
             [NotNull] Patch obj,
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] ICurveRepository curveRepository,
-            [NotNull] IPatchRepository patchRepository,
             [NotNull] HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {
             _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
             _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
             _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
 
             // ReSharper disable once VirtualMemberCallInConstructor
             Execute();
@@ -39,7 +36,7 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             foreach (Operator op in Obj.Operators)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _patchRepository);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository);
                 ExecuteValidator(new OperatorWarningValidator_WithUnderlyingEntities(op, _sampleRepository, _alreadyDone), messagePrefix);
             }
         }

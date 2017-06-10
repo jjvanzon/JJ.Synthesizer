@@ -18,7 +18,6 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
-        private readonly IPatchRepository _patchRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
 
@@ -31,13 +30,11 @@ namespace JJ.Business.Synthesizer.Visitors
         public OperatorEntityToDtoVisitor(
             [NotNull] CalculatorCache calculatorCache,
             [NotNull] ICurveRepository curveRepository,
-            [NotNull] IPatchRepository patchRepository,
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] ISpeakerSetupRepository speakerSetupRepository)
         {
             _calculatorCache = calculatorCache ?? throw new ArgumentNullException(nameof(calculatorCache));
             _curveRepository = curveRepository ?? throw new ArgumentNullException(nameof(curveRepository));
-            _patchRepository = patchRepository ?? throw new ArgumentNullException(nameof(patchRepository));
             _sampleRepository = sampleRepository ?? throw new ArgumentNullException(nameof(sampleRepository));
             _speakerSetupRepository = speakerSetupRepository ?? throw new ArgumentNullException(nameof(speakerSetupRepository));
         }
@@ -1056,7 +1053,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // that needs to tap into the entity model, not DTO model.
 
             // Resolve the underlying patch's outlet
-            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
+            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet);
 
             // Visit the underlying patch's outlet.
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);

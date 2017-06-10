@@ -14,20 +14,17 @@ namespace JJ.Business.Synthesizer.Validation.Patches
     {
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
-        private readonly IPatchRepository _patchRepository;
         private readonly HashSet<object> _alreadyDone;
 
         public PatchValidator_WithRelatedEntities(
             [NotNull] Patch obj,
             [NotNull] ICurveRepository curveRepository,
             [NotNull] ISampleRepository sampleRepository,
-            [NotNull] IPatchRepository patchRepository,
             [NotNull] HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {
             _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
             _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
             _alreadyDone = alreadyDone ?? throw new AlreadyDoneIsNullException();
 
             // ReSharper disable once VirtualMemberCallInConstructor
@@ -40,21 +37,20 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
             ExecuteValidator(new PatchValidator_Name(Obj));
             ExecuteValidator(new PatchValidator_UniqueName(Obj));
-            ExecuteValidator(new PatchValidator_IsOperatorsListComplete(Obj, _sampleRepository, _curveRepository, _patchRepository));
-            ExecuteValidator(new PatchValidator_HiddenButInUse(Obj, _patchRepository));
+            ExecuteValidator(new PatchValidator_IsOperatorsListComplete(Obj, _sampleRepository, _curveRepository));
+            ExecuteValidator(new PatchValidator_HiddenButInUse(Obj));
 
             foreach (Operator op in Obj.Operators)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _patchRepository);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository);
 
-                ExecuteValidator(new OperatorValidator_IsCircular(op, _patchRepository), messagePrefix);
+                ExecuteValidator(new OperatorValidator_IsCircular(op), messagePrefix);
 
                 ExecuteValidator(
                     new OperatorValidator_WithUnderlyingEntities(
                         op,
                         _curveRepository,
                         _sampleRepository,
-                        _patchRepository,
                         _alreadyDone),
                     messagePrefix);
             }

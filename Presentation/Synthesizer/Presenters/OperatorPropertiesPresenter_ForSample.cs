@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override OperatorPropertiesViewModel_ForSample ToViewModel(Operator op)
         {
-            return op.ToPropertiesViewModel_ForSample(_repositories.PatchRepository, _repositories.SampleRepository);
+            return op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override OperatorPropertiesViewModel_WithCollectionRecalculation ToViewModel(Operator op)
         {
-            return op.ToPropertiesViewModel_WithCollectionRecalculation(_repositories.PatchRepository);
+            return op.ToPropertiesViewModel_WithCollectionRecalculation();
         }
     }
 }

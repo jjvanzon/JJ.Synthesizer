@@ -4,7 +4,6 @@ using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -53,29 +52,29 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        public static bool HasCircularUnderlyingPatch(this Document document, IPatchRepository patchRepository)
+        public static bool HasCircularUnderlyingPatch(this Document document)
         {
             if (document == null) throw new NullException(() => document);
 
-            return document.HasCircularUnderlyingPatch(patchRepository, new HashSet<object>());
+            return document.HasCircularUnderlyingPatch(new HashSet<object>());
         }
 
-        public static bool HasCircularUnderlyingPatch(this Patch patch, IPatchRepository patchRepository)
+        public static bool HasCircularUnderlyingPatch(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.HasCircularUnderlyingPatch(patchRepository, new HashSet<object>());
+            return patch.HasCircularUnderlyingPatch(new HashSet<object>());
         }
 
-        public static bool HasCircularUnderlyingPatch(this Operator op, IPatchRepository patchRepository)
+        public static bool HasCircularUnderlyingPatch(this Operator op)
         {
             if (op == null) throw new NullException(() => op);
             if (op.GetOperatorTypeEnum() != OperatorTypeEnum.CustomOperator) throw new NotEqualException(() => op.GetOperatorTypeEnum(), OperatorTypeEnum.CustomOperator);
 
-            return op.HasCircularUnderlyingPatch(patchRepository, new HashSet<object>());
+            return op.HasCircularUnderlyingPatch(new HashSet<object>());
         }
 
-        private static bool HasCircularUnderlyingPatch(this Patch patch, IPatchRepository patchRepository, HashSet<object> alreadyDone)
+        private static bool HasCircularUnderlyingPatch(this Patch patch, HashSet<object> alreadyDone)
         {
             bool wasAlreadyAdded = !alreadyDone.Add(patch);
             if (wasAlreadyAdded)
@@ -86,7 +85,7 @@ namespace JJ.Business.Synthesizer.Extensions
             IList<Operator> customOperators = patch.GetOperatorsOfType(OperatorTypeEnum.CustomOperator);
             foreach (Operator customOperator in customOperators)
             {
-                if (customOperator.HasCircularUnderlyingPatch(patchRepository, alreadyDone))
+                if (customOperator.HasCircularUnderlyingPatch(alreadyDone))
                 {
                     return true;
                 }
@@ -97,7 +96,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        private static bool HasCircularUnderlyingPatch(this Operator op, IPatchRepository patchRepository, HashSet<object> alreadyDone)
+        private static bool HasCircularUnderlyingPatch(this Operator op, HashSet<object> alreadyDone)
         {
             bool wasAlreadyAdded = !alreadyDone.Add(op);
             if (wasAlreadyAdded)
@@ -105,13 +104,10 @@ namespace JJ.Business.Synthesizer.Extensions
                 return true;
             }
 
-            var wrapper = new CustomOperator_OperatorWrapper(op, patchRepository);
-            Patch underlyingPatch = wrapper.UnderlyingPatch;
-
-            if (underlyingPatch != null)
+            if (op.UnderlyingPatch != null)
             {
-                Document document = underlyingPatch.Document;
-                if (document.HasCircularUnderlyingPatch(patchRepository, alreadyDone))
+                Document document = op.UnderlyingPatch.Document;
+                if (document.HasCircularUnderlyingPatch(alreadyDone))
                 {
                     return true;
                 }
@@ -122,7 +118,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        private static bool HasCircularUnderlyingPatch(this Document document, IPatchRepository patchRepository, HashSet<object> alreadyDone)
+        private static bool HasCircularUnderlyingPatch(this Document document, HashSet<object> alreadyDone)
         {
             bool wasAlreadyAdded = !alreadyDone.Add(document);
             if (wasAlreadyAdded)
@@ -132,7 +128,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             foreach (Patch patch in document.Patches)
             {
-                if (patch.HasCircularUnderlyingPatch(patchRepository, alreadyDone))
+                if (patch.HasCircularUnderlyingPatch(alreadyDone))
                 {
                     return true;
                 }
@@ -143,12 +139,9 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        public static IEnumerable<Operator> EnumerateDependentCustomOperators(this Patch patch, IPatchRepository patchRepository)
+        public static IEnumerable<Operator> EnumerateDependentCustomOperators(this Patch patch)
         {
-            // ReSharper disable once ImplicitlyCapturedClosure
             if (patch == null) throw new NullException(() => patch);
-            // ReSharper disable once ImplicitlyCapturedClosure
-            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             // In case of no document, there are no dependent custom operators.
             if (patch.Document == null)
@@ -161,9 +154,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 patch.Document
                      .GetPatchesAndHigherDocumentPatches()
                      .SelectMany(x => x.EnumerateOperatorsOfType(OperatorTypeEnum.CustomOperator))
-                     .Select(x => new CustomOperator_OperatorWrapper(x, patchRepository))
-                     .Where(x => x.UnderlyingPatchID == patch.ID)
-                     .Select(x => x.WrappedOperator);
+                     .Where(x => x.UnderlyingPatch?.ID == patch.ID);
 
             return enumerable;
         }

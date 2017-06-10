@@ -1,22 +1,16 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class OperatorValidator_IsCircular : VersatileValidator<Operator>
     {
-        private readonly IPatchRepository _patchRepository;
-
-        public OperatorValidator_IsCircular(Operator op, IPatchRepository patchRepository)
+        public OperatorValidator_IsCircular(Operator op)
             : base(op, postponeExecute: true)
         {
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
-
             Execute();
         }
 
@@ -36,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             // ReSharper disable once InvertIf
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
             {
-                if (op.HasCircularUnderlyingPatch(_patchRepository))
+                if (op.HasCircularUnderlyingPatch())
                 {
                     ValidationMessages.Add(() => op, ResourceFormatter.UnderlyingPatchIsCircular);
                 }

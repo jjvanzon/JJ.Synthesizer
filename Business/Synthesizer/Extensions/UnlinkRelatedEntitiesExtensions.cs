@@ -64,6 +64,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (op == null) throw new NullException(() => op);
 
             op.UnlinkPatch();
+            op.UnlinkUnderlyingPatch();
             op.UnlinkOperatorType();
             op.UnlinkStandardDimension();
         }

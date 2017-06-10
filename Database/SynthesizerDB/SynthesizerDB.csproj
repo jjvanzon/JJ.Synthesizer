@@ -374,6 +374,14 @@
     <Content Include="2017-06-03 030 SynthesizerDB Dimension delete 31 - Result.sql" />
     <Content Include="2017-06-03 040 SynthesizerDB Dimension 73 - Radians.sql" />
     <Content Include="2017-06-03 050 SynthesizerDB Dimension 74 - HighestFrequency.sql" />
+    <Content Include="2017-06-10 050 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2017-06-10 004 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2017-06-10 003 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2017-06-10 002 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2017-06-10 010 SynthesizerDB Operator.UnderlyingPatchID.sql" />
+    <Content Include="2017-06-10 020 SynthesizerDB FK_Operator_PatchID.sql" />
+    <Content Include="2017-06-10 030 SynthesizerDB FK_Operator_UnderlyingPatchID.sql" />
+    <Content Include="2017-06-10 040 SynthesizerDB IX_Operator_UnderlyingPatchID.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,6 +8,6 @@ namespace JJ.Data.Synthesizer.RepositoryInterfaces
     {
         IList<Operator> GetAll();
         IList<Operator> GetManyByOperatorTypeID(int operatorTypeID);
-        IList<Operator> GetManyByOperatorTypeID_AndSingleDataKeyAndValue(int operatorTypeID, string dataKey, string dataValue);
+        IList<Operator> GetMany_ByOperatorTypeID_AndUnderlyingPatchID(int operatorTypeID, int underlyingPatchID);
     }
 }
