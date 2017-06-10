@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         private readonly Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
-            { OperatorTypeEnum.Absolute, typeof(Absolute_OperatorValidator) },
+            { OperatorTypeEnum.Absolute, typeof(OperatorValidator_BootStrapped) },
             { OperatorTypeEnum.Add, typeof(Add_OperatorValidator) },
             { OperatorTypeEnum.AllPassFilter, typeof(AllPassFilter_OperatorValidator) },
             { OperatorTypeEnum.And, typeof(And_OperatorValidator) },
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     break;
 
                 case OperatorTypeEnum.Absolute:
-                    ExecuteValidator(new Absolute_OperatorValidator(Obj));
+                    ExecuteValidator(new OperatorValidator_BootStrapped(Obj));
                     break;
 
                 case OperatorTypeEnum.CustomOperator:

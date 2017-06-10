@@ -357,6 +357,7 @@
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_UniqueLowerDocument.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_DoesNotReferenceItself.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_SystemDocumentReferenceMustExist.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_Base_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_ClosestOverInlets.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
@@ -696,7 +697,7 @@
     <Compile Include="Validation\DataProperty\ListIndex_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
-    <Compile Include="Validation\Operators\Absolute_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_BootStrapped.cs" />
     <Compile Include="Validation\Operators\AllPassFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\HighShelfFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\NotchFilter_OperatorValidator.cs" />

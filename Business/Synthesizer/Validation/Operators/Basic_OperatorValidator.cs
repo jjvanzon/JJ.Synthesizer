@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Validation;
+﻿using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
@@ -13,8 +12,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         protected override void Execute()
         {
             ExecuteValidator(new NameValidator(Obj.Name, required: false));
-
-            For(() => Obj.OperatorType, ResourceFormatter.OperatorType).NotNull();
         }
     }
 }

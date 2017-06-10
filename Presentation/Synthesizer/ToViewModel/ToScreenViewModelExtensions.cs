@@ -635,9 +635,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<MessageDto>()
             };
 
-            if (entity.OperatorType != null)
+            OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
+            if (operatorTypeEnum != OperatorTypeEnum.Undefined)
             {
-                viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
+                viewModel.OperatorType = operatorTypeEnum.ToIDAndDisplayName();
             }
             else
             {
@@ -665,7 +666,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.StandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
             }
 
-            OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
             bool canHaveUnderlyingPatch = ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch.Contains(operatorTypeEnum);
             if (canHaveUnderlyingPatch)
             {

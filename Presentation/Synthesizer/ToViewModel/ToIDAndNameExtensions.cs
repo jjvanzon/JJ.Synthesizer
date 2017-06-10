@@ -117,6 +117,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static IDAndName ToIDAndDisplayName(this OperatorTypeEnum operatorTypeEnum)
+        {
+            var viewModel = new IDAndName
+            {
+                ID = (int)operatorTypeEnum,
+                Name = ResourceFormatter.GetDisplayName(operatorTypeEnum.ToString())
+            };
+
+            return viewModel;
+        }
+
         public static IDAndName ToIDAndName(this Outlet entity)
         {
             if (entity == null) throw new NullException(() => entity);

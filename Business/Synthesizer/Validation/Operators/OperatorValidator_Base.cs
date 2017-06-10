@@ -52,6 +52,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator op = Obj;
 
+            ExecuteValidator(new NameValidator(Obj.Name, required: false));
+
             For(() => op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(_expectedOperatorTypeEnum);
 
             ExecuteValidator(new OperatorValidator_Dimension(op));

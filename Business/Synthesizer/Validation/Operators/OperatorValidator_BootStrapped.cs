@@ -1,14 +1,12 @@
 ﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Absolute_OperatorValidator : CustomOperator_OperatorValidator
+    internal class OperatorValidator_BootStrapped : OperatorValidator_Base_WithUnderlyingPatch
     {
-        public Absolute_OperatorValidator([NotNull] Operator op) 
+        public OperatorValidator_BootStrapped([NotNull] Operator op) 
             : base(op)
         { }
 
@@ -16,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             Operator op = Obj;
 
-            For(() => op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(OperatorTypeEnum.Absolute);
+            For(() => op.OperatorType, ResourceFormatter.OperatorType).IsNull();
 
             base.Execute();
         }
