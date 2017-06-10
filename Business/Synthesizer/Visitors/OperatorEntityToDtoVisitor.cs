@@ -1079,7 +1079,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     dto = new VariableInput_OperatorDto
                     {
                         DimensionEnum = wrapper.Inlet.GetDimensionEnum(),
-                        CanonicalName = NameHelper.ToCanonical(wrapper.Name),
+                        CanonicalName = NameHelper.ToCanonical(wrapper.Inlet.Name),
                         ListIndex = wrapper.Inlet.ListIndex,
                         DefaultValue = wrapper.Inlet.DefaultValue ?? 0.0
                     };

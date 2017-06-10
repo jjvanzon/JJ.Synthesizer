@@ -2,22 +2,25 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class PatchOutlet_OperatorValidator : OperatorValidator_Base_WithoutData
     {
-        public PatchOutlet_OperatorValidator(Operator obj)
+        public PatchOutlet_OperatorValidator(Operator op)
             : base(
-                obj,
+                op,
                 OperatorTypeEnum.PatchOutlet,
                 new[] { DimensionEnum.Undefined },
-                new[] { GetOutletDimensionEnum(obj) })
-        { }
-
-        private static DimensionEnum GetOutletDimensionEnum(Operator obj)
+                new[] { GetOutletDimensionEnum(op) })
         {
-            return obj?.Outlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined;
+            For(() => op.Name, CommonResourceFormatter.Name).IsNullOrEmpty();
+        }
+
+        private static DimensionEnum GetOutletDimensionEnum(Operator op)
+        {
+            return op?.Outlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined;
         }
     }
 }

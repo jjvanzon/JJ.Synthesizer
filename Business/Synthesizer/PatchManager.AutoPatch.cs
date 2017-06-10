@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer
         private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet intermediateInlet)
         {
             PatchInlet_OperatorWrapper destPatchInletWrapper = PatchInlet();
-            destPatchInletWrapper.Name = intermediateInlet.Name;
+            destPatchInletWrapper.Inlet.Name = intermediateInlet.Name;
             destPatchInletWrapper.Inlet.ListIndex = intermediateInlet.ListIndex;
             destPatchInletWrapper.Inlet.Dimension = intermediateInlet.Dimension;
             destPatchInletWrapper.Inlet.DefaultValue = intermediateInlet.DefaultValue;
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer
         private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet intermediateUnmatchedOutlet)
         {
             PatchOutlet_OperatorWrapper destPatchOutletWrapper = PatchOutlet();
-            destPatchOutletWrapper.Name = intermediateUnmatchedOutlet.Name;
+            destPatchOutletWrapper.Outlet.Name = intermediateUnmatchedOutlet.Name;
             destPatchOutletWrapper.Outlet.ListIndex = intermediateUnmatchedOutlet.ListIndex;
             destPatchOutletWrapper.Outlet.Dimension = intermediateUnmatchedOutlet.Dimension;
             destPatchOutletWrapper.Input = intermediateUnmatchedOutlet;

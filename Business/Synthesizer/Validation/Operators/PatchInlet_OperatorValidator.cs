@@ -2,22 +2,25 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class PatchInlet_OperatorValidator : OperatorValidator_Base_WithoutData
     {
-        public PatchInlet_OperatorValidator(Operator obj)
+        public PatchInlet_OperatorValidator(Operator op)
             : base(
-                obj,
+                op,
                 OperatorTypeEnum.PatchInlet,
-                new[] { GetInletDimensionEnum(obj) },
+                new[] { GetInletDimensionEnum(op) },
                 new[] { DimensionEnum.Undefined })
-        { }
-
-        private static DimensionEnum GetInletDimensionEnum(Operator obj)
         {
-            return obj?.Inlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined;
+            For(() => op.Name, CommonResourceFormatter.Name).IsNullOrEmpty();
+        }
+
+        private static DimensionEnum GetInletDimensionEnum(Operator op)
+        {
+            return op?.Inlets.FirstOrDefault()?.GetDimensionEnum() ?? DimensionEnum.Undefined;
         }
     }
 }

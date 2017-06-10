@@ -4408,7 +4408,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     variableInputCalculator = new VariableInput_OperatorCalculator
                     (
                         dimensionEnum: wrapper.Inlet.GetDimensionEnum(),
-                        canonicalName: NameHelper.ToCanonical(wrapper.Name),
+                        canonicalName: NameHelper.ToCanonical(wrapper.Inlet.Name),
                         listIndex: wrapper.Inlet.ListIndex,
                         defaultValue: wrapper.Inlet.DefaultValue ?? 0.0
                     );

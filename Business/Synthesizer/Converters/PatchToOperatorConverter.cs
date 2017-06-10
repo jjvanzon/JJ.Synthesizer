@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Converters
                 destCustomOperatorInlet.LinkTo(destCustomOperator);
             }
 
-            destCustomOperatorInlet.Name = sourcePatchInletWrapper.Name;
+            destCustomOperatorInlet.Name = sourcePatchInletWrapper.Inlet.Name;
             destCustomOperatorInlet.DefaultValue = sourcePatchInletWrapper.Inlet.DefaultValue;
             destCustomOperatorInlet.Dimension = sourcePatchInletWrapper.Inlet.Dimension;
             destCustomOperatorInlet.IsObsolete = false;
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Converters
                 _repositories.OutletRepository.Insert(destCustomOperatorOutlet);
             }
 
-            destCustomOperatorOutlet.Name = sourcePatchOutletWrapper.Name;
+            destCustomOperatorOutlet.Name = sourcePatchOutletWrapper.Outlet.Name;
             destCustomOperatorOutlet.Dimension = sourcePatchOutletWrapper.Outlet.Dimension;
             destCustomOperatorOutlet.IsObsolete = false;
             destCustomOperatorOutlet.ListIndex = sourcePatchOutletWrapper.Outlet.ListIndex;

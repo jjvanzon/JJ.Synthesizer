@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -11,10 +12,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
+        [Obsolete("Use Inlet.Name instead.", true)]
         public string Name
         {
-            get => WrappedOperator.Name;
-            set => WrappedOperator.Name = value;
+            get => Inlet.Name;
+            set => Inlet.Name = value;
         }
 
         /// <summary> nullable </summary>

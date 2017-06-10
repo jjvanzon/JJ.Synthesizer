@@ -903,11 +903,11 @@ namespace JJ.Business.Synthesizer.Tests
                 var customOperator = x.CustomOperator(underlyingPatch, sampleOperator);
 
                 // Check out that Custom_OperatorWrapper API
-                Inlet inlet = customOperator.Inlets[patchInlet.Name];
-                Outlet outlet = customOperator.Outlets[patchOutlet.Name];
-                Outlet operand = customOperator.Operands[patchInlet.Name];
+                Inlet inlet = customOperator.Inlets[patchInlet.Inlet.Name];
+                Outlet outlet = customOperator.Outlets[patchOutlet.Outlet.Name];
+                Outlet operand = customOperator.Operands[patchInlet.Inlet.Name];
 
-                customOperator.Operands[patchInlet.Name] = operand;
+                customOperator.Operands[patchInlet.Inlet.Name] = operand;
 
                 foreach (Inlet inlet2 in customOperator.Inlets)
                 {

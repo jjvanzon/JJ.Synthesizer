@@ -1450,7 +1450,7 @@ namespace JJ.Business.Synthesizer
         public PatchInlet_OperatorWrapper PatchInlet(string name)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
-            wrapper.Name = name;
+            wrapper.Inlet.Name = name;
 
             VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);
@@ -1461,7 +1461,7 @@ namespace JJ.Business.Synthesizer
         public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
-            wrapper.Name = name;
+            wrapper.Inlet.Name = name;
             wrapper.Inlet.DefaultValue = defaultValue;
 
             VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
@@ -1518,7 +1518,7 @@ namespace JJ.Business.Synthesizer
         public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
         {
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
-            wrapper.Name = name;
+            wrapper.Outlet.Name = name;
 
             VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
             ResultHelper.Assert(result);

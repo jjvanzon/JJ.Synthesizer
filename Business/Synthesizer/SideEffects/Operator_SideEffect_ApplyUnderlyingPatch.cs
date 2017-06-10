@@ -33,9 +33,6 @@ namespace JJ.Business.Synthesizer.SideEffects
             }
         }
 
-        private bool MustExecute()
-        {
-            return _operator.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator;
-        }
+        private bool MustExecute() => _operator.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator;
     }
 }

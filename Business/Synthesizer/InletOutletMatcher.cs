@@ -49,9 +49,9 @@ namespace JJ.Business.Synthesizer
             var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInlet);
 
             // Try match by name
-            if (NameHelper.IsFilledIn(underlyingPatchInletWrapper.Name))
+            if (NameHelper.IsFilledIn(underlyingPatchInletWrapper.Inlet.Name))
             {
-                string canonicalSourceName = NameHelper.ToCanonical(underlyingPatchInletWrapper.Name);
+                string canonicalSourceName = NameHelper.ToCanonical(underlyingPatchInletWrapper.Inlet.Name);
 
                 foreach (Inlet customOperatorInlet in destCandicateCustomOperatorInlets)
                 {
@@ -121,9 +121,9 @@ namespace JJ.Business.Synthesizer
             var underlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutlet);
 
             // Try match by name
-            if (NameHelper.IsFilledIn(underlyingPatchOutletWrapper.Name))
+            if (NameHelper.IsFilledIn(underlyingPatchOutletWrapper.Outlet.Name))
             {
-                string canonicalSourceName = NameHelper.ToCanonical(underlyingPatchOutletWrapper.Name);
+                string canonicalSourceName = NameHelper.ToCanonical(underlyingPatchOutletWrapper.Outlet.Name);
 
                 foreach (Outlet customOperatorOutlet in destCandicateCustomOperatorOutlets)
                 {
@@ -305,8 +305,8 @@ namespace JJ.Business.Synthesizer
                               .OrderBy(x => x.Inlet.ListIndex)
                               .ThenBy(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Undefined)
                               .ThenBy(x => x.Inlet.GetDimensionEnum())
-                              .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
-                              .ThenBy(x => x.Name)
+                              .ThenBy(x => string.IsNullOrWhiteSpace(x.Inlet.Name))
+                              .ThenBy(x => x.Inlet.Name)
                               .Select(x => x.WrappedOperator)
                               .ToList();
         }
@@ -317,8 +317,8 @@ namespace JJ.Business.Synthesizer
                                .OrderBy(x => x.Outlet.ListIndex)
                                .ThenBy(x => x.Outlet.GetDimensionEnum() == DimensionEnum.Undefined)
                                .ThenBy(x => x.Outlet.GetDimensionEnum())
-                               .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
-                               .ThenBy(x => x.Name)
+                               .ThenBy(x => string.IsNullOrWhiteSpace(x.Outlet.Name))
+                               .ThenBy(x => x.Outlet.Name)
                                .Select(x => x.WrappedOperator)
                                .ToList();
         }

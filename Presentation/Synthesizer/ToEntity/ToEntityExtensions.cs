@@ -829,6 +829,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             // Set Name of Inlet instead.
             inlet.Name = viewModel.Name;
+            op.Name = null;
 
             // Delete excessive inlets.
             var patchManager = new PatchManager(repositories);
@@ -867,6 +868,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             // Set Name of Outlet instead.
             outlet.Name = viewModel.Name;
+            op.Name = null;
 
             // Delete excessive outlets.
             var patchManager = new PatchManager(repositories);

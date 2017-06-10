@@ -775,13 +775,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         Operator op = operators[i];
                         Inlet inlet = op.Inlets.Single();
 
-                        // Check what's expected, so you do not accidentally overwrite.
-                        if (!string.IsNullOrEmpty(inlet.Name))
+                        if (string.IsNullOrEmpty(inlet.Name))
                         {
-                            throw new NotNullOrEmptyException(() => inlet.Name);
+                            inlet.Name = op.Name;
                         }
-
-                        inlet.Name = op.Name;
                         op.Name = null;
 
                         string progressMessage = $"Step 1: Migrated {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
@@ -798,12 +795,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         Outlet outlet = op.Outlets.Single();
 
                         // Check what's expected, so you do not accidentally overwrite.
-                        if (!string.IsNullOrEmpty(outlet.Name))
+                        if (string.IsNullOrEmpty(outlet.Name))
                         {
-                            throw new NotNullOrEmptyException(() => outlet.Name);
+                            outlet.Name = op.Name;
                         }
-
-                        outlet.Name = op.Name;
                         op.Name = null;
 
                         string progressMessage = $"Step 2: Migrated {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
