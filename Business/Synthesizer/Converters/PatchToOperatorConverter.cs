@@ -65,7 +65,6 @@ namespace JJ.Business.Synthesizer.Converters
             ConvertOutlets(sourceOutlets, destOperator);
 
             destOperator.LinkToUnderlyingPatch(sourcePatch);
-            destOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories);
         }
 
         private void ConvertInlets(IList<Inlet> sourceInlets, Operator destOperator)
