@@ -235,24 +235,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            // Use Name
-            if (!string.IsNullOrWhiteSpace(entity.Name))
-            {
-                return $"'{entity.Name}'";
-            }
-
-            // Use Dimension
             // ReSharper disable once InvertIf
             if (entity.Inlets.Count == 1)
             {
                 Inlet inlet = entity.Inlets[0];
-                DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
-                // ReSharper disable once InvertIf
-                if (dimensionEnum != DimensionEnum.Undefined)
-                {
-                    string dimensionDisplayName = ResourceFormatter.GetDisplayName(dimensionEnum);
-                    return $"'{dimensionDisplayName}'";
-                }
+                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex(inlet.Name, inlet.GetDimensionEnum(), inlet.ListIndex);
+                return identifier;
             }
 
             // Mention 'no name' only
@@ -264,24 +252,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            // Use Name
-            if (!string.IsNullOrWhiteSpace(entity.Name))
-            {
-                return $"'{entity.Name}'";
-            }
-
-            // Use Dimension
             // ReSharper disable once InvertIf
             if (entity.Outlets.Count == 1)
             {
                 Outlet outlet = entity.Outlets[0];
-                DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
-                // ReSharper disable once InvertIf
-                if (dimensionEnum != DimensionEnum.Undefined)
-                {
-                    string dimensionDisplayName = ResourceFormatter.GetDisplayName(dimensionEnum);
-                    return $"'{dimensionDisplayName}'";
-                }
+                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex(outlet.Name, outlet.GetDimensionEnum(), outlet.ListIndex);
+                return identifier;
             }
 
             // Mention 'no name' only
@@ -476,7 +452,6 @@ namespace JJ.Business.Synthesizer.Validation
             string identifier = $"({ResourceFormatter.Number} = {listIndex + 1})";
             return identifier;
         }
-
 
         [NotNull]
         private static string GetNoNameIdentifier()

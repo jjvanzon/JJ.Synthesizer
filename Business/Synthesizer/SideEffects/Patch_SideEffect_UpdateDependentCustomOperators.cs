@@ -25,9 +25,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public void Execute()
         {
-            IList<Operator> customOperators = _underlyingPatch.EnumerateDependentCustomOperators().ToArray();
+            IEnumerable<Operator> customOperators = _underlyingPatch.EnumerateDependentCustomOperators();
 
-            foreach (Operator customOperator in customOperators)
+            foreach (Operator customOperator in customOperators.ToArray())
             {
                 _patchToOperatorConverter.Convert(_underlyingPatch, customOperator);
             }

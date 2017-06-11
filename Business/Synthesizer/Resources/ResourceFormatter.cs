@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string MinFrequency => Resources.MinFrequency;
         public static string MinOverDimension => Resources.MinOverDimension;
         public static string MinOverInlets => Resources.MinOverInlets;
-        public static string MismatchBetweenCustomOperatorAndUnderlyingPatch => Resources.MismatchBetweenCustomOperatorAndUnderlyingPatch;
+        public static string MismatchBetweenOperatorAndUnderlyingPatch => Resources.MismatchBetweenOperatorAndUnderlyingPatch;
         public static string Mono => Resources.Mono;
         public static string Multiply => Resources.Multiply;
         public static string MultiplyWithOrigin => Resources.MultiplyWithOrigin;

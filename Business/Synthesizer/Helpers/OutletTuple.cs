@@ -6,15 +6,15 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class OutletTuple
     {
-        public OutletTuple([NotNull] Operator underlyingPatchOutlet, Outlet customOperatorOutlet)
+        public OutletTuple([NotNull] Outlet sourceOutlet, Outlet destOutlet)
         {
-            UnderlyingPatchOutlet = underlyingPatchOutlet ?? throw new NullException(() => underlyingPatchOutlet);
-            CustomOperatorOutlet = customOperatorOutlet;
+            SourceOutlet = sourceOutlet ?? throw new NullException(() => sourceOutlet);
+            DestOutlet = destOutlet;
         }
 
-        public Operator UnderlyingPatchOutlet { get; }
+        public Outlet SourceOutlet { get; }
 
         /// <summary> nullable </summary>
-        public Outlet CustomOperatorOutlet { get; }
+        public Outlet DestOutlet { get; }
     }
 }

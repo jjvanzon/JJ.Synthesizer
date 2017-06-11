@@ -1491,7 +1491,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new PatchOutlet_OperatorWrapper(op)
             {
-                Input = input,
+                Input = input
             };
             wrapper.Outlet.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
 

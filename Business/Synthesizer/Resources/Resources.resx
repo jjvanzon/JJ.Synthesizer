@@ -1040,7 +1040,7 @@
   <data name="HighestFrequency" xml:space="preserve">
     <value>Highest Frequency</value>
   </data>
-  <data name="MismatchBetweenCustomOperatorAndUnderlyingPatch" xml:space="preserve">
-    <value>Mismatch between custom operator and underlying patch.</value>
+  <data name="MismatchBetweenOperatorAndUnderlyingPatch" xml:space="preserve">
+    <value>Mismatch between operator and underlying patch.</value>
   </data>
 </root>

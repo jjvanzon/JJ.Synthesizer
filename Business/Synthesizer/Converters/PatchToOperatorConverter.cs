@@ -37,45 +37,50 @@ namespace JJ.Business.Synthesizer.Converters
             _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
-        /// <param name="sourceUnderlyingPatch">nullable</param>
-        public void Convert(Patch sourceUnderlyingPatch, Operator destCustomOperator)
+        /// <param name="sourcePatch">nullable</param>
+        public void Convert(Patch sourcePatch, Operator destOperator)
         {
-            if (destCustomOperator == null) throw new NullException(() => destCustomOperator);
+            if (destOperator == null) throw new NullException(() => destOperator);
 
-            IList<Operator> sourcePatchInlets;
-            IList<Operator> sourcePatchOutlets;
+            IList<Inlet> sourceInlets;
+            IList<Outlet> sourceOutlets;
 
-            if (sourceUnderlyingPatch != null)
+            if (sourcePatch != null)
             {
-                sourcePatchInlets = sourceUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
-                sourcePatchOutlets = sourceUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+                sourceInlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                          .Select(x => x.Inlet)
+                                          .ToArray();
+
+                sourceOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                           .Select(x => x.Outlet)
+                                           .ToArray();
             }
             else
             {
-                sourcePatchInlets = new Operator[0];
-                sourcePatchOutlets = new Operator[0];
+                sourceInlets = new Inlet[0];
+                sourceOutlets = new Outlet[0];
             }
 
-            ConvertInlets(sourcePatchInlets, destCustomOperator);
-            ConvertOutlets(sourcePatchOutlets, destCustomOperator);
+            ConvertInlets(sourceInlets, destOperator);
+            ConvertOutlets(sourceOutlets, destOperator);
 
-            destCustomOperator.LinkToUnderlyingPatch(sourceUnderlyingPatch);
-            destCustomOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories);
+            destOperator.LinkToUnderlyingPatch(sourcePatch);
+            destOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories);
         }
 
-        private void ConvertInlets(IList<Operator> sourcePatchInlets, Operator destCustomOperator)
+        private void ConvertInlets(IList<Inlet> sourceInlets, Operator destOperator)
         {
-            IList<InletTuple> tuples = InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(sourcePatchInlets, destCustomOperator.Inlets);
+            IList<InletTuple> tuples = InletOutletMatcher.MatchSourceAndDestInlets(sourceInlets, destOperator.Inlets);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (InletTuple tuple in tuples)
             {
-                Inlet destCustomOperatorInlet = ConvertInlet(tuple.UnderlyingPatchInlet, tuple.CustomOperatorInlet, destCustomOperator);
-                idsToKeep.Add(destCustomOperatorInlet.ID);
+                Inlet destInlet = ConvertInlet(tuple.SourceInlet, tuple.DestInlet, destOperator);
+                idsToKeep.Add(destInlet.ID);
             }
 
-            IEnumerable<int> existingIDs = destCustomOperator.Inlets.Select(x => x.ID);
+            IEnumerable<int> existingIDs = destOperator.Inlets.Select(x => x.ID);
             IEnumerable<int> idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep);
 
             foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse.ToArray())
@@ -94,41 +99,39 @@ namespace JJ.Business.Synthesizer.Converters
             }
         }
 
-        /// <param name="destCustomOperatorInlet">nullable</param>
-        private Inlet ConvertInlet(Operator sourcePatchInlet, Inlet destCustomOperatorInlet, Operator destCustomOperator)
+        /// <param name="destInlet">nullable</param>
+        private Inlet ConvertInlet(Inlet sourceInlet, Inlet destInlet, Operator destOperator)
         {
-            var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
-
-            if (destCustomOperatorInlet == null)
+            if (destInlet == null)
             {
-                destCustomOperatorInlet = new Inlet { ID = _repositories.IDRepository.GetID() };
-                _repositories.InletRepository.Insert(destCustomOperatorInlet);
-                destCustomOperatorInlet.LinkTo(destCustomOperator);
+                destInlet = new Inlet { ID = _repositories.IDRepository.GetID() };
+                _repositories.InletRepository.Insert(destInlet);
+                destInlet.LinkTo(destOperator);
             }
 
-            destCustomOperatorInlet.Name = sourcePatchInletWrapper.Inlet.Name;
-            destCustomOperatorInlet.DefaultValue = sourcePatchInletWrapper.Inlet.DefaultValue;
-            destCustomOperatorInlet.Dimension = sourcePatchInletWrapper.Inlet.Dimension;
-            destCustomOperatorInlet.IsObsolete = false;
-            destCustomOperatorInlet.ListIndex = sourcePatchInletWrapper.Inlet.ListIndex;
+            destInlet.Name = sourceInlet.Name;
+            destInlet.Dimension = sourceInlet.Dimension;
+            destInlet.ListIndex = sourceInlet.ListIndex;
+            destInlet.DefaultValue = sourceInlet.DefaultValue;
+            destInlet.IsObsolete = false;
 
-            return destCustomOperatorInlet;
+            return destInlet;
         }
 
-        private void ConvertOutlets(IList<Operator> sourcePatchOutlets, Operator destCustomOperator)
+        private void ConvertOutlets(IList<Outlet> sourceOutlets, Operator destOperator)
         {
-            IList<OutletTuple> tuples = InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(sourcePatchOutlets, destCustomOperator.Outlets);
+            IList<OutletTuple> tuples = InletOutletMatcher.MatchSourceAndDestOutlets(sourceOutlets, destOperator.Outlets);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (OutletTuple tuple in tuples)
             {
-                Outlet destCustomOperatorOutlet = ConvertOutlet(tuple.UnderlyingPatchOutlet, tuple.CustomOperatorOutlet, destCustomOperator);
+                Outlet destOutlet = ConvertOutlet(tuple.SourceOutlet, tuple.DestOutlet, destOperator);
 
-                idsToKeep.Add(destCustomOperatorOutlet.ID);
+                idsToKeep.Add(destOutlet.ID);
             }
 
-            IEnumerable<int> existingIDs = destCustomOperator.Outlets.Select(x => x.ID);
+            IEnumerable<int> existingIDs = destOperator.Outlets.Select(x => x.ID);
             IEnumerable<int> idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep);
 
             foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse.ToArray())
@@ -147,24 +150,22 @@ namespace JJ.Business.Synthesizer.Converters
             }
         }
 
-        /// <param name="destCustomOperatorOutlet">nullable</param>
-        private Outlet ConvertOutlet(Operator sourcePatchOutlet, Outlet destCustomOperatorOutlet, Operator destCustomOperator)
+        /// <param name="destOutlet">nullable</param>
+        private Outlet ConvertOutlet(Outlet sourceOutlet, Outlet destOutlet, Operator destOperator)
         {
-            var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
-
-            if (destCustomOperatorOutlet == null)
+            if (destOutlet == null)
             {
-                destCustomOperatorOutlet = new Outlet { ID = _repositories.IDRepository.GetID() };
-                destCustomOperatorOutlet.LinkTo(destCustomOperator);
-                _repositories.OutletRepository.Insert(destCustomOperatorOutlet);
+                destOutlet = new Outlet { ID = _repositories.IDRepository.GetID() };
+                destOutlet.LinkTo(destOperator);
+                _repositories.OutletRepository.Insert(destOutlet);
             }
 
-            destCustomOperatorOutlet.Name = sourcePatchOutletWrapper.Outlet.Name;
-            destCustomOperatorOutlet.Dimension = sourcePatchOutletWrapper.Outlet.Dimension;
-            destCustomOperatorOutlet.IsObsolete = false;
-            destCustomOperatorOutlet.ListIndex = sourcePatchOutletWrapper.Outlet.ListIndex;
+            destOutlet.Name = sourceOutlet.Name;
+            destOutlet.Dimension = sourceOutlet.Dimension;
+            destOutlet.ListIndex = sourceOutlet.ListIndex;
+            destOutlet.IsObsolete = false;
 
-            return destCustomOperatorOutlet;
+            return destOutlet;
         }
     }
 }

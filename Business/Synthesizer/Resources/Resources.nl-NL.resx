@@ -158,8 +158,8 @@
     <value>Kan het aantal uitgangen niet aanpassen, omdat uitgang {0} in gebruik is.</value>
     <comment>{0} = number</comment>
   </data>
-  <data name="MismatchBetweenCustomOperatorAndUnderlyingPatch" xml:space="preserve">
-    <value>Afwijking tussen zelfgemaakte operator en de onderliggende schakeling.</value>
+  <data name="MismatchBetweenOperatorAndUnderlyingPatch" xml:space="preserve">
+    <value>Afwijking tussen operator en de onderliggende schakeling.</value>
   </data>
   <data name="MustBePowerOf2" xml:space="preserve">
     <value>{0} moet een macht van 2 zijn.</value>

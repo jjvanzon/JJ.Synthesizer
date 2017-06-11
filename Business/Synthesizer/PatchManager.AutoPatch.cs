@@ -145,19 +145,6 @@ namespace JJ.Business.Synthesizer
             ResultHelper.Assert(result);
         }
 
-        private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet intermediateInlet)
-        {
-            PatchInlet_OperatorWrapper destPatchInletWrapper = PatchInlet();
-            destPatchInletWrapper.Inlet.Name = intermediateInlet.Name;
-            destPatchInletWrapper.Inlet.ListIndex = intermediateInlet.ListIndex;
-            destPatchInletWrapper.Inlet.Dimension = intermediateInlet.Dimension;
-            destPatchInletWrapper.Inlet.DefaultValue = intermediateInlet.DefaultValue;
-
-            intermediateInlet.LinkTo(destPatchInletWrapper.Outlet);
-
-            return destPatchInletWrapper;
-        }
-
         private PatchInlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> intermediateUnmatchedInlets)
         {
             Inlet intermediateFirstUnmatchedInlet = intermediateUnmatchedInlets.First();
@@ -168,6 +155,20 @@ namespace JJ.Business.Synthesizer
             {
                 intermediateUnmatchedInlet.LinkTo((Outlet)destPatchInletWrapper);
             }
+
+            return destPatchInletWrapper;
+        }
+
+        private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet intermediateInlet)
+        {
+            PatchInlet_OperatorWrapper destPatchInletWrapper = PatchInlet();
+            intermediateInlet.LinkTo(destPatchInletWrapper.Outlet);
+
+            Inlet destInlet = destPatchInletWrapper.Inlet;
+            destInlet.Name = intermediateInlet.Name;
+            destInlet.Dimension = intermediateInlet.Dimension;
+            destInlet.ListIndex = intermediateInlet.ListIndex;
+            destInlet.DefaultValue = intermediateInlet.DefaultValue;
 
             return destPatchInletWrapper;
         }
@@ -189,13 +190,15 @@ namespace JJ.Business.Synthesizer
             return destPatchOutletWrapper;
         }
 
-        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet intermediateUnmatchedOutlet)
+        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet intermediateOutlet)
         {
             PatchOutlet_OperatorWrapper destPatchOutletWrapper = PatchOutlet();
-            destPatchOutletWrapper.Outlet.Name = intermediateUnmatchedOutlet.Name;
-            destPatchOutletWrapper.Outlet.ListIndex = intermediateUnmatchedOutlet.ListIndex;
-            destPatchOutletWrapper.Outlet.Dimension = intermediateUnmatchedOutlet.Dimension;
-            destPatchOutletWrapper.Input = intermediateUnmatchedOutlet;
+            destPatchOutletWrapper.Input = intermediateOutlet;
+
+            Outlet destOutlet = destPatchOutletWrapper.Outlet;
+            destOutlet.Name = intermediateOutlet.Name;
+            destOutlet.ListIndex = intermediateOutlet.ListIndex;
+            destOutlet.Dimension = intermediateOutlet.Dimension;
 
             return destPatchOutletWrapper;
         }
@@ -271,7 +274,6 @@ namespace JJ.Business.Synthesizer
             Patch.Name = "Auto-Generated Patch";
 
             CustomOperator_OperatorWrapper customOperator = CustomOperator(sourcePatch);
-            //IList<Outlet> soundOutlets = customOperator.Outlets.Where(x => x.GetDimensionEnum() == DimensionEnum.Sound).ToArray();
             IList<Outlet> soundOutlets = GetSoundOutletsFromOperatorCreatively(customOperator);
 
             if (soundOutlets.Count == 0)
@@ -335,29 +337,6 @@ namespace JJ.Business.Synthesizer
                     }
             }
         }
-
-        // TODO: Remove outcommented code.
-        ///// <summary> In case no sound outlets are presents, all patch outlets are returned. </summary>
-        //private IList<Outlet> GetSoundOutletsFromPatch(Patch sourcePatch)
-        //{
-        //    IList<Outlet> soundPatchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-        //                                                 .Where(x => x.DimensionEnum == DimensionEnum.Sound)
-        //                                                 .Select(x => x.Outlet)
-        //                                                 .ToArray();
-        //    if (soundPatchOutlets.Count != 0)
-        //    {
-        //        // Patch has Sound PatchOutlets.
-        //        return soundPatchOutlets;
-        //    }
-
-        //    // Patch has no Sound PatchOutlets:
-        //    // Return all PatchOutlets.
-        //    IList<Outlet> patchOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-        //                                            .Select(x => x.Outlet)
-        //                                            .ToArray();
-
-        //    return patchOutlets;
-        //}
 
         public Result<Outlet> TryAutoPatchFromDocumentsRandomly([NotNull] IList<Document> documents, bool mustIncludeHidden)
         {
@@ -449,8 +428,8 @@ namespace JJ.Business.Synthesizer
                                                        .Any())
                                             .OrderBy(x => x.Name)
                                             .SelectMany(x => x.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>())
-                                            .Where(x => x.Outlet.GetDimensionEnum() == DimensionEnum.Sound)
                                             .Select(x => x.Outlet)
+                                            .Where(x => x.GetDimensionEnum() == DimensionEnum.Sound)
                                             .ToArray();
             return patches2;
         }

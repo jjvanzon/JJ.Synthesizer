@@ -6,15 +6,15 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class InletTuple
     {
-        public InletTuple([NotNull] Operator underlyingPatchInlet, Inlet customOperatorInlet)
+        public InletTuple([NotNull] Inlet sourceInlet, Inlet destInlet)
         {
-            UnderlyingPatchInlet = underlyingPatchInlet ?? throw new NullException(() => underlyingPatchInlet);
-            CustomOperatorInlet = customOperatorInlet;
+            SourceInlet = sourceInlet ?? throw new NullException(() => sourceInlet);
+            DestInlet = destInlet;
         }
 
-        public Operator UnderlyingPatchInlet { get; }
+        public Inlet SourceInlet { get; }
 
         /// <summary> nullable </summary>
-        public Inlet CustomOperatorInlet { get; }
+        public Inlet DestInlet { get; }
     }
 }

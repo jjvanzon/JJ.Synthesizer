@@ -23,10 +23,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// Checks whether the name is filled in,
         /// taking whitespace into account, etc.
         /// </summary>
-        public static bool IsFilledIn(string name)
-        {
-            return !string.IsNullOrWhiteSpace(name);
-        }
+        public static bool IsFilledIn(string name) => !string.IsNullOrWhiteSpace(name);
 
         /// <summary>
         /// Compares two names case-insensitively, null / "" tolerant,
@@ -39,7 +36,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             string canonicalName1 = ToCanonical(name1);
             string canonicalName2 = ToCanonical(name2);
-            bool areEqual = string.Equals(canonicalName1, canonicalName2);
+            bool areEqual = string.Equals(canonicalName1, canonicalName2, System.StringComparison.Ordinal);
             return areEqual;
         }
     }

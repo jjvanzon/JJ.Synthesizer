@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Validation.Resources;
-using JJ.Framework.Exceptions;
 using System.Text;
 using JJ.Data.Synthesizer.Entities;
 
@@ -49,267 +48,270 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
         }
 
-        private void ValidateInletsAgainstUnderlyingPatch(Operator customOperator)
+        private void ValidateInletsAgainstUnderlyingPatch(Operator op)
         {
-            IList<InletTuple> tuples = InletOutletMatcher.Match_PatchInlets_With_CustomOperatorInlets(customOperator);
+            IList<InletTuple> tuples = InletOutletMatcher.MatchSourceAndDestInlets(op);
             
             foreach (InletTuple tuple in tuples)
             {
-                Inlet customOperatorInlet = tuple.CustomOperatorInlet;
-                Operator underlyingPatchInlet = tuple.UnderlyingPatchInlet;
+                Inlet sourceInlet = tuple.SourceInlet;
+                Inlet destInlet = tuple.DestInlet;
 
-                ValidateIsObsolete(customOperatorInlet, underlyingPatchInlet);
+                ValidateIsObsolete(sourceInlet, destInlet);
 
-                if (underlyingPatchInlet == null)
+                if (sourceInlet == null)
                 {
-                    // Obsolete CustomOperator Inlets are allowed.
                     continue;
                 }
 
-                Inlet underlyingPatchInlet_Inlet = TryGetInlet(underlyingPatchInlet);
-                if (underlyingPatchInlet_Inlet == null)
+                if (destInlet == null)
                 {
-                    // Error tollerance, because it is a validator.
                     continue;
                 }
 
-                if (customOperatorInlet.ListIndex != underlyingPatchInlet_Inlet.ListIndex)
+                if (destInlet.ListIndex != sourceInlet.ListIndex)
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
                         ResourceFormatter.ListIndex,
-                        customOperatorInlet,
-                        underlyingPatchInlet,
-                        customOperatorInlet.ListIndex,
-                        underlyingPatchInlet_Inlet.ListIndex);
+                        sourceInlet,
+                        destInlet,
+                        sourceInlet.ListIndex,
+                        destInlet.ListIndex);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
 
-                if (!NameHelper.AreEqual(customOperatorInlet.Name, underlyingPatchInlet_Inlet.Name))
+                if (!NameHelper.AreEqual(destInlet.Name, sourceInlet.Name))
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
                         CommonResourceFormatter.Name,
-                        customOperatorInlet,
-                        underlyingPatchInlet,
-                        customOperatorInlet.Name,
-                        underlyingPatchInlet_Inlet.Name);
+                        sourceInlet,
+                        destInlet,
+                        sourceInlet.Name,
+                        destInlet.Name);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
 
-                if (customOperatorInlet.GetDimensionEnum() != underlyingPatchInlet_Inlet.GetDimensionEnum())
+                if (destInlet.GetDimensionEnum() != sourceInlet.GetDimensionEnum())
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
                         ResourceFormatter.Dimension,
-                        customOperatorInlet,
-                        underlyingPatchInlet,
-                        customOperatorInlet.GetDimensionEnum(),
-                        underlyingPatchInlet_Inlet.GetDimensionEnum());
+                        sourceInlet,
+                        destInlet,
+                        sourceInlet.GetDimensionEnum(),
+                        destInlet.GetDimensionEnum());
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
 
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
                 // ReSharper disable once InvertIf
-                if (customOperatorInlet.DefaultValue != underlyingPatchInlet_Inlet.DefaultValue)
+                if (destInlet.DefaultValue != sourceInlet.DefaultValue)
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
                         ResourceFormatter.DefaultValue,
-                        customOperatorInlet,
-                        underlyingPatchInlet,
-                        customOperatorInlet.DefaultValue,
-                        underlyingPatchInlet_Inlet.DefaultValue);
+                        sourceInlet,
+                        destInlet,
+                        sourceInlet.DefaultValue,
+                        destInlet.DefaultValue);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
             }
         }
 
-        /// <param name="underlyingPatchInletOperator">nullable</param>
-        private void ValidateIsObsolete(Inlet customOperatorInlet, Operator underlyingPatchInletOperator)
+        /// <param name="sourceInlet">nullable</param>
+        private void ValidateIsObsolete(Inlet sourceInlet, Inlet destInlet)
         {
-            if (customOperatorInlet == null) throw new NullException(() => customOperatorInlet);
+            if (destInlet == null)
+            {
+                return;
+            }
 
-            if (underlyingPatchInletOperator == null)
+            if (sourceInlet == null)
             {
                 // ReSharper disable once InvertIf
-                if (!customOperatorInlet.IsObsolete)
+                if (!destInlet.IsObsolete)
                 {
-                    string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(destInlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
-                    ValidationMessages.Add(nameof(customOperatorInlet.IsObsolete), messagePrefix + message);
+                    ValidationMessages.Add(nameof(destInlet.IsObsolete), messagePrefix + message);
                 }
             }
             else
             {
                 // ReSharper disable once InvertIf
-                if (customOperatorInlet.IsObsolete)
+                if (destInlet.IsObsolete)
                 {
-                    string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorInlet);
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(destInlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
-                    ValidationMessages.Add(nameof(customOperatorInlet.IsObsolete), messagePrefix + message);
+                    ValidationMessages.Add(nameof(destInlet.IsObsolete), messagePrefix + message);
                 }
             }
         }
 
         private void ValidateOutletsAgainstUnderlyingPatch(Operator customOperator)
         {
-            IList<OutletTuple> tuples = InletOutletMatcher.Match_PatchOutlets_With_CustomOperatorOutlets(customOperator);
+            IList<OutletTuple> tuples = InletOutletMatcher.MatchSourceAndDestOutlets(customOperator);
 
             foreach (OutletTuple tuple in tuples)
             {
-                Operator underlyingPatchOutlet = tuple.UnderlyingPatchOutlet;
-                Outlet customOperatorOutlet = tuple.CustomOperatorOutlet;
+                Outlet sourceOutlet = tuple.SourceOutlet;
+                Outlet destOutlet = tuple.DestOutlet;
 
-                ValidateIsObsolete(customOperatorOutlet, underlyingPatchOutlet);
+                ValidateIsObsolete(sourceOutlet, destOutlet);
 
-                if (underlyingPatchOutlet == null)
+                if (sourceOutlet == null)
                 {
-                    // Obsolete CustomOperator Outlets are allowed.
                     continue;
                 }
 
-                Outlet underlyingPatchOutlet_Outlet = TryGetOutlet(underlyingPatchOutlet);
-                if (underlyingPatchOutlet_Outlet == null)
+                if (destOutlet == null)
                 {
-                    // Error tollerance, because it is a validator.
                     continue;
                 }
 
-                if (customOperatorOutlet.ListIndex != underlyingPatchOutlet_Outlet.ListIndex)
+                if (destOutlet.ListIndex != sourceOutlet.ListIndex)
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
                         ResourceFormatter.ListIndex,
-                        customOperatorOutlet,
-                        underlyingPatchOutlet,
-                        customOperatorOutlet.ListIndex,
-                        underlyingPatchOutlet_Outlet.ListIndex);
+                        sourceOutlet,
+                        destOutlet,
+                        sourceOutlet.ListIndex,
+                        destOutlet.ListIndex);
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
 
-                if (!NameHelper.AreEqual(customOperatorOutlet.Name, underlyingPatchOutlet_Outlet.Name))
+                if (!NameHelper.AreEqual(destOutlet.Name, sourceOutlet.Name))
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
                         CommonResourceFormatter.Name,
-                        customOperatorOutlet,
-                        underlyingPatchOutlet,
-                        customOperatorOutlet.Name,
-                        underlyingPatchOutlet.Name);
+                        sourceOutlet,
+                        destOutlet,
+                        sourceOutlet.Name,
+                        destOutlet.Name);
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
 
                 // ReSharper disable once InvertIf
-                if (customOperatorOutlet.GetDimensionEnum() != underlyingPatchOutlet_Outlet.GetDimensionEnum())
+                if (destOutlet.GetDimensionEnum() != sourceOutlet.GetDimensionEnum())
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
                         ResourceFormatter.Dimension,
-                        customOperatorOutlet,
-                        underlyingPatchOutlet,
-                        customOperatorOutlet.GetDimensionEnum(),
-                        underlyingPatchOutlet_Outlet.GetDimensionEnum());
+                        sourceOutlet,
+                        destOutlet,
+                        sourceOutlet.GetDimensionEnum(),
+                        destOutlet.GetDimensionEnum());
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
             }
         }
 
-        /// <param name="underlyingPatchOutlet">nullable</param>
-        private void ValidateIsObsolete(Outlet customOperatorOutlet, Operator underlyingPatchOutlet)
+        /// <param name="sourceOutlet">nullable</param>
+        private void ValidateIsObsolete(Outlet sourceOutlet, Outlet destOutlet)
         {
-            if (customOperatorOutlet == null) throw new NullException(() => customOperatorOutlet);
+            if (destOutlet == null)
+            {
+                return;
+            }
 
-            if (underlyingPatchOutlet == null)
+            if (sourceOutlet == null)
             {
                 // ReSharper disable once InvertIf
-                if (!customOperatorOutlet.IsObsolete)
+                if (!destOutlet.IsObsolete)
                 {
-                    string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(destOutlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
-                    ValidationMessages.Add(nameof(customOperatorOutlet.IsObsolete), messagePrefix + message);
+                    ValidationMessages.Add(nameof(destOutlet.IsObsolete), messagePrefix + message);
                 }
             }
             else
             {
                 // ReSharper disable once InvertIf
-                if (customOperatorOutlet.IsObsolete)
+                if (destOutlet.IsObsolete)
                 {
-                    string messagePrefix = ValidationHelper.GetMessagePrefix(customOperatorOutlet);
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(destOutlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
-                    ValidationMessages.Add(nameof(customOperatorOutlet.IsObsolete), messagePrefix + message);
+                    ValidationMessages.Add(nameof(destOutlet.IsObsolete), messagePrefix + message);
                 }
             }
         }
 
         // Helpers
 
-        private Inlet TryGetInlet(Operator op) => op.Inlets.FirstOrDefault();
-
-        private Outlet TryGetOutlet(Operator op) => op.Outlets.FirstOrDefault();
-
         private static string GetInletPropertyDoesNotMatchMessage(
             string propertyDisplayName,
-            Inlet customOperatorInlet,
-            Operator patchInlet,
-            object customOperatorInletPropertyValue,
-            object patchInletPropertyValue)
+            Inlet sourceInlet,
+            Inlet destInlet,
+            object sourceValue,
+            object destValue)
         {
-            // Number (0-based) of inlet does not match with underlying patch.
-            // Custom Operator: Inlet 'Signal': Number (0-based) = '0'.
+            // Mismatch between operator and underlying patch.
+            // Operator: Inlet 'Signal': Number (0-based) = '0'.
             // Underlying Patch: Inlet 'Signal': Number (0-based) = '1'.
 
             var sb = new StringBuilder();
 
-            sb.Append(ResourceFormatter.MismatchBetweenCustomOperatorAndUnderlyingPatch);
+            sb.Append(ResourceFormatter.MismatchBetweenOperatorAndUnderlyingPatch);
 
-            string customOperatorInletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(customOperatorInlet);
+            sb.Append(' ');
+
+            string destInletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(destInlet);
             sb.AppendFormat(
-                " {0}: {1} {2}: {3} = '{4}'.",
-                ResourceFormatter.CustomOperator,
+                "{0}: {1} {2}: {3} = '{4}'.",
+                ResourceFormatter.Operator,
                 ResourceFormatter.Inlet,
-                customOperatorInletIdentifier,
+                destInletIdentifier,
                 propertyDisplayName,
-                customOperatorInletPropertyValue);
+                destValue);
 
-            string patchInletIdentifier = ValidationHelper.GetUserFriendlyIdentifier_ForPatchInlet(patchInlet);
+            sb.Append(' ');
 
+            string sourceInletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(sourceInlet);
             sb.AppendFormat(
                 "{0}: {1} {2}: {3} = '{4}'.",
                 ResourceFormatter.UnderlyingPatch,
                 ResourceFormatter.PatchInlet,
-                patchInletIdentifier,
+                sourceInletIdentifier,
                 propertyDisplayName,
-                patchInletPropertyValue);
+                sourceValue);
 
             return sb.ToString();
         }
 
         private static string GetOutletPropertyDoesNotMatchMessage(
             string propertyDisplayName,
-            Outlet customOperatorOutlet,
-            Operator patchOutlet,
-            object customOperatorOutletPropertyValue,
-            object patchOutletPropertyValue)
+            Outlet sourceOutlet,
+            Outlet destOutlet,
+            object sourceValue,
+            object destValue)
         {
-            // Number (0-based) of outlet does not match with underlying patch.
-            // Custom Operator: Outlet 'Signal': Number (0-based) = '0'.
+            // Mismatch between operator and underlying patch.
+            // Operator: Outlet 'Signal': Number (0-based) = '0'.
             // Underlying Patch: Outlet 'Signal': Number (0-based) = '1'.
 
             var sb = new StringBuilder();
 
-            sb.Append(ResourceFormatter.MismatchBetweenCustomOperatorAndUnderlyingPatch);
+            sb.Append(ResourceFormatter.MismatchBetweenOperatorAndUnderlyingPatch);
 
-            string customOperatorOutletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(customOperatorOutlet);
+            sb.Append(' ');
+
+            string destOutletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(destOutlet);
             sb.AppendFormat(
-                " {0}: {1} '{2}': {3} = '{4}'.",
-                ResourceFormatter.CustomOperator,
+                "{0}: {1} '{2}': {3} = '{4}'.",
+                ResourceFormatter.Operator,
                 ResourceFormatter.Outlet,
-                customOperatorOutletIdentifier,
+                destOutletIdentifier,
                 propertyDisplayName,
-                customOperatorOutletPropertyValue);
+                destValue);
 
-            string patchOutletIdentifier = ValidationHelper.GetUserFriendlyIdentifier_ForPatchOutlet(patchOutlet);
+            sb.Append(' ');
+
+            string sourceOutletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(sourceOutlet);
             sb.AppendFormat(
                 "{0}: {1} {2}: {3} = '{4}'.",
                 ResourceFormatter.UnderlyingPatch,
                 ResourceFormatter.PatchOutlet,
-                patchOutletIdentifier,
+                sourceOutletIdentifier,
                 propertyDisplayName,
-                patchOutletPropertyValue);
+                sourceValue);
 
             return sb.ToString();
         }

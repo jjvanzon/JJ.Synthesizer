@@ -1465,11 +1465,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mismatch between custom operator and underlying patch..
+        ///   Looks up a localized string similar to Mismatch between operator and underlying patch..
         /// </summary>
-        internal static string MismatchBetweenCustomOperatorAndUnderlyingPatch {
+        internal static string MismatchBetweenOperatorAndUnderlyingPatch {
             get {
-                return ResourceManager.GetString("MismatchBetweenCustomOperatorAndUnderlyingPatch", resourceCulture);
+                return ResourceManager.GetString("MismatchBetweenOperatorAndUnderlyingPatch", resourceCulture);
             }
         }
         

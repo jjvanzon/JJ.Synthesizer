@@ -26,10 +26,8 @@ namespace JJ.Business.Synthesizer.SideEffects
             // ReSharper disable once InvertIf
             if (mustExecute)
             {
-                Patch sourceUnderlyingPatch = _operator.UnderlyingPatch;
-
                 var converter = new PatchToOperatorConverter(_repositories);
-                converter.Convert(sourceUnderlyingPatch, _operator);
+                converter.Convert(_operator.UnderlyingPatch, _operator);
             }
         }
 
