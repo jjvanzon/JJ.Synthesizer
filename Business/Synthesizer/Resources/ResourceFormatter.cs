@@ -296,6 +296,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string VibratoSpeed => Resources.VibratoSpeed;
         public static string Volume => Resources.Volume;
         public static string Volumes => Resources.Volumes;
+        public static string Warnings => Resources.Warnings;
         public static string WarnIfEmpty => Resources.WarnIfEmpty;
         public static string Wav => Resources.Wav;
         public static string Width => Resources.Width;

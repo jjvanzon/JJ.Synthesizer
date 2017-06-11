@@ -33,47 +33,35 @@ namespace JJ.Business.Synthesizer
 
         // Get
 
-        public Result<Document> Get(int id)
+        public Document Get(int id)
         {
             Document document = _repositories.DocumentRepository.GetComplete(id);
-            return Get(document);
+            Refresh(document);
+            return document;
         }
 
-        public Result<Document> Get(string name)
+        public Document Get(string name)
         {
             Document document = _repositories.DocumentRepository.GetByNameComplete(name);
-            return Get(document);
-        }
-
-        private Result<Document> Get(Document document)
-        {
-            VoidResult result = Refresh(document);
-
-            var result2 = new Result<Document>
-            {
-                Successful = result.Successful,
-                Messages = result.Messages,
-                Data = document
-            };
-
-            return result2;
+            Refresh(document);
+            return document;
         }
 
         /// <summary> Will reapply patches from external documents. </summary>
-        public VoidResult Refresh(int id)
+        public void Refresh(int id)
         {
             Document document = _repositories.DocumentRepository.Get(id);
-            return Refresh(document);
+            Refresh(document);
         }
 
         /// <summary> Will reapply patches from external documents. </summary>
-        public VoidResult Refresh([NotNull] Document document)
+        public void Refresh([NotNull] Document document)
         {
             new Document_SideEffect_ApplyExternalUnderlyingPatches(document, _repositories).Execute();
 
+            // This is sensitive, error prone code, so verify its result.
             VoidResult result = Save(document);
-
-            return result;
+            result.Assert();
         }
 
         // Create

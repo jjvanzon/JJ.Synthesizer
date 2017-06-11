@@ -1046,4 +1046,7 @@
   <data name="WarnIfEmpty" xml:space="preserve">
     <value>Warn if Empty</value>
   </data>
+  <data name="Warnings" xml:space="preserve">
+    <value>Warnings</value>
+  </data>
 </root>

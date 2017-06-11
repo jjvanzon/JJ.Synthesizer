@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Data.Canonical;
@@ -139,10 +140,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             if (_presenter.MainViewModel.PopupMessages.Count != 0)
             {
-                IList<MessageDto> popupMessages = _presenter.MainViewModel.PopupMessages;
+                IList<MessageDto> messages = _presenter.MainViewModel.PopupMessages;
                 _presenter.MainViewModel.PopupMessages = new List<MessageDto>();
 
-                MessageBoxHelper.ShowPopupMessages(this, popupMessages);
+                MessageBoxHelper.ShowPopupMessages(this, messages);
+            }
+
+            if (_presenter.MainViewModel.WarningMessages.Count != 0)
+            {
+                // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
+                IList<MessageDto> messages = _presenter.MainViewModel.WarningMessages;
+                _presenter.MainViewModel.WarningMessages = new List<MessageDto>();
+                MessageBoxHelper.ShowMessageBox(
+                    this,
+                    ResourceFormatter.Warnings + ":" + Environment.NewLine + 
+                    string.Join(Environment.NewLine, messages.Select(x => x.Text)));
             }
 
             if (_presenter.MainViewModel.DocumentOrPatchNotFound.Visible)

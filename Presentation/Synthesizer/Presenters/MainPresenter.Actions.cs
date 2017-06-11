@@ -919,22 +919,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentOpen(string name)
         {
-            Result<Document> result = _documentManager.Get(name);
+            Document document = _documentManager.Get(name);
 
-            // TODO: Lower Priority: Check success more gracefully?
-            result.Assert();
-
-            DocumentOpen(result.Data);
+            DocumentOpen(document);
         }
 
         public void DocumentOpen(int id)
         {
-            Result<Document> result = _documentManager.Get(id);
+            Document document = _documentManager.Get(id);
 
-            // TODO: Lower Priority: Check success more gracefully?
-            result.Assert();
-
-            DocumentOpen(result.Data);
+            DocumentOpen(document);
         }
 
         private void DocumentOpen(Document document)
@@ -1085,6 +1079,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Will do a a ViewModel to Entity conversion.
         /// (The private Refresh methods do not.)
+        /// Will also ApplyExternalUnderlyingPatches.
         /// </summary>
         public void DocumentRefresh()
         {

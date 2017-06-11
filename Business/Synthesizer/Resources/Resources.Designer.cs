@@ -2761,6 +2761,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warnings.
+        /// </summary>
+        internal static string Warnings {
+            get {
+                return ResourceManager.GetString("Warnings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WAV File.
         /// </summary>
         internal static string Wav {

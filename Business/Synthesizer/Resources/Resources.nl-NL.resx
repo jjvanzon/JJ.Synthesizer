@@ -1052,4 +1052,7 @@
   <data name="WarnIfEmpty" xml:space="preserve">
     <value>Waarschuwing indien leeg</value>
   </data>
+  <data name="Warnings" xml:space="preserve">
+    <value>Waarschuwingen</value>
+  </data>
 </root>
