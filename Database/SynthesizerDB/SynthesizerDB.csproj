@@ -387,6 +387,8 @@
     <Content Include="2017-06-10 040 SynthesizerDB IX_Operator_UnderlyingPatchID.sql" />
     <Content Include="2017-06-10 060 SynthesizerDB Operator.OperatorTypeID null.sql" />
     <Content Include="2017-06-10 080 SynthesizerDB OperatorType delete 53 - Absolute.sql" />
+    <Content Include="2017-06-11 010 SynthesizerDB Inlet WarnIfEmpty.sql" />
+    <Content Include="2017-06-11 020 SynthesizerDB Inlet WarnIfEmpty not null.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

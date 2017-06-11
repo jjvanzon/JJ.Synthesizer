@@ -2752,6 +2752,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warn if Empty.
+        /// </summary>
+        internal static string WarnIfEmpty {
+            get {
+                return ResourceManager.GetString("WarnIfEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WAV File.
         /// </summary>
         internal static string Wav {

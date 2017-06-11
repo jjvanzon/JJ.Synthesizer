@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             if (alreadyDone.Contains(op)) return;
             alreadyDone.Add(op);
 
-            ExecuteValidator(new Versatile_OperatorWarningValidator(op));
+            ExecuteValidator(new OperatorWarningValidator_Versatile(op));
 
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
             {

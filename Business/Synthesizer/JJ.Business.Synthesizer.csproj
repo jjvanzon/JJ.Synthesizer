@@ -787,9 +787,11 @@
     <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Absolute_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2017-06-11 Backup of Absolute_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\HighShelfFilter_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\2017-06-11 Backup of InletWarningValidator_BootStrapped.cs" />
     <Compile Include="Warnings\Operators\LowShelfFilter_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\OperatorWarningValidator_BootStrapped.cs" />
     <Compile Include="Warnings\Operators\PeakingEQFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\AllPassFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\NotchFilter_OperatorWarningValidator.cs" />
@@ -946,7 +948,7 @@
     <Compile Include="Validation\Operators\Versatile_OperatorValidator.cs" />
     <Compile Include="Warnings\Operators\Curve_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
-    <Compile Include="Warnings\Operators\Versatile_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\OperatorWarningValidator_Versatile.cs" />
     <Compile Include="Warnings\Operators\Add_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Sine_OperatorWarningValidator.cs" />

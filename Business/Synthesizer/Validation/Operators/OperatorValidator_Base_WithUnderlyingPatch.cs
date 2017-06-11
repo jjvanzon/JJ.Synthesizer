@@ -103,7 +103,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 }
 
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
-                // ReSharper disable once InvertIf
                 if (destInlet.DefaultValue != sourceInlet.DefaultValue)
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
@@ -112,6 +111,18 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet,
                         sourceInlet.DefaultValue,
                         destInlet.DefaultValue);
+                    ValidationMessages.Add(nameof(Inlet), message);
+                }
+
+                // ReSharper disable once InvertIf
+                if (destInlet.WarnIfEmpty != sourceInlet.WarnIfEmpty)
+                {
+                    string message = GetInletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.WarnIfEmpty,
+                        sourceInlet,
+                        destInlet,
+                        sourceInlet.WarnIfEmpty,
+                        destInlet.WarnIfEmpty);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
             }

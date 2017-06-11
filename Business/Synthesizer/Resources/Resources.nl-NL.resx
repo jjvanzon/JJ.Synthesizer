@@ -1049,4 +1049,7 @@
   <data name="HighestFrequency" xml:space="preserve">
     <value>Hoogste frequentie</value>
   </data>
+  <data name="WarnIfEmpty" xml:space="preserve">
+    <value>Waarschuwing indien leeg</value>
+  </data>
 </root>

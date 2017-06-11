@@ -27,6 +27,8 @@ namespace JJ.Data.Synthesizer.Entities
         /// </summary>
         public virtual bool IsObsolete { get; set; }
 
+        public virtual bool WarnIfEmpty { get; set; }
+
         /// <summary> parent </summary>
         [NotNull]
         public virtual Operator Operator { get; set; }

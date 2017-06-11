@@ -7,12 +7,12 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Versatile_OperatorWarningValidator : ValidatorBase<Operator>
+    internal class OperatorWarningValidator_Versatile : ValidatorBase<Operator>
     {
         private readonly Dictionary<OperatorTypeEnum, Type> _warningValidatorTypeDictionary = 
             new Dictionary<OperatorTypeEnum, Type>
         {
-            { OperatorTypeEnum.Absolute, typeof(Absolute_OperatorWarningValidator) },
+            { OperatorTypeEnum.Absolute, typeof(OperatorWarningValidator_BootStrapped) },
             { OperatorTypeEnum.Add, typeof(Add_OperatorWarningValidator) },
             { OperatorTypeEnum.AllPassFilter, typeof(AllPassFilter_OperatorWarningValidator) },
             { OperatorTypeEnum.And, typeof(And_OperatorWarningValidator) },
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorWarningValidator) },
         };
 
-        public Versatile_OperatorWarningValidator(Operator obj)
+        public OperatorWarningValidator_Versatile(Operator obj)
             : base(obj)
         { 
             OperatorTypeEnum operatorTypeEnum = obj.GetOperatorTypeEnum();

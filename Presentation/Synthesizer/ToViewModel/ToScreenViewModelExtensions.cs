@@ -501,6 +501,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Name = inlet.Name;
             viewModel.DefaultValue = Convert.ToString(inlet.DefaultValue);
             viewModel.Number = inlet.ListIndex + 1;
+            viewModel.WarnIfEmpty = inlet.WarnIfEmpty;
 
             // In case of PatchInlet Dimension has to come from Inlet, not Operator.
             viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();

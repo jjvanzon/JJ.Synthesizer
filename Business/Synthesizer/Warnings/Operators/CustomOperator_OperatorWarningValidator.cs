@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class CustomOperator_OperatorWarningValidator : OperatorWarningValidator_Base
+    internal class CustomOperator_OperatorWarningValidator : OperatorWarningValidator_BootStrapped
     {
         public CustomOperator_OperatorWarningValidator(Operator op)
             : base(op)

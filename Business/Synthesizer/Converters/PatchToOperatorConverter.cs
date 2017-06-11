@@ -113,6 +113,7 @@ namespace JJ.Business.Synthesizer.Converters
             destInlet.Dimension = sourceInlet.Dimension;
             destInlet.ListIndex = sourceInlet.ListIndex;
             destInlet.DefaultValue = sourceInlet.DefaultValue;
+            destInlet.WarnIfEmpty = sourceInlet.WarnIfEmpty;
             destInlet.IsObsolete = false;
 
             return destInlet;

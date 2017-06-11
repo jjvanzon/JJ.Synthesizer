@@ -125,7 +125,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             IList<InletViewModel> viewModels = entities.Select(x => x.ToViewModel(curveRepository,
                                                                                   sampleRepository,
                                                                                   entityPositionManager))
-                                                       .OrderBy(x => x.ListIndex)
+                                                       .OrderBy(x => x.IsObsolete)
+                                                       .ThenBy(x => x.ListIndex)
+                                                       .ThenBy(x => x.Name)
+                                                       .ThenBy(x => x.Dimension.Name)
                                                        .ToList();
             return viewModels;
         }
@@ -162,6 +165,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.DefaultValue = entity.DefaultValue;
             viewModel.IsObsolete = entity.IsObsolete;
             viewModel.HasWarningAppearance = entity.IsObsolete;
+            viewModel.WarnIfEmpty = entity.WarnIfEmpty;
             viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
             viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository);
             viewModel.ConnectionDistance = ViewModelHelper.TryGetConnectionDistance(entity, entityPositionManager);
@@ -175,7 +179,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.Dimension = ViewModelHelper.CreateEmptyIDAndName();
             }
         }
-
 
         // Node
 
@@ -261,7 +264,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entities == null) throw new NullException(() => entities);
 
             IList<OutletViewModel> viewModels = entities.Select(x => x.ToViewModel(curveRepository, sampleRepository, entityPositionManager))
-                                                        .OrderBy(x => x.ListIndex)
+                                                        .OrderBy(x => x.IsObsolete)
+                                                        .ThenBy(x => x.ListIndex)
+                                                        .ThenBy(x => x.Name)
+                                                        .ThenBy(x => x.Dimension.Name)
                                                         .ToList();
             return viewModels;
         }

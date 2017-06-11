@@ -558,6 +558,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.DefaultValue = viewModel.DefaultValue;
             entity.IsObsolete = viewModel.IsObsolete;
+            entity.WarnIfEmpty = viewModel.WarnIfEmpty;
 
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
@@ -804,6 +805,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 inlet = new Inlet { ID = repositories.IDRepository.GetID() };
                 repositories.InletRepository.Insert(inlet);
             }
+
+            inlet.WarnIfEmpty = viewModel.WarnIfEmpty;
 
             // Set Default value
             if (!string.IsNullOrEmpty(viewModel.DefaultValue))
