@@ -47,28 +47,55 @@ namespace JJ.Business.Synthesizer
         {
             if (candicateDestInlets == null) throw new NullException(() => candicateDestInlets);
 
-            // Try match by name
-            if (NameHelper.IsFilledIn(sourceInlet.Name))
+            bool nameIsFilledIn = NameHelper.IsFilledIn(sourceInlet.Name);
+            if (nameIsFilledIn)
             {
-                foreach (Inlet destInlet in candicateDestInlets)
+                // Try match by Name and ListIndex
                 {
-                    bool namesAreEqual = NameHelper.AreEqual(sourceInlet.Name, destInlet.Name);
-                    if (namesAreEqual)
+                    Inlet destInlet = candicateDestInlets.FirstOrDefault(
+                        x => x.ListIndex == sourceInlet.ListIndex &&
+                             NameHelper.AreEqual(x.Name, sourceInlet.Name));
+
+                    if (destInlet != null)
+                    {
+                        return destInlet;
+                    }
+                }
+
+                // Try match by Name
+                {
+                    Inlet destInlet = candicateDestInlets.FirstOrDefault(x => NameHelper.AreEqual(x.Name, sourceInlet.Name));
+                    if (destInlet != null)
                     {
                         return destInlet;
                     }
                 }
             }
 
-            // Try match by Dimension
             DimensionEnum sourceDimensionEnum = sourceInlet.GetDimensionEnum();
             bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
+
             if (dimensionIsFilledIn)
             {
-                Inlet destInlet = candicateDestInlets.FirstOrDefault(x => x.GetDimensionEnum() == sourceDimensionEnum);
-                if (destInlet != null)
+                // Try match by Dimension and ListIndex
                 {
-                    return destInlet;
+                    Inlet destInlet = candicateDestInlets.FirstOrDefault(
+                        x => x.ListIndex == sourceInlet.ListIndex &&
+                             x.GetDimensionEnum() == sourceDimensionEnum);
+
+                    if (destInlet != null)
+                    {
+                        return destInlet;
+                    }
+                }
+
+                // Try match by Dimension
+                {
+                    Inlet destInlet = candicateDestInlets.FirstOrDefault(x => x.GetDimensionEnum() == sourceDimensionEnum);
+                    if (destInlet != null)
+                    {
+                        return destInlet;
+                    }
                 }
             }
 
@@ -111,32 +138,58 @@ namespace JJ.Business.Synthesizer
         {
             if (destCandicateOutlets == null) throw new NullException(() => destCandicateOutlets);
 
-            // Try match by name
-            if (NameHelper.IsFilledIn(sourceOutlet.Name))
+            bool nameIsFilledIn = NameHelper.IsFilledIn(sourceOutlet.Name);
+            if (nameIsFilledIn)
             {
-                foreach (Outlet customOperatorOutlet in destCandicateOutlets)
+                // Try match by Name and ListIndex
                 {
-                    bool namesAreEqual = NameHelper.AreEqual(customOperatorOutlet.Name, sourceOutlet.Name);
-                    if (namesAreEqual)
+                    Outlet destOutlet = destCandicateOutlets.FirstOrDefault(
+                        x => x.ListIndex == sourceOutlet.ListIndex &&
+                             NameHelper.AreEqual(x.Name, sourceOutlet.Name));
+
+                    if (destOutlet != null)
                     {
-                        return customOperatorOutlet;
+                        return destOutlet;
+                    }
+                }
+
+                // Try match by Name
+                {
+                    Outlet destOutlet = destCandicateOutlets.FirstOrDefault(x => NameHelper.AreEqual(x.Name, sourceOutlet.Name));
+                    if (destOutlet != null)
+                    {
+                        return destOutlet;
                     }
                 }
             }
 
-            // Try match by Dimension
             DimensionEnum sourceDimensionEnum = sourceOutlet.GetDimensionEnum();
             bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
             if (dimensionIsFilledIn)
             {
-                Outlet destOutlet = destCandicateOutlets.FirstOrDefault(x => x.GetDimensionEnum() == sourceDimensionEnum);
-                if (destOutlet != null)
+                // Try match by Dimension and ListIndex
                 {
-                    return destOutlet;
+                    Outlet destOutlet = destCandicateOutlets.FirstOrDefault(
+                        x => x.ListIndex == sourceOutlet.ListIndex &&
+                             x.GetDimensionEnum() == sourceDimensionEnum);
+
+                    if (destOutlet != null)
+                    {
+                        return destOutlet;
+                    }
+                }
+
+                // Try match by Dimension
+                {
+                    Outlet destOutlet = destCandicateOutlets.FirstOrDefault(x => x.GetDimensionEnum() == sourceDimensionEnum);
+                    if (destOutlet != null)
+                    {
+                        return destOutlet;
+                    }
                 }
             }
 
-            // Try match by list index
+            // Try match by ListIndex
             {
                 Outlet destOutlet = destCandicateOutlets.FirstOrDefault(x => x.ListIndex == sourceOutlet.ListIndex);
                 return destOutlet;
@@ -211,12 +264,6 @@ namespace JJ.Business.Synthesizer
             if (operatorOutlet == null) throw new NullException(() => operatorOutlet);
             
             Operator op = operatorOutlet.Operator;
-            Patch underlyingPatch = op.UnderlyingPatch;
-
-            if (underlyingPatch == null)
-            {
-                return null;
-            }
 
             IList<InletTuple> inletTuples = MatchSourceAndDestInlets(op);
 
