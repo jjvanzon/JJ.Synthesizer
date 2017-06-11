@@ -234,8 +234,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(
                 () =>
                 {
-                    // HACK: applies view model to entity model.
-                    _presenter.DocumentRefresh();
+                    _presenter.DocumentActivate();
 
                     if (_presenter.MainViewModel.Successful)
                     {

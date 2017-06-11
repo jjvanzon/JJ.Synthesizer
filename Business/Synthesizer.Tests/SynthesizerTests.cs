@@ -17,6 +17,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Tests
@@ -1018,12 +1019,12 @@ namespace JJ.Business.Synthesizer.Tests
                 var repositories = PersistenceHelper.CreateRepositories(context);
                 var documentManager = new DocumentManager(repositories);
 
-                IList<MessageDto> messages = new List<MessageDto>();
+                IList<Message> messages = new List<Message>();
 
                 IEnumerable<Document> rootDocuments = repositories.DocumentRepository.GetAll();
                 foreach (Document rootDocument in rootDocuments)
                 {
-                    VoidResultDto result = documentManager.Save(rootDocument);
+                    IResult result = documentManager.Save(rootDocument);
                     messages.AddRange(result.Messages);
                 }
 

@@ -374,11 +374,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch autoPatch = patchManager.Patch;
 
             // Business
-            IResultDto validationResult = _documentManager.Save(document);
+            IResult validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
                 // Non-Persisted
-                currentInstrumentUserInput.ValidationMessages.AddRange(validationResult.Messages);
+                currentInstrumentUserInput.ValidationMessages.AddRange(validationResult.Messages.ToCanonical());
 
                 // DispatchViewModel
                 DispatchViewModel(currentInstrumentUserInput);
@@ -893,6 +893,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Document
 
+        /// <summary> Applies view model to entity model. </summary>
+        public void DocumentActivate()
+        {
+            if (MainViewModel.Document.IsOpen)
+            {
+                MainViewModel userInput = MainViewModel;
+
+                // Set !Successful
+                userInput.Successful = false;
+
+                // ToEntity
+                if (MainViewModel.Document.IsOpen)
+                {
+                    MainViewModel.ToEntityWithRelatedEntities(_repositories);
+                }
+
+                userInput.Successful = true;
+            }
+        }
+
         public void DocumentClose()
         {
             if (MainViewModel.Document.IsOpen)
@@ -914,18 +934,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentOpen(string name)
         {
-            Document document = _repositories.DocumentRepository.GetByNameComplete(name);
-            DocumentOpen(document);
+            Result<Document> result = _documentManager.Get(name);
+
+            // TODO: Lower Priority: Check success more gracefully?
+            result.Assert();
+
+            DocumentOpen(result.Data);
         }
 
         public void DocumentOpen(int id)
         {
-            Document document = _repositories.DocumentRepository.GetComplete(id);
-            DocumentOpen(document);
+            Result<Document> result = _documentManager.Get(id);
+
+            // TODO: Lower Priority: Check success more gracefully?
+            result.Assert();
+
+            DocumentOpen(result.Data);
         }
 
         private void DocumentOpen(Document document)
-        { 
+        {
             // Business
             var patchManager = new PatchManager(_repositories);
             IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
@@ -1077,8 +1105,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (MainViewModel.Document.IsOpen)
             {
+                // ToEntity
                 MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
+                // Business
+                _documentManager.Refresh(MainViewModel.Document.ID);
+
+                // ToViewModel
                 DocumentViewModelRefresh();
             }
         }
@@ -1106,8 +1139,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // Business
-            IResultDto validationResult = _documentManager.Save(document);
-            IResultDto warningsResult = _documentManager.GetWarningsRecursive(document);
+            IResult validationResult = _documentManager.Save(document);
+            IResult warningsResult = _documentManager.GetWarningsRecursive(document);
 
             // Commit
             if (validationResult.Successful)
@@ -1117,8 +1150,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // ToViewModel
-            MainViewModel.ValidationMessages = validationResult.Messages;
-            MainViewModel.WarningMessages = warningsResult.Messages;
+            MainViewModel.ValidationMessages = validationResult.Messages.ToCanonical();
+            MainViewModel.WarningMessages = warningsResult.Messages.ToCanonical();
         }
 
         public void DocumentTreeClose()
@@ -3105,10 +3138,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             toneGridEditViewModel.Successful = false;
 
             // Business
-            IResultDto validationResult = _documentManager.Save(document);
+            IResult validationResult = _documentManager.Save(document);
             if (!validationResult.Successful)
             {
-                scalePropertiesViewModel.ValidationMessages.AddRange(validationResult.Messages);
+                scalePropertiesViewModel.ValidationMessages.AddRange(validationResult.Messages.ToCanonical());
                 DispatchViewModel(scalePropertiesViewModel);
                 DispatchViewModel(toneGridEditViewModel);
                 return;
@@ -3419,11 +3452,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             if (MainViewModel.Document.IsOpen)
             {
-                IResultDto validationResult = _documentManager.Save(document);
+                IResult validationResult = _documentManager.Save(document);
                 if (!validationResult.Successful)
                 {
                     // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                    viewModel.ValidationMessages.AddRange(validationResult.Messages.ToCanonical());
 
                     // DispatchViewModel
                     DispatchViewModel(viewModel);

@@ -9,12 +9,12 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Patch_SideEffect_UpdateDependentCustomOperators : ISideEffect
+    internal class Patch_SideEffect_UpdateDerivedOperators : ISideEffect
     {
         private readonly Patch _underlyingPatch;
         private readonly PatchToOperatorConverter _patchToOperatorConverter;
 
-        public Patch_SideEffect_UpdateDependentCustomOperators(Patch underlyingPatch, RepositoryWrapper repositories)
+        public Patch_SideEffect_UpdateDerivedOperators(Patch underlyingPatch, RepositoryWrapper repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 

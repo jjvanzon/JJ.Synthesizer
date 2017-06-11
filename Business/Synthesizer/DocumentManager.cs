@@ -31,6 +31,51 @@ namespace JJ.Business.Synthesizer
             _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
+        // Get
+
+        public Result<Document> Get(int id)
+        {
+            Document document = _repositories.DocumentRepository.GetComplete(id);
+            return Get(document);
+        }
+
+        public Result<Document> Get(string name)
+        {
+            Document document = _repositories.DocumentRepository.GetByNameComplete(name);
+            return Get(document);
+        }
+
+        private Result<Document> Get(Document document)
+        {
+            VoidResult result = Refresh(document);
+
+            var result2 = new Result<Document>
+            {
+                Successful = result.Successful,
+                Messages = result.Messages,
+                Data = document
+            };
+
+            return result2;
+        }
+
+        /// <summary> Will reapply patches from external documents. </summary>
+        public VoidResult Refresh(int id)
+        {
+            Document document = _repositories.DocumentRepository.Get(id);
+            return Refresh(document);
+        }
+
+        /// <summary> Will reapply patches from external documents. </summary>
+        public VoidResult Refresh([NotNull] Document document)
+        {
+            new Document_SideEffect_ApplyExternalUnderlyingPatches(document, _repositories).Execute();
+
+            VoidResult result = Save(document);
+
+            return result;
+        }
+
         // Create
 
         [NotNull]
@@ -48,7 +93,7 @@ namespace JJ.Business.Synthesizer
                 _repositories.IDRepository)
                 .Execute();
 
-            VoidResultDto result = Save(document);
+            IResult result = Save(document);
             result.Assert();
 
             return document;
@@ -96,13 +141,13 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResultDto Save([NotNull] Document document)
+        public VoidResult Save([NotNull] Document document)
         {
             if (document == null) throw new NullException(() => document);
 
             IValidator validator = new DocumentValidator_Recursive(document, _repositories, new HashSet<object>());
 
-            return validator.ToCanonical();
+            return validator.ToResult();
         }
 
         public VoidResultDto SaveDocumentReference([NotNull] DocumentReference documentReference)
@@ -185,7 +230,7 @@ namespace JJ.Business.Synthesizer
         }
 
         [NotNull]
-        public VoidResultDto GetWarningsRecursive([NotNull] Document entity)
+        public VoidResult GetWarningsRecursive([NotNull] Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -195,13 +240,7 @@ namespace JJ.Business.Synthesizer
                 _repositories.SampleRepository,
                 new HashSet<object>());
 
-            var result = new VoidResultDto
-            {
-                Successful = true,
-                Messages = warningsValidator.ValidationMessages.ToCanonical()
-            };
-
-            return result;
+            return warningsValidator.ToResult();
         }
 
         [NotNull]

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions;
-using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
@@ -12,6 +11,7 @@ using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
@@ -66,9 +66,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 AssertDocuments(repositories, progressCallback);
 
                 context.Commit();
+
+                progressCallback($"{MethodBase.GetCurrentMethod().Name} finished. {rowsAffected} rows affected.");
             }
 
-            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
         public static void Migrate_SetDimension_OfInletsAndOutlets_OfStandardOperators_SecondTimeAround(Action<string> progressCallback)
@@ -827,7 +828,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         private static void AssertDocuments(IList<Document> rootDocuments, RepositoryWrapper repositories, Action<string> progressCallback)
         {
-            IResultDto totalResult = new VoidResultDto { Successful = true };
+            IResult totalResult = new VoidResult { Successful = true };
             for (int i = 0; i < rootDocuments.Count; i++)
             {
                 Document rootDocument = rootDocuments[i];
@@ -837,13 +838,13 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 // Validate
                 var documentManager = new DocumentManager(repositories);
-                VoidResultDto result = documentManager.Save(rootDocument);
+                IResult result = documentManager.Save(rootDocument);
                 totalResult.Combine(result);
             }
 
             try
             {
-                ResultHelper.Assert(totalResult);
+                totalResult.Assert();
             }
             catch
             {

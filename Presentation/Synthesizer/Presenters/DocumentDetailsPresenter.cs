@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Exceptions;
+﻿using JJ.Business.Canonical;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ToEntity;
@@ -6,6 +7,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -59,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.SpeakerSetupRepository);
 
             // Business
-            VoidResultDto result = _documentManager.Save(document);
+            IResult result = _documentManager.Save(document);
             if (!result.Successful)
             {
                 // ToViewModel
@@ -67,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.AddRange(result.Messages);
+                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
                 viewModel.Successful = false;
 
                 return viewModel;

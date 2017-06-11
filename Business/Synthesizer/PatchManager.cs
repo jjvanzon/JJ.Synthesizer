@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer
                 return result;
             }
 
-            new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories).Execute();
+            new Patch_SideEffect_UpdateDerivedOperators(Patch, _repositories).Execute();
 
             return result;
         }
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer
             }
 
             new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
-            new Operator_SideEffect_UpdateDependentCustomOperators(op, _repositories).Execute();
+            new Operator_SideEffect_UpdateDerivedOperators(op, _repositories).Execute();
 
             // Validate the whole patch, because side-effect can affect the whole patch.
             // But also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer
             op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             _repositories.OperatorRepository.Delete(op);
 
-            new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories).Execute();
+            new Patch_SideEffect_UpdateDerivedOperators(Patch, _repositories).Execute();
 
             // Clean up obsolete inlets and outlets.
             // (Inlets and outlets that do not exist anymore in a CustomOperator's UnderlyingPatch

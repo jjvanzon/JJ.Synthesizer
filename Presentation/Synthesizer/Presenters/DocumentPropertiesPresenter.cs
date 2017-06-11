@@ -41,10 +41,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(viewModel.Entity.ID);
 
             // Business
-            Canonicals.VoidResultDto result = _documentManager.Save(document);
+            IResult result = _documentManager.Save(document);
 
             // Non-Persisted
-            viewModel.ValidationMessages.AddRange(result.Messages);
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
             // Successful?
             viewModel.Successful = result.Successful;

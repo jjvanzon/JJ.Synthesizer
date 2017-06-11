@@ -350,6 +350,7 @@
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
     <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
+    <Compile Include="SideEffects\Document_SideEffect_ApplyExternalUnderlyingPatches.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Delete.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_DoesNotReferenceItself.cs" />
@@ -687,7 +688,7 @@
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_AudioOutput.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
-    <Compile Include="SideEffects\Operator_SideEffect_UpdateDependentCustomOperators.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_UpdateDerivedOperators.cs" />
     <Compile Include="SideEffects\SideEffectHelper.cs" />
     <Compile Include="Validation\AudioOutputValidator.cs" />
     <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />
@@ -864,7 +865,7 @@
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingPatch.cs" />
-    <Compile Include="SideEffects\Patch_SideEffect_UpdateDependentCustomOperators.cs" />
+    <Compile Include="SideEffects\Patch_SideEffect_UpdateDerivedOperators.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
