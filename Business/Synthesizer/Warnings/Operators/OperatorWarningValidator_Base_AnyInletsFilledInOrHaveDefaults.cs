@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal abstract class OperatorWarningValidator_Base_AnyInletsFilledInOrHaveDefaults : VersatileValidator<Operator>
+    internal abstract class OperatorWarningValidator_Base_AnyInletsFilledInOrHaveDefaults : OperatorWarningValidator_Base
     {
         public OperatorWarningValidator_Base_AnyInletsFilledInOrHaveDefaults(Operator op)
             : base(op)

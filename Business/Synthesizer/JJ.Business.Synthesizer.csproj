@@ -791,7 +791,7 @@
     <Compile Include="Warnings\Operators\HighShelfFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\2017-06-11 Backup of InletWarningValidator_BootStrapped.cs" />
     <Compile Include="Warnings\Operators\LowShelfFilter_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\OperatorWarningValidator_BootStrapped.cs" />
+    <Compile Include="Warnings\Operators\2017-06-11 Backup of OperatorWarningValidator_BootStrapped.cs" />
     <Compile Include="Warnings\Operators\PeakingEQFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\AllPassFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\NotchFilter_OperatorWarningValidator.cs" />

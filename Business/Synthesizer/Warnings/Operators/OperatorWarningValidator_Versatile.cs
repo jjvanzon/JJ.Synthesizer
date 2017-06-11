@@ -12,7 +12,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         private readonly Dictionary<OperatorTypeEnum, Type> _warningValidatorTypeDictionary = 
             new Dictionary<OperatorTypeEnum, Type>
         {
-            { OperatorTypeEnum.Absolute, typeof(OperatorWarningValidator_BootStrapped) },
             { OperatorTypeEnum.Add, typeof(Add_OperatorWarningValidator) },
             { OperatorTypeEnum.AllPassFilter, typeof(AllPassFilter_OperatorWarningValidator) },
             { OperatorTypeEnum.And, typeof(And_OperatorWarningValidator) },
@@ -103,7 +102,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             Type validatorType;
             if (!_warningValidatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
             {
-                throw new Exception($"{nameof(_warningValidatorTypeDictionary)} does not contain key {nameof(OperatorTypeEnum)} '{operatorTypeEnum}'.");
+                ExecuteValidator(new OperatorWarningValidator_Base(obj));
             }
             else
             {
