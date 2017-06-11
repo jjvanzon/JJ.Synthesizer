@@ -32,6 +32,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
     {
         private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionDurationInSeconds;
         private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionOutputFilePath;
+        private static readonly bool _mustHandleMainFormActivated = CustomConfigurationManager.GetSection<ConfigurationSection>().MustHandleMainFormActivated;
 
         private readonly IContext _context;
         private readonly RepositoryWrapper _repositories;

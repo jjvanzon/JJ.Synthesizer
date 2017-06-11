@@ -224,10 +224,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         /// <summary>
-        /// HACK: This will reclaim ownership of the Midi device when switching between document windows.
+        /// This will among other things reclaim ownership of the Midi device when switching between document windows.
         /// </summary>
         private void MainForm_Activated(object sender, EventArgs e)
         {
+            if (!_mustHandleMainFormActivated) return;
             if (_presenter.MainViewModel == null) return;
             if (!_presenter.MainViewModel.Document.IsOpen) return;
 
