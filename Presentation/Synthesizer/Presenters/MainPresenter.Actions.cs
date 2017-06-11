@@ -893,24 +893,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Document
 
-        /// <summary> Applies view model to entity model. </summary>
         public void DocumentActivate()
         {
-            if (MainViewModel.Document.IsOpen)
-            {
-                MainViewModel userInput = MainViewModel;
-
-                // Set !Successful
-                userInput.Successful = false;
-
-                // ToEntity
-                if (MainViewModel.Document.IsOpen)
-                {
-                    MainViewModel.ToEntityWithRelatedEntities(_repositories);
-                }
-
-                userInput.Successful = true;
-            }
+            DocumentRefresh();
         }
 
         public void DocumentClose()
