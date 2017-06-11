@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             {
                 string lowerPatchIdentifier = ResourceFormatter.Patch + " " + ValidationHelper.GetUserFriendlyIdentifier(lowerPatch);
 
-                IEnumerable<Operator> customOperators = lowerPatch.EnumerateDependentCustomOperators();
+                IEnumerable<Operator> customOperators = lowerPatch.EnumerateDerivedOperators();
                 foreach (Operator op in customOperators)
                 {
                     bool isExternal = op.Patch.Document != lowerPatch.Document;

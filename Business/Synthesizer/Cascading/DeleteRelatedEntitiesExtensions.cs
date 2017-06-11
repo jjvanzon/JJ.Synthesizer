@@ -1,11 +1,12 @@
-﻿using JJ.Framework.Exceptions;
-using System;
+﻿using System;
 using System.Linq;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
 
-namespace JJ.Business.Synthesizer.Extensions
+namespace JJ.Business.Synthesizer.Cascading
 {
     /// <summary> Deletes related entities that are inherently part of the entity. </summary>
     public static class DeleteRelatedEntitiesExtensions

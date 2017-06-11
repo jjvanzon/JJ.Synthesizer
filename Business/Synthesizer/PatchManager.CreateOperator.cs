@@ -57,17 +57,6 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        private Operator FromSystem(OperatorTypeEnum operatorTypeEnum)
-        {
-            Patch patch = _documentManager.GetSystemPatch(operatorTypeEnum);
-
-            Operator op = CustomOperator(patch);
-
-            op.SetOperatorTypeEnum(OperatorTypeEnum.Absolute, _repositories);
-
-            return op;
-        }
-
         public Add_OperatorWrapper Add(params Outlet[] items)
         {
             return Add((IList<Outlet>)items);
@@ -114,19 +103,13 @@ namespace JJ.Business.Synthesizer
 
         public And_OperatorWrapper And(Outlet a = null, Outlet b = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.And,
-                new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystem(OperatorTypeEnum.And);
 
             var wrapper = new And_OperatorWrapper(op)
             {
                 A = a,
                 B = b
             };
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
 
             return wrapper;
         }
@@ -2310,6 +2293,17 @@ namespace JJ.Business.Synthesizer
         }
 
         // Generic methods for operator creation
+
+        private Operator FromSystem(OperatorTypeEnum operatorTypeEnum)
+        {
+            Patch patch = _documentManager.GetSystemPatch(operatorTypeEnum);
+
+            Operator op = CustomOperator(patch);
+
+            op.SetOperatorTypeEnum(operatorTypeEnum, _repositories);
+
+            return op;
+        }
 
         /// <param name="variableInletOrOutletCount">
         /// Applies to operators with a variable amount of inlets or outlets,

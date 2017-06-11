@@ -4,9 +4,9 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_BootStrapped : OperatorValidator_Base_WithUnderlyingPatch
+    internal class OperatorValidator_FromSystemDocument : OperatorValidator_Base_WithUnderlyingPatch
     {
-        public OperatorValidator_BootStrapped([NotNull] Operator op) 
+        public OperatorValidator_FromSystemDocument([NotNull] Operator op) 
             : base(op)
         { 
             For(() => op.OperatorType, ResourceFormatter.OperatorType).IsNull();

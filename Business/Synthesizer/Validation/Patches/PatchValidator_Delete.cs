@@ -15,8 +15,8 @@ namespace JJ.Business.Synthesizer.Validation.Patches
         {
             string lowerPatchIdentifier = ResourceFormatter.Patch + " " + ValidationHelper.GetUserFriendlyIdentifier(lowerPatch);
 
-            IEnumerable<Operator> customOperators = lowerPatch.EnumerateDependentCustomOperators();
-            foreach (Operator op in customOperators)
+            IEnumerable<Operator> derivedOperators = lowerPatch.EnumerateDerivedOperators();
+            foreach (Operator op in derivedOperators)
             {
                 Patch higherPatch = op.Patch;
                 string higherDocumentPrefix = ValidationHelper.TryGetHigherDocumentPrefix(lowerPatch, higherPatch);

@@ -11,7 +11,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal static partial class ValidationHelper
+    public static partial class ValidationHelper
     {
         // AudioFileOutput
 

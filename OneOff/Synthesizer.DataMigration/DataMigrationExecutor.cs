@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
@@ -817,6 +818,45 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
+        public static void Migrate_AndOperator_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                DocumentManager documentManager = new DocumentManager(repositories);
+                Patch systemPatch = documentManager.GetSystemPatch(OperatorTypeEnum.And);
+
+                IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.And);
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+                    op.LinkToUnderlyingPatch(systemPatch);
+                    op.UnlinkOperatorType();
+
+                    foreach (Inlet inlet in op.Inlets)
+                    {
+                        inlet.WarnIfEmpty = true;
+                    }
+
+                    string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
         // Helpers
 
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
@@ -831,15 +871,16 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             IResult totalResult = new VoidResult { Successful = true };
             for (int i = 0; i < rootDocuments.Count; i++)
             {
-                Document rootDocument = rootDocuments[i];
+                Document document = rootDocuments[i];
 
-                string progressMessage = $"Validating document {i + 1}/{rootDocuments.Count}: '{rootDocument.Name}'.";
+                string progressMessage = $"Validating document {i + 1}/{rootDocuments.Count}: '{document.Name}'.";
                 progressCallback(progressMessage);
 
                 // Validate
                 var documentManager = new DocumentManager(repositories);
-                IResult result = documentManager.Save(rootDocument);
-                totalResult.Combine(result);
+                IResult result = documentManager.Save(document);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(document);
+                totalResult.Combine(result, messagePrefix);
             }
 
             try

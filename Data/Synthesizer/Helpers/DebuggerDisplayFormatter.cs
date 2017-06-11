@@ -154,13 +154,19 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", op.GetType().Name);
 
-            if (op.OperatorType != null)
+            if (!string.IsNullOrEmpty(op.OperatorType?.Name))
             {
-                if (!string.IsNullOrEmpty(op.OperatorType.Name))
-                {
-                    sb.Append(op.OperatorType.Name);
-                    sb.Append(' ');
-                }
+                sb.Append($"{nameof(op.OperatorType)}={op.OperatorType.Name} ");
+            }
+
+            if (op.UnderlyingPatch != null)
+            {
+                sb.Append($"{nameof(op.UnderlyingPatch)}={op.UnderlyingPatch.Name} ");
+            }
+
+            if (!string.IsNullOrEmpty(op.Name))
+            {
+                sb.Append($"'{op.Name}' ");
             }
 
             bool isValidPatchInlet = op.OperatorType != null &&
@@ -169,22 +175,53 @@ namespace JJ.Data.Synthesizer.Helpers
                                      op.Inlets[0] != null;
             if (isValidPatchInlet)
             {
-                sb.AppendFormat("[{0}] ", op.Data);
-
                 Inlet inlet = op.Inlets[0];
 
                 if (inlet.Dimension != null)
                 {
-                    sb.AppendFormat("Dimension={0} ", inlet.Dimension.Name);
+                    sb.Append($"{nameof(inlet.Dimension)}={inlet.Dimension.Name} ");
+                }
+
+                if (!string.IsNullOrEmpty(inlet.Name))
+                {
+                    sb.Append($"{nameof(inlet.Name)}='{inlet.Name}' ");
+                }
+
+                sb.Append($"{nameof(inlet.ListIndex)}={inlet.ListIndex} ");
+
+                if (inlet.IsObsolete)
+                {
+                    sb.Append(" (obsolete)");
                 }
             }
 
-            if (!string.IsNullOrEmpty(op.Name))
+            bool isValidPatchOutlet = op.OperatorType != null &&
+                                     string.Equals(op.OperatorType.Name, "PatchOutlet") &&
+                                     op.Outlets.Count == 1 &&
+                                     op.Outlets[0] != null;
+            if (isValidPatchOutlet)
             {
-                sb.AppendFormat("'{0}' ", op.Name);
+                Outlet outlet = op.Outlets[0];
+
+                if (outlet.Dimension != null)
+                {
+                    sb.Append($"{nameof(outlet.Dimension)}={outlet.Dimension.Name} ");
+                }
+
+                if (!string.IsNullOrEmpty(outlet.Name))
+                {
+                    sb.Append($"{nameof(outlet.Name)}='{outlet.Name}' ");
+                }
+
+                sb.Append($"{nameof(outlet.ListIndex)}={outlet.ListIndex} ");
+
+                if (outlet.IsObsolete)
+                {
+                    sb.Append(" (obsolete)");
+                }
             }
 
-            sb.AppendFormat("({0})", op.ID);
+            sb.Append($"({op.ID})");
 
             return sb.ToString();
         }

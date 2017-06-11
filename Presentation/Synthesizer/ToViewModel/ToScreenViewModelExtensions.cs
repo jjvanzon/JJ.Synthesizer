@@ -290,13 +290,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (Operator op in patch.Operators)
             {
-                if (!ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView.Contains(op.GetOperatorTypeEnum()))
+                // ReSharper disable once InvertIf
+                if (ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView.Contains(op.GetOperatorTypeEnum()))
                 {
-                    continue;
+                    OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
+                    viewModels.Add(viewModel);
                 }
-
-                OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
-                viewModels.Add(viewModel);
             }
 
             return viewModels;

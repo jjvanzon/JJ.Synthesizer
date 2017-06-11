@@ -11,16 +11,15 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         private readonly Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
-            { OperatorTypeEnum.Absolute, typeof(OperatorValidator_BootStrapped) },
+            { OperatorTypeEnum.Absolute, typeof(OperatorValidator_FromSystemDocument) },
             { OperatorTypeEnum.Add, typeof(Add_OperatorValidator) },
             { OperatorTypeEnum.AllPassFilter, typeof(AllPassFilter_OperatorValidator) },
-            { OperatorTypeEnum.And, typeof(And_OperatorValidator) },
             { OperatorTypeEnum.AverageFollower, typeof(AverageFollower_OperatorValidator) },
             { OperatorTypeEnum.AverageOverDimension, typeof(AverageOverDimension_OperatorValidator) },
             { OperatorTypeEnum.AverageOverInlets, typeof(AverageOverInlets_OperatorValidator) },
             { OperatorTypeEnum.BandPassFilterConstantPeakGain, typeof(BandPassFilterConstantPeakGain_OperatorValidator) },
             { OperatorTypeEnum.BandPassFilterConstantTransitionGain, typeof(BandPassFilterConstantTransitionGain_OperatorValidator) },
-            { OperatorTypeEnum.Cache,typeof(Cache_OperatorValidator) },
+            { OperatorTypeEnum.Cache, typeof(Cache_OperatorValidator) },
             { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorValidator) },
             { OperatorTypeEnum.ClosestOverDimension, typeof(ClosestOverDimension_OperatorValidator) },
             { OperatorTypeEnum.ClosestOverDimensionExp, typeof(ClosestOverDimensionExp_OperatorValidator) },
@@ -93,7 +92,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorValidator) },
             { OperatorTypeEnum.Triangle, typeof(Triangle_OperatorValidator) },
         };
-        
+
         public Versatile_OperatorValidator(Operator op)
             : base(op)
         {
@@ -104,30 +103,26 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.Undefined:
-                    break;
-
-                case OperatorTypeEnum.Absolute:
-                    ExecuteValidator(new OperatorValidator_BootStrapped(op));
-                    break;
+                    // Handle Undefined
+                    return;
 
                 case OperatorTypeEnum.CustomOperator:
+                    // Handle CustomOperator
                     ExecuteValidator(new CustomOperator_OperatorValidator(op));
-                    break;
+                    return;
 
                 default:
-                    Type validatorType;
-                    if (!_validatorTypeDictionary.TryGetValue(operatorTypeEnum, out validatorType))
+                    // Handle ValidatorTypes in dictionary
+                    if (_validatorTypeDictionary.TryGetValue(operatorTypeEnum, out Type validatorType))
                     {
-                        throw new Exception($"{nameof(_validatorTypeDictionary)} does not contain key {nameof(OperatorTypeEnum)} '{operatorTypeEnum}'.");
+                        var validator = (IValidator)Activator.CreateInstance(validatorType, op);
+                        ExecuteValidator(validator);
+                        return;
                     }
-                    else
-                    {
-                        if (validatorType != null)
-                        {
-                            var validator = (IValidator)Activator.CreateInstance(validatorType, op);
-                            ExecuteValidator(validator);
-                        }
-                    }
+
+                    // Otherwise assume from System Document.
+                    ExecuteValidator(new OperatorValidator_FromSystemDocument(op));
+
                     break;
             }
         }

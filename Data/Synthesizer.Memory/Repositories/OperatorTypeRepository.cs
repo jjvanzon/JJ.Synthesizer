@@ -52,7 +52,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             EnsureEntity(41, "GreaterThan");
             EnsureEntity(42, "LessThanOrEqual");
             EnsureEntity(43, "GreaterThanOrEqual");
-            EnsureEntity(44, "And");
+            //EnsureEntity(44, "And");
             EnsureEntity(45, "Or");
             EnsureEntity(46, "Not");
             EnsureEntity(47, "If");

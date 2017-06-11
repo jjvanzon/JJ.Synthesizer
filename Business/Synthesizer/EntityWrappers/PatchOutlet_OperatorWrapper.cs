@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -11,13 +10,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public PatchOutlet_OperatorWrapper(Operator op)
             : base(op)
         { }
-
-        [Obsolete("Use Outlet.Name instead.", true)]
-        public string Name
-        {
-            get => Outlet.Name;
-            set => Outlet.Name = value;
-        }
 
         public Outlet Input
         {

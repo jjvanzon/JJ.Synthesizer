@@ -139,11 +139,11 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        public static IEnumerable<Operator> EnumerateDependentCustomOperators(this Patch patch)
+        public static IEnumerable<Operator> EnumerateDerivedOperators(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            // In case of no document, there are no dependent custom operators.
+            // In case of no document, there are no derived operators.
             if (patch.Document == null)
             {
                 return new Operator[0];
@@ -153,7 +153,7 @@ namespace JJ.Business.Synthesizer.Extensions
             IEnumerable<Operator> enumerable =
                 patch.Document
                      .GetPatchesAndHigherDocumentPatches()
-                     .SelectMany(x => x.EnumerateOperatorsOfType(OperatorTypeEnum.CustomOperator))
+                     .SelectMany(x => x.Operators)
                      .Where(x => x.UnderlyingPatch?.ID == patch.ID);
 
             return enumerable;

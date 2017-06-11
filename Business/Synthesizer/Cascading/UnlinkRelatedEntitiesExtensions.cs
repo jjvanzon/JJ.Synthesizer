@@ -1,9 +1,9 @@
-﻿using JJ.Framework.Exceptions;
-using System.Linq;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
-namespace JJ.Business.Synthesizer.Extensions
+namespace JJ.Business.Synthesizer.Cascading
 {
     /// <summary> Unlinks related entities that are not inherently part of the entity. </summary>
     public static class UnlinkRelatedEntitiesExtensions

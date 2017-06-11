@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;

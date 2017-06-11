@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
@@ -423,7 +424,15 @@ namespace JJ.Business.Synthesizer
             string patchName = operatorTypeEnum.ToString();
             Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleOrDefaultWithClearException(new { name = patchName });
 
-            return patch;
+            if (patch == null)
+            {
+                return null;
+            }
+
+            // Get from current context, instead of cached context.
+            Patch patch2 = _repositories.PatchRepository.Get(patch.ID);
+
+            return patch2;
         }
     }
 }

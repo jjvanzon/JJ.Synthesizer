@@ -10,7 +10,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         public OperatorWarningValidator_Versatile(Operator op)
             : base(op)
         {
-
             ExecuteValidator(new OperatorWarningValidator_Basic(op));
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
@@ -18,7 +17,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 case OperatorTypeEnum.Add: ExecuteValidator(new Add_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AllPassFilter: ExecuteValidator(new AllPassFilter_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.And: ExecuteValidator(new And_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AverageFollower: ExecuteValidator(new AverageFollower_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AverageOverDimension: ExecuteValidator(new AverageOverDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AverageOverInlets: ExecuteValidator(new AverageOverInlets_OperatorWarningValidator(op)); break;

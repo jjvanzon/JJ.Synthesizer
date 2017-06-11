@@ -93,6 +93,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             new HashSet<OperatorTypeEnum>
             {
                 OperatorTypeEnum.Absolute,
+                OperatorTypeEnum.And,
                 OperatorTypeEnum.CustomOperator
             };
 

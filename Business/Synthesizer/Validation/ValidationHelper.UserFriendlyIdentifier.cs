@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Validation
     /// But they attempt to be the clearest identification to the user.
     /// Quotes are added around names, so are already part of the identifier.
     /// </summary>
-    internal static partial class ValidationHelper
+    public static partial class ValidationHelper
     {
         [NotNull]
         public static string GetUserFriendlyIdentifier([NotNull] AudioFileOutput entity)

@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;

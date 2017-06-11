@@ -37,32 +37,28 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (repositories == null) throw new NullException(() => repositories);
 
-            switch (operatorTypeEnum)
+            // Handle Undefined.
+            if (operatorTypeEnum == OperatorTypeEnum.Undefined)
             {
-                case OperatorTypeEnum.Undefined:
-                {
-                    // Handle Undefined.
-                    op.UnlinkOperatorType();
-                    return;
-                }
-
-                case OperatorTypeEnum.Absolute:
-                {
-                    // Try use system patch
-                    var documentManager = new DocumentManager(repositories);
-                    Patch patch = documentManager.GetSystemPatch(operatorTypeEnum);
-                    op.UnderlyingPatch = patch;
-                    return;
-                }
-
-                default:
-                {
-                    // Use classic OperatorType entity
-                    OperatorType operatorType = repositories.OperatorTypeRepository.TryGet((int)operatorTypeEnum);
-                    op.LinkTo(operatorType);
-                    return;
-                }
+                op.UnlinkOperatorType();
+                op.UnlinkUnderlyingPatch();
+                return;
             }
+
+            // Try use system patch
+            var documentManager = new DocumentManager(repositories);
+            Patch patch = documentManager.TryGetSystemPatch(operatorTypeEnum);
+            if (patch != null)
+            {
+                op.LinkToUnderlyingPatch(patch);
+                op.UnlinkOperatorType();
+                return;
+            }
+
+            // Use classic OperatorType entity
+            OperatorType operatorType = repositories.OperatorTypeRepository.Get((int)operatorTypeEnum);
+            op.LinkTo(operatorType);
+            op.UnlinkUnderlyingPatch();
         }
 
         public static IList<Operator> GetConnectedOperators(this Operator op)

@@ -6,7 +6,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal static partial class ValidationHelper
+    public static partial class ValidationHelper
     {
         [NotNull] public static string GetMessagePrefix([NotNull] AudioFileOutput entity) => GetMessagePrefix(ResourceFormatter.AudioFileOutput, GetUserFriendlyIdentifier(entity));
         [NotNull] public static string GetMessagePrefix([NotNull] AudioOutput entity) => GetMessagePrefix(ResourceFormatter.AudioOutput, GetUserFriendlyIdentifier(entity));

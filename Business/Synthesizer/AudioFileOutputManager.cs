@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Cascading;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 

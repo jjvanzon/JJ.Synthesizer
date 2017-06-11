@@ -649,9 +649,9 @@
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
     <Compile Include="Helpers\AlreadyDoneIsNullException.cs" />
     <Compile Include="Extensions\AudioFileOutputExtensions.cs" />
-    <Compile Include="Extensions\DeleteRelatedEntitiesExtensions.cs" />
+    <Compile Include="Cascading\DeleteRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\RecursionExtensions.cs" />
-    <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
+    <Compile Include="Cascading\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
@@ -697,7 +697,7 @@
     <Compile Include="Validation\DataProperty\ResampleInterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_BootStrapped.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_FromSystemDocument.cs" />
     <Compile Include="Validation\Operators\AllPassFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\HighShelfFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\NotchFilter_OperatorValidator.cs" />
@@ -741,7 +741,7 @@
     <Compile Include="Validation\Operators\MaxFollower_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Not_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Or_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\And_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\2017-06-11 Backup of And_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\GreaterThan_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\GreaterThanOrEqual_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\LessThanOrEqual_OperatorValidator.cs" />
@@ -830,7 +830,7 @@
     <Compile Include="Warnings\Operators\If_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Not_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Or_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\And_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2017-06-11 Backup of And_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\GreaterThan_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\GreaterThanOrEqual_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\LessThanOrEqual_OperatorWarningValidator.cs" />
