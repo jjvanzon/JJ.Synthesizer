@@ -6,9 +6,9 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class OperatorWarningValidator_Base : VersatileValidator<Operator>
+    internal class OperatorWarningValidator_Basic : VersatileValidator<Operator>
     {
-        public OperatorWarningValidator_Base([NotNull] Operator op)
+        public OperatorWarningValidator_Basic([NotNull] Operator op)
             : base(op)
         {
             foreach (Inlet inlet in op.Inlets.OrderBy(x => x.ListIndex))

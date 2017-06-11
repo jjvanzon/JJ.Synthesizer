@@ -9,7 +9,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class OperatorWarningValidator_WithUnderlyingEntities : VersatileValidator<Operator>
+    internal class OperatorWarningValidator_VersatileWithUnderlyingEntities : VersatileValidator<Operator>
     {
         /// <summary>
         /// Validates an operator, but not its descendant operators.
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         /// in some cases you do not validate the whole document, but a narrower scope,
         /// such as a patch.
         /// </summary>
-        public OperatorWarningValidator_WithUnderlyingEntities(
+        public OperatorWarningValidator_VersatileWithUnderlyingEntities(
             [NotNull] Operator op,
             [NotNull] ISampleRepository sampleRepository,
             [CanBeNull] HashSet<object> alreadyDone = null)

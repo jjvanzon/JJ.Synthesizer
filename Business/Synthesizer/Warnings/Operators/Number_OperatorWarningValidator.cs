@@ -2,10 +2,11 @@
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Number_OperatorWarningValidator : OperatorWarningValidator_Base
+    internal class Number_OperatorWarningValidator : VersatileValidator<Operator>
     {
         public Number_OperatorWarningValidator(Operator op)
             : base(op)

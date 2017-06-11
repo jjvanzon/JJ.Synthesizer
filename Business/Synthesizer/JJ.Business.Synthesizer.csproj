@@ -926,7 +926,7 @@
     <Compile Include="Warnings\Operators\SawUp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\PatchWarningValidator_WithRelatedEntities.cs" />
     <Compile Include="Warnings\SampleWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\OperatorWarningValidator_Base.cs" />
+    <Compile Include="Warnings\Operators\OperatorWarningValidator_Basic.cs" />
     <Compile Include="Warnings\Operators\Sample_OperatorWarningValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
     <Compile Include="Validation\Operators\TimePower_OperatorValidator.cs" />
@@ -957,7 +957,7 @@
     <Compile Include="Warnings\Operators\PatchOutlet_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Divide_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MultiplyWithOrigin_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\OperatorWarningValidator_WithUnderlyingEntities.cs" />
+    <Compile Include="Warnings\Operators\OperatorWarningValidator_VersatileWithUnderlyingEntities.cs" />
     <Compile Include="Warnings\Operators\Subtract_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Number_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\ScaleWarningValidator.cs" />

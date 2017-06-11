@@ -2,10 +2,11 @@
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Loop_OperatorWarningValidator : OperatorWarningValidator_Base
+    internal class Loop_OperatorWarningValidator : VersatileValidator<Operator>
     {
         private static readonly DimensionEnum[] _dimensionEnumsToCheck =
         {
