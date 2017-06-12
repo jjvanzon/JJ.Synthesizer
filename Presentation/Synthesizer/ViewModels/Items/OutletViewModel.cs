@@ -18,9 +18,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// <summary> Some inlets that have to be stored, might not have to be shown. </summary>
         public bool Visible { get; set; }
 
-        /// <summary> Does not necessarily need to be displayed, but does need to be passed around, so it is present when a new object is saved. </summary>
-        public int ListIndex { get; set; }
-
         public bool HasWarningAppearance { get; set; }
         public float? AverageConnectionDistance { get; set; }
 
@@ -31,13 +28,17 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public OperatorViewModel Operator { get; set; }
 
         // NOTE:
-        // See InletViewModel for the comment that also applies here.
-
-        /// <summary> Read-only, nullable, not necessarily displayed. </summary>
-        public IDAndName Dimension { get; set; }
+        // The following properties are not displayed,
+        // but are there to have all data present in the view model to restore to a valid state of the entity.
 
         /// <summary> not displayed  </summary>
+        public int ListIndex { get; set; }
+        /// <summary> not displayed  </summary>
+        public IDAndName Dimension { get; set; }
+        /// <summary> not displayed  </summary>
         public bool IsObsolete { get; set; }
+        /// <summary> not displayed  </summary>
+        public bool NameOrDimensionHidden { get; set; }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }

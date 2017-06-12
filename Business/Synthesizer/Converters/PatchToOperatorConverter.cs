@@ -2,7 +2,6 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Cascading;
 using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -114,6 +113,7 @@ namespace JJ.Business.Synthesizer.Converters
             destInlet.ListIndex = sourceInlet.ListIndex;
             destInlet.DefaultValue = sourceInlet.DefaultValue;
             destInlet.WarnIfEmpty = sourceInlet.WarnIfEmpty;
+            destInlet.NameOrDimensionHidden = sourceInlet.NameOrDimensionHidden;
             destInlet.IsObsolete = false;
 
             return destInlet;
@@ -164,6 +164,7 @@ namespace JJ.Business.Synthesizer.Converters
             destOutlet.Name = sourceOutlet.Name;
             destOutlet.Dimension = sourceOutlet.Dimension;
             destOutlet.ListIndex = sourceOutlet.ListIndex;
+            destOutlet.NameOrDimensionHidden = sourceOutlet.NameOrDimensionHidden;
             destOutlet.IsObsolete = false;
 
             return destOutlet;

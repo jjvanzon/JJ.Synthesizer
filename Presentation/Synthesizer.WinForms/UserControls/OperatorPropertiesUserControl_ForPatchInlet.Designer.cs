@@ -37,6 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelDimension = new System.Windows.Forms.Label();
             this.labelWarnIfEmpty = new System.Windows.Forms.Label();
             this.checkBoxWarnIfEmpty = new System.Windows.Forms.CheckBox();
+            this.checkBoxNameOrDimensionHidden = new System.Windows.Forms.CheckBox();
+            this.labelNameOrDimensionHidden = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumber)).BeginInit();
             this.SuspendLayout();
             // 
@@ -179,12 +181,33 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.checkBoxWarnIfEmpty.TabIndex = 40;
             this.checkBoxWarnIfEmpty.UseVisualStyleBackColor = true;
             // 
+            // checkBoxNameOrDimensionHidden
+            // 
+            this.checkBoxNameOrDimensionHidden.AutoSize = true;
+            this.checkBoxNameOrDimensionHidden.Location = new System.Drawing.Point(253, 317);
+            this.checkBoxNameOrDimensionHidden.Name = "checkBoxNameOrDimensionHidden";
+            this.checkBoxNameOrDimensionHidden.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxNameOrDimensionHidden.TabIndex = 42;
+            this.checkBoxNameOrDimensionHidden.UseVisualStyleBackColor = true;
+            // 
+            // labelNameOrDimensionHidden
+            // 
+            this.labelNameOrDimensionHidden.Location = new System.Drawing.Point(95, 309);
+            this.labelNameOrDimensionHidden.Margin = new System.Windows.Forms.Padding(0);
+            this.labelNameOrDimensionHidden.Name = "labelNameOrDimensionHidden";
+            this.labelNameOrDimensionHidden.Size = new System.Drawing.Size(147, 30);
+            this.labelNameOrDimensionHidden.TabIndex = 41;
+            this.labelNameOrDimensionHidden.Text = "labelNameOrDimensionHidden";
+            this.labelNameOrDimensionHidden.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // OperatorPropertiesUserControl_ForPatchInlet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Controls.Add(this.checkBoxNameOrDimensionHidden);
+            this.Controls.Add(this.labelNameOrDimensionHidden);
             this.Controls.Add(this.checkBoxWarnIfEmpty);
             this.Controls.Add(this.labelWarnIfEmpty);
             this.Controls.Add(this.labelDimension);
@@ -216,6 +239,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this.labelDimension, 0);
             this.Controls.SetChildIndex(this.labelWarnIfEmpty, 0);
             this.Controls.SetChildIndex(this.checkBoxWarnIfEmpty, 0);
+            this.Controls.SetChildIndex(this.labelNameOrDimensionHidden, 0);
+            this.Controls.SetChildIndex(this.checkBoxNameOrDimensionHidden, 0);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumber)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -231,5 +256,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected System.Windows.Forms.Label labelDimension;
         protected System.Windows.Forms.Label labelWarnIfEmpty;
         private System.Windows.Forms.CheckBox checkBoxWarnIfEmpty;
+        private System.Windows.Forms.CheckBox checkBoxNameOrDimensionHidden;
+        protected System.Windows.Forms.Label labelNameOrDimensionHidden;
     }
 }

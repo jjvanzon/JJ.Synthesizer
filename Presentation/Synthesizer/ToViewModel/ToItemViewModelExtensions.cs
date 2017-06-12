@@ -166,6 +166,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.IsObsolete = entity.IsObsolete;
             viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.WarnIfEmpty = entity.WarnIfEmpty;
+            viewModel.NameOrDimensionHidden = entity.NameOrDimensionHidden;
             viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
             viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository);
             viewModel.ConnectionDistance = ViewModelHelper.TryGetConnectionDistance(entity, entityPositionManager);
@@ -299,6 +300,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.ID = entity.ID;
             viewModel.Name = entity.Name;
             viewModel.ListIndex = entity.ListIndex;
+            viewModel.NameOrDimensionHidden = entity.NameOrDimensionHidden;
             viewModel.IsObsolete = entity.IsObsolete;
             viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.Visible = ViewModelHelper.GetOutletVisible(entity);

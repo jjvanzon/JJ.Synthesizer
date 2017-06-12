@@ -25,15 +25,17 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         // but are there to have all data present in the view model to restore to a valid state of the entity.
 
         /// <summary> not displayed </summary>
+        public IDAndName Dimension { get; set; }
+        /// <summary> not displayed </summary>
         public int ListIndex { get; set; }
         /// <summary> not displayed </summary>
         public double? DefaultValue { get; set; }
-        /// <summary> not displayed </summary>
-        public IDAndName Dimension { get; set; }
         /// <summary> not displayed  </summary>
         public bool IsObsolete { get; set; }
         /// <summary> not displayed  </summary>
         public bool WarnIfEmpty { get; set; }
+        /// <summary> not displayed  </summary>
+        public bool NameOrDimensionHidden { get; set; }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }

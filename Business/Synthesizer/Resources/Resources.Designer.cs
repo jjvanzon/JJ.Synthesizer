@@ -1510,6 +1510,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide Name/Dimension.
+        /// </summary>
+        internal static string NameOrDimensionHidden {
+            get {
+                return ResourceManager.GetString("NameOrDimensionHidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Negative.
         /// </summary>
         internal static string Negative {

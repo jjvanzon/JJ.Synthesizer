@@ -741,7 +741,6 @@
     <Compile Include="Validation\Operators\MaxFollower_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Not_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Or_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2017-06-11 Backup of And_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\GreaterThan_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\GreaterThanOrEqual_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\LessThanOrEqual_OperatorValidator.cs" />
@@ -788,11 +787,8 @@
     <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2017-06-11 Backup of Absolute_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\HighShelfFilter_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\2017-06-11 Backup of InletWarningValidator_BootStrapped.cs" />
     <Compile Include="Warnings\Operators\LowShelfFilter_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2017-06-11 Backup of OperatorWarningValidator_BootStrapped.cs" />
     <Compile Include="Warnings\Operators\PeakingEQFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\AllPassFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\NotchFilter_OperatorWarningValidator.cs" />
@@ -830,7 +826,6 @@
     <Compile Include="Warnings\Operators\If_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Not_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Or_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2017-06-11 Backup of And_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\GreaterThan_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\GreaterThanOrEqual_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\LessThanOrEqual_OperatorWarningValidator.cs" />

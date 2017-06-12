@@ -20,6 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelDimension.Text = ResourceFormatter.Dimension;
             labelDefaultValue.Text = ResourceFormatter.DefaultValue;
             labelWarnIfEmpty.Text = ResourceFormatter.WarnIfEmpty;
+            labelNameOrDimensionHidden.Text = ResourceFormatter.NameOrDimensionHidden;
         }
 
         protected override void AddProperties()
@@ -30,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(_labelName, _textBoxName);
             AddProperty(labelNumber, numericUpDownNumber);
             AddProperty(labelWarnIfEmpty, checkBoxWarnIfEmpty);
+            AddProperty(labelNameOrDimensionHidden, checkBoxNameOrDimensionHidden);
         }
 
         // Binding
@@ -47,6 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             numericUpDownNumber.Value = ViewModel.Number;
             textBoxDefaultValue.Text = ViewModel.DefaultValue;
             checkBoxWarnIfEmpty.Checked = ViewModel.WarnIfEmpty;
+            checkBoxNameOrDimensionHidden.Checked = ViewModel.NameOrDimensionHidden;
 
             if (comboBoxDimension.DataSource == null)
             {
@@ -66,6 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.DefaultValue = textBoxDefaultValue.Text;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
             ViewModel.WarnIfEmpty = checkBoxWarnIfEmpty.Checked;
+            ViewModel.NameOrDimensionHidden = checkBoxNameOrDimensionHidden.Checked;
         }
     }
 }

@@ -169,6 +169,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Mono => Resources.Mono;
         public static string Multiply => Resources.Multiply;
         public static string MultiplyWithOrigin => Resources.MultiplyWithOrigin;
+        public static string NameOrDimensionHidden => Resources.NameOrDimensionHidden;
         public static string Negative => Resources.Negative;
         public static string Node => Resources.Node;
         public static string Nodes => Resources.Nodes;

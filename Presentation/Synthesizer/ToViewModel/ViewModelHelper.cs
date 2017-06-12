@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer;
@@ -112,40 +113,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch,
                 OperatorTypeEnums_WithoutAlternativePropertiesView_WithoutUnderlyingPatch).ToHashSet();
 
-
+        [Obsolete("Will be replaced with Inlet.NameOrDimensionHidden, "+
+                  "but only after all standard operators have been bootstrapped " +
+                  "into the System Document.")]
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithHiddenInletNames { get; } =
             new HashSet<OperatorTypeEnum>
             {
                 OperatorTypeEnum.Add,
-                //OperatorTypeEnum.Divide,
-                //OperatorTypeEnum.MultiplyWithOrigin,
                 OperatorTypeEnum.PatchInlet,
                 OperatorTypeEnum.PatchOutlet,
-                //OperatorTypeEnum.Power,
-                //OperatorTypeEnum.Sine,
                 OperatorTypeEnum.Subtract,
-                //OperatorTypeEnum.TimePower,
                 OperatorTypeEnum.Number,
                 OperatorTypeEnum.Curve,
-                //OperatorTypeEnum.Sample,
                 OperatorTypeEnum.Noise,
-                //OperatorTypeEnum.Interpolate,
-                //OperatorTypeEnum.CustomOperator,
-                //OperatorTypeEnum.SawUp,
-                //OperatorTypeEnum.Square,
-                //OperatorTypeEnum.Triangle,
-                //OperatorTypeEnum.Exponent,
-                //OperatorTypeEnum.Loop,
-                //OperatorTypeEnum.Select,
-                //OperatorTypeEnum.Stretch,
-                //OperatorTypeEnum.Squash,
-                //OperatorTypeEnum.Shift,
-                //OperatorTypeEnum.Reset,
-                //OperatorTypeEnum.LowPassFilter,
-                //OperatorTypeEnum.HighPassFilter,
-                //OperatorTypeEnum.Spectrum,
-                //OperatorTypeEnum.Pulse,
-                //OperatorTypeEnum.Random,
                 OperatorTypeEnum.Equal,
                 OperatorTypeEnum.NotEqual,
                 OperatorTypeEnum.LessThan,
@@ -155,139 +135,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.And,
                 OperatorTypeEnum.Or,
                 OperatorTypeEnum.Not,
-                //OperatorTypeEnum.If,
-                //OperatorTypeEnum.MinFollower,
-                //OperatorTypeEnum.MaxFollower,
-                //OperatorTypeEnum.AverageFollower,
-                //OperatorTypeEnum.Scaler,
-                //OperatorTypeEnum.SawDown,
                 OperatorTypeEnum.Absolute,
-                //OperatorTypeEnum.Reverse,
-                //OperatorTypeEnum.Round,
                 OperatorTypeEnum.Negative,
                 OperatorTypeEnum.OneOverX,
-                //OperatorTypeEnum.Cache,
-                //OperatorTypeEnum.PulseTrigger,
-                //OperatorTypeEnum.ChangeTrigger,
-                //OperatorTypeEnum.ToggleTrigger,
                 OperatorTypeEnum.GetDimension,
-                //OperatorTypeEnum.SetDimension,
                 OperatorTypeEnum.Hold,
-                //OperatorTypeEnum.RangeOverDimension,
-                //OperatorTypeEnum.RangeOverOutlets,
                 OperatorTypeEnum.DimensionToOutlets,
                 OperatorTypeEnum.InletsToDimension,
                 OperatorTypeEnum.MaxOverInlets,
                 OperatorTypeEnum.MinOverInlets,
                 OperatorTypeEnum.AverageOverInlets,
-                //OperatorTypeEnum.MaxOverDimension,
-                //OperatorTypeEnum.MinOverDimension,
-                //OperatorTypeEnum.AverageOverDimension,
-                //OperatorTypeEnum.SumOverDimension,
-                //OperatorTypeEnum.SumFollower,
                 OperatorTypeEnum.Multiply,
-                //OperatorTypeEnum.ClosestOverInlets,
-                //OperatorTypeEnum.ClosestOverDimension,
-                //OperatorTypeEnum.ClosestOverInletsExp,
-                //OperatorTypeEnum.ClosestOverDimensionExp,
                 OperatorTypeEnum.SortOverInlets,
-                //OperatorTypeEnum.SortOverDimension,
-                //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-                //OperatorTypeEnum.BandPassFilterConstantPeakGain,
-                //OperatorTypeEnum.NotchFilter,
-                //OperatorTypeEnum.AllPassFilter,
-                //OperatorTypeEnum.PeakingEQFilter,
-                //OperatorTypeEnum.LowShelfFilter,
-                //OperatorTypeEnum.HighShelfFilter
             };
 
+        [Obsolete("Will be replaced with Outlet.NameOrDimensionHidden, " +
+                  "but only after all standard operators have been bootstrapped " +
+                  "into the System Document.")]
         // A list until it will have more items. Then it might be made a HashSet for performance.
         public static IList<OperatorTypeEnum> OperatorTypeEnums_WithVisibleOutletNames { get; } =
             new List<OperatorTypeEnum>
             {
-                //OperatorTypeEnum.Absolute,
-                //OperatorTypeEnum.Add,
-                //OperatorTypeEnum.AllPassFilter,
-                //OperatorTypeEnum.And,
-                //OperatorTypeEnum.AverageOverInlets,
-                //OperatorTypeEnum.AverageFollower,
-                //OperatorTypeEnum.AverageOverDimension,
-                //OperatorTypeEnum.BandPassFilterConstantPeakGain,
-                //OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-                //OperatorTypeEnum.Cache,
                 OperatorTypeEnum.ChangeTrigger,
-                //OperatorTypeEnum.ClosestOverInlets,
-                //OperatorTypeEnum.ClosestOverInletsExp,
-                //OperatorTypeEnum.ClosestOverDimension,
-                //OperatorTypeEnum.ClosestOverDimensionExp,
-                //OperatorTypeEnum.Curve,
-                OperatorTypeEnum.CustomOperator,
-                //OperatorTypeEnum.Divide,
-                //OperatorTypeEnum.Equal,
-                //OperatorTypeEnum.Exponent,
-                //OperatorTypeEnum.GetDimension,
-                //OperatorTypeEnum.GreaterThan,
-                //OperatorTypeEnum.GreaterThanOrEqual,
-                //OperatorTypeEnum.HighPassFilter,
-                //OperatorTypeEnum.HighShelfFilter,
-                //OperatorTypeEnum.Hold,
-                //OperatorTypeEnum.If,
-                //OperatorTypeEnum.Interpolate,
-                //OperatorTypeEnum.LessThan,
-                //OperatorTypeEnum.LessThanOrEqual,
-                //OperatorTypeEnum.Loop,
-                //OperatorTypeEnum.LowPassFilter,
-                //OperatorTypeEnum.LowShelfFilter,
-                //OperatorTypeEnum.InletsToDimension,
-                //OperatorTypeEnum.DimensionToOutlets,
-                //OperatorTypeEnum.MaxOverInlets,
-                //OperatorTypeEnum.MaxFollower,
-                //OperatorTypeEnum.MaxOverDimension,
-                //OperatorTypeEnum.MinOverInlets,
-                //OperatorTypeEnum.MinFollower,
-                //OperatorTypeEnum.MinOverDimension,
-                //OperatorTypeEnum.Multiply,
-                //OperatorTypeEnum.MultiplyWithOrigin,
-                //OperatorTypeEnum.Negative,
-                //OperatorTypeEnum.Noise,
-                //OperatorTypeEnum.Not,
-                //OperatorTypeEnum.NotchFilter,
-                //OperatorTypeEnum.NotEqual,
-                //OperatorTypeEnum.Number,
-                //OperatorTypeEnum.OneOverX,
-                //OperatorTypeEnum.Or,
-                //OperatorTypeEnum.PatchInlet,
-                //OperatorTypeEnum.PatchOutlet,
-                //OperatorTypeEnum.PeakingEQFilter,
-                //OperatorTypeEnum.Power,
-                //OperatorTypeEnum.Pulse,
                 OperatorTypeEnum.PulseTrigger,
-                //OperatorTypeEnum.Random,
-                //OperatorTypeEnum.RangeOverDimension,
-                //OperatorTypeEnum.RangeOverOutlets,
                 OperatorTypeEnum.Reset,
-                //OperatorTypeEnum.Reverse,
-                //OperatorTypeEnum.Round,
-                //OperatorTypeEnum.Sample,
-                //OperatorTypeEnum.SawDown,
-                //OperatorTypeEnum.SawUp,
-                //OperatorTypeEnum.Scaler,
-                //OperatorTypeEnum.Select,
                 OperatorTypeEnum.SetDimension,
-                //OperatorTypeEnum.Shift,
-                //OperatorTypeEnum.Sine,
-                //OperatorTypeEnum.SortOverInlets,
-                //OperatorTypeEnum.SortOverDimension,
-                //OperatorTypeEnum.Spectrum,
-                //OperatorTypeEnum.Square,
-                //OperatorTypeEnum.Squash,
-                //OperatorTypeEnum.Stretch,
-                //OperatorTypeEnum.Subtract,
-                //OperatorTypeEnum.SumFollower,
-                //OperatorTypeEnum.SumOverDimension,
-                //OperatorTypeEnum.TimePower,
                 OperatorTypeEnum.ToggleTrigger,
-                //OperatorTypeEnum.Triangle,
             };
 
         // CurrentInstrument
@@ -1048,17 +921,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
-            if (operatorTypeEnum != OperatorTypeEnum.Undefined)
+            bool nameOrDimensionHidden = inlet.NameOrDimensionHidden ||
+                                         OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum);
+            if (!nameOrDimensionHidden)
             {
-                if (!OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum))
-                {
-                    OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                        inlet.Operator,
-                        curveRepository,
-                        sampleRepository);
-                    string inletDisplayName = wrapper.GetInletDisplayName(inlet);
-                    sb.Append(inletDisplayName);
-                }
+                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                    inlet.Operator,
+                    curveRepository,
+                    sampleRepository);
+                string inletDisplayName = wrapper.GetInletDisplayName(inlet);
+                sb.Append(inletDisplayName);
             }
 
             if (inlet.InputOutlet == null)
@@ -1095,41 +967,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             switch (outlet.Operator.GetOperatorTypeEnum())
             {
-                case OperatorTypeEnum.CustomOperator:
-                    return GetOutletCaption_ForCustomOperator(outlet);
-
                 case OperatorTypeEnum.RangeOverOutlets:
                     return GetOutletCaption_ForRangeOverOutlets(outlet);
 
                 default:
                     return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository);
             }
-        }
-
-        private static string GetOutletCaption_ForCustomOperator(Outlet outlet)
-        {
-            var sb = new StringBuilder();
-
-            bool hasSingleOutlet = outlet.Operator.Outlets.Count == 1;
-            if (!hasSingleOutlet)
-            {
-                var wrapper = new CustomOperator_OperatorWrapper(outlet.Operator);
-
-                string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
-                sb.Append(inletDisplayName);
-            }
-
-            if (outlet.IsObsolete)
-            {
-                AppendObsoleteFlag(sb);
-            }
-
-            if (_idsVisible)
-            {
-                sb.Append($" ({outlet.ID})");
-            }
-
-            return sb.ToString();
         }
 
         private static string GetOutletCaption_ForRangeOverOutlets(Outlet outlet)
@@ -1177,7 +1020,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
+
+            bool nameOrDimensionHidden = outlet.NameOrDimensionHidden;
             if (OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum))
+            {
+                nameOrDimensionHidden = false;
+            }
+
+            if (!nameOrDimensionHidden)
             {
                 OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
                     outlet.Operator,

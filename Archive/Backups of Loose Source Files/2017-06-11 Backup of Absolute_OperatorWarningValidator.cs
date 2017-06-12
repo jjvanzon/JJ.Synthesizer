@@ -1,5 +1,5 @@
 ﻿//using JJ.Data.Synthesizer.Entities;
-
+ 
 //namespace JJ.Business.Synthesizer.Warnings.Operators
 //{
 //    internal class Absolute_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults

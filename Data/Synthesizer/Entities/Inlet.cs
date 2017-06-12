@@ -28,6 +28,7 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual bool IsObsolete { get; set; }
 
         public virtual bool WarnIfEmpty { get; set; }
+        public virtual bool NameOrDimensionHidden { get; set; }
 
         /// <summary> parent </summary>
         [NotNull]

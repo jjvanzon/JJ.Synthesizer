@@ -1049,4 +1049,7 @@
   <data name="Warnings" xml:space="preserve">
     <value>Warnings</value>
   </data>
+  <data name="NameOrDimensionHidden" xml:space="preserve">
+    <value>Hide Name/Dimension</value>
+  </data>
 </root>

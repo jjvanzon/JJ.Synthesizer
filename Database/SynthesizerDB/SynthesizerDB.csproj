@@ -374,6 +374,10 @@
     <Content Include="2017-06-03 030 SynthesizerDB Dimension delete 31 - Result.sql" />
     <Content Include="2017-06-03 040 SynthesizerDB Dimension 73 - Radians.sql" />
     <Content Include="2017-06-03 050 SynthesizerDB Dimension 74 - HighestFrequency.sql" />
+    <Content Include="2017-06-12 030 SynthesizerDB Outlet NameOrDimensionHidden.sql" />
+    <Content Include="2017-06-12 010 SynthesizerDB Inlet NameOrDimensionHidden.sql" />
+    <Content Include="2017-06-12 040 SynthesizerDB Outlet NameOrDimensionHidden not null.sql" />
+    <Content Include="2017-06-12 020 SynthesizerDB Inlet NameOrDimensionHidden not null.sql" />
     <Content Include="2017-06-11 040 SynthesizerDB OperatorType delete 44 - And.sql" />
     <Content Include="2017-06-11 030 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-06-10 100 SynthesizerDB RUN UTILITY.sql" />

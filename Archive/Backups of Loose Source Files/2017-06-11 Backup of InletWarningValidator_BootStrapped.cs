@@ -2,7 +2,7 @@
 //using JJ.Business.Synthesizer.Validation;
 //using JJ.Data.Synthesizer.Entities;
 //using JJ.Framework.Validation;
-
+ 
 //namespace JJ.Business.Synthesizer.Warnings
 //{
 //    internal class InletWarningValidator_BootStrapped : VersatileValidator<Inlet>

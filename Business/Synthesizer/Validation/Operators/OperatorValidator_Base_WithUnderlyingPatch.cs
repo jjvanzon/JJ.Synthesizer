@@ -125,6 +125,18 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet.WarnIfEmpty);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
+
+                // ReSharper disable once InvertIf
+                if (destInlet.NameOrDimensionHidden != sourceInlet.NameOrDimensionHidden)
+                {
+                    string message = GetInletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.NameOrDimensionHidden,
+                        sourceInlet,
+                        destInlet,
+                        sourceInlet.NameOrDimensionHidden,
+                        destInlet.NameOrDimensionHidden);
+                    ValidationMessages.Add(nameof(Inlet), message);
+                }
             }
         }
 
@@ -210,6 +222,18 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destOutlet,
                         sourceOutlet.GetDimensionEnum(),
                         destOutlet.GetDimensionEnum());
+                    ValidationMessages.Add(nameof(Outlet), message);
+                }
+
+                // ReSharper disable once InvertIf
+                if (destOutlet.NameOrDimensionHidden != sourceOutlet.NameOrDimensionHidden)
+                {
+                    string message = GetOutletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.NameOrDimensionHidden,
+                        sourceOutlet,
+                        destOutlet,
+                        sourceOutlet.NameOrDimensionHidden,
+                        destOutlet.NameOrDimensionHidden);
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
             }

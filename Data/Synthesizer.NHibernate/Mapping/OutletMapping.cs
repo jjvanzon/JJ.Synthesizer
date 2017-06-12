@@ -12,6 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.Name);
             Map(x => x.ListIndex);
             Map(x => x.IsObsolete);
+            Map(x => x.NameOrDimensionHidden);
             References(x => x.Operator, ColumnNames.OperatorID);
             References(x => x.Dimension, ColumnNames.DimensionID);
             HasMany(x => x.ConnectedInlets).KeyColumn(ColumnNames.InputOutletID).Inverse();

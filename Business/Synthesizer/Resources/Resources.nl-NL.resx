@@ -1055,4 +1055,7 @@
   <data name="CircularInputOutputReference" xml:space="preserve">
     <value>Invoer/uitvoer heeft cirkelverwijzing</value>
   </data>
+  <data name="NameOrDimensionHidden" xml:space="preserve">
+    <value>Verberg naam/dimensie</value>
+  </data>
 </root>
