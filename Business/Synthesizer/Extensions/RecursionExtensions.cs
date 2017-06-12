@@ -1,6 +1,4 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Synthesizer.Entities;
@@ -10,17 +8,17 @@ namespace JJ.Business.Synthesizer.Extensions
     public static class RecursionExtensions
     {
         /// <summary> Tells us whether an operator is circular within a patch. </summary>
-        public static bool IsCircular(this Operator op)
+        public static bool HasCircularInputOutput(this Operator op)
         {
             if (op == null) throw new NullException(() => op);
 
             var alreadyDone = new HashSet<Operator>();
 
-            return IsCircular(op, alreadyDone);
+            return HasCircularInputOutput(op, alreadyDone);
         }
 
         // ReSharper disable once SuggestBaseTypeForParameter
-        private static bool IsCircular(this Operator op, HashSet<Operator> alreadyDone)
+        private static bool HasCircularInputOutput(this Operator op, HashSet<Operator> alreadyDone)
         {
             // Be null-tolerant, because you might call it in places where the entities are not valid.
             if (op == null)
@@ -40,7 +38,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 // ReSharper disable once InvertIf
                 if (inlet.InputOutlet != null)
                 {
-                    if (IsCircular(inlet.InputOutlet.Operator, alreadyDone))
+                    if (HasCircularInputOutput(inlet.InputOutlet.Operator, alreadyDone))
                     {
                         return true;
                     }
@@ -50,13 +48,6 @@ namespace JJ.Business.Synthesizer.Extensions
             alreadyDone.Remove(op);
 
             return false;
-        }
-
-        public static bool HasCircularUnderlyingPatch(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            return document.HasCircularUnderlyingPatch(new HashSet<object>());
         }
 
         public static bool HasCircularUnderlyingPatch(this Patch patch)
@@ -69,23 +60,28 @@ namespace JJ.Business.Synthesizer.Extensions
         public static bool HasCircularUnderlyingPatch(this Operator op)
         {
             if (op == null) throw new NullException(() => op);
-            if (op.GetOperatorTypeEnum() != OperatorTypeEnum.CustomOperator) throw new NotEqualException(() => op.GetOperatorTypeEnum(), OperatorTypeEnum.CustomOperator);
+
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (op.UnderlyingPatch == null)
+            {
+                return false;
+            }
 
             return op.HasCircularUnderlyingPatch(new HashSet<object>());
         }
 
         private static bool HasCircularUnderlyingPatch(this Patch patch, HashSet<object> alreadyDone)
         {
-            bool wasAlreadyAdded = !alreadyDone.Add(patch);
-            if (wasAlreadyAdded)
+            if (alreadyDone.Contains(patch))
             {
                 return true;
             }
 
-            IList<Operator> customOperators = patch.GetOperatorsOfType(OperatorTypeEnum.CustomOperator);
-            foreach (Operator customOperator in customOperators)
+            alreadyDone.Add(patch);
+
+            foreach (Operator op in patch.Operators)
             {
-                if (customOperator.HasCircularUnderlyingPatch(alreadyDone))
+                if (op.HasCircularUnderlyingPatch(alreadyDone))
                 {
                     return true;
                 }
@@ -98,43 +94,22 @@ namespace JJ.Business.Synthesizer.Extensions
 
         private static bool HasCircularUnderlyingPatch(this Operator op, HashSet<object> alreadyDone)
         {
-            bool wasAlreadyAdded = !alreadyDone.Add(op);
-            if (wasAlreadyAdded)
+            if (alreadyDone.Contains(op))
             {
                 return true;
             }
 
+            alreadyDone.Add(op);
+
             if (op.UnderlyingPatch != null)
             {
-                Document document = op.UnderlyingPatch.Document;
-                if (document.HasCircularUnderlyingPatch(alreadyDone))
+                if (op.UnderlyingPatch.HasCircularUnderlyingPatch(alreadyDone))
                 {
                     return true;
                 }
             }
 
             alreadyDone.Remove(op);
-
-            return false;
-        }
-
-        private static bool HasCircularUnderlyingPatch(this Document document, HashSet<object> alreadyDone)
-        {
-            bool wasAlreadyAdded = !alreadyDone.Add(document);
-            if (wasAlreadyAdded)
-            {
-                return true;
-            }
-
-            foreach (Patch patch in document.Patches)
-            {
-                if (patch.HasCircularUnderlyingPatch(alreadyDone))
-                {
-                    return true;
-                }
-            }
-
-            alreadyDone.Remove(document);
 
             return false;
         }

@@ -128,9 +128,6 @@
   <data name="InletNames" xml:space="preserve">
     <value>Ingang namen</value>
   </data>
-  <data name="CircularReference" xml:space="preserve">
-    <value>Cirkelverwijzing</value>
-  </data>
   <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">
     <value>De patch van operator '{0}' is ingevuld, maar het is niet de verwachte patch '{1}'.</value>
     <comment>{0} = operator name, {1} = patch name</comment>
@@ -1054,5 +1051,8 @@
   </data>
   <data name="Warnings" xml:space="preserve">
     <value>Waarschuwingen</value>
+  </data>
+  <data name="CircularInputOutputReference" xml:space="preserve">
+    <value>Invoer/uitvoer heeft cirkelverwijzing</value>
   </data>
 </root>

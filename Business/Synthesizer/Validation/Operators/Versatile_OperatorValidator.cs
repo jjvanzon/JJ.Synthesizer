@@ -11,7 +11,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         private readonly Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
-            { OperatorTypeEnum.Absolute, typeof(OperatorValidator_FromSystemDocument) },
             { OperatorTypeEnum.Add, typeof(Add_OperatorValidator) },
             { OperatorTypeEnum.AllPassFilter, typeof(AllPassFilter_OperatorValidator) },
             { OperatorTypeEnum.AverageFollower, typeof(AverageFollower_OperatorValidator) },

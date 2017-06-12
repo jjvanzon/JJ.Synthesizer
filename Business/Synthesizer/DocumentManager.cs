@@ -331,9 +331,7 @@ namespace JJ.Business.Synthesizer
                      .Where(x => x.UnderlyingPatch?.ID == patch.ID)
                      .ToArray();
 
-            IList<Operator> flushedOperators = _repositories.OperatorRepository.GetMany_ByOperatorTypeID_AndUnderlyingPatchID(
-                (int)OperatorTypeEnum.CustomOperator,
-                patch.ID);
+            IList<Operator> flushedOperators = _repositories.OperatorRepository.GetManyByUnderlyingPatchID(patch.ID);
             
             IList<Operator> externalOperators = flushedOperators.Where(x => x.Patch != null && // Handles orphaned operators up for deletion.
                                                                             x.Patch.Document.ID != patch.Document.ID)

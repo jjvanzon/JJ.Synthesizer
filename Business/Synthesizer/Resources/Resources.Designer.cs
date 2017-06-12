@@ -448,11 +448,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Circular reference.
+        ///   Looks up a localized string similar to Circular input/output reference.
         /// </summary>
-        internal static string CircularReference {
+        internal static string CircularInputOutputReference {
             get {
-                return ResourceManager.GetString("CircularReference", resourceCulture);
+                return ResourceManager.GetString("CircularInputOutputReference", resourceCulture);
             }
         }
         

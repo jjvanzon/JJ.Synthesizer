@@ -26,12 +26,10 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                                    .List();
         }
 
-        public override IList<Operator> GetMany_ByOperatorTypeID_AndUnderlyingPatchID(int operatorTypeID, int underlyingPatchID)
+        public override IList<Operator> GetManyByUnderlyingPatchID(int underlyingPatchID)
         {
             return _context.Session.QueryOver<Operator>()
-                           .Where(
-                               x => x.OperatorType.ID == operatorTypeID &&
-                                    x.UnderlyingPatch.ID == underlyingPatchID)
+                           .Where(x => x.UnderlyingPatch.ID == underlyingPatchID)
                            .List();
         }
     }

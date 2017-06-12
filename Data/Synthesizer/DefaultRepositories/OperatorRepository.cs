@@ -21,12 +21,10 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
                            .ToArray();
         }
 
-        public virtual IList<Operator> GetMany_ByOperatorTypeID_AndUnderlyingPatchID(int operatorTypeID, int underlyingPatchID)
+        public virtual IList<Operator> GetManyByUnderlyingPatchID(int underlyingPatchID)
         {
             return _context.Query<Operator>()
-                           .Where(
-                               x => x.OperatorType.ID == operatorTypeID &&
-                                    x.UnderlyingPatch.ID == underlyingPatchID)
+                           .Where(x => x.UnderlyingPatch.ID == underlyingPatchID)
                            .ToArray();
         }
 

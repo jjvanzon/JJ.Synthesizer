@@ -249,10 +249,7 @@ namespace JJ.Business.Synthesizer
             if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, () => Patch);
 
             // Get this list before deleting and unlinking things.
-            IList<Operator> connectedCustomOperators =
-                op.GetConnectedOperators()
-                  .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
-                  .ToArray();
+            IList<Operator> connectedOperators = op.GetConnectedOperators();
 
             op.UnlinkRelatedEntities();
             op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
@@ -260,13 +257,10 @@ namespace JJ.Business.Synthesizer
 
             new Patch_SideEffect_UpdateDerivedOperators(Patch, _repositories).Execute();
 
-            // Clean up obsolete inlets and outlets.
-            // (Inlets and outlets that do not exist anymore in a CustomOperator's UnderlyingPatch
-            //  are kept alive by the system until it has no connections anymore, so that a user's does not lose data.)
-
-            foreach (Operator connectedCustomOperator in connectedCustomOperators)
+            // Clean up obsolete inlets and outlets when the last connection to it is gone.
+            foreach (Operator connectedOperator in connectedOperators)
             {
-                new Operator_SideEffect_ApplyUnderlyingPatch(connectedCustomOperator, _repositories).Execute();
+                new Operator_SideEffect_ApplyUnderlyingPatch(connectedOperator, _repositories).Execute();
             }
         }
 

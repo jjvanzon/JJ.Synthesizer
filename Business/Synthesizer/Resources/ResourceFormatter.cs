@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string ChangeTrigger => Resources.ChangeTrigger;
         public static string Channel => Resources.Channel;
         public static string Channels => Resources.Channels;
-        public static string CircularReference => Resources.CircularReference;
+        public static string CircularInputOutputReference => Resources.CircularInputOutputReference;
         public static string Closest => Resources.Closest;
         public static string ClosestExp => Resources.ClosestExp;
         public static string ClosestOverDimension => Resources.ClosestOverDimension;

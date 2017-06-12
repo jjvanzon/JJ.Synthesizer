@@ -2136,7 +2136,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Refresh
                 PatchDetails_RefreshOperator(userInput.ID);
-                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependencies
+                OperatorViewModels_Refresh(); // Refresh Dependencies
             }
         }
 
@@ -2154,7 +2154,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Refresh
                 PatchDetails_RefreshOperator(userInput.ID);
-                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependent Things
+                OperatorViewModels_Refresh(); // Refresh Dependent Things
             }
         }
 
@@ -2354,7 +2354,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 PatchDetails_RefreshOperator(userInput.ID);
-                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependencies
+                OperatorViewModels_Refresh(); // Refresh Dependencies
             }
         }
 
@@ -2371,7 +2371,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 PatchDetails_RefreshOperator(userInput.ID);
-                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator); // Refresh Dependent Things
+                OperatorViewModels_Refresh(); // Refresh Dependent Things
             }
         }
 

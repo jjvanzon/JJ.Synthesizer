@@ -1086,15 +1086,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary>
-        /// When an underlying document of a custom operator is changed,
-        /// we do not know which PatchDetails OperatorViewModels are affected,
-        /// because no OperatorViewModel has as property saying what UnderlyingPatch it is.
-        /// Therefore we refresh all CustomOperators.
-        ///
-        /// But also, a custom operator would need to be updated if something connected to it is deleted,
-        /// because then the obsolete inlets and outlets might be cleaned up.
-        /// </summary>
         private void OperatorViewModels_OfType_Refresh(OperatorTypeEnum operatorTypeEnum)
         {
             IList<OperatorViewModel> operatorViewModels =
@@ -1102,6 +1093,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                       .SelectMany(x => x.Entity.OperatorDictionary.Values)
                                       .Where(x => x.OperatorType.ID == (int)operatorTypeEnum)
                                       .ToArray();
+
+            foreach (OperatorViewModel operatorViewModel in operatorViewModels)
+            {
+                PatchDetails_RefreshOperator(operatorViewModel);
+            }
+        }
+
+        private void OperatorViewModels_Refresh()
+        {
+            IList<OperatorViewModel> operatorViewModels =
+                MainViewModel.Document.PatchDetailsDictionary.Values
+                             .SelectMany(x => x.Entity.OperatorDictionary.Values)
+                             .ToArray();
 
             foreach (OperatorViewModel operatorViewModel in operatorViewModels)
             {

@@ -45,14 +45,23 @@ namespace JJ.Business.Synthesizer.Extensions
                 return;
             }
 
-            // Try use system patch
-            var documentManager = new DocumentManager(repositories);
-            Patch patch = documentManager.TryGetSystemPatch(operatorTypeEnum);
-            if (patch != null)
+            // WARNING: The switch on operatorTypeEnum will be deprecated, 
+            // but only each patch with an OperatorTypeEnun name 
+            // in the system document is actually finished.
+            switch (operatorTypeEnum)
             {
-                op.LinkToUnderlyingPatch(patch);
-                op.UnlinkOperatorType();
-                return;
+                case OperatorTypeEnum.Absolute:
+                case OperatorTypeEnum.And:
+                    // Try use system patch
+                    var documentManager = new DocumentManager(repositories);
+                    Patch patch = documentManager.TryGetSystemPatch(operatorTypeEnum);
+                    if (patch != null)
+                    {
+                        op.LinkToUnderlyingPatch(patch);
+                        op.UnlinkOperatorType();
+                        return;
+                    }
+                    break;
             }
 
             // Use classic OperatorType entity
