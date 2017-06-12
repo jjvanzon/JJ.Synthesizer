@@ -157,6 +157,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             new List<OperatorTypeEnum>
             {
                 OperatorTypeEnum.ChangeTrigger,
+                OperatorTypeEnum.CustomOperator,
                 OperatorTypeEnum.PulseTrigger,
                 OperatorTypeEnum.Reset,
                 OperatorTypeEnum.SetDimension,
@@ -1021,12 +1022,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
 
-            bool nameOrDimensionHidden = outlet.NameOrDimensionHidden;
-            if (OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum))
-            {
-                nameOrDimensionHidden = false;
-            }
+            // TODO: Use outlet.NameOrDimensionHidden once all system operators are boostrapped.
+            //bool nameOrDimensionHidden = outlet.NameOrDimensionHidden;
+            //if (OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum))
+            //{
+            //    nameOrDimensionHidden = false;
+            //}
 
+            bool nameOrDimensionHidden = !OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum);
             if (!nameOrDimensionHidden)
             {
                 OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(

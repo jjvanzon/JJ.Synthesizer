@@ -1,7 +1,4 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -26,49 +23,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public CustomOperator_OperatorWrapper_Inlets Inlets { get; }
 
         public CustomOperator_OperatorWrapper_Outlets Outlets { get; }
-
-        public override string GetInletDisplayName(Inlet inlet)
-        {
-            // Use Name
-            if (!string.IsNullOrEmpty(inlet.Name))
-            {
-                return inlet.Name;
-            }
-
-            // Use Dimension
-            DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
-            if (dimensionEnum != DimensionEnum.Undefined)
-            {
-                return ResourceFormatter.GetDisplayName(dimensionEnum);
-            }
-
-            // Use List Position (not ListIndex, becuase it does not have to be consecutive).
-            int listPosition = WrappedOperator.Inlets.IndexOf(inlet);
-            string displayName = $"{ResourceFormatter.Inlet} {listPosition + 1}";
-            return displayName;
-        }
-
-        public override string GetOutletDisplayName(Outlet outlet)
-        {
-            // Use Name
-            if (!string.IsNullOrEmpty(outlet.Name))
-            {
-                return outlet.Name;
-            }
-
-            // Use Dimension
-            DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
-            if (dimensionEnum != DimensionEnum.Undefined)
-            {
-                return ResourceFormatter.GetDisplayName(dimensionEnum);
-            }
-
-            // Use List Position (not ListIndex, becuase it does not have to be consecutive).
-            int listPosition = WrappedOperator.Outlets.IndexOf(outlet);
-            string displayName = $"{ResourceFormatter.Outlet} {listPosition + 1}";
-            return displayName;
-
-        }
 
         //// TODO: These operations must enfore rules and should be integrated in the members above.
 

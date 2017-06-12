@@ -27,7 +27,22 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 throw new NotContainsException(() => WrappedOperator.Inlets, ValidationHelper.GetUserFriendlyIdentifier(inlet));
             }
 
-            return ResourceFormatter.GetDisplayName(inlet.Dimension);
+            // Use Name
+            if (!string.IsNullOrWhiteSpace(inlet.Name))
+            {
+                return inlet.Name;
+            }
+
+            // Use Dimension
+            if (inlet.Dimension != null)
+            {
+                return ResourceFormatter.GetDisplayName(inlet.Dimension);
+            }
+
+            // Use List Position (not ListIndex, becuase it does not have to be consecutive).
+            int listPosition = WrappedOperator.Inlets.IndexOf(inlet);
+            string displayName = $"{ResourceFormatter.Inlet} {listPosition + 1}";
+            return displayName;
         }
 
         /// <summary> Base will determine the Outlet display name based on its Dimension. </summary>
@@ -40,7 +55,22 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 throw new NotContainsException(() => WrappedOperator.Outlets, ValidationHelper.GetUserFriendlyIdentifier(outlet));
             }
 
-            return ResourceFormatter.GetDisplayName(outlet.Dimension);
+            // Use Name
+            if (!string.IsNullOrWhiteSpace(outlet.Name))
+            {
+                return outlet.Name;
+            }
+
+            // Use Dimension
+            if (outlet.Dimension != null)
+            {
+                return ResourceFormatter.GetDisplayName(outlet.Dimension);
+            }
+
+            // Use List Index (not ListIndex, becuase it does not have to be consecutive).
+            int listPosition = WrappedOperator.Outlets.IndexOf(outlet);
+            string displayName = $"{ResourceFormatter.Outlet} {listPosition + 1}";
+            return displayName;
         }
 
         public static implicit operator Operator(OperatorWrapperBase wrapper) => wrapper?.WrappedOperator;

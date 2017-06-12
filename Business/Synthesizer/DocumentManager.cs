@@ -331,12 +331,6 @@ namespace JJ.Business.Synthesizer
                      .Where(x => x.UnderlyingPatch?.ID == patch.ID)
                      .ToArray();
 
-            IList<Operator> flushedOperators = _repositories.OperatorRepository.GetManyByUnderlyingPatchID(patch.ID);
-            
-            IList<Operator> externalOperators = flushedOperators.Where(x => x.Patch != null && // Handles orphaned operators up for deletion.
-                                                                            x.Patch.Document.ID != patch.Document.ID)
-                                                                .ToArray();
-
             var idAndNames = new List<IDAndName>();
 
             IList<Patch> internalHigherPatches = internalOperators.Select(x => x.Patch)
@@ -349,6 +343,12 @@ namespace JJ.Business.Synthesizer
                 idAndNames.Add(new IDAndName { ID = internalHigherPatch.ID, Name = internalHigherPatch.Name });
             }
 
+            IList<Operator> flushedOperators = _repositories.OperatorRepository.GetManyByUnderlyingPatchID(patch.ID);
+
+            IList<Operator> externalOperators = flushedOperators.Where(x => x.Patch != null && // Handles orphaned operators up for deletion.
+                                                                            x.Patch.Document.ID != patch.Document.ID)
+                                                                .ToArray();
+
             IList<Patch> externalHigherPatches = externalOperators.Select(x => x.Patch)
                                                                   .Distinct(x => x.ID)
                                                                   .OrderBy(x => x.Document.Name)
@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer
             foreach (Patch externalHigherPatch in externalHigherPatches)
             {
                 string name = externalHigherPatch.Document.Name + ": " + externalHigherPatch.Name;
-                idAndNames.Add(new IDAndName { ID = externalHigherPatch.ID, Name = name});
+                idAndNames.Add(new IDAndName { ID = externalHigherPatch.ID, Name = name });
             }
 
             return idAndNames;

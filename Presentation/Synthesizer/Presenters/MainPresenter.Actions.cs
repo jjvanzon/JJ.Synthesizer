@@ -2135,8 +2135,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet = null;
 
                 // Refresh
-                PatchDetails_RefreshOperator(userInput.ID);
-                OperatorViewModels_Refresh(); // Refresh Dependencies
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2153,8 +2152,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet = null;
 
                 // Refresh
-                PatchDetails_RefreshOperator(userInput.ID);
-                OperatorViewModels_Refresh(); // Refresh Dependent Things
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2353,8 +2351,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(userInput.ID);
-                OperatorViewModels_Refresh(); // Refresh Dependencies
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2370,8 +2367,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(userInput.ID);
-                OperatorViewModels_Refresh(); // Refresh Dependent Things
+                DocumentViewModelRefresh();
             }
         }
 
