@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             ExecuteValidator(new PatchValidator_UniqueName(patch));
             ExecuteValidator(new PatchValidator_IsOperatorsListComplete(patch, sampleRepository, curveRepository));
             ExecuteValidator(new PatchValidator_HiddenButInUse(patch));
+            ExecuteValidator(new DimensionInfoValidator((patch.HasDimension, patch.DefaultStandardDimension, patch.DefaultCustomDimensionName)));
 
             foreach (Operator op in patch.Operators)
             {

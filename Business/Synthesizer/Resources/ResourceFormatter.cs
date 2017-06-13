@@ -83,6 +83,8 @@ namespace JJ.Business.Synthesizer.Resources
         public static string DataKeys => Resources.DataKeys;
         public static string DBGain => Resources.DBGain;
         public static string DecayDuration => Resources.DecayDuration;
+        public static string DefaultCustomDimension => Resources.DefaultCustomDimension;
+        public static string DefaultStandardDimension => Resources.DefaultStandardDimension;
         public static string DefaultValue => Resources.DefaultValue;
         public static string DesiredBufferDuration => Resources.DesiredBufferDuration;
         public static string Difference => Resources.Difference;
@@ -113,6 +115,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Group => Resources.Group;
         public static string GroupName => Resources.GroupName;
         public static string Harmonic => Resources.Harmonic;
+        public static string HasDimension => Resources.HasDimension;
         public static string Hermite => Resources.Hermite;
         public static string Hidden => Resources.Hidden;
         public static string High => Resources.High;
@@ -165,7 +168,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string MinFrequency => Resources.MinFrequency;
         public static string MinOverDimension => Resources.MinOverDimension;
         public static string MinOverInlets => Resources.MinOverInlets;
-        public static string MismatchBetweenOperatorAndUnderlyingPatch => Resources.MismatchBetweenOperatorAndUnderlyingPatch;
+        public static string MismatchWithUnderlyingPatch => Resources.MismatchWithUnderlyingPatch;
         public static string Mono => Resources.Mono;
         public static string Multiply => Resources.Multiply;
         public static string MultiplyWithOrigin => Resources.MultiplyWithOrigin;

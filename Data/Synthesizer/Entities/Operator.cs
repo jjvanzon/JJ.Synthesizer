@@ -33,6 +33,13 @@ namespace JJ.Data.Synthesizer.Entities
         /// <summary> nullable (for now) </summary>
         public virtual Patch UnderlyingPatch { get; set; }
 
+        /// <summary>
+        /// Only true if UnderlyingPatch.HasDimension is true
+        /// not when OperatorType.HasDimension is true.
+        /// OperatorType will be deprecated at some point.
+        /// </summary>
+        public virtual bool HasDimension { get; set; }
+
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

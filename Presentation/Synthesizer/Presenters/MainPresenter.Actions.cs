@@ -2816,6 +2816,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void PatchPropertiesHasDimensionChanged(int id)
+        {         
+            // GetViewModel
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            TemplateActionMethod(userInput, () => _patchPropertiesPresenter.HasDimensionChanged(userInput));
+        }
+
         public void PatchPropertiesLoseFocus(int id)
         {
             // GetViewModel

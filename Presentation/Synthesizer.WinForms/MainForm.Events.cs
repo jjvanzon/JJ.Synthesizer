@@ -174,6 +174,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchGridUserControl.ShowItemRequested += patchGridUserControl_ShowItemRequested;
             patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
+            patchPropertiesUserControl.HasDimensionChanged += patchPropertiesUserControl_HasDimensionChanged;
             patchPropertiesUserControl.LoseFocusRequested += patchPropertiesUserControl_LoseFocusRequested;
             patchPropertiesUserControl.PlayRequested += patchPropertiesUserControl_PlayRequested;
             patchPropertiesUserControl.RemoveRequested += patchPropertiesUserControl_RemoveRequested;
@@ -1252,6 +1253,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _presenter.PatchPropertiesClose(e.Value));
+        }
+
+        private void patchPropertiesUserControl_HasDimensionChanged(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.PatchPropertiesHasDimensionChanged(e.Value));
         }
 
         private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)

@@ -700,6 +700,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Custom Dimension.
+        /// </summary>
+        internal static string DefaultCustomDimension {
+            get {
+                return ResourceManager.GetString("DefaultCustomDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default Standard Dimension.
+        /// </summary>
+        internal static string DefaultStandardDimension {
+            get {
+                return ResourceManager.GetString("DefaultStandardDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default Value.
         /// </summary>
         internal static string DefaultValue {
@@ -984,6 +1002,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Harmonic {
             get {
                 return ResourceManager.GetString("Harmonic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Has a Dimension.
+        /// </summary>
+        internal static string HasDimension {
+            get {
+                return ResourceManager.GetString("HasDimension", resourceCulture);
             }
         }
         
@@ -1465,11 +1492,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mismatch between operator and underlying patch..
+        ///   Looks up a localized string similar to Mismatch with underlying patch..
         /// </summary>
-        internal static string MismatchBetweenOperatorAndUnderlyingPatch {
+        internal static string MismatchWithUnderlyingPatch {
             get {
-                return ResourceManager.GetString("MismatchBetweenOperatorAndUnderlyingPatch", resourceCulture);
+                return ResourceManager.GetString("MismatchWithUnderlyingPatch", resourceCulture);
             }
         }
         

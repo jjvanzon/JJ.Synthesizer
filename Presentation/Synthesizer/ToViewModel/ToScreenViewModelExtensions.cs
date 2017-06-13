@@ -630,6 +630,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
+                CustomDimensionName = entity.CustomDimensionName,
+                HasDimension= entity.HasDimension,
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -643,8 +645,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.OperatorType = ViewModelHelper.CreateEmptyIDAndName();
             }
 
-            viewModel.CustomDimensionName = entity.CustomDimensionName;
-
             DimensionEnum dimensionEnum = entity.GetStandardDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
@@ -656,8 +656,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // ReSharper disable once InvertIf
-            if (entity.OperatorType != null &&
-                entity.OperatorType.HasDimension)
+            bool hasDimension = entity.HasDimension || (entity.OperatorType?.HasDimension ?? false); // Excuse the smell of polymorphism: OperatorType will be deprecated at some point.
+            if (hasDimension)
             {
                 viewModel.CustomDimensionNameVisible = true;
                 viewModel.StandardDimensionVisible = true;
@@ -727,8 +727,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = patch.Name,
                 Group = patch.GroupName,
                 Hidden = patch.Hidden,
+                HasDimension = patch.HasDimension,
+                DefaultCustomDimensionNameEnabled = patch.HasDimension,
+                DefaultCustomDimensionName = patch.DefaultCustomDimensionName,
+                DefaultStandardDimensionEnabled = patch.HasDimension,
+                DefaultStandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<MessageDto>()
             };
+
+            if (patch.DefaultStandardDimension != null)
+            {
+                viewModel.DefaultStandardDimension = patch.DefaultStandardDimension.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.DefaultStandardDimension = ViewModelHelper.CreateEmptyIDAndName();
+            }
 
             return viewModel;
         }

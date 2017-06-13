@@ -26,6 +26,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// </summary>
         public IDAndName UnderlyingPatch { get; set; }
 
+        /// <summary> not displayed </summary>
+        public bool HasDimension { get; set; }
+
         internal int? OutletIDToPlay { get; set; }
     }
 }

@@ -420,7 +420,10 @@ namespace JJ.Business.Synthesizer
         {
             Document document = GetSystemDocument();
             string patchName = operatorTypeEnum.ToString();
-            Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleOrDefaultWithClearException(new { name = patchName });
+            Patch patch = document.Patches
+                                  .Where(x => !x.Hidden)
+                                  .Where(x => string.Equals(x.Name, patchName))
+                                  .SingleOrDefaultWithClearException(new { name = patchName });
 
             if (patch == null)
             {

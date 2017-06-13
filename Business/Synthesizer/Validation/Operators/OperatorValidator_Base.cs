@@ -37,9 +37,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             ExecuteValidator(new NameValidator(op.Name, required: false));
 
-            For(() => op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(expectedOperatorTypeEnum);
+            // Excuse the polymorphic smell. OperatorType will become deprecated at one point.
+            bool hasDimension = op.HasDimension || (op.OperatorType?.HasDimension ?? false);
 
-            ExecuteValidator(new OperatorValidator_Dimension(op));
+            ExecuteValidator(new DimensionInfoValidator((hasDimension, op.StandardDimension, op.CustomDimensionName)));
             ExecuteValidator(new DataPropertyValidator(op.Data, expectedDataKeys));
 
             // Inlets

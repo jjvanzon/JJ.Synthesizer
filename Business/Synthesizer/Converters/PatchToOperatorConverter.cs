@@ -42,6 +42,9 @@ namespace JJ.Business.Synthesizer.Converters
         {
             if (destOperator == null) throw new NullException(() => destOperator);
 
+            destOperator.HasDimension = sourcePatch.HasDimension;
+            destOperator.LinkToUnderlyingPatch(sourcePatch);
+
             IList<Inlet> sourceInlets;
             IList<Outlet> sourceOutlets;
 
@@ -63,8 +66,6 @@ namespace JJ.Business.Synthesizer.Converters
 
             ConvertInlets(sourceInlets, destOperator);
             ConvertOutlets(sourceOutlets, destOperator);
-
-            destOperator.LinkToUnderlyingPatch(sourcePatch);
         }
 
         private void ConvertInlets(IList<Inlet> sourceInlets, Operator destOperator)

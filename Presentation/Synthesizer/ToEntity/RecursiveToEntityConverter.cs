@@ -81,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Patch patch = result.Patch;
             IList<Operator> operatorsToDelete = result.OperatorsToDelete;
 
-            patchPropertiesViewModel.ToEntity(_repositories.PatchRepository);
+            patchPropertiesViewModel.ToEntity(_repositories.PatchRepository, _repositories.DimensionRepository);
 
             // Order-Dependence: 
             // Deleting operators is deferred from converting PatchDetails to after converting operator property boxes,

@@ -12,6 +12,9 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual string Name { get; set; }
         public virtual string GroupName { get; set; }
         public virtual bool Hidden { get; set; }
+        public virtual bool HasDimension { get; set; }
+        public virtual Dimension DefaultStandardDimension { get; set; }
+        public virtual string DefaultCustomDimensionName { get; set; }
         public virtual IList<Operator> Operators { get; set; } = new List<Operator>();
         public virtual IList<Operator> DerivedOperators { get; set; } = new List<Operator>();
 

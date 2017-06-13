@@ -351,6 +351,7 @@
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
     <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Document_SideEffect_ApplyExternalUnderlyingPatches.cs" />
+    <Compile Include="Validation\DimensionInfoValidator.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Delete.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_DoesNotReferenceItself.cs" />
@@ -708,7 +709,7 @@
     <Compile Include="Validation\Operators\ClosestOverInletsExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverInlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\LowShelfFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_Dimension.cs" />
+    <Compile Include="Validation\Operators\2017-06-13 Backup of OperatorValidator_Dimension.cs" />
     <Compile Include="Validation\Operators\PeakingEQFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\RangeOverOutlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />

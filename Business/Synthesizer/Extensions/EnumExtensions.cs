@@ -211,6 +211,31 @@ namespace JJ.Business.Synthesizer.Extensions
                 entity.LinkTo(enumEntity);
             }
         }
+        // Operator
+
+        public static DimensionEnum GetStandardDimensionEnum(this Patch entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.DefaultStandardDimension == null) return DimensionEnum.Undefined;
+
+            return (DimensionEnum)entity.DefaultStandardDimension.ID;
+        }
+
+        public static void SetStandardDimensionEnum(this Patch entity, DimensionEnum enumValue, IDimensionRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            if (enumValue == DimensionEnum.Undefined)
+            {
+                entity.UnlinkDefaultStandardDimension();
+            }
+            else
+            {
+                Dimension enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
+        }
 
         // Sample
 

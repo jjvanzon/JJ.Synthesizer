@@ -447,6 +447,15 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
+        public static void LinkTo([NotNull] this Patch patch, [CanBeNull] Dimension dimension)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            patch.DefaultStandardDimension = dimension;
+
+            // No inverse property.
+        }
+
         public static void LinkTo([NotNull] this Sample sample, [CanBeNull] SpeakerSetup speakerSetup)
         {
             if (sample == null) throw new NullException(() => sample);

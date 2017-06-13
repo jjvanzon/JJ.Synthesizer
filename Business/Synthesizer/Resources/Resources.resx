@@ -1040,8 +1040,8 @@
   <data name="HighestFrequency" xml:space="preserve">
     <value>Highest Frequency</value>
   </data>
-  <data name="MismatchBetweenOperatorAndUnderlyingPatch" xml:space="preserve">
-    <value>Mismatch between operator and underlying patch.</value>
+  <data name="MismatchWithUnderlyingPatch" xml:space="preserve">
+    <value>Mismatch with underlying patch.</value>
   </data>
   <data name="WarnIfEmpty" xml:space="preserve">
     <value>Warn if Empty</value>
@@ -1051,5 +1051,14 @@
   </data>
   <data name="NameOrDimensionHidden" xml:space="preserve">
     <value>Hide Name/Dimension</value>
+  </data>
+  <data name="HasDimension" xml:space="preserve">
+    <value>Has a Dimension</value>
+  </data>
+  <data name="DefaultCustomDimension" xml:space="preserve">
+    <value>Default Custom Dimension</value>
+  </data>
+  <data name="DefaultStandardDimension" xml:space="preserve">
+    <value>Default Standard Dimension</value>
   </data>
 </root>

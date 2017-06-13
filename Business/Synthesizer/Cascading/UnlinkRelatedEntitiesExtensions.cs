@@ -87,6 +87,7 @@ namespace JJ.Business.Synthesizer.Cascading
             if (patch == null) throw new NullException(() => patch);
 
             patch.UnlinkDocument();
+            patch.UnlinkDefaultStandardDimension();
         }
 
         public static void UnlinkRelatedEntities(this Sample sample)

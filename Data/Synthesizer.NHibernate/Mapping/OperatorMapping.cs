@@ -12,6 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.Name);
             Map(x => x.Data);
             Map(x => x.CustomDimensionName);
+            Map(x => x.HasDimension);
 
             References(x => x.OperatorType, ColumnNames.OperatorTypeID);
             References(x => x.Patch, ColumnNames.PatchID);

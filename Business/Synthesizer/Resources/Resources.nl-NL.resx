@@ -155,8 +155,8 @@
     <value>Kan het aantal uitgangen niet aanpassen, omdat uitgang {0} in gebruik is.</value>
     <comment>{0} = number</comment>
   </data>
-  <data name="MismatchBetweenOperatorAndUnderlyingPatch" xml:space="preserve">
-    <value>Afwijking tussen operator en de onderliggende schakeling.</value>
+  <data name="MismatchWithUnderlyingPatch" xml:space="preserve">
+    <value>Wijkt af van onderliggende schakeling.</value>
   </data>
   <data name="MustBePowerOf2" xml:space="preserve">
     <value>{0} moet een macht van 2 zijn.</value>
@@ -310,7 +310,7 @@
     <value>Curves</value>
   </data>
   <data name="CustomDimensionName" xml:space="preserve">
-    <value>Afwijkende dimensienaam</value>
+    <value>Zelfgedefiniëerde dimensienaam</value>
   </data>
   <data name="CustomOperator" xml:space="preserve">
     <value>Zelfgemaakte operator</value>
@@ -915,7 +915,7 @@
     <value>Afwijkend</value>
   </data>
   <data name="CustomDimension" xml:space="preserve">
-    <value>Afwijkende dimensie</value>
+    <value>Zelfgedefiniëerde dimensie</value>
   </data>
   <data name="DocumentList" xml:space="preserve">
     <value>Documentenlijst</value>
@@ -1057,5 +1057,14 @@
   </data>
   <data name="NameOrDimensionHidden" xml:space="preserve">
     <value>Verberg naam/dimensie</value>
+  </data>
+  <data name="HasDimension" xml:space="preserve">
+    <value>Heeft een dimensie</value>
+  </data>
+  <data name="DefaultCustomDimension" xml:space="preserve">
+    <value>Beginwaarde zelfgedefiniëerde dimensie</value>
+  </data>
+  <data name="DefaultStandardDimension" xml:space="preserve">
+    <value>Beginwaarde standaard dimensie</value>
   </data>
 </root>

@@ -395,6 +395,17 @@
     <Content Include="2017-06-10 080 SynthesizerDB OperatorType delete 53 - Absolute.sql" />
     <Content Include="2017-06-11 010 SynthesizerDB Inlet WarnIfEmpty.sql" />
     <Content Include="2017-06-11 020 SynthesizerDB Inlet WarnIfEmpty not null.sql" />
+    <Content Include="2017-06-13 030 SynthesizerDB Operator.HasDimension.sql" />
+    <Content Include="2017-06-13 040 SynthesizerDB Operator.HasDimension not null.sql" />
+    <Content Include="2017-06-13 020 SynthesizerDB Operator.HasDimension not null.sql" />
+    <Content Include="2017-06-13 010 SynthesizerDB Operator.HasDimension.sql" />
+    <Content Include="2017-06-13 050 SynthesizerDB Patch.StandardDimensionID.sql" />
+    <Content Include="2017-06-13 060 SynthesizerDB FK_Patch_Dimension.sql" />
+    <Content Include="2017-06-13 070 SynthesizerDB IX_Patch_StandardDimensionID.sql" />
+    <Content Include="2017-06-13 080 SynthesizerDB Patch.CustomDimensionName.sql" />
+    <Content Include="2017-06-13 100 SynthesizerDB Patch rename CustomDimensionName to DefaultCustomDimensionName.sql" />
+    <Content Include="2017-06-13 090 SynthesizerDB Patch rename StandardDimension to DefaultStandardDimension.sql" />
+    <Content Include="2017-06-13 110 SynthesizerDB Correct Sine UnderlyingPatchID Back to OperatorTypeID.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

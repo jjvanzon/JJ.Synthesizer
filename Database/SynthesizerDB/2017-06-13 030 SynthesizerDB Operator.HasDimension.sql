@@ -1,0 +1,1 @@
+alter table Patch add HasDimension bit null;

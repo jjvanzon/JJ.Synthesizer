@@ -183,6 +183,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             outlet.LinkTo((Dimension)null);
         }
 
+        public static void UnlinkDefaultStandardDimension(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            patch.LinkTo((Dimension)null);
+        }
+
         public static void UnlinkAudioFileFormat(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);

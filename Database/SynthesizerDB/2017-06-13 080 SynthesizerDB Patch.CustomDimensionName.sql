@@ -1,0 +1,1 @@
+alter table Patch add CustomDimensionName nvarchar(256) null;

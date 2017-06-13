@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// </summary>
         public IList<OutletViewModel> Outlets { get; set; }
 
-        /// <summary> persistence. Does not need to be displayed. </summary>
+        /// <summary> not displayed </summary>
         public IDAndName OperatorType { get; set; }
 
         public bool IsOwned { get; set; }

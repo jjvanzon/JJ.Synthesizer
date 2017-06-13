@@ -36,6 +36,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.buttonAddToInstrument = new System.Windows.Forms.Button();
             this.labelHidden = new System.Windows.Forms.Label();
             this.checkBoxHidden = new System.Windows.Forms.CheckBox();
+            this.checkBoxHasDimension = new System.Windows.Forms.CheckBox();
+            this.labelHasDimension = new System.Windows.Forms.Label();
+            this.labelDefaultCustomDimensionName = new System.Windows.Forms.Label();
+            this.textBoxDefaultCustomDimensionName = new System.Windows.Forms.TextBox();
+            this.comboBoxDefaultStandardDimension = new System.Windows.Forms.ComboBox();
+            this.labelDefaultStandardDimension = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelGroup
@@ -79,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.buttonAddToInstrument.FlatAppearance.BorderSize = 0;
             this.buttonAddToInstrument.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonAddToInstrument.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
-            this.buttonAddToInstrument.Location = new System.Drawing.Point(58, 147);
+            this.buttonAddToInstrument.Location = new System.Drawing.Point(58, 251);
             this.buttonAddToInstrument.Margin = new System.Windows.Forms.Padding(0);
             this.buttonAddToInstrument.Name = "buttonAddToInstrument";
             this.buttonAddToInstrument.Size = new System.Drawing.Size(257, 32);
@@ -108,12 +114,77 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.checkBoxHidden.Text = "checkBoxHidden";
             this.checkBoxHidden.UseVisualStyleBackColor = true;
             // 
+            // checkBoxHasDimension
+            // 
+            this.checkBoxHasDimension.AutoSize = true;
+            this.checkBoxHasDimension.Location = new System.Drawing.Point(194, 143);
+            this.checkBoxHasDimension.Name = "checkBoxHasDimension";
+            this.checkBoxHasDimension.Size = new System.Drawing.Size(181, 21);
+            this.checkBoxHasDimension.TabIndex = 17;
+            this.checkBoxHasDimension.Text = "checkBoxHasDimension";
+            this.checkBoxHasDimension.UseVisualStyleBackColor = true;
+            this.checkBoxHasDimension.CheckedChanged += new System.EventHandler(this.checkBoxHasDimension_CheckedChanged);
+            // 
+            // labelHasDimension
+            // 
+            this.labelHasDimension.Location = new System.Drawing.Point(94, 138);
+            this.labelHasDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.labelHasDimension.Name = "labelHasDimension";
+            this.labelHasDimension.Size = new System.Drawing.Size(98, 22);
+            this.labelHasDimension.TabIndex = 16;
+            this.labelHasDimension.Text = "labelHasDimension";
+            this.labelHasDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelDefaultCustomDimensionName
+            // 
+            this.labelDefaultCustomDimensionName.Location = new System.Drawing.Point(99, 199);
+            this.labelDefaultCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
+            this.labelDefaultCustomDimensionName.Name = "labelDefaultCustomDimensionName";
+            this.labelDefaultCustomDimensionName.Size = new System.Drawing.Size(98, 22);
+            this.labelDefaultCustomDimensionName.TabIndex = 18;
+            this.labelDefaultCustomDimensionName.Text = "labelDefaultCustomDimensionName";
+            this.labelDefaultCustomDimensionName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxDefaultCustomDimensionName
+            // 
+            this.textBoxDefaultCustomDimensionName.Location = new System.Drawing.Point(205, 202);
+            this.textBoxDefaultCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
+            this.textBoxDefaultCustomDimensionName.Name = "textBoxDefaultCustomDimensionName";
+            this.textBoxDefaultCustomDimensionName.Size = new System.Drawing.Size(105, 22);
+            this.textBoxDefaultCustomDimensionName.TabIndex = 19;
+            // 
+            // comboBoxDefaultStandardDimension
+            // 
+            this.comboBoxDefaultStandardDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDefaultStandardDimension.FormattingEnabled = true;
+            this.comboBoxDefaultStandardDimension.Location = new System.Drawing.Point(210, 166);
+            this.comboBoxDefaultStandardDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxDefaultStandardDimension.Name = "comboBoxDefaultStandardDimension";
+            this.comboBoxDefaultStandardDimension.Size = new System.Drawing.Size(130, 24);
+            this.comboBoxDefaultStandardDimension.TabIndex = 20;
+            // 
+            // labelDefaultStandardDimension
+            // 
+            this.labelDefaultStandardDimension.Location = new System.Drawing.Point(96, 163);
+            this.labelDefaultStandardDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.labelDefaultStandardDimension.Name = "labelDefaultStandardDimension";
+            this.labelDefaultStandardDimension.Size = new System.Drawing.Size(98, 22);
+            this.labelDefaultStandardDimension.TabIndex = 21;
+            this.labelDefaultStandardDimension.Text = "labelDefaultStandardDimension";
+            this.labelDefaultStandardDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // PatchPropertiesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Controls.Add(this.labelDefaultStandardDimension);
+            this.Controls.Add(this.comboBoxDefaultStandardDimension);
+            this.Controls.Add(this.labelDefaultCustomDimensionName);
+            this.Controls.Add(this.textBoxDefaultCustomDimensionName);
+            this.Controls.Add(this.checkBoxHasDimension);
+            this.Controls.Add(this.labelHasDimension);
             this.Controls.Add(this.checkBoxHidden);
             this.Controls.Add(this.labelHidden);
             this.Controls.Add(this.labelGroup);
@@ -133,6 +204,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this.labelGroup, 0);
             this.Controls.SetChildIndex(this.labelHidden, 0);
             this.Controls.SetChildIndex(this.checkBoxHidden, 0);
+            this.Controls.SetChildIndex(this.labelHasDimension, 0);
+            this.Controls.SetChildIndex(this.checkBoxHasDimension, 0);
+            this.Controls.SetChildIndex(this.textBoxDefaultCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this.labelDefaultCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this.comboBoxDefaultStandardDimension, 0);
+            this.Controls.SetChildIndex(this.labelDefaultStandardDimension, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -147,5 +224,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.Button buttonAddToInstrument;
         private System.Windows.Forms.Label labelHidden;
         private System.Windows.Forms.CheckBox checkBoxHidden;
+        private System.Windows.Forms.CheckBox checkBoxHasDimension;
+        private System.Windows.Forms.Label labelHasDimension;
+        private System.Windows.Forms.Label labelDefaultCustomDimensionName;
+        private System.Windows.Forms.TextBox textBoxDefaultCustomDimensionName;
+        private System.Windows.Forms.ComboBox comboBoxDefaultStandardDimension;
+        private System.Windows.Forms.Label labelDefaultStandardDimension;
     }
 }

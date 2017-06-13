@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Validation;
 using JJ.Framework.Presentation.Resources;
@@ -25,6 +26,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
 
             ValidateUnderlyingPatchReferenceConstraint(op);
+            ValidateHasDimensionAgainstUnderlyingPatch(op);
             ValidateInletsAgainstUnderlyingPatch(op);
             ValidateOutletsAgainstUnderlyingPatch(op);
         }
@@ -45,6 +47,22 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             if (!isInList)
             {
                 ValidationMessages.AddNotInListMessage(nameof(Operator.UnderlyingPatch), ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);
+            }
+        }
+
+        private void ValidateHasDimensionAgainstUnderlyingPatch(Operator op)
+        {
+            if (op.UnderlyingPatch.HasDimension != op.HasDimension)
+            {
+                var sb = new StringBuilder();
+
+                sb.Append(ResourceFormatter.MismatchWithUnderlyingPatch);
+                sb.Append(Environment.NewLine);
+                sb.Append($"{ResourceFormatter.Operator}: {ResourceFormatter.HasDimension} = {op.HasDimension}.");
+                sb.Append(Environment.NewLine);
+                sb.Append($"{ResourceFormatter.UnderlyingPatch}: {ResourceFormatter.HasDimension} = {op.UnderlyingPatch.HasDimension}.");
+
+                ValidationMessages.Add(nameof(Operator.HasDimension), sb.ToString());
             }
         }
 
@@ -284,9 +302,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             var sb = new StringBuilder();
 
-            sb.Append(ResourceFormatter.MismatchBetweenOperatorAndUnderlyingPatch);
+            sb.Append(ResourceFormatter.MismatchWithUnderlyingPatch);
 
-            sb.Append(' ');
+            sb.Append(Environment.NewLine);
 
             string destInletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(destInlet);
             sb.AppendFormat(
@@ -297,7 +315,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 propertyDisplayName,
                 destValue);
 
-            sb.Append(' ');
+            sb.Append(Environment.NewLine);
 
             string sourceInletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(sourceInlet);
             sb.AppendFormat(
@@ -324,9 +342,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             var sb = new StringBuilder();
 
-            sb.Append(ResourceFormatter.MismatchBetweenOperatorAndUnderlyingPatch);
+            sb.Append(ResourceFormatter.MismatchWithUnderlyingPatch);
 
-            sb.Append(' ');
+            sb.Append(Environment.NewLine);
 
             string destOutletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(destOutlet);
             sb.AppendFormat(
@@ -337,7 +355,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 propertyDisplayName,
                 destValue);
 
-            sb.Append(' ');
+            sb.Append(Environment.NewLine);
 
             string sourceOutletIdentifier = ValidationHelper.GetUserFriendlyIdentifier(sourceOutlet);
             sb.AppendFormat(

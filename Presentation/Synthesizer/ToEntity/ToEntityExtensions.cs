@@ -978,6 +978,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             entity.Name = viewModel.Name;
             entity.CustomDimensionName = viewModel.CustomDimensionName;
+            entity.HasDimension = viewModel.HasDimension;
 
             var standardDimensionEnum = (DimensionEnum)(viewModel.StandardDimension?.ID ?? 0);
             entity.SetStandardDimensionEnum(standardDimensionEnum, repositories.DimensionRepository);
@@ -1047,7 +1048,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Patch ToEntity(this PatchPropertiesViewModel viewModel, IPatchRepository patchRepository)
+        public static Patch ToEntity(this PatchPropertiesViewModel viewModel, IPatchRepository patchRepository, IDimensionRepository dimensionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -1061,6 +1062,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             patch.Name = viewModel.Name;
             patch.GroupName = viewModel.Group;
             patch.Hidden = viewModel.Hidden;
+            patch.HasDimension = viewModel.HasDimension;
+            patch.DefaultCustomDimensionName = viewModel.DefaultCustomDimensionName;
+
+            Dimension dimension = dimensionRepository.TryGet(viewModel.DefaultStandardDimension?.ID ?? 0);
+            patch.LinkTo(dimension);
 
             return patch;
         }

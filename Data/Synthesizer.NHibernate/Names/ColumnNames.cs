@@ -8,6 +8,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Names
         public const string AudioOutputID = "AudioOutputID";
         public const string ChannelID = "ChannelID";
         public const string CurveID = "CurveID";
+        public const string DefaultStandardDimensionID = "DefaultStandardDimensionID";
         public const string DimensionID = "DimensionID";
         public const string DocumentID = "DocumentID";
         public const string HigherDocumentID = "HigherDocumentID";

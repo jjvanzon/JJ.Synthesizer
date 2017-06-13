@@ -40,7 +40,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelName
             // 
-            this.labelName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelName.Location = new System.Drawing.Point(0, 0);
             this.labelName.Margin = new System.Windows.Forms.Padding(0);
             this.labelName.Name = "labelName";
@@ -51,7 +50,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // textBoxName
             // 
-            this.textBoxName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxName.Location = new System.Drawing.Point(0, 0);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
@@ -60,7 +58,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelScaleType
             // 
-            this.labelScaleType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelScaleType.Location = new System.Drawing.Point(0, 0);
             this.labelScaleType.Margin = new System.Windows.Forms.Padding(0);
             this.labelScaleType.Name = "labelScaleType";
@@ -71,7 +68,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // comboBoxScaleType
             // 
-            this.comboBoxScaleType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comboBoxScaleType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxScaleType.FormattingEnabled = true;
             this.comboBoxScaleType.Location = new System.Drawing.Point(0, 0);
@@ -82,7 +78,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             // labelBaseFrequency
             // 
-            this.labelBaseFrequency.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelBaseFrequency.Location = new System.Drawing.Point(0, 0);
             this.labelBaseFrequency.Margin = new System.Windows.Forms.Padding(0);
             this.labelBaseFrequency.Name = "labelBaseFrequency";
@@ -94,7 +89,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // numericUpDownBaseFrequency
             // 
             this.numericUpDownBaseFrequency.DecimalPlaces = 6;
-            this.numericUpDownBaseFrequency.Dock = System.Windows.Forms.DockStyle.Fill;
             this.numericUpDownBaseFrequency.Increment = new decimal(new int[] {
             1,
             0,
@@ -136,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ScalePropertiesUserControl";
             this.RemoveButtonVisible = true;
-            this.Size = new System.Drawing.Size(13, 12);
+            this.Size = new System.Drawing.Size(505, 375);
             this.Controls.SetChildIndex(this.numericUpDownBaseFrequency, 0);
             this.Controls.SetChildIndex(this.labelBaseFrequency, 0);
             this.Controls.SetChildIndex(this.comboBoxScaleType, 0);
