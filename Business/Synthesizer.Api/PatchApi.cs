@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Api
             _patchManager.CreatePatch();
         }
 
-        public Absolute_OperatorWrapper Absolute(Outlet number = null)
+        public OperatorWrapper_WithUnderlyingPatch Absolute(Outlet number = null)
             => _patchManager.Absolute(number);
 
         public Add_OperatorWrapper Add(params Outlet[] items) 
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Api
         public Add_OperatorWrapper Add(IList<Outlet> items)
             => _patchManager.Add(items);
 
-        public And_OperatorWrapper And(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch And(Outlet a = null, Outlet b = null)
             => _patchManager.And(a, b);
 
         public AllPassFilter_OperatorWrapper AllPassFilter(

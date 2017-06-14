@@ -5,6 +5,7 @@ using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 
@@ -79,7 +80,8 @@ namespace JJ.Business.Synthesizer.Converters
             IList<Inlet> sourceInlets;
             if (sourcePatch != null)
             {
-                sourceInlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                sourceInlets = sourcePatch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                          .Select(x => new PatchInlet_OperatorWrapper(x))
                                           .Select(x => x.Inlet)
                                           .ToArray();
             }
@@ -144,7 +146,8 @@ namespace JJ.Business.Synthesizer.Converters
             IList<Outlet> sourceOutlets;
             if (sourcePatch != null)
             {
-                sourceOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                sourceOutlets = sourcePatch.EnumerateOperatorsOfType(Enums.OperatorTypeEnum.PatchOutlet)
+                                           .Select(x => new PatchOutlet_OperatorWrapper(x))
                                            .Select(x => x.Outlet)
                                            .ToArray();
             }

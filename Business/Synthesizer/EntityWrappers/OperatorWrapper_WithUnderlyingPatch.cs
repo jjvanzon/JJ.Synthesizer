@@ -1,23 +1,15 @@
-﻿using System;
-using System.Linq;
-using JetBrains.Annotations;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class OperatorWrapper_WithUnderlyingPatch : OperatorWrapperBase
     {
-        private readonly IDimensionRepository _dimensionRepository;
-
-        public OperatorWrapper_WithUnderlyingPatch(Operator op, [NotNull] IDimensionRepository dimensionRepository)
+        public OperatorWrapper_WithUnderlyingPatch(Operator op)
             : base(op)
         {
-            _dimensionRepository = dimensionRepository ?? throw new NullException(() => dimensionRepository);
-
             Inputs = new OperatorWrapper_WithUnderlyingPatch_Inputs(op);
             Inlets = new OperatorWrapper_WithUnderlyingPatch_Inlets(op);
             Outlets = new OperatorWrapper_WithUnderlyingPatch_Outlets(op);
@@ -38,7 +30,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public DimensionEnum StandardDimension
         {
             get => WrappedOperator.GetStandardDimensionEnum();
-            set => WrappedOperator.SetStandardDimensionEnum(value, _dimensionRepository);
         }
 
         public string CustomDimension

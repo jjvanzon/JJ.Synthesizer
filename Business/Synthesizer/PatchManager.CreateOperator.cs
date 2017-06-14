@@ -46,14 +46,12 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_STEP = 1.0;
         private const double MULTIPLICATIVE_IDENTITY = 1.0;
         
-        public Absolute_OperatorWrapper Absolute(Outlet number = null)
+        public OperatorWrapper_WithUnderlyingPatch Absolute(Outlet number = null)
         {
-            Operator op = FromSystem(OperatorTypeEnum.Absolute);
+            Operator op = FromSystemDocument(OperatorTypeEnum.Absolute);
 
-            var wrapper = new Absolute_OperatorWrapper(op)
-            {
-                NumberInput = number
-            };
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Number] = number;
 
             return wrapper;
         }
@@ -100,15 +98,13 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public And_OperatorWrapper And(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch And(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystem(OperatorTypeEnum.And);
+            Operator op = FromSystemDocument(OperatorTypeEnum.And);
 
-            var wrapper = new And_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.A] = a;
+            wrapper.Inputs[DimensionEnum.B] = b;
 
             return wrapper;
         }
@@ -448,7 +444,7 @@ namespace JJ.Business.Synthesizer
 
             new Versatile_OperatorValidator(op).Assert();
 
-            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op, _repositories.DimensionRepository);
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             return wrapper;
         }
 
@@ -1852,9 +1848,9 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Sine(Outlet frequency = null)
         {
-            Operator op = FromSystem(OperatorTypeEnum.Sine);
+            Operator op = FromSystemDocument(OperatorTypeEnum.Sine);
 
-            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op, _repositories.DimensionRepository);
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Frequency] = frequency;
 
             new Versatile_OperatorValidator(op).Assert();
@@ -2198,7 +2194,7 @@ namespace JJ.Business.Synthesizer
 
         // Generic methods for operator creation
 
-        private Operator FromSystem(OperatorTypeEnum operatorTypeEnum)
+        private Operator FromSystemDocument(OperatorTypeEnum operatorTypeEnum)
         {
             Patch patch = _documentManager.GetSystemPatch(operatorTypeEnum);
 

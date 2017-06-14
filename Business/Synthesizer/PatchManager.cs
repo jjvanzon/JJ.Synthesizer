@@ -696,11 +696,15 @@ namespace JJ.Business.Synthesizer
         {
             AssertPatchNotNull();
 
-            IList<PatchInlet_OperatorWrapper> patchInletWrappers = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                                        .Where(x => x.Inlet.GetDimensionEnum() == DimensionEnum.Sound &&
-                                                                                    !x.Inlet.DefaultValue.HasValue &&
-                                                                                    x.Input == null)
-                                                                        .ToArray();
+            IList<PatchInlet_OperatorWrapper> patchInletWrappers = Patch
+                .EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                .Select(x => new PatchInlet_OperatorWrapper(x))
+                .Where(
+                    x => x.Inlet.GetDimensionEnum() == DimensionEnum.Sound &&
+                         !x.Inlet.DefaultValue.HasValue &&
+                         x.Input == null)
+                .ToArray();
+
             // ReSharper disable once InvertIf
             if (patchInletWrappers.Count != 0)
             {

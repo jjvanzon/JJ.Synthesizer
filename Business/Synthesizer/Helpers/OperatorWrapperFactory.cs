@@ -14,10 +14,8 @@ namespace JJ.Business.Synthesizer.Helpers
         private static readonly Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> _createOperatorWrapperDelegateDictionary =
                    new Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>>
         {
-            { OperatorTypeEnum.Absolute, Create_Absolute_OperatorWrapper },
             { OperatorTypeEnum.Add , Create_Add_OperatorWrapper },
             { OperatorTypeEnum.AllPassFilter, Create_AllPassFilter_OperatorWrapper },
-            { OperatorTypeEnum.And, Create_And_OperatorWrapper },
             { OperatorTypeEnum.AverageFollower, Create_AverageFollower_OperatorWrapper },
             { OperatorTypeEnum.AverageOverDimension, Create_AverageOverDimension_OperatorWrapper },
             { OperatorTypeEnum.AverageOverInlets, Create_Average_OperatorWrapper },
@@ -80,7 +78,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Scaler, Create_Scaler_OperatorWrapper },
             { OperatorTypeEnum.SetDimension, Create_SetDimension_OperatorWrapper },
             { OperatorTypeEnum.Shift, Create_Shift_OperatorWrapper },
-            { OperatorTypeEnum.Sine , Create_Sine_OperatorWrapper },
             { OperatorTypeEnum.SortOverDimension, Create_SortOverDimension_OperatorWrapper },
             { OperatorTypeEnum.SortOverInlets, Create_Sort_OperatorWrapper },
             { OperatorTypeEnum.Spectrum, Create_Spectrum_OperatorWrapper },
@@ -97,7 +94,6 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static OperatorWrapperBase CreateOperatorWrapper(
             Operator op,
-            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository)
         {
@@ -113,14 +109,17 @@ namespace JJ.Business.Synthesizer.Helpers
                 case OperatorTypeEnum.Sample:
                     return new Sample_OperatorWrapper(op, sampleRepository);
 
+                case OperatorTypeEnum.Absolute:
+                case OperatorTypeEnum.And:
                 case OperatorTypeEnum.CustomOperator:
-                    return new OperatorWrapper_WithUnderlyingPatch(op, dimensionRepository);
+                case OperatorTypeEnum.Sine:
+                    return new OperatorWrapper_WithUnderlyingPatch(op);
 
                 default:
                     Func<Operator, OperatorWrapperBase> func;
                     if (!_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out func))
                     {
-                        throw new Exception($"_createOperatorWrapperDelegateDictionary does not contain entry for OperatorTypeEnum '{operatorTypeEnum}'.");
+                        throw new Exception($"{nameof(_createOperatorWrapperDelegateDictionary)} does not contain entry for {nameof(OperatorTypeEnum)} '{operatorTypeEnum}'.");
                     }
 
                     OperatorWrapperBase wrapper = func(op);
@@ -129,10 +128,8 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        private static Absolute_OperatorWrapper Create_Absolute_OperatorWrapper(Operator op) { return new Absolute_OperatorWrapper(op); }
         private static Add_OperatorWrapper Create_Add_OperatorWrapper(Operator op) { return new Add_OperatorWrapper(op); }
         private static AllPassFilter_OperatorWrapper Create_AllPassFilter_OperatorWrapper(Operator op) { return new AllPassFilter_OperatorWrapper(op); }
-        private static And_OperatorWrapper Create_And_OperatorWrapper(Operator op) { return new And_OperatorWrapper(op); }
         private static AverageFollower_OperatorWrapper Create_AverageFollower_OperatorWrapper(Operator op) { return new AverageFollower_OperatorWrapper(op); }
         private static AverageOverDimension_OperatorWrapper Create_AverageOverDimension_OperatorWrapper(Operator op) { return new AverageOverDimension_OperatorWrapper(op); }
         private static AverageOverInlets_OperatorWrapper Create_Average_OperatorWrapper(Operator op) { return new AverageOverInlets_OperatorWrapper(op); }
@@ -195,7 +192,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Scaler_OperatorWrapper Create_Scaler_OperatorWrapper(Operator op) { return new Scaler_OperatorWrapper(op); }
         private static SetDimension_OperatorWrapper Create_SetDimension_OperatorWrapper(Operator op) { return new SetDimension_OperatorWrapper(op); }
         private static Shift_OperatorWrapper Create_Shift_OperatorWrapper(Operator op) { return new Shift_OperatorWrapper(op); }
-        private static Sine_OperatorWrapper Create_Sine_OperatorWrapper(Operator op) { return new Sine_OperatorWrapper(op); }
         private static SortOverDimension_OperatorWrapper Create_SortOverDimension_OperatorWrapper(Operator op) { return new SortOverDimension_OperatorWrapper(op); }
         private static SortOverInlets_OperatorWrapper Create_Sort_OperatorWrapper(Operator op) { return new SortOverInlets_OperatorWrapper(op); }
         private static Spectrum_OperatorWrapper Create_Spectrum_OperatorWrapper(Operator op) { return new Spectrum_OperatorWrapper(op); }

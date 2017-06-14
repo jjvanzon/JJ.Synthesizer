@@ -207,7 +207,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private OutletViewModel ConvertToViewModelRecursive(Outlet outlet)
         {
-            OutletViewModel viewModel = outlet.ToViewModel(_dimensionRepository, _curveRepository, _sampleRepository, _entityPositionManager);
+            OutletViewModel viewModel = outlet.ToViewModel(_curveRepository, _sampleRepository, _entityPositionManager);
 
             // Recursive call
             viewModel.Operator = ConvertToViewModelRecursive(outlet.Operator);

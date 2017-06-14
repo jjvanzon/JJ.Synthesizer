@@ -205,7 +205,8 @@ namespace JJ.Business.Synthesizer
                 return new List<Inlet>();
             }
 
-            IList<Inlet> sourceInlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+            IList<Inlet> sourceInlets = sourcePatch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                                   .Select(x => new PatchInlet_OperatorWrapper(x))
                                                    .Select(x => x.Inlet)
                                                    .ToArray();
             return sourceInlets;
@@ -220,7 +221,8 @@ namespace JJ.Business.Synthesizer
                 return new List<Outlet>();
             }
 
-            IList<Outlet> sourceOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+            IList<Outlet> sourceOutlets = sourcePatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                     .Select(x => new PatchOutlet_OperatorWrapper(x))
                                                      .Select(x => x.Outlet)
                                                      .ToArray();
             return sourceOutlets;

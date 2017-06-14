@@ -584,13 +584,11 @@
     <Compile Include="EntityWrappers\Round_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\If_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\AverageFollower_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Absolute_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SawDown_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Scaler_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MaxFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Not_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Or_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\And_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\GreaterThan_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\GreaterThanOrEqual_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\LessThanOrEqual_OperatorWrapper.cs" />
@@ -657,7 +655,6 @@
     <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Sine_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Power_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchOutlet_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchInlet_OperatorWrapper.cs" />

@@ -422,11 +422,14 @@ namespace JJ.Business.Synthesizer
         {
             IList<Outlet> patches2 = patches.Where(x => !x.Hidden || mustIncludeHidden)
                                             .Where(
-                                                x => !x.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                x => !x.EnumerateOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                                       .Select(y => new PatchInlet_OperatorWrapper(y))
                                                        .Where(y => y.Inlet.GetDimensionEnum() == DimensionEnum.Sound)
                                                        .Any())
                                             .OrderBy(x => x.Name)
-                                            .SelectMany(x => x.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>())
+                                            .SelectMany(
+                                                x => x.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                      .Select(y => new PatchOutlet_OperatorWrapper(y)))
                                             .Select(x => x.Outlet)
                                             .Where(x => x.GetDimensionEnum() == DimensionEnum.Sound)
                                             .ToArray();

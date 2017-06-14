@@ -1124,7 +1124,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModelHelper.RefreshViewModel_WithInletsAndOutlets(
                 entity,
                 operatorViewModel,
-                _repositories.DimensionRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _entityPositionManager);
