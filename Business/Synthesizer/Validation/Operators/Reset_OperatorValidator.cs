@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Reset_OperatorValidator : OperatorValidator_Base
+    internal class Reset_OperatorValidator : OperatorValidator_Base_WithOperatorType
     {
         public Reset_OperatorValidator(Operator obj)
             : base(

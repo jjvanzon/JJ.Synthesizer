@@ -363,14 +363,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(entity, _repositories);
-            Canonicals.VoidResultDto result = patchManager.SavePatch();
+            VoidResult result = patchManager.SavePatch();
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
             // Successful?
             viewModel.Successful = result.Successful;

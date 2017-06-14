@@ -43,10 +43,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(entity.Patch, _repositories);
-            Canonicals.VoidResultDto result = patchManager.SaveOperator(entity);
+            VoidResult result = patchManager.SaveOperator(entity);
 
             // Non-Persisted
-            viewModel.ValidationMessages.AddRange(result.Messages);
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
             // Successful?
             viewModel.Successful = result.Successful;

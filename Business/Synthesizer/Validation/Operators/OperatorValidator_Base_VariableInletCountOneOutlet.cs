@@ -7,7 +7,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal abstract class OperatorValidator_Base_VariableInletCountOneOutlet : OperatorValidator_Base
+    internal abstract class OperatorValidator_Base_VariableInletCountOneOutlet : OperatorValidator_Base_WithOperatorType
     {
         public OperatorValidator_Base_VariableInletCountOneOutlet(
             Operator op,

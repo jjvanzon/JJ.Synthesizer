@@ -7,6 +7,7 @@ using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -39,10 +40,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(entity.Patch, _repositories);
-            VoidResultDto result = patchManager.SaveOperator(entity);
+            VoidResult result = patchManager.SaveOperator(entity);
 
             // Non-Persisted
-            viewModel.ValidationMessages.AddRange(result.Messages);
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
             // Successful?
             viewModel.Successful = result.Successful;

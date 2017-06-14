@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResultDto SavePatch()
+        public VoidResult SavePatch()
         {
             AssertPatchNotNull();
 
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer
                 new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
             }
 
-            VoidResultDto result = ValidatePatchWithRelatedEntities();
+            VoidResult result = ValidatePatchWithRelatedEntities();
             if (!result.Successful)
             {
                 return result;
@@ -145,13 +145,13 @@ namespace JJ.Business.Synthesizer
         /// If one of the related operators has a different patch assigned to it,
         /// a validation message is returned.
         /// </summary>
-        public VoidResultDto SaveOperator(Operator op)
+        public VoidResult SaveOperator(Operator op)
         {
             AssertPatchNotNull();
 
             if (op == null) throw new NullException(() => op);
 
-            VoidResultDto result1 = AddToPatchRecursive(op);
+            VoidResult result1 = AddToPatchRecursive(op);
             if (!result1.Successful)
             {
                 return result1;
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer
 
             // Validate the whole patch, because side-effect can affect the whole patch.
             // But also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
-            VoidResultDto result2 = ValidatePatchWithRelatedEntities();
+            VoidResult result2 = ValidatePatchWithRelatedEntities();
 
             return result2;
         }
@@ -173,19 +173,19 @@ namespace JJ.Business.Synthesizer
         /// If one of the related operators has a different patch assigned to it,
         /// a validation message is returned.
         /// </summary>
-        private VoidResultDto AddToPatchRecursive(Operator op)
+        private VoidResult AddToPatchRecursive(Operator op)
         {
             if (op == null) throw new NullException(() => op);
 
             IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, Patch, _repositories.SampleRepository, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
-                return validator.ToCanonical();
+                return validator.ToResult();
             }
 
             AddToPatchRecursive_WithoutValidation(op);
 
-            return new VoidResultDto { Successful = true };
+            return new VoidResult { Successful = true };
         }
 
         private void AddToPatchRecursive_WithoutValidation(Operator op)
@@ -302,16 +302,14 @@ namespace JJ.Business.Synthesizer
 
         // Validate (Private)
 
-        private VoidResultDto ValidatePatchWithRelatedEntities()
+        private VoidResult ValidatePatchWithRelatedEntities()
         {
             IValidator validator = new PatchValidator_WithRelatedEntities(
                 Patch,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository, new HashSet<object>());
 
-            VoidResultDto result = validator.ToCanonical();
-
-            return result;
+            return validator.ToResult();
         }
 
         private VoidResultDto ValidateOperatorNonRecursive(Operator op)

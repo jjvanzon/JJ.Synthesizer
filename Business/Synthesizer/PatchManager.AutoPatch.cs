@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Business;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Mathematics;
 // ReSharper disable SuggestVarOrType_Elsewhere
@@ -141,8 +140,8 @@ namespace JJ.Business.Synthesizer
             }
 
             // This is sensitive, error prone code, so verify its result with the validators.
-            VoidResultDto result = ValidatePatchWithRelatedEntities();
-            ResultHelper.Assert(result);
+            IResult result = ValidatePatchWithRelatedEntities();
+            result.Assert();
         }
 
         private PatchInlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> intermediateUnmatchedInlets)

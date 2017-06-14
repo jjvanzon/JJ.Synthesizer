@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Random_OperatorValidator : OperatorValidator_Base
+    internal class Random_OperatorValidator : OperatorValidator_Base_WithOperatorType
     {
         public Random_OperatorValidator(Operator obj)
             : base(

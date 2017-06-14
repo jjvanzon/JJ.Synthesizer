@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_Base_AggregateOverDimension : OperatorValidator_Base
+    internal class OperatorValidator_Base_AggregateOverDimension : OperatorValidator_Base_WithOperatorType
     {
         public OperatorValidator_Base_AggregateOverDimension(Operator obj, OperatorTypeEnum operatorTypeEnum)
             : base(

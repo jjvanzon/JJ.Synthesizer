@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class ClosestOverDimensionExp_OperatorValidator : OperatorValidator_Base
+    internal class ClosestOverDimensionExp_OperatorValidator : OperatorValidator_Base_WithOperatorType
     {
         public ClosestOverDimensionExp_OperatorValidator(Operator obj)
             : base(

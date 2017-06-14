@@ -12,7 +12,6 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    /// <summary> Does not derive from OperatorValidator_Base, because it has very specific requirements. </summary>
     internal abstract class OperatorValidator_Base_WithUnderlyingPatch : VersatileValidator<Operator>
     {
         public OperatorValidator_Base_WithUnderlyingPatch(Operator op)
@@ -20,15 +19,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         { 
             For(() => op.Data, ResourceFormatter.Data).IsNullOrEmpty();
 
-            if (op.UnderlyingPatch == null)
-            {
-                return;
-            }
+            ExecuteValidator(new DimensionInfoValidator((op.HasDimension, op.StandardDimension, op.CustomDimensionName)));
 
-            ValidateUnderlyingPatchReferenceConstraint(op);
-            ValidateHasDimensionAgainstUnderlyingPatch(op);
-            ValidateInletsAgainstUnderlyingPatch(op);
-            ValidateOutletsAgainstUnderlyingPatch(op);
+            // ReSharper disable once InvertIf
+            if (op.UnderlyingPatch != null)
+            {
+                ValidateUnderlyingPatchReferenceConstraint(op);
+                ValidateHasDimensionAgainstUnderlyingPatch(op);
+                ValidateInletsAgainstUnderlyingPatch(op);
+                ValidateOutletsAgainstUnderlyingPatch(op);
+            }
         }
 
         private void ValidateUnderlyingPatchReferenceConstraint(Operator op)

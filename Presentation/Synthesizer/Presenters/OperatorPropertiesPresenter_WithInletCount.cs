@@ -1,8 +1,10 @@
-﻿using JJ.Data.Canonical;
+﻿using JJ.Business.Canonical;
+using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Framework.Collections;
 
@@ -41,12 +43,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
-                VoidResultDto result2 = patchManager.SaveOperator(entity);
+                VoidResult result2 = patchManager.SaveOperator(entity);
                 // ReSharper disable once InvertIf
                 if (!result2.Successful)
                 {
                     // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(result2.Messages);
+                    viewModel.ValidationMessages.AddRange(result2.Messages.ToCanonical());
 
                     // Successful?
                     viewModel.Successful = result2.Successful;

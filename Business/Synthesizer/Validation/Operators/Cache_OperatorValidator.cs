@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Cache_OperatorValidator : OperatorValidator_Base
+    internal class Cache_OperatorValidator : OperatorValidator_Base_WithOperatorType
     {
         public Cache_OperatorValidator(Operator obj)
             : base(

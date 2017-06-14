@@ -42,34 +42,52 @@ namespace JJ.Business.Synthesizer.Converters
         {
             if (destOperator == null) throw new NullException(() => destOperator);
 
-            destOperator.HasDimension = sourcePatch.HasDimension;
             destOperator.LinkToUnderlyingPatch(sourcePatch);
 
-            IList<Inlet> sourceInlets;
-            IList<Outlet> sourceOutlets;
+            ConvertDimensionInfo(sourcePatch, destOperator);
+            ConvertInlets(sourcePatch, destOperator);
+            ConvertOutlets(sourcePatch, destOperator);
+        }
 
+        /// <param name="sourcePatch">nullable</param>
+        private static void ConvertDimensionInfo(Patch sourcePatch, Operator destOperator)
+        {
+            if (sourcePatch?.HasDimension == false)
+            {
+                destOperator.HasDimension = false;
+                destOperator.CustomDimensionName = null;
+                destOperator.UnlinkStandardDimension();
+            }
+            else
+            {
+                destOperator.HasDimension = sourcePatch.HasDimension;
+
+                if (string.IsNullOrWhiteSpace(destOperator.CustomDimensionName))
+                {
+                    destOperator.CustomDimensionName = sourcePatch.DefaultCustomDimensionName;
+                }
+                if (destOperator.StandardDimension == null)
+                {
+                    destOperator.LinkTo(sourcePatch.DefaultStandardDimension);
+                }
+            }
+        }
+
+        /// <param name="sourcePatch">nullable</param>
+        private void ConvertInlets(Patch sourcePatch, Operator destOperator)
+        {
+            IList<Inlet> sourceInlets;
             if (sourcePatch != null)
             {
                 sourceInlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
                                           .Select(x => x.Inlet)
                                           .ToArray();
-
-                sourceOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                           .Select(x => x.Outlet)
-                                           .ToArray();
             }
             else
             {
                 sourceInlets = new Inlet[0];
-                sourceOutlets = new Outlet[0];
             }
 
-            ConvertInlets(sourceInlets, destOperator);
-            ConvertOutlets(sourceOutlets, destOperator);
-        }
-
-        private void ConvertInlets(IList<Inlet> sourceInlets, Operator destOperator)
-        {
             IList<InletTuple> tuples = InletOutletMatcher.MatchSourceAndDestInlets(sourceInlets, destOperator.Inlets);
 
             var idsToKeep = new HashSet<int>();
@@ -120,8 +138,21 @@ namespace JJ.Business.Synthesizer.Converters
             return destInlet;
         }
 
-        private void ConvertOutlets(IList<Outlet> sourceOutlets, Operator destOperator)
+        /// <param name="sourcePatch">nullable</param>
+        private void ConvertOutlets(Patch sourcePatch, Operator destOperator)
         {
+            IList<Outlet> sourceOutlets;
+            if (sourcePatch != null)
+            {
+                sourceOutlets = sourcePatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                           .Select(x => x.Outlet)
+                                           .ToArray();
+            }
+            else
+            {
+                sourceOutlets = new Outlet[0];
+            }
+
             IList<OutletTuple> tuples = InletOutletMatcher.MatchSourceAndDestOutlets(sourceOutlets, destOperator.Outlets);
 
             var idsToKeep = new HashSet<int>();

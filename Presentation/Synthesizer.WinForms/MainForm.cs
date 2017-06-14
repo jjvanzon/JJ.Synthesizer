@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
@@ -214,7 +215,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             );
 
             // This makes side-effects go off.
-            VoidResultDto result = x.SavePatch();
+            VoidResult result = x.SavePatch();
             // ReSharper disable once InvertIf
             if (!result.Successful)
             {

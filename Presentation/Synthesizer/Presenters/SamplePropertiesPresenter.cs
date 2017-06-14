@@ -62,11 +62,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     var x = new PatchManager(_repositories);
                     x.CreatePatch();
                     Outlet outlet = x.Sample(entity);
-                    VoidResultDto result = x.SavePatch();
+                    VoidResult result = x.SavePatch();
 
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;
-                    viewModel.ValidationMessages = result.Messages;
+                    viewModel.ValidationMessages = result.Messages.ToCanonical();
 
                     // Successful?
                     viewModel.Successful = result.Successful;

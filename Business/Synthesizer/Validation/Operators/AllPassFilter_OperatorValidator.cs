@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class AllPassFilter_OperatorValidator : OperatorValidator_Base
+    internal class AllPassFilter_OperatorValidator : OperatorValidator_Base_WithOperatorType
     {
         public AllPassFilter_OperatorValidator(Operator obj)
             : base(

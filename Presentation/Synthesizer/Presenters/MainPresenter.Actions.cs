@@ -459,7 +459,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Business
                     patch.LinkTo(document);
                     var patchManager = new PatchManager(patch, _repositories);
-                    IResultDto result = patchManager.SavePatch();
+                    IResult result = patchManager.SavePatch();
 
                     AutoPatchPopupViewModel viewModel2;
                     if (result.Successful)
@@ -480,7 +480,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
 
                     // Non-Persisted
-                    viewModel2.ValidationMessages.AddRange(result.Messages);
+                    viewModel2.ValidationMessages.AddRange(result.Messages.ToCanonical());
                     viewModel2.RefreshCounter = userInput.RefreshCounter;
                     viewModel2.PatchDetails.RefreshCounter = userInput.PatchDetails.RefreshCounter;
 
@@ -1253,12 +1253,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                             var x = new PatchManager(_repositories);
                             x.CreatePatch();
                             Outlet outlet2 = x.Sample(sample);
-                            VoidResultDto result2 = x.SavePatch();
+                            VoidResult result2 = x.SavePatch();
 
                             result = new Result<Outlet>
                             {
                                 Successful = result2.Successful,
-                                Messages = result2.Messages.ToBusiness(),
+                                Messages = result2.Messages,
                                 Data = outlet2
                             };
                         }

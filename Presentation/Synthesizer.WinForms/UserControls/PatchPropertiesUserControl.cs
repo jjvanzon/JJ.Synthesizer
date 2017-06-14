@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchPropertiesUserControl : PropertiesUserControlBase
     {
+        private bool _applyViewModelToControlsIsBusy = false;
+
         public event EventHandler<EventArgs<int>> AddToInstrumentRequested;
         public event EventHandler<EventArgs<int>> HasDimensionChanged;
 
@@ -21,10 +23,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             AddProperty(labelName, textBoxName);
             AddProperty(labelGroup, textBoxGroup);
+            AddProperty(labelHidden, checkBoxHidden);
             AddProperty(labelHasDimension, checkBoxHasDimension);
             AddProperty(labelDefaultStandardDimension, comboBoxDefaultStandardDimension);
             AddProperty(labelDefaultCustomDimensionName, textBoxDefaultCustomDimensionName);
-            AddProperty(labelHidden, checkBoxHidden);
             AddProperty(buttonAddToInstrument, null);
         }
 
@@ -54,23 +56,31 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            textBoxName.Text = ViewModel.Name;
-            textBoxGroup.Text = ViewModel.Group;
-            checkBoxHasDimension.Checked = ViewModel.HasDimension;
-            textBoxDefaultCustomDimensionName.Text = ViewModel.DefaultCustomDimensionName;
-            textBoxDefaultCustomDimensionName.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
-            labelDefaultCustomDimensionName.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
-            checkBoxHidden.Checked = ViewModel.Hidden;
-
-            if (comboBoxDefaultStandardDimension.DataSource == null)
+            _applyViewModelToControlsIsBusy = true;
+            try
             {
-                comboBoxDefaultStandardDimension.ValueMember = nameof(IDAndName.ID);
-                comboBoxDefaultStandardDimension.DisplayMember = nameof(IDAndName.Name);
-                comboBoxDefaultStandardDimension.DataSource = ViewModel.DefaultStandardDimensionLookup;
+                textBoxName.Text = ViewModel.Name;
+                textBoxGroup.Text = ViewModel.Group;
+                checkBoxHasDimension.Checked = ViewModel.HasDimension;
+                textBoxDefaultCustomDimensionName.Text = ViewModel.DefaultCustomDimensionName;
+                textBoxDefaultCustomDimensionName.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
+                labelDefaultCustomDimensionName.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
+                checkBoxHidden.Checked = ViewModel.Hidden;
+
+                if (comboBoxDefaultStandardDimension.DataSource == null)
+                {
+                    comboBoxDefaultStandardDimension.ValueMember = nameof(IDAndName.ID);
+                    comboBoxDefaultStandardDimension.DisplayMember = nameof(IDAndName.Name);
+                    comboBoxDefaultStandardDimension.DataSource = ViewModel.DefaultStandardDimensionLookup;
+                }
+                comboBoxDefaultStandardDimension.SelectedValue = ViewModel.DefaultStandardDimension?.ID ?? 0;
+                comboBoxDefaultStandardDimension.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
+                labelDefaultStandardDimension.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
             }
-            comboBoxDefaultStandardDimension.SelectedValue = ViewModel.DefaultStandardDimension?.ID ?? 0;
-            comboBoxDefaultStandardDimension.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
-            labelDefaultStandardDimension.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
+            finally
+            {
+                _applyViewModelToControlsIsBusy = false;
+            }
         }
 
         protected override void ApplyControlsToViewModel()
@@ -89,6 +99,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void checkBoxHasDimension_CheckedChanged(object sender, EventArgs e)
         {
+            if (_applyViewModelToControlsIsBusy) return;
+
             if (ViewModel == null) return;
 
             ApplyControlsToViewModel();

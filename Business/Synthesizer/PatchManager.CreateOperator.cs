@@ -10,6 +10,7 @@ using JJ.Framework.Exceptions;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer
@@ -1412,8 +1413,8 @@ namespace JJ.Business.Synthesizer
             new Operator_SideEffect_GeneratePatchInletListIndex(op).Execute();
 
             // Call save to execute side-effects and robust validation.
-            VoidResultDto result = SaveOperator(op);
-            ResultHelper.Assert(result);
+            VoidResult result = SaveOperator(op);
+            result.Assert();
 
             return wrapper;
         }
@@ -1481,8 +1482,8 @@ namespace JJ.Business.Synthesizer
             new Operator_SideEffect_GeneratePatchOutletListIndex(op).Execute();
 
             // Call save to execute side-effects and robust validation.
-            VoidResultDto result = SaveOperator(op);
-            ResultHelper.Assert(result);
+            VoidResult result = SaveOperator(op);
+            result.Assert();
 
             return wrapper;
         }

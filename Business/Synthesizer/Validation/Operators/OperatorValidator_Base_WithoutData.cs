@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     /// Base class for operator validators that do not have additional data in the Data property.
     /// Verifies that the Data property is null.
     /// </summary>
-    public abstract class OperatorValidator_Base_WithoutData : OperatorValidator_Base
+    internal abstract class OperatorValidator_Base_WithoutData : OperatorValidator_Base_WithOperatorType
     {
         public OperatorValidator_Base_WithoutData(
             Operator obj,

@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class BandPassFilterConstantTransitionGain_OperatorValidator : OperatorValidator_Base
+    internal class BandPassFilterConstantTransitionGain_OperatorValidator : OperatorValidator_Base_WithOperatorType
     {
         public BandPassFilterConstantTransitionGain_OperatorValidator(Operator obj)
             : base(

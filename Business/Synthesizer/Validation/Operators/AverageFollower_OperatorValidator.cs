@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class AverageFollower_OperatorValidator : OperatorValidator_Base
+    internal class AverageFollower_OperatorValidator : OperatorValidator_Base_WithOperatorType
     {
         public AverageFollower_OperatorValidator(Operator obj)
             : base(

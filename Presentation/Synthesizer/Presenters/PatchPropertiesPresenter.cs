@@ -38,10 +38,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             var patchManager = new PatchManager(patch, _repositories);
-            Canonicals.VoidResultDto result = patchManager.SavePatch();
+            VoidResult result = patchManager.SavePatch();
 
             // Non-Persisted
-            viewModel.ValidationMessages = result.Messages;
+            viewModel.ValidationMessages = result.Messages.ToCanonical();
             viewModel.Successful = result.Successful;
         }
 
@@ -87,6 +87,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 });
         }
 
-        public PatchPropertiesViewModel HasDimensionChanged(PatchPropertiesViewModel userInput) => Refresh(userInput);
+        public PatchPropertiesViewModel HasDimensionChanged(PatchPropertiesViewModel userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            // Cannot use the template method, because CreateViewModel must come after the business.
+
+            // RefreshCounter
+            userInput.RefreshCounter++;
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Patch patch = _repositories.PatchRepository.Get(userInput.ID);
+
+            // Business
+            var patchManager = new PatchManager(patch, _repositories);
+            IResult result = patchManager.SavePatch();
+
+            // CreateViewModel
+            PatchPropertiesViewModel viewModel = CreateViewModel(userInput);
+
+            // Non-Persisted
+            CopyNonPersistedProperties(userInput, viewModel);
+            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+
+            // Successful?
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
+        }
     }
 }

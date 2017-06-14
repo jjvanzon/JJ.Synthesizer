@@ -7,7 +7,7 @@ using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal abstract class OperatorValidator_Base_ClosestOverInlets : OperatorValidator_Base
+    internal abstract class OperatorValidator_Base_ClosestOverInlets : OperatorValidator_Base_WithOperatorType
     {
         private const int MINIMUM_INLET_COUNT = 3;
 

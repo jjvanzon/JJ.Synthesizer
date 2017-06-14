@@ -376,8 +376,12 @@ namespace JJ.Business.Synthesizer
             return isSystemDocument;
         }
 
-        private static readonly object _systemDocumentLock = new object();
+
         private static Document _systemDocument;
+        private static readonly object _systemDocumentLock = new object();
+
+        private static Dictionary<string, Patch> _systemPatchDictionary;
+        private static readonly object _systemPatchDictionaryLock = new object();
 
         public Document GetSystemDocument()
         {
@@ -392,6 +396,20 @@ namespace JJ.Business.Synthesizer
             }
         }
 
+        private Dictionary<string, Patch> GetSystemPatchDictionary()
+        {
+            lock (_systemPatchDictionaryLock)
+            {
+                // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
+                if (_systemPatchDictionary == null)
+                {
+                    _systemDocument = GetSystemDocument();
+                    _systemPatchDictionary = _systemDocument.Patches.Where(x => !x.Hidden).ToDictionary(x => x.Name);
+                }
+                return _systemPatchDictionary;
+            }
+        }
+
         public void RefreshSystemDocumentIfNeeded(Document document)
         {
             // ReSharper disable once InvertIf
@@ -399,7 +417,8 @@ namespace JJ.Business.Synthesizer
             {
                 lock (_systemDocumentLock)
                 {
-                    _systemDocument = _repositories.DocumentRepository.GetByNameComplete(SYSTEM_DOCUMENT_NAME);
+                    _systemDocument = null;
+                    _systemPatchDictionary = null;
                 }
             }
         }
@@ -418,12 +437,9 @@ namespace JJ.Business.Synthesizer
 
         public Patch TryGetSystemPatch(OperatorTypeEnum operatorTypeEnum)
         {
-            Document document = GetSystemDocument();
             string patchName = operatorTypeEnum.ToString();
-            Patch patch = document.Patches
-                                  .Where(x => !x.Hidden)
-                                  .Where(x => string.Equals(x.Name, patchName))
-                                  .SingleOrDefaultWithClearException(new { name = patchName });
+
+            GetSystemPatchDictionary().TryGetValue(patchName, out Patch patch);
 
             if (patch == null)
             {

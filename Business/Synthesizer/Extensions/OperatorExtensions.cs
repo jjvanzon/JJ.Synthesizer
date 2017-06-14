@@ -45,23 +45,20 @@ namespace JJ.Business.Synthesizer.Extensions
                 return;
             }
 
-            // WARNING: The switch on operatorTypeEnum will be deprecated, 
-            // but only each patch with an OperatorTypeEnun name 
-            // in the system document is actually finished.
-            switch (operatorTypeEnum)
+            // Try use system patch
+            var documentManager = new DocumentManager(repositories);
+            Patch patch = documentManager.TryGetSystemPatch(operatorTypeEnum);
+            if (patch != null)
             {
-                case OperatorTypeEnum.Absolute:
-                case OperatorTypeEnum.And:
-                    // Try use system patch
-                    var documentManager = new DocumentManager(repositories);
-                    Patch patch = documentManager.TryGetSystemPatch(operatorTypeEnum);
-                    if (patch != null)
-                    {
-                        op.LinkToUnderlyingPatch(patch);
-                        op.UnlinkOperatorType();
-                        return;
-                    }
-                    break;
+                //// HACK: Prevent retrieving a patch record.
+                //if (patch.ID != op.Patch?.ID)
+                //{
+                //    // HACK: Get from current context, instead of cached context.
+                //    patch = repositories.PatchRepository.Get(patch.ID);
+                    op.LinkToUnderlyingPatch(patch);
+                    op.UnlinkOperatorType();
+                //}
+                return;
             }
 
             // Use classic OperatorType entity
