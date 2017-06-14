@@ -409,6 +409,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private PatchDetailsViewModel CreateViewModel(Patch patch)
         {
             return patch.ToDetailsViewModel(
+                _repositories.DimensionRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _entityPositionManager);

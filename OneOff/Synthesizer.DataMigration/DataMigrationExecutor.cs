@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions;
@@ -8,12 +7,10 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
-using JJ.Framework.Collections;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -45,7 +42,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-                AssertDocuments(repositories, progressCallback);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
             }
 
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
@@ -64,7 +61,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 var entityPositionManager = new EntityPositionManager(repositories.EntityPositionRepository, repositories.IDRepository);
                 int rowsAffected = entityPositionManager.DeleteOrphans();
 
-                AssertDocuments(repositories, progressCallback);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
 
@@ -102,7 +99,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     progressCallback(progressMessage);
                 }
 
-                AssertDocuments(repositories, progressCallback);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 //throw new Exception("Temporarily not committing, for debugging.");
 
@@ -122,9 +119,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
                 DocumentManager documentManager = new DocumentManager(repositories);
+                PatchManager patchManager = new PatchManager(repositories);
 
                 const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Sine;
-
                 Patch systemPatch = documentManager.GetSystemPatch(operatorTypeEnum);
 
                 IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
@@ -135,23 +132,15 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     op.LinkToUnderlyingPatch(systemPatch);
                     op.UnlinkOperatorType();
 
-                    foreach (Inlet inlet in op.Inlets)
-                    {
-                        inlet.WarnIfEmpty = true;
-                    }
-
-                    foreach (Outlet outlet in op.Outlets)
-                    {
-                        outlet.NameOrDimensionHidden = true;
-                    }
+                    patchManager.Patch = op.Patch;
 
                     string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
                     progressCallback(progressMessage);
                 }
 
-                AssertDocuments(repositories, progressCallback);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
-                throw new Exception("Temporarily not committing, for debugging.");
+                //throw new Exception("Temporarily not committing, for debugging.");
 
                 context.Commit();
             }
@@ -161,14 +150,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         // Helpers
 
-        private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
+        private static void AssertDocuments_AndReapplyUnderlyingPatches(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             IList<Document> rootDocuments = repositories.DocumentRepository.GetAll();
 
-            AssertDocuments(rootDocuments, repositories, progressCallback);
+            AssertDocuments_AndReapplyUnderlyingPatches(rootDocuments, repositories, progressCallback);
         }
 
-        private static void AssertDocuments(IList<Document> rootDocuments, RepositoryWrapper repositories, Action<string> progressCallback)
+        private static void AssertDocuments_AndReapplyUnderlyingPatches(IList<Document> rootDocuments, RepositoryWrapper repositories, Action<string> progressCallback)
         {
             IResult totalResult = new VoidResult { Successful = true };
             for (int i = 0; i < rootDocuments.Count; i++)
@@ -181,7 +170,15 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 // Validate
                 var documentManager = new DocumentManager(repositories);
 
-                // 'Get' will execute side-effects
+                // 'Get' will execute side-effects of reapplying underlying patches.
+                // Not that the migration should not have written fully correct data,
+                // but you can at any time change an underlying patch from a library,
+                // and then the dependent documents will not be immediately updated.
+                // So at any time 'invalid' data (non-updated operators)
+                // can be in the database and that would be no problem.
+                // However if you just asser the documents,
+                // it will just complain about mismatches all over the place.
+
                 documentManager.Get(document.ID);
                 IResult result = documentManager.Save(document);
                 string messagePrefix = ValidationHelper.GetMessagePrefix(document);

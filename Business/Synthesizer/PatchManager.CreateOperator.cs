@@ -7,8 +7,8 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Exceptions;
-using JJ.Data.Canonical;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
@@ -69,8 +69,7 @@ namespace JJ.Business.Synthesizer
 
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Add, items);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             var wrapper = new Add_OperatorWrapper(op);
             return wrapper;
@@ -96,8 +95,7 @@ namespace JJ.Business.Synthesizer
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -140,8 +138,7 @@ namespace JJ.Business.Synthesizer
             wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
             wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -176,8 +173,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -193,8 +189,7 @@ namespace JJ.Business.Synthesizer
 
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.AverageOverInlets, items);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             var wrapper = new AverageOverInlets_OperatorWrapper(op);
             return wrapper;
@@ -220,8 +215,7 @@ namespace JJ.Business.Synthesizer
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -246,8 +240,7 @@ namespace JJ.Business.Synthesizer
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -284,8 +277,7 @@ namespace JJ.Business.Synthesizer
             wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
             wrapper.SamplingRateInlet.DefaultValue = DEFAULT_SAMPLING_RATE;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -303,8 +295,7 @@ namespace JJ.Business.Synthesizer
                 Reset = reset
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -341,8 +332,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -379,8 +369,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -400,9 +389,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new ClosestOverInlets_OperatorWrapper(op);
 
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -422,8 +409,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new ClosestOverInletsExp_OperatorWrapper(op);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -446,13 +432,12 @@ namespace JJ.Business.Synthesizer
                 CurveID = curve?.ID
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator()
+        public OperatorWrapper_WithUnderlyingPatch CustomOperator()
         {
             var op = new Operator { ID = _repositories.IDRepository.GetID() };
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories);
@@ -461,48 +446,45 @@ namespace JJ.Business.Synthesizer
 
             op.LinkTo(Patch);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
-            var wrapper = new CustomOperator_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op, _repositories.DimensionRepository);
             return wrapper;
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch)
+        public OperatorWrapper_WithUnderlyingPatch CustomOperator(Patch underlyingPatch)
         {
-            CustomOperator_OperatorWrapper wrapper = CustomOperator();
+            OperatorWrapper_WithUnderlyingPatch wrapper = CustomOperator();
             Operator op = wrapper;
 
             op.UnderlyingPatch = underlyingPatch;
 
             new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
 
         /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
-        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch, IList<Outlet> operands)
+        public OperatorWrapper_WithUnderlyingPatch CustomOperator(Patch underlyingPatch, IList<Outlet> operands)
         {
             if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
             if (operands == null) throw new NullException(() => operands);
 
-            CustomOperator_OperatorWrapper wrapper = CustomOperator(underlyingPatch);
+            OperatorWrapper_WithUnderlyingPatch wrapper = CustomOperator(underlyingPatch);
 
             SetOperands(wrapper.WrappedOperator, operands);
 
             wrapper.WrappedOperator.LinkTo(Patch);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
 
         /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
-        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch, params Outlet[] operands)
+        public OperatorWrapper_WithUnderlyingPatch CustomOperator(Patch underlyingPatch, params Outlet[] operands)
         {
             return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
         }
@@ -579,8 +561,7 @@ namespace JJ.Business.Synthesizer
                 Input = operand
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -601,8 +582,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.BInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -620,8 +600,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -640,8 +619,7 @@ namespace JJ.Business.Synthesizer
                 Ratio = ratio
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -660,8 +638,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new GetDimension_OperatorWrapper(op);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -679,8 +656,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -698,8 +674,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -724,8 +699,7 @@ namespace JJ.Business.Synthesizer
             wrapper.MinFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.BlobVolumeInlet.DefaultValue = DEFAULT_BLOB_VOLUME;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -753,8 +727,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -771,8 +744,7 @@ namespace JJ.Business.Synthesizer
                 Signal = signal,
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -791,8 +763,7 @@ namespace JJ.Business.Synthesizer
                 Else = @else
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -857,8 +828,7 @@ namespace JJ.Business.Synthesizer
             };
             wrapper.SignalOutlet.SetDimensionEnum(DimensionEnum.Signal, _repositories.DimensionRepository);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -887,8 +857,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.SamplingRateInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -906,8 +875,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -925,8 +893,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -970,8 +937,7 @@ namespace JJ.Business.Synthesizer
             wrapper.LoopStartMarkerInlet.DefaultValue = DEFAULT_START_TIME;
             wrapper.LoopEndMarkerInlet.DefaultValue = DEFAULT_END_TIME;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -996,8 +962,7 @@ namespace JJ.Business.Synthesizer
             wrapper.MaxFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.BlobVolumeInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1025,8 +990,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1042,8 +1006,7 @@ namespace JJ.Business.Synthesizer
 
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MaxOverInlets, operands);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             var wrapper = new MaxOverInlets_OperatorWrapper(op);
             return wrapper;
@@ -1074,8 +1037,7 @@ namespace JJ.Business.Synthesizer
             wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
             wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1110,8 +1072,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1127,8 +1088,7 @@ namespace JJ.Business.Synthesizer
 
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.MinOverInlets, operands);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             var wrapper = new MinOverInlets_OperatorWrapper(op);
             return wrapper;
@@ -1159,8 +1119,7 @@ namespace JJ.Business.Synthesizer
             wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
             wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1195,8 +1154,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1212,8 +1170,7 @@ namespace JJ.Business.Synthesizer
 
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Multiply, operands);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             var wrapper = new Multiply_OperatorWrapper(op);
             return wrapper;
@@ -1236,8 +1193,7 @@ namespace JJ.Business.Synthesizer
             wrapper.AInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
             wrapper.BInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1254,8 +1210,7 @@ namespace JJ.Business.Synthesizer
                 NumberInput = number,
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1274,8 +1229,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new Noise_OperatorWrapper(op);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1292,8 +1246,7 @@ namespace JJ.Business.Synthesizer
                 NumberInput = number
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1318,8 +1271,7 @@ namespace JJ.Business.Synthesizer
             wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
             wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1337,8 +1289,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1355,8 +1306,7 @@ namespace JJ.Business.Synthesizer
                 Number = number
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1375,8 +1325,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.NumberInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1394,8 +1343,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1425,8 +1373,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1436,8 +1383,7 @@ namespace JJ.Business.Synthesizer
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Inlet.Name = name;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1448,8 +1394,7 @@ namespace JJ.Business.Synthesizer
             wrapper.Inlet.Name = name;
             wrapper.Inlet.DefaultValue = defaultValue;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1460,8 +1405,7 @@ namespace JJ.Business.Synthesizer
             wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
             wrapper.Inlet.DefaultValue = defaultValue;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1493,8 +1437,7 @@ namespace JJ.Business.Synthesizer
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
             wrapper.Outlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1504,8 +1447,7 @@ namespace JJ.Business.Synthesizer
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
             wrapper.Outlet.Name = name;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(wrapper.WrappedOperator);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1533,8 +1475,7 @@ namespace JJ.Business.Synthesizer
             wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
             wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1552,8 +1493,7 @@ namespace JJ.Business.Synthesizer
                 Exponent = exponent
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1581,8 +1521,7 @@ namespace JJ.Business.Synthesizer
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
             wrapper.WidthInlet.DefaultValue = DEFAULT_PULSE_WIDTH;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1600,8 +1539,7 @@ namespace JJ.Business.Synthesizer
                 Reset = reset
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1627,8 +1565,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.RateInlet.DefaultValue = DEFAULT_RANDOM_RATE;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1659,8 +1596,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_RANGE_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1693,8 +1629,7 @@ namespace JJ.Business.Synthesizer
             wrapper.FromInlet.DefaultValue = DEFAULT_RANGE_FROM;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1712,8 +1647,7 @@ namespace JJ.Business.Synthesizer
                 ListIndex = listIndex
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1740,8 +1674,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FactorInlet.DefaultValue = DEFAULT_REVERSE_FACTOR;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1762,8 +1695,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1790,8 +1722,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1813,8 +1744,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1836,8 +1766,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1868,8 +1797,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TargetValueAInlet.DefaultValue = DEFAULT_SCALE_TARGET_VALUE_A;
             wrapper.TargetValueBInlet.DefaultValue = DEFAULT_SCALE_TARGET_VALUE_B;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1894,8 +1822,7 @@ namespace JJ.Business.Synthesizer
                 Number = number
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1918,31 +1845,19 @@ namespace JJ.Business.Synthesizer
 
             wrapper.DifferenceInlet.DefaultValue = DEFAULT_DIFFERENCE;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
 
-        public Sine_OperatorWrapper Sine(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
+        public OperatorWrapper_WithUnderlyingPatch Sine(Outlet frequency = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Sine,
-                new[] { DimensionEnum.Frequency},
-                new[] { DimensionEnum.Sound });
+            Operator op = FromSystem(OperatorTypeEnum.Sine);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op, _repositories.DimensionRepository);
+            wrapper.Inputs[DimensionEnum.Frequency] = frequency;
 
-            var wrapper = new Sine_OperatorWrapper(op)
-            {
-                Frequency = frequency
-            };
-
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
-
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1977,8 +1892,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -1995,8 +1909,7 @@ namespace JJ.Business.Synthesizer
             Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.SortOverInlets, operands);
             op.Outlets[0].SetDimensionEnum(DimensionEnum.Signal, _repositories.DimensionRepository);
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             var wrapper = new SortOverInlets_OperatorWrapper(op);
 
@@ -2031,8 +1944,7 @@ namespace JJ.Business.Synthesizer
             wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
             wrapper.FrequencyCountInlet.DefaultValue = DEFAULT_SPECTRUM_FREQUENCY_COUNT;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -2054,8 +1966,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -2084,8 +1995,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -2114,8 +2024,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -2133,8 +2042,7 @@ namespace JJ.Business.Synthesizer
                 B = b
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -2164,8 +2072,7 @@ namespace JJ.Business.Synthesizer
             wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
             wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -2200,8 +2107,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -2230,8 +2136,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.ExponentInlet.DefaultValue = DEFAULT_EXPONENT;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -2249,8 +2154,7 @@ namespace JJ.Business.Synthesizer
                 Reset = reset
             };
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }
@@ -2272,8 +2176,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
-            VoidResultDto result = ValidateOperatorNonRecursive(op);
-            ResultHelper.Assert(result);
+            new Versatile_OperatorValidator(op).Assert();
 
             return wrapper;
         }

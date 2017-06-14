@@ -161,7 +161,6 @@ namespace JJ.Business.Synthesizer
             new Operator_SideEffect_UpdateDerivedOperators(op, _repositories).Execute();
 
             // Validate the whole patch, because side-effect can affect the whole patch.
-            // But also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
             VoidResult result2 = ValidatePatchWithRelatedEntities();
 
             return result2;
@@ -310,17 +309,6 @@ namespace JJ.Business.Synthesizer
                 _repositories.SampleRepository, new HashSet<object>());
 
             return validator.ToResult();
-        }
-
-        private VoidResultDto ValidateOperatorNonRecursive(Operator op)
-        {
-            IValidator validator = new Versatile_OperatorValidator(op);
-
-            return new VoidResultDto
-            {
-                Messages = validator.ValidationMessages.ToCanonical(),
-                Successful = validator.IsValid
-            };
         }
 
         // Grouping

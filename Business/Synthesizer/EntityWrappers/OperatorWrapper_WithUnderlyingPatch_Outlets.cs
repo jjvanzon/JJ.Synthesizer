@@ -7,11 +7,11 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class CustomOperator_OperatorWrapper_Outlets : IEnumerable<Outlet>
+    public class OperatorWrapper_WithUnderlyingPatch_Outlets : IEnumerable<Outlet>
     {
         private readonly Operator _operator;
 
-        internal CustomOperator_OperatorWrapper_Outlets(Operator op)
+        internal OperatorWrapper_WithUnderlyingPatch_Outlets(Operator op)
         {
             _operator = op ?? throw new NullException(() => op);
         }

@@ -631,7 +631,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchID = entity.Patch.ID,
                 Name = entity.Name,
                 CustomDimensionName = entity.CustomDimensionName,
-                HasDimension= entity.HasDimension,
+                HasDimension = entity.HasDimension,
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -685,11 +685,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchDetailsViewModel ToDetailsViewModel(
             this Patch patch,
+            IDimensionRepository dimensionRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
             EntityPositionManager entityPositionManager)
         {
             var converter = new RecursiveToPatchViewModelConverter(
+                dimensionRepository,
                 sampleRepository,
                 curveRepository,
                 entityPositionManager);

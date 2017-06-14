@@ -77,7 +77,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Scaler, typeof(Scaler_OperatorValidator) },
             { OperatorTypeEnum.SetDimension, typeof(SetDimension_OperatorValidator) },
             { OperatorTypeEnum.Shift, typeof(Shift_OperatorValidator) },
-            { OperatorTypeEnum.Sine, typeof(Sine_OperatorValidator) },
             { OperatorTypeEnum.SortOverDimension, typeof(SortOverDimension_OperatorValidator) },
             { OperatorTypeEnum.SortOverInlets, typeof(SortOverInlets_OperatorValidator) },
             { OperatorTypeEnum.Spectrum, typeof(Spectrum_OperatorValidator) },

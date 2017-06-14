@@ -12,7 +12,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_WithUnderlyingEntities : ValidatorBase<Operator>
+    internal class OperatorValidator_VersatileWithUnderlyingEntities : ValidatorBase<Operator>
     {
         /// <summary>
         /// Validates an operator, but not its descendant operators.
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         /// in some cases you do not validate the whole document, but a narrower scope,
         /// such as a patch.
         /// </summary>
-        public OperatorValidator_WithUnderlyingEntities(
+        public OperatorValidator_VersatileWithUnderlyingEntities(
             [NotNull] Operator op,
             [NotNull] ICurveRepository curveRepository,
             [NotNull] ISampleRepository sampleRepository,

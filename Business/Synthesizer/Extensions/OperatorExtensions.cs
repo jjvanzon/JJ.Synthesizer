@@ -50,14 +50,8 @@ namespace JJ.Business.Synthesizer.Extensions
             Patch patch = documentManager.TryGetSystemPatch(operatorTypeEnum);
             if (patch != null)
             {
-                //// HACK: Prevent retrieving a patch record.
-                //if (patch.ID != op.Patch?.ID)
-                //{
-                //    // HACK: Get from current context, instead of cached context.
-                //    patch = repositories.PatchRepository.Get(patch.ID);
-                    op.LinkToUnderlyingPatch(patch);
-                    op.UnlinkOperatorType();
-                //}
+                op.LinkToUnderlyingPatch(patch);
+                op.UnlinkOperatorType();
                 return;
             }
 

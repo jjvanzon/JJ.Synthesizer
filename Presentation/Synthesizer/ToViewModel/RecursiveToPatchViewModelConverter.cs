@@ -27,6 +27,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static readonly string _timeDimensionKey = ViewModelHelper.GetDimensionKey(DimensionEnum.Time);
         private static readonly IList<StyleGradeEnum> _styleGradesNonNeutral = GetStyleGradesNonNeutral();
 
+        private readonly IDimensionRepository _dimensionRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly ICurveRepository _curveRepository;
         private readonly EntityPositionManager _entityPositionManager;
@@ -34,10 +35,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private Dictionary<Operator, OperatorViewModel> _dictionary;
 
         public RecursiveToPatchViewModelConverter(
+            IDimensionRepository dimensionRepository,
             ISampleRepository sampleRepository, 
             ICurveRepository curveRepository,
             EntityPositionManager entityPositionManager)
         {
+            _dimensionRepository = dimensionRepository ?? throw new NullException(() => dimensionRepository);
             _sampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
             _curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
             _entityPositionManager = entityPositionManager ?? throw new NullException(() => entityPositionManager);
@@ -176,6 +179,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private InletViewModel ConvertToViewModelRecursive(Inlet inlet)
         {
             InletViewModel viewModel = inlet.ToViewModel(
+                _dimensionRepository,
                 _curveRepository,
                 _sampleRepository,
                 _entityPositionManager);
@@ -203,7 +207,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private OutletViewModel ConvertToViewModelRecursive(Outlet outlet)
         {
-            OutletViewModel viewModel = outlet.ToViewModel(_curveRepository, _sampleRepository, _entityPositionManager);
+            OutletViewModel viewModel = outlet.ToViewModel(_dimensionRepository, _curveRepository, _sampleRepository, _entityPositionManager);
 
             // Recursive call
             viewModel.Operator = ConvertToViewModelRecursive(outlet.Operator);

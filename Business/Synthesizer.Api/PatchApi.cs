@@ -133,18 +133,18 @@ namespace JJ.Business.Synthesizer.Api
         public Curve_OperatorWrapper Curve(Curve curve = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Curve(curve, standardDimension, customDimension);
 
-        public CustomOperator_OperatorWrapper CustomOperator()
+        public OperatorWrapper_WithUnderlyingPatch CustomOperator()
             => _patchManager.CustomOperator();
 
-        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch)
+        public OperatorWrapper_WithUnderlyingPatch CustomOperator(Patch underlyingPatch)
             => _patchManager.CustomOperator(underlyingPatch);
 
         /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
-        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch, params Outlet[] operands)
+        public OperatorWrapper_WithUnderlyingPatch CustomOperator(Patch underlyingPatch, params Outlet[] operands)
             => _patchManager.CustomOperator(underlyingPatch, operands);
 
         /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
-        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch, IList<Outlet> operands)
+        public OperatorWrapper_WithUnderlyingPatch CustomOperator(Patch underlyingPatch, IList<Outlet> operands)
             => _patchManager.CustomOperator(underlyingPatch, operands);
 
         public Divide_OperatorWrapper Divide(Outlet a = null, Outlet b = null, Outlet origin = null)
@@ -490,8 +490,7 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _patchManager.Shift(signal, difference, standardDimension, customDimension);
 
-        public Sine_OperatorWrapper Sine(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
-            => _patchManager.Sine(frequency, standardDimension, customDimension);
+        public OperatorWrapper_WithUnderlyingPatch Sine(Outlet frequency = null) => _patchManager.Sine(frequency);
 
         public SortOverInlets_OperatorWrapper SortOverInlets(params Outlet[] operands)
             => _patchManager.SortOverInlets(operands);

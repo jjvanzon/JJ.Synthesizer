@@ -8,11 +8,11 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class CustomOperator_OperatorWrapper_Operands : IEnumerable<Outlet>
+    public class OperatorWrapper_WithUnderlyingPatch_Inputs : IEnumerable<Outlet>
     {
         private readonly Operator _operator;
 
-        internal CustomOperator_OperatorWrapper_Operands(Operator op)
+        internal OperatorWrapper_WithUnderlyingPatch_Inputs(Operator op)
         {
             _operator = op ?? throw new NullException(() => op);
         }

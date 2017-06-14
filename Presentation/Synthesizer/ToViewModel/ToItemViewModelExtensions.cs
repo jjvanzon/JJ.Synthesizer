@@ -116,15 +116,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IList<InletViewModel> ToViewModels(
             this IList<Inlet> entities,
+            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             EntityPositionManager entityPositionManager)
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<InletViewModel> viewModels = entities.Select(x => x.ToViewModel(curveRepository,
-                                                                                  sampleRepository,
-                                                                                  entityPositionManager))
+            IList<InletViewModel> viewModels = entities.Select(
+                                                           x => x.ToViewModel(
+                                                               dimensionRepository,
+                                                               curveRepository,
+                                                               sampleRepository,
+                                                               entityPositionManager))
                                                        .OrderBy(x => x.IsObsolete)
                                                        .ThenBy(x => x.ListIndex)
                                                        .ThenBy(x => x.Name)
@@ -135,6 +139,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static InletViewModel ToViewModel(
             this Inlet entity,
+            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             EntityPositionManager entityPositionManager)
@@ -143,7 +148,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new InletViewModel();
 
-            entity.ToViewModel(viewModel, curveRepository, sampleRepository, entityPositionManager);
+            entity.ToViewModel(viewModel, dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
 
             return viewModel;
         }
@@ -152,6 +157,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static void ToViewModel(
             this Inlet entity,
             InletViewModel viewModel,
+            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             EntityPositionManager entityPositionManager)
@@ -168,7 +174,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.WarnIfEmpty = entity.WarnIfEmpty;
             viewModel.NameOrDimensionHidden = entity.NameOrDimensionHidden;
             viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
-            viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository);
+            viewModel.Caption = ViewModelHelper.GetInletCaption(entity, dimensionRepository, sampleRepository, curveRepository);
             viewModel.ConnectionDistance = ViewModelHelper.TryGetConnectionDistance(entity, entityPositionManager);
 
             if (entity.Dimension != null)
@@ -233,6 +239,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static OperatorViewModel ToViewModel_WithRelatedEntities_AndInverseProperties(
             this Operator op,
+            IDimensionRepository dimensionRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
             EntityPositionManager entityPositionManager)
@@ -242,8 +249,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             OperatorViewModel operatorViewModel = op.ToViewModel(sampleRepository, curveRepository, entityPositionManager);
-            operatorViewModel.Inlets = op.Inlets.ToViewModels(curveRepository, sampleRepository, entityPositionManager);
-            operatorViewModel.Outlets = op.Outlets.ToViewModels(curveRepository, sampleRepository, entityPositionManager);
+            operatorViewModel.Inlets = op.Inlets.ToViewModels(dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
+            operatorViewModel.Outlets = op.Outlets.ToViewModels(dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
 
             // This is the inverse property in the view model!
             foreach (OutletViewModel outletViewModel in operatorViewModel.Outlets)
@@ -258,13 +265,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IList<OutletViewModel> ToViewModels(
             this IList<Outlet> entities,
+            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             EntityPositionManager entityPositionManager)
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<OutletViewModel> viewModels = entities.Select(x => x.ToViewModel(curveRepository, sampleRepository, entityPositionManager))
+            IList<OutletViewModel> viewModels = entities.Select(x => x.ToViewModel(dimensionRepository, curveRepository, sampleRepository, entityPositionManager))
                                                         .OrderBy(x => x.IsObsolete)
                                                         .ThenBy(x => x.ListIndex)
                                                         .ThenBy(x => x.Name)
@@ -275,6 +283,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static OutletViewModel ToViewModel(
             this Outlet entity,
+            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             EntityPositionManager entityPositionManager)
@@ -282,7 +291,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity == null) throw new NullException(() => entity);
 
             var viewModel = new OutletViewModel();
-            entity.ToViewModel(viewModel, curveRepository, sampleRepository, entityPositionManager);
+            entity.ToViewModel(viewModel, dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
             return viewModel;
         }
 
@@ -290,6 +299,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static void ToViewModel(
             this Outlet entity,
             OutletViewModel viewModel,
+            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             EntityPositionManager entityPositionManager)
@@ -304,7 +314,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.IsObsolete = entity.IsObsolete;
             viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.Visible = ViewModelHelper.GetOutletVisible(entity);
-            viewModel.Caption = ViewModelHelper.GetOutletCaption(entity, sampleRepository, curveRepository);
+            viewModel.Caption = ViewModelHelper.GetOutletCaption(entity, dimensionRepository, sampleRepository, curveRepository);
             viewModel.AverageConnectionDistance = ViewModelHelper.TryGetAverageConnectionDistance(entity, entityPositionManager);
 
             if (entity.Dimension != null)

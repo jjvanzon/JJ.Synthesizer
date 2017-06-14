@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer
 
             foreach (Patch sourceUnderlyingPatch in sourceUnderlyingPatches)
             {
-                CustomOperator_OperatorWrapper intermediateCustomOperatorWrapper = CustomOperator(sourceUnderlyingPatch);
+                OperatorWrapper_WithUnderlyingPatch intermediateCustomOperatorWrapper = CustomOperator(sourceUnderlyingPatch);
                 intermediateCustomOperatorWrapper.Name = $"{sourceUnderlyingPatch.Name}";
 
                 intermediateCustomOperators.Add(intermediateCustomOperatorWrapper);
@@ -272,7 +272,7 @@ namespace JJ.Business.Synthesizer
             CreatePatch();
             Patch.Name = "Auto-Generated Patch";
 
-            CustomOperator_OperatorWrapper customOperator = CustomOperator(sourcePatch);
+            OperatorWrapper_WithUnderlyingPatch customOperator = CustomOperator(sourcePatch);
             IList<Outlet> soundOutlets = GetSoundOutletsFromOperatorCreatively(customOperator);
 
             if (soundOutlets.Count == 0)

@@ -95,6 +95,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum.Absolute,
                 OperatorTypeEnum.And,
+                OperatorTypeEnum.Sine,
                 OperatorTypeEnum.CustomOperator
             };
 
@@ -470,6 +471,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static void RefreshInletViewModels(
             IList<Inlet> sourceInlets,
             OperatorViewModel destOperatorViewModel,
+            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             EntityPositionManager entityPositionManager)
@@ -487,7 +489,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     destOperatorViewModel.Inlets.Add(inletViewModel);
                 }
 
-                inlet.ToViewModel(inletViewModel, curveRepository, sampleRepository, entityPositionManager);
+                inlet.ToViewModel(inletViewModel, dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
 
                 inletViewModelsToKeep.Add(inletViewModel);
             }
@@ -510,6 +512,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static void RefreshOutletViewModels(
             IList<Outlet> sourceOutlets,
             OperatorViewModel destOperatorViewModel,
+            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             EntityPositionManager entityPositionManager)
@@ -530,7 +533,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     outletViewModel.Operator = destOperatorViewModel;
                 }
 
-                outlet.ToViewModel(outletViewModel, curveRepository, sampleRepository, entityPositionManager);
+                outlet.ToViewModel(outletViewModel, dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
 
                 outletViewModelsToKeep.Add(outletViewModel);
             }
@@ -555,13 +558,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static void RefreshViewModel_WithInletsAndOutlets(
             Operator entity,
             OperatorViewModel operatorViewModel,
+            IDimensionRepository dimensionRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
             EntityPositionManager entityPositionManager)
         {
             RefreshViewModel(entity, operatorViewModel, sampleRepository, curveRepository, entityPositionManager);
-            RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, sampleRepository, entityPositionManager);
-            RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, sampleRepository, entityPositionManager);
+            RefreshInletViewModels(entity.Inlets, operatorViewModel, dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
+            RefreshOutletViewModels(entity.Outlets, operatorViewModel, dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
         }
 
         /// <summary>
@@ -916,6 +920,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static string GetInletCaption(
             Inlet inlet,
+            IDimensionRepository dimensionRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository)
         {
@@ -928,6 +933,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
                     inlet.Operator,
+                    dimensionRepository,
                     curveRepository,
                     sampleRepository);
                 string inletDisplayName = wrapper.GetInletDisplayName(inlet);
@@ -961,6 +967,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static string GetOutletCaption(
             Outlet outlet,
+            IDimensionRepository dimensionRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository)
         {
@@ -972,7 +979,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     return GetOutletCaption_ForRangeOverOutlets(outlet);
 
                 default:
-                    return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository);
+                    return GetOutletCaption_ForOtherOperatorType(outlet, dimensionRepository, sampleRepository, curveRepository);
             }
         }
 
@@ -1015,6 +1022,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOutletCaption_ForOtherOperatorType(
             Outlet outlet,
+            IDimensionRepository dimensionRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository)
         {
@@ -1034,6 +1042,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
                     outlet.Operator,
+                    dimensionRepository,
                     curveRepository,
                     sampleRepository);
 

@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Extensions
             { typeof(ClosestOverInlets_OperatorWrapper), OperatorTypeEnum.ClosestOverInlets },
             { typeof(ClosestOverInletsExp_OperatorWrapper), OperatorTypeEnum.ClosestOverInletsExp },
             { typeof(Curve_OperatorWrapper), OperatorTypeEnum.Curve },
-            { typeof(CustomOperator_OperatorWrapper), OperatorTypeEnum.CustomOperator },
+            { typeof(OperatorWrapper_WithUnderlyingPatch), OperatorTypeEnum.CustomOperator },
             { typeof(DimensionToOutlets_OperatorWrapper), OperatorTypeEnum.DimensionToOutlets },
             { typeof(Divide_OperatorWrapper), OperatorTypeEnum.Divide },
             { typeof(Equal_OperatorWrapper), OperatorTypeEnum.Equal },

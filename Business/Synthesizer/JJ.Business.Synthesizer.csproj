@@ -614,9 +614,9 @@
     <Compile Include="EntityWrappers\Reverse_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Stretch_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Exponent_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\CustomOperator_OperatorWrapper_Inlets.cs" />
-    <Compile Include="EntityWrappers\CustomOperator_OperatorWrapper_Operands.cs" />
-    <Compile Include="EntityWrappers\CustomOperator_OperatorWrapper_Outlets.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_WithUnderlyingPatch_Inlets.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_WithUnderlyingPatch_Inputs.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_WithUnderlyingPatch_Outlets.cs" />
     <Compile Include="EntityWrappers\Loop_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Triangle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Square_OperatorWrapper.cs" />
@@ -639,7 +639,7 @@
     <Compile Include="Helpers\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
-    <Compile Include="EntityWrappers\CustomOperator_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_WithUnderlyingPatch.cs" />
     <Compile Include="EntityWrappers\Interpolate_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Noise_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Sample_OperatorWrapper.cs" />
@@ -928,14 +928,14 @@
     <Compile Include="Warnings\Operators\Sample_OperatorWarningValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
     <Compile Include="Validation\Operators\TimePower_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Sine_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\2017-06-14 Backup of Sine_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Power_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchOutlet_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchInlet_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Divide_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Number_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\MultiplyWithOrigin_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_WithUnderlyingEntities.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_VersatileWithUnderlyingEntities.cs" />
     <Compile Include="Validation\Operators\Subtract_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithOperatorType.cs" />
     <Compile Include="EntityWrappers\Number_OperatorWrapper.cs" />
@@ -949,7 +949,7 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Versatile.cs" />
     <Compile Include="Warnings\Operators\Add_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Sine_OperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Operators\2017-06-14 Backup of Sine_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Power_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\PatchOutlet_OperatorWarningValidator.cs" />

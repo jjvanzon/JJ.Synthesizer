@@ -97,6 +97,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static OperatorWrapperBase CreateOperatorWrapper(
             Operator op,
+            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository)
         {
@@ -113,7 +114,7 @@ namespace JJ.Business.Synthesizer.Helpers
                     return new Sample_OperatorWrapper(op, sampleRepository);
 
                 case OperatorTypeEnum.CustomOperator:
-                    return new CustomOperator_OperatorWrapper(op);
+                    return new OperatorWrapper_WithUnderlyingPatch(op, dimensionRepository);
 
                 default:
                     Func<Operator, OperatorWrapperBase> func;

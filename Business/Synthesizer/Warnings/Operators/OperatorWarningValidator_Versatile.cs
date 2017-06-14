@@ -78,7 +78,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.SawUp: ExecuteValidator(new SawUp_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Scaler: ExecuteValidator(new Scaler_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Shift: ExecuteValidator(new Shift_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Sine: ExecuteValidator(new Sine_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.SortOverDimension: ExecuteValidator(new SortOverDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.SortOverInlets: ExecuteValidator(new SortOverInlets_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Spectrum: ExecuteValidator(new Spectrum_OperatorWarningValidator(op)); break;

@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                 ExecuteValidator(new OperatorValidator_IsCircular(op), messagePrefix);
 
                 ExecuteValidator(
-                    new OperatorValidator_WithUnderlyingEntities(
+                    new OperatorValidator_VersatileWithUnderlyingEntities(
                         op,
                         curveRepository,
                         sampleRepository,
