@@ -1061,4 +1061,7 @@
   <data name="DefaultStandardDimension" xml:space="preserve">
     <value>Default Standard Dimension</value>
   </data>
+  <data name="YesNo" xml:space="preserve">
+    <value>Yes/No</value>
+  </data>
 </root>

@@ -45,6 +45,14 @@ namespace JJ.Business.Synthesizer.Extensions
                 return;
             }
 
+            // Handle CustomOperator
+            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
+            {
+                OperatorType operatorType = repositories.OperatorTypeRepository.Get((int)operatorTypeEnum);
+                op.LinkTo(operatorType);
+                return;
+            }
+
             // Try use system patch
             var documentManager = new DocumentManager(repositories);
             Patch patch = documentManager.TryGetSystemPatch(operatorTypeEnum);
@@ -56,9 +64,11 @@ namespace JJ.Business.Synthesizer.Extensions
             }
 
             // Use classic OperatorType entity
-            OperatorType operatorType = repositories.OperatorTypeRepository.Get((int)operatorTypeEnum);
-            op.LinkTo(operatorType);
-            op.UnlinkUnderlyingPatch();
+            {
+                OperatorType operatorType = repositories.OperatorTypeRepository.Get((int)operatorTypeEnum);
+                op.LinkTo(operatorType);
+                op.UnlinkUnderlyingPatch();
+            }
         }
 
         public static IList<Operator> GetConnectedOperators(this Operator op)

@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer
         /// <summary> Will reapply patches from external documents. </summary>
         public void Refresh([NotNull] Document document)
         {
-            new Document_SideEffect_ApplyExternalUnderlyingPatches(document, _repositories).Execute();
+            new Document_SideEffect_ApplyUnderlyingPatches(document, _repositories).Execute();
 
             // This is sensitive, error prone code, so verify its result.
             VoidResult result = Save(document);
@@ -435,11 +435,28 @@ namespace JJ.Business.Synthesizer
             return patch;
         }
 
+        public Patch GetSystemPatch(string name)
+        {
+            Patch patch = TryGetSystemPatch(name);
+
+            if (patch == null)
+            {
+                throw new NotFoundException<Patch>(new { name });
+            }
+
+            return patch;
+        }
+
         public Patch TryGetSystemPatch(OperatorTypeEnum operatorTypeEnum)
         {
             string patchName = operatorTypeEnum.ToString();
 
-            GetSystemPatchDictionary().TryGetValue(patchName, out Patch patch);
+            return TryGetSystemPatch(patchName);
+        }
+
+        private Patch TryGetSystemPatch(string name)
+        {
+            GetSystemPatchDictionary().TryGetValue(name, out Patch patch);
 
             if (patch == null)
             {

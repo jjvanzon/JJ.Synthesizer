@@ -1067,4 +1067,7 @@
   <data name="DefaultStandardDimension" xml:space="preserve">
     <value>Beginwaarde standaard dimensie</value>
   </data>
+  <data name="YesNo" xml:space="preserve">
+    <value>Ja/nee</value>
+  </data>
 </root>

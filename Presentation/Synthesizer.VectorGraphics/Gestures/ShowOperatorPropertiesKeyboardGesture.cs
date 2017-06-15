@@ -15,13 +15,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     {
         public event EventHandler<IDEventArgs> ShowOperatorPropertiesRequested;
 
-        public int SelectedOperatorID { get; set; }
+        public int? SelectedOperatorID { get; set; }
 
         protected override void HandleKeyDown(object sender, KeyEventArgs e)
         {
+            if (!SelectedOperatorID.HasValue)
+            {
+                return;
+            }
+
             if (e.KeyCode == KeyCodeEnum.Enter)
             {
-                ShowOperatorPropertiesRequested?.Invoke(sender, new IDEventArgs(SelectedOperatorID));
+                ShowOperatorPropertiesRequested?.Invoke(sender, new IDEventArgs(SelectedOperatorID.Value));
             }
         }
     }

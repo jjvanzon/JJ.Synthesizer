@@ -78,6 +78,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 72, "ReleaseEndMarker");
             RepositoryHelper.EnsureEnumEntity(this, 73, "Radians");
             RepositoryHelper.EnsureEnumEntity(this, 74, "HighestFrequency");
+            RepositoryHelper.EnsureEnumEntity(this, 75, "YesNo");
         }
     }
 }

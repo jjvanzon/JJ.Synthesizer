@@ -29,19 +29,14 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.ClosestOverInletsExp, Create_ClosestExp_OperatorWrapper },
             { OperatorTypeEnum.DimensionToOutlets, Create_DimensionToOutlets_OperatorWrapper },
             { OperatorTypeEnum.Divide , Create_Divide_OperatorWrapper },
-            { OperatorTypeEnum.Equal, Create_Equal_OperatorWrapper },
             { OperatorTypeEnum.Exponent, Create_Exponent_OperatorWrapper },
             { OperatorTypeEnum.GetDimension, Create_GetDimension_OperatorWrapper },
-            { OperatorTypeEnum.GreaterThan, Create_GreaterThan_OperatorWrapper },
-            { OperatorTypeEnum.GreaterThanOrEqual, Create_GreaterThanOrEqual_OperatorWrapper },
             { OperatorTypeEnum.HighPassFilter, Create_HighPassFilter_OperatorWrapper },
             { OperatorTypeEnum.HighShelfFilter, Create_HighShelfFilter_OperatorWrapper },
             { OperatorTypeEnum.Hold, Create_Hold_OperatorWrapper },
             { OperatorTypeEnum.If, Create_If_OperatorWrapper },
             { OperatorTypeEnum.InletsToDimension, Create_InletsToDimension_OperatorWrapper },
             { OperatorTypeEnum.Interpolate, Create_Interpolate_OperatorWrapper },
-            { OperatorTypeEnum.LessThan, Create_LessThan_OperatorWrapper },
-            { OperatorTypeEnum.LessThanOrEqual, Create_LessThanOrEqual_OperatorWrapper },
             { OperatorTypeEnum.Loop, Create_Loop_OperatorWrapper },
             { OperatorTypeEnum.LowPassFilter, Create_LowPassFilter_OperatorWrapper },
             { OperatorTypeEnum.LowShelfFilter, Create_LowShelfFilter_OperatorWrapper },
@@ -57,7 +52,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Noise, Create_Noise_OperatorWrapper },
             { OperatorTypeEnum.Not, Create_Not_OperatorWrapper },
             { OperatorTypeEnum.NotchFilter, Create_NotchFilter_OperatorWrapper },
-            { OperatorTypeEnum.NotEqual, Create_NotEqual_OperatorWrapper },
             { OperatorTypeEnum.Number , Create_Number_OperatorWrapper },
             { OperatorTypeEnum.OneOverX, Create_OneOverX_OperatorWrapper },
             { OperatorTypeEnum.Or, Create_Or_OperatorWrapper },
@@ -112,20 +106,26 @@ namespace JJ.Business.Synthesizer.Helpers
                 case OperatorTypeEnum.Absolute:
                 case OperatorTypeEnum.And:
                 case OperatorTypeEnum.CustomOperator:
+                case OperatorTypeEnum.Equal:
+                case OperatorTypeEnum.GreaterThan:
+                case OperatorTypeEnum.GreaterThanOrEqual:
+                case OperatorTypeEnum.LessThan:
+                case OperatorTypeEnum.LessThanOrEqual:
+                case OperatorTypeEnum.NotEqual:
                 case OperatorTypeEnum.Sine:
                     return new OperatorWrapper_WithUnderlyingPatch(op);
 
                 default:
                     Func<Operator, OperatorWrapperBase> func;
-                    if (!_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out func))
+                    if (_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out func))
                     {
-                        throw new Exception($"{nameof(_createOperatorWrapperDelegateDictionary)} does not contain entry for {nameof(OperatorTypeEnum)} '{operatorTypeEnum}'.");
+                        OperatorWrapperBase wrapper = func(op);
+                        return wrapper;
                     }
-
-                    OperatorWrapperBase wrapper = func(op);
-
-                    return wrapper;
+                    break;
             }
+
+            throw new ValueNotSupportedException(operatorTypeEnum);
         }
 
         private static Add_OperatorWrapper Create_Add_OperatorWrapper(Operator op) { return new Add_OperatorWrapper(op); }
@@ -143,19 +143,14 @@ namespace JJ.Business.Synthesizer.Helpers
         private static ClosestOverInletsExp_OperatorWrapper Create_ClosestExp_OperatorWrapper(Operator op) { return new ClosestOverInletsExp_OperatorWrapper(op); }
         private static DimensionToOutlets_OperatorWrapper Create_DimensionToOutlets_OperatorWrapper(Operator op) { return new DimensionToOutlets_OperatorWrapper(op); }
         private static Divide_OperatorWrapper Create_Divide_OperatorWrapper(Operator op) { return new Divide_OperatorWrapper(op); }
-        private static Equal_OperatorWrapper Create_Equal_OperatorWrapper(Operator op) { return new Equal_OperatorWrapper(op); }
         private static Exponent_OperatorWrapper Create_Exponent_OperatorWrapper(Operator op) { return new Exponent_OperatorWrapper(op); }
         private static GetDimension_OperatorWrapper Create_GetDimension_OperatorWrapper(Operator op) { return new GetDimension_OperatorWrapper(op); }
-        private static GreaterThan_OperatorWrapper Create_GreaterThan_OperatorWrapper(Operator op) { return new GreaterThan_OperatorWrapper(op); }
-        private static GreaterThanOrEqual_OperatorWrapper Create_GreaterThanOrEqual_OperatorWrapper(Operator op) { return new GreaterThanOrEqual_OperatorWrapper(op); }
         private static HighPassFilter_OperatorWrapper Create_HighPassFilter_OperatorWrapper(Operator op) { return new HighPassFilter_OperatorWrapper(op); }
         private static HighShelfFilter_OperatorWrapper Create_HighShelfFilter_OperatorWrapper(Operator op) { return new HighShelfFilter_OperatorWrapper(op); }
         private static Hold_OperatorWrapper Create_Hold_OperatorWrapper(Operator op) { return new Hold_OperatorWrapper(op); }
         private static If_OperatorWrapper Create_If_OperatorWrapper(Operator op) { return new If_OperatorWrapper(op); }
         private static InletsToDimension_OperatorWrapper Create_InletsToDimension_OperatorWrapper(Operator op) { return new InletsToDimension_OperatorWrapper(op); }
         private static Interpolate_OperatorWrapper Create_Interpolate_OperatorWrapper(Operator op) { return new Interpolate_OperatorWrapper(op); }
-        private static LessThan_OperatorWrapper Create_LessThan_OperatorWrapper(Operator op) { return new LessThan_OperatorWrapper(op); }
-        private static LessThanOrEqual_OperatorWrapper Create_LessThanOrEqual_OperatorWrapper(Operator op) { return new LessThanOrEqual_OperatorWrapper(op); }
         private static Loop_OperatorWrapper Create_Loop_OperatorWrapper(Operator op) { return new Loop_OperatorWrapper(op); }
         private static LowPassFilter_OperatorWrapper Create_LowPassFilter_OperatorWrapper(Operator op) { return new LowPassFilter_OperatorWrapper(op); }
         private static LowShelfFilter_OperatorWrapper Create_LowShelfFilter_OperatorWrapper(Operator op) { return new LowShelfFilter_OperatorWrapper(op); }
@@ -171,7 +166,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Noise_OperatorWrapper Create_Noise_OperatorWrapper(Operator op) { return new Noise_OperatorWrapper(op); }
         private static Not_OperatorWrapper Create_Not_OperatorWrapper(Operator op) { return new Not_OperatorWrapper(op); }
         private static NotchFilter_OperatorWrapper Create_NotchFilter_OperatorWrapper(Operator op) { return new NotchFilter_OperatorWrapper(op); }
-        private static NotEqual_OperatorWrapper Create_NotEqual_OperatorWrapper(Operator op) { return new NotEqual_OperatorWrapper(op); }
         private static Number_OperatorWrapper Create_Number_OperatorWrapper(Operator op) { return new Number_OperatorWrapper(op); }
         private static OneOverX_OperatorWrapper Create_OneOverX_OperatorWrapper(Operator op) { return new OneOverX_OperatorWrapper(op); }
         private static Or_OperatorWrapper Create_Or_OperatorWrapper(Operator op) { return new Or_OperatorWrapper(op); }

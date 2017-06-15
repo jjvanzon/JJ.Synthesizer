@@ -91,6 +91,7 @@
         LoopEndMarker = 71,
         ReleaseEndMarker = 72,
         Radians = 73,
-        HighestFrequency = 74
+        HighestFrequency = 74,
+        YesNo = 75
     }
 }

@@ -8,12 +8,12 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Document_SideEffect_ApplyExternalUnderlyingPatches : ISideEffect
+    internal class Document_SideEffect_ApplyUnderlyingPatches : ISideEffect
     {
         private readonly Document _document;
         private readonly RepositoryWrapper _repositories;
 
-        public Document_SideEffect_ApplyExternalUnderlyingPatches(
+        public Document_SideEffect_ApplyUnderlyingPatches(
             [NotNull] Document document,
             [NotNull] RepositoryWrapper repositories)
         {
@@ -25,9 +25,7 @@ namespace JJ.Business.Synthesizer.SideEffects
         {
             IEnumerable<Operator> operators = _document.Patches
                                                        .SelectMany(x => x.Operators)
-                                                       .Where(
-                                                           x => x.UnderlyingPatch != null &&
-                                                                x.UnderlyingPatch.Document.ID != _document.ID);
+                                                       .Where(x => x.UnderlyingPatch != null);
             foreach (Operator op in operators)
             {
                 new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();

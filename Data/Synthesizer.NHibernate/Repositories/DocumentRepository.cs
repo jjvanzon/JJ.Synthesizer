@@ -37,8 +37,9 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                 Scale scale = null;
                 Patch patch = null;
                     Operator op = null;
-                DocumentReference dependent_documentReference = null;
-                DocumentReference dependentOn_documentReference = null;
+                DocumentReference higherDocumentReference = null;
+                    Document higherDocument = null;
+                DocumentReference lowerDocumentReference = null;
 
             var level_1_documentQuery = _context.Session.QueryOver(() => document)
                                                         .Where(x => x.ID == documentID)
@@ -59,21 +60,34 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                                                      .Where(x => x.Document.ID == documentID)
                                                      .Future<Curve>();
 
-            // Not used by the application, but queried to prevent a collection retrieval query later.
             var level_2_patchesQuery = _context.Session.QueryOver(() => document)
                                                        .Left.JoinAlias(() => document.Patches, () => patch)
                                                        .Where(() => document.ID == documentID)
                                                        .Future<Document>();
 
-            var level_2_dependentOnDocumentsQuery = _context.Session.QueryOver(() => document)
-                                                                    .Left.JoinAlias(() => document.LowerDocumentReferences, () => dependentOn_documentReference)
-                                                                    .Where(() => document.ID == documentID)
-                                                                    .Future<Document>();
+            var level_2_lowerDocumentReferencesQuery = _context.Session.QueryOver(() => document)
+                                                               .Left.JoinAlias(() => document.LowerDocumentReferences, () => lowerDocumentReference)
+                                                               .Where(() => document.ID == documentID)
+                                                               .Future<Document>();
 
-            var level_2_dependentDocumentsQuery = _context.Session.QueryOver(() => document)
-                                                                  .Left.JoinAlias(() => document.HigherDocumentReferences, () => dependent_documentReference)
-                                                                  .Where(() => document.ID == documentID)
-                                                                  .Future<Document>();
+            var level_2_higherDocumentReferencesQuery = _context.Session.QueryOver(() => document)
+                                                                .Left.JoinAlias(() => document.HigherDocumentReferences, () => higherDocumentReference)
+                                                                .Where(() => document.ID == documentID)
+                                                                .Future<Document>();
+
+            var level_3_higherDocuments = _context.Session.QueryOver(() => higherDocumentReference)
+                                                  .JoinAlias(() => higherDocumentReference.LowerDocument, () => document)
+                                                  .Where(() => document.ID == documentID)
+                                                  .Fetch(x => x.HigherDocument).Eager
+                                                  .Future<DocumentReference>();
+
+            // This partial query would cause duplicate patches to be loaded.
+            //var level_4_higherDocumentPatchesQuery = _context.Session.QueryOver(() => higherDocument)
+            //                                                 .JoinAlias(() => higherDocument.HigherDocumentReferences, () => higherDocumentReference)
+            //                                                 .JoinAlias(() => higherDocumentReference.LowerDocument, () => document)
+            //                                                 .Where(() => document.ID == documentID)
+            //                                                 .Fetch(x => x.Patches).Eager
+            //                                                 .Future<Document>();
 
             var level_2_samplesQuery = _context.Session.QueryOver(() => document)
                                                        .Left.JoinAlias(() => document.Samples, () => sample)
@@ -108,6 +122,20 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                                                        .JoinAlias(() => patch.Document, () => document)
                                                        .Where(() => document.ID == documentID)
                                                        .Fetch(x => x.Outlets).Eager
+                                                       .Future<Operator>();
+
+            var level_4_standardDimensionQuery = _context.Session.QueryOver(() => op)
+                                                         .JoinAlias(() => op.Patch, () => patch)
+                                                         .JoinAlias(() => patch.Document, () => document)
+                                                         .Where(() => document.ID == documentID)
+                                                         .Fetch(x => x.StandardDimension).Eager
+                                                         .Future<Operator>();
+
+            var level_4_underlyingPatchQuery = _context.Session.QueryOver(() => op)
+                                                       .JoinAlias(() => op.Patch, () => patch)
+                                                       .JoinAlias(() => patch.Document, () => document)
+                                                       .Where(() => document.ID == documentID)
+                                                       .Fetch(x => x.UnderlyingPatch).Eager
                                                        .Future<Operator>();
 
             Document outputDocument = level_1_documentQuery.FirstOrDefault();

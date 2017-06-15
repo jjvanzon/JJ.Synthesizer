@@ -350,7 +350,7 @@
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
     <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Document_SideEffect_ApplyExternalUnderlyingPatches.cs" />
+    <Compile Include="SideEffects\Document_SideEffect_ApplyUnderlyingPatches.cs" />
     <Compile Include="Validation\DimensionInfoValidator.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Delete.cs" />
@@ -589,12 +589,6 @@
     <Compile Include="EntityWrappers\MaxFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Not_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Or_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\GreaterThan_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\GreaterThanOrEqual_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\LessThanOrEqual_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\LessThan_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\NotEqual_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Equal_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\HighPassFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\LowPassFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Random_OperatorWrapper.cs" />
@@ -707,7 +701,6 @@
     <Compile Include="Validation\Operators\ClosestOverInletsExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverInlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\LowShelfFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2017-06-13 Backup of OperatorValidator_Dimension.cs" />
     <Compile Include="Validation\Operators\PeakingEQFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\RangeOverOutlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
@@ -740,12 +733,6 @@
     <Compile Include="Validation\Operators\MaxFollower_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Not_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Or_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\GreaterThan_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\GreaterThanOrEqual_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\LessThanOrEqual_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\LessThan_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\NotEqual_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Equal_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\HighPassFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\LowPassFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Random_OperatorValidator.cs" />
@@ -825,12 +812,6 @@
     <Compile Include="Warnings\Operators\If_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Not_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Or_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\GreaterThan_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\GreaterThanOrEqual_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\LessThanOrEqual_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\LessThan_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\NotEqual_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Equal_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\HighPassFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\LowPassFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults.cs" />
@@ -925,7 +906,6 @@
     <Compile Include="Warnings\Operators\Sample_OperatorWarningValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
     <Compile Include="Validation\Operators\TimePower_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\2017-06-14 Backup of Sine_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Power_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchOutlet_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchInlet_OperatorValidator.cs" />
@@ -946,7 +926,6 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Versatile.cs" />
     <Compile Include="Warnings\Operators\Add_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\2017-06-14 Backup of Sine_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Power_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\PatchOutlet_OperatorWarningValidator.cs" />

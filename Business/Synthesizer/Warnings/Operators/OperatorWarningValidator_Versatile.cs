@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             switch (operatorTypeEnum)
             {
+                // Only ones with specialized validators are in here. Others are covered with the Basic validator already executed above.
                 case OperatorTypeEnum.Add: ExecuteValidator(new Add_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AllPassFilter: ExecuteValidator(new AllPassFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AverageFollower: ExecuteValidator(new AverageFollower_OperatorWarningValidator(op)); break;
@@ -32,18 +33,13 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.CustomOperator: ExecuteValidator(new CustomOperator_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.DimensionToOutlets: ExecuteValidator(new DimensionToOutlets_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Divide: ExecuteValidator(new Divide_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Equal: ExecuteValidator(new Equal_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Exponent: ExecuteValidator(new Exponent_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.GreaterThan: ExecuteValidator(new GreaterThan_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.GreaterThanOrEqual: ExecuteValidator(new GreaterThanOrEqual_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.HighPassFilter: ExecuteValidator(new HighPassFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.HighShelfFilter: ExecuteValidator(new HighShelfFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Hold: ExecuteValidator(new Hold_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.If: ExecuteValidator(new If_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.InletsToDimension: ExecuteValidator(new InletsToDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Interpolate: ExecuteValidator(new Interpolate_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.LessThan: ExecuteValidator(new LessThan_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.LessThanOrEqual: ExecuteValidator(new LessThanOrEqual_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Loop: ExecuteValidator(new Loop_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.LowPassFilter: ExecuteValidator(new LowPassFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.LowShelfFilter: ExecuteValidator(new LowShelfFilter_OperatorWarningValidator(op)); break;
@@ -58,7 +54,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.Negative: ExecuteValidator(new Negative_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Not: ExecuteValidator(new Not_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.NotchFilter: ExecuteValidator(new NotchFilter_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.NotEqual: ExecuteValidator(new NotEqual_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Number: ExecuteValidator(new Number_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.OneOverX: ExecuteValidator(new OneOverX_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Or: ExecuteValidator(new Or_OperatorWarningValidator(op)); break;

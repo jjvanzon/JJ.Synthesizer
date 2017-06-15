@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class Versatile_OperatorValidator : ValidatorBase<Operator>
     {
-        private readonly Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
+        private readonly Dictionary<OperatorTypeEnum, Type> _specializedValidatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
             { OperatorTypeEnum.Add, typeof(Add_OperatorValidator) },
             { OperatorTypeEnum.AllPassFilter, typeof(AllPassFilter_OperatorValidator) },
@@ -27,19 +27,14 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorValidator) },
             { OperatorTypeEnum.DimensionToOutlets, typeof(DimensionToOutlets_OperatorValidator) },
             { OperatorTypeEnum.Divide, typeof(Divide_OperatorValidator) },
-            { OperatorTypeEnum.Equal, typeof(Equal_OperatorValidator) },
             { OperatorTypeEnum.Exponent, typeof(Exponent_OperatorValidator) },
             { OperatorTypeEnum.GetDimension, typeof(GetDimension_OperatorValidator) },
-            { OperatorTypeEnum.GreaterThan, typeof(GreaterThan_OperatorValidator) },
-            { OperatorTypeEnum.GreaterThanOrEqual, typeof(GreaterThanOrEqual_OperatorValidator) },
             { OperatorTypeEnum.HighPassFilter, typeof(HighPassFilter_OperatorValidator) },
             { OperatorTypeEnum.HighShelfFilter, typeof(HighShelfFilter_OperatorValidator) },
             { OperatorTypeEnum.Hold, typeof(Hold_OperatorValidator) },
             { OperatorTypeEnum.If, typeof(If_OperatorValidator) },
             { OperatorTypeEnum.InletsToDimension, typeof(InletsToDimension_OperatorValidator) },
             { OperatorTypeEnum.Interpolate, typeof(Interpolate_OperatorValidator) },
-            { OperatorTypeEnum.LessThan, typeof(LessThan_OperatorValidator) },
-            { OperatorTypeEnum.LessThanOrEqual, typeof(LessThanOrEqual_OperatorValidator) },
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
             { OperatorTypeEnum.LowPassFilter, typeof(LowPassFilter_OperatorValidator) },
             { OperatorTypeEnum.LowShelfFilter, typeof(LowShelfFilter_OperatorValidator) },
@@ -55,7 +50,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Noise, typeof(Noise_OperatorValidator) },
             { OperatorTypeEnum.Not, typeof(Not_OperatorValidator) },
             { OperatorTypeEnum.NotchFilter, typeof(NotchFilter_OperatorValidator) },
-            { OperatorTypeEnum.NotEqual, typeof(NotEqual_OperatorValidator) },
             { OperatorTypeEnum.Number, typeof(Number_OperatorValidator) },
             { OperatorTypeEnum.OneOverX, typeof(OneOverX_OperatorValidator) },
             { OperatorTypeEnum.Or, typeof(Or_OperatorValidator) },
@@ -111,7 +105,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
                 default:
                     // Handle ValidatorTypes in dictionary
-                    if (_validatorTypeDictionary.TryGetValue(operatorTypeEnum, out Type validatorType))
+                    if (_specializedValidatorTypeDictionary.TryGetValue(operatorTypeEnum, out Type validatorType))
                     {
                         var validator = (IValidator)Activator.CreateInstance(validatorType, op);
                         ExecuteValidator(validator);

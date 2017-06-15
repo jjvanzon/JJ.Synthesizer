@@ -230,13 +230,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             SelectOperatorRequested?.Invoke(this, new SelectOperatorEventArgs(ViewModel.Entity.ID, operatorID));
 
-            _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = operatorID;
+            _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
         }
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
             DeleteOperatorRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ID));
+
+            _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
         }
 
         private void ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)

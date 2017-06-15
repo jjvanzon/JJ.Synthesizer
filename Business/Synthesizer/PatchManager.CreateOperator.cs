@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -12,6 +13,7 @@ using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer
 {
@@ -48,7 +50,7 @@ namespace JJ.Business.Synthesizer
         
         public OperatorWrapper_WithUnderlyingPatch Absolute(Outlet number = null)
         {
-            Operator op = FromSystemDocument(OperatorTypeEnum.Absolute);
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Number] = number;
@@ -100,7 +102,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch And(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(OperatorTypeEnum.And);
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -583,20 +585,13 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch Equal(Outlet a = null, Outlet b = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Equal,
-                new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
-            var wrapper = new Equal_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.A] = a;
+            wrapper.Inputs[DimensionEnum.B] = b;
 
             return wrapper;
         }
@@ -639,38 +634,24 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public GreaterThan_OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch GreaterThan(Outlet a = null, Outlet b = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.GreaterThan,
-                new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
-            var wrapper = new GreaterThan_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.A] = a;
+            wrapper.Inputs[DimensionEnum.B] = b;
 
             return wrapper;
         }
 
-        public GreaterThanOrEqual_OperatorWrapper GreaterThanOrEqual(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch GreaterThanOrEqual(Outlet a = null, Outlet b = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.GreaterThanOrEqual,
-                new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
-            var wrapper = new GreaterThanOrEqual_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.A] = a;
+            wrapper.Inputs[DimensionEnum.B] = b;
 
             return wrapper;
         }
@@ -858,38 +839,24 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public LessThan_OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch LessThan(Outlet a = null, Outlet b = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.LessThan,
-                new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
-            var wrapper = new LessThan_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.A] = a;
+            wrapper.Inputs[DimensionEnum.B] = b;
 
             return wrapper;
         }
 
-        public LessThanOrEqual_OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch LessThanOrEqual(Outlet a = null, Outlet b = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.LessThanOrEqual,
-                new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
-            var wrapper = new LessThanOrEqual_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.A] = a;
+            wrapper.Inputs[DimensionEnum.B] = b;
 
             return wrapper;
         }
@@ -1272,20 +1239,14 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public NotEqual_OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
+
+        public OperatorWrapper_WithUnderlyingPatch NotEqual(Outlet a = null, Outlet b = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.NotEqual,
-                new[] { DimensionEnum.A, DimensionEnum.B },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
-            var wrapper = new NotEqual_OperatorWrapper(op)
-            {
-                A = a,
-                B = b
-            };
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.A] = a;
+            wrapper.Inputs[DimensionEnum.B] = b;
 
             return wrapper;
         }
@@ -1848,7 +1809,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Sine(Outlet frequency = null)
         {
-            Operator op = FromSystemDocument(OperatorTypeEnum.Sine);
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Frequency] = frequency;
@@ -2194,6 +2155,7 @@ namespace JJ.Business.Synthesizer
 
         // Generic methods for operator creation
 
+        // ReSharper disable once UnusedMember.Local
         private Operator FromSystemDocument(OperatorTypeEnum operatorTypeEnum)
         {
             Patch patch = _documentManager.GetSystemPatch(operatorTypeEnum);
@@ -2201,6 +2163,20 @@ namespace JJ.Business.Synthesizer
             Operator op = CustomOperator(patch);
 
             op.SetOperatorTypeEnum(operatorTypeEnum, _repositories);
+
+            return op;
+        }
+
+        private Operator FromSystemDocument(MethodBase methodBase) => FromSystemDocument(methodBase.Name);
+
+        /// <param name="patchName">Must match an OperatorTypeEnum member's name.</param>
+        private Operator FromSystemDocument(string patchName)
+        {
+            Patch patch = _documentManager.GetSystemPatch(patchName);
+
+            Operator op = CustomOperator(patch);
+
+            op.SetOperatorTypeEnum(EnumHelper.Parse<OperatorTypeEnum>(patchName), _repositories);
 
             return op;
         }

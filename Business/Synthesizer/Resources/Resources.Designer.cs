@@ -2840,5 +2840,14 @@ namespace JJ.Business.Synthesizer.Resources {
                 return ResourceManager.GetString("Y", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes/No.
+        /// </summary>
+        internal static string YesNo {
+            get {
+                return ResourceManager.GetString("YesNo", resourceCulture);
+            }
+        }
     }
 }

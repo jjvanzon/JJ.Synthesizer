@@ -119,7 +119,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
                 DocumentManager documentManager = new DocumentManager(repositories);
-                PatchManager patchManager = new PatchManager(repositories);
 
                 const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Sine;
                 Patch systemPatch = documentManager.GetSystemPatch(operatorTypeEnum);
@@ -131,8 +130,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     Operator op = operators[i];
                     op.LinkToUnderlyingPatch(systemPatch);
                     op.UnlinkOperatorType();
-
-                    patchManager.Patch = op.Patch;
 
                     string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
                     progressCallback(progressMessage);
@@ -146,6 +143,54 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             }
 
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
+        public static void Migrate_ComparativeOperators_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Equal, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.GreaterThan, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.GreaterThanOrEqual, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.LessThan, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.LessThanOrEqual, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.NotEqual, repositories, progressCallback);
+
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+                //throw new Exception("Temporarily not committing, for debugging.");
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
+        private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(
+            OperatorTypeEnum operatorTypeEnum,
+            RepositoryWrapper repositories,
+            Action<string> progressCallback)
+        {
+            DocumentManager documentManager = new DocumentManager(repositories);
+
+            Patch systemPatch = documentManager.GetSystemPatch(operatorTypeEnum);
+            IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
+
+            for (int i = 0; i < operators.Count; i++)
+            {
+                Operator op = operators[i];
+                op.LinkToUnderlyingPatch(systemPatch);
+                op.UnlinkOperatorType();
+
+                string progressMessage = $"Migrated {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
+                progressCallback(progressMessage);
+            }
         }
 
         // Helpers

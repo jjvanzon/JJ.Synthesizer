@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Api
         public Divide_OperatorWrapper Divide(Outlet a = null, Outlet b = null, Outlet origin = null)
             => _patchManager.Divide(a, b, origin);
 
-        public Equal_OperatorWrapper Equal(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch Equal(Outlet a = null, Outlet b = null)
             => _patchManager.Equal(a, b);
 
         public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
@@ -159,10 +159,10 @@ namespace JJ.Business.Synthesizer.Api
         public GetDimension_OperatorWrapper GetDimension(DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
             => _patchManager.GetDimension(standardDimension, customDimension);
 
-        public GreaterThan_OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch GreaterThan(Outlet a = null, Outlet b = null)
             => _patchManager.GreaterThan(a, b);
 
-        public GreaterThanOrEqual_OperatorWrapper GreaterThanOrEqual(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch GreaterThanOrEqual(Outlet a = null, Outlet b = null)
             => _patchManager.GreaterThanOrEqual(a, b);
 
         public HighPassFilter_OperatorWrapper HighPassFilter(
@@ -181,10 +181,10 @@ namespace JJ.Business.Synthesizer.Api
         public If_OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
             => _patchManager.If(condition, then, @else);
 
-        public LessThan_OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch LessThan(Outlet a = null, Outlet b = null)
             => _patchManager.LessThan(a, b);
 
-        public LessThanOrEqual_OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch LessThanOrEqual(Outlet a = null, Outlet b = null)
             => _patchManager.LessThanOrEqual(a, b);
 
         public Loop_OperatorWrapper Loop(
@@ -363,7 +363,7 @@ namespace JJ.Business.Synthesizer.Api
             Outlet width = null)
             => _patchManager.NotchFilter(sound, centerFrequency, width);
 
-        public NotEqual_OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch NotEqual(Outlet a = null, Outlet b = null)
             => _patchManager.NotEqual(a, b);
 
         public Number_OperatorWrapper Number(double number = 0)

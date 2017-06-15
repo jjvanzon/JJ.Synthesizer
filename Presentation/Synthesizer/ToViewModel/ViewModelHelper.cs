@@ -95,8 +95,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum.Absolute,
                 OperatorTypeEnum.And,
-                OperatorTypeEnum.Sine,
-                OperatorTypeEnum.CustomOperator
+                OperatorTypeEnum.CustomOperator,
+                OperatorTypeEnum.Equal,
+                OperatorTypeEnum.GreaterThan,
+                OperatorTypeEnum.GreaterThanOrEqual,
+                OperatorTypeEnum.LessThan,
+                OperatorTypeEnum.LessThanOrEqual,
+                OperatorTypeEnum.NotEqual,
+                OperatorTypeEnum.Sine
             };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView_WithoutUnderlyingPatch { get; } =
