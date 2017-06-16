@@ -51,15 +51,10 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.MinOverInlets: ExecuteValidator(new MinOverInlets_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Multiply: ExecuteValidator(new Multiply_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MultiplyWithOrigin: ExecuteValidator(new MultiplyWithOrigin_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Negative: ExecuteValidator(new Negative_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Not: ExecuteValidator(new Not_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.NotchFilter: ExecuteValidator(new NotchFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Number: ExecuteValidator(new Number_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.OneOverX: ExecuteValidator(new OneOverX_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Or: ExecuteValidator(new Or_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.PatchOutlet: ExecuteValidator(new PatchOutlet_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.PeakingEQFilter: ExecuteValidator(new PeakingEQFilter_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Power: ExecuteValidator(new Power_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Pulse: ExecuteValidator(new Pulse_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.PulseTrigger: ExecuteValidator(new PulseTrigger_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Random: ExecuteValidator(new Random_OperatorWarningValidator(op)); break;
@@ -79,7 +74,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.Square: ExecuteValidator(new Square_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Squash: ExecuteValidator(new Squash_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Stretch: ExecuteValidator(new Stretch_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Subtract: ExecuteValidator(new Subtract_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.SumFollower: ExecuteValidator(new SumFollower_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.SumOverDimension: ExecuteValidator(new SumOverDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.TimePower: ExecuteValidator(new TimePower_OperatorWarningValidator(op)); break;

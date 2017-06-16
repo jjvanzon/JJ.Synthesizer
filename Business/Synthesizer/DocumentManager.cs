@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer
 
             if (patch == null)
             {
-                throw new NotFoundException<Patch>(new { name = operatorTypeEnum.ToString() });
+                throw new NotFoundException<Patch>(new { name = operatorTypeEnum.ToString(), hidden = false });
             }
 
             return patch;
@@ -441,7 +441,7 @@ namespace JJ.Business.Synthesizer
 
             if (patch == null)
             {
-                throw new NotFoundException<Patch>(new { name });
+                throw new NotFoundException<Patch>(new { name, hidden = false });
             }
 
             return patch;

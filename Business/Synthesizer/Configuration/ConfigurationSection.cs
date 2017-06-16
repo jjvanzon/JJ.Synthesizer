@@ -38,5 +38,11 @@ namespace JJ.Business.Synthesizer.Configuration
 
         [XmlAttribute]
         public int AudioFileOutputBufferSizeInBytes { get; set; }
+
+        /// <summary>
+        /// This feature switch can temporarily disable a validation that forms a performance bottleneck.
+        /// </summary>
+        [XmlAttribute]
+        public bool HiddenButInUseValidationEnabled { get; set; }
     }
 }

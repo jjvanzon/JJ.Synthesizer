@@ -1,16 +1,25 @@
 ﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Configuration;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_HiddenButInUse : VersatileValidator<Patch>
     {
+        private static readonly bool _hiddenButInUseValidationEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().HiddenButInUseValidationEnabled;
+
         public PatchValidator_HiddenButInUse(Patch lowerPatch)
             : base(lowerPatch)
-        { 
+        {
+            if (!_hiddenButInUseValidationEnabled)
+            {
+                return;
+            }
+
             // ReSharper disable once InvertIf
             if (lowerPatch.Hidden)
             {

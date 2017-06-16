@@ -348,13 +348,13 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _patchManager.Squash(signal, factor, origin, standardDimension, customDimension);
 
-        public Negative_OperatorWrapper Negative(Outlet number = null)
+        public OperatorWrapper_WithUnderlyingPatch Negative(Outlet number = null)
             => _patchManager.Negative(number);
 
         public Noise_OperatorWrapper Noise(DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
             => _patchManager.Noise(standardDimension, customDimension);
 
-        public Not_OperatorWrapper Not(Outlet number = null)
+        public OperatorWrapper_WithUnderlyingPatch Not(Outlet number = null)
             => _patchManager.Not(number);
 
         public NotchFilter_OperatorWrapper NotchFilter(
@@ -369,10 +369,10 @@ namespace JJ.Business.Synthesizer.Api
         public Number_OperatorWrapper Number(double number = 0)
             => _patchManager.Number(number);
 
-        public OneOverX_OperatorWrapper OneOverX(Outlet number = null)
+        public OperatorWrapper_WithUnderlyingPatch OneOverX(Outlet number = null)
             => _patchManager.OneOverX(number);
 
-        public Or_OperatorWrapper Or(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch Or(Outlet a = null, Outlet b = null)
             => _patchManager.Or(a, b);
 
         public PatchInlet_OperatorWrapper PatchInlet()
@@ -406,7 +406,7 @@ namespace JJ.Business.Synthesizer.Api
             Outlet dbGain = null)
             => _patchManager.PeakingEQFilter(sound, centerFrequency, width, dbGain);
 
-        public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
+        public OperatorWrapper_WithUnderlyingPatch Power(Outlet @base = null, Outlet exponent = null)
             => _patchManager.Power(@base, exponent);
 
         public Pulse_OperatorWrapper Pulse(
@@ -528,7 +528,7 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _patchManager.Stretch(signal, factor, origin, standardDimension, customDimension);
 
-        public Subtract_OperatorWrapper Subtract(Outlet a = null, Outlet b = null)
+        public OperatorWrapper_WithUnderlyingPatch Subtract(Outlet a = null, Outlet b = null)
             => _patchManager.Subtract(a, b);
 
         public SumOverDimension_OperatorWrapper SumOverDimension(

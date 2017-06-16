@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (x == null) throw new NullException(() => x);
 
-            Subtract_OperatorWrapper subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
+            var subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
             return subtract;
         }
 

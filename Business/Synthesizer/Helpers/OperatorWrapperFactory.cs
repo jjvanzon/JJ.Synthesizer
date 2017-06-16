@@ -48,17 +48,12 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.MinOverInlets, Create_Min_OperatorWrapper },
             { OperatorTypeEnum.Multiply, Create_Multiply_OperatorWrapper },
             { OperatorTypeEnum.MultiplyWithOrigin , Create_MultiplyWithOrigin_OperatorWrapper },
-            { OperatorTypeEnum.Negative, Create_Negative_OperatorWrapper },
             { OperatorTypeEnum.Noise, Create_Noise_OperatorWrapper },
-            { OperatorTypeEnum.Not, Create_Not_OperatorWrapper },
             { OperatorTypeEnum.NotchFilter, Create_NotchFilter_OperatorWrapper },
             { OperatorTypeEnum.Number , Create_Number_OperatorWrapper },
-            { OperatorTypeEnum.OneOverX, Create_OneOverX_OperatorWrapper },
-            { OperatorTypeEnum.Or, Create_Or_OperatorWrapper },
             { OperatorTypeEnum.PatchInlet , Create_PatchInlet_OperatorWrapper },
             { OperatorTypeEnum.PatchOutlet, Create_PatchOutlet_OperatorWrapper },
             { OperatorTypeEnum.PeakingEQFilter, Create_PeakingEQFilter_OperatorWrapper },
-            { OperatorTypeEnum.Power, Create_Power_OperatorWrapper },
             { OperatorTypeEnum.Pulse, Create_Pulse_OperatorWrapper },
             { OperatorTypeEnum.PulseTrigger, Create_PulseTrigger_OperatorWrapper },
             { OperatorTypeEnum.Random, Create_Random_OperatorWrapper },
@@ -78,7 +73,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Square, Create_Square_OperatorWrapper },
             { OperatorTypeEnum.Squash, Create_Squash_OperatorWrapper },
             { OperatorTypeEnum.Stretch, Create_Stretch_OperatorWrapper },
-            { OperatorTypeEnum.Subtract, Create_Subtract_OperatorWrapper },
             { OperatorTypeEnum.SumFollower, Create_SumFollower_OperatorWrapper },
             { OperatorTypeEnum.SumOverDimension, Create_SumOverDimension_OperatorWrapper },
             { OperatorTypeEnum.TimePower , Create_TimePower_OperatorWrapper },
@@ -111,8 +105,14 @@ namespace JJ.Business.Synthesizer.Helpers
                 case OperatorTypeEnum.GreaterThanOrEqual:
                 case OperatorTypeEnum.LessThan:
                 case OperatorTypeEnum.LessThanOrEqual:
+                case OperatorTypeEnum.Negative:
+                case OperatorTypeEnum.Not:
                 case OperatorTypeEnum.NotEqual:
+                case OperatorTypeEnum.Or:
+                case OperatorTypeEnum.OneOverX:
+                case OperatorTypeEnum.Power:
                 case OperatorTypeEnum.Sine:
+                case OperatorTypeEnum.Subtract:
                     return new OperatorWrapper_WithUnderlyingPatch(op);
 
                 default:
@@ -162,17 +162,12 @@ namespace JJ.Business.Synthesizer.Helpers
         private static MinOverInlets_OperatorWrapper Create_Min_OperatorWrapper(Operator op) { return new MinOverInlets_OperatorWrapper(op); }
         private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }
         private static MultiplyWithOrigin_OperatorWrapper Create_MultiplyWithOrigin_OperatorWrapper(Operator op) { return new MultiplyWithOrigin_OperatorWrapper(op); }
-        private static Negative_OperatorWrapper Create_Negative_OperatorWrapper(Operator op) { return new Negative_OperatorWrapper(op); }
         private static Noise_OperatorWrapper Create_Noise_OperatorWrapper(Operator op) { return new Noise_OperatorWrapper(op); }
-        private static Not_OperatorWrapper Create_Not_OperatorWrapper(Operator op) { return new Not_OperatorWrapper(op); }
         private static NotchFilter_OperatorWrapper Create_NotchFilter_OperatorWrapper(Operator op) { return new NotchFilter_OperatorWrapper(op); }
         private static Number_OperatorWrapper Create_Number_OperatorWrapper(Operator op) { return new Number_OperatorWrapper(op); }
-        private static OneOverX_OperatorWrapper Create_OneOverX_OperatorWrapper(Operator op) { return new OneOverX_OperatorWrapper(op); }
-        private static Or_OperatorWrapper Create_Or_OperatorWrapper(Operator op) { return new Or_OperatorWrapper(op); }
         private static PatchInlet_OperatorWrapper Create_PatchInlet_OperatorWrapper(Operator op) { return new PatchInlet_OperatorWrapper(op); }
         private static PatchOutlet_OperatorWrapper Create_PatchOutlet_OperatorWrapper(Operator op) { return new PatchOutlet_OperatorWrapper(op); }
         private static PeakingEQFilter_OperatorWrapper Create_PeakingEQFilter_OperatorWrapper(Operator op) { return new PeakingEQFilter_OperatorWrapper(op); }
-        private static Power_OperatorWrapper Create_Power_OperatorWrapper(Operator op) { return new Power_OperatorWrapper(op); }
         private static Pulse_OperatorWrapper Create_Pulse_OperatorWrapper(Operator op) { return new Pulse_OperatorWrapper(op); }
         private static PulseTrigger_OperatorWrapper Create_PulseTrigger_OperatorWrapper(Operator op) { return new PulseTrigger_OperatorWrapper(op); }
         private static Random_OperatorWrapper Create_Random_OperatorWrapper(Operator op) { return new Random_OperatorWrapper(op); }
@@ -192,7 +187,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static Square_OperatorWrapper Create_Square_OperatorWrapper(Operator op) { return new Square_OperatorWrapper(op); }
         private static Squash_OperatorWrapper Create_Squash_OperatorWrapper(Operator op) { return new Squash_OperatorWrapper(op); }
         private static Stretch_OperatorWrapper Create_Stretch_OperatorWrapper(Operator op) { return new Stretch_OperatorWrapper(op); }
-        private static Subtract_OperatorWrapper Create_Subtract_OperatorWrapper(Operator op) { return new Subtract_OperatorWrapper(op); }
         private static SumFollower_OperatorWrapper Create_SumFollower_OperatorWrapper(Operator op) { return new SumFollower_OperatorWrapper(op); }
         private static SumOverDimension_OperatorWrapper Create_SumOverDimension_OperatorWrapper(Operator op) { return new SumOverDimension_OperatorWrapper(op); }
         private static TimePower_OperatorWrapper Create_TimePower_OperatorWrapper(Operator op) { return new TimePower_OperatorWrapper(op); }

@@ -101,8 +101,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.GreaterThanOrEqual,
                 OperatorTypeEnum.LessThan,
                 OperatorTypeEnum.LessThanOrEqual,
+                OperatorTypeEnum.Negative,
+                OperatorTypeEnum.Not,
                 OperatorTypeEnum.NotEqual,
-                OperatorTypeEnum.Sine
+                OperatorTypeEnum.Or,
+                OperatorTypeEnum.OneOverX,
+                OperatorTypeEnum.Power,
+                OperatorTypeEnum.Sine,
+                OperatorTypeEnum.Subtract
             };
 
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView_WithoutUnderlyingPatch { get; } =

@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Tests
                 CultureHelper.SetThreadCultureName("nl-NL");
 
                 add.Items[0] = null;
-                var valueOperatorWrapper = new Number_OperatorWrapper(subtract.B.Operator);
+                var valueOperatorWrapper = new Number_OperatorWrapper(subtract.Inputs[DimensionEnum.B].Operator);
                 valueOperatorWrapper.Number = 0;
                 subtract.WrappedOperator.Inlets[0].Name = "134";
 
@@ -132,9 +132,9 @@ namespace JJ.Business.Synthesizer.Tests
 
                 x.CreatePatch();
 
-                Subtract_OperatorWrapper subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
+                var subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
 
-                Subtract_OperatorWrapper subtract2 = x.Subtract
+                var subtract2 = x.Subtract
                 (
                     x.Add
                     (
