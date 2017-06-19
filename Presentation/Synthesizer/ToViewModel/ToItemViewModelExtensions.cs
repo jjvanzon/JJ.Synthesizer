@@ -130,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                                sampleRepository,
                                                                entityPositionManager))
                                                        .OrderBy(x => x.IsObsolete)
-                                                       .ThenBy(x => x.ListIndex)
+                                                       .ThenBy(x => x.Position)
                                                        .ThenBy(x => x.Name)
                                                        .ThenBy(x => x.Dimension.Name)
                                                        .ToList();
@@ -166,7 +166,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.ID = entity.ID;
             viewModel.Name = entity.Name;
-            viewModel.ListIndex = entity.ListIndex;
+            viewModel.Position = entity.Position;
             viewModel.DefaultValue = entity.DefaultValue;
             viewModel.IsObsolete = entity.IsObsolete;
             viewModel.HasWarningAppearance = entity.IsObsolete;
@@ -273,7 +273,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             IList<OutletViewModel> viewModels = entities.Select(x => x.ToViewModel(curveRepository, sampleRepository, entityPositionManager))
                                                         .OrderBy(x => x.IsObsolete)
-                                                        .ThenBy(x => x.ListIndex)
+                                                        .ThenBy(x => x.Position)
                                                         .ThenBy(x => x.Name)
                                                         .ThenBy(x => x.Dimension.Name)
                                                         .ToList();
@@ -306,7 +306,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.ID = entity.ID;
             viewModel.Name = entity.Name;
-            viewModel.ListIndex = entity.ListIndex;
+            viewModel.Position = entity.Position;
             viewModel.NameOrDimensionHidden = entity.NameOrDimensionHidden;
             viewModel.IsObsolete = entity.IsObsolete;
             viewModel.HasWarningAppearance = entity.IsObsolete;

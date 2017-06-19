@@ -5,8 +5,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class OperatorPropertiesViewModel_ForPatchOutlet : OperatorPropertiesViewModelBase
     {
-        /// <summary> Note that this is 1-based, while the value stored in the entity model is 0-based. </summary>
-        public int Number { get; set; }
+        public int Position { get; set; }
         public bool NameOrDimensionHidden { get; set; }
 
         public IDAndName Dimension { get; set; }

@@ -9,11 +9,11 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Operator_SideEffect_GeneratePatchInletListIndex : ISideEffect
+    internal class Operator_SideEffect_GeneratePatchInletPosition : ISideEffect
     {
         private readonly Operator _entity;
 
-        public Operator_SideEffect_GeneratePatchInletListIndex(Operator entity)
+        public Operator_SideEffect_GeneratePatchInletPosition(Operator entity)
         {
             _entity = entity ?? throw new NullException(() => entity);
         }
@@ -28,21 +28,21 @@ namespace JJ.Business.Synthesizer.SideEffects
                 return;
             }
 
-            IList<int> listIndexes = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                                  .Where(x => x.ID != _entity.ID) // Not itself
-                                                  .Select(x => new PatchInlet_OperatorWrapper(x).Inlet.ListIndex)
-                                                  .ToArray();
-            int suggestedListIndex = 0;
-            bool listIndexExists = listIndexes.Contains(suggestedListIndex);
+            IList<int> positions = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                          .Where(x => x.ID != _entity.ID) // Not itself
+                                          .Select(x => new PatchInlet_OperatorWrapper(x).Inlet.Position)
+                                          .ToArray();
+            int suggestedPosition = 0;
+            bool positionExists = positions.Contains(suggestedPosition);
 
-            while (listIndexExists)
+            while (positionExists)
             {
-                suggestedListIndex++;
-                listIndexExists = listIndexes.Contains(suggestedListIndex);
+                suggestedPosition++;
+                positionExists = positions.Contains(suggestedPosition);
             }
 
             var wrapper = new PatchInlet_OperatorWrapper(_entity);
-            wrapper.Inlet.ListIndex = suggestedListIndex;
+            wrapper.Inlet.Position = suggestedPosition;
         }
     }
 }

@@ -16,25 +16,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// </param>
         void Calculate(float[] buffer, int frameCount, double t0);
 
-        double GetValue(int listIndex);
-        void SetValue(int listIndex, double value);
+        double GetValue(int position);
+        void SetValue(int position, double value);
 
         double GetValue(string name);
         void SetValue(string name, double value);
 
-        double GetValue(string name, int listIndex);
-        void SetValue(string name, int listIndex, double value);
+        double GetValue(string name, int position);
+        void SetValue(string name, int position, double value);
 
         double GetValue(DimensionEnum dimensionEnum);
         void SetValue(DimensionEnum dimensionEnum, double value);
 
-        double GetValue(DimensionEnum dimensionEnum, int listIndex);
-        void SetValue(DimensionEnum dimensionEnum, int listIndex, double value);
+        double GetValue(DimensionEnum dimensionEnum, int position);
+        void SetValue(DimensionEnum dimensionEnum, int position, double value);
 
         void CloneValues(IPatchCalculator sourcePatchCalculator);
 
         void Reset(double time);
         void Reset(double time, string name);
-        void Reset(double time, int listIndex);
+        void Reset(double time, int position);
     }
 }

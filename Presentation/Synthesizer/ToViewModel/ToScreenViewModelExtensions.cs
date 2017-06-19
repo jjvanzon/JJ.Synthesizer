@@ -499,7 +499,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Inlet.Name instead of Operator.Name.
             viewModel.Name = inlet.Name;
             viewModel.DefaultValue = Convert.ToString(inlet.DefaultValue);
-            viewModel.Number = inlet.ListIndex + 1;
+            viewModel.Position = inlet.Position;
             viewModel.WarnIfEmpty = inlet.WarnIfEmpty;
             viewModel.NameOrDimensionHidden = inlet.NameOrDimensionHidden;
 
@@ -527,7 +527,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             Outlet outlet = new PatchOutlet_OperatorWrapper(entity).Outlet;
 
             viewModel.Name = outlet.Name;
-            viewModel.Number = outlet.ListIndex + 1;
+            viewModel.Position = outlet.Position;
             viewModel.NameOrDimensionHidden = outlet.NameOrDimensionHidden;
 
             // In case of PatchInlet Dimension has to come from Outlet, not Operator.

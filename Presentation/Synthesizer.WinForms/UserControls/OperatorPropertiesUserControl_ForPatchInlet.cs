@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelNumber.Text = ResourceFormatter.Number;
+            labelPosition.Text = ResourceFormatter.Position;
             labelDimension.Text = ResourceFormatter.Dimension;
             labelDefaultValue.Text = ResourceFormatter.DefaultValue;
             labelWarnIfEmpty.Text = ResourceFormatter.WarnIfEmpty;
@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelDimension, comboBoxDimension);
             AddProperty(labelDefaultValue, textBoxDefaultValue);
             AddProperty(_labelName, _textBoxName);
-            AddProperty(labelNumber, numericUpDownNumber);
+            AddProperty(labelPosition, numericUpDownPosition);
             AddProperty(labelWarnIfEmpty, checkBoxWarnIfEmpty);
             AddProperty(labelNameOrDimensionHidden, checkBoxNameOrDimensionHidden);
         }
@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.ApplyViewModelToControls();
 
-            numericUpDownNumber.Value = ViewModel.Number;
+            numericUpDownPosition.Value = ViewModel.Position;
             textBoxDefaultValue.Text = ViewModel.DefaultValue;
             checkBoxWarnIfEmpty.Checked = ViewModel.WarnIfEmpty;
             checkBoxNameOrDimensionHidden.Checked = ViewModel.NameOrDimensionHidden;
@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.ApplyControlsToViewModel();
 
-            ViewModel.Number = (int)numericUpDownNumber.Value;
+            ViewModel.Position = (int)numericUpDownPosition.Value;
             ViewModel.DefaultValue = textBoxDefaultValue.Text;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
             ViewModel.WarnIfEmpty = checkBoxWarnIfEmpty.Checked;

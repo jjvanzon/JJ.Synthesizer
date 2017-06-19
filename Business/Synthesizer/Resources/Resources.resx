@@ -139,8 +139,8 @@
     <value>Not loaded</value>
     <comment>{0} = sample name</comment>
   </data>
-  <data name="ListIndexes" xml:space="preserve">
-    <value>Numbers</value>
+  <data name="Positions" xml:space="preserve">
+    <value>Positions</value>
   </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Cannot change the amount of inlets, because inlet {0} is still filled in.</value>
@@ -475,9 +475,6 @@
   </data>
   <data name="Line" xml:space="preserve">
     <value>Line</value>
-  </data>
-  <data name="ListIndex" xml:space="preserve">
-    <value>Number (when we start counting at 0)</value>
   </data>
   <data name="LiteralFrequencies" xml:space="preserve">
     <value>Literal Frequencies</value>

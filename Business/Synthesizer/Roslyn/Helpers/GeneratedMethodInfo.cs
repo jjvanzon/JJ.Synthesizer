@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             // TODO: Repeated code from Execute method.
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfos =
                 VariableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                            .Where(x => x.ListIndex == 0)
+                            .Where(x => x.Position == 0)
                             .ToArray();
 
             IList<string> locallyReusedDoubleVariableNamesCamelCase =

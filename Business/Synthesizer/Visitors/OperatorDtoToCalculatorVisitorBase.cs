@@ -233,7 +233,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new DimensionToOutlets_OperatorCalculator(_stack.Pop(), dto.OutletListIndex, dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new DimensionToOutlets_OperatorCalculator(_stack.Pop(), dto.OutletPosition, dimensionStack));
         }
 
         protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
@@ -838,12 +838,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto)
         {
-            return ProcessOperatorDto(dto, () => new RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep(dto.From, _stack.Pop(), dto.OutletListIndex));
+            return ProcessOperatorDto(dto, () => new RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep(dto.From, _stack.Pop(), dto.OutletPosition));
         }
 
         protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)
         {
-            return ProcessOperatorDto(dto, () => new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(_stack.Pop(), _stack.Pop(), dto.OutletListIndex));
+            return ProcessOperatorDto(dto, () => new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(_stack.Pop(), _stack.Pop(), dto.OutletPosition));
         }
 
         protected override IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting(Reverse_OperatorDto_ConstFactor_NoOriginShifting dto)
@@ -1346,7 +1346,7 @@ namespace JJ.Business.Synthesizer.Visitors
             VariableInput_OperatorCalculator calculator;
             if (!_variableInput_OperatorDto_To_Calculator_Dictionary.TryGetValue(dto, out calculator))
             {
-                calculator = new VariableInput_OperatorCalculator(dto.DimensionEnum, dto.CanonicalName, dto.ListIndex, dto.DefaultValue);
+                calculator = new VariableInput_OperatorCalculator(dto.DimensionEnum, dto.CanonicalName, dto.Position, dto.DefaultValue);
 
                 _variableInput_OperatorDto_To_Calculator_Dictionary[dto] = calculator;
             }
@@ -1362,7 +1362,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator = _stack.Peek();
 
-            _resettableOperatorTuples.Add(new ResettableOperatorTuple(calculator, dto.Name, dto.ListIndex));
+            _resettableOperatorTuples.Add(new ResettableOperatorTuple(calculator, dto.Name, dto.Position));
 
             return dto;
         }

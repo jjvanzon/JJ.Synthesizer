@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            string name = $"{ResourceFormatter.Inlet} {inlet.ListIndex + 1}";
+            string name = $"{ResourceFormatter.Inlet} {inlet.Position}";
             return name;
         }
     }

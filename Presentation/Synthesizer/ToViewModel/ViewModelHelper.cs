@@ -31,10 +31,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
         public const string CUSTOM_DIMENSION_KEY_PREFIX = "5133584A-BA76-42DB-BD0E-42801FCB96DF-CustomDimension-";
 
-        private const int STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX = 2;
-        private const int RANGE_OVER_OUTLETS_FROM_LIST_INDEX = 0;
-        private const int RANGE_OVER_OUTLETS_STEP_LIST_INDEX = 1;
-
         private static readonly bool _idsVisible = CustomConfigurationManager.GetSection<ConfigurationSection>().IDsVisible;
 
         // OperatorTypeEnum HashSets
@@ -426,7 +422,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case OperatorTypeEnum.Stretch:
                 case OperatorTypeEnum.Squash:
-                    if (inlet.ListIndex == STRETCH_AND_SQUASH_ORIGIN_LIST_INDEX)
+                    if (inlet.GetDimensionEnum() == DimensionEnum.Origin)
                     {
                         if (op.GetStandardDimensionEnum() == DimensionEnum.Time)
                         {
@@ -513,7 +509,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 destOperatorViewModel.Inlets.Remove(inletViewModelToDelete);
             }
 
-            destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.OrderBy(x => x.ListIndex).ToList();
+            destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.OrderBy(x => x.Position).ToList();
         }
 
         /// <summary>
@@ -558,7 +554,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 destOperatorViewModel.Outlets.Remove(outletViewModelToDelete);
             }
 
-            destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.OrderBy(x => x.ListIndex).ToList();
+            destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.OrderBy(x => x.Position).ToList();
         }
 
         /// <summary>
@@ -806,7 +802,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Try Use List Index
             else
             {
-                sb.Append($" {wrapper.Inlet.ListIndex + 1}");
+                sb.Append($" {wrapper.Inlet.Position}");
             }
 
             // Try Use DefaultValue
@@ -843,7 +839,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Try Use List Index
             else
             {
-                sb.AppendFormat(" {0}", wrapper.Outlet.ListIndex + 1);
+                sb.AppendFormat(" {0}", wrapper.Outlet.Position);
             }
 
             return sb.ToString();
@@ -994,13 +990,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             double? from = outlet.Operator.Inlets
-                                 .Where(x => x.ListIndex == RANGE_OVER_OUTLETS_FROM_LIST_INDEX)
+                                 .Where(x => x.GetDimensionEnum() == DimensionEnum.From)
                                  .Select(x => x.TryGetConstantNumber())
                                  .FirstOrDefault();
             if (from.HasValue)
             {
                 double? step = outlet.Operator.Inlets
-                                     .Where(x => x.ListIndex == RANGE_OVER_OUTLETS_STEP_LIST_INDEX)
+                                     .Where(x => x.GetDimensionEnum() == DimensionEnum.Step)
                                      .Select(x => x.TryGetConstantNumber())
                                      .FirstOrDefault();
                 if (step.HasValue)

@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer
     /// 
     /// However, existing Inlets and Outlets are matches with the new Patch as best as possible.
     /// First an existing Inlet or Outlet is matched by name, otherwise an it is matched by Dimension,
-    /// otherwise by ListIndex.
+    /// otherwise by Position.
     /// And if none match, the Inlet or Outlet is deleted if not in use, or kept if it was in use.
     /// </summary>
     internal class PatchToOperatorConverter
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer
 
             destInlet.Name = sourceInlet.Name;
             destInlet.Dimension = sourceInlet.Dimension;
-            destInlet.ListIndex = sourceInlet.ListIndex;
+            destInlet.Position = sourceInlet.Position;
             destInlet.DefaultValue = sourceInlet.DefaultValue;
             destInlet.WarnIfEmpty = sourceInlet.WarnIfEmpty;
             destInlet.NameOrDimensionHidden = sourceInlet.NameOrDimensionHidden;
@@ -198,7 +198,7 @@ namespace JJ.Business.Synthesizer
 
             destOutlet.Name = sourceOutlet.Name;
             destOutlet.Dimension = sourceOutlet.Dimension;
-            destOutlet.ListIndex = sourceOutlet.ListIndex;
+            destOutlet.Position = sourceOutlet.Position;
             destOutlet.NameOrDimensionHidden = sourceOutlet.NameOrDimensionHidden;
             destOutlet.IsObsolete = false;
 

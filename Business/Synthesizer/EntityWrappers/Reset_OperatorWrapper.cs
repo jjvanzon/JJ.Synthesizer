@@ -21,10 +21,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet PassThroughOutlet => InletOutletSelector.GetOutlet(WrappedOperator, DimensionEnum.PassThrough);
 
-        public int? ListIndex
+        public int? Position
         {
-            get => DataPropertyParser.TryGetInt32(WrappedOperator, nameof(ListIndex));
-            set => DataPropertyParser.SetValue(WrappedOperator, nameof(ListIndex), value);
+            get => DataPropertyParser.TryGetInt32(WrappedOperator, nameof(Position));
+            set => DataPropertyParser.SetValue(WrappedOperator, nameof(Position), value);
         }
     }
 }

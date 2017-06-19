@@ -29,13 +29,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelNumber = new System.Windows.Forms.Label();
-            this.numericUpDownNumber = new System.Windows.Forms.NumericUpDown();
+            this.labelPosition = new System.Windows.Forms.Label();
+            this.numericUpDownPosition = new System.Windows.Forms.NumericUpDown();
             this.labelDimension = new System.Windows.Forms.Label();
             this.comboBoxDimension = new System.Windows.Forms.ComboBox();
             this.checkBoxNameOrDimensionHidden = new System.Windows.Forms.CheckBox();
             this.labelNameOrDimensionHidden = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumber)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPosition)).BeginInit();
             this.SuspendLayout();
             // 
             // _labelName
@@ -85,34 +85,34 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this._labelCustomDimensionName.TabIndex = 10;
             this._labelCustomDimensionName.Text = "Custom Dimension";
             // 
-            // labelNumber
+            // labelPosition
             // 
-            this.labelNumber.Location = new System.Drawing.Point(0, 59);
-            this.labelNumber.Margin = new System.Windows.Forms.Padding(0);
-            this.labelNumber.Name = "labelNumber";
-            this.labelNumber.Size = new System.Drawing.Size(147, 30);
-            this.labelNumber.TabIndex = 14;
-            this.labelNumber.Text = "labelNumber";
-            this.labelNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelPosition.Location = new System.Drawing.Point(0, 59);
+            this.labelPosition.Margin = new System.Windows.Forms.Padding(0);
+            this.labelPosition.Name = "labelPosition";
+            this.labelPosition.Size = new System.Drawing.Size(147, 30);
+            this.labelPosition.TabIndex = 14;
+            this.labelPosition.Text = "labelPosition";
+            this.labelPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // numericUpDownNumber
+            // numericUpDownPosition
             // 
-            this.numericUpDownNumber.Location = new System.Drawing.Point(147, 59);
-            this.numericUpDownNumber.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDownNumber.Maximum = new decimal(new int[] {
-            1000000000,
+            this.numericUpDownPosition.Location = new System.Drawing.Point(147, 59);
+            this.numericUpDownPosition.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDownPosition.Maximum = new decimal(new int[] {
+            2147483647,
             0,
             0,
             0});
-            this.numericUpDownNumber.Minimum = new decimal(new int[] {
-            1,
+            this.numericUpDownPosition.Minimum = new decimal(new int[] {
+            -2147483648,
             0,
             0,
-            0});
-            this.numericUpDownNumber.Name = "numericUpDownNumber";
-            this.numericUpDownNumber.Size = new System.Drawing.Size(13, 22);
-            this.numericUpDownNumber.TabIndex = 18;
-            this.numericUpDownNumber.Value = new decimal(new int[] {
+            -2147483648});
+            this.numericUpDownPosition.Name = "numericUpDownPosition";
+            this.numericUpDownPosition.Size = new System.Drawing.Size(13, 22);
+            this.numericUpDownPosition.TabIndex = 18;
+            this.numericUpDownPosition.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -167,8 +167,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.labelNameOrDimensionHidden);
             this.Controls.Add(this.labelDimension);
             this.Controls.Add(this.comboBoxDimension);
-            this.Controls.Add(this.labelNumber);
-            this.Controls.Add(this.numericUpDownNumber);
+            this.Controls.Add(this.labelPosition);
+            this.Controls.Add(this.numericUpDownPosition);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OperatorPropertiesUserControl_ForPatchOutlet";
             this.RemoveButtonVisible = true;
@@ -184,21 +184,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this._labelStandardDimension, 0);
             this.Controls.SetChildIndex(this._comboBoxStandardDimension, 0);
             this.Controls.SetChildIndex(this._labelCustomDimensionName, 0);
-            this.Controls.SetChildIndex(this.numericUpDownNumber, 0);
-            this.Controls.SetChildIndex(this.labelNumber, 0);
+            this.Controls.SetChildIndex(this.numericUpDownPosition, 0);
+            this.Controls.SetChildIndex(this.labelPosition, 0);
             this.Controls.SetChildIndex(this.comboBoxDimension, 0);
             this.Controls.SetChildIndex(this.labelDimension, 0);
             this.Controls.SetChildIndex(this.labelNameOrDimensionHidden, 0);
             this.Controls.SetChildIndex(this.checkBoxNameOrDimensionHidden, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumber)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPosition)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label labelNumber;
-        private System.Windows.Forms.NumericUpDown numericUpDownNumber;
+        private System.Windows.Forms.Label labelPosition;
+        private System.Windows.Forms.NumericUpDown numericUpDownPosition;
         protected System.Windows.Forms.Label labelDimension;
         protected System.Windows.Forms.ComboBox comboBoxDimension;
         private System.Windows.Forms.CheckBox checkBoxNameOrDimensionHidden;

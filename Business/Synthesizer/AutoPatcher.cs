@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
@@ -36,7 +35,7 @@ namespace JJ.Business.Synthesizer
         /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
         /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
         /// If there is overlap in type or name, they will merge to a single inlet or outlet.
-        /// This causes ambiguity in DefaultValue, ListIndex or Name, 
+        /// This causes ambiguity in DefaultValue, Position or Name, 
         /// which is 'resolved' by taking the properties of the first one in the group.
         /// </summary>
         public Patch AutoPatch(IList<Patch> sourceUnderlyingPatches)
@@ -86,10 +85,6 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Renumber dest patch inlets and outlets as you create them.
-            // The numbering is arbitrary, but ListIndexes have to be unique.
-            int listIndex = 0;
-
             // Unmatched inlets of the custom operators become inlets of the new patch.
             IList<Inlet> intermediateUnmatchedInlets = intermediateCustomOperators.SelectMany(x => x.Inlets)
                                                                                   .Except(intermediateMatchedInlets)
@@ -100,8 +95,7 @@ namespace JJ.Business.Synthesizer
                                                                                             .GroupBy(x => x.GetDimensionEnum());
             foreach (var intermediateUnmatchedInletGroup in intermediateUnmatchedInlets_GroupedByDimension)
             {
-                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
-                patchInletWrapper.Inlet.ListIndex = listIndex++;
+                ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
             }
 
             // If there is overlap in Inlet Name, they will merge to a single PatchInlet.
@@ -109,16 +103,14 @@ namespace JJ.Business.Synthesizer
                                                                                                         .GroupBy(x => x.Name);
             foreach (var intermediateUnmatchedInletGroup in intermediateUnmatchedInlets_WithoutDimension_GroupedByName)
             {
-                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
-                patchInletWrapper.Inlet.ListIndex = listIndex++;
+                ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
             }
 
             // If there is no Inlet Dimension or name, unmatched Inlets will convert to individual PatchInlets.
             var intermediateUnmatchedInlets_WithoutDimensionOrName = intermediateUnmatchedInlets.Where(x => x.Dimension == null && string.IsNullOrEmpty(x.Name));
             foreach (Inlet unmatchedInlet in intermediateUnmatchedInlets_WithoutDimensionOrName)
             {
-                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInlet);
-                patchInletWrapper.Inlet.ListIndex = listIndex++;
+                ConvertToPatchInlet(unmatchedInlet);
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
@@ -131,8 +123,7 @@ namespace JJ.Business.Synthesizer
                                                                                               .GroupBy(x => x.GetDimensionEnum());
             foreach (var intermediateUnmatchedOutletGroup in intermediateUnmatchedOutlets_GroupedByDimension)
             {
-                PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
-                patchOutletWrapper.Outlet.ListIndex = listIndex++;
+                ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
             }
 
             // If there is overlap in name, they will merge to a single PatchOutlet.
@@ -140,16 +131,14 @@ namespace JJ.Business.Synthesizer
                                                                                                           .GroupBy(x => x.Name);
             foreach (var intermediateUnmatchedOutletGroup in intermediateUnmatchedOutlets_WithoutDimension_GroupedByName)
             {
-                PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
-                patchOutletWrapper.Outlet.ListIndex = listIndex++;
+                ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
             }
 
             // If there is no Dimension or name, unmatched Outlets will convert to individual PatchOutlets.
             var intermediateUnmatchedOutlets_WithoutDimensionOrName = intermediateUnmatchedOutlets.Where(x => x.Dimension == null && string.IsNullOrEmpty(x.Name));
             foreach (Outlet intermediateUnmatchedOutlet in intermediateUnmatchedOutlets_WithoutDimensionOrName)
             {
-                PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(intermediateUnmatchedOutlet);
-                patchOutletWrapper.Outlet.ListIndex = listIndex++;
+                ConvertToPatchOutlet(intermediateUnmatchedOutlet);
             }
 
             // This is sensitive, error prone code, so verify its result with the validators.
@@ -159,6 +148,7 @@ namespace JJ.Business.Synthesizer
             return patch;
         }
 
+        // ReSharper disable once UnusedMethodReturnValue.Local
         private PatchInlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> intermediateUnmatchedInlets)
         {
             Inlet intermediateFirstUnmatchedInlet = intermediateUnmatchedInlets.First();
@@ -183,12 +173,13 @@ namespace JJ.Business.Synthesizer
             Inlet destInlet = destPatchInletWrapper.Inlet;
             destInlet.Name = intermediateInlet.Name;
             destInlet.Dimension = intermediateInlet.Dimension;
-            destInlet.ListIndex = intermediateInlet.ListIndex;
+            destInlet.Position = intermediateInlet.Position;
             destInlet.DefaultValue = intermediateInlet.DefaultValue;
 
             return destPatchInletWrapper;
         }
 
+        // ReSharper disable once UnusedMethodReturnValue.Local
         private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(IList<Outlet> intermediateUnmatchedOutlets)
         {
             Outlet intermediateFirstUnmatchedOutlet = intermediateUnmatchedOutlets.First();
@@ -217,7 +208,7 @@ namespace JJ.Business.Synthesizer
 
             Outlet destOutlet = destPatchOutletWrapper.Outlet;
             destOutlet.Name = intermediateOutlet.Name;
-            destOutlet.ListIndex = intermediateOutlet.ListIndex;
+            destOutlet.Position = intermediateOutlet.Position;
             destOutlet.Dimension = intermediateOutlet.Dimension;
 
             return destPatchOutletWrapper;

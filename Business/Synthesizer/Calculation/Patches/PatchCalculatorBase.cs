@@ -14,9 +14,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected readonly Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
         protected readonly Dictionary<string, double> _name_To_Value_Dictionary = new Dictionary<string, double>();
-        protected readonly Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
-        protected readonly Dictionary<Tuple<string, int>, double> _nameAndListIndex_To_Value_Dictionary = new Dictionary<Tuple<string, int>, double>();
-        protected readonly Dictionary<int, double> _listIndex_To_Value_Dictionary = new Dictionary<int, double>();
+        protected readonly Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndPosition_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
+        protected readonly Dictionary<Tuple<string, int>, double> _nameAndPosition_To_Value_Dictionary = new Dictionary<Tuple<string, int>, double>();
+        protected readonly Dictionary<int, double> _position_To_Value_Dictionary = new Dictionary<int, double>();
 
         public PatchCalculatorBase(int samplingRate, int channelCount, int channelIndex)
         {
@@ -35,15 +35,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         // Values
 
-        public double GetValue(int listIndex)
+        public double GetValue(int position)
         {
-            _listIndex_To_Value_Dictionary.TryGetValue(listIndex, out double value);
+            _position_To_Value_Dictionary.TryGetValue(position, out double value);
             return value;
         }
 
-        public virtual void SetValue(int listIndex, double value)
+        public virtual void SetValue(int position, double value)
         {
-            _listIndex_To_Value_Dictionary[listIndex] = value;
+            _position_To_Value_Dictionary[position] = value;
         }
 
         public double GetValue(DimensionEnum dimensionEnum)
@@ -72,38 +72,38 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _name_To_Value_Dictionary[canonicalName] = value;
         }
 
-        public double GetValue(DimensionEnum dimensionEnum, int listIndex)
+        public double GetValue(DimensionEnum dimensionEnum, int position)
         {
-            var key = new Tuple<DimensionEnum, int>(dimensionEnum, listIndex);
+            var key = new Tuple<DimensionEnum, int>(dimensionEnum, position);
 
-            _dimensionEnumAndListIndex_To_Value_Dictionary.TryGetValue(key, out double value);
+            _dimensionEnumAndPosition_To_Value_Dictionary.TryGetValue(key, out double value);
             return value;
         }
 
-        public virtual void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
+        public virtual void SetValue(DimensionEnum dimensionEnum, int position, double value)
         {
-            var key = new Tuple<DimensionEnum, int>(dimensionEnum, listIndex);
+            var key = new Tuple<DimensionEnum, int>(dimensionEnum, position);
 
-            _dimensionEnumAndListIndex_To_Value_Dictionary[key] = value;
+            _dimensionEnumAndPosition_To_Value_Dictionary[key] = value;
         }
 
-        public double GetValue(string name, int listIndex)
+        public double GetValue(string name, int position)
         {
             string canonicalName = NameHelper.ToCanonical(name);
 
-            var key = new Tuple<string, int>(canonicalName, listIndex);
+            var key = new Tuple<string, int>(canonicalName, position);
 
-            _nameAndListIndex_To_Value_Dictionary.TryGetValue(key, out double value);
+            _nameAndPosition_To_Value_Dictionary.TryGetValue(key, out double value);
             return value;
         }
 
-        public virtual void SetValue(string name, int listIndex, double value)
+        public virtual void SetValue(string name, int position, double value)
         {
             string canonicalName = NameHelper.ToCanonical(name);
 
-            var key = new Tuple<string, int>(canonicalName, listIndex);
+            var key = new Tuple<string, int>(canonicalName, position);
 
-            _nameAndListIndex_To_Value_Dictionary[key] = value;
+            _nameAndPosition_To_Value_Dictionary[key] = value;
         }
 
         public virtual void CloneValues(IPatchCalculator sourcePatchCalculator)
@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // ReSharper disable once SuggestVarOrType_Elsewhere
-            foreach (var entry in castedSource._listIndex_To_Value_Dictionary)
+            foreach (var entry in castedSource._position_To_Value_Dictionary)
             {
                 SetValue(entry.Key, entry.Value);
             }
@@ -135,13 +135,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // ReSharper disable once SuggestVarOrType_Elsewhere
-            foreach (var entry in castedSource._dimensionEnumAndListIndex_To_Value_Dictionary)
+            foreach (var entry in castedSource._dimensionEnumAndPosition_To_Value_Dictionary)
             {
                 SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
             }
 
             // ReSharper disable once SuggestVarOrType_Elsewhere
-            foreach (var entry in castedSource._nameAndListIndex_To_Value_Dictionary)
+            foreach (var entry in castedSource._nameAndPosition_To_Value_Dictionary)
             {
                 SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
             }
@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             throw new NotSupportedException();
         }
 
-        public virtual void Reset(double time, int listIndex)
+        public virtual void Reset(double time, int position)
         {
             throw new NotSupportedException();
         }

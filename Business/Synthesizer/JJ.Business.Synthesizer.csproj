@@ -824,8 +824,8 @@
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletListIndex.cs" />
-    <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletListIndex.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletPosition.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletPosition.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingPatch.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_UpdateDerivedOperators.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />

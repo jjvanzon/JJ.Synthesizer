@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfos =
                 _variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                             .Where(x => x.ListIndex == 0)
+                             .Where(x => x.Position == 0)
                              .Except(x => string.Equals(x.VariableNameCamelCase, firstTimeVariableNameCamelCase))
                              .ToArray();
 
@@ -586,7 +586,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
             string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string fixedPosition = CompilationHelper.FormatValue(dto.OutletListIndex);
+            string fixedPosition = CompilationHelper.FormatValue(dto.OutletPosition);
             string output = GetLocalOutputName(dto);
 
             AppendOperatorTitleComment(dto);
@@ -1970,7 +1970,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_RangeOverOutlets_Outlet(dto);
         }
 
-        private IOperatorDto Process_RangeOverOutlets_Outlet(IRangeOverOutlets_Outlet_OperatorDto_WithOutletListIndex dto)
+        private IOperatorDto Process_RangeOverOutlets_Outlet(IRangeOverOutlets_Outlet_OperatorDto_WithOutletPosition dto)
         {
             AppendOperatorTitleComment(dto);
 
@@ -1978,7 +1978,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string step = _stack.Pop();
             string output = GetLocalOutputName(dto);
 
-            AppendLine($"double {output} = {from} + {step} * {dto.OutletListIndex};");
+            AppendLine($"double {output} = {from} + {step} * {dto.OutletPosition};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -3770,7 +3770,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 }
 
                 variableName = GetUniqueVariableNameCamelCase(mnemonic);
-                inputVariableInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.ListIndex, dto.DefaultValue);
+                inputVariableInfo = new ExtendedVariableInfo(variableName, dto.CanonicalName, dto.DimensionEnum, dto.Position, dto.DefaultValue);
             }
 
             foreach (VariableCollections variableInfo in GetVariableInfoList())

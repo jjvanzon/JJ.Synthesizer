@@ -1809,7 +1809,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep(dto);
 
             // Pre-Calculate
-            double result = dto.From + dto.Step * dto.OutletListIndex;
+            double result = dto.From + dto.Step * dto.OutletPosition;
             return new Number_OperatorDto { Number = result };
         }
 
@@ -1823,7 +1823,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(dto);
 
             // Simplify
-            double stepTimesPosition = dto.Step * dto.OutletListIndex;
+            double stepTimesPosition = dto.Step * dto.OutletPosition;
             var dto2 = new Add_OperatorDto_Vars_1Const
             {
                 ConstValue = stepTimesPosition,

@@ -10,7 +10,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
         {
             Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);
-            Map(x => x.ListIndex);
+            Map(x => x.Position);
             Map(x => x.IsObsolete);
             Map(x => x.NameOrDimensionHidden);
             References(x => x.Operator, ColumnNames.OperatorID);

@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public DimensionEnum DimensionEnum { get; }
 
         /// <summary> For dimension values this is the dimension stack level. </summary>
-        public int ListIndex { get; }
+        public int Position { get; }
         public double? DefaultValue { get; }
         public double? Value { get; }
 
@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             string variableNameCamelCase,
             string canonicalName,
             DimensionEnum dimensionEnum, 
-            int listIndex, 
+            int position, 
             double? defaultValue)
         {
             if (string.IsNullOrEmpty(variableNameCamelCase)) throw new NullOrEmptyException(() => variableNameCamelCase);
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             VariableNameCamelCase = variableNameCamelCase;
             CanonicalName = canonicalName;
             DimensionEnum = dimensionEnum;
-            ListIndex = listIndex;
+            Position = position;
             DefaultValue = defaultValue;
             Value = defaultValue;
         }

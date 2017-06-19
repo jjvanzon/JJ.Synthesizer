@@ -1301,7 +1301,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new PatchInlet_OperatorWrapper(op);
             wrapper.Inlet.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
 
-            new Operator_SideEffect_GeneratePatchInletListIndex(op).Execute();
+            new Operator_SideEffect_GeneratePatchInletPosition(op).Execute();
 
             // Call save to execute side-effects and robust validation.
             VoidResult result = _patchManager.SaveOperator(op);
@@ -1366,7 +1366,7 @@ namespace JJ.Business.Synthesizer
             };
             wrapper.Outlet.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
 
-            new Operator_SideEffect_GeneratePatchOutletListIndex(op).Execute();
+            new Operator_SideEffect_GeneratePatchOutletPosition(op).Execute();
 
             // Call save to execute side-effects and robust validation.
             VoidResult result = _patchManager.SaveOperator(op);
@@ -1570,7 +1570,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Reset_OperatorWrapper Reset(Outlet passThrough = null, int? listIndex = null)
+        public Reset_OperatorWrapper Reset(Outlet passThrough = null, int? position = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Reset,
@@ -1580,7 +1580,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new Reset_OperatorWrapper(op)
             {
                 PassThroughInput = passThrough,
-                ListIndex = listIndex
+                Position = position
             };
 
             new Versatile_OperatorValidator(op).Assert();
@@ -2254,7 +2254,7 @@ namespace JJ.Business.Synthesizer
             for (int i = 0; i < inletCount; i++)
             {
                 Inlet inlet = _patchManager.CreateInlet(op);
-                inlet.ListIndex = i;
+                inlet.Position = i;
 
                 DimensionEnum dimensionEnum = inletDimensionEnums[i];
                 inlet.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
@@ -2263,7 +2263,7 @@ namespace JJ.Business.Synthesizer
             for (int i = 0; i < outletCount; i++)
             {
                 Outlet outlet = _patchManager.CreateOutlet(op);
-                outlet.ListIndex = i;
+                outlet.Position = i;
 
                 DimensionEnum dimensionEnum = outletDimensionEnums[i];
                 outlet.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
@@ -2285,7 +2285,7 @@ namespace JJ.Business.Synthesizer
                 var inlet = new Inlet
                 {
                     ID = _repositories.IDRepository.GetID(),
-                    ListIndex = i
+                    Position = i
                 };
                 inlet.SetDimensionEnum(DimensionEnum.Item, _repositories.DimensionRepository);
                 inlet.LinkTo(op);

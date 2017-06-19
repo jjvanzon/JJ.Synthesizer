@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new DimensionToOutlets_Outlet_OperatorDto
             {
                 OperandOperatorDto = _stack.Pop(),
-                OutletListIndex = outlet.ListIndex
+                OutletPosition = outlet.Position
             };
 
             SetDimensionProperties(outlet.Operator, dto);
@@ -652,7 +652,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 FromOperatorDto = _stack.Pop(),
                 StepOperatorDto = _stack.Pop(),
-                OutletListIndex = outlet.ListIndex
+                OutletPosition = outlet.Position
             };
 
             _stack.Push(dto);
@@ -668,7 +668,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 PassThroughInputOperatorDto = _stack.Pop(),
                 Name = op.Name,
-                ListIndex = wrapper.ListIndex
+                Position = wrapper.Position
             };
 
             _stack.Push(dto);
@@ -789,7 +789,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             var dto = new SortOverInlets_Outlet_OperatorDto
             {
-                OutletListIndex = outlet.ListIndex,
+                OutletPosition = outlet.Position,
             };
 
             Process_OperatorDtoBase_Vars(outlet.Operator, dto);
@@ -1080,7 +1080,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     {
                         DimensionEnum = wrapper.Inlet.GetDimensionEnum(),
                         CanonicalName = NameHelper.ToCanonical(wrapper.Inlet.Name),
-                        ListIndex = wrapper.Inlet.ListIndex,
+                        Position = wrapper.Inlet.Position,
                         DefaultValue = wrapper.Inlet.DefaultValue ?? 0.0
                     };
 

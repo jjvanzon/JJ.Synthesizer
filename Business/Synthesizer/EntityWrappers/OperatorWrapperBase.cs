@@ -39,7 +39,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 return ResourceFormatter.GetDisplayName(inlet.Dimension);
             }
 
-            // Use List Position (not ListIndex, becuase it does not have to be consecutive).
             int listPosition = WrappedOperator.Inlets.IndexOf(inlet);
             string displayName = $"{ResourceFormatter.Inlet} {listPosition + 1}";
             return displayName;
@@ -67,7 +66,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 return ResourceFormatter.GetDisplayName(outlet.Dimension);
             }
 
-            // Use List Index (not ListIndex, becuase it does not have to be consecutive).
+            // Use List Index (not Position, becuase it does not have to be consecutive).
             int listPosition = WrappedOperator.Outlets.IndexOf(outlet);
             string displayName = $"{ResourceFormatter.Outlet} {listPosition + 1}";
             return displayName;

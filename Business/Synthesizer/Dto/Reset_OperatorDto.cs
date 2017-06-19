@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public IOperatorDto PassThroughInputOperatorDto { get; set; }
         public string Name { get; set; }
-        public int? ListIndex { get; set; }
+        public int? Position { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
         {

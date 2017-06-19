@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            return GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex(inlet.Name, inlet.GetDimensionEnum(), inlet.ListIndex);
+            return GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(inlet.Name, inlet.GetDimensionEnum(), inlet.Position);
         }
 
         /// <param name="number">1-based</param>
@@ -239,7 +239,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (entity.Inlets.Count == 1)
             {
                 Inlet inlet = entity.Inlets[0];
-                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex(inlet.Name, inlet.GetDimensionEnum(), inlet.ListIndex);
+                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(inlet.Name, inlet.GetDimensionEnum(), inlet.Position);
                 return identifier;
             }
 
@@ -256,7 +256,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (entity.Outlets.Count == 1)
             {
                 Outlet outlet = entity.Outlets[0];
-                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex(outlet.Name, outlet.GetDimensionEnum(), outlet.ListIndex);
+                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(outlet.Name, outlet.GetDimensionEnum(), outlet.Position);
                 return identifier;
             }
 
@@ -316,7 +316,7 @@ namespace JJ.Business.Synthesizer.Validation
         public static string GetUserFriendlyIdentifier([NotNull] Outlet outlet)
         {
             if (outlet == null) throw new NullException(() => outlet);
-            return GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex(outlet.Name, outlet.GetDimensionEnum(), outlet.ListIndex);
+            return GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(outlet.Name, outlet.GetDimensionEnum(), outlet.Position);
         }
 
         [NotNull]
@@ -432,7 +432,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         [NotNull]
-        private static string GetUserFriendlyIdentifier_WithName_DimensionEnum_AndListIndex([CanBeNull] string name, DimensionEnum dimensionEnum, int listIndex)
+        private static string GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition([CanBeNull] string name, DimensionEnum dimensionEnum, int position)
         {
             // Use Name
             if (!string.IsNullOrWhiteSpace(name))
@@ -448,8 +448,8 @@ namespace JJ.Business.Synthesizer.Validation
                 return $"'{dimensionDisplayName}'";
             }
 
-            // Use ListIndex
-            string identifier = $"({ResourceFormatter.Number} = {listIndex + 1})";
+            // Use Position
+            string identifier = $"({ResourceFormatter.Number} = {position})";
             return identifier;
         }
 

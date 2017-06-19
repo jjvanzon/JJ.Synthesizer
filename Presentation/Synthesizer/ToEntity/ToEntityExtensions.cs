@@ -554,7 +554,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity = new Inlet { ID = viewModel.ID };
                 inletRepository.Insert(entity);
             }
-            entity.ListIndex = viewModel.ListIndex;
+            entity.Position = viewModel.Position;
             entity.Name = viewModel.Name;
             entity.DefaultValue = viewModel.DefaultValue;
             entity.IsObsolete = viewModel.IsObsolete;
@@ -824,8 +824,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 inlet.DefaultValue = null;
             }
 
-            // Set ListIndex
-            inlet.ListIndex = viewModel.Number - 1;
+            inlet.Position = viewModel.Position;
 
             // Set Dimension of Inlet instead.
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
@@ -864,9 +863,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             outlet.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;
-
-            // Set ListIndex
-            outlet.ListIndex = viewModel.Number - 1;
+            outlet.Position = viewModel.Position;
 
             // Set Dimension of Outlet instead.
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
@@ -1019,7 +1016,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity = new Outlet { ID = viewModel.ID };
                 outletRepository.Insert(entity);
             }
-            entity.ListIndex = viewModel.ListIndex;
+            entity.Position = viewModel.Position;
             entity.Name = viewModel.Name;
             entity.IsObsolete = viewModel.IsObsolete;
             entity.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;

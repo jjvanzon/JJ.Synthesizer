@@ -26,15 +26,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override void UpdateEntity(OperatorPropertiesViewModel_ForPatchOutlet viewModel)
         {
-            // ViewModel Validator
-            IValidator validator = new OperatorPropertiesViewModel_ForPatchOutlet_Validator(viewModel);
-            if (!validator.IsValid)
-            {
-                viewModel.Successful = validator.IsValid;
-                viewModel.ValidationMessages.AddRange(validator.ValidationMessages.ToCanonical());
-                return;
-            }
-
             // GetEntity
             Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
 

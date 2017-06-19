@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (op.Inlets.Count == expectedInletCount)
             {
-                IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();
+                IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.Position).ToArray();
                 for (int i = 0; i < sortedInlets.Count; i++)
                 {
                     Inlet inlet = sortedInlets[i];
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             // ReSharper disable once InvertIf
             if (op.Outlets.Count == expectedOutletCount)
             {
-                IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
+                IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.Position).ToArray();
                 for (int i = 0; i < sortedOutlets.Count; i++)
                 {
                     Outlet outlet = sortedOutlets[i];

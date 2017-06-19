@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// <summary> Array, instead of IList&lt;T&gt; for optimization in calculating values. </summary>
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
 
-        private readonly Dictionary<int, IList<OperatorCalculatorBase>> _listIndex_To_ResettableOperatorCalculators_Dictionary;
+        private readonly Dictionary<int, IList<OperatorCalculatorBase>> _position_To_ResettableOperatorCalculators_Dictionary;
         private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
 
         public SingleChannelPatchCalculator(
@@ -87,18 +87,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // Yield over results to fields.
             _dimensionStackCollection = result.DimensionStackCollection;
             _outputOperatorCalculator = result.Output_OperatorCalculator;
-            _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
-            _listIndex_To_ResettableOperatorCalculators_Dictionary = 
-                result.ResettableOperatorTuples.Where(x => x.ListIndex.HasValue)
+            _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.Position).ToArray();
+            _position_To_ResettableOperatorCalculators_Dictionary = 
+                result.ResettableOperatorTuples.Where(x => x.Position.HasValue)
                                                 // ReSharper disable once PossibleInvalidOperationException
-                                               .ToNonUniqueDictionary(x => x.ListIndex.Value, x => x.OperatorCalculator);
+                                               .ToNonUniqueDictionary(x => x.Position.Value, x => x.OperatorCalculator);
             _name_To_ResettableOperatorCalculators_Dictionary = result.ResettableOperatorTuples
                                                                       .ToNonUniqueDictionary(x => NameHelper.ToCanonical(x.Name), x => x.OperatorCalculator);
 
             foreach (VariableInput_OperatorCalculator inputOperatorCalculator in _inputOperatorCalculators)
             {
                 double value = inputOperatorCalculator._value;
-                int listIndex = inputOperatorCalculator.ListIndex;
+                int position = inputOperatorCalculator.Position;
                 DimensionEnum dimensionEnum = inputOperatorCalculator.DimensionEnum;
                 string name = NameHelper.ToCanonical(inputOperatorCalculator.CanonicalName);
 
@@ -110,15 +110,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 dimensionStackByName.Set(value);
 
                 // Copy input calculator values to dictionaries.
-                _listIndex_To_Value_Dictionary[listIndex] = value;
+                _position_To_Value_Dictionary[position] = value;
                 _dimensionEnum_To_Value_Dictionary[dimensionEnum] = value;
                 _name_To_Value_Dictionary[name] = value;
 
-                var key2 = new Tuple<DimensionEnum, int>(dimensionEnum, listIndex);
-                _dimensionEnumAndListIndex_To_Value_Dictionary[key2] = value;
+                var key2 = new Tuple<DimensionEnum, int>(dimensionEnum, position);
+                _dimensionEnumAndPosition_To_Value_Dictionary[key2] = value;
 
-                var key1 = new Tuple<string, int>(name, listIndex);
-                _nameAndListIndex_To_Value_Dictionary[key1] = value;
+                var key1 = new Tuple<string, int>(name, position);
+                _nameAndPosition_To_Value_Dictionary[key1] = value;
             }
 
             // Get special dimensions' stacks.
@@ -178,14 +178,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         // Values
 
-        public override void SetValue(int listIndex, double value)
+        public override void SetValue(int position, double value)
         {
-            base.SetValue(listIndex, value);
+            base.SetValue(position, value);
 
-            if (listIndex < 0) return;
-            if (listIndex >= _inputOperatorCalculators.Length) return;
+            if (position < 0) return;
+            if (position >= _inputOperatorCalculators.Length) return;
 
-            _inputOperatorCalculators[listIndex]._value = value;
+            _inputOperatorCalculators[position]._value = value;
         }
 
         public override void SetValue(DimensionEnum dimensionEnum, double value)
@@ -222,52 +222,52 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
+        public override void SetValue(DimensionEnum dimensionEnum, int position, double value)
         {
-            base.SetValue(dimensionEnum, listIndex, value);
+            base.SetValue(dimensionEnum, position, value);
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
             dimensionStack.Set(value);
 
-            int listIndex2 = 0;
+            int position2 = 0;
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
                 // ReSharper disable once InvertIf
                 if (inputCalculator.DimensionEnum == dimensionEnum)
                 {
-                    if (listIndex2 == listIndex)
+                    if (position2 == position)
                     {
-                        _inputOperatorCalculators[listIndex2]._value = value;
+                        _inputOperatorCalculators[position2]._value = value;
                         break;
                     }
 
-                    listIndex2++;
+                    position2++;
                 }
             }
         }
 
-        public override void SetValue(string name, int listIndex, double value)
+        public override void SetValue(string name, int position, double value)
         {
-            base.SetValue(name, listIndex, value);
+            base.SetValue(name, position, value);
 
             string canonicalName = NameHelper.ToCanonical(name);
 
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(canonicalName);
             dimensionStack.Set(value);
 
-            int listIndex2 = 0;
+            int position2 = 0;
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
                 // ReSharper disable once InvertIf
                 if (string.Equals(inputCalculator.CanonicalName, canonicalName))
                 {
-                    if (listIndex2 == listIndex)
+                    if (position2 == position)
                     {
-                        _inputOperatorCalculators[listIndex2]._value = value;
+                        _inputOperatorCalculators[position2]._value = value;
                         break;
                     }
 
-                    listIndex2++;
+                    position2++;
                 }
             }
         }
@@ -294,13 +294,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //}
 
             _outputOperatorCalculator.Reset();
-
-            // TODO: Remove outcommented code.
-            //_listIndex_To_Value_Dictionary.Clear();
-            //_name_To_Value_Dictionary.Clear();
-            //_nameAndListIndex_To_Value_Dictionary.Clear();
-            //_dimensionEnum_To_Value_Dictionary.Clear();
-            //_dimensionEnumAndListIndex_To_Value_Dictionary.Clear();
         }
 
         public override void Reset(double time, string name)
@@ -335,7 +328,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        public override void Reset(double time, int listIndex)
+        public override void Reset(double time, int position)
         {
 #if !USE_INVAR_INDICES
             _timeDimensionStack.Set(time);
@@ -356,7 +349,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             IList<OperatorCalculatorBase> calculators;
             // ReSharper disable once InvertIf
-            if (_listIndex_To_ResettableOperatorCalculators_Dictionary.TryGetValue(listIndex, out calculators))
+            if (_position_To_ResettableOperatorCalculators_Dictionary.TryGetValue(position, out calculators))
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {

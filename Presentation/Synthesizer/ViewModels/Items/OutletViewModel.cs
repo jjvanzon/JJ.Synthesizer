@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         // but are there to have all data present in the view model to restore to a valid state of the entity.
 
         /// <summary> not displayed  </summary>
-        public int ListIndex { get; set; }
+        public int Position { get; set; }
         /// <summary> not displayed  </summary>
         public IDAndName Dimension { get; set; }
         /// <summary> not displayed  </summary>

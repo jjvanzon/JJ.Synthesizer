@@ -146,8 +146,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string LibraryAlreadyAdded_WithName(string name) => string.Format(Resources.LibraryAlreadyAdded_WithName, name);
         public static string PatchesInLibrary => Resources.PatchesInLibrary;
         public static string Line => Resources.Line;
-        public static string ListIndex => Resources.ListIndex;
-        public static string ListIndexes => Resources.ListIndexes;
+        public static string Positions => Resources.Positions;
         public static string LiteralFrequencies => Resources.LiteralFrequencies;
         public static string LiteralFrequency => Resources.LiteralFrequency;
         public static string Loop => Resources.Loop;

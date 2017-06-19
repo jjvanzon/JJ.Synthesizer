@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.DimensionToOutlets;
 
         public IOperatorDto OperandOperatorDto { get; set; }
-        public int OutletListIndex { get; set; }
+        public int OutletPosition { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
         {

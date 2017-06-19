@@ -87,14 +87,14 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     continue;
                 }
 
-                if (destInlet.ListIndex != sourceInlet.ListIndex)
+                if (destInlet.Position != sourceInlet.Position)
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.ListIndex,
+                        ResourceFormatter.Position,
                         sourceInlet,
                         destInlet,
-                        sourceInlet.ListIndex,
-                        destInlet.ListIndex);
+                        sourceInlet.Position,
+                        destInlet.Position);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
 
@@ -209,14 +209,14 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     continue;
                 }
 
-                if (destOutlet.ListIndex != sourceOutlet.ListIndex)
+                if (destOutlet.Position != sourceOutlet.Position)
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.ListIndex,
+                        ResourceFormatter.Position,
                         sourceOutlet,
                         destOutlet,
-                        sourceOutlet.ListIndex,
-                        destOutlet.ListIndex);
+                        sourceOutlet.Position,
+                        destOutlet.Position);
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
 

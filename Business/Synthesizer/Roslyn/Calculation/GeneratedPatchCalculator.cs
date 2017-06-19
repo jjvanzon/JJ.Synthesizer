@@ -85,9 +85,9 @@ namespace GeneratedCSharp
 
         // Values
 
-        public override void SetValue(int listIndex, double value)
+        public override void SetValue(int position, double value)
         {
-            base.SetValue(listIndex, value);
+            base.SetValue(position, value);
 
         }
 
@@ -121,9 +121,9 @@ namespace GeneratedCSharp
 
         }
 
-        public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
+        public override void SetValue(DimensionEnum dimensionEnum, int position, double value)
         {
-            base.SetValue(dimensionEnum, listIndex, value);
+            base.SetValue(dimensionEnum, position, value);
 
             switch (dimensionEnum)
             {
@@ -139,9 +139,9 @@ namespace GeneratedCSharp
 
         }
 
-        public override void SetValue(string name, int listIndex, double value)
+        public override void SetValue(string name, int position, double value)
         {
-            base.SetValue(name, listIndex, value);
+            base.SetValue(name, position, value);
 
             string canonicalName = NameHelper.ToCanonical(name);
 

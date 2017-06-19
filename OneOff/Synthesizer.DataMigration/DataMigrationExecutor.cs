@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions;
@@ -7,6 +8,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
@@ -213,6 +215,39 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 //throw new Exception("Temporarily not committing, for debugging.");
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
+        public static void Migrate_RenameResetOperatorDataKey_ListIndex_To_Position(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Reset);
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    string value = DataPropertyParser.TryGetString(op, "ListIndex");
+                    DataPropertyParser.TryRemoveKey(op, "ListIndex");
+
+                    DataPropertyParser.SetValue(op, "Position", value);
+
+                    string progressMessage = $"Migrated {nameof(Operator)} {i + 1}/{operators.Count}.";
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
             }

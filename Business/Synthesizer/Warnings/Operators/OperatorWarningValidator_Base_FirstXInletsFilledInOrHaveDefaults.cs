@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             if (inletCount < 0) throw new LessThanException(() => inletCount, 0);
 
-            foreach (Inlet inlet in op.Inlets.OrderBy(x => x.ListIndex).Take(inletCount))
+            foreach (Inlet inlet in op.Inlets.OrderBy(x => x.Position).Take(inletCount))
             {
                 if (inlet.InputOutlet == null && !inlet.DefaultValue.HasValue)
                 {

@@ -78,17 +78,17 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
 
-            sb.AppendFormat("[{0}] ", entity.ListIndex);
+            if (entity.Dimension != null)
+            {
+                sb.Append($"{nameof(entity.Dimension)}={entity.Dimension.Name} ");
+            }
 
             if (!string.IsNullOrEmpty(entity.Name))
             {
-                sb.AppendFormat("'{0}' ", entity.Name);
+                sb.Append($"{nameof(entity.Name)}='{entity.Name}' ");
             }
 
-            if (entity.Dimension != null)
-            {
-                sb.AppendFormat("Dimension={0} ", entity.Dimension.Name);
-            }
+            sb.Append($"{nameof(entity.Position)}={entity.Position} ");
 
             sb.AppendFormat("({0})", entity.ID);
 
@@ -187,7 +187,7 @@ namespace JJ.Data.Synthesizer.Helpers
                     sb.Append($"{nameof(inlet.Name)}='{inlet.Name}' ");
                 }
 
-                sb.Append($"{nameof(inlet.ListIndex)}={inlet.ListIndex} ");
+                sb.Append($"{nameof(inlet.Position)}={inlet.Position} ");
 
                 if (inlet.IsObsolete)
                 {
@@ -213,7 +213,7 @@ namespace JJ.Data.Synthesizer.Helpers
                     sb.Append($"{nameof(outlet.Name)}='{outlet.Name}' ");
                 }
 
-                sb.Append($"{nameof(outlet.ListIndex)}={outlet.ListIndex} ");
+                sb.Append($"{nameof(outlet.Position)}={outlet.Position} ");
 
                 if (outlet.IsObsolete)
                 {
@@ -242,15 +242,17 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
 
-            if (!string.IsNullOrEmpty(entity.Name))
-            {
-                sb.AppendFormat("'{0}' ", entity.Name);
-            }
-
             if (entity.Dimension != null)
             {
-                sb.AppendFormat("Dimension={0} ", entity.Dimension.Name);
+                sb.Append($"{nameof(entity.Dimension)}={entity.Dimension.Name} ");
             }
+
+            if (!string.IsNullOrEmpty(entity.Name))
+            {
+                sb.Append($"{nameof(entity.Name)}='{entity.Name}' ");
+            }
+
+            sb.Append($"{nameof(entity.Position)}={entity.Position} ");
 
             sb.AppendFormat("({0})", entity.ID);
 

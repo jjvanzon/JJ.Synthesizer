@@ -998,7 +998,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitDimensionToOutletsOutlet(Outlet outlet)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
-            dimensionStack.Push(outlet.ListIndex);
+            dimensionStack.Push(outlet.Position);
 
             base.VisitDimensionToOutletsOutlet(outlet);
 
@@ -1013,7 +1013,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new DimensionToOutlets_OperatorCalculator(operandCalculator, outlet.ListIndex, dimensionStack);
+                calculator = new DimensionToOutlets_OperatorCalculator(operandCalculator, outlet.Position, dimensionStack);
             }
 
             dimensionStack.Pop();
@@ -3097,7 +3097,7 @@ namespace JJ.Business.Synthesizer.Visitors
             bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
             bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
-            int listIndex = outlet.ListIndex;
+            int position = outlet.Position;
 
             if (fromIsConstSpecialValue || stepIsConstSpecialValue)
             {
@@ -3109,20 +3109,20 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (stepIsConst && fromIsConst)
             {
-                double value = from + step * listIndex;
+                double value = from + step * position;
                 calculator = new Number_OperatorCalculator(value);
             }
             else if (fromIsConst)
             {
-                calculator = new RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep(from, stepCalculator, listIndex);
+                calculator = new RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep(from, stepCalculator, position);
             }
             else if (stepIsConst)
             {
-                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_ConstStep(fromCalculator, step, listIndex);
+                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_ConstStep(fromCalculator, step, position);
             }
             else
             {
-                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(fromCalculator, stepCalculator, listIndex);
+                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(fromCalculator, stepCalculator, position);
             }
 
             _stack.Push(calculator);
@@ -4409,7 +4409,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     (
                         dimensionEnum: wrapper.Inlet.GetDimensionEnum(),
                         canonicalName: NameHelper.ToCanonical(wrapper.Inlet.Name),
-                        listIndex: wrapper.Inlet.ListIndex,
+                        position: wrapper.Inlet.Position,
                         defaultValue: wrapper.Inlet.DefaultValue ?? 0.0
                     );
 
@@ -4444,7 +4444,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var wrapper = new Reset_OperatorWrapper(op);
 
-            _resettableOperatorTuples.Add(new ResettableOperatorTuple(calculator, op.Name, wrapper.ListIndex));
+            _resettableOperatorTuples.Add(new ResettableOperatorTuple(calculator, op.Name, wrapper.Position));
         }
 
         // Helpers

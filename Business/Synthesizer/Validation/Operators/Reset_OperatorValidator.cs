@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 OperatorTypeEnum.Reset,
                 new[] { DimensionEnum.PassThrough },
                 new[] { DimensionEnum.PassThrough },
-                expectedDataKeys: new[] { nameof(Reset_OperatorWrapper.ListIndex) })
+                expectedDataKeys: new[] { nameof(Reset_OperatorWrapper.Position) })
         { }
     }
 }

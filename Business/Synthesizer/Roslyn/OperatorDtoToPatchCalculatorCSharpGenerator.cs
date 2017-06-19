@@ -117,15 +117,15 @@ namespace JJ.Business.Synthesizer.Roslyn
                     // Values
                     sb.AppendLine("// Values");
                     sb.AppendLine();
-                    AppendSetValue_ByListIndex(sb, visitorResult);
+                    AppendSetValue_ByPosition(sb, visitorResult);
                     sb.AppendLine();
                     AppendSetValue_ByDimensionEnum(sb, visitorResult);
                     sb.AppendLine();
                     AppendSetValue_ByName(sb, visitorResult);
                     sb.AppendLine();
-                    AppendSetValue_ByDimensionEnumAndListIndex(sb, visitorResult);
+                    AppendSetValue_ByDimensionEnumAndPosition(sb, visitorResult);
                     sb.AppendLine();
-                    AppendSetValue_ByNameAndListIndex(sb, visitorResult);
+                    AppendSetValue_ByNameAndPosition(sb, visitorResult);
                     sb.Unindent();
                 }
                 sb.AppendLine("}");
@@ -378,20 +378,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
         }
 
-        private void AppendSetValue_ByListIndex(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        private void AppendSetValue_ByPosition(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> inputVariableInfos = visitorResult.InputVariableInfos.OrderBy(x => x.ListIndex).ToArray();
+            IList<ExtendedVariableInfo> inputVariableInfos = visitorResult.InputVariableInfos.OrderBy(x => x.Position).ToArray();
 
-            sb.AppendLine("public override void SetValue(int listIndex, double value)");
+            sb.AppendLine("public override void SetValue(int position, double value)");
             sb.AppendLine("{");
             sb.Indent();
             {
-                sb.AppendLine("base.SetValue(listIndex, value);");
+                sb.AppendLine("base.SetValue(position, value);");
                 sb.AppendLine();
 
                 if (inputVariableInfos.Any())
                 {
-                    sb.AppendLine("switch (listIndex)");
+                    sb.AppendLine("switch (position)");
                     sb.AppendLine("{");
                     sb.Indent();
                     {
@@ -462,26 +462,26 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
             sb.AppendLine("}");
         }
-
-        private void AppendSetValue_ByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        
+        private void AppendSetValue_ByDimensionEnumAndPosition(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfosToInclude =
                 visitorResult.LongLivedDimensionVariableInfos
                              .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
-                             .OrderBy(x => x.ListIndex)
+                             .OrderBy(x => x.Position)
                              .ToArray();
 
             IList<ExtendedVariableInfo> inputVariableInfosToInclude =
                 visitorResult.InputVariableInfos
                              .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
-                             .OrderBy(x => x.ListIndex)
+                             .OrderBy(x => x.Position)
                              .ToArray();
 
-            sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)");
+            sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, int position, double value)");
             sb.AppendLine("{");
             sb.Indent();
             {
-                sb.AppendLine("base.SetValue(dimensionEnum, listIndex, value);");
+                sb.AppendLine("base.SetValue(dimensionEnum, position, value);");
                 sb.AppendLine();
 
                 // Dimension Variables
@@ -489,32 +489,32 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
 
                 // Input Variables
-                AppendSetValue_FieldAssignments_ByDimensionEnumAndListIndex(sb, inputVariableInfosToInclude);
+                AppendSetValue_FieldAssignments_ByDimensionEnumAndPosition(sb, inputVariableInfosToInclude);
 
                 sb.Unindent();
             }
             sb.AppendLine("}");
         }
 
-        private void AppendSetValue_ByNameAndListIndex(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
+        private void AppendSetValue_ByNameAndPosition(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfosToInclude =
                 visitorResult.LongLivedDimensionVariableInfos
                              .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
-                             .OrderBy(x => x.ListIndex)
+                             .OrderBy(x => x.Position)
                              .ToArray();
 
             IList<ExtendedVariableInfo> inputVariableInfosToInclude =
                 visitorResult.InputVariableInfos
                              .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
-                             .OrderBy(x => x.ListIndex)
+                             .OrderBy(x => x.Position)
                              .ToArray();
 
-            sb.AppendLine("public override void SetValue(string name, int listIndex, double value)");
+            sb.AppendLine("public override void SetValue(string name, int position, double value)");
             sb.AppendLine("{");
             sb.Indent();
             {
-                sb.AppendLine("base.SetValue(name, listIndex, value);");
+                sb.AppendLine("base.SetValue(name, position, value);");
                 sb.AppendLine();
                 sb.AppendLine("string canonicalName = NameHelper.ToCanonical(name);");
                 sb.AppendLine();
@@ -524,7 +524,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine();
 
                 // Input Variables
-                AppendSetValue_FieldAssignments_ByCanonicalNameAndListIndex(sb, inputVariableInfosToInclude);
+                AppendSetValue_FieldAssignments_ByCanonicalNameAndPosition(sb, inputVariableInfosToInclude);
 
                 sb.Unindent();
             }
@@ -603,9 +603,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         /// <summary> 
         /// Assumes that the variable dimensionEnum is already declared in the generated code.
-        /// Assumes variableInfos are already order by ListIndex.
+        /// Assumes variableInfos are already order by Position.
         /// </summary>
-        private void AppendSetValue_FieldAssignments_ByDimensionEnumAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByDimensionEnumAndPosition(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.DimensionEnum);
@@ -615,7 +615,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 int i = 0;
                 foreach (ExtendedVariableInfo inputVariableInfo in group)
                 {
-                    sb.AppendLine($"if (dimensionEnum == {nameof(DimensionEnum)}.{group.Key} && listIndex == {i})");
+                    sb.AppendLine($"if (dimensionEnum == {nameof(DimensionEnum)}.{group.Key} && position == {i})");
                     sb.AppendLine("{");
                     sb.Indent();
                     {
@@ -632,9 +632,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         /// <summary> 
         /// Assumes that the variable canonicalName is already declared in the generated code.
-        /// Assumes variableInfos are already order by ListIndex.
+        /// Assumes variableInfos are already order by Position.
         /// </summary>
-        private void AppendSetValue_FieldAssignments_ByCanonicalNameAndListIndex(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByCanonicalNameAndPosition(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
         {
             // Input Variables
             // ReSharper disable once SuggestVarOrType_Elsewhere
@@ -645,7 +645,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 int i = 0;
                 foreach (ExtendedVariableInfo inputVariableInfo in group)
                 {
-                    sb.AppendLine($"if (String.Equals(canonicalName, \"{group.Key}\") && listIndex == {i})");
+                    sb.AppendLine($"if (String.Equals(canonicalName, \"{group.Key}\") && position == {i})");
                     sb.AppendLine("{");
                     sb.Indent();
                     {

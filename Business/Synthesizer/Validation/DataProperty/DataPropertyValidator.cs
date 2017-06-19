@@ -10,7 +10,6 @@ using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
     internal class DataPropertyValidator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private static readonly int? _dataMaxLength = CustomConfigurationManager.GetSection<ConfigurationSection>().OperatorDataMaxLength;

@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// <summary> not displayed </summary>
         public IDAndName Dimension { get; set; }
         /// <summary> not displayed </summary>
-        public int ListIndex { get; set; }
+        public int Position { get; set; }
         /// <summary> not displayed </summary>
         public double? DefaultValue { get; set; }
         /// <summary> not displayed  </summary>

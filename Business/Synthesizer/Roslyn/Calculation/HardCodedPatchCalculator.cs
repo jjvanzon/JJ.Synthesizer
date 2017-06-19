@@ -221,11 +221,11 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
 
         // Values
 
-        public override void SetValue(int listIndex, double value)
+        public override void SetValue(int position, double value)
         {
-            base.SetValue(listIndex, value);
+            base.SetValue(position, value);
 
-            switch (listIndex)
+            switch (position)
             {
                 case 0:
                     _input0 = value;
@@ -269,9 +269,9 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
             }
         }
 
-        public override void SetValue(DimensionEnum dimensionEnum, int listIndex, double value)
+        public override void SetValue(DimensionEnum dimensionEnum, int position, double value)
         {
-            base.SetValue(dimensionEnum, listIndex, value);
+            base.SetValue(dimensionEnum, position, value);
 
             switch (dimensionEnum)
             {
@@ -280,24 +280,24 @@ namespace JJ.Business.Synthesizer.Roslyn.Calculation
                     break;
             }
 
-            if (dimensionEnum == DimensionEnum.Frequency && listIndex == 0)
+            if (dimensionEnum == DimensionEnum.Frequency && position == 0)
             {
                 _standardDimensionFrequency1 = value;
             }
         }
 
-        public override void SetValue(string name, int listIndex, double value)
+        public override void SetValue(string name, int position, double value)
         {
-            base.SetValue(name, listIndex, value);
+            base.SetValue(name, position, value);
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            if (string.Equals(name, "prettiness", StringComparison.Ordinal) && listIndex == 0)
+            if (string.Equals(name, "prettiness", StringComparison.Ordinal) && position == 0)
             {
                 _customDimensionPrettiness1 = value;
             }
 
-            if (string.Equals(name, "prettiness", StringComparison.Ordinal) && listIndex == 0)
+            if (string.Equals(name, "prettiness", StringComparison.Ordinal) && position == 0)
             {
                 _input0 = value;
             }

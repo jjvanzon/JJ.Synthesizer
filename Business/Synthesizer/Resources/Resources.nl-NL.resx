@@ -141,11 +141,8 @@
   <data name="NotLoaded" xml:space="preserve">
     <value>Niet ingeladen</value>
   </data>
-  <data name="InletListIndexes" xml:space="preserve">
-    <value>Ingang volgnummers</value>
-  </data>
-  <data name="ListIndexes" xml:space="preserve">
-    <value>Volgnummers</value>
+  <data name="Positions" xml:space="preserve">
+    <value>Posities</value>
   </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>
@@ -480,9 +477,6 @@
   </data>
   <data name="Line" xml:space="preserve">
     <value>Lijn</value>
-  </data>
-  <data name="ListIndex" xml:space="preserve">
-    <value>Nummer (als we bij 0 beginnen te tellen)</value>
   </data>
   <data name="LiteralFrequencies" xml:space="preserve">
     <value>Letterlijke frequenties</value>

@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            switch (inlet.ListIndex)
+            switch (inlet.Position)
             {
                 case SOURCE_VALUE_A_INDEX:
                     {

@@ -1910,19 +1910,19 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (fromMathPropertiesDto.IsConst && stepMathPropertiesDto.IsConst)
             {
-                dto2 = new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep { From = fromMathPropertiesDto.ConstValue, Step = stepMathPropertiesDto.ConstValue, OutletListIndex = dto.OutletListIndex };
+                dto2 = new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep { From = fromMathPropertiesDto.ConstValue, Step = stepMathPropertiesDto.ConstValue, OutletPosition = dto.OutletPosition };
             }
             else if (fromMathPropertiesDto.IsVar && stepMathPropertiesDto.IsConst)
             {
-                dto2 = new RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep { FromOperatorDto = dto.FromOperatorDto, Step = stepMathPropertiesDto.ConstValue, OutletListIndex = dto.OutletListIndex };
+                dto2 = new RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep { FromOperatorDto = dto.FromOperatorDto, Step = stepMathPropertiesDto.ConstValue, OutletPosition = dto.OutletPosition };
             }
             else if (fromMathPropertiesDto.IsConst && stepMathPropertiesDto.IsVar)
             {
-                dto2 = new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep { From = fromMathPropertiesDto.ConstValue, StepOperatorDto = dto.StepOperatorDto, OutletListIndex = dto.OutletListIndex };
+                dto2 = new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep { From = fromMathPropertiesDto.ConstValue, StepOperatorDto = dto.StepOperatorDto, OutletPosition = dto.OutletPosition };
             }
             else if (fromMathPropertiesDto.IsVar && stepMathPropertiesDto.IsVar)
             {
-                dto2 = new RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep { FromOperatorDto = dto.FromOperatorDto, StepOperatorDto = dto.StepOperatorDto, OutletListIndex = dto.OutletListIndex };
+                dto2 = new RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep { FromOperatorDto = dto.FromOperatorDto, StepOperatorDto = dto.StepOperatorDto, OutletPosition = dto.OutletPosition };
             }
             else
             {

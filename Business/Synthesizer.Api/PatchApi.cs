@@ -446,8 +446,8 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _operatorFactory.Interpolate(signal, samplingRate, interpolationType, standardDimension, customDimension);
 
-        public Reset_OperatorWrapper Reset(Outlet passThrough = null, int? listIndex = null)
-            => _operatorFactory.Reset(passThrough, listIndex);
+        public Reset_OperatorWrapper Reset(Outlet passThrough = null, int? position = null)
+            => _operatorFactory.Reset(passThrough, position);
 
         public Reverse_OperatorWrapper Reverse(
             Outlet signal = null, 

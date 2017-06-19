@@ -300,13 +300,13 @@ namespace JJ.Business.Synthesizer
                 return validator.ToCanonical();
             }
 
-            IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();
+            IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.Position).ToArray();
 
             // Create additional inlets
             for (int i = sortedInlets.Count; i < inletCount; i++)
             {
                 Inlet inlet = CreateInlet(op);
-                inlet.ListIndex = i;
+                inlet.Position = i;
             }
 
             // Delete excessive inlets
@@ -332,13 +332,13 @@ namespace JJ.Business.Synthesizer
                 return validator.ToCanonical();
             }
 
-            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
+            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.Position).ToArray();
 
             // Create additional outlets
             for (int i = sortedOutlets.Count; i < outletCount; i++)
             {
                 Outlet outlet = CreateOutlet(op);
-                outlet.ListIndex = i;
+                outlet.Position = i;
             }
 
             // Delete excessive outlets

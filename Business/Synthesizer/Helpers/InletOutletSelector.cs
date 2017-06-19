@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IEnumerable<Inlet> enumerable = op.Inlets.OrderBy(x => x.ListIndex);
+            IEnumerable<Inlet> enumerable = op.Inlets.OrderBy(x => x.Position);
             return enumerable;
         }
 
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
+            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.Position).ToArray();
             return sortedOutlets;
         }
 
@@ -50,23 +50,23 @@ namespace JJ.Business.Synthesizer.Helpers
 
         // Get Inlet
 
-        /// <param name="listIndex">List indices are not necessarily consecutive.</param>
-        public static Inlet GetInlet(Operator op, int listIndex)
+        /// <param name="position">List indices are not necessarily consecutive.</param>
+        public static Inlet GetInlet(Operator op, int position)
         {
-            Inlet inlet = TryGetInlet(op, listIndex);
+            Inlet inlet = TryGetInlet(op, position);
             if (inlet == null)
             {
-                throw new NotFoundException<Inlet>(new { listIndex });
+                throw new NotFoundException<Inlet>(new { position });
             }
             return inlet;
         }
 
-        /// <param name="listIndex">List indices are not necessarily consecutive.</param>
-        public static Inlet TryGetInlet(Operator op, int listIndex)
+        /// <param name="position">List indices are not necessarily consecutive.</param>
+        public static Inlet TryGetInlet(Operator op, int position)
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = GetInlets(op, listIndex);
+            IList<Inlet> inlets = GetInlets(op, position);
             switch (inlets.Count)
             {
                 case 0:
@@ -76,15 +76,15 @@ namespace JJ.Business.Synthesizer.Helpers
                     return inlets[0];
 
                 default:
-                    throw new NotUniqueException<Operator>(new { listIndex });
+                    throw new NotUniqueException<Operator>(new { position });
             }
         }
 
-        public static IList<Inlet> GetInlets(Operator op, int listIndex)
+        public static IList<Inlet> GetInlets(Operator op, int position)
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = op.Inlets.Where(x => x.ListIndex == listIndex).ToArray();
+            IList<Inlet> inlets = op.Inlets.Where(x => x.Position == position).ToArray();
 
             return inlets;
         }
@@ -162,21 +162,21 @@ namespace JJ.Business.Synthesizer.Helpers
 
         // Get Outlet
 
-        /// <param name="listIndex">List indices are not necessarily consecutive.</param>
-        public static Outlet GetOutlet(Operator op, int listIndex)
+        /// <param name="position">List indices are not necessarily consecutive.</param>
+        public static Outlet GetOutlet(Operator op, int position)
         {
-            Outlet outlet = TryGetOutlet(op, listIndex);
+            Outlet outlet = TryGetOutlet(op, position);
             if (outlet == null)
             {
-                throw new NotFoundException<Outlet>(new { listIndex });
+                throw new NotFoundException<Outlet>(new { position });
             }
             return outlet;
         }
 
-        /// <param name="listIndex">List indices are not necessarily consecutive.</param>
-        public static Outlet TryGetOutlet(Operator op, int listIndex)
+        /// <param name="position">List indices are not necessarily consecutive.</param>
+        public static Outlet TryGetOutlet(Operator op, int position)
         {
-            IList<Outlet> outlets = GetOutlets(op, listIndex);
+            IList<Outlet> outlets = GetOutlets(op, position);
 
             switch (outlets.Count)
             {
@@ -187,15 +187,15 @@ namespace JJ.Business.Synthesizer.Helpers
                     return outlets[0];
 
                 default:
-                    throw new NotUniqueException<Operator>(new { listIndex });
+                    throw new NotUniqueException<Operator>(new { position });
             }
         }
 
-        public static IList<Outlet> GetOutlets(Operator op, int listIndex)
+        public static IList<Outlet> GetOutlets(Operator op, int position)
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> outlets = op.Outlets.Where(x => x.ListIndex == listIndex).ToArray();
+            IList<Outlet> outlets = op.Outlets.Where(x => x.Position == position).ToArray();
 
             return outlets;
         }

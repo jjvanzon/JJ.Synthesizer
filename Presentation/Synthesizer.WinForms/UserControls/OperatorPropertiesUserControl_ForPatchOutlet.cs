@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelNumber.Text = ResourceFormatter.Number;
+            labelPosition.Text = ResourceFormatter.Position;
             labelDimension.Text = ResourceFormatter.Dimension;
             labelNameOrDimensionHidden.Text = ResourceFormatter.NameOrDimensionHidden;
         }
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(_labelOperatorTypeTitle, _labelOperatorTypeValue);
             AddProperty(labelDimension, comboBoxDimension);
             AddProperty(_labelName, _textBoxName);
-            AddProperty(labelNumber, numericUpDownNumber);
+            AddProperty(labelPosition, numericUpDownPosition);
             AddProperty(labelNameOrDimensionHidden, checkBoxNameOrDimensionHidden);
         }
 
@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.ApplyViewModelToControls();
 
-            numericUpDownNumber.Value = ViewModel.Number;
+            numericUpDownPosition.Value = ViewModel.Position;
             if (comboBoxDimension.DataSource == null)
             {
                 comboBoxDimension.ValueMember = nameof(IDAndName.ID);
@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.ApplyControlsToViewModel();
             
-            ViewModel.Number = (int)numericUpDownNumber.Value;
+            ViewModel.Position = (int)numericUpDownPosition.Value;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
             ViewModel.NameOrDimensionHidden = checkBoxNameOrDimensionHidden.Checked;
         }

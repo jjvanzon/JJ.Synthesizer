@@ -50,10 +50,10 @@ namespace JJ.Business.Synthesizer
             bool nameIsFilledIn = NameHelper.IsFilledIn(sourceInlet.Name);
             if (nameIsFilledIn)
             {
-                // Try match by Name and ListIndex
+                // Try match by Name and Position
                 {
                     Inlet destInlet = candicateDestInlets.FirstOrDefault(
-                        x => x.ListIndex == sourceInlet.ListIndex &&
+                        x => x.Position == sourceInlet.Position &&
                              NameHelper.AreEqual(x.Name, sourceInlet.Name));
 
                     if (destInlet != null)
@@ -77,10 +77,10 @@ namespace JJ.Business.Synthesizer
 
             if (dimensionIsFilledIn)
             {
-                // Try match by Dimension and ListIndex
+                // Try match by Dimension and Position
                 {
                     Inlet destInlet = candicateDestInlets.FirstOrDefault(
-                        x => x.ListIndex == sourceInlet.ListIndex &&
+                        x => x.Position == sourceInlet.Position &&
                              x.GetDimensionEnum() == sourceDimensionEnum);
 
                     if (destInlet != null)
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer
 
             // Try match by list index
             {
-                Inlet destInlet = candicateDestInlets.FirstOrDefault(x => x.ListIndex == sourceInlet.ListIndex);
+                Inlet destInlet = candicateDestInlets.FirstOrDefault(x => x.Position == sourceInlet.Position);
                 return destInlet;
             }
         }
@@ -141,10 +141,10 @@ namespace JJ.Business.Synthesizer
             bool nameIsFilledIn = NameHelper.IsFilledIn(sourceOutlet.Name);
             if (nameIsFilledIn)
             {
-                // Try match by Name and ListIndex
+                // Try match by Name and Position
                 {
                     Outlet destOutlet = destCandicateOutlets.FirstOrDefault(
-                        x => x.ListIndex == sourceOutlet.ListIndex &&
+                        x => x.Position == sourceOutlet.Position &&
                              NameHelper.AreEqual(x.Name, sourceOutlet.Name));
 
                     if (destOutlet != null)
@@ -167,10 +167,10 @@ namespace JJ.Business.Synthesizer
             bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
             if (dimensionIsFilledIn)
             {
-                // Try match by Dimension and ListIndex
+                // Try match by Dimension and Position
                 {
                     Outlet destOutlet = destCandicateOutlets.FirstOrDefault(
-                        x => x.ListIndex == sourceOutlet.ListIndex &&
+                        x => x.Position == sourceOutlet.Position &&
                              x.GetDimensionEnum() == sourceDimensionEnum);
 
                     if (destOutlet != null)
@@ -189,9 +189,9 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Try match by ListIndex
+            // Try match by Position
             {
-                Outlet destOutlet = destCandicateOutlets.FirstOrDefault(x => x.ListIndex == sourceOutlet.ListIndex);
+                Outlet destOutlet = destCandicateOutlets.FirstOrDefault(x => x.Position == sourceOutlet.Position);
                 return destOutlet;
             }
         }
@@ -326,7 +326,7 @@ namespace JJ.Business.Synthesizer
 
         private static IList<Inlet> SortInlets(IList<Inlet> inlets)
         {
-            return inlets.OrderBy(x => x.ListIndex)
+            return inlets.OrderBy(x => x.Position)
                          .ThenBy(x => x.GetDimensionEnum() == DimensionEnum.Undefined)
                          .ThenBy(x => x.GetDimensionEnum())
                          .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
@@ -337,7 +337,7 @@ namespace JJ.Business.Synthesizer
 
         private static IList<Outlet> SortOutlets(IList<Outlet> outlets)
         {
-            return outlets.OrderBy(x => x.ListIndex)
+            return outlets.OrderBy(x => x.Position)
                           .ThenBy(x => x.GetDimensionEnum() == DimensionEnum.Undefined)
                           .ThenBy(x => x.GetDimensionEnum())
                           .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))

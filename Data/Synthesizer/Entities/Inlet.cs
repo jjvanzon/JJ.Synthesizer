@@ -8,21 +8,16 @@ namespace JJ.Data.Synthesizer.Entities
     public class Inlet
     {
         public virtual int ID { get; set; }
-
         /// <summary> optional </summary>
         public virtual string Name { get; set; }
-
         public virtual double? DefaultValue { get; set; }
-
         /// <summary> nullable </summary>
         public virtual Dimension Dimension { get; set; }
-
-        /// <summary> This number is often used as a key to a specific inlet within an operator.'Name' is another alternative key. </summary>
-        public virtual int ListIndex { get; set; }
+        public virtual int Position { get; set; }
 
         /// <summary>
-        /// If a custom operator's underlying Patch is changed,
-        /// obsolete outlets that still have connections are kept alive,
+        /// If an operator's UnderlyingPatch is changed,
+        /// obsolete inlets and outlets that still have connections are kept alive,
         /// but marked as obsolete.
         /// </summary>
         public virtual bool IsObsolete { get; set; }

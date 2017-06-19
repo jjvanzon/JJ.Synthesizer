@@ -10,17 +10,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public DimensionEnum DimensionEnum { get; }
         public string CanonicalName { get; }
-        public int ListIndex { get; }
+        public int Position { get; }
 
         public VariableInput_OperatorCalculator(
             DimensionEnum dimensionEnum, 
             string canonicalName,
-            int listIndex, 
+            int position, 
             double defaultValue)
         {
             DimensionEnum = dimensionEnum;
             CanonicalName = canonicalName;
-            ListIndex = listIndex;
+            Position = position;
 
             _value = defaultValue;
         }

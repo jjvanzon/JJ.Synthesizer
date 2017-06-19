@@ -28,8 +28,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get
             {
                 IList<Outlet> items = InletOutletSelector.EnumerateSortedInputOutlets(WrappedOperator)
-                                                    .Skip(1)
-                                                    .ToArray();
+                                                         .Skip(1)
+                                                         .ToArray();
                 return items;
             }
         }
@@ -40,8 +40,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get
             {
                 IList<Inlet> inlets = InletOutletSelector.EnumerateSortedInlets(WrappedOperator)
-                                                    .Skip(1)
-                                                    .ToArray();
+                                                         .Skip(1)
+                                                         .ToArray();
                 return inlets;
             }
         }
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public override string GetInletDisplayName(Inlet inlet)
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (inlet.ListIndex > 0)
+            if (inlet.Position > 0)
             {
                 return $"{CommonResourceFormatter.Item} {inlet}";
             }

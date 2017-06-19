@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (outlet == null) throw new NullException(() => outlet);
 
-            string name = $"{ResourceFormatter.Outlet} {outlet.ListIndex + 1}";
+            string name = $"{ResourceFormatter.Outlet} {outlet.Position}";
             return name;
         }
     }

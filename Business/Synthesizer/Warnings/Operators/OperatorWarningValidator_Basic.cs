@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         public OperatorWarningValidator_Basic([NotNull] Operator op)
             : base(op)
         {
-            foreach (Inlet inlet in op.Inlets.OrderBy(x => x.ListIndex))
+            foreach (Inlet inlet in op.Inlets.OrderBy(x => x.Position))
             {
                 bool isPatchInlet = inlet.Operator.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet;
                 if (isPatchInlet)

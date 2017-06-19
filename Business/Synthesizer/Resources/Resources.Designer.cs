@@ -1294,24 +1294,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number (when we start counting at 0).
-        /// </summary>
-        internal static string ListIndex {
-            get {
-                return ResourceManager.GetString("ListIndex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Numbers.
-        /// </summary>
-        internal static string ListIndexes {
-            get {
-                return ResourceManager.GetString("ListIndexes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Literal Frequencies.
         /// </summary>
         internal static string LiteralFrequencies {
@@ -1920,6 +1902,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Position {
             get {
                 return ResourceManager.GetString("Position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positions.
+        /// </summary>
+        internal static string Positions {
+            get {
+                return ResourceManager.GetString("Positions", resourceCulture);
             }
         }
         
