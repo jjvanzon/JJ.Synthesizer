@@ -13,11 +13,11 @@ using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Curves
 {
-    internal class CurveValidator_Delete : VersatileValidator<Curve>
+    internal class CurveValidator_Delete : VersatileValidator
     {
         public CurveValidator_Delete([NotNull] Curve curve, [NotNull] ICurveRepository curveRepository)
-            : base(curve)
         {
+            if (curve == null) throw new NullException(() => curve);
             if (curveRepository == null) throw new NullException(() => curveRepository);
 
             string curveIdentifier = ResourceFormatter.Curve + " " + ValidationHelper.GetUserFriendlyIdentifier(curve);

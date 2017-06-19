@@ -9,17 +9,19 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Validation.Resources;
 using System.Text;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal abstract class OperatorValidator_Base_WithUnderlyingPatch : VersatileValidator<Operator>
+    internal abstract class OperatorValidator_Base_WithUnderlyingPatch : VersatileValidator
     {
         public OperatorValidator_Base_WithUnderlyingPatch(Operator op)
-            : base(op)
-        { 
+        {
+            if (op == null) throw new NullException(() => op);
+
             For(() => op.Data, ResourceFormatter.Data).IsNullOrEmpty();
 
-            ExecuteValidator(new DimensionInfoValidator((op.HasDimension, op.StandardDimension, op.CustomDimensionName)));
+            ExecuteValidator(new DimensionInfoValidator(op.HasDimension, op.StandardDimension, op.CustomDimensionName));
 
             // ReSharper disable once InvertIf
             if (op.UnderlyingPatch != null)

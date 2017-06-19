@@ -1843,6 +1843,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Patch has more than one repeating inlet..
+        /// </summary>
+        internal static string PatchHasMoreThanOneRepeatingInlet {
+            get {
+                return ResourceManager.GetString("PatchHasMoreThanOneRepeatingInlet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Patch has more than one repeating outlet..
+        /// </summary>
+        internal static string PatchHasMoreThanOneRepeatingOutlet {
+            get {
+                return ResourceManager.GetString("PatchHasMoreThanOneRepeatingOutlet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Patch has no outlets..
         /// </summary>
         internal static string PatchHasNoOutlets {

@@ -1,10 +1,11 @@
 ﻿using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class ScaleValidator_UniqueName : VersatileValidator<Scale>
+    internal class ScaleValidator_UniqueName : VersatileValidator
     {
         /// <summary>
         /// NOTE:
@@ -14,8 +15,9 @@ namespace JJ.Business.Synthesizer.Validation.Scales
         /// and it will do so in a more efficient way.
         /// </summary>
         public ScaleValidator_UniqueName(Scale obj)
-            : base(obj)
-        { 
+        {
+            if (obj == null) throw new NullException(() => obj);
+
             if (obj.Document == null)
             {
                 return;

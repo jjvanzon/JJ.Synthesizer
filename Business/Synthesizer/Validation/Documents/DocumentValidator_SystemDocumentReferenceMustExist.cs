@@ -3,15 +3,17 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-    internal class DocumentValidator_SystemDocumentReferenceMustExist : VersatileValidator<Document>
+    internal class DocumentValidator_SystemDocumentReferenceMustExist : VersatileValidator
     {
         public DocumentValidator_SystemDocumentReferenceMustExist([NotNull] Document document, RepositoryWrapper repositories)
-            : base(document)
         {
+            if (document == null) throw new NullException(() => document);
+
             var documentManager = new DocumentManager(repositories);
 
             if (documentManager.IsSystemDocument(document))

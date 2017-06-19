@@ -13,11 +13,11 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Samples
 {
-    internal class SampleValidator_Delete : VersatileValidator<Sample>
+    internal class SampleValidator_Delete : VersatileValidator
     {
         public SampleValidator_Delete([NotNull] Sample sample, [NotNull] ISampleRepository sampleRepository)
-            : base(sample)
         {
+            if (sample == null) throw new NullException(() => sample);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             string sampleIdentifier = ResourceFormatter.Sample + " " + ValidationHelper.GetUserFriendlyIdentifier(sample);

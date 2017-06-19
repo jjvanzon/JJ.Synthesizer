@@ -3,17 +3,18 @@ using JJ.Framework.Validation;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class SampleWarningValidator : VersatileValidator<Sample>
+    internal class SampleWarningValidator : VersatileValidator
     {
         /// <param name="bytes">nullable</param>
         public SampleWarningValidator(Sample sample, byte[] bytes, HashSet<object> alreadyDone)
-            : base(sample)
         {
+            if (sample == null) throw new NullException(() => sample);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
 

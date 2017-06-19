@@ -2,14 +2,16 @@
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class OperatorWarningValidator_Versatile : ValidatorBase<Operator>
+    internal class OperatorWarningValidator_Versatile : ValidatorBase
     {
         public OperatorWarningValidator_Versatile(Operator op)
-            : base(op)
         {
+            if (op == null) throw new NullException(() => op);
+
             ExecuteValidator(new OperatorWarningValidator_Basic(op));
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();

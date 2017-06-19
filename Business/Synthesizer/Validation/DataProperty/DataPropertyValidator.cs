@@ -10,7 +10,7 @@ using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    internal class DataPropertyValidator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class DataPropertyValidator : VersatileValidator
     {
         private static readonly int? _dataMaxLength = CustomConfigurationManager.GetSection<ConfigurationSection>().OperatorDataMaxLength;
 
@@ -19,7 +19,6 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 
         // ReSharper disable once SuggestBaseTypeForParameter
         public DataPropertyValidator(string data, IList<string> expectedDataKeys)
-            : base(data)
         {
             if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
 

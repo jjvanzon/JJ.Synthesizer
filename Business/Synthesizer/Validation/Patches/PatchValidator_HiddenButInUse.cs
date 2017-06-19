@@ -5,16 +5,18 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Configuration;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_HiddenButInUse : VersatileValidator<Patch>
+    internal class PatchValidator_HiddenButInUse : VersatileValidator
     {
         private static readonly bool _hiddenButInUseValidationEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().HiddenButInUseValidationEnabled;
 
         public PatchValidator_HiddenButInUse(Patch lowerPatch)
-            : base(lowerPatch)
         {
+            if (lowerPatch == null) throw new NullException(() => lowerPatch);
+
             if (!_hiddenButInUseValidationEnabled)
             {
                 return;

@@ -1,13 +1,15 @@
 ﻿using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class ScaleValidator_Tones : VersatileValidator<Scale>
+    internal class ScaleValidator_Tones : VersatileValidator
     {
         public ScaleValidator_Tones(Scale obj)
-            : base(obj)
-        { 
+        {
+            if (obj == null) throw new NullException(() => obj);
+
             foreach (Tone tone in obj.Tones)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(tone);

@@ -3,16 +3,18 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_Delete : VersatileValidator<Patch>
+    internal class PatchValidator_Delete : VersatileValidator
     {
         public PatchValidator_Delete([NotNull] Patch lowerPatch)
-            : base(lowerPatch)
         {
+            if (lowerPatch == null) throw new NullException(() => lowerPatch);
+
             string lowerPatchIdentifier = ResourceFormatter.Patch + " " + ValidationHelper.GetUserFriendlyIdentifier(lowerPatch);
 
             IEnumerable<Operator> derivedOperators = lowerPatch.EnumerateDerivedOperators();

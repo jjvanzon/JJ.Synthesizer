@@ -4,10 +4,11 @@ using JJ.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Versatile_OperatorValidator : ValidatorBase<Operator>
+    internal class Versatile_OperatorValidator : ValidatorBase
     {
         private readonly Dictionary<OperatorTypeEnum, Type> _specializedValidatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
@@ -80,8 +81,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         };
 
         public Versatile_OperatorValidator(Operator op)
-            : base(op)
         {
+            if (op == null) throw new NullException(() => op);
+
             ExecuteValidator(new Basic_OperatorValidator(op));
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();

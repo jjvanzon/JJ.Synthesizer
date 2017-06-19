@@ -5,12 +5,13 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_SetInletCount : VersatileValidator<Operator>
+    internal class OperatorValidator_SetInletCount : VersatileValidator
     {
         private static readonly HashSet<OperatorTypeEnum> _allowedOperatorTypeEnums = new HashSet<OperatorTypeEnum>
         {
@@ -28,8 +29,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         private static readonly IList<string> _allowedOperatorTypeDisplayNames = _allowedOperatorTypeEnums.Select(x => ResourceFormatter.GetDisplayName(x)).ToArray();
 
         public OperatorValidator_SetInletCount(Operator op, int newInletCount)
-            : base(op)
         {
+            if (op == null) throw new NullException(() => op);
+
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
             if (!_allowedOperatorTypeEnums.Contains(operatorTypeEnum))

@@ -1,15 +1,17 @@
 ﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
-    internal class DocumentReferenceValidator_UniqueLowerDocument : VersatileValidator<DocumentReference>
+    internal class DocumentReferenceValidator_UniqueLowerDocument : VersatileValidator
     {
         public DocumentReferenceValidator_UniqueLowerDocument([NotNull] DocumentReference obj) 
-            : base(obj)
         {
+            if (obj == null) throw new NullException(() => obj);
+
             bool isUnique = ValidationHelper.DocumentReference_LowerDocument_IsUnique(obj);
 
             // ReSharper disable once InvertIf

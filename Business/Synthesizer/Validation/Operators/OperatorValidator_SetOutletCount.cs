@@ -5,13 +5,14 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_SetOutletCount : VersatileValidator<Operator>
+    internal class OperatorValidator_SetOutletCount : VersatileValidator
     {
         private static readonly OperatorTypeEnum[] _allowedOperatorTypeEnums =
         {
@@ -20,8 +21,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         };
 
         public OperatorValidator_SetOutletCount(Operator op, int newOutletCount)
-            : base(op)
         {
+            if (op == null) throw new NullException(() => op);
+
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             if (!_allowedOperatorTypeEnums.Contains(operatorTypeEnum))
             {

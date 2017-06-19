@@ -12,7 +12,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_VersatileWithUnderlyingEntities : ValidatorBase<Operator>
+    internal class OperatorValidator_VersatileWithUnderlyingEntities : ValidatorBase
     {
         /// <summary>
         /// Validates an operator, but not its descendant operators.
@@ -29,8 +29,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             [NotNull] ICurveRepository curveRepository,
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] HashSet<object> alreadyDone)
-            : base(op)
         {
+            if (op == null) throw new NullException(() => op);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();

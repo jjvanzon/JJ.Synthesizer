@@ -6,10 +6,9 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    internal class SpeakerSetup_DataProperty_Validator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class SpeakerSetup_DataProperty_Validator : VersatileValidator
     {
         public SpeakerSetup_DataProperty_Validator(string data) 
-            : base(data)
         {
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))

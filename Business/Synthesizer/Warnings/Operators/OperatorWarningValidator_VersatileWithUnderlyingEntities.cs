@@ -9,7 +9,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class OperatorWarningValidator_VersatileWithUnderlyingEntities : VersatileValidator<Operator>
+    internal class OperatorWarningValidator_VersatileWithUnderlyingEntities : VersatileValidator
     {
         /// <summary>
         /// Validates an operator, but not its descendant operators.
@@ -25,8 +25,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             [NotNull] Operator op,
             [NotNull] ISampleRepository sampleRepository,
             [CanBeNull] HashSet<object> alreadyDone = null)
-            : base(op)
         {
+            if (op == null) throw new NullException(() => op);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             alreadyDone = alreadyDone ?? new HashSet<object>();
 

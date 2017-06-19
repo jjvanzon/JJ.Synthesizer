@@ -5,14 +5,16 @@ using JJ.Framework.Validation;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class AudioFileOutputValidator : VersatileValidator<AudioFileOutput>
+    internal class AudioFileOutputValidator : VersatileValidator
     {
         public AudioFileOutputValidator(AudioFileOutput audioFileOutput)
-            : base(audioFileOutput)
-        { 
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
             For(() => audioFileOutput.Amplifier, ResourceFormatter.Amplifier)
                 .NotNaN()
                 .NotInfinity();

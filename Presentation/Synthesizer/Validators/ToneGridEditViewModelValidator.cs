@@ -1,14 +1,16 @@
-﻿using JJ.Framework.Validation;
+﻿using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Validators
 {
-    internal class ToneGridEditViewModelValidator : VersatileValidator<ToneGridEditViewModel>
+    internal class ToneGridEditViewModelValidator : VersatileValidator
     {
         public ToneGridEditViewModelValidator(ToneGridEditViewModel obj)
-            : base(obj)
-        { 
+        {
+            if (obj == null) throw new NullException(() => obj);
+
             for (int i = 0; i < obj.Tones.Count; i++)
             {
                 ToneViewModel toneViewModel = obj.Tones[i];

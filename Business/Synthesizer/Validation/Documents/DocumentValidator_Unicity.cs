@@ -12,13 +12,14 @@ using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-    internal class DocumentValidator_Unicity : VersatileValidator<Document>
+    internal class DocumentValidator_Unicity : VersatileValidator
     {
         private readonly IDocumentRepository _documentRepository;
 
         public DocumentValidator_Unicity(Document document, [NotNull] IDocumentRepository documentRepository)
-            : base(document)
         {
+            if (document == null) throw new NullException(() => document);
+
             _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
 
             ValidateDocumentNameUnique(document);

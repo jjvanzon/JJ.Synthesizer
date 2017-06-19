@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             For(() => op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(expectedOperatorTypeEnum);
 
-            ExecuteValidator(new DimensionInfoValidator((op.OperatorType?.HasDimension ?? false, op.StandardDimension, op.CustomDimensionName)));
+            ExecuteValidator(new DimensionInfoValidator(op.OperatorType?.HasDimension ?? false, op.StandardDimension, op.CustomDimensionName));
             ExecuteValidator(new DataPropertyValidator(op.Data, expectedDataKeys));
 
             int expectedInletCount = expectedInletDimensionEnums.Count;

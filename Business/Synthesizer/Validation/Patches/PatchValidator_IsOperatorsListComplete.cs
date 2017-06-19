@@ -10,14 +10,14 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_IsOperatorsListComplete : ValidatorBase<Patch>
+    internal class PatchValidator_IsOperatorsListComplete : ValidatorBase
     {
         public PatchValidator_IsOperatorsListComplete(
             [NotNull] Patch patch,
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] ICurveRepository curveRepository)
-            : base(patch)
         {
+            if (patch == null) throw new NullException(() => patch);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
 

@@ -1067,4 +1067,10 @@
   <data name="RepetitionPosition" xml:space="preserve">
     <value>Repetition position</value>
   </data>
+  <data name="PatchHasMoreThanOneRepeatingInlet" xml:space="preserve">
+    <value>Patch has more than one repeating inlet.</value>
+  </data>
+  <data name="PatchHasMoreThanOneRepeatingOutlet" xml:space="preserve">
+    <value>Patch has more than one repeating outlet.</value>
+  </data>
 </root>

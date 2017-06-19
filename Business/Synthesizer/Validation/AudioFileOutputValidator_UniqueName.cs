@@ -1,10 +1,11 @@
 ﻿using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class AudioFileOutputValidator_UniqueName : VersatileValidator<AudioFileOutput>
+    internal class AudioFileOutputValidator_UniqueName : VersatileValidator
     {
         /// <summary>
         /// NOTE:
@@ -13,19 +14,20 @@ namespace JJ.Business.Synthesizer.Validation
         /// Extensive document validation will include validating that the AudioFileOutput names are unique already
         /// and it will do so in a more efficient way.
         /// </summary>
-        public AudioFileOutputValidator_UniqueName(AudioFileOutput obj)
-            : base(obj)
-        { 
-            if (obj.Document == null)
+        public AudioFileOutputValidator_UniqueName(AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            if (audioFileOutput.Document == null)
             {
                 return;
             }
 
-            bool isUnique = ValidationHelper.AudioFileOutputNameIsUnique(obj);
+            bool isUnique = ValidationHelper.AudioFileOutputNameIsUnique(audioFileOutput);
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(obj.Name), CommonResourceFormatter.Name, obj.Name);
+                ValidationMessages.AddNotUniqueMessageSingular(nameof(audioFileOutput.Name), CommonResourceFormatter.Name, audioFileOutput.Name);
             }
         }
     }

@@ -1,14 +1,16 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class AudioFileOutputWarningValidator : VersatileValidator<AudioFileOutput>
+    internal class AudioFileOutputWarningValidator : VersatileValidator
     {
         public AudioFileOutputWarningValidator(AudioFileOutput obj)
-            : base(obj)
         { 
+            if (obj == null) throw new NullException(() => obj);
+
             AudioFileOutput audioFileOutput = obj;
 
             For(() => obj.Outlet, ResourceFormatter.Outlet).NotNull();

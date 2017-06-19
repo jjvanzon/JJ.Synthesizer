@@ -1070,4 +1070,10 @@
   <data name="RepetitionPosition" xml:space="preserve">
     <value>Herhalingspositie</value>
   </data>
+  <data name="PatchHasMoreThanOneRepeatingInlet" xml:space="preserve">
+    <value>Schakeling heeft meer dan één herhalende ingang.</value>
+  </data>
+  <data name="PatchHasMoreThanOneRepeatingOutlet" xml:space="preserve">
+    <value>Schakeling heeft meer dan één herhalende uigang.</value>
+  </data>
 </root>

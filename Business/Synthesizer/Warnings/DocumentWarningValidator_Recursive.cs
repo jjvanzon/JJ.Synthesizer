@@ -9,15 +9,15 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class DocumentWarningValidator_Recursive : VersatileValidator<Document>
+    internal class DocumentWarningValidator_Recursive : VersatileValidator
     {
         public DocumentWarningValidator_Recursive(
             [NotNull] Document document,
             [NotNull] ICurveRepository curveRepository,
             [NotNull] ISampleRepository sampleRepository,
             [NotNull] HashSet<object> alreadyDone)
-            : base(document)
         {
+            if (document == null) throw new NullException(() => document);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
             if (curveRepository == null) throw new NullException(() => curveRepository);

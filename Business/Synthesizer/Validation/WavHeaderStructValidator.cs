@@ -3,11 +3,10 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class WavHeaderStructValidator : VersatileValidator<WavHeaderStruct>
+    internal class WavHeaderStructValidator : VersatileValidator
     {
         public WavHeaderStructValidator(WavHeaderStruct wavHeaderStruct)
-            : base(wavHeaderStruct)
-        { 
+        {
             For(() => wavHeaderStruct.ChunkID, nameof(wavHeaderStruct.ChunkID)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_RIFF);
             For(() => wavHeaderStruct.Format, nameof(wavHeaderStruct.Format)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_WAVE);
             For(() => wavHeaderStruct.SubChunk1ID, nameof(wavHeaderStruct.SubChunk1ID)).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_FMT_SPACE_LOWERCASE);

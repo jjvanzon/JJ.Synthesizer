@@ -1,14 +1,16 @@
 ﻿using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class AudioFileOutputValidator_InDocument : VersatileValidator<AudioFileOutput>
+    internal class AudioFileOutputValidator_InDocument : VersatileValidator
     {
         public AudioFileOutputValidator_InDocument(AudioFileOutput entity)
-            : base(entity)
-        { 
+        {
+            if (entity == null) throw new NullException(() => entity);
+
             For(() => entity.Document, ResourceFormatter.Document).NotNull();
             For(() => entity.FilePath, ResourceFormatter.FilePath).MaxLength(255);
 

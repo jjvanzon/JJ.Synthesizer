@@ -13,14 +13,14 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-    internal class DocumentValidator_Recursive : VersatileValidator<Document>
+    internal class DocumentValidator_Recursive : VersatileValidator
     {
         public DocumentValidator_Recursive(
             Document document,
             [NotNull] RepositoryWrapper repositories,
             HashSet<object> alreadyDone)
-            : base(document)
         {
+            if (document == null) throw new NullException(() => document);
             if (repositories == null) throw new NullException(() => repositories);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 

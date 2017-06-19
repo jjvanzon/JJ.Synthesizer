@@ -2,15 +2,17 @@
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class Exponent_ScaleValidator : VersatileValidator<Scale>
+    internal class Exponent_ScaleValidator : VersatileValidator
     {
         public Exponent_ScaleValidator(Scale obj)
-            : base(obj)
-        { 
+        {
+            if (obj == null) throw new NullException(() => obj);
+
             For(() => obj.BaseFrequency, ResourceFormatter.BaseFrequency).NotNull();
             For(() => obj.GetScaleTypeEnum(), ResourceFormatter.ScaleType).Is(ScaleTypeEnum.Exponent);
         }

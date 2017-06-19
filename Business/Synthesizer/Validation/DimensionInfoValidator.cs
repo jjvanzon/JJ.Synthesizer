@@ -5,16 +5,14 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class DimensionInfoValidator : VersatileValidator<(bool, Dimension, string)>
+    internal class DimensionInfoValidator : VersatileValidator
     {
-        public DimensionInfoValidator(
-            (bool hasDimension, Dimension standardDimension, string customDimensionName) tuple)
-            : base(tuple)
+        public DimensionInfoValidator(bool hasDimension, Dimension standardDimension, string customDimensionName)
         {
-            if (tuple.hasDimension)
+            if (hasDimension)
             {
-                bool dimensionIsFilledIn = tuple.standardDimension != null;
-                bool customDimensionNameIsFilledIn = NameHelper.IsFilledIn(tuple.customDimensionName);
+                bool dimensionIsFilledIn = standardDimension != null;
+                bool customDimensionNameIsFilledIn = NameHelper.IsFilledIn(customDimensionName);
 
                 if (dimensionIsFilledIn && customDimensionNameIsFilledIn)
                 {
@@ -24,13 +22,12 @@ namespace JJ.Business.Synthesizer.Validation
                         ResourceFormatter.CustomDimensionName);
                 }
 
-                ExecuteValidator(new NameValidator(tuple.customDimensionName, ResourceFormatter.CustomDimensionName, required: false));
-
+                ExecuteValidator(new NameValidator(customDimensionName, ResourceFormatter.CustomDimensionName, required: false));
             }
             else
             {
-                For(() => tuple.standardDimension, ResourceFormatter.StandardDimension).IsNull();
-                For(() => tuple.customDimensionName, ResourceFormatter.CustomDimensionName).IsNullOrWhiteSpace();
+                For(() => standardDimension, ResourceFormatter.StandardDimension).IsNull();
+                For(() => customDimensionName, ResourceFormatter.CustomDimensionName).IsNullOrWhiteSpace();
             }
         }
     }

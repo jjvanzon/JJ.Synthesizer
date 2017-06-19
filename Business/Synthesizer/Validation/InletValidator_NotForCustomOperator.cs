@@ -2,16 +2,17 @@
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class InletValidator_NotForCustomOperator : VersatileValidator<Inlet>
+    internal class InletValidator_NotForCustomOperator : VersatileValidator
     {
         public InletValidator_NotForCustomOperator(Inlet inlet, DimensionEnum expectedDimensionEnum)
-            : base(inlet)
         {
+            if (inlet == null) throw new NullException(() => inlet);
+
             For(() => inlet.GetDimensionEnum(), ResourceFormatter.Dimension).Is(expectedDimensionEnum);
         }
     }

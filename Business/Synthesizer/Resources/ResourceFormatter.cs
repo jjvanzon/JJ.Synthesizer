@@ -146,7 +146,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string LibraryAlreadyAdded_WithName(string name) => string.Format(Resources.LibraryAlreadyAdded_WithName, name);
         public static string PatchesInLibrary => Resources.PatchesInLibrary;
         public static string Line => Resources.Line;
-        public static string Positions => Resources.Positions;
         public static string LiteralFrequencies => Resources.LiteralFrequencies;
         public static string LiteralFrequency => Resources.LiteralFrequency;
         public static string Loop => Resources.Loop;
@@ -207,11 +206,14 @@ namespace JJ.Business.Synthesizer.Resources
         public static string PatchHasNoOutlets => Resources.PatchHasNoOutlets;
         public static string PatchInlet => Resources.PatchInlet;
         public static string PatchOutlet => Resources.PatchOutlet;
+        public static string PatchHasMoreThanOneRepeatingInlet => Resources.PatchHasMoreThanOneRepeatingInlet;
+        public static string PatchHasMoreThanOneRepeatingOutlet => Resources.PatchHasMoreThanOneRepeatingOutlet;
         public static string PeakingEQFilter => Resources.PeakingEQFilter;
         public static string PitchBend => Resources.PitchBend;
         public static string Phase => Resources.Phase;
         public static string Play => Resources.Play;
         public static string Position => Resources.Position;
+        public static string Positions => Resources.Positions;
         public static string Power => Resources.Power;
         public static string PreviousPosition => Resources.PreviousPosition;
         public static string Pulse => Resources.Pulse;

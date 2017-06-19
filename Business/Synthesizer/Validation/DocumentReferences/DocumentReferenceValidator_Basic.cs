@@ -1,14 +1,16 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
-    internal class DocumentReferenceValidator_Basic : VersatileValidator<DocumentReference>
+    internal class DocumentReferenceValidator_Basic : VersatileValidator
     {
         public DocumentReferenceValidator_Basic(DocumentReference documentReference) 
-            : base(documentReference)
-        { 
+        {
+            if (documentReference == null) throw new NullException(() => documentReference);
+
             ExecuteValidator(new NameValidator(documentReference.Alias, ResourceFormatter.Alias, required: false));
 
             For(() => documentReference.HigherDocument, ResourceFormatter.HigherDocument).NotNull();

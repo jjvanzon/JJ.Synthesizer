@@ -1,15 +1,17 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class Versatile_ScaleValidator_WithoutTones : VersatileValidator<Scale>
+    internal class Versatile_ScaleValidator_WithoutTones : VersatileValidator
     {
         public Versatile_ScaleValidator_WithoutTones(Scale obj)
-            : base(obj)
-        { 
+        {
+            if (obj == null) throw new NullException(() => obj);
+
             ScaleTypeEnum scaleTypeEnum = obj.GetScaleTypeEnum();
 
             ExecuteValidator(new Basic_ScaleValidator(obj));

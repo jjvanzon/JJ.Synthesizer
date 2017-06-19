@@ -11,11 +11,12 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
-    internal class DocumentReferenceValidator_Delete : VersatileValidator<DocumentReference>
+    internal class DocumentReferenceValidator_Delete : VersatileValidator
     {
         public DocumentReferenceValidator_Delete([NotNull] DocumentReference obj, [NotNull] RepositoryWrapper repositories)
-            : base(obj)
         {
+            if (obj == null) throw new NullException(() => obj);
+
             DocumentManager systemDocumentManager = new DocumentManager(repositories);
 
             DocumentReference documentReference = obj;

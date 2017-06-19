@@ -3,14 +3,16 @@ using JetBrains.Annotations;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class DimensionToOutlets_OperatorWarningValidator : VersatileValidator<Operator>
+    internal class DimensionToOutlets_OperatorWarningValidator : VersatileValidator
     {
         public DimensionToOutlets_OperatorWarningValidator([NotNull] Operator op)
-            : base(op)
-        { 
+        {
+            if (op == null) throw new NullException(() => op);
+
             // ReSharper disable once InvertIf
             Inlet inlet = op.Inlets.FirstOrDefault();
             if (inlet != null)

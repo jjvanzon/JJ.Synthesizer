@@ -1,10 +1,11 @@
 ﻿using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Samples
 {
-    internal class SampleValidator_UniqueName : VersatileValidator<Sample>
+    internal class SampleValidator_UniqueName : VersatileValidator
     {
         /// <summary>
         /// NOTE:
@@ -14,8 +15,9 @@ namespace JJ.Business.Synthesizer.Validation.Samples
         /// and it will do so in a more efficient way.
         /// </summary>
         public SampleValidator_UniqueName(Sample obj)
-            : base(obj)
         {
+            if (obj == null) throw new NullException(() => obj);
+
             if (obj.Document == null)
             {
                 return;

@@ -1,13 +1,15 @@
 ﻿using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Basic_OperatorValidator : VersatileValidator<Operator>
+    internal class Basic_OperatorValidator : VersatileValidator
     {
         public Basic_OperatorValidator(Operator op)
-            : base(op)
-        { 
+        {
+            if (op == null) throw new NullException(() => op);
+
             ExecuteValidator(new NameValidator(op.Name, required: false));
         }
     }

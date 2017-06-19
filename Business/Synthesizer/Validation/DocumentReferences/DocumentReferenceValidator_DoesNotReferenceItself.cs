@@ -1,15 +1,17 @@
 ﻿using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
-    internal class DocumentReferenceValidator_DoesNotReferenceItself : VersatileValidator<DocumentReference>
+    internal class DocumentReferenceValidator_DoesNotReferenceItself : VersatileValidator
     {
         public DocumentReferenceValidator_DoesNotReferenceItself([NotNull] DocumentReference entity)
-            : base(entity)
-        { 
+        {
+            if (entity == null) throw new NullException(() => entity);
+
             // ReSharper disable once InvertIf
             if (MustValidate(entity))
             {

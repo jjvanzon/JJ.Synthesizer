@@ -1,10 +1,11 @@
 ﻿using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
-    internal class PatchValidator_UniqueName : VersatileValidator<Patch>
+    internal class PatchValidator_UniqueName : VersatileValidator
     {
         /// <summary>
         /// NOTE:
@@ -14,8 +15,9 @@ namespace JJ.Business.Synthesizer.Validation.Patches
         /// and it will do so in a more efficient way.
         /// </summary>
         public PatchValidator_UniqueName(Patch patch)
-            : base(patch)
-        { 
+        {
+            if (patch == null) throw new NullException(() => patch);
+
             if (patch.Document == null)
             {
                 return;

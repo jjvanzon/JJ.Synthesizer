@@ -6,12 +6,10 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    internal class ResampleInterpolationType_DataProperty_Validator : VersatileValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class ResampleInterpolationType_DataProperty_Validator : VersatileValidator
     {
         public ResampleInterpolationType_DataProperty_Validator(string data)
-            : base(data)
         { 
-
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
