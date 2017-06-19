@@ -15,10 +15,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class CurrentInstrumentPresenter : PresenterBase<CurrentInstrumentViewModel>
     {
         private readonly RepositoryWrapper _repositories;
+        private readonly AutoPatcher _autoPatcher;
 
         public CurrentInstrumentPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
+            _autoPatcher = new AutoPatcher(_repositories);
         }
 
         public CurrentInstrumentViewModel Show(CurrentInstrumentViewModel userInput)
@@ -211,10 +213,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Patch> entities = userInput.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
 
             // Business
-            var patchManager = new PatchManager(_repositories);
-            patchManager.AutoPatch(entities);
-            Patch autoPatch = patchManager.Patch;
-            Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(autoPatch);
+            Patch autoPatch = _autoPatcher.AutoPatch(entities);
+            _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
+            Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
             Outlet outlet = result.Data;
 
             // ToViewModel

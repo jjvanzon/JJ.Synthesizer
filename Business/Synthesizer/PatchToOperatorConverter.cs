@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Cascading;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
-namespace JJ.Business.Synthesizer.Converters
+namespace JJ.Business.Synthesizer
 {
     /// <summary>
     /// Converts a Patch to a CustomOperator.

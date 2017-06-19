@@ -35,25 +35,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public LibraryPatchPropertiesViewModel Play(LibraryPatchPropertiesViewModel userInput, [NotNull] RepositoryWrapper repositories)
+        public LibraryPatchPropertiesViewModel Play(
+            LibraryPatchPropertiesViewModel userInput,
+            [NotNull] RepositoryWrapper repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
-            return TemplateMethod(userInput, viewModel =>
-            {
-                // GetEntity
-                Patch patch = repositories.PatchRepository.Get(userInput.PatchID);
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Patch patch = repositories.PatchRepository.Get(userInput.PatchID);
 
-                // Business
-                var patchManager = new PatchManager(patch, repositories);
-                Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch);
-                Outlet outlet = result.Data;
+                    // Business
+                    var autoPatcher = new AutoPatcher(repositories);
+                    Result<Outlet> result = autoPatcher.AutoPatch_TryCombineSounds(patch);
+                    Outlet outlet = result.Data;
+                    if (outlet != null)
+                    {
+                        autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+                    }
 
-                // Non-Persisted
-                viewModel.OutletIDToPlay = outlet?.ID;
-                userInput.ValidationMessages.AddRange(result.Messages.ToCanonical());
-                userInput.Successful = result.Successful;
-            });
+                    // Non-Persisted
+                    viewModel.OutletIDToPlay = outlet?.ID;
+                    userInput.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                    userInput.Successful = result.Successful;
+                });
         }
 
         public LibraryPatchPropertiesViewModel OpenExternally(LibraryPatchPropertiesViewModel userInput)

@@ -15,12 +15,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
+        private readonly AutoPatcher _autoPatcher;
 
         public LibraryGridPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
-
             _documentManager = new DocumentManager(repositories);
+            _autoPatcher = new AutoPatcher(_repositories);
         }
 
         protected override LibraryGridViewModel CreateViewModel(LibraryGridViewModel userInput)
@@ -58,9 +59,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
 
                     // Business
-                    var patchManager = new PatchManager(_repositories);
-                    Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
+                    Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
                     Outlet outlet = result.Data;
+                    if (outlet != null)
+                    {
+                        _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+                    }
 
                     // Non-Persisted
                     viewModel.Successful = result.Successful;

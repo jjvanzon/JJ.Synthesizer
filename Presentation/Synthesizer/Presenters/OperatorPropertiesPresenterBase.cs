@@ -1,7 +1,6 @@
 ﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
-using Canonicals = JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
@@ -15,10 +14,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         where TViewModel : OperatorPropertiesViewModelBase
     {
         protected readonly RepositoryWrapper _repositories;
+        protected readonly PatchManager _patchManager;
+        private readonly AutoPatcher _autoPatcher;
 
         public OperatorPropertiesPresenterBase(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
+            _patchManager = new PatchManager(_repositories);
+            _autoPatcher = new AutoPatcher(_repositories);
         }
 
         protected abstract TViewModel ToViewModel(Operator op);
@@ -42,8 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
 
             // Business
-            var patchManager = new PatchManager(entity.Patch, _repositories);
-            VoidResult result = patchManager.SaveOperator(entity);
+            VoidResult result = _patchManager.SaveOperator(entity);
 
             // Non-Persisted
             viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
@@ -64,9 +66,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
                     // Business
-                    var patchManager = new PatchManager(_repositories);
-                    Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(entity.Patch, entity.ID);
+                    Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(entity.Patch, entity.ID);
                     Outlet outlet = result.Data;
+                    if (outlet != null)
+                    {
+                        _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+                    }
 
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;
@@ -85,9 +90,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Operator entity = _repositories.OperatorRepository.Get(userInput.ID);
 
                     // Business
-                    var patchManager = new PatchManager(entity.Patch, _repositories);
-                    patchManager.DeleteOwnedNumberOperators(entity.ID);
-                    patchManager.DeleteOperatorWithRelatedEntities(entity.ID);
+                    _patchManager.DeleteOwnedNumberOperators(entity.ID);
+                    _patchManager.DeleteOperatorWithRelatedEntities(entity.ID);
                 });
         }
 

@@ -15,10 +15,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentGridPresenter : GridPresenterBase<DocumentGridViewModel>
     {
         private readonly RepositoryWrapper _repositories;
+        private readonly AutoPatcher _autoPatcher;
 
         public DocumentGridPresenter([NotNull] RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
+            _autoPatcher = new AutoPatcher(_repositories);
         }
 
         protected override DocumentGridViewModel CreateViewModel(DocumentGridViewModel userInput)
@@ -46,9 +48,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = _repositories.DocumentRepository.Get(id);
 
                     // Business
-                    var patchManager = new PatchManager(_repositories);
-                    Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(document, mustIncludeHidden: false);
+                    Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(document, mustIncludeHidden: false);
                     Outlet outlet = result.Data;
+                    if (outlet != null)
+                    {
+                        _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+                    }
 
                     // Non-Persisted
                     viewModel.Successful = result.Successful;

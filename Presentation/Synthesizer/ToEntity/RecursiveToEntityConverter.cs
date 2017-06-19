@@ -3,7 +3,6 @@ using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Cascading;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
@@ -25,10 +24,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         private readonly RepositoryWrapper _repositories;
         private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
         private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
+        private readonly PatchManager _patchManager;
 
         public RecursiveToEntityConverter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
+            _patchManager = new PatchManager(repositories);
         }
 
         public void ConvertToEntitiesWithRelatedEntities(
@@ -58,14 +59,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 idsToKeep.Add(patch.ID);
             }
 
-            var patchManager = new PatchManager(_repositories);
-
             IList<int> existingIDs = destDocument.Patches.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                patchManager.PatchID = idToDelete;
-                IResult result = patchManager.DeletePatchWithRelatedEntities();
+                IResult result = _patchManager.DeletePatchWithRelatedEntities(idToDelete);
                 result.Assert();
             }
         }
@@ -172,14 +170,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 idsToKeep.Add(inlet.ID);
             }
 
-            var patchManager = new PatchManager(_repositories);
-
             int[] existingIDs = destOperator.Inlets.Select(x => x.ID).ToArray();
             int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 
             foreach (int idToDelete in idsToDelete)
             {
-                patchManager.DeleteInlet(idToDelete);
+                _patchManager.DeleteInlet(idToDelete);
             }
         }
 
@@ -195,14 +191,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 idsToKeep.Add(outlet.ID);
             }
 
-            var patchManager = new PatchManager(_repositories);
-
             int[] existingIDs = destOperator.Outlets.Select(x => x.ID).ToArray();
             int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 
             foreach (int idToDelete in idsToDelete)
             {
-                patchManager.DeleteOutlet(idToDelete);
+                _patchManager.DeleteOutlet(idToDelete);
             }
         }
 

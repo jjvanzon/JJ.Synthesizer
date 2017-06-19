@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -9,6 +10,7 @@ using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Exceptions;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
@@ -17,7 +19,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer
 {
-    public partial class PatchManager
+    public class OperatorFactory
     {
         private const double DEFAULT_FILTER_FREQUENCY = 1760.0;
         private const double DEFAULT_FREQUENCY = 440.0;
@@ -47,7 +49,21 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_START_TIME = 0.0;
         private const double DEFAULT_STEP = 1.0;
         private const double MULTIPLICATIVE_IDENTITY = 1.0;
-        
+
+        private readonly Patch _patch;
+        private readonly RepositoryWrapper _repositories;
+        private readonly PatchManager _patchManager;
+        private readonly DocumentManager _documentManager;
+
+        public OperatorFactory([NotNull] Patch patch, RepositoryWrapper repositories)
+        {
+            _patch = patch ?? throw new NullException(() => patch);
+            _repositories = repositories ?? throw new NullException(() => repositories);
+
+            _documentManager = new DocumentManager(_repositories);
+            _patchManager = new PatchManager(_repositories);
+        }
+
         public OperatorWrapper_WithUnderlyingPatch Absolute(Outlet number = null)
         {
             Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
@@ -442,7 +458,7 @@ namespace JJ.Business.Synthesizer
 
             _repositories.OperatorRepository.Insert(op);
 
-            op.LinkTo(Patch);
+            op.LinkTo(_patch);
 
             new Versatile_OperatorValidator(op).Assert();
 
@@ -474,7 +490,7 @@ namespace JJ.Business.Synthesizer
 
             SetOperands(wrapper.WrappedOperator, operands);
 
-            wrapper.WrappedOperator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(_patch);
 
             new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
 
@@ -1288,7 +1304,7 @@ namespace JJ.Business.Synthesizer
             new Operator_SideEffect_GeneratePatchInletListIndex(op).Execute();
 
             // Call save to execute side-effects and robust validation.
-            VoidResult result = SaveOperator(op);
+            VoidResult result = _patchManager.SaveOperator(op);
             result.Assert();
 
             return wrapper;
@@ -1353,7 +1369,7 @@ namespace JJ.Business.Synthesizer
             new Operator_SideEffect_GeneratePatchOutletListIndex(op).Execute();
 
             // Call save to execute side-effects and robust validation.
-            VoidResult result = SaveOperator(op);
+            VoidResult result = _patchManager.SaveOperator(op);
             result.Assert();
 
             return wrapper;
@@ -2232,12 +2248,12 @@ namespace JJ.Business.Synthesizer
             var op = new Operator { ID = _repositories.IDRepository.GetID() };
             op.SetOperatorTypeEnum(operatorTypeEnum, _repositories);
 
-            op.LinkTo(Patch);
+            op.LinkTo(_patch);
             _repositories.OperatorRepository.Insert(op);
 
             for (int i = 0; i < inletCount; i++)
             {
-                Inlet inlet = CreateInlet(op);
+                Inlet inlet = _patchManager.CreateInlet(op);
                 inlet.ListIndex = i;
 
                 DimensionEnum dimensionEnum = inletDimensionEnums[i];
@@ -2246,7 +2262,7 @@ namespace JJ.Business.Synthesizer
 
             for (int i = 0; i < outletCount; i++)
             {
-                Outlet outlet = CreateOutlet(op);
+                Outlet outlet = _patchManager.CreateOutlet(op);
                 outlet.ListIndex = i;
 
                 DimensionEnum dimensionEnum = outletDimensionEnums[i];
@@ -2284,7 +2300,7 @@ namespace JJ.Business.Synthesizer
             outlet.LinkTo(op);
             _repositories.OutletRepository.Insert(outlet);
 
-            op.LinkTo(Patch);
+            op.LinkTo(_patch);
 
             return op;
         }

@@ -16,11 +16,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
+        private readonly PatchManager _patchManager;
+        private readonly AutoPatcher _autoPatcher;
 
         public PatchGridPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
             _documentManager = new DocumentManager(repositories);
+            _patchManager = new PatchManager(repositories);
+            _autoPatcher = new AutoPatcher(_repositories);
         }
 
         protected override PatchGridViewModel CreateViewModel(PatchGridViewModel userInput)
@@ -29,8 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
 
             // Business
-            var patchManager = new PatchManager(_repositories);
-            IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, userInput.Group, mustIncludeHidden: true);
+            IList<Patch> patchesInGroup = PatchGrouper.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, userInput.Group, mustIncludeHidden: true);
             IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
 
             // ToViewModel
@@ -47,9 +50,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = _repositories.PatchRepository.Get(patchID);
 
                 // Business
-                var patchManager = new PatchManager(patch, _repositories);
-                Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch);
+                Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(patch);
                 Outlet outlet = result.Data;
+                if (outlet != null)
+                {
+                    _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+                }
 
                 // Non-Persisted
                 viewModel.OutletIDToPlay = outlet?.ID;
@@ -68,8 +74,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Patch patch = _repositories.PatchRepository.Get(patchID);
 
                     // Businesss
-                    var patchManager = new PatchManager(patch, _repositories);
-                    IResult result = patchManager.DeletePatchWithRelatedEntities();
+                    IResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
 
                     // Non-Persisted
                     viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());

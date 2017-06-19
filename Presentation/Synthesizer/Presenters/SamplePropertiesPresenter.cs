@@ -15,12 +15,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly RepositoryWrapper _repositories;
         private readonly SampleRepositories _sampleRepositories;
         private readonly SampleManager _sampleManager;
+        private readonly PatchManager _patchManager;
 
         public SamplePropertiesPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
             _sampleRepositories = new SampleRepositories(repositories);
             _sampleManager = new SampleManager(_sampleRepositories);
+            _patchManager = new PatchManager(repositories);
         }
 
         protected override SamplePropertiesViewModel CreateViewModel(SamplePropertiesViewModel userInput)
@@ -59,10 +61,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
 
                     // Business
-                    var x = new PatchManager(_repositories);
-                    x.CreatePatch();
-                    Outlet outlet = x.Sample(entity);
-                    VoidResult result = x.SavePatch();
+                    Patch patch = _patchManager.CreatePatch();
+
+                    var operatorFactory = new OperatorFactory(patch, _repositories);
+                    Outlet outlet = operatorFactory.Sample(entity);
+                    VoidResult result = _patchManager.SavePatch(patch);
 
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;

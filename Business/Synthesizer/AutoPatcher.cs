@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
@@ -8,6 +9,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Business;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Mathematics;
@@ -15,10 +17,18 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer
 {
-    public partial class PatchManager
+    public class AutoPatcher
     {
+        private readonly RepositoryWrapper _repositories;
+        private readonly PatchManager _patchManager;
+
+        public AutoPatcher(RepositoryWrapper repositories)
+        {
+            _repositories = repositories ?? throw new NullException(() => repositories);
+            _patchManager = new PatchManager(_repositories);
+        }
+
         /// <summary>
-        /// Use the Patch property after calling this method.
         /// Do a rollback after calling this method to prevent saving the new patch.
         /// Tries to produce a new patch by tying together existing patches,
         /// trying to match PatchInlet and PatchOutlet operators by:
@@ -29,18 +39,21 @@ namespace JJ.Business.Synthesizer
         /// This causes ambiguity in DefaultValue, ListIndex or Name, 
         /// which is 'resolved' by taking the properties of the first one in the group.
         /// </summary>
-        public void AutoPatch(IList<Patch> sourceUnderlyingPatches)
+        public Patch AutoPatch(IList<Patch> sourceUnderlyingPatches)
         {
             if (sourceUnderlyingPatches == null) throw new NullException(() => sourceUnderlyingPatches);
 
-            CreatePatch();
-            Patch.Name = "Auto-Generated Patch";
+            Patch patch = _patchManager.CreatePatch();
+
+            var operatorFactory = new OperatorFactory(patch, _repositories);
+
+            patch.Name = "Auto-Generated Patch";
 
             var intermediateCustomOperators = new List<Operator>(sourceUnderlyingPatches.Count);
 
             foreach (Patch sourceUnderlyingPatch in sourceUnderlyingPatches)
             {
-                OperatorWrapper_WithUnderlyingPatch intermediateCustomOperatorWrapper = CustomOperator(sourceUnderlyingPatch);
+                OperatorWrapper_WithUnderlyingPatch intermediateCustomOperatorWrapper = operatorFactory.CustomOperator(sourceUnderlyingPatch);
                 intermediateCustomOperatorWrapper.Name = $"{sourceUnderlyingPatch.Name}";
 
                 intermediateCustomOperators.Add(intermediateCustomOperatorWrapper);
@@ -140,8 +153,10 @@ namespace JJ.Business.Synthesizer
             }
 
             // This is sensitive, error prone code, so verify its result with the validators.
-            IResult result = ValidatePatchWithRelatedEntities();
+            IResult result = _patchManager.SavePatch(patch);
             result.Assert();
+
+            return patch;
         }
 
         private PatchInlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> intermediateUnmatchedInlets)
@@ -160,7 +175,9 @@ namespace JJ.Business.Synthesizer
 
         private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet intermediateInlet)
         {
-            PatchInlet_OperatorWrapper destPatchInletWrapper = PatchInlet();
+            var operatorFactory = new OperatorFactory(intermediateInlet.Operator.Patch, _repositories);
+
+            PatchInlet_OperatorWrapper destPatchInletWrapper = operatorFactory.PatchInlet();
             intermediateInlet.LinkTo(destPatchInletWrapper.Outlet);
 
             Inlet destInlet = destPatchInletWrapper.Inlet;
@@ -180,8 +197,10 @@ namespace JJ.Business.Synthesizer
             Outlet intermediatePatchOutletInput = intermediateFirstUnmatchedOutlet;
             if (intermediateUnmatchedOutlets.Count > 1)
             {
+                var operatorFactory = new OperatorFactory(intermediateFirstUnmatchedOutlet.Operator.Patch, _repositories);
+
                 // You only need an adder, when there is more than 1 unmatchedOutlet.
-                intermediatePatchOutletInput = Add(intermediateUnmatchedOutlets);
+                intermediatePatchOutletInput = operatorFactory.Add(intermediateUnmatchedOutlets);
             }
 
             destPatchOutletWrapper.Input = intermediatePatchOutletInput;
@@ -191,7 +210,9 @@ namespace JJ.Business.Synthesizer
 
         private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet intermediateOutlet)
         {
-            PatchOutlet_OperatorWrapper destPatchOutletWrapper = PatchOutlet();
+            var operatorFactory = new OperatorFactory(intermediateOutlet.Operator.Patch, _repositories);
+
+            PatchOutlet_OperatorWrapper destPatchOutletWrapper = operatorFactory.PatchOutlet();
             destPatchOutletWrapper.Input = intermediateOutlet;
 
             Outlet destOutlet = destPatchOutletWrapper.Outlet;
@@ -209,12 +230,14 @@ namespace JJ.Business.Synthesizer
             if (sourceUnderlyingPatches == null) throw new NullException(() => sourceUnderlyingPatches);
 
             // Create a new patch out of the other patches.
-            AutoPatch(sourceUnderlyingPatches);
-            Patch autoPatch = Patch;
+            Patch autoPatch = AutoPatch(sourceUnderlyingPatches);
 
-            CreatePatch();
-            var customOperator = CustomOperator(autoPatch);
-            var frequency = Number(tone.GetFrequency());
+            Patch patch = _patchManager.CreatePatch();
+
+            var operatorFactory = new OperatorFactory(patch, _repositories);
+
+            var customOperator = operatorFactory.CustomOperator(autoPatch);
+            var frequency = operatorFactory.Number(tone.GetFrequency());
 
             IList<Inlet> customOperatorFrequencyInlets = customOperator.Inlets.GetMany(DimensionEnum.Frequency);
             if (customOperatorFrequencyInlets.Count == 0)
@@ -237,14 +260,12 @@ namespace JJ.Business.Synthesizer
                     return soundOutlets[0];
 
                 default:
-                    var add = Add(soundOutlets);
+                    var add = operatorFactory.Add(soundOutlets);
                     return add;
             }
         }
 
         /// <summary>
-        /// Will replace PatchManager.Patch with a new patch.
-        /// 
         /// Creatively tries to make the best of getting sound out of the source Patch.
         /// Tries to find outlets to combine into sound.
         /// If selectedOperatorID is provided, only outlets of the selected Operator are considered.
@@ -253,7 +274,6 @@ namespace JJ.Business.Synthesizer
         /// but if none are found, all outlets are considered.
         /// 
         /// If no suitable outlets were found, a result with Successful = false is returned.
-        /// If outlets to combine were found, PatchManager's Patch property will reference the a patch.
         /// Also the outlet that returns the sound is returned through the result.
         /// </summary>
         public Result<Outlet> AutoPatch_TryCombineSounds(Patch sourcePatch, int? selectedOperatorID = null)
@@ -261,18 +281,20 @@ namespace JJ.Business.Synthesizer
             if (selectedOperatorID.HasValue)
             {
                 // If an (internal) operator is selected, generate some patch outlets in the patch, before turning it into a custom operator.
-                Patch = sourcePatch;
+                var sourceOperatorFactory = new OperatorFactory(sourcePatch, _repositories);
 
                 foreach (Outlet soundOutlet in GetSoundOutletsFromOperatorCreatively(selectedOperatorID.Value))
                 {
-                    PatchOutlet(DimensionEnum.Sound, soundOutlet);
+                    sourceOperatorFactory.PatchOutlet(DimensionEnum.Sound, soundOutlet);
                 }
             }
 
-            CreatePatch();
-            Patch.Name = "Auto-Generated Patch";
+            Patch destPatch = _patchManager.CreatePatch();
+            destPatch.Name = "Auto-Generated Patch";
 
-            OperatorWrapper_WithUnderlyingPatch customOperator = CustomOperator(sourcePatch);
+            var operatorFactory = new OperatorFactory(destPatch, _repositories);
+
+            OperatorWrapper_WithUnderlyingPatch customOperator = operatorFactory.CustomOperator(sourcePatch);
             IList<Outlet> soundOutlets = GetSoundOutletsFromOperatorCreatively(customOperator);
 
             if (soundOutlets.Count == 0)
@@ -285,8 +307,8 @@ namespace JJ.Business.Synthesizer
             }
             else
             {
-                Outlet add = Add(soundOutlets);
-                Outlet patchOutlet = PatchOutlet(DimensionEnum.Sound, add);
+                Outlet add = operatorFactory.Add(soundOutlets);
+                Outlet patchOutlet = operatorFactory.PatchOutlet(DimensionEnum.Sound, add);
 
                 return new Result<Outlet>
                 {
@@ -394,7 +416,7 @@ namespace JJ.Business.Synthesizer
         /// <summary> Can be used to for instance quickly generate an example sound from a patch group. </summary>
         public Result<Outlet> TryAutoPatchFromPatchGroupRandomly(Document document, string groupName, bool mustIncludeHidden)
         {
-            IList<Patch> patchesInGroup = GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, groupName, mustIncludeHidden);
+            IList<Patch> patchesInGroup = PatchGrouper.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, groupName, mustIncludeHidden);
             IList<Outlet> soundOutlets = GetSoundOutletsFromPatchesWithoutSoundInlets(patchesInGroup, mustIncludeHidden);
 
             Outlet soundOutlet = Randomizer.TryGetRandomItem(soundOutlets);
@@ -435,5 +457,75 @@ namespace JJ.Business.Synthesizer
                                             .ToArray();
             return patches2;
         }
+
+        public void CreateNumbersForEmptyInletsWithDefaultValues(
+            Operator op,
+            float estimatedOperatorWidth,
+            float operatorHeight,
+            EntityPositionManager entityPositionManager)
+        {
+            if (op == null) throw new NullException(() => op);
+            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
+
+            OperatorFactory operatorFactory = new OperatorFactory(op.Patch, _repositories);
+
+            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(op.ID);
+
+            int inletCount = op.Inlets.Count;
+            float spacingX = operatorHeight / 2f;
+            float spacingY = operatorHeight;
+            float fullWidth = estimatedOperatorWidth * inletCount + spacingX * (inletCount - 1);
+            float left = entityPosition.X - fullWidth / 2f;
+            float x = left + estimatedOperatorWidth / 2f; // Coordinates are the centers.
+            float y = entityPosition.Y - operatorHeight - spacingY;
+            float stepX = estimatedOperatorWidth + spacingX;
+
+            foreach (Inlet inlet in op.Inlets)
+            {
+                if (inlet.InputOutlet == null)
+                {
+                    if (inlet.DefaultValue.HasValue)
+                    {
+                        var number = operatorFactory.Number(inlet.DefaultValue.Value);
+
+                        inlet.LinkTo(number.NumberOutlet);
+
+                        EntityPosition numberEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
+                        numberEntityPosition.X = x;
+                        numberEntityPosition.Y = y;
+                    }
+                }
+
+                x += stepX;
+            }
+        }
+
+        public void SubstituteSineForUnfilledInSoundPatchInlets([NotNull] Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            OperatorFactory operatorFactory = new OperatorFactory(patch, _repositories);
+
+            IList<PatchInlet_OperatorWrapper> patchInletWrappers =
+                patch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                     .Select(x => new PatchInlet_OperatorWrapper(x))
+                     .Where(
+                         x => x.Inlet.GetDimensionEnum() == DimensionEnum.Sound &&
+                              !x.Inlet.DefaultValue.HasValue &&
+                              x.Input == null)
+                     .ToArray();
+
+            // ReSharper disable once InvertIf
+            if (patchInletWrappers.Count != 0)
+            {
+                Outlet sineOutlet = operatorFactory.Sine(operatorFactory.Number(440));
+
+                foreach (PatchInlet_OperatorWrapper patchInletWrapper in patchInletWrappers)
+                {
+                    patchInletWrapper.Input = sineOutlet;
+                }
+            }
+        }
+
     }
 }

@@ -39,6 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private readonly RepositoryWrapper _repositories;
         private readonly MainPresenter _presenter;
         private readonly InfrastructureFacade _infrastructureFacade;
+        private readonly AutoPatcher _autoPatcher;
 
         private readonly DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
         private readonly AutoPatchPopupForm _autoPatchPopupForm = new AutoPatchPopupForm();
@@ -55,6 +56,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _presenter = new MainPresenter(_repositories);
 
             _infrastructureFacade = new InfrastructureFacade(_repositories);
+            _autoPatcher = new AutoPatcher(_repositories);
 
             BindEvents();
             ApplyStyling();
@@ -190,16 +192,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new[] { CreateDefaultSinePatch() };
             }
 
-            var patchManager = new PatchManager(_repositories);
-            patchManager.AutoPatch(patches);
+            Patch patch = _autoPatcher.AutoPatch(patches);
 
-            return patchManager.Patch;
+            return patch;
         }
 
         private Patch CreateDefaultSinePatch()
         {
-            var x = new PatchManager(_repositories);
-            x.CreatePatch();
+            var patchManager = new PatchManager(_repositories);
+            Patch patch = patchManager.CreatePatch();
+
+            var x = new OperatorFactory(patch, _repositories);
 
             x.PatchOutlet
             (
@@ -215,7 +218,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             );
 
             // This makes side-effects go off.
-            VoidResult result = x.SavePatch();
+            VoidResult result = patchManager.SavePatch(patch);
             // ReSharper disable once InvertIf
             if (!result.Successful)
             {
@@ -223,7 +226,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 throw new Exception(formattedMessages);
             }
 
-            return x.Patch;
+            return patch;
         }
 
         private void PlayOutletIfNeeded()
@@ -260,7 +263,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             AudioOutput audioOutput = document.AudioOutput;
 
             // Calculate
-            var patchManager = new PatchManager(outlet.Operator.Patch, _repositories);
+            var patchManager = new PatchManager(_repositories);
             var calculatorCache = new CalculatorCache();
             int channelCount = audioOutput.GetChannelCount();
             var patchCalculators = new IPatchCalculator[channelCount];

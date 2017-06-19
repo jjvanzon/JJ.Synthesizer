@@ -17,13 +17,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
+        private readonly AutoPatcher _autoPatcher;
 
         public LibrarySelectionPopupPresenter(RepositoryWrapper repositories)
         {
-            _repositories = repositories;
-            if (repositories == null) throw new NullException(() => repositories);
+            _repositories = repositories ?? throw new NullException(() => repositories);
 
             _documentManager = new DocumentManager(repositories);
+            _autoPatcher = new AutoPatcher(_repositories);
         }
 
         public LibrarySelectionPopupViewModel Cancel(LibrarySelectionPopupViewModel userInput)
@@ -150,9 +151,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID);
 
             // Business
-            var patchManager = new PatchManager(_repositories);
-            Result<Outlet> result = patchManager.TryAutoPatchFromDocumentRandomly(lowerDocument, mustIncludeHidden: false);
+            Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(lowerDocument, mustIncludeHidden: false);
             Outlet outlet = result.Data;
+            if (outlet != null)
+            {
+                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+            }
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

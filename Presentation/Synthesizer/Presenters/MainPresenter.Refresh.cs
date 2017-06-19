@@ -301,8 +301,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void LibraryPatchGridDictionaryRefresh()
         {
-            var patchManager = new PatchManager(_repositories);
-
             Document higherDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
             // ReSharper disable once SuggestVarOrType_Elsewhere
@@ -314,7 +312,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                                    .Where(x => x.LowerDocument != null);
             foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
             {
-                HashSet<string> groups = patchManager.GetPatchGroupNames(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false).ToHashSet();
+                HashSet<string> groups = PatchGrouper.GetPatchGroupNames(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false).ToHashSet();
 
                 // Always include groupless, even when empty, 
                 // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
@@ -329,7 +327,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (viewModel == null)
                     {
                         // Business
-                        IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(higherDocument.Patches, group, mustIncludeHidden: false);
+                        IList<Patch> patchesInGroup = PatchGrouper.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(higherDocument.Patches, group, mustIncludeHidden: false);
 
                         viewModel = lowerDocumentReference.ToLibraryPatchGridViewModel(patchesInGroup, group);
                         viewModel.Successful = true;
@@ -1185,8 +1183,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
-            var patchManager = new PatchManager(_repositories);
-            IList<string> groups = patchManager.GetPatchGroupNames(document.Patches, mustIncludeHidden: true);
+            IList<string> groups = PatchGrouper.GetPatchGroupNames(document.Patches, mustIncludeHidden: true);
 
             // Always include groupless, even when empty, 
             // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
@@ -1197,7 +1194,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchGridViewModel viewModel = ViewModelSelector.TryGetPatchGridViewModel(MainViewModel.Document, group);
                 if (viewModel == null)
                 {
-                    IList<Patch> patchesInGroup = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, group, mustIncludeHidden: true);
+                    IList<Patch> patchesInGroup = PatchGrouper.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, group, mustIncludeHidden: true);
                     IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
 
                     viewModel = usedInDtos.ToGridViewModel(document.ID, group);
@@ -1457,7 +1454,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void UnderylingPatchLookupRefresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            MainViewModel.Document.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document, _repositories);
+            MainViewModel.Document.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document);
         }
     }
 }

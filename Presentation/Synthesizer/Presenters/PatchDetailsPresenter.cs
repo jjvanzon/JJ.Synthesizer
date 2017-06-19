@@ -3,10 +3,8 @@ using JJ.Business.Canonical;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
-using Canonicals = JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Enums;
@@ -34,11 +32,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private readonly RepositoryWrapper _repositories;
         private readonly EntityPositionManager _entityPositionManager;
+        private readonly PatchManager _patchManager;
+        private readonly AutoPatcher _autoPatcher;
 
         public PatchDetailsPresenter([NotNull] RepositoryWrapper repositories, EntityPositionManager entityPositionManager)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
             _entityPositionManager = entityPositionManager ?? throw new NullException(() => entityPositionManager);
+            _patchManager = new PatchManager(repositories);
+            _autoPatcher = new AutoPatcher(_repositories);
         }
 
         public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
@@ -99,11 +101,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
-            var patchManager = new PatchManager(entity, _repositories);
+            var operatorFactory = new OperatorFactory(entity, _repositories);
             var operatorTypeEnum = (OperatorTypeEnum)operatorTypeID;
             int variableInletOrOutletCount = GetVariableInletOrOutletCount(operatorTypeEnum);
-            Operator op = patchManager.CreateOperator(operatorTypeEnum, variableInletOrOutletCount);
-            patchManager.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+            Operator op = operatorFactory.CreateOperator(operatorTypeEnum, variableInletOrOutletCount);
+            _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);
@@ -131,8 +133,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Businesss
-            var patchManager = new PatchManager(patch, _repositories);
-            IResult result = patchManager.DeletePatchWithRelatedEntities();
+            IResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(patch);
@@ -178,9 +179,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             else
             {
                 // Business
-                var patchManager = new PatchManager(entity, _repositories);
-                patchManager.DeleteOwnedNumberOperators(userInput.SelectedOperator.ID);
-                patchManager.DeleteOperatorWithRelatedEntities(userInput.SelectedOperator.ID);
+                _patchManager.DeleteOwnedNumberOperators(userInput.SelectedOperator.ID);
+                _patchManager.DeleteOperatorWithRelatedEntities(userInput.SelectedOperator.ID);
 
                 // ToViewModel
                 PatchDetailsViewModel viewModel = CreateViewModel(entity);
@@ -248,9 +248,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
-            var patchManager = new PatchManager(patch, _repositories);
-            Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch, userInput.SelectedOperator?.ID);
+            Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(patch, userInput.SelectedOperator?.ID);
             Outlet outlet = result.Data;
+            if (outlet != null)
+            {
+                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+            }
 
             // ToViewModel
 
@@ -362,8 +365,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
             // Business
-            var patchManager = new PatchManager(entity, _repositories);
-            VoidResult result = patchManager.SavePatch();
+            VoidResult result = _patchManager.SavePatch(entity);
 
             // ToViewModel
             PatchDetailsViewModel viewModel = CreateViewModel(entity);

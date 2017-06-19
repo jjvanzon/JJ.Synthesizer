@@ -14,10 +14,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class PatchPropertiesPresenter : PropertiesPresenterBase<PatchPropertiesViewModel>
     {
         private readonly RepositoryWrapper _repositories;
+        private readonly PatchManager _patchManager;
+        private readonly AutoPatcher _autoPatcher;
 
         public PatchPropertiesPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
+            _patchManager = new PatchManager(repositories);
+            _autoPatcher = new AutoPatcher(_repositories);
         }
 
         protected override PatchPropertiesViewModel CreateViewModel(PatchPropertiesViewModel userInput)
@@ -37,8 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _repositories.PatchRepository.Get(viewModel.ID);
 
             // Business
-            var patchManager = new PatchManager(patch, _repositories);
-            VoidResult result = patchManager.SavePatch();
+            VoidResult result = _patchManager.SavePatch(patch);
 
             // Non-Persisted
             viewModel.ValidationMessages = result.Messages.ToCanonical();
@@ -55,9 +58,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Patch patch = _repositories.PatchRepository.Get(userInput.ID);
 
                     // Business
-                    var patchManager = new PatchManager(patch, _repositories);
-                    Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch);
+                    Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(patch);
                     Outlet outlet = result.Data;
+                    if (outlet != null)
+                    {
+                        _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+                    }
 
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;
@@ -76,8 +82,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Patch patch = _repositories.PatchRepository.Get(userInput.ID);
 
                     // Businesss
-                    var patchManager = new PatchManager(patch, _repositories);
-                    IResult result = patchManager.DeletePatchWithRelatedEntities();
+                    IResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
 
                     // Non-Persisted
                     viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
@@ -103,8 +108,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _repositories.PatchRepository.Get(userInput.ID);
 
             // Business
-            var patchManager = new PatchManager(patch, _repositories);
-            IResult result = patchManager.SavePatch();
+            IResult result = _patchManager.SavePatch(patch);
 
             // CreateViewModel
             PatchPropertiesViewModel viewModel = CreateViewModel(userInput);

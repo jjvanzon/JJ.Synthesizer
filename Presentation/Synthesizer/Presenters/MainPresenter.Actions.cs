@@ -327,10 +327,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
 
                     // Business
-                    var patchManager = new PatchManager(_repositories);
-                    patchManager.AutoPatch(entities);
-                    Patch autoPatch = patchManager.Patch;
-                    Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(autoPatch);
+                    Patch autoPatch = _autoPatcher.AutoPatch(entities);
+                    _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
+                    Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
                     Outlet outlet = result.Data;
 
                     // ToViewModel
@@ -369,9 +368,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Patch> underlyingPatches = currentInstrumentUserInput.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
 
             // Business
-            var patchManager = new PatchManager(_repositories);
-            patchManager.AutoPatch(underlyingPatches);
-            Patch autoPatch = patchManager.Patch;
+            Patch autoPatch = _autoPatcher.AutoPatch(underlyingPatches);
 
             // Business
             IResult validationResult = _documentManager.Save(document);
@@ -459,8 +456,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Business
                     patch.LinkTo(document);
-                    var patchManager = new PatchManager(patch, _repositories);
-                    IResult result = patchManager.SavePatch();
+                    IResult result = _patchManager.SavePatch(patch);
 
                     AutoPatchPopupViewModel viewModel2;
                     if (result.Successful)
@@ -936,9 +932,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DocumentOpen(Document document)
         {
             // Business
-            var patchManager = new PatchManager(_repositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
+            IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
+            IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
             IList<UsedInDto<Sample>> sampleUsedInDtos = _documentManager.GetUsedIn(document.Samples);
             IList<UsedInDto<Patch>> grouplessPatchUsedInDtos = _documentManager.GetUsedIn(grouplessPatches);
@@ -950,7 +945,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                                           })
                                                                                       .ToArray();
             IList<DocumentReferencePatchGroupDto> documentReferencePatchGroupDtos =
-                patchManager.GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny(document.LowerDocumentReferences, mustIncludeHidden: false);
+                PatchGrouper.GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny(document.LowerDocumentReferences, mustIncludeHidden: false);
 
             // ToViewModel
             DocumentViewModel viewModel = document.ToViewModel(
@@ -1183,10 +1178,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                              .Select(x => _repositories.PatchRepository.Get(x.ID))
                                                              .ToArray();
                         // Business
-                        var patchManager = new PatchManager(_repositories);
-                        patchManager.AutoPatch(entities);
-                        Patch autoPatch = patchManager.Patch;
-                        result = patchManager.AutoPatch_TryCombineSounds(autoPatch);
+                        Patch autoPatch = _autoPatcher.AutoPatch(entities);
+                        _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
+                        result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
 
                         break;
                     }
@@ -1199,8 +1193,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedItemID.Value);
 
                         // Business
-                        var patchManager = new PatchManager(_repositories);
-                        result = patchManager.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
+                        result = _autoPatcher.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
+                        if (result.Data != null)
+                        {
+                            _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                        }
 
                         break;
                     }
@@ -1214,8 +1211,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
 
                         // Business
-                        var patchManager = new PatchManager(patch, _repositories);
-                        result = patchManager.AutoPatch_TryCombineSounds(patch);
+                        result = _autoPatcher.AutoPatch_TryCombineSounds(patch);
+                        if (result.Data != null)
+                        {
+                            _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                        }
 
                         break;
                     }
@@ -1228,11 +1228,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedPatchGroupLowerDocumentReferenceID.Value);
 
                         // Business
-                        var patchManager = new PatchManager(_repositories);
-                        result = patchManager.TryAutoPatchFromPatchGroupRandomly(
+                        result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(
                             lowerDocumentReference.LowerDocument,
                             userInput.SelectedCanonicalPatchGroup,
                             mustIncludeHidden: false);
+                        if (result.Data != null)
+                        {
+                            _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                        }
 
                         break;
                     }
@@ -1240,8 +1243,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case DocumentTreeNodeTypeEnum.PatchGroup:
                     {
                         // Business
-                        var patchManager = new PatchManager(_repositories);
-                        result = patchManager.TryAutoPatchFromPatchGroupRandomly(document, userInput.SelectedCanonicalPatchGroup, mustIncludeHidden: false);
+                        result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(document, userInput.SelectedCanonicalPatchGroup, mustIncludeHidden: false);
                         
                         break;
                     }
@@ -1252,10 +1254,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         Sample sample = Randomizer.TryGetRandomItem(document.Samples);
                         if (sample != null)
                         {
-                            var x = new PatchManager(_repositories);
-                            x.CreatePatch();
+                            Patch patch = _patchManager.CreatePatch();
+
+                            var x = new OperatorFactory(patch, _repositories);
                             Outlet outlet2 = x.Sample(sample);
-                            VoidResult result2 = x.SavePatch();
+
+                            VoidResult result2 = _patchManager.SavePatch(patch);
 
                             result = new Result<Outlet>
                             {
@@ -1279,9 +1283,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case DocumentTreeNodeTypeEnum.Libraries:
                     {
                         // Business
-                        var patchManager = new PatchManager(_repositories);
                         IList<Document> lowerDocuments = document.LowerDocumentReferences.Select(x => x.LowerDocument).ToArray();
-                        result = patchManager.TryAutoPatchFromDocumentsRandomly(lowerDocuments, mustIncludeHidden: false);
+                        result = _autoPatcher.TryAutoPatchFromDocumentsRandomly(lowerDocuments, mustIncludeHidden: false);
+                        if (result.Data != null)
+                        {
+                            _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                        }
+
                         break;
                     }
 
@@ -1305,7 +1313,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // ToViewModel
                 var converter = new RecursiveToDocumentTreeViewModelFactory();
-                DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document, _repositories);
+                DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document);
 
                 // Non-Persisted
                 viewModel.Visible = userInput.Visible;
@@ -2660,10 +2668,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
                     // Business
-                    var patchManager = new PatchManager(_repositories);
-                    patchManager.CreatePatch(document);
-                    patchManager.Patch.GroupName = group;
-                    patchID = patchManager.Patch.ID;
+                    Patch patch = _patchManager.CreatePatch(document);
+                    patch.GroupName = group;
+                    patchID = patch.ID;
 
                     // Successful
                     userInput.Successful = true;
@@ -3349,19 +3356,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
 
                     // Business
-                    var patchManager = new PatchManager(_repositories);
-
                     Outlet outlet = null;
                     if (underlyingPatches.Count != 0)
                     {
-                        outlet = patchManager.TryAutoPatchWithTone(tone, underlyingPatches);
+                        outlet = _autoPatcher.TryAutoPatchWithTone(tone, underlyingPatches);
+                    }
+
+                    if (outlet != null)
+                    {
+                        _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
                     }
 
                     if (outlet == null) // Fallback to Sine
                     {
-                        patchManager.CreatePatch();
+                        Patch patch = _patchManager.CreatePatch();
+
+                        var operatorFactory = new OperatorFactory(patch, _repositories);
                         double frequency = tone.GetFrequency();
-                        outlet = patchManager.Sine(patchManager.PatchInlet(DimensionEnum.Frequency, frequency));
+                        outlet = operatorFactory.Sine(operatorFactory.PatchInlet(DimensionEnum.Frequency, frequency));
                     }
 
                     // ToViewModel

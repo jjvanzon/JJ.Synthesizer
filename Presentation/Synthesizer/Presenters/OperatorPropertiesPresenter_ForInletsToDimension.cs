@@ -28,9 +28,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
 
             // Business
-            var patchManager = new PatchManager(entity.Patch, _repositories);
-
-            VoidResultDto result1 = patchManager.SetOperatorInletCount(entity, viewModel.InletCount);
+            VoidResultDto result1 = _patchManager.SetOperatorInletCount(entity, viewModel.InletCount);
             if (!result1.Successful)
             {
                 // Non-Persisted
@@ -42,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
-            VoidResult result2 = patchManager.SaveOperator(entity);
+            VoidResult result2 = _patchManager.SaveOperator(entity);
             // ReSharper disable once InvertIf
             if (!result2.Successful)
             {

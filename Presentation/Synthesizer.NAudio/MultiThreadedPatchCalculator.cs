@@ -41,7 +41,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             // Prepare some patching variables
 
-            var patchManager = new PatchManager(patch, repositories);
             var calculatorCache = new CalculatorCache();
 
             Outlet soundOutlet = patch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
@@ -50,11 +49,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
                                       .SingleOrDefault();
             if (soundOutlet == null)
             {
-                soundOutlet = patchManager.Number();
+                var operatorFactory = new OperatorFactory(patch, repositories);
+                soundOutlet = operatorFactory.Number();
                 soundOutlet.Operator.Name = "Dummy operator, because Auto-Patch has no signal outlets.";
             }
 
             // Create PatchCalculators
+            var patchManager = new PatchManager(repositories);
             _patchCalculators = new IPatchCalculator[_channelCount][];
             for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
             {

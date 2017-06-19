@@ -14,12 +14,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class LibraryPatchGridPresenter : GridPresenterBase<LibraryPatchGridViewModel>
     {
         private readonly RepositoryWrapper _repositories;
-        private readonly PatchRepositories _patchRepositories;
+        private readonly AutoPatcher _autoPatcher;
 
         public LibraryPatchGridPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
-            _patchRepositories = new PatchRepositories(repositories);
+            _autoPatcher = new AutoPatcher(_repositories);
         }
 
         protected override LibraryPatchGridViewModel CreateViewModel(LibraryPatchGridViewModel userInput)
@@ -28,8 +28,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(userInput.LowerDocumentReferenceID);
 
             // Business
-            var patchManager = new PatchManager(_repositories);
-            IList<Patch> patches = patchManager.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(lowerDocumentReference.LowerDocument.Patches, userInput.Group, mustIncludeHidden: false);
+            IList<Patch> patches = PatchGrouper.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(lowerDocumentReference.LowerDocument.Patches, userInput.Group, mustIncludeHidden: false);
 
             // ToViewModel
             LibraryPatchGridViewModel viewModel = lowerDocumentReference.ToLibraryPatchGridViewModel(patches, userInput.Group);
@@ -45,9 +44,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = _repositories.PatchRepository.Get(patchID);
 
                 // Business
-                var patchManager = new PatchManager(patch, _repositories);
-                Result<Outlet> result = patchManager.AutoPatch_TryCombineSounds(patch);
+                Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(patch);
                 Outlet outlet = result.Data;
+                if (outlet != null)
+                {
+                    _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+                }
 
                 // Non-Persisted
                 viewModel.OutletIDToPlay = outlet?.ID;

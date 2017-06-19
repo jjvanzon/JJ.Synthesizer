@@ -331,6 +331,7 @@
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Helpers\OutletTuple.cs" />
     <Compile Include="Helpers\InletTuple.cs" />
+    <Compile Include="PatchGrouper.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\ActivationInfo.cs" />
@@ -557,7 +558,7 @@
     </Compile>
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
-    <Compile Include="Converters\PatchToOperatorConverter.cs" />
+    <Compile Include="PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\Multiply_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SumFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_AggregateFollower.cs" />
@@ -670,7 +671,7 @@
     <Compile Include="EntityPositionManager.cs" />
     <Compile Include="CopiedCode\FromNAudio\Complex.cs" />
     <Compile Include="CopiedCode\FromNAudio\FastFourierTransform.cs" />
-    <Compile Include="PatchManager.AutoPatch.cs" />
+    <Compile Include="AutoPatcher.cs" />
     <Compile Include="SideEffects\AudioOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults_Nodes.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_AudioOutput.cs" />
@@ -746,7 +747,7 @@
     <Compile Include="Validation\Patches\PatchValidator_UniqueName.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Unicity.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetInletCount.cs" />
-    <Compile Include="PatchManager.CreateOperator.cs" />
+    <Compile Include="OperatorFactory.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />

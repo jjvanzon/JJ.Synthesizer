@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public DocumentTreeViewModel ToTreeViewModel(Document document, RepositoryWrapper repositories)
+        public DocumentTreeViewModel ToTreeViewModel(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -68,14 +68,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             viewModel.LibrariesNode.List = document.LowerDocumentReferences
-                                                   .Select(x => ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(x, repositories))
+                                                   .Select(x => ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(x))
                                                    .OrderBy(x => x.Caption)
                                                    .ToList();
 
             // Business
-            var patchManager = new PatchManager(repositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
+            IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
+            IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
 
             // ToViewModel
             viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
@@ -88,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private LibraryTreeNodeViewModel ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(DocumentReference lowerDocumentReference, RepositoryWrapper repositories)
+        private LibraryTreeNodeViewModel ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(DocumentReference lowerDocumentReference)
         {
             Document document = lowerDocumentReference.LowerDocument;
 
@@ -98,9 +97,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             // Business
-            var patchManager = new PatchManager(repositories);
-            IList<Patch> grouplessPatches = patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: false);
-            IList<PatchGroupDto> patchGroupDtos = patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: false);
+            IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: false);
+            IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: false);
 
             // ToViewModel
             viewModel.PatchNodes = grouplessPatches.OrderBy(x => x.Name)

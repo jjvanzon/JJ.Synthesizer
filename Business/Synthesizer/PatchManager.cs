@@ -15,7 +15,6 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Validation.Patches;
@@ -35,59 +34,33 @@ namespace JJ.Business.Synthesizer
     /// You can supply a patch, Create a new one using the CreatePatch method
     /// or omit the Patch to only call methods that do not require it.
     /// </summary>
-    public partial class PatchManager
+    public class PatchManager
     {
         private static readonly double _secondsBetweenApplyFilterVariables = CustomConfigurationManager.GetSection<ConfigurationSection>().SecondsBetweenApplyFilterVariables;
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
         private readonly RepositoryWrapper _repositories;
-        private readonly DocumentManager _documentManager;
-
-        /// <summary> nullable </summary>
-        public Patch Patch { get; set; }
-
-        public int? PatchID
-        {
-            get => Patch?.ID;
-            set
-            {
-                if (!value.HasValue)
-                {
-                    Patch = null;
-                }
-                else
-                {
-                    Patch = _repositories.PatchRepository.Get(value.Value);
-                }
-            }
-        }
 
         // Constructors
-
-        public PatchManager(Patch patch, RepositoryWrapper repositories)
-            : this(repositories)
-        {
-            Patch = patch ?? throw new NullException(() => patch);
-        }
 
         public PatchManager([NotNull] RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
-            _documentManager = new DocumentManager(repositories);
         }
 
         // Create
 
-        /// <summary> Use the Patch property after calling this method. </summary>
         /// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>
-        public void CreatePatch(Document document = null)
+        public Patch CreatePatch(Document document = null)
         {
-            Patch = new Patch { ID = _repositories.IDRepository.GetID() };
-            _repositories.PatchRepository.Insert(Patch);
+            var patch = new Patch { ID = _repositories.IDRepository.GetID() };
+            _repositories.PatchRepository.Insert(patch);
 
-            Patch.LinkTo(document);
+            patch.LinkTo(document);
 
-            new Patch_SideEffect_GenerateName(Patch).Execute();
+            new Patch_SideEffect_GenerateName(patch).Execute();
+
+            return patch; 
         }
 
         public Inlet CreateInlet(Operator op)
@@ -116,26 +89,26 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResult SavePatch()
+        public VoidResult SavePatch([NotNull] Patch patch)
         {
-            AssertPatchNotNull();
+            if (patch == null) throw new NullException(() => patch);
 
             // TODO: At one time, it said Patch.Operators collection was changed. That is what the ToArray is for. 
             // I still do not know why the collection was changed, so that must be investigated.
             // (It was when SaveOperator was called instead of ExecuteSideEffects.)
 
-            foreach (Operator op in Patch.Operators.ToArray())
+            foreach (Operator op in patch.Operators.ToArray())
             {
                 new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
             }
 
-            VoidResult result = ValidatePatchWithRelatedEntities();
+            VoidResult result = ValidatePatchWithRelatedEntities(patch);
             if (!result.Successful)
             {
                 return result;
             }
 
-            new Patch_SideEffect_UpdateDerivedOperators(Patch, _repositories).Execute();
+            new Patch_SideEffect_UpdateDerivedOperators(patch, _repositories).Execute();
 
             return result;
         }
@@ -147,11 +120,10 @@ namespace JJ.Business.Synthesizer
         /// </summary>
         public VoidResult SaveOperator(Operator op)
         {
-            AssertPatchNotNull();
-
             if (op == null) throw new NullException(() => op);
+            if (op.Patch == null) throw new NullException(() => op.Patch);
 
-            VoidResult result1 = AddToPatchRecursive(op);
+            VoidResult result1 = AddToPatchRecursive(op, op.Patch);
             if (!result1.Successful)
             {
                 return result1;
@@ -161,7 +133,7 @@ namespace JJ.Business.Synthesizer
             new Operator_SideEffect_UpdateDerivedOperators(op, _repositories).Execute();
 
             // Validate the whole patch, because side-effect can affect the whole patch.
-            VoidResult result2 = ValidatePatchWithRelatedEntities();
+            VoidResult result2 = ValidatePatchWithRelatedEntities(op.Patch);
 
             return result2;
         }
@@ -172,49 +144,55 @@ namespace JJ.Business.Synthesizer
         /// If one of the related operators has a different patch assigned to it,
         /// a validation message is returned.
         /// </summary>
-        private VoidResult AddToPatchRecursive(Operator op)
+        private VoidResult AddToPatchRecursive(Operator op, Patch patch)
         {
             if (op == null) throw new NullException(() => op);
 
-            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, Patch, _repositories.SampleRepository, _repositories.CurveRepository);
+            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, patch, _repositories.SampleRepository, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
                 return validator.ToResult();
             }
 
-            AddToPatchRecursive_WithoutValidation(op);
+            AddToPatchRecursive_WithoutValidation(op, patch);
 
             return new VoidResult { Successful = true };
         }
 
-        private void AddToPatchRecursive_WithoutValidation(Operator op)
+        private void AddToPatchRecursive_WithoutValidation(Operator op, Patch patch)
         {
-            op.LinkTo(Patch);
+            op.LinkTo(patch);
 
             foreach (Inlet inlet in op.Inlets)
             {
                 if (inlet.InputOutlet != null)
                 {
-                    AddToPatchRecursive_WithoutValidation(inlet.InputOutlet.Operator);
+                    AddToPatchRecursive_WithoutValidation(inlet.InputOutlet.Operator, patch);
                 }
             }
         }
 
         // Delete
 
-        public VoidResult DeletePatchWithRelatedEntities()
+        public VoidResult DeletePatchWithRelatedEntities(int patchID)
         {
-            AssertPatchNotNull();
+            Patch patch = _repositories.PatchRepository.Get(patchID);
+            return DeletePatchWithRelatedEntities(patch);
+        }
 
-            IValidator validator = new PatchValidator_Delete(Patch);
+        public VoidResult DeletePatchWithRelatedEntities([NotNull] Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            IValidator validator = new PatchValidator_Delete(patch);
             if (!validator.IsValid)
             {
                 return validator.ToResult();
             }
 
-            Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
-            Patch.UnlinkRelatedEntities();
-            _repositories.PatchRepository.Delete(Patch);
+            patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
+            patch.UnlinkRelatedEntities();
+            _repositories.PatchRepository.Delete(patch);
 
             return new VoidResult
             {
@@ -242,10 +220,8 @@ namespace JJ.Business.Synthesizer
         /// </summary>
         public void DeleteOperatorWithRelatedEntities(Operator op)
         {
-            AssertPatchNotNull();
-
             if (op == null) throw new NullException(() => op);
-            if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, () => Patch);
+            if (op.Patch == null) throw new NullException(() => op.Patch);
 
             // Get this list before deleting and unlinking things.
             IList<Operator> connectedOperators = op.GetConnectedOperators();
@@ -254,7 +230,7 @@ namespace JJ.Business.Synthesizer
             op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             _repositories.OperatorRepository.Delete(op);
 
-            new Patch_SideEffect_UpdateDerivedOperators(Patch, _repositories).Execute();
+            new Patch_SideEffect_UpdateDerivedOperators(op.Patch, _repositories).Execute();
 
             // Clean up obsolete inlets and outlets when the last connection to it is gone.
             foreach (Operator connectedOperator in connectedOperators)
@@ -301,139 +277,14 @@ namespace JJ.Business.Synthesizer
 
         // Validate (Private)
 
-        private VoidResult ValidatePatchWithRelatedEntities()
+        private VoidResult ValidatePatchWithRelatedEntities(Patch patch)
         {
             IValidator validator = new PatchValidator_WithRelatedEntities(
-                Patch,
+                patch,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository, new HashSet<object>());
 
             return validator.ToResult();
-        }
-
-        // Grouping
-
-        public IList<DocumentReferencePatchGroupDto> GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny([NotNull] IList<DocumentReference> documentReferences, bool mustIncludeHidden)
-        {
-            if (documentReferences == null) throw new NullException(() => documentReferences);
-
-            var dtos = new List<DocumentReferencePatchGroupDto>();
-
-            IEnumerable<DocumentReference> lowerDocumentReferences = documentReferences.Where(x => x.LowerDocument != null);
-            foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
-            {
-                var dto = new DocumentReferencePatchGroupDto
-                {
-                    LowerDocumentReference = lowerDocumentReference,
-                    Groups = new List<PatchGroupDto>()
-                };
-                
-                IList<PatchGroupDto> patchGroupDtos = GetPatchGroupDtos_IncludingGrouplessIfAny(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden);
-                dto.Groups.AddRange(patchGroupDtos);
-
-                dtos.Add(dto);
-            }
-
-            return dtos;
-        }
-
-        public IList<PatchGroupDto> GetPatchGroupDtos_IncludingGrouplessIfAny(IList<Patch> patchesInDocument, bool mustIncludeHidden)
-        {
-            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
-
-            var dtos = new List<PatchGroupDto>();
-
-            IList<Patch> grouplessPatches = GetGrouplessPatches(patchesInDocument, mustIncludeHidden);
-            dtos.Add(new PatchGroupDto { Patches = grouplessPatches });
-
-            dtos.AddRange(GetPatchGroupDtos_ExcludingGroupless(patchesInDocument, mustIncludeHidden));
-
-            return dtos;
-        }
-
-        public IList<PatchGroupDto> GetPatchGroupDtos_ExcludingGroupless(IList<Patch> patchesInDocument, bool mustIncludeHidden)
-        {
-            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
-
-            // TODO: Low Priority:
-            // This reuses the logic in the other methods, so there can be no inconsistencies,
-            // but it would be faster to put all the code here.
-            // Perhaps you can group in one method and delegate the rest of the methods to
-            // the grouping method.
-
-            var dtos = new List<PatchGroupDto>();
-
-            IList<string> groupNames = GetPatchGroupNames(patchesInDocument, mustIncludeHidden);
-
-            foreach (string groupName in groupNames)
-            {
-                string canonicalGroupName = NameHelper.ToCanonical(groupName);
-
-                IList<Patch> patchesInGroup = GetPatchesInGroup(patchesInDocument, groupName, mustIncludeHidden);
-
-                dtos.Add(
-                    new PatchGroupDto
-                    {
-                        FriendlyGroupName = groupName,
-                        CanonicalGroupName = canonicalGroupName,
-                        Patches = patchesInGroup
-                    });
-            }
-
-            return dtos;
-        }
-
-        public IList<string> GetPatchGroupNames(IList<Patch> patchesInDocument, bool mustIncludeHidden)
-        {
-            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
-
-            IList<string> groupNames = patchesInDocument.Where(x => !x.Hidden || mustIncludeHidden)
-                                                        .Where(x => NameHelper.IsFilledIn(x.GroupName))
-                                                        .Distinct(x => NameHelper.ToCanonical(x.GroupName))
-                                                        .Select(x => x.GroupName)
-                                                        .ToList();
-            return groupNames;
-        }
-
-        public IList<Patch> GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(IList<Patch> patchesInDocument, string groupName, bool mustIncludeHidden)
-        {
-            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
-
-            if (string.IsNullOrWhiteSpace(groupName))
-            {
-                return GetGrouplessPatches(patchesInDocument, mustIncludeHidden);
-            }
-            else
-            {
-                return GetPatchesInGroup(patchesInDocument, groupName, mustIncludeHidden);
-            }
-        }
-
-        public IList<Patch> GetGrouplessPatches(IList<Patch> patchesInDocument, bool mustIncludeHidden)
-        {
-            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
-
-            IList<Patch> list = patchesInDocument.Where(x => !x.Hidden || mustIncludeHidden)
-                                                 .Where(x => string.IsNullOrWhiteSpace(x.GroupName))
-                                                 .ToArray();
-
-            return list;
-        }
-
-        public IList<Patch> GetPatchesInGroup(IList<Patch> patchesInDocument, string groupName, bool mustIncludeHidden)
-        {
-            if (patchesInDocument == null) throw new NullException(() => patchesInDocument);
-            if (string.IsNullOrWhiteSpace(groupName)) throw new NullOrWhiteSpaceException(() => groupName);
-
-            string canonicalGroupName = NameHelper.ToCanonical(groupName);
-
-            IList<Patch> patchesInGroup =
-                patchesInDocument.Where(x => !x.Hidden || mustIncludeHidden)
-                                 .Where(x => NameHelper.IsFilledIn(x.GroupName))
-                                 .Where(x => string.Equals(NameHelper.ToCanonical(x.GroupName), canonicalGroupName))
-                                 .ToArray();
-
-            return patchesInGroup;
         }
 
         // Misc
@@ -515,8 +366,7 @@ namespace JJ.Business.Synthesizer
             int samplingRate,
             int channelCount,
             int channelIndex,
-            CalculatorCache calculatorCache,
-            bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
+            CalculatorCache calculatorCache)
         {
             switch (_calculationMethodEnum)
             {
@@ -554,8 +404,7 @@ namespace JJ.Business.Synthesizer
                                                     samplingRate,
                                                     channelCount,
                                                     channelIndex,
-                                                    calculatorCache,
-                                                    mustSubstituteSineForUnfilledInSignalPatchInlets))
+                                                    calculatorCache))
                                         .ToArray();
 
                     return patchCalculators;
@@ -568,14 +417,9 @@ namespace JJ.Business.Synthesizer
             int samplingRate,
             int channelCount,
             int channelIndex,
-            CalculatorCache calculatorCache,
-            bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
+            CalculatorCache calculatorCache)
         {
-            if (mustSubstituteSineForUnfilledInSignalPatchInlets)
-            {
-                SubstituteSineForUnfilledInSoundPatchInlets();
-            }
-
+                
             IPatchCalculator patchCalculator;
             switch (_calculationMethodEnum)
             {
@@ -624,47 +468,6 @@ namespace JJ.Business.Synthesizer
             return patchCalculator;
         }
 
-        public void CreateNumbersForEmptyInletsWithDefaultValues(
-            Operator op,
-            float estimatedOperatorWidth,
-            float operatorHeight,
-            EntityPositionManager entityPositionManager)
-        {
-            if (op == null) throw new NullException(() => op);
-            if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, () => Patch);
-            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
-
-            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(op.ID);
-
-            int inletCount = op.Inlets.Count;
-            float spacingX = operatorHeight / 2f;
-            float spacingY = operatorHeight;
-            float fullWidth = estimatedOperatorWidth * inletCount + spacingX * (inletCount - 1);
-            float left = entityPosition.X - fullWidth / 2f;
-            float x = left + estimatedOperatorWidth / 2f; // Coordinates are the centers.
-            float y = entityPosition.Y - operatorHeight - spacingY;
-            float stepX = estimatedOperatorWidth + spacingX;
-
-            foreach (Inlet inlet in op.Inlets)
-            {
-                if (inlet.InputOutlet == null)
-                {
-                    if (inlet.DefaultValue.HasValue)
-                    {
-                        var number = Number(inlet.DefaultValue.Value);
-
-                        inlet.LinkTo(number.NumberOutlet);
-
-                        EntityPosition numberEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
-                        numberEntityPosition.X = x;
-                        numberEntityPosition.Y = y;
-                    }
-                }
-
-                x += stepX;
-            }
-        }
-
         public void DeleteOwnedNumberOperators(int id)
         {
             Operator op = _repositories.OperatorRepository.Get(id);
@@ -690,36 +493,6 @@ namespace JJ.Business.Synthesizer
                     DeleteOperatorWithRelatedEntities(numberOperator);
                 }
             }
-        }
-
-        private void SubstituteSineForUnfilledInSoundPatchInlets()
-        {
-            AssertPatchNotNull();
-
-            IList<PatchInlet_OperatorWrapper> patchInletWrappers = Patch
-                .EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                .Select(x => new PatchInlet_OperatorWrapper(x))
-                .Where(
-                    x => x.Inlet.GetDimensionEnum() == DimensionEnum.Sound &&
-                         !x.Inlet.DefaultValue.HasValue &&
-                         x.Input == null)
-                .ToArray();
-
-            // ReSharper disable once InvertIf
-            if (patchInletWrappers.Count != 0)
-            {
-                Outlet sineOutlet = Sine(Number(440));
-
-                foreach (PatchInlet_OperatorWrapper patchInletWrapper in patchInletWrappers)
-                {
-                    patchInletWrapper.Input = sineOutlet;
-                }
-            }
-        }
-
-        private void AssertPatchNotNull()
-        {
-            if (Patch == null) throw new NullException(() => Patch);
         }
     }
 }

@@ -46,10 +46,12 @@ namespace JJ.Business.Synthesizer.Tests
                 const double timeMultiplier = 1;
                 double duration = sample.GetDuration(stream.Length);
 
-                PatchManager x = new PatchManager(repositories);
-                x.CreatePatch();
+                var patchManager = new PatchManager(repositories);
+                Patch patch = patchManager.CreatePatch();
+                var x = new OperatorFactory(patch, repositories);
+
                 Outlet outlet = x.Stretch(x.Sample(sample), x.Number(timeMultiplier));
-                IPatchCalculator patchCalculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+                IPatchCalculator patchCalculator = patchManager.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
@@ -83,14 +85,14 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleInfo sampleInfo = sampleManager.CreateSample(stream, AudioFileFormatEnum.Wav);
                 Sample sample = sampleInfo.Sample;
 
-                PatchManager x = new PatchManager(repositories);
-
-                x.CreatePatch();
+                var patchManager = new PatchManager(repositories);
+                Patch patch = patchManager.CreatePatch();
+                var x = new OperatorFactory(patch, repositories);
 
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
-                IPatchCalculator calculator = x.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+                IPatchCalculator calculator = patchManager.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
                 double value = TestHelper.CalculateOneValue(calculator);
             }
         }

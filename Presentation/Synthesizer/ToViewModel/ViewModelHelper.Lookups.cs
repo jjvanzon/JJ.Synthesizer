@@ -210,11 +210,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // UnderlyingPatch
 
-        public static IList<IDAndName> CreateUnderlyingPatchLookupViewModel(Document document, RepositoryWrapper repositories)
+        public static IList<IDAndName> CreateUnderlyingPatchLookupViewModel(Document document)
         {
             if (document == null) throw new NullException(() => document);
-
-            var patchManager = new PatchManager(repositories);
 
             var list = new List<IDAndName>
             {
@@ -222,12 +220,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             list.AddRange(
-                patchManager.GetGrouplessPatches(document.Patches, mustIncludeHidden: true)
+                PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: true)
                             .OrderBy(x => x.Name)
                             .Select(x => x.ToIDAndName()));
 
             list.AddRange(
-                from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true)
+                from patchGroupDto in PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true)
                 from patch in patchGroupDto.Patches
                 orderby patchGroupDto.FriendlyGroupName, patch.Name
                 let name = $"{patch.Name} | {patchGroupDto.FriendlyGroupName}"
@@ -239,13 +237,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 string lowerDocumentReferenceAliasOrName = lowerDocumentReference.GetAliasOrName();
 
                 list.AddRange(
-                    from patch in patchManager.GetGrouplessPatches(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false)
+                    from patch in PatchGrouper.GetGrouplessPatches(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false)
                     orderby patch.Name
                     let name = $"{patch.Name} | {lowerDocumentReferenceAliasOrName}"
                     select new IDAndName { ID = patch.ID, Name = name });
 
                 list.AddRange(
-                    from patchGroupDto in patchManager.GetPatchGroupDtos_ExcludingGroupless(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false)
+                    from patchGroupDto in PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false)
                     from patch in patchGroupDto.Patches
                     orderby patchGroupDto.FriendlyGroupName, patch.Name
                     let name = $"{patch.Name} | {patchGroupDto.FriendlyGroupName} | {lowerDocumentReferenceAliasOrName}"

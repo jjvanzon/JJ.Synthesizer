@@ -74,10 +74,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly ToneGridEditPresenter _toneGridEditPresenter;
         private readonly TitleBarPresenter _titleBarPresenter;
 
+        private readonly AutoPatcher _autoPatcher;
         private readonly AudioFileOutputManager _audioFileOutputManager;
         private readonly CurveManager _curveManager;
         private readonly DocumentManager _documentManager;
         private readonly EntityPositionManager _entityPositionManager;
+        private readonly PatchManager _patchManager;
         private readonly SampleManager _sampleManager;
         private readonly ScaleManager _scaleManager;
 
@@ -93,12 +95,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var audioFileOutputRepositories = new AudioFileOutputRepositories(_repositories);
 
             // Create Managers
+            _autoPatcher = new AutoPatcher(_repositories);
             _audioFileOutputManager = new AudioFileOutputManager(audioFileOutputRepositories);
             _curveManager = new CurveManager(_curveRepositories);
             _documentManager = new DocumentManager(_repositories);
             _entityPositionManager = new EntityPositionManager(
                 _repositories.EntityPositionRepository, 
                 _repositories.IDRepository);
+            _patchManager = new PatchManager(_repositories);
             _sampleManager = new SampleManager(_sampleRepositories);
             _scaleManager = new ScaleManager(scaleRepositories);
 
@@ -120,7 +124,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentGridPresenter = new DocumentGridPresenter(_repositories);
             _documentOrPatchNotFoundPresenter = new DocumentOrPatchNotFoundPopupPresenter(_repositories.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
-            _documentTreePresenter = new DocumentTreePresenter(_repositories);
+            _documentTreePresenter = new DocumentTreePresenter(_repositories.DocumentRepository, _repositories.DocumentReferenceRepository, _repositories.PatchRepository);
             _libraryGridPresenter = new LibraryGridPresenter(_repositories);
             _libraryPatchGridPresenter = new LibraryPatchGridPresenter(_repositories);
             _libraryPatchPropertiesPresenter = new LibraryPatchPropertiesPresenter(_repositories.PatchRepository, _repositories.DocumentReferenceRepository);
