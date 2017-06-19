@@ -1213,6 +1213,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Repeating.
+        /// </summary>
+        internal static string IsRepeating {
+            get {
+                return ResourceManager.GetString("IsRepeating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Item.
         /// </summary>
         internal static string Item {
@@ -2037,6 +2046,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string ReleaseEndMarker {
             get {
                 return ResourceManager.GetString("ReleaseEndMarker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repetition position.
+        /// </summary>
+        internal static string RepetitionPosition {
+            get {
+                return ResourceManager.GetString("RepetitionPosition", resourceCulture);
             }
         }
         

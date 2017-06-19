@@ -1,0 +1,1 @@
+alter table Outlet add RepetitionPosition int null;

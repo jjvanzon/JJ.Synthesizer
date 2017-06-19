@@ -22,7 +22,12 @@ namespace JJ.Data.Synthesizer.Entities
         [CanBeNull]
         public virtual Dimension Dimension { get; set; }
         public virtual int Position { get; set; }
-
+        /// <summary>
+        /// Can only be done for one of the outlets.
+        /// Repeating outlets are always put at the end, regardless of Position.
+        /// </summary>
+        public virtual bool IsRepeating { get; set; }
+        public virtual int? RepetitionPosition { get; set; }
         /// <summary>
         /// If an operator's UnderlyingPatch is changed,
         /// obsolete inlets and outlets that still have connections are kept alive,

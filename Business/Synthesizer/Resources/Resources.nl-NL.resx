@@ -1064,4 +1064,10 @@
   <data name="YesNo" xml:space="preserve">
     <value>Ja/nee</value>
   </data>
+  <data name="IsRepeating" xml:space="preserve">
+    <value>Herhalend</value>
+  </data>
+  <data name="RepetitionPosition" xml:space="preserve">
+    <value>Herhalingspositie</value>
+  </data>
 </root>

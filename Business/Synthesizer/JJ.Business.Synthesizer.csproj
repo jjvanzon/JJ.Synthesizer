@@ -364,6 +364,8 @@
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_ClosestOverInlets.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
+    <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
+    <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewiring.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />

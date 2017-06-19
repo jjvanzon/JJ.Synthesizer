@@ -10,11 +10,16 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual int ID { get; set; }
         /// <summary> optional </summary>
         public virtual string Name { get; set; }
-        public virtual double? DefaultValue { get; set; }
         /// <summary> nullable </summary>
         public virtual Dimension Dimension { get; set; }
         public virtual int Position { get; set; }
-
+        public virtual double? DefaultValue { get; set; }
+        /// <summary>
+        /// Can only be done for one of the inlets.
+        /// Repeating inlets are always put at the end, regardless of Position.
+        /// </summary>
+        public virtual bool IsRepeating { get; set; }
+        public virtual int? RepetitionPosition { get; set; }
         /// <summary>
         /// If an operator's UnderlyingPatch is changed,
         /// obsolete inlets and outlets that still have connections are kept alive,

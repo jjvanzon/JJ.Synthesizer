@@ -12,6 +12,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.Name);
             Map(x => x.Position);
             Map(x => x.DefaultValue);
+            Map(x => x.IsRepeating);
+            Map(x => x.RepetitionPosition);
             Map(x => x.IsObsolete);
             Map(x => x.WarnIfEmpty);
             Map(x => x.NameOrDimensionHidden);

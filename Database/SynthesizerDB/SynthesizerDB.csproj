@@ -421,6 +421,12 @@
     <Content Include="2017-06-14 010 SynthesizerDB Update Patch.Hidden to 0 for Sine in System Document.sql" />
     <Content Include="2017-06-15 010 SynthesizerDB Dimension 75 - YesNo.sql" />
     <Content Include="2017-06-19 010 SynthesizerDB Rename Inlet and Outlet ListIndex to Position.sql" />
+    <Content Include="2017-06-19 030 SynthesizerDB Inlet.IsRepeating.sql" />
+    <Content Include="2017-06-19 040 SynthesizerDB Inlet.IsRepeating not null.sql" />
+    <Content Include="2017-06-19 050 SynthesizerDB Outlet.IsRepeating.sql" />
+    <Content Include="2017-06-19 060 SynthesizerDB Outlet.IsRepeating not null.sql" />
+    <Content Include="2017-06-19 070 SynthesizerDB Inlet.RepetitionPosition.sql" />
+    <Content Include="2017-06-19 080 SynthesizerDB Outlet.RepetitionPosition.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
