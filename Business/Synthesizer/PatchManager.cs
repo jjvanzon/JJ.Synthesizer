@@ -300,7 +300,7 @@ namespace JJ.Business.Synthesizer
                 return validator.ToCanonical();
             }
 
-            IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.Position).ToArray();
+            IList<Inlet> sortedInlets = op.Inlets.Sort().ToArray();
 
             // Create additional inlets
             for (int i = sortedInlets.Count; i < inletCount; i++)
@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer
                 return validator.ToCanonical();
             }
 
-            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.Position).ToArray();
+            IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
 
             // Create additional outlets
             for (int i = sortedOutlets.Count; i < outletCount; i++)

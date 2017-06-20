@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer.Entities;
@@ -87,7 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // Yield over results to fields.
             _dimensionStackCollection = result.DimensionStackCollection;
             _outputOperatorCalculator = result.Output_OperatorCalculator;
-            _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.Position).ToArray();
+            _inputOperatorCalculators = result.Input_OperatorCalculators.Sort().ToArray();
             _position_To_ResettableOperatorCalculators_Dictionary = 
                 result.ResettableOperatorTuples.Where(x => x.Position.HasValue)
                                                 // ReSharper disable once PossibleInvalidOperationException

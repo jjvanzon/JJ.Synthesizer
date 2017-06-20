@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IEnumerable<Inlet> enumerable = op.Inlets.OrderBy(x => x.Position);
+            IEnumerable<Inlet> enumerable = op.Inlets.Sort();
             return enumerable;
         }
 
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.Position).ToArray();
+            IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
             return sortedOutlets;
         }
 

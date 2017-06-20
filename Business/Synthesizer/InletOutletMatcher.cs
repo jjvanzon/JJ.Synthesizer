@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -26,8 +27,8 @@ namespace JJ.Business.Synthesizer
         /// <summary> Returned tuples can contain null-DestInlets. </summary>
         public static IList<InletTuple> MatchSourceAndDestInlets(IList<Inlet> sourceInlets, IList<Inlet> destInlets)
         {
-            IList<Inlet> sourceSortedInlets = SortInlets(sourceInlets);
-            IList<Inlet> destCandidateInlets = SortInlets(destInlets);
+            IList<Inlet> sourceSortedInlets = sourceInlets.Sort().ToList();
+            IList<Inlet> destCandidateInlets = destInlets.Sort().ToList();
 
             var tuples = new List<InletTuple>();
 
@@ -117,8 +118,8 @@ namespace JJ.Business.Synthesizer
         /// <summary> Returned tuples can contain null-elements. </summary>
         public static IList<OutletTuple> MatchSourceAndDestOutlets(IList<Outlet> sourceOutlets, IList<Outlet> destOutlets)
         {
-            IList<Outlet> sourceSortedOutlets = SortOutlets(sourceOutlets);
-            IList<Outlet> destCandidateOutlets = SortOutlets(destOutlets);
+            IList<Outlet> sourceSortedOutlets = sourceOutlets.Sort().ToList();
+            IList<Outlet> destCandidateOutlets = destOutlets.Sort().ToList();
 
             var tuples = new List<OutletTuple>();
 
@@ -320,30 +321,6 @@ namespace JJ.Business.Synthesizer
             // Do not match by list index, because that would result in something arbitrary.
 
             return false;
-        }
-
-        // Helpers
-
-        private static IList<Inlet> SortInlets(IList<Inlet> inlets)
-        {
-            return inlets.OrderBy(x => x.Position)
-                         .ThenBy(x => x.GetDimensionEnum() == DimensionEnum.Undefined)
-                         .ThenBy(x => x.GetDimensionEnum())
-                         .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
-                         .ThenBy(x => x.Name)
-                         .ThenBy(x => x.IsObsolete)
-                         .ToList();
-        }
-
-        private static IList<Outlet> SortOutlets(IList<Outlet> outlets)
-        {
-            return outlets.OrderBy(x => x.Position)
-                          .ThenBy(x => x.GetDimensionEnum() == DimensionEnum.Undefined)
-                          .ThenBy(x => x.GetDimensionEnum())
-                          .ThenBy(x => string.IsNullOrWhiteSpace(x.Name))
-                          .ThenBy(x => x.Name)
-                          .ThenBy(x => x.IsObsolete)
-                          .ToList();
         }
     }
 }

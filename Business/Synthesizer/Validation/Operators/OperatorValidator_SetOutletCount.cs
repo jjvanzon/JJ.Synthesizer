@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             For(newOutletCount, PropertyNames.OutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets))
                 .GreaterThan(0);
 
-            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.Position).ToArray();
+            IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
             for (int i = newOutletCount; i < sortedOutlets.Count; i++)
             {
                 Outlet outlet = sortedOutlets[i];

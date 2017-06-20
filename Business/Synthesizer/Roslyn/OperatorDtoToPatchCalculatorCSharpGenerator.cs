@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
@@ -9,6 +10,7 @@ using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Common;
@@ -380,7 +382,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendSetValue_ByPosition(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> inputVariableInfos = visitorResult.InputVariableInfos.OrderBy(x => x.Position).ToArray();
+            IList<ExtendedVariableInfo> inputVariableInfos = visitorResult.InputVariableInfos.Sort().ToArray();
 
             sb.AppendLine("public override void SetValue(int position, double value)");
             sb.AppendLine("{");
@@ -468,13 +470,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfosToInclude =
                 visitorResult.LongLivedDimensionVariableInfos
                              .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
-                             .OrderBy(x => x.Position)
+                             .Sort()
                              .ToArray();
 
             IList<ExtendedVariableInfo> inputVariableInfosToInclude =
                 visitorResult.InputVariableInfos
                              .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
-                             .OrderBy(x => x.Position)
+                             .Sort()
                              .ToArray();
 
             sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, int position, double value)");
@@ -501,13 +503,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             IList<ExtendedVariableInfo> longLivedDimensionVariableInfosToInclude =
                 visitorResult.LongLivedDimensionVariableInfos
                              .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
-                             .OrderBy(x => x.Position)
+                             .Sort()
                              .ToArray();
 
             IList<ExtendedVariableInfo> inputVariableInfosToInclude =
                 visitorResult.InputVariableInfos
                              .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
-                             .OrderBy(x => x.Position)
+                             .Sort()
                              .ToArray();
 
             sb.AppendLine("public override void SetValue(string name, int position, double value)");

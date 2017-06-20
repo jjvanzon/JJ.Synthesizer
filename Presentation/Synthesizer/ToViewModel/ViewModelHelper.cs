@@ -509,7 +509,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 destOperatorViewModel.Inlets.Remove(inletViewModelToDelete);
             }
 
-            destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.OrderBy(x => x.Position).ToList();
+            destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.Sort(
+                x => x.Position,
+                x => (DimensionEnum)x.Dimension.ID,
+                x => x.Name,
+                x => x.IsObsolete).ToList();
         }
 
         /// <summary>
@@ -554,7 +558,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 destOperatorViewModel.Outlets.Remove(outletViewModelToDelete);
             }
 
-            destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.OrderBy(x => x.Position).ToList();
+            destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.Sort(
+                x => x.Position,
+                x => (DimensionEnum)x.Dimension.ID,
+                x => x.Name,
+                x => x.IsObsolete).ToList();
         }
 
         /// <summary>

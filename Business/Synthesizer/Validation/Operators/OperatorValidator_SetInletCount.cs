@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             For(newInletCount, PropertyNames.InletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets))
                 .GreaterThan(1);
 
-            IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.Position).ToArray();
+            IList<Inlet> sortedInlets = op.Inlets.Sort().ToArray();
             for (int i = newInletCount; i < sortedInlets.Count; i++)
             {
                 Inlet inlet = sortedInlets[i];

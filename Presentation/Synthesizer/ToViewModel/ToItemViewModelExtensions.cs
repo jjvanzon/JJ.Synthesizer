@@ -123,16 +123,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<InletViewModel> viewModels = entities.Select(
+            IList<InletViewModel> viewModels = entities.Sort()
+                                                       .Select(
                                                            x => x.ToViewModel(
                                                                dimensionRepository,
                                                                curveRepository,
                                                                sampleRepository,
                                                                entityPositionManager))
-                                                       .OrderBy(x => x.IsObsolete)
-                                                       .ThenBy(x => x.Position)
-                                                       .ThenBy(x => x.Name)
-                                                       .ThenBy(x => x.Dimension.Name)
                                                        .ToList();
             return viewModels;
         }
@@ -271,11 +268,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<OutletViewModel> viewModels = entities.Select(x => x.ToViewModel(curveRepository, sampleRepository, entityPositionManager))
-                                                        .OrderBy(x => x.IsObsolete)
-                                                        .ThenBy(x => x.Position)
-                                                        .ThenBy(x => x.Name)
-                                                        .ThenBy(x => x.Dimension.Name)
+            IList<OutletViewModel> viewModels = entities.Sort()
+                                                        .Select(x => x.ToViewModel(curveRepository, sampleRepository, entityPositionManager))
                                                         .ToList();
             return viewModels;
         }

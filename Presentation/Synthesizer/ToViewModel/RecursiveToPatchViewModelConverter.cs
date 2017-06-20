@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
@@ -165,13 +166,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private IList<InletViewModel> ConvertToViewModelsRecursive(IList<Inlet> entities)
         {
-            IList<InletViewModel> viewModels = entities.Select(x => ConvertToViewModelRecursive(x))
-                                                       .OrderBy(x => x.IsObsolete)
-                                                       .ThenBy(x => x.Position)
-                                                       .ThenBy(x => !string.IsNullOrWhiteSpace(x.Name))
-                                                       .ThenBy(x => x.Name)
-                                                       .ThenBy(x => !string.IsNullOrWhiteSpace(x.Dimension.Name))
-                                                       .ThenBy(x => x.Dimension.Name)
+            IList<InletViewModel> viewModels = entities.Sort()
+                                                       .Select(x => ConvertToViewModelRecursive(x))
                                                        .ToList();
             return viewModels;
         }
@@ -194,13 +190,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private IList<OutletViewModel> ConvertToViewModelsRecursive(IList<Outlet> entities)
         {
-            IList<OutletViewModel> viewModels = entities.Select(x => ConvertToViewModelRecursive(x))
-                                                        .OrderBy(x => x.IsObsolete)
-                                                        .ThenBy(x => x.Position)
-                                                        .ThenBy(x => !string.IsNullOrWhiteSpace(x.Name))
-                                                        .ThenBy(x => x.Name)
-                                                        .ThenBy(x => !string.IsNullOrWhiteSpace(x.Dimension.Name))
-                                                        .ThenBy(x => x.Dimension.Name)
+            IList<OutletViewModel> viewModels = entities.Sort()
+                                                        .Select(x => ConvertToViewModelRecursive(x))
                                                         .ToList();
             return viewModels;
         }

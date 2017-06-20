@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             if (op == null) throw new NullException(() => op);
 
-            foreach (Inlet inlet in op.Inlets.OrderBy(x => x.Position))
+            foreach (Inlet inlet in op.Inlets)
             {
                 bool isPatchInlet = inlet.Operator.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet;
                 if (isPatchInlet)

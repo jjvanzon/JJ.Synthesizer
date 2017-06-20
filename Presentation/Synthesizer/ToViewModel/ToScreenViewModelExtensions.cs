@@ -792,8 +792,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Group = group,
                 ValidationMessages = new List<MessageDto>(),
                 List = patchesInGroup.OrderBy(x => x.Name)
-                              .Select(x => x.ToIDAndName())
-                              .ToList()
+                                     .Select(x => x.ToIDAndName())
+                                     .ToList()
             };
 
             string groupIdentifier = group;

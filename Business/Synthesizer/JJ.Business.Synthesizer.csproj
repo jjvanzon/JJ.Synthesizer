@@ -189,6 +189,7 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithSignalOutlet.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
+    <Compile Include="Extensions\SortExtensions.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\CurveArrayDtoFactory.cs" />
