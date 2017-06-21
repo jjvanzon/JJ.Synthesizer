@@ -38,10 +38,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// Creating a new view model and copying basic non-persisted properties to it.
         /// You can extend this with more logic.
         /// </summary>
-        protected TViewModel TemplateMethod([NotNull] TViewModel userInput, [NotNull] Action<TViewModel> action)
+        protected TViewModel TemplateMethod(TViewModel userInput, Action<TViewModel> nonPersistedDelegate)
         {
             if (userInput == null) throw new NullException(() => userInput);
-            if (action == null) throw new NullException(() => action);
+            if (nonPersistedDelegate == null) throw new NullException(() => nonPersistedDelegate);
 
             // RefreshCounter
             userInput.RefreshCounter++;
@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.Successful = true;
 
             // Action
-            action(viewModel);
+            nonPersistedDelegate(viewModel);
 
             return viewModel;
         }

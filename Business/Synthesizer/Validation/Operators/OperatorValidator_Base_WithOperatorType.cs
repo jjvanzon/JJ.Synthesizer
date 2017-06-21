@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     DimensionEnum expectedDimensionEnum = expectedInletDimensionEnums[i];
 
                     string messagePrefix = ValidationHelper.GetMessagePrefix(inlet);
-                    ExecuteValidator(new InletValidator_NotForCustomOperator(inlet, expectedDimensionEnum), messagePrefix);
+                    ExecuteValidator(new InletValidator_WithOperatorType_ExceptCustomOperator(inlet, expectedDimensionEnum), messagePrefix);
                 }
             }
 
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     DimensionEnum expectedDimensionEnum = expectedOutletDimensionEnums[i];
 
                     string messagePrefix = ValidationHelper.GetMessagePrefix(outlet);
-                    ExecuteValidator(new OutletValidator_NotForCustomOperator(outlet, expectedDimensionEnum), messagePrefix);
+                    ExecuteValidator(new OutletValidator_WithOperatorType_ExceptCustomOperator(outlet, expectedDimensionEnum), messagePrefix);
                 }
             }
         }

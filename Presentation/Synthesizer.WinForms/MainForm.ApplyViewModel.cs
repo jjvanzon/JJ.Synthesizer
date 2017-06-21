@@ -57,12 +57,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForSample.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForSample;
             operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation;
             operatorPropertiesUserControl_WithCollectionRecalculation.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_WithInletCount.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithInletCount;
-            operatorPropertiesUserControl_WithInletCount.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
             operatorPropertiesUserControl_WithInterpolation.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithInterpolation;
             operatorPropertiesUserControl_WithInterpolation.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_WithOutletCount.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithOutletCount;
-            operatorPropertiesUserControl_WithOutletCount.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
             patchDetailsUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchDetails;
             patchGridUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchGrid;
             patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchProperties;

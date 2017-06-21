@@ -20,7 +20,9 @@ namespace JJ.Business.Synthesizer.Extensions
                 x => x.Position,
                 x => x.GetDimensionEnum(),
                 x => x.Name,
-                x => x.IsObsolete);
+                x => x.IsObsolete,
+                x => x.IsRepeating,
+                x => x.RepetitionPosition);
         }
 
         public static IEnumerable<Outlet> Sort(this IEnumerable<Outlet> list)
@@ -31,7 +33,9 @@ namespace JJ.Business.Synthesizer.Extensions
                 x => x.Position,
                 x => x.GetDimensionEnum(),
                 x => x.Name,
-                x => x.IsObsolete);
+                x => x.IsObsolete,
+                x => x.IsRepeating,
+                x => x.RepetitionPosition);
         }
 
         internal static IEnumerable<VariableInput_OperatorCalculator> Sort([NotNull] this IEnumerable<VariableInput_OperatorCalculator> list)
@@ -59,17 +63,31 @@ namespace JJ.Business.Synthesizer.Extensions
             Func<T, int> getPositionDelegate,
             Func<T, DimensionEnum> getDimensionEnumDelegate,
             Func<T, string> getNameDelegate,
-            Func<T, bool> getIsObsoleteDelegate = null)
+            Func<T, bool> getIsObsoleteDelegate = null,
+            Func<T, bool> getIsRepeating = null,
+            Func<T, int?> getRepetitionPosition = null)
         {
             if (list == null) throw new NullException(() => list);
             if (getDimensionEnumDelegate == null) throw new NullException(() => getDimensionEnumDelegate);
             if (getNameDelegate == null) throw new NullException(() => getNameDelegate);
 
-            IOrderedEnumerable<T> enumerable = list.OrderBy(getPositionDelegate)
-                                                   .ThenBy(x => getDimensionEnumDelegate(x) == DimensionEnum.Undefined)
-                                                   .ThenBy(getDimensionEnumDelegate)
-                                                   .ThenBy(x => string.IsNullOrWhiteSpace(getNameDelegate(x)))
-                                                   .ThenBy(x => getNameDelegate);
+            IOrderedEnumerable<T> enumerable = list.OrderBy(getPositionDelegate);
+
+            if (getIsRepeating != null)
+            {
+                enumerable = enumerable.ThenBy(getIsRepeating);
+            }
+
+            if (getRepetitionPosition != null)
+            {
+                enumerable = enumerable.ThenBy(getRepetitionPosition);
+            }
+
+            enumerable = enumerable.ThenBy(x => getDimensionEnumDelegate(x) == DimensionEnum.Undefined)
+                                   .ThenBy(getDimensionEnumDelegate)
+                                   .ThenBy(x => string.IsNullOrWhiteSpace(getNameDelegate(x)))
+                                   .ThenBy(x => getNameDelegate);
+
             if (getIsObsoleteDelegate != null)
             {
                 enumerable = enumerable.ThenBy(getIsObsoleteDelegate);

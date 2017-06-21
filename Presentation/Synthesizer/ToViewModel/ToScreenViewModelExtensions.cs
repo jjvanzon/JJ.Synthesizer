@@ -280,7 +280,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         // Operator
 
         /// <summary> Converts to properties view models, the operators that do not have a specialized properties view. </summary>
-        public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WithoutAlternativePropertiesView(
+        public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WitStandardPropertiesView(
             this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -291,7 +291,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             foreach (Operator op in patch.Operators)
             {
                 // ReSharper disable once InvertIf
-                if (ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView.Contains(op.GetOperatorTypeEnum()))
+                if (ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(op.GetOperatorTypeEnum()))
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);
@@ -391,24 +391,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_WithOutletCount> ToPropertiesViewModelList_WithOutletCount(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithOutletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                        .Select(x => x.ToPropertiesViewModel_WithOutletCount())
-                        .ToList();
-        }
-
-        public static IList<OperatorPropertiesViewModel_WithInletCount> ToPropertiesViewModelList_WithInletCount(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithInletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                        .Select(x => x.ToPropertiesViewModel_WithInletCount())
-                        .ToList();
-        }
-
         public static OperatorPropertiesViewModel ToPropertiesViewModel(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -469,6 +451,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var wrapper = new InletsToDimension_OperatorWrapper(entity);
 
             viewModel.InletCount = entity.Inlets.Count;
+            viewModel.CanEditInletCount = true;
             viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
             viewModel.InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel();
 
@@ -597,33 +580,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_WithOutletCount ToPropertiesViewModel_WithOutletCount(this Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithOutletCount>(entity);
-
-            viewModel.OutletCount = entity.Outlets.Count;
-
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_WithInletCount ToPropertiesViewModel_WithInletCount(this Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithInletCount>(entity);
-
-            viewModel.InletCount = entity.Inlets.Count;
-            viewModel.ValidationMessages = new List<MessageDto>();
-
-            return viewModel;
-        }
-
         private static TViewModel CreateOperatorPropertiesViewModel_Generic<TViewModel>(Operator entity)
             where TViewModel : OperatorPropertiesViewModelBase, new()
         {
             if (entity == null) throw new NullException(() => entity);
+
+            OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
 
             var viewModel = new TViewModel
             {
@@ -632,10 +594,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name,
                 CustomDimensionName = entity.CustomDimensionName,
                 HasDimension = entity.HasDimension,
+                InletCount = entity.Inlets.Count,
+                CanEditInletCount = ViewModelHelper.OperatorTypeEnums_WithInletCount.Contains(entity.GetOperatorTypeEnum()),
+                OutletCount = entity.Outlets.Count,
+                CanEditOutletCount = ViewModelHelper.OperatorTypeEnums_WithOutletCount.Contains(entity.GetOperatorTypeEnum()),
                 ValidationMessages = new List<MessageDto>()
             };
 
-            OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
             if (operatorTypeEnum != OperatorTypeEnum.Undefined)
             {
                 viewModel.OperatorType = operatorTypeEnum.ToIDAndDisplayName();
@@ -659,12 +624,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             bool hasDimension = entity.HasDimension || (entity.OperatorType?.HasDimension ?? false); // Excuse the smell of polymorphism: OperatorType will be deprecated at some point.
             if (hasDimension)
             {
-                viewModel.CustomDimensionNameVisible = true;
-                viewModel.StandardDimensionVisible = true;
+                viewModel.CanEditCustomDimensionName = true;
+                viewModel.CanSelectStandardDimension = true;
                 viewModel.StandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
             }
 
-            bool canHaveUnderlyingPatch = ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch.Contains(operatorTypeEnum);
+            bool canHaveUnderlyingPatch = ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch.Contains(operatorTypeEnum);
             if (canHaveUnderlyingPatch)
             {
                 Patch underlyingPatch = entity.UnderlyingPatch;
@@ -674,7 +639,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
                 // TODO: Lower priority: Later you can make it visible for any operator with an underlying patch,
                 // but not until you program the ability to change one operator into another.
-                viewModel.UnderlyingPatchVisible = operatorTypeEnum == OperatorTypeEnum.CustomOperator;
+                viewModel.CanSelectUnderlyingPatch = operatorTypeEnum == OperatorTypeEnum.CustomOperator;
             }
             viewModel.UnderlyingPatch = viewModel.UnderlyingPatch ?? ViewModelHelper.CreateEmptyIDAndName();
 

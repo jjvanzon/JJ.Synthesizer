@@ -169,6 +169,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.WarnIfEmpty = entity.WarnIfEmpty;
             viewModel.NameOrDimensionHidden = entity.NameOrDimensionHidden;
+            viewModel.IsRepeating = entity.IsRepeating;
+            viewModel.RepetitionPosition = entity.RepetitionPosition;
             viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
             viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository);
             viewModel.ConnectionDistance = ViewModelHelper.TryGetConnectionDistance(entity, entityPositionManager);
@@ -304,6 +306,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.NameOrDimensionHidden = entity.NameOrDimensionHidden;
             viewModel.IsObsolete = entity.IsObsolete;
             viewModel.HasWarningAppearance = entity.IsObsolete;
+            viewModel.IsRepeating = entity.IsRepeating;
+            viewModel.RepetitionPosition = entity.RepetitionPosition;
             viewModel.Visible = ViewModelHelper.GetOutletVisible(entity);
             viewModel.Caption = ViewModelHelper.GetOutletCaption(entity, sampleRepository, curveRepository);
             viewModel.AverageConnectionDistance = ViewModelHelper.TryGetAverageConnectionDistance(entity, entityPositionManager);

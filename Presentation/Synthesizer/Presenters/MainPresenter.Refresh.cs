@@ -275,8 +275,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesDictionary_ForSamples_Refresh();
             OperatorPropertiesDictionary_WithCollectionRecalculation_Refresh();
             OperatorPropertiesDictionary_WithInterpolation_Refresh();
-            OperatorPropertiesDictionary_WithOutletCount_Refresh();
-            OperatorPropertiesDictionary_WithInletCount_Refresh();
             OperatorPropertiesDictionaryRefresh();
             PatchDetailsDictionaryRefresh();
             PatchGridDictionaryRefresh();
@@ -588,18 +586,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void OperatorProperties_WithOutletCount_Refresh(OperatorPropertiesViewModel_WithOutletCount userInput)
-        {
-            OperatorPropertiesViewModel_WithOutletCount viewModel = _operatorPropertiesPresenter_WithOutletCount.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void OperatorProperties_WithInletCount_Refresh(OperatorPropertiesViewModel_WithInletCount userInput)
-        {
-            OperatorPropertiesViewModel_WithInletCount viewModel = _operatorPropertiesPresenter_WithInletCount.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
         private void OperatorPropertiesDictionaryRefresh()
         {
             // ReSharper disable once SuggestVarOrType_Elsewhere
@@ -608,7 +594,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             IList<Operator> operators = document.Patches
                                                 .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView.Contains(x.GetOperatorTypeEnum()))
+                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(x.GetOperatorTypeEnum()))
                                                 .ToArray();
             foreach (Operator op in operators)
             {
@@ -997,89 +983,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation?.ID == idToDelete)
                 {
                     MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = null;
-                }
-            }
-        }
-
-        private void OperatorPropertiesDictionary_WithInletCount_Refresh()
-        {
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount;
-
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-            IList<Operator> operators = document.Patches
-                                                .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithInletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                                                .ToArray();
-
-            foreach (Operator op in operators)
-            {
-                OperatorPropertiesViewModel_WithInletCount viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, op.ID);
-                if (viewModel == null)
-                {
-                    viewModel = op.ToPropertiesViewModel_WithInletCount();
-                    viewModel.Successful = true;
-                    viewModelDictionary[op.ID] = viewModel;
-                }
-                else
-                {
-                    OperatorProperties_WithInletCount_Refresh(viewModel);
-                }
-            }
-
-            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
-            IEnumerable<int> idsToKeep = operators.Select(x => x.ID);
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
-
-            foreach (int idToDelete in idsToDelete.ToArray())
-            {
-                viewModelDictionary.Remove(idToDelete);
-
-                if (MainViewModel.Document.VisibleOperatorProperties_WithInletCount?.ID == idToDelete)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_WithInletCount = null;
-                }
-            }
-        }
-
-        private void OperatorPropertiesDictionary_WithOutletCount_Refresh()
-        {
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount;
-
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Operator> operators = document.Patches
-                                                .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithOutletCountPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                                                .ToArray();
-
-            foreach (Operator op in operators)
-            {
-                OperatorPropertiesViewModel_WithOutletCount viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, op.ID);
-                if (viewModel == null)
-                {
-                    viewModel = op.ToPropertiesViewModel_WithOutletCount();
-                    viewModel.Successful = true;
-                    viewModelDictionary[op.ID] = viewModel;
-                }
-                else
-                {
-                    OperatorProperties_WithOutletCount_Refresh(viewModel);
-                }
-            }
-
-            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
-            IEnumerable<int> idsToKeep = operators.Select(x => x.ID);
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
-
-            foreach (int idToDelete in idsToDelete.ToArray())
-            {
-                viewModelDictionary.Remove(idToDelete);
-
-                if (MainViewModel.Document.VisibleOperatorProperties_WithOutletCount?.ID == idToDelete)
-                {
-                    MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = null;
                 }
             }
         }

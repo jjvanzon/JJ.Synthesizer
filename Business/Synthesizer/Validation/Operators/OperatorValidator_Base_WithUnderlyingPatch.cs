@@ -23,6 +23,16 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             ExecuteValidator(new DimensionInfoValidator(op.HasDimension, op.StandardDimension, op.CustomDimensionName));
 
+            foreach (Inlet inlet in op.Inlets)
+            {
+                ExecuteValidator(new InletValidator_WithUnderlyingPatch(inlet), ValidationHelper.GetMessagePrefix(inlet));
+            }
+
+            foreach (Outlet outlet in op.Outlets)
+            {
+                ExecuteValidator(new OutletValidator_WithUnderlyingPatch(outlet), ValidationHelper.GetMessagePrefix(outlet));
+            }
+
             // ReSharper disable once InvertIf
             if (op.UnderlyingPatch != null)
             {
@@ -44,7 +54,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            bool isInList = op.Patch.Document.GetPatchesAndVisibleLowerDocumentPatches().Any(x => x.ID == underlyingPatch.ID);
+            bool isInList = op.Patch.Document
+                              .GetPatchesAndVisibleLowerDocumentPatches()
+                              .Any(x => x.ID == underlyingPatch.ID);
             
             if (!isInList)
             {
@@ -134,7 +146,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
 
-                // ReSharper disable once InvertIf
                 if (destInlet.WarnIfEmpty != sourceInlet.WarnIfEmpty)
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
@@ -146,7 +157,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
 
-                // ReSharper disable once InvertIf
                 if (destInlet.NameOrDimensionHidden != sourceInlet.NameOrDimensionHidden)
                 {
                     string message = GetInletPropertyDoesNotMatchMessage(
@@ -155,6 +165,29 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet,
                         sourceInlet.NameOrDimensionHidden,
                         destInlet.NameOrDimensionHidden);
+                    ValidationMessages.Add(nameof(Inlet), message);
+                }
+
+                if (destInlet.IsRepeating != sourceInlet.IsRepeating)
+                {
+                    string message = GetInletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.IsRepeating,
+                        sourceInlet,
+                        destInlet,
+                        sourceInlet.IsRepeating,
+                        destInlet.IsRepeating);
+                    ValidationMessages.Add(nameof(Inlet), message);
+                }
+
+                // ReSharper disable once InvertIf
+                if (destInlet.RepetitionPosition != sourceInlet.RepetitionPosition)
+                {
+                    string message = GetInletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.RepetitionPosition,
+                        sourceInlet,
+                        destInlet,
+                        sourceInlet.RepetitionPosition,
+                        destInlet.RepetitionPosition);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
             }
@@ -233,7 +266,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
 
-                // ReSharper disable once InvertIf
                 if (destOutlet.GetDimensionEnum() != sourceOutlet.GetDimensionEnum())
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
@@ -245,7 +277,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
 
-                // ReSharper disable once InvertIf
                 if (destOutlet.NameOrDimensionHidden != sourceOutlet.NameOrDimensionHidden)
                 {
                     string message = GetOutletPropertyDoesNotMatchMessage(
@@ -254,6 +285,29 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destOutlet,
                         sourceOutlet.NameOrDimensionHidden,
                         destOutlet.NameOrDimensionHidden);
+                    ValidationMessages.Add(nameof(Outlet), message);
+                }
+
+                if (destOutlet.IsRepeating != sourceOutlet.IsRepeating)
+                {
+                    string message = GetOutletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.IsRepeating,
+                        sourceOutlet,
+                        destOutlet,
+                        sourceOutlet.IsRepeating,
+                        destOutlet.IsRepeating);
+                    ValidationMessages.Add(nameof(Outlet), message);
+                }
+
+                // ReSharper disable once InvertIf
+                if (destOutlet.RepetitionPosition != sourceOutlet.RepetitionPosition)
+                {
+                    string message = GetOutletPropertyDoesNotMatchMessage(
+                        ResourceFormatter.RepetitionPosition,
+                        sourceOutlet,
+                        destOutlet,
+                        sourceOutlet.RepetitionPosition,
+                        destOutlet.RepetitionPosition);
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
             }

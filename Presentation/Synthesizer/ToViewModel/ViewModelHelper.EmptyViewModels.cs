@@ -59,8 +59,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForSamples = new Dictionary<int, OperatorPropertiesViewModel_ForSample>(),
                 OperatorPropertiesDictionary_WithInterpolation = new Dictionary<int, OperatorPropertiesViewModel_WithInterpolation>(),
                 OperatorPropertiesDictionary_WithCollectionRecalculation = new Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation>(),
-                OperatorPropertiesDictionary_WithOutletCount = new Dictionary<int, OperatorPropertiesViewModel_WithOutletCount>(),
-                OperatorPropertiesDictionary_WithInletCount = new Dictionary<int, OperatorPropertiesViewModel_WithInletCount>(),
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -120,8 +118,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForSamples = new Dictionary<int, OperatorPropertiesViewModel_ForSample>(),
                 OperatorPropertiesDictionary_WithInterpolation = new Dictionary<int, OperatorPropertiesViewModel_WithInterpolation>(),
                 OperatorPropertiesDictionary_WithCollectionRecalculation = new Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation>(),
-                OperatorPropertiesDictionary_WithOutletCount  = new Dictionary<int, OperatorPropertiesViewModel_WithOutletCount>(),
-                OperatorPropertiesDictionary_WithInletCount  = new Dictionary<int, OperatorPropertiesViewModel_WithInletCount>(),
                 PatchDetailsDictionary = new Dictionary<int, PatchDetailsViewModel>(),
                 PatchGridDictionary = new Dictionary<string, PatchGridViewModel>(),
                 PatchPropertiesDictionary = new Dictionary<int, PatchPropertiesViewModel>(),

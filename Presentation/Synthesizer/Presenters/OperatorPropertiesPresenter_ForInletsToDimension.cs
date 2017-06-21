@@ -28,11 +28,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
 
             // Business
-            VoidResultDto result1 = _patchManager.SetOperatorInletCount(entity, viewModel.InletCount);
+            VoidResult result1 = _patchManager.SetOperatorInletCount(entity, viewModel.InletCount);
             if (!result1.Successful)
             {
                 // Non-Persisted
-                viewModel.ValidationMessages.AddRange(result1.Messages);
+                viewModel.ValidationMessages.AddRange(result1.Messages.ToCanonical());
 
                 // Successful?
                 viewModel.Successful = result1.Successful;

@@ -175,6 +175,8 @@ namespace JJ.Business.Synthesizer
             destInlet.Dimension = intermediateInlet.Dimension;
             destInlet.Position = intermediateInlet.Position;
             destInlet.DefaultValue = intermediateInlet.DefaultValue;
+            destInlet.IsRepeating = intermediateInlet.IsRepeating;
+            destInlet.RepetitionPosition = intermediateInlet.RepetitionPosition;
 
             return destPatchInletWrapper;
         }
@@ -210,6 +212,8 @@ namespace JJ.Business.Synthesizer
             destOutlet.Name = intermediateOutlet.Name;
             destOutlet.Position = intermediateOutlet.Position;
             destOutlet.Dimension = intermediateOutlet.Dimension;
+            destOutlet.IsRepeating = intermediateOutlet.IsRepeating;
+            destOutlet.RepetitionPosition = intermediateOutlet.RepetitionPosition;
 
             return destPatchOutletWrapper;
         }

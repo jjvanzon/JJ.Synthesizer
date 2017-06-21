@@ -1073,4 +1073,10 @@
   <data name="PatchHasMoreThanOneRepeatingOutlet" xml:space="preserve">
     <value>Patch has more than one repeating outlet.</value>
   </data>
+  <data name="CannotSetInletCountWithoutRepeatingInlets" xml:space="preserve">
+    <value>Cannot change inlet count if there are no repeating inlets.</value>
+  </data>
+  <data name="CannotSetOutletCountWithoutRepeatingOutlets" xml:space="preserve">
+    <value>Cannot change outlet count if there are no repeating outlets.</value>
+  </data>
 </root>

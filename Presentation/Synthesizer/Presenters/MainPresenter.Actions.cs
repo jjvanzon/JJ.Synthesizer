@@ -977,8 +977,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Successful = true);
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Successful = true);
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithOutletCount.Values.ForEach(x => x.Successful = true);
-            viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Successful = true);
             viewModel.CurrentInstrument.Successful = true;
             viewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.CurveGrid.Successful = true;
@@ -996,8 +994,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesDictionary_WithOutletCount.Values.ForEach(x => x.Successful = true);
-            viewModel.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Successful = true);
             viewModel.PatchDetailsDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.PatchGridDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.PatchPropertiesDictionary.Values.ForEach(x => x.Successful = true);
@@ -2215,41 +2211,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void OperatorPropertiesClose_WithInletCount(int id)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_WithInletCount viewModel = TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleOperatorProperties_WithInletCount = null;
-
-                // Refresh
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-        }
-
-        public void OperatorPropertiesClose_WithOutletCount(int id)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_WithOutletCount viewModel =
-                TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithOutletCount.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleOperatorProperties_WithInletCount = null;
-
-                // Refresh
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-        }
-
         public void OperatorPropertiesDelete(int id)
         {
             // GetViewModel
@@ -2425,39 +2386,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void OperatorPropertiesLoseFocus_WithInletCount(int id)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_WithInletCount viewModel =
-                TemplateActionMethod(userInput, () => _operatorPropertiesPresenter_WithInletCount.LoseFocus(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-        }
-
-        public void OperatorPropertiesLoseFocus_WithOutletCount(int id)
-        {
-            // GetViewModel
-            OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
-
-            // TemplateMethod
-            OperatorPropertiesViewModel_WithOutletCount viewModel = TemplateActionMethod(
-                userInput,
-                () => _operatorPropertiesPresenter_WithOutletCount.LoseFocus(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                PatchDetails_RefreshOperator(userInput.ID);
-            }
-        }
-
         public void OperatorPropertiesPlay(int id)
         {
             // GetViewModel
@@ -2598,34 +2526,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (viewModel.Successful)
                     {
                         MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithInletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInletCount(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_WithInletCount viewModel = TemplateReadOnlyActionMethod(
-                        userInput,
-                        () => _operatorPropertiesPresenter_WithInletCount.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_WithInletCount = viewModel;
-                    }
-                    return;
-                }
-            }
-            {
-                OperatorPropertiesViewModel_WithOutletCount userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithOutletCount(MainViewModel.Document, id);
-                if (userInput != null)
-                {
-                    OperatorPropertiesViewModel_WithOutletCount viewModel = TemplateReadOnlyActionMethod(
-                        userInput,
-                        () => _operatorPropertiesPresenter_WithOutletCount.Show(userInput));
-                    if (viewModel.Successful)
-                    {
-                        MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = viewModel;
                     }
                     return;
                 }

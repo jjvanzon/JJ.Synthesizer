@@ -49,6 +49,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             this._labelOperatorTypeValue.TabIndex = 4;
             // 
+            // _labelUnderlyingPatch
+            // 
+            this._labelUnderlyingPatch.TabIndex = 5;
+            this._labelUnderlyingPatch.Text = "Underlying Patch";
+            // 
+            // _comboBoxUnderlyingPatch
+            // 
+            this._comboBoxUnderlyingPatch.Size = new System.Drawing.Size(121, 24);
+            this._comboBoxUnderlyingPatch.TabIndex = 6;
+            // 
             // _labelStandardDimension
             // 
             this._labelStandardDimension.TabIndex = 5;
@@ -79,6 +89,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(562, 389);
             this.TitleBarText = "Operator Properties";
+            this.Controls.SetChildIndex(this._textBoxName, 0);
+            this.Controls.SetChildIndex(this._labelName, 0);
+            this.Controls.SetChildIndex(this._textBoxCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this._labelCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this._comboBoxStandardDimension, 0);
+            this.Controls.SetChildIndex(this._labelStandardDimension, 0);
+            this.Controls.SetChildIndex(this._comboBoxUnderlyingPatch, 0);
+            this.Controls.SetChildIndex(this._labelUnderlyingPatch, 0);
+            this.Controls.SetChildIndex(this._labelOperatorTypeValue, 0);
+            this.Controls.SetChildIndex(this._labelOperatorTypeTitle, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -29,11 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelInletCount = new System.Windows.Forms.Label();
-            this.numericUpDownInletCount = new System.Windows.Forms.NumericUpDown();
             this.labelInterpolation = new System.Windows.Forms.Label();
             this.comboBoxInterpolation = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInletCount)).BeginInit();
             this.SuspendLayout();
             // 
             // _labelName
@@ -54,6 +51,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             this._labelOperatorTypeValue.TabIndex = 4;
             // 
+            // _labelUnderlyingPatch
+            // 
+            this._labelUnderlyingPatch.TabIndex = 5;
+            this._labelUnderlyingPatch.Text = "Underlying Patch";
+            // 
+            // _comboBoxUnderlyingPatch
+            // 
+            this._comboBoxUnderlyingPatch.Size = new System.Drawing.Size(121, 24);
+            this._comboBoxUnderlyingPatch.TabIndex = 6;
+            // 
             // _labelStandardDimension
             // 
             this._labelStandardDimension.TabIndex = 5;
@@ -72,39 +79,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             this._labelCustomDimensionName.TabIndex = 7;
             this._labelCustomDimensionName.Text = "Custom Dimension";
-            // 
-            // labelInletCount
-            // 
-            this.labelInletCount.Location = new System.Drawing.Point(0, 60);
-            this.labelInletCount.Margin = new System.Windows.Forms.Padding(0);
-            this.labelInletCount.Name = "labelInletCount";
-            this.labelInletCount.Size = new System.Drawing.Size(147, 30);
-            this.labelInletCount.TabIndex = 14;
-            this.labelInletCount.Text = "labelInletCount";
-            this.labelInletCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // numericUpDownInletCount
-            // 
-            this.numericUpDownInletCount.Location = new System.Drawing.Point(147, 60);
-            this.numericUpDownInletCount.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDownInletCount.Maximum = new decimal(new int[] {
-            128,
-            0,
-            0,
-            0});
-            this.numericUpDownInletCount.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDownInletCount.Name = "numericUpDownInletCount";
-            this.numericUpDownInletCount.Size = new System.Drawing.Size(10, 22);
-            this.numericUpDownInletCount.TabIndex = 15;
-            this.numericUpDownInletCount.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // labelInterpolation
             // 
@@ -132,8 +106,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Controls.Add(this.labelInletCount);
-            this.Controls.Add(this.numericUpDownInletCount);
             this.Controls.Add(this.labelInterpolation);
             this.Controls.Add(this.comboBoxInterpolation);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -141,6 +113,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(234, 185);
             this.TitleBarText = "Operator Properties";
+            this.Controls.SetChildIndex(this._comboBoxUnderlyingPatch, 0);
+            this.Controls.SetChildIndex(this._labelUnderlyingPatch, 0);
             this.Controls.SetChildIndex(this._textBoxName, 0);
             this.Controls.SetChildIndex(this._labelName, 0);
             this.Controls.SetChildIndex(this._textBoxCustomDimensionName, 0);
@@ -151,17 +125,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this._labelOperatorTypeTitle, 0);
             this.Controls.SetChildIndex(this.comboBoxInterpolation, 0);
             this.Controls.SetChildIndex(this.labelInterpolation, 0);
-            this.Controls.SetChildIndex(this.numericUpDownInletCount, 0);
-            this.Controls.SetChildIndex(this.labelInletCount, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInletCount)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label labelInletCount;
-        private System.Windows.Forms.NumericUpDown numericUpDownInletCount;
         private System.Windows.Forms.Label labelInterpolation;
         private System.Windows.Forms.ComboBox comboBoxInterpolation;
     }

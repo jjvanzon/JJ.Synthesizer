@@ -62,8 +62,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
         private readonly OperatorPropertiesPresenter_WithInterpolation _operatorPropertiesPresenter_WithInterpolation;
         private readonly OperatorPropertiesPresenter_WithCollectionRecalculation _operatorPropertiesPresenter_WithCollectionRecalculation;
-        private readonly OperatorPropertiesPresenter_WithOutletCount _operatorPropertiesPresenter_WithOutletCount;
-        private readonly OperatorPropertiesPresenter_WithInletCount _operatorPropertiesPresenter_WithInletCount;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
         private readonly PatchGridPresenter _patchGridPresenter;
         private readonly PatchPropertiesPresenter _patchPropertiesPresenter;
@@ -143,8 +141,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_repositories);
             _operatorPropertiesPresenter_WithInterpolation = new OperatorPropertiesPresenter_WithInterpolation(_repositories);
             _operatorPropertiesPresenter_WithCollectionRecalculation= new OperatorPropertiesPresenter_WithCollectionRecalculation(_repositories);
-            _operatorPropertiesPresenter_WithOutletCount = new OperatorPropertiesPresenter_WithOutletCount(_repositories);
-            _operatorPropertiesPresenter_WithInletCount = new OperatorPropertiesPresenter_WithInletCount(_repositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionManager);
             _patchGridPresenter = new PatchGridPresenter(repositories);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
@@ -216,10 +212,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties_WithInterpolation = null;
             MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = null;
-            MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.VisibleOperatorProperties_WithInletCount = null;
-            MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisiblePatchProperties = null;
             MainViewModel.Document.PatchPropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleSampleProperties = null;
@@ -227,7 +219,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.VisibleScaleProperties = null;
             MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);
         }
-
 
         private IOperatorPropertiesPresenter GetOperatorPropertiesPresenter(int id)
         {
@@ -263,22 +254,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return _operatorPropertiesPresenter_WithCollectionRecalculation;
             }
 
-            if (ViewModelHelper.OperatorTypeEnums_WithInletCountPropertyViews.Contains(operatorTypeEnum))
-            {
-                return _operatorPropertiesPresenter_WithInletCount;
-            }
-
             if (ViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(operatorTypeEnum))
             {
                 return _operatorPropertiesPresenter_WithInterpolation;
             }
 
-            if (ViewModelHelper.OperatorTypeEnums_WithOutletCountPropertyViews.Contains(operatorTypeEnum))
-            {
-                return _operatorPropertiesPresenter_WithOutletCount;
-            }
-
-            if (ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView.Contains(operatorTypeEnum))
+            if (ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(operatorTypeEnum))
             {
                 return _operatorPropertiesPresenter;
             }

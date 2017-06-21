@@ -66,7 +66,6 @@
     <Compile Include="Presenters\LibrarySelectionPopupPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithCollectionRecalculation.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_WithInletCount.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForInletsToDimension.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithInterpolation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCache.cs" />
@@ -74,7 +73,6 @@
     <Compile Include="Presenters\PatchGridPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.Actions.cs" />
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_WithOutletCount.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCurve.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSample.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForNumber.cs" />
@@ -128,7 +126,6 @@
     <Compile Include="ViewModels\Items\ToneViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithCollectionRecalculation.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_WithInletCount.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForInletsToDimension.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithInterpolation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCache.cs" />
@@ -174,7 +171,6 @@
     <Compile Include="ViewModels\Items\SampleViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Partials\MenuViewModel.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_WithOutletCount.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCurve.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSample.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForNumber.cs" />

@@ -33,12 +33,10 @@
             this.libraryPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryPropertiesUserControl();
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_WithCollectionRecalculation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation();
-            this.operatorPropertiesUserControl_WithInletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithInletCount();
             this.operatorPropertiesUserControl_ForInletsToDimension = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForInletsToDimension();
             this.audioOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioOutputPropertiesUserControl();
             this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
             this.operatorPropertiesUserControl_WithInterpolation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithInterpolation();
-            this.operatorPropertiesUserControl_WithOutletCount = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithOutletCount();
             this.nodePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.NodePropertiesUserControl();
             this.curvePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurvePropertiesUserControl();
             this.operatorPropertiesUserControl_ForCurve = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCurve();
@@ -128,12 +126,10 @@
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.libraryPropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForNumber);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithCollectionRecalculation);
-            this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInletCount);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForInletsToDimension);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.audioOutputPropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInterpolation);
-            this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithOutletCount);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.nodePropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.curvePropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCurve);
@@ -383,29 +379,6 @@
             this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = null;
             // 
-            // operatorPropertiesUserControl_WithInletCount
-            // 
-            this.operatorPropertiesUserControl_WithInletCount.AddButtonVisible = false;
-            this.operatorPropertiesUserControl_WithInletCount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_WithInletCount.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_WithInletCount.CloseButtonVisible = true;
-            this.operatorPropertiesUserControl_WithInletCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_WithInletCount.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_WithInletCount.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_WithInletCount.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.operatorPropertiesUserControl_WithInletCount.Name = "operatorPropertiesUserControl_WithInletCount";
-            this.operatorPropertiesUserControl_WithInletCount.OpenExternallyButtonVisible = false;
-            this.operatorPropertiesUserControl_WithInletCount.PlayButtonVisible = true;
-            this.operatorPropertiesUserControl_WithInletCount.RefreshButtonVisible = false;
-            this.operatorPropertiesUserControl_WithInletCount.RemoveButtonVisible = true;
-            this.operatorPropertiesUserControl_WithInletCount.SaveButtonVisible = false;
-            this.operatorPropertiesUserControl_WithInletCount.Size = new System.Drawing.Size(333, 532);
-            this.operatorPropertiesUserControl_WithInletCount.TabIndex = 1;
-            this.operatorPropertiesUserControl_WithInletCount.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_WithInletCount.TitleBarText = "Operator Properties";
-            this.operatorPropertiesUserControl_WithInletCount.TitleLabelVisible = true;
-            this.operatorPropertiesUserControl_WithInletCount.ViewModel = null;
-            // 
             // operatorPropertiesUserControl_ForInletsToDimension
             // 
             this.operatorPropertiesUserControl_ForInletsToDimension.AddButtonVisible = false;
@@ -496,29 +469,6 @@
             this.operatorPropertiesUserControl_WithInterpolation.TitleBarText = "Operator Properties";
             this.operatorPropertiesUserControl_WithInterpolation.TitleLabelVisible = true;
             this.operatorPropertiesUserControl_WithInterpolation.ViewModel = null;
-            // 
-            // operatorPropertiesUserControl_WithOutletCount
-            // 
-            this.operatorPropertiesUserControl_WithOutletCount.AddButtonVisible = false;
-            this.operatorPropertiesUserControl_WithOutletCount.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_WithOutletCount.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_WithOutletCount.CloseButtonVisible = true;
-            this.operatorPropertiesUserControl_WithOutletCount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_WithOutletCount.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_WithOutletCount.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_WithOutletCount.Margin = new System.Windows.Forms.Padding(5);
-            this.operatorPropertiesUserControl_WithOutletCount.Name = "operatorPropertiesUserControl_WithOutletCount";
-            this.operatorPropertiesUserControl_WithOutletCount.OpenExternallyButtonVisible = false;
-            this.operatorPropertiesUserControl_WithOutletCount.PlayButtonVisible = true;
-            this.operatorPropertiesUserControl_WithOutletCount.RefreshButtonVisible = false;
-            this.operatorPropertiesUserControl_WithOutletCount.RemoveButtonVisible = true;
-            this.operatorPropertiesUserControl_WithOutletCount.SaveButtonVisible = false;
-            this.operatorPropertiesUserControl_WithOutletCount.Size = new System.Drawing.Size(333, 532);
-            this.operatorPropertiesUserControl_WithOutletCount.TabIndex = 1;
-            this.operatorPropertiesUserControl_WithOutletCount.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.operatorPropertiesUserControl_WithOutletCount.TitleBarText = "Operator Properties";
-            this.operatorPropertiesUserControl_WithOutletCount.TitleLabelVisible = true;
-            this.operatorPropertiesUserControl_WithOutletCount.ViewModel = null;
             // 
             // nodePropertiesUserControl
             // 
@@ -902,13 +852,11 @@
         private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
         private UserControls.CurvePropertiesUserControl curvePropertiesUserControl;
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
-        private UserControls.OperatorPropertiesUserControl_WithOutletCount operatorPropertiesUserControl_WithOutletCount;
         private UserControls.CurrentInstrumentUserControl currentInstrumentUserControl;
         private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
         private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
         private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForInletsToDimension operatorPropertiesUserControl_ForInletsToDimension;
-        private UserControls.OperatorPropertiesUserControl_WithInletCount operatorPropertiesUserControl_WithInletCount;
         private UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation operatorPropertiesUserControl_WithCollectionRecalculation;
         private UserControls.LibraryGridUserControl libraryGridUserControl;
         private UserControls.LibraryPropertiesUserControl libraryPropertiesUserControl;

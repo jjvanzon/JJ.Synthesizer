@@ -32,9 +32,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, OperatorPropertiesViewModel_WithInterpolation> OperatorPropertiesDictionary_WithInterpolation { get; set; }
         public OperatorPropertiesViewModel_WithCollectionRecalculation VisibleOperatorProperties_WithCollectionRecalculation { get; set; }
         public Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation> OperatorPropertiesDictionary_WithCollectionRecalculation { get; set; }
-        public OperatorPropertiesViewModel_WithInletCount VisibleOperatorProperties_WithInletCount { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_WithInletCount> OperatorPropertiesDictionary_WithInletCount { get; set; }
-        public OperatorPropertiesViewModel_WithOutletCount VisibleOperatorProperties_WithOutletCount { get; set; }
-        public Dictionary<int, OperatorPropertiesViewModel_WithOutletCount> OperatorPropertiesDictionary_WithOutletCount { get; set; }
     }
 }

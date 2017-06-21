@@ -51,8 +51,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
                 { typeof(OperatorPropertiesViewModel_WithInterpolation), DispatchOperatorPropertiesViewModel_WithInterpolation },
                 { typeof(OperatorPropertiesViewModel_WithCollectionRecalculation), DispatchOperatorPropertiesViewModel_WithCollectionRecalculation },
-                { typeof(OperatorPropertiesViewModel_WithOutletCount), DispatchOperatorPropertiesViewModel_WithOutletCount },
-                { typeof(OperatorPropertiesViewModel_WithInletCount), DispatchOperatorPropertiesViewModel_WithInletCount },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(PatchPropertiesViewModel), DispatchPatchPropertiesViewModel },
@@ -692,42 +690,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
                 MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation = castedViewModel;
-            }
-
-            DispatchOperatorPropertiesViewModelBase(castedViewModel);
-        }
-
-        private void DispatchOperatorPropertiesViewModel_WithOutletCount(ViewModelBase viewModel)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_WithOutletCount)viewModel;
-
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithOutletCount;
-            dictionary[castedViewModel.ID] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleOperatorProperties_WithOutletCount = castedViewModel;
-            }
-
-            DispatchOperatorPropertiesViewModelBase(castedViewModel);
-        }
-
-        private void DispatchOperatorPropertiesViewModel_WithInletCount(ViewModelBase viewModel)
-        {
-            var castedViewModel = (OperatorPropertiesViewModel_WithInletCount)viewModel;
-
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var dictionary = MainViewModel.Document.OperatorPropertiesDictionary_WithInletCount;
-            dictionary[castedViewModel.ID] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleOperatorProperties_WithInletCount = castedViewModel;
             }
 
             DispatchOperatorPropertiesViewModelBase(castedViewModel);

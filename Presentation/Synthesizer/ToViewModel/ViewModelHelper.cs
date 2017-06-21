@@ -35,6 +35,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // OperatorTypeEnum HashSets
 
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCount { get; } =
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.Add,
+                OperatorTypeEnum.AverageOverInlets,
+                OperatorTypeEnum.ClosestOverInlets,
+                OperatorTypeEnum.ClosestOverInletsExp,
+                OperatorTypeEnum.InletsToDimension,
+                OperatorTypeEnum.MaxOverInlets,
+                OperatorTypeEnum.MinOverInlets,
+                OperatorTypeEnum.Multiply,
+                OperatorTypeEnum.SortOverInlets
+            };
+
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCount { get; } =
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.DimensionToOutlets,
+                OperatorTypeEnum.RangeOverOutlets
+            };
+
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCollectionRecalculationPropertyViews { get; } =
             new HashSet<OperatorTypeEnum>
             {
@@ -47,19 +68,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.SumOverDimension
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCountPropertyViews { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.Add,
-                OperatorTypeEnum.AverageOverInlets,
-                OperatorTypeEnum.ClosestOverInlets,
-                OperatorTypeEnum.ClosestOverInletsExp,
-                OperatorTypeEnum.MaxOverInlets,
-                OperatorTypeEnum.MinOverInlets,
-                OperatorTypeEnum.Multiply,
-                OperatorTypeEnum.SortOverInlets
-            };
-
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
             new HashSet<OperatorTypeEnum>
             {
@@ -67,14 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.Interpolate
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCountPropertyViews { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.DimensionToOutlets,
-                OperatorTypeEnum.RangeOverOutlets
-            };
-
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithTheirOwnPropertyViews { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCustomPropertiesViews { get; } =
             new HashSet<OperatorTypeEnum>
             {
                 OperatorTypeEnum.Cache,
@@ -86,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.Sample
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch { get; } =
             new HashSet<OperatorTypeEnum>
             {
                 OperatorTypeEnum.Absolute,
@@ -107,20 +108,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.Subtract
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView_WithoutUnderlyingPatch { get; } =
-            EnumHelper.GetValues<OperatorTypeEnum>().Except(OperatorTypeEnums_WithTheirOwnPropertyViews)
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView_WithoutUnderlyingPatch { get; } =
+            EnumHelper.GetValues<OperatorTypeEnum>()
+                      .Except(OperatorTypeEnums_WithCustomPropertiesViews)
                       .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
                       .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
-                      .Except(OperatorTypeEnums_WithOutletCountPropertyViews)
-                      .Except(OperatorTypeEnums_WithInletCountPropertyViews)
-                      .Except(OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch)
+                      .Except(OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch)
                       .ToHashSet();
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithoutAlternativePropertiesView { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView { get; } =
             // ReSharper disable once InvokeAsExtensionMethod
             Enumerable.Union(
-                OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch,
-                OperatorTypeEnums_WithoutAlternativePropertiesView_WithoutUnderlyingPatch).ToHashSet();
+                OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch,
+                OperatorTypeEnums_WithStandardPropertiesView_WithoutUnderlyingPatch).ToHashSet();
 
         [Obsolete("Will be replaced with Inlet.NameOrDimensionHidden, "+
                   "but only after all standard operators have been bootstrapped " +

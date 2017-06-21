@@ -181,12 +181,6 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_WithCollectionRecalculation.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithInletCount.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithInletCount.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_WithInletCount.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForInletsToDimension.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -228,12 +222,6 @@
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCache.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithOutletCount.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_WithOutletCount.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_WithOutletCount.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCurve.cs">
       <SubType>UserControl</SubType>
@@ -444,9 +432,6 @@
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithCollectionRecalculation.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithInletCount.resx">
-      <DependentUpon>OperatorPropertiesUserControl_WithInletCount.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForInletsToDimension.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForInletsToDimension.cs</DependentUpon>
     </EmbeddedResource>
@@ -467,9 +452,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCache.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCache.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithOutletCount.resx">
-      <DependentUpon>OperatorPropertiesUserControl_WithOutletCount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCurve.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCurve.cs</DependentUpon>

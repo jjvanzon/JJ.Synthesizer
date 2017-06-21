@@ -5,7 +5,6 @@ using GeneratedCSharp;
 using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
@@ -290,15 +289,28 @@ namespace JJ.Business.Synthesizer
         // Misc
 
         /// <summary> Validates for instance that no operator connections are lost. </summary>
-        public VoidResultDto SetOperatorInletCount(Operator op, int inletCount)
+        public VoidResult SetOperatorInletCount(Operator op, int inletCount)
         {
             if (op == null) throw new NullException(() => op);
 
-            IValidator validator = new OperatorValidator_SetInletCount(op, inletCount);
-            if (!validator.IsValid)
+            var validators = new List<IValidator> { new OperatorValidator_SetInletCount_Basic(op, inletCount) };
+
+            if (op.UnderlyingPatch != null)
             {
-                return validator.ToCanonical();
+                validators.Add(new OperatorValidator_SetInletCount_WithUnderlyingPatch(op));
             }
+            else
+            {
+                validators.Add(new OperatorValidator_SetInletCount_WithOperatorType_ExceptCustomOperator(op));
+            }
+
+            VoidResult result = validators.ToResult();
+            if (!result.Successful)
+            {
+                return result;
+            }
+
+            Inlet templateRepeatingInlet = op.Inlets.Where(x => x.IsRepeating).FirstOrDefault();
 
             IList<Inlet> sortedInlets = op.Inlets.Sort().ToArray();
 
@@ -307,6 +319,22 @@ namespace JJ.Business.Synthesizer
             {
                 Inlet inlet = CreateInlet(op);
                 inlet.Position = i;
+
+                // ReSharper disable once InvertIf
+                if (templateRepeatingInlet != null)
+                {
+                    inlet.IsRepeating = true;
+                    inlet.RepetitionPosition = i;
+
+                    inlet.Position = templateRepeatingInlet.Position;
+
+                    inlet.DefaultValue = templateRepeatingInlet.DefaultValue;
+                    inlet.LinkTo(templateRepeatingInlet.Dimension);
+                    inlet.IsObsolete = templateRepeatingInlet.IsObsolete;
+                    inlet.Name = templateRepeatingInlet.Name;
+                    inlet.NameOrDimensionHidden = templateRepeatingInlet.NameOrDimensionHidden;
+                    inlet.WarnIfEmpty = templateRepeatingInlet.WarnIfEmpty;
+                }
             }
 
             // Delete excessive inlets
@@ -316,21 +344,32 @@ namespace JJ.Business.Synthesizer
                 DeleteInlet(inlet);
             }
 
-            return new VoidResultDto
-            {
-                Successful = true
-            };
+            return new VoidResult { Successful = true };
         }
 
-        public VoidResultDto SetOperatorOutletCount(Operator op, int outletCount)
+        /// <summary> Validates for instance that no operator connections are lost. </summary>
+        public VoidResult SetOperatorOutletCount(Operator op, int outletCount)
         {
             if (op == null) throw new NullException(() => op);
 
-            IValidator validator = new OperatorValidator_SetOutletCount(op, outletCount);
-            if (!validator.IsValid)
+            var validators = new List<IValidator> { new OperatorValidator_SetOutletCount_Basic(op, outletCount) };
+
+            if (op.UnderlyingPatch != null)
             {
-                return validator.ToCanonical();
+                validators.Add(new OperatorValidator_SetOutletCount_WithUnderlyingPatch(op));
             }
+            else
+            {
+                validators.Add(new OperatorValidator_SetOutletCount_WithOperatorType_ExceptCustomOperator(op));
+            }
+
+            VoidResult result = validators.ToResult();
+            if (!result.Successful)
+            {
+                return result;
+            }
+
+            Outlet templateRepeatingOutlet = op.Outlets.Where(x => x.IsRepeating).FirstOrDefault();
 
             IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
 
@@ -339,6 +378,20 @@ namespace JJ.Business.Synthesizer
             {
                 Outlet outlet = CreateOutlet(op);
                 outlet.Position = i;
+
+                // ReSharper disable once InvertIf
+                if (templateRepeatingOutlet != null)
+                {
+                    outlet.IsRepeating = true;
+                    outlet.RepetitionPosition = i;
+
+                    outlet.Position = templateRepeatingOutlet.Position;
+
+                    outlet.LinkTo(templateRepeatingOutlet.Dimension);
+                    outlet.IsObsolete = templateRepeatingOutlet.IsObsolete;
+                    outlet.Name = templateRepeatingOutlet.Name;
+                    outlet.NameOrDimensionHidden = templateRepeatingOutlet.NameOrDimensionHidden;
+                }
             }
 
             // Delete excessive outlets
@@ -348,10 +401,7 @@ namespace JJ.Business.Synthesizer
                 DeleteOutlet(outlet);
             }
 
-            return new VoidResultDto
-            {
-                Successful = true
-            };
+            return new VoidResult { Successful = true };
         }
 
         /// <summary>

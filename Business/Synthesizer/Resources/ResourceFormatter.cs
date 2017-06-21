@@ -51,6 +51,8 @@ namespace JJ.Business.Synthesizer.Resources
         public static string BytesToSkip => Resources.BytesToSkip;
         public static string Cache => Resources.Cache;
         public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem) => string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);
+        public static string CannotSetInletCountWithoutRepeatingInlets => Resources.CannotSetInletCountWithoutRepeatingInlets;
+        public static string CannotSetOutletCountWithoutRepeatingOutlets => Resources.CannotSetOutletCountWithoutRepeatingOutlets;
         public static string Cent => Resources.Cent;
         public static string CenterFrequency => Resources.CenterFrequency;
         public static string Cents => Resources.Cents;
@@ -137,6 +139,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string InterpolationType => Resources.InterpolationType;
         public static string IsActive => Resources.IsActive;
         public static string IsObsolete => Resources.IsObsolete;
+        public static string IsRepeating => Resources.IsRepeating;
         public static string ItemList => Resources.ItemList;
         public static string Left => Resources.Left;
         public static string LessThan => Resources.LessThan;
@@ -227,6 +230,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Raw => Resources.Raw;
         public static string ReleaseDuration => Resources.ReleaseDuration;
         public static string ReleaseEndMarker => Resources.ReleaseEndMarker;
+        public static string RepetitionPosition => Resources.RepetitionPosition;
         public static string Reset => Resources.Reset;
         public static string Reverse => Resources.Reverse;
         public static string Right => Resources.Right;

@@ -183,9 +183,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 TryGetOperatorPropertiesViewModel_ForPatchOutlet(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForSample(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_WithInterpolation(documentViewModel, operatorID) ??
-                TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(documentViewModel, operatorID) ??
-                TryGetOperatorPropertiesViewModel_WithOutletCount(documentViewModel, operatorID) ??
-                (OperatorPropertiesViewModelBase)TryGetOperatorPropertiesViewModel_WithInletCount(documentViewModel, operatorID);
+                (OperatorPropertiesViewModelBase)TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(documentViewModel, operatorID);
 
             return viewModel;
 
@@ -485,64 +483,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             return null;
-        }
-
-        public static OperatorPropertiesViewModel_WithOutletCount GetOperatorPropertiesViewModel_WithOutletCount(DocumentViewModel documentViewModel, int operatorID)
-        {
-            OperatorPropertiesViewModel_WithOutletCount viewModel = TryGetOperatorPropertiesViewModel_WithOutletCount(documentViewModel, operatorID);
-            if (viewModel == null)
-            {
-                throw new NotFoundException<OperatorPropertiesViewModel_WithOutletCount>(operatorID);
-            }
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_WithOutletCount TryGetOperatorPropertiesViewModel_WithOutletCount(DocumentViewModel documentViewModel, int operatorID)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            OperatorPropertiesViewModel_WithOutletCount viewModel;
-
-            if (documentViewModel.OperatorPropertiesDictionary_WithOutletCount.TryGetValue(operatorID, out viewModel))
-            {
-                return viewModel;
-            }
-
-            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithOutletCount.TryGetValue(operatorID, out viewModel))
-            {
-                return viewModel;
-            }
-
-            return null;
-        }
-
-        public static OperatorPropertiesViewModel_WithInletCount GetOperatorPropertiesViewModel_WithInletCount(DocumentViewModel documentViewModel, int operatorID)
-        {
-            OperatorPropertiesViewModel_WithInletCount viewModel = TryGetOperatorPropertiesViewModel_WithInletCount(documentViewModel, operatorID);
-            if (viewModel == null)
-            {
-                throw new NotFoundException<OperatorPropertiesViewModel_WithInletCount>(operatorID);
-            }
-            return viewModel;
-        }
-
-        public static OperatorPropertiesViewModel_WithInletCount TryGetOperatorPropertiesViewModel_WithInletCount(DocumentViewModel documentViewModel, int operatorID)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            OperatorPropertiesViewModel_WithInletCount viewModel;
-
-            if (documentViewModel.OperatorPropertiesDictionary_WithInletCount.TryGetValue(operatorID, out viewModel))
-            {
-                return viewModel;
-            }
-
-            if (documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithInletCount.TryGetValue(operatorID, out viewModel))
-            {
-                return viewModel;
-            }
-
-            return viewModel;
         }
 
         // Patch

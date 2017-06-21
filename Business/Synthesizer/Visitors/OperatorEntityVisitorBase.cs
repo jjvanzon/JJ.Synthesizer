@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Visitors
         //[DebuggerHidden]
         protected virtual void VisitInlets(IList<Inlet> inlets)
         {
-            IEnumerable<Inlet> sortedInlets = inlets.OrderByDescending(x => x.Position);
+            IEnumerable<Inlet> sortedInlets = inlets.Sort().Reverse();
             foreach (Inlet inlet in sortedInlets)
             {
                 VisitInletPolymorphic(inlet);

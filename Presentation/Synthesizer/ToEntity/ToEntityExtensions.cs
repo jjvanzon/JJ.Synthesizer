@@ -211,16 +211,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories);
             }
 
-            foreach (OperatorPropertiesViewModel_WithOutletCount propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithOutletCount.Values)
-            {
-                propertiesViewModel.ToEntity(repositories);
-            }
-
-            foreach (OperatorPropertiesViewModel_WithInletCount propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithInletCount.Values)
-            {
-                propertiesViewModel.ToEntity(repositories);
-            }
-
             return patch;
         }
 
@@ -423,16 +413,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories);
             }
 
-            foreach (OperatorPropertiesViewModel_WithOutletCount propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithOutletCount.Values)
-            {
-                propertiesViewModel.ToEntity(repositories);
-            }
-
-            foreach (OperatorPropertiesViewModel_WithInletCount propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithInletCount.Values)
-            {
-                propertiesViewModel.ToEntity(repositories);
-            }
-
             viewModel.AudioFileOutputPropertiesDictionary.Values.ToEntities(destDocument, new AudioFileOutputRepositories(repositories));
             viewModel.AudioOutputProperties.ToEntity(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository);
             viewModel.CurvePropertiesDictionary.Values.ToEntities(destDocument, curveRepositories);
@@ -560,6 +540,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.IsObsolete = viewModel.IsObsolete;
             entity.WarnIfEmpty = viewModel.WarnIfEmpty;
             entity.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;
+            entity.IsRepeating = viewModel.IsRepeating;
+            entity.RepetitionPosition = viewModel.RepetitionPosition;
 
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
@@ -938,28 +920,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_WithOutletCount viewModel,
-            RepositoryWrapper repositories)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
-
-            return entity;
-        }
-
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_WithInletCount viewModel,
-            RepositoryWrapper repositories)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
-
-            return entity;
-        }
-
         private static Operator ConvertToOperator_Base(
             OperatorPropertiesViewModelBase viewModel,
             RepositoryWrapper repositories)
@@ -983,7 +943,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
             entity.SetOperatorTypeEnum(operatorTypeEnum, repositories);
 
-            bool canHaveUnderlyingPatch = ViewModelHelper.OperatorTypeEnums_WithoutAlternativePropertiesView_WithUnderlyingPatch.Contains(operatorTypeEnum);
+            bool canHaveUnderlyingPatch = ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch.Contains(operatorTypeEnum);
             // ReSharper disable once InvertIf
             if (canHaveUnderlyingPatch)
             {
@@ -1020,6 +980,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.IsObsolete = viewModel.IsObsolete;
             entity.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;
+            entity.IsRepeating = viewModel.IsRepeating;
+            entity.RepetitionPosition = viewModel.RepetitionPosition;
 
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
             entity.SetDimensionEnum(dimensionEnum, dimensionRepository);

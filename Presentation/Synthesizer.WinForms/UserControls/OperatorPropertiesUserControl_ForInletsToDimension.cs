@@ -17,14 +17,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.SetTitles();
 
-            labelInletCount.Text = CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets);
             labelInterpolation.Text = ResourceFormatter.Interpolation;
         }
 
         protected override void AddProperties()
         {
             AddProperty(_labelOperatorTypeTitle, _labelOperatorTypeValue);
-            AddProperty(labelInletCount, numericUpDownInletCount);
+            AddProperty(_labelInletCount, _numericUpDownInletCount);
             AddProperty(labelInterpolation, comboBoxInterpolation);
             AddProperty(_labelStandardDimension, _comboBoxStandardDimension);
             AddProperty(_labelCustomDimensionName, _textBoxCustomDimensionName);
@@ -43,8 +42,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.ApplyViewModelToControls();
 
-            numericUpDownInletCount.Value = ViewModel.InletCount;
-
             // Interpolation
             if (comboBoxInterpolation.DataSource == null)
             {
@@ -59,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.ApplyControlsToViewModel();
 
-            ViewModel.InletCount = (int)numericUpDownInletCount.Value;
             ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
         }
     }

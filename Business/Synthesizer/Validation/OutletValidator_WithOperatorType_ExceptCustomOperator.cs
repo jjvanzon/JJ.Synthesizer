@@ -7,9 +7,9 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class OutletValidator_NotForCustomOperator : VersatileValidator
+    internal class OutletValidator_WithOperatorType_ExceptCustomOperator : VersatileValidator
     {
-        public OutletValidator_NotForCustomOperator(Outlet obj, DimensionEnum expectedDimensionEnum)
+        public OutletValidator_WithOperatorType_ExceptCustomOperator(Outlet obj, DimensionEnum expectedDimensionEnum)
         {
             if (obj == null) throw new NullException(() => obj);
 

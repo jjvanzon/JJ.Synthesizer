@@ -44,14 +44,63 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetEntity
             Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
 
-            // Business
-            VoidResult result = _patchManager.SaveOperator(entity);
+            if (viewModel.CanEditInletCount)
+            {
+                // Business
+                VoidResult result = _patchManager.SetOperatorInletCount(entity, viewModel.InletCount);
 
-            // Non-Persisted
-            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                // ToViewModel
+                viewModel.InletCount = entity.Inlets.Count;
+
+                // Non-Persisted
+                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+
+                if (!result.Successful)
+                {
+                    // Successful?
+                    viewModel.Successful = false;
+                    return;
+                }
+            }
+
+            if (viewModel.CanEditOutletCount)
+            {
+                // Business
+                VoidResult result = _patchManager.SetOperatorOutletCount(entity, viewModel.OutletCount);
+
+                // Non-Persisted
+                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+
+                // ToViewModel
+                viewModel.OutletCount = entity.Outlets.Count;
+
+                if (!result.Successful)
+                {
+                    // Successful?
+                    viewModel.Successful = false;
+                    return;
+                }
+            }
+
+            {
+                // Business
+                VoidResult result = _patchManager.SaveOperator(entity);
+
+                // Non-Persisted
+                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+
+                // ReSharper disable once InvertIf
+                if (!result.Successful)
+                {
+                    // Successful?
+                    viewModel.Successful = false;
+                    // ReSharper disable once RedundantJumpStatement
+                    return;
+                }
+            }
 
             // Successful?
-            viewModel.Successful = result.Successful;
+            viewModel.Successful = true;
         }
 
         public TViewModel Play(TViewModel userInput)

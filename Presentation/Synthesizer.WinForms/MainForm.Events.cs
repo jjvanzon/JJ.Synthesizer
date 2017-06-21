@@ -148,14 +148,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_WithCollectionRecalculation.LoseFocusRequested += operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
-            operatorPropertiesUserControl_WithOutletCount.CloseRequested += operatorPropertiesUserControl_WithOutletCount_CloseRequested;
-            operatorPropertiesUserControl_WithOutletCount.LoseFocusRequested += operatorPropertiesUserControl_WithOutletCount_LoseFocusRequested;
-            operatorPropertiesUserControl_WithOutletCount.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
-            operatorPropertiesUserControl_WithOutletCount.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
-            operatorPropertiesUserControl_WithInletCount.CloseRequested += operatorPropertiesUserControl_WithInletCount_CloseRequested;
-            operatorPropertiesUserControl_WithInletCount.LoseFocusRequested += operatorPropertiesUserControl_WithInletCount_LoseFocusRequested;
-            operatorPropertiesUserControl_WithInletCount.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
-            operatorPropertiesUserControl_WithInletCount.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.CreateOperatorRequested += patchDetailsUserControl_CreateOperatorRequested;
@@ -1093,46 +1085,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.OperatorPropertiesClose_WithCollectionRecalculation(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void operatorPropertiesUserControl_WithOutletCount_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.OperatorPropertiesLoseFocus_WithOutletCount(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void operatorPropertiesUserControl_WithOutletCount_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.OperatorPropertiesClose_WithOutletCount(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void operatorPropertiesUserControl_WithInletCount_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.OperatorPropertiesLoseFocus_WithInletCount(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void operatorPropertiesUserControl_WithInletCount_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.OperatorPropertiesClose_WithInletCount(e.Value);
                     RecreatePatchCalculatorIfSuccessful();
                 });
         }

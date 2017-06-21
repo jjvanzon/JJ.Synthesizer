@@ -39,6 +39,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public bool IsObsolete { get; set; }
         /// <summary> not displayed  </summary>
         public bool NameOrDimensionHidden { get; set; }
+        /// <summary> not displayed  </summary>
+        public bool IsRepeating { get; set; }
+        /// <summary> not displayed  </summary>
+        public int? RepetitionPosition { get; set; }
 
         private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
     }

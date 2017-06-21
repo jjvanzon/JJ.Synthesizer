@@ -25,6 +25,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(_labelStandardDimension, _comboBoxStandardDimension);
             AddProperty(_labelCustomDimensionName, _textBoxCustomDimensionName);
             AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
+
+            AddProperty(_labelInletCount, _numericUpDownInletCount);
+            AddProperty(_labelOutletCount, _numericUpDownOutletCount);
         }
     }
 }

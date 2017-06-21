@@ -6,8 +6,6 @@ namespace JJ.Business.Synthesizer.Helpers
     {
         public const string DataKey = "DataKey";
         public const string DataKeys = "DataKeys";
-        public const string InletCount = "InletCount";
-        public const string OutletCount = "OutletCount";
         public const string Patches = "Patches";
     }
 }

@@ -1076,4 +1076,10 @@
   <data name="PatchHasMoreThanOneRepeatingOutlet" xml:space="preserve">
     <value>Schakeling heeft meer dan één herhalende uigang.</value>
   </data>
+  <data name="CannotSetInletCountWithoutRepeatingInlets" xml:space="preserve">
+    <value>Aantal ingangen kan niet worden aangepast als er geen herhalende ingangen zijn.</value>
+  </data>
+  <data name="CannotSetOutletCountWithoutRepeatingOutlets" xml:space="preserve">
+    <value>Aantal uitgangen kan niet worden aangepast als er geen herhalende uitgangen zijn.</value>
+  </data>
 </root>

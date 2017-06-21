@@ -394,6 +394,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot change inlet count if there are no repeating inlets..
+        /// </summary>
+        internal static string CannotSetInletCountWithoutRepeatingInlets {
+            get {
+                return ResourceManager.GetString("CannotSetInletCountWithoutRepeatingInlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot change outlet count if there are no repeating outlets..
+        /// </summary>
+        internal static string CannotSetOutletCountWithoutRepeatingOutlets {
+            get {
+                return ResourceManager.GetString("CannotSetOutletCountWithoutRepeatingOutlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cent.
         /// </summary>
         internal static string Cent {
