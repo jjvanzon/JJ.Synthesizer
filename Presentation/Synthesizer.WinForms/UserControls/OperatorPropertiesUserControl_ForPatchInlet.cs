@@ -21,17 +21,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelDefaultValue.Text = ResourceFormatter.DefaultValue;
             labelWarnIfEmpty.Text = ResourceFormatter.WarnIfEmpty;
             labelNameOrDimensionHidden.Text = ResourceFormatter.NameOrDimensionHidden;
+            labelIsRepeating.Text = ResourceFormatter.IsRepeating;
         }
 
         protected override void AddProperties()
         {
             AddProperty(_labelOperatorTypeTitle, _labelOperatorTypeValue);
             AddProperty(labelDimension, comboBoxDimension);
-            AddProperty(labelDefaultValue, textBoxDefaultValue);
             AddProperty(_labelName, _textBoxName);
             AddProperty(labelPosition, numericUpDownPosition);
+            AddProperty(labelDefaultValue, textBoxDefaultValue);
             AddProperty(labelWarnIfEmpty, checkBoxWarnIfEmpty);
             AddProperty(labelNameOrDimensionHidden, checkBoxNameOrDimensionHidden);
+            AddProperty(labelIsRepeating, checkBoxIsRepeating);
         }
 
         // Binding
@@ -50,6 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             textBoxDefaultValue.Text = ViewModel.DefaultValue;
             checkBoxWarnIfEmpty.Checked = ViewModel.WarnIfEmpty;
             checkBoxNameOrDimensionHidden.Checked = ViewModel.NameOrDimensionHidden;
+            checkBoxIsRepeating.Checked = ViewModel.IsRepeating;
 
             if (comboBoxDimension.DataSource == null)
             {
@@ -57,7 +60,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxDimension.DisplayMember = nameof(IDAndName.Name);
                 comboBoxDimension.DataSource = ViewModel.DimensionLookup;
             }
-
             comboBoxDimension.SelectedValue = ViewModel.Dimension?.ID ?? 0;
         }
 
@@ -70,6 +72,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
             ViewModel.WarnIfEmpty = checkBoxWarnIfEmpty.Checked;
             ViewModel.NameOrDimensionHidden = checkBoxNameOrDimensionHidden.Checked;
+            ViewModel.IsRepeating = checkBoxIsRepeating.Checked;
         }
     }
 }

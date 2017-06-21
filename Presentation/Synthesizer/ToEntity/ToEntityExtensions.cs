@@ -790,6 +790,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             inlet.WarnIfEmpty = viewModel.WarnIfEmpty;
             inlet.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;
+            inlet.IsRepeating = viewModel.IsRepeating;
 
             // Set Default value
             if (!string.IsNullOrEmpty(viewModel.DefaultValue))
@@ -845,6 +846,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             outlet.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;
             outlet.Position = viewModel.Position;
+            outlet.IsRepeating = viewModel.IsRepeating;
 
             // Set Dimension of Outlet instead.
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);

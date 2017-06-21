@@ -178,18 +178,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet.IsRepeating);
                     ValidationMessages.Add(nameof(Inlet), message);
                 }
-
-                // ReSharper disable once InvertIf
-                if (destInlet.RepetitionPosition != sourceInlet.RepetitionPosition)
-                {
-                    string message = GetInletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.RepetitionPosition,
-                        sourceInlet,
-                        destInlet,
-                        sourceInlet.RepetitionPosition,
-                        destInlet.RepetitionPosition);
-                    ValidationMessages.Add(nameof(Inlet), message);
-                }
             }
         }
 
@@ -296,18 +284,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destOutlet,
                         sourceOutlet.IsRepeating,
                         destOutlet.IsRepeating);
-                    ValidationMessages.Add(nameof(Outlet), message);
-                }
-
-                // ReSharper disable once InvertIf
-                if (destOutlet.RepetitionPosition != sourceOutlet.RepetitionPosition)
-                {
-                    string message = GetOutletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.RepetitionPosition,
-                        sourceOutlet,
-                        destOutlet,
-                        sourceOutlet.RepetitionPosition,
-                        destOutlet.RepetitionPosition);
                     ValidationMessages.Add(nameof(Outlet), message);
                 }
             }

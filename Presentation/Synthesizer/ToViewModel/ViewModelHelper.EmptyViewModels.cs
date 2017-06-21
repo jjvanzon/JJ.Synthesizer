@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Canonical;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;

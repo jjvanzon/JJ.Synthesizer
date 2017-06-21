@@ -35,6 +35,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.comboBoxDimension = new System.Windows.Forms.ComboBox();
             this.checkBoxNameOrDimensionHidden = new System.Windows.Forms.CheckBox();
             this.labelNameOrDimensionHidden = new System.Windows.Forms.Label();
+            this.checkBoxIsRepeating = new System.Windows.Forms.CheckBox();
+            this.labelIsRepeating = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this._numericUpDownInletCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._numericUpDownOutletCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPosition)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,14 +80,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this._comboBoxStandardDimension.Size = new System.Drawing.Size(121, 24);
             this._comboBoxStandardDimension.TabIndex = 9;
             // 
-            // _textBoxCustomDimensionName
-            // 
-            this._textBoxCustomDimensionName.TabIndex = 11;
-            // 
             // _labelCustomDimensionName
             // 
             this._labelCustomDimensionName.TabIndex = 10;
             this._labelCustomDimensionName.Text = "Custom Dimension";
+            // 
+            // _textBoxCustomDimensionName
+            // 
+            this._textBoxCustomDimensionName.TabIndex = 11;
+            // 
+            // _labelInletCount
+            // 
+            this._labelInletCount.Text = "Number of Inlets";
+            // 
+            // _labelOutletCount
+            // 
+            this._labelOutletCount.Text = "Number of Outlets";
             // 
             // labelPosition
             // 
@@ -157,12 +169,33 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelNameOrDimensionHidden.Text = "labelNameOrDimensionHidden";
             this.labelNameOrDimensionHidden.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // checkBoxIsRepeating
+            // 
+            this.checkBoxIsRepeating.AutoSize = true;
+            this.checkBoxIsRepeating.Location = new System.Drawing.Point(404, 267);
+            this.checkBoxIsRepeating.Name = "checkBoxIsRepeating";
+            this.checkBoxIsRepeating.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxIsRepeating.TabIndex = 46;
+            this.checkBoxIsRepeating.UseVisualStyleBackColor = true;
+            // 
+            // labelIsRepeating
+            // 
+            this.labelIsRepeating.Location = new System.Drawing.Point(246, 259);
+            this.labelIsRepeating.Margin = new System.Windows.Forms.Padding(0);
+            this.labelIsRepeating.Name = "labelIsRepeating";
+            this.labelIsRepeating.Size = new System.Drawing.Size(147, 30);
+            this.labelIsRepeating.TabIndex = 45;
+            this.labelIsRepeating.Text = "labelIsRepeating";
+            this.labelIsRepeating.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // OperatorPropertiesUserControl_ForPatchOutlet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Controls.Add(this.checkBoxIsRepeating);
+            this.Controls.Add(this.labelIsRepeating);
             this.Controls.Add(this.checkBoxNameOrDimensionHidden);
             this.Controls.Add(this.labelNameOrDimensionHidden);
             this.Controls.Add(this.labelDimension);
@@ -190,6 +223,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this.labelDimension, 0);
             this.Controls.SetChildIndex(this.labelNameOrDimensionHidden, 0);
             this.Controls.SetChildIndex(this.checkBoxNameOrDimensionHidden, 0);
+            this.Controls.SetChildIndex(this.labelIsRepeating, 0);
+            this.Controls.SetChildIndex(this.checkBoxIsRepeating, 0);
+            ((System.ComponentModel.ISupportInitialize)(this._numericUpDownInletCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._numericUpDownOutletCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownPosition)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -203,5 +240,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         protected System.Windows.Forms.ComboBox comboBoxDimension;
         private System.Windows.Forms.CheckBox checkBoxNameOrDimensionHidden;
         protected System.Windows.Forms.Label labelNameOrDimensionHidden;
+        private System.Windows.Forms.CheckBox checkBoxIsRepeating;
+        protected System.Windows.Forms.Label labelIsRepeating;
     }
 }

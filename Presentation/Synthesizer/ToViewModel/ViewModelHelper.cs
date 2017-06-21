@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // OperatorTypeEnum HashSets
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCount { get; } =
+        private static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCount { get; } =
             new HashSet<OperatorTypeEnum>
             {
                 OperatorTypeEnum.Add,
@@ -49,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.SortOverInlets
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCount { get; } =
+        private static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCount { get; } =
             new HashSet<OperatorTypeEnum>
             {
                 OperatorTypeEnum.DimensionToOutlets,
@@ -230,7 +230,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static string GetDimensionKey(Operator op)
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (!string.IsNullOrEmpty(op.CustomDimensionName))
+            if (!String.IsNullOrEmpty(op.CustomDimensionName))
             {
                 return $"{CUSTOM_DIMENSION_KEY_PREFIX}{op.CustomDimensionName}";
             }
@@ -252,7 +252,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static string TryGetDimensionName(Operator op)
         {
-            if (!string.IsNullOrEmpty(op.CustomDimensionName))
+            if (!String.IsNullOrEmpty(op.CustomDimensionName))
             {
                 return op.CustomDimensionName;
             }
@@ -447,6 +447,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return true;
+        }
+
+        public static bool GetCanEditOutletCount(Operator entity)
+        {
+            bool canEditOutletCount =
+                entity.Outlets.Any(x => x.IsRepeating) ||
+                OperatorTypeEnums_WithOutletCount.Contains(entity.GetOperatorTypeEnum());
+
+            return canEditOutletCount;
+        }
+
+        public static bool GetCanEditInletCount(Operator entity)
+        {
+            bool canEditInletCount =
+                entity.Inlets.Any(x => x.IsRepeating) ||
+                OperatorTypeEnums_WithInletCount.Contains(entity.GetOperatorTypeEnum());
+
+            return canEditInletCount;
         }
 
         /// <summary>
@@ -732,7 +750,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string operatorTypeDisplayName = ResourceFormatter.Curve;
 
             // Use Operator.Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
+            if (!String.IsNullOrWhiteSpace(op.Name))
             {
                 return $"{operatorTypeDisplayName}: {op.Name}";
             }
@@ -740,7 +758,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Curve.Name
             var wrapper = new Curve_OperatorWrapper(op, curveRepository);
             Curve underlyingEntity = wrapper.Curve;
-            if (!string.IsNullOrWhiteSpace(underlyingEntity?.Name))
+            if (!String.IsNullOrWhiteSpace(underlyingEntity?.Name))
             {
                 return $"{operatorTypeDisplayName}: {underlyingEntity.Name}";
             }
@@ -753,14 +771,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static string GetOperatorCaption_ForCustomOperator(Operator op)
         {
             // Use Operator.Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
+            if (!String.IsNullOrWhiteSpace(op.Name))
             {
                 return op.Name;
             }
 
             // Use UnderlyingPatch.Name
             Patch underlyingPatch = op.UnderlyingPatch;
-            if (!string.IsNullOrWhiteSpace(underlyingPatch?.Name))
+            if (!String.IsNullOrWhiteSpace(underlyingPatch?.Name))
             {
                 return underlyingPatch.Name;
             }
@@ -777,7 +795,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string formattedValue = wrapper.Number.ToString("0.####");
 
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (string.IsNullOrWhiteSpace(op.Name))
+            if (String.IsNullOrWhiteSpace(op.Name))
             {
                 return formattedValue;
             }
@@ -798,7 +816,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             sb.Append(ResourceFormatter.Inlet);
 
             // Try Use Operator Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
+            if (!String.IsNullOrWhiteSpace(op.Name))
             {
                 sb.Append($": {op.Name}");
             }
@@ -835,7 +853,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             sb.Append(ResourceFormatter.Outlet);
 
             // Try Use Operator Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
+            if (!String.IsNullOrWhiteSpace(op.Name))
             {
                 sb.AppendFormat(": {0}", op.Name);
             }
@@ -858,7 +876,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string operatorTypeDisplayName = ResourceFormatter.Sample;
 
             // Use Operator.Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
+            if (!String.IsNullOrWhiteSpace(op.Name))
             {
                 return $"{operatorTypeDisplayName}: {op.Name}";
             }
@@ -866,7 +884,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Sample.Name
             var wrapper = new Sample_OperatorWrapper(op, sampleRepository);
             Sample underlyingEntity = wrapper.Sample;
-            if (!string.IsNullOrWhiteSpace(underlyingEntity?.Name))
+            if (!String.IsNullOrWhiteSpace(underlyingEntity?.Name))
             {
                 return $"{operatorTypeDisplayName}: {underlyingEntity.Name}";
             }
@@ -897,7 +915,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (dimensionEnum != DimensionEnum.Undefined)
             {
                 string dimensionDisplayName = ResourceFormatter.GetDisplayName(dimensionEnum);
-                formattedOperatorTypeDisplayName = string.Format(operatorTypeDisplayNameWithPlaceholder, dimensionDisplayName);
+                formattedOperatorTypeDisplayName = String.Format(operatorTypeDisplayNameWithPlaceholder, dimensionDisplayName);
             }
             else
             {
@@ -905,7 +923,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use Operator.Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
+            if (!String.IsNullOrWhiteSpace(op.Name))
             {
                 return $"{formattedOperatorTypeDisplayName}: {op.Name}";
             }
@@ -921,7 +939,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string operatorTypeDisplayName = ResourceFormatter.GetDisplayName(op.GetOperatorTypeEnum());
 
             // Use Operator.Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
+            if (!String.IsNullOrWhiteSpace(op.Name))
             {
                 return $"{operatorTypeDisplayName}: {op.Name}";
             }
@@ -1001,7 +1019,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                  .Where(x => x.GetDimensionEnum() == DimensionEnum.From)
                                  .Select(x => x.TryGetConstantNumber())
                                  .FirstOrDefault();
-            if (from.HasValue)
+            if (@from.HasValue)
             {
                 double? step = outlet.Operator.Inlets
                                      .Where(x => x.GetDimensionEnum() == DimensionEnum.Step)
@@ -1011,7 +1029,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     int listIndex = outlet.Operator.Outlets.IndexOf(outlet);
 
-                    double value = from.Value + step.Value * listIndex;
+                    double value = @from.Value + step.Value * listIndex;
 
                     sb.Append(value.ToString("0.####"));
                 }
@@ -1183,7 +1201,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (idAndNames == null) throw new NullException(() => idAndNames);
 
-            string concatinatedUsedIn = string.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
+            string concatinatedUsedIn = String.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
 
             return concatinatedUsedIn;
         }

@@ -485,6 +485,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Position = inlet.Position;
             viewModel.WarnIfEmpty = inlet.WarnIfEmpty;
             viewModel.NameOrDimensionHidden = inlet.NameOrDimensionHidden;
+            viewModel.IsRepeating = inlet.IsRepeating;
 
             // In case of PatchInlet Dimension has to come from Inlet, not Operator.
             viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
@@ -512,6 +513,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Name = outlet.Name;
             viewModel.Position = outlet.Position;
             viewModel.NameOrDimensionHidden = outlet.NameOrDimensionHidden;
+            viewModel.IsRepeating = outlet.IsRepeating;
 
             // In case of PatchInlet Dimension has to come from Outlet, not Operator.
             viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
@@ -595,9 +597,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CustomDimensionName = entity.CustomDimensionName,
                 HasDimension = entity.HasDimension,
                 InletCount = entity.Inlets.Count,
-                CanEditInletCount = ViewModelHelper.OperatorTypeEnums_WithInletCount.Contains(entity.GetOperatorTypeEnum()),
+                CanEditInletCount = ViewModelHelper.GetCanEditInletCount(entity),
                 OutletCount = entity.Outlets.Count,
-                CanEditOutletCount = ViewModelHelper.OperatorTypeEnums_WithOutletCount.Contains(entity.GetOperatorTypeEnum()),
+                CanEditOutletCount = ViewModelHelper.GetCanEditOutletCount(entity),
                 ValidationMessages = new List<MessageDto>()
             };
 

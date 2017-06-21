@@ -136,8 +136,16 @@ namespace JJ.Business.Synthesizer
             destInlet.WarnIfEmpty = sourceInlet.WarnIfEmpty;
             destInlet.NameOrDimensionHidden = sourceInlet.NameOrDimensionHidden;
             destInlet.IsRepeating = sourceInlet.IsRepeating;
-            destInlet.RepetitionPosition = sourceInlet.RepetitionPosition;
             destInlet.IsObsolete = false;
+
+            if (sourceInlet.IsRepeating)
+            {
+                destInlet.RepetitionPosition = destInlet.Operator.Inlets.IndexOf(destInlet);
+            }
+            else
+            {
+                destInlet.RepetitionPosition = null;
+            }
 
             return destInlet;
         }
@@ -203,8 +211,16 @@ namespace JJ.Business.Synthesizer
             destOutlet.Position = sourceOutlet.Position;
             destOutlet.NameOrDimensionHidden = sourceOutlet.NameOrDimensionHidden;
             destOutlet.IsRepeating = sourceOutlet.IsRepeating;
-            destOutlet.RepetitionPosition = sourceOutlet.RepetitionPosition;
             destOutlet.IsObsolete = false;
+
+            if (sourceOutlet.IsRepeating)
+            {
+                destOutlet.RepetitionPosition = destOutlet.Operator.Outlets.IndexOf(destOutlet);
+            }
+            else
+            {
+                destOutlet.RepetitionPosition = null;
+            }
 
             return destOutlet;
         }

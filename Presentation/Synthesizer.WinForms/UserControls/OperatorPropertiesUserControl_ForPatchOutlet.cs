@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelPosition.Text = ResourceFormatter.Position;
             labelDimension.Text = ResourceFormatter.Dimension;
             labelNameOrDimensionHidden.Text = ResourceFormatter.NameOrDimensionHidden;
+            labelIsRepeating.Text = ResourceFormatter.IsRepeating;
         }
 
         protected override void AddProperties()
@@ -28,6 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(_labelName, _textBoxName);
             AddProperty(labelPosition, numericUpDownPosition);
             AddProperty(labelNameOrDimensionHidden, checkBoxNameOrDimensionHidden);
+            AddProperty(labelIsRepeating, checkBoxIsRepeating);
         }
 
         // Binding
@@ -43,6 +45,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             base.ApplyViewModelToControls();
 
             numericUpDownPosition.Value = ViewModel.Position;
+            checkBoxNameOrDimensionHidden.Checked = ViewModel.NameOrDimensionHidden;
+            checkBoxIsRepeating.Checked = ViewModel.IsRepeating;
+
             if (comboBoxDimension.DataSource == null)
             {
                 comboBoxDimension.ValueMember = nameof(IDAndName.ID);
@@ -50,8 +55,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxDimension.DataSource = ViewModel.DimensionLookup;
             }
             comboBoxDimension.SelectedValue = ViewModel.Dimension?.ID ?? 0;
-
-            checkBoxNameOrDimensionHidden.Checked = ViewModel.NameOrDimensionHidden;
         }
 
         protected override void ApplyControlsToViewModel()
@@ -61,6 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Position = (int)numericUpDownPosition.Value;
             ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
             ViewModel.NameOrDimensionHidden = checkBoxNameOrDimensionHidden.Checked;
+            ViewModel.IsRepeating = checkBoxIsRepeating.Checked;
         }
     }
 }
