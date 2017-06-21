@@ -1,8 +1,9 @@
 ﻿using System;
-using JJ.Data.Canonical;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -58,10 +59,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
 
                     // Business
-                    VoidResultDto result = _curveManager.SaveCurveWithRelatedEntities(entity);
+                    VoidResult result = _curveManager.SaveCurveWithRelatedEntities(entity);
 
                     // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(result.Messages);
+                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
 
                     // Successful?
                     viewModel.Successful = result.Successful;

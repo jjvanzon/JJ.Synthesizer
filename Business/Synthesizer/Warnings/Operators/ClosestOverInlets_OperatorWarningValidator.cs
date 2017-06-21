@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             // ReSharper disable once InvertIf
             if (!anyItemsFilledIn)
             {
-                ValidationMessages.AddIsEmptyMessage(nameof(ClosestOverInlets_OperatorWrapper.Items), ResourceFormatter.ItemList);
+                ValidationMessages.AddAreEmptyMessagePlural(nameof(ClosestOverInlets_OperatorWrapper.Items), ResourceFormatter.ItemList);
             }
         }
     }

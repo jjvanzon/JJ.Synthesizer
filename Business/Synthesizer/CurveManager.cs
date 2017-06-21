@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer
 
         // Validate
 
-        public VoidResultDto SaveCurveWithRelatedEntities(Curve entity)
+        public VoidResult SaveCurveWithRelatedEntities(Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -223,10 +223,10 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new CurveValidator_InDocument(entity));
             }
 
-            return validators.ToCanonical();
+            return validators.ToResult();
         }
 
-        public VoidResultDto SaveNode(Node entity)
+        public VoidResult SaveNode(Node entity)
         {
             var validators = new IValidator[]
             {
@@ -234,7 +234,7 @@ namespace JJ.Business.Synthesizer
                 new NodeValidator_Parent(entity)
             };
 
-            return validators.ToCanonical();
+            return validators.ToResult();
         }
 
         // Delete
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer
             DeleteNode(node);
         }
 
-        public VoidResultDto DeleteNode(Node node)
+        public VoidResult DeleteNode(Node node)
         {
             if (node == null) throw new NullException(() => node);
 

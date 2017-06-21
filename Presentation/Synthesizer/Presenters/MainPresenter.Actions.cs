@@ -1850,10 +1850,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Node node = _repositories.NodeRepository.Get(nodeID);
 
                     // Business
-                    IResultDto result = _curveManager.DeleteNode(node);
+                    IResult result = _curveManager.DeleteNode(node);
 
                     // Non-Persisted
-                    userInput.ValidationMessages = result.Messages;
+                    userInput.ValidationMessages = result.Messages.ToCanonical();
                     userInput.SelectedNodeID = null;
 
                     // Successful?
@@ -2719,13 +2719,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchPropertiesHasDimensionChanged(int id)
+        public void PatchPropertiesChangeHasDimension(int id)
         {         
             // GetViewModel
             PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
-            TemplateActionMethod(userInput, () => _patchPropertiesPresenter.HasDimensionChanged(userInput));
+            TemplateActionMethod(userInput, () => _patchPropertiesPresenter.ChangeHasDimension(userInput));
         }
 
         public void PatchPropertiesLoseFocus(int id)

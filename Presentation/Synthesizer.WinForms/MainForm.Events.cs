@@ -1209,7 +1209,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchPropertiesUserControl_HasDimensionChanged(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.PatchPropertiesHasDimensionChanged(e.Value));
+            TemplateActionHandler(() => _presenter.PatchPropertiesChangeHasDimension(e.Value));
         }
 
         private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)

@@ -1,14 +1,14 @@
 ﻿using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ScalePropertiesPresenter : PropertiesPresenterBase<ScalePropertiesViewModel>
+    internal class ScalePropertiesPresenter : PropertiesPresenterBase<Scale, ScalePropertiesViewModel>
     {
         private readonly ScaleRepositories _repositories;
         private readonly ScaleManager _scaleManager;
@@ -19,40 +19,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _scaleManager = new ScaleManager(_repositories);
         }
 
-        protected override ScalePropertiesViewModel CreateViewModel(ScalePropertiesViewModel userInput)
+        protected override Scale GetEntity(ScalePropertiesViewModel userInput)
         {
-            // GetEntity
-            Scale scale = _repositories.ScaleRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            ScalePropertiesViewModel viewModel = scale.ToPropertiesViewModel();
-
-            return viewModel;
+            return _repositories.ScaleRepository.Get(userInput.Entity.ID);
         }
 
-        protected override void UpdateEntity(ScalePropertiesViewModel viewModel)
+        protected override ScalePropertiesViewModel ToViewModel(Scale entity)
         {
-            // GetEntity
-            Scale entity = _repositories.ScaleRepository.Get(viewModel.Entity.ID);
+            return entity.ToPropertiesViewModel();
+        }
 
-            // Business
-            VoidResultDto result = _scaleManager.SaveWithoutTones(entity);
-
-            // Non-Persisted
-            viewModel.ValidationMessages = result.Messages;
-
-            // Successful?
-            viewModel.Successful = result.Successful;
+        protected override IResult Save(Scale entity)
+        {
+            return _scaleManager.SaveWithoutTones(entity);
         }
 
         public ScalePropertiesViewModel Delete(ScalePropertiesViewModel userInput)
         {
-            return TemplateMethod(
+            return TemplateAction(
                 userInput,
-                viewModel =>
+                entity =>
                 {
-                    // Business
-                    _scaleManager.DeleteWithRelatedEntities(userInput.Entity.ID);
+                    _scaleManager.DeleteWithRelatedEntities(entity);
+                    return null;
                 });
         }
     }

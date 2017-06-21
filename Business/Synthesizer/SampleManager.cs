@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer
 
         // Validate
 
-        public VoidResultDto Save([NotNull] Sample entity)
+        public VoidResult Save([NotNull] Sample entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new SampleValidator_InDocument(entity));
             }
 
-            return validators.ToCanonical();
+            return validators.ToResult();
         }
 
         // Delete

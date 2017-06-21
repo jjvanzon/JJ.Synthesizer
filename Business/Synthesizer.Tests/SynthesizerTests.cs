@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Tests
                 //};
                 //validators.ForEach(y => y.Verify());
 
-                VoidResultDto result = curveManager.SaveCurveWithRelatedEntities(curve);
+                VoidResult result = curveManager.SaveCurveWithRelatedEntities(curve);
                 if (!result.Successful)
                 {
                     string messages = string.Join(", ", result.Messages.Select(y => y.Text));

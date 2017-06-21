@@ -1,14 +1,8 @@
-﻿using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Business.Synthesizer;
+﻿using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Framework.Validation;
-using JJ.Presentation.Synthesizer.Validators;
-using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
-using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -19,24 +13,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             : base(repositories)
         { }
 
+        protected override Operator GetEntity(OperatorPropertiesViewModel_ForPatchOutlet userInput)
+        {
+            return _repositories.OperatorRepository.Get(userInput.ID);
+        }
+
         protected override OperatorPropertiesViewModel_ForPatchOutlet ToViewModel(Operator op)
         {
             return op.ToPropertiesViewModel_ForPatchOutlet();
         }
 
-        protected override void UpdateEntity(OperatorPropertiesViewModel_ForPatchOutlet viewModel)
+        protected override IResult Save(Operator entity)
         {
-            // GetEntity
-            Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);
-
-            // Business
-            VoidResult result = _patchManager.SaveOperator(entity);
-
-            // Non-Persisted
-            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
-
-            // Successful?
-            viewModel.Successful = result.Successful;
+            return _patchManager.SaveOperator(entity);
         }
     }
 }

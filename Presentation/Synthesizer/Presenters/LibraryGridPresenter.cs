@@ -1,7 +1,6 @@
 ﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
@@ -80,11 +79,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel =>
                 {
                     // Business
-                    VoidResultDto result = _documentManager.DeleteDocumentReference(documentReferenceID);
+                    VoidResult result = _documentManager.DeleteDocumentReference(documentReferenceID);
 
                     // Non-Persisted
                     viewModel.Successful = result.Successful;
-                    viewModel.ValidationMessages = result.Messages;
+                    viewModel.ValidationMessages = result.Messages.ToCanonical();
                 });
         }
     }

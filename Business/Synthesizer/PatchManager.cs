@@ -335,6 +335,13 @@ namespace JJ.Business.Synthesizer
                     inlet.NameOrDimensionHidden = templateRepeatingInlet.NameOrDimensionHidden;
                     inlet.WarnIfEmpty = templateRepeatingInlet.WarnIfEmpty;
                 }
+                else
+                {
+                    // Backward compatibility.
+                    // When all operators with repeating inlets are boostrapped, 
+                    // this is not necessary anymore.
+                    inlet.SetDimensionEnum(DimensionEnum.Item, _repositories.DimensionRepository);
+                }
             }
 
             // Delete excessive inlets
@@ -391,6 +398,13 @@ namespace JJ.Business.Synthesizer
                     outlet.IsObsolete = templateRepeatingOutlet.IsObsolete;
                     outlet.Name = templateRepeatingOutlet.Name;
                     outlet.NameOrDimensionHidden = templateRepeatingOutlet.NameOrDimensionHidden;
+                }
+                else
+                {
+                    // Backward compatibility.
+                    // When all operators with repeating outlets are boostrapped, 
+                    // this is not necessary anymore.
+                    outlet.SetDimensionEnum(DimensionEnum.Item, _repositories.DimensionRepository);
                 }
             }
 

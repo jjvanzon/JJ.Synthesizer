@@ -1,16 +1,14 @@
-﻿using JJ.Business.Canonical;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class SamplePropertiesPresenter : PropertiesPresenterBase<SamplePropertiesViewModel>
+    internal class SamplePropertiesPresenter : PropertiesPresenterBase<Sample, SamplePropertiesViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly SampleRepositories _sampleRepositories;
@@ -25,72 +23,48 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchManager = new PatchManager(repositories);
         }
 
-        protected override SamplePropertiesViewModel CreateViewModel(SamplePropertiesViewModel userInput)
+        protected override Sample GetEntity(SamplePropertiesViewModel userInput)
         {
-            // GetEntity
-            Sample sample = _repositories.SampleRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            SamplePropertiesViewModel viewModel = sample.ToPropertiesViewModel(_sampleRepositories);
-
-            return viewModel;
+            return _repositories.SampleRepository.Get(userInput.Entity.ID);
         }
 
-        protected override void UpdateEntity(SamplePropertiesViewModel viewModel)
+        protected override SamplePropertiesViewModel ToViewModel(Sample entity)
         {
-            // GetEntity
-            Sample entity = _repositories.SampleRepository.Get(viewModel.Entity.ID);
+            return entity.ToPropertiesViewModel(_sampleRepositories);
+        }
 
-            // Business
-            VoidResultDto result = _sampleManager.Save(entity);
-
-            // Non-Persisted
-            viewModel.ValidationMessages = result.Messages;
-
-            // Successful?
-            viewModel.Successful = result.Successful;
+        protected override IResult Save(Sample entity)
+        {
+            return _sampleManager.Save(entity);
         }
 
         public SamplePropertiesViewModel Play(SamplePropertiesViewModel userInput)
         {
-            return TemplateMethod(
+            Outlet outlet = null;
+
+            return TemplateAction(
                 userInput,
+                sample =>
+                {
+                    Patch patch = _patchManager.CreatePatch();
+                    var operatorFactory = new OperatorFactory(patch, _repositories);
+                    outlet = operatorFactory.Sample(sample);
+                    return _patchManager.SavePatch(patch);
+                },
                 viewModel =>
                 {
-                    // GetEntity
-                    Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
-
-                    // Business
-                    Patch patch = _patchManager.CreatePatch();
-
-                    var operatorFactory = new OperatorFactory(patch, _repositories);
-                    Outlet outlet = operatorFactory.Sample(entity);
-                    VoidResult result = _patchManager.SavePatch(patch);
-
-                    // Non-Persisted
-                    viewModel.OutletIDToPlay = outlet?.ID;
-                    viewModel.ValidationMessages = result.Messages.ToCanonical();
-
-                    // Successful?
-                    viewModel.Successful = result.Successful;
+                    if (viewModel.Successful)
+                    {
+                        viewModel.OutletIDToPlay = outlet.ID;
+                    }
                 });
         }
 
         public SamplePropertiesViewModel Delete(SamplePropertiesViewModel userInput)
         {
-            return TemplateMethod(
+            return TemplateAction(
                 userInput,
-                viewModel =>
-                {
-                    // Business
-                    IResult result = _sampleManager.Delete(userInput.Entity.ID);
-
-                    // Non-Persisted
-                    viewModel.ValidationMessages = result.Messages.ToCanonical();
-
-                    // Successful?
-                    viewModel.Successful = result.Successful;
-                });
+                entity => _sampleManager.Delete(userInput.Entity.ID));
         }
     }
 }

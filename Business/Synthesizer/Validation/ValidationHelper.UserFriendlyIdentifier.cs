@@ -449,7 +449,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Position
-            string identifier = $"({ResourceFormatter.Number} = {position})";
+            string identifier = $"({ResourceFormatter.Position} = {position})";
             return identifier;
         }
 

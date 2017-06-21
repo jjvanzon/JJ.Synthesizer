@@ -139,11 +139,11 @@ namespace JJ.Business.Synthesizer
             return validator.ToResult();
         }
 
-        public VoidResultDto SaveDocumentReference([NotNull] DocumentReference documentReference)
+        public VoidResult SaveDocumentReference([NotNull] DocumentReference documentReference)
         {
             IValidator validator = new DocumentReferenceValidator_Basic(documentReference);
 
-            return validator.ToCanonical();
+            return validator.ToResult();
         }
 
         // Delete
@@ -179,14 +179,14 @@ namespace JJ.Business.Synthesizer
             return validator.ToCanonical();
         }
 
-        public VoidResultDto DeleteDocumentReference(int documentReferenceID)
+        public VoidResult DeleteDocumentReference(int documentReferenceID)
         {
             DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(documentReferenceID);
-            VoidResultDto result = DeleteDocumentReference(documentReference);
+            VoidResult result = DeleteDocumentReference(documentReference);
             return result;
         }
 
-        public VoidResultDto DeleteDocumentReference([NotNull] DocumentReference documentReference)
+        public VoidResult DeleteDocumentReference([NotNull] DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer
                 _repositories.DocumentReferenceRepository.Delete(documentReference);
             }
 
-            return validator.ToCanonical();
+            return validator.ToResult();
         }
 
         // Other

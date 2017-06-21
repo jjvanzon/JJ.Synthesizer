@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Sample sample = sampleInfo.Sample;
 
                 {
-                    VoidResultDto validationResult = sampleManager.Save(sample);
+                    VoidResult validationResult = sampleManager.Save(sample);
                     if (!validationResult.Successful)
                     {
                         throw new Exception(string.Join(Environment.NewLine, validationResult.Messages));

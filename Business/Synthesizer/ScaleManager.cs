@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
@@ -64,21 +65,21 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResultDto Save(Scale scale)
+        public VoidResult Save(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
             if (scale.ID == 0) throw new ZeroException(() => scale.ID);
 
-            VoidResultDto result = SaveWithoutTones(scale);
+            VoidResult result = SaveWithoutTones(scale);
 
             IValidator validator = new ScaleValidator_Tones(scale);
-            result.Successful &= validator.IsValid;
-            result.Messages.AddRange(validator.ValidationMessages.ToCanonical());
+
+            result.Combine(validator.ToResult());
 
             return result;
         }
 
-        public VoidResultDto SaveWithoutTones(Scale scale)
+        public VoidResult SaveWithoutTones(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
             if (scale.ID == 0) throw new ZeroException(() => scale.ID);
@@ -94,7 +95,7 @@ namespace JJ.Business.Synthesizer
                 validators.Add(new ScaleValidator_InDocument(scale));
             }
 
-            return validators.ToCanonical();
+            return validators.ToResult();
         }
 
         // Delete

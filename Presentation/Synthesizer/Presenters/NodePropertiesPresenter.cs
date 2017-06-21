@@ -1,16 +1,15 @@
 ﻿using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Collections;
+using JJ.Framework.Business;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class NodePropertiesPresenter : PropertiesPresenterBase<NodePropertiesViewModel>
+    internal class NodePropertiesPresenter : PropertiesPresenterBase<Node, NodePropertiesViewModel>
     {
         private readonly INodeRepository _nodeRepository;
         private readonly CurveManager _curveManager;
@@ -18,45 +17,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public NodePropertiesPresenter(CurveRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
-
             _nodeRepository = repositories.NodeRepository;
             _curveManager = new CurveManager(repositories);
         }
 
-        protected override NodePropertiesViewModel CreateViewModel(NodePropertiesViewModel userInput)
+        protected override Node GetEntity(NodePropertiesViewModel userInput)
         {
-            // GetEntity
-            Node entity = _nodeRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel();
-            return viewModel;
+            return _nodeRepository.Get(userInput.Entity.ID);
         }
 
-        protected override void UpdateEntity(NodePropertiesViewModel viewModel)
+        protected override NodePropertiesViewModel ToViewModel(Node entity)
         {
-            // GetEntity
-            Node entity = _nodeRepository.Get(viewModel.Entity.ID);
+            return entity.ToPropertiesViewModel();
+        }
 
-            // Business
-            VoidResultDto result = _curveManager.SaveNode(entity);
-
-            // Non-Persisted
-            result.Messages.AddRange(result.Messages);
-
-            // Successful?
-            viewModel.Successful = result.Successful;
+        protected override IResult Save(Node entity)
+        {
+            return _curveManager.SaveNode(entity);
         }
 
         public NodePropertiesViewModel Delete(NodePropertiesViewModel userInput)
         {
-            return TemplateMethod(
+            return TemplateAction(
                 userInput,
-                viewModel =>
-                {
-                    // Business
-                    _curveManager.DeleteNode(userInput.Entity.ID);
-                });
+                entity => _curveManager.DeleteNode(entity));
         }
     }
 }

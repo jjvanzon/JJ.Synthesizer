@@ -1,5 +1,4 @@
 ﻿using JJ.Framework.Exceptions;
-using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -8,6 +7,7 @@ using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -121,11 +121,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
 
             // Business
-            VoidResultDto result = _scaleManager.Save(scale);
+            VoidResult result = _scaleManager.Save(scale);
 
             // ToViewModel
             ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
-            viewModel.ValidationMessages = result.Messages;
+            viewModel.ValidationMessages = result.Messages.ToCanonical();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

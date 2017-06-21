@@ -1,17 +1,14 @@
-﻿using JJ.Business.Canonical;
-using JJ.Framework.Exceptions;
-using Canonicals = JJ.Data.Canonical;
+﻿using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
-using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentPropertiesPresenter : PropertiesPresenterBase<DocumentPropertiesViewModel>
+    internal class DocumentPropertiesPresenter : PropertiesPresenterBase<Document, DocumentPropertiesViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
@@ -24,55 +21,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _autoPatcher = new AutoPatcher(_repositories);
         }
 
-        protected override DocumentPropertiesViewModel CreateViewModel(DocumentPropertiesViewModel userInput)
+        protected override Document GetEntity(DocumentPropertiesViewModel userInput)
         {
-            // GetEntity
-            Document entity = _repositories.DocumentRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            DocumentPropertiesViewModel viewModel = entity.ToPropertiesViewModel();
-
-            return viewModel;
+            return _repositories.DocumentRepository.Get(userInput.Entity.ID);
         }
 
-        protected override void UpdateEntity(DocumentPropertiesViewModel viewModel)
+        protected override DocumentPropertiesViewModel ToViewModel(Document entity)
         {
-            // ToEntity: was already done by the MainPresenter.
+            return entity.ToPropertiesViewModel();
+        }
 
-            // GetEntity
-            Document document = _repositories.DocumentRepository.Get(viewModel.Entity.ID);
-
-            // Business
-            IResult result = _documentManager.Save(document);
-
-            // Non-Persisted
-            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
-
-            // Successful?
-            viewModel.Successful = result.Successful;
+        protected override IResult Save(Document entity)
+        {
+            return _documentManager.Save(entity);
         }
 
         public DocumentPropertiesViewModel Play(DocumentPropertiesViewModel userInput)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    // GetEntity
-                    Document document = _repositories.DocumentRepository.Get(userInput.Entity.ID);
+            Outlet outlet = null;
 
-                    // Business
-                    Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(document, mustIncludeHidden: true);
-                    Outlet outlet = result.Data;
+            return TemplateAction(
+                userInput,
+                entity =>
+                {
+                    Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(entity, mustIncludeHidden: true);
+                    outlet = result.Data;
                     if (outlet != null)
                     {
                         _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
                     }
-
-                    // Non-Persisted
-                    viewModel.Successful = result.Successful;
-                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                    return null;
+                },
+                viewModel =>
+                {
                     viewModel.OutletIDToPlay = outlet?.ID;
+
                 });
         }
     }

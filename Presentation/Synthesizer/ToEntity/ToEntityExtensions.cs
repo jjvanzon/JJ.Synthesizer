@@ -575,9 +575,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                IResultDto result = documentManager.DeleteDocumentReference(idToDelete);
-
-                ResultHelper.Assert(result);
+                IResult result = documentManager.DeleteDocumentReference(idToDelete);
+                result.Assert();
             }
         }
 
