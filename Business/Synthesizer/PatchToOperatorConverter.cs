@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Collections;
+using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer
@@ -94,12 +94,13 @@ namespace JJ.Business.Synthesizer
             IList<InletTuple> tuples = InletOutletMatcher.MatchSourceAndDestInlets(sourceInlets, destOperator.Inlets);
 
             var idsToKeep = new HashSet<int>();
-
             foreach (InletTuple tuple in tuples)
             {
                 Inlet destInlet = ConvertInlet(tuple.SourceInlet, tuple.DestInlet, destOperator);
                 idsToKeep.Add(destInlet.ID);
             }
+
+            ReassignRepetitionPositions(destOperator.Inlets);
 
             IEnumerable<int> existingIDs = destOperator.Inlets.Select(x => x.ID);
             IEnumerable<int> idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep);
@@ -154,22 +155,6 @@ namespace JJ.Business.Synthesizer
             destInlet.IsRepeating = sourceInlet.IsRepeating;
             destInlet.IsObsolete = false;
 
-            if (sourceInlet.IsRepeating)
-            {
-                if (!destInlet.RepetitionPosition.HasValue)
-                {
-                    destInlet.RepetitionPosition = destInlet.Operator.Inlets.Count - 1;
-                }
-                else
-                {
-                    destInlet.RepetitionPosition = destInlet.Operator.Inlets.Sort().IndexOf(destInlet);
-                }
-            }
-            else
-            {
-                destInlet.RepetitionPosition = null;
-            }
-
             return destInlet;
         }
 
@@ -192,13 +177,14 @@ namespace JJ.Business.Synthesizer
             IList<OutletTuple> tuples = InletOutletMatcher.MatchSourceAndDestOutlets(sourceOutlets, destOperator.Outlets);
 
             var idsToKeep = new HashSet<int>();
-
             foreach (OutletTuple tuple in tuples)
             {
                 Outlet destOutlet = ConvertOutlet(tuple.SourceOutlet, tuple.DestOutlet, destOperator);
 
                 idsToKeep.Add(destOutlet.ID);
             }
+
+            ReassignRepetitionPositions(destOperator.Inlets);
 
             IEnumerable<int> existingIDs = destOperator.Outlets.Select(x => x.ID);
             IEnumerable<int> idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep);
@@ -251,23 +237,26 @@ namespace JJ.Business.Synthesizer
             destOutlet.IsRepeating = sourceOutlet.IsRepeating;
             destOutlet.IsObsolete = false;
 
-            if (sourceOutlet.IsRepeating)
+            return destOutlet;
+        }
+
+        private void ReassignRepetitionPositions(IEnumerable<IInletOrOutlet> inletsOrOutlets)
+        {
+            IList<IInletOrOutlet> sortedInletsOrOutlets = inletsOrOutlets.Sort().ToArray();
+
+            for (int i = 0; i < sortedInletsOrOutlets.Count; i++)
             {
-                if (!destOutlet.RepetitionPosition.HasValue)
+                IInletOrOutlet inletOrOutlet = sortedInletsOrOutlets[i];
+
+                if (inletOrOutlet.IsRepeating)
                 {
-                    destOutlet.RepetitionPosition = destOutlet.Operator.Outlets.Count - 1;
+                    inletOrOutlet.RepetitionPosition = i;
                 }
                 else
                 {
-                    destOutlet.RepetitionPosition = destOutlet.Operator.Outlets.Sort().IndexOf(destOutlet);
+                    inletOrOutlet.RepetitionPosition = null;
                 }
             }
-            else
-            {
-                destOutlet.RepetitionPosition = null;
-            }
-
-            return destOutlet;
         }
     }
 }
