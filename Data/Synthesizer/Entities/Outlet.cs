@@ -2,12 +2,14 @@
 using System.Diagnostics;
 using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Interfaces;
+
 // ReSharper disable VirtualMemberCallInConstructor
 
 namespace JJ.Data.Synthesizer.Entities
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    public class Outlet
+    public class Outlet : IInletOrOutlet
     {
         public Outlet()
         {
@@ -19,7 +21,6 @@ namespace JJ.Data.Synthesizer.Entities
         /// <summary> optional </summary>
         public virtual string Name { get; set; }
         /// <summary> nullable </summary>
-        [CanBeNull]
         public virtual Dimension Dimension { get; set; }
         public virtual int Position { get; set; }
         /// <summary>
@@ -36,8 +37,7 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual bool IsObsolete { get; set; }
         public virtual bool NameOrDimensionHidden { get; set; }
 
-        /// <summary> parent </summary>
-        [NotNull]
+        /// <summary> parent, not nullable </summary>
         public virtual Operator Operator { get; set; }
 
         public virtual IList<Inlet> ConnectedInlets { get; set; }

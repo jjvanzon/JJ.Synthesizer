@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Extensions
@@ -108,9 +109,9 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
-        // Inlet
+        // Inlet or Outlet
 
-        public static DimensionEnum GetDimensionEnum(this Inlet entity)
+        public static DimensionEnum GetDimensionEnum(this IInletOrOutlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -119,7 +120,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return (DimensionEnum)entity.Dimension.ID;
         }
 
-        public static void SetDimensionEnum(this Inlet entity, DimensionEnum enumValue, IDimensionRepository repository)
+        public static void SetDimensionEnum(this IInletOrOutlet entity, DimensionEnum enumValue, IDimensionRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
@@ -185,32 +186,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 entity.LinkTo(enumEntity);
             }
         }
-
-        // Outlet
-
-        public static DimensionEnum GetDimensionEnum(this Outlet entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            if (entity.Dimension == null) return DimensionEnum.Undefined;
-
-            return (DimensionEnum)entity.Dimension.ID;
-        }
-
-        public static void SetDimensionEnum(this Outlet entity, DimensionEnum enumValue, IDimensionRepository repository)
-        {
-            if (repository == null) throw new NullException(() => repository);
-
-            if (enumValue == DimensionEnum.Undefined)
-            {
-                entity.UnlinkDimension();
-            }
-            else
-            {
-                Dimension enumEntity = repository.Get((int)enumValue);
-                entity.LinkTo(enumEntity);
-            }
-        }
+        
         // Operator
 
         public static DimensionEnum GetStandardDimensionEnum(this Patch entity)

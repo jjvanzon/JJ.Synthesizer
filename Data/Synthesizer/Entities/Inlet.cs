@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Interfaces;
 
 namespace JJ.Data.Synthesizer.Entities
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    public class Inlet
+    public class Inlet : IInletOrOutlet
     {
         public virtual int ID { get; set; }
         /// <summary> optional </summary>
@@ -26,12 +27,10 @@ namespace JJ.Data.Synthesizer.Entities
         /// but marked as obsolete.
         /// </summary>
         public virtual bool IsObsolete { get; set; }
-
-        public virtual bool WarnIfEmpty { get; set; }
         public virtual bool NameOrDimensionHidden { get; set; }
+        public virtual bool WarnIfEmpty { get; set; }
 
-        /// <summary> parent </summary>
-        [NotNull]
+        /// <summary> parent, not nullable </summary>
         public virtual Operator Operator { get; set; }
 
         /// <summary> nullable </summary>

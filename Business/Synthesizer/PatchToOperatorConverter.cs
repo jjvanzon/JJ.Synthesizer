@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer
@@ -140,7 +141,14 @@ namespace JJ.Business.Synthesizer
 
             if (sourceInlet.IsRepeating)
             {
-                destInlet.RepetitionPosition = destInlet.Operator.Inlets.IndexOf(destInlet);
+                if (!destInlet.RepetitionPosition.HasValue)
+                {
+                    destInlet.RepetitionPosition = destInlet.Operator.Inlets.Count - 1;
+                }
+                else
+                {
+                    destInlet.RepetitionPosition = destInlet.Operator.Inlets.Sort().IndexOf(destInlet);
+                }
             }
             else
             {
@@ -215,7 +223,14 @@ namespace JJ.Business.Synthesizer
 
             if (sourceOutlet.IsRepeating)
             {
-                destOutlet.RepetitionPosition = destOutlet.Operator.Outlets.IndexOf(destOutlet);
+                if (!destOutlet.RepetitionPosition.HasValue)
+                {
+                    destOutlet.RepetitionPosition = destOutlet.Operator.Outlets.Count - 1;
+                }
+                else
+                {
+                    destOutlet.RepetitionPosition = destOutlet.Operator.Outlets.Sort().IndexOf(destOutlet);
+                }
             }
             else
             {

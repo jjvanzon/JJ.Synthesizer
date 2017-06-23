@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Data.Synthesizer.Helpers
@@ -70,7 +71,7 @@ namespace JJ.Data.Synthesizer.Helpers
             return debuggerDisplay;
         }
 
-        public static string GetDebuggerDisplay(Inlet entity)
+        public static string GetDebuggerDisplay(IInletOrOutlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -90,18 +91,23 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.Append($"{nameof(entity.Position)}={entity.Position} ");
 
+            if (entity.RepetitionPosition.HasValue)
+            {
+                sb.Append($"{nameof(entity.RepetitionPosition)}={entity.RepetitionPosition} ");
+            }
+
             sb.AppendFormat("({0})", entity.ID);
+
+            if (entity.IsObsolete)
+            {
+                sb.Append(" (obsolete)");
+            }
 
             if (entity.Operator != null)
             {
                 sb.Append(" for ");
                 string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
                 sb.Append(operatorDebuggerDisplay);
-            }
-
-            if (entity.IsObsolete)
-            {
-                sb.Append(" (obsolete)");
             }
 
             return sb.ToString();
@@ -232,43 +238,6 @@ namespace JJ.Data.Synthesizer.Helpers
 
             string debuggerDisplay = GetDebuggDisplayWithIDAndName<OperatorType>(entity.ID, entity.Name);
             return debuggerDisplay;
-        }
-
-        public static string GetDebuggerDisplay(Outlet entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var sb = new StringBuilder();
-
-            sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
-
-            if (entity.Dimension != null)
-            {
-                sb.Append($"{nameof(entity.Dimension)}={entity.Dimension.Name} ");
-            }
-
-            if (!string.IsNullOrEmpty(entity.Name))
-            {
-                sb.Append($"{nameof(entity.Name)}='{entity.Name}' ");
-            }
-
-            sb.Append($"{nameof(entity.Position)}={entity.Position} ");
-
-            sb.AppendFormat("({0})", entity.ID);
-
-            if (entity.Operator != null)
-            {
-                sb.Append(" for ");
-                string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
-                sb.Append(operatorDebuggerDisplay);
-            }
-
-            if (entity.IsObsolete)
-            {
-                sb.Append(" (obsolete)");
-            }
-
-            return sb.ToString();
         }
 
         public static string GetDebuggerDisplay(Patch entity)

@@ -5,27 +5,15 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
-using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
     public static class SortExtensions
     {
-        public static IEnumerable<Inlet> Sort([NotNull] this IEnumerable<Inlet> list)
-        {
-            if (list == null) throw new NullException(() => list);
-
-            return list.Sort(
-                x => x.Position,
-                x => x.GetDimensionEnum(),
-                x => x.Name,
-                x => x.IsObsolete,
-                x => x.IsRepeating,
-                x => x.RepetitionPosition);
-        }
-
-        public static IEnumerable<Outlet> Sort(this IEnumerable<Outlet> list)
+        public static IEnumerable<T> Sort<T>([NotNull] this IEnumerable<T> list)
+            where T : IInletOrOutlet
         {
             if (list == null) throw new NullException(() => list);
 

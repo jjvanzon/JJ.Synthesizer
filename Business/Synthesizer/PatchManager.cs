@@ -222,14 +222,15 @@ namespace JJ.Business.Synthesizer
             if (op == null) throw new NullException(() => op);
             if (op.Patch == null) throw new NullException(() => op.Patch);
 
-            // Get this list before deleting and unlinking things.
+            // Get this before deleting and unlinking things.
             IList<Operator> connectedOperators = op.GetConnectedOperators();
+            Patch patch = op.Patch;
 
             op.UnlinkRelatedEntities();
             op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             _repositories.OperatorRepository.Delete(op);
 
-            new Patch_SideEffect_UpdateDerivedOperators(op.Patch, _repositories).Execute();
+            new Patch_SideEffect_UpdateDerivedOperators(patch, _repositories).Execute();
 
             // Clean up obsolete inlets and outlets when the last connection to it is gone.
             foreach (Operator connectedOperator in connectedOperators)

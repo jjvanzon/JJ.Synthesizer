@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.Interfaces;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable InvertIf
@@ -402,11 +403,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Inlet inlet, [CanBeNull] Dimension dimension)
+        public static void LinkTo([NotNull] this IInletOrOutlet inletOrOutlet, [CanBeNull] Dimension dimension)
         {
-            if (inlet == null) throw new NullException(() => inlet);
+            if (inletOrOutlet == null) throw new NullException(() => inletOrOutlet);
 
-            inlet.Dimension = dimension;
+            inletOrOutlet.Dimension = dimension;
 
             // No inverse property.
         }
@@ -434,15 +435,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (op == null) throw new NullException(() => op);
 
             op.StandardDimension = dimension;
-
-            // No inverse property.
-        }
-
-        public static void LinkTo([NotNull] this Outlet outlet, [CanBeNull] Dimension dimension)
-        {
-            if (outlet == null) throw new NullException(() => outlet);
-
-            outlet.Dimension = dimension;
 
             // No inverse property.
         }

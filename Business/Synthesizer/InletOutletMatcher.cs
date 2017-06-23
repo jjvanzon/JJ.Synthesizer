@@ -7,192 +7,170 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {
     internal static class InletOutletMatcher
     {
-        // Patch to CustomOperator (e.g. for Converters and validators)
+        // Patch to CustomOperator (e.g. for Converters and Validators)
 
         public static IList<InletTuple> MatchSourceAndDestInlets(Operator destOperator)
         {
-            IList<Inlet> destInlets = destOperator.Inlets.ToList();
             IList<Inlet> sourceInlets = GetSourceInlets(destOperator);
+            IList<Inlet> destInlets = destOperator.Inlets.ToArray();
 
-            return MatchSourceAndDestInlets(sourceInlets, destInlets);
+            IList<InletOrOutletTuple> inletOrOutletTuples = MatchSourceAndDestInletsOrOutlets(sourceInlets, destInlets);
+
+            IList<InletTuple> inletTuples = inletOrOutletTuples.Select(x => new InletTuple((Inlet)x.SourceInletOrOutlet, (Inlet)x.DestInletOrOutlet))
+                                                               .ToArray();
+
+            return inletTuples;
         }
 
-        /// <summary> Returned tuples can contain null-DestInlets. </summary>
-        public static IList<InletTuple> MatchSourceAndDestInlets(IList<Inlet> sourceInlets, IList<Inlet> destInlets)
+        public static IList<InletTuple> MatchSourceAndDestInlets(IEnumerable<Inlet> sourceInlets, IEnumerable<Inlet> destInlets)
         {
-            IList<Inlet> sourceSortedInlets = sourceInlets.Sort().ToList();
-            IList<Inlet> destCandidateInlets = destInlets.Sort().ToList();
+            IList<InletOrOutletTuple> inletOrOutletTuples = MatchSourceAndDestInletsOrOutlets(sourceInlets, destInlets);
 
-            var tuples = new List<InletTuple>();
+            IList<InletTuple> inletTuples = inletOrOutletTuples.Select(x => new InletTuple((Inlet)x.SourceInletOrOutlet, (Inlet)x.DestInletOrOutlet))
+                                                               .ToArray();
 
-            foreach (Inlet sourceInlet in sourceSortedInlets)
-            {
-                Inlet destInlet = TryGetDestInlet(sourceInlet, destCandidateInlets);
-
-                tuples.Add(new InletTuple(sourceInlet, destInlet));
-
-                destCandidateInlets.Remove(destInlet);
-            }
-
-            return tuples;
-        }
-
-        private static Inlet TryGetDestInlet(Inlet sourceInlet, IList<Inlet> candicateDestInlets)
-        {
-            if (candicateDestInlets == null) throw new NullException(() => candicateDestInlets);
-
-            bool nameIsFilledIn = NameHelper.IsFilledIn(sourceInlet.Name);
-            if (nameIsFilledIn)
-            {
-                // Try match by Name and Position
-                {
-                    Inlet destInlet = candicateDestInlets.FirstOrDefault(
-                        x => x.Position == sourceInlet.Position &&
-                             NameHelper.AreEqual(x.Name, sourceInlet.Name));
-
-                    if (destInlet != null)
-                    {
-                        return destInlet;
-                    }
-                }
-
-                // Try match by Name
-                {
-                    Inlet destInlet = candicateDestInlets.FirstOrDefault(x => NameHelper.AreEqual(x.Name, sourceInlet.Name));
-                    if (destInlet != null)
-                    {
-                        return destInlet;
-                    }
-                }
-            }
-
-            DimensionEnum sourceDimensionEnum = sourceInlet.GetDimensionEnum();
-            bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
-
-            if (dimensionIsFilledIn)
-            {
-                // Try match by Dimension and Position
-                {
-                    Inlet destInlet = candicateDestInlets.FirstOrDefault(
-                        x => x.Position == sourceInlet.Position &&
-                             x.GetDimensionEnum() == sourceDimensionEnum);
-
-                    if (destInlet != null)
-                    {
-                        return destInlet;
-                    }
-                }
-
-                // Try match by Dimension
-                {
-                    Inlet destInlet = candicateDestInlets.FirstOrDefault(x => x.GetDimensionEnum() == sourceDimensionEnum);
-                    if (destInlet != null)
-                    {
-                        return destInlet;
-                    }
-                }
-            }
-
-            // Try match by list index
-            {
-                Inlet destInlet = candicateDestInlets.FirstOrDefault(x => x.Position == sourceInlet.Position);
-                return destInlet;
-            }
+            return inletTuples;
         }
 
         public static IList<OutletTuple> MatchSourceAndDestOutlets(Operator destOperator)
         {
-            IList<Outlet> destOutlets = destOperator.Outlets.ToList();
             IList<Outlet> sourceOutlets = GetSourceOutlets(destOperator);
+            IList<Outlet> destOutlets = destOperator.Outlets.ToList();
 
-            return MatchSourceAndDestOutlets(sourceOutlets, destOutlets);
+            IList<InletOrOutletTuple> inletOrOutletTuples = MatchSourceAndDestInletsOrOutlets(sourceOutlets, destOutlets);
+
+            IList<OutletTuple> outletTuples = inletOrOutletTuples.Select(x => new OutletTuple((Outlet)x.SourceInletOrOutlet, (Outlet)x.DestInletOrOutlet))
+                                                                 .ToArray();
+
+            return outletTuples;
         }
 
-        /// <summary> Returned tuples can contain null-elements. </summary>
-        public static IList<OutletTuple> MatchSourceAndDestOutlets(IList<Outlet> sourceOutlets, IList<Outlet> destOutlets)
+        public static IList<OutletTuple> MatchSourceAndDestOutlets(IEnumerable<Outlet> sourceOutlets, IEnumerable<Outlet> destOutlets)
         {
-            IList<Outlet> sourceSortedOutlets = sourceOutlets.Sort().ToList();
-            IList<Outlet> destCandidateOutlets = destOutlets.Sort().ToList();
+            IList<InletOrOutletTuple> inletOrOutletTuples = MatchSourceAndDestInletsOrOutlets(sourceOutlets, destOutlets);
 
-            var tuples = new List<OutletTuple>();
+            IList<OutletTuple> outletTuples = inletOrOutletTuples.Select(x => new OutletTuple((Outlet)x.SourceInletOrOutlet, (Outlet)x.DestInletOrOutlet))
+                                                                 .ToArray();
 
-            foreach (Outlet sourceOutlet in sourceSortedOutlets)
+            return outletTuples;
+        }
+
+        /// <summary> Returned tuples can contain null-dest objects. </summary>
+        public static IList<InletOrOutletTuple> MatchSourceAndDestInletsOrOutlets(
+            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets, 
+            IEnumerable<IInletOrOutlet> destInletsOrOutlets)
+        {
+            IList<IInletOrOutlet> sourceSortedInletOrOutlets = sourceInletsOrOutlets.Sort().ToArray();
+            IList<IInletOrOutlet> destSortedCandidateInletsOrOutlets = destInletsOrOutlets.Sort().ToArray();
+
+            var tuples = new List<InletOrOutletTuple>();
+
+            // Match Non-Repeating Ones
             {
-                Outlet destOutlet = TryGetDestOutlet(sourceOutlet, destCandidateOutlets);
+                IList<IInletOrOutlet> sourceNonRepeatingInletsOrOutlets = sourceSortedInletOrOutlets.Where(x => !x.IsRepeating).ToArray();
+                IList<IInletOrOutlet> destCandicateNonRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => !x.IsRepeating).ToList();
+                foreach (IInletOrOutlet sourceNonRepeatingInletOrOutlet in sourceNonRepeatingInletsOrOutlets)
+                {
+                    IInletOrOutlet destNonRepeatingInletOrOutlet = TryGetDestInletOrOutlet(sourceNonRepeatingInletOrOutlet, destCandicateNonRepeatingInletsOrOutlets);
 
-                tuples.Add(new OutletTuple(sourceOutlet, destOutlet));
+                    tuples.Add(new InletOrOutletTuple(sourceNonRepeatingInletOrOutlet, destNonRepeatingInletOrOutlet));
+                    destCandicateNonRepeatingInletsOrOutlets.Remove(destNonRepeatingInletOrOutlet);
+                }
+            }
 
-                destCandidateOutlets.Remove(destOutlet);
+            // Match Repeating Ones
+            {
+                IInletOrOutlet sourceRepeatingInletOrOutlet = sourceSortedInletOrOutlets.Reverse().Where(x => x.IsRepeating).FirstOrDefault(); // Optimized for Repeating Inlet at the end.
+                IList<IInletOrOutlet> destCandicateRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => x.IsRepeating).ToList();
+                // ReSharper disable once InvertIf
+                if (sourceRepeatingInletOrOutlet != null)
+                {
+                    IInletOrOutlet destRepeatingInlet;
+                    while ((destRepeatingInlet = TryGetDestInletOrOutlet(sourceRepeatingInletOrOutlet, destCandicateRepeatingInletsOrOutlets)) != null)
+                    {
+                        tuples.Add(new InletOrOutletTuple(sourceRepeatingInletOrOutlet, destRepeatingInlet));
+                        destCandicateRepeatingInletsOrOutlets.Remove(destRepeatingInlet);
+                    }
+                }
             }
 
             return tuples;
         }
 
-        private static Outlet TryGetDestOutlet(Outlet sourceOutlet, IList<Outlet> destCandicateOutlets)
+        private static IInletOrOutlet TryGetDestInletOrOutlet(IInletOrOutlet sourceInletOrOutlet, IList<IInletOrOutlet> candicateDestInletsOrOutlets)
         {
-            if (destCandicateOutlets == null) throw new NullException(() => destCandicateOutlets);
+            if (candicateDestInletsOrOutlets == null) throw new NullException(() => candicateDestInletsOrOutlets);
 
-            bool nameIsFilledIn = NameHelper.IsFilledIn(sourceOutlet.Name);
+            bool nameIsFilledIn = NameHelper.IsFilledIn(sourceInletOrOutlet.Name);
             if (nameIsFilledIn)
             {
-                // Try match by Name and Position
+                // Try match by Name and Position (and RepetitionPosition)
                 {
-                    Outlet destOutlet = destCandicateOutlets.FirstOrDefault(
-                        x => x.Position == sourceOutlet.Position &&
-                             NameHelper.AreEqual(x.Name, sourceOutlet.Name));
+                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                        x => x.Position == sourceInletOrOutlet.Position &&
+                             NameHelper.AreEqual(x.Name, sourceInletOrOutlet.Name));
 
-                    if (destOutlet != null)
+                    if (destInletOrOutlet != null)
                     {
-                        return destOutlet;
+                        return destInletOrOutlet;
                     }
                 }
 
-                // Try match by Name
+                // Try match by Name (and RepetitionPosition)
                 {
-                    Outlet destOutlet = destCandicateOutlets.FirstOrDefault(x => NameHelper.AreEqual(x.Name, sourceOutlet.Name));
-                    if (destOutlet != null)
+                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                        x => NameHelper.AreEqual(x.Name, sourceInletOrOutlet.Name));
+
+                    if (destInletOrOutlet != null)
                     {
-                        return destOutlet;
+                        return destInletOrOutlet;
                     }
                 }
             }
 
-            DimensionEnum sourceDimensionEnum = sourceOutlet.GetDimensionEnum();
+            DimensionEnum sourceDimensionEnum = sourceInletOrOutlet.GetDimensionEnum();
             bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
+
             if (dimensionIsFilledIn)
             {
-                // Try match by Dimension and Position
+                // Try match by Dimension and Position (and RepetitionPosition)
                 {
-                    Outlet destOutlet = destCandicateOutlets.FirstOrDefault(
-                        x => x.Position == sourceOutlet.Position &&
+                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                        x => x.Position == sourceInletOrOutlet.Position &&
                              x.GetDimensionEnum() == sourceDimensionEnum);
 
-                    if (destOutlet != null)
+                    if (destInletOrOutlet != null)
                     {
-                        return destOutlet;
+                        return destInletOrOutlet;
                     }
                 }
 
-                // Try match by Dimension
+                // Try match by Dimension (and RepetitionPosition)
                 {
-                    Outlet destOutlet = destCandicateOutlets.FirstOrDefault(x => x.GetDimensionEnum() == sourceDimensionEnum);
-                    if (destOutlet != null)
+                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                        x => x.GetDimensionEnum() == sourceDimensionEnum);
+
+                    if (destInletOrOutlet != null)
                     {
-                        return destOutlet;
+                        return destInletOrOutlet;
                     }
                 }
             }
 
-            // Try match by Position
+            // Try match by Position (and RepetitionPosition)
             {
-                Outlet destOutlet = destCandicateOutlets.FirstOrDefault(x => x.Position == sourceOutlet.Position);
-                return destOutlet;
+                IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                    x => x.Position == sourceInletOrOutlet.Position &&
+                         x.RepetitionPosition == sourceInletOrOutlet.RepetitionPosition);
+
+                return destInletOrOutlet;
             }
         }
 
@@ -261,6 +239,7 @@ namespace JJ.Business.Synthesizer
         /// Note that even though a CustomOperator can have multiple outlets, 
         /// you will only be using one at a time in your calculations.
         /// </summary>
+        // ReSharper disable once SuggestBaseTypeForParameter
         private static Outlet TryApplyCustomOperatorToUnderlyingPatch(Outlet operatorOutlet)
         {
             if (operatorOutlet == null) throw new NullException(() => operatorOutlet);
@@ -317,7 +296,7 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            // Do not match by list index, because that would result in something arbitrary.
+            // Do not match by Position, because that would result in something arbitrary.
 
             return false;
         }

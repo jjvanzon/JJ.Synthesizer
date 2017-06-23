@@ -1,4 +1,5 @@
 ﻿using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
 // ReSharper disable RedundantCast
 
@@ -148,11 +149,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             audioOutput.LinkTo((SpeakerSetup)null);
         }
 
-        public static void UnlinkDimension(this Inlet inlet)
+        public static void UnlinkDimension(this IInletOrOutlet inletOrOutlet)
         {
-            if (inlet == null) throw new NullException(() => inlet);
+            if (inletOrOutlet == null) throw new NullException(() => inletOrOutlet);
 
-            inlet.LinkTo((Dimension)null);
+            inletOrOutlet.LinkTo((Dimension)null);
         }
 
         public static void UnlinkNodeType(this Node node)
@@ -174,13 +175,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (op == null) throw new NullException(() => op);
 
             op.LinkTo((Dimension)null);
-        }
-
-        public static void UnlinkDimension(this Outlet outlet)
-        {
-            if (outlet == null) throw new NullException(() => outlet);
-
-            outlet.LinkTo((Dimension)null);
         }
 
         public static void UnlinkDefaultStandardDimension(this Patch patch)
