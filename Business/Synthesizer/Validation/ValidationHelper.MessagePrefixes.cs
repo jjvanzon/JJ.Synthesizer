@@ -1,25 +1,32 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
     public static partial class ValidationHelper
     {
-        [NotNull] public static string GetMessagePrefix([NotNull] AudioFileOutput entity) => GetMessagePrefix(ResourceFormatter.AudioFileOutput, GetUserFriendlyIdentifier(entity));
-        [NotNull] public static string GetMessagePrefix([NotNull] AudioOutput entity) => GetMessagePrefix(ResourceFormatter.AudioOutput, GetUserFriendlyIdentifier(entity));
-        [NotNull] public static string GetMessagePrefix([NotNull] Curve entity) => GetMessagePrefix(ResourceFormatter.Curve, GetUserFriendlyIdentifier(entity));
-        [NotNull] public static string GetMessagePrefix([NotNull] Document entity) => GetMessagePrefix(ResourceFormatter.Document, entity.Name);
+        public static string GetMessagePrefix(AudioFileOutput entity) => GetMessagePrefix(
+            ResourceFormatter.AudioFileOutput,
+            GetUserFriendlyIdentifier(entity));
 
-        [NotNull] public static string GetMessagePrefix_ForLowerDocumentReference([NotNull] DocumentReference lowerDocumentReference)
+        public static string GetMessagePrefix(AudioOutput entity) => GetMessagePrefix(ResourceFormatter.AudioOutput, GetUserFriendlyIdentifier(entity));
+
+        public static string GetMessagePrefix(Curve entity) => GetMessagePrefix(ResourceFormatter.Curve, GetUserFriendlyIdentifier(entity));
+
+        public static string GetMessagePrefix(Document entity) => GetMessagePrefix(ResourceFormatter.Document, entity.Name);
+
+        public static string GetMessagePrefix_ForLowerDocumentReference(DocumentReference lowerDocumentReference)
         {
             return GetMessagePrefix(ResourceFormatter.Library, GetUserFriendlyIdentifier_ForLowerDocumentReference(lowerDocumentReference));
         }
 
-        [NotNull]
-        public static string GetMessagePrefix_ForHigherDocumentReference([NotNull] DocumentReference higherDocumentReference)
+        public static string GetMessagePrefix_ForHigherDocumentReference(DocumentReference higherDocumentReference)
         {
             return GetMessagePrefix(ResourceFormatter.HigherDocument, GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference));
         }
@@ -43,30 +50,55 @@ namespace JJ.Business.Synthesizer.Validation
             return higherDocumentPrefix;
         }
 
-        [NotNull] public static string GetMessagePrefix([NotNull] Inlet entity) => GetMessagePrefix(ResourceFormatter.Inlet, GetUserFriendlyIdentifier(entity));
-        
-        /// <param name="number">1-based</param>
-        [NotNull] public static string GetMessagePrefix([NotNull] Node entity, int number) => GetMessagePrefix(ResourceFormatter.Node, GetUserFriendlyIdentifier(entity, number));
+        public static string GetMessagePrefix(IInletOrOutlet entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
 
-        [NotNull]
+            string entityTypeName = entity.GetType().Name;
+
+            string entityTypeDisplayName;
+
+            if (entity is Inlet)
+            {
+                entityTypeDisplayName = ResourceFormatter.Inlet;
+            }
+            else if (entity is Outlet)
+            {
+                entityTypeDisplayName = ResourceFormatter.Outlet;
+            }
+            else
+            {
+                entityTypeDisplayName = entityTypeName;
+            }
+
+            return GetMessagePrefix(entityTypeDisplayName, GetUserFriendlyIdentifier(entity));
+
+        }
+
+        /// <param name="number">1-based</param>
+
+        public static string GetMessagePrefix(Node entity, int number) => GetMessagePrefix(ResourceFormatter.Node, GetUserFriendlyIdentifier(entity, number));
+
         public static string GetMessagePrefix(
-            [NotNull] Operator entity,
-            [NotNull] ISampleRepository sampleRepository,
-            [NotNull] ICurveRepository curveRepository)
+            Operator entity,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository)
         {
             return GetMessagePrefix(ResourceFormatter.Operator, GetUserFriendlyIdentifier(entity, sampleRepository, curveRepository));
         }
 
-        [NotNull] public static string GetMessagePrefix([NotNull] Outlet entity) => GetMessagePrefix(ResourceFormatter.Outlet, GetUserFriendlyIdentifier(entity));
-        [NotNull] public static string GetMessagePrefix([NotNull] Patch entity) => GetMessagePrefix(ResourceFormatter.Patch, GetUserFriendlyIdentifier(entity));
-        [NotNull] public static string GetMessagePrefix([NotNull] Sample entity) => GetMessagePrefix(ResourceFormatter.Sample, GetUserFriendlyIdentifier(entity));
-        [NotNull] public static string GetMessagePrefix([NotNull] Scale entity) => GetMessagePrefix(ResourceFormatter.Scale, GetUserFriendlyIdentifier(entity));
-        [NotNull] public static string GetMessagePrefix([NotNull] Tone entity) => GetMessagePrefix(ResourceFormatter.Tone, GetUserFriendlyIdentifier(entity));
+        public static string GetMessagePrefix(Patch entity) => GetMessagePrefix(ResourceFormatter.Patch, GetUserFriendlyIdentifier(entity));
+
+        public static string GetMessagePrefix(Sample entity) => GetMessagePrefix(ResourceFormatter.Sample, GetUserFriendlyIdentifier(entity));
+
+        public static string GetMessagePrefix(Scale entity) => GetMessagePrefix(ResourceFormatter.Scale, GetUserFriendlyIdentifier(entity));
+
+        public static string GetMessagePrefix(Tone entity) => GetMessagePrefix(ResourceFormatter.Tone, GetUserFriendlyIdentifier(entity));
 
         // Helpers
 
         /// <summary> Uses the name in the message or otherwise the only the entityTypeDisplayName. </summary>
-        [NotNull]
+
         private static string GetMessagePrefix(string entityTypeDisplayName, [CanBeNull] string identifier)
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement

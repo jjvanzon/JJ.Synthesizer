@@ -1087,4 +1087,8 @@
   <data name="CannotSetOutletCountForOperatorType" xml:space="preserve">
     <value>Cannot change outlet count for operator type {0}.</value>
   </data>
+  <data name="RepetitionPositionsNotConsecutive" xml:space="preserve">
+    <value>Repetition positions ({0}) are not consecutive.</value>
+    <comment>{0} = list of numbers, example: 1, 2, 4, 5</comment>
+  </data>
 </root>

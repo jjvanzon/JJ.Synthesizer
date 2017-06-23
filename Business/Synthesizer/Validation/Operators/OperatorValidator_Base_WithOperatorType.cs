@@ -7,10 +7,11 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal abstract class OperatorValidator_Base_WithOperatorType : OperatorValidator_Base
+    internal abstract class OperatorValidator_Base_WithOperatorType : VersatileValidator
     {
         public OperatorValidator_Base_WithOperatorType(
             Operator op,
@@ -18,7 +19,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             IList<DimensionEnum> expectedInletDimensionEnums,
             IList<DimensionEnum> expectedOutletDimensionEnums,
             IList<string> expectedDataKeys)
-            : base(op)
         {
             if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
             if (expectedInletDimensionEnums == null) throw new NullException(() => expectedInletDimensionEnums);

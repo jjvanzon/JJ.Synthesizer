@@ -22,16 +22,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             For(() => op.Data, ResourceFormatter.Data).IsNullOrEmpty();
 
             ExecuteValidator(new DimensionInfoValidator(op.HasDimension, op.StandardDimension, op.CustomDimensionName));
-
-            foreach (Inlet inlet in op.Inlets)
-            {
-                ExecuteValidator(new InletValidator_WithUnderlyingPatch(inlet), ValidationHelper.GetMessagePrefix(inlet));
-            }
-
-            foreach (Outlet outlet in op.Outlets)
-            {
-                ExecuteValidator(new OutletValidator_WithUnderlyingPatch(outlet), ValidationHelper.GetMessagePrefix(outlet));
-            }
+            ExecuteValidator(new InletOrOutletListValidator_WithUnderlyingPatch(op.Inlets));
+            ExecuteValidator(new InletOrOutletListValidator_WithUnderlyingPatch(op.Outlets));
 
             // ReSharper disable once InvertIf
             if (op.UnderlyingPatch != null)

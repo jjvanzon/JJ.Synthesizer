@@ -2113,6 +2113,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Repetition positions ({0}) are not consecutive..
+        /// </summary>
+        internal static string RepetitionPositionsNotConsecutive {
+            get {
+                return ResourceManager.GetString("RepetitionPositionsNotConsecutive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset.
         /// </summary>
         internal static string Reset {

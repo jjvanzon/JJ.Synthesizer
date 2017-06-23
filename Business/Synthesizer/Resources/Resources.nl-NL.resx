@@ -119,18 +119,15 @@
   </resheader>
   <data name="UnderlyingPatchIsCircular" xml:space="preserve">
     <value>Er is een cirkelverband met de onderliggende schakeling.</value>
-    <comment>{0} = name</comment>
   </data>
   <data name="DocumentIsDependentOnDocument" xml:space="preserve">
     <value>Document '{0}' is afhankelijk van document '{1}'.</value>
-    <comment>{0} = dependent document, {1} = dependent on document</comment>
   </data>
   <data name="InletNames" xml:space="preserve">
     <value>Ingang namen</value>
   </data>
   <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">
     <value>De patch van operator '{0}' is ingevuld, maar het is niet de verwachte patch '{1}'.</value>
-    <comment>{0} = operator name, {1} = patch name</comment>
   </data>
   <data name="SampleCount0" xml:space="preserve">
     <value>Geluidsfragment '{0}' heeft geen data.</value>
@@ -146,18 +143,15 @@
   </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>
-    <comment>{0} = number</comment>
   </data>
   <data name="CannotChangeOutletCountBecauseOneIsStillFilledIn" xml:space="preserve">
     <value>Kan het aantal uitgangen niet aanpassen, omdat uitgang {0} in gebruik is.</value>
-    <comment>{0} = number</comment>
   </data>
   <data name="MismatchWithUnderlyingPatch" xml:space="preserve">
     <value>Wijkt af van onderliggende schakeling.</value>
   </data>
   <data name="MustBePowerOf2" xml:space="preserve">
     <value>{0} moet een macht van 2 zijn.</value>
-    <comment>{0} = name of the value</comment>
   </data>
   <data name="OperatorIsInGraphButNotInList" xml:space="preserve">
     <value>Operator is aanwezig in de graaf, but niet in de platte lijst.</value>
@@ -467,7 +461,6 @@
   </data>
   <data name="Left" xml:space="preserve">
     <value>Links</value>
-    <comment>As in left and right</comment>
   </data>
   <data name="LessThan" xml:space="preserve">
     <value>&lt;</value>
@@ -678,11 +671,9 @@
   </data>
   <data name="Right" xml:space="preserve">
     <value>Rechts</value>
-    <comment>As in left and right</comment>
   </data>
   <data name="Round" xml:space="preserve">
     <value>Afronden</value>
-    <comment>As in: round up a number.</comment>
   </data>
   <data name="Sample" xml:space="preserve">
     <value>Geluidsfragment</value>
@@ -740,14 +731,12 @@
   </data>
   <data name="Single" xml:space="preserve">
     <value>Enkel</value>
-    <comment>As in a single speaker channel i.e. mono.</comment>
   </data>
   <data name="Skip" xml:space="preserve">
     <value>Sprong</value>
   </data>
   <data name="SliceLength" xml:space="preserve">
     <value>Lengte</value>
-    <comment>'Slice' is hard to translate to Dutch in this context.</comment>
   </data>
   <data name="SortOverDimension" xml:space="preserve">
     <value>Sorteren over dimensie</value>
@@ -922,7 +911,6 @@
   </data>
   <data name="GetDimensionWithPlaceholder" xml:space="preserve">
     <value>{0} opvragen</value>
-    <comment>{0} = dimension, example: Get Time</comment>
   </data>
   <data name="Group" xml:space="preserve">
     <value>Groep</value>
@@ -941,7 +929,6 @@
   </data>
   <data name="SetDimensionWithPlaceholder" xml:space="preserve">
     <value>{0} instellen</value>
-    <comment>{0} = dimension, example: Set Time</comment>
   </data>
   <data name="Sort" xml:space="preserve">
     <value>Sorteren</value>
@@ -975,7 +962,6 @@
   </data>
   <data name="CannotHide_WithName_AndDependentItem" xml:space="preserve">
     <value>Kan {0} niet verbergen, want het wordt nog gebruikt door het volgende: {1}.</value>
-    <comment>{0} = name, {1} = dependent item</comment>
   </data>
   <data name="DocumentCannotReferenceItself" xml:space="preserve">
     <value>Document kan niet naar zichzelf wijzen.</value>
@@ -1081,5 +1067,8 @@
   </data>
   <data name="CannotSetOutletCountWithoutRepeatingOutlets" xml:space="preserve">
     <value>Aantal uitgangen kan niet worden aangepast als er geen herhalende uitgangen zijn.</value>
+  </data>
+  <data name="RepetitionPositionsNotConsecutive" xml:space="preserve">
+    <value>Herhalingsposities ({0}) zijn niet aaneengesloten.</value>
   </data>
 </root>

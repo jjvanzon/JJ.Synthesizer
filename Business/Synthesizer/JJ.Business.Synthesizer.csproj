@@ -362,13 +362,12 @@
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_UniqueLowerDocument.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_DoesNotReferenceItself.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_SystemDocumentReferenceMustExist.cs" />
+    <Compile Include="Validation\InletOrOutletListValidator_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetInletCount_Basic.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetInletCount_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount_Basic.cs" />
-    <Compile Include="Validation\OutletValidator_WithUnderlyingPatch.cs" />
-    <Compile Include="Validation\InletValidator_WithUnderlyingPatch.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_Base.cs" />
+    <Compile Include="Validation\InletOrOutletValidator_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_ClosestOverInlets.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
