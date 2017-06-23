@@ -597,9 +597,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CustomDimensionName = entity.CustomDimensionName,
                 HasDimension = entity.HasDimension,
                 InletCount = entity.Inlets.Count,
-                CanEditInletCount = ViewModelHelper.GetCanEditInletCount(entity),
+                CanEditInletCount = entity.CanSetInletCount(),
                 OutletCount = entity.Outlets.Count,
-                CanEditOutletCount = ViewModelHelper.GetCanEditOutletCount(entity),
+                CanEditOutletCount = entity.CanSetOutletCount(),
                 ValidationMessages = new List<MessageDto>()
             };
 

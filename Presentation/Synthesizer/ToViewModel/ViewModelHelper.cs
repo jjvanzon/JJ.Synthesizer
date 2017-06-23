@@ -35,27 +35,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // OperatorTypeEnum HashSets
 
-        private static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInletCount { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.Add,
-                OperatorTypeEnum.AverageOverInlets,
-                OperatorTypeEnum.ClosestOverInlets,
-                OperatorTypeEnum.ClosestOverInletsExp,
-                OperatorTypeEnum.InletsToDimension,
-                OperatorTypeEnum.MaxOverInlets,
-                OperatorTypeEnum.MinOverInlets,
-                OperatorTypeEnum.Multiply,
-                OperatorTypeEnum.SortOverInlets
-            };
-
-        private static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithOutletCount { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.DimensionToOutlets,
-                OperatorTypeEnum.RangeOverOutlets
-            };
-
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCollectionRecalculationPropertyViews { get; } =
             new HashSet<OperatorTypeEnum>
             {
@@ -447,24 +426,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return true;
-        }
-
-        public static bool GetCanEditOutletCount(Operator entity)
-        {
-            bool canEditOutletCount =
-                entity.Outlets.Any(x => x.IsRepeating) ||
-                OperatorTypeEnums_WithOutletCount.Contains(entity.GetOperatorTypeEnum());
-
-            return canEditOutletCount;
-        }
-
-        public static bool GetCanEditInletCount(Operator entity)
-        {
-            bool canEditInletCount =
-                entity.Inlets.Any(x => x.IsRepeating) ||
-                OperatorTypeEnums_WithInletCount.Contains(entity.GetOperatorTypeEnum());
-
-            return canEditInletCount;
         }
 
         /// <summary>

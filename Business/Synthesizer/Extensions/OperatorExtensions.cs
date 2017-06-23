@@ -84,5 +84,48 @@ namespace JJ.Business.Synthesizer.Extensions
 
             return connectedOperators;
         }
+
+        public static bool CanSetInletCount(this Operator op)
+        {
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.Add:
+                case OperatorTypeEnum.AverageOverInlets:
+                case OperatorTypeEnum.ClosestOverInlets:
+                case OperatorTypeEnum.ClosestOverInletsExp:
+                case OperatorTypeEnum.InletsToDimension:
+                case OperatorTypeEnum.MaxOverInlets:
+                case OperatorTypeEnum.MinOverInlets:
+                case OperatorTypeEnum.Multiply:
+                case OperatorTypeEnum.SortOverInlets:
+                    return true;
+
+                case OperatorTypeEnum.PatchInlet:
+                case OperatorTypeEnum.PatchOutlet:
+                    return false;
+            }
+
+            bool hasRepeatingInlet = op.Inlets.Reverse().Any(x => x.IsRepeating);
+            return hasRepeatingInlet;
+        }
+
+        public static bool CanSetOutletCount(this Operator op)
+        {
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.DimensionToOutlets:
+                case OperatorTypeEnum.RangeOverOutlets:
+                    return true;
+
+                case OperatorTypeEnum.PatchInlet:
+                case OperatorTypeEnum.PatchOutlet:
+                    return false;
+            }
+
+            bool hasRepeatingOutlet = op.Outlets.Reverse().Any(x => x.IsRepeating);
+            return hasRepeatingOutlet;
+        }
     }
 }

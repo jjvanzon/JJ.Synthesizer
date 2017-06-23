@@ -52,7 +52,13 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Cache => Resources.Cache;
         public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem) => string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);
         public static string CannotSetInletCountWithoutRepeatingInlets => Resources.CannotSetInletCountWithoutRepeatingInlets;
+        public static string CannotSetInletCountForOperatorType(string operatorTypeDisplayName) => string.Format(
+            Resources.CannotSetInletCountForOperatorType,
+            operatorTypeDisplayName);
         public static string CannotSetOutletCountWithoutRepeatingOutlets => Resources.CannotSetOutletCountWithoutRepeatingOutlets;
+        public static string CannotSetOutletCountForOperatorType(string operatorTypeDisplayName) => string.Format(
+            Resources.CannotSetOutletCountForOperatorType,
+            operatorTypeDisplayName);
         public static string Cent => Resources.Cent;
         public static string CenterFrequency => Resources.CenterFrequency;
         public static string Cents => Resources.Cents;

@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
@@ -29,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override IResult SaveWithUserInput(Operator entity, TViewModel userInput)
         {
-            if (userInput.CanEditInletCount)
+            if (entity.CanSetInletCount())
             {
                 VoidResult result = _patchManager.SetOperatorInletCount(entity, userInput.InletCount);
                 if (!result.Successful)
@@ -38,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            if (userInput.CanEditOutletCount)
+            if (entity.CanSetOutletCount())
             {
                 VoidResult result = _patchManager.SetOperatorOutletCount(entity, userInput.OutletCount);
                 if (!result.Successful)

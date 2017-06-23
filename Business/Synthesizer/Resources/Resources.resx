@@ -1075,8 +1075,16 @@
   </data>
   <data name="CannotSetInletCountWithoutRepeatingInlets" xml:space="preserve">
     <value>Cannot change inlet count if there are no repeating inlets.</value>
+    <comment>{0} = name</comment>
   </data>
   <data name="CannotSetOutletCountWithoutRepeatingOutlets" xml:space="preserve">
     <value>Cannot change outlet count if there are no repeating outlets.</value>
+  </data>
+  <data name="CannotSetInletCountForOperatorType" xml:space="preserve">
+    <value>Cannot change inlet count for operator type {0}.</value>
+    <comment>{0} = name</comment>
+  </data>
+  <data name="CannotSetOutletCountForOperatorType" xml:space="preserve">
+    <value>Cannot change outlet count for operator type {0}.</value>
   </data>
 </root>
