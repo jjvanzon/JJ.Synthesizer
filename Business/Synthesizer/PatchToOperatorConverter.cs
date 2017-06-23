@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer
             foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse.ToArray())
             {
                 Inlet entityToDeleteIfNotInUse = _repositories.InletRepository.Get(idToDeleteIfNotInUse);
-                bool isInUse = entityToDeleteIfNotInUse.InputOutlet != null;
+                bool isInUse = InletIsInUse(entityToDeleteIfNotInUse);
                 if (isInUse)
                 {
                     entityToDeleteIfNotInUse.IsObsolete = true;
@@ -118,6 +118,21 @@ namespace JJ.Business.Synthesizer
                     _repositories.InletRepository.Delete(entityToDeleteIfNotInUse);
                 }
             }
+        }
+
+        private static bool InletIsInUse(Inlet inlet)
+        {
+            if (inlet.InputOutlet != null)
+            {
+                return true;
+            }
+
+            bool repeatedInletIsInUse = inlet.IsRepeating &&
+                                        inlet.Operator.Inlets
+                                             .Where(x => x.IsRepeating && x.InputOutlet != null)
+                                             .Any();
+
+            return repeatedInletIsInUse;
         }
 
         /// <param name="destInlet">nullable</param>
@@ -164,7 +179,7 @@ namespace JJ.Business.Synthesizer
             IList<Outlet> sourceOutlets;
             if (sourcePatch != null)
             {
-                sourceOutlets = sourcePatch.EnumerateOperatorsOfType(Enums.OperatorTypeEnum.PatchOutlet)
+                sourceOutlets = sourcePatch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
                                            .Select(x => new PatchOutlet_OperatorWrapper(x))
                                            .Select(x => x.Outlet)
                                            .ToArray();
@@ -190,18 +205,33 @@ namespace JJ.Business.Synthesizer
 
             foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse.ToArray())
             {
-                Outlet entityToDeleteIfNotInUse = _repositories.OutletRepository.Get(idToDeleteIfNotInUse);
-                bool isInUse = entityToDeleteIfNotInUse.ConnectedInlets.Count != 0;
+                Outlet outletToDeleteIfNotInUse = _repositories.OutletRepository.Get(idToDeleteIfNotInUse);
+                bool isInUse = OutletIsInUse(outletToDeleteIfNotInUse);
                 if (isInUse)
                 {
-                    entityToDeleteIfNotInUse.IsObsolete = true;
+                    outletToDeleteIfNotInUse.IsObsolete = true;
                 }
                 else
                 {
-                    entityToDeleteIfNotInUse.UnlinkRelatedEntities();
-                    _repositories.OutletRepository.Delete(entityToDeleteIfNotInUse);
+                    outletToDeleteIfNotInUse.UnlinkRelatedEntities();
+                    _repositories.OutletRepository.Delete(outletToDeleteIfNotInUse);
                 }
             }
+        }
+
+        private bool OutletIsInUse(Outlet outlet)
+        {
+            if (outlet.ConnectedInlets.Count != 0)
+            {
+                return true;
+            }
+
+            bool repeatingOutletIsInUse = outlet.IsRepeating &&
+                                          outlet.Operator.Outlets
+                                                .Where(x => x.IsRepeating)
+                                                .SelectMany(x => x.ConnectedInlets)
+                                                .Any();
+            return repeatingOutletIsInUse;
         }
 
         /// <param name="destOutlet">nullable</param>
