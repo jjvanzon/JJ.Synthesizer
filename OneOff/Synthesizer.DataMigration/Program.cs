@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using JJ.Framework.Common;
-using JJ.Framework.Configuration;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
