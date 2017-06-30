@@ -653,7 +653,6 @@
     <Compile Include="Cascading\DeleteRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Cascading\UnlinkRelatedEntitiesExtensions.cs" />
-    <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchOutlet_OperatorWrapper.cs" />
@@ -864,7 +863,6 @@
     <Compile Include="Validation\Operators\OperatorValidator_IsCircular.cs" />
     <Compile Include="Validation\Patches\PatchValidator_Name.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Recursive.cs" />
-    <Compile Include="Validation\Operators\Add_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Sample_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Curve_OperatorValidator.cs" />
     <Compile Include="Validation\Samples\SampleValidator.cs" />
@@ -919,7 +917,6 @@
     <Compile Include="Warnings\Operators\Curve_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Versatile.cs" />
-    <Compile Include="Warnings\Operators\Add_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\PatchOutlet_OperatorWarningValidator.cs" />

@@ -375,8 +375,11 @@
     <Content Include="2017-06-03 040 SynthesizerDB Dimension 73 - Radians.sql" />
     <Content Include="2017-06-03 050 SynthesizerDB Dimension 74 - HighestFrequency.sql" />
     <Content Include="2017-06-11 030 SynthesizerDB RUN UTILITY - Copy.sql" />
+    <Content Include="2017-06-30 020 SynthesizerDB delete OperatorType Add.sql" />
+    <Content Include="2017-06-30 005 SynthesizerDB Update Patch.Hidden to 0 for Add Operator in System Document.sql" />
     <Content Include="2017-06-16 040 SynthesizerDB Update Patch.Hidden to 0 for Operators Or, Power and Subtract in System Document.sql" />
     <Content Include="2017-06-16 010 SynthesizerDB Update Patch.Hidden to 0 for Operators Negative, Not and OneOverX in System Document.sql" />
+    <Content Include="2017-06-30 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-06-19 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-06-16 050 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-06-16 020 SynthesizerDB RUN UTILITY.sql" />

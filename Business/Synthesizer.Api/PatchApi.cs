@@ -23,10 +23,10 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch Absolute(Outlet number = null)
             => _operatorFactory.Absolute(number);
 
-        public Add_OperatorWrapper Add(params Outlet[] items) 
+        public OperatorWrapper_WithUnderlyingPatch Add(params Outlet[] items) 
             => _operatorFactory.Add(items);
 
-        public Add_OperatorWrapper Add(IList<Outlet> items)
+        public OperatorWrapper_WithUnderlyingPatch Add(IList<Outlet> items)
             => _operatorFactory.Add(items);
 
         public OperatorWrapper_WithUnderlyingPatch And(Outlet a = null, Outlet b = null)

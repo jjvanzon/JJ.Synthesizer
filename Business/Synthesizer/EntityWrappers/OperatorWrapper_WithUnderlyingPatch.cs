@@ -27,10 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public OperatorWrapper_WithUnderlyingPatch_Outlets Outlets { get; }
 
-        public DimensionEnum StandardDimension
-        {
-            get => WrappedOperator.GetStandardDimensionEnum();
-        }
+        public DimensionEnum StandardDimension => WrappedOperator.GetStandardDimensionEnum();
 
         public string CustomDimension
         {

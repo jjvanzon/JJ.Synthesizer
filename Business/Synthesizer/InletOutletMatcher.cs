@@ -92,11 +92,21 @@ namespace JJ.Business.Synthesizer
                 // ReSharper disable once InvertIf
                 if (sourceRepeatingInletOrOutlet != null)
                 {
-                    IInletOrOutlet destRepeatingInlet;
-                    while ((destRepeatingInlet = TryGetDestInletOrOutlet(sourceRepeatingInletOrOutlet, destCandicateRepeatingInletsOrOutlets)) != null)
+                    IInletOrOutlet destRepeatingInletOrOutlet = TryGetDestInletOrOutlet(sourceRepeatingInletOrOutlet, destCandicateRepeatingInletsOrOutlets);
+
+                    if (destRepeatingInletOrOutlet == null)
                     {
-                        tuples.Add(new InletOrOutletTuple(sourceRepeatingInletOrOutlet, destRepeatingInlet));
-                        destCandicateRepeatingInletsOrOutlets.Remove(destRepeatingInlet);
+                        tuples.Add(new InletOrOutletTuple(sourceRepeatingInletOrOutlet, null));
+                    }
+                    else
+                    {
+                        while (destRepeatingInletOrOutlet != null)
+                        {
+                            tuples.Add(new InletOrOutletTuple(sourceRepeatingInletOrOutlet, destRepeatingInletOrOutlet));
+                            destCandicateRepeatingInletsOrOutlets.Remove(destRepeatingInletOrOutlet);
+
+                            destRepeatingInletOrOutlet = TryGetDestInletOrOutlet(sourceRepeatingInletOrOutlet, destCandicateRepeatingInletsOrOutlets);
+                        }
                     }
                 }
             }

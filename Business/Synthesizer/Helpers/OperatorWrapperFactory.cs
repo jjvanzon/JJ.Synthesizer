@@ -14,7 +14,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static readonly Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> _createOperatorWrapperDelegateDictionary =
                    new Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>>
         {
-            { OperatorTypeEnum.Add , Create_Add_OperatorWrapper },
             { OperatorTypeEnum.AllPassFilter, Create_AllPassFilter_OperatorWrapper },
             { OperatorTypeEnum.AverageFollower, Create_AverageFollower_OperatorWrapper },
             { OperatorTypeEnum.AverageOverDimension, Create_AverageOverDimension_OperatorWrapper },
@@ -97,6 +96,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 case OperatorTypeEnum.Sample:
                     return new Sample_OperatorWrapper(op, sampleRepository);
 
+                case OperatorTypeEnum.Add:
                 case OperatorTypeEnum.Absolute:
                 case OperatorTypeEnum.And:
                 case OperatorTypeEnum.CustomOperator:
@@ -128,7 +128,6 @@ namespace JJ.Business.Synthesizer.Helpers
             throw new ValueNotSupportedException(operatorTypeEnum);
         }
 
-        private static Add_OperatorWrapper Create_Add_OperatorWrapper(Operator op) { return new Add_OperatorWrapper(op); }
         private static AllPassFilter_OperatorWrapper Create_AllPassFilter_OperatorWrapper(Operator op) { return new AllPassFilter_OperatorWrapper(op); }
         private static AverageFollower_OperatorWrapper Create_AverageFollower_OperatorWrapper(Operator op) { return new AverageFollower_OperatorWrapper(op); }
         private static AverageOverDimension_OperatorWrapper Create_AverageOverDimension_OperatorWrapper(Operator op) { return new AverageOverDimension_OperatorWrapper(op); }

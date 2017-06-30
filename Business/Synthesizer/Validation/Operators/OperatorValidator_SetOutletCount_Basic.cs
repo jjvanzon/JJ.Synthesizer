@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
-using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -17,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             if (op == null) throw new NullException(() => op);
 
-            For(() => newOutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets)).GreaterThan(0);
+            For(() => newOutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets)).GreaterThanOrEqual(1);
 
             IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
             for (int i = newOutletCount; i < sortedOutlets.Count; i++)

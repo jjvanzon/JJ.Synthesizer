@@ -18,7 +18,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             switch (operatorTypeEnum)
             {
                 // Only ones with specialized validators are in here. Others are covered with the Basic validator already executed above.
-                case OperatorTypeEnum.Add: ExecuteValidator(new Add_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AllPassFilter: ExecuteValidator(new AllPassFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AverageFollower: ExecuteValidator(new AverageFollower_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AverageOverDimension: ExecuteValidator(new AverageOverDimension_OperatorWarningValidator(op)); break;

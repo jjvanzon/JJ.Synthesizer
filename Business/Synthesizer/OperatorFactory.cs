@@ -74,20 +74,30 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Add_OperatorWrapper Add(params Outlet[] items)
+        public OperatorWrapper_WithUnderlyingPatch Add(params Outlet[] items)
         {
             return Add((IList<Outlet>)items);
         }
 
-        public Add_OperatorWrapper Add(IList<Outlet> items)
+        public OperatorWrapper_WithUnderlyingPatch Add(IList<Outlet> items)
         {
             if (items == null) throw new NullException(() => items);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Add, items);
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
 
-            new Versatile_OperatorValidator(op).Assert();
+            VoidResult setOperatorInletCountResult = _patchManager.SetOperatorInletCount(op, items.Count);
+            setOperatorInletCountResult.Assert();
 
-            var wrapper = new Add_OperatorWrapper(op);
+            // TODO: You would think the wrapper should help you with this.
+            // TODO: You might want this to be more generic, so you can reuse it for other operator types.
+            for (int i = 0; i < items.Count; i++)
+            {
+                Inlet inlet = op.Inlets[i];
+                Outlet input = items[i];
+                inlet.LinkTo(input);
+            }
+
             return wrapper;
         }
 

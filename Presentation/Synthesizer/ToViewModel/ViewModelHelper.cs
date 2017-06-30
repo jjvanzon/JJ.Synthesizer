@@ -69,6 +69,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch { get; } =
             new HashSet<OperatorTypeEnum>
             {
+                OperatorTypeEnum.Add,
                 OperatorTypeEnum.Absolute,
                 OperatorTypeEnum.And,
                 OperatorTypeEnum.CustomOperator,
@@ -107,7 +108,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithHiddenInletNames { get; } =
             new HashSet<OperatorTypeEnum>
             {
-                OperatorTypeEnum.Add,
                 OperatorTypeEnum.PatchInlet,
                 OperatorTypeEnum.PatchOutlet,
                 OperatorTypeEnum.Subtract,

@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 cumulativeDelay += delayValue;
             }
 
-            Add_OperatorWrapper add = x.Add(repeats);
+            OperatorWrapper_WithUnderlyingPatch add = x.Add(repeats);
             return add;
         }
     }

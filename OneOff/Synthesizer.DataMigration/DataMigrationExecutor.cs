@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
+using JJ.Framework.Collections;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -255,6 +256,40 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
+        public static void Migrate_AddOperator_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Add;
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(operatorTypeEnum, repositories, progressCallback);
+
+                IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
+
+                for (int i = 0; i < operators.Count; i++)
+                {
+                    Operator op = operators[i];
+
+                    op.Inlets.ForEach(x => x.IsRepeating = true);
+
+                    string progressMessage = $"Set Inlet.IsRepeating for {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
         // Helpers
 
         private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(
@@ -262,7 +297,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             RepositoryWrapper repositories,
             Action<string> progressCallback)
         {
-            DocumentManager documentManager = new DocumentManager(repositories);
+            var documentManager = new DocumentManager(repositories);
             documentManager.RefreshSystemDocumentIfNeeded(documentManager.GetSystemDocument());
             Patch systemPatch = documentManager.GetSystemPatch(operatorTypeEnum);
             IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);

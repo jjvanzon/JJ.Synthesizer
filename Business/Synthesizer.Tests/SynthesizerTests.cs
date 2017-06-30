@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Tests
                 // Test recursive validator
                 CultureHelper.SetThreadCultureName("nl-NL");
 
-                add.Items[0] = null;
+                add.Inputs[0] = null;
                 var valueOperatorWrapper = new Number_OperatorWrapper(subtract.Inputs[DimensionEnum.B].Operator);
                 valueOperatorWrapper.Number = 0;
                 subtract.WrappedOperator.Inlets[0].Name = "134";
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Number_OperatorWrapper val1 = x.Number(1);
                 Number_OperatorWrapper val2 = x.Number(2);
                 Number_OperatorWrapper val3 = x.Number(3);
-                Add_OperatorWrapper add = x.Add(val1, val2, val3);
+                OperatorWrapper_WithUnderlyingPatch add = x.Add(val1, val2, val3);
 
                 //IValidator validator = new OperatorValidator_Adder(adder.Operator);
                 //validator.Verify();
