@@ -1091,4 +1091,8 @@
     <value>Repetition positions ({0}) are not consecutive.</value>
     <comment>{0} = list of numbers, example: 1, 2, 4, 5</comment>
   </data>
+  <data name="ObsoleteButStillUsed" xml:space="preserve">
+    <value>{0} is obsolete, but still used.</value>
+    <comment>{0} = name</comment>
+  </data>
 </root>

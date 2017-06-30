@@ -759,15 +759,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             var wrapper = new PatchInlet_OperatorWrapper(op);
+            string name = wrapper.Inlet.Name;
             DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
 
             // Use OperatorType DisplayName
             sb.Append(ResourceFormatter.Inlet);
 
             // Try Use Operator Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
-                sb.Append($": {op.Name}");
+                sb.Append($": {name}");
             }
             // Try Use Dimension
             else if (dimensionEnum != DimensionEnum.Undefined)
@@ -796,15 +797,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var wrapper = new PatchOutlet_OperatorWrapper(op);
             Outlet outlet = wrapper.Outlet;
+            string name = outlet.Name;
             DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
 
             // Use OperatorType DisplayName
             sb.Append(ResourceFormatter.Outlet);
 
             // Try Use Operator Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
+            if (!string.IsNullOrWhiteSpace(name))
             {
-                sb.AppendFormat(": {0}", op.Name);
+                sb.Append($": {name}");
             }
             // Try Use Dimension
             else if (dimensionEnum != DimensionEnum.Undefined)
@@ -814,7 +816,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Try Use List Index
             else
             {
-                sb.AppendFormat(" {0}", wrapper.Outlet.Position);
+                sb.AppendFormat(" {0}", outlet.Position);
             }
 
             return sb.ToString();

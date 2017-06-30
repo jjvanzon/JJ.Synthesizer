@@ -1699,6 +1699,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is obsolete, but still used..
+        /// </summary>
+        internal static string ObsoleteButStillUsed {
+            get {
+                return ResourceManager.GetString("ObsoleteButStillUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Octave.
         /// </summary>
         internal static string Octave {

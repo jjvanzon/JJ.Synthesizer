@@ -191,6 +191,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string NotLoaded => Resources.NotLoaded;
         public static string NoSoundFound => Resources.NoSoundFoundInLibrary;
         public static string Number => Resources.Number;
+        public static string ObsoleteButStillUsed(string name) => string.Format(Resources.ObsoleteButStillUsed, name);
         public static string Octave => Resources.Octave;
         public static string Off => Resources.Off;
         public static string Offset => Resources.Offset;
