@@ -14,6 +14,18 @@ namespace JJ.Business.Synthesizer
 {
     internal static class InletOutletMatcher
     {
+        private class RepetitionInfo
+        {
+            public RepetitionInfo(bool isFromOnlyNonRepeatingToOnlyRepeating, bool isFromOnlyRepeatingToOnlyNonRepeating)
+            {
+                IsFromOnlyNonRepeatingToOnlyRepeating = isFromOnlyNonRepeatingToOnlyRepeating;
+                IsFromOnlyRepeatingToOnlyNonRepeating = isFromOnlyRepeatingToOnlyNonRepeating;
+            }
+
+            public bool IsFromOnlyNonRepeatingToOnlyRepeating { get; }
+            public bool IsFromOnlyRepeatingToOnlyNonRepeating { get; }
+        }
+
         // Patch to CustomOperator (e.g. for Converters and Validators)
 
         public static IList<InletTuple> MatchSourceAndDestInlets(Operator destOperator)
@@ -48,7 +60,6 @@ namespace JJ.Business.Synthesizer
 
             IList<OutletTuple> outletTuples = inletOrOutletTuples.Select(x => new OutletTuple((Outlet)x.SourceInletOrOutlet, (Outlet)x.DestInletOrOutlet))
                                                                  .ToArray();
-
             return outletTuples;
         }
 
@@ -58,7 +69,6 @@ namespace JJ.Business.Synthesizer
 
             IList<OutletTuple> outletTuples = inletOrOutletTuples.Select(x => new OutletTuple((Outlet)x.SourceInletOrOutlet, (Outlet)x.DestInletOrOutlet))
                                                                  .ToArray();
-
             return outletTuples;
         }
 
@@ -67,14 +77,112 @@ namespace JJ.Business.Synthesizer
             IEnumerable<IInletOrOutlet> sourceInletsOrOutlets, 
             IEnumerable<IInletOrOutlet> destInletsOrOutlets)
         {
-            IList<IInletOrOutlet> sourceSortedInletOrOutlets = sourceInletsOrOutlets.Sort().ToArray();
+            // Do a different mapping if going from single repeating inlet to no repeating inlets or outlets.
+            RepetitionInfo repetitionInfo = GetRepetitionInfo(sourceInletsOrOutlets, destInletsOrOutlets);
+
+            if (repetitionInfo.IsFromOnlyRepeatingToOnlyNonRepeating)
+            {
+                return MatchSourceAndDestInletsOrOutlets_FromOnlyRepeatingToOnlyNonRepeating(sourceInletsOrOutlets, destInletsOrOutlets);
+            }
+            else if (repetitionInfo.IsFromOnlyNonRepeatingToOnlyRepeating)
+            {
+                return MatchSourceAndDestInletsOrOutlets_FromOnlyNonRepeatingToOnlyRepeating(sourceInletsOrOutlets, destInletsOrOutlets);
+            }
+            else
+            {
+                return MatchSourceAndDestInletsOrOutlets_ByComplexKeys(sourceInletsOrOutlets, destInletsOrOutlets);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether you go from sole repeating, to only non-repeating inlets (or outlets),
+        /// or the other way around, or 'mixed mode'.
+        /// </summary>
+        private static RepetitionInfo GetRepetitionInfo(
+            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets, 
+            IEnumerable<IInletOrOutlet> destInletsOrOutlets)
+        {
+            // This is not very readable, but avoids traversing the list a many items.
+
+            IList<bool> sourceIsRepeatingBooleans = sourceInletsOrOutlets.Where(x => !x.IsObsolete).Select(x => x.IsRepeating).Distinct().ToArray();
+            IList<bool> destIsRepeatingBooleans = destInletsOrOutlets.Where(x => !x.IsObsolete).Select(x => x.IsRepeating).Distinct().ToArray();
+
+            bool sourceHasNonRepetitions = sourceIsRepeatingBooleans.Contains(false);
+            bool sourceHasRepetitions = sourceIsRepeatingBooleans.Contains(true);
+            bool destHasNonRepetitions = destIsRepeatingBooleans.Contains(false);
+            bool destHasRepetitions = destIsRepeatingBooleans.Contains(true);
+
+            bool sourceIsOnlyRepeating = sourceHasRepetitions && !sourceHasNonRepetitions;
+            bool sourceIsOnlyNonRepeating = !sourceHasRepetitions && sourceHasNonRepetitions;
+            bool destIsOnlyRepeating = destHasRepetitions && !destHasNonRepetitions;
+            bool destIsOnlyNonRepeating = !destHasRepetitions && destHasNonRepetitions;
+
+            bool isFromOnlyNonRepeatingToOnlyRepeating = sourceIsOnlyNonRepeating && destIsOnlyRepeating;
+            bool isFromOnlyRepeatingToOnlyNonRepeating = sourceIsOnlyRepeating && destIsOnlyNonRepeating;
+
+            return new RepetitionInfo(isFromOnlyNonRepeatingToOnlyRepeating, isFromOnlyRepeatingToOnlyNonRepeating);
+        }
+
+        private static IList<InletOrOutletTuple> MatchSourceAndDestInletsOrOutlets_FromOnlyNonRepeatingToOnlyRepeating(
+            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets, 
+            IEnumerable<IInletOrOutlet> destInletsOrOutlets)
+        {
+            IList<IInletOrOutlet> sourceSortedInletsOrOutlets = sourceInletsOrOutlets.Sort().ToArray();
+            IList<IInletOrOutlet> destSortedInletsOrOutlets = destInletsOrOutlets.Sort().ToArray();
+
+            var tuples = new List<InletOrOutletTuple>();
+
+            int minCount = Math.Min(sourceSortedInletsOrOutlets.Count, destSortedInletsOrOutlets.Count);
+            for (int i = 0; i < minCount; i++)
+            {
+                IInletOrOutlet sourceInletOrOutlet = sourceSortedInletsOrOutlets[i];
+                IInletOrOutlet destInletOrOutlet = destSortedInletsOrOutlets[i];
+                tuples.Add(new InletOrOutletTuple(sourceInletOrOutlet, destInletOrOutlet));
+            }
+
+            for (int i = minCount; i < sourceSortedInletsOrOutlets.Count; i++)
+            {
+                IInletOrOutlet sourceInletOrOutlet = sourceSortedInletsOrOutlets[i];
+                tuples.Add(new InletOrOutletTuple(sourceInletOrOutlet, null));
+            }
+
+            return tuples;
+        }
+
+        private static IList<InletOrOutletTuple> MatchSourceAndDestInletsOrOutlets_FromOnlyRepeatingToOnlyNonRepeating(
+            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets,
+            IEnumerable<IInletOrOutlet> destInletsOrOutlets)
+        {
+            IInletOrOutlet sourceRepeatingInletOrOutlet = sourceInletsOrOutlets.Single();
+            if (!sourceRepeatingInletOrOutlet.IsRepeating)
+            {
+                throw new NotEqualException(() => sourceRepeatingInletOrOutlet.IsRepeating, false);
+            }
+
+            IList<IInletOrOutlet> destSortedInletsOrOutlets = destInletsOrOutlets.Sort().ToArray();
+
+            var tuples = new List<InletOrOutletTuple>();
+
+            foreach (IInletOrOutlet destInletOrOutlet in destSortedInletsOrOutlets)
+            {
+                tuples.Add(new InletOrOutletTuple(sourceRepeatingInletOrOutlet, destInletOrOutlet));
+            }
+
+            return tuples;
+        }
+
+        private static IList<InletOrOutletTuple> MatchSourceAndDestInletsOrOutlets_ByComplexKeys(
+            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets,
+            IEnumerable<IInletOrOutlet> destInletsOrOutlets)
+        {
+            IList<IInletOrOutlet> sourceSortedInletsOrOutlets = sourceInletsOrOutlets.Sort().ToArray();
             IList<IInletOrOutlet> destSortedCandidateInletsOrOutlets = destInletsOrOutlets.Sort().ToArray();
 
             var tuples = new List<InletOrOutletTuple>();
 
             // Match Non-Repeating Ones
             {
-                IList<IInletOrOutlet> sourceNonRepeatingInletsOrOutlets = sourceSortedInletOrOutlets.Where(x => !x.IsRepeating).ToArray();
+                IList<IInletOrOutlet> sourceNonRepeatingInletsOrOutlets = sourceSortedInletsOrOutlets.Where(x => !x.IsRepeating).ToArray();
                 IList<IInletOrOutlet> destCandicateNonRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => !x.IsRepeating).ToList();
                 foreach (IInletOrOutlet sourceNonRepeatingInletOrOutlet in sourceNonRepeatingInletsOrOutlets)
                 {
@@ -87,7 +195,7 @@ namespace JJ.Business.Synthesizer
 
             // Match Repeating Ones
             {
-                IInletOrOutlet sourceRepeatingInletOrOutlet = sourceSortedInletOrOutlets.Reverse().Where(x => x.IsRepeating).FirstOrDefault(); // Optimized for Repeating Inlet at the end.
+                IInletOrOutlet sourceRepeatingInletOrOutlet = sourceSortedInletsOrOutlets.Reverse().Where(x => x.IsRepeating).FirstOrDefault(); // Optimized for Repeating Inlet at the end.
                 IList<IInletOrOutlet> destCandicateRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => x.IsRepeating).ToList();
                 // ReSharper disable once InvertIf
                 if (sourceRepeatingInletOrOutlet != null)
