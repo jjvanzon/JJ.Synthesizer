@@ -1072,6 +1072,6 @@
     <value>Herhalingsposities ({0}) zijn niet aaneengesloten.</value>
   </data>
   <data name="ObsoleteButStillUsed" xml:space="preserve">
-    <value>{0} is verouderd, maar wordt nog gebruikt.</value>
+    <value>Verouderd, maar wordt nog gebruikt.</value>
   </data>
 </root>

@@ -1699,7 +1699,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is obsolete, but still used..
+        ///   Looks up a localized string similar to Obsolete, but still used..
         /// </summary>
         internal static string ObsoleteButStillUsed {
             get {

@@ -773,6 +773,8 @@
     <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
+    <Compile Include="Warnings\OutletWarningValidator.cs" />
+    <Compile Include="Warnings\InletWarningValidator.cs" />
     <Compile Include="Warnings\Operators\HighShelfFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\LowShelfFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\PeakingEQFilter_OperatorWarningValidator.cs" />
