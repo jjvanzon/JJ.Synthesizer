@@ -908,8 +908,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
-            bool nameOrDimensionHidden = inlet.NameOrDimensionHidden ||
-                                         OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum);
+            bool nameOrDimensionHidden;
+            if (inlet.Operator.UnderlyingPatch != null)
+            {
+                nameOrDimensionHidden = inlet.NameOrDimensionHidden;
+            }
+            else
+            {
+                nameOrDimensionHidden = OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum);
+            }
+
             if (!nameOrDimensionHidden)
             {
                 OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
@@ -1008,14 +1016,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
 
-            // TODO: Use outlet.NameOrDimensionHidden once all system operators are boostrapped.
-            //bool nameOrDimensionHidden = outlet.NameOrDimensionHidden;
-            //if (OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum))
-            //{
-            //    nameOrDimensionHidden = false;
-            //}
+            bool nameOrDimensionHidden;
+            if (outlet.Operator.UnderlyingPatch != null)
+            {
+                nameOrDimensionHidden = outlet.NameOrDimensionHidden;
+            }
+            else
+            {
+                nameOrDimensionHidden = !OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum);
+            }
 
-            bool nameOrDimensionHidden = !OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum);
             if (!nameOrDimensionHidden)
             {
                 OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
