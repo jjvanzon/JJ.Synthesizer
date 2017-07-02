@@ -337,7 +337,7 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch Multiply(IList<Outlet> operands)
             => _operatorFactory.Multiply(operands);
 
-        public MultiplyWithOrigin_OperatorWrapper MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
+        public OperatorWrapper_WithUnderlyingPatch MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
             => _operatorFactory.MultiplyWithOrigin(a, b, origin);
 
         public Squash_OperatorWrapper Squash(

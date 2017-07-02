@@ -11,6 +11,58 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public static class OperatorWrapperFactory
     {
+
+        public static OperatorWrapperBase CreateOperatorWrapper(
+            Operator op,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.Curve:
+                    return new Curve_OperatorWrapper(op, curveRepository);
+
+                case OperatorTypeEnum.Sample:
+                    return new Sample_OperatorWrapper(op, sampleRepository);
+
+                case OperatorTypeEnum.Add:
+                case OperatorTypeEnum.Absolute:
+                case OperatorTypeEnum.And:
+                case OperatorTypeEnum.CustomOperator:
+                case OperatorTypeEnum.Equal:
+                case OperatorTypeEnum.GreaterThan:
+                case OperatorTypeEnum.GreaterThanOrEqual:
+                case OperatorTypeEnum.LessThan:
+                case OperatorTypeEnum.LessThanOrEqual:
+                case OperatorTypeEnum.Multiply:
+                case OperatorTypeEnum.MultiplyWithOrigin:
+                case OperatorTypeEnum.Negative:
+                case OperatorTypeEnum.Not:
+                case OperatorTypeEnum.NotEqual:
+                case OperatorTypeEnum.Or:
+                case OperatorTypeEnum.OneOverX:
+                case OperatorTypeEnum.Power:
+                case OperatorTypeEnum.Sine:
+                case OperatorTypeEnum.Subtract:
+                    return new OperatorWrapper_WithUnderlyingPatch(op);
+
+                default:
+                    Func<Operator, OperatorWrapperBase> func;
+                    if (_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out func))
+                    {
+                        OperatorWrapperBase wrapper = func(op);
+                        return wrapper;
+                    }
+                    break;
+            }
+
+            throw new ValueNotSupportedException(operatorTypeEnum);
+        }
+
         private static readonly Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> _createOperatorWrapperDelegateDictionary =
                    new Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>>
         {
@@ -45,7 +97,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.MinFollower, Create_MinFollower_OperatorWrapper },
             { OperatorTypeEnum.MinOverDimension, Create_MinOverDimension_OperatorWrapper },
             { OperatorTypeEnum.MinOverInlets, Create_Min_OperatorWrapper },
-            { OperatorTypeEnum.MultiplyWithOrigin , Create_MultiplyWithOrigin_OperatorWrapper },
             { OperatorTypeEnum.Noise, Create_Noise_OperatorWrapper },
             { OperatorTypeEnum.NotchFilter, Create_NotchFilter_OperatorWrapper },
             { OperatorTypeEnum.Number , Create_Number_OperatorWrapper },
@@ -78,56 +129,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.Triangle, Create_Triangle_OperatorWrapper },
         };
 
-        public static OperatorWrapperBase CreateOperatorWrapper(
-            Operator op,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository)
-        {
-            if (op == null) throw new NullException(() => op);
-
-            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-
-            switch (operatorTypeEnum)
-            {
-                case OperatorTypeEnum.Curve:
-                    return new Curve_OperatorWrapper(op, curveRepository);
-
-                case OperatorTypeEnum.Sample:
-                    return new Sample_OperatorWrapper(op, sampleRepository);
-
-                case OperatorTypeEnum.Add:
-                case OperatorTypeEnum.Absolute:
-                case OperatorTypeEnum.And:
-                case OperatorTypeEnum.CustomOperator:
-                case OperatorTypeEnum.Equal:
-                case OperatorTypeEnum.GreaterThan:
-                case OperatorTypeEnum.GreaterThanOrEqual:
-                case OperatorTypeEnum.LessThan:
-                case OperatorTypeEnum.LessThanOrEqual:
-                case OperatorTypeEnum.Multiply:
-                case OperatorTypeEnum.Negative:
-                case OperatorTypeEnum.Not:
-                case OperatorTypeEnum.NotEqual:
-                case OperatorTypeEnum.Or:
-                case OperatorTypeEnum.OneOverX:
-                case OperatorTypeEnum.Power:
-                case OperatorTypeEnum.Sine:
-                case OperatorTypeEnum.Subtract:
-                    return new OperatorWrapper_WithUnderlyingPatch(op);
-
-                default:
-                    Func<Operator, OperatorWrapperBase> func;
-                    if (_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out func))
-                    {
-                        OperatorWrapperBase wrapper = func(op);
-                        return wrapper;
-                    }
-                    break;
-            }
-
-            throw new ValueNotSupportedException(operatorTypeEnum);
-        }
-
         private static AllPassFilter_OperatorWrapper Create_AllPassFilter_OperatorWrapper(Operator op) { return new AllPassFilter_OperatorWrapper(op); }
         private static AverageFollower_OperatorWrapper Create_AverageFollower_OperatorWrapper(Operator op) { return new AverageFollower_OperatorWrapper(op); }
         private static AverageOverDimension_OperatorWrapper Create_AverageOverDimension_OperatorWrapper(Operator op) { return new AverageOverDimension_OperatorWrapper(op); }
@@ -159,7 +160,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static MinFollower_OperatorWrapper Create_MinFollower_OperatorWrapper(Operator op) { return new MinFollower_OperatorWrapper(op); }
         private static MinOverDimension_OperatorWrapper Create_MinOverDimension_OperatorWrapper(Operator op) { return new MinOverDimension_OperatorWrapper(op); }
         private static MinOverInlets_OperatorWrapper Create_Min_OperatorWrapper(Operator op) { return new MinOverInlets_OperatorWrapper(op); }
-        private static MultiplyWithOrigin_OperatorWrapper Create_MultiplyWithOrigin_OperatorWrapper(Operator op) { return new MultiplyWithOrigin_OperatorWrapper(op); }
         private static Noise_OperatorWrapper Create_Noise_OperatorWrapper(Operator op) { return new Noise_OperatorWrapper(op); }
         private static NotchFilter_OperatorWrapper Create_NotchFilter_OperatorWrapper(Operator op) { return new NotchFilter_OperatorWrapper(op); }
         private static Number_OperatorWrapper Create_Number_OperatorWrapper(Operator op) { return new Number_OperatorWrapper(op); }

@@ -310,6 +310,27 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
+        public static void Migrate_MultiplyWithOrigin_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.MultiplyWithOrigin;
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(operatorTypeEnum, repositories, progressCallback);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
         // Helpers
 
         private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(

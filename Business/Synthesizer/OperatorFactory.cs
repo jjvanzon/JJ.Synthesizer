@@ -1161,24 +1161,14 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public MultiplyWithOrigin_OperatorWrapper MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
+        public OperatorWrapper_WithUnderlyingPatch MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.MultiplyWithOrigin,
-                new[] { DimensionEnum.A, DimensionEnum.B, DimensionEnum.Origin },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
-            var wrapper = new MultiplyWithOrigin_OperatorWrapper(op)
-            {
-                A = a,
-                B = b,
-                Origin = origin
-            };
-
-            wrapper.AInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
-            wrapper.BInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.A] = a;
+            wrapper.Inputs[DimensionEnum.B] = b;
+            wrapper.Inputs[DimensionEnum.Origin] = origin;
 
             return wrapper;
         }

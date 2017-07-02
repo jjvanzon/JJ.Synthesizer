@@ -82,6 +82,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.Not,
                 OperatorTypeEnum.NotEqual,
                 OperatorTypeEnum.Multiply,
+                OperatorTypeEnum.MultiplyWithOrigin,
                 OperatorTypeEnum.Or,
                 OperatorTypeEnum.OneOverX,
                 OperatorTypeEnum.Power,

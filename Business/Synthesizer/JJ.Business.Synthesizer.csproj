@@ -659,7 +659,6 @@
     <Compile Include="EntityWrappers\Divide_OperatorWrapper.cs" />
     <Compile Include="Enums\NodeTypeEnum.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="EntityWrappers\MultiplyWithOrigin_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
     <Compile Include="Helpers\ConversionHelper.cs">
@@ -904,7 +903,6 @@
     <Compile Include="Validation\Operators\PatchInlet_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Divide_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Number_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\MultiplyWithOrigin_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_VersatileWithUnderlyingEntities.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithOperatorType.cs" />
     <Compile Include="EntityWrappers\Number_OperatorWrapper.cs" />
@@ -920,7 +918,6 @@
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\PatchOutlet_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Divide_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\MultiplyWithOrigin_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_VersatileWithUnderlyingEntities.cs" />
     <Compile Include="Warnings\Operators\Number_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\ScaleWarningValidator.cs" />
