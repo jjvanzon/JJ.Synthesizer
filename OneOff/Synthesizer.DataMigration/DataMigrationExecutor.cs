@@ -331,6 +331,27 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
+        public static void Migrate_Divide_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Divide;
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(operatorTypeEnum, repositories, progressCallback);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
         // Helpers
 
         private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(
@@ -354,14 +375,21 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             }
         }
 
-        private static void AssertDocuments_AndReapplyUnderlyingPatches(RepositoryWrapper repositories, Action<string> progressCallback)
+        private static void AssertDocuments_AndReapplyUnderlyingPatches(
+            RepositoryWrapper repositories,
+            Action<string> progressCallback,
+            bool mustAssertWarningIncrease = true)
         {
             IList<Document> rootDocuments = repositories.DocumentRepository.GetAll();
 
-            AssertDocuments_AndReapplyUnderlyingPatches(rootDocuments, repositories, progressCallback);
+            AssertDocuments_AndReapplyUnderlyingPatches(rootDocuments, repositories, progressCallback, mustAssertWarningIncrease);
         }
 
-        private static void AssertDocuments_AndReapplyUnderlyingPatches(IList<Document> rootDocuments, RepositoryWrapper repositories, Action<string> progressCallback)
+        private static void AssertDocuments_AndReapplyUnderlyingPatches(
+            IList<Document> rootDocuments,
+            RepositoryWrapper repositories,
+            Action<string> progressCallback,
+            bool mustAssertWarningIncrease = true)
         {
             var documentManager = new DocumentManager(repositories);
 
@@ -404,15 +432,18 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                                                                          .Except(
                                                                              warningResultBefore.Messages
                                                                                                 .Select(x => x.Text)).ToArray();
-                if (additionalWarningTexts.Count != 0)
+                if (mustAssertWarningIncrease)
                 {
-                    var additionalWarningResult = new VoidResult
+                    if (additionalWarningTexts.Count != 0)
                     {
-                        Successful = false,
-                        Messages = new Messages(additionalWarningTexts.Select(x => new Message(nameof(Document), x)).ToArray())
-                    };
+                        var additionalWarningResult = new VoidResult
+                        {
+                            Successful = false,
+                            Messages = new Messages(additionalWarningTexts.Select(x => new Message(nameof(Document), x)).ToArray())
+                        };
 
-                    totalResult.Combine(additionalWarningResult, ValidationHelper.GetMessagePrefix(document));
+                        totalResult.Combine(additionalWarningResult, "Warning: " + ValidationHelper.GetMessagePrefix(document));
+                    }
                 }
             }
 

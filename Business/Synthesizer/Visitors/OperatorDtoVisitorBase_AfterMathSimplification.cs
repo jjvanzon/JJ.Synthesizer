@@ -105,12 +105,7 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB_ConstOrigin(Divide_OperatorDto_ConstA_ConstB_ConstOrigin dto)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected sealed override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB_ZeroOrigin(Divide_OperatorDto_ConstA_ConstB_ZeroOrigin dto)
+        protected sealed override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB(Divide_OperatorDto_ConstA_ConstB dto)
         {
             throw new NotSupportedException();
         }

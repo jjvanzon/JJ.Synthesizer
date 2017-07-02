@@ -2,65 +2,27 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Divide_OperatorDto : Divide_OperatorDto_VarA_VarB_VarOrigin
-    { }
-
-    internal class Divide_OperatorDto_VarA_VarB_VarOrigin : OperatorDtoBase_VarA_VarB_VarOrigin
+    internal class Divide_OperatorDto : Divide_OperatorDto_VarA_VarB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
     }
 
-    internal class Divide_OperatorDto_VarA_VarB_ZeroOrigin : OperatorDtoBase_VarA_VarB_ZeroOrigin
+    internal class Divide_OperatorDto_ConstA_ConstB : OperatorDtoBase_ConstA_ConstB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
     }
 
-    internal class Divide_OperatorDto_VarA_VarB_ConstOrigin : OperatorDtoBase_VarA_VarB_ConstOrigin
+    internal class Divide_OperatorDto_ConstA_VarB : OperatorDtoBase_ConstA_VarB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
     }
 
-    internal class Divide_OperatorDto_VarA_ConstB_VarOrigin : OperatorDtoBase_VarA_ConstB_VarOrigin
+    internal class Divide_OperatorDto_VarA_ConstB : OperatorDtoBase_VarA_ConstB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
     }
 
-    internal class Divide_OperatorDto_VarA_ConstB_ZeroOrigin : OperatorDtoBase_VarA_ConstB_ZeroOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
-    }
-
-    internal class Divide_OperatorDto_VarA_ConstB_ConstOrigin : OperatorDtoBase_VarA_ConstB_ConstOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
-    }
-
-    internal class Divide_OperatorDto_ConstA_VarB_VarOrigin : OperatorDtoBase_ConstA_VarB_VarOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
-    }
-
-    internal class Divide_OperatorDto_ConstA_VarB_ZeroOrigin : OperatorDtoBase_ConstA_VarB_ZeroOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
-    }
-
-    internal class Divide_OperatorDto_ConstA_VarB_ConstOrigin : OperatorDtoBase_ConstA_VarB_ConstOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
-    }
-
-    internal class Divide_OperatorDto_ConstA_ConstB_VarOrigin : OperatorDtoBase_ConstA_ConstB_VarOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
-    }
-
-    internal class Divide_OperatorDto_ConstA_ConstB_ZeroOrigin : OperatorDtoBase_ConstA_ConstB_ZeroOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
-    }
-
-    internal class Divide_OperatorDto_ConstA_ConstB_ConstOrigin : OperatorDtoBase_ConstA_ConstB_ConstOrigin
+    internal class Divide_OperatorDto_VarA_VarB : OperatorDtoBase_VarA_VarB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Divide;
     }

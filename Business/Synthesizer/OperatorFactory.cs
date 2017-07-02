@@ -48,7 +48,6 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_SPECTRUM_FREQUENCY_COUNT = 256.0;
         private const double DEFAULT_START_TIME = 0.0;
         private const double DEFAULT_STEP = 1.0;
-        private const double MULTIPLICATIVE_IDENTITY = 1.0;
 
         private readonly Patch _patch;
         private readonly RepositoryWrapper _repositories;
@@ -583,23 +582,13 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Divide_OperatorWrapper Divide(Outlet a = null, Outlet b = null, Outlet origin = null)
+        public OperatorWrapper_WithUnderlyingPatch Divide(Outlet a = null, Outlet b = null)
         {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Divide,
-                new[] { DimensionEnum.A, DimensionEnum.B, DimensionEnum.Origin },
-                new[] { DimensionEnum.Number });
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
-            var wrapper = new Divide_OperatorWrapper(op)
-            {
-                A = a,
-                B = b,
-                Origin = origin
-            };
-
-            wrapper.BInlet.DefaultValue = MULTIPLICATIVE_IDENTITY;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.A] = a;
+            wrapper.Inputs[DimensionEnum.B] = b;
 
             return wrapper;
         }

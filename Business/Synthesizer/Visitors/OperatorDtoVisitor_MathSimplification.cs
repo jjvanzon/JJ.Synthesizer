@@ -473,69 +473,25 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Divide
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB_ConstOrigin(Divide_OperatorDto_ConstA_ConstB_ConstOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB(Divide_OperatorDto_ConstA_ConstB dto)
         {
-            base.Visit_Divide_OperatorDto_ConstA_ConstB_ConstOrigin(dto);
-
-            // Pre-calculate
-            double result = (dto.A - dto.Origin) / dto.B + dto.Origin;
-            return new Number_OperatorDto { Number = result };
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB_ZeroOrigin(Divide_OperatorDto_ConstA_ConstB_ZeroOrigin dto)
-        {
-            base.Visit_Divide_OperatorDto_ConstA_ConstB_ZeroOrigin(dto);
+            base.Visit_Divide_OperatorDto_ConstA_ConstB(dto);
 
             // Pre-calculate
             return new Number_OperatorDto { Number = dto.A / dto.B };
         }
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB(Divide_OperatorDto_ConstA_VarB dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(Divide_OperatorDto_ConstA_VarB_VarOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB(Divide_OperatorDto_VarA_ConstB dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(Divide_OperatorDto_VarA_ConstB_VarOrigin dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB(Divide_OperatorDto_VarA_VarB dto)
         {
             return Process_Nothing(dto);
         }

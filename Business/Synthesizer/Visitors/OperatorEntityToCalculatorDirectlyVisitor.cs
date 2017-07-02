@@ -1030,7 +1030,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase aCalculator = _stack.Pop();
             OperatorCalculatorBase bCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
 
             // When nulls should make the operator do nothing but pass the signal.
             if (bCalculator == null && aCalculator != null)
@@ -1043,13 +1042,10 @@ namespace JJ.Business.Synthesizer.Visitors
             double a = aCalculator.Calculate();
             // ReSharper disable once PossibleNullReferenceException
             double b = bCalculator.Calculate();
-            double origin = originCalculator.Calculate();
             bool aIsConst = aCalculator is Number_OperatorCalculator;
             bool bIsConst = bCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
             bool aIsConstZero = aIsConst && a == 0;
             bool bIsConstZero = bIsConst && b == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
             bool bIsConstOne = bIsConst && b == 1;
             
             if (bIsConstZero)
@@ -1065,54 +1061,25 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 calculator = aCalculator;
             }
-            else if (originIsConstZero && aIsConst & bIsConst)
+            else if (aIsConst & bIsConst)
             {
                 calculator = new Number_OperatorCalculator(a / b);
             }
-            else if (originIsConst && aIsConst && bIsConst)
+            else if (aIsConst && !bIsConst)
             {
-                double value = (a - origin) / b + origin;
-                calculator = new Number_OperatorCalculator(value);
+                calculator = new Divide_OperatorCalculator_ConstA_VarB(a, bCalculator);
             }
-            else if (originIsConstZero && aIsConst && !bIsConst)
+            else if (!aIsConst && bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_ConstA_VarB_ZeroOrigin(a, bCalculator);
+                calculator = new Divide_OperatorCalculator_VarA_ConstB(aCalculator, b);
             }
-            else if (originIsConstZero && !aIsConst && bIsConst)
+            else if (!aIsConst && !bIsConst)
             {
-                calculator = new Divide_OperatorCalculator_VarA_ConstB_ZeroOrigin(aCalculator, b);
-            }
-            else if (originIsConstZero && !aIsConst && !bIsConst)
-            {
-                calculator = new Divide_OperatorCalculator_VarA_VarB_ZeroOrigin(aCalculator, bCalculator);
-            }
-            else if (originIsConst && aIsConst && !bIsConst)
-            {
-                calculator = new Divide_OperatorCalculator_ConstA_VarB_ConstOrigin(a, bCalculator, origin);
-            }
-            else if (originIsConst && !aIsConst && bIsConst)
-            {
-                calculator = new Divide_OperatorCalculator_VarA_ConstB_ConstOrigin(aCalculator, b, origin);
-            }
-            else if (originIsConst && !aIsConst && !bIsConst)
-            {
-                calculator = new Divide_OperatorCalculator_VarA_VarB_ConstOrigin(aCalculator, bCalculator, origin);
-            }
-            else if (!originIsConst && aIsConst && bIsConst)
-            {
-                calculator = new Divide_OperatorCalculator_ConstA_ConstB_VarOrigin(a, b, originCalculator);
-            }
-            else if (!originIsConst && aIsConst && !bIsConst)
-            {
-                calculator = new Divide_OperatorCalculator_ConstA_VarB_VarOrigin(a, bCalculator, originCalculator);
-            }
-            else if (!originIsConst && !aIsConst && bIsConst)
-            {
-                calculator = new Divide_OperatorCalculator_VarA_ConstB_VarOrigin(aCalculator, b, originCalculator);
+                calculator = new Divide_OperatorCalculator_VarA_VarB(aCalculator, bCalculator);
             }
             else
             {
-                calculator = new Divide_OperatorCalculator_VarA_VarB_VarOrigin(aCalculator, bCalculator, originCalculator);
+                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
             }
 
             _stack.Push(calculator);

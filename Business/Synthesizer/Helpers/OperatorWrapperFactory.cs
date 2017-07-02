@@ -21,46 +21,24 @@ namespace JJ.Business.Synthesizer.Helpers
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-            switch (operatorTypeEnum)
+            if (operatorTypeEnum == OperatorTypeEnum.Curve)
             {
-                case OperatorTypeEnum.Curve:
-                    return new Curve_OperatorWrapper(op, curveRepository);
-
-                case OperatorTypeEnum.Sample:
-                    return new Sample_OperatorWrapper(op, sampleRepository);
-
-                case OperatorTypeEnum.Add:
-                case OperatorTypeEnum.Absolute:
-                case OperatorTypeEnum.And:
-                case OperatorTypeEnum.CustomOperator:
-                case OperatorTypeEnum.Equal:
-                case OperatorTypeEnum.GreaterThan:
-                case OperatorTypeEnum.GreaterThanOrEqual:
-                case OperatorTypeEnum.LessThan:
-                case OperatorTypeEnum.LessThanOrEqual:
-                case OperatorTypeEnum.Multiply:
-                case OperatorTypeEnum.MultiplyWithOrigin:
-                case OperatorTypeEnum.Negative:
-                case OperatorTypeEnum.Not:
-                case OperatorTypeEnum.NotEqual:
-                case OperatorTypeEnum.Or:
-                case OperatorTypeEnum.OneOverX:
-                case OperatorTypeEnum.Power:
-                case OperatorTypeEnum.Sine:
-                case OperatorTypeEnum.Subtract:
-                    return new OperatorWrapper_WithUnderlyingPatch(op);
-
-                default:
-                    Func<Operator, OperatorWrapperBase> func;
-                    if (_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out func))
-                    {
-                        OperatorWrapperBase wrapper = func(op);
-                        return wrapper;
-                    }
-                    break;
+                return new Curve_OperatorWrapper(op, curveRepository);
             }
 
-            throw new ValueNotSupportedException(operatorTypeEnum);
+            if (operatorTypeEnum == OperatorTypeEnum.Sample)
+            {
+                return new Sample_OperatorWrapper(op, sampleRepository);
+            }
+
+            if (_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out Func<Operator, OperatorWrapperBase> func))
+            {
+                OperatorWrapperBase wrapper = func(op);
+                return wrapper;
+            }
+
+            // Otherwise assume WithUnderlyingPatch.
+            return new OperatorWrapper_WithUnderlyingPatch(op);
         }
 
         private static readonly Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> _createOperatorWrapperDelegateDictionary =
@@ -79,7 +57,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.ClosestOverInlets, Create_Closest_OperatorWrapper },
             { OperatorTypeEnum.ClosestOverInletsExp, Create_ClosestExp_OperatorWrapper },
             { OperatorTypeEnum.DimensionToOutlets, Create_DimensionToOutlets_OperatorWrapper },
-            { OperatorTypeEnum.Divide , Create_Divide_OperatorWrapper },
             { OperatorTypeEnum.Exponent, Create_Exponent_OperatorWrapper },
             { OperatorTypeEnum.GetDimension, Create_GetDimension_OperatorWrapper },
             { OperatorTypeEnum.HighPassFilter, Create_HighPassFilter_OperatorWrapper },
@@ -142,7 +119,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static ClosestOverInlets_OperatorWrapper Create_Closest_OperatorWrapper(Operator op) { return new ClosestOverInlets_OperatorWrapper(op); }
         private static ClosestOverInletsExp_OperatorWrapper Create_ClosestExp_OperatorWrapper(Operator op) { return new ClosestOverInletsExp_OperatorWrapper(op); }
         private static DimensionToOutlets_OperatorWrapper Create_DimensionToOutlets_OperatorWrapper(Operator op) { return new DimensionToOutlets_OperatorWrapper(op); }
-        private static Divide_OperatorWrapper Create_Divide_OperatorWrapper(Operator op) { return new Divide_OperatorWrapper(op); }
         private static Exponent_OperatorWrapper Create_Exponent_OperatorWrapper(Operator op) { return new Exponent_OperatorWrapper(op); }
         private static GetDimension_OperatorWrapper Create_GetDimension_OperatorWrapper(Operator op) { return new GetDimension_OperatorWrapper(op); }
         private static HighPassFilter_OperatorWrapper Create_HighPassFilter_OperatorWrapper(Operator op) { return new HighPassFilter_OperatorWrapper(op); }

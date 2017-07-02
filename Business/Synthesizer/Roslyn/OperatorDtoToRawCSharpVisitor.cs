@@ -604,76 +604,28 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_ConstA_VarB_ConstOrigin(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(Divide_OperatorDto_ConstA_VarB_VarOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_ConstA_VarB_VarOrigin(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB(Divide_OperatorDto_ConstA_VarB dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             PutNumberOnStack(dto.A);
 
-            return ProcessDivideZeroOrigin(dto);
+            return ProcessBinaryOperator(dto, DIVIDE_SYMBOL);
         }
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_VarA_ConstB_ConstOrigin(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(Divide_OperatorDto_VarA_ConstB_VarOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_VarA_ConstB_VarOrigin(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB(Divide_OperatorDto_VarA_ConstB dto)
         {
             PutNumberOnStack(dto.B);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
-            return ProcessDivideZeroOrigin(dto);
+            return ProcessBinaryOperator(dto, DIVIDE_SYMBOL);
         }
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(dto, DIVIDE_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB(Divide_OperatorDto_VarA_VarB dto)
         {
             Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
-            return ProcessDivideZeroOrigin(dto);
-        }
-
-        private IOperatorDto ProcessDivideZeroOrigin(IOperatorDto dto)
-        {
-            AppendOperatorTitleComment(dto);
-
-            string a = _stack.Pop();
-            string b = _stack.Pop();
-            string output = GetLocalOutputName(dto);
-
-            AppendLine($"double {output} = {a} / {b};");
-
-            return GenerateOperatorWrapUp(dto, output);
+            return ProcessBinaryOperator(dto, DIVIDE_SYMBOL);
         }
 
         protected override IOperatorDto Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
@@ -3113,83 +3065,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 
             AppendLine($"double {output} = {a} {operatorSymbol} {b} ? {a} : {b};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private IOperatorDto ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(OperatorDtoBase_ConstA_ConstB_VarOrigin dto, string operatorSymbol)
-        {
-            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            PutNumberOnStack(dto.B);
-            PutNumberOnStack(dto.A);
-
-            return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
-        }
-
-        private IOperatorDto ProcessMultiplyOrDivide_ConstA_VarB_ConstOrigin(OperatorDtoBase_ConstA_VarB_ConstOrigin dto, string operatorSymbol)
-        {
-            PutNumberOnStack(dto.Origin);
-            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            PutNumberOnStack(dto.A);
-
-            return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
-        }
-
-        private IOperatorDto ProcessMultiplyOrDivide_ConstA_VarB_VarOrigin(OperatorDtoBase_ConstA_VarB_VarOrigin dto, string operatorSymbol)
-        {
-            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            PutNumberOnStack(dto.A);
-
-            return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
-        }
-
-        private IOperatorDto ProcessMultiplyOrDivide_VarA_ConstB_ConstOrigin(OperatorDtoBase_VarA_ConstB_ConstOrigin dto, string operatorSymbol)
-        {
-            PutNumberOnStack(dto.Origin);
-            PutNumberOnStack(dto.B);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
-
-            return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
-        }
-
-        private IOperatorDto ProcessMultiplyOrDivide_VarA_ConstB_VarOrigin(OperatorDtoBase_VarA_ConstB_VarOrigin dto, string operatorSymbol)
-        {
-            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            PutNumberOnStack(dto.B);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
-
-            return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
-        }
-
-        private IOperatorDto ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(OperatorDtoBase_VarA_VarB_ConstOrigin dto, string operatorSymbol)
-        {
-            PutNumberOnStack(dto.Origin);
-            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
-
-            return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
-        }
-
-        private IOperatorDto ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(OperatorDtoBase_VarA_VarB_VarOrigin dto, string operatorSymbol)
-        {
-            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.BOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
-
-            return ProcessMultiplyOrDivideWithOrigin(dto, operatorSymbol);
-        }
-
-        private IOperatorDto ProcessMultiplyOrDivideWithOrigin(IOperatorDto dto, string operatorSymbol)
-        {
-            AppendOperatorTitleComment(dto);
-
-            string a = _stack.Pop();
-            string b = _stack.Pop();
-            string origin = _stack.Pop();
-            string output = GetLocalOutputName(dto);
-
-            AppendLine($"double {output} = ({a} - {origin}) {operatorSymbol} {b} + {origin};");
 
             return GenerateOperatorWrapUp(dto, output);
         }

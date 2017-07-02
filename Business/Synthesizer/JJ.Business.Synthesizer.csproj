@@ -490,13 +490,10 @@
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
     <Compile Include="Dto\TimePower OperatorDto Classes.cs" />
     <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithABAndOrigin.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_BandPassFilter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberInletAndNumberOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithOneOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberOutlet.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithAAndB.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_Trigger.cs" />
     <Compile Include="EntityWrappers\RangeOverOutlets_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithFrequency.cs" />
@@ -655,7 +652,6 @@
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchOutlet_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchInlet_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Divide_OperatorWrapper.cs" />
     <Compile Include="Enums\NodeTypeEnum.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
@@ -900,7 +896,6 @@
     <Compile Include="Validation\Operators\TimePower_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchOutlet_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchInlet_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Divide_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Number_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_VersatileWithUnderlyingEntities.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithOperatorType.cs" />
@@ -916,7 +911,6 @@
     <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\PatchOutlet_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Divide_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_VersatileWithUnderlyingEntities.cs" />
     <Compile Include="Warnings\Operators\Number_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\ScaleWarningValidator.cs" />

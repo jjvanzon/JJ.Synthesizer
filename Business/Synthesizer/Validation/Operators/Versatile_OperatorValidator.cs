@@ -26,7 +26,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.ClosestOverInletsExp, typeof(ClosestOverInletsExp_OperatorValidator) },
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorValidator) },
             { OperatorTypeEnum.DimensionToOutlets, typeof(DimensionToOutlets_OperatorValidator) },
-            { OperatorTypeEnum.Divide, typeof(Divide_OperatorValidator) },
             { OperatorTypeEnum.Exponent, typeof(Exponent_OperatorValidator) },
             { OperatorTypeEnum.GetDimension, typeof(GetDimension_OperatorValidator) },
             { OperatorTypeEnum.HighPassFilter, typeof(HighPassFilter_OperatorValidator) },

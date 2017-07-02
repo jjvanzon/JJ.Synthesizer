@@ -256,8 +256,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new Divide_OperatorDto
             {
                 AOperatorDto = _stack.Pop(),
-                BOperatorDto = _stack.Pop(),
-                OriginOperatorDto = _stack.Pop()
+                BOperatorDto = _stack.Pop()
             };
 
             _stack.Push(dto);

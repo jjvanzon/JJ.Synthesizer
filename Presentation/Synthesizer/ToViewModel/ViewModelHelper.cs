@@ -73,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.Absolute,
                 OperatorTypeEnum.And,
                 OperatorTypeEnum.CustomOperator,
+                OperatorTypeEnum.Divide,
                 OperatorTypeEnum.Equal,
                 OperatorTypeEnum.GreaterThan,
                 OperatorTypeEnum.GreaterThanOrEqual,

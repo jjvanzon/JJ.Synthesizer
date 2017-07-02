@@ -33,7 +33,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.Curve: ExecuteValidator(new Curve_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.CustomOperator: ExecuteValidator(new CustomOperator_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.DimensionToOutlets: ExecuteValidator(new DimensionToOutlets_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Divide: ExecuteValidator(new Divide_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Exponent: ExecuteValidator(new Exponent_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.HighPassFilter: ExecuteValidator(new HighPassFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.HighShelfFilter: ExecuteValidator(new HighShelfFilter_OperatorWarningValidator(op)); break;

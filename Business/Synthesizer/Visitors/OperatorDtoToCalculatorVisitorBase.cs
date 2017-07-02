@@ -236,54 +236,19 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new DimensionToOutlets_OperatorCalculator(_stack.Pop(), dto.OutletPosition, dimensionStack));
         }
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB_VarOrigin(Divide_OperatorDto_ConstA_ConstB_VarOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB(Divide_OperatorDto_ConstA_VarB dto)
         {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_ConstB_VarOrigin(dto.A, dto.B, _stack.Pop()));
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_VarB(dto.A, _stack.Pop()));
         }
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_ConstOrigin(Divide_OperatorDto_ConstA_VarB_ConstOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB(Divide_OperatorDto_VarA_ConstB dto)
         {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_VarB_ConstOrigin(dto.A, _stack.Pop(), dto.Origin));
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B));
         }
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_VarOrigin(Divide_OperatorDto_ConstA_VarB_VarOrigin dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB(Divide_OperatorDto_VarA_VarB dto)
         {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_VarB_VarOrigin(dto.A, _stack.Pop(), _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB_ZeroOrigin(Divide_OperatorDto_ConstA_VarB_ZeroOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_ConstA_VarB_ZeroOrigin(dto.A, _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_ConstOrigin(Divide_OperatorDto_VarA_ConstB_ConstOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_ConstB_ConstOrigin(_stack.Pop(), dto.B, dto.Origin));
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_VarOrigin(Divide_OperatorDto_VarA_ConstB_VarOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_ConstB_VarOrigin(_stack.Pop(), dto.B, _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB_ZeroOrigin(Divide_OperatorDto_VarA_ConstB_ZeroOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_ConstB_ZeroOrigin(_stack.Pop(), dto.B));
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_ConstOrigin(Divide_OperatorDto_VarA_VarB_ConstOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_VarB_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin));
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_VarOrigin(Divide_OperatorDto_VarA_VarB_VarOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_VarB_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB_ZeroOrigin(Divide_OperatorDto_VarA_VarB_ZeroOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_VarB_ZeroOrigin(_stack.Pop(), _stack.Pop()));
+            return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
         protected override IOperatorDto Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
