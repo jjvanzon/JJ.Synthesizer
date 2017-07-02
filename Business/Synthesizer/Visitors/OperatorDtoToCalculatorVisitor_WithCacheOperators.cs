@@ -10,6 +10,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
+    /// <summary> Under construction. </summary>
     internal class OperatorDtoToCalculatorVisitor_WithCacheOperators : OperatorDtoToCalculatorVisitorBase
     {
         public OperatorDtoToCalculatorVisitor_WithCacheOperators(

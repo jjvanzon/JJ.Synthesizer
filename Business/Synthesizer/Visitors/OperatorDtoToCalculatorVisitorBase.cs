@@ -591,41 +591,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_AllVars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_ConstA_ConstB_VarOrigin(dto.A, dto.B, _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_ConstOrigin(dto.A, _stack.Pop(), dto.Origin));
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_VarOrigin(dto.A, _stack.Pop(), _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_ConstOrigin(_stack.Pop(), dto.B, dto.Origin));
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_VarOrigin(_stack.Pop(), dto.B, _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_ConstOrigin(_stack.Pop(), _stack.Pop(), dto.Origin));
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin dto)
-        {
-            return ProcessOperatorDto(dto, () => new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-        }
-
         protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
         {
             return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.ConstValue));

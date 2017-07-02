@@ -200,11 +200,6 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto(MultiplyWithOrigin_OperatorDto dto)
-        {
-            throw new NotSupportedException();
-        }
-
         protected sealed override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
         {
             throw new NotSupportedException();

@@ -2306,10 +2306,9 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
-        protected override void VisitMultiplyWithOrigin(Operator op)
+        protected override void VisitMultiplyWithOriginOutlet(Outlet outlet)
         {
-            base.VisitMultiplyWithOrigin(op);
+            base.VisitMultiplyWithOriginOutlet(outlet);
 
             OperatorCalculatorBase calculator;
 

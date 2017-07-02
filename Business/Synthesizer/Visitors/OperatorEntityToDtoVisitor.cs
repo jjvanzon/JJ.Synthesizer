@@ -473,19 +473,7 @@ namespace JJ.Business.Synthesizer.Visitors
             Process_OperatorDtoBase_Vars(op, dto);
         }
 
-        protected override void VisitMultiplyWithOrigin(Operator op)
-        {
-            base.VisitMultiplyWithOrigin(op);
-
-            var dto = new MultiplyWithOrigin_OperatorDto
-            {
-                AOperatorDto = _stack.Pop(),
-                BOperatorDto = _stack.Pop(),
-                OriginOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
+        protected override void VisitMultiplyWithOriginOutlet(Outlet outlet) => VisitCustomOperatorOutlet(outlet);
 
         protected override void VisitNegative(Operator op)
         {
@@ -1047,7 +1035,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
         protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
         {
-            // NOTE: Do not try to separate this concept into a different class.
+            // NOTE: Do not try to separate this concept into a different visitor class.
             // It has been tried and resulted in something much more complicated than these two lines of code.
             // Most magic is in the InletOutletMatcher, which is a difficult class, fully worked out and tested,
             // that needs to tap into the entity model, not DTO model.

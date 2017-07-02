@@ -88,7 +88,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
-        private readonly int _samplingRate;
         private readonly int _channelIndex;
         private readonly int _calculationIndentLevel;
         private readonly int _resetIndentLevel;
@@ -107,9 +106,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         private Stack<GeneratedMethodInfo> _generatedMethodInfoStack;
         private Dictionary<int, GeneratedMethodInfo> _operatorID_To_GeneratedMethodInfo_Dictionary;
 
-        public OperatorDtoToRawCSharpVisitor(int samplingRate, int channelIndex, int calculationIndentLevel, int resetIndentLevel)
+        public OperatorDtoToRawCSharpVisitor(int channelIndex, int calculationIndentLevel, int resetIndentLevel)
         {
-            _samplingRate = samplingRate;
             _channelIndex = channelIndex;
             _calculationIndentLevel = calculationIndentLevel;
             _resetIndentLevel = resetIndentLevel;
@@ -1392,41 +1390,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
         {
             return ProcessMultiVarOperator_Vars_NoConsts(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_VarOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_ConstA_ConstB_VarOrigin(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ConstOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_ConstA_VarB_ConstOrigin(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_VarOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_ConstA_VarB_VarOrigin(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ConstOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_VarA_ConstB_ConstOrigin(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_VarOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_VarA_ConstB_VarOrigin(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ConstOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_VarA_VarB_ConstOrigin(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_VarOrigin dto)
-        {
-            return ProcessMultiplyOrDivide_VarA_VarB_VarOrigin(dto, MULTIPLY_SYMBOL);
         }
 
         protected override IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto)

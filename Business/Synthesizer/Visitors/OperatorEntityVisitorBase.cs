@@ -57,7 +57,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.MinFollower, VisitMinFollower },
                 { OperatorTypeEnum.MinOverDimension, VisitMinOverDimension },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
-                { OperatorTypeEnum.MultiplyWithOrigin, VisitMultiplyWithOrigin },
                 { OperatorTypeEnum.Negative, VisitNegative },
                 { OperatorTypeEnum.Noise, VisitNoise },
                 { OperatorTypeEnum.Not, VisitNot },
@@ -114,6 +113,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperatorOutlet },
                 { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutletsOutlet },
+                { OperatorTypeEnum.MultiplyWithOrigin, VisitMultiplyWithOriginOutlet },
                 { OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutletsOutlet },
                 { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet }
             };
@@ -338,7 +338,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitMultiply(Operator op) => VisitOperatorBase(op);
 
         //[DebuggerHidden]
-        protected virtual void VisitMultiplyWithOrigin(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitMultiplyWithOriginOutlet(Outlet op) => VisitOutletBase(op);
 
         //[DebuggerHidden]
         protected virtual void VisitNegative(Operator op) => VisitOperatorBase(op);

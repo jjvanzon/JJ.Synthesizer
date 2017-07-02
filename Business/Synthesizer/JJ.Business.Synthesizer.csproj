@@ -476,7 +476,6 @@
     <Compile Include="Dto\Sample OperatorDto Classes.cs" />
     <Compile Include="Dto\Curve OperatorDto Classes.cs" />
     <Compile Include="Dto\Divide OperatorDto Classes.cs" />
-    <Compile Include="Dto\MultiplyWithOrigin OperatorDto Classes.cs" />
     <Compile Include="Dto\OperatorDtoBase_ConstA_ConstB.cs" />
     <Compile Include="Dto\OperatorDtoBase_ConstA_VarB.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarA_ConstB.cs" />

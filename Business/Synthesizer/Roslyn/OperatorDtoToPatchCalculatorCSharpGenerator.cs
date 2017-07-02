@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
@@ -24,13 +23,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const int RAW_CALCULATION_CODE_INDENT_LEVEL = 4;
         private const int RAW_RESET_CODE_INDENT_LEVEL = 3;
 
-        private readonly int _samplingRate;
         private readonly int _channelCount;
         private readonly int _channelIndex;
 
-        public OperatorDtoToPatchCalculatorCSharpGenerator(int samplingRate, int channelCount, int channelIndex)
+        public OperatorDtoToPatchCalculatorCSharpGenerator(int channelCount, int channelIndex)
         {
-            _samplingRate = samplingRate;
             _channelCount = channelCount;
             _channelIndex = channelIndex;
         }
@@ -42,7 +39,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             // Build up Method Bodies
             var visitor = new OperatorDtoToRawCSharpVisitor(
-                _samplingRate, 
                 _channelIndex,
                 RAW_CALCULATION_CODE_INDENT_LEVEL,
                 RAW_RESET_CODE_INDENT_LEVEL);

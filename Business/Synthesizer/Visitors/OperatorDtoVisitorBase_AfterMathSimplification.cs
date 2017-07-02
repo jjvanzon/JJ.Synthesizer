@@ -275,31 +275,6 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ConstOrigin dto)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected sealed override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin(MultiplyWithOrigin_OperatorDto_ConstA_ConstB_ZeroOrigin dto)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected sealed override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin(MultiplyWithOrigin_OperatorDto_ConstA_VarB_ZeroOrigin dto)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected sealed override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin(MultiplyWithOrigin_OperatorDto_VarA_ConstB_ZeroOrigin dto)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected sealed override IOperatorDto Visit_MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin(MultiplyWithOrigin_OperatorDto_VarA_VarB_ZeroOrigin dto)
-        {
-            throw new NotSupportedException();
-        }
-
         protected sealed override IOperatorDto Visit_Multiply_OperatorDto_NoVars_Consts(Multiply_OperatorDto_NoVars_Consts dto)
         {
             throw new NotSupportedException();
