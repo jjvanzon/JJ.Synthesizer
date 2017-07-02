@@ -569,7 +569,6 @@
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="PatchToOperatorConverter.cs" />
-    <Compile Include="EntityWrappers\2017-07-02 Backup of Multiply_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SumFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_AggregateFollower.cs" />
     <Compile Include="EntityWrappers\SumOverDimension_OperatorWrapper.cs" />
