@@ -331,10 +331,10 @@ namespace JJ.Business.Synthesizer.Api
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
             => _operatorFactory.MinOverDimension(signal, from, till, step, standardDimension, customDimension, collectionRecalculation);
 
-        public Multiply_OperatorWrapper Multiply(params Outlet[] operands)
+        public OperatorWrapper_WithUnderlyingPatch Multiply(params Outlet[] operands)
             => _operatorFactory.Multiply(operands);
 
-        public Multiply_OperatorWrapper Multiply(IList<Outlet> operands)
+        public OperatorWrapper_WithUnderlyingPatch Multiply(IList<Outlet> operands)
             => _operatorFactory.Multiply(operands);
 
         public MultiplyWithOrigin_OperatorWrapper MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)

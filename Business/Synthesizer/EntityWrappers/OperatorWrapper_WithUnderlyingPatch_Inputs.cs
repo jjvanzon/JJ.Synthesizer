@@ -17,23 +17,63 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             _operator = op ?? throw new NullException(() => op);
         }
 
+        // TODO: Composite keys Name-Position and DimensionEnum-Position have also become normal.
+
+        // By Name
+
         public Outlet this[string name]
         {
             get => InletOutletSelector.GetInputOutlet(_operator, name);
             set => InletOutletSelector.GetInlet(_operator, name).LinkTo(value);
         }
 
-        public Outlet this[int index]
+        public Outlet TryGet(string name) => InletOutletSelector.TryGetInputOutlet(_operator, name);
+
+        public IList<Outlet> GetMany(string name) => InletOutletSelector.GetInputOutlets(_operator, name);
+
+        public void SetMany(string name, IList<Outlet> inputs)
         {
-            get => InletOutletSelector.GetInputOutlet(_operator, index);
-            set => InletOutletSelector.GetInlet(_operator, index).LinkTo(value);
+            IList<Inlet> inlets = InletOutletSelector.GetInlets(_operator, name);
+            SetMany(inputs, inlets);
         }
+
+        // By Position
+
+        public Outlet this[int position]
+        {
+            get => InletOutletSelector.GetInputOutlet(_operator, position);
+            set => InletOutletSelector.GetInlet(_operator, position).LinkTo(value);
+        }
+
+        public Outlet TryGet(int position) => InletOutletSelector.TryGetInputOutlet(_operator, position);
+
+        public IList<Outlet> GetMany(int position) => InletOutletSelector.GetInputOutlets(_operator, position);
+
+        public void SetMany(int position, IList<Outlet> inputs)
+        {
+            IList<Inlet> inlets = InletOutletSelector.GetInlets(_operator, position);
+            SetMany(inputs, inlets);
+        }
+
+        // By Dimension
 
         public Outlet this[DimensionEnum dimensionEnum]
         {
             get => InletOutletSelector.GetInputOutlet(_operator, dimensionEnum);
             set => InletOutletSelector.GetInlet(_operator, dimensionEnum).LinkTo(value);
         }
+
+        public Outlet TryGet(DimensionEnum dimensionEnum) => InletOutletSelector.TryGetInputOutlet(_operator, dimensionEnum);
+
+        public IList<Outlet> GetMany(DimensionEnum dimensionEnum) => InletOutletSelector.GetInputOutlets(_operator, dimensionEnum);
+
+        public void SetMany(DimensionEnum dimensionEnum, IList<Outlet> inputs)
+        {
+            IList<Inlet> inlets = InletOutletSelector.GetInlets(_operator, dimensionEnum);
+            SetMany(inputs, inlets);
+        }
+
+        // Enumerable
 
         public IEnumerator<Outlet> GetEnumerator()
         {
@@ -48,6 +88,26 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             foreach (Outlet outlet in InletOutletSelector.GetSortedInputOutlets(_operator))
             {
                 yield return outlet;
+            }
+        }
+
+        // Helpers
+
+        private static void SetMany(IList<Outlet> inputs, IList<Inlet> inlets)
+        {
+            if (inputs == null) throw new NullException(() => inputs);
+
+            if (inputs.Count != inlets.Count)
+            {
+                throw new NotEqualException(() => inputs.Count, () => inlets.Count);
+            }
+
+            int count = inputs.Count;
+            for (int i = 0; i < count; i++)
+            {
+                Inlet inlet = inlets[i];
+                Outlet input = inputs[i];
+                inlet.LinkTo(input);
             }
         }
     }

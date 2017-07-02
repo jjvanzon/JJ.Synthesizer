@@ -16,6 +16,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             _operator = op ?? throw new NullException(() => op);
         }
 
+        // TODO: Composite keys Name-Position and DimensionEnum-Position have also become normal.
+
         public Inlet this[string name] => InletOutletSelector.GetInlet(_operator, name);
         public Inlet TryGet(string name) => InletOutletSelector.TryGetInlet(_operator, name);
         public IList<Inlet> GetMany(string name) => InletOutletSelector.GetInlets(_operator, name);

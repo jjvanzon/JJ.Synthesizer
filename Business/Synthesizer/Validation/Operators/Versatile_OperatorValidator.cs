@@ -44,7 +44,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.MinFollower, typeof(MinFollower_OperatorValidator) },
             { OperatorTypeEnum.MinOverDimension, typeof(MinOverDimension_OperatorValidator) },
             { OperatorTypeEnum.MinOverInlets, typeof(MinOverInlets_OperatorValidator) },
-            { OperatorTypeEnum.Multiply, typeof(Multiply_OperatorValidator) },
             { OperatorTypeEnum.MultiplyWithOrigin, typeof(MultiplyWithOrigin_OperatorValidator) },
             { OperatorTypeEnum.Noise, typeof(Noise_OperatorValidator) },
             { OperatorTypeEnum.NotchFilter, typeof(NotchFilter_OperatorValidator) },

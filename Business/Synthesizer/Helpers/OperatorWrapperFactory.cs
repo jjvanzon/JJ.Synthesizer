@@ -45,7 +45,6 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.MinFollower, Create_MinFollower_OperatorWrapper },
             { OperatorTypeEnum.MinOverDimension, Create_MinOverDimension_OperatorWrapper },
             { OperatorTypeEnum.MinOverInlets, Create_Min_OperatorWrapper },
-            { OperatorTypeEnum.Multiply, Create_Multiply_OperatorWrapper },
             { OperatorTypeEnum.MultiplyWithOrigin , Create_MultiplyWithOrigin_OperatorWrapper },
             { OperatorTypeEnum.Noise, Create_Noise_OperatorWrapper },
             { OperatorTypeEnum.NotchFilter, Create_NotchFilter_OperatorWrapper },
@@ -105,6 +104,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 case OperatorTypeEnum.GreaterThanOrEqual:
                 case OperatorTypeEnum.LessThan:
                 case OperatorTypeEnum.LessThanOrEqual:
+                case OperatorTypeEnum.Multiply:
                 case OperatorTypeEnum.Negative:
                 case OperatorTypeEnum.Not:
                 case OperatorTypeEnum.NotEqual:
@@ -159,7 +159,6 @@ namespace JJ.Business.Synthesizer.Helpers
         private static MinFollower_OperatorWrapper Create_MinFollower_OperatorWrapper(Operator op) { return new MinFollower_OperatorWrapper(op); }
         private static MinOverDimension_OperatorWrapper Create_MinOverDimension_OperatorWrapper(Operator op) { return new MinOverDimension_OperatorWrapper(op); }
         private static MinOverInlets_OperatorWrapper Create_Min_OperatorWrapper(Operator op) { return new MinOverInlets_OperatorWrapper(op); }
-        private static Multiply_OperatorWrapper Create_Multiply_OperatorWrapper(Operator op) { return new Multiply_OperatorWrapper(op); }
         private static MultiplyWithOrigin_OperatorWrapper Create_MultiplyWithOrigin_OperatorWrapper(Operator op) { return new MultiplyWithOrigin_OperatorWrapper(op); }
         private static Noise_OperatorWrapper Create_Noise_OperatorWrapper(Operator op) { return new Noise_OperatorWrapper(op); }
         private static NotchFilter_OperatorWrapper Create_NotchFilter_OperatorWrapper(Operator op) { return new NotchFilter_OperatorWrapper(op); }

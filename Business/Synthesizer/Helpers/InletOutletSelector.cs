@@ -48,6 +48,8 @@ namespace JJ.Business.Synthesizer.Helpers
             return enumerable;
         }
 
+        // TODO: Composite keys Name-Position and DimensionEnum-Position have also become normal.
+
         // Get Inlet
 
         /// <param name="position">List indices are not necessarily consecutive.</param>
@@ -276,10 +278,23 @@ namespace JJ.Business.Synthesizer.Helpers
 
         // Get InputOutlet
 
-        public static Outlet GetInputOutlet(Operator op, int index)
+        public static Outlet GetInputOutlet(Operator op, int position)
         {
-            Inlet inlet = GetInlet(op, index);
+            Inlet inlet = GetInlet(op, position);
             return inlet.InputOutlet;
+        }
+
+        public static Outlet TryGetInputOutlet(Operator op, int position)
+        {
+            Inlet inlet = TryGetInlet(op, position);
+            return inlet?.InputOutlet;
+        }
+
+        public static IList<Outlet> GetInputOutlets(Operator op, int position)
+        {
+            IList<Inlet> inlets = GetInlets(op, position);
+            IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).ToArray();
+            return outlets;
         }
 
         public static Outlet GetInputOutlet(Operator op, string name)
@@ -288,10 +303,36 @@ namespace JJ.Business.Synthesizer.Helpers
             return inlet.InputOutlet;
         }
 
+        public static Outlet TryGetInputOutlet(Operator op, string name)
+        {
+            Inlet inlet = TryGetInlet(op, name);
+            return inlet?.InputOutlet;
+        }
+
+        public static IList<Outlet> GetInputOutlets(Operator op, string name)
+        {
+            IList<Inlet> inlets = GetInlets(op, name);
+            IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).ToArray();
+            return outlets;
+        }
+
         public static Outlet GetInputOutlet(Operator op, DimensionEnum dimensionEnum)
         {
             Inlet inlet = GetInlet(op, dimensionEnum);
             return inlet.InputOutlet;
+        }
+
+        public static Outlet TryGetInputOutlet(Operator op, DimensionEnum dimensionEnum)
+        {
+            Inlet inlet = TryGetInlet(op, dimensionEnum);
+            return inlet?.InputOutlet;
+        }
+
+        public static IList<Outlet> GetInputOutlets(Operator op, DimensionEnum dimensionEnum)
+        {
+            IList<Inlet> inlets = GetInlets(op, dimensionEnum);
+            IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).ToArray();
+            return outlets;
         }
 
         /// <summary>

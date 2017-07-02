@@ -84,19 +84,12 @@ namespace JJ.Business.Synthesizer
             if (items == null) throw new NullException(() => items);
 
             Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+
+            VoidResult setInletCountResult = _patchManager.SetOperatorInletCount(op, items.Count);
+            setInletCountResult.Assert();
+
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
-
-            VoidResult setOperatorInletCountResult = _patchManager.SetOperatorInletCount(op, items.Count);
-            setOperatorInletCountResult.Assert();
-
-            // TODO: You would think the wrapper should help you with this.
-            // TODO: You might want this to be more generic, so you can reuse it for other operator types.
-            for (int i = 0; i < items.Count; i++)
-            {
-                Inlet inlet = op.Inlets[i];
-                Outlet input = items[i];
-                inlet.LinkTo(input);
-            }
+            wrapper.Inputs.SetMany(DimensionEnum.Item, items);
 
             return wrapper;
         }
@@ -1148,20 +1141,23 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Multiply_OperatorWrapper Multiply(params Outlet[] operands)
+        public OperatorWrapper_WithUnderlyingPatch Multiply(params Outlet[] items)
         {
-            return Multiply((IList<Outlet>)operands);
+            return Multiply((IList<Outlet>)items);
         }
 
-        public Multiply_OperatorWrapper Multiply(IList<Outlet> operands)
+        public OperatorWrapper_WithUnderlyingPatch Multiply(IList<Outlet> items)
         {
-            if (operands == null) throw new NullException(() => operands);
+            if (items == null) throw new NullException(() => items);
 
-            Operator op = CreateOperatorBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.Multiply, operands);
+            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
 
-            new Versatile_OperatorValidator(op).Assert();
+            VoidResult setInletCountResult = _patchManager.SetOperatorInletCount(op, items.Count);
+            setInletCountResult.Assert();
 
-            var wrapper = new Multiply_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs.SetMany(DimensionEnum.Item, items);
+
             return wrapper;
         }
 

@@ -569,7 +569,7 @@
     <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="PatchToOperatorConverter.cs" />
-    <Compile Include="EntityWrappers\Multiply_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\2017-07-02 Backup of Multiply_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SumFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_AggregateFollower.cs" />
     <Compile Include="EntityWrappers\SumOverDimension_OperatorWrapper.cs" />
@@ -710,7 +710,6 @@
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverInlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_AggregateOverDimension.cs" />
-    <Compile Include="Validation\Operators\Multiply_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SumFollower_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SumOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\AverageOverInlets_OperatorValidator.cs" />
@@ -788,7 +787,6 @@
     <Compile Include="Warnings\Operators\RangeOverOutlets_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SortOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SortOverInlets_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Multiply_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverInlets_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SumFollower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SumOverDimension_OperatorWarningValidator.cs" />

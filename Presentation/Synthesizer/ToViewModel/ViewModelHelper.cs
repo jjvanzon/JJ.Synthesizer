@@ -81,6 +81,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.Negative,
                 OperatorTypeEnum.Not,
                 OperatorTypeEnum.NotEqual,
+                OperatorTypeEnum.Multiply,
                 OperatorTypeEnum.Or,
                 OperatorTypeEnum.OneOverX,
                 OperatorTypeEnum.Power,
@@ -110,7 +111,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum.PatchInlet,
                 OperatorTypeEnum.PatchOutlet,
-                OperatorTypeEnum.Subtract,
                 OperatorTypeEnum.Number,
                 OperatorTypeEnum.Curve,
                 OperatorTypeEnum.Noise,
@@ -121,7 +121,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.MaxOverInlets,
                 OperatorTypeEnum.MinOverInlets,
                 OperatorTypeEnum.AverageOverInlets,
-                OperatorTypeEnum.Multiply,
                 OperatorTypeEnum.SortOverInlets,
             };
 

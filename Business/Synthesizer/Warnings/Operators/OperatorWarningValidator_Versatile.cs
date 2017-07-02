@@ -50,7 +50,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.MinFollower: ExecuteValidator(new MinFollower_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MinOverDimension: ExecuteValidator(new MinOverDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MinOverInlets: ExecuteValidator(new MinOverInlets_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Multiply: ExecuteValidator(new Multiply_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MultiplyWithOrigin: ExecuteValidator(new MultiplyWithOrigin_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.NotchFilter: ExecuteValidator(new NotchFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Number: ExecuteValidator(new Number_OperatorWarningValidator(op)); break;

@@ -8,7 +8,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
@@ -262,7 +261,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
             progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
 
-            OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Add;
+            const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Add;
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
@@ -282,6 +281,27 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     progressCallback(progressMessage);
                 }
 
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
+        public static void Migrate_MultiplyOperator_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Multiply;
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(operatorTypeEnum, repositories, progressCallback);
                 AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
@@ -322,6 +342,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         private static void AssertDocuments_AndReapplyUnderlyingPatches(IList<Document> rootDocuments, RepositoryWrapper repositories, Action<string> progressCallback)
         {
+            var documentManager = new DocumentManager(repositories);
+
             IResult totalResult = new VoidResult { Successful = true };
             for (int i = 0; i < rootDocuments.Count; i++)
             {
@@ -330,10 +352,12 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 string progressMessage = $"Validating document {i + 1}/{rootDocuments.Count}: '{document.Name}'.";
                 progressCallback(progressMessage);
 
-                // Validate
-                var documentManager = new DocumentManager(repositories);
+                // Warnings Before
+                IResult warningResultBefore = documentManager.GetWarningsRecursive(document);
 
-                // 'Get' will execute side-effects of reapplying underlying patches.
+                // Reapply UnderlyingPatches
+
+                // 'Get' through the manager will execute side-effects of reapplying underlying patches.
                 // Not that the migration should not have written fully correct data,
                 // but you can at any time change an underlying patch from a library,
                 // and then the dependent documents will not be immediately updated.
@@ -343,9 +367,32 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 // it will just complain about mismatches all over the place.
 
                 documentManager.Get(document.ID);
-                IResult result = documentManager.Save(document);
-                string messagePrefix = ValidationHelper.GetMessagePrefix(document);
-                totalResult.Combine(result, messagePrefix);
+
+                // Validate
+                IResult saveResult = documentManager.Save(document);
+
+                // Collect Results
+                totalResult.Combine(saveResult, ValidationHelper.GetMessagePrefix(document));
+
+                // Warnings After
+                IResult warningResultAfter = documentManager.GetWarningsRecursive(document);
+
+                // Compare Warnings
+                IList<string> additionalWarningTexts = warningResultAfter.Messages
+                                                                         .Select(x => x.Text)
+                                                                         .Except(
+                                                                             warningResultBefore.Messages
+                                                                                                .Select(x => x.Text)).ToArray();
+                if (additionalWarningTexts.Count != 0)
+                {
+                    var additionalWarningResult = new VoidResult
+                    {
+                        Successful = false,
+                        Messages = new Messages(additionalWarningTexts.Select(x => new Message(nameof(Document), x)).ToArray())
+                    };
+
+                    totalResult.Combine(additionalWarningResult, ValidationHelper.GetMessagePrefix(document));
+                }
             }
 
             try
