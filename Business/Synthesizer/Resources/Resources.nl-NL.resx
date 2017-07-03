@@ -907,7 +907,7 @@
     <value>Document naam</value>
   </data>
   <data name="DocumentTree" xml:space="preserve">
-    <value>Document verkenner</value>
+    <value>Document boomstructuur</value>
   </data>
   <data name="GetDimensionWithPlaceholder" xml:space="preserve">
     <value>{0} opvragen</value>

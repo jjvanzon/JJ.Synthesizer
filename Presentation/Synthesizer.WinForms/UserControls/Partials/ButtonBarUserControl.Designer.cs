@@ -35,6 +35,7 @@
             this.buttonPlay = new System.Windows.Forms.Button();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
+            this.buttonNew = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonClose
@@ -81,7 +82,7 @@
             this.buttonSave.FlatAppearance.BorderSize = 0;
             this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonSave.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.SaveIcon;
-            this.buttonSave.Location = new System.Drawing.Point(163, 8);
+            this.buttonSave.Location = new System.Drawing.Point(139, 8);
             this.buttonSave.Margin = new System.Windows.Forms.Padding(0);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(21, 23);
@@ -94,7 +95,7 @@
             this.buttonPlay.FlatAppearance.BorderSize = 0;
             this.buttonPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonPlay.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PlayIcon;
-            this.buttonPlay.Location = new System.Drawing.Point(129, 8);
+            this.buttonPlay.Location = new System.Drawing.Point(104, 8);
             this.buttonPlay.Margin = new System.Windows.Forms.Padding(0);
             this.buttonPlay.Name = "buttonPlay";
             this.buttonPlay.Size = new System.Drawing.Size(21, 23);
@@ -107,7 +108,7 @@
             this.buttonRefresh.FlatAppearance.BorderSize = 0;
             this.buttonRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonRefresh.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RefreshIcon;
-            this.buttonRefresh.Location = new System.Drawing.Point(196, 8);
+            this.buttonRefresh.Location = new System.Drawing.Point(172, 8);
             this.buttonRefresh.Margin = new System.Windows.Forms.Padding(0);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(21, 23);
@@ -120,7 +121,7 @@
             this.buttonOpen.FlatAppearance.BorderSize = 0;
             this.buttonOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonOpen.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIcon;
-            this.buttonOpen.Location = new System.Drawing.Point(229, 8);
+            this.buttonOpen.Location = new System.Drawing.Point(205, 8);
             this.buttonOpen.Margin = new System.Windows.Forms.Padding(0);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(21, 23);
@@ -128,9 +129,23 @@
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
-            // TitleBarUserControl
+            // buttonNew
+            // 
+            this.buttonNew.FlatAppearance.BorderSize = 0;
+            this.buttonNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonNew.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.NewIcon;
+            this.buttonNew.Location = new System.Drawing.Point(235, 8);
+            this.buttonNew.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonNew.Name = "buttonNew";
+            this.buttonNew.Size = new System.Drawing.Size(21, 23);
+            this.buttonNew.TabIndex = 20;
+            this.buttonNew.UseVisualStyleBackColor = true;
+            this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
+            // 
+            // ButtonBarUserControl
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.buttonNew);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.buttonPlay);
@@ -139,7 +154,7 @@
             this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.buttonClose);
             this.Margin = new System.Windows.Forms.Padding(0);
-            this.Name = "TitleBarUserControl";
+            this.Name = "ButtonBarUserControl";
             this.Size = new System.Drawing.Size(337, 85);
             this.Load += new System.EventHandler(this.TitleBarUserControl_Load);
             this.Resize += new System.EventHandler(this.TitleBarUserControl_Resize);
@@ -155,5 +170,6 @@
         private System.Windows.Forms.Button buttonPlay;
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.Button buttonNew;
     }
 }

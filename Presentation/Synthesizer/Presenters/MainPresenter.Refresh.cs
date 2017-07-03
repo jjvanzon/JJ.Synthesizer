@@ -223,7 +223,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
 
             // TemplateMethod
-            TemplateActionMethod(userInput, () => _documentGridPresenter.Refresh(userInput));
+            ActionTemplateMethod(userInput, () => _documentGridPresenter.Refresh(userInput));
         }
 
         private void DocumentPropertiesRefresh()
@@ -242,6 +242,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             // Partial Action
             DocumentTreeViewModel viewModel = _documentTreePresenter.Refresh(MainViewModel.Document.DocumentTree);
+
+            // Non-Persisted
+            SetCanCreateNew(viewModel);
 
             // DispatchViewModel
             DispatchViewModel(viewModel);

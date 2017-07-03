@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -24,6 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler PlayRequested;
         public event EventHandler OpenItemExternallyRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler NewRequested;
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
@@ -63,14 +63,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public DocumentTreeUserControl()
         {
             InitializeComponent();
-            SetTitles();
             ApplyStyling();
             AddInvariantNodes();
         }
 
         // Gui
-
-        private void SetTitles() => titleBarUserControl.Text = ResourceFormatter.DocumentTree;
 
         public void ApplyStyling() => tableLayoutPanel.RowStyles[0].Height = StyleHelper.TitleBarHeight;
 
@@ -86,6 +83,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
             titleBarUserControl.OpenButtonVisible = ViewModel.CanOpenExternally;
+            titleBarUserControl.NewButtonVisible = ViewModel.CanCreateNew;
 
             _patchGroupTreeNodes = new HashSet<TreeNode> { _patchesTreeNode };
             _patchTreeNodes = new HashSet<TreeNode>();
@@ -564,9 +562,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested?.Invoke(this, EventArgs.Empty);
-
-        private void titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, EventArgs.Empty);
+        private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
+        private void titleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested(sender, EventArgs.Empty);
+        private void titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested(sender, EventArgs.Empty);
+        private void titleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
+        private void titleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested(sender, EventArgs.Empty);
+        private void titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested(sender, EventArgs.Empty);
 
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);
 
@@ -589,12 +590,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested?.Invoke(sender, EventArgs.Empty);
-
-        private void titleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested?.Invoke(sender, EventArgs.Empty);
-
-        private void titleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested?.Invoke(sender, EventArgs.Empty);
-
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             bool notByUser = e.Action == TreeViewAction.Unknown;
@@ -609,62 +604,62 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (node == _audioFileOutputListTreeNode)
             {
-                AudioFileOutputsNodeSelected?.Invoke(this, EventArgs.Empty);
+                AudioFileOutputsNodeSelected(this, EventArgs.Empty);
             }
 
             if (node == _audioOutputNode)
             {
-                AudioOutputNodeSelected?.Invoke(this, EventArgs.Empty);
+                AudioOutputNodeSelected(this, EventArgs.Empty);
             }
 
             if (node == _curvesTreeNode)
             {
-                CurvesNodeSelected?.Invoke(this, EventArgs.Empty);
+                CurvesNodeSelected(this, EventArgs.Empty);
             }
 
             if (node == _librariesTreeNode)
             {
-                LibrariesNodeSelected?.Invoke(this, EventArgs.Empty);
+                LibrariesNodeSelected(this, EventArgs.Empty);
             }
 
             if (_patchGroupTreeNodes.Contains(node))
             {
-                PatchGroupNodeSelected?.Invoke(this, new EventArgs<string>((string)node.Tag));
+                PatchGroupNodeSelected(this, new EventArgs<string>((string)node.Tag));
             }
 
             if (_patchTreeNodes.Contains(node))
             {
                 int id = (int)node.Tag;
-                PatchNodeSelected?.Invoke(this, new EventArgs<int>(id));
+                PatchNodeSelected(this, new EventArgs<int>(id));
             }
 
             if (node == _samplesTreeNode)
             {
-                SamplesNodeSelected?.Invoke(this, EventArgs.Empty);
+                SamplesNodeSelected(this, EventArgs.Empty);
             }
 
             if (node == _scalesTreeNode)
             {
-                ScalesNodeSelected?.Invoke(this, EventArgs.Empty);
+                ScalesNodeSelected(this, EventArgs.Empty);
             }
 
             if (_libraryTreeNodes.Contains(node))
             {
                 int id = (int)node.Tag;
-                LibraryNodeSelected?.Invoke(this, new EventArgs<int>(id));
+                LibraryNodeSelected(this, new EventArgs<int>(id));
             }
 
             if (_libraryPatchTreeNodes.Contains(node))
             {
                 int id = (int)node.Tag;
-                LibraryPatchNodeSelected?.Invoke(this, new EventArgs<int>(id));
+                LibraryPatchNodeSelected(this, new EventArgs<int>(id));
             }
 
             // ReSharper disable once InvertIf
             if (_libraryPatchGroupTreeNodes.Contains(node))
             {
                 var e2 = ParseLibraryPatchGroupTag(node.Tag);
-                LibraryPatchGroupNodeSelected?.Invoke(this, e2);
+                LibraryPatchGroupNodeSelected(this, e2);
             }
         }
 
@@ -676,62 +671,62 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (node == _audioFileOutputListTreeNode)
             {
-                ShowAudioFileOutputsRequested?.Invoke(this, EventArgs.Empty);
+                ShowAudioFileOutputsRequested(this, EventArgs.Empty);
             }
 
             if (node == _audioOutputNode)
             {
-                ShowAudioOutputRequested?.Invoke(this, EventArgs.Empty);
+                ShowAudioOutputRequested(this, EventArgs.Empty);
             }
 
             if (node == _curvesTreeNode)
             {
-                ShowCurvesRequested?.Invoke(this, EventArgs.Empty);
+                ShowCurvesRequested(this, EventArgs.Empty);
             }
 
             if (node == _librariesTreeNode)
             {
-                ShowLibrariesRequested?.Invoke(this, EventArgs.Empty);
+                ShowLibrariesRequested(this, EventArgs.Empty);
             }
 
             if (_patchGroupTreeNodes.Contains(node))
             {
-                ShowPatchGridRequested?.Invoke(this, new EventArgs<string>((string)node.Tag));
+                ShowPatchGridRequested(this, new EventArgs<string>((string)node.Tag));
             }
 
             if (_patchTreeNodes.Contains(node))
             {
                 int id = (int)node.Tag;
-                ShowPatchDetailsRequested?.Invoke(this, new EventArgs<int>(id));
+                ShowPatchDetailsRequested(this, new EventArgs<int>(id));
             }
 
             if (node == _samplesTreeNode)
             {
-                ShowSamplesRequested?.Invoke(this, EventArgs.Empty);
+                ShowSamplesRequested(this, EventArgs.Empty);
             }
 
             if (node == _scalesTreeNode)
             {
-                ShowScalesRequested?.Invoke(this, EventArgs.Empty);
+                ShowScalesRequested(this, EventArgs.Empty);
             }
 
             if (_libraryTreeNodes.Contains(node))
             {
                 int id = (int)node.Tag;
-                ShowLibraryPropertiesRequested?.Invoke(this, new EventArgs<int>(id));
+                ShowLibraryPropertiesRequested(this, new EventArgs<int>(id));
             }
 
             if (_libraryPatchTreeNodes.Contains(node))
             {
                 int id = (int)node.Tag;
-                ShowLibraryPatchPropertiesRequested?.Invoke(this, new EventArgs<int>(id));
+                ShowLibraryPatchPropertiesRequested(this, new EventArgs<int>(id));
             }
 
             // ReSharper disable once InvertIf
             if (_libraryPatchGroupTreeNodes.Contains(node))
             {
                 LibraryPatchGroupEventArgs e2 = ParseLibraryPatchGroupTag(node.Tag);
-                ShowLibraryPatchGridRequested?.Invoke(this, e2);
+                ShowLibraryPatchGridRequested(this, e2);
             }
         }
 

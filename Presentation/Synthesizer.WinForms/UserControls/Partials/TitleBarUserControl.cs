@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -23,6 +24,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             add => buttonBarUserControl.CloseClicked += value;
             remove => buttonBarUserControl.CloseClicked -= value;
+        }
+
+        public event EventHandler NewClicked
+        {
+            add => buttonBarUserControl.NewClicked += value;
+            remove => buttonBarUserControl.NewClicked -= value;
         }
 
         public event EventHandler OpenClicked
@@ -88,6 +95,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 buttonBarUserControl.CloseButtonVisible = value;
+                PositionControls();
+            }
+        }
+
+        [DefaultValue(false)]
+        public bool NewButtonVisible
+        {
+            get => buttonBarUserControl.NewButtonVisible;
+            set
+            {
+                buttonBarUserControl.NewButtonVisible = value;
                 PositionControls();
             }
         }

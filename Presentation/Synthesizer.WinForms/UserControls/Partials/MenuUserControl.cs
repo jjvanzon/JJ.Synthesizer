@@ -62,22 +62,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
 
-            // CurrentInstrument
-            if (viewModel.CurrentInstrument.Visible)
-            {
-                toolStripMenuItem = CreateCurrentInstrumentToolStripMenuItem();
-                toolStripMenuItem.Click += currentInstrumentToolStripMenuItem_Click;
-                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
-            }
-
-            // DocumentClose
-            if (viewModel.DocumentClose.Visible)
-            {
-                toolStripMenuItem = CreateDocumentCloseToolStripMenuItem();
-                toolStripMenuItem.Click += documentCloseToolStripMenuItem_Click;
-                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
-            }
-
             // DocumentList
             if (viewModel.DocumentList.Visible)
             {
@@ -87,11 +71,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
 
             // DocumentProperties
-            // ReSharper disable once InvertIf
             if (viewModel.DocumentProperties.Visible)
             {
                 toolStripMenuItem = CreateDocumentPropertiesToolStripMenuItem();
                 toolStripMenuItem.Click += documentPropertiesToolStripMenuItem_Click;
+                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            }
+
+            // CurrentInstrument
+            if (viewModel.CurrentInstrument.Visible)
+            {
+                toolStripMenuItem = CreateCurrentInstrumentToolStripMenuItem();
+                toolStripMenuItem.Click += currentInstrumentToolStripMenuItem_Click;
+                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            }
+
+            // DocumentClose
+            // ReSharper disable once InvertIf
+            if (viewModel.DocumentClose.Visible)
+            {
+                toolStripMenuItem = CreateDocumentCloseToolStripMenuItem();
+                toolStripMenuItem.Click += documentCloseToolStripMenuItem_Click;
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
         }

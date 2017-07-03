@@ -21,6 +21,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
+// ReSharper disable RedundantCaseLabel
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -270,6 +271,33 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.NotFoundMessage = message;
 
             return viewModel;
+        }
+
+        public static bool GetCanCreateNew(DocumentTreeNodeTypeEnum selectedNodeType, bool patchDetailsVisible)
+        {
+            if (!patchDetailsVisible)
+            {
+                return false;
+            }
+
+            switch (selectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                case DocumentTreeNodeTypeEnum.Patch:
+                    return true;
+
+                case DocumentTreeNodeTypeEnum.AudioOutput:
+                case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                case DocumentTreeNodeTypeEnum.Curves:
+                case DocumentTreeNodeTypeEnum.Libraries:
+                case DocumentTreeNodeTypeEnum.Library:
+                case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                case DocumentTreeNodeTypeEnum.Samples:
+                case DocumentTreeNodeTypeEnum.Scales:
+                default:
+                    return false;
+            }
         }
 
         public static bool GetCanPlay(DocumentTreeNodeTypeEnum selectedNodeType)

@@ -915,7 +915,7 @@
     <value>Document Name</value>
   </data>
   <data name="DocumentTree" xml:space="preserve">
-    <value>Document Explorer</value>
+    <value>Document Tree</value>
   </data>
   <data name="GetDimensionWithPlaceholder" xml:space="preserve">
     <value>Get {0}</value>

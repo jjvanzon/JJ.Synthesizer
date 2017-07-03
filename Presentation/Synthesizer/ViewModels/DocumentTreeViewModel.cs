@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public string SelectedCanonicalPatchGroup { get; set; }
         public bool CanPlay { get; set; }
         public bool CanOpenExternally { get; set; }
+        public bool CanCreateNew { get; set; }
         internal int? OutletIDToPlay { get; set; }
         internal IDAndName DocumentToOpenExternally { get; set; }
         internal IDAndName PatchToOpenExternally { get; set; }

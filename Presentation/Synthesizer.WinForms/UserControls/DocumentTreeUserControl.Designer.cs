@@ -61,18 +61,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
+            this.titleBarUserControl.NewButtonVisible = true;
             this.titleBarUserControl.OpenButtonVisible = false;
             this.titleBarUserControl.PlayButtonVisible = true;
             this.titleBarUserControl.RefreshButtonVisible = true;
             this.titleBarUserControl.RemoveButtonVisible = false;
             this.titleBarUserControl.SaveButtonVisible = true;
-            this.titleBarUserControl.Size = new System.Drawing.Size(269, 26);
+            this.titleBarUserControl.Size = new System.Drawing.Size(269, 32);
             this.titleBarUserControl.TabIndex = 3;
-            this.titleBarUserControl.PlayClicked += new System.EventHandler(this.titleBarUserControl_PlayClicked);
-            this.titleBarUserControl.SaveClicked += new System.EventHandler(this.titleBarUserControl_SaveClicked);
-            this.titleBarUserControl.RefreshClicked += new System.EventHandler(this.titleBarUserControl_RefreshClicked);
-            this.titleBarUserControl.OpenClicked += new System.EventHandler(this.titleBarUserControl_OpenClicked);
+            this.titleBarUserControl.TitleLabelVisible = false;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
+            this.titleBarUserControl.NewClicked += new System.EventHandler(this.titleBarUserControl_NewClicked);
+            this.titleBarUserControl.OpenClicked += new System.EventHandler(this.titleBarUserControl_OpenClicked);
+            this.titleBarUserControl.PlayClicked += new System.EventHandler(this.titleBarUserControl_PlayClicked);
+            this.titleBarUserControl.RefreshClicked += new System.EventHandler(this.titleBarUserControl_RefreshClicked);
+            this.titleBarUserControl.SaveClicked += new System.EventHandler(this.titleBarUserControl_SaveClicked);
             // 
             // treeView
             // 

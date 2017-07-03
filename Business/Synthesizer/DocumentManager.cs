@@ -366,7 +366,14 @@ namespace JJ.Business.Synthesizer
 
         // System Document
 
-        public const string SYSTEM_DOCUMENT_NAME = "System";
+        private const string SYSTEM_DOCUMENT_NAME = "System";
+
+        public bool IsSystemPatch(Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return IsSystemDocument(patch.Document);
+        }
 
         public bool IsSystemDocument([NotNull] Document document)
         {
@@ -375,7 +382,6 @@ namespace JJ.Business.Synthesizer
             bool isSystemDocument = string.Equals(document.Name, SYSTEM_DOCUMENT_NAME);
             return isSystemDocument;
         }
-
 
         private static Document _systemDocument;
         private static readonly object _systemDocumentLock = new object();

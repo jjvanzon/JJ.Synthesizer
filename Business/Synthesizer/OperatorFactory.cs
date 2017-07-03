@@ -2126,6 +2126,18 @@ namespace JJ.Business.Synthesizer
             return op;
         }
 
+        public Operator FromPatch(Patch patch)
+        {
+            Operator op = CustomOperator(patch);
+
+            if (_documentManager.IsSystemPatch(patch))
+            {
+                op.SetOperatorTypeEnum(EnumHelper.Parse<OperatorTypeEnum>(patch.Name), _repositories);
+            }
+
+            return op;
+        }
+
         /// <param name="variableInletOrOutletCount">
         /// Applies to operators with a variable amount of inlets or outlets,
         /// such as the Adder operator and the InletsToDimension operator.

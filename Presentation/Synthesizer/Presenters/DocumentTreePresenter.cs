@@ -6,24 +6,18 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
 using System.Linq;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentTreePresenter : PresenterBase<DocumentTreeViewModel>
     {
-        private readonly IDocumentRepository _documentRepository;
-        private readonly IDocumentReferenceRepository _documentReferenceRepository;
-        private readonly IPatchRepository _patchRepository;
+        private readonly RepositoryWrapper _repositories;
 
-        public DocumentTreePresenter(
-            IDocumentRepository documentRepository,
-            IDocumentReferenceRepository documentReferenceRepository,
-            IPatchRepository patchRepository)
+        public DocumentTreePresenter(RepositoryWrapper repositories)
         {
-            _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
-            _documentReferenceRepository = documentReferenceRepository ?? throw new NullException(() => documentReferenceRepository);
-            _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+            _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         public DocumentTreeViewModel Close(DocumentTreeViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = false);
@@ -42,12 +36,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     switch (userInput.SelectedNodeType)
                     {
                         case DocumentTreeNodeTypeEnum.Library:
-                            DocumentReference documentReference = _documentReferenceRepository.Get(userInput.SelectedItemID.Value);
+                            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedItemID.Value);
                             viewModel.DocumentToOpenExternally = documentReference.LowerDocument.ToIDAndName();
                             break;
 
                         case DocumentTreeNodeTypeEnum.LibraryPatch:
-                            Patch patch = _patchRepository.Get(userInput.SelectedItemID.Value);
+                            Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
                             viewModel.DocumentToOpenExternally = patch.Document.ToIDAndName();
                             viewModel.PatchToOpenExternally = patch.ToIDAndName();
                             break;
@@ -191,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Document document = _documentRepository.Get(userInput.ID);
+            Document document = _repositories.DocumentRepository.Get(userInput.ID);
 
             // ToViewModel
             var converter = new RecursiveToDocumentTreeViewModelFactory();
@@ -199,7 +193,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // NOTE: Keep split up into two Non-Persisted phases:
             // CopyNonPersisted must be done first, because action will change some of the properties.
-            // And the second Non-Persisted phase is dependent on what was don in the action.
+            // And the second Non-Persisted phase is dependent on what was done in the action.
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -241,7 +235,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 case DocumentTreeNodeTypeEnum.Library:
                 {
-                    DocumentReference entity = _documentReferenceRepository.TryGet(viewModel.SelectedItemID.Value);
+                    DocumentReference entity = _repositories.DocumentReferenceRepository.TryGet(viewModel.SelectedItemID.Value);
                     if (entity == null)
                     {
                         ClearSelection(viewModel);
@@ -251,7 +245,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 case DocumentTreeNodeTypeEnum.LibraryPatch:
                 {
-                    Patch entity = _patchRepository.TryGet(viewModel.SelectedItemID.Value);
+                    Patch entity = _repositories.PatchRepository.TryGet(viewModel.SelectedItemID.Value);
                     if (entity == null)
                     {
                         ClearSelection(viewModel);
@@ -277,7 +271,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 case DocumentTreeNodeTypeEnum.Patch:
                 {
-                    Patch entity = _patchRepository.TryGet(viewModel.SelectedItemID.Value);
+                    Patch entity = _repositories.PatchRepository.TryGet(viewModel.SelectedItemID.Value);
                     if (entity == null)
                     {
                         ClearSelection(viewModel);

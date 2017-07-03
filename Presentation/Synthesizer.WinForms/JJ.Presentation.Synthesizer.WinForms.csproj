@@ -690,6 +690,7 @@
   <ItemGroup>
     <None Include="Resources\OpenWindowIconThinner.png" />
     <None Include="Resources\PlayIconThinner.png" />
+    <None Include="Resources\NewIcon.png" />
     <Content Include="Resources\RefreshIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
