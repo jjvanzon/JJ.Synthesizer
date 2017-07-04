@@ -48,14 +48,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.SumOverDimension
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.Random,
-                OperatorTypeEnum.Interpolate
-            };
-
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCustomPropertiesViews { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithSpecializedPropertiesViews { get; } =
             new HashSet<OperatorTypeEnum>
             {
                 OperatorTypeEnum.Cache,
@@ -67,44 +60,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.Sample
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch { get; } =
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
             new HashSet<OperatorTypeEnum>
             {
-                OperatorTypeEnum.Add,
-                OperatorTypeEnum.Absolute,
-                OperatorTypeEnum.And,
-                OperatorTypeEnum.CustomOperator,
-                OperatorTypeEnum.Divide,
-                OperatorTypeEnum.Equal,
-                OperatorTypeEnum.GreaterThan,
-                OperatorTypeEnum.GreaterThanOrEqual,
-                OperatorTypeEnum.LessThan,
-                OperatorTypeEnum.LessThanOrEqual,
-                OperatorTypeEnum.Negative,
-                OperatorTypeEnum.Not,
-                OperatorTypeEnum.NotEqual,
-                OperatorTypeEnum.Multiply,
-                OperatorTypeEnum.MultiplyWithOrigin,
-                OperatorTypeEnum.Or,
-                OperatorTypeEnum.OneOverX,
-                OperatorTypeEnum.Power,
-                OperatorTypeEnum.Sine,
-                OperatorTypeEnum.Subtract
+                OperatorTypeEnum.Random,
+                OperatorTypeEnum.Interpolate
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView_WithoutUnderlyingPatch { get; } =
-            EnumHelper.GetValues<OperatorTypeEnum>()
-                      .Except(OperatorTypeEnums_WithCustomPropertiesViews)
-                      .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
-                      .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
-                      .Except(OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch)
-                      .ToHashSet();
-
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView { get; } =
-            // ReSharper disable once InvokeAsExtensionMethod
-            Enumerable.Union(
-                OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch,
-                OperatorTypeEnums_WithStandardPropertiesView_WithoutUnderlyingPatch).ToHashSet();
+            EnumHelper.GetValues<OperatorTypeEnum>()
+                      .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
+                      .Except(OperatorTypeEnums_WithSpecializedPropertiesViews)
+                      .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
+                      .ToHashSet();
 
         [Obsolete("Will be replaced with Inlet.NameOrDimensionHidden, "+
                   "but only after all standard operators have been bootstrapped " +

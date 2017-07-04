@@ -258,12 +258,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return _operatorPropertiesPresenter_WithInterpolation;
             }
 
-            if (ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(operatorTypeEnum))
-            {
-                return _operatorPropertiesPresenter;
-            }
-
-            throw new NotFoundException<IOperatorPropertiesPresenter>(new { operatorTypeEnum });
+            return _operatorPropertiesPresenter;
         }
     }
 }

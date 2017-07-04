@@ -631,18 +631,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.StandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
             }
 
-            bool canHaveUnderlyingPatch = ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch.Contains(operatorTypeEnum);
-            if (canHaveUnderlyingPatch)
+            if (entity.UnderlyingPatch != null)
             {
-                Patch underlyingPatch = entity.UnderlyingPatch;
-                if (underlyingPatch != null)
-                {
-                    viewModel.UnderlyingPatch = underlyingPatch.ToIDAndName();
-                }
-                // TODO: Lower priority: Later you can make it visible for any operator with an underlying patch,
-                // but not until you program the ability to change one operator into another.
-                viewModel.CanSelectUnderlyingPatch = operatorTypeEnum == OperatorTypeEnum.CustomOperator;
+                viewModel.UnderlyingPatch = entity.UnderlyingPatch.ToIDAndName();
+                viewModel.CanSelectUnderlyingPatch = true;
             }
+
             viewModel.UnderlyingPatch = viewModel.UnderlyingPatch ?? ViewModelHelper.CreateEmptyIDAndName();
 
             return viewModel;

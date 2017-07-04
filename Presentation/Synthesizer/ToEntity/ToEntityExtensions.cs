@@ -944,20 +944,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
             entity.SetOperatorTypeEnum(operatorTypeEnum, repositories);
 
-            bool canHaveUnderlyingPatch = ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView_WithUnderlyingPatch.Contains(operatorTypeEnum);
-            // ReSharper disable once InvertIf
-            if (canHaveUnderlyingPatch)
+            bool underlyingPatchIsFilledIn = viewModel.UnderlyingPatch != null && viewModel.UnderlyingPatch.ID != 0;
+            if (underlyingPatchIsFilledIn)
             {
-                bool underlyingPatchIsFilledIn = viewModel.UnderlyingPatch != null && viewModel.UnderlyingPatch.ID != 0;
-                if (underlyingPatchIsFilledIn)
-                {
-                    Patch underlyingPatch = repositories.PatchRepository.Get(viewModel.UnderlyingPatch.ID);
-                    entity.LinkToUnderlyingPatch(underlyingPatch);
-                }
-                else
-                {
-                    entity.UnlinkUnderlyingPatch();
-                }
+                Patch underlyingPatch = repositories.PatchRepository.Get(viewModel.UnderlyingPatch.ID);
+                entity.LinkToUnderlyingPatch(underlyingPatch);
+            }
+            else
+            {
+                entity.UnlinkUnderlyingPatch();
             }
 
             return entity;
