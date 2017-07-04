@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void ShowWithoutDocumentNameOrPatchName()
         {
             // Create ViewModel
-            MainViewModel = ViewModelHelper.CreateEmptyMainViewModel();
+            MainViewModel = ToViewModelHelper.CreateEmptyMainViewModel();
 
             // Partial Actions
             MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void ShowWithDocumentName(string documentName)
         {
             // Create ViewModel
-            MainViewModel = ViewModelHelper.CreateEmptyMainViewModel();
+            MainViewModel = ToViewModelHelper.CreateEmptyMainViewModel();
 
             // Businesss
             Document document = _repositories.DocumentRepository.TryGetByName(documentName);
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void ShowWithDocumentNameAndPatchName(string documentName, string patchName)
         {
             // Create ViewModel
-            MainViewModel = ViewModelHelper.CreateEmptyMainViewModel();
+            MainViewModel = ToViewModelHelper.CreateEmptyMainViewModel();
 
             // Businesss
             Document document = _repositories.DocumentRepository.TryGetByName(documentName);
@@ -420,7 +420,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     userInput.Successful = false;
 
                     // Action
-                    AutoPatchPopupViewModel viewModel = ViewModelHelper.CreateEmptyAutoPatchViewModel();
+                    AutoPatchPopupViewModel viewModel = ToViewModelHelper.CreateEmptyAutoPatchViewModel();
 
                     // Non-Persisted
                     viewModel.RefreshCounter = userInput.RefreshCounter;
@@ -462,7 +462,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (result.Successful)
                     {
                         // ToViewModel
-                        viewModel2 = ViewModelHelper.CreateEmptyAutoPatchViewModel();
+                        viewModel2 = ToViewModelHelper.CreateEmptyAutoPatchViewModel();
                     }
                     else
                     {
@@ -903,7 +903,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Partial Actions
                 string titleBar = _titleBarPresenter.Show();
                 MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
-                DocumentViewModel documentViewModel = ViewModelHelper.CreateEmptyDocumentViewModel();
+                DocumentViewModel documentViewModel = ToViewModelHelper.CreateEmptyDocumentViewModel();
 
                 // DispatchViewModel
                 MainViewModel.TitleBar = titleBar;
@@ -1433,7 +1433,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void SetCanCreateNew(DocumentTreeViewModel viewModel)
         {
             bool patchDetailsVisible = MainViewModel.Document.VisiblePatchDetails != null;
-            viewModel.CanCreateNew = ViewModelHelper.GetCanCreateNew(viewModel.SelectedNodeType, patchDetailsVisible);
+            viewModel.CanCreateNew = ToViewModelValueHelper.GetCanCreateNew(viewModel.SelectedNodeType, patchDetailsVisible);
         }
 
         // Library

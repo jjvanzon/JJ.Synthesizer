@@ -170,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
 
             // ToViewModel
-            MainViewModel.Document.CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos);
+            MainViewModel.Document.CurveLookup = ToViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos);
         }
 
         private void CurvePropertiesDictionaryRefresh()
@@ -597,7 +597,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
             IList<Operator> operators = document.Patches
                                                 .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(x.GetOperatorTypeEnum()))
+                                                .Where(x => ToViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(x.GetOperatorTypeEnum()))
                                                 .ToArray();
             foreach (Operator op in operators)
             {
@@ -913,7 +913,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             IList<Operator> operators = document.Patches
                                                 .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                .Where(x => ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
                                                 .ToArray();
             foreach (Operator op in operators)
             {
@@ -956,7 +956,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             IList<Operator> operators = document.Patches
                                                 .SelectMany(x => x.Operators)
-                                                .Where(x => ViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+                                                .Where(x => ToViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
                                                 .ToArray();
             foreach (Operator op in operators)
             {
@@ -1025,7 +1025,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchDetails_RefreshOperator(Operator entity, OperatorViewModel operatorViewModel)
         {
-            ViewModelHelper.RefreshViewModel_WithInletsAndOutlets(
+            ToViewModelHelper.RefreshViewModel_WithInletsAndOutlets(
                 entity,
                 operatorViewModel,
                 _repositories.SampleRepository,
@@ -1196,7 +1196,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void SampleLookupRefresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            MainViewModel.Document.SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document);
+            MainViewModel.Document.SampleLookup = ToViewModelHelper.CreateSampleLookupViewModel(document);
         }
 
         private void SamplePropertiesDictionaryRefresh()
@@ -1360,7 +1360,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void UnderylingPatchLookupRefresh()
         {
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            MainViewModel.Document.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document);
+            MainViewModel.Document.UnderlyingPatchLookup = ToViewModelHelper.CreateUnderlyingPatchLookupViewModel(document);
         }
     }
 }

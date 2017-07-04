@@ -54,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 throw new Exception($"Either {nameof(document)} or {nameof(patch)} should have been null.");
             }
 
-            DocumentOrPatchNotFoundPopupViewModel viewModel = ViewModelHelper.CreateDocumentOrPatchNotFoundPopupViewModel(message);
+            DocumentOrPatchNotFoundPopupViewModel viewModel = ToViewModelHelper.CreateDocumentOrPatchNotFoundPopupViewModel(message);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToViewModel
-            var viewModel = ViewModelHelper.CreateDocumentOrPatchNotFoundPopupViewModel();
+            var viewModel = ToViewModelHelper.CreateDocumentOrPatchNotFoundPopupViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

@@ -102,8 +102,9 @@
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ViewModelHelper.cs" />
-    <Compile Include="ToViewModel\ViewModelHelper.Lookups.cs" />
+    <Compile Include="ToViewModel\ToViewModelValueHelper.cs" />
+    <Compile Include="ToViewModel\ToViewModelHelper.cs" />
+    <Compile Include="ToViewModel\ToViewModelHelper.Lookups.cs" />
     <Compile Include="Validators\OperatorPropertiesViewModel_ForPatchInlet_Validator.cs" />
     <Compile Include="Validators\ToneGridEditViewModelValidator.cs" />
     <Compile Include="Validators\ToneViewModelValidator.cs" />
@@ -149,7 +150,7 @@
     <Compile Include="ToViewModel\ToIDAndNameExtensions.cs" />
     <Compile Include="ToViewModel\RecursiveToPatchViewModelConverter.cs" />
     <Compile Include="ToViewModel\ToItemViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ViewModelHelper.EmptyViewModels.cs" />
+    <Compile Include="ToViewModel\ToViewModelHelper.EmptyViewModels.cs" />
     <Compile Include="ViewModels\AudioFileOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\AudioFileOutputGridViewModel.cs" />
     <Compile Include="ViewModels\CurveDetailsViewModel.cs" />

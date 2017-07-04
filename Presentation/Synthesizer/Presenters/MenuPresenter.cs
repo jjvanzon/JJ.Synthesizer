@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         public MenuViewModel Show(bool documentIsOpen)
         {
-            MenuViewModel viewModel = ViewModelHelper.CreateMenuViewModel(documentIsOpen);
+            MenuViewModel viewModel = ToViewModelHelper.CreateMenuViewModel(documentIsOpen);
             return viewModel;
         }
     }

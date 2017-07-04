@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.AudioFileFormat = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.AudioFileFormat = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             if (entity.SampleDataType != null)
@@ -47,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.SampleDataType = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.SampleDataType = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             if (entity.SpeakerSetup != null)
@@ -56,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.SpeakerSetup = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.SpeakerSetup = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             if (entity.Outlet != null)
@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.Outlet = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.Outlet = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;
@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.SpeakerSetup = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.SpeakerSetup = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;
@@ -106,7 +106,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var idAndName = new IDAndName
             {
                 ID = dto.Entity.ID,
-                Name = ViewModelHelper.FormatUsedInDto(dto)
+                Name = ToViewModelHelper.FormatUsedInDto(dto)
             };
 
             return idAndName;
@@ -171,9 +171,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.NameOrDimensionHidden = entity.NameOrDimensionHidden;
             viewModel.IsRepeating = entity.IsRepeating;
             viewModel.RepetitionPosition = entity.RepetitionPosition;
-            viewModel.Visible = ViewModelHelper.GetInletVisible(entity);
-            viewModel.Caption = ViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository);
-            viewModel.ConnectionDistance = ViewModelHelper.TryGetConnectionDistance(entity, entityPositionManager);
+            viewModel.Visible = ToViewModelValueHelper.GetInletVisible(entity);
+            viewModel.Caption = ToViewModelValueHelper.GetInletCaption(entity, sampleRepository, curveRepository);
+            viewModel.ConnectionDistance = ToViewModelValueHelper.TryGetConnectionDistance(entity, entityPositionManager);
 
             if (entity.Dimension != null)
             {
@@ -181,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.Dimension = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.Dimension = ToViewModelHelper.CreateEmptyIDAndName();
             }
         }
 
@@ -206,7 +206,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Y = entity.Y,
                 NodeType = entity.NodeType.ToIDAndDisplayName(),
                 ID = entity.ID,
-                Caption = ViewModelHelper.GetNodeCaption(entity)
+                Caption = ToViewModelValueHelper.GetNodeCaption(entity)
             };
 
             return viewModel;
@@ -225,7 +225,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new OperatorViewModel();
 
-            ViewModelHelper.RefreshViewModel(
+            ToViewModelHelper.RefreshViewModel(
                 entity,
                 viewModel,
                 sampleRepository,
@@ -308,9 +308,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.IsRepeating = entity.IsRepeating;
             viewModel.RepetitionPosition = entity.RepetitionPosition;
-            viewModel.Visible = ViewModelHelper.GetOutletVisible(entity);
-            viewModel.Caption = ViewModelHelper.GetOutletCaption(entity, sampleRepository, curveRepository);
-            viewModel.AverageConnectionDistance = ViewModelHelper.TryGetAverageConnectionDistance(entity, entityPositionManager);
+            viewModel.Visible = ToViewModelValueHelper.GetOutletVisible(entity);
+            viewModel.Caption = ToViewModelValueHelper.GetOutletCaption(entity, sampleRepository, curveRepository);
+            viewModel.AverageConnectionDistance = ToViewModelValueHelper.TryGetAverageConnectionDistance(entity, entityPositionManager);
 
             if (entity.Dimension != null)
             {
@@ -318,7 +318,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.Dimension = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.Dimension = ToViewModelHelper.CreateEmptyIDAndName();
             }
         }
 
@@ -362,7 +362,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.AudioFileFormat = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.AudioFileFormat = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             if (entity.SampleDataType != null)
@@ -371,7 +371,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.SampleDataType = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.SampleDataType = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             if (entity.SpeakerSetup != null)
@@ -380,7 +380,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.SpeakerSetup = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.SpeakerSetup = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             if (entity.InterpolationType != null)
@@ -389,7 +389,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.InterpolationType = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.InterpolationType = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;
@@ -414,7 +414,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.ScaleType = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.ScaleType = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;

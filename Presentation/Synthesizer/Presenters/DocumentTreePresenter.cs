@@ -6,8 +6,6 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
 using System.Linq;
-using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -203,8 +201,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             action(viewModel);
 
             // Non-Persisted
-            viewModel.CanPlay = ViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
-            viewModel.CanOpenExternally = ViewModelHelper.GetCanOpenExternally(viewModel.SelectedNodeType);
+            viewModel.CanPlay = ToViewModelValueHelper.GetCanPlay(viewModel.SelectedNodeType);
+            viewModel.CanOpenExternally = ToViewModelValueHelper.GetCanOpenExternally(viewModel.SelectedNodeType);
 
             // Successful
             viewModel.Successful = true;

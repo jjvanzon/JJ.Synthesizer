@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     /// </summary>
     internal class RecursiveToPatchViewModelConverter
     {
-        private static readonly string _timeDimensionKey = ViewModelHelper.GetDimensionKey(DimensionEnum.Time);
+        private static readonly string _timeDimensionKey = ToViewModelValueHelper.GetDimensionKey(DimensionEnum.Time);
         private static readonly IList<StyleGradeEnum> _styleGradesNonNeutral = GetStyleGradesNonNeutral();
 
         private readonly IDimensionRepository _dimensionRepository;
@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = ConvertToViewModelRecursive(patch),
                 ValidationMessages = new List<MessageDto>(),
-                OperatorToolboxItems = ViewModelHelper.GetOperatorTypesViewModel()
+                OperatorToolboxItems = ToViewModelHelper.GetOperatorTypesViewModel()
             };
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Entity.OperatorDictionary.Values)
@@ -132,7 +132,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     foreach (OperatorViewModel operatorViewModel in dimensionKeyGroup)
                     {
-                        if (operatorViewModel.Dimension.Key.StartsWith(ViewModelHelper.CUSTOM_DIMENSION_KEY_PREFIX))
+                        if (operatorViewModel.Dimension.Key.StartsWith(ToViewModelValueHelper.CUSTOM_DIMENSION_KEY_PREFIX))
                         {
                             operatorViewModel.Dimension.Name += $" ({ResourceFormatter.Custom})";
                         }

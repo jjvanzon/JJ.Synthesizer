@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = dto.Entity.ID,
                 Name = dto.Entity.Name,
-                UsedIn = ViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
+                UsedIn = ToViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
             };
 
             return viewModel;
@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = dto.Entity.ID,
                 Name = dto.Entity.Name,
-                UsedIn = ViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
+                UsedIn = ToViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
             };
 
             return viewModel;
@@ -169,7 +169,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name,
                 SamplingRate = entity.SamplingRate,
                 ID = entity.ID,
-                UsedIn = ViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
+                UsedIn = ToViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
             };
 
             // TODO: Do this with enums.

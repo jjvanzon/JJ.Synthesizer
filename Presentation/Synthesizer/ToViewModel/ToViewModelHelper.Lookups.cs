@@ -14,7 +14,7 @@ using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    internal static partial class ViewModelHelper
+    internal static partial class ToViewModelHelper
     {
         // AudioFileFormat
 

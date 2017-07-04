@@ -30,9 +30,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new AudioFileOutputPropertiesViewModel
             {
                 Entity = entity.ToViewModel(),
-                AudioFileFormatLookup = ViewModelHelper.GetAudioFileFormatLookupViewModel(),
-                SampleDataTypeLookup = ViewModelHelper.GetSampleDataTypeLookupViewModel(),
-                SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel(),
+                AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel(),
+                SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel(),
+                SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new AudioOutputPropertiesViewModel
             {
                 Entity = entity.ToViewModel(),
-                SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel(),
+                SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -94,7 +94,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Curve = entity.ToIDAndName(),
                 DocumentID = entity.Document.ID,
                 Nodes = entity.Nodes.ToViewModelDictionary(),
-                NodeTypeLookup = ViewModelHelper.GetNodeTypeLookupViewModel(),
+                NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel(),
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -140,7 +140,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveID = entity.Curve.ID,
                 Entity = entity.ToViewModel(),
                 ValidationMessages = new List<MessageDto>(),
-                NodeTypeLookup = ViewModelHelper.GetNodeTypeLookupViewModel()
+                NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel()
             };
 
             return viewModel;
@@ -271,7 +271,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
-            var viewModel = ViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
+            var viewModel = ToViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
             viewModel.HigherDocumentID = higherDocument.ID;
 
             return viewModel;
@@ -291,7 +291,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             foreach (Operator op in patch.Operators)
             {
                 // ReSharper disable once InvertIf
-                if (ViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(op.GetOperatorTypeEnum()))
+                if (ToViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(op.GetOperatorTypeEnum()))
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);
@@ -376,7 +376,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+            return patch.Operators.Where(x => ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
                         .Select(x => x.ToPropertiesViewModel_WithInterpolation())
                         .ToList();
         }
@@ -386,7 +386,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => ViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+            return patch.Operators.Where(x => ToViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
                         .Select(x => x.ToPropertiesViewModel_WithCollectionRecalculation())
                         .ToList();
         }
@@ -411,9 +411,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var wrapper = new Cache_OperatorWrapper(entity);
 
             viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
-            viewModel.InterpolationLookup = ViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
+            viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
             viewModel.SpeakerSetup = wrapper.SpeakerSetup.ToIDAndDisplayName();
-            viewModel.SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel();
+            viewModel.SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel();
 
             return viewModel;
         }
@@ -435,7 +435,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.Curve = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.Curve = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;
@@ -453,7 +453,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.InletCount = entity.Inlets.Count;
             viewModel.CanEditInletCount = true;
             viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
-            viewModel.InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel();
+            viewModel.InterpolationLookup = ToViewModelHelper.GetResampleInterpolationLookupViewModel();
 
             return viewModel;
         }
@@ -488,7 +488,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.IsRepeating = inlet.IsRepeating;
 
             // In case of PatchInlet Dimension has to come from Inlet, not Operator.
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
+            viewModel.DimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel();
             DimensionEnum dimensionEnum = inlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
@@ -516,7 +516,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.IsRepeating = outlet.IsRepeating;
 
             // In case of PatchInlet Dimension has to come from Outlet, not Operator.
-            viewModel.DimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
+            viewModel.DimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel();
             DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
             {
@@ -547,7 +547,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.Sample = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.Sample = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;
@@ -562,7 +562,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var wrapper = new Interpolate_OperatorWrapper(entity);
 
             viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
-            viewModel.InterpolationLookup = ViewModelHelper.GetResampleInterpolationLookupViewModel();
+            viewModel.InterpolationLookup = ToViewModelHelper.GetResampleInterpolationLookupViewModel();
 
             return viewModel;
         }
@@ -577,7 +577,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var wrapper = new SumOverDimension_OperatorWrapper(entity);
 
             viewModel.CollectionRecalculation = wrapper.CollectionRecalculation.ToIDAndDisplayName();
-            viewModel.CollectionRecalculationLookup = ViewModelHelper.GetCollectionRecalculationLookupViewModel();
+            viewModel.CollectionRecalculationLookup = ToViewModelHelper.GetCollectionRecalculationLookupViewModel();
 
             return viewModel;
         }
@@ -609,7 +609,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.OperatorType = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.OperatorType = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             DimensionEnum dimensionEnum = entity.GetStandardDimensionEnum();
@@ -628,7 +628,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.CanEditCustomDimensionName = true;
                 viewModel.CanSelectStandardDimension = true;
-                viewModel.StandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel();
+                viewModel.StandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel();
             }
 
             if (entity.UnderlyingPatch != null)
@@ -637,7 +637,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.CanSelectUnderlyingPatch = true;
             }
 
-            viewModel.UnderlyingPatch = viewModel.UnderlyingPatch ?? ViewModelHelper.CreateEmptyIDAndName();
+            viewModel.UnderlyingPatch = viewModel.UnderlyingPatch ?? ToViewModelHelper.CreateEmptyIDAndName();
 
             return viewModel;
         }
@@ -694,7 +694,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DefaultCustomDimensionNameEnabled = patch.HasDimension,
                 DefaultCustomDimensionName = patch.DefaultCustomDimensionName,
                 DefaultStandardDimensionEnabled = patch.HasDimension,
-                DefaultStandardDimensionLookup = ViewModelHelper.GetDimensionLookupViewModel(),
+                DefaultStandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -704,7 +704,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.DefaultStandardDimension = ViewModelHelper.CreateEmptyIDAndName();
+                viewModel.DefaultStandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;
@@ -733,7 +733,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 if (!containsGroupless)
                 {
 
-                    LibraryPatchGridViewModel viewModel = ViewModelHelper.CreateEmptyLibraryPatchGridViewModel();
+                    LibraryPatchGridViewModel viewModel = ToViewModelHelper.CreateEmptyLibraryPatchGridViewModel();
                     string canonicalGroupName = NameHelper.ToCanonical("");
                     var key = (dto.LowerDocumentReference.ID, canonicalGroupName);
                     viewModelDictionary[key] = viewModel;
@@ -822,10 +822,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new SamplePropertiesViewModel
             {
                 DocumentID = entity.Document.ID,
-                AudioFileFormatLookup = ViewModelHelper.GetAudioFileFormatLookupViewModel(),
-                SampleDataTypeLookup = ViewModelHelper.GetSampleDataTypeLookupViewModel(),
-                SpeakerSetupLookup = ViewModelHelper.GetSpeakerSetupLookupViewModel(),
-                InterpolationTypeLookup = ViewModelHelper.GetInterpolationTypeLookupViewModel(repositories.InterpolationTypeRepository),
+                AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel(),
+                SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel(),
+                SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
+                InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(repositories.InterpolationTypeRepository),
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -858,7 +858,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ScalePropertiesViewModel
             {
                 Entity = entity.ToViewModel(),
-                ScaleTypeLookup = ViewModelHelper.GetScaleTypeLookupViewModel(),
+                ScaleTypeLookup = ToViewModelHelper.GetScaleTypeLookupViewModel(),
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -890,7 +890,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ToneGridEditViewModel
             {
                 ScaleID = entity.ID,
-                NumberTitle = ViewModelHelper.GetToneGridEditNumberTitle(entity),
+                NumberTitle = ToViewModelValueHelper.GetToneGridEditNumberTitle(entity),
                 Tones = entity.Tones.ToToneViewModels(),
                 FrequencyVisible = entity.GetScaleTypeEnum() != ScaleTypeEnum.LiteralFrequency,
                 ValidationMessages = new List<MessageDto>()

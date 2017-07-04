@@ -38,11 +38,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = document.ID,
                 AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesDictionary = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
-                AutoPatchPopup = ViewModelHelper.CreateEmptyAutoPatchViewModel(),
-                CurrentInstrument = ViewModelHelper.CreateCurrentInstrumentViewModelWithEmptyList(document),
+                AutoPatchPopup = ToViewModelHelper.CreateEmptyAutoPatchViewModel(),
+                CurrentInstrument = ToViewModelHelper.CreateCurrentInstrumentViewModelWithEmptyList(document),
                 CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.Curve.ID),
                 CurveGrid = curveUsedInDtos.ToGridViewModel(document.ID),
-                CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
+                CurveLookup = ToViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 LibraryGrid = document.ToLibraryGridViewModel(),
@@ -62,9 +62,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_WithCollectionRecalculation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithCollectionRecalculation()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithInterpolation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInterpolation()).ToDictionary(x => x.ID),
                 PatchDetailsDictionary = document.Patches.Select(x => x.ToDetailsViewModel(repositories.DimensionRepository, repositories.SampleRepository, repositories.CurveRepository, entityPositionManager)).ToDictionary(x => x.Entity.ID),
-                PatchGridDictionary = ViewModelHelper.CreatePatchGridViewModelDictionary(grouplessPatchUsedInDtos, patchGroupDtos_WithUsedIn, document.ID),
+                PatchGridDictionary = ToViewModelHelper.CreatePatchGridViewModelDictionary(grouplessPatchUsedInDtos, patchGroupDtos_WithUsedIn, document.ID),
                 PatchPropertiesDictionary = document.Patches.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
-                SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document),
+                SampleLookup = ToViewModelHelper.CreateSampleLookupViewModel(document),
                 SampleGrid = sampleUsedInDtos.ToGridViewModel(document.ID),
                 SamplePropertiesDictionary = document.Samples.Select(x => x.ToPropertiesViewModel(sampleRepositories)).ToDictionary(x => x.Entity.ID),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
@@ -81,10 +81,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                viewModel.AudioOutputProperties = ViewModelHelper.CreateEmptyAudioOutputPropertiesViewModel();
+                viewModel.AudioOutputProperties = ToViewModelHelper.CreateEmptyAudioOutputPropertiesViewModel();
             }
 
-            viewModel.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(document);
+            viewModel.UnderlyingPatchLookup = ToViewModelHelper.CreateUnderlyingPatchLookupViewModel(document);
 
             return viewModel;
         }

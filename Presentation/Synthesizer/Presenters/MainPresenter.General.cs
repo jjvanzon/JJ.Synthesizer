@@ -248,12 +248,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     return _operatorPropertiesPresenter_ForSample;
             }
 
-            if (ViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(operatorTypeEnum))
+            if (ToViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(operatorTypeEnum))
             {
                 return _operatorPropertiesPresenter_WithCollectionRecalculation;
             }
 
-            if (ViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(operatorTypeEnum))
+            if (ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(operatorTypeEnum))
             {
                 return _operatorPropertiesPresenter_WithInterpolation;
             }

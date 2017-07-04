@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    internal static partial class ViewModelHelper
+    internal static partial class ToViewModelHelper
     {
         public static AudioFileOutputGridViewModel CreateEmptyAudioFileOutputGridViewModel()
         {

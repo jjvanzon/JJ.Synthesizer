@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentDeletedViewModel Show()
         {
             // ToViewModel
-            DocumentDeletedViewModel viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
+            DocumentDeletedViewModel viewModel = ToViewModelHelper.CreateDocumentDeletedViewModel();
 
             // Non-Persisted
             viewModel.Visible = true;
@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // ToViewModel
-            DocumentDeletedViewModel viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
+            DocumentDeletedViewModel viewModel = ToViewModelHelper.CreateDocumentDeletedViewModel();
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
