@@ -220,11 +220,6 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_OneOverX_OperatorDto(OneOverX_OperatorDto dto)
-        {
-            throw new NotSupportedException();
-        }
-
         protected sealed override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
         {
             throw new NotSupportedException();

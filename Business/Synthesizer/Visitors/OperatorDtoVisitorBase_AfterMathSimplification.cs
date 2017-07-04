@@ -310,11 +310,6 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_OneOverX_OperatorDto_ConstNumber(OneOverX_OperatorDto_ConstNumber dto)
-        {
-            throw new NotSupportedException();
-        }
-
         protected sealed override IOperatorDto Visit_Or_OperatorDto_ConstA_ConstB(Or_OperatorDto_ConstA_ConstB dto)
         {
             throw new NotSupportedException();

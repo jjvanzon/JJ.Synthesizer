@@ -274,7 +274,6 @@
     <Compile Include="Calculation\Operators\AverageFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator_AllVars.cs" />
     <Compile Include="Calculation\Operators\Absolute_OperatorCalculator_VarNumber.cs" />
-    <Compile Include="Calculation\Operators\OneOverX_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Or_OperatorCalculator_VarA_VarB.cs" />
@@ -288,7 +287,6 @@
     <Compile Include="Calculation\Operators\Equal OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\HighPassFilter OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\LowPassFilter OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\MultiplyWithOrigin OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="Calculation\Operators\Squash OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
@@ -432,7 +430,6 @@
     <Compile Include="Dto\DimensionToOutlets_Outlet_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_AggregateOverDimension_AllVars.cs" />
     <Compile Include="Dto\RangeOverDimension OperatorDto Classes.cs" />
-    <Compile Include="Dto\OneOverX OperatorDto Classes.cs" />
     <Compile Include="Dto\Negative OperatorDto Classes.cs" />
     <Compile Include="Dto\If OperatorDto Classes.cs" />
     <Compile Include="Dto\AverageFollower OperatorDto Classes.cs" />

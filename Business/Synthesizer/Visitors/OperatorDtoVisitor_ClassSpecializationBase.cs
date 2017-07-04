@@ -1473,32 +1473,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_OneOverX_OperatorDto(OneOverX_OperatorDto dto)
-        {
-            base.Visit_OneOverX_OperatorDto(dto);
-
-            MathPropertiesDto numberMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.NumberOperatorDto);
-
-            IOperatorDto dto2;
-
-            if (numberMathPropertiesDto.IsConst)
-            {
-                dto2 = new OneOverX_OperatorDto_ConstNumber { Number = numberMathPropertiesDto.ConstValue };
-            }
-            else if (numberMathPropertiesDto.IsVar)
-            {
-                dto2 = new OneOverX_OperatorDto_VarNumber { NumberOperatorDto = dto.NumberOperatorDto };
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
-            }
-
-            DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
         {
             base.Visit_Or_OperatorDto(dto);

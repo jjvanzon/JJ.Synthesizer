@@ -63,7 +63,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.NotchFilter, VisitNotchFilter },
                 { OperatorTypeEnum.NotEqual, VisitNotEqual },
                 { OperatorTypeEnum.Number, VisitNumber },
-                { OperatorTypeEnum.OneOverX, VisitOneOverX },
                 { OperatorTypeEnum.Or, VisitOr },
                 { OperatorTypeEnum.PatchInlet, VisitPatchInlet },
                 { OperatorTypeEnum.PatchOutlet, VisitPatchOutlet },
@@ -340,9 +339,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitMultiply(Operator op) => VisitOperatorBase(op);
 
         //[DebuggerHidden]
-        protected virtual void VisitMultiplyWithOriginOutlet(Outlet op) => VisitOutletBase(op);
-
-        //[DebuggerHidden]
         protected virtual void VisitNegative(Operator op) => VisitOperatorBase(op);
 
         //[DebuggerHidden]
@@ -359,9 +355,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         //[DebuggerHidden]
         protected virtual void VisitNumber(Operator op) => VisitOperatorBase(op);
-
-        //[DebuggerHidden]
-        protected virtual void VisitOneOverX(Operator op) => VisitOperatorBase(op);
 
         //[DebuggerHidden]
         protected virtual void VisitOr(Operator op) => VisitOperatorBase(op);

@@ -84,7 +84,7 @@
         Reverse = 54,
         Round = 55,
         Negative = 56,
-        OneOverX = 57,
+        //OneOverX = 57,
         Cache = 58,
         //Filter = 59,
         PulseTrigger = 60,

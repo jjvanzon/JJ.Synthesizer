@@ -186,7 +186,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Negative, repositories, progressCallback);
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Not, repositories, progressCallback);
-                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.OneOverX, repositories, progressCallback);
+                //Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.OneOverX, repositories, progressCallback);
 
                 AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 

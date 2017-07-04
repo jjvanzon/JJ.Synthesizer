@@ -284,9 +284,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Number_OperatorDto_NaN), x => Visit_Number_OperatorDto_NaN((Number_OperatorDto_NaN)x ) },
                 { typeof(Number_OperatorDto_One), x => Visit_Number_OperatorDto_One((Number_OperatorDto_One)x ) },
                 { typeof(Number_OperatorDto_Zero), x => Visit_Number_OperatorDto_Zero((Number_OperatorDto_Zero)x ) },
-                { typeof(OneOverX_OperatorDto), x => Visit_OneOverX_OperatorDto((OneOverX_OperatorDto)x ) },
-                { typeof(OneOverX_OperatorDto_VarNumber), x => Visit_OneOverX_OperatorDto_VarNumber((OneOverX_OperatorDto_VarNumber)x ) },
-                { typeof(OneOverX_OperatorDto_ConstNumber), x => Visit_OneOverX_OperatorDto_ConstNumber((OneOverX_OperatorDto_ConstNumber)x ) },
                 { typeof(Or_OperatorDto), x => Visit_Or_OperatorDto((Or_OperatorDto)x ) },
                 { typeof(Or_OperatorDto_ConstA_ConstB), x => Visit_Or_OperatorDto_ConstA_ConstB((Or_OperatorDto_ConstA_ConstB)x ) },
                 { typeof(Or_OperatorDto_ConstA_VarB), x => Visit_Or_OperatorDto_ConstA_VarB((Or_OperatorDto_ConstA_VarB)x ) },
@@ -712,9 +709,6 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_OneOverX_OperatorDto(OneOverX_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_OneOverX_OperatorDto_VarNumber(OneOverX_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_OneOverX_OperatorDto_ConstNumber(OneOverX_OperatorDto_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Or_OperatorDto_ConstA_ConstB(Or_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Or_OperatorDto_ConstA_VarB(Or_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);

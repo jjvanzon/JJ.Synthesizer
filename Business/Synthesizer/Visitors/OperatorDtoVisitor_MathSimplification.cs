@@ -1350,21 +1350,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        // OneOverX
-
-        protected override IOperatorDto Visit_OneOverX_OperatorDto_ConstNumber(OneOverX_OperatorDto_ConstNumber dto)
-        {
-            base.Visit_OneOverX_OperatorDto_ConstNumber(dto);
-
-            // Pre-calculate
-            return new Number_OperatorDto { Number = 1.0 / dto.Number };
-        }
-
-        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarNumber(OneOverX_OperatorDto_VarNumber dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         // Or
 
         protected override IOperatorDto Visit_Or_OperatorDto_ConstA_ConstB(Or_OperatorDto_ConstA_ConstB dto)

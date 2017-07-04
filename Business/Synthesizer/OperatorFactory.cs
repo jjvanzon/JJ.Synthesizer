@@ -2212,7 +2212,6 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.NotchFilter: return NotchFilter();
                 case OperatorTypeEnum.NotEqual: return NotEqual();
                 case OperatorTypeEnum.Number: return Number();
-                case OperatorTypeEnum.OneOverX: return OneOverX();
                 case OperatorTypeEnum.Or: return Or();
                 case OperatorTypeEnum.PatchInlet: return PatchInlet();
                 case OperatorTypeEnum.PatchOutlet: return PatchOutlet();

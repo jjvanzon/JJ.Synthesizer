@@ -472,8 +472,6 @@ namespace JJ.Business.Synthesizer.Visitors
             Process_OperatorDtoBase_Vars(op, dto);
         }
 
-        protected override void VisitMultiplyWithOriginOutlet(Outlet outlet) => VisitCustomOperatorOutlet(outlet);
-
         protected override void VisitNegative(Operator op)
         {
             var dto = new Negative_OperatorDto();
@@ -533,12 +531,6 @@ namespace JJ.Business.Synthesizer.Visitors
             };
 
             _stack.Push(dto);
-        }
-
-        protected override void VisitOneOverX(Operator op)
-        {
-            var dto = new OneOverX_OperatorDto();
-            Process_OperatorDtoBase_VarNumber(op, dto);
         }
 
         protected override void VisitOr(Operator op)

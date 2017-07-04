@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             EnsureEntity(1, "Add");
             //EnsureEntity(2, "Adder");
             EnsureEntity(3, "Divide");
-            EnsureEntity(4, "MultiplyWithOrigin");
+            //EnsureEntity(4, "MultiplyWithOrigin");
             EnsureEntity(5, "PatchInlet");
             EnsureEntity(6, "PatchOutlet");
             EnsureEntity(7, "Power");
@@ -65,7 +65,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             EnsureEntity(54, "Reverse", hasDimension: true);
             EnsureEntity(55, "Round");
             EnsureEntity(56, "Negative");
-            EnsureEntity(57, "OneOverX");
+            //EnsureEntity(57, "OneOverX");
             EnsureEntity(58, "Cache", hasDimension: true);
             //EnsureEntity(59, "Filter");
             EnsureEntity(60, "PulseTrigger");

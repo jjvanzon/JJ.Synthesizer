@@ -1438,20 +1438,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
-        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarNumber(OneOverX_OperatorDto_VarNumber dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.NumberOperatorDto);
-
-            AppendOperatorTitleComment(dto);
-
-            string number = _stack.Pop();
-            string output = GetLocalOutputName(dto);
-
-            AppendLine($"double {output} = 1.0 / {number};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
         protected override IOperatorDto Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
         {
             return ProcessLogicalBinaryOperator(dto, OR_SYMBOL);

@@ -630,11 +630,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Number_OperatorCalculator_Zero());
         }
 
-        protected override IOperatorDto Visit_OneOverX_OperatorDto_VarNumber(OneOverX_OperatorDto_VarNumber dto)
-        {
-            return ProcessOperatorDto(dto, () => new OneOverX_OperatorCalculator(_stack.Pop()));
-        }
-
         protected override IOperatorDto Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
         {
             return ProcessOperatorDto(dto, () => new Or_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));

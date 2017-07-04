@@ -2273,93 +2273,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        protected override void VisitMultiplyWithOriginOutlet(Outlet outlet)
-        {
-            base.VisitMultiplyWithOriginOutlet(outlet);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase aCalculator = _stack.Pop();
-            OperatorCalculatorBase bCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
-
-            double a = aCalculator.Calculate();
-            double b = bCalculator.Calculate();
-            double origin = originCalculator.Calculate();
-            bool aIsConst = aCalculator is Number_OperatorCalculator;
-            bool bIsConst = bCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
-            bool aIsConstZero = aIsConst && a == 0;
-            bool bIsConstZero = bIsConst && b == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
-            bool aIsConstOne = aIsConst && a == 1;
-            bool bIsConstOne = bIsConst && b == 1;
-
-            if (aIsConstZero || bIsConstZero)
-            {
-                calculator = new Number_OperatorCalculator_Zero();
-            }
-            else if (aIsConstOne)
-            {
-                calculator = bCalculator;
-            }
-            else if (bIsConstOne)
-            {
-                calculator = aCalculator;
-            }
-            else if (originIsConstZero && aIsConst && bIsConst)
-            {
-                calculator = new Number_OperatorCalculator(a * b);
-            }
-            else if (aIsConst && bIsConst && originIsConst)
-            {
-                double value = (a - origin) * b + origin;
-                calculator = new Number_OperatorCalculator(value);
-            }
-            else if (aIsConst && !bIsConst && originIsConstZero)
-            {
-                calculator = new Multiply_OperatorCalculator_1Vars_1Const(bCalculator, a);
-            }
-            else if (!aIsConst && bIsConst && originIsConstZero)
-            {
-                calculator = new Multiply_OperatorCalculator_1Vars_1Const(aCalculator, b);
-            }
-            else if (!aIsConst && !bIsConst && originIsConstZero)
-            {
-                calculator = new Multiply_OperatorCalculator_2Vars(aCalculator, bCalculator);
-            }
-            else if (aIsConst && !bIsConst && originIsConst)
-            {
-                calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_ConstOrigin(a, bCalculator, origin);
-            }
-            else if (!aIsConst && bIsConst && originIsConst)
-            {
-                calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_ConstOrigin(aCalculator, b, origin);
-            }
-            else if (!aIsConst && !bIsConst && originIsConst)
-            {
-                calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_ConstOrigin(aCalculator, bCalculator, origin);
-            }
-            else if (aIsConst && bIsConst && !originIsConst)
-            {
-                calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_ConstB_VarOrigin(a, b, originCalculator);
-            }
-            else if (aIsConst && !bIsConst && !originIsConst)
-            {
-                calculator = new MultiplyWithOrigin_OperatorCalculator_ConstA_VarB_VarOrigin(a, bCalculator, originCalculator);
-            }
-            else if (!aIsConst && bIsConst && !originIsConst)
-            {
-                calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_ConstB_VarOrigin(aCalculator, b, originCalculator);
-            }
-            else
-            {
-                calculator = new MultiplyWithOrigin_OperatorCalculator_VarA_VarB_VarOrigin(aCalculator, bCalculator, originCalculator);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitNegative(Operator op)
         {
             base.VisitNegative(op);
@@ -2562,29 +2475,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 calculator = new Number_OperatorCalculator(number);
-            }
-
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitOneOverX(Operator op)
-        {
-            base.VisitOneOverX(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase numberCalculator = _stack.Pop();
-
-            double number = numberCalculator.Calculate();
-            bool numberIsConst = numberCalculator is Number_OperatorCalculator;
-
-            if (numberIsConst)
-            {
-                calculator = new Number_OperatorCalculator(1 / number);
-            }
-            else
-            {
-                calculator = new OneOverX_OperatorCalculator(numberCalculator);
             }
 
             _stack.Push(calculator);
