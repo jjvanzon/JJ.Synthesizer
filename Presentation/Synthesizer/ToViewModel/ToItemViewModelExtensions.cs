@@ -171,9 +171,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.NameOrDimensionHidden = entity.NameOrDimensionHidden;
             viewModel.IsRepeating = entity.IsRepeating;
             viewModel.RepetitionPosition = entity.RepetitionPosition;
-            viewModel.Visible = ToViewModelValueHelper.GetInletVisible(entity);
-            viewModel.Caption = ToViewModelValueHelper.GetInletCaption(entity, sampleRepository, curveRepository);
-            viewModel.ConnectionDistance = ToViewModelValueHelper.TryGetConnectionDistance(entity, entityPositionManager);
+            viewModel.Visible = ToViewModelHelper.GetInletVisible(entity);
+            viewModel.Caption = ToViewModelHelper.GetInletCaption(entity, sampleRepository, curveRepository);
+            viewModel.ConnectionDistance = ToViewModelHelper.TryGetConnectionDistance(entity, entityPositionManager);
 
             if (entity.Dimension != null)
             {
@@ -206,7 +206,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Y = entity.Y,
                 NodeType = entity.NodeType.ToIDAndDisplayName(),
                 ID = entity.ID,
-                Caption = ToViewModelValueHelper.GetNodeCaption(entity)
+                Caption = ToViewModelHelper.GetNodeCaption(entity)
             };
 
             return viewModel;
@@ -308,9 +308,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.HasWarningAppearance = entity.IsObsolete;
             viewModel.IsRepeating = entity.IsRepeating;
             viewModel.RepetitionPosition = entity.RepetitionPosition;
-            viewModel.Visible = ToViewModelValueHelper.GetOutletVisible(entity);
-            viewModel.Caption = ToViewModelValueHelper.GetOutletCaption(entity, sampleRepository, curveRepository);
-            viewModel.AverageConnectionDistance = ToViewModelValueHelper.TryGetAverageConnectionDistance(entity, entityPositionManager);
+            viewModel.Visible = ToViewModelHelper.GetOutletVisible(entity);
+            viewModel.Caption = ToViewModelHelper.GetOutletCaption(entity, sampleRepository, curveRepository);
+            viewModel.AverageConnectionDistance = ToViewModelHelper.TryGetAverageConnectionDistance(entity, entityPositionManager);
 
             if (entity.Dimension != null)
             {

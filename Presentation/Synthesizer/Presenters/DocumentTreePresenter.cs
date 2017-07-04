@@ -201,8 +201,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             action(viewModel);
 
             // Non-Persisted
-            viewModel.CanPlay = ToViewModelValueHelper.GetCanPlay(viewModel.SelectedNodeType);
-            viewModel.CanOpenExternally = ToViewModelValueHelper.GetCanOpenExternally(viewModel.SelectedNodeType);
+            viewModel.CanPlay = ToViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
+            viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(viewModel.SelectedNodeType);
 
             // Successful
             viewModel.Successful = true;

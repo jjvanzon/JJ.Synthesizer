@@ -890,7 +890,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ToneGridEditViewModel
             {
                 ScaleID = entity.ID,
-                NumberTitle = ToViewModelValueHelper.GetToneGridEditNumberTitle(entity),
+                NumberTitle = ToViewModelHelper.GetToneGridEditNumberTitle(entity),
                 Tones = entity.Tones.ToToneViewModels(),
                 FrequencyVisible = entity.GetScaleTypeEnum() != ScaleTypeEnum.LiteralFrequency,
                 ValidationMessages = new List<MessageDto>()

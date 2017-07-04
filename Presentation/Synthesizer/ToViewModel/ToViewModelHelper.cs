@@ -297,8 +297,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.ID = entity.ID;
             viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
-            viewModel.Caption = ToViewModelValueHelper.GetOperatorCaption(entity, sampleRepository, curveRepository);
-            viewModel.IsOwned = ToViewModelValueHelper.GetOperatorIsOwned(entity);
+            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository);
+            viewModel.IsOwned = GetOperatorIsOwned(entity);
 
             if (entity.OperatorType != null)
             {
@@ -320,9 +320,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DimensionViewModel
             {
-                Key = ToViewModelValueHelper.GetDimensionKey(entity),
-                Name = ToViewModelValueHelper.TryGetDimensionName(entity),
-                Visible = ToViewModelValueHelper.MustStyleDimension(entity)
+                Key = GetDimensionKey(entity),
+                Name = TryGetDimensionName(entity),
+                Visible = MustStyleDimension(entity)
             };
 
             return viewModel;

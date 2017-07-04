@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     /// </summary>
     internal class RecursiveToPatchViewModelConverter
     {
-        private static readonly string _timeDimensionKey = ToViewModelValueHelper.GetDimensionKey(DimensionEnum.Time);
+        private static readonly string _timeDimensionKey = ToViewModelHelper.GetDimensionKey(DimensionEnum.Time);
         private static readonly IList<StyleGradeEnum> _styleGradesNonNeutral = GetStyleGradesNonNeutral();
 
         private readonly IDimensionRepository _dimensionRepository;
@@ -132,7 +132,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     foreach (OperatorViewModel operatorViewModel in dimensionKeyGroup)
                     {
-                        if (operatorViewModel.Dimension.Key.StartsWith(ToViewModelValueHelper.CUSTOM_DIMENSION_KEY_PREFIX))
+                        if (operatorViewModel.Dimension.Key.StartsWith(ToViewModelHelper.CUSTOM_DIMENSION_KEY_PREFIX))
                         {
                             operatorViewModel.Dimension.Name += $" ({ResourceFormatter.Custom})";
                         }

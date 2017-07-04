@@ -1433,7 +1433,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void SetCanCreateNew(DocumentTreeViewModel viewModel)
         {
             bool patchDetailsVisible = MainViewModel.Document.VisiblePatchDetails != null;
-            viewModel.CanCreateNew = ToViewModelValueHelper.GetCanCreateNew(viewModel.SelectedNodeType, patchDetailsVisible);
+            viewModel.CanCreateNew = ToViewModelHelper.GetCanCreateNew(viewModel.SelectedNodeType, patchDetailsVisible);
         }
 
         // Library

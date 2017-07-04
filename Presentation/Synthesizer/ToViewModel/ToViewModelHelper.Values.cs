@@ -19,7 +19,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    public static class ToViewModelValueHelper
+    internal static partial class ToViewModelHelper
     {
         public const string DIMENSION_KEY_EMPTY = "";
         public const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
