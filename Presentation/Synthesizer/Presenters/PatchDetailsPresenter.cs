@@ -103,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var operatorFactory = new OperatorFactory(entity, _repositories);
             var operatorTypeEnum = (OperatorTypeEnum)operatorTypeID;
             int variableInletOrOutletCount = GetVariableInletOrOutletCount(operatorTypeEnum);
-            Operator op = operatorFactory.CreateOperator(operatorTypeEnum, variableInletOrOutletCount);
+            Operator op = operatorFactory.New(operatorTypeEnum, variableInletOrOutletCount);
             _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
             // ToViewModel

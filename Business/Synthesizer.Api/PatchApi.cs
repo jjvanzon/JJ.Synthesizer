@@ -150,6 +150,9 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch Divide(Outlet a = null, Outlet b = null)
             => _operatorFactory.Divide(a, b);
 
+        public OperatorWrapper_WithUnderlyingPatch DivideWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
+            => _operatorFactory.DivideWithOrigin(a, b, origin);
+
         public OperatorWrapper_WithUnderlyingPatch Equal(Outlet a = null, Outlet b = null)
             => _operatorFactory.Equal(a, b);
 

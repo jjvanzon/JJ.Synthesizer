@@ -1171,7 +1171,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                         // Business
                         var operatorFactory = new OperatorFactory(underlyingPatch, _repositories);
-                        Operator op = operatorFactory.FromPatch(underlyingPatch);
+                        Operator op = operatorFactory.New(underlyingPatch);
                         op.LinkTo(patch);
                         _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
