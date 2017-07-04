@@ -26,6 +26,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
     /// </summary>
     public partial class MainPresenter
     {
+        // TODO: These two constants do not belong here, because they should be determined by the vector graphics.
+        private const float ESTIMATED_OPERATOR_WIDTH = 50f;
+        private const float OPERATOR_HEIGHT = 30f;
+
         private readonly RepositoryWrapper _repositories;
         private readonly SampleRepositories _sampleRepositories;
         private readonly CurveRepositories _curveRepositories;

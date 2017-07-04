@@ -600,6 +600,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CanEditInletCount = entity.CanSetInletCount(),
                 OutletCount = entity.Outlets.Count,
                 CanEditOutletCount = entity.CanSetOutletCount(),
+                CanSelectUnderlyingPatch = ToViewModelHelper.GetCanSelectUnderlyingPatch(entity),
                 ValidationMessages = new List<MessageDto>()
             };
 
@@ -634,7 +635,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity.UnderlyingPatch != null)
             {
                 viewModel.UnderlyingPatch = entity.UnderlyingPatch.ToIDAndName();
-                viewModel.CanSelectUnderlyingPatch = true;
             }
 
             viewModel.UnderlyingPatch = viewModel.UnderlyingPatch ?? ToViewModelHelper.CreateEmptyIDAndName();

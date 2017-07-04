@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             bool canSetInletCount = op.CanSetInletCount();
             if (!canSetInletCount)
             {
-                string message = ResourceFormatter.CannotSetInletCountForOperatorType(ResourceFormatter.GetDisplayName(op.OperatorType));
+                string message = ResourceFormatter.CannotSetInletCountForOperatorType(ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(op));
                 ValidationMessages.Add(() => canSetInletCount, message);
             }
         }

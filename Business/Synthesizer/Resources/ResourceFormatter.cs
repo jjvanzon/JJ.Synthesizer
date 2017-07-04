@@ -318,24 +318,22 @@ namespace JJ.Business.Synthesizer.Resources
 
         // Resource texts with placeholders
 
-        [NotNull] public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
-        [NotNull] public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
-        [NotNull] public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
-        [NotNull] public static string MustBePowerOf2(string name) => string.Format(Resources.MustBePowerOf2, name);
-        [NotNull] public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
-        [NotNull] public static string SetDimensionWithPlaceholder(string dimension) => string.Format(Resources.SetDimensionWithPlaceholder, dimension);
+        public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
+        public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
+        public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
+        public static string MustBePowerOf2(string name) => string.Format(Resources.MustBePowerOf2, name);
+        public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
+        public static string SetDimensionWithPlaceholder(string dimension) => string.Format(Resources.SetDimensionWithPlaceholder, dimension);
 
         // Generic methods that could return several different resource text
 
         /// <summary> You can use this overload if the object resourceName's ToString converts it to the resource key. </summary>
-        [NotNull]
         public static string GetDisplayName(object resourceName)
         {
             return GetDisplayName(Convert.ToString(resourceName));
         }
 
-        [NotNull]
-        public static string GetDisplayName([NotNull] string resourceName)
+        public static string GetDisplayName(string resourceName)
         {
             string str = Resources.ResourceManager.GetString(resourceName);
 
@@ -347,8 +345,7 @@ namespace JJ.Business.Synthesizer.Resources
             return str;
         }
 
-        [NotNull]
-        public static string GetDisplayName([NotNull] Expression<Func<object>> resourceNameExpression)
+        public static string GetDisplayName(Expression<Func<object>> resourceNameExpression)
         {
             if (resourceNameExpression == null) throw new NullException(() => resourceNameExpression);
 
@@ -357,7 +354,7 @@ namespace JJ.Business.Synthesizer.Resources
             return str;
         }
 
-        public static string GetDisplayName([NotNull] Patch entity)
+        public static string GetDisplayName(Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -373,8 +370,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         // Dimension
 
-        [NotNull]
-        public static string GetDisplayName([NotNull] Dimension entity)
+        public static string GetDisplayName(Dimension entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -383,7 +379,6 @@ namespace JJ.Business.Synthesizer.Resources
             return GetDisplayName(dimensionEnum);
         }
 
-        [NotNull]
         public static string GetDisplayName(DimensionEnum enumValue)
         {
             return GetDisplayName(enumValue.ToString());
@@ -391,8 +386,7 @@ namespace JJ.Business.Synthesizer.Resources
 
         // InterpolationType
 
-        [NotNull]
-        public static string GetDisplayName([NotNull] InterpolationType entity)
+        public static string GetDisplayName(InterpolationType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -401,7 +395,6 @@ namespace JJ.Business.Synthesizer.Resources
             return GetDisplayName(dimensionEnum);
         }
 
-        [NotNull]
         public static string GetDisplayName(InterpolationTypeEnum enumValue)
         {
             return GetDisplayName(enumValue.ToString());
@@ -409,33 +402,28 @@ namespace JJ.Business.Synthesizer.Resources
 
         // OperatorType
 
-        [NotNull]
-        public static string GetOperatorTypeDisplayName([NotNull] Operator op)
+        public static string GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(Operator op)
         {
             if (op == null) throw new NullException(() => op);
-            return GetDisplayName(op.GetOperatorTypeEnum());
+
+            if (op.UnderlyingPatch != null)
+            {
+                return GetDisplayName(op.UnderlyingPatch);
+            }
+            else
+            {
+                return GetDisplayName(op.GetOperatorTypeEnum());
+            }
         }
 
-        [NotNull]
-        public static string GetDisplayName([NotNull] OperatorType entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            OperatorTypeEnum enumValue = (OperatorTypeEnum)entity.ID;
-
-            return GetDisplayName(enumValue);
-        }
-
-        [NotNull]
-        public static string GetDisplayName(OperatorTypeEnum enumValue)
+        private static string GetDisplayName(OperatorTypeEnum enumValue)
         {
             return GetDisplayName(enumValue.ToString());
         }
 
         // SpeakerSetup
 
-        [NotNull]
-        public static string GetDisplayName([NotNull] SpeakerSetup entity)
+        public static string GetDisplayName(SpeakerSetup entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -444,7 +432,6 @@ namespace JJ.Business.Synthesizer.Resources
             return GetDisplayName(dimensionEnum);
         }
 
-        [NotNull]
         public static string GetDisplayName(SpeakerSetupEnum enumValue)
         {
             return GetDisplayName(enumValue.ToString());
@@ -452,7 +439,6 @@ namespace JJ.Business.Synthesizer.Resources
 
         // ResampleInterpolationType
 
-        [NotNull]
         public static string GetDisplayName(ResampleInterpolationTypeEnum enumValue)
         {
             return GetDisplayName(enumValue.ToString());
@@ -460,7 +446,6 @@ namespace JJ.Business.Synthesizer.Resources
 
         // CollectionRecalculation
 
-        [NotNull]
         public static string GetDisplayName(CollectionRecalculationEnum enumValue)
         {
             return GetDisplayName(enumValue.ToString());
@@ -470,16 +455,14 @@ namespace JJ.Business.Synthesizer.Resources
 
         // TODO: For Scale implement overloads that take entity as such that unproxy is avoided.
 
-        [NotNull]
-        public static string GetScaleTypeDisplayNameSingular([NotNull] Scale scale)
+        public static string GetScaleTypeDisplayNameSingular(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
 
             return GetDisplayNameSingular(scale.ScaleType);
         }
 
-        [NotNull]
-        public static string GetDisplayNameSingular([NotNull] ScaleType entity)
+        public static string GetDisplayNameSingular(ScaleType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -488,30 +471,27 @@ namespace JJ.Business.Synthesizer.Resources
             return GetDisplayNameSingular(enumValue);
         }
 
-        [NotNull]
         public static string GetDisplayNameSingular(ScaleTypeEnum enumValue)
         {
             return GetDisplayName(enumValue.ToString());
         }
 
         // TODO: Perhaps remove this overload.
-        internal static string GetScaleTypeDisplayNameSingular([NotNull] string scaleTypeName)
+        internal static string GetScaleTypeDisplayNameSingular(string scaleTypeName)
         {
             return Resources.ResourceManager.GetString(scaleTypeName);
         }
 
         // ScaleType Plural
 
-        [NotNull]
-        public static string GetScaleTypeDisplayNamePlural([NotNull] Scale scale)
+        public static string GetScaleTypeDisplayNamePlural(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
 
             return GetDisplayNamePlural(scale.ScaleType);
         }
 
-        [NotNull]
-        public static string GetDisplayNamePlural([NotNull] ScaleType entity)
+        public static string GetDisplayNamePlural(ScaleType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -521,7 +501,6 @@ namespace JJ.Business.Synthesizer.Resources
         }
 
         // Notice that the deepest overload has a different parameter than the singular variation.
-        [NotNull]
         public static string GetDisplayNamePlural(ScaleTypeEnum scaleTypeEnum)
         {
             switch (scaleTypeEnum)
@@ -552,7 +531,6 @@ namespace JJ.Business.Synthesizer.Resources
         }
 
         // TODO: Perhaps remove this overload
-        [NotNull]
         internal static string GetScaleTypeDisplayNamePlural(string scaleTypeName)
         {
             ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);

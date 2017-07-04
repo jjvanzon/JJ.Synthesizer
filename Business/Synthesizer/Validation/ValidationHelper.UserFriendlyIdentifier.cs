@@ -56,7 +56,6 @@ namespace JJ.Business.Synthesizer.Validation
         /// '{0}' (Alias '{1}') /
         /// 'no Name' (Alias '{1}')
         /// </summary>
-
         public static string GetUserFriendlyIdentifier_ForLowerDocumentReference(DocumentReference lowerDocumentReference)
         {
             if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
@@ -103,7 +102,6 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         /// <param name="number">1-based</param>
-
         public static string GetUserFriendlyIdentifier(Node entity, int number)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -175,7 +173,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
         }
 
         public static string GetUserFriendlyIdentifier_ForCustomOperator(Operator entity)
@@ -196,7 +194,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
         }
 
         private static string GetUserFriendlyIdentifier_ForNumberOperator(Operator entity)
@@ -222,7 +220,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
         }
 
         public static string GetUserFriendlyIdentifier_ForPatchInlet(Operator entity)
@@ -238,7 +236,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
         }
 
         public static string GetUserFriendlyIdentifier_ForPatchOutlet(Operator entity)
@@ -254,7 +252,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
         }
 
         public static string GetUserFriendlyIdentifier_ForSampleOperator(Operator entity, ISampleRepository sampleRepository)
@@ -285,7 +283,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
         }
 
         private static string GetUserFriendlyIdentifier_ForOtherOperartorType(Operator entity)
@@ -300,7 +298,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
         }
 
         public static string GetUserFriendlyIdentifier(Patch entity)

@@ -1173,6 +1173,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         var operatorFactory = new OperatorFactory(underlyingPatch, _repositories);
                         Operator op = operatorFactory.FromPatch(underlyingPatch);
                         op.LinkTo(patch);
+                        _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
                         // Successful
                         userInput.Successful = true;

@@ -1048,5 +1048,19 @@ namespace JJ.Business.Synthesizer.Tests
                 }
             }
         }
+
+        [TestMethod]
+        public void Test_Synthesizer_OperatorFactory_GenericMethods()
+        {
+            using (IContext context = PersistenceHelper.CreateDatabaseContext())
+            {
+                var repositories = PersistenceHelper.CreateRepositories(context);
+                var patchManager = new PatchManager(repositories);
+
+                Patch patch = patchManager.CreatePatch();
+
+                var operatorFactory = new OperatorFactory(patch, repositories);
+                operatorFactory.FromSystem("DivideWithOrigin");
+            }
+        }
     }
-}

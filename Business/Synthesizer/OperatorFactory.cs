@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Absolute(Outlet number = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Number] = number;
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer
         {
             if (items == null) throw new NullException(() => items);
 
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             VoidResult setInletCountResult = _patchManager.SetOperatorInletCount(op, items.Count);
             setInletCountResult.Assert();
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch And(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -584,7 +584,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Divide(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -595,7 +595,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Equal(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -644,7 +644,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch GreaterThan(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -655,7 +655,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch GreaterThanOrEqual(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -849,7 +849,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch LessThan(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -860,7 +860,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch LessThanOrEqual(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -1139,7 +1139,7 @@ namespace JJ.Business.Synthesizer
         {
             if (items == null) throw new NullException(() => items);
 
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             VoidResult setInletCountResult = _patchManager.SetOperatorInletCount(op, items.Count);
             setInletCountResult.Assert();
@@ -1152,7 +1152,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -1164,7 +1164,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Negative(Outlet number = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Number] = number;
@@ -1193,7 +1193,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Not(Outlet number = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Number] = number;
@@ -1229,7 +1229,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch NotEqual(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -1257,7 +1257,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch OneOverX(Outlet number = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Number] = number;
@@ -1267,7 +1267,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Or(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -1410,7 +1410,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Power(Outlet @base = null, Outlet exponent = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Base] = @base;
@@ -1773,7 +1773,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Sine(Outlet frequency = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Frequency] = frequency;
@@ -1952,7 +1952,7 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper_WithUnderlyingPatch Subtract(Outlet a = null, Outlet b = null)
         {
-            Operator op = FromSystemDocument(MethodBase.GetCurrentMethod());
+            Operator op = FromSystem(MethodBase.GetCurrentMethod());
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.A] = a;
@@ -2113,10 +2113,15 @@ namespace JJ.Business.Synthesizer
         // Generic methods for operator creation
 
         /// <param name="methodBase">methodBase.Name must match an OperatorTypeEnum member's name.</param>
-        private Operator FromSystemDocument(MethodBase methodBase)
+        private Operator FromSystem(MethodBase methodBase)
         {
             string patchName = methodBase.Name;
 
+            return FromSystem(patchName);
+        }
+
+        public Operator FromSystem(string patchName)
+        {
             Patch patch = _documentManager.GetSystemPatch(patchName);
 
             Operator op = CustomOperator(patch);
@@ -2132,7 +2137,10 @@ namespace JJ.Business.Synthesizer
 
             if (patch.IsSystemPatch())
             {
-                op.SetOperatorTypeEnum(EnumHelper.Parse<OperatorTypeEnum>(patch.Name), _repositories);
+                // TODO: If it proves that you do not need OperatorTypeEnum anymore for DivideWithOrigin,
+                // You can juse clear the operator type here.
+                Enum.TryParse(patch.Name, out OperatorTypeEnum operatorTypeEnum);
+                op.SetOperatorTypeEnum(operatorTypeEnum, _repositories);
             }
 
             return op;

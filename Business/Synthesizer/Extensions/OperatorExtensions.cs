@@ -41,7 +41,8 @@ namespace JJ.Business.Synthesizer.Extensions
             if (operatorTypeEnum == OperatorTypeEnum.Undefined)
             {
                 op.UnlinkOperatorType();
-                op.UnlinkUnderlyingPatch();
+                // TODO: This is such an assumption.
+                //op.UnlinkUnderlyingPatch();
                 return;
             }
 

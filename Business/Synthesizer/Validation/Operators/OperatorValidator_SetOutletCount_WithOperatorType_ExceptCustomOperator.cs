@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             bool canSetOutletCount = op.CanSetOutletCount();
             if (!canSetOutletCount)
             {
-                string message = ResourceFormatter.CannotSetOutletCountForOperatorType(ResourceFormatter.GetDisplayName(op.OperatorType));
+                string message = ResourceFormatter.CannotSetOutletCountForOperatorType(ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(op));
                 ValidationMessages.Add(() => canSetOutletCount, message);
             }
         }

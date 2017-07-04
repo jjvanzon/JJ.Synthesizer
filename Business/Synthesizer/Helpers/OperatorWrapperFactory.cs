@@ -11,7 +11,6 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public static class OperatorWrapperFactory
     {
-
         public static OperatorWrapperBase CreateOperatorWrapper(
             Operator op,
             ICurveRepository curveRepository,

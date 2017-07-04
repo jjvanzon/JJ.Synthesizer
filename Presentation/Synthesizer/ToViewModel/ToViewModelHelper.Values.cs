@@ -194,25 +194,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
-        // Node
-
-        public static string GetNodeCaption(Node entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return $"{entity.X:0.####}, {entity.Y:0.####}";
-        }
-
-        // Tone
-
-        public static string GetToneGridEditNumberTitle(Scale entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return ResourceFormatter.GetScaleTypeDisplayNameSingular(entity);
-        }
-
-        // Patch-Related
+        // Inlet
 
         public static bool GetInletVisible(Inlet inlet)
         {
@@ -247,6 +229,103 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return true;
         }
 
+        public static string GetInletCaption(
+            Inlet inlet,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository)
+        {
+            var sb = new StringBuilder();
+
+            OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
+            bool nameOrDimensionHidden;
+            if (inlet.Operator.UnderlyingPatch != null)
+            {
+                nameOrDimensionHidden = inlet.NameOrDimensionHidden;
+            }
+            else
+            {
+                nameOrDimensionHidden = OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum);
+            }
+
+            if (!nameOrDimensionHidden)
+            {
+                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                    inlet.Operator,
+                    curveRepository,
+                    sampleRepository);
+                string inletDisplayName = wrapper.GetInletDisplayName(inlet);
+                sb.Append(inletDisplayName);
+            }
+
+            if (inlet.InputOutlet == null)
+            {
+                if (inlet.DefaultValue.HasValue)
+                {
+                    if (sb.Length != 0)
+                    {
+                        sb.Append(' ');
+                    }
+                    sb.AppendFormat("= {0:0.####}", inlet.DefaultValue.Value);
+                }
+            }
+
+            if (inlet.IsObsolete)
+            {
+                AppendObsoleteFlag(sb);
+            }
+
+            if (_idsVisible)
+            {
+                sb.Append($" ({inlet.ID})");
+            }
+
+            return sb.ToString();
+        }
+
+        public static float? TryGetConnectionDistance(Inlet entity, EntityPositionManager entityPositionManager)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.InputOutlet == null)
+            {
+                return null;
+            }
+
+            Operator operator1 = entity.Operator;
+            Operator operator2 = entity.InputOutlet.Operator;
+
+            EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
+            EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
+
+            float distance = Geometry.AbsoluteDistance(
+                entityPosition1.X,
+                entityPosition1.Y,
+                entityPosition2.X,
+                entityPosition2.Y);
+
+            return distance;
+        }
+
+        // Node
+
+        public static string GetNodeCaption(Node entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return $"{entity.X:0.####}, {entity.Y:0.####}";
+        }
+
+        // Tone
+
+        public static string GetToneGridEditNumberTitle(Scale entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return ResourceFormatter.GetScaleTypeDisplayNameSingular(entity);
+        }
+
+        // Outlet
+
         public static bool GetOutletVisible(Outlet outlet)
         {
             if (outlet == null) throw new NullException(() => outlet);
@@ -260,6 +339,141 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return true;
         }
+
+        public static string GetOutletCaption(
+            Outlet outlet,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            switch (outlet.Operator.GetOperatorTypeEnum())
+            {
+                case OperatorTypeEnum.RangeOverOutlets:
+                    return GetOutletCaption_ForRangeOverOutlets(outlet);
+
+                default:
+                    return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository);
+            }
+        }
+
+        private static string GetOutletCaption_ForRangeOverOutlets(Outlet outlet)
+        {
+            var sb = new StringBuilder();
+
+            double? from = outlet.Operator.Inlets
+                                 .Where(x => x.GetDimensionEnum() == DimensionEnum.From)
+                                 .Select(x => x.TryGetConstantNumber())
+                                 .FirstOrDefault();
+            if (@from.HasValue)
+            {
+                double? step = outlet.Operator.Inlets
+                                     .Where(x => x.GetDimensionEnum() == DimensionEnum.Step)
+                                     .Select(x => x.TryGetConstantNumber())
+                                     .FirstOrDefault();
+                if (step.HasValue)
+                {
+                    int listIndex = outlet.Operator.Outlets.IndexOf(outlet);
+
+                    double value = @from.Value + step.Value * listIndex;
+
+                    sb.Append(value.ToString("0.####"));
+                }
+            }
+
+            if (outlet.IsObsolete)
+            {
+                AppendObsoleteFlag(sb);
+            }
+
+            if (_idsVisible)
+            {
+                sb.Append($" ({outlet.ID})");
+            }
+
+            return sb.ToString();
+        }
+
+        private static string GetOutletCaption_ForOtherOperatorType(
+            Outlet outlet,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository)
+        {
+            var sb = new StringBuilder();
+
+            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
+
+            bool nameOrDimensionHidden;
+            if (outlet.Operator.UnderlyingPatch != null)
+            {
+                nameOrDimensionHidden = outlet.NameOrDimensionHidden;
+            }
+            else
+            {
+                nameOrDimensionHidden = !OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum);
+            }
+
+            if (!nameOrDimensionHidden)
+            {
+                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                    outlet.Operator,
+                    curveRepository,
+                    sampleRepository);
+
+                string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
+                sb.Append(inletDisplayName);
+            }
+
+            if (outlet.IsObsolete)
+            {
+                AppendObsoleteFlag(sb);
+            }
+
+            if (_idsVisible)
+            {
+                sb.Append($" ({outlet.ID})");
+            }
+
+            return sb.ToString();
+        }
+
+        public static float? TryGetAverageConnectionDistance(Outlet entity, EntityPositionManager entityPositionManager)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            int connectedInletCount = entity.ConnectedInlets.Count;
+
+            if (connectedInletCount == 0)
+            {
+                return null;
+            }
+
+            Operator operator1 = entity.Operator;
+
+            float aggregate = 0f;
+
+            foreach (Inlet connectedInlet in entity.ConnectedInlets)
+            {
+                Operator operator2 = connectedInlet.Operator;
+
+                EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
+                EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
+
+                float distance = Geometry.AbsoluteDistance(
+                    entityPosition1.X,
+                    entityPosition1.Y,
+                    entityPosition2.X,
+                    entityPosition2.Y);
+
+                aggregate += distance;
+            }
+
+            aggregate /= connectedInletCount;
+
+            return aggregate;
+        }
+
+        // Patch
 
         /// <summary>
         /// A Number Operator can be considered 'owned' by another operator if
@@ -282,6 +496,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// In the future, when all operator types are bootstrapped into System Patches
+        /// and no OperatorType entity exists anymore, this method will be obsolete.
+        /// </summary>
+        public static bool GetCanSelectUnderlyingPatch(Operator entity)
+        {
+            //if (entity.UnderlyingPatch != null)
+            //{
+            //    return true;
+            //}
+
+            if (entity.OperatorType == null)
+            {
+                return true;
+            }
+
+            if (OperatorTypeEnums_WithStandardPropertiesView.Contains(entity.GetOperatorTypeEnum()))
+            {
+                return true;
+            }
+
+            return false;
+
+            throw new NotImplementedException();
         }
 
         public static string GetOperatorCaption(
@@ -414,15 +654,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return op.Name;
             }
 
-            // Use UnderlyingPatch.Name
-            Patch underlyingPatch = op.UnderlyingPatch;
-            if (!string.IsNullOrWhiteSpace(underlyingPatch?.Name))
-            {
-                return underlyingPatch.Name;
-            }
-
             // Use OperatorTypeDisplayName
-            string caption = ResourceFormatter.GetDisplayName(op.GetOperatorTypeEnum());
+            string caption = ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(op);
             return caption;
         }
 
@@ -559,7 +792,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                formattedOperatorTypeDisplayName = ResourceFormatter.GetOperatorTypeDisplayName(op);
+                formattedOperatorTypeDisplayName = ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(op);
             }
 
             // Use Operator.Name
@@ -576,7 +809,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_ForOtherOperators(Operator op)
         {
-            string operatorTypeDisplayName = ResourceFormatter.GetDisplayName(op.GetOperatorTypeEnum());
+            string operatorTypeDisplayName = ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(op);
 
             // Use Operator.Name
             if (!string.IsNullOrWhiteSpace(op.Name))
@@ -589,155 +822,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return caption;
         }
 
-        public static string GetInletCaption(
-            Inlet inlet,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
-        {
-            var sb = new StringBuilder();
-
-            OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
-            bool nameOrDimensionHidden;
-            if (inlet.Operator.UnderlyingPatch != null)
-            {
-                nameOrDimensionHidden = inlet.NameOrDimensionHidden;
-            }
-            else
-            {
-                nameOrDimensionHidden = OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum);
-            }
-
-            if (!nameOrDimensionHidden)
-            {
-                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                    inlet.Operator,
-                    curveRepository,
-                    sampleRepository);
-                string inletDisplayName = wrapper.GetInletDisplayName(inlet);
-                sb.Append(inletDisplayName);
-            }
-
-            if (inlet.InputOutlet == null)
-            {
-                if (inlet.DefaultValue.HasValue)
-                {
-                    if (sb.Length != 0)
-                    {
-                        sb.Append(' ');
-                    }
-                    sb.AppendFormat("= {0:0.####}", inlet.DefaultValue.Value);
-                }
-            }
-
-            if (inlet.IsObsolete)
-            {
-                AppendObsoleteFlag(sb);
-            }
-
-            if (_idsVisible)
-            {
-                sb.Append($" ({inlet.ID})");
-            }
-
-            return sb.ToString();
-        }
-
-        public static string GetOutletCaption(
-            Outlet outlet,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
-        {
-            if (outlet == null) throw new NullException(() => outlet);
-
-            switch (outlet.Operator.GetOperatorTypeEnum())
-            {
-                case OperatorTypeEnum.RangeOverOutlets:
-                    return GetOutletCaption_ForRangeOverOutlets(outlet);
-
-                default:
-                    return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository);
-            }
-        }
-
-        private static string GetOutletCaption_ForRangeOverOutlets(Outlet outlet)
-        {
-            var sb = new StringBuilder();
-
-            double? from = outlet.Operator.Inlets
-                                 .Where(x => x.GetDimensionEnum() == DimensionEnum.From)
-                                 .Select(x => x.TryGetConstantNumber())
-                                 .FirstOrDefault();
-            if (@from.HasValue)
-            {
-                double? step = outlet.Operator.Inlets
-                                     .Where(x => x.GetDimensionEnum() == DimensionEnum.Step)
-                                     .Select(x => x.TryGetConstantNumber())
-                                     .FirstOrDefault();
-                if (step.HasValue)
-                {
-                    int listIndex = outlet.Operator.Outlets.IndexOf(outlet);
-
-                    double value = @from.Value + step.Value * listIndex;
-
-                    sb.Append(value.ToString("0.####"));
-                }
-            }
-
-            if (outlet.IsObsolete)
-            {
-                AppendObsoleteFlag(sb);
-            }
-
-            if (_idsVisible)
-            {
-                sb.Append($" ({outlet.ID})");
-            }
-
-            return sb.ToString();
-        }
-
-        private static string GetOutletCaption_ForOtherOperatorType(
-            Outlet outlet,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
-        {
-            var sb = new StringBuilder();
-
-            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
-
-            bool nameOrDimensionHidden;
-            if (outlet.Operator.UnderlyingPatch != null)
-            {
-                nameOrDimensionHidden = outlet.NameOrDimensionHidden;
-            }
-            else
-            {
-                nameOrDimensionHidden = !OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum);
-            }
-
-            if (!nameOrDimensionHidden)
-            {
-                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                    outlet.Operator,
-                    curveRepository,
-                    sampleRepository);
-
-                string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
-                sb.Append(inletDisplayName);
-            }
-
-            if (outlet.IsObsolete)
-            {
-                AppendObsoleteFlag(sb);
-            }
-
-            if (_idsVisible)
-            {
-                sb.Append($" ({outlet.ID})");
-            }
-
-            return sb.ToString();
-        }
+        // Helpers
 
         private static void AppendObsoleteFlag(StringBuilder sb)
         {
@@ -747,66 +832,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             sb.AppendFormat("({0})", ResourceFormatter.IsObsolete);
-        }
-
-        public static float? TryGetConnectionDistance(Inlet entity, EntityPositionManager entityPositionManager)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            if (entity.InputOutlet == null)
-            {
-                return null;
-            }
-
-            Operator operator1 = entity.Operator;
-            Operator operator2 = entity.InputOutlet.Operator;
-
-            EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
-            EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
-
-            float distance = Geometry.AbsoluteDistance(
-                entityPosition1.X,
-                entityPosition1.Y,
-                entityPosition2.X,
-                entityPosition2.Y);
-
-            return distance;
-        }
-
-        internal static float? TryGetAverageConnectionDistance(Outlet entity, EntityPositionManager entityPositionManager)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            int connectedInletCount = entity.ConnectedInlets.Count;
-
-            if (connectedInletCount == 0)
-            {
-                return null;
-            }
-
-            Operator operator1 = entity.Operator;
-
-            float aggregate = 0f;
-
-            foreach (Inlet connectedInlet in entity.ConnectedInlets)
-            {
-                Operator operator2 = connectedInlet.Operator;
-
-                EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
-                EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
-
-                float distance = Geometry.AbsoluteDistance(
-                    entityPosition1.X,
-                    entityPosition1.Y,
-                    entityPosition2.X,
-                    entityPosition2.Y);
-
-                aggregate += distance;
-            }
-
-            aggregate /= connectedInletCount;
-
-            return aggregate;
         }
     }
 }
