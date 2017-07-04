@@ -45,9 +45,9 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         {
             float c0 = x1;
             float c1 = .5F * (x2 - x0);
-            float c2 = x0 - (2.5F * x1) + (2 * x2) - (.5F * x3);
-            float c3 = (.5F * (x3 - x0)) + (1.5F * (x1 - x2));
-            return (((((c3 * t) + c2) * t) + c1) * t) + c0;
+            float c2 = x0 - 2.5F * x1 + 2 * x2 - .5F * x3;
+            float c3 = .5F * (x3 - x0) + 1.5F * (x1 - x2);
+            return ((c3 * t + c2) * t + c1) * t + c0;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
             double y0, double y1, double y2, double y3,
             double t, out double x, out double y)
         {
-            double oneMinusT = (1.0 - t);
+            double oneMinusT = 1.0 - t;
             double oneMinusTSquared = oneMinusT * oneMinusT;
             double oneMinusTCubed = oneMinusTSquared * oneMinusT;
             double tSquared = t * t;
@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
             float y0, float y1, float y2, float y3,
             float t, out float x, out float y)
         {
-            float oneMinusT = (1f - t);
+            float oneMinusT = 1f - t;
             float oneMinusTSquared = oneMinusT * oneMinusT;
             float oneMinusTCubed = oneMinusTSquared * oneMinusT;
             float tSquared = t * t;
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
             double a = incl0;
             double b = (3 * dy - dx * incl1 - 2 * a * dx) / dx2;
             double c = (dy - a * dx - b * dx2) / dx3;
-            double y = y0 + ofs * (a + (ofs * (b + (c * ofs))));
+            double y = y0 + ofs * (a + ofs * (b + c * ofs));
             return y;
         }
     }

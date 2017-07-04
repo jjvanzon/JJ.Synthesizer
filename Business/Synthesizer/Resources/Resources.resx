@@ -1094,4 +1094,7 @@
   <data name="ObsoleteButStillUsed" xml:space="preserve">
     <value>Obsolete, but still used.</value>
   </data>
+  <data name="DivideWithOrigin" xml:space="preserve">
+    <value>÷ (with origin)</value>
+  </data>
 </root>

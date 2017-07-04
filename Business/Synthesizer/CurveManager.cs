@@ -12,7 +12,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Curves;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;

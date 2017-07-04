@@ -155,8 +155,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchTreeNodeViewModel
             {
                 ID = entity.ID,
-                Name = entity.Name,
-                HasLighterStyle = entity.Hidden
+                HasLighterStyle = entity.Hidden,
+                Name = ResourceFormatter.GetDisplayName(entity)
             };
 
             return viewModel;

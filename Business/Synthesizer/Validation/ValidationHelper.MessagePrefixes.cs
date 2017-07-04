@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;

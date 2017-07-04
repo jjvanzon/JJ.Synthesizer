@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
-            IValidator validator = new DocumentReferenceValidator_Delete(documentReference, _repositories);
+            IValidator validator = new DocumentReferenceValidator_Delete(documentReference);
 
             // ReSharper disable once InvertIf
             if (validator.IsValid)
@@ -366,23 +366,6 @@ namespace JJ.Business.Synthesizer
 
         // System Document
 
-        private const string SYSTEM_DOCUMENT_NAME = "System";
-
-        public bool IsSystemPatch(Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return IsSystemDocument(patch.Document);
-        }
-
-        public bool IsSystemDocument([NotNull] Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            bool isSystemDocument = string.Equals(document.Name, SYSTEM_DOCUMENT_NAME);
-            return isSystemDocument;
-        }
-
         private static Document _systemDocument;
         private static readonly object _systemDocumentLock = new object();
 
@@ -396,7 +379,7 @@ namespace JJ.Business.Synthesizer
                 // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
                 if (_systemDocument == null)
                 {
-                    _systemDocument = _repositories.DocumentRepository.GetByNameComplete(SYSTEM_DOCUMENT_NAME);
+                    _systemDocument = _repositories.DocumentRepository.GetByNameComplete(DocumentHelper.SYSTEM_DOCUMENT_NAME);
                 }
                 return _systemDocument;
             }
@@ -419,7 +402,7 @@ namespace JJ.Business.Synthesizer
         public void RefreshSystemDocumentIfNeeded(Document document)
         {
             // ReSharper disable once InvertIf
-            if (IsSystemDocument(document))
+            if (document.IsSystemDocument())
             {
                 lock (_systemDocumentLock)
                 {

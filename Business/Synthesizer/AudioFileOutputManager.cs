@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
+﻿using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Exceptions;

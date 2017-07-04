@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
             double phase = (position - _origin) * _frequency;
-            double value = 1.0 - (2.0 * phase % 2.0);
+            double value = 1.0 - 2.0 * phase % 2.0;
             return value;
         }
 
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
 #endif
             double phase = position * _frequency;
-            double value = 1.0 - (2.0 * phase % 2.0);
+            double value = 1.0 - 2.0 * phase % 2.0;
             return value;
         }
     }
@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double positionChange = position - _previousPosition;
             _phase = _phase + positionChange * frequency;
 
-            double value = 1 - (2 * _phase % 2);
+            double value = 1 - 2 * _phase % 2;
 
             _previousPosition = position;
 
@@ -195,7 +195,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double frequency = _frequencyCalculator.Calculate();
 
             double phase = position * frequency;
-            double value = 1 - (2 * phase % 2);
+            double value = 1 - 2 * phase % 2;
 
             return value;
         }

@@ -221,7 +221,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             int sampleCountInt = 0;
             if (ConversionHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
             {
-                sampleCountInt = (int)(_sampleCountDouble);
+                sampleCountInt = (int)_sampleCountDouble;
             }
 
             var queue = new Queue<double>(sampleCountInt);

@@ -2130,7 +2130,7 @@ namespace JJ.Business.Synthesizer
         {
             Operator op = CustomOperator(patch);
 
-            if (_documentManager.IsSystemPatch(patch))
+            if (patch.IsSystemPatch())
             {
                 op.SetOperatorTypeEnum(EnumHelper.Parse<OperatorTypeEnum>(patch.Name), _repositories);
             }

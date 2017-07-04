@@ -250,12 +250,12 @@ namespace JJ.Business.Synthesizer.Calculation
             double alpha = sinw0 / 2 * Math.Sqrt((a + 1 / a) * (1 / transitionSlope - 1) + 2);
             double temp = 2 * Math.Sqrt(a) * alpha;
 
-            double b0 = a * ((a + 1) - (a - 1) * cosw0 + temp);
-            double b1 = 2 * a * ((a - 1) - (a + 1) * cosw0);
-            double b2 = a * ((a + 1) - (a - 1) * cosw0 - temp);
-            double aa0 = (a + 1) + (a - 1) * cosw0 + temp;
-            double aa1 = -2 * ((a - 1) + (a + 1) * cosw0);
-            double aa2 = (a + 1) + (a - 1) * cosw0 - temp;
+            double b0 = a * (a + 1 - (a - 1) * cosw0 + temp);
+            double b1 = 2 * a * (a - 1 - (a + 1) * cosw0);
+            double b2 = a * (a + 1 - (a - 1) * cosw0 - temp);
+            double aa0 = a + 1 + (a - 1) * cosw0 + temp;
+            double aa1 = -2 * (a - 1 + (a + 1) * cosw0);
+            double aa2 = a + 1 + (a - 1) * cosw0 - temp;
 
             SetCoefficients(aa0, aa1, aa2, b0, b1, b2, out a0, out a1, out a2, out a3, out a4);
         }
@@ -273,12 +273,12 @@ namespace JJ.Business.Synthesizer.Calculation
             double alpha = sinw0 / 2 * Math.Sqrt((a + 1 / a) * (1 / transitionSlope - 1) + 2);
             double temp = 2 * Math.Sqrt(a) * alpha;
 
-            double b0 = a * ((a + 1) + (a - 1) * cosw0 + temp);
-            double b1 = -2 * a * ((a - 1) + (a + 1) * cosw0);
-            double b2 = a * ((a + 1) + (a - 1) * cosw0 - temp);
-            double aa0 = (a + 1) - (a - 1) * cosw0 + temp;
-            double aa1 = 2 * ((a - 1) - (a + 1) * cosw0);
-            double aa2 = (a + 1) - (a - 1) * cosw0 - temp;
+            double b0 = a * (a + 1 + (a - 1) * cosw0 + temp);
+            double b1 = -2 * a * (a - 1 + (a + 1) * cosw0);
+            double b2 = a * (a + 1 + (a - 1) * cosw0 - temp);
+            double aa0 = a + 1 - (a - 1) * cosw0 + temp;
+            double aa1 = 2 * (a - 1 - (a + 1) * cosw0);
+            double aa2 = a + 1 - (a - 1) * cosw0 - temp;
 
             SetCoefficients(aa0, aa1, aa2, b0, b1, b2, out a0, out a1, out a2, out a3, out a4);
         }

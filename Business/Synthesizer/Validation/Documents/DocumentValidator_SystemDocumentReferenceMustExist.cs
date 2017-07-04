@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -16,12 +17,12 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 
             var documentManager = new DocumentManager(repositories);
 
-            if (documentManager.IsSystemDocument(document))
+            if (document.IsSystemDocument())
             {
                 return;
             }
 
-            bool hasSystemDocumentReference = document.LowerDocumentReferences.Any(x => documentManager.IsSystemDocument(x.LowerDocument));
+            bool hasSystemDocumentReference = document.LowerDocumentReferences.Any(x => x.LowerDocument.IsSystemDocument());
             if (!hasSystemDocumentReference)
             {
                 string systemDocumentIdentifier = ValidationHelper.GetUserFriendlyIdentifier(documentManager.GetSystemDocument());

@@ -808,6 +808,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ÷ (with origin).
+        /// </summary>
+        internal static string DivideWithOrigin {
+            get {
+                return ResourceManager.GetString("DivideWithOrigin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document.
         /// </summary>
         internal static string Document {

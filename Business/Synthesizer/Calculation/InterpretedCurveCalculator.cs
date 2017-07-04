@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private static double CalculateY_ForNodeTypeLine(Node node0, Node node1, double x)
         {
             double dx = node1.X - node0.X;
-            double dy = (node1.Y - node0.Y);
+            double dy = node1.Y - node0.Y;
 
             double y = node0.Y + dy * (x - node0.X) / dx;
 

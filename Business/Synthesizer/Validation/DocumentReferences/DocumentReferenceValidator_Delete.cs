@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
@@ -13,17 +13,15 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
     internal class DocumentReferenceValidator_Delete : VersatileValidator
     {
-        public DocumentReferenceValidator_Delete([NotNull] DocumentReference obj, [NotNull] RepositoryWrapper repositories)
+        public DocumentReferenceValidator_Delete([NotNull] DocumentReference obj)
         {
             if (obj == null) throw new NullException(() => obj);
-
-            DocumentManager systemDocumentManager = new DocumentManager(repositories);
 
             DocumentReference documentReference = obj;
 
             string documentReferenceIdentifier = ResourceFormatter.Library + " " + ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(documentReference);
 
-            if (systemDocumentManager.IsSystemDocument(documentReference.LowerDocument))
+            if (documentReference.LowerDocument.IsSystemDocument())
             {
                 string message = CommonResourceFormatter.CannotDelete_WithName(documentReferenceIdentifier);
                 ValidationMessages.Add(nameof(DocumentReference), message);

@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
             // With help of:
             // http://www.lomont.org/Software/Misc/FFT/LomontFFT.html
 
-            bool isPowerOf2 = (x & (x - 1)) == 0;
+            bool isPowerOf2 = (x & x - 1) == 0;
             return isPowerOf2;
         }
 

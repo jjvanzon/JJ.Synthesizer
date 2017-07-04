@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;

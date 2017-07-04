@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Resources;
 using JetBrains.Annotations;
@@ -356,6 +355,20 @@ namespace JJ.Business.Synthesizer.Resources
             string resourceName = ExpressionHelper.GetName(resourceNameExpression);
             string str = GetDisplayName(resourceName);
             return str;
+        }
+
+        public static string GetDisplayName([NotNull] Patch entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.IsSystemPatch())
+            {
+                return GetDisplayName(entity.Name);
+            }
+            else
+            {
+                return entity.Name;
+            }
         }
 
         // Dimension

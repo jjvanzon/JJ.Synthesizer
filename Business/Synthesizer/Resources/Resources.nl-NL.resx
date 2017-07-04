@@ -1074,4 +1074,7 @@
   <data name="ObsoleteButStillUsed" xml:space="preserve">
     <value>Verouderd, maar wordt nog gebruikt.</value>
   </data>
+  <data name="DivideWithOrigin" xml:space="preserve">
+    <value>÷ (met oorsprong)</value>
+  </data>
 </root>

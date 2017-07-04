@@ -19,5 +19,13 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             return EnumerateOperatorsOfType(patch, operatorTypeEnum).ToArray();
         }
+
+        public static bool IsSystemPatch(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+            if (patch.Document == null) throw new NullException(() => patch.Document);
+
+            return patch.Document.IsSystemDocument();
+        }
     }
 }

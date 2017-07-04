@@ -248,12 +248,12 @@ namespace JJ.Business.Synthesizer.Calculation
             double alpha = sinw0 / 2 * Math.Sqrt((a + 1 / a) * (1 / transitionSlope - 1) + 2);
             double temp = 2 * Math.Sqrt(a) * alpha;
 
-            double b0 = a * ((a + 1) - (a - 1) * cosw0 + temp);
-            double b1 = 2 * a * ((a - 1) - (a + 1) * cosw0);
-            double b2 = a * ((a + 1) - (a - 1) * cosw0 - temp);
-            double a0 = (a + 1) + (a - 1) * cosw0 + temp;
-            double a1 = -2 * ((a - 1) + (a + 1) * cosw0);
-            double a2 = (a + 1) + (a - 1) * cosw0 - temp;
+            double b0 = a * (a + 1 - (a - 1) * cosw0 + temp);
+            double b1 = 2 * a * (a - 1 - (a + 1) * cosw0);
+            double b2 = a * (a + 1 - (a - 1) * cosw0 - temp);
+            double a0 = a + 1 + (a - 1) * cosw0 + temp;
+            double a1 = -2 * (a - 1 + (a + 1) * cosw0);
+            double a2 = a + 1 + (a - 1) * cosw0 - temp;
 
             SetCoefficients(a0, a1, a2, b0, b1, b2);
         }
@@ -269,12 +269,12 @@ namespace JJ.Business.Synthesizer.Calculation
             double alpha = sinw0 / 2 * Math.Sqrt((a + 1 / a) * (1 / transitionSlope - 1) + 2);
             double temp = 2 * Math.Sqrt(a) * alpha;
 
-            double b0 = a * ((a + 1) + (a - 1) * cosw0 + temp);
-            double b1 = -2 * a * ((a - 1) + (a + 1) * cosw0);
-            double b2 = a * ((a + 1) + (a - 1) * cosw0 - temp);
-            double a0 = (a + 1) - (a - 1) * cosw0 + temp;
-            double a1 = 2 * ((a - 1) - (a + 1) * cosw0);
-            double a2 = (a + 1) - (a - 1) * cosw0 - temp;
+            double b0 = a * (a + 1 + (a - 1) * cosw0 + temp);
+            double b1 = -2 * a * (a - 1 + (a + 1) * cosw0);
+            double b2 = a * (a + 1 + (a - 1) * cosw0 - temp);
+            double a0 = a + 1 - (a - 1) * cosw0 + temp;
+            double a1 = 2 * (a - 1 - (a + 1) * cosw0);
+            double a2 = a + 1 - (a - 1) * cosw0 - temp;
 
             SetCoefficients(a0, a1, a2, b0, b1, b2);
         }
