@@ -98,7 +98,7 @@
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.General.cs" />
-    <Compile Include="ToViewModel\RecursiveToDocumentTreeViewModelFactory.cs" />
+    <Compile Include="ToViewModel\RecursiveDocumentTreeViewModelFactory.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />

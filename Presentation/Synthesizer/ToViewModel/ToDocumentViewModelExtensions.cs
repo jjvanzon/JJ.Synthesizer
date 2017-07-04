@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID)
             };
 
-            var converter = new RecursiveToDocumentTreeViewModelFactory();
+            var converter = new RecursiveDocumentTreeViewModelFactory();
             viewModel.DocumentTree = converter.ToTreeViewModel(document);
 
             if (document.AudioOutput != null)

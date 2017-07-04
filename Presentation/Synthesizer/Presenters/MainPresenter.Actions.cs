@@ -1351,7 +1351,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Outlet outlet = result.Data;
 
                 // ToViewModel
-                var converter = new RecursiveToDocumentTreeViewModelFactory();
+                var converter = new RecursiveDocumentTreeViewModelFactory();
                 DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document);
 
                 // Non-Persisted

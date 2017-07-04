@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveLookup = new List<IDAndName>(),
                 CurvePropertiesDictionary = new Dictionary<int, CurvePropertiesViewModel>(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
-                DocumentTree = new RecursiveToDocumentTreeViewModelFactory().CreateEmptyDocumentTreeViewModel(),
+                DocumentTree = new RecursiveDocumentTreeViewModelFactory().CreateEmptyDocumentTreeViewModel(),
                 LibraryGrid = CreateEmptyLibraryGridViewModel(),
                 LibraryPropertiesDictionary = new Dictionary<int, LibraryPropertiesViewModel>(),
                 LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),

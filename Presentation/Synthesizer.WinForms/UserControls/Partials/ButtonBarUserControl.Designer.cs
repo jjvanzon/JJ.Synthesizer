@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
@@ -36,6 +37,7 @@
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.buttonNew = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // buttonClose
@@ -142,6 +144,13 @@
             this.buttonNew.UseVisualStyleBackColor = true;
             this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
             // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 0;
+            this.toolTip.AutoPopDelay = 1000000000;
+            this.toolTip.InitialDelay = 0;
+            this.toolTip.ReshowDelay = 0;
+            // 
             // ButtonBarUserControl
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
@@ -171,5 +180,6 @@
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Button buttonNew;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

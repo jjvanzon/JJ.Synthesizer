@@ -13,7 +13,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    internal class RecursiveToDocumentTreeViewModelFactory
+    internal class RecursiveDocumentTreeViewModelFactory
     {
         public DocumentTreeViewModel CreateEmptyDocumentTreeViewModel()
         {

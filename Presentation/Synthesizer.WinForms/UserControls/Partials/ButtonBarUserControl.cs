@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
@@ -30,7 +32,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             buttonRemove.Visible = _removeButtonVisible;
             buttonSave.Visible = _saveButtonVisible;
 
+            SetTitles();
             PositionControls();
+        }
+
+        private void SetTitles()
+        {
+            toolTip.SetToolTip(buttonAdd, CommonResourceFormatter.Add);
+            toolTip.SetToolTip(buttonClose, CommonResourceFormatter.Close);
+            toolTip.SetToolTip(buttonNew, CommonResourceFormatter.New);
+            toolTip.SetToolTip(buttonOpen, CommonResourceFormatter.Open);
+            toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
+            toolTip.SetToolTip(buttonRefresh, CommonResourceFormatter.Refresh);
+            toolTip.SetToolTip(buttonRemove, CommonResourceFormatter.Remove);
+            toolTip.SetToolTip(buttonSave, CommonResourceFormatter.Save);
         }
 
         /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
