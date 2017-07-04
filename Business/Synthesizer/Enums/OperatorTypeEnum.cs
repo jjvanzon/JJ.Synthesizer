@@ -6,7 +6,7 @@
         Add = 1,
         //Adder = 2,
         Divide = 3,
-        MultiplyWithOrigin = 4,
+        //MultiplyWithOrigin = 4,
         PatchInlet = 5,
         PatchOutlet = 6,
         Power = 7,

@@ -1,4 +1,5 @@
-﻿using JJ.Data.Canonical;
+﻿using System;
+using JJ.Data.Canonical;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,16 +110,84 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // OperatorType
 
-        private static readonly IList<IDAndName> _operatorTypesViewModel = CreateOperatorTypesViewModel();
 
-        public static IList<IDAndName> GetOperatorTypesViewModel() => _operatorTypesViewModel;
-
-        private static IList<IDAndName> CreateOperatorTypesViewModel()
+        [Obsolete("When all Operators have been boostrapped into the System document, the whole Toolbox is not needed anymore.")]
+        private static readonly IList<OperatorTypeEnum> _operatorTypeEnums_WithToolboxItem = new[]
         {
-            IList<IDAndName> idAndNames = CreateEnumLookupViewModel<OperatorTypeEnum>(mustIncludeUndefined: false);
+            OperatorTypeEnum.PatchInlet,
+            OperatorTypeEnum.PatchOutlet,
+            OperatorTypeEnum.TimePower,
+            OperatorTypeEnum.Number,
+            OperatorTypeEnum.Curve,
+            OperatorTypeEnum.Sample,
+            OperatorTypeEnum.Noise,
+            OperatorTypeEnum.Interpolate,
+            OperatorTypeEnum.CustomOperator,
+            OperatorTypeEnum.SawUp,
+            OperatorTypeEnum.Square,
+            OperatorTypeEnum.Triangle,
+            OperatorTypeEnum.Exponent,
+            OperatorTypeEnum.Loop,
+            OperatorTypeEnum.Stretch,
+            OperatorTypeEnum.Squash,
+            OperatorTypeEnum.Shift,
+            OperatorTypeEnum.Reset,
+            OperatorTypeEnum.LowPassFilter,
+            OperatorTypeEnum.HighPassFilter,
+            OperatorTypeEnum.Spectrum,
+            OperatorTypeEnum.Pulse,
+            OperatorTypeEnum.Random,
+            OperatorTypeEnum.If,
+            OperatorTypeEnum.MinFollower,
+            OperatorTypeEnum.MaxFollower,
+            OperatorTypeEnum.AverageFollower,
+            OperatorTypeEnum.Scaler,
+            OperatorTypeEnum.SawDown,
+            OperatorTypeEnum.Reverse,
+            OperatorTypeEnum.Round,
+            OperatorTypeEnum.Cache,
+            OperatorTypeEnum.PulseTrigger,
+            OperatorTypeEnum.ChangeTrigger,
+            OperatorTypeEnum.ToggleTrigger,
+            OperatorTypeEnum.GetDimension,
+            OperatorTypeEnum.SetDimension,
+            OperatorTypeEnum.Hold,
+            OperatorTypeEnum.RangeOverDimension,
+            OperatorTypeEnum.DimensionToOutlets,
+            OperatorTypeEnum.InletsToDimension,
+            OperatorTypeEnum.MaxOverInlets,
+            OperatorTypeEnum.MinOverInlets,
+            OperatorTypeEnum.AverageOverInlets,
+            OperatorTypeEnum.MaxOverDimension,
+            OperatorTypeEnum.MinOverDimension,
+            OperatorTypeEnum.AverageOverDimension,
+            OperatorTypeEnum.SumOverDimension,
+            OperatorTypeEnum.SumFollower,
+            OperatorTypeEnum.ClosestOverInlets,
+            OperatorTypeEnum.ClosestOverDimension,
+            OperatorTypeEnum.ClosestOverInletsExp,
+            OperatorTypeEnum.ClosestOverDimensionExp,
+            OperatorTypeEnum.SortOverInlets,
+            OperatorTypeEnum.SortOverDimension,
+            OperatorTypeEnum.BandPassFilterConstantTransitionGain,
+            OperatorTypeEnum.BandPassFilterConstantPeakGain,
+            OperatorTypeEnum.NotchFilter,
+            OperatorTypeEnum.AllPassFilter,
+            OperatorTypeEnum.PeakingEQFilter,
+            OperatorTypeEnum.LowShelfFilter,
+            OperatorTypeEnum.HighShelfFilter,
+            OperatorTypeEnum.RangeOverOutlets
+        };
 
-            idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
+        private static readonly IList<IDAndName> _operatorToolBoxViewModelList = CreateOperatorToolBoxViewModelList();
 
+        public static IList<IDAndName> GetOperatorToolBoxViewModelList() => _operatorToolBoxViewModelList;
+
+        private static IList<IDAndName> CreateOperatorToolBoxViewModelList()
+        {
+            IList<IDAndName> idAndNames = _operatorTypeEnums_WithToolboxItem.Select(x => x.ToIDAndDisplayName())
+                                                                            .OrderBy(x => x.Name)
+                                                                            .ToArray();
             return idAndNames;
         }
 

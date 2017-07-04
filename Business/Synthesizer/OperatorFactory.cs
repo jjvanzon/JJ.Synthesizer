@@ -2206,7 +2206,6 @@ namespace JJ.Business.Synthesizer
                 case OperatorTypeEnum.MinOverDimension: return MinOverDimension();
                 case OperatorTypeEnum.MinOverInlets: return MinOverInlets(new Outlet[variableInletOrOutletCount]);
                 case OperatorTypeEnum.Multiply: return Multiply(new Outlet[variableInletOrOutletCount]);
-                case OperatorTypeEnum.MultiplyWithOrigin: return MultiplyWithOrigin();
                 case OperatorTypeEnum.Negative: return Negative();
                 case OperatorTypeEnum.Noise: return Noise();
                 case OperatorTypeEnum.Not: return Not();

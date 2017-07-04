@@ -113,7 +113,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperatorOutlet },
                 { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutletsOutlet },
-                { OperatorTypeEnum.MultiplyWithOrigin, VisitMultiplyWithOriginOutlet },
                 { OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutletsOutlet },
                 { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet },
                 // Undefined should have Outlet visitation, for DivideWithOrigin,
