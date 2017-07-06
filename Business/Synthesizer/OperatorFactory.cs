@@ -32,7 +32,6 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_END_TIME = 1.0;
         private const double DEFAULT_EXPONENT = 2.0;
         private const double DEFAULT_FACTOR = 2.0;
-        private const double DEFAULT_PULSE_WIDTH = 0.5;
         private const double DEFAULT_RANDOM_RATE = 16.0;
         private const double DEFAULT_RANGE_FROM = 1.0;
         private const double DEFAULT_RANGE_TILL = 16.0;
@@ -746,21 +745,14 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public If_OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
+        public OperatorWrapper_WithUnderlyingPatch If(Outlet condition = null, Outlet then = null, Outlet @else = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.If,
-                new[] { DimensionEnum.Condition, DimensionEnum.Then, DimensionEnum.Else },
-                new[] { DimensionEnum.Number });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new If_OperatorWrapper(op)
-            {
-                Condition = condition,
-                Then = then,
-                Else = @else
-            };
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Condition] = condition;
+            wrapper.Inputs[DimensionEnum.Then] = then;
+            wrapper.Inputs[DimensionEnum.Else] = @else;
 
             return wrapper;
         }
@@ -1184,21 +1176,19 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Noise_OperatorWrapper Noise(
-            DimensionEnum standardDimension = DimensionEnum.Time,
+        public OperatorWrapper_WithUnderlyingPatch Noise(
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Noise,
-                new DimensionEnum[0],
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
+            if (standardDimension.HasValue)
+            {
+                op.SetStandardDimensionEnum(standardDimension.Value, _repositories.DimensionRepository);
+            }
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new Noise_OperatorWrapper(op);
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
 
             return wrapper;
         }
@@ -1431,28 +1421,23 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Pulse_OperatorWrapper Pulse(
+        public OperatorWrapper_WithUnderlyingPatch Pulse(
             Outlet frequency = null, 
             Outlet width = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Pulse,
-                new[] { DimensionEnum.Frequency, DimensionEnum.Width },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
+            if (standardDimension.HasValue)
+            {
+                op.SetStandardDimensionEnum(standardDimension.Value, _repositories.DimensionRepository);
+            }
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new Pulse_OperatorWrapper(op)
-            {
-                Frequency = frequency,
-                Width = width,
-            };
-
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
-            wrapper.WidthInlet.DefaultValue = DEFAULT_PULSE_WIDTH;
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Frequency] = frequency;
+            wrapper.Inputs[DimensionEnum.Width] = width;
 
             new Versatile_OperatorValidator(op).Assert();
 
@@ -1660,48 +1645,20 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SawDown_OperatorWrapper SawDown(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
+        public OperatorWrapper_WithUnderlyingPatch SawDown(
+            Outlet frequency = null,
+            DimensionEnum? standardDimension = null,
+            string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.SawDown,
-                new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Sound });
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new SawDown_OperatorWrapper(op)
-            {
-                Frequency = frequency
-            };
-
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
-
-            new Versatile_OperatorValidator(op).Assert();
-
-            return wrapper;
+            return NewWithFrequency(MethodBase.GetCurrentMethod(), frequency, standardDimension, customDimension);
         }
 
-        public SawUp_OperatorWrapper SawUp(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
+        public OperatorWrapper_WithUnderlyingPatch SawUp(
+            Outlet frequency = null,
+            DimensionEnum? standardDimension = null,
+            string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.SawUp,
-                new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Sound });
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new SawUp_OperatorWrapper(op)
-            {
-                Frequency = frequency,
-            };
-
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
-
-            new Versatile_OperatorValidator(op).Assert();
-
-            return wrapper;
+            return NewWithFrequency(MethodBase.GetCurrentMethod(), frequency, standardDimension, customDimension);
         }
 
         public Scaler_OperatorWrapper Scaler(
@@ -1783,14 +1740,33 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public OperatorWrapper_WithUnderlyingPatch Sine(Outlet frequency = null)
+        public OperatorWrapper_WithUnderlyingPatch Sine(
+            Outlet frequency = null,
+            DimensionEnum? standardDimension = null,
+            string customDimension = null)
         {
-            Operator op = New(MethodBase.GetCurrentMethod());
+            return NewWithFrequency(MethodBase.GetCurrentMethod(), frequency, standardDimension, customDimension);
+        }
+
+        private OperatorWrapper_WithUnderlyingPatch NewWithFrequency(
+            MethodBase methodBase,
+            Outlet frequency,
+            DimensionEnum? standardDimension,
+            string customDimension)
+        {
+            Operator op = New(methodBase);
+
+            if (standardDimension.HasValue)
+            {
+                op.SetStandardDimensionEnum(standardDimension.Value, _repositories.DimensionRepository);
+            }
+            op.CustomDimensionName = customDimension;
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Frequency] = frequency;
 
             return wrapper;
+
         }
 
         public SortOverDimension_OperatorWrapper SortOverDimension(
@@ -1880,26 +1856,12 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Square_OperatorWrapper Square(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
+        public OperatorWrapper_WithUnderlyingPatch Square(
+            Outlet frequency = null,
+            DimensionEnum? standardDimension = null,
+            string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Square,
-                new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Sound });
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new Square_OperatorWrapper(op)
-            {
-                Frequency = frequency,
-            };
-
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
-
-            new Versatile_OperatorValidator(op).Assert();
-
-            return wrapper;
+            return NewWithFrequency(MethodBase.GetCurrentMethod(), frequency, standardDimension, customDimension);
         }
 
         public Squash_OperatorWrapper Squash(
@@ -2083,26 +2045,9 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Triangle_OperatorWrapper Triangle(Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
+        public OperatorWrapper_WithUnderlyingPatch Triangle(Outlet frequency = null, DimensionEnum? standardDimension = null, string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Triangle,
-                new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Sound });
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new Triangle_OperatorWrapper(op)
-            {
-                Frequency = frequency
-            };
-
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
-
-            new Versatile_OperatorValidator(op).Assert();
-
-            return wrapper;
+            return NewWithFrequency(MethodBase.GetCurrentMethod(), frequency, standardDimension, customDimension);
         }
 
         // Helpers

@@ -64,12 +64,11 @@ namespace JJ.Business.Synthesizer
             {
                 destOperator.HasDimension = sourcePatch.HasDimension;
 
-                if (string.IsNullOrWhiteSpace(destOperator.CustomDimensionName))
+                bool destDimensionIsFilledIn = !string.IsNullOrWhiteSpace(destOperator.CustomDimensionName) ||
+                                               destOperator.StandardDimension != null;
+                if (!destDimensionIsFilledIn)
                 {
                     destOperator.CustomDimensionName = sourcePatch.DefaultCustomDimensionName;
-                }
-                if (destOperator.StandardDimension == null)
-                {
                     destOperator.LinkTo(sourcePatch.DefaultStandardDimension);
                 }
             }

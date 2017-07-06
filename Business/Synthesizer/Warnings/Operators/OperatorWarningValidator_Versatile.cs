@@ -37,7 +37,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.HighPassFilter: ExecuteValidator(new HighPassFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.HighShelfFilter: ExecuteValidator(new HighShelfFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Hold: ExecuteValidator(new Hold_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.If: ExecuteValidator(new If_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.InletsToDimension: ExecuteValidator(new InletsToDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Interpolate: ExecuteValidator(new Interpolate_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Loop: ExecuteValidator(new Loop_OperatorWarningValidator(op)); break;
@@ -53,7 +52,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.Number: ExecuteValidator(new Number_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.PatchOutlet: ExecuteValidator(new PatchOutlet_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.PeakingEQFilter: ExecuteValidator(new PeakingEQFilter_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Pulse: ExecuteValidator(new Pulse_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.PulseTrigger: ExecuteValidator(new PulseTrigger_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Random: ExecuteValidator(new Random_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.RangeOverDimension: ExecuteValidator(new RangeOverDimension_OperatorWarningValidator(op)); break;
@@ -62,21 +60,17 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.Reverse: ExecuteValidator(new Reverse_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Round: ExecuteValidator(new Round_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Sample: ExecuteValidator(new Sample_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.SawDown: ExecuteValidator(new SawDown_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.SawUp: ExecuteValidator(new SawUp_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Scaler: ExecuteValidator(new Scaler_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Shift: ExecuteValidator(new Shift_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.SortOverDimension: ExecuteValidator(new SortOverDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.SortOverInlets: ExecuteValidator(new SortOverInlets_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Spectrum: ExecuteValidator(new Spectrum_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Square: ExecuteValidator(new Square_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Squash: ExecuteValidator(new Squash_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Stretch: ExecuteValidator(new Stretch_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.SumFollower: ExecuteValidator(new SumFollower_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.SumOverDimension: ExecuteValidator(new SumOverDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.TimePower: ExecuteValidator(new TimePower_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.ToggleTrigger: ExecuteValidator(new ToggleTrigger_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Triangle: ExecuteValidator(new Triangle_OperatorWarningValidator(op)); break;
             }
         }
     }
