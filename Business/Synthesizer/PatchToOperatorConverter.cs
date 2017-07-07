@@ -99,8 +99,6 @@ namespace JJ.Business.Synthesizer
                 idsToKeep.Add(destInlet.ID);
             }
 
-            ReassignRepetitionPositions(destOperator.Inlets);
-
             IEnumerable<int> existingIDs = destOperator.Inlets.Select(x => x.ID);
             IEnumerable<int> idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep);
 
@@ -118,6 +116,8 @@ namespace JJ.Business.Synthesizer
                     _repositories.InletRepository.Delete(entityToDeleteIfNotInUse);
                 }
             }
+
+            ReassignRepetitionPositions(destOperator.Inlets);
         }
 
         private static bool InletIsInUse(Inlet inlet)
@@ -183,8 +183,6 @@ namespace JJ.Business.Synthesizer
                 idsToKeep.Add(destOutlet.ID);
             }
 
-            ReassignRepetitionPositions(destOperator.Inlets);
-
             IEnumerable<int> existingIDs = destOperator.Outlets.Select(x => x.ID);
             IEnumerable<int> idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep);
 
@@ -202,6 +200,8 @@ namespace JJ.Business.Synthesizer
                     _repositories.OutletRepository.Delete(outletToDeleteIfNotInUse);
                 }
             }
+
+            ReassignRepetitionPositions(destOperator.Outlets);
         }
 
         private bool OutletIsInUse(Outlet outlet)
@@ -243,13 +243,13 @@ namespace JJ.Business.Synthesizer
         {
             IList<IInletOrOutlet> sortedInletsOrOutlets = inletsOrOutlets.Sort().ToArray();
 
-            for (int i = 0; i < sortedInletsOrOutlets.Count; i++)
-            {
-                IInletOrOutlet inletOrOutlet = sortedInletsOrOutlets[i];
+            int i = 0;
 
+            foreach (IInletOrOutlet inletOrOutlet in sortedInletsOrOutlets)
+            { 
                 if (inletOrOutlet.IsRepeating)
                 {
-                    inletOrOutlet.RepetitionPosition = i;
+                    inletOrOutlet.RepetitionPosition = i++;
                 }
                 else
                 {

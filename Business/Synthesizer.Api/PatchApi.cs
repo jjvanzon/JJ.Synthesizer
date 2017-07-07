@@ -56,10 +56,10 @@ namespace JJ.Business.Synthesizer.Api
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
             => _operatorFactory.AverageOverDimension(signal, from, till, step, standardDimension, customDimension, collectionRecalculation);
 
-        public AverageOverInlets_OperatorWrapper AverageOverInlets(params Outlet[] items)
+        public OperatorWrapper_WithUnderlyingPatch AverageOverInlets(params Outlet[] items)
             => _operatorFactory.AverageOverInlets(items);
 
-        public AverageOverInlets_OperatorWrapper AverageOverInlets(IList<Outlet> items)
+        public OperatorWrapper_WithUnderlyingPatch AverageOverInlets(IList<Outlet> items)
             => _operatorFactory.AverageOverInlets(items);
 
         public OperatorWrapper_WithUnderlyingPatch BandPassFilterConstantPeakGain(
@@ -96,16 +96,16 @@ namespace JJ.Business.Synthesizer.Api
         public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet passThrough, Outlet reset)
             => _operatorFactory.ChangeTrigger(passThrough, reset);
 
-        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, params Outlet[] items)
+        public OperatorWrapper_WithUnderlyingPatch ClosestOverInlets(Outlet input, params Outlet[] items)
             => _operatorFactory.ClosestOverInlets(input, items);
 
-        public ClosestOverInlets_OperatorWrapper ClosestOverInlets(Outlet input, IList<Outlet> items)
+        public OperatorWrapper_WithUnderlyingPatch ClosestOverInlets(Outlet input, IList<Outlet> items)
             => _operatorFactory.ClosestOverInlets(input, items);
 
-        public ClosestOverInletsExp_OperatorWrapper ClosestExpOverInlets(Outlet input, params Outlet[] items)
+        public OperatorWrapper_WithUnderlyingPatch ClosestExpOverInlets(Outlet input, params Outlet[] items)
             => _operatorFactory.ClosestOverInletsExp(input, items);
 
-        public ClosestOverInletsExp_OperatorWrapper ClosestExpOverInlets(Outlet input, IList<Outlet> items)
+        public OperatorWrapper_WithUnderlyingPatch ClosestExpOverInlets(Outlet input, IList<Outlet> items)
             => _operatorFactory.ClosestOverInletsExp(input, items);
 
         public ClosestOverDimension_OperatorWrapper ClosestOverDimension(
@@ -286,10 +286,10 @@ namespace JJ.Business.Synthesizer.Api
         public DimensionToOutlets_OperatorWrapper DimensionToOutlets()
             => _operatorFactory.DimensionToOutlets();
 
-        public MaxOverInlets_OperatorWrapper MaxOverInlets(params Outlet[] operands)
+        public OperatorWrapper_WithUnderlyingPatch MaxOverInlets(params Outlet[] operands)
             => _operatorFactory.MaxOverInlets(operands);
 
-        public MaxOverInlets_OperatorWrapper MaxOverInlets(IList<Outlet> operands)
+        public OperatorWrapper_WithUnderlyingPatch MaxOverInlets(IList<Outlet> operands)
             => _operatorFactory.MaxOverInlets(operands);
 
         public MaxFollower_OperatorWrapper MaxFollower(
@@ -310,10 +310,10 @@ namespace JJ.Business.Synthesizer.Api
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
             => _operatorFactory.MaxOverDimension(signal, from, till, step, standardDimension, customDimension, collectionRecalculation);
 
-        public MinOverInlets_OperatorWrapper MinOverInlets(params Outlet[] operands)
+        public OperatorWrapper_WithUnderlyingPatch MinOverInlets(params Outlet[] operands)
             => _operatorFactory.MinOverInlets(operands);
 
-        public MinOverInlets_OperatorWrapper MinOverInlets(IList<Outlet> operands)
+        public OperatorWrapper_WithUnderlyingPatch MinOverInlets(IList<Outlet> operands)
             => _operatorFactory.MinOverInlets(operands);
 
         public MinFollower_OperatorWrapper MinFollower(
@@ -433,13 +433,11 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _operatorFactory.RangeOverDimension(from, till, step, standardDimension, customDimension);
 
-        public RangeOverOutlets_OperatorWrapper RangeOverOutlets(
+        public OperatorWrapper_WithUnderlyingPatch RangeOverOutlets(
             Outlet from = null,
             Outlet step = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
-            string customDimension = null,
             int? outletCount = null)
-            => _operatorFactory.RangeOverOutlets(from, step, standardDimension, customDimension, outletCount);
+            => _operatorFactory.RangeOverOutlets(from, step, outletCount);
 
         public Interpolate_OperatorWrapper Interpolate(
             Outlet signal = null,
@@ -498,10 +496,10 @@ namespace JJ.Business.Synthesizer.Api
             DimensionEnum? standardDimension = null,
             string customDimension = null) => _operatorFactory.Sine(frequency, standardDimension, customDimension);
 
-        public SortOverInlets_OperatorWrapper SortOverInlets(params Outlet[] operands)
+        public OperatorWrapper_WithUnderlyingPatch SortOverInlets(params Outlet[] operands)
             => _operatorFactory.SortOverInlets(operands);
 
-        public SortOverInlets_OperatorWrapper SortOverInlets(IList<Outlet> operands)
+        public OperatorWrapper_WithUnderlyingPatch SortOverInlets(IList<Outlet> operands)
             => _operatorFactory.SortOverInlets(operands);
 
         public SortOverDimension_OperatorWrapper SortOverDimension(

@@ -375,8 +375,12 @@
     <Content Include="2017-06-03 040 SynthesizerDB Dimension 73 - Radians.sql" />
     <Content Include="2017-06-03 050 SynthesizerDB Dimension 74 - HighestFrequency.sql" />
     <Content Include="2017-06-11 030 SynthesizerDB RUN UTILITY - Copy.sql" />
+    <Content Include="2017-07-08 005 SynthesizerDB Update IsRepeating to 1 for Item Inlets of ClosestOverInlets and ClosestOverInletsExp .sql" />
+    <Content Include="2017-07-08 010 SynthesizerDB Update Patch.Hidden to 0 for Aggregates over Inlets in System Document.sql" />
     <Content Include="2017-07-07 010 SynthesizerDB Update Patch.Hidden to 0 for Filters in System Document.sql" />
+    <Content Include="2017-07-08 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-07-07 020 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2017-07-08 030 SynthesizerDB delete Aggregates over Inlets OperatorTypes.sql" />
     <Content Include="2017-07-07 030 SynthesizerDB delete Filter OperatorTypes.sql" />
     <Content Include="2017-07-06 040 SynthesizerDB Update Patch.Hidden to 0 for Noise, Pulse, SawDown, SawUp, Square, Triangle in System Document.sql" />
     <Content Include="2017-07-06 010 SynthesizerDB Update Patch.Hidden to 0 for If Operator in System Document.sql" />

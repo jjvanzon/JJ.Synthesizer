@@ -183,8 +183,6 @@
     <Compile Include="Dto\OperatorDtoBase_Filter_VarSound.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarSound.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_VariableInletCountOneOutlet.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_VariableInletCountSignalOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithSignalOutlet.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
@@ -367,7 +365,7 @@
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount_Basic.cs" />
     <Compile Include="Validation\InletOrOutletValidator_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithUnderlyingPatch.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_Base_ClosestOverInlets.cs" />
+    <Compile Include="Validation\Operators\2017-07-08 Backup of OperatorValidator_Base_ClosestOverInlets.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />
@@ -491,7 +489,6 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithOneOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_Trigger.cs" />
-    <Compile Include="EntityWrappers\RangeOverOutlets_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithFrequency.cs" />
     <Compile Include="EntityWrappers\StretchOrSquash_OperatorWrapperBase.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />
@@ -511,11 +508,8 @@
     <Compile Include="CopiedCode\FromFramework\MathHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="EntityWrappers\ClosestOverInletsExp_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverDimensionExp_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\ClosestOverInlets_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverDimension_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\SortOverInlets_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\SortOverDimension_OperatorWrapper.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculator_Vars.cs">
       <DependentUpon>OperatorCalculatorFactory.CreateAddCalculator_Vars.tt</DependentUpon>
@@ -556,13 +550,9 @@
     <Compile Include="EntityWrappers\SumFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_AggregateFollower.cs" />
     <Compile Include="EntityWrappers\SumOverDimension_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\AverageOverInlets_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\AverageOverDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MinOverDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_AggregateOverDimension.cs" />
-    <Compile Include="EntityWrappers\MinOverInlets_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_VariableInletCountResultOutlet.cs" />
-    <Compile Include="EntityWrappers\MaxOverInlets_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\InletsToDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Cache_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Hold_OperatorWrapper.cs" />
@@ -669,19 +659,12 @@
     <Compile Include="Validation\Operators\OperatorValidator_FromSystemDocument.cs" />
     <Compile Include="Validation\Operators\ClosestOverDimensionExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverDimension_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\ClosestOverInletsExp_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\ClosestOverInlets_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\RangeOverOutlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\SortOverInlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_AggregateOverDimension.cs" />
     <Compile Include="Validation\Operators\SumFollower_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SumOverDimension_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\AverageOverInlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\AverageOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\MinOverDimension_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\MinOverInlets_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\MaxOverInlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_VariableInletCountOneOutlet.cs" />
     <Compile Include="Validation\Operators\InletsToDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Hold_OperatorValidator.cs" />
@@ -734,20 +717,14 @@
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\OutletWarningValidator.cs" />
     <Compile Include="Warnings\InletWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\ClosestOverInletsExp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverDimensionExp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\RangeOverOutlets_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SortOverDimension_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\SortOverInlets_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\ClosestOverInlets_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SumFollower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SumOverDimension_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\AverageOverInlets_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\AverageOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MinOverDimension_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\MinOverInlets_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\MaxOverInlets_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_AnyInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\InletsToDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Hold_OperatorWarningValidator.cs" />
