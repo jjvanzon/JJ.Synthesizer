@@ -135,7 +135,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return new IDAndName
             {
                 ID = entity.ID,
-                Name = entity.Name
+                Name = ResourceFormatter.GetDisplayName(entity.Name)
             };
         }
 

@@ -504,11 +504,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// </summary>
         public static bool GetCanSelectUnderlyingPatch(Operator entity)
         {
-            //if (entity.UnderlyingPatch != null)
-            //{
-            //    return true;
-            //}
-
             if (entity.OperatorType == null)
             {
                 return true;
@@ -520,8 +515,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return false;
-
-            throw new NotImplementedException();
         }
 
         public static string GetOperatorCaption(

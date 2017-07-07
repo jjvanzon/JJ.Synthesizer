@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             // Use Name
             if (!string.IsNullOrWhiteSpace(inlet.Name))
             {
-                return inlet.Name;
+                return ResourceFormatter.GetDisplayName(inlet);
             }
 
             // Use Dimension
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             // Use Name
             if (!string.IsNullOrWhiteSpace(outlet.Name))
             {
-                return outlet.Name;
+                return ResourceFormatter.GetDisplayName(outlet);
             }
 
             // Use Dimension

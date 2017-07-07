@@ -384,6 +384,25 @@ namespace JJ.Business.Synthesizer.Resources
             return GetDisplayName(enumValue.ToString());
         }
 
+        // Inlet
+
+        public static string GetDisplayName(Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            bool isFromSystem = inlet.Operator?.UnderlyingPatch?.IsSystemPatch() ?? false;
+            if (isFromSystem)
+            {
+                string displayName = GetDisplayName(inlet.Name);
+                if (!string.IsNullOrEmpty(displayName))
+                {
+                    return displayName;
+                }
+            }
+
+            return inlet.Name;
+        }
+
         // InterpolationType
 
         public static string GetDisplayName(InterpolationType entity)
@@ -412,13 +431,27 @@ namespace JJ.Business.Synthesizer.Resources
             }
             else
             {
-                return GetDisplayName(op.GetOperatorTypeEnum());
+                return GetDisplayName(op.GetOperatorTypeEnum().ToString());
             }
         }
 
-        private static string GetDisplayName(OperatorTypeEnum enumValue)
+        // Outlet
+
+        public static string GetDisplayName(Outlet outlet)
         {
-            return GetDisplayName(enumValue.ToString());
+            if (outlet == null) throw new NullException(() => outlet);
+
+            bool isFromSystem = outlet.Operator?.UnderlyingPatch?.IsSystemPatch() ?? false;
+            if (isFromSystem)
+            {
+                string displayName = GetDisplayName(outlet.Name);
+                if (!string.IsNullOrEmpty(displayName))
+                {
+                    return displayName;
+                }
+            }
+
+            return outlet.Name;
         }
 
         // SpeakerSetup
