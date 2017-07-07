@@ -185,7 +185,6 @@
     <Compile Include="Dto\OperatorDtoBase_VarSound.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableInletCountOneOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableInletCountSignalOutlet.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithSoundOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithSignalOutlet.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
@@ -488,7 +487,6 @@
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
     <Compile Include="Dto\TimePower OperatorDto Classes.cs" />
     <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_BandPassFilter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithOneOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberOutlet.cs" />
@@ -513,14 +511,6 @@
     <Compile Include="CopiedCode\FromFramework\MathHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="EntityWrappers\HighShelfFilter_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\LowShelfFilter_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\AllPassFilter_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_ShelfFilter.cs" />
-    <Compile Include="EntityWrappers\PeakingEQFilter_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\NotchFilter_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\BandPassFilterConstantPeakGain_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\BandPassFilterConstantTransitionGain_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverInletsExp_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverDimensionExp_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ClosestOverInlets_OperatorWrapper.cs" />
@@ -587,8 +577,6 @@
     <Compile Include="EntityWrappers\AverageFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Scaler_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MaxFollower_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\HighPassFilter_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\LowPassFilter_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Random_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MinFollower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\ChangeTrigger_OperatorWrapper.cs" />
@@ -679,17 +667,10 @@
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_FromSystemDocument.cs" />
-    <Compile Include="Validation\Operators\AllPassFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\HighShelfFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\NotchFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\BandPassFilterConstantPeakGain_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\BandPassFilterConstantTransitionGain_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverDimensionExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverInletsExp_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\ClosestOverInlets_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\LowShelfFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\PeakingEQFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\RangeOverOutlets_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\SortOverInlets_OperatorValidator.cs" />
@@ -714,8 +695,6 @@
     <Compile Include="Validation\Operators\Scaler_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\AverageFollower_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\MaxFollower_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\HighPassFilter_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\LowPassFilter_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Random_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Reset_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Shift_OperatorValidator.cs" />
@@ -755,16 +734,9 @@
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\OutletWarningValidator.cs" />
     <Compile Include="Warnings\InletWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\HighShelfFilter_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\LowShelfFilter_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\PeakingEQFilter_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\AllPassFilter_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\NotchFilter_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\BandPassFilterConstantPeakGain_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverInletsExp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverDimensionExp_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\ClosestOverDimension_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\BandPassFilterConstantTransitionGain_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\RangeOverOutlets_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SortOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\SortOverInlets_OperatorWarningValidator.cs" />
@@ -787,8 +759,6 @@
     <Compile Include="Warnings\Operators\MaxFollower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MinFollower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\AverageFollower_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\HighPassFilter_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\LowPassFilter_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\Random_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Reset_OperatorWarningValidator.cs" />

@@ -18,12 +18,9 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             switch (operatorTypeEnum)
             {
                 // Only ones with specialized validators are in here. Others are covered with the Basic validator already executed above.
-                case OperatorTypeEnum.AllPassFilter: ExecuteValidator(new AllPassFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AverageFollower: ExecuteValidator(new AverageFollower_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AverageOverDimension: ExecuteValidator(new AverageOverDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.AverageOverInlets: ExecuteValidator(new AverageOverInlets_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.BandPassFilterConstantPeakGain: ExecuteValidator(new BandPassFilterConstantPeakGain_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.BandPassFilterConstantTransitionGain: ExecuteValidator(new BandPassFilterConstantTransitionGain_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Cache: ExecuteValidator(new Cache_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.ChangeTrigger: ExecuteValidator(new ChangeTrigger_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.ClosestOverDimension: ExecuteValidator(new ClosestOverDimension_OperatorWarningValidator(op)); break;
@@ -34,24 +31,18 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.CustomOperator: ExecuteValidator(new CustomOperator_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.DimensionToOutlets: ExecuteValidator(new DimensionToOutlets_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Exponent: ExecuteValidator(new Exponent_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.HighPassFilter: ExecuteValidator(new HighPassFilter_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.HighShelfFilter: ExecuteValidator(new HighShelfFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Hold: ExecuteValidator(new Hold_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.InletsToDimension: ExecuteValidator(new InletsToDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Interpolate: ExecuteValidator(new Interpolate_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Loop: ExecuteValidator(new Loop_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.LowPassFilter: ExecuteValidator(new LowPassFilter_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.LowShelfFilter: ExecuteValidator(new LowShelfFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MaxFollower: ExecuteValidator(new MaxFollower_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MaxOverDimension: ExecuteValidator(new MaxOverDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MaxOverInlets: ExecuteValidator(new MaxOverInlets_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MinFollower: ExecuteValidator(new MinFollower_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MinOverDimension: ExecuteValidator(new MinOverDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MinOverInlets: ExecuteValidator(new MinOverInlets_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.NotchFilter: ExecuteValidator(new NotchFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Number: ExecuteValidator(new Number_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.PatchOutlet: ExecuteValidator(new PatchOutlet_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.PeakingEQFilter: ExecuteValidator(new PeakingEQFilter_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.PulseTrigger: ExecuteValidator(new PulseTrigger_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Random: ExecuteValidator(new Random_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.RangeOverDimension: ExecuteValidator(new RangeOverDimension_OperatorWarningValidator(op)); break;

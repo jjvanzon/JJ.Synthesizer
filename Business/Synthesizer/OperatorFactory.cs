@@ -25,9 +25,6 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_FREQUENCY = 440.0;
         private const double DEFAULT_FROM = 0.0;
         private const double DEFAULT_TILL = 15.0;
-        private const double DEFAULT_FILTER_WIDTH = 1.0;
-        private const double DEFAULT_BLOB_VOLUME = 1.0;
-        private const double DEFAULT_DB_GAIN = 3.0;
         private const double DEFAULT_DIFFERENCE = 1.0;
         private const double DEFAULT_END_TIME = 1.0;
         private const double DEFAULT_EXPONENT = 2.0;
@@ -42,7 +39,6 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_SCALE_SOURCE_VALUE_B = 1.0;
         private const double DEFAULT_SCALE_TARGET_VALUE_A = 1.0;
         private const double DEFAULT_SCALE_TARGET_VALUE_B = 4.0;
-        private const double DEFAULT_TRANSITION_SLOPE = 1.0;
         private const double DEFAULT_SLICE_LENGTH = 0.02;
         private const double DEFAULT_SPECTRUM_FREQUENCY_COUNT = 256.0;
         private const double DEFAULT_START_TIME = 0.0;
@@ -92,27 +88,17 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public AllPassFilter_OperatorWrapper AllPassFilter(
+        public OperatorWrapper_WithUnderlyingPatch AllPassFilter(
             Outlet sound = null,
             Outlet centerFrequency = null,
             Outlet width = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.AllPassFilter,
-                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new AllPassFilter_OperatorWrapper(op)
-            {
-                SoundInput = sound,
-                CenterFrequency = centerFrequency,
-                Width = width
-            };
-
-            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
+            wrapper.Inputs[DimensionEnum.Width] = width;
 
             return wrapper;
         }
@@ -210,52 +196,32 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public BandPassFilterConstantPeakGain_OperatorWrapper BandPassFilterConstantPeakGain(
+        public OperatorWrapper_WithUnderlyingPatch BandPassFilterConstantPeakGain(
             Outlet sound = null,
             Outlet centerFrequency = null,
             Outlet width = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.BandPassFilterConstantPeakGain,
-                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new BandPassFilterConstantPeakGain_OperatorWrapper(op)
-            {
-                SoundInput = sound,
-                CenterFrequency = centerFrequency,
-                Width = width
-            };
-
-            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
+            wrapper.Inputs[DimensionEnum.Width] = width;
 
             return wrapper;
         }
 
-        public BandPassFilterConstantTransitionGain_OperatorWrapper BandPassFilterConstantTransitionGain(
-            Outlet signal = null,
+        public OperatorWrapper_WithUnderlyingPatch BandPassFilterConstantTransitionGain(
+            Outlet sound = null,
             Outlet centerFrequency = null,
             Outlet width = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.BandPassFilterConstantTransitionGain,
-                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new BandPassFilterConstantTransitionGain_OperatorWrapper(op)
-            {
-                SoundInput = signal,
-                CenterFrequency = centerFrequency,
-                Width = width
-            };
-
-            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
+            wrapper.Inputs[DimensionEnum.Width] = width;
 
             return wrapper;
         }
@@ -675,55 +641,34 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public HighPassFilter_OperatorWrapper HighPassFilter(
+        public OperatorWrapper_WithUnderlyingPatch HighPassFilter(
             Outlet sound = null, 
             Outlet minFrequency = null,
             Outlet blobVolume = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.HighPassFilter,
-                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.BlobVolume },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new HighPassFilter_OperatorWrapper(op)
-            {
-                SoundInput = sound,
-                MinFrequency = minFrequency,
-                BlobVolume = blobVolume
-            };
-
-            wrapper.MinFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.BlobVolumeInlet.DefaultValue = DEFAULT_BLOB_VOLUME;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Frequency] = minFrequency;
+            wrapper.Inputs[DimensionEnum.BlobVolume] = blobVolume;
 
             return wrapper;
         }
 
-        public HighShelfFilter_OperatorWrapper HighShelfFilter(
+        public OperatorWrapper_WithUnderlyingPatch HighShelfFilter(
             Outlet sound = null,
             Outlet transitionFrequency = null,
             Outlet transitionSlope = null,
             Outlet dbGain = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.HighShelfFilter,
-                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Slope, DimensionEnum.Decibel },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new HighShelfFilter_OperatorWrapper(op)
-            {
-                SoundInput = sound,
-                TransitionFrequency = transitionFrequency,
-                TransitionSlope = transitionSlope,
-                DBGain = dbGain
-            };
-
-            wrapper.TransitionFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
-            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Frequency] = transitionFrequency;
+            wrapper.Inputs[DimensionEnum.Slope] = transitionSlope;
+            wrapper.Inputs[DimensionEnum.Decibel] = dbGain;
 
             return wrapper;
         }
@@ -917,55 +862,34 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public LowPassFilter_OperatorWrapper LowPassFilter(
+        public OperatorWrapper_WithUnderlyingPatch LowPassFilter(
             Outlet sound = null,
             Outlet maxFrequency = null,
             Outlet blobVolume = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.LowPassFilter,
-                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.BlobVolume },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new LowPassFilter_OperatorWrapper(op)
-            {
-                SoundInput = sound,
-                MaxFrequency = maxFrequency,
-                BlobVolume = blobVolume
-            };
-
-            wrapper.MaxFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.BlobVolumeInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Frequency] = maxFrequency;
+            wrapper.Inputs[DimensionEnum.BlobVolume] = blobVolume;
 
             return wrapper;
         }
 
-        public LowShelfFilter_OperatorWrapper LowShelfFilter(
+        public OperatorWrapper_WithUnderlyingPatch LowShelfFilter(
             Outlet sound = null,
             Outlet transitionFrequency = null,
             Outlet transitionSlope = null,
             Outlet dbGain = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.LowShelfFilter,
-                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Slope, DimensionEnum.Decibel },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new LowShelfFilter_OperatorWrapper(op)
-            {
-                SoundInput = sound,
-                TransitionFrequency = transitionFrequency,
-                TransitionSlope = transitionSlope,
-                DBGain = dbGain
-            };
-
-            wrapper.TransitionFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.TransitionSlopeInlet.DefaultValue = DEFAULT_TRANSITION_SLOPE;
-            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Frequency] = transitionFrequency;
+            wrapper.Inputs[DimensionEnum.Slope] = transitionSlope;
+            wrapper.Inputs[DimensionEnum.Decibel] = dbGain;
 
             return wrapper;
         }
@@ -1203,31 +1127,20 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public NotchFilter_OperatorWrapper NotchFilter(
+        public OperatorWrapper_WithUnderlyingPatch NotchFilter(
             Outlet sound = null, 
             Outlet centerFrequency = null, 
             Outlet width = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.NotchFilter,
-                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new NotchFilter_OperatorWrapper(op)
-            {
-                SoundInput = sound,
-                CenterFrequency = centerFrequency,
-                Width = width
-            };
-
-            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
+            wrapper.Inputs[DimensionEnum.Width] = width;
 
             return wrapper;
         }
-
 
         public OperatorWrapper_WithUnderlyingPatch NotEqual(Outlet a = null, Outlet b = null)
         {
@@ -1382,30 +1295,19 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PeakingEQFilter_OperatorWrapper PeakingEQFilter(
+        public OperatorWrapper_WithUnderlyingPatch PeakingEQFilter(
             Outlet sound = null,
             Outlet centerFrequency = null,
             Outlet width = null,
             Outlet dbGain = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.PeakingEQFilter,
-                new[] { DimensionEnum.Sound, DimensionEnum.Frequency, DimensionEnum.Width, DimensionEnum.Decibel },
-                new[] { DimensionEnum.Sound });
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            var wrapper = new PeakingEQFilter_OperatorWrapper(op)
-            {
-                Sound = sound,
-                CenterFrequency = centerFrequency,
-                Width = width,
-                DBGain = dbGain
-            };
-
-            wrapper.CenterFrequencyInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-            wrapper.DBGainInlet.DefaultValue = DEFAULT_DB_GAIN;
-            wrapper.WidthInlet.DefaultValue = DEFAULT_FILTER_WIDTH;
-
-            new Versatile_OperatorValidator(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
+            wrapper.Inputs[DimensionEnum.Width] = width;
+            wrapper.Inputs[DimensionEnum.Decibel] = dbGain;
 
             return wrapper;
         }

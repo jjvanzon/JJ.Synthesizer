@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch And(Outlet a = null, Outlet b = null)
             => _operatorFactory.And(a, b);
 
-        public AllPassFilter_OperatorWrapper AllPassFilter(
+        public OperatorWrapper_WithUnderlyingPatch AllPassFilter(
             Outlet sound = null, 
             Outlet centerFrequency = null, 
             Outlet width = null)
@@ -62,13 +62,13 @@ namespace JJ.Business.Synthesizer.Api
         public AverageOverInlets_OperatorWrapper AverageOverInlets(IList<Outlet> items)
             => _operatorFactory.AverageOverInlets(items);
 
-        public BandPassFilterConstantPeakGain_OperatorWrapper BandPassFilterConstantPeakGain(
+        public OperatorWrapper_WithUnderlyingPatch BandPassFilterConstantPeakGain(
             Outlet sound = null,
             Outlet centerFrequency = null,
             Outlet width = null)
             => _operatorFactory.BandPassFilterConstantPeakGain(sound, centerFrequency, width);
 
-        public BandPassFilterConstantTransitionGain_OperatorWrapper BandPassFilterConstantTransitionGain(
+        public OperatorWrapper_WithUnderlyingPatch BandPassFilterConstantTransitionGain(
             Outlet sound = null,
             Outlet centerFrequency = null,
             Outlet width = null)
@@ -168,13 +168,13 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch GreaterThanOrEqual(Outlet a = null, Outlet b = null)
             => _operatorFactory.GreaterThanOrEqual(a, b);
 
-        public HighPassFilter_OperatorWrapper HighPassFilter(
+        public OperatorWrapper_WithUnderlyingPatch HighPassFilter(
             Outlet sound = null, 
             Outlet minFrequency = null,
             Outlet blobVolume = null)
             => _operatorFactory.HighPassFilter(sound, minFrequency, blobVolume);
 
-        public HighShelfFilter_OperatorWrapper HighShelfFilter(
+        public OperatorWrapper_WithUnderlyingPatch HighShelfFilter(
             Outlet sound = null,
             Outlet transitionFrequency = null,
             Outlet transitionSlope = null,
@@ -201,13 +201,13 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _operatorFactory.Loop(signal, skip, loopStartMarker, loopEndMarker, releaseEndMarker, noteDuration, standardDimension, customDimension);
 
-        public LowPassFilter_OperatorWrapper LowPassFilter(
+        public OperatorWrapper_WithUnderlyingPatch LowPassFilter(
             Outlet sound = null, 
             Outlet maxFrequency = null,
             Outlet width = null)
             => _operatorFactory.LowPassFilter(sound, maxFrequency, width);
 
-        public LowShelfFilter_OperatorWrapper LowShelfFilter(
+        public OperatorWrapper_WithUnderlyingPatch LowShelfFilter(
             Outlet sound = null,
             Outlet shelfFrequency = null,
             Outlet shelfSlope = null,
@@ -360,7 +360,7 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch Not(Outlet number = null)
             => _operatorFactory.Not(number);
 
-        public NotchFilter_OperatorWrapper NotchFilter(
+        public OperatorWrapper_WithUnderlyingPatch NotchFilter(
             Outlet sound = null, 
             Outlet centerFrequency = null, 
             Outlet width = null)
@@ -402,7 +402,7 @@ namespace JJ.Business.Synthesizer.Api
         public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
             => _operatorFactory.PatchOutlet(name, input);
 
-        public PeakingEQFilter_OperatorWrapper PeakingEQFilter(
+        public OperatorWrapper_WithUnderlyingPatch PeakingEQFilter(
             Outlet sound = null,
             Outlet centerFrequency = null,
             Outlet width = null,

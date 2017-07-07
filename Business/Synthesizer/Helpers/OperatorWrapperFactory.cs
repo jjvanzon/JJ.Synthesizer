@@ -43,12 +43,9 @@ namespace JJ.Business.Synthesizer.Helpers
         private static readonly Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> _createOperatorWrapperDelegateDictionary =
                    new Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>>
         {
-            { OperatorTypeEnum.AllPassFilter, Create_AllPassFilter_OperatorWrapper },
             { OperatorTypeEnum.AverageFollower, Create_AverageFollower_OperatorWrapper },
             { OperatorTypeEnum.AverageOverDimension, Create_AverageOverDimension_OperatorWrapper },
             { OperatorTypeEnum.AverageOverInlets, Create_Average_OperatorWrapper },
-            { OperatorTypeEnum.BandPassFilterConstantPeakGain, Create_BandPassFilterConstantPeakGain_OperatorWrapper },
-            { OperatorTypeEnum.BandPassFilterConstantTransitionGain, Create_BandPassFilterConstantTransitionGain_OperatorWrapper },
             { OperatorTypeEnum.Cache, Create_Cache_OperatorWrapper },
             { OperatorTypeEnum.ChangeTrigger, Create_ChangeTrigger_OperatorWrapper },
             { OperatorTypeEnum.ClosestOverDimension, Create_ClosestOverDimension_OperatorWrapper },
@@ -58,25 +55,19 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.DimensionToOutlets, Create_DimensionToOutlets_OperatorWrapper },
             { OperatorTypeEnum.Exponent, Create_Exponent_OperatorWrapper },
             { OperatorTypeEnum.GetDimension, Create_GetDimension_OperatorWrapper },
-            { OperatorTypeEnum.HighPassFilter, Create_HighPassFilter_OperatorWrapper },
-            { OperatorTypeEnum.HighShelfFilter, Create_HighShelfFilter_OperatorWrapper },
             { OperatorTypeEnum.Hold, Create_Hold_OperatorWrapper },
             { OperatorTypeEnum.InletsToDimension, Create_InletsToDimension_OperatorWrapper },
             { OperatorTypeEnum.Interpolate, Create_Interpolate_OperatorWrapper },
             { OperatorTypeEnum.Loop, Create_Loop_OperatorWrapper },
-            { OperatorTypeEnum.LowPassFilter, Create_LowPassFilter_OperatorWrapper },
-            { OperatorTypeEnum.LowShelfFilter, Create_LowShelfFilter_OperatorWrapper },
             { OperatorTypeEnum.MaxFollower, Create_MaxFollower_OperatorWrapper },
             { OperatorTypeEnum.MaxOverDimension, Create_MaxOverDimension_OperatorWrapper },
             { OperatorTypeEnum.MaxOverInlets, Create_Max_OperatorWrapper },
             { OperatorTypeEnum.MinFollower, Create_MinFollower_OperatorWrapper },
             { OperatorTypeEnum.MinOverDimension, Create_MinOverDimension_OperatorWrapper },
             { OperatorTypeEnum.MinOverInlets, Create_Min_OperatorWrapper },
-            { OperatorTypeEnum.NotchFilter, Create_NotchFilter_OperatorWrapper },
             { OperatorTypeEnum.Number , Create_Number_OperatorWrapper },
             { OperatorTypeEnum.PatchInlet , Create_PatchInlet_OperatorWrapper },
             { OperatorTypeEnum.PatchOutlet, Create_PatchOutlet_OperatorWrapper },
-            { OperatorTypeEnum.PeakingEQFilter, Create_PeakingEQFilter_OperatorWrapper },
             { OperatorTypeEnum.PulseTrigger, Create_PulseTrigger_OperatorWrapper },
             { OperatorTypeEnum.Random, Create_Random_OperatorWrapper },
             { OperatorTypeEnum.RangeOverDimension, Create_RangeOverDimension_OperatorWrapper },
@@ -98,12 +89,9 @@ namespace JJ.Business.Synthesizer.Helpers
             { OperatorTypeEnum.ToggleTrigger , Create_ToggleTrigger_OperatorWrapper },
         };
 
-        private static AllPassFilter_OperatorWrapper Create_AllPassFilter_OperatorWrapper(Operator op) { return new AllPassFilter_OperatorWrapper(op); }
         private static AverageFollower_OperatorWrapper Create_AverageFollower_OperatorWrapper(Operator op) { return new AverageFollower_OperatorWrapper(op); }
         private static AverageOverDimension_OperatorWrapper Create_AverageOverDimension_OperatorWrapper(Operator op) { return new AverageOverDimension_OperatorWrapper(op); }
         private static AverageOverInlets_OperatorWrapper Create_Average_OperatorWrapper(Operator op) { return new AverageOverInlets_OperatorWrapper(op); }
-        private static BandPassFilterConstantPeakGain_OperatorWrapper Create_BandPassFilterConstantPeakGain_OperatorWrapper(Operator op) { return new BandPassFilterConstantPeakGain_OperatorWrapper(op); }
-        private static BandPassFilterConstantTransitionGain_OperatorWrapper Create_BandPassFilterConstantTransitionGain_OperatorWrapper(Operator op) { return new BandPassFilterConstantTransitionGain_OperatorWrapper(op); }
         private static Cache_OperatorWrapper Create_Cache_OperatorWrapper(Operator op) { return new Cache_OperatorWrapper(op); }
         private static ChangeTrigger_OperatorWrapper Create_ChangeTrigger_OperatorWrapper(Operator op) { return new ChangeTrigger_OperatorWrapper(op); }
         private static ClosestOverDimension_OperatorWrapper Create_ClosestOverDimension_OperatorWrapper(Operator op) { return new ClosestOverDimension_OperatorWrapper(op); }
@@ -113,25 +101,19 @@ namespace JJ.Business.Synthesizer.Helpers
         private static DimensionToOutlets_OperatorWrapper Create_DimensionToOutlets_OperatorWrapper(Operator op) { return new DimensionToOutlets_OperatorWrapper(op); }
         private static Exponent_OperatorWrapper Create_Exponent_OperatorWrapper(Operator op) { return new Exponent_OperatorWrapper(op); }
         private static GetDimension_OperatorWrapper Create_GetDimension_OperatorWrapper(Operator op) { return new GetDimension_OperatorWrapper(op); }
-        private static HighPassFilter_OperatorWrapper Create_HighPassFilter_OperatorWrapper(Operator op) { return new HighPassFilter_OperatorWrapper(op); }
-        private static HighShelfFilter_OperatorWrapper Create_HighShelfFilter_OperatorWrapper(Operator op) { return new HighShelfFilter_OperatorWrapper(op); }
         private static Hold_OperatorWrapper Create_Hold_OperatorWrapper(Operator op) { return new Hold_OperatorWrapper(op); }
         private static InletsToDimension_OperatorWrapper Create_InletsToDimension_OperatorWrapper(Operator op) { return new InletsToDimension_OperatorWrapper(op); }
         private static Interpolate_OperatorWrapper Create_Interpolate_OperatorWrapper(Operator op) { return new Interpolate_OperatorWrapper(op); }
         private static Loop_OperatorWrapper Create_Loop_OperatorWrapper(Operator op) { return new Loop_OperatorWrapper(op); }
-        private static LowPassFilter_OperatorWrapper Create_LowPassFilter_OperatorWrapper(Operator op) { return new LowPassFilter_OperatorWrapper(op); }
-        private static LowShelfFilter_OperatorWrapper Create_LowShelfFilter_OperatorWrapper(Operator op) { return new LowShelfFilter_OperatorWrapper(op); }
         private static MaxFollower_OperatorWrapper Create_MaxFollower_OperatorWrapper(Operator op) { return new MaxFollower_OperatorWrapper(op); }
         private static MaxOverDimension_OperatorWrapper Create_MaxOverDimension_OperatorWrapper(Operator op) { return new MaxOverDimension_OperatorWrapper(op); }
         private static MaxOverInlets_OperatorWrapper Create_Max_OperatorWrapper(Operator op) { return new MaxOverInlets_OperatorWrapper(op); }
         private static MinFollower_OperatorWrapper Create_MinFollower_OperatorWrapper(Operator op) { return new MinFollower_OperatorWrapper(op); }
         private static MinOverDimension_OperatorWrapper Create_MinOverDimension_OperatorWrapper(Operator op) { return new MinOverDimension_OperatorWrapper(op); }
         private static MinOverInlets_OperatorWrapper Create_Min_OperatorWrapper(Operator op) { return new MinOverInlets_OperatorWrapper(op); }
-        private static NotchFilter_OperatorWrapper Create_NotchFilter_OperatorWrapper(Operator op) { return new NotchFilter_OperatorWrapper(op); }
         private static Number_OperatorWrapper Create_Number_OperatorWrapper(Operator op) { return new Number_OperatorWrapper(op); }
         private static PatchInlet_OperatorWrapper Create_PatchInlet_OperatorWrapper(Operator op) { return new PatchInlet_OperatorWrapper(op); }
         private static PatchOutlet_OperatorWrapper Create_PatchOutlet_OperatorWrapper(Operator op) { return new PatchOutlet_OperatorWrapper(op); }
-        private static PeakingEQFilter_OperatorWrapper Create_PeakingEQFilter_OperatorWrapper(Operator op) { return new PeakingEQFilter_OperatorWrapper(op); }
         private static PulseTrigger_OperatorWrapper Create_PulseTrigger_OperatorWrapper(Operator op) { return new PulseTrigger_OperatorWrapper(op); }
         private static Random_OperatorWrapper Create_Random_OperatorWrapper(Operator op) { return new Random_OperatorWrapper(op); }
         private static RangeOverDimension_OperatorWrapper Create_RangeOverDimension_OperatorWrapper(Operator op) { return new RangeOverDimension_OperatorWrapper(op); }
