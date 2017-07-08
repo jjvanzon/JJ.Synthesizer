@@ -211,6 +211,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.Sort(
                 x => x.Position,
+                x => x.IsRepeating,
+                x => x.RepetitionPosition,
                 x => (DimensionEnum)x.Dimension.ID,
                 x => x.Name,
                 x => x.IsObsolete).ToList();
@@ -260,6 +262,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.Sort(
                 x => x.Position,
+                x => x.IsRepeating,
+                x => x.RepetitionPosition,
                 x => (DimensionEnum)x.Dimension.ID,
                 x => x.Name,
                 x => x.IsObsolete).ToList();

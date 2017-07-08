@@ -19,11 +19,11 @@ namespace JJ.Business.Synthesizer.Extensions
 
             return list.Sort(
                 x => x.Position,
+                x => x.IsRepeating,
+                x => x.RepetitionPosition,
                 x => x.GetDimensionEnum(),
                 x => x.Name,
-                x => x.IsObsolete,
-                x => x.IsRepeating,
-                x => x.RepetitionPosition);
+                x => x.IsObsolete);
         }
 
         internal static IEnumerable<VariableInput_OperatorCalculator> Sort([NotNull] this IEnumerable<VariableInput_OperatorCalculator> list)
@@ -32,8 +32,11 @@ namespace JJ.Business.Synthesizer.Extensions
 
             return list.Sort(
                 x => x.Position,
+                null,
+                null,
                 x => x.DimensionEnum,
-                x => x.CanonicalName);
+                x => x.CanonicalName,
+                null);
         }
 
         internal static IEnumerable<ExtendedVariableInfo> Sort([NotNull] this IEnumerable<ExtendedVariableInfo> list)
@@ -42,40 +45,52 @@ namespace JJ.Business.Synthesizer.Extensions
 
             return list.Sort(
                 x => x.Position,
+                null,
+                null,
                 x => x.DimensionEnum,
-                x => x.VariableNameCamelCase);
+                x => x.VariableNameCamelCase,
+                null);
         }
 
+        /// <param name="getIsObsoleteDelegate">nullable</param>
+        /// <param name="getIsRepeating">nullable</param>
+        /// <param name="getRepetitionPosition">nullable</param>
         public static IEnumerable<T> Sort<T>(
             this IEnumerable<T> list,
             Func<T, int> getPositionDelegate,
+            Func<T, bool> getIsRepeating,
+            Func<T, int?> getRepetitionPosition,
             Func<T, DimensionEnum> getDimensionEnumDelegate,
             Func<T, string> getNameDelegate,
-            Func<T, bool> getIsObsoleteDelegate = null,
-            Func<T, bool> getIsRepeating = null,
-            Func<T, int?> getRepetitionPosition = null)
+            Func<T, bool> getIsObsoleteDelegate)
         {
             if (list == null) throw new NullException(() => list);
             if (getDimensionEnumDelegate == null) throw new NullException(() => getDimensionEnumDelegate);
             if (getNameDelegate == null) throw new NullException(() => getNameDelegate);
 
+            // Position
             IOrderedEnumerable<T> enumerable = list.OrderBy(getPositionDelegate);
 
+            // IsRepeating
             if (getIsRepeating != null)
             {
                 enumerable = enumerable.ThenBy(getIsRepeating);
             }
 
+            // RepetitionPosition
             if (getRepetitionPosition != null)
             {
-                enumerable = enumerable.ThenBy(getRepetitionPosition);
+                enumerable = enumerable.ThenBy(x => getRepetitionPosition(x) == null)
+                                       .ThenBy(getRepetitionPosition);
             }
 
+            // Dimension, Name
             enumerable = enumerable.ThenBy(x => getDimensionEnumDelegate(x) == DimensionEnum.Undefined)
                                    .ThenBy(getDimensionEnumDelegate)
                                    .ThenBy(x => string.IsNullOrWhiteSpace(getNameDelegate(x)))
                                    .ThenBy(x => getNameDelegate);
 
+            // Obsolete
             if (getIsObsoleteDelegate != null)
             {
                 enumerable = enumerable.ThenBy(getIsObsoleteDelegate);
