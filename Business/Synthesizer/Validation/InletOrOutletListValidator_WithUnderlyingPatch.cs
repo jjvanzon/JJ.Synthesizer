@@ -36,6 +36,12 @@ namespace JJ.Business.Synthesizer.Validation
                 return;
             }
 
+            int firstRepetitionPosition = actualRepetitionPositions[0];
+            if (firstRepetitionPosition != 0)
+            {
+                ValidationMessages.AddNotEqualMessage(nameof(Inlet.RepetitionPosition), ResourceFormatter.FirstRepetitionPosition, 0);
+            }
+
             IList<int> expectedRepetitionPositions = Enumerable.Range(
                 actualRepetitionPositions[0],
                 actualRepetitionPositions.Count).ToArray();

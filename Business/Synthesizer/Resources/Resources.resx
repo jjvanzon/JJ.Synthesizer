@@ -1097,4 +1097,7 @@
   <data name="DivideWithOrigin" xml:space="preserve">
     <value>÷ (with origin)</value>
   </data>
+  <data name="FirstRepetitionPosition" xml:space="preserve">
+    <value>First Repetition Position</value>
+  </data>
 </root>

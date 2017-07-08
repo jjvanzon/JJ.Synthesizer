@@ -186,6 +186,7 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithSignalOutlet.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
+    <Compile Include="Extensions\IInletOrOutletExtensions.cs" />
     <Compile Include="Extensions\SortExtensions.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
@@ -365,7 +366,6 @@
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount_Basic.cs" />
     <Compile Include="Validation\InletOrOutletValidator_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithUnderlyingPatch.cs" />
-    <Compile Include="Validation\Operators\2017-07-08 Backup of OperatorValidator_Base_ClosestOverInlets.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />

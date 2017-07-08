@@ -110,6 +110,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Factor => Resources.Factor;
         public static string Factors => Resources.Factors;
         public static string FilePath => Resources.FilePath;
+        public static string FirstRepetitionPosition => Resources.FirstRepetitionPosition;
         public static string Frequencies => Resources.Frequencies;
         public static string Frequency => Resources.Frequency;
         public static string From => Resources.From;

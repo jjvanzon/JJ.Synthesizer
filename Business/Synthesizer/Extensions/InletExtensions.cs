@@ -12,18 +12,18 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            if (inlet.InputOutlet?.Operator?.GetOperatorTypeEnum() != OperatorTypeEnum.Number)
+            // ReSharper disable once InvertIf
+            if (inlet.InputOutlet?.Operator?.GetOperatorTypeEnum() == OperatorTypeEnum.Number)
             {
-                return null;
+                // ReSharper disable once InvertIf
+                if (DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
+                {
+                    double? number = DataPropertyParser.TryParseDouble(inlet.InputOutlet.Operator, nameof(Number_OperatorWrapper.Number));
+                    return number;
+                }
             }
 
-            if (!DataPropertyParser.DataIsWellFormed(inlet.InputOutlet.Operator.Data))
-            {
-                return null;
-            }
-
-            double? number = DataPropertyParser.TryParseDouble(inlet.InputOutlet.Operator, nameof(Number_OperatorWrapper.Number));
-            return number;
+            return inlet.DefaultValue;
         }
     }
 }

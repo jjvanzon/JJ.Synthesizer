@@ -319,16 +319,14 @@ namespace JJ.Business.Synthesizer
             for (int i = sortedInlets.Count; i < inletCount; i++)
             {
                 Inlet inlet = CreateInlet(op);
+
                 inlet.Position = i;
 
                 // ReSharper disable once InvertIf
                 if (templateRepeatingInlet != null)
                 {
                     inlet.IsRepeating = true;
-                    inlet.RepetitionPosition = i;
-
                     inlet.Position = templateRepeatingInlet.Position;
-
                     inlet.DefaultValue = templateRepeatingInlet.DefaultValue;
                     inlet.LinkTo(templateRepeatingInlet.Dimension);
                     inlet.IsObsolete = templateRepeatingInlet.IsObsolete;
@@ -351,6 +349,8 @@ namespace JJ.Business.Synthesizer
                 Inlet inlet = sortedInlets[i];
                 DeleteInlet(inlet);
             }
+
+            op.Inlets.ReassignRepetitionPositions();
 
             return new VoidResult { Successful = true };
         }
@@ -391,10 +391,7 @@ namespace JJ.Business.Synthesizer
                 if (templateRepeatingOutlet != null)
                 {
                     outlet.IsRepeating = true;
-                    outlet.RepetitionPosition = i;
-
                     outlet.Position = templateRepeatingOutlet.Position;
-
                     outlet.LinkTo(templateRepeatingOutlet.Dimension);
                     outlet.IsObsolete = templateRepeatingOutlet.IsObsolete;
                     outlet.Name = templateRepeatingOutlet.Name;
@@ -415,6 +412,8 @@ namespace JJ.Business.Synthesizer
                 Outlet outlet = sortedOutlets[i];
                 DeleteOutlet(outlet);
             }
+
+            op.Outlets.ReassignRepetitionPositions();
 
             return new VoidResult { Successful = true };
         }

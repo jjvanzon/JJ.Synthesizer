@@ -2120,7 +2120,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisibleOperatorProperties_ForNumber = null;
 
                 // Refresh
-                PatchDetails_RefreshOperator(userInput.ID);
+                DocumentViewModelRefresh();
             }
         }
 
@@ -2302,7 +2302,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Refresh
             if (viewModel.Successful)
             {
-                PatchDetails_RefreshOperator(userInput.ID);
+                DocumentViewModelRefresh();
             }
         }
 

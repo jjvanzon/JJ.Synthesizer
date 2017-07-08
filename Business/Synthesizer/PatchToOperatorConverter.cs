@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            ReassignRepetitionPositions(destOperator.Inlets);
+            destOperator.Inlets.ReassignRepetitionPositions();
         }
 
         private static bool InletIsInUse(Inlet inlet)
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            ReassignRepetitionPositions(destOperator.Outlets);
+            destOperator.Outlets.ReassignRepetitionPositions();
         }
 
         private bool OutletIsInUse(Outlet outlet)
@@ -237,25 +237,6 @@ namespace JJ.Business.Synthesizer
             destOutlet.IsObsolete = false;
 
             return destOutlet;
-        }
-
-        private void ReassignRepetitionPositions(IEnumerable<IInletOrOutlet> inletsOrOutlets)
-        {
-            IList<IInletOrOutlet> sortedInletsOrOutlets = inletsOrOutlets.Sort().ToArray();
-
-            int i = 0;
-
-            foreach (IInletOrOutlet inletOrOutlet in sortedInletsOrOutlets)
-            { 
-                if (inletOrOutlet.IsRepeating)
-                {
-                    inletOrOutlet.RepetitionPosition = i++;
-                }
-                else
-                {
-                    inletOrOutlet.RepetitionPosition = null;
-                }
-            }
         }
     }
 }

@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Mathematics;
@@ -41,11 +42,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.GetDimension,
                 OperatorTypeEnum.Hold,
                 OperatorTypeEnum.DimensionToOutlets,
-                OperatorTypeEnum.InletsToDimension,
-                OperatorTypeEnum.MaxOverInlets,
-                OperatorTypeEnum.MinOverInlets,
-                OperatorTypeEnum.AverageOverInlets,
-                OperatorTypeEnum.SortOverInlets,
+                OperatorTypeEnum.InletsToDimension
             };
 
         [Obsolete("Will be replaced with Outlet.NameOrDimensionHidden, " +
@@ -249,14 +246,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (!nameOrDimensionHidden)
             {
+                // Name or Dimension
                 OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
                     inlet.Operator,
                     curveRepository,
                     sampleRepository);
                 string inletDisplayName = wrapper.GetInletDisplayName(inlet);
                 sb.Append(inletDisplayName);
+
+                // RepetitionPosition
+                if (inlet.RepetitionPosition.HasValue)
+                {
+                    sb.Append($" {inlet.RepetitionPosition + 1}");
+                }
             }
 
+            // DefaultValue
             if (inlet.InputOutlet == null)
             {
                 if (inlet.DefaultValue.HasValue)
@@ -269,11 +274,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
             }
 
+            // IsObsolete
             if (inlet.IsObsolete)
             {
                 AppendObsoleteFlag(sb);
             }
 
+            // ID
             if (_idsVisible)
             {
                 sb.Append($" ({inlet.ID})");
@@ -340,10 +347,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return true;
         }
 
-        public static string GetOutletCaption(
-            Outlet outlet,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
+        public static string GetOutletCaption(Outlet outlet, ISampleRepository sampleRepository, ICurveRepository curveRepository)
         {
             if (outlet == null) throw new NullException(() => outlet);
 
@@ -415,20 +419,25 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (!nameOrDimensionHidden)
             {
-                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
-                    outlet.Operator,
-                    curveRepository,
-                    sampleRepository);
-
+                // Dimension or Name
+                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository, sampleRepository);
                 string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
                 sb.Append(inletDisplayName);
+
+                // RepetitionPosition
+                if (outlet.RepetitionPosition.HasValue)
+                {
+                    sb.Append($" {outlet.RepetitionPosition + 1}");
+                }
             }
 
+            // IsObsolete
             if (outlet.IsObsolete)
             {
                 AppendObsoleteFlag(sb);
             }
 
+            // ID
             if (_idsVisible)
             {
                 sb.Append($" ({outlet.ID})");

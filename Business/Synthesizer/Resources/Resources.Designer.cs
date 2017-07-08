@@ -952,6 +952,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First Repetition Position.
+        /// </summary>
+        internal static string FirstRepetitionPosition {
+            get {
+                return ResourceManager.GetString("FirstRepetitionPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Frequencies.
         /// </summary>
         internal static string Frequencies {
