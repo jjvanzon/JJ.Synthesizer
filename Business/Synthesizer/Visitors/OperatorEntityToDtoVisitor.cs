@@ -238,10 +238,13 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitDimensionToOutletsOutlet(outlet);
 
+            if (!outlet.RepetitionPosition.HasValue) throw new NullException(() => outlet.RepetitionPosition);
+            int position = outlet.RepetitionPosition.Value;
+
             var dto = new DimensionToOutlets_Outlet_OperatorDto
             {
                 OperandOperatorDto = _stack.Pop(),
-                OutletPosition = outlet.Position
+                OutletPosition = position
             };
 
             SetDimensionProperties(outlet.Operator, dto);

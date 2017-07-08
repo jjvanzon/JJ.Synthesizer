@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Validation.Resources;
 using System.Text;
+using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
@@ -15,12 +16,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal abstract class OperatorValidator_Base_WithUnderlyingPatch : VersatileValidator
     {
-        public OperatorValidator_Base_WithUnderlyingPatch(Operator op)
+        public OperatorValidator_Base_WithUnderlyingPatch(Operator op, IList<string> expectedDataKeys = null)
         {
             if (op == null) throw new NullException(() => op);
 
-            For(() => op.Data, ResourceFormatter.Data).IsNullOrEmpty();
+            expectedDataKeys = expectedDataKeys ?? new string[0];
 
+            ExecuteValidator(new DataPropertyValidator(op.Data, expectedDataKeys));
             ExecuteValidator(new DimensionInfoValidator(op.HasDimension, op.StandardDimension, op.CustomDimensionName));
             ExecuteValidator(new InletOrOutletListValidator_WithUnderlyingPatch(op.Inlets));
             ExecuteValidator(new InletOrOutletListValidator_WithUnderlyingPatch(op.Outlets));

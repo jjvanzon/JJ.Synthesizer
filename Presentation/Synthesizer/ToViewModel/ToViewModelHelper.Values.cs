@@ -103,11 +103,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static bool MustStyleDimension(Operator entity)
         {
-            if (entity.OperatorType == null)
-            {
-                return false;
-            }
-
             switch (entity.GetOperatorTypeEnum())
             {
                 case OperatorTypeEnum.GetDimension:
@@ -115,7 +110,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     return false;
             }
 
-            return entity.OperatorType.HasDimension;
+            bool hasDimension = entity.HasDimension || (entity.OperatorType?.HasDimension ?? false); // Excuse the smell of polymorphism: OperatorType will be deprecated at some point.
+
+            return hasDimension;
         }
 
         // Document
@@ -322,167 +319,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return $"{entity.X:0.####}, {entity.Y:0.####}";
         }
 
-        // Tone
-
-        public static string GetToneGridEditNumberTitle(Scale entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return ResourceFormatter.GetScaleTypeDisplayNameSingular(entity);
-        }
-
-        // Outlet
-
-        public static bool GetOutletVisible(Outlet outlet)
-        {
-            if (outlet == null) throw new NullException(() => outlet);
-
-            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
-
-            if (operatorTypeEnum == OperatorTypeEnum.PatchOutlet)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public static string GetOutletCaption(Outlet outlet, ISampleRepository sampleRepository, ICurveRepository curveRepository)
-        {
-            if (outlet == null) throw new NullException(() => outlet);
-
-            switch (outlet.Operator.GetOperatorTypeEnum())
-            {
-                case OperatorTypeEnum.RangeOverOutlets:
-                    return GetOutletCaption_ForRangeOverOutlets(outlet);
-
-                default:
-                    return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository);
-            }
-        }
-
-        private static string GetOutletCaption_ForRangeOverOutlets(Outlet outlet)
-        {
-            var sb = new StringBuilder();
-
-            double? from = outlet.Operator.Inlets
-                                 .Where(x => x.GetDimensionEnum() == DimensionEnum.From)
-                                 .Select(x => x.TryGetConstantNumber())
-                                 .FirstOrDefault();
-            if (@from.HasValue)
-            {
-                double? step = outlet.Operator.Inlets
-                                     .Where(x => x.GetDimensionEnum() == DimensionEnum.Step)
-                                     .Select(x => x.TryGetConstantNumber())
-                                     .FirstOrDefault();
-                if (step.HasValue)
-                {
-                    int listIndex = outlet.Operator.Outlets.IndexOf(outlet);
-
-                    double value = @from.Value + step.Value * listIndex;
-
-                    sb.Append(value.ToString("0.####"));
-                }
-            }
-
-            if (outlet.IsObsolete)
-            {
-                AppendObsoleteFlag(sb);
-            }
-
-            if (_idsVisible)
-            {
-                sb.Append($" ({outlet.ID})");
-            }
-
-            return sb.ToString();
-        }
-
-        private static string GetOutletCaption_ForOtherOperatorType(
-            Outlet outlet,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
-        {
-            var sb = new StringBuilder();
-
-            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
-
-            bool nameOrDimensionHidden;
-            if (outlet.Operator.UnderlyingPatch != null)
-            {
-                nameOrDimensionHidden = outlet.NameOrDimensionHidden;
-            }
-            else
-            {
-                nameOrDimensionHidden = !OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum);
-            }
-
-            if (!nameOrDimensionHidden)
-            {
-                // Dimension or Name
-                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository, sampleRepository);
-                string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
-                sb.Append(inletDisplayName);
-
-                // RepetitionPosition
-                if (outlet.RepetitionPosition.HasValue)
-                {
-                    sb.Append($" {outlet.RepetitionPosition + 1}");
-                }
-            }
-
-            // IsObsolete
-            if (outlet.IsObsolete)
-            {
-                AppendObsoleteFlag(sb);
-            }
-
-            // ID
-            if (_idsVisible)
-            {
-                sb.Append($" ({outlet.ID})");
-            }
-
-            return sb.ToString();
-        }
-
-        public static float? TryGetAverageConnectionDistance(Outlet entity, EntityPositionManager entityPositionManager)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            int connectedInletCount = entity.ConnectedInlets.Count;
-
-            if (connectedInletCount == 0)
-            {
-                return null;
-            }
-
-            Operator operator1 = entity.Operator;
-
-            float aggregate = 0f;
-
-            foreach (Inlet connectedInlet in entity.ConnectedInlets)
-            {
-                Operator operator2 = connectedInlet.Operator;
-
-                EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
-                EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
-
-                float distance = Geometry.AbsoluteDistance(
-                    entityPosition1.X,
-                    entityPosition1.Y,
-                    entityPosition2.X,
-                    entityPosition2.Y);
-
-                aggregate += distance;
-            }
-
-            aggregate /= connectedInletCount;
-
-            return aggregate;
-        }
-
-        // Patch
+        // Operator
 
         /// <summary>
         /// A Number Operator can be considered 'owned' by another operator if
@@ -822,6 +659,166 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use OperatorType DisplayName
             string caption = operatorTypeDisplayName;
             return caption;
+        }
+
+        // Outlet
+
+        public static bool GetOutletVisible(Outlet outlet)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
+
+            if (operatorTypeEnum == OperatorTypeEnum.PatchOutlet)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static string GetOutletCaption(Outlet outlet, ISampleRepository sampleRepository, ICurveRepository curveRepository)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            switch (outlet.Operator.GetOperatorTypeEnum())
+            {
+                case OperatorTypeEnum.RangeOverOutlets:
+                    return GetOutletCaption_ForRangeOverOutlets(outlet);
+
+                default:
+                    return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository);
+            }
+        }
+
+        private static string GetOutletCaption_ForRangeOverOutlets(Outlet outlet)
+        {
+            var sb = new StringBuilder();
+
+            double? from = outlet.Operator.Inlets
+                                 .Where(x => x.GetDimensionEnum() == DimensionEnum.From)
+                                 .Select(x => x.TryGetConstantNumber())
+                                 .FirstOrDefault();
+            if (@from.HasValue)
+            {
+                double? step = outlet.Operator.Inlets
+                                     .Where(x => x.GetDimensionEnum() == DimensionEnum.Step)
+                                     .Select(x => x.TryGetConstantNumber())
+                                     .FirstOrDefault();
+                if (step.HasValue)
+                {
+                    int listIndex = outlet.Operator.Outlets.IndexOf(outlet);
+
+                    double value = @from.Value + step.Value * listIndex;
+
+                    sb.Append(value.ToString("0.####"));
+                }
+            }
+
+            if (outlet.IsObsolete)
+            {
+                AppendObsoleteFlag(sb);
+            }
+
+            if (_idsVisible)
+            {
+                sb.Append($" ({outlet.ID})");
+            }
+
+            return sb.ToString();
+        }
+
+        private static string GetOutletCaption_ForOtherOperatorType(
+            Outlet outlet,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository)
+        {
+            var sb = new StringBuilder();
+
+            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
+
+            bool nameOrDimensionHidden;
+            if (outlet.Operator.UnderlyingPatch != null)
+            {
+                nameOrDimensionHidden = outlet.NameOrDimensionHidden;
+            }
+            else
+            {
+                nameOrDimensionHidden = !OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum);
+            }
+
+            if (!nameOrDimensionHidden)
+            {
+                // Dimension or Name
+                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository, sampleRepository);
+                string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
+                sb.Append(inletDisplayName);
+
+                // RepetitionPosition
+                if (outlet.RepetitionPosition.HasValue)
+                {
+                    sb.Append($" {outlet.RepetitionPosition + 1}");
+                }
+            }
+
+            // IsObsolete
+            if (outlet.IsObsolete)
+            {
+                AppendObsoleteFlag(sb);
+            }
+
+            // ID
+            if (_idsVisible)
+            {
+                sb.Append($" ({outlet.ID})");
+            }
+
+            return sb.ToString();
+        }
+
+        public static float? TryGetAverageConnectionDistance(Outlet entity, EntityPositionManager entityPositionManager)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            int connectedInletCount = entity.ConnectedInlets.Count;
+
+            if (connectedInletCount == 0)
+            {
+                return null;
+            }
+
+            Operator operator1 = entity.Operator;
+
+            float aggregate = 0f;
+
+            foreach (Inlet connectedInlet in entity.ConnectedInlets)
+            {
+                Operator operator2 = connectedInlet.Operator;
+
+                EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
+                EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
+
+                float distance = Geometry.AbsoluteDistance(
+                    entityPosition1.X,
+                    entityPosition1.Y,
+                    entityPosition2.X,
+                    entityPosition2.Y);
+
+                aggregate += distance;
+            }
+
+            aggregate /= connectedInletCount;
+
+            return aggregate;
+        }
+
+        // Tone
+
+        public static string GetToneGridEditNumberTitle(Scale entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return ResourceFormatter.GetScaleTypeDisplayNameSingular(entity);
         }
 
         // Helpers

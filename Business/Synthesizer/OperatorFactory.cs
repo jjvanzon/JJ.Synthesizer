@@ -432,77 +432,75 @@ namespace JJ.Business.Synthesizer
             return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
         }
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
-            => DimensionToOutletsPrivate(operand, standardDimension, customDimension, outletCount);
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet signal, DimensionEnum standardDimension, string customDimension, int outletCount)
+            => DimensionToOutletsPrivate(signal, standardDimension, customDimension, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension)
-            => DimensionToOutletsPrivate(operand, standardDimension, customDimension, null);
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet signal, DimensionEnum standardDimension, string customDimension)
+            => DimensionToOutletsPrivate(signal, standardDimension, customDimension, null);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, int outletCount)
-            => DimensionToOutletsPrivate(operand, standardDimension, null, outletCount);
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet signal, DimensionEnum standardDimension, int outletCount)
+            => DimensionToOutletsPrivate(signal, standardDimension, null, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension)
-            => DimensionToOutletsPrivate(operand, standardDimension, null, null);
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet signal, DimensionEnum standardDimension)
+            => DimensionToOutletsPrivate(signal, standardDimension, null, null);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension, int outletCount)
-            => DimensionToOutletsPrivate(operand, null, customDimension, outletCount);
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet signal, string customDimension, int outletCount)
+            => DimensionToOutletsPrivate(signal, null, customDimension, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension)
-            => DimensionToOutletsPrivate(operand, null, customDimension, null);
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet signal, string customDimension)
+            => DimensionToOutletsPrivate(signal, null, customDimension, null);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, int outletCount)
-            => DimensionToOutletsPrivate(operand, null, null, outletCount);
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet signal, int outletCount)
+            => DimensionToOutletsPrivate(signal, null, null, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand)
-            => DimensionToOutletsPrivate(operand, null, null, null);
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet signal)
+            => DimensionToOutletsPrivate(signal, null, null, null);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension, int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(DimensionEnum standardDimension, string customDimension, int outletCount)
             => DimensionToOutletsPrivate(null, standardDimension, customDimension, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(DimensionEnum standardDimension, string customDimension)
             => DimensionToOutletsPrivate(null, standardDimension, customDimension, null);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(DimensionEnum standardDimension, int outletCount)
             => DimensionToOutletsPrivate(null, standardDimension, null, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(DimensionEnum standardDimension)
             => DimensionToOutletsPrivate(null, standardDimension, null, null);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount, string customDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(int outletCount, string customDimension)
             => DimensionToOutletsPrivate(null, null, customDimension, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(string customDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(string customDimension)
             => DimensionToOutletsPrivate(null, null, customDimension, null);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(int outletCount)
             => DimensionToOutletsPrivate(null, null, null, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets()
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets()
             => DimensionToOutletsPrivate(null, null, null, null);
 
-        private DimensionToOutlets_OperatorWrapper DimensionToOutletsPrivate(
-            Outlet operand,
+        private OperatorWrapper_WithUnderlyingPatch DimensionToOutletsPrivate(
+            Outlet signal,
             DimensionEnum? dimension,
             string customDimension,
             int? outletCount)
         {
-            dimension = dimension ?? DimensionEnum.Undefined;
-            outletCount = outletCount ?? 1;
+            Operator op = New(MethodBase.GetCurrentMethod());
 
-            if (outletCount < 1) throw new LessThanException(() => outletCount, 1);
-
-            Operator op = CreateBase(
-                OperatorTypeEnum.DimensionToOutlets,
-                new[] { DimensionEnum.Signal },
-                Enumerable.Repeat(DimensionEnum.Item, outletCount.Value).ToArray());
-
-            op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
+            // Dimension
+            if (dimension.HasValue)
+            {
+                op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
+            }
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new DimensionToOutlets_OperatorWrapper(op)
-            {
-                Input = operand
-            };
+            // OutletCount
+            VoidResult setOutletCountResult = _patchManager.SetOperatorOutletCount(op, outletCount ?? 1);
+            setOutletCountResult.Assert();
+
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Signal] = signal;
 
             new Versatile_OperatorValidator(op).Assert();
 
@@ -664,65 +662,71 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public InletsToDimension_OperatorWrapper InletsToDimension(ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension, params Outlet[] operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension, params Outlet[] items)
         {
-            return InletsToDimensionPrivate(operands, interpolation, standardDimension);
+            return InletsToDimensionPrivate(items, interpolation, standardDimension);
         }
 
-        public InletsToDimension_OperatorWrapper InletsToDimension(ResampleInterpolationTypeEnum interpolation, params Outlet[] operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(ResampleInterpolationTypeEnum interpolation, params Outlet[] items)
         {
-            return InletsToDimensionPrivate(operands, interpolation, null);
+            return InletsToDimensionPrivate(items, interpolation, null);
         }
 
-        public InletsToDimension_OperatorWrapper InletsToDimension(DimensionEnum standardDimension, params Outlet[] operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(DimensionEnum standardDimension, params Outlet[] items)
         {
-            return InletsToDimensionPrivate(operands, null, standardDimension);
+            return InletsToDimensionPrivate(items, null, standardDimension);
         }
 
-        public InletsToDimension_OperatorWrapper InletsToDimension(params Outlet[] operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(params Outlet[] items)
         {
-            return InletsToDimensionPrivate(operands, null, null);
+            return InletsToDimensionPrivate(items, null, null);
         }
 
-        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension)
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> items, ResampleInterpolationTypeEnum interpolation, DimensionEnum standardDimension)
         {
-            return InletsToDimensionPrivate(operands, interpolation, standardDimension);
+            return InletsToDimensionPrivate(items, interpolation, standardDimension);
         }
 
-        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands, ResampleInterpolationTypeEnum interpolation)
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> items, ResampleInterpolationTypeEnum interpolation)
         {
-            return InletsToDimensionPrivate(operands, interpolation, null);
+            return InletsToDimensionPrivate(items, interpolation, null);
         }
 
-        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands, DimensionEnum standardDimension)
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> items, DimensionEnum standardDimension)
         {
-            return InletsToDimensionPrivate(operands, null, standardDimension);
+            return InletsToDimensionPrivate(items, null, standardDimension);
         }
 
-        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands)
+        public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> items)
         {
-            return InletsToDimensionPrivate(operands, null, null);
+            return InletsToDimensionPrivate(items, null, null);
         }
 
         private InletsToDimension_OperatorWrapper InletsToDimensionPrivate(
-            IList<Outlet> operands, 
+            IList<Outlet> items, 
             ResampleInterpolationTypeEnum? interpolation, 
             DimensionEnum? dimension,
             string customDimension = null)
         {
-            if (operands == null) throw new NullException(() => operands);
-            interpolation = interpolation ?? ResampleInterpolationTypeEnum.Stripe;
-            dimension = dimension ?? DimensionEnum.Undefined;
+            if (items == null) throw new NullException(() => items);
 
-            Operator op = CreateBase_WithVariableInletCountAndOneOutlet(OperatorTypeEnum.InletsToDimension, operands);
-            op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
+            Operator op = New(MethodBase.GetCurrentMethod());
+
+            // Dimension
+            if (dimension.HasValue)
+            {
+                op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
+            }
             op.CustomDimensionName = customDimension;
 
             var wrapper = new InletsToDimension_OperatorWrapper(op)
             {
-                InterpolationType = interpolation.Value
+                // Interpolation
+                InterpolationType = interpolation ?? ResampleInterpolationTypeEnum.Stripe
             };
-            wrapper.SignalOutlet.SetDimensionEnum(DimensionEnum.Signal, _repositories.DimensionRepository);
+            
+            // Items
+            wrapper.Inputs.SetMany(DimensionEnum.Item, items);
 
             new Versatile_OperatorValidator(op).Assert();
 
@@ -1916,12 +1920,12 @@ namespace JJ.Business.Synthesizer
 
         // Generic methods for operator creation
 
-        /// <param name="methodBase">methodBase.Name must match an OperatorTypeEnum member's name.</param>
-        private Operator New(MethodBase methodBase)
+        /// <param name="methodBaseWithSameNameAsSystemPatch">methodBase.Name must match an OperatorTypeEnum member's name.</param>
+        private Operator New(MethodBase methodBaseWithSameNameAsSystemPatch)
         {
-            string patchName = methodBase.Name;
+            string systemPatchName = methodBaseWithSameNameAsSystemPatch.Name;
 
-            return New(patchName);
+            return New(systemPatchName);
         }
 
         public Operator New(string systemPatchName)

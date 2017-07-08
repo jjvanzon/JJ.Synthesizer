@@ -54,7 +54,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.ClosestOverDimension, typeof(ClosestOverDimension_OperatorValidator) },
             { OperatorTypeEnum.ClosestOverDimensionExp, typeof(ClosestOverDimensionExp_OperatorValidator) },
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorValidator) },
-            { OperatorTypeEnum.DimensionToOutlets, typeof(DimensionToOutlets_OperatorValidator) },
             { OperatorTypeEnum.Exponent, typeof(Exponent_OperatorValidator) },
             { OperatorTypeEnum.GetDimension, typeof(GetDimension_OperatorValidator) },
             { OperatorTypeEnum.Hold, typeof(Hold_OperatorValidator) },

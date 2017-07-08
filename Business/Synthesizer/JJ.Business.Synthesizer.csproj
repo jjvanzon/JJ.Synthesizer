@@ -558,7 +558,6 @@
     <Compile Include="EntityWrappers\Hold_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\MaxOverDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\RangeOverDimension_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\DimensionToOutlets_OperatorWrapper.cs" />
     <Compile Include="Enums\CollectionRecalculationEnum.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.cs" />
@@ -689,7 +688,6 @@
     <Compile Include="Validation\Operators\Spectrum_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Reverse_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Stretch_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\DimensionToOutlets_OperatorValidator.cs" />
     <Compile Include="Validation\OutletValidator_WithOperatorType_ExceptCustomOperator.cs" />
     <Compile Include="Validation\InletValidator_WithOperatorType_ExceptCustomOperator.cs" />
     <Compile Include="Validation\Patches\PatchValidator_Delete.cs" />
@@ -726,7 +724,6 @@
     <Compile Include="Warnings\Operators\AverageOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MinOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_AnyInletsFilledInOrHaveDefaults.cs" />
-    <Compile Include="Warnings\Operators\InletsToDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Hold_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\MaxOverDimension_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\RangeOverDimension_OperatorWarningValidator.cs" />
@@ -747,7 +744,6 @@
     <Compile Include="Warnings\Operators\Spectrum_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Reverse_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Stretch_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\DimensionToOutlets_OperatorWarningValidator.cs" />
     <Compile Include="WavHeaderManager.cs" />
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -110,7 +110,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // OperatorType
 
-
         [Obsolete("When all Operators have been boostrapped into the System document, the whole Toolbox is not needed anymore.")]
         private static readonly IList<OperatorTypeEnum> _operatorTypeEnums_WithToolboxItem = new[]
         {   
@@ -121,11 +120,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.ClosestOverDimension,
             OperatorTypeEnum.ClosestOverDimensionExp,
             OperatorTypeEnum.Curve,
-            OperatorTypeEnum.DimensionToOutlets,
             OperatorTypeEnum.Exponent,
             OperatorTypeEnum.GetDimension,
             OperatorTypeEnum.Hold,
-            OperatorTypeEnum.InletsToDimension,
             OperatorTypeEnum.Interpolate,
             OperatorTypeEnum.Loop,
             OperatorTypeEnum.MaxFollower,

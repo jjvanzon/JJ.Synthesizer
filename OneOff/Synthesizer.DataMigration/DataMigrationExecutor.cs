@@ -222,6 +222,27 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
+        public static void Migrate_InletsToDimension_DimensionToOutlets_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.InletsToDimension, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.DimensionToOutlets, repositories, progressCallback);
+
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
         // Helpers
 
         private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(

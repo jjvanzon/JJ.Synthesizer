@@ -23,13 +23,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
             if (expectedInletDimensionEnums == null) throw new NullException(() => expectedInletDimensionEnums);
             if (expectedOutletDimensionEnums == null) throw new NullException(() => expectedOutletDimensionEnums);
-            int uniqueExpectedDataPropertyKeyCount = expectedDataKeys.Distinct().Count();
-            if (uniqueExpectedDataPropertyKeyCount != expectedDataKeys.Count) throw new NotUniqueException(() => expectedDataKeys);
 
             For(() => op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(expectedOperatorTypeEnum);
 
-            ExecuteValidator(new DimensionInfoValidator(op.OperatorType?.HasDimension ?? false, op.StandardDimension, op.CustomDimensionName));
             ExecuteValidator(new DataPropertyValidator(op.Data, expectedDataKeys));
+            ExecuteValidator(new DimensionInfoValidator(op.OperatorType?.HasDimension ?? false, op.StandardDimension, op.CustomDimensionName));
 
             int expectedInletCount = expectedInletDimensionEnums.Count;
             int expectedOutletCount = expectedOutletDimensionEnums.Count;

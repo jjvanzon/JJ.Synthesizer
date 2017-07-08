@@ -238,52 +238,52 @@ namespace JJ.Business.Synthesizer.Api
         public InletsToDimension_OperatorWrapper InletsToDimension(IList<Outlet> operands)
             => _operatorFactory.InletsToDimension(operands);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension, int outletCount)
             => _operatorFactory.DimensionToOutlets(operand, standardDimension, customDimension, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, string customDimension)
             => _operatorFactory.DimensionToOutlets(operand, standardDimension, customDimension);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet operand, DimensionEnum standardDimension, int outletCount)
             => _operatorFactory.DimensionToOutlets(operand, standardDimension, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, DimensionEnum standardDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet operand, DimensionEnum standardDimension)
             => _operatorFactory.DimensionToOutlets(operand, standardDimension);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension, int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet operand, string customDimension, int outletCount)
             => _operatorFactory.DimensionToOutlets(operand, customDimension, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, string customDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet operand, string customDimension)
             => _operatorFactory.DimensionToOutlets(operand, customDimension);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand, int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet operand, int outletCount)
             => _operatorFactory.DimensionToOutlets(operand, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(Outlet operand)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(Outlet operand)
             => _operatorFactory.DimensionToOutlets(operand);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension, int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(DimensionEnum standardDimension, string customDimension, int outletCount)
             => _operatorFactory.DimensionToOutlets(standardDimension, customDimension, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, string customDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(DimensionEnum standardDimension, string customDimension)
             => _operatorFactory.DimensionToOutlets(standardDimension, customDimension);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension, int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(DimensionEnum standardDimension, int outletCount)
             => _operatorFactory.DimensionToOutlets(standardDimension, outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(DimensionEnum standardDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(DimensionEnum standardDimension)
             => _operatorFactory.DimensionToOutlets(standardDimension);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount, string customDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(int outletCount, string customDimension)
             => _operatorFactory.DimensionToOutlets(outletCount, customDimension);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(string customDimension)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(string customDimension)
             => _operatorFactory.DimensionToOutlets(customDimension);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets(int outletCount)
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets(int outletCount)
             => _operatorFactory.DimensionToOutlets(outletCount);
 
-        public DimensionToOutlets_OperatorWrapper DimensionToOutlets()
+        public OperatorWrapper_WithUnderlyingPatch DimensionToOutlets()
             => _operatorFactory.DimensionToOutlets();
 
         public OperatorWrapper_WithUnderlyingPatch MaxOverInlets(params Outlet[] operands)

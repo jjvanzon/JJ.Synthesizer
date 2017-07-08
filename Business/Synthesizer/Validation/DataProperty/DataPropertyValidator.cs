@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
         {
             if (expectedDataKeys == null) throw new NullException(() => expectedDataKeys);
 
-            int uniqueExpectedDataPropertyKeyCount = expectedDataKeys.Distinct().Count();
-            if (uniqueExpectedDataPropertyKeyCount != expectedDataKeys.Count)
+            int uniqueExpectedDataKeyCount = expectedDataKeys.Distinct().Count();
+            if (uniqueExpectedDataKeyCount != expectedDataKeys.Count)
             {
                 throw new NotUniqueException(() => expectedDataKeys);
             }

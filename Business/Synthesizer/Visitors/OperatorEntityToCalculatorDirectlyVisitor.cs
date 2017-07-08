@@ -997,8 +997,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitDimensionToOutletsOutlet(Outlet outlet)
         {
+            if (!outlet.RepetitionPosition.HasValue) throw new NullException(() => outlet.RepetitionPosition);
+            int position = outlet.RepetitionPosition.Value;
+
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(outlet.Operator);
-            dimensionStack.Push(outlet.Position);
+            dimensionStack.Push(position);
 
             base.VisitDimensionToOutletsOutlet(outlet);
 
@@ -1013,7 +1016,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new DimensionToOutlets_OperatorCalculator(operandCalculator, outlet.Position, dimensionStack);
+                calculator = new DimensionToOutlets_OperatorCalculator(operandCalculator, position, dimensionStack);
             }
 
             dimensionStack.Pop();
@@ -2953,7 +2956,8 @@ namespace JJ.Business.Synthesizer.Visitors
             bool fromIsConstSpecialValue = fromIsConst && DoubleHelper.IsSpecialValue(from);
             bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
 
-            int position = outlet.Position;
+            if (!outlet.RepetitionPosition.HasValue) throw new NullException(() => outlet.RepetitionPosition);
+            int position = outlet.RepetitionPosition.Value;
 
             if (fromIsConstSpecialValue || stepIsConstSpecialValue)
             {

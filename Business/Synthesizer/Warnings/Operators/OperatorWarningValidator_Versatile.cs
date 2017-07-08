@@ -26,10 +26,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.ClosestOverDimensionExp: ExecuteValidator(new ClosestOverDimensionExp_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Curve: ExecuteValidator(new Curve_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.CustomOperator: ExecuteValidator(new CustomOperator_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.DimensionToOutlets: ExecuteValidator(new DimensionToOutlets_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Exponent: ExecuteValidator(new Exponent_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Hold: ExecuteValidator(new Hold_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.InletsToDimension: ExecuteValidator(new InletsToDimension_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Interpolate: ExecuteValidator(new Interpolate_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Loop: ExecuteValidator(new Loop_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.MaxFollower: ExecuteValidator(new MaxFollower_OperatorWarningValidator(op)); break;
