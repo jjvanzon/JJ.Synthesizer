@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer
 
         /// <summary> Returned tuples can contain null-dest objects. </summary>
         public static IList<InletOrOutletTuple> MatchSourceAndDestInletsOrOutlets(
-            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets, 
+            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets,
             IEnumerable<IInletOrOutlet> destInletsOrOutlets)
         {
             // Do a different mapping if going from single repeating inlet to no repeating inlets or outlets.
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer
         /// or the other way around, or 'mixed mode'.
         /// </summary>
         private static RepetitionInfo GetRepetitionInfo(
-            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets, 
+            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets,
             IEnumerable<IInletOrOutlet> destInletsOrOutlets)
         {
             // This is not very readable, but avoids traversing the list a many items.
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer
         }
 
         private static IList<InletOrOutletTuple> MatchSourceAndDestInletsOrOutlets_FromOnlyNonRepeatingToOnlyRepeating(
-            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets, 
+            IEnumerable<IInletOrOutlet> sourceInletsOrOutlets,
             IEnumerable<IInletOrOutlet> destInletsOrOutlets)
         {
             IList<IInletOrOutlet> sourceSortedInletsOrOutlets = sourceInletsOrOutlets.Sort().ToArray();
@@ -195,7 +195,8 @@ namespace JJ.Business.Synthesizer
 
             // Match Repeating Ones
             {
-                IInletOrOutlet sourceRepeatingInletOrOutlet = sourceSortedInletsOrOutlets.Reverse().Where(x => x.IsRepeating).FirstOrDefault(); // Optimized for Repeating Inlet at the end.
+                IInletOrOutlet sourceRepeatingInletOrOutlet =
+                    sourceSortedInletsOrOutlets.Reverse().Where(x => x.IsRepeating).FirstOrDefault(); // Optimized for Repeating Inlet at the end.
                 IList<IInletOrOutlet> destCandicateRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => x.IsRepeating).ToList();
                 // ReSharper disable once InvertIf
                 if (sourceRepeatingInletOrOutlet != null)
@@ -226,69 +227,85 @@ namespace JJ.Business.Synthesizer
         {
             if (candicateDestInletsOrOutlets == null) throw new NullException(() => candicateDestInletsOrOutlets);
 
-            bool nameIsFilledIn = NameHelper.IsFilledIn(sourceInletOrOutlet.Name);
-            if (nameIsFilledIn)
+            // NOTE: You cannot use RepetitionPosition in the matching,
+            // because source is a PatchInlet, whose RepetitionPosition has no meaning and cannot be matched with an Operator Inlet,
+            // whose RepetitionPosition does have meaning.
+
+            if (sourceInletOrOutlet.IsRepeating)
             {
-                // Try match by Name and Position (and RepetitionPosition)
+                // Try match by IsRepeating = true
                 {
                     IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
-                        x => x.Position == sourceInletOrOutlet.Position &&
-                             NameHelper.AreEqual(x.Name, sourceInletOrOutlet.Name));
+                        x => x.IsRepeating);
 
-                    if (destInletOrOutlet != null)
-                    {
-                        return destInletOrOutlet;
-                    }
-                }
-
-                // Try match by Name (and RepetitionPosition)
-                {
-                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
-                        x => NameHelper.AreEqual(x.Name, sourceInletOrOutlet.Name));
-
-                    if (destInletOrOutlet != null)
-                    {
-                        return destInletOrOutlet;
-                    }
+                    return destInletOrOutlet;
                 }
             }
-
-            DimensionEnum sourceDimensionEnum = sourceInletOrOutlet.GetDimensionEnum();
-            bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
-
-            if (dimensionIsFilledIn)
+            else
             {
-                // Try match by Dimension and Position (and RepetitionPosition)
+                bool nameIsFilledIn = NameHelper.IsFilledIn(sourceInletOrOutlet.Name);
+                if (nameIsFilledIn)
                 {
-                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
-                        x => x.Position == sourceInletOrOutlet.Position &&
-                             x.GetDimensionEnum() == sourceDimensionEnum);
-
-                    if (destInletOrOutlet != null)
+                    // Try match by Name and Position
                     {
-                        return destInletOrOutlet;
+                        IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                            x => x.Position == sourceInletOrOutlet.Position &&
+                                 NameHelper.AreEqual(x.Name, sourceInletOrOutlet.Name));
+
+                        if (destInletOrOutlet != null)
+                        {
+                            return destInletOrOutlet;
+                        }
+                    }
+
+                    // Try match by Name
+                    {
+                        IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                            x => NameHelper.AreEqual(x.Name, sourceInletOrOutlet.Name));
+
+                        if (destInletOrOutlet != null)
+                        {
+                            return destInletOrOutlet;
+                        }
                     }
                 }
 
-                // Try match by Dimension (and RepetitionPosition)
-                {
-                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
-                        x => x.GetDimensionEnum() == sourceDimensionEnum);
+                DimensionEnum sourceDimensionEnum = sourceInletOrOutlet.GetDimensionEnum();
+                bool dimensionIsFilledIn = sourceDimensionEnum != DimensionEnum.Undefined;
 
-                    if (destInletOrOutlet != null)
+                if (dimensionIsFilledIn)
+                {
+                    // Try match by Dimension and Position
                     {
-                        return destInletOrOutlet;
+                        IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                            x => x.Position == sourceInletOrOutlet.Position &&
+                                 x.GetDimensionEnum() == sourceDimensionEnum);
+
+                        if (destInletOrOutlet != null)
+                        {
+                            return destInletOrOutlet;
+                        }
+                    }
+
+                    // Try match by Dimension
+                    {
+                        IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                            x => x.GetDimensionEnum() == sourceDimensionEnum);
+
+                        if (destInletOrOutlet != null)
+                        {
+                            return destInletOrOutlet;
+                        }
                     }
                 }
-            }
 
-            // Try match by Position (and RepetitionPosition)
-            {
-                IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
-                    x => x.Position == sourceInletOrOutlet.Position &&
-                         x.RepetitionPosition == sourceInletOrOutlet.RepetitionPosition);
+                // Try match by Position
+                {
+                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
+                        x => x.Position == sourceInletOrOutlet.Position);
 
-                return destInletOrOutlet;
+                    return destInletOrOutlet;
+                }
             }
         }
 
@@ -361,7 +378,7 @@ namespace JJ.Business.Synthesizer
         private static Outlet TryApplyCustomOperatorToUnderlyingPatch(Outlet operatorOutlet)
         {
             if (operatorOutlet == null) throw new NullException(() => operatorOutlet);
-            
+
             Operator op = operatorOutlet.Operator;
 
             IList<InletTuple> inletTuples = MatchSourceAndDestInlets(op);

@@ -14,10 +14,12 @@ namespace JJ.Data.Synthesizer.Interfaces
         /// <summary>
         /// Can only be done for one of the patch inlets, 
         /// but can be repeated in the operator inlets.
-        /// Repeating inlets are always put at the end, regardless of Position.
         /// </summary>
         bool IsRepeating { get; set; }
-        /// <summary> Sequential, starts at 0. </summary>
+        /// <summary>
+        /// Sequential, starts at 0.
+        /// Not relevant for patch inlets, only relevant for the derived operator inlets.
+        /// </summary>
         int? RepetitionPosition { get; set; }
         /// <summary>
         /// If an operator's UnderlyingPatch is changed,
