@@ -483,7 +483,6 @@
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
     <Compile Include="Dto\TimePower OperatorDto Classes.cs" />
     <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
-    <Compile Include="EntityWrappers\2017-07-09 Backup of OperatorWrapperBase_VariableOutletCount.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithOneOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_Trigger.cs" />
