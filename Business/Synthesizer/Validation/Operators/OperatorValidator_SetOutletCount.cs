@@ -9,13 +9,18 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_SetOutletCount_Basic : VersatileValidator
+    internal class OperatorValidator_SetOutletCount : VersatileValidator
     {
-        public OperatorValidator_SetOutletCount_Basic(Operator op, int newOutletCount)
+        public OperatorValidator_SetOutletCount(Operator op, int newOutletCount)
         {
             if (op == null) throw new NullException(() => op);
 
             For(() => newOutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets)).GreaterThanOrEqual(1);
+
+            if (!op.Outlets.Where(x => x.IsRepeating).Any())
+            {
+                ValidationMessages.Add(nameof(Outlet), ResourceFormatter.CannotSetOutletCountWithoutRepeatingOutlets);
+            }
 
             IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
             for (int i = newOutletCount; i < sortedOutlets.Count; i++)

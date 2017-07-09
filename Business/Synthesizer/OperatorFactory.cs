@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer
             wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
             wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer
             wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
             wrapper.SamplingRateInlet.DefaultValue = DEFAULT_SAMPLING_RATE;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -258,7 +258,7 @@ namespace JJ.Business.Synthesizer
                 Reset = reset
             };
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -295,7 +295,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -375,7 +375,7 @@ namespace JJ.Business.Synthesizer
                 CurveID = curve?.ID
             };
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -389,7 +389,7 @@ namespace JJ.Business.Synthesizer
 
             op.LinkTo(_patch);
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             return wrapper;
@@ -404,7 +404,7 @@ namespace JJ.Business.Synthesizer
 
             new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -421,7 +421,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.WrappedOperator.LinkTo(_patch);
 
-            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
+            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -502,7 +502,7 @@ namespace JJ.Business.Synthesizer
             var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -555,7 +555,7 @@ namespace JJ.Business.Synthesizer
                 Ratio = ratio
             };
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -574,7 +574,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new GetDimension_OperatorWrapper(op);
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -645,7 +645,7 @@ namespace JJ.Business.Synthesizer
                 Signal = signal,
             };
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -728,7 +728,7 @@ namespace JJ.Business.Synthesizer
             // Items
             wrapper.Inputs.SetMany(DimensionEnum.Item, items);
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -757,7 +757,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.SamplingRateInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -823,7 +823,7 @@ namespace JJ.Business.Synthesizer
             wrapper.LoopStartMarkerInlet.DefaultValue = DEFAULT_START_TIME;
             wrapper.LoopEndMarkerInlet.DefaultValue = DEFAULT_END_TIME;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -895,7 +895,7 @@ namespace JJ.Business.Synthesizer
             wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
             wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -930,7 +930,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -970,7 +970,7 @@ namespace JJ.Business.Synthesizer
             wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
             wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1005,7 +1005,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1107,7 +1107,7 @@ namespace JJ.Business.Synthesizer
                 Number = number
             };
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1158,7 +1158,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
-            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
+            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1168,7 +1168,7 @@ namespace JJ.Business.Synthesizer
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Inlet.Name = name;
 
-            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
+            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1179,7 +1179,7 @@ namespace JJ.Business.Synthesizer
             wrapper.Inlet.Name = name;
             wrapper.Inlet.DefaultValue = defaultValue;
 
-            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
+            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1190,7 +1190,7 @@ namespace JJ.Business.Synthesizer
             wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
             wrapper.Inlet.DefaultValue = defaultValue;
 
-            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
+            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1222,7 +1222,7 @@ namespace JJ.Business.Synthesizer
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
             wrapper.Outlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
-            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
+            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1232,7 +1232,7 @@ namespace JJ.Business.Synthesizer
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
             wrapper.Outlet.Name = name;
 
-            new Versatile_OperatorValidator(wrapper.WrappedOperator).Assert();
+            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1283,7 +1283,7 @@ namespace JJ.Business.Synthesizer
             wrapper.Inputs[DimensionEnum.Frequency] = frequency;
             wrapper.Inputs[DimensionEnum.Width] = width;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1301,7 +1301,7 @@ namespace JJ.Business.Synthesizer
                 Reset = reset
             };
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1327,7 +1327,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.RateInlet.DefaultValue = DEFAULT_RANDOM_RATE;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1358,7 +1358,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_RANGE_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1396,7 +1396,7 @@ namespace JJ.Business.Synthesizer
                 Position = position
             };
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1423,7 +1423,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FactorInlet.DefaultValue = DEFAULT_REVERSE_FACTOR;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1444,7 +1444,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1471,7 +1471,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1518,7 +1518,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TargetValueAInlet.DefaultValue = DEFAULT_SCALE_TARGET_VALUE_A;
             wrapper.TargetValueBInlet.DefaultValue = DEFAULT_SCALE_TARGET_VALUE_B;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1543,7 +1543,7 @@ namespace JJ.Business.Synthesizer
                 Number = number
             };
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1566,7 +1566,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.DifferenceInlet.DefaultValue = DEFAULT_DIFFERENCE;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1609,7 +1609,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1652,7 +1652,7 @@ namespace JJ.Business.Synthesizer
             wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
             wrapper.FrequencyCountInlet.DefaultValue = DEFAULT_SPECTRUM_FREQUENCY_COUNT;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1689,7 +1689,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1718,7 +1718,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.FactorInlet.DefaultValue = DEFAULT_FACTOR;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1759,7 +1759,7 @@ namespace JJ.Business.Synthesizer
             wrapper.SliceLengthInlet.DefaultValue = DEFAULT_SLICE_LENGTH;
             wrapper.SampleCountInlet.DefaultValue = DEFAULT_SAMPLE_COUNT;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1794,7 +1794,7 @@ namespace JJ.Business.Synthesizer
             wrapper.TillInlet.DefaultValue = DEFAULT_TILL;
             wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1823,7 +1823,7 @@ namespace JJ.Business.Synthesizer
 
             wrapper.ExponentInlet.DefaultValue = DEFAULT_EXPONENT;
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1841,7 +1841,7 @@ namespace JJ.Business.Synthesizer
                 Reset = reset
             };
 
-            new Versatile_OperatorValidator(op).Assert();
+            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }

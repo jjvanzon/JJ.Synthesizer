@@ -8,9 +8,9 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Versatile_OperatorValidator : ValidatorBase
+    internal class OperatorValidator_Versatile : ValidatorBase
     {
-        public Versatile_OperatorValidator(Operator op)
+        public OperatorValidator_Versatile(Operator op)
         {
             if (op == null) throw new NullException(() => op);
 

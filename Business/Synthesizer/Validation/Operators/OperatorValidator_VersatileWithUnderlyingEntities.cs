@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
             alreadyDone.Add(op);
 
-            ExecuteValidator(new Versatile_OperatorValidator(op));
+            ExecuteValidator(new OperatorValidator_Versatile(op));
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 

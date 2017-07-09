@@ -360,10 +360,8 @@
     <Compile Include="Validation\Documents\DocumentValidator_DoesNotReferenceItself.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_SystemDocumentReferenceMustExist.cs" />
     <Compile Include="Validation\InletOrOutletListValidator_WithUnderlyingPatch.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_SetInletCount_Basic.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount_WithUnderlyingPatch.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_SetInletCount_WithUnderlyingPatch.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount_Basic.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_SetInletCount.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount.cs" />
     <Compile Include="Validation\InletOrOutletValidator_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Base_WithUnderlyingPatch.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
@@ -485,7 +483,7 @@
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
     <Compile Include="Dto\TimePower OperatorDto Classes.cs" />
     <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_VariableOutletCount.cs" />
+    <Compile Include="EntityWrappers\2017-07-09 Backup of OperatorWrapperBase_VariableOutletCount.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithOneOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_Trigger.cs" />
@@ -664,7 +662,6 @@
     <Compile Include="Validation\Operators\SumOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\AverageOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\MinOverDimension_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_Base_VariableInletCountOneOutlet.cs" />
     <Compile Include="Validation\Operators\InletsToDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Hold_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\MaxOverDimension_OperatorValidator.cs" />
@@ -695,7 +692,6 @@
     <Compile Include="Validation\Samples\SampleValidator_UniqueName.cs" />
     <Compile Include="Validation\Patches\PatchValidator_UniqueName.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Unicity.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_SetInletCount_WithOperatorType_ExceptCustomOperator.cs" />
     <Compile Include="OperatorFactory.cs" />
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
@@ -767,7 +763,6 @@
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount_WithOperatorType_ExceptCustomOperator.cs" />
     <Compile Include="Validation\Operators\Exponent_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Loop_ OperatorValidator.cs" />
     <Compile Include="Validation\Operators\CustomOperator_OperatorValidator.cs" />
@@ -825,7 +820,7 @@
     <Compile Include="Helpers\PropertyNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\Operators\Basic_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Versatile_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_Versatile.cs" />
     <Compile Include="Warnings\Operators\Curve_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Versatile.cs" />
