@@ -243,6 +243,37 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
+        public static void Migrate_AggregateFollowers_AndAggregatesOverDimensions_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.AverageFollower, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.AverageOverDimension, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ClosestOverDimension, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ClosestOverDimensionExp, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MaxFollower, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MaxOverDimension, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MinFollower, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MinOverDimension, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.RangeOverDimension, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SortOverDimension, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SumFollower, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SumOverDimension, repositories, progressCallback);
+
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
         // Helpers
 
         private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(

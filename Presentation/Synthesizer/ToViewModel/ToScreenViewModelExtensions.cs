@@ -574,7 +574,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithCollectionRecalculation>(entity);
 
-            var wrapper = new SumOverDimension_OperatorWrapper(entity);
+            var wrapper = new OperatorWrapper_WithCollectionRecalculation(entity);
 
             viewModel.CollectionRecalculation = wrapper.CollectionRecalculation.ToIDAndDisplayName();
             viewModel.CollectionRecalculationLookup = ToViewModelHelper.GetCollectionRecalculationLookupViewModel();

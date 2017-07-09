@@ -872,7 +872,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             VisitOperatorBase(op);
 
-            var wrapper = new ClosestOverDimension_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
 
             dto.InputOperatorDto = _stack.Pop();
             dto.CollectionOperatorDto = _stack.Pop();
@@ -918,7 +918,7 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.TillOperatorDto = _stack.Pop();
             dto.StepOperatorDto = _stack.Pop();
 
-            var wrapper = new OperatorWrapperBase_AggregateOverDimension(op);
+            var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
             dto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
 
             SetDimensionProperties(op, dto);

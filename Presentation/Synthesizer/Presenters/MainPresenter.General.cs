@@ -26,6 +26,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
     /// </summary>
     public partial class MainPresenter
     {
+        private const int DEFAULT_ADD_INLET_COUNT = 2;
+        private const int DEFAULT_AGGREGATE_OVER_INLETS_INLET_COUNT = 3;
+        private const int DEFAULT_CLOSEST_OVER_INLETS_ITEM_COUNT = 2;
+        private const int DEFAULT_RANGE_OVER_OUTLETS_OUTLET_COUNT = 16;
+        private const int DEFAULT_MULTIPLY_INLET_COUNT = 2;
+        private const int DEFAULT_SORT_OVER_INLETS_INLET_COUNT = 8;
+        private const int DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT = 16;
+
         // TODO: These two constants do not belong here, because they should be determined by the vector graphics.
         private const float ESTIMATED_OPERATOR_WIDTH = 50f;
         private const float OPERATOR_HEIGHT = 30f;
@@ -263,6 +271,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             return _operatorPropertiesPresenter;
+        }
+
+        private int GetVariableInletOrOutletCount(Patch patch)
+        {
+            if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.Add))) return DEFAULT_ADD_INLET_COUNT;
+
+            // Temporarily changed (2017-07-09), because of bug in InletOutletMatcher / assumption in PatchManager.SetOperatorInletCount,
+            // which results in the message that inlets and inputs do not have the same count.
+            //if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.ClosestOverInlets))) return DEFAULT_CLOSEST_OVER_INLETS_ITEM_COUNT;
+            //if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.ClosestOverInletsExp))) return DEFAULT_CLOSEST_OVER_INLETS_ITEM_COUNT;
+            if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.ClosestOverInlets))) return 1;
+            if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.ClosestOverInletsExp))) return 1;
+            if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.RangeOverOutlets))) return DEFAULT_RANGE_OVER_OUTLETS_OUTLET_COUNT;
+            if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.Multiply))) return DEFAULT_MULTIPLY_INLET_COUNT;
+            if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.MaxOverInlets))) return DEFAULT_AGGREGATE_OVER_INLETS_INLET_COUNT;
+            if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.MinOverInlets))) return DEFAULT_AGGREGATE_OVER_INLETS_INLET_COUNT;
+            if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.SortOverInlets))) return DEFAULT_SORT_OVER_INLETS_INLET_COUNT;
+
+
+            return DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT;
         }
     }
 }

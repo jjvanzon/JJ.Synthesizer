@@ -913,7 +913,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Operator entity = ConvertToOperator_Base(viewModel, repositories);
 
-            new SumOverDimension_OperatorWrapper(entity)
+            new OperatorWrapper_WithCollectionRecalculation(entity)
             {
                 CollectionRecalculation = (CollectionRecalculationEnum)(viewModel.CollectionRecalculation?.ID ?? 0)
             };

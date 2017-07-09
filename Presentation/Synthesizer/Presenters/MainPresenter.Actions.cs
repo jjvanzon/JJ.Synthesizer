@@ -23,7 +23,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
-
 // ReSharper disable InvertIf
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -1171,7 +1170,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                         // Business
                         var operatorFactory = new OperatorFactory(underlyingPatch, _repositories);
-                        Operator op = operatorFactory.New(underlyingPatch);
+                        Operator op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
                         op.LinkTo(patch);
                         _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 

@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
-                const string dataKey = nameof(OperatorWrapperBase_AggregateOverDimension.CollectionRecalculation);
+                const string dataKey = nameof(OperatorWrapper_WithCollectionRecalculation.CollectionRecalculation);
 
                 string collectionRecalculationString = DataPropertyParser.TryGetString(data, dataKey);
 

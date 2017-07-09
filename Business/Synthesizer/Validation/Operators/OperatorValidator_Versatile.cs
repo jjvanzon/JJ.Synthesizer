@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             if (op == null) throw new NullException(() => op);
 
-            ExecuteValidator(new Basic_OperatorValidator(op));
+            ExecuteValidator(new OperatorValidator_Basic(op));
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
@@ -47,12 +47,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
         private readonly Dictionary<OperatorTypeEnum, Type> _specializedValidatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
-            { OperatorTypeEnum.AverageFollower, typeof(AverageFollower_OperatorValidator) },
-            { OperatorTypeEnum.AverageOverDimension, typeof(AverageOverDimension_OperatorValidator) },
+            { OperatorTypeEnum.AverageOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.Cache, typeof(Cache_OperatorValidator) },
             { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorValidator) },
-            { OperatorTypeEnum.ClosestOverDimension, typeof(ClosestOverDimension_OperatorValidator) },
-            { OperatorTypeEnum.ClosestOverDimensionExp, typeof(ClosestOverDimensionExp_OperatorValidator) },
+            { OperatorTypeEnum.ClosestOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
+            { OperatorTypeEnum.ClosestOverDimensionExp, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorValidator) },
             { OperatorTypeEnum.Exponent, typeof(Exponent_OperatorValidator) },
             { OperatorTypeEnum.GetDimension, typeof(GetDimension_OperatorValidator) },
@@ -60,16 +59,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.InletsToDimension, typeof(InletsToDimension_OperatorValidator) },
             { OperatorTypeEnum.Interpolate, typeof(Interpolate_OperatorValidator) },
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
-            { OperatorTypeEnum.MaxFollower, typeof(MaxFollower_OperatorValidator) },
-            { OperatorTypeEnum.MaxOverDimension, typeof(MaxOverDimension_OperatorValidator) },
-            { OperatorTypeEnum.MinFollower, typeof(MinFollower_OperatorValidator) },
-            { OperatorTypeEnum.MinOverDimension, typeof(MinOverDimension_OperatorValidator) },
+            { OperatorTypeEnum.MaxOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
+            { OperatorTypeEnum.MinOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.Number, typeof(Number_OperatorValidator) },
             { OperatorTypeEnum.PatchInlet, typeof(PatchInlet_OperatorValidator) },
             { OperatorTypeEnum.PatchOutlet, typeof(PatchOutlet_OperatorValidator) },
             { OperatorTypeEnum.PulseTrigger, typeof(PulseTrigger_OperatorValidator) },
             { OperatorTypeEnum.Random, typeof(Random_OperatorValidator) },
-            { OperatorTypeEnum.RangeOverDimension, typeof(RangeOverDimension_OperatorValidator) },
             { OperatorTypeEnum.Reset, typeof(Reset_OperatorValidator) },
             { OperatorTypeEnum.Reverse, typeof(Reverse_OperatorValidator) },
             { OperatorTypeEnum.Round, typeof(Round_OperatorValidator) },
@@ -77,12 +73,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Scaler, typeof(Scaler_OperatorValidator) },
             { OperatorTypeEnum.SetDimension, typeof(SetDimension_OperatorValidator) },
             { OperatorTypeEnum.Shift, typeof(Shift_OperatorValidator) },
-            { OperatorTypeEnum.SortOverDimension, typeof(SortOverDimension_OperatorValidator) },
+            { OperatorTypeEnum.SortOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.Spectrum, typeof(Spectrum_OperatorValidator) },
             { OperatorTypeEnum.Squash, typeof(Squash_OperatorValidator) },
             { OperatorTypeEnum.Stretch, typeof(Stretch_OperatorValidator) },
-            { OperatorTypeEnum.SumFollower, typeof(SumFollower_OperatorValidator) },
-            { OperatorTypeEnum.SumOverDimension, typeof(SumOverDimension_OperatorValidator) },
+            { OperatorTypeEnum.SumOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorValidator) },
             { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorValidator) },
         };

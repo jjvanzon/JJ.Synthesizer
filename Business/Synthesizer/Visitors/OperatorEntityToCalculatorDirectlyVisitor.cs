@@ -391,7 +391,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                var wrapper = new AverageOverDimension_OperatorWrapper(op);
+                var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
                 CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
                 switch (collectionRecalculationEnum)
                 {
@@ -816,7 +816,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                var wrapper = new ClosestOverDimension_OperatorWrapper(op);
+                var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
                 CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
                 switch (collectionRecalculationEnum)
                 {
@@ -904,7 +904,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                var wrapper = new ClosestOverDimensionExp_OperatorWrapper(op);
+                var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
                 CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
                 switch (collectionRecalculationEnum)
                 {
@@ -2014,7 +2014,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                var wrapper = new MaxOverDimension_OperatorWrapper(op);
+                var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
                 CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
                 switch (collectionRecalculationEnum)
                 {
@@ -2178,7 +2178,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                var wrapper = new MinOverDimension_OperatorWrapper(op);
+                var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
                 CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
                 switch (collectionRecalculationEnum)
                 {
@@ -3557,7 +3557,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                var wrapper = new SortOverDimension_OperatorWrapper(op);
+                var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
                 CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
                 switch (collectionRecalculationEnum)
                 {
@@ -4033,7 +4033,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                var wrapper = new SumOverDimension_OperatorWrapper(op);
+                var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
                 CollectionRecalculationEnum collectionRecalculationEnum = wrapper.CollectionRecalculation;
                 switch (collectionRecalculationEnum)
                 {
