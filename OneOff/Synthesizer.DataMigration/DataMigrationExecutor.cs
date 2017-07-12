@@ -15,8 +15,10 @@ using JJ.Framework.Business;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
-    internal class DataMigrationExecutor
+    internal static class DataMigrationExecutor
     {
+        public static bool MustAssertWarningIncrease { get; set; } = true;
+
         public static void AssertAllDocuments(Action<string> progressCallback)
         {
             if (progressCallback == null) throw new NullException(() => progressCallback);
@@ -112,7 +114,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(operatorTypeEnum, repositories, progressCallback);
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
             }
@@ -133,7 +135,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(operatorTypeEnum, repositories, progressCallback);
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
             }
@@ -158,7 +160,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Square, repositories, progressCallback);
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Triangle, repositories, progressCallback);
 
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
             }
@@ -186,7 +188,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.NotchFilter, repositories, progressCallback);
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.PeakingEQFilter, repositories, progressCallback);
 
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 //throw new Exception("Temporarily not committing, for debugging.");
 
@@ -214,7 +216,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.RangeOverOutlets, repositories, progressCallback);
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SortOverInlets, repositories, progressCallback);
 
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
             }
@@ -235,7 +237,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.InletsToDimension, repositories, progressCallback);
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.DimensionToOutlets, repositories, progressCallback);
 
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
             }
@@ -266,7 +268,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SumFollower, repositories, progressCallback);
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SumOverDimension, repositories, progressCallback);
 
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
             }
@@ -293,7 +295,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Round, repositories, progressCallback);
                 Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Spectrum, repositories, progressCallback);
 
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
                 context.Commit();
             }
@@ -326,12 +328,11 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         private static void AssertDocuments_AndReapplyUnderlyingPatches(
             RepositoryWrapper repositories,
-            Action<string> progressCallback,
-            bool mustAssertWarningIncrease = true)
+            Action<string> progressCallback)
         {
             IList<Document> rootDocuments = repositories.DocumentRepository.GetAll();
 
-            AssertDocuments_AndReapplyUnderlyingPatches(rootDocuments, repositories, progressCallback, mustAssertWarningIncrease);
+            AssertDocuments_AndReapplyUnderlyingPatches(rootDocuments, repositories, progressCallback, MustAssertWarningIncrease);
         }
 
         private static void AssertDocuments_AndReapplyUnderlyingPatches(

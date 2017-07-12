@@ -114,30 +114,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static readonly IList<OperatorTypeEnum> _operatorTypeEnums_WithToolboxItem = new[]
         {   
             OperatorTypeEnum.Cache,
-            OperatorTypeEnum.ChangeTrigger,
             OperatorTypeEnum.Curve,
             OperatorTypeEnum.Exponent,
-            OperatorTypeEnum.GetDimension,
-            OperatorTypeEnum.Hold,
             OperatorTypeEnum.Interpolate,
             OperatorTypeEnum.Loop,
             OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,
             OperatorTypeEnum.PatchOutlet,
-            OperatorTypeEnum.PulseTrigger,
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Reset,
             OperatorTypeEnum.Reverse,
-            OperatorTypeEnum.Round,
             OperatorTypeEnum.Sample,
             OperatorTypeEnum.Scaler,
-            OperatorTypeEnum.SetDimension,
             OperatorTypeEnum.Shift,
-            OperatorTypeEnum.Spectrum,
             OperatorTypeEnum.Squash,
             OperatorTypeEnum.Stretch,
-            OperatorTypeEnum.TimePower,
-            OperatorTypeEnum.ToggleTrigger
+            OperatorTypeEnum.TimePower
         };
 
         private static readonly IList<IDAndName> _operatorToolBoxViewModelList = CreateOperatorToolBoxViewModelList();

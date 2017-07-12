@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Framework.Presentation.WinForms.Forms;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Reflection;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -21,12 +22,21 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         private const int TOP_RADIO_BUTTON_Y = 123;
         private const int SPACING = 4;
 
-        private readonly IList<MethodTuple> _methodTuples;
+        private IList<MethodTuple> _methodTuples;
 
         public MainForm()
         {
             InitializeComponent();
 
+            checkBoxMustAssertWarningIncrease.Checked = DataMigrationExecutor.MustAssertWarningIncrease;
+
+            SetMethodTuplesAndCreateRadioButtons();
+
+            this.AutomaticallyAssignTabIndexes();
+        }
+
+        private void SetMethodTuplesAndCreateRadioButtons()
+        {
             IList<MethodInfo> methods = typeof(DataMigrationExecutor).GetMethods(BindingFlags.Public | BindingFlags.Static);
 
             IList<MethodTuple> methodTuples = new List<MethodTuple>(methods.Count);
@@ -34,6 +44,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             int y = TOP_RADIO_BUTTON_Y;
             foreach (MethodInfo method in methods)
             {
+                if (method.IsProperty()) continue;
+
                 RadioButton radioButton = CreateRadioButton(method.Name);
                 radioButton.Location = new Point(radioButton.Location.X, y);
 
@@ -43,11 +55,12 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 y += radioButton.Height;
                 y += SPACING;
 
-                methodTuples.Add(new MethodTuple
-                {
-                    Method = method,
-                    RadioButton = radioButton
-                });
+                methodTuples.Add(
+                    new MethodTuple
+                    {
+                        Method = method,
+                        RadioButton = radioButton
+                    });
             }
 
             if (methodTuples.Count == 0)
@@ -56,8 +69,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             }
 
             methodTuples.Last().RadioButton.Checked = true;
-
-            this.AutomaticallyAssignTabIndexes();
 
             _methodTuples = methodTuples;
         }
@@ -82,6 +93,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         private void MainForm_OnRunProcess(object sender, EventArgs e)
         {
+            DataMigrationExecutor.MustAssertWarningIncrease = checkBoxMustAssertWarningIncrease.Checked;
+
             MethodTuple methodTuple = _methodTuples.Where(x => x.RadioButton.Checked).SingleOrDefault();
 
             if (methodTuple != null)

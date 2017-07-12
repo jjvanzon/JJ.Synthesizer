@@ -49,13 +49,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             { OperatorTypeEnum.AverageOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.Cache, typeof(Cache_OperatorValidator) },
-            { OperatorTypeEnum.ChangeTrigger, typeof(ChangeTrigger_OperatorValidator) },
             { OperatorTypeEnum.ClosestOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.ClosestOverDimensionExp, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorValidator) },
             { OperatorTypeEnum.Exponent, typeof(Exponent_OperatorValidator) },
-            { OperatorTypeEnum.GetDimension, typeof(GetDimension_OperatorValidator) },
-            { OperatorTypeEnum.Hold, typeof(Hold_OperatorValidator) },
             { OperatorTypeEnum.InletsToDimension, typeof(InletsToDimension_OperatorValidator) },
             { OperatorTypeEnum.Interpolate, typeof(Interpolate_OperatorValidator) },
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
@@ -64,22 +61,17 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.Number, typeof(Number_OperatorValidator) },
             { OperatorTypeEnum.PatchInlet, typeof(PatchInlet_OperatorValidator) },
             { OperatorTypeEnum.PatchOutlet, typeof(PatchOutlet_OperatorValidator) },
-            { OperatorTypeEnum.PulseTrigger, typeof(PulseTrigger_OperatorValidator) },
             { OperatorTypeEnum.Random, typeof(Random_OperatorValidator) },
             { OperatorTypeEnum.Reset, typeof(Reset_OperatorValidator) },
             { OperatorTypeEnum.Reverse, typeof(Reverse_OperatorValidator) },
-            { OperatorTypeEnum.Round, typeof(Round_OperatorValidator) },
             { OperatorTypeEnum.Sample, typeof(Sample_OperatorValidator) },
             { OperatorTypeEnum.Scaler, typeof(Scaler_OperatorValidator) },
-            { OperatorTypeEnum.SetDimension, typeof(SetDimension_OperatorValidator) },
             { OperatorTypeEnum.Shift, typeof(Shift_OperatorValidator) },
             { OperatorTypeEnum.SortOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
-            { OperatorTypeEnum.Spectrum, typeof(Spectrum_OperatorValidator) },
             { OperatorTypeEnum.Squash, typeof(Squash_OperatorValidator) },
             { OperatorTypeEnum.Stretch, typeof(Stretch_OperatorValidator) },
             { OperatorTypeEnum.SumOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
-            { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorValidator) },
-            { OperatorTypeEnum.ToggleTrigger, typeof(ToggleTrigger_OperatorValidator) },
+            { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorValidator) }
         };
     }
 }

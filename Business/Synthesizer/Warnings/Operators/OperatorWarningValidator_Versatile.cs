@@ -19,20 +19,16 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 // Only ones with specialized validators are in here. Others are covered with the Basic validator already executed above.
                 case OperatorTypeEnum.Cache: ExecuteValidator(new Cache_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.ChangeTrigger: ExecuteValidator(new ChangeTrigger_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Curve: ExecuteValidator(new Curve_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.CustomOperator: ExecuteValidator(new CustomOperator_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Exponent: ExecuteValidator(new Exponent_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Hold: ExecuteValidator(new Hold_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Interpolate: ExecuteValidator(new Interpolate_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Loop: ExecuteValidator(new Loop_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Number: ExecuteValidator(new Number_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.PatchOutlet: ExecuteValidator(new PatchOutlet_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.PulseTrigger: ExecuteValidator(new PulseTrigger_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Random: ExecuteValidator(new Random_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Reset: ExecuteValidator(new Reset_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Reverse: ExecuteValidator(new Reverse_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Round: ExecuteValidator(new Round_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Sample: ExecuteValidator(new Sample_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Scaler: ExecuteValidator(new Scaler_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Shift: ExecuteValidator(new Shift_OperatorWarningValidator(op)); break;
@@ -40,7 +36,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 case OperatorTypeEnum.Squash: ExecuteValidator(new Squash_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Stretch: ExecuteValidator(new Stretch_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.TimePower: ExecuteValidator(new TimePower_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.ToggleTrigger: ExecuteValidator(new ToggleTrigger_OperatorWarningValidator(op)); break;
             }
         }
     }

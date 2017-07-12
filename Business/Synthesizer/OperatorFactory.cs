@@ -31,9 +31,7 @@ namespace JJ.Business.Synthesizer
         private const double DEFAULT_SCALE_SOURCE_VALUE_B = 1.0;
         private const double DEFAULT_SCALE_TARGET_VALUE_A = 1.0;
         private const double DEFAULT_SCALE_TARGET_VALUE_B = 4.0;
-        private const double DEFAULT_SPECTRUM_FREQUENCY_COUNT = 256.0;
         private const double DEFAULT_START_TIME = 0.0;
-        private const double DEFAULT_STEP = 1.0;
 
         private readonly Patch _patch;
         private readonly RepositoryWrapper _repositories;
@@ -208,20 +206,13 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet passThrough = null, Outlet reset = null)
+        public OperatorWrapper_WithUnderlyingPatch ChangeTrigger(Outlet passThrough = null, Outlet reset = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.ChangeTrigger,
-                new[] { DimensionEnum.PassThrough, DimensionEnum.Reset },
-                new[] { DimensionEnum.PassThrough });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new ChangeTrigger_OperatorWrapper(op)
-            {
-                PassThroughInput = passThrough,
-                Reset = reset
-            };
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
+            wrapper.Inputs[DimensionEnum.Reset] = reset;
 
             return wrapper;
         }
@@ -493,21 +484,14 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public GetDimension_OperatorWrapper GetDimension(
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
-            string customDimension = null)
+        public OperatorWrapper_WithUnderlyingPatch GetDimension(DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.GetDimension,
-                new DimensionEnum[0],
-                new[] { DimensionEnum.Number });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new GetDimension_OperatorWrapper(op);
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
 
             return wrapper;
         }
@@ -566,19 +550,12 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Hold_OperatorWrapper Hold(Outlet signal = null)
+        public OperatorWrapper_WithUnderlyingPatch Hold(Outlet signal = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Hold,
-                new[] { DimensionEnum.Signal },
-                new[] { DimensionEnum.Number });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new Hold_OperatorWrapper(op)
-            {
-                Signal = signal,
-            };
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Signal] = signal;
 
             return wrapper;
         }
@@ -1151,20 +1128,13 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PulseTrigger_OperatorWrapper PulseTrigger(Outlet passThrough = null, Outlet reset = null)
+        public OperatorWrapper_WithUnderlyingPatch PulseTrigger(Outlet passThrough = null, Outlet reset = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.PulseTrigger,
-                new[] { DimensionEnum.PassThrough, DimensionEnum.Reset },
-                new[] { DimensionEnum.PassThrough });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new PulseTrigger_OperatorWrapper(op)
-            {
-                PassThroughInput = passThrough,
-                Reset = reset
-            };
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.PassThrough]= passThrough;
+            wrapper.Inputs[DimensionEnum.Reset] = reset;
 
             return wrapper;
         }
@@ -1280,23 +1250,14 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Round_OperatorWrapper Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
+        public OperatorWrapper_WithUnderlyingPatch Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Round,
-                new[] { DimensionEnum.Signal, DimensionEnum.Step, DimensionEnum.Offset },
-                new[] { DimensionEnum.Signal });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new Round_OperatorWrapper(op)
-            {
-                Signal = signal,
-                Step = step,
-                Offset = offset
-            };
-
-            wrapper.StepInlet.DefaultValue = DEFAULT_STEP;
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Signal] = signal;
+            wrapper.Inputs[DimensionEnum.Step] = step;
+            wrapper.Inputs[DimensionEnum.Offset] = offset;
 
             return wrapper;
         }
@@ -1375,27 +1336,20 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SetDimension_OperatorWrapper SetDimension(
+        public OperatorWrapper_WithUnderlyingPatch SetDimension(
             Outlet passThrough = null, 
             Outlet number = null,
             DimensionEnum standardDimension = DimensionEnum.Undefined,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.SetDimension,
-                new[] { DimensionEnum.PassThrough, DimensionEnum.Number },
-                new[] { DimensionEnum.PassThrough });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new SetDimension_OperatorWrapper(op)
-            {
-                PassThroughInput = passThrough,
-                Number = number
-            };
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
+            wrapper.Inputs[DimensionEnum.Number] = number;
 
             return wrapper;
         }
@@ -1461,7 +1415,7 @@ namespace JJ.Business.Synthesizer
             return NewWithItemInlets(MethodBase.GetCurrentMethod(), items);
         }
 
-        public Spectrum_OperatorWrapper Spectrum(
+        public OperatorWrapper_WithUnderlyingPatch Spectrum(
             Outlet sound = null, 
             Outlet start = null, 
             Outlet end = null, 
@@ -1469,25 +1423,16 @@ namespace JJ.Business.Synthesizer
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Spectrum,
-                new[] { DimensionEnum.Sound, DimensionEnum.Start, DimensionEnum.End, DimensionEnum.FrequencyCount },
-                new[] { DimensionEnum.Volume });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new Spectrum_OperatorWrapper(op)
-            {
-                Sound = sound,
-                Start = start,
-                End = end,
-                FrequencyCount = frequencyCount
-            };
-
-            wrapper.StartInlet.DefaultValue = DEFAULT_START_TIME;
-            wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
-            wrapper.FrequencyCountInlet.DefaultValue = DEFAULT_SPECTRUM_FREQUENCY_COUNT;
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Sound] = sound;
+            wrapper.Inputs[DimensionEnum.Start] = start;
+            wrapper.Inputs[DimensionEnum.End] = end;
+            wrapper.Inputs[DimensionEnum.FrequencyCount] = frequencyCount;
 
             new OperatorValidator_Versatile(op).Assert();
 
@@ -1630,20 +1575,13 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public ToggleTrigger_OperatorWrapper ToggleTrigger(Outlet passThrough = null, Outlet reset = null)
+        public OperatorWrapper_WithUnderlyingPatch ToggleTrigger(Outlet passThrough = null, Outlet reset = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.ToggleTrigger,
-                new[] { DimensionEnum.PassThrough, DimensionEnum.Reset },
-                new[] { DimensionEnum.PassThrough });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new ToggleTrigger_OperatorWrapper(op)
-            {
-                PassThroughInput = passThrough,
-                Reset = reset
-            };
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
+            wrapper.Inputs[DimensionEnum.Reset] = reset;
 
             return wrapper;
         }

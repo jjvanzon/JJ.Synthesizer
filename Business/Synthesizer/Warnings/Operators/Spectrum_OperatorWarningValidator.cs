@@ -3,16 +3,19 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Mathematics;
 using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Spectrum_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults
+    internal class Spectrum_OperatorWarningValidator : VersatileValidator
     {
         public Spectrum_OperatorWarningValidator(Operator obj)
-            : base(obj)
-        { 
+        {
+            if (obj == null) throw new NullException(() => obj);
+
             double? signal = null;
             double? start = null;
             double? end = null;
@@ -64,7 +67,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (end.Value < start.Value)
                 {
-                    ValidationMessages.AddLessThanMessage(nameof(Spectrum_OperatorWrapper.End), ResourceFormatter.End, ResourceFormatter.Start);
+                    ValidationMessages.AddLessThanMessage(nameof(DimensionEnum.End), ResourceFormatter.End, ResourceFormatter.Start);
                 }   
             }
 
@@ -75,7 +78,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 if (!MathHelper.IsPowerOf2((int)frequencyCount.Value))
                 {
                     string message = ResourceFormatter.MustBePowerOf2(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Frequencies));
-                    ValidationMessages.Add(nameof(Spectrum_OperatorWrapper.FrequencyCount), message);
+                    ValidationMessages.Add(nameof(DimensionEnum.FrequencyCount), message);
                 }
             }
         }

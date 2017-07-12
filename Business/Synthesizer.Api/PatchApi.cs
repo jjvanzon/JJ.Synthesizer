@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Api
                 standardDimension,
                 customDimension);
 
-        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet passThrough, Outlet reset)
+        public OperatorWrapper_WithUnderlyingPatch ChangeTrigger(Outlet passThrough, Outlet reset)
             => _operatorFactory.ChangeTrigger(passThrough, reset);
 
         public OperatorWrapper_WithUnderlyingPatch ClosestOverInlets(Outlet input, params Outlet[] items)
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Api
         public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
             => _operatorFactory.Exponent(low, high, ratio);
 
-        public GetDimension_OperatorWrapper GetDimension(DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
+        public OperatorWrapper_WithUnderlyingPatch GetDimension(DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
             => _operatorFactory.GetDimension(standardDimension, customDimension);
 
         public OperatorWrapper_WithUnderlyingPatch GreaterThan(Outlet a = null, Outlet b = null)
@@ -419,7 +419,7 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _operatorFactory.Pulse(frequency, width, standardDimension, customDimension);
 
-        public PulseTrigger_OperatorWrapper PulseTrigger(Outlet calculation, Outlet reset)
+        public OperatorWrapper_WithUnderlyingPatch PulseTrigger(Outlet calculation, Outlet reset)
             => _operatorFactory.PulseTrigger(calculation, reset);
 
         public Random_OperatorWrapper Random(Outlet rate = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
@@ -457,7 +457,7 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _operatorFactory.Reverse(signal, factor, standardDimension, customDimension);
 
-        public Round_OperatorWrapper Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
+        public OperatorWrapper_WithUnderlyingPatch Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
             => _operatorFactory.Round(signal, step, offset);
 
         public Sample_OperatorWrapper Sample(Sample sample = null, Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
@@ -477,7 +477,7 @@ namespace JJ.Business.Synthesizer.Api
             Outlet targetValueB = null)
             => _operatorFactory.Scaler(signal, sourceValueA, sourceValueB, targetValueA, targetValueB);
 
-        public SetDimension_OperatorWrapper SetDimension(
+        public OperatorWrapper_WithUnderlyingPatch SetDimension(
             Outlet calculation = null, 
             Outlet number = null, 
             DimensionEnum standardDimension = DimensionEnum.Undefined, 
@@ -512,7 +512,7 @@ namespace JJ.Business.Synthesizer.Api
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
             => _operatorFactory.SortOverDimension(signal, from, till, step, standardDimension, customDimension, collectionRecalculation);
 
-        public Spectrum_OperatorWrapper Spectrum(
+        public OperatorWrapper_WithUnderlyingPatch Spectrum(
             Outlet sound = null,
             Outlet start = null,
             Outlet end = null,
@@ -561,7 +561,7 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _operatorFactory.TimePower(signal, exponent, origin, standardDimension, customDimension);
 
-        public ToggleTrigger_OperatorWrapper ToggleTrigger(Outlet passThrough, Outlet reset)
+        public OperatorWrapper_WithUnderlyingPatch ToggleTrigger(Outlet passThrough, Outlet reset)
             => _operatorFactory.ToggleTrigger(passThrough, reset);
 
         public OperatorWrapper_WithUnderlyingPatch Triangle(Outlet frequency = null, DimensionEnum? standardDimension = null, string customDimension = null)
