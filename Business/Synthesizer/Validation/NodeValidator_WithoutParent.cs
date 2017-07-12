@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (node == null) throw new NullException(() => node);
 
-            For(() => node.NodeType, ResourceFormatter.NodeType).NotNull();
-            For(() => node.X, ResourceFormatter.X).NotNaN().NotInfinity();
-            For(() => node.Y, ResourceFormatter.Y).NotNaN().NotInfinity();
+            For(node.NodeType, ResourceFormatter.NodeType).NotNull();
+            For(node.X, ResourceFormatter.X).NotNaN().NotInfinity();
+            For(node.Y, ResourceFormatter.Y).NotNaN().NotInfinity();
         }
     }
 }

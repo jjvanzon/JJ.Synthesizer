@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 double? number = DataPropertyParser.TryParseDouble(op, nameof(Number_OperatorWrapper.Number));
 
-                For(() => number, ResourceFormatter.Number).NotZero();
+                For(number, ResourceFormatter.Number).NotZero();
             }
         }
     }

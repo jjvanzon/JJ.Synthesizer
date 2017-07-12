@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     }));
         }
 
-        public static void ShowPopupMessages(Form parentForm, IList<CanonicalModel.MessageDto> popupMessages)
+        public static void ShowPopupMessages(Form parentForm, IList<string> popupMessages)
         {
             if (parentForm == null) throw new NullException(() => parentForm);
             if (popupMessages == null) throw new NullException(() => popupMessages);
@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 new Action(
                     () =>
                     {
-                        MessageBox.Show(string.Join(Environment.NewLine, popupMessages.Select(x => x.Text)));
+                        MessageBox.Show(string.Join(Environment.NewLine, popupMessages));
 
                         PopupMessagesOK?.Invoke(_dummySender, EventArgs.Empty);
                     }));

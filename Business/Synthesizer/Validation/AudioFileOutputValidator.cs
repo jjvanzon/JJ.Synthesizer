@@ -15,28 +15,28 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
-            For(() => audioFileOutput.Amplifier, ResourceFormatter.Amplifier)
+            For(audioFileOutput.Amplifier, ResourceFormatter.Amplifier)
                 .NotNaN()
                 .NotInfinity();
 
-            For(() => audioFileOutput.StartTime, ResourceFormatter.StartTime)
+            For(audioFileOutput.StartTime, ResourceFormatter.StartTime)
                 .NotNaN()
                 .NotInfinity();
 
-            For(() => audioFileOutput.TimeMultiplier, ResourceFormatter.TimeMultiplier)
+            For(audioFileOutput.TimeMultiplier, ResourceFormatter.TimeMultiplier)
                 .NotNaN()
                 .NotInfinity()
                 .IsNot(0);
 
-            For(() => audioFileOutput.Duration, ResourceFormatter.Duration)
+            For(audioFileOutput.Duration, ResourceFormatter.Duration)
                 .NotNaN()
                 .NotInfinity()
                 .GreaterThan(0);
 
-            For(() => audioFileOutput.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
-            For(() => audioFileOutput.AudioFileFormat, ResourceFormatter.AudioFileFormat).NotNull();
-            For(() => audioFileOutput.SampleDataType, ResourceFormatter.SampleDataType).NotNull();
-            For(() => audioFileOutput.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
+            For(audioFileOutput.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
+            For(audioFileOutput.AudioFileFormat, ResourceFormatter.AudioFileFormat).NotNull();
+            For(audioFileOutput.SampleDataType, ResourceFormatter.SampleDataType).NotNull();
+            For(audioFileOutput.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
 
             TryValidateOutletReference(audioFileOutput);
         }
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (!referenceIsValid)
             {
-                ValidationMessages.AddNotInListMessage(nameof(Outlet), ResourceFormatter.Outlet, audioFileOutput.Outlet.ID);
+                Messages.AddNotInListMessage(ResourceFormatter.Outlet, audioFileOutput.Outlet.ID);
             }
         }
     }

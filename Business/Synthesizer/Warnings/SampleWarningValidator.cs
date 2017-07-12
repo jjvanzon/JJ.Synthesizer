@@ -24,20 +24,20 @@ namespace JJ.Business.Synthesizer.Warnings
             }
             alreadyDone.Add(sample);
 
-            For(() => sample.Amplifier, ResourceFormatter.Amplifier).IsNot(0.0);
+            For(sample.Amplifier, ResourceFormatter.Amplifier).IsNot(0.0);
 
             if (!sample.IsActive)
             {
-                ValidationMessages.Add(() => sample.Amplifier, ResourceFormatter.NotActive);
+                Messages.Add(ResourceFormatter.NotActive);
             }
 
             if (bytes == null)
             {
-                ValidationMessages.Add(() => bytes, ResourceFormatter.NotLoaded);
+                Messages.Add(ResourceFormatter.NotLoaded);
             }
             else if (bytes.Length == 0)
             {
-                ValidationMessages.Add(() => bytes.Length, ValidationResourceFormatter.IsZero(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Samples)));
+                Messages.Add(ValidationResourceFormatter.IsZero(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Samples)));
             }
         }
     }

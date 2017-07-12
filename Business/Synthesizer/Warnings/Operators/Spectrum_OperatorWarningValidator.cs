@@ -47,19 +47,19 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 }
             }
 
-            For(() => signal, ResourceFormatter.Signal)
+            For(signal, ResourceFormatter.Signal)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => start, ResourceFormatter.Start)
+            For(start, ResourceFormatter.Start)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => end, ResourceFormatter.End)
+            For(end, ResourceFormatter.End)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => frequencyCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Frequencies))
+            For(frequencyCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Frequencies))
                 .IsInteger()
                 .GreaterThan(2.0);
 
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (end.Value < start.Value)
                 {
-                    ValidationMessages.AddLessThanMessage(nameof(DimensionEnum.End), ResourceFormatter.End, ResourceFormatter.Start);
+                    Messages.AddLessThanMessage(ResourceFormatter.End, ResourceFormatter.Start);
                 }   
             }
 
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 if (!MathHelper.IsPowerOf2((int)frequencyCount.Value))
                 {
                     string message = ResourceFormatter.MustBePowerOf2(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Frequencies));
-                    ValidationMessages.Add(nameof(DimensionEnum.FrequencyCount), message);
+                    Messages.Add(message);
                 }
             }
         }

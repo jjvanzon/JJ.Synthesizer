@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
         {
             if (curve == null) throw new NullException(() => curve);
 
-            For(() => curve.Nodes.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Nodes)).GreaterThanOrEqual(2);
+            For(curve.Nodes.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Nodes)).GreaterThanOrEqual(2);
 
             int i = 1;
             foreach (Node node in curve.Nodes)

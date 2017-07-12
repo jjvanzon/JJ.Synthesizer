@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(obj.Name), CommonResourceFormatter.Name, obj.Name);
+                Messages.AddNotUniqueMessageSingular(CommonResourceFormatter.Name, obj.Name);
             }
         }
     }

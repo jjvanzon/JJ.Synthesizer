@@ -25,9 +25,10 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                 string higherPatchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
                 string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCustomOperator(op);
 
-                ValidationMessages.Add(
-                    nameof(Patch),
-                    CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(lowerPatchIdentifier, higherDocumentPrefix + higherPatchPrefix + higherOperatorIdentifier));
+                Messages.Add(
+                    CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(
+                        lowerPatchIdentifier,
+                        higherDocumentPrefix + higherPatchPrefix + higherOperatorIdentifier));
             }
         }
     }

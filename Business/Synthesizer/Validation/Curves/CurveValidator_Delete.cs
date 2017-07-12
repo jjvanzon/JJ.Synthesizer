@@ -27,9 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
                 string patchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
                 string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCurveOperator(op, curveRepository);
 
-                ValidationMessages.Add(
-                    nameof(Curve),
-                    CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(curveIdentifier, patchPrefix + operatorIdentifier));
+                Messages.Add(CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(curveIdentifier, patchPrefix + operatorIdentifier));
             }
         }
 

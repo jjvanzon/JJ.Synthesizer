@@ -5,7 +5,6 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
-using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 
@@ -113,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
             if (!viewModelValidator.IsValid)
             {
-                userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
+                userInput.ValidationMessages = viewModelValidator.Messages;
                 return userInput;
             }
 
@@ -125,7 +124,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
-            viewModel.ValidationMessages = result.Messages.ToCanonical();
+            viewModel.ValidationMessages = result.Messages;
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);

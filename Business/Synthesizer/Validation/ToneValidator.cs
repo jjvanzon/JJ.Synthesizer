@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (obj == null) throw new NullException(() => obj);
 
-            For(() => obj.Scale, ResourceFormatter.Scale).NotNull();
-            For(() => obj.Number, ResourceFormatter.Number).NotNaN().NotInfinity();
+            For(obj.Scale, ResourceFormatter.Scale).NotNull();
+            For(obj.Number, ResourceFormatter.Number).NotNaN().NotInfinity();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
@@ -59,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 viewModel.OutletIDToPlay = outlet?.ID;
-                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                viewModel.ValidationMessages.AddRange(result.Messages);
                 viewModel.Successful = result.Successful;
             });
         }
@@ -77,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
 
                     // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                    viewModel.ValidationMessages.AddRange(result.Messages);
 
                     // Successful?
                     viewModel.Successful = result.Successful;

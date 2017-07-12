@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
         {
             if (obj == null) throw new NullException(() => obj);
 
-            For(() => obj.AudioOutput, ResourceFormatter.AudioOutput).NotNull();
+            For(obj.AudioOutput, ResourceFormatter.AudioOutput).NotNull();
 
             ExecuteValidator(new NameValidator(obj.Name), ValidationHelper.GetMessagePrefix(obj));
         }

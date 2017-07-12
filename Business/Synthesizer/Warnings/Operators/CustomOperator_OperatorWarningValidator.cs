@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             if (op == null) throw new NullException(() => op);
 
-            For(() => op.UnderlyingPatch, ResourceFormatter.UnderlyingPatch).NotNull();
+            For(op.UnderlyingPatch, ResourceFormatter.UnderlyingPatch).NotNull();
         }
     }
 }

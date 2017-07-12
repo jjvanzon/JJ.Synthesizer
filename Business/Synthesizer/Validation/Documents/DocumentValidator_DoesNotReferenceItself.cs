@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             bool referencesItself = document.LowerDocumentReferences.Any(x => x.LowerDocument?.ID == document.ID);
             if (referencesItself)
             {
-                ValidationMessages.Add(nameof(DocumentReference), ResourceFormatter.DocumentCannotReferenceItself);
+                Messages.Add(ResourceFormatter.DocumentCannotReferenceItself);
             }
         }
     }

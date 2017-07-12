@@ -62,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     VoidResult result = _curveManager.SaveCurveWithRelatedEntities(entity);
 
                     // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                    viewModel.ValidationMessages.AddRange(result.Messages);
 
                     // Successful?
                     viewModel.Successful = result.Successful;

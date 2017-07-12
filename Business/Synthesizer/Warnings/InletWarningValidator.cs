@@ -22,12 +22,12 @@ namespace JJ.Business.Synthesizer.Warnings
 
             if (inlet.WarnIfEmpty && inlet.InputOutlet == null)
             {
-                ValidationMessages.AddNotFilledInMessage(nameof(Inlet));
+                Messages.AddNotFilledInMessage(nameof(Inlet));
             }
 
             if (inlet.IsObsolete && inlet.InputOutlet != null)
             {
-                ValidationMessages.Add(nameof(Inlet.IsObsolete), ResourceFormatter.ObsoleteButStillUsed);
+                Messages.Add(ResourceFormatter.ObsoleteButStillUsed);
             }
         }
     }

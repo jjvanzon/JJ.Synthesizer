@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new AudioFileOutputGridViewModel
             {
                 List = new List<AudioFileOutputListItemViewModel>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new AudioOutputPropertiesViewModel
             {
                 Entity = CreateEmptyAudioOutputViewModel(),
-                ValidationMessages = new List<MessageDto>(),
+                ValidationMessages = new List<string>(),
                 SpeakerSetupLookup = GetSpeakerSetupLookupViewModel()
             };
 
@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForSamples = new Dictionary<int, OperatorPropertiesViewModel_ForSample>(),
                 OperatorPropertiesDictionary_WithInterpolation = new Dictionary<int, OperatorPropertiesViewModel_WithInterpolation>(),
                 OperatorPropertiesDictionary_WithCollectionRecalculation = new Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurrentInstrumentViewModel
             {
                 List = new List<IDAndName>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -81,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurveGridViewModel
             {
                 List = new List<CurveListItemViewModel>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentCannotDeleteViewModel
             {
                 Document = new IDAndName(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -149,7 +149,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentDeleteViewModel
             {
                 Document = new IDAndName(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -159,7 +159,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentDeletedViewModel
             {
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -170,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentDetailsViewModel
             {
                 Document = new IDAndName(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -181,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentGridViewModel
             {
                 List = new List<IDAndName>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -191,7 +191,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentOrPatchNotFoundPopupViewModel
             {
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -202,7 +202,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentPropertiesViewModel
             {
                 Entity = new IDAndName(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -212,7 +212,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new LibraryGridViewModel
             {
-                ValidationMessages = new List<MessageDto>(),
+                ValidationMessages = new List<string>(),
                 List = new List<LibraryListItemViewModel>()
             };
 
@@ -232,7 +232,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new LibrarySelectionPopupViewModel
             {
-                ValidationMessages = new List<MessageDto>(),
+                ValidationMessages = new List<string>(),
                 List = new List<IDAndName>()
             };
 
@@ -244,9 +244,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return new MainViewModel
             {
                 Menu = CreateEmptyMenuViewModel(),
-                ValidationMessages = new List<MessageDto>(),
-                WarningMessages = new List<MessageDto>(),
-                PopupMessages = new List<MessageDto>(),
+                ValidationMessages = new List<string>(),
+                WarningMessages = new List<string>(),
+                PopupMessages = new List<string>(),
                 Document = CreateEmptyDocumentViewModel(),
                 DocumentCannotDelete = CreateEmptyDocumentCannotDeleteViewModel(),
                 DocumentDelete = CreateEmptyDocumentDeleteViewModel(),
@@ -278,7 +278,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchGridViewModel
             {
                 List = new List<PatchListItemViewModel>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -289,7 +289,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new SampleGridViewModel
             {
                 List = new List<SampleListItemViewModel>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -300,7 +300,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ScaleGridViewModel
             {
                 Dictionary = new Dictionary<int, IDAndName>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -312,7 +312,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = CreateEmptyPatchViewModel(),
                 OperatorToolboxItems = new List<IDAndName>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -322,7 +322,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchPropertiesViewModel
             {
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;

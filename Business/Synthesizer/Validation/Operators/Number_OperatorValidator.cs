@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 expectedDataKeys: new[] { nameof(Number_OperatorWrapper.Number) })
         {
             string numberString = DataPropertyParser.TryGetString(obj, nameof(Number_OperatorWrapper.Number));
-            For(() => numberString, ResourceFormatter.Number, DataPropertyParser.FormattingCulture)
+            For(numberString, ResourceFormatter.Number, DataPropertyParser.FormattingCulture)
                 .NotNullOrEmpty()
                 .IsDouble()
                 .NotInfinity()

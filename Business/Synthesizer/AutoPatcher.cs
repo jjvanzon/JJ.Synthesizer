@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer
                 return new Result<Outlet>
                 {
                     Successful = false,
-                    Messages = new Messages { new Message(nameof(soundOutlets), ResourceFormatter.PatchHasNoOutlets) }
+                    Messages = new[] { ResourceFormatter.PatchHasNoOutlets }
                 };
             }
             else
@@ -368,7 +368,7 @@ namespace JJ.Business.Synthesizer
                 return new Result<Outlet>
                 {
                     Successful = false,
-                    Messages = new Messages { new Message(nameof(DocumentReference), ResourceFormatter.NoSoundFound) }
+                    Messages = new[] { ResourceFormatter.NoSoundFound }
                 };
             }
             else
@@ -395,7 +395,7 @@ namespace JJ.Business.Synthesizer
                 return new Result<Outlet>
                 {
                     Successful = false,
-                    Messages = new Messages { new Message(nameof(DocumentReference), ResourceFormatter.NoSoundFound) }
+                    Messages = new[] { ResourceFormatter.NoSoundFound }
                 };
             }
             else
@@ -421,7 +421,7 @@ namespace JJ.Business.Synthesizer
                 return new Result<Outlet>
                 {
                     Successful = false,
-                    Messages = new Messages { new Message(nameof(Document), ResourceFormatter.NoSoundFound) }
+                    Messages = new[] { ResourceFormatter.NoSoundFound }
                 };
             }
             else

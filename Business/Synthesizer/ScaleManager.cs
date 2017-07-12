@@ -134,11 +134,7 @@ namespace JJ.Business.Synthesizer
             if (tone.ID == 0) throw new ZeroException(() => tone.ID);
 
             IValidator validator = new ToneValidator(tone);
-            return new VoidResultDto
-            {
-                Successful = validator.IsValid,
-                Messages = validator.ValidationMessages.ToCanonical()
-            };
+            return validator.ToCanonical();
         }
 
         public void DeleteTone(int id)

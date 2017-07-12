@@ -16,8 +16,7 @@ namespace JJ.Business.Synthesizer.Validation
 
                 if (dimensionIsFilledIn && customDimensionNameIsFilledIn)
                 {
-                    ValidationMessages.AddNotBothValidationMessage(
-                        nameof(Dimension),
+                    Messages.AddNotBothValidationMessage(
                         ResourceFormatter.StandardDimension,
                         ResourceFormatter.CustomDimensionName);
                 }
@@ -26,8 +25,8 @@ namespace JJ.Business.Synthesizer.Validation
             }
             else
             {
-                For(() => standardDimension, ResourceFormatter.StandardDimension).IsNull();
-                For(() => customDimensionName, ResourceFormatter.CustomDimensionName).IsNullOrWhiteSpace();
+                For(standardDimension, ResourceFormatter.StandardDimension).IsNull();
+                For(customDimensionName, ResourceFormatter.CustomDimensionName).IsNullOrWhiteSpace();
             }
         }
     }

@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (entity == null) throw new NullException(() => entity);
 
-            For(() => entity.Document, ResourceFormatter.Document).NotNull();
-            For(() => entity.FilePath, ResourceFormatter.FilePath).MaxLength(255);
+            For(entity.Document, ResourceFormatter.Document).NotNull();
+            For(entity.FilePath, ResourceFormatter.FilePath).MaxLength(255);
 
             ExecuteValidator(new NameValidator(entity.Name));
         }

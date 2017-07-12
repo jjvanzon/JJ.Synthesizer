@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 
                 string collectionRecalculationString = DataPropertyParser.TryGetString(data, dataKey);
 
-                For(() => collectionRecalculationString, dataKey)
+                For(collectionRecalculationString, dataKey)
                     .NotNullOrEmpty()
                     .IsEnum<CollectionRecalculationEnum>()
                     .IsNot(CollectionRecalculationEnum.Undefined);

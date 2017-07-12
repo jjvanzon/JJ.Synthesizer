@@ -13,8 +13,8 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 
             ExecuteValidator(new NameValidator(documentReference.Alias, ResourceFormatter.Alias, required: false));
 
-            For(() => documentReference.HigherDocument, ResourceFormatter.HigherDocument).NotNull();
-            For(() => documentReference.LowerDocument, ResourceFormatter.Library).NotNull();
+            For(documentReference.HigherDocument, ResourceFormatter.HigherDocument).NotNull();
+            For(documentReference.LowerDocument, ResourceFormatter.Library).NotNull();
         }
     }
 }

@@ -18,8 +18,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 string curveIDString = DataPropertyParser.TryGetString(op, nameof(Curve_OperatorWrapper.CurveID));
 
-                For(() => curveIDString, ResourceFormatter.Curve)
-                    .NotNullOrEmpty();
+                For(curveIDString, ResourceFormatter.Curve).NotNullOrEmpty();
             }
         }
     }

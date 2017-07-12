@@ -40,19 +40,19 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 }
             }
 
-            For(() => signal, ResourceFormatter.Signal)
+            For(signal, ResourceFormatter.Signal)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => start, ResourceFormatter.Start)
+            For(start, ResourceFormatter.Start)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => end, ResourceFormatter.End)
+            For(end, ResourceFormatter.End)
                 .NotInfinity()
                 .NotNaN();
 
-            For(() => samplingRate, ResourceFormatter.SamplingRate)
+            For(samplingRate, ResourceFormatter.SamplingRate)
                 .IsInteger()
                 .GreaterThan(0.0);
 
@@ -61,7 +61,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 if (end.Value < start.Value)
                 {
-                    ValidationMessages.AddLessThanMessage(nameof(Cache_OperatorWrapper.End), ResourceFormatter.End, ResourceFormatter.Start);
+                    Messages.AddLessThanMessage(ResourceFormatter.End, ResourceFormatter.Start);
                 }
             }
         }

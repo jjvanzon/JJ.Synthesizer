@@ -13,10 +13,10 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 
             if (obj.BaseFrequency.HasValue)
             {
-                For(() => obj.BaseFrequency, ResourceFormatter.BaseFrequency).NotNaN().NotInfinity().GreaterThan(0);
+                For(obj.BaseFrequency, ResourceFormatter.BaseFrequency).NotNaN().NotInfinity().GreaterThan(0);
             }
 
-            For(() => obj.ScaleType, ResourceFormatter.ScaleType).NotNull();
+            For(obj.ScaleType, ResourceFormatter.ScaleType).NotNull();
         }
     }
 }

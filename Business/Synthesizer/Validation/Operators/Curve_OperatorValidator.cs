@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             }
 
             string curveIDString = DataPropertyParser.TryGetString(op, nameof(Curve_OperatorWrapper.CurveID));
-            For(() => curveIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.Curve)).IsInteger();
+            For(curveIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.Curve)).IsInteger();
 
             int curveID;
             if (!int.TryParse(curveIDString, out curveID))
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 return;
             }
 
-            ValidationMessages.AddNotInListMessage(nameof(Curve), ResourceFormatter.Curve, curveID);
+            Messages.AddNotInListMessage(ResourceFormatter.Curve, curveID);
         }
     }
 }

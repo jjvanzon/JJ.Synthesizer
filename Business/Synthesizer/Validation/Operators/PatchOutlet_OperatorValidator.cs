@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 new[] { DimensionEnum.Undefined },
                 new[] { GetOutletDimensionEnum(op) })
         {
-            For(() => op.Name, CommonResourceFormatter.Name).IsNullOrEmpty();
+            For(op.Name, CommonResourceFormatter.Name).IsNullOrEmpty();
         }
 
         private static DimensionEnum GetOutletDimensionEnum(Operator op)

@@ -378,10 +378,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 // Compare Warnings
                 IList<string> additionalWarningTexts = warningResultAfter.Messages
-                                                                         .Select(x => x.Text)
-                                                                         .Except(
-                                                                             warningResultBefore.Messages
-                                                                                                .Select(x => x.Text)).ToArray();
+                                                                         .Except(warningResultBefore.Messages)
+                                                                         .ToArray();
                 if (mustAssertWarningIncrease)
                 {
                     if (additionalWarningTexts.Count != 0)
@@ -389,7 +387,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         var additionalWarningResult = new VoidResult
                         {
                             Successful = false,
-                            Messages = new Messages(additionalWarningTexts.Select(x => new Message(nameof(Document), x)).ToArray())
+                            Messages = additionalWarningTexts
                         };
 
                         totalResult.Combine(additionalWarningResult, "Warning: " + ValidationHelper.GetMessagePrefix(document));

@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentID = higherDocument.ID,
                 List = patches.Select(x => toIDAndName(x)).ToList(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             IDAndName toIDAndName(Patch entity)
@@ -109,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentID = higherDocument.ID,
                 List = new List<IDAndName>(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -121,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentDeletedViewModel
             {
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;
@@ -147,7 +147,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
                 CurrentInstrument = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;

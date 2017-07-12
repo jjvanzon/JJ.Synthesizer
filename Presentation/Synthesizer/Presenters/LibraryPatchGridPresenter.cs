@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -53,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 viewModel.OutletIDToPlay = outlet?.ID;
-                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                viewModel.ValidationMessages.AddRange(result.Messages);
                 viewModel.Successful = result.Successful;
             });
         }

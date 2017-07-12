@@ -1,5 +1,4 @@
-﻿using JJ.Data.Canonical;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
         }
 
-        public DocumentCannotDeleteViewModel Show(int id, IList<MessageDto> messages)
+        public DocumentCannotDeleteViewModel Show(int id, IList<string> messages)
         {
             // GetEntity
             Document document = _documentRepository.Get(id);

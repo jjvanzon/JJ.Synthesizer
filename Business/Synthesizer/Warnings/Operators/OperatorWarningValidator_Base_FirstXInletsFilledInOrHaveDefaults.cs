@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 if (inlet.InputOutlet == null && !inlet.DefaultValue.HasValue)
                 {
                     string identifier = ValidationHelper.GetUserFriendlyIdentifier(inlet);
-                    ValidationMessages.AddNotFilledInMessage(nameof(Inlet), identifier);
+                    Messages.AddNotFilledInMessage(identifier);
                 }
             }
         }

@@ -15,11 +15,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         {
             if (op == null) throw new NullException(() => op);
 
-            For(() => newOutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets)).GreaterThanOrEqual(1);
+            For(newOutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets)).GreaterThanOrEqual(1);
 
             if (!op.Outlets.Where(x => x.IsRepeating).Any())
             {
-                ValidationMessages.Add(nameof(Outlet), ResourceFormatter.CannotSetOutletCountWithoutRepeatingOutlets);
+                Messages.Add(ResourceFormatter.CannotSetOutletCountWithoutRepeatingOutlets);
             }
 
             IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
@@ -30,8 +30,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 // ReSharper disable once InvertIf
                 if (outlet.ConnectedInlets.Count > 0)
                 {
-                    string message = ResourceFormatter.CannotChangeOutletsBecauseOneIsStillFilledIn(i + 1);
-                    ValidationMessages.Add(nameof(op.Outlets), message);
+                    Messages.Add(ResourceFormatter.CannotChangeOutletsBecauseOneIsStillFilledIn(i + 1));
                 }
             }
         }

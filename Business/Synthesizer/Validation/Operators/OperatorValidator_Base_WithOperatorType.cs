@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             if (expectedInletDimensionEnums == null) throw new NullException(() => expectedInletDimensionEnums);
             if (expectedOutletDimensionEnums == null) throw new NullException(() => expectedOutletDimensionEnums);
 
-            For(() => op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(expectedOperatorTypeEnum);
+            For(op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(expectedOperatorTypeEnum);
 
             ExecuteValidator(new DataPropertyValidator(op.Data, expectedDataKeys));
             ExecuteValidator(new DimensionInfoValidator(op.OperatorType?.HasDimension ?? false, op.StandardDimension, op.CustomDimensionName));
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             // Inlets
             string inletCountPropertyDisplayName = CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets);
-            For(() => op.Inlets.Count, inletCountPropertyDisplayName).Is(expectedInletCount);
+            For(op.Inlets.Count, inletCountPropertyDisplayName).Is(expectedInletCount);
 
             if (op.Inlets.Count == expectedInletCount)
             {
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             // Outlets
             string outletCountPropertyDisplayName = CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets);
-            For(() => op.Outlets.Count, outletCountPropertyDisplayName).Is(expectedOutletCount);
+            For(op.Outlets.Count, outletCountPropertyDisplayName).Is(expectedOutletCount);
 
             // ReSharper disable once InvertIf
             if (op.Outlets.Count == expectedOutletCount)

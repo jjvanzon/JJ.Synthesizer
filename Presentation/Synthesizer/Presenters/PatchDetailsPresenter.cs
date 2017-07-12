@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using JJ.Business.Canonical;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -130,7 +129,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+            viewModel.ValidationMessages.AddRange(result.Messages);
 
             // Successful?
             viewModel.Successful = result.Successful;
@@ -159,10 +158,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput.SelectedOperator == null)
             {
                 // Non-Persisted
-                userInput.ValidationMessages.Add(
-                    new Message(
-                        nameof(userInput.SelectedOperator),
-                        ResourceFormatter.SelectAnOperatorFirst).ToCanonical());
+                userInput.ValidationMessages.Add(ResourceFormatter.SelectAnOperatorFirst);
 
                 return userInput;
             }
@@ -256,7 +252,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
             viewModel.OutletIDToPlay = outlet?.ID;
-            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+            viewModel.ValidationMessages.AddRange(result.Messages);
 
             // Successful?
             viewModel.Successful = result.Successful;
@@ -362,7 +358,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+            viewModel.ValidationMessages.AddRange(result.Messages);
 
             // Successful?
             viewModel.Successful = result.Successful;

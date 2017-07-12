@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 string sampleIDString = DataPropertyParser.TryGetString(op, nameof(Sample_OperatorWrapper.SampleID));
 
-                For(() => sampleIDString, ResourceFormatter.Sample)
+                For(sampleIDString, ResourceFormatter.Sample)
                     .NotNullOrEmpty();
             }
         }

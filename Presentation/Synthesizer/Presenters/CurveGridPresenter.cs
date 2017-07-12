@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IResult result = _curveManager.DeleteWithRelatedEntities(id);
 
                     // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                    viewModel.ValidationMessages.AddRange(result.Messages);
 
                     // Successful?
                     viewModel.Successful = result.Successful;

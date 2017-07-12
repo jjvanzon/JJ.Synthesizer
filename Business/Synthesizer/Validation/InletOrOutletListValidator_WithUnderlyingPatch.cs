@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation
             int firstRepetitionPosition = actualRepetitionPositions[0];
             if (firstRepetitionPosition != 0)
             {
-                ValidationMessages.AddNotEqualMessage(nameof(Inlet.RepetitionPosition), ResourceFormatter.FirstRepetitionPosition, 0);
+                Messages.AddNotEqualMessage(ResourceFormatter.FirstRepetitionPosition, 0);
             }
 
             IList<int> expectedRepetitionPositions = Enumerable.Range(
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             string concatinatedActualRepetitionPositions = string.Join(", ", actualRepetitionPositions);
             string message = ResourceFormatter.RepetitionPositionsNotConsecutive(concatinatedActualRepetitionPositions);
-            ValidationMessages.Add(nameof(Inlet.RepetitionPosition), message);
+            Messages.Add(message);
         }
     }
 }

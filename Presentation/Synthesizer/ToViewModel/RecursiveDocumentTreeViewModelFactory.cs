@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -30,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, count: 0),
                 AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
                 AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, count: 0),
-                ValidationMessages = new List<MessageDto>(),
+                ValidationMessages = new List<string>(),
                 LibrariesNode = new LibrariesTreeNodeViewModel
                 {
                     List = new List<LibraryTreeNodeViewModel>()
@@ -53,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
                 AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
                 AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, document.AudioFileOutputs.Count),
-                ValidationMessages = new List<MessageDto>(),
+                ValidationMessages = new List<string>(),
                 PatchesNode = new PatchesTreeNodeViewModel
                 {
                     Text = GetTreeNodeText(ResourceFormatter.Patches, document.Patches.Count),

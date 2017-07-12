@@ -14,12 +14,12 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (op.HasCircularInputOutput())
             {
-                ValidationMessages.Add(() => op, ResourceFormatter.CircularInputOutputReference);
+                Messages.Add(ResourceFormatter.CircularInputOutputReference);
             }
 
             if (op.HasCircularUnderlyingPatch())
             {
-                ValidationMessages.Add(() => op, ResourceFormatter.UnderlyingPatchIsCircular);
+                Messages.Add(ResourceFormatter.UnderlyingPatchIsCircular);
             }
         }
     }

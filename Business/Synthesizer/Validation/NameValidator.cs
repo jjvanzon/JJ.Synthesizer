@@ -32,12 +32,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (required)
             {
-                For(() => name, propertyDisplayName).NotNullOrWhiteSpace();
+                For(name, propertyDisplayName).NotNullOrWhiteSpace();
             }
 
             if (_nameMaxLength.HasValue)
             {
-                For(() => name, propertyDisplayName).MaxLength(_nameMaxLength.Value);
+                For(name, propertyDisplayName).MaxLength(_nameMaxLength.Value);
             }
         }
     }

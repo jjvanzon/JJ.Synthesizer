@@ -117,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_WithInterpolation = patch.ToPropertiesViewModelList_WithInterpolation().ToDictionary(x => x.ID),
                 PatchDetails = patch.ToDetailsViewModel(dimensionRepository, sampleRepository, curveRepository, entityPositionManager),
                 PatchProperties = patch.ToPropertiesViewModel(),
-                ValidationMessages = new List<MessageDto>()
+                ValidationMessages = new List<string>()
             };
 
             viewModel.PatchDetails.CanSave = true;

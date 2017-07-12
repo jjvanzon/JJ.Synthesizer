@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                 string messagePrefix = ValidationHelper.GetMessagePrefix(operatorMissingInList, sampleRepository, curveRepository);
                 string message = ResourceFormatter.OperatorIsInGraphButNotInList;
 
-                ValidationMessages.Add(nameof(patch.Operators), messagePrefix + message);
+                Messages.Add(messagePrefix + message);
             }
         }
     }

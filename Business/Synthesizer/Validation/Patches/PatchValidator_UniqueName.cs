@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(patch.Name), CommonResourceFormatter.Name, patch.Name);
+                Messages.AddNotUniqueMessageSingular(CommonResourceFormatter.Name, patch.Name);
             }
         }
     }

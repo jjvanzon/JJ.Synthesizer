@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            For(() => inlet.GetDimensionEnum(), ResourceFormatter.Dimension).Is(expectedDimensionEnum);
+            For(inlet.GetDimensionEnum(), ResourceFormatter.Dimension).Is(expectedDimensionEnum);
         }
     }
 }

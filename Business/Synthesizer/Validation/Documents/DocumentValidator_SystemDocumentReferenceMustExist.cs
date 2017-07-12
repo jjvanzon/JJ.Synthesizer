@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 string systemDocumentIdentifier = ValidationHelper.GetUserFriendlyIdentifier(documentManager.GetSystemDocument());
 
-                ValidationMessages.AddNotContainsMessage(nameof(DocumentReference), ResourceFormatter.Libraries, systemDocumentIdentifier);
+                Messages.AddNotContainsMessage(ResourceFormatter.Libraries, systemDocumentIdentifier);
 
             }
         }

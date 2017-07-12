@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
             if (documentReference.LowerDocument.IsSystemDocument())
             {
                 string message = CommonResourceFormatter.CannotDelete_WithName(documentReferenceIdentifier);
-                ValidationMessages.Add(nameof(DocumentReference), message);
+                Messages.Add(message);
                 return;
             }
 
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
                     documentReferenceIdentifier,
                     higherPatchPrefix + higherCustomOperatorIdentifier);
 
-                ValidationMessages.Add(nameof(DocumentReference), message);
+                Messages.Add(message);
             }
         }
     }

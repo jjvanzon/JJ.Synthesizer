@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -223,7 +222,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+            viewModel.ValidationMessages.AddRange(result.Messages);
             viewModel.OutletIDToPlay = outlet?.ID;
 
             // Successful

@@ -33,13 +33,13 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             // Check length
             if (_dataMaxLength.HasValue)
             {
-                For(() => data, ResourceFormatter.Data).MaxLength(_dataMaxLength.Value);
+                For(data, ResourceFormatter.Data).MaxLength(_dataMaxLength.Value);
             }
 
             // Check well-formedness
             if (!DataPropertyParser.DataIsWellFormed(data))
             {
-                ValidationMessages.AddIsInvalidMessage(() => data, ResourceFormatter.Data);
+                Messages.AddIsInvalidMessage(ResourceFormatter.Data);
                 return;
             }
 
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             int uniqueActualDataKeyCount = actualDataKeysList.Distinct().Count();
             if (uniqueActualDataKeyCount != actualDataKeysList.Count)
             {
-                ValidationMessages.AddNotUniqueMessagePlural(PropertyNames.DataKeys, ResourceFormatter.DataKeys);
+                Messages.AddNotUniqueMessagePlural(ResourceFormatter.DataKeys);
                 return;
             }
 
@@ -61,8 +61,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
                 bool dataKeyIsAllowed = _expectedDataKeysHashSet.Contains(actualDataKey);
                 if (!dataKeyIsAllowed)
                 {
-                    ValidationMessages.AddNotInListMessage(
-                        PropertyNames.DataKey,
+                    Messages.AddNotInListMessage(
                         ResourceFormatter.DataKey,
                         actualDataKey,
                         _expectedDataKeysHashSet);
@@ -75,7 +74,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
                 bool dataKeyExists = actualDataKeysHashSet.Contains(expectedDataKey);
                 if (!dataKeyExists)
                 {
-                    ValidationMessages.AddNotExistsMessage(PropertyNames.DataKey, ResourceFormatter.DataKey, expectedDataKey);
+                    Messages.AddNotExistsMessage(ResourceFormatter.DataKey, expectedDataKey);
                 }
             }
         }

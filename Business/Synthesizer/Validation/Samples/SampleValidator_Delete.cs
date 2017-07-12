@@ -27,8 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
                 string patchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
                 string operatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForSampleOperator(op, sampleRepository);
 
-                ValidationMessages.Add(
-                    nameof(Sample),
+                Messages.Add(
                     CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(sampleIdentifier, patchPrefix + operatorIdentifier));
             }
         }

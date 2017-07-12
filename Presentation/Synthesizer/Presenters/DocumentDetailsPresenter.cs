@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                viewModel.ValidationMessages.AddRange(result.Messages);
                 viewModel.Successful = false;
 
                 return viewModel;

@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             
             if (!isInList)
             {
-                ValidationMessages.AddNotInListMessage(nameof(Operator.UnderlyingPatch), ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);
+                Messages.AddNotInListMessage(ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);
             }
         }
 
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 sb.Append(Environment.NewLine);
                 sb.Append($"{ResourceFormatter.UnderlyingPatch}: {ResourceFormatter.HasDimension} = {op.UnderlyingPatch.HasDimension}.");
 
-                ValidationMessages.Add(nameof(Operator.HasDimension), sb.ToString());
+                Messages.Add(sb.ToString());
             }
         }
 
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet,
                         sourceInlet.Position,
                         destInlet.Position);
-                    ValidationMessages.Add(nameof(Inlet), message);
+                    Messages.Add(message);
                 }
 
                 if (!NameHelper.AreEqual(destInlet.Name, sourceInlet.Name))
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet,
                         sourceInlet.Name,
                         destInlet.Name);
-                    ValidationMessages.Add(nameof(Inlet), message);
+                    Messages.Add(message);
                 }
 
                 if (destInlet.GetDimensionEnum() != sourceInlet.GetDimensionEnum())
@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet,
                         sourceInlet.GetDimensionEnum(),
                         destInlet.GetDimensionEnum());
-                    ValidationMessages.Add(nameof(Inlet), message);
+                    Messages.Add(message);
                 }
 
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet,
                         sourceInlet.DefaultValue,
                         destInlet.DefaultValue);
-                    ValidationMessages.Add(nameof(Inlet), message);
+                    Messages.Add(message);
                 }
 
                 if (destInlet.WarnIfEmpty != sourceInlet.WarnIfEmpty)
@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet,
                         sourceInlet.WarnIfEmpty,
                         destInlet.WarnIfEmpty);
-                    ValidationMessages.Add(nameof(Inlet), message);
+                    Messages.Add(message);
                 }
 
                 if (destInlet.NameOrDimensionHidden != sourceInlet.NameOrDimensionHidden)
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet,
                         sourceInlet.NameOrDimensionHidden,
                         destInlet.NameOrDimensionHidden);
-                    ValidationMessages.Add(nameof(Inlet), message);
+                    Messages.Add(message);
                 }
 
                 if (destInlet.IsRepeating != sourceInlet.IsRepeating)
@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destInlet,
                         sourceInlet.IsRepeating,
                         destInlet.IsRepeating);
-                    ValidationMessages.Add(nameof(Inlet), message);
+                    Messages.Add(message);
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(destInlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
-                    ValidationMessages.Add(nameof(destInlet.IsObsolete), messagePrefix + message);
+                    Messages.Add(messagePrefix + message);
                 }
             }
             else
@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(destInlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
-                    ValidationMessages.Add(nameof(destInlet.IsObsolete), messagePrefix + message);
+                    Messages.Add(messagePrefix + message);
                 }
             }
         }
@@ -234,7 +234,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destOutlet,
                         sourceOutlet.Position,
                         destOutlet.Position);
-                    ValidationMessages.Add(nameof(Outlet), message);
+                    Messages.Add(message);
                 }
 
                 if (!NameHelper.AreEqual(destOutlet.Name, sourceOutlet.Name))
@@ -245,7 +245,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destOutlet,
                         sourceOutlet.Name,
                         destOutlet.Name);
-                    ValidationMessages.Add(nameof(Outlet), message);
+                    Messages.Add(message);
                 }
 
                 if (destOutlet.GetDimensionEnum() != sourceOutlet.GetDimensionEnum())
@@ -256,7 +256,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destOutlet,
                         sourceOutlet.GetDimensionEnum(),
                         destOutlet.GetDimensionEnum());
-                    ValidationMessages.Add(nameof(Outlet), message);
+                    Messages.Add(message);
                 }
 
                 if (destOutlet.NameOrDimensionHidden != sourceOutlet.NameOrDimensionHidden)
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destOutlet,
                         sourceOutlet.NameOrDimensionHidden,
                         destOutlet.NameOrDimensionHidden);
-                    ValidationMessages.Add(nameof(Outlet), message);
+                    Messages.Add(message);
                 }
 
                 if (destOutlet.IsRepeating != sourceOutlet.IsRepeating)
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         destOutlet,
                         sourceOutlet.IsRepeating,
                         destOutlet.IsRepeating);
-                    ValidationMessages.Add(nameof(Outlet), message);
+                    Messages.Add(message);
                 }
             }
         }
@@ -298,7 +298,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(destOutlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.True);
-                    ValidationMessages.Add(nameof(destOutlet.IsObsolete), messagePrefix + message);
+                    Messages.Add(messagePrefix + message);
                 }
             }
             else
@@ -308,7 +308,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 {
                     string messagePrefix = ValidationHelper.GetMessagePrefix(destOutlet);
                     string message = ValidationResourceFormatter.NotEqual(ResourceFormatter.IsObsolete, CommonResourceFormatter.False);
-                    ValidationMessages.Add(nameof(destOutlet.IsObsolete), messagePrefix + message);
+                    Messages.Add(messagePrefix + message);
                 }
             }
         }

@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             {
                 string interpolationTypeString = DataPropertyParser.TryGetString(data, nameof(Cache_OperatorWrapper.InterpolationType));
 
-                For(() => interpolationTypeString, ResourceFormatter.InterpolationType)
+                For(interpolationTypeString, ResourceFormatter.InterpolationType)
                     .NotNullOrEmpty()
                     .IsEnum<InterpolationTypeEnum>()
                     .IsNot(InterpolationTypeEnum.Undefined);

@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             if (obj == null) throw new NullException(() => obj);
 
-            For(() => obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration).LessThan(5);
+            For(obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration).LessThan(5);
         }
     }
 }

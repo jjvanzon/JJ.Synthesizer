@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                   expectedInletDimensionEnums,
                   expectedOutletDimensionEnums,
                   expectedDataKeys: new string[0])
-        { 
-            For(() => obj.Data, ResourceFormatter.Data).IsNullOrEmpty();
+        {
+            For(obj.Data, ResourceFormatter.Data).IsNullOrEmpty();
         }
     }
 }

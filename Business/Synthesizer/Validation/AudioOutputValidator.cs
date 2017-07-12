@@ -11,11 +11,11 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (obj == null) throw new NullException(() => obj);
 
-            For(() => obj.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
-            For(() => obj.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
-            For(() => obj.MaxConcurrentNotes, ResourceFormatter.MaxConcurrentNotes).GreaterThan(0);
+            For(obj.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
+            For(obj.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
+            For(obj.MaxConcurrentNotes, ResourceFormatter.MaxConcurrentNotes).GreaterThan(0);
 
-            For(() => obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration)
+            For(obj.DesiredBufferDuration, ResourceFormatter.DesiredBufferDuration)
                 .NotNaN()
                 .NotInfinity()
                 .GreaterThan(0);

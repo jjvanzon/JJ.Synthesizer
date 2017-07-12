@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (node == null) throw new NullException(() => node);
 
-            For(() => node.Curve, ResourceFormatter.Curve).NotNull();
+            For(node.Curve, ResourceFormatter.Curve).NotNull();
         }
     }
 }

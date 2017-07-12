@@ -119,7 +119,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PopupMessagesOK() => MainViewModel.PopupMessages = new List<MessageDto>();
+        public void PopupMessagesOK() => MainViewModel.PopupMessages = new List<string>();
 
         // AudioFileOutput
 
@@ -336,7 +336,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Non-Persisted
                     viewModel.Visible = userInput.Visible;
-                    viewModel.ValidationMessages = result.Messages.ToCanonical();
+                    viewModel.ValidationMessages = result.Messages;
                     viewModel.Successful = result.Successful;
                     viewModel.OutletIDToPlay = outlet?.ID;
 
@@ -374,7 +374,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!validationResult.Successful)
             {
                 // Non-Persisted
-                currentInstrumentUserInput.ValidationMessages.AddRange(validationResult.Messages.ToCanonical());
+                currentInstrumentUserInput.ValidationMessages.AddRange(validationResult.Messages);
 
                 // DispatchViewModel
                 DispatchViewModel(currentInstrumentUserInput);
@@ -477,7 +477,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
 
                     // Non-Persisted
-                    viewModel2.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                    viewModel2.ValidationMessages.AddRange(result.Messages);
                     viewModel2.RefreshCounter = userInput.RefreshCounter;
                     viewModel2.PatchDetails.RefreshCounter = userInput.PatchDetails.RefreshCounter;
 
@@ -1122,8 +1122,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // ToViewModel
-            MainViewModel.ValidationMessages = validationResult.Messages.ToCanonical();
-            MainViewModel.WarningMessages = warningsResult.Messages.ToCanonical();
+            MainViewModel.ValidationMessages = validationResult.Messages;
+            MainViewModel.WarningMessages = warningsResult.Messages;
         }
 
         public void DocumentTreeClose() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.Close);
@@ -1312,7 +1312,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                             result = new Result<Outlet>
                             {
                                 Successful = false,
-                                Messages = new Messages { new Message(nameof(Sample), ResourceFormatter.NoSoundFound) }
+                                Messages = new[] { ResourceFormatter.NoSoundFound }
                             };
                         }
 
@@ -1356,7 +1356,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 viewModel.Visible = userInput.Visible;
-                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                viewModel.ValidationMessages.AddRange(result.Messages);
                 viewModel.Successful = result.Successful;
                 viewModel.OutletIDToPlay = outlet?.ID;
                 viewModel.SelectedItemID = userInput.SelectedItemID;
@@ -1826,12 +1826,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ViewModel Validation
             if (!userInput.SelectedNodeID.HasValue)
             {
-                MainViewModel.ValidationMessages.Add(
-                    new MessageDto
-                    {
-                        Key = nameof(userInput.SelectedNodeID),
-                        Text = ResourceFormatter.SelectANodeFirst
-                    });
+                MainViewModel.ValidationMessages.Add(ResourceFormatter.SelectANodeFirst);
                 return;
             }
 
@@ -1854,7 +1849,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IResult result = _curveManager.DeleteNode(node);
 
                     // Non-Persisted
-                    userInput.ValidationMessages = result.Messages.ToCanonical();
+                    userInput.ValidationMessages = result.Messages;
                     userInput.SelectedNodeID = null;
 
                     // Successful?
@@ -3102,7 +3097,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
             if (!viewModelValidator.IsValid)
             {
-                userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
+                userInput.ValidationMessages = viewModelValidator.Messages;
                 DispatchViewModel(userInput);
                 return;
             }
@@ -3155,7 +3150,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
             if (!viewModelValidator.IsValid)
             {
-                userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
+                userInput.ValidationMessages = viewModelValidator.Messages;
                 DispatchViewModel(userInput);
                 return;
             }
@@ -3241,7 +3236,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
                     if (!viewModelValidator.IsValid)
                     {
-                        userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
+                        userInput.ValidationMessages = viewModelValidator.Messages;
                         DispatchViewModel(userInput);
                         return null;
                     }
@@ -3338,7 +3333,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (!validationResult.Successful)
                 {
                     // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(validationResult.Messages.ToCanonical());
+                    viewModel.ValidationMessages.AddRange(validationResult.Messages);
 
                     // DispatchViewModel
                     DispatchViewModel(viewModel);

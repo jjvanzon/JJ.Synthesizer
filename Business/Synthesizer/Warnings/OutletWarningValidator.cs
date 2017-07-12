@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
             if (outlet.IsObsolete && outlet.ConnectedInlets.Count != 0)
             {
-                ValidationMessages.Add(nameof(Outlet.IsObsolete), ResourceFormatter.ObsoleteButStillUsed);
+                Messages.Add(ResourceFormatter.ObsoleteButStillUsed);
             }
         }
     }

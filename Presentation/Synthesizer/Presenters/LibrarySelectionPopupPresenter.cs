@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.Add(new Message(nameof(DocumentReference.LowerDocument), ResourceFormatter.SelectALibraryFirst).ToCanonical());
+                viewModel.ValidationMessages.Add(ResourceFormatter.SelectALibraryFirst);
             }
             else
             {
@@ -94,7 +94,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                viewModel.ValidationMessages.AddRange(result.Messages);
 
                 // Successful?
                 viewModel.Successful = result.Successful;
@@ -160,7 +160,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+            viewModel.ValidationMessages.AddRange(result.Messages);
             viewModel.OutletIDToPlay = outlet?.ID;
 
             // Successful?

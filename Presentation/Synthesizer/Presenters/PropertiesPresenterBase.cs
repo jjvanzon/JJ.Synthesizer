@@ -1,5 +1,4 @@
 ﻿using System;
-using JJ.Business.Canonical;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
@@ -91,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CopyNonPersistedProperties(userInput, viewModel);
             if (result != null)
             {
-                viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                viewModel.ValidationMessages.AddRange(result.Messages);
             }
 
             // Successful?

@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Non-Persisted
                     viewModel.Successful = result.Successful;
-                    viewModel.ValidationMessages.AddRange(result.Messages.ToCanonical());
+                    viewModel.ValidationMessages.AddRange(result.Messages);
                     viewModel.OutletIDToPlay = outlet?.ID;
                 });
         }

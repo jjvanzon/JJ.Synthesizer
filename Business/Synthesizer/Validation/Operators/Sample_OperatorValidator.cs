@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             string sampleIDString = DataPropertyParser.TryGetString(op, nameof(Sample_OperatorWrapper.SampleID));
 
-            For(() => sampleIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.Sample)).IsInteger();
+            For(sampleIDString, CommonResourceFormatter.ID_WithName(ResourceFormatter.Sample)).IsInteger();
 
             if (!int.TryParse(sampleIDString, out int sampleID))
             {
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (!isInList)
             {
-                ValidationMessages.AddNotInListMessage(nameof(Sample), ResourceFormatter.Sample, sampleID);
+                Messages.AddNotInListMessage(ResourceFormatter.Sample, sampleID);
             }
         }
     }

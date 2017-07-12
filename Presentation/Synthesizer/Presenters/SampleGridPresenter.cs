@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;
-                    viewModel.ValidationMessages = result.Messages.ToCanonical();
+                    viewModel.ValidationMessages = result.Messages;
 
                     // Successful?
                     viewModel.Successful = result.Successful;
@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IResult result = _sampleManager.Delete(sampleID);
 
                     // Non-Persisted
-                    viewModel.ValidationMessages = result.Messages.ToCanonical();
+                    viewModel.ValidationMessages = result.Messages;
 
                     // Successful?
                     viewModel.Successful = result.Successful;

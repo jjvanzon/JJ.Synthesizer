@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Tests
                 VoidResult result = curveManager.SaveCurveWithRelatedEntities(curve);
                 if (!result.Successful)
                 {
-                    string messages = string.Join(", ", result.Messages.Select(y => y.Text));
+                    string messages = string.Join(", ", result.Messages);
                     throw new Exception(messages);
                 }
 
@@ -1112,7 +1112,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var repositories = PersistenceHelper.CreateRepositories(context);
                 var documentManager = new DocumentManager(repositories);
 
-                IList<Message> messages = new List<Message>();
+                IList<string> messages = new List<string>();
 
                 IEnumerable<Document> rootDocuments = repositories.DocumentRepository.GetAll();
                 foreach (Document rootDocument in rootDocuments)
@@ -1123,7 +1123,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 if (messages.Count > 0)
                 {
-                    string formattedMessages = string.Join(" ", messages.Select(x => x.Text));
+                    string formattedMessages = string.Join(" ", messages);
                     throw new Exception(formattedMessages);
                 }
             }

@@ -16,12 +16,12 @@ namespace JJ.Business.Synthesizer.Validation
                                                 operatorTypeEnum == OperatorTypeEnum.PatchOutlet;
             if (repetitionPositionMustBeNull)
             {
-                For(() => repetitionPosition, ResourceFormatter.RepetitionPosition).IsNull();
+                For(repetitionPosition, ResourceFormatter.RepetitionPosition).IsNull();
             }
 
             if (isRepeating)
             {
-                For(() => repetitionPosition, ResourceFormatter.RepetitionPosition).NotNull();
+                For(repetitionPosition, ResourceFormatter.RepetitionPosition).NotNull();
             }
         }
     }

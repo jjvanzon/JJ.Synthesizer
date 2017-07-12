@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
         {
             if (obj == null) throw new NullException(() => obj);
 
-            For(() => obj.Document, ResourceFormatter.Document).NotNull();
+            For(obj.Document, ResourceFormatter.Document).NotNull();
 
             ExecuteValidator(new NameValidator(obj.Name));
             

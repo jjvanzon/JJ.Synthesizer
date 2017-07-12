@@ -13,8 +13,8 @@ namespace JJ.Business.Synthesizer.Validation.Scales
         {
             if (obj == null) throw new NullException(() => obj);
 
-            For(() => obj.BaseFrequency, ResourceFormatter.BaseFrequency).NotNull();
-            For(() => obj.GetScaleTypeEnum(), ResourceFormatter.ScaleType).Is(ScaleTypeEnum.Exponent);
+            For(obj.BaseFrequency, ResourceFormatter.BaseFrequency).NotNull();
+            For(obj.GetScaleTypeEnum(), ResourceFormatter.ScaleType).Is(ScaleTypeEnum.Exponent);
         }
     }
 }

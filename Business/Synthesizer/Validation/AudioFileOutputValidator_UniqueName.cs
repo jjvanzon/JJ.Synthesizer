@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Validation
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(audioFileOutput.Name), CommonResourceFormatter.Name, audioFileOutput.Name);
+                Messages.AddNotUniqueMessageSingular(CommonResourceFormatter.Name, audioFileOutput.Name);
             }
         }
     }

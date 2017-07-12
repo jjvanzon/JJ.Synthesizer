@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(document.Name), CommonResourceFormatter.Name, document.Name);
+                Messages.AddNotUniqueMessageSingular(CommonResourceFormatter.Name, document.Name);
             }
         }
 
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 string messagePrefix = ResourceFormatter.AudioFileOutput + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
-                ValidationMessages.Add(nameof(document.AudioFileOutputs), messagePrefix + message);
+                Messages.Add(messagePrefix + message);
             }
         }
 
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 string messagePrefix = ResourceFormatter.Patches + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
-                ValidationMessages.Add(PropertyNames.Patches, messagePrefix + message);
+                Messages.Add(messagePrefix + message);
             }
         }
 
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 string messagePrefix = ResourceFormatter.Samples + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
-                ValidationMessages.Add(nameof(Document.Samples), messagePrefix + message);
+                Messages.Add(messagePrefix + message);
             }
         }
 
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 string messagePrefix = ResourceFormatter.Scales + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
-                ValidationMessages.Add(nameof(Document.Scales), messagePrefix + message);
+                Messages.Add(messagePrefix + message);
             }
         }
 
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 IList<string> duplicateIdentifiers = duplicates.Select(x => ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(x)).ToArray();
                 string message = ValidationResourceFormatter.NotUniquePlural(ResourceFormatter.Libraries, duplicateIdentifiers);
-                ValidationMessages.Add(nameof(Document.LowerDocumentReferences), message);
+                Messages.Add(message);
             }
         }
 
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             {
                 string messagePrefix = ResourceFormatter.Libraries + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(ResourceFormatter.Aliases, duplicates);
-                ValidationMessages.Add(nameof(Document.LowerDocumentReferences), messagePrefix + message);
+                Messages.Add(messagePrefix + message);
             }
         }
     }

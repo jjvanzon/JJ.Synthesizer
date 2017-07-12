@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
             if (pseudoCount > 1)
             {
-                ValidationMessages.Add(nameof(Patch), ResourceFormatter.PatchHasMoreThanOneRepeatingInlet);
+                Messages.Add(ResourceFormatter.PatchHasMoreThanOneRepeatingInlet);
             }
         }
     }

@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         public OperatorValidator_FromSystemDocument([NotNull] Operator op, IList<string> expectedDataKeys = null)
             : base(op, expectedDataKeys)
         {
-            For(() => op.OperatorType, ResourceFormatter.OperatorType).IsNull();
+            For(op.OperatorType, ResourceFormatter.OperatorType).IsNull();
         }
     }
 }

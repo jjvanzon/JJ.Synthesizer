@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.Validators
         {
             if (obj == null) throw new NullException(() => obj);
 
-            For(() => obj.DefaultValue, ResourceFormatter.DefaultValue).IsDouble();
+            For(obj.DefaultValue, ResourceFormatter.DefaultValue).IsDouble();
         }
     }
 }

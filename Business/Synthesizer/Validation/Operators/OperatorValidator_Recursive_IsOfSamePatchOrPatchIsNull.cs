@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 string operatorIdentifier = ValidationHelper.GetUserFriendlyIdentifier(op, sampleRepository, curveRepository);
                 string patchIdentifier = ValidationHelper.GetUserFriendlyIdentifier(patch);
 
-                ValidationMessages.Add(nameof(op.Patch), ResourceFormatter.OperatorPatchIsNotTheExpectedPatch(operatorIdentifier, patchIdentifier));
+                Messages.Add(ResourceFormatter.OperatorPatchIsNotTheExpectedPatch(operatorIdentifier, patchIdentifier));
             }
 
             foreach (Inlet inlet in op.Inlets)

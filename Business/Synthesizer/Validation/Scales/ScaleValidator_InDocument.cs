@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
         {
             if (scale == null) throw new NullException(() => scale);
 
-            For(() => scale.Document, ResourceFormatter.Document).NotNull();
+            For(scale.Document, ResourceFormatter.Document).NotNull();
 
             ExecuteValidator(new NameValidator(scale.Name));
         }

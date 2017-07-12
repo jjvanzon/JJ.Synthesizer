@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
             // ReSharper disable once InvertIf
             if (!isUnique)
             {
-                ValidationMessages.AddNotUniqueMessageSingular(nameof(DocumentReference.Alias), ResourceFormatter.Alias, obj.Alias);
+                Messages.AddNotUniqueMessageSingular(ResourceFormatter.Alias, obj.Alias);
             }
         }
     }

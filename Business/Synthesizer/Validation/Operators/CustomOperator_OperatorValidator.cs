@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     {
         public CustomOperator_OperatorValidator(Operator op)
             : base(op, expectedDataKeys: new string[0])
-        { 
-            For(() => op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(OperatorTypeEnum.CustomOperator);
+        {
+            For(op.GetOperatorTypeEnum(), ResourceFormatter.OperatorType).Is(OperatorTypeEnum.CustomOperator);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
             {
                 string lowerDocumentReferenceIdentifier = ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(obj);
                 string message = ResourceFormatter.LibraryAlreadyAdded_WithName(lowerDocumentReferenceIdentifier);
-                ValidationMessages.Add(nameof(DocumentReference.LowerDocument), message);
+                Messages.Add(message);
             }
         }
     }
