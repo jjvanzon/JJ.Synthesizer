@@ -274,6 +274,33 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
+        public static void Migrate_OperatorType_ToUnderlyingPatch_ForChangeTrigger_PulseTrigger_ToggleTrigger_Hold_GetDimension_SetDimension_Round_Spectrum(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ChangeTrigger, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.PulseTrigger, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ToggleTrigger, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Hold, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.GetDimension, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SetDimension, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Round, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Spectrum, repositories, progressCallback);
+
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback, mustAssertWarningIncrease: false);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
         // Helpers
 
         private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(

@@ -13,7 +13,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
-using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer
 {
@@ -209,7 +208,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet calculation = null, Outlet reset = null)
+        public ChangeTrigger_OperatorWrapper ChangeTrigger(Outlet passThrough = null, Outlet reset = null)
         {
             Operator op = CreateBase(
                 OperatorTypeEnum.ChangeTrigger,
@@ -218,7 +217,7 @@ namespace JJ.Business.Synthesizer
 
             var wrapper = new ChangeTrigger_OperatorWrapper(op)
             {
-                PassThroughInput = calculation,
+                PassThroughInput = passThrough,
                 Reset = reset
             };
 
