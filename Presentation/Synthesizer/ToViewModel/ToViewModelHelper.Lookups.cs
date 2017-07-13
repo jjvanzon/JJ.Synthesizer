@@ -113,18 +113,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         [Obsolete("When all Operators have been boostrapped into the System document, the whole Toolbox is not needed anymore.")]
         private static readonly IList<OperatorTypeEnum> _operatorTypeEnums_WithToolboxItem = new[]
         {   
-            OperatorTypeEnum.Cache,
-            OperatorTypeEnum.Curve,
             OperatorTypeEnum.Exponent,
-            OperatorTypeEnum.Interpolate,
             OperatorTypeEnum.Loop,
-            OperatorTypeEnum.Number,
             OperatorTypeEnum.PatchInlet,
             OperatorTypeEnum.PatchOutlet,
             OperatorTypeEnum.Random,
             OperatorTypeEnum.Reset,
             OperatorTypeEnum.Reverse,
-            OperatorTypeEnum.Sample,
             OperatorTypeEnum.Scaler,
             OperatorTypeEnum.Shift,
             OperatorTypeEnum.Squash,

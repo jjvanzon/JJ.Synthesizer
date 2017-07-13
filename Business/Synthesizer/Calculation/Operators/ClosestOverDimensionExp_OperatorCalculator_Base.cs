@@ -49,8 +49,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double input = _inputCalculator.Calculate();
             double logInput = Math.Log(input);
 
-            double logValueBefore;
-            double logValueAfter;
 
             // Fields are log'ed already.
             CollectionHelper.BinarySearchInexact(
@@ -59,8 +57,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _min,
                 _max,
                 logInput,
-                out logValueBefore,
-                out logValueAfter);
+                out double logValueBefore,
+                out double logValueAfter);
 
             double logDistanceBefore = Geometry.AbsoluteDistance(logInput, logValueBefore);
             double logDistanceAfter = Geometry.AbsoluteDistance(logInput, logValueAfter);

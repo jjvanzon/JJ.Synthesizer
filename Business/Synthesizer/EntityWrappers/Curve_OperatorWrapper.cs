@@ -1,12 +1,11 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
-using System;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Curve_OperatorWrapper : OperatorWrapperBase_WithNumberOutlet
+    public class Curve_OperatorWrapper : OperatorWrapper_WithUnderlyingPatch
     {
         private readonly ICurveRepository _curveRepository;
 
@@ -45,11 +44,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
                 CurveID = value.ID;
             }
-        }
-
-        public override string GetInletDisplayName(Inlet inlet)
-        {
-            throw new NotSupportedException();
         }
     }
 }

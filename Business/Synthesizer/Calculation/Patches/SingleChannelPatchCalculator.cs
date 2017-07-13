@@ -318,9 +318,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //    _dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
             //}
 
-            IList<OperatorCalculatorBase> calculators;
             // ReSharper disable once InvertIf
-            if (_name_To_ResettableOperatorCalculators_Dictionary.TryGetValue(canonicalName, out calculators))
+            if (_name_To_ResettableOperatorCalculators_Dictionary.TryGetValue(canonicalName, out IList<OperatorCalculatorBase> calculators))
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {
@@ -348,9 +347,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //    _dimensionStackCollection.Set(dimensionEnum, TOP_LEVEL_DIMENSION_STACK_INDEX, 0.0);
             //}
 
-            IList<OperatorCalculatorBase> calculators;
             // ReSharper disable once InvertIf
-            if (_position_To_ResettableOperatorCalculators_Dictionary.TryGetValue(position, out calculators))
+            if (_position_To_ResettableOperatorCalculators_Dictionary.TryGetValue(position, out IList<OperatorCalculatorBase> calculators))
             {
                 foreach (OperatorCalculatorBase calculator in calculators)
                 {

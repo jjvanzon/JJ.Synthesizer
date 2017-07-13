@@ -4260,8 +4260,7 @@ namespace JJ.Business.Synthesizer.Visitors
             bool isTopLevelPatchInlet = IsTopLevelPatchInlet(patchInlet);
             if (isTopLevelPatchInlet)
             {
-                VariableInput_OperatorCalculator variableInputCalculator;
-                if (!_patchInlet_To_Calculator_Dictionary.TryGetValue(patchInlet, out variableInputCalculator))
+                if (!_patchInlet_To_Calculator_Dictionary.TryGetValue(patchInlet, out VariableInput_OperatorCalculator variableInputCalculator))
                 {
                     var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
 

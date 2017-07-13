@@ -39,8 +39,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double input = _inputCalculator.Calculate();
 
-            double valueBefore;
-            double valueAfter;
 
             CollectionHelper.BinarySearchInexact(
                 _samples,
@@ -48,8 +46,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _min,
                 _max,
                 input,
-                out valueBefore,
-                out valueAfter);
+                out double valueBefore,
+                out double valueAfter);
 
             double distanceBefore = Geometry.AbsoluteDistance(input, valueBefore);
             double distanceAfter = Geometry.AbsoluteDistance(input, valueAfter);

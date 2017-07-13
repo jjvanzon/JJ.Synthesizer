@@ -2493,12 +2493,9 @@ namespace JJ.Business.Synthesizer.Visitors
             SetShelfFilterParametersDelegate setFilterParametersDelegate)
         {
             double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
-
-            double a0, a1, a2, a3, a4;
-
             setFilterParametersDelegate(
                 dto.SamplingRate, limitedFrequency, dto.TransitionSlope, dto.DBGain,
-                out a0, out a1, out a2, out a3, out a4);
+                out double a0, out double a1, out double a2, out double a3, out double a4);
 
             dto.A0 = a0;
             dto.A1 = a1;

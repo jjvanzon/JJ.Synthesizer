@@ -39,9 +39,8 @@ namespace JJ.Business.Synthesizer
 
         public EntityPosition TryGetOperatorPosition(int operatorID)
         {
-            EntityPosition entityPosition;
             // ReSharper disable once InvertIf
-            if (!_operatorPositionDictionary.TryGetValue(operatorID, out entityPosition))
+            if (!_operatorPositionDictionary.TryGetValue(operatorID, out EntityPosition entityPosition))
             {
                 string entityTypeName = typeof(Operator).Name;
                 int entityID = operatorID;
@@ -85,8 +84,7 @@ namespace JJ.Business.Synthesizer
 
         public EntityPosition SetOrCreateOperatorPosition(int operatorID, float x, float y)
         {
-            EntityPosition entityPosition;
-            if (!_operatorPositionDictionary.TryGetValue(operatorID, out entityPosition))
+            if (!_operatorPositionDictionary.TryGetValue(operatorID, out EntityPosition entityPosition))
             {
                 string entityTypeName = typeof(Operator).Name;
                 int entityID = operatorID;

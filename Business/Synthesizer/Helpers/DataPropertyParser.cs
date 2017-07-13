@@ -97,8 +97,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 return null;
             }
 
-            double value;
-            if (!DoubleHelper.TryParse(str, FormattingCulture, out value))
+            if (!DoubleHelper.TryParse(str, FormattingCulture, out double value))
             {
                 throw new Exception($"Value with key '{key}' in data '{data}' could not be parsed to Double.");
             }
@@ -125,8 +124,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             string str = TryGetString(data, key);
 
-            double value;
-            if (DoubleHelper.TryParse(str, FormattingCulture, out value))
+            if (DoubleHelper.TryParse(str, FormattingCulture, out double value))
             {
                 return value;
             }
@@ -174,8 +172,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 return null;
             }
 
-            int value;
-            if (!int.TryParse(str, out value))
+            if (!int.TryParse(str, out int value))
             {
                 throw new Exception($"Value with key '{key}' in data '{data}' could not be parsed to Int32.");
             }
@@ -206,8 +203,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 return null;
             }
 
-            int value;
-            if (int.TryParse(str, out value))
+            if (int.TryParse(str, out int value))
             {
                 return value;
             }
@@ -239,8 +235,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 return default(TEnum);
             }
 
-            TEnum value;
-            if (!Enum.TryParse(str, out value))
+            if (!Enum.TryParse(str, out TEnum value))
             {
                 throw new Exception($"Value with key '{key}' in data '{data}' could not be parsed to Enum of type '{typeof(TEnum).FullName}'.");
             }

@@ -3,20 +3,16 @@ using JJ.Business.Synthesizer.Resources;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Sample_OperatorValidator : OperatorValidator_Base_WithOperatorType
+    internal class Sample_OperatorValidator : OperatorValidator_WithUnderlyingPatch
     {
         public Sample_OperatorValidator(Operator op)
             : base(
                 op,
-                OperatorTypeEnum.Sample,
-                new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Sound },
                 expectedDataKeys: new[] { nameof(Sample_OperatorWrapper.SampleID) })
         { 
             if (!DataPropertyParser.DataIsWellFormed(op))

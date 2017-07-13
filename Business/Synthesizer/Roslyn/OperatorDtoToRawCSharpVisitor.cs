@@ -3493,9 +3493,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private string GetRandomOrNoiseOffsetVariableNameCamelCase(int operatorID)
         {
-            string variableNameCamelCase;
             // ReSharper disable once InvertIf
-            if (!_variableInfo.RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out variableNameCamelCase))
+            if (!_variableInfo.RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out string variableNameCamelCase))
             {
                 variableNameCamelCase = GetUniqueLongLivedVariableName(OFFSET_MNEMONIC);
             }
@@ -3510,9 +3509,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private string GetArrayCalculatorVariableNameCamelCaseAndCache(ArrayDto arrayDto)
         {
-            ArrayCalculationInfo arrayCalculationInfo;
             // ReSharper disable once InvertIf
-            if (!_variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.TryGetValue(arrayDto, out arrayCalculationInfo))
+            if (!_variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.TryGetValue(arrayDto, out ArrayCalculationInfo arrayCalculationInfo))
             {
                 // Do not call GenerateUniqueLongLivedVariableName. In a later stage those are all assumed to be double variables. 
                 // The array calculator variables are not doubles.
@@ -3543,9 +3541,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         private string GetDimensionAlias(DimensionEnum dimensionEnum, string canonicalCustomDimensionName)
         {
             var key = new Tuple<DimensionEnum, string>(dimensionEnum, canonicalCustomDimensionName);
-            string alias;
 
-            if (!_variableInfo.StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out alias))
+            if (!_variableInfo.StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out string alias))
             {
                 object mnemonic;
                 if (dimensionEnum != DimensionEnum.Undefined)
@@ -3569,10 +3566,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private string GetInputName(VariableInput_OperatorDto dto)
         {
-            string variableName;
             ExtendedVariableInfo inputVariableInfo = null;
 
-            if (_variableInfo.VariableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out variableName))
+            if (_variableInfo.VariableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out string variableName))
             {
                 _variableInfo.VariableName_To_InputVariableInfo_Dictionary.TryGetValue(variableName, out inputVariableInfo);
             }
@@ -3713,9 +3709,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             // Manage Dictionary with Dimension Info
             var key = new Tuple<DimensionEnum, string, int>(standardDimensionEnum, canonicalCustomDimensionName, stackLevel);
-            ExtendedVariableInfo extendedVariableInfo;
 
-            if (!_variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out extendedVariableInfo))
+            if (!_variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out ExtendedVariableInfo extendedVariableInfo))
             {
                 extendedVariableInfo = new ExtendedVariableInfo(
                     positionVariableName,

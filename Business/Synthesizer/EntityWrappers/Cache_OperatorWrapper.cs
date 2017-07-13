@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
@@ -7,43 +6,11 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Cache_OperatorWrapper : OperatorWrapperBase_WithNumberOutlet
+    public class Cache_OperatorWrapper : OperatorWrapper_WithUnderlyingPatch
     {
         public Cache_OperatorWrapper(Operator op)
             : base(op)
         { }
-
-        public Outlet Signal
-        {
-            get => SignalInlet.InputOutlet;
-            set => SignalInlet.LinkTo(value);
-        }
-
-        public Inlet SignalInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Signal);
-
-        public Outlet Start
-        {
-            get => StartInlet.InputOutlet;
-            set => StartInlet.LinkTo(value);
-        }
-
-        public Inlet StartInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.Start);
-
-        public Outlet End
-        {
-            get => EndInlet.InputOutlet;
-            set => EndInlet.LinkTo(value);
-        }
-
-        public Inlet EndInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.End);
-
-        public Outlet SamplingRate
-        {
-            get => SamplingRateInlet.InputOutlet;
-            set => SamplingRateInlet.LinkTo(value);
-        }
-
-        public Inlet SamplingRateInlet => InletOutletSelector.GetInlet(WrappedOperator, DimensionEnum.SamplingRate);
 
         public InterpolationTypeEnum InterpolationType
         {

@@ -85,9 +85,8 @@ namespace JJ.Business.Synthesizer.Calculation
 
             lock (_curveLock)
             {
-                ArrayDto arrayDto;
                 // ReSharper disable once InvertIf
-                if (!_curve_To_Calculator_Dictionary.TryGetValue(curve, out arrayDto))
+                if (!_curve_To_Calculator_Dictionary.TryGetValue(curve, out ArrayDto arrayDto))
                 {
                     arrayDto = CurveArrayDtoFactory.ConvertToArrayDto(curve);
                     _curve_To_Calculator_Dictionary.Add(curve, arrayDto);
@@ -120,9 +119,8 @@ namespace JJ.Business.Synthesizer.Calculation
 
             lock (_sampleLock)
             {
-                IList<ArrayDto> calculators;
                 // ReSharper disable once InvertIf
-                if (!_sample_To_ArrayDtos_Dictionary.TryGetValue(sampleInfo.Sample, out calculators))
+                if (!_sample_To_ArrayDtos_Dictionary.TryGetValue(sampleInfo.Sample, out IList<ArrayDto> calculators))
                 {
                     calculators = SampleArrayDtoFactory.CreateArrayDtos(sampleInfo.Sample, sampleInfo.Bytes);
                     _sample_To_ArrayDtos_Dictionary.Add(sampleInfo.Sample, calculators);
@@ -138,9 +136,8 @@ namespace JJ.Business.Synthesizer.Calculation
 
             lock (_operatorID_To_NoiseCalculator_Dictionary_Lock)
             {
-                NoiseCalculator noiseCalculator;
                 // ReSharper disable once InvertIf
-                if (!_operatorID_To_NoiseCalculator_Dictionary.TryGetValue(operatorID, out noiseCalculator))
+                if (!_operatorID_To_NoiseCalculator_Dictionary.TryGetValue(operatorID, out NoiseCalculator noiseCalculator))
                 {
                     noiseCalculator = new NoiseCalculator();
                     _operatorID_To_NoiseCalculator_Dictionary.Add(operatorID, noiseCalculator);
@@ -193,9 +190,8 @@ namespace JJ.Business.Synthesizer.Calculation
 
             lock (_operatorID_To_RandomCalculator_Stripe_Dictionary_Lock)
             {
-                RandomCalculator_Stripe randomCalculator;
                 // ReSharper disable once InvertIf
-                if (!_operatorID_To_RandomCalculator_Stripe_Dictionary.TryGetValue(operatorID, out randomCalculator))
+                if (!_operatorID_To_RandomCalculator_Stripe_Dictionary.TryGetValue(operatorID, out RandomCalculator_Stripe randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_Stripe();
                     _operatorID_To_RandomCalculator_Stripe_Dictionary.Add(operatorID, randomCalculator);
@@ -211,9 +207,8 @@ namespace JJ.Business.Synthesizer.Calculation
 
             lock (_operatorID_To_RandomCalculator_Block_Dictionary_Lock)
             {
-                RandomCalculator_Block randomCalculator;
                 // ReSharper disable once InvertIf
-                if (!_operatorID_To_RandomCalculator_Block_Dictionary.TryGetValue(operatorID, out randomCalculator))
+                if (!_operatorID_To_RandomCalculator_Block_Dictionary.TryGetValue(operatorID, out RandomCalculator_Block randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_Block();
                     _operatorID_To_RandomCalculator_Block_Dictionary.Add(operatorID, randomCalculator);
@@ -295,9 +290,8 @@ namespace JJ.Business.Synthesizer.Calculation
 
             lock (_cacheOperatorID_To_ArrayDtos_Dictionary_Lock)
             {
-                IList<ArrayDto> arrayCalculators;
                 // ReSharper disable once InvertIf
-                if (!_cacheOperatorID_To_ArrayDtos_Dictionary.TryGetValue(operatorID, out arrayCalculators))
+                if (!_cacheOperatorID_To_ArrayDtos_Dictionary.TryGetValue(operatorID, out IList<ArrayDto> arrayCalculators))
                 {
                     arrayCalculators = CreateCacheArrayDtos(
                         signalCalculator,

@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     }
 
                     // Otherwise assume from System Document.
-                    ExecuteValidator(new OperatorValidator_FromSystemDocument(op));
+                    ExecuteValidator(new OperatorValidator_WithUnderlyingPatch(op));
 
                     break;
             }

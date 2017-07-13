@@ -1,22 +1,25 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
+﻿using System;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
-    internal class Cache_OperatorWarningValidator : OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults
+    internal class Cache_OperatorWarningValidator : VersatileValidator
     {
-        public Cache_OperatorWarningValidator(Operator obj)
-            : base(obj)
-        { 
+        public Cache_OperatorWarningValidator([NotNull] Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+
             double? signal = null;
             double? start = null;
             double? end = null;
             double? samplingRate = null;
 
-            foreach (Inlet inlet in obj.Inlets)
+            foreach (Inlet inlet in op.Inlets)
             {
                 double? number = inlet.TryGetConstantNumber();
 

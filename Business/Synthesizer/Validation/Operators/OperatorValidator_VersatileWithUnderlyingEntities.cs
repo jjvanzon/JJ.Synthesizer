@@ -47,8 +47,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (operatorTypeEnum == OperatorTypeEnum.Curve)
             {
-                int curveID;
-                if (int.TryParse(op.Data, out curveID))
+                if (int.TryParse(op.Data, out int curveID))
                 {
                     Curve curve = curveRepository.TryGet(curveID);
                     if (curve != null)
@@ -68,8 +67,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             if (operatorTypeEnum == OperatorTypeEnum.Sample)
             {
-                int sampleID;
-                if (int.TryParse(op.Data, out sampleID))
+                if (int.TryParse(op.Data, out int sampleID))
                 {
                     Sample sample = sampleRepository.TryGet(sampleID);
                     if (sample != null)

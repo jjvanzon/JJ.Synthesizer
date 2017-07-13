@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer
             var operatorFactory = new OperatorFactory(patch, _repositories);
 
             var customOperator = operatorFactory.CustomOperator(autoPatch);
-            var frequency = operatorFactory.Number(tone.GetFrequency());
+            Outlet frequencyOutlet = operatorFactory.Number(tone.GetFrequency());
 
             IList<Inlet> customOperatorFrequencyInlets = customOperator.Inlets.GetMany(DimensionEnum.Frequency);
             if (customOperatorFrequencyInlets.Count == 0)
@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer
 
             foreach (Inlet customOperatorFrequencyInlet in customOperatorFrequencyInlets)
             {
-                customOperatorFrequencyInlet.LinkTo(frequency.NumberOutlet);
+                customOperatorFrequencyInlet.LinkTo(frequencyOutlet);
             }
 
             IList<Outlet> soundOutlets = customOperator.Outlets.GetMany(DimensionEnum.Sound);
@@ -482,8 +482,8 @@ namespace JJ.Business.Synthesizer
                     if (inlet.DefaultValue.HasValue)
                     {
                         var number = operatorFactory.Number(inlet.DefaultValue.Value);
-
-                        inlet.LinkTo(number.NumberOutlet);
+                        Outlet numberOutlet = number.Outlets[DimensionEnum.Number];
+                        inlet.LinkTo(numberOutlet);
 
                         EntityPosition numberEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
                         numberEntityPosition.X = x;

@@ -386,7 +386,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (inlet.DefaultValue.HasValue)
             {
                 Number_OperatorWrapper dummyNumberOperator = CreateDummyNumberOperator(inlet.DefaultValue.Value);
-                return dummyNumberOperator.NumberOutlet;
+                return dummyNumberOperator;
             }
 
             return null;

@@ -18,15 +18,12 @@ namespace JJ.Business.Synthesizer
 {
     public class OperatorFactory
     {
-        private const double DEFAULT_FILTER_FREQUENCY = 1760.0;
-        private const double DEFAULT_FREQUENCY = 440.0;
         private const double DEFAULT_DIFFERENCE = 1.0;
         private const double DEFAULT_END_TIME = 1.0;
         private const double DEFAULT_EXPONENT = 2.0;
         private const double DEFAULT_FACTOR = 2.0;
         private const double DEFAULT_RANDOM_RATE = 16.0;
         private const double DEFAULT_REVERSE_FACTOR = 1.0;
-        private const double DEFAULT_SAMPLING_RATE = 44100.0;
         private const double DEFAULT_SCALE_SOURCE_VALUE_A = -1.0;
         private const double DEFAULT_SCALE_SOURCE_VALUE_B = 1.0;
         private const double DEFAULT_SCALE_TARGET_VALUE_A = 1.0;
@@ -179,29 +176,18 @@ namespace JJ.Business.Synthesizer
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Cache,
-                new[] { DimensionEnum.Signal, DimensionEnum.Start, DimensionEnum.End, DimensionEnum.SamplingRate },
-                new[] { DimensionEnum.Signal });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new Cache_OperatorWrapper(op)
-            {
-                Signal = signal,
-                Start = start,
-                End = end,
-                SamplingRate = samplingRate,
-                InterpolationType = interpolationTypeEnum,
-                SpeakerSetup = speakerSetupEnum
-            };
-
-            wrapper.StartInlet.DefaultValue = DEFAULT_START_TIME;
-            wrapper.EndInlet.DefaultValue = DEFAULT_END_TIME;
-            wrapper.SamplingRateInlet.DefaultValue = DEFAULT_SAMPLING_RATE;
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new Cache_OperatorWrapper(op);
+            wrapper.Inputs[DimensionEnum.Signal] = signal;
+            wrapper.Inputs[DimensionEnum.Start] = start;
+            wrapper.Inputs[DimensionEnum.End] = end;
+            wrapper.Inputs[DimensionEnum.SamplingRate] = samplingRate;
+            wrapper.InterpolationType = interpolationTypeEnum;
+            wrapper.SpeakerSetup = speakerSetupEnum;
 
             return wrapper;
         }
@@ -286,10 +272,7 @@ namespace JJ.Business.Synthesizer
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Curve,
-                new DimensionEnum[0],
-                new[] { DimensionEnum.Number });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
@@ -298,8 +281,6 @@ namespace JJ.Business.Synthesizer
             {
                 CurveID = curve?.ID
             };
-
-            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -650,24 +631,15 @@ namespace JJ.Business.Synthesizer
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Interpolate,
-                new[] { DimensionEnum.Signal, DimensionEnum.SamplingRate },
-                new[] { DimensionEnum.Signal });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new Interpolate_OperatorWrapper(op)
-            {
-                Signal = signal,
-                SamplingRate = samplingRate,
-                InterpolationType = interpolationType
-            };
-
-            wrapper.SamplingRateInlet.DefaultValue = DEFAULT_FILTER_FREQUENCY;
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new Interpolate_OperatorWrapper(op);
+            wrapper.Inputs[DimensionEnum.Signal] = signal;
+            wrapper.Inputs[DimensionEnum.SamplingRate] = samplingRate;
+            wrapper.InterpolationType = interpolationType;
 
             return wrapper;
         }
@@ -937,17 +909,9 @@ namespace JJ.Business.Synthesizer
 
         public Number_OperatorWrapper Number(double number = 0)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Number,
-                new DimensionEnum[0],
-                new[] { DimensionEnum.Number });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new Number_OperatorWrapper(op)
-            {
-                Number = number
-            };
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new Number_OperatorWrapper(op) { Number = number };
 
             return wrapper;
         }
@@ -1268,23 +1232,16 @@ namespace JJ.Business.Synthesizer
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Sample,
-                new[] { DimensionEnum.Frequency },
-                new[] { DimensionEnum.Sound });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
             var wrapper = new Sample_OperatorWrapper(op, _repositories.SampleRepository)
             {
-                Frequency = frequency,
                 SampleID = sample?.ID
             };
-
-            wrapper.FrequencyInlet.DefaultValue = DEFAULT_FREQUENCY;
-
-            new OperatorValidator_Versatile(op).Assert();
+            wrapper.Inputs[DimensionEnum.Frequency] = frequency;
 
             return wrapper;
         }

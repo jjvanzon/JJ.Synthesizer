@@ -244,7 +244,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (!nameOrDimensionHidden)
             {
                 // Name or Dimension
-                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(
+                OperatorWrapperBase wrapper = EntityWrapperFactory.CreateOperatorWrapper(
                     inlet.Operator,
                     curveRepository,
                     sampleRepository);
@@ -750,7 +750,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (!nameOrDimensionHidden)
             {
                 // Dimension or Name
-                OperatorWrapperBase wrapper = OperatorWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository, sampleRepository);
+                OperatorWrapperBase wrapper = EntityWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository, sampleRepository);
                 string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
                 sb.Append(inletDisplayName);
 

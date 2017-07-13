@@ -1268,8 +1268,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_VariableInput_OperatorDto(dto);
 
-            VariableInput_OperatorCalculator calculator;
-            if (!_variableInput_OperatorDto_To_Calculator_Dictionary.TryGetValue(dto, out calculator))
+            if (!_variableInput_OperatorDto_To_Calculator_Dictionary.TryGetValue(dto, out VariableInput_OperatorCalculator calculator))
             {
                 calculator = new VariableInput_OperatorCalculator(dto.DimensionEnum, dto.CanonicalName, dto.Position, dto.DefaultValue);
 

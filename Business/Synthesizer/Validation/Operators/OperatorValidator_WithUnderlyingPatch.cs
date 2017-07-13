@@ -14,9 +14,9 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal abstract class OperatorValidator_Base_WithUnderlyingPatch : VersatileValidator
+    internal class OperatorValidator_WithUnderlyingPatch : VersatileValidator
     {
-        public OperatorValidator_Base_WithUnderlyingPatch(Operator op, IList<string> expectedDataKeys = null)
+        public OperatorValidator_WithUnderlyingPatch(Operator op, IList<string> expectedDataKeys = null)
         {
             if (op == null) throw new NullException(() => op);
 
