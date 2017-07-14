@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch Equal(Outlet a = null, Outlet b = null)
             => _operatorFactory.Equal(a, b);
 
-        public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
+        public OperatorWrapper_WithUnderlyingPatch Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
             => _operatorFactory.Exponent(low, high, ratio);
 
         public OperatorWrapper_WithUnderlyingPatch GetDimension(DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
@@ -343,7 +343,7 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
             => _operatorFactory.MultiplyWithOrigin(a, b, origin);
 
-        public Squash_OperatorWrapper Squash(
+        public OperatorWrapper_WithUnderlyingPatch Squash(
             Outlet signal = null, 
             Outlet factor = null, 
             Outlet origin = null,
@@ -450,7 +450,7 @@ namespace JJ.Business.Synthesizer.Api
         public Reset_OperatorWrapper Reset(Outlet passThrough = null, int? position = null)
             => _operatorFactory.Reset(passThrough, position);
 
-        public Reverse_OperatorWrapper Reverse(
+        public OperatorWrapper_WithUnderlyingPatch Reverse(
             Outlet signal = null, 
             Outlet factor = null,
             DimensionEnum standardDimension = DimensionEnum.Time,
@@ -484,7 +484,7 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _operatorFactory.SetDimension(calculation, number, standardDimension, customDimension);
 
-        public Shift_OperatorWrapper Shift(
+        public OperatorWrapper_WithUnderlyingPatch Shift(
             Outlet signal = null, 
             Outlet difference = null,
             DimensionEnum standardDimension = DimensionEnum.Time,
@@ -524,7 +524,7 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch Square(Outlet frequency = null, DimensionEnum? standardDimension = null, string customDimension = null)
             => _operatorFactory.Square(frequency, standardDimension, customDimension);
 
-        public Stretch_OperatorWrapper Stretch(
+        public OperatorWrapper_WithUnderlyingPatch Stretch(
             Outlet signal = null, 
             Outlet factor = null, 
             Outlet origin = null, 
@@ -553,7 +553,7 @@ namespace JJ.Business.Synthesizer.Api
             string customDimension = null)
             => _operatorFactory.SumFollower(signal, sliceLength, sampleCount, standardDimension, customDimension);
 
-        public TimePower_OperatorWrapper TimePower(
+        public OperatorWrapper_WithUnderlyingPatch TimePower(
             Outlet signal = null, 
             Outlet exponent = null, 
             Outlet origin = null,

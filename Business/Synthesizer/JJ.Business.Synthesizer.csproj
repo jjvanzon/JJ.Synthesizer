@@ -487,9 +487,6 @@
     <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithOneOutlet.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase_WithNumberOutlet.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_Trigger.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase_WithFrequency.cs" />
-    <Compile Include="EntityWrappers\StretchOrSquash_OperatorWrapperBase.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />
     <Compile Include="Helpers\DtoCloner.cs" />
     <Compile Include="Helpers\MathPropertiesHelper.cs" />
@@ -553,11 +550,6 @@
     <Compile Include="EntityWrappers\Scaler_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Random_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Reset_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Shift_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Squash_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Reverse_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Stretch_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Exponent_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithUnderlyingPatch_Inlets.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithUnderlyingPatch_Inputs.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithUnderlyingPatch_Outlets.cs" />
@@ -595,7 +587,6 @@
     <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Cascading\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchOutlet_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchInlet_OperatorWrapper.cs" />
     <Compile Include="Enums\NodeTypeEnum.cs" />
@@ -635,14 +626,9 @@
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\Operators\InletsToDimension_OperatorValidator.cs" />
     <Compile Include="Validation\DataProperty\DataPropertyValidator.cs" />
-    <Compile Include="Validation\Operators\Scaler_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Random_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Reset_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Shift_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Squash_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Cache_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Reverse_OperatorValidator.cs" />
-    <Compile Include="Validation\Operators\Stretch_OperatorValidator.cs" />
     <Compile Include="Validation\OutletValidator_WithOperatorType_ExceptCustomOperator.cs" />
     <Compile Include="Validation\InletValidator_WithOperatorType_ExceptCustomOperator.cs" />
     <Compile Include="Validation\Patches\PatchValidator_Delete.cs" />
@@ -669,16 +655,11 @@
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\OutletWarningValidator.cs" />
     <Compile Include="Warnings\InletWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Scaler_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_AllInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\Random_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Reset_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Shift_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Squash_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Cache_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Spectrum_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Reverse_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Stretch_OperatorWarningValidator.cs" />
     <Compile Include="WavHeaderManager.cs" />
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -702,7 +683,6 @@
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
-    <Compile Include="Validation\Operators\Exponent_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Loop_ OperatorValidator.cs" />
     <Compile Include="Validation\Operators\CustomOperator_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Interpolate_OperatorValidator.cs" />
@@ -740,14 +720,12 @@
     <Compile Include="Visitors\OperatorEntityVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\Operators\CustomOperator_OperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Operators\Exponent_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Loop_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\PatchWarningValidator_WithRelatedEntities.cs" />
     <Compile Include="Warnings\SampleWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Basic.cs" />
     <Compile Include="Warnings\Operators\Sample_OperatorWarningValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
-    <Compile Include="Validation\Operators\TimePower_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchOutlet_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\PatchInlet_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Number_OperatorValidator.cs" />
@@ -762,7 +740,6 @@
     <Compile Include="Warnings\Operators\Curve_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Versatile.cs" />
-    <Compile Include="Warnings\Operators\TimePower_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Base_FirstXInletsFilledInOrHaveDefaults.cs" />
     <Compile Include="Warnings\Operators\PatchOutlet_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_VersatileWithUnderlyingEntities.cs" />

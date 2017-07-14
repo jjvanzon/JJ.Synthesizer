@@ -52,7 +52,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.ClosestOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.ClosestOverDimensionExp, typeof(OperatorValidator_AggregateOverDimension) },
             { OperatorTypeEnum.Curve, typeof(Curve_OperatorValidator) },
-            { OperatorTypeEnum.Exponent, typeof(Exponent_OperatorValidator) },
             { OperatorTypeEnum.InletsToDimension, typeof(InletsToDimension_OperatorValidator) },
             { OperatorTypeEnum.Interpolate, typeof(Interpolate_OperatorValidator) },
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
@@ -63,15 +62,9 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             { OperatorTypeEnum.PatchOutlet, typeof(PatchOutlet_OperatorValidator) },
             { OperatorTypeEnum.Random, typeof(Random_OperatorValidator) },
             { OperatorTypeEnum.Reset, typeof(Reset_OperatorValidator) },
-            { OperatorTypeEnum.Reverse, typeof(Reverse_OperatorValidator) },
             { OperatorTypeEnum.Sample, typeof(Sample_OperatorValidator) },
-            { OperatorTypeEnum.Scaler, typeof(Scaler_OperatorValidator) },
-            { OperatorTypeEnum.Shift, typeof(Shift_OperatorValidator) },
             { OperatorTypeEnum.SortOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
-            { OperatorTypeEnum.Squash, typeof(Squash_OperatorValidator) },
-            { OperatorTypeEnum.Stretch, typeof(Stretch_OperatorValidator) },
-            { OperatorTypeEnum.SumOverDimension, typeof(OperatorValidator_AggregateOverDimension) },
-            { OperatorTypeEnum.TimePower, typeof(TimePower_OperatorValidator) }
+            { OperatorTypeEnum.SumOverDimension, typeof(OperatorValidator_AggregateOverDimension) }
         };
     }
 }

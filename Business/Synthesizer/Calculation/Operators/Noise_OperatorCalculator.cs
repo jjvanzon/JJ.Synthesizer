@@ -12,10 +12,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Noise_OperatorCalculator(NoiseCalculator noiseCalculator, DimensionStack dimensionStack)
         {
-            if (noiseCalculator == null) throw new NullException(() => noiseCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _noiseCalculator = noiseCalculator;
+            _noiseCalculator = noiseCalculator ?? throw new NullException(() => noiseCalculator);
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }

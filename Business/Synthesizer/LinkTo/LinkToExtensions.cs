@@ -151,9 +151,7 @@ namespace JJ.Business.Synthesizer.LinkTo
         public static void LinkTo([NotNull] this Document document, [CanBeNull] AudioOutput audioOutput)
         {
             if (document == null) throw new NullException(() => document);
-            if (audioOutput == null) throw new NullException(() => audioOutput);
-
-            document.AudioOutput = audioOutput;
+            document.AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
 
             // No inverse property.
         }

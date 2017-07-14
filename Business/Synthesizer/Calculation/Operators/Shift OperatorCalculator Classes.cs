@@ -7,8 +7,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _distanceCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
 
         public Shift_OperatorCalculator_VarSignal_VarDistance(
             OperatorCalculatorBase signalCalculator,
@@ -27,8 +25,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _signalCalculator = signalCalculator;
             _distanceCalculator = distanceCalculator;
             _dimensionStack = dimensionStack;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -97,7 +93,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly double _distance;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
         private readonly int _previousDimensionStackIndex;
 
         public Shift_OperatorCalculator_VarSignal_ConstDistance(
@@ -113,7 +108,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _distance = distance;
             _dimensionStack = dimensionStack;
             _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

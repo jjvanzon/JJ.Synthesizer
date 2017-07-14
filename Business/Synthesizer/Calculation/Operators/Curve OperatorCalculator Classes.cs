@@ -13,10 +13,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Curve_OperatorCalculator_MinX_NoOriginShifting(ArrayCalculator_MinPosition_Line underlyingCalculator, DimensionStack dimensionStack)
         {
-            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _underlyingCalculator = underlyingCalculator;
+            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
@@ -50,10 +49,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Curve_OperatorCalculator_MinX_WithOriginShifting(ArrayCalculator_MinPosition_Line underlyingCalculator, DimensionStack dimensionStack)
         {
-            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _underlyingCalculator = underlyingCalculator;
+            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
@@ -106,10 +104,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Curve_OperatorCalculator_MinXZero_NoOriginShifting(ArrayCalculator_MinPositionZero_Line underlyingCalculator, DimensionStack dimensionStack)
         {
-            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _underlyingCalculator = underlyingCalculator;
+            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
@@ -141,10 +138,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public Curve_OperatorCalculator_MinXZero_WithOriginShifting(ArrayCalculator_MinPositionZero_Line underlyingCalculator, DimensionStack dimensionStack)
         {
-            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _underlyingCalculator = underlyingCalculator;
+            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 

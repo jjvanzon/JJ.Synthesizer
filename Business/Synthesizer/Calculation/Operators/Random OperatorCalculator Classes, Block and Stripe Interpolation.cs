@@ -21,12 +21,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new[] { rateCalculator })
         {
-            if (randomCalculator == null) throw new NullException(() => randomCalculator);
             // TODO: Make assertion strict again, once you have more calculator variations.
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _randomCalculator = randomCalculator;
+            _randomCalculator = randomCalculator ?? throw new NullException(() => randomCalculator);
             _rateCalculator = rateCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
@@ -95,12 +94,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new[] { rateCalculator })
         {
-            if (randomCalculator == null) throw new NullException(() => randomCalculator);
             // TODO: Make assertion strict again, once you have more calculator variations.
             //OperatorCalculatorHelper.AssertOperatorCalculatorBase(frequencyCalculator, () => frequencyCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _randomCalculator = randomCalculator;
+            _randomCalculator = randomCalculator ?? throw new NullException(() => randomCalculator);
             _rateCalculator = rateCalculator;
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;

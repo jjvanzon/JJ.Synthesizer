@@ -31,13 +31,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack channelDimensionStack)
             : base(new[] { frequencyCalculator })
         {
-            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (underlyingCalculators == null) throw new NullException(() => underlyingCalculators);
 
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
             OperatorCalculatorHelper.AssertDimensionStack(channelDimensionStack);
 
-            _frequencyCalculator = frequencyCalculator;
+            _frequencyCalculator = frequencyCalculator ?? throw new NullException(() => frequencyCalculator);
             _underlyingCalculators = underlyingCalculators.ToArray();
             _dimensionStack = dimensionStack;
             _channelDimensionStack = channelDimensionStack;
@@ -209,12 +208,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new[] { frequencyCalculator })
         {
-            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
-            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _frequencyCalculator = frequencyCalculator;
-            _underlyingCalculator = underlyingCalculator;
+            _frequencyCalculator = frequencyCalculator ?? throw new NullException(() => frequencyCalculator);
+            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
@@ -281,10 +278,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ICalculatorWithPosition underlyingCalculator,
             DimensionStack dimensionStack)
         {
-            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _underlyingCalculator = underlyingCalculator;
+            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
@@ -347,12 +343,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new[] { frequencyCalculator })
         {
-            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (underlyingCalculators == null) throw new NullException(() => underlyingCalculators);
             if (underlyingCalculators.Count != 2) throw new NotEqualException(() => underlyingCalculators.Count, 2);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _frequencyCalculator = frequencyCalculator;
+            _frequencyCalculator = frequencyCalculator ?? throw new NullException(() => frequencyCalculator);
             _underlyingCalculators = underlyingCalculators.ToArray();
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
@@ -490,12 +485,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack channelDimensionStack)
             : base(new[] { frequencyCalculator })
         {
-            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (underlyingCalculators == null) throw new NullException(() => underlyingCalculators);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
             OperatorCalculatorHelper.AssertDimensionStack(channelDimensionStack);
 
-            _frequencyCalculator = frequencyCalculator;
+            _frequencyCalculator = frequencyCalculator ?? throw new NullException(() => frequencyCalculator);
             _underlyingCalculators = underlyingCalculators.ToArray();
             _dimensionStack = dimensionStack;
             _channelDimensionStack = channelDimensionStack;
@@ -631,12 +625,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new[] { frequencyCalculator })
         {
-            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
-            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _frequencyCalculator = frequencyCalculator;
-            _underlyingCalculator = underlyingCalculator;
+            _frequencyCalculator = frequencyCalculator ?? throw new NullException(() => frequencyCalculator);
+            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
@@ -677,10 +669,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             ICalculatorWithPosition underlyingCalculator,
             DimensionStack dimensionStack)
         {
-            if (underlyingCalculator == null) throw new NullException(() => underlyingCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _underlyingCalculator = underlyingCalculator;
+            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;
 
@@ -720,12 +711,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new[] { frequencyCalculator })
         {
-            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (underlyingCalculators == null) throw new NullException(() => underlyingCalculators);
             if (underlyingCalculators.Count != 2) throw new NotEqualException(() => underlyingCalculators.Count, 2);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _frequencyCalculator = frequencyCalculator;
+            _frequencyCalculator = frequencyCalculator ?? throw new NullException(() => frequencyCalculator);
             _underlyingCalculators = underlyingCalculators.ToArray();
             _dimensionStack = dimensionStack;
             _dimensionStackIndex = dimensionStack.CurrentIndex;

@@ -327,6 +327,32 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         }
 
+        public static void Migrate_OperatorType_ToUnderlyingPatch_ForExponent_Reverse_Scaler_Shift_Squash_Stretch_AndTimePower(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Exponent, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Reverse, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Scaler, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Shift, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Squash, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Stretch, repositories, progressCallback);
+                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.TimePower, repositories, progressCallback);
+
+                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        }
+
         // Helpers
 
         private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(

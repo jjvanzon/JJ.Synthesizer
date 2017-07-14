@@ -9,8 +9,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _exponentCalculator;
         private readonly OperatorCalculatorBase _originCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
 
         public TimePower_OperatorCalculator_VarSignal_VarExponent_VarOrigin(
             OperatorCalculatorBase signalCalculator,
@@ -19,17 +17,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new[] { signalCalculator, exponentCalculator, originCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
-            if (originCalculator == null) throw new NullException(() => originCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _signalCalculator = signalCalculator;
-            _exponentCalculator = exponentCalculator;
-            _originCalculator = originCalculator;
+            _signalCalculator = signalCalculator ?? throw new NullException(() => signalCalculator);
+            _exponentCalculator = exponentCalculator ?? throw new NullException(() => exponentCalculator);
+            _originCalculator = originCalculator ?? throw new NullException(() => originCalculator);
             _dimensionStack = dimensionStack;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -39,9 +32,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double result = _signalCalculator.Calculate();
 
-#if !USE_INVAR_INDICES
             _dimensionStack.Pop();
-#endif
+
             return result;
         }
 
@@ -51,34 +43,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             base.Reset();
 
-#if !USE_INVAR_INDICES
             _dimensionStack.Pop();
-#endif
         }
 
         private void PushTransformedPosition()
         {
-#if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
             double exponent = _exponentCalculator.Calculate();
             double origin = _originCalculator.Calculate();
 
             double transformedPosition = TimePower_OperatorCalculator_Helper.GetTransformedPosition(position, exponent, origin);
 
-#if !USE_INVAR_INDICES
             _dimensionStack.Push(transformedPosition);
-#else
-            _dimensionStack.Set(_nextDimensionStackIndex, transformedPosition);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
         }
     }
 
@@ -87,8 +63,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _exponentCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
 
         public TimePower_OperatorCalculator_VarSignal_VarExponent_ZeroOrigin(
             OperatorCalculatorBase signalCalculator,
@@ -96,15 +70,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             DimensionStack dimensionStack)
             : base(new[] { signalCalculator, exponentCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _signalCalculator = signalCalculator;
-            _exponentCalculator = exponentCalculator;
+            _signalCalculator = signalCalculator ?? throw new NullException(() => signalCalculator);
+            _exponentCalculator = exponentCalculator ?? throw new NullException(() => exponentCalculator);
             _dimensionStack = dimensionStack;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

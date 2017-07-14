@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 
@@ -11,18 +13,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly TArrayCalculator _arrayCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
 
         public Cache_OperatorCalculator_SingleChannel(
-            TArrayCalculator arrayCalculator, 
+            [NotNull] TArrayCalculator arrayCalculator, 
             DimensionStack dimensionStack)
         {
-            if (arrayCalculator == null) throw new NullException(() => arrayCalculator);
+            if (arrayCalculator == null) throw new ArgumentNullException(nameof(arrayCalculator));
+
             OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
             _arrayCalculator = arrayCalculator;
             _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
