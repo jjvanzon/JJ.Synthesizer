@@ -95,11 +95,6 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_Exponent_OperatorDto(Exponent_OperatorDto dto)
-        {
-            throw new NotSupportedException();
-        }
-
         protected sealed override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
         {
             throw new NotSupportedException();
@@ -281,11 +276,6 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected sealed override IOperatorDto Visit_SawUp_OperatorDto(SawUp_OperatorDto dto)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected sealed override IOperatorDto Visit_Scaler_OperatorDto(Scaler_OperatorDto dto)
         {
             throw new NotSupportedException();
         }

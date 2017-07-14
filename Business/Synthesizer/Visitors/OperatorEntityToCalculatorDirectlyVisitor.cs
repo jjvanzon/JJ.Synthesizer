@@ -1108,8 +1108,14 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 double value;
 
-                if (a == b) value = 1.0;
-                else value = 0.0;
+                if (a == b)
+                {
+                    value = 1.0;
+                }
+                else
+                {
+                    value = 0.0;
+                }
 
                 calculator = new Number_OperatorCalculator(value);
             }
@@ -1130,80 +1136,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 // ReSharper disable once HeuristicUnreachableCode
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
-        }
-
-        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
-        protected override void VisitExponent(Operator op)
-        {
-            base.VisitExponent(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase lowCalculator = _stack.Pop();
-            OperatorCalculatorBase highCalculator = _stack.Pop();
-            OperatorCalculatorBase ratioCalculator = _stack.Pop();
-
-
-            double low = lowCalculator.Calculate();
-            double high = highCalculator.Calculate();
-            double ratio = ratioCalculator.Calculate();
-            bool lowIsConst = lowCalculator is Number_OperatorCalculator;
-            bool highIsConst = highCalculator is Number_OperatorCalculator;
-            bool ratioIsConst = ratioCalculator is Number_OperatorCalculator;
-
-            // TODO: Program more specialized cases?
-            bool lowIsConstZero = lowIsConst && low == 0;
-            bool highIsConstZero = lowIsConst && high == 0;
-            //bool ratioIsConstZero = ratioIsConst && ratio == 0;
-            //bool lowIsConstOne = lowIsConst && low == 1;
-            //bool highIsConstOne = lowIsConst && high == 1;
-            //bool ratioIsConstOne = ratioIsConst && ratio == 1;
-
-            if (lowIsConstZero)
-            {
-                // Special Value
-                calculator = new Number_OperatorCalculator_Zero();
-            }
-            else if (highIsConstZero)
-            {
-                // Would result in 0. See formula further down
-                calculator = new Number_OperatorCalculator_Zero();
-            }
-            else if (lowIsConst && highIsConst && ratioIsConst)
-            {
-                double value = low * Math.Pow(high / low, ratio);
-                calculator = new Number_OperatorCalculator(value);
-            }
-            else if (!lowIsConst && highIsConst && ratioIsConst)
-            {
-                calculator = new Exponent_OperatorCalculator_VarLow_ConstHigh_ConstRatio(lowCalculator, high, ratio);
-            }
-            else if (lowIsConst && !highIsConst && ratioIsConst)
-            {
-                calculator = new Exponent_OperatorCalculator_ConstLow_VarHigh_ConstRatio(low, highCalculator, ratio);
-            }
-            else if (!lowIsConst && !highIsConst && ratioIsConst)
-            {
-                calculator = new Exponent_OperatorCalculator_VarLow_VarHigh_ConstRatio(lowCalculator, highCalculator, ratio);
-            }
-            else if (lowIsConst && highIsConst && !ratioIsConst)
-            {
-                calculator = new Exponent_OperatorCalculator_ConstLow_ConstHigh_VarRatio(low, high, ratioCalculator);
-            }
-            else if (!lowIsConst && highIsConst && !ratioIsConst)
-            {
-                calculator = new Exponent_OperatorCalculator_VarLow_ConstHigh_VarRatio(lowCalculator, high, ratioCalculator);
-            }
-            else if (lowIsConst && !highIsConst && !ratioIsConst)
-            {
-                calculator = new Exponent_OperatorCalculator_ConstLow_VarHigh_VarRatio(low, highCalculator, ratioCalculator);
-            }
-            else
-            {
-                calculator = new Exponent_OperatorCalculator_VarLow_VarHigh_VarRatio(lowCalculator, highCalculator, ratioCalculator);
             }
 
             _stack.Push(calculator);
@@ -1239,8 +1171,14 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 double value;
 
-                if (a > b) value = 1.0;
-                else value = 0.0;
+                if (a > b)
+                {
+                    value = 1.0;
+                }
+                else
+                {
+                    value = 0.0;
+                }
 
                 calculator = new Number_OperatorCalculator(value);
             }
@@ -1286,8 +1224,14 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 double value;
 
-                if (a >= b) value = 1.0;
-                else value = 0.0;
+                if (a >= b)
+                {
+                    value = 1.0;
+                }
+                else
+                {
+                    value = 0.0;
+                }
 
                 calculator = new Number_OperatorCalculator(value);
             }
@@ -1532,8 +1476,14 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 double value;
 
-                if (a < b) value = 1.0;
-                else value = 0.0;
+                if (a < b)
+                {
+                    value = 1.0;
+                }
+                else
+                {
+                    value = 0.0;
+                }
 
                 calculator = new Number_OperatorCalculator(value);
             }
@@ -1579,8 +1529,14 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 double value;
 
-                if (a <= b) value = 1.0;
-                else value = 0.0;
+                if (a <= b)
+                {
+                    value = 1.0;
+                }
+                else
+                {
+                    value = 0.0;
+                }
 
                 calculator = new Number_OperatorCalculator(value);
             }
@@ -2431,8 +2387,14 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 double value;
 
-                if (a != b) value = 1.0;
-                else value = 0.0;
+                if (a != b)
+                {
+                    value = 1.0;
+                }
+                else
+                {
+                    value = 0.0;
+                }
 
                 calculator = new Number_OperatorCalculator(value);
             }
@@ -3388,40 +3350,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitScaler(Operator op)
-        {
-            base.VisitScaler(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase sourceValueACalculator = _stack.Pop();
-            OperatorCalculatorBase sourceValueBCalculator = _stack.Pop();
-            OperatorCalculatorBase targetValueACalculator = _stack.Pop();
-            OperatorCalculatorBase targetValueBCalculator = _stack.Pop();
-
-            bool sourceValueAIsConst = sourceValueACalculator is Number_OperatorCalculator;
-            bool sourceValueBIsConst = sourceValueBCalculator is Number_OperatorCalculator;
-            bool targetValueAIsConst = targetValueACalculator is Number_OperatorCalculator;
-            bool targetValueBIsConst = targetValueBCalculator is Number_OperatorCalculator;
-
-            double sourceValueA = sourceValueAIsConst ? sourceValueACalculator.Calculate() : 0.0;
-            double sourceValueB = sourceValueBIsConst ? sourceValueBCalculator.Calculate() : 0.0;
-            double targetValueA = targetValueAIsConst ? targetValueACalculator.Calculate() : 0.0;
-            double targetValueB = targetValueBIsConst ? targetValueBCalculator.Calculate() : 0.0;
-
-            if (sourceValueAIsConst && sourceValueBIsConst && targetValueAIsConst && targetValueBIsConst)
-            {
-                calculator = new Scaler_OperatorCalculator_ManyConsts(signalCalculator, sourceValueA, sourceValueB, targetValueA, targetValueB);
-            }
-            else
-            {
-                calculator = new Scaler_OperatorCalculator_AllVars(signalCalculator, sourceValueACalculator, sourceValueBCalculator, targetValueACalculator, targetValueBCalculator);
             }
 
             _stack.Push(calculator);

@@ -296,7 +296,6 @@
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Round OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SawDown OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Scaler OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Reverse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
@@ -304,7 +303,6 @@
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SawUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyVariables.cs" />
-    <Compile Include="Calculation\Operators\Exponent_OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicAbruptSlope.cs" />
@@ -437,7 +435,6 @@
     <Compile Include="Dto\OperatorDtoBase Trigger Classes.cs" />
     <Compile Include="Dto\ChangeTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Round OperatorDto Classes.cs" />
-    <Compile Include="Dto\Scaler OperatorDto Classes.cs" />
     <Compile Include="Dto\OperatorDtoBase_AggregateFollower_AllVars.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarNumber.cs" />
     <Compile Include="Dto\Not OperatorDto Classes.cs" />
@@ -466,7 +463,6 @@
     <Compile Include="Dto\Triangle OperatorDto Classes.cs" />
     <Compile Include="Dto\Loop OperatorDto Classes.cs" />
     <Compile Include="Dto\Interpolate OperatorDto Classes.cs" />
-    <Compile Include="Dto\Exponent OperatorDto Classes.cs" />
     <Compile Include="Dto\Noise_OperatorDto.cs" />
     <Compile Include="Dto\Sample OperatorDto Classes.cs" />
     <Compile Include="Dto\Curve OperatorDto Classes.cs" />

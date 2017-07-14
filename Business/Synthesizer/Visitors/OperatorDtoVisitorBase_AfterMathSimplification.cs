@@ -120,11 +120,6 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio(Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio dto)
-        {
-            throw new NotSupportedException();
-        }
-
         protected sealed override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_ConstA_ConstB(GreaterThanOrEqual_OperatorDto_ConstA_ConstB dto)
         {
             throw new NotSupportedException();
@@ -416,11 +411,6 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected sealed override IOperatorDto Visit_SawUp_OperatorDto_ZeroFrequency(SawUp_OperatorDto_ZeroFrequency dto)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected sealed override IOperatorDto Visit_Scaler_OperatorDto_AllConsts(Scaler_OperatorDto_AllConsts dto)
         {
             throw new NotSupportedException();
         }

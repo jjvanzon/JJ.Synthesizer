@@ -637,84 +637,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             return ProcessComparativeOperator_VarA_VarB(dto, EQUALS_SYMBOL);
         }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
-            PutNumberOnStack(dto.High);
-            PutNumberOnStack(dto.Low);
-
-            return ProcessExponentOperator(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio(Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio dto)
-        {
-            PutNumberOnStack(dto.Ratio);
-            Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
-            PutNumberOnStack(dto.Low);
-
-            return ProcessExponentOperator(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_VarHigh_VarRatio(Exponent_OperatorDto_ConstLow_VarHigh_VarRatio dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
-            PutNumberOnStack(dto.Low);
-
-            return ProcessExponentOperator(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio(Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio dto)
-        {
-            PutNumberOnStack(dto.Ratio);
-            PutNumberOnStack(dto.High);
-            Visit_OperatorDto_Polymorphic(dto.LowOperatorDto);
-
-            return ProcessExponentOperator(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_ConstHigh_VarRatio(Exponent_OperatorDto_VarLow_ConstHigh_VarRatio dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
-            PutNumberOnStack(dto.High);
-            Visit_OperatorDto_Polymorphic(dto.LowOperatorDto);
-
-            return ProcessExponentOperator(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_VarHigh_ConstRatio(Exponent_OperatorDto_VarLow_VarHigh_ConstRatio dto)
-        {
-            PutNumberOnStack(dto.Ratio);
-            Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.LowOperatorDto);
-
-            return ProcessExponentOperator(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_VarHigh_VarRatio(Exponent_OperatorDto_VarLow_VarHigh_VarRatio dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.RatioOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.HighOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.LowOperatorDto);
-
-            return ProcessExponentOperator(dto);
-        }
-
-        private IOperatorDto ProcessExponentOperator(IOperatorDto dto)
-        {
-            AppendOperatorTitleComment(dto);
-
-            string low = _stack.Pop();
-            string high = _stack.Pop();
-            string ratio = _stack.Pop();
-            string output = GetLocalOutputName(dto);
-
-            AppendLine($"double {output} = {low} * Math.Pow({high} / {low}, {ratio});");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
+        
         protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
         {
             string position = GetPositionNameCamelCase(dto);
@@ -2266,47 +2189,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
             return ProcessPhaseTrackingOperator(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.TargetValueBOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.TargetValueAOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.SourceValueBOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.SourceValueAOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-
-            return ProcessScaler(dto);
-        }
-
-        protected override IOperatorDto Visit_Scaler_OperatorDto_ManyConsts(Scaler_OperatorDto_ManyConsts dto)
-        {
-            PutNumberOnStack(dto.TargetValueB);
-            PutNumberOnStack(dto.TargetValueA);
-            PutNumberOnStack(dto.SourceValueB);
-            PutNumberOnStack(dto.SourceValueA);
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-
-            return ProcessScaler(dto);
-        }
-
-        /// <summary> Assumes all inlets literals are have been put on the _stack. </summary>
-        private IOperatorDto ProcessScaler(IOperatorDto dto)
-        {
-            AppendOperatorTitleComment(dto);
-
-            string signal = _stack.Pop();
-            string sourceValueA = _stack.Pop();
-            string sourceValueB = _stack.Pop();
-            string targetValueA = _stack.Pop();
-            string targetValueB = _stack.Pop();
-            string output = GetLocalOutputName(dto);
-            const string mathHelper = nameof(MathHelper);
-            const string scaleLinearly = nameof(MathHelper.ScaleLinearly);
-
-            AppendLine($"double {output} = {mathHelper}.{scaleLinearly}({signal}, {sourceValueA}, {sourceValueB}, {targetValueA}, {targetValueB});");
-
-            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto)

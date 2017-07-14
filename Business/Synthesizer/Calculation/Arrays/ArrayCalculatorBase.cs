@@ -26,7 +26,10 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
         {
             if (extraTicksBefore < 0) throw new LessThanException(() => extraTicksBefore, 0);
             if (extraTicksAfter < 0) throw new LessThanException(() => extraTicksAfter, 0);
-            _array = array ?? throw new NullException(() => array);
+
+            // Do not use throw expressions, because it is not supported by the Roslyn run-time compiler used.
+            if (array == null) throw new NullException(() => array);
+            _array = array;
 
             int tickCountInt = _array.Length;
             _tickCount = tickCountInt;

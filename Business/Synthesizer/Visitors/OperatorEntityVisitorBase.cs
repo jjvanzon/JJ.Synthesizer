@@ -36,7 +36,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Equal, VisitEqual },
-                { OperatorTypeEnum.Exponent, VisitExponent },
                 { OperatorTypeEnum.GetDimension, VisitGetDimension },
                 { OperatorTypeEnum.GreaterThan, VisitGreaterThan },
                 { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
@@ -79,7 +78,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Sample, VisitSampleOperator },
                 { OperatorTypeEnum.SawDown, VisitSawDown },
                 { OperatorTypeEnum.SawUp, VisitSawUp },
-                { OperatorTypeEnum.Scaler, VisitScaler },
                 { OperatorTypeEnum.SetDimension, VisitSetDimension },
                 { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
@@ -114,8 +112,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutletsOutlet },
                 { OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutletsOutlet },
                 { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet },
-                // Undefined should have Outlet visitation, for DivideWithOrigin,
-                // which has no OperatorTypeEnum, but is 'like' a custom operator.
+                // Undefined should have Outlet visitation, for DivideWithOrigin, Exponent and Scaler,
+                // which have no OperatorTypeEnum, but are 'like' a custom operator.
                 { OperatorTypeEnum.Undefined, VisitCustomOperatorOutlet }
             };
         }
@@ -276,9 +274,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitEqual(Operator op) => VisitOperatorBase(op);
 
         //[DebuggerHidden]
-        protected virtual void VisitExponent(Operator op) => VisitOperatorBase(op);
-
-        //[DebuggerHidden]
         protected virtual void VisitGetDimension(Operator op) => VisitOperatorBase(op);
 
         //[DebuggerHidden]
@@ -403,9 +398,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         //[DebuggerHidden]
         protected virtual void VisitSawUp(Operator op) => VisitOperatorBase(op);
-
-        //[DebuggerHidden]
-        protected virtual void VisitScaler(Operator op) => VisitOperatorBase(op);
 
         //[DebuggerHidden]
         protected virtual void VisitSetDimension(Operator op) => VisitOperatorBase(op);

@@ -4120,5 +4120,258 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         //}
+
+
+        //public static void Migrate_Divide_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Divide;
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(operatorTypeEnum, repositories, progressCallback);
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
+
+        //public static void Migrate_If_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.If;
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(operatorTypeEnum, repositories, progressCallback);
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
+
+        //public static void Migrate_OperatorType_ToUnderlyingPatch_For_Noise_Pulse_SawDown_SawUp_Square_Triangle(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Noise, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Pulse, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SawDown, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SawUp, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Square, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Triangle, repositories, progressCallback);
+
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
+
+        //public static void Migrate_OperatorType_ToUnderlyingPatch_ForFilters(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.AllPassFilter, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.BandPassFilterConstantPeakGain, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.BandPassFilterConstantTransitionGain, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.HighPassFilter, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.HighShelfFilter, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.LowPassFilter, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.LowShelfFilter, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.NotchFilter, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.PeakingEQFilter, repositories, progressCallback);
+
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        //throw new Exception("Temporarily not committing, for debugging.");
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
+
+        //public static void Migrate_OperatorType_ToUnderlyingPatch_ForAggregatesOverInlets(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.AverageOverInlets, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ClosestOverInlets, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ClosestOverInletsExp, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MaxOverInlets, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MinOverInlets, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.RangeOverOutlets, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SortOverInlets, repositories, progressCallback);
+
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
+
+        //public static void Migrate_InletsToDimension_DimensionToOutlets_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.InletsToDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.DimensionToOutlets, repositories, progressCallback);
+
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
+
+        //public static void Migrate_AggregateFollowers_AndAggregatesOverDimensions_OperatorType_ToUnderlyingPatch(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.AverageFollower, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.AverageOverDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ClosestOverDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ClosestOverDimensionExp, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MaxFollower, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MaxOverDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MinFollower, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.MinOverDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.RangeOverDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SortOverDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SumFollower, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SumOverDimension, repositories, progressCallback);
+
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
+
+        //public static void Migrate_OperatorType_ToUnderlyingPatch_ForChangeTrigger_PulseTrigger_ToggleTrigger_Hold_GetDimension_SetDimension_Round_Spectrum(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ChangeTrigger, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.PulseTrigger, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ToggleTrigger, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Hold, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.GetDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SetDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Round, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Spectrum, repositories, progressCallback);
+
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
+
+        //public static void Migrate_OperatorType_ToUnderlyingPatch_ForCache_Curve_Interpolate_Number_AndSample(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Cache, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Curve, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Interpolate, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Number, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Sample, repositories, progressCallback);
+
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
+
+        //public static void Migrate_OperatorType_ToUnderlyingPatch_ForExponent_Reverse_Scaler_Shift_Squash_Stretch_AndTimePower(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
+
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Exponent, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Reverse, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Scaler, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Shift, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Squash, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Stretch, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.TimePower, repositories, progressCallback);
+
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+        //        context.Commit();
+        //    }
+
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}    
     }
 }

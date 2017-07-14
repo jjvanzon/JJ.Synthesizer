@@ -580,58 +580,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Exponent_OperatorDto(Exponent_OperatorDto dto)
-        {
-            base.Visit_Exponent_OperatorDto(dto);
-
-            MathPropertiesDto lowMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.LowOperatorDto);
-            MathPropertiesDto highMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.HighOperatorDto);
-            MathPropertiesDto ratioMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.RatioOperatorDto);
-
-            IOperatorDto dto2;
-
-            if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsVar)
-            {
-                dto2 = new Exponent_OperatorDto_VarLow_VarHigh_VarRatio { LowOperatorDto = dto.LowOperatorDto, HighOperatorDto = dto.HighOperatorDto, RatioOperatorDto = dto.RatioOperatorDto };
-            }
-            else if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsConst)
-            {
-                dto2 = new Exponent_OperatorDto_VarLow_VarHigh_ConstRatio { LowOperatorDto = dto.LowOperatorDto, HighOperatorDto = dto.HighOperatorDto, Ratio = ratioMathPropertiesDto.ConstValue };
-            }
-            else if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsVar)
-            {
-                dto2 = new Exponent_OperatorDto_VarLow_ConstHigh_VarRatio { LowOperatorDto = dto.LowOperatorDto, High = highMathPropertiesDto.ConstValue, RatioOperatorDto = dto.RatioOperatorDto };
-            }
-            else if (lowMathPropertiesDto.IsVar && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsConst)
-            {
-                dto2 = new Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio { LowOperatorDto = dto.LowOperatorDto, High = highMathPropertiesDto.ConstValue, Ratio = ratioMathPropertiesDto.ConstValue };
-            }
-            else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsVar)
-            {
-                dto2 = new Exponent_OperatorDto_ConstLow_VarHigh_VarRatio { Low = lowMathPropertiesDto.ConstValue, HighOperatorDto = dto.HighOperatorDto, RatioOperatorDto = dto.RatioOperatorDto };
-            }
-            else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsVar && ratioMathPropertiesDto.IsConst)
-            {
-                dto2 = new Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio { Low = lowMathPropertiesDto.ConstValue, HighOperatorDto = dto.HighOperatorDto, Ratio = ratioMathPropertiesDto.ConstValue };
-            }
-            else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsVar)
-            {
-                dto2 = new Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio { Low = lowMathPropertiesDto.ConstValue, High = highMathPropertiesDto.ConstValue, RatioOperatorDto = dto.RatioOperatorDto };
-            }
-            else if (lowMathPropertiesDto.IsConst && highMathPropertiesDto.IsConst && ratioMathPropertiesDto.IsConst)
-            {
-                dto2 = new Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio { Low = lowMathPropertiesDto.ConstValue, High = highMathPropertiesDto.ConstValue, Ratio = ratioMathPropertiesDto.ConstValue };
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
-            }
-
-            DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
         {
             base.Visit_GreaterThan_OperatorDto(dto);
@@ -2054,65 +2002,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             return dto2;
         }
-
-        protected override IOperatorDto Visit_Scaler_OperatorDto(Scaler_OperatorDto dto)
-        {
-            base.Visit_Scaler_OperatorDto(dto);
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
-            MathPropertiesDto sourceValueAMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SourceValueAOperatorDto);
-            MathPropertiesDto sourceValueBMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SourceValueBOperatorDto);
-            MathPropertiesDto targetValueAMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TargetValueAOperatorDto);
-            MathPropertiesDto targetValueBMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.TargetValueBOperatorDto);
-
-            IOperatorDto dto2;
-
-            if (signalMathPropertiesDto.IsConst &&
-                sourceValueAMathPropertiesDto.IsConst &&
-                sourceValueBMathPropertiesDto.IsConst &&
-                targetValueAMathPropertiesDto.IsConst &&
-                targetValueBMathPropertiesDto.IsConst)
-            {
-                dto2 = new Scaler_OperatorDto_AllConsts
-                {
-                    Signal = signalMathPropertiesDto.ConstValue,
-                    SourceValueA = sourceValueAMathPropertiesDto.ConstValue,
-                    SourceValueB = sourceValueBMathPropertiesDto.ConstValue,
-                    TargetValueA = targetValueAMathPropertiesDto.ConstValue,
-                    TargetValueB = targetValueBMathPropertiesDto.ConstValue
-                };
-            }
-            else if (sourceValueAMathPropertiesDto.IsConst &&
-                sourceValueBMathPropertiesDto.IsConst &&
-                targetValueAMathPropertiesDto.IsConst &&
-                targetValueBMathPropertiesDto.IsConst)
-            {
-                dto2 = new Scaler_OperatorDto_ManyConsts
-                {
-                    SignalOperatorDto = dto.SignalOperatorDto,
-                    SourceValueA = sourceValueAMathPropertiesDto.ConstValue,
-                    SourceValueB = sourceValueBMathPropertiesDto.ConstValue,
-                    TargetValueA = targetValueAMathPropertiesDto.ConstValue,
-                    TargetValueB = targetValueBMathPropertiesDto.ConstValue
-                };
-            }
-            else
-            {
-                dto2 = new Scaler_OperatorDto_AllVars
-                {
-                    SignalOperatorDto = dto.SignalOperatorDto,
-                    SourceValueAOperatorDto = dto.SourceValueAOperatorDto,
-                    SourceValueBOperatorDto = dto.SourceValueBOperatorDto,
-                    TargetValueAOperatorDto = dto.TargetValueAOperatorDto,
-                    TargetValueBOperatorDto = dto.TargetValueBOperatorDto
-                };
-            }
-
-            DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
-
-            return dto2;
-        }
-
+        
         protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
             base.Visit_SetDimension_OperatorDto(dto);

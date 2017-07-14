@@ -271,20 +271,6 @@ namespace JJ.Business.Synthesizer.Visitors
             Process_OperatorDtoBase_VarA_VarB(op, dto);
         }
 
-        protected override void VisitExponent(Operator op)
-        {
-            base.VisitExponent(op);
-
-            var dto = new Exponent_OperatorDto
-            {
-                LowOperatorDto = _stack.Pop(),
-                HighOperatorDto = _stack.Pop(),
-                RatioOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
-
         protected override void VisitGetDimension(Operator op)
         {
             base.VisitGetDimension(op);
@@ -713,22 +699,6 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             var dto = new SawUp_OperatorDto();
             Process_OperatorDtoBase_VarFrequency(op, dto);
-        }
-
-        protected override void VisitScaler(Operator op)
-        {
-            base.VisitScaler(op);
-
-            var dto = new Scaler_OperatorDto
-            {
-                SignalOperatorDto = _stack.Pop(),
-                SourceValueAOperatorDto = _stack.Pop(),
-                SourceValueBOperatorDto = _stack.Pop(),
-                TargetValueAOperatorDto = _stack.Pop(),
-                TargetValueBOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
         }
 
         protected override void VisitSetDimension(Operator op)

@@ -1730,31 +1730,11 @@ namespace JJ.Business.Synthesizer
         {
             switch (operatorTypeEnum)
             {
-                case OperatorTypeEnum.Cache: return Cache();
-                case OperatorTypeEnum.ChangeTrigger: return ChangeTrigger();
-                case OperatorTypeEnum.Curve: return Curve();
-                case OperatorTypeEnum.Exponent: return Exponent();
-                case OperatorTypeEnum.GetDimension: return GetDimension();
-                case OperatorTypeEnum.Hold: return Hold();
-                case OperatorTypeEnum.Interpolate: return Interpolate();
                 case OperatorTypeEnum.Loop: return Loop();
-                case OperatorTypeEnum.Number: return Number();
                 case OperatorTypeEnum.PatchInlet: return PatchInlet();
                 case OperatorTypeEnum.PatchOutlet: return PatchOutlet();
-                case OperatorTypeEnum.PulseTrigger: return PulseTrigger();
                 case OperatorTypeEnum.Random: return Random();
                 case OperatorTypeEnum.Reset: return Reset();
-                case OperatorTypeEnum.Reverse: return Reverse();
-                case OperatorTypeEnum.Round: return Round();
-                case OperatorTypeEnum.Sample: return Sample();
-                case OperatorTypeEnum.Scaler: return Scaler();
-                case OperatorTypeEnum.SetDimension: return SetDimension();
-                case OperatorTypeEnum.Shift: return Shift();
-                case OperatorTypeEnum.Spectrum: return Spectrum();
-                case OperatorTypeEnum.Squash: return Squash();
-                case OperatorTypeEnum.Stretch: return Stretch();
-                case OperatorTypeEnum.TimePower: return TimePower();
-                case OperatorTypeEnum.ToggleTrigger: return ToggleTrigger();
                 
                 default:
                     throw new Exception($"{nameof(OperatorTypeEnum)} '{operatorTypeEnum}' not supported by the {GetType().Name}.{MethodBase.GetCurrentMethod().Name} method.");

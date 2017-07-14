@@ -532,52 +532,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        // Exponent
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio(Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio dto)
-        {
-            base.Visit_Exponent_OperatorDto_ConstLow_ConstHigh_ConstRatio(dto);
-
-            // Pre-calculate
-            double result = dto.Low * Math.Pow(dto.High / dto.Low, dto.Ratio);
-            return new Number_OperatorDto { Number = result };
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio(Exponent_OperatorDto_ConstLow_ConstHigh_VarRatio dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio(Exponent_OperatorDto_ConstLow_VarHigh_ConstRatio dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_ConstLow_VarHigh_VarRatio(Exponent_OperatorDto_ConstLow_VarHigh_VarRatio dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio(Exponent_OperatorDto_VarLow_ConstHigh_ConstRatio dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_ConstHigh_VarRatio(Exponent_OperatorDto_VarLow_ConstHigh_VarRatio dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_VarHigh_ConstRatio(Exponent_OperatorDto_VarLow_VarHigh_ConstRatio dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Exponent_OperatorDto_VarLow_VarHigh_VarRatio(Exponent_OperatorDto_VarLow_VarHigh_VarRatio dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         // GetDimension
 
         protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
@@ -1914,33 +1868,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_SawUp_OperatorDto_ZeroFrequency(SawUp_OperatorDto_ZeroFrequency dto)
         {
             return Process_ZeroFrequency(dto);
-        }
-
-        // Scaler
-
-        protected override IOperatorDto Visit_Scaler_OperatorDto_AllConsts(Scaler_OperatorDto_AllConsts dto)
-        {
-            base.Visit_Scaler_OperatorDto_AllConsts(dto);
-
-            // Pre-calculate
-            double result = MathHelper.ScaleLinearly(
-                dto.Signal, 
-                dto.SourceValueA, 
-                dto.SourceValueB, 
-                dto.TargetValueA, 
-                dto.TargetValueB);
-
-            return new Number_OperatorDto { Number = result };
-        }
-
-        protected override IOperatorDto Visit_Scaler_OperatorDto_AllVars(Scaler_OperatorDto_AllVars dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Scaler_OperatorDto_ManyConsts(Scaler_OperatorDto_ManyConsts dto)
-        {
-            return Process_Nothing(dto);
         }
 
         // SetDimension
