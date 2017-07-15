@@ -7,6 +7,11 @@ namespace JJ.Data.Synthesizer.Entities
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public class Inlet : IInletOrOutlet
     {
+        public Inlet()
+        {
+            
+        }
+
         // See interface for more summaries.
 
         public virtual int ID { get; set; }

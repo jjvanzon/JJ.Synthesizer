@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -71,10 +70,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
                 }   
             }
 
-            // ReSharper disable once InvertIf
             if (frequencyCount.HasValue)
             {
-                // ReSharper disable once InvertIf
                 if (!MathHelper.IsPowerOf2((int)frequencyCount.Value))
                 {
                     string message = ResourceFormatter.MustBePowerOf2(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Frequencies));

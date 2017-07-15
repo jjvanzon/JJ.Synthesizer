@@ -311,7 +311,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchDetailsViewModel
             {
                 Entity = CreateEmptyPatchViewModel(),
-                OperatorToolboxItems = new List<IDAndName>(),
                 ValidationMessages = new List<string>()
             };
 

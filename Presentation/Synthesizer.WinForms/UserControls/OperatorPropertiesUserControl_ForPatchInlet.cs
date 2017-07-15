@@ -34,6 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelWarnIfEmpty, checkBoxWarnIfEmpty);
             AddProperty(labelNameOrDimensionHidden, checkBoxNameOrDimensionHidden);
             AddProperty(labelIsRepeating, checkBoxIsRepeating);
+            AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
         }
 
         // Binding

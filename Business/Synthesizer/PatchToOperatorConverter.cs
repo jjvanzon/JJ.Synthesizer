@@ -7,7 +7,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer
@@ -138,21 +137,29 @@ namespace JJ.Business.Synthesizer
         /// <param name="destInlet">nullable</param>
         private Inlet ConvertInlet(Inlet sourceInlet, Inlet destInlet, Operator destOperator)
         {
+            bool isNew = false;
             if (destInlet == null)
             {
+                isNew = true;
                 destInlet = new Inlet { ID = _repositories.IDRepository.GetID() };
                 _repositories.InletRepository.Insert(destInlet);
                 destInlet.LinkTo(destOperator);
             }
 
-            destInlet.Name = sourceInlet.Name;
-            destInlet.Dimension = sourceInlet.Dimension;
-            destInlet.Position = sourceInlet.Position;
-            destInlet.DefaultValue = sourceInlet.DefaultValue;
-            destInlet.WarnIfEmpty = sourceInlet.WarnIfEmpty;
-            destInlet.NameOrDimensionHidden = sourceInlet.NameOrDimensionHidden;
-            destInlet.IsRepeating = sourceInlet.IsRepeating;
             destInlet.IsObsolete = false;
+
+            OperatorTypeEnum operatorTypeEnum = destInlet.Operator.GetOperatorTypeEnum();
+            if (operatorTypeEnum != OperatorTypeEnum.PatchInlet || isNew)
+            {
+                // Do not convert these properties for PatchInlet.Inlet, since those are custom filled in by the user.
+                destInlet.Name = sourceInlet.Name;
+                destInlet.Dimension = sourceInlet.Dimension;
+                destInlet.Position = sourceInlet.Position;
+                destInlet.DefaultValue = sourceInlet.DefaultValue;
+                destInlet.WarnIfEmpty = sourceInlet.WarnIfEmpty;
+                destInlet.NameOrDimensionHidden = sourceInlet.NameOrDimensionHidden;
+                destInlet.IsRepeating = sourceInlet.IsRepeating;
+            }
 
             return destInlet;
         }
@@ -222,19 +229,27 @@ namespace JJ.Business.Synthesizer
         /// <param name="destOutlet">nullable</param>
         private Outlet ConvertOutlet(Outlet sourceOutlet, Outlet destOutlet, Operator destOperator)
         {
+            bool isNew = false;
             if (destOutlet == null)
             {
+                isNew = true;
                 destOutlet = new Outlet { ID = _repositories.IDRepository.GetID() };
                 destOutlet.LinkTo(destOperator);
                 _repositories.OutletRepository.Insert(destOutlet);
             }
 
-            destOutlet.Name = sourceOutlet.Name;
-            destOutlet.Dimension = sourceOutlet.Dimension;
-            destOutlet.Position = sourceOutlet.Position;
-            destOutlet.NameOrDimensionHidden = sourceOutlet.NameOrDimensionHidden;
-            destOutlet.IsRepeating = sourceOutlet.IsRepeating;
             destOutlet.IsObsolete = false;
+
+            OperatorTypeEnum operatorTypeEnum = destOutlet.Operator.GetOperatorTypeEnum();
+            if (operatorTypeEnum != OperatorTypeEnum.PatchOutlet || isNew)
+            {
+                // Do not convert these properties for PatchOutlet.Outlet, since those are custom filled in by the user.
+                destOutlet.Name = sourceOutlet.Name;
+                destOutlet.Dimension = sourceOutlet.Dimension;
+                destOutlet.Position = sourceOutlet.Position;
+                destOutlet.NameOrDimensionHidden = sourceOutlet.NameOrDimensionHidden;
+                destOutlet.IsRepeating = sourceOutlet.IsRepeating;
+            }
 
             return destOutlet;
         }

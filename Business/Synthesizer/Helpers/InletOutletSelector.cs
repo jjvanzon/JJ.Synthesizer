@@ -12,29 +12,9 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     internal static class InletOutletSelector
     {
-        // Sorting
+        // TODO: Composite keys Name-Position and DimensionEnum-Position have also become supported.
 
-        public static IList<Inlet> GetSortedInlets(Operator op)
-        {
-            IList<Inlet> sortedInlets = EnumerateSortedInlets(op).ToArray();
-            return sortedInlets;
-        }
-
-        public static IEnumerable<Inlet> EnumerateSortedInlets(Operator op)
-        {
-            if (op == null) throw new NullException(() => op);
-
-            IEnumerable<Inlet> enumerable = op.Inlets.Sort();
-            return enumerable;
-        }
-
-        public static IList<Outlet> GetSortedOutlets(Operator op)
-        {
-            if (op == null) throw new NullException(() => op);
-
-            IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
-            return sortedOutlets;
-        }
+        // Sort
 
         public static IList<Outlet> GetSortedInputOutlets(Operator op)
         {
@@ -44,11 +24,9 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static IEnumerable<Outlet> EnumerateSortedInputOutlets(Operator op)
         {
-            IEnumerable<Outlet> enumerable = GetSortedInlets(op).Select(x => x.InputOutlet);
+            IEnumerable<Outlet> enumerable = op.Inlets.Sort().Select(x => x.InputOutlet);
             return enumerable;
         }
-
-        // TODO: Composite keys Name-Position and DimensionEnum-Position have also become normal.
 
         // Get Inlet
 

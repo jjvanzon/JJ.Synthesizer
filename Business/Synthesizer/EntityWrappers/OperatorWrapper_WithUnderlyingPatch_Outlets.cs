@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
@@ -32,21 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public IList<Outlet> GetMany(DimensionEnum dimensionEnum) => InletOutletSelector.GetOutlets(_operator, dimensionEnum);
 
         public int Count => _operator.Outlets.Count;
-
-        public IEnumerator<Outlet> GetEnumerator()
-        {
-            foreach (Outlet outlet in InletOutletSelector.GetSortedOutlets(_operator))
-            {
-                yield return outlet;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            foreach (Outlet outlet in InletOutletSelector.GetSortedOutlets(_operator))
-            {
-                yield return outlet;
-            }
-        }
+        public IEnumerator<Outlet> GetEnumerator() => _operator.Outlets.Sort().GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => _operator.Outlets.Sort().GetEnumerator();
     }
 }

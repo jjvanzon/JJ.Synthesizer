@@ -13,9 +13,9 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
-                string interpolationTypeString = DataPropertyParser.TryGetString(data, nameof(Cache_OperatorWrapper.InterpolationType));
+                string stringValue = DataPropertyParser.TryGetString(data, nameof(Cache_OperatorWrapper.InterpolationType));
 
-                For(interpolationTypeString, ResourceFormatter.InterpolationType)
+                For(stringValue, ResourceFormatter.InterpolationType)
                     .NotNullOrEmpty()
                     .IsEnum<InterpolationTypeEnum>()
                     .IsNot(InterpolationTypeEnum.Undefined);

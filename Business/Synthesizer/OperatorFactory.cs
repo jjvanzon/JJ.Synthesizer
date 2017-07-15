@@ -18,10 +18,6 @@ namespace JJ.Business.Synthesizer
 {
     public class OperatorFactory
     {
-        private const double DEFAULT_END_TIME = 1.0;
-        private const double DEFAULT_RANDOM_RATE = 16.0;
-        private const double DEFAULT_START_TIME = 0.0;
-
         private readonly Patch _patch;
         private readonly RepositoryWrapper _repositories;
         private readonly PatchManager _patchManager;
@@ -651,7 +647,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Loop_OperatorWrapper Loop(
+        public OperatorWrapper_WithUnderlyingPatch Loop(
             Outlet signal = null,
             Outlet skip = null,
             Outlet loopStartMarker = null,
@@ -661,36 +657,18 @@ namespace JJ.Business.Synthesizer
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Loop,
-                new[]
-                {
-                    DimensionEnum.Signal,
-                    DimensionEnum.Skip,
-                    DimensionEnum.LoopStartMarker,
-                    DimensionEnum.LoopEndMarker,
-                    DimensionEnum.ReleaseEndMarker,
-                    DimensionEnum.NoteDuration
-                },
-                new[] { DimensionEnum.Signal });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new Loop_OperatorWrapper(op)
-            {
-                Signal = signal,
-                Skip = skip,
-                LoopStartMarker = loopStartMarker,
-                LoopEndMarker = loopEndMarker,
-                ReleaseEndMarker = releaseEndMarker,
-                NoteDuration = noteDuration
-            };
-
-            wrapper.LoopStartMarkerInlet.DefaultValue = DEFAULT_START_TIME;
-            wrapper.LoopEndMarkerInlet.DefaultValue = DEFAULT_END_TIME;
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(op);
+            wrapper.Inputs[DimensionEnum.Signal] = signal;
+            wrapper.Inputs[DimensionEnum.Skip] = skip;
+            wrapper.Inputs[DimensionEnum.LoopStartMarker] = loopStartMarker;
+            wrapper.Inputs[DimensionEnum.LoopEndMarker] = loopEndMarker;
+            wrapper.Inputs[DimensionEnum.ReleaseEndMarker] = releaseEndMarker;
+            wrapper.Inputs[DimensionEnum.NoteDuration] = noteDuration;
 
             return wrapper;
         }
@@ -924,21 +902,14 @@ namespace JJ.Business.Synthesizer
 
         public PatchInlet_OperatorWrapper PatchInlet()
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.PatchInlet,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
-
-            var wrapper = new PatchInlet_OperatorWrapper(op);
-            wrapper.Inlet.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             new Operator_SideEffect_GeneratePatchInletPosition(op).Execute();
 
             // Call save to execute side-effects and robust validation.
-            VoidResult result = _patchManager.SaveOperator(op);
-            result.Assert();
+            _patchManager.SaveOperator(op).Assert();
 
-            return wrapper;
+            return new PatchInlet_OperatorWrapper(op);
         }
 
         public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
@@ -965,6 +936,7 @@ namespace JJ.Business.Synthesizer
         public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
+
             wrapper.Inlet.Name = name;
             wrapper.Inlet.DefaultValue = defaultValue;
 
@@ -976,6 +948,7 @@ namespace JJ.Business.Synthesizer
         public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
         {
             PatchInlet_OperatorWrapper wrapper = PatchInlet();
+
             wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
             wrapper.Inlet.DefaultValue = defaultValue;
 
@@ -986,22 +959,16 @@ namespace JJ.Business.Synthesizer
 
         public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.PatchOutlet,
-                new[] { DimensionEnum.Undefined },
-                new[] { DimensionEnum.Undefined });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new PatchOutlet_OperatorWrapper(op)
-            {
-                Input = input
-            };
-            wrapper.Outlet.SetDimensionEnum(DimensionEnum.Number, _repositories.DimensionRepository);
+            var wrapper = new PatchOutlet_OperatorWrapper(op) { Input = input };
 
             new Operator_SideEffect_GeneratePatchOutletPosition(op).Execute();
 
             // Call save to execute side-effects and robust validation.
-            VoidResult result = _patchManager.SaveOperator(op);
-            result.Assert();
+            _patchManager.SaveOperator(op).Assert();
+
+            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1009,6 +976,7 @@ namespace JJ.Business.Synthesizer
         public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimension, Outlet input = null)
         {
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
+
             wrapper.Outlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
             new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
@@ -1019,6 +987,7 @@ namespace JJ.Business.Synthesizer
         public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
         {
             PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
+
             wrapper.Outlet.Name = name;
 
             new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
@@ -1093,23 +1062,14 @@ namespace JJ.Business.Synthesizer
             DimensionEnum standardDimension = DimensionEnum.Time,
             string customDimension = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Random,
-                new[] { DimensionEnum.Rate },
-                new[] { DimensionEnum.Signal });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
             op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
             op.CustomDimensionName = customDimension;
 
-            var wrapper = new Random_OperatorWrapper(op)
-            {
-                Rate = rate,
-                InterpolationType = ResampleInterpolationTypeEnum.Stripe
-            };
-
-            wrapper.RateInlet.DefaultValue = DEFAULT_RANDOM_RATE;
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new Random_OperatorWrapper(op);
+            wrapper.Inputs[DimensionEnum.Rate] = rate;
+            wrapper.InterpolationType = ResampleInterpolationTypeEnum.Stripe;
 
             return wrapper;
         }
@@ -1156,18 +1116,11 @@ namespace JJ.Business.Synthesizer
 
         public Reset_OperatorWrapper Reset(Outlet passThrough = null, int? position = null)
         {
-            Operator op = CreateBase(
-                OperatorTypeEnum.Reset,
-                new[] { DimensionEnum.PassThrough },
-                new[] { DimensionEnum.PassThrough });
+            Operator op = CreateBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new Reset_OperatorWrapper(op)
-            {
-                PassThroughInput = passThrough,
-                Position = position
-            };
-
-            new OperatorValidator_Versatile(op).Assert();
+            var wrapper = new Reset_OperatorWrapper(op);
+            wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
+            wrapper.Position = position;
 
             return wrapper;
         }
@@ -1750,41 +1703,6 @@ namespace JJ.Business.Synthesizer
             Operator op = CustomOperator(patch);
 
             op.UnlinkOperatorType();
-
-            return op;
-        }
-
-        private Operator CreateBase(
-            OperatorTypeEnum operatorTypeEnum,
-            IList<DimensionEnum> inletDimensionEnums,
-            IList<DimensionEnum> outletDimensionEnums)
-        {
-            int inletCount = inletDimensionEnums.Count;
-            int outletCount = outletDimensionEnums.Count;
-
-            var op = new Operator { ID = _repositories.IDRepository.GetID() };
-            op.SetOperatorTypeEnum(operatorTypeEnum, _repositories);
-
-            op.LinkTo(_patch);
-            _repositories.OperatorRepository.Insert(op);
-
-            for (int i = 0; i < inletCount; i++)
-            {
-                Inlet inlet = _patchManager.CreateInlet(op);
-                inlet.Position = i;
-
-                DimensionEnum dimensionEnum = inletDimensionEnums[i];
-                inlet.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
-            }
-
-            for (int i = 0; i < outletCount; i++)
-            {
-                Outlet outlet = _patchManager.CreateOutlet(op);
-                outlet.Position = i;
-
-                DimensionEnum dimensionEnum = outletDimensionEnums[i];
-                outlet.SetDimensionEnum(dimensionEnum, _repositories.DimensionRepository);
-            }
 
             return op;
         }

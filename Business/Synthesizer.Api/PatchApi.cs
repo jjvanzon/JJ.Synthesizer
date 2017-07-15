@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper_WithUnderlyingPatch LessThanOrEqual(Outlet a = null, Outlet b = null)
             => _operatorFactory.LessThanOrEqual(a, b);
 
-        public Loop_OperatorWrapper Loop(
+        public OperatorWrapper_WithUnderlyingPatch Loop(
             Outlet signal = null,
             Outlet skip = null,
             Outlet loopStartMarker = null,

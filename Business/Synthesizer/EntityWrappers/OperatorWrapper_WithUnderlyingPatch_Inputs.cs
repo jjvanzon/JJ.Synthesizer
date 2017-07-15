@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Enums;
@@ -76,21 +77,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         // Enumerable
 
-        public IEnumerator<Outlet> GetEnumerator()
-        {
-            foreach (Outlet outlet in InletOutletSelector.GetSortedInputOutlets(_operator))
-            {
-                yield return outlet;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            foreach (Outlet outlet in InletOutletSelector.GetSortedInputOutlets(_operator))
-            {
-                yield return outlet;
-            }
-        }
+        public IEnumerator<Outlet> GetEnumerator() => InletOutletSelector.GetSortedInputOutlets(_operator).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => InletOutletSelector.GetSortedInputOutlets(_operator).GetEnumerator();
 
         // Helpers
 

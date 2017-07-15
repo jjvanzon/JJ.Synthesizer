@@ -195,8 +195,7 @@ namespace JJ.Business.Synthesizer
 
             // Match Repeating Ones
             {
-                IInletOrOutlet sourceRepeatingInletOrOutlet =
-                    sourceSortedInletsOrOutlets.Reverse().Where(x => x.IsRepeating).FirstOrDefault(); // Optimized for Repeating Inlet at the end.
+                IInletOrOutlet sourceRepeatingInletOrOutlet = sourceSortedInletsOrOutlets.Reverse().Where(x => x.IsRepeating).FirstOrDefault(); // Optimized for Repeating Inlet at the end.
                 IList<IInletOrOutlet> destCandicateRepeatingInletsOrOutlets = destSortedCandidateInletsOrOutlets.Where(x => x.IsRepeating).ToList();
                 // ReSharper disable once InvertIf
                 if (sourceRepeatingInletOrOutlet != null)
@@ -230,6 +229,20 @@ namespace JJ.Business.Synthesizer
             // NOTE: You cannot use RepetitionPosition in the matching,
             // because source is a PatchInlet, whose RepetitionPosition has no meaning and cannot be matched with an Operator Inlet,
             // whose RepetitionPosition does have meaning.
+
+            // In case of PatchInlet.Inlet or PatchOutlet.Outlet:
+            // Can't match it by any property, because those are all custom filled in by the user.
+            // You gotta take the first or default!
+            IInletOrOutlet firstDestInletsOrOutlets = candicateDestInletsOrOutlets.Sort().FirstOrDefault();
+            if (firstDestInletsOrOutlets != null)
+            {
+                OperatorTypeEnum destOperatorTypeEnum = firstDestInletsOrOutlets.Operator.GetOperatorTypeEnum();
+                if (destOperatorTypeEnum == OperatorTypeEnum.PatchInlet ||
+                    destOperatorTypeEnum == OperatorTypeEnum.PatchOutlet)
+                {
+                    return firstDestInletsOrOutlets;
+                }
+            }
 
             if (sourceInletOrOutlet.IsRepeating)
             {

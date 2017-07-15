@@ -71,8 +71,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             SaveButtonVisible = ViewModel.CanSave;
 
-            ApplyOperatorToolboxItemsViewModel(ViewModel.OperatorToolboxItems);
-
             UnbindVectorGraphicsEvents();
 
             if (_converterResult == null)
@@ -109,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowPatchPropertiesGesture_ShowPatchPropertiesRequested(object sender, EventArgs e)
         {
-            ShowPatchPropertiesRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ID));
+            ShowPatchPropertiesRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
         }
 
         private void UnbindVectorGraphicsEvents()
@@ -127,36 +125,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _converterResult.ShowPatchPropertiesGesture.ShowPatchPropertiesRequested -= ShowPatchPropertiesGesture_ShowPatchPropertiesRequested;
                 _converterResult.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
                 _converterResult.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
-            }
-        }
-
-        private void ApplyOperatorToolboxItemsViewModel(IList<Data.Canonical.IDAndName> operatorTypeToolboxItems)
-        {
-            if (_operatorToolboxItemsViewModelIsApplied)
-            {
-                return;
-            }
-            _operatorToolboxItemsViewModelIsApplied = true;
-
-            int i = 1;
-
-            foreach (Data.Canonical.IDAndName idAndName in operatorTypeToolboxItems)
-            {
-                ToolStripItem toolStripItem = new ToolStripButton
-                {
-                    Name = "toolStripButton" + i,
-                    Size = _defaultToolStripLabelSize,
-                    Text = idAndName.Name,
-                    DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text,
-                    Tag = idAndName.ID
-                };
-
-                // TODO: Clean up the event handlers too somewhere.
-                toolStripItem.Click += toolStripLabel_Click;
-
-                toolStrip1.Items.Add(toolStripItem);
-
-                i++;
             }
         }
 

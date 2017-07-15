@@ -30,6 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelPosition, numericUpDownPosition);
             AddProperty(labelNameOrDimensionHidden, checkBoxNameOrDimensionHidden);
             AddProperty(labelIsRepeating, checkBoxIsRepeating);
+            AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
         }
 
         // Binding

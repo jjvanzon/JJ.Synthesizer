@@ -43,34 +43,22 @@ namespace JJ.Business.Synthesizer.Helpers
         private static readonly Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> _createOperatorWrapperDelegateDictionary =
             new Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>>
             {
-                { OperatorTypeEnum.AverageOverDimension, Create_OperatorWrapper_WithCollectionRecalculation },
-                { OperatorTypeEnum.Cache, Create_Cache_OperatorWrapper },
-                { OperatorTypeEnum.ClosestOverDimension, Create_OperatorWrapper_WithCollectionRecalculation },
-                { OperatorTypeEnum.ClosestOverDimensionExp, Create_OperatorWrapper_WithCollectionRecalculation },
-                { OperatorTypeEnum.InletsToDimension, Create_InletsToDimension_OperatorWrapper },
-                { OperatorTypeEnum.Interpolate, Create_Interpolate_OperatorWrapper },
-                { OperatorTypeEnum.Loop, Create_Loop_OperatorWrapper },
-                { OperatorTypeEnum.MaxOverDimension, Create_OperatorWrapper_WithCollectionRecalculation },
-                { OperatorTypeEnum.MinOverDimension, Create_OperatorWrapper_WithCollectionRecalculation },
-                { OperatorTypeEnum.Number, Create_Number_OperatorWrapper },
-                { OperatorTypeEnum.PatchInlet, Create_PatchInlet_OperatorWrapper },
-                { OperatorTypeEnum.PatchOutlet, Create_PatchOutlet_OperatorWrapper },
-                { OperatorTypeEnum.Random, Create_Random_OperatorWrapper },
-                { OperatorTypeEnum.Reset, Create_Reset_OperatorWrapper },
-                { OperatorTypeEnum.SortOverDimension, Create_OperatorWrapper_WithCollectionRecalculation },
-                { OperatorTypeEnum.SumFollower, Create_OperatorWrapper_WithCollectionRecalculation },
-                { OperatorTypeEnum.SumOverDimension, Create_OperatorWrapper_WithCollectionRecalculation }
+                { OperatorTypeEnum.AverageOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x) },
+                { OperatorTypeEnum.Cache, x => new Cache_OperatorWrapper(x) },
+                { OperatorTypeEnum.ClosestOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
+                { OperatorTypeEnum.ClosestOverDimensionExp, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
+                { OperatorTypeEnum.InletsToDimension, x => new InletsToDimension_OperatorWrapper(x) },
+                { OperatorTypeEnum.Interpolate, x => new Interpolate_OperatorWrapper(x) },
+                { OperatorTypeEnum.MaxOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
+                { OperatorTypeEnum.MinOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
+                { OperatorTypeEnum.Number, x => new Number_OperatorWrapper(x) },
+                { OperatorTypeEnum.PatchInlet, x => new PatchInlet_OperatorWrapper(x) },
+                { OperatorTypeEnum.PatchOutlet, x => new PatchOutlet_OperatorWrapper(x) },
+                { OperatorTypeEnum.Random, x => new Random_OperatorWrapper(x) },
+                { OperatorTypeEnum.Reset, x => new Reset_OperatorWrapper(x) },
+                { OperatorTypeEnum.SortOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
+                { OperatorTypeEnum.SumFollower, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
+                { OperatorTypeEnum.SumOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  }
             };
-
-        private static OperatorWrapper_WithCollectionRecalculation Create_OperatorWrapper_WithCollectionRecalculation(Operator op) => new OperatorWrapper_WithCollectionRecalculation(op);
-        private static Cache_OperatorWrapper Create_Cache_OperatorWrapper(Operator op) => new Cache_OperatorWrapper(op);
-        private static InletsToDimension_OperatorWrapper Create_InletsToDimension_OperatorWrapper(Operator op) => new InletsToDimension_OperatorWrapper(op);
-        private static Interpolate_OperatorWrapper Create_Interpolate_OperatorWrapper(Operator op) => new Interpolate_OperatorWrapper(op);
-        private static Loop_OperatorWrapper Create_Loop_OperatorWrapper(Operator op) => new Loop_OperatorWrapper(op);
-        private static Number_OperatorWrapper Create_Number_OperatorWrapper(Operator op) => new Number_OperatorWrapper(op);
-        private static PatchInlet_OperatorWrapper Create_PatchInlet_OperatorWrapper(Operator op) => new PatchInlet_OperatorWrapper(op);
-        private static PatchOutlet_OperatorWrapper Create_PatchOutlet_OperatorWrapper(Operator op) => new PatchOutlet_OperatorWrapper(op);
-        private static Random_OperatorWrapper Create_Random_OperatorWrapper(Operator op) => new Random_OperatorWrapper(op);
-        private static Reset_OperatorWrapper Create_Reset_OperatorWrapper(Operator op) => new Reset_OperatorWrapper(op);
     }
 }

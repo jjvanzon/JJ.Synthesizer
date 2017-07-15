@@ -8,7 +8,11 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Scaler_OperatorWrapper : OperatorWrapperBase_WithSignalOutlet
+    /// <summary>
+    /// Scaler has a specialized OperatorWrapper, because its inlets are not identified by Dimension, but by position,
+    /// which makes then harder to use through the standard OperatorWrapper(_WithUnderlyingPatch).
+    /// </summary>
+    public class Scaler_OperatorWrapper : OperatorWrapper_WithUnderlyingPatch
     {
         private const int SOURCE_VALUE_A_INDEX = 1;
         private const int SOURCE_VALUE_B_INDEX = 2;
@@ -59,6 +63,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet TargetValueBInlet => InletOutletSelector.GetInlet(WrappedOperator, TARGET_VALUE_B_INDEX);
 
+        public Outlet SignalOutlet => InletOutletSelector.GetOutlet(WrappedOperator, DimensionEnum.Signal);
+
         public override string GetInletDisplayName([NotNull] Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
@@ -66,31 +72,21 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             switch (inlet.Position)
             {
                 case SOURCE_VALUE_A_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => SourceValueA);
-                        return name;
-                    }
+                    return ResourceFormatter.GetDisplayName(() => SourceValueA);
 
                 case SOURCE_VALUE_B_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => SourceValueB);
-                        return name;
-                    }
+                    return ResourceFormatter.GetDisplayName(() => SourceValueB);
 
                 case TARGET_VALUE_A_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => TargetValueA);
-                        return name;
-                    }
+                    return ResourceFormatter.GetDisplayName(() => TargetValueA);
 
                 case TARGET_VALUE_B_INDEX:
-                    {
-                        string name = ResourceFormatter.GetDisplayName(() => TargetValueB);
-                        return name;
-                    }
+                    return ResourceFormatter.GetDisplayName(() => TargetValueB);
             }
 
             return base.GetInletDisplayName(inlet);
         }
+
+        public override string GetOutletDisplayName(Outlet outlet) => ResourceFormatter.Signal;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Extensions
@@ -50,41 +51,31 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        public static bool HasCircularUnderlyingPatch(this Patch patch)
+        public static bool HasInvalidCircularUnderlyingPatch(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.HasCircularUnderlyingPatch(new HashSet<object>());
+            return patch.HasInvalidCircularUnderlyingPatch(new HashSet<Patch>());
         }
 
-        public static bool HasCircularUnderlyingPatch(this Operator op)
+        public static bool HasInvalidCircularUnderlyingPatch(this Operator op)
         {
             if (op == null) throw new NullException(() => op);
 
-            // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (op.UnderlyingPatch == null)
-            {
-                return false;
-            }
-
-            return op.HasCircularUnderlyingPatch(new HashSet<object>());
+            return op.HasInvalidCircularUnderlyingPatch(new HashSet<Patch>());
         }
 
-        private static bool HasCircularUnderlyingPatch(this Patch patch, HashSet<object> alreadyDone)
+        private static bool HasInvalidCircularUnderlyingPatch(this Patch patch, HashSet<Patch> alreadyDone)
         {
             if (alreadyDone.Contains(patch))
             {
                 return true;
             }
-
             alreadyDone.Add(patch);
 
-            foreach (Operator op in patch.Operators)
+            if (patch.Operators.Any(op => op.HasInvalidCircularUnderlyingPatch(alreadyDone)))
             {
-                if (op.HasCircularUnderlyingPatch(alreadyDone))
-                {
-                    return true;
-                }
+                return true;
             }
 
             alreadyDone.Remove(patch);
@@ -92,24 +83,23 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        private static bool HasCircularUnderlyingPatch(this Operator op, HashSet<object> alreadyDone)
+        private static bool HasInvalidCircularUnderlyingPatch(this Operator op, HashSet<Patch> alreadyDone)
         {
-            if (alreadyDone.Contains(op))
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+            if (operatorTypeEnum == OperatorTypeEnum.PatchInlet ||
+                operatorTypeEnum == OperatorTypeEnum.PatchOutlet)
             {
-                return true;
+                // These operator types are allowed to have circular referenced.
+                return false;
             }
-
-            alreadyDone.Add(op);
 
             if (op.UnderlyingPatch != null)
             {
-                if (op.UnderlyingPatch.HasCircularUnderlyingPatch(alreadyDone))
+                if (op.UnderlyingPatch.HasInvalidCircularUnderlyingPatch(alreadyDone))
                 {
                     return true;
                 }
             }
-
-            alreadyDone.Remove(op);
 
             return false;
         }

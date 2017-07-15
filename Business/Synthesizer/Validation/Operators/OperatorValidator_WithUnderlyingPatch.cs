@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Validation.Resources;
 using System.Text;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
@@ -83,99 +84,113 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 Inlet sourceInlet = tuple.SourceInlet;
                 Inlet destInlet = tuple.DestInlet;
 
-                ValidateIsObsolete(sourceInlet, destInlet);
-
-                if (sourceInlet == null)
-                {
-                    continue;
-                }
-
-                if (destInlet == null)
-                {
-                    continue;
-                }
-
-                if (destInlet.Position != sourceInlet.Position)
-                {
-                    string message = GetInletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.Position,
-                        sourceInlet,
-                        destInlet,
-                        sourceInlet.Position,
-                        destInlet.Position);
-                    Messages.Add(message);
-                }
-
-                if (!NameHelper.AreEqual(destInlet.Name, sourceInlet.Name))
-                {
-                    string message = GetInletPropertyDoesNotMatchMessage(
-                        CommonResourceFormatter.Name,
-                        sourceInlet,
-                        destInlet,
-                        sourceInlet.Name,
-                        destInlet.Name);
-                    Messages.Add(message);
-                }
-
-                if (destInlet.GetDimensionEnum() != sourceInlet.GetDimensionEnum())
-                {
-                    string message = GetInletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.Dimension,
-                        sourceInlet,
-                        destInlet,
-                        sourceInlet.GetDimensionEnum(),
-                        destInlet.GetDimensionEnum());
-                    Messages.Add(message);
-                }
-
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if (destInlet.DefaultValue != sourceInlet.DefaultValue)
-                {
-                    string message = GetInletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.DefaultValue,
-                        sourceInlet,
-                        destInlet,
-                        sourceInlet.DefaultValue,
-                        destInlet.DefaultValue);
-                    Messages.Add(message);
-                }
-
-                if (destInlet.WarnIfEmpty != sourceInlet.WarnIfEmpty)
-                {
-                    string message = GetInletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.WarnIfEmpty,
-                        sourceInlet,
-                        destInlet,
-                        sourceInlet.WarnIfEmpty,
-                        destInlet.WarnIfEmpty);
-                    Messages.Add(message);
-                }
-
-                if (destInlet.NameOrDimensionHidden != sourceInlet.NameOrDimensionHidden)
-                {
-                    string message = GetInletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.NameOrDimensionHidden,
-                        sourceInlet,
-                        destInlet,
-                        sourceInlet.NameOrDimensionHidden,
-                        destInlet.NameOrDimensionHidden);
-                    Messages.Add(message);
-                }
-
-                if (destInlet.IsRepeating != sourceInlet.IsRepeating)
-                {
-                    string message = GetInletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.IsRepeating,
-                        sourceInlet,
-                        destInlet,
-                        sourceInlet.IsRepeating,
-                        destInlet.IsRepeating);
-                    Messages.Add(message);
-                }
+                ValidateInletAgainstSource(sourceInlet, destInlet);
             }
         }
 
         /// <param name="sourceInlet">nullable</param>
+        /// <param name="destInlet">nullable</param>
+        private void ValidateInletAgainstSource(Inlet sourceInlet, Inlet destInlet)
+        {
+            ValidateIsObsolete(sourceInlet, destInlet);
+
+            if (sourceInlet == null)
+            {
+                return;
+            }
+
+            if (destInlet == null)
+            {
+                return;
+            }
+
+            if (destInlet.Operator.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+            {
+                // Do not evaluate properties for PatchInlet.Inlet, since those are all custom filled in by the user.
+                return;
+            }
+
+            if (!NameHelper.AreEqual(destInlet.Name, sourceInlet.Name))
+            {
+                string message = GetInletPropertyDoesNotMatchMessage(
+                    CommonResourceFormatter.Name,
+                    sourceInlet,
+                    destInlet,
+                    sourceInlet.Name,
+                    destInlet.Name);
+                Messages.Add(message);
+            }
+
+            if (destInlet.GetDimensionEnum() != sourceInlet.GetDimensionEnum())
+            {
+                string message = GetInletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.Dimension,
+                    sourceInlet,
+                    destInlet,
+                    sourceInlet.GetDimensionEnum(),
+                    destInlet.GetDimensionEnum());
+                Messages.Add(message);
+            }
+
+            if (destInlet.Position != sourceInlet.Position)
+            {
+                string message = GetInletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.Position,
+                    sourceInlet,
+                    destInlet,
+                    sourceInlet.Position,
+                    destInlet.Position);
+                Messages.Add(message);
+            }
+
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            if (destInlet.DefaultValue != sourceInlet.DefaultValue)
+            {
+                string message = GetInletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.DefaultValue,
+                    sourceInlet,
+                    destInlet,
+                    sourceInlet.DefaultValue,
+                    destInlet.DefaultValue);
+                Messages.Add(message);
+            }
+
+            if (destInlet.WarnIfEmpty != sourceInlet.WarnIfEmpty)
+            {
+                string message = GetInletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.WarnIfEmpty,
+                    sourceInlet,
+                    destInlet,
+                    sourceInlet.WarnIfEmpty,
+                    destInlet.WarnIfEmpty);
+                Messages.Add(message);
+            }
+
+            if (destInlet.NameOrDimensionHidden != sourceInlet.NameOrDimensionHidden)
+            {
+                string message = GetInletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.NameOrDimensionHidden,
+                    sourceInlet,
+                    destInlet,
+                    sourceInlet.NameOrDimensionHidden,
+                    destInlet.NameOrDimensionHidden);
+                Messages.Add(message);
+            }
+
+            if (destInlet.IsRepeating != sourceInlet.IsRepeating)
+            {
+                string message = GetInletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.IsRepeating,
+                    sourceInlet,
+                    destInlet,
+                    sourceInlet.IsRepeating,
+                    destInlet.IsRepeating);
+                Messages.Add(message);
+            }
+        }
+
+        /// <param name="sourceInlet">nullable</param>
+        /// <param name="destInlet">nullable</param>
         private void ValidateIsObsolete(Inlet sourceInlet, Inlet destInlet)
         {
             if (destInlet == null)
@@ -214,72 +229,85 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 Outlet sourceOutlet = tuple.SourceOutlet;
                 Outlet destOutlet = tuple.DestOutlet;
 
-                ValidateIsObsolete(sourceOutlet, destOutlet);
+                ValidateOutletAgainstSource(sourceOutlet, destOutlet);
+            }
+        }
 
-                if (sourceOutlet == null)
-                {
-                    continue;
-                }
+        /// <param name="sourceOutlet">nullable</param>
+        /// <param name="destOutlet">nullable</param>
+        private void ValidateOutletAgainstSource(Outlet sourceOutlet, Outlet destOutlet)
+        {
+            ValidateIsObsolete(sourceOutlet, destOutlet);
 
-                if (destOutlet == null)
-                {
-                    continue;
-                }
+            if (sourceOutlet == null)
+            {
+                return;
+            }
 
-                if (destOutlet.Position != sourceOutlet.Position)
-                {
-                    string message = GetOutletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.Position,
-                        sourceOutlet,
-                        destOutlet,
-                        sourceOutlet.Position,
-                        destOutlet.Position);
-                    Messages.Add(message);
-                }
+            if (destOutlet == null)
+            {
+                return;
+            }
 
-                if (!NameHelper.AreEqual(destOutlet.Name, sourceOutlet.Name))
-                {
-                    string message = GetOutletPropertyDoesNotMatchMessage(
-                        CommonResourceFormatter.Name,
-                        sourceOutlet,
-                        destOutlet,
-                        sourceOutlet.Name,
-                        destOutlet.Name);
-                    Messages.Add(message);
-                }
+            if (destOutlet.Operator.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
+            {
+                // Do not evaluate properties for PatchOutlet.Outlet, since those are all custom filled in by the user.
+                return;
+            }
 
-                if (destOutlet.GetDimensionEnum() != sourceOutlet.GetDimensionEnum())
-                {
-                    string message = GetOutletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.Dimension,
-                        sourceOutlet,
-                        destOutlet,
-                        sourceOutlet.GetDimensionEnum(),
-                        destOutlet.GetDimensionEnum());
-                    Messages.Add(message);
-                }
+            if (!NameHelper.AreEqual(destOutlet.Name, sourceOutlet.Name))
+            {
+                string message = GetOutletPropertyDoesNotMatchMessage(
+                    CommonResourceFormatter.Name,
+                    sourceOutlet,
+                    destOutlet,
+                    sourceOutlet.Name,
+                    destOutlet.Name);
+                Messages.Add(message);
+            }
 
-                if (destOutlet.NameOrDimensionHidden != sourceOutlet.NameOrDimensionHidden)
-                {
-                    string message = GetOutletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.NameOrDimensionHidden,
-                        sourceOutlet,
-                        destOutlet,
-                        sourceOutlet.NameOrDimensionHidden,
-                        destOutlet.NameOrDimensionHidden);
-                    Messages.Add(message);
-                }
+            if (destOutlet.GetDimensionEnum() != sourceOutlet.GetDimensionEnum())
+            {
+                string message = GetOutletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.Dimension,
+                    sourceOutlet,
+                    destOutlet,
+                    sourceOutlet.GetDimensionEnum(),
+                    destOutlet.GetDimensionEnum());
+                Messages.Add(message);
+            }
 
-                if (destOutlet.IsRepeating != sourceOutlet.IsRepeating)
-                {
-                    string message = GetOutletPropertyDoesNotMatchMessage(
-                        ResourceFormatter.IsRepeating,
-                        sourceOutlet,
-                        destOutlet,
-                        sourceOutlet.IsRepeating,
-                        destOutlet.IsRepeating);
-                    Messages.Add(message);
-                }
+            if (destOutlet.Position != sourceOutlet.Position)
+            {
+                string message = GetOutletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.Position,
+                    sourceOutlet,
+                    destOutlet,
+                    sourceOutlet.Position,
+                    destOutlet.Position);
+                Messages.Add(message);
+            }
+
+            if (destOutlet.NameOrDimensionHidden != sourceOutlet.NameOrDimensionHidden)
+            {
+                string message = GetOutletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.NameOrDimensionHidden,
+                    sourceOutlet,
+                    destOutlet,
+                    sourceOutlet.NameOrDimensionHidden,
+                    destOutlet.NameOrDimensionHidden);
+                Messages.Add(message);
+            }
+
+            if (destOutlet.IsRepeating != sourceOutlet.IsRepeating)
+            {
+                string message = GetOutletPropertyDoesNotMatchMessage(
+                    ResourceFormatter.IsRepeating,
+                    sourceOutlet,
+                    destOutlet,
+                    sourceOutlet.IsRepeating,
+                    destOutlet.IsRepeating);
+                Messages.Add(message);
             }
         }
 
@@ -352,6 +380,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 propertyDisplayName,
                 sourceValue);
 
+            sb.AppendLine();
+
             return sb.ToString();
         }
 
@@ -391,6 +421,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 sourceOutletIdentifier,
                 propertyDisplayName,
                 sourceValue);
+
+            sb.AppendLine();
 
             return sb.ToString();
         }

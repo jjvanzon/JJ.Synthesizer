@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
@@ -16,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             _operator = op ?? throw new NullException(() => op);
         }
 
-        // TODO: Composite keys Name-Position and DimensionEnum-Position have also become normal.
+        // TODO: Composite keys Name-Position and DimensionEnum-Position have also become supported.
 
         public Inlet this[string name] => InletOutletSelector.GetInlet(_operator, name);
         public Inlet TryGet(string name) => InletOutletSelector.TryGetInlet(_operator, name);
@@ -32,21 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public IList<Inlet> GetMany(DimensionEnum dimensionEnum) => InletOutletSelector.GetInlets(_operator, dimensionEnum);
 
         public int Count => _operator.Inlets.Count;
-
-        public IEnumerator<Inlet> GetEnumerator()
-        {
-            foreach (Inlet inlet in InletOutletSelector.GetSortedInlets(_operator))
-            {
-                yield return inlet;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            foreach (Inlet inlet in InletOutletSelector.GetSortedInlets(_operator))
-            {
-                yield return inlet;
-            }
-        }
+        public IEnumerator<Inlet> GetEnumerator() => _operator.Inlets.Sort().GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => _operator.Inlets.Sort().GetEnumerator();
     }
 }

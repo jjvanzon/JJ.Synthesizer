@@ -1169,9 +1169,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         Patch patch = _repositories.PatchRepository.Get(MainViewModel.Document.VisiblePatchDetails.Entity.ID);
 
                         // Business
-                        var operatorFactory = new OperatorFactory(underlyingPatch, _repositories);
+                        var operatorFactory = new OperatorFactory(patch, _repositories);
                         Operator op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
-                        op.LinkTo(patch);
                         _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
                         // Successful

@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 Messages.Add(ResourceFormatter.CircularInputOutputReference);
             }
 
-            if (op.HasCircularUnderlyingPatch())
+            if (op.HasInvalidCircularUnderlyingPatch())
             {
                 Messages.Add(ResourceFormatter.UnderlyingPatchIsCircular);
             }

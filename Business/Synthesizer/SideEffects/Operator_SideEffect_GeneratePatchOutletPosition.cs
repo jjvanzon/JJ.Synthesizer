@@ -21,7 +21,6 @@ namespace JJ.Business.Synthesizer.SideEffects
         public void Execute()
         {
             if (_entity.Patch == null) throw new NullException(() => _entity.Patch);
-            if (_entity.OperatorType == null) throw new NullException(() => _entity.OperatorType);
 
             if (_entity.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
             {

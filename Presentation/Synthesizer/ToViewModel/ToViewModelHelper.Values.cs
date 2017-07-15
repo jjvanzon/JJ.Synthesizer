@@ -111,7 +111,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             bool hasDimension = entity.HasDimension || (entity.OperatorType?.HasDimension ?? false); // Excuse the smell of polymorphism: OperatorType will be deprecated at some point.
-
+            
             return hasDimension;
         }
 

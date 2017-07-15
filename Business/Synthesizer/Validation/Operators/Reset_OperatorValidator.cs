@@ -1,18 +1,15 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Reset_OperatorValidator : OperatorValidator_Base_WithOperatorType
+    internal class Reset_OperatorValidator : OperatorValidator_WithUnderlyingPatch
     {
         public Reset_OperatorValidator(Operator obj)
-            : base(
-                obj,
-                OperatorTypeEnum.Reset,
-                new[] { DimensionEnum.PassThrough },
-                new[] { DimensionEnum.PassThrough },
-                expectedDataKeys: new[] { nameof(Reset_OperatorWrapper.Position) })
-        { }
+            : base(obj, expectedDataKeys: new[] { nameof(Reset_OperatorWrapper.Position) })
+        {
+            ExecuteValidator(new Position_DataProperty_Validator(obj.Data));
+        }
     }
 }

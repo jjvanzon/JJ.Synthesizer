@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 
@@ -54,10 +55,10 @@ namespace JJ.Business.Synthesizer.Visitors
         /// </summary>
         protected override void VisitLoopInlet(Inlet inlet)
         {
-            var wrapper = new Loop_OperatorWrapper(inlet.Operator);
+            var wrapper = new OperatorWrapper_WithUnderlyingPatch(inlet.Operator);
 
-            if (inlet == wrapper.ReleaseEndMarkerInlet ||
-                inlet == wrapper.NoteDurationInlet)
+            if (inlet == wrapper.Inlets[DimensionEnum.ReleaseEndMarker] ||
+                inlet == wrapper.Inlets[DimensionEnum.NoteDuration])
             {
                 if (inlet.InputOutlet == null)
                 {

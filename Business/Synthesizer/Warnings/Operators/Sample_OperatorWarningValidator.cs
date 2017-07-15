@@ -14,7 +14,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 
-            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(op))
             {
                 string sampleIDString = DataPropertyParser.TryGetString(op, nameof(Sample_OperatorWrapper.SampleID));

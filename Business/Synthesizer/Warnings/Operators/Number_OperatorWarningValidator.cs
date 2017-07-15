@@ -13,7 +13,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         {
             if (op == null) throw new NullException(() => op);
 
-            // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(op))
             {
                 double? number = DataPropertyParser.TryParseDouble(op, nameof(Number_OperatorWrapper.Number));

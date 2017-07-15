@@ -13,9 +13,9 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
             // ReSharper disable once InvertIf
             if (DataPropertyParser.DataIsWellFormed(data))
             {
-                string speakerSetupString = DataPropertyParser.TryGetString(data, nameof(Cache_OperatorWrapper.SpeakerSetup));
+                string stringValue = DataPropertyParser.TryGetString(data, nameof(Cache_OperatorWrapper.SpeakerSetup));
 
-                For(speakerSetupString, ResourceFormatter.SpeakerSetup)
+                For(stringValue, ResourceFormatter.SpeakerSetup)
                     .NotNullOrEmpty()
                     .IsEnum<SpeakerSetupEnum>()
                     .IsNot(SpeakerSetupEnum.Undefined);

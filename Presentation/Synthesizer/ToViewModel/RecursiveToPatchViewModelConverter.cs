@@ -57,7 +57,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = ConvertToViewModelRecursive(patch),
                 ValidationMessages = new List<string>(),
-                OperatorToolboxItems = ToViewModelHelper.GetOperatorToolBoxViewModelList()
             };
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Entity.OperatorDictionary.Values)

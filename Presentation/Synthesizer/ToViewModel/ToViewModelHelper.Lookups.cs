@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Data.Canonical;
+﻿using JJ.Data.Canonical;
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,30 +104,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static IList<IDAndName> CreateNodeTypeLookupViewModel()
         {
             IList<IDAndName> idAndNames = CreateEnumLookupViewModel<NodeTypeEnum>(mustIncludeUndefined: false);
-            return idAndNames;
-        }
-
-        // OperatorType
-
-        [Obsolete("When all Operators have been boostrapped into the System document, the whole Toolbox is not needed anymore.")]
-        private static readonly IList<OperatorTypeEnum> _operatorTypeEnums_WithToolboxItem = new[]
-        {   
-            OperatorTypeEnum.Loop,
-            OperatorTypeEnum.PatchInlet,
-            OperatorTypeEnum.PatchOutlet,
-            OperatorTypeEnum.Random,
-            OperatorTypeEnum.Reset,
-        };
-
-        private static readonly IList<IDAndName> _operatorToolBoxViewModelList = CreateOperatorToolBoxViewModelList();
-
-        public static IList<IDAndName> GetOperatorToolBoxViewModelList() => _operatorToolBoxViewModelList;
-
-        private static IList<IDAndName> CreateOperatorToolBoxViewModelList()
-        {
-            IList<IDAndName> idAndNames = _operatorTypeEnums_WithToolboxItem.Select(x => x.ToIDAndDisplayName())
-                                                                            .OrderBy(x => x.Name)
-                                                                            .ToArray();
             return idAndNames;
         }
 

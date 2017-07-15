@@ -376,10 +376,13 @@
     <Content Include="2017-06-03 050 SynthesizerDB Dimension 74 - HighestFrequency.sql" />
     <Content Include="2017-06-11 030 SynthesizerDB RUN UTILITY - Copy.sql" />
     <Content Include="2017-07-08 005 SynthesizerDB Update IsRepeating to 1 for Item Inlets of ClosestOverInlets and ClosestOverInletsExp .sql" />
+    <Content Include="2017-07-15 010 SynthesizerDB Update Patch.Hidden to 0 for Loop, PatchInlet, PatchOutlet, Random, Reset in System Document.sql" />
     <Content Include="2017-07-14 010 SynthesizerDB Update Patch.Hidden to 0 for Exponent, Reverse, Scaler, Shift, Squash, Stretch, TimePower in System Document.sql" />
     <Content Include="2017-07-13 010 SynthesizerDB Update Patch.Hidden to 0 for Cache, Curve, Interpolate, Number, Sample in System Document.sql" />
+    <Content Include="2017-07-15 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-07-14 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-07-13 020 SynthesizerDB RUN UTILITY.sql" />
+    <Content Include="2017-07-15 030 SynthesizerDB delete OperatorTypes Loop, PatchInlet, PatchOutlet, Random, Reset.sql" />
     <Content Include="2017-07-14 030 SynthesizerDB delete OperatorTypes Exponent, Reverse, Scaler, Shift, Squash, Stretch, TimePower.sql" />
     <Content Include="2017-07-13 030 SynthesizerDB delete OperatorTypes Cache, Curve, Interpolate, Number, Sample.sql" />
     <Content Include="2017-07-12 170 SynthesizerDB delete OperatorType Spectrum.sql" />
