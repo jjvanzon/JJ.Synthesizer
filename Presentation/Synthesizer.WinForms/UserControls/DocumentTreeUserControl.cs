@@ -69,7 +69,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        public void ApplyStyling() => tableLayoutPanel.RowStyles[0].Height = StyleHelper.TitleBarHeight;
+        public void ApplyStyling()
+        {
+            tableLayoutPanel.RowStyles[0].Height = StyleHelper.TitleBarHeight;
+        }
 
         // Binding
 

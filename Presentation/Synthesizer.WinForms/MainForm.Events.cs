@@ -151,7 +151,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_WithCollectionRecalculation.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
-            patchDetailsUserControl.CreateOperatorRequested += patchDetailsUserControl_CreateOperatorRequested;
             patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
             patchDetailsUserControl.LoseFocusRequested += patchDetailsUserControl_LoseFocusRequested;
             patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
@@ -1108,16 +1107,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.PatchDetailsClose(e.Value));
-
-        private void patchDetailsUserControl_CreateOperatorRequested(object sender, CreateOperatorEventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.OperatorCreate(e.PatchID, e.OperatorTypeID);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
 
         private void patchDetailsUserControl_DeleteOperatorRequested(object sender, EventArgs<int> e)
         {

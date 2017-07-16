@@ -32,7 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 CreateRepository<IDocumentReferenceRepository>(context),
                 CreateRepository<INodeRepository>(context),
                 CreateRepository<IOperatorRepository>(context),
-                CreateRepository<IOperatorTypeRepository>(context),
                 CreateRepository<IInletRepository>(context),
                 CreateRepository<IOutletRepository>(context),
                 CreateRepository<IScaleRepository>(context),

@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
@@ -11,6 +12,8 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         public OperatorWarningValidator_Basic([NotNull] Operator op)
         {
             if (op == null) throw new NullException(() => op);
+
+            For(op.UnderlyingPatch, ResourceFormatter.UnderlyingPatch).NotNull();
 
             foreach (Inlet inlet in op.Inlets)
             {

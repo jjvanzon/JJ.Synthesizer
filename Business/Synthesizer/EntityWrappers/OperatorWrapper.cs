@@ -1,23 +1,46 @@
-﻿using JJ.Framework.Exceptions;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Linq;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    public abstract class OperatorWrapperBase
+    public class OperatorWrapper
     {
-        public OperatorWrapperBase(Operator wrappedOperator)
+        public OperatorWrapper(Operator wrapperOperator)
         {
-            WrappedOperator = wrappedOperator ?? throw new NullException(() => wrappedOperator);
+            WrappedOperator = wrapperOperator ?? throw new NullException(() => wrapperOperator);
+
+            Inputs = new OperatorWrapper_Inputs(wrapperOperator);
+            Inlets = new OperatorWrapper_Inlets(wrapperOperator);
+            Outlets = new OperatorWrapper_Outlets(wrapperOperator);
         }
 
         public Operator WrappedOperator { get; }
+        public OperatorWrapper_Inputs Inputs { get; }
+        public OperatorWrapper_Inlets Inlets { get; }
+        public OperatorWrapper_Outlets Outlets { get; }
+        public DimensionEnum StandardDimension => WrappedOperator.GetStandardDimensionEnum();
 
-        /// <summary> Base will determine the Inlet display name based on its Dimension. </summary>
+        public string CustomDimension
+        {
+            get => WrappedOperator.CustomDimensionName;
+            set => WrappedOperator.CustomDimensionName = value;
+        }
+
+        public string Name
+        {
+            get => WrappedOperator.Name;
+            set => WrappedOperator.Name = value;
+        }
+
+        /// <summary> Determines the Inlet display name based on its name, dimension or position. </summary>
         public virtual string GetInletDisplayName(Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
@@ -44,7 +67,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return displayName;
         }
 
-        /// <summary> Base will determine the Outlet display name based on its Dimension. </summary>
+        /// <summary> Determines the Outlet display name based on its name, dimension or position. </summary>
         public virtual string GetOutletDisplayName(Outlet outlet)
         {
             if (outlet == null) throw new NullException(() => outlet);
@@ -72,7 +95,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return displayName;
         }
 
-        public static implicit operator Operator(OperatorWrapperBase wrapper) => wrapper?.WrappedOperator;
+        public static implicit operator Operator(OperatorWrapper wrapper) => wrapper?.WrappedOperator;
+
+        /// <summary> Implicit for syntactic sugar. </summary>
+        public static implicit operator Outlet(OperatorWrapper wrapper) => wrapper?.WrappedOperator.Outlets.Single();
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }

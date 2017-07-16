@@ -12,8 +12,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
     {
         protected readonly Label _labelName;
         protected readonly TextBox _textBoxName;
-        protected readonly Label _labelOperatorTypeTitle;
-        protected readonly Label _labelOperatorTypeValue;
         protected readonly Label _labelUnderlyingPatch;
         protected readonly ComboBox _comboBoxUnderlyingPatch;
         protected readonly Label _labelStandardDimension;
@@ -30,11 +28,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             Name = GetType().Name;
 
             PlayButtonVisible = true;
-
-            _labelOperatorTypeTitle = CreateLabelOperatorTypeTitle();
-            _labelOperatorTypeValue = CreateLabelOperatorTypeValue();
-            Controls.Add(_labelOperatorTypeTitle);
-            Controls.Add(_labelOperatorTypeValue);
 
             _labelUnderlyingPatch = CreateLabelUnderlyingPatch();
             _comboBoxUnderlyingPatch = CreateComboBoxUnderlyingPatch();
@@ -74,24 +67,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         protected override void SetTitles()
         {
             TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Operator);
-            _labelName.Text = CommonResourceFormatter.Name;
-            // ReSharper disable once LocalizableElement
-            _labelOperatorTypeTitle.Text = CommonResourceFormatter.Type + ":";
-            _labelUnderlyingPatch.Text = ResourceFormatter.UnderlyingPatch;
+            _labelUnderlyingPatch.Text = CommonResourceFormatter.Type;
             _labelStandardDimension.Text = ResourceFormatter.StandardDimension;
             _labelCustomDimensionName.Text = ResourceFormatter.CustomDimension;
             _labelInletCount.Text = CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets);
             _labelOutletCount.Text = CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets);
+            _labelName.Text = CommonResourceFormatter.Name;
         }
 
         protected override void ApplyViewModelToControls()
         {
             _textBoxName.Text = ViewModel.Name;
-            _labelOperatorTypeValue.Text = ViewModel.OperatorType.Name;
 
             _comboBoxUnderlyingPatch.SelectedValue = ViewModel.UnderlyingPatch?.ID ?? 0;
-            _comboBoxUnderlyingPatch.Visible = ViewModel.CanSelectUnderlyingPatch;
-            _labelUnderlyingPatch.Visible = ViewModel.CanSelectUnderlyingPatch;
 
             _textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
             _textBoxCustomDimensionName.Visible = ViewModel.CanEditCustomDimensionName;
@@ -156,8 +144,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Creating Controls
 
-        private Label CreateLabelOperatorTypeTitle() => CreateLabel(nameof(_labelOperatorTypeTitle));
-        private Label CreateLabelOperatorTypeValue() => CreateLabel(nameof(_labelOperatorTypeValue), ContentAlignment.MiddleLeft);
         private Label CreateLabelUnderlyingPatch() => CreateLabel(nameof(_labelUnderlyingPatch));
         private Label CreateLabelStandardDimension() => CreateLabel(nameof(_labelStandardDimension));
         private Label CreateLabelCustomDimension() => CreateLabel(nameof(_labelCustomDimensionName));

@@ -65,7 +65,6 @@ namespace JJ.Business.Synthesizer.Cascading
 
             op.UnlinkPatch();
             op.UnlinkUnderlyingPatch();
-            op.UnlinkOperatorType();
             op.UnlinkStandardDimension();
         }
 

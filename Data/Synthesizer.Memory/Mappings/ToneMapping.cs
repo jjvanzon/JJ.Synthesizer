@@ -9,7 +9,7 @@ namespace JJ.Data.Synthesizer.Memory.Mappings
         public ToneMapping()
         {
             IdentityType = IdentityType.Assigned;
-            IdentityPropertyName = PropertyNames.ID;
+            IdentityPropertyName = nameof(Tone.ID);
         }
     }
 }

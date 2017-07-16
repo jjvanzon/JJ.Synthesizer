@@ -58,7 +58,6 @@
     <Compile Include="DefaultRepositories\NodeRepository.cs" />
     <Compile Include="DefaultRepositories\NodeTypeRepository.cs" />
     <Compile Include="DefaultRepositories\OperatorRepository.cs" />
-    <Compile Include="DefaultRepositories\OperatorTypeRepository.cs" />
     <Compile Include="DefaultRepositories\OutletRepository.cs" />
     <Compile Include="DefaultRepositories\PatchRepository.cs" />
     <Compile Include="DefaultRepositories\SampleDataTypeRepository.cs" />
@@ -77,7 +76,6 @@
     <Compile Include="Entities\EntityPosition.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Entities\Dimension.cs" />
-    <Compile Include="Entities\OperatorType.cs" />
     <Compile Include="Entities\Scale.cs" />
     <Compile Include="Entities\ScaleType.cs" />
     <Compile Include="Entities\SpeakerSetupChannel.cs" />
@@ -108,7 +106,6 @@
     <Compile Include="RepositoryInterfaces\INodeRepository.cs" />
     <Compile Include="RepositoryInterfaces\INodeTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\IOperatorRepository.cs" />
-    <Compile Include="RepositoryInterfaces\IOperatorTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\IOutletRepository.cs" />
     <Compile Include="RepositoryInterfaces\IPatchRepository.cs" />
     <Compile Include="RepositoryInterfaces\ISampleDataTypeRepository.cs" />

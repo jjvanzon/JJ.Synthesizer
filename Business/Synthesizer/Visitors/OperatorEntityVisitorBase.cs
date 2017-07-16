@@ -108,12 +108,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             _visitOutletDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Outlet>>
             {
-                { OperatorTypeEnum.CustomOperator, VisitCustomOperatorOutlet },
                 { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutletsOutlet },
                 { OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutletsOutlet },
                 { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet },
-                // Undefined should have Outlet visitation, for DivideWithOrigin, Exponent and Scaler,
-                // which have no OperatorTypeEnum, but are 'like' a custom operator.
                 { OperatorTypeEnum.Undefined, VisitCustomOperatorOutlet }
             };
         }

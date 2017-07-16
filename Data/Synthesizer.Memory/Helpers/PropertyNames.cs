@@ -1,4 +1,5 @@
-﻿namespace JJ.Data.Synthesizer.Memory.Helpers
+﻿// ReSharper disable InconsistentNaming
+namespace JJ.Data.Synthesizer.Memory.Helpers
 {
     internal static class PropertyNames
     {

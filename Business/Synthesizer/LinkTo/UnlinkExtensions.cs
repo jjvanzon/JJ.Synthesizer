@@ -163,13 +163,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             node.LinkTo((NodeType)null);
         }
 
-        public static void UnlinkOperatorType(this Operator op)
-        {
-            if (op == null) throw new NullException(() => op);
-
-            op.LinkTo((OperatorType)null);
-        }
-
         public static void UnlinkStandardDimension(this Operator op)
         {
             if (op == null) throw new NullException(() => op);

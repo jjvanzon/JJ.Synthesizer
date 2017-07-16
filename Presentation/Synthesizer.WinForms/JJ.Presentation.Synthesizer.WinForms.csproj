@@ -77,7 +77,6 @@
     <Compile Include="EventArg\ScaleAndToneEventArgs.cs" />
     <Compile Include="EventArg\NodeEventArgs.cs" />
     <Compile Include="EventArg\SelectOperatorEventArgs.cs" />
-    <Compile Include="EventArg\CreateOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
     <Compile Include="EventArg\MoveOperatorEventArgs.cs" />
     <Compile Include="EventArg\MoveNodeEventArgs.cs" />

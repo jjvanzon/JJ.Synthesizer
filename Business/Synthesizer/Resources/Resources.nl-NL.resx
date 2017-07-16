@@ -585,12 +585,6 @@
   <data name="Operator" xml:space="preserve">
     <value>Operator</value>
   </data>
-  <data name="OperatorType" xml:space="preserve">
-    <value>Operator soort</value>
-  </data>
-  <data name="OperatorTypeName" xml:space="preserve">
-    <value>Operator soort</value>
-  </data>
   <data name="Or" xml:space="preserve">
     <value>Of</value>
   </data>

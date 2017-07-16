@@ -4,6 +4,7 @@ using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 
@@ -13,7 +14,10 @@ namespace JJ.Business.Synthesizer.Validation.Patches
     {
         private static readonly bool _hiddenButInUseValidationEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().HiddenButInUseValidationEnabled;
 
-        public PatchValidator_HiddenButInUse(Patch lowerPatch)
+        public PatchValidator_HiddenButInUse(
+            Patch lowerPatch,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository)
         {
             if (lowerPatch == null) throw new NullException(() => lowerPatch);
 
@@ -39,7 +43,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                     Patch higherPatch = op.Patch;
                     string higherDocumentPrefix = ValidationHelper.TryGetHigherDocumentPrefix(lowerPatch, higherPatch);
                     string higherPatchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
-                    string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier_ForCustomOperator(op);
+                    string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier(op, sampleRepository, curveRepository);
 
                     Messages.Add(
                         ResourceFormatter.CannotHide_WithName_AndDependentItem(lowerPatchIdentifier, higherDocumentPrefix + higherPatchPrefix + higherOperatorIdentifier));

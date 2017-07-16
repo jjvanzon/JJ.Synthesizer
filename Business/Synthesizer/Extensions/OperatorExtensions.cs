@@ -15,61 +15,12 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (op == null) throw new NullException(() => op);
 
-            // Try explicitly stored
-            if (op.OperatorType != null)
-            {
-                return (OperatorTypeEnum)op.OperatorType.ID;
-            }
-
-            // Try based on UnderlyingPatch
             if (Enum.TryParse(op.UnderlyingPatch?.Name, out OperatorTypeEnum operatorTypeEnum))
             {
                 return operatorTypeEnum;
             }
 
             return OperatorTypeEnum.Undefined;
-        }
-
-        public static void SetOperatorTypeEnum(
-            this Operator op,
-            OperatorTypeEnum operatorTypeEnum,
-            RepositoryWrapper repositories)
-        {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            // Handle Undefined.
-            if (operatorTypeEnum == OperatorTypeEnum.Undefined)
-            {
-                op.UnlinkOperatorType();
-                // TODO: This is such an assumption.
-                //op.UnlinkUnderlyingPatch();
-                return;
-            }
-
-            // Handle CustomOperator
-            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
-            {
-                OperatorType operatorType = repositories.OperatorTypeRepository.Get((int)operatorTypeEnum);
-                op.LinkTo(operatorType);
-                return;
-            }
-
-            // Try use system patch
-            var documentManager = new DocumentManager(repositories);
-            Patch patch = documentManager.TryGetSystemPatch(operatorTypeEnum);
-            if (patch != null)
-            {
-                op.LinkToUnderlyingPatch(patch);
-                op.UnlinkOperatorType();
-                return;
-            }
-
-            // Use classic OperatorType entity
-            {
-                OperatorType operatorType = repositories.OperatorTypeRepository.Get((int)operatorTypeEnum);
-                op.LinkTo(operatorType);
-                op.UnlinkUnderlyingPatch();
-            }
         }
 
         public static IList<Operator> GetConnectedOperators(this Operator op)

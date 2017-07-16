@@ -17,8 +17,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
         public const float OPERATOR_HEIGHT = 40f;
         public const float OPERATOR_MINIMUM_WIDTH = 40f;
-        public const float NUMBER_OPERATOR_HEIGHT = 30f;
-        public const float NUMBER_OPERATOR_MINIMUM_WIDTH = 30f;
+        public const float SMALLER_OPERATOR_HEIGHT = 30f;
+        public const float SMALLER_OPERATOR_MINIMUM_WIDTH = 30f;
         public const int DRAG_DROP_LINE_ZINDEX = 100;
         public const float DEFAULT_SPACING = 4f;
 

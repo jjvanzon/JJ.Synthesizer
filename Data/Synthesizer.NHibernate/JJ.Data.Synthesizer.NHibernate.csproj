@@ -58,7 +58,6 @@
     <Compile Include="Mapping\AudioOutputMapping.cs" />
     <Compile Include="Mapping\ChannelMapping.cs" />
     <Compile Include="Mapping\DimensionMapping.cs" />
-    <Compile Include="Mapping\OperatorTypeMapping.cs" />
     <Compile Include="Mapping\DocumentMapping.cs" />
     <Compile Include="Mapping\DocumentReferenceMapping.cs" />
     <Compile Include="Mapping\CurveMapping.cs" />

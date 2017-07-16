@@ -671,12 +671,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorViewModel viewModel, 
-            IOperatorRepository operatorRepository, 
-            IOperatorTypeRepository operatorTypeRepository)
+            IOperatorRepository operatorRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
             Operator entity = operatorRepository.TryGet(viewModel.ID);
             // ReSharper disable once InvertIf
@@ -940,9 +938,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var standardDimensionEnum = (DimensionEnum)(viewModel.StandardDimension?.ID ?? 0);
             entity.SetStandardDimensionEnum(standardDimensionEnum, repositories.DimensionRepository);
-
-            var operatorTypeEnum = (OperatorTypeEnum)(viewModel.OperatorType?.ID ?? 0);
-            entity.SetOperatorTypeEnum(operatorTypeEnum, repositories);
 
             bool underlyingPatchIsFilledIn = viewModel.UnderlyingPatch != null && viewModel.UnderlyingPatch.ID != 0;
             if (underlyingPatchIsFilledIn)

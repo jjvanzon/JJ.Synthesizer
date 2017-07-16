@@ -9,7 +9,7 @@ namespace JJ.Data.Synthesizer.Memory.Mappings
         public AudioOutputMapping()
         {
             IdentityType = IdentityType.Assigned;
-            IdentityPropertyName = PropertyNames.ID;
+            IdentityPropertyName = nameof(AudioOutput.ID);
         }
     }
 }

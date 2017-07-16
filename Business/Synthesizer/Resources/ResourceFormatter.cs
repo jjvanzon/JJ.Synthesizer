@@ -4,6 +4,7 @@ using System.Resources;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
@@ -52,9 +53,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Cache => Resources.Cache;
         public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem) => string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);
         public static string CannotSetInletCountWithoutRepeatingInlets => Resources.CannotSetInletCountWithoutRepeatingInlets;
-        public static string CannotSetInletCountForOperatorType(string operatorTypeDisplayName) => string.Format(Resources.CannotSetInletCountForOperatorType, operatorTypeDisplayName);
         public static string CannotSetOutletCountWithoutRepeatingOutlets => Resources.CannotSetOutletCountWithoutRepeatingOutlets;
-        public static string CannotSetOutletCountForOperatorType(string operatorTypeDisplayName) => string.Format(Resources.CannotSetOutletCountForOperatorType, operatorTypeDisplayName);
         public static string Cent => Resources.Cent;
         public static string CenterFrequency => Resources.CenterFrequency;
         public static string Cents => Resources.Cents;
@@ -198,8 +197,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string OneOverX => Resources.OneOverX;
         public static string Operator => Resources.Operator;
         public static string OperatorIsInGraphButNotInList => Resources.OperatorIsInGraphButNotInList;
-        public static string OperatorType => Resources.OperatorType;
-        public static string OperatorTypeName => Resources.OperatorTypeName;
         public static string Or => Resources.Or;
         public static string Origin => Resources.Origin;
         public static string OriginalLocation => Resources.OriginalLocation;
@@ -420,20 +417,23 @@ namespace JJ.Business.Synthesizer.Resources
             return GetDisplayName(enumValue.ToString());
         }
 
-        // OperatorType
+        // Operator
 
-        public static string GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(Operator op)
+        public static string GetDisplayName(Operator op)
         {
             if (op == null) throw new NullException(() => op);
+
+            if (NameHelper.IsFilledIn(op.Name))
+            {
+                return op.Name;
+            }
 
             if (op.UnderlyingPatch != null)
             {
                 return GetDisplayName(op.UnderlyingPatch);
             }
-            else
-            {
-                return GetDisplayName(op.GetOperatorTypeEnum().ToString());
-            }
+
+            return null;
         }
 
         // Outlet

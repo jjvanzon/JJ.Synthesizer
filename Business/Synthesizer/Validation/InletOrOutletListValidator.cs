@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class InletOrOutletListValidator_WithUnderlyingPatch : VersatileValidator
+    internal class InletOrOutletListValidator : VersatileValidator
     {
-        public InletOrOutletListValidator_WithUnderlyingPatch(IEnumerable<IInletOrOutlet> inletOrOutletList)
+        public InletOrOutletListValidator(IEnumerable<IInletOrOutlet> inletOrOutletList)
         {
             if (inletOrOutletList == null) throw new NullException(() => inletOrOutletList);
 
@@ -19,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation
             foreach (IInletOrOutlet inletOrOutlet in inletOrOutletList)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(inletOrOutlet);
-                ExecuteValidator(new InletOrOutletValidator_WithUnderlyingPatch(inletOrOutlet), messagePrefix);
+                ExecuteValidator(new InletOrOutletValidator(inletOrOutlet), messagePrefix);
             }
         }
 

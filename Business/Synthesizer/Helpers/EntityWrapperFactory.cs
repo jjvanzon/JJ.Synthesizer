@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public static class EntityWrapperFactory
     {
-        public static OperatorWrapperBase CreateOperatorWrapper(
+        public static OperatorWrapper CreateOperatorWrapper(
             Operator op,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository)
@@ -19,46 +19,31 @@ namespace JJ.Business.Synthesizer.Helpers
             if (op == null) throw new NullException(() => op);
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
-
-            if (operatorTypeEnum == OperatorTypeEnum.Curve)
+            switch (operatorTypeEnum)
             {
-                return new Curve_OperatorWrapper(op, curveRepository);
-            }
+                case OperatorTypeEnum.Curve: return new Curve_OperatorWrapper(op, curveRepository);
+                case OperatorTypeEnum.Sample: return new Sample_OperatorWrapper(op, sampleRepository);
+                case OperatorTypeEnum.Cache: return new Cache_OperatorWrapper(op);
+                case OperatorTypeEnum.InletsToDimension: return new InletsToDimension_OperatorWrapper(op);
+                case OperatorTypeEnum.Interpolate: return new Interpolate_OperatorWrapper(op);
+                case OperatorTypeEnum.Number: return new Number_OperatorWrapper(op);
+                case OperatorTypeEnum.PatchInlet: return new PatchInlet_OperatorWrapper(op);
+                case OperatorTypeEnum.PatchOutlet: return new PatchOutlet_OperatorWrapper(op);
+                case OperatorTypeEnum.Random: return new Random_OperatorWrapper(op);
+                case OperatorTypeEnum.Reset: return new Reset_OperatorWrapper(op);
+                case OperatorTypeEnum.AverageOverDimension:
+                case OperatorTypeEnum.ClosestOverDimension:
+                case OperatorTypeEnum.ClosestOverDimensionExp:
+                case OperatorTypeEnum.MaxOverDimension:
+                case OperatorTypeEnum.MinOverDimension:
+                case OperatorTypeEnum.SortOverDimension:
+                case OperatorTypeEnum.SumFollower:
+                case OperatorTypeEnum.SumOverDimension:
+                    return new OperatorWrapper_WithCollectionRecalculation(op);
 
-            if (operatorTypeEnum == OperatorTypeEnum.Sample)
-            {
-                return new Sample_OperatorWrapper(op, sampleRepository);
+                default:
+                    return new OperatorWrapper(op);
             }
-
-            if (_createOperatorWrapperDelegateDictionary.TryGetValue(operatorTypeEnum, out Func<Operator, OperatorWrapperBase> func))
-            {
-                OperatorWrapperBase wrapper = func(op);
-                return wrapper;
-            }
-
-            // Otherwise assume WithUnderlyingPatch.
-            return new OperatorWrapper_WithUnderlyingPatch(op);
         }
-
-        private static readonly Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>> _createOperatorWrapperDelegateDictionary =
-            new Dictionary<OperatorTypeEnum, Func<Operator, OperatorWrapperBase>>
-            {
-                { OperatorTypeEnum.AverageOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x) },
-                { OperatorTypeEnum.Cache, x => new Cache_OperatorWrapper(x) },
-                { OperatorTypeEnum.ClosestOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
-                { OperatorTypeEnum.ClosestOverDimensionExp, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
-                { OperatorTypeEnum.InletsToDimension, x => new InletsToDimension_OperatorWrapper(x) },
-                { OperatorTypeEnum.Interpolate, x => new Interpolate_OperatorWrapper(x) },
-                { OperatorTypeEnum.MaxOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
-                { OperatorTypeEnum.MinOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
-                { OperatorTypeEnum.Number, x => new Number_OperatorWrapper(x) },
-                { OperatorTypeEnum.PatchInlet, x => new PatchInlet_OperatorWrapper(x) },
-                { OperatorTypeEnum.PatchOutlet, x => new PatchOutlet_OperatorWrapper(x) },
-                { OperatorTypeEnum.Random, x => new Random_OperatorWrapper(x) },
-                { OperatorTypeEnum.Reset, x => new Reset_OperatorWrapper(x) },
-                { OperatorTypeEnum.SortOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
-                { OperatorTypeEnum.SumFollower, x => new OperatorWrapper_WithCollectionRecalculation(x)  },
-                { OperatorTypeEnum.SumOverDimension, x => new OperatorWrapper_WithCollectionRecalculation(x)  }
-            };
     }
 }

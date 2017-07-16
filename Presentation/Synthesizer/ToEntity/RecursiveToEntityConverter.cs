@@ -146,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 return op;
             }
 
-            op = viewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
+            op = viewModel.ToEntity(_repositories.OperatorRepository);
 
             _operatorDictionary.Add(op.ID, op);
 

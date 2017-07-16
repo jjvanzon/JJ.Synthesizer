@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Curve_OperatorWrapper : OperatorWrapper_WithUnderlyingPatch
+    public class Curve_OperatorWrapper : OperatorWrapper
     {
         private readonly ICurveRepository _curveRepository;
 

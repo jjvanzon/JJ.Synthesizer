@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// </summary>
         protected override void VisitLoopInlet(Inlet inlet)
         {
-            var wrapper = new OperatorWrapper_WithUnderlyingPatch(inlet.Operator);
+            var wrapper = new OperatorWrapper(inlet.Operator);
 
             if (inlet == wrapper.Inlets[DimensionEnum.ReleaseEndMarker] ||
                 inlet == wrapper.Inlets[DimensionEnum.NoteDuration])

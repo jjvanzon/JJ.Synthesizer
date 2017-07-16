@@ -1,5 +1,4 @@
-﻿using JJ.Business.Canonical;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -1990,21 +1989,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ActionTemplateMethod(userInput, () => _patchDetailsPresenter.ChangeInputOutlet(userInput, inletID, inputOutletID));
         }
 
-        public void OperatorCreate(int patchID, int operatorTypeID)
-        {
-            // GetViewModel
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
-
-            // TemplateMethod
-            PatchDetailsViewModel viewModel = ActionTemplateMethod(userInput, () => _patchDetailsPresenter.CreateOperator(userInput, operatorTypeID));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
         public void OperatorDeleteSelected(int patchID)
         {
             // GetViewModel
@@ -2856,7 +2840,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Refresh
                 SampleGridRefresh();
                 SampleLookupRefresh();
-                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
+                PatchDetailsDictionaryRefresh();
             }
         }
 
@@ -2873,7 +2857,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 SampleGridRefresh();
                 SampleLookupRefresh();
-                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
+                PatchDetailsDictionaryRefresh();
             }
         }
 

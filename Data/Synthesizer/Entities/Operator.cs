@@ -17,12 +17,6 @@ namespace JJ.Data.Synthesizer.Entities
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
-        /// <summary> 
-        /// Nullable.
-        /// OperatorTypeEnum can also be determined by UnderlyingPatch.
-        /// Use GetOperatorTypeEnum to get a single value derived from both OperatorType or UnderlyingPatch.
-        /// </summary>
-        public virtual OperatorType OperatorType { get; set; }
         /// <summary> parent </summary>
         public virtual Patch Patch { get; set; }
         public virtual Dimension StandardDimension { get; set; }

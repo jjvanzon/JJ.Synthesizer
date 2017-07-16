@@ -1,6 +1,5 @@
 ﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Data.Memory;
-using JJ.Data.Synthesizer.Memory.Helpers;
 
 namespace JJ.Data.Synthesizer.Memory.Mappings
 {
@@ -9,7 +8,7 @@ namespace JJ.Data.Synthesizer.Memory.Mappings
         public EntityPositionMapping()
         {
             IdentityType = IdentityType.AutoIncrement;
-            IdentityPropertyName = PropertyNames.ID;
+            IdentityPropertyName = nameof(EntityPosition.ID);
         }
     }
 }

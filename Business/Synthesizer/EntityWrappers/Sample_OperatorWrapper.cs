@@ -6,7 +6,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Sample_OperatorWrapper : OperatorWrapper_WithUnderlyingPatch
+    public class Sample_OperatorWrapper : OperatorWrapper
     {
         private readonly ISampleRepository _sampleRepository;
 

@@ -105,54 +105,54 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         // Specific Migrations
 
-        public static void Migrate_OperatorType_ToUnderlyingPatch_ForLoop_PatchInlet_PatchOutlet_Random_AndReset(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        //public static void Migrate_OperatorType_ToUnderlyingPatch_ForLoop_PatchInlet_PatchOutlet_Random_AndReset(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Loop, repositories, progressCallback);
-                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.PatchInlet, repositories, progressCallback);
-                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.PatchOutlet, repositories, progressCallback);
-                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Random, repositories, progressCallback);
-                Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Reset, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Loop, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.PatchInlet, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.PatchOutlet, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Random, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Reset, repositories, progressCallback);
 
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
-                //throw new Exception("Temporarily not committing, for debugging.");
+        //        //throw new Exception("Temporarily not committing, for debugging.");
 
-                context.Commit();
-            }
+        //        context.Commit();
+        //    }
 
-            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
-        }
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
 
         // Helpers
 
-        private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(
-            OperatorTypeEnum operatorTypeEnum,
-            RepositoryWrapper repositories,
-            Action<string> progressCallback)
-        {
-            var documentManager = new DocumentManager(repositories);
-            documentManager.RefreshSystemDocumentIfNeeded(documentManager.GetSystemDocument());
-            Patch systemPatch = documentManager.GetSystemPatch(operatorTypeEnum);
-            IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
+        //private static void Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(
+        //    OperatorTypeEnum operatorTypeEnum,
+        //    RepositoryWrapper repositories,
+        //    Action<string> progressCallback)
+        //{
+        //    var documentManager = new DocumentManager(repositories);
+        //    documentManager.RefreshSystemDocumentIfNeeded(documentManager.GetSystemDocument());
+        //    Patch systemPatch = documentManager.GetSystemPatch(operatorTypeEnum);
+        //    IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
 
-            for (int i = 0; i < operators.Count; i++)
-            {
-                Operator op = operators[i];
-                op.LinkToUnderlyingPatch(systemPatch);
-                op.UnlinkOperatorType();
+        //    for (int i = 0; i < operators.Count; i++)
+        //    {
+        //        Operator op = operators[i];
+        //        op.LinkToUnderlyingPatch(systemPatch);
+        //        op.UnlinkOperatorType();
 
-                string progressMessage = $"Migrated {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
-                progressCallback(progressMessage);
-            }
-        }
+        //        string progressMessage = $"Migrated {operatorTypeEnum} {nameof(Operator)} {i + 1}/{operators.Count}.";
+        //        progressCallback(progressMessage);
+        //    }
+        //}
 
         private static void AssertDocuments_AndReapplyUnderlyingPatches(
             RepositoryWrapper repositories,

@@ -16,10 +16,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class PatchDetailsPresenter : PresenterBase<PatchDetailsViewModel>
     {
-        // TODO: These two constants do not belong here, because they should be determined by the vector graphics.
-        private const float ESTIMATED_OPERATOR_WIDTH = 50f;
-        private const float OPERATOR_HEIGHT = 30f;
-
         private readonly RepositoryWrapper _repositories;
         private readonly EntityPositionManager _entityPositionManager;
         private readonly PatchManager _patchManager;
@@ -73,37 +69,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 viewModel.Visible = false;
             }
-
-            return viewModel;
-        }
-
-        public PatchDetailsViewModel CreateOperator(PatchDetailsViewModel userInput, int operatorTypeID)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
-
-            // Business
-            var operatorFactory = new OperatorFactory(entity, _repositories);
-            var operatorTypeEnum = (OperatorTypeEnum)operatorTypeID;
-            Operator op = operatorFactory.New(operatorTypeEnum);
-            _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
-
-            // ToViewModel
-            PatchDetailsViewModel viewModel = CreateViewModel(entity);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
 
             return viewModel;
         }

@@ -376,7 +376,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+            return patch.Operators
+                        .Where(x => ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
                         .Select(x => x.ToPropertiesViewModel_WithInterpolation())
                         .ToList();
         }
@@ -587,8 +588,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
-
             var viewModel = new TViewModel
             {
                 ID = entity.ID,
@@ -600,18 +599,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CanEditInletCount = entity.CanSetInletCount(),
                 OutletCount = entity.Outlets.Count,
                 CanEditOutletCount = entity.CanSetOutletCount(),
-                CanSelectUnderlyingPatch = ToViewModelHelper.GetCanSelectUnderlyingPatch(entity),
                 ValidationMessages = new List<string>()
             };
-
-            if (operatorTypeEnum != OperatorTypeEnum.Undefined)
-            {
-                viewModel.OperatorType = operatorTypeEnum.ToIDAndDisplayName();
-            }
-            else
-            {
-                viewModel.OperatorType = ToViewModelHelper.CreateEmptyIDAndName();
-            }
 
             DimensionEnum dimensionEnum = entity.GetStandardDimensionEnum();
             if (dimensionEnum != DimensionEnum.Undefined)
@@ -624,8 +613,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // ReSharper disable once InvertIf
-            bool hasDimension = entity.HasDimension || (entity.OperatorType?.HasDimension ?? false); // Excuse the smell of polymorphism: OperatorType will be deprecated at some point.
-            if (hasDimension)
+            if (entity.HasDimension)
             {
                 viewModel.CanEditCustomDimensionName = true;
                 viewModel.CanSelectStandardDimension = true;

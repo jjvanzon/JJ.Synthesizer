@@ -14,7 +14,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public IDocumentReferenceRepository DocumentReferenceRepository { get; }
         public INodeRepository NodeRepository { get; }
         public IOperatorRepository OperatorRepository { get; }
-        public IOperatorTypeRepository OperatorTypeRepository { get; }
         public IInletRepository InletRepository { get; }
         public IOutletRepository OutletRepository { get; }
         public IScaleRepository ScaleRepository { get; }
@@ -42,7 +41,6 @@ namespace JJ.Business.Synthesizer.Helpers
             IDocumentReferenceRepository documentReferenceRepository,
             INodeRepository nodeRepository,
             IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             IScaleRepository scaleRepository,
@@ -70,7 +68,6 @@ namespace JJ.Business.Synthesizer.Helpers
             DocumentReferenceRepository = documentReferenceRepository ?? throw new NullException(() => documentReferenceRepository);
             NodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
             OperatorRepository = operatorRepository ?? throw new NullException(() => operatorRepository);
-            OperatorTypeRepository = operatorTypeRepository ?? throw new NullException(() => operatorTypeRepository);
             InletRepository = inletRepository ?? throw new NullException(() => inletRepository);
             OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
             EntityPositionRepository = entityPositionRepository ?? throw new NullException(() => entityPositionRepository);

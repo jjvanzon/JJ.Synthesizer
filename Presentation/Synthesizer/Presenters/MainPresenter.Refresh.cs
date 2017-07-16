@@ -990,20 +990,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorViewModels_OfType_Refresh(OperatorTypeEnum operatorTypeEnum)
-        {
-            IList<OperatorViewModel> operatorViewModels =
-                MainViewModel.Document.PatchDetailsDictionary.Values
-                                      .SelectMany(x => x.Entity.OperatorDictionary.Values)
-                                      .Where(x => x.OperatorType.ID == (int)operatorTypeEnum)
-                                      .ToArray();
-
-            foreach (OperatorViewModel operatorViewModel in operatorViewModels)
-            {
-                PatchDetails_RefreshOperator(operatorViewModel);
-            }
-        }
-
         private void PatchDetails_RefreshOperator(OperatorViewModel viewModel)
         {
             Operator entity = _repositories.OperatorRepository.Get(viewModel.ID);

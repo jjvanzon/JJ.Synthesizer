@@ -48,29 +48,29 @@ namespace JJ.Business.Synthesizer
 
             patch.Name = "Auto-Generated Patch";
 
-            var intermediateCustomOperators = new List<Operator>(sourceUnderlyingPatches.Count);
+            var intermediateDerivedOperators = new List<Operator>(sourceUnderlyingPatches.Count);
 
             foreach (Patch sourceUnderlyingPatch in sourceUnderlyingPatches)
             {
-                OperatorWrapper_WithUnderlyingPatch intermediateCustomOperatorWrapper = operatorFactory.CustomOperator(sourceUnderlyingPatch);
-                intermediateCustomOperatorWrapper.Name = $"{sourceUnderlyingPatch.Name}";
+                OperatorWrapper intermediateDerivedOperatorWrapper = operatorFactory.New(sourceUnderlyingPatch);
+                intermediateDerivedOperatorWrapper.Name = $"{sourceUnderlyingPatch.Name}";
 
-                intermediateCustomOperators.Add(intermediateCustomOperatorWrapper);
+                intermediateDerivedOperators.Add(intermediateDerivedOperatorWrapper);
             }
 
             var intermediateMatchedOutlets = new List<Outlet>();
             var intermediateMatchedInlets = new List<Inlet>();
 
-            for (int i = 0; i < intermediateCustomOperators.Count; i++)
+            for (int i = 0; i < intermediateDerivedOperators.Count; i++)
             {
-                for (int j = i + 1; j < intermediateCustomOperators.Count; j++)
+                for (int j = i + 1; j < intermediateDerivedOperators.Count; j++)
                 {
-                    Operator intermediateCustomOperator1 = intermediateCustomOperators[i];
-                    Operator intermediateCustomOperator2 = intermediateCustomOperators[j];
+                    Operator intermediateDerivedOperator1 = intermediateDerivedOperators[i];
+                    Operator intermediateDerivedOperator2 = intermediateDerivedOperators[j];
 
-                    foreach (Outlet intermediateOutlet in intermediateCustomOperator1.Outlets)
+                    foreach (Outlet intermediateOutlet in intermediateDerivedOperator1.Outlets)
                     {
-                        foreach (Inlet intermediateInlet in intermediateCustomOperator2.Inlets)
+                        foreach (Inlet intermediateInlet in intermediateDerivedOperator2.Inlets)
                         {
                             // ReSharper disable once InvertIf
                             if (InletOutletMatcher.AreMatch(intermediateOutlet, intermediateInlet))
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // Unmatched inlets of the custom operators become inlets of the new patch.
-            IList<Inlet> intermediateUnmatchedInlets = intermediateCustomOperators.SelectMany(x => x.Inlets)
+            IList<Inlet> intermediateUnmatchedInlets = intermediateDerivedOperators.SelectMany(x => x.Inlets)
                                                                                   .Except(intermediateMatchedInlets)
                                                                                   .ToArray();
 
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
-            IList<Outlet> intermediateUnmatchedOutlets = intermediateCustomOperators.SelectMany(x => x.Outlets)
+            IList<Outlet> intermediateUnmatchedOutlets = intermediateDerivedOperators.SelectMany(x => x.Outlets)
                                                                                     .Except(intermediateMatchedOutlets)
                                                                                     .ToArray();
 
@@ -231,21 +231,21 @@ namespace JJ.Business.Synthesizer
 
             var operatorFactory = new OperatorFactory(patch, _repositories);
 
-            var customOperator = operatorFactory.CustomOperator(autoPatch);
+            var derivedOperator = operatorFactory.New(autoPatch);
             Outlet frequencyOutlet = operatorFactory.Number(tone.GetFrequency());
 
-            IList<Inlet> customOperatorFrequencyInlets = customOperator.Inlets.GetMany(DimensionEnum.Frequency);
-            if (customOperatorFrequencyInlets.Count == 0)
+            IList<Inlet> derivedOperatorFrequencyInlets = derivedOperator.Inlets.GetMany(DimensionEnum.Frequency);
+            if (derivedOperatorFrequencyInlets.Count == 0)
             {
                 return null;
             }
 
-            foreach (Inlet customOperatorFrequencyInlet in customOperatorFrequencyInlets)
+            foreach (Inlet derivedOperatorFrequencyInlet in derivedOperatorFrequencyInlets)
             {
-                customOperatorFrequencyInlet.LinkTo(frequencyOutlet);
+                derivedOperatorFrequencyInlet.LinkTo(frequencyOutlet);
             }
 
-            IList<Outlet> soundOutlets = customOperator.Outlets.GetMany(DimensionEnum.Sound);
+            IList<Outlet> soundOutlets = derivedOperator.Outlets.GetMany(DimensionEnum.Sound);
             switch (soundOutlets.Count)
             {
                 case 0:
@@ -289,8 +289,8 @@ namespace JJ.Business.Synthesizer
 
             var operatorFactory = new OperatorFactory(destPatch, _repositories);
 
-            OperatorWrapper_WithUnderlyingPatch customOperator = operatorFactory.CustomOperator(sourcePatch);
-            IList<Outlet> soundOutlets = GetSoundOutletsFromOperatorCreatively(customOperator);
+            OperatorWrapper derivedOperator = operatorFactory.New(sourcePatch);
+            IList<Outlet> soundOutlets = GetSoundOutletsFromOperatorCreatively(derivedOperator);
 
             if (soundOutlets.Count == 0)
             {

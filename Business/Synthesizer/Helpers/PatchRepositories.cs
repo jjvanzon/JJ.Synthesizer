@@ -7,7 +7,6 @@ namespace JJ.Business.Synthesizer.Helpers
     {
         public IPatchRepository PatchRepository { get; }
         public IOperatorRepository OperatorRepository { get; }
-        public IOperatorTypeRepository OperatorTypeRepository { get; }
         public IInletRepository InletRepository { get; }
         public IOutletRepository OutletRepository { get; }
         public ICurveRepository CurveRepository { get; }
@@ -26,7 +25,6 @@ namespace JJ.Business.Synthesizer.Helpers
 
             PatchRepository = repositoryWrapper.PatchRepository;
             OperatorRepository = repositoryWrapper.OperatorRepository;
-            OperatorTypeRepository = repositoryWrapper.OperatorTypeRepository;
             InletRepository = repositoryWrapper.InletRepository;
             OutletRepository = repositoryWrapper.OutletRepository;
             CurveRepository = repositoryWrapper.CurveRepository;
@@ -42,7 +40,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public PatchRepositories(
             IPatchRepository patchRepository,
             IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             ICurveRepository curveRepository,
@@ -56,7 +53,6 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             PatchRepository = patchRepository ?? throw new NullException(() => patchRepository);
             OperatorRepository = operatorRepository ?? throw new NullException(() => operatorRepository);
-            OperatorTypeRepository = operatorTypeRepository ?? throw new NullException(() => operatorTypeRepository);
             InletRepository = inletRepository ?? throw new NullException(() => inletRepository);
             OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
             CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);

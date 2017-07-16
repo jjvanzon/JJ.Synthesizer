@@ -24,6 +24,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public DimensionViewModel Dimension { get; set; }
         public StyleGradeEnum StyleGrade { get; set; }
 
+        /// <summary> Not editable. Less significant operators are given smaller style, such as number operators. </summary>
+        public bool IsSmaller { get; set; }
+
         public IList<InletViewModel> Inlets { get; set; }
 
         /// <summary>
@@ -31,9 +34,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// Operator.Outlets &lt;=&gt; OutletViewModel.Operator
         /// </summary>
         public IList<OutletViewModel> Outlets { get; set; }
-
-        /// <summary> not displayed </summary>
-        public IDAndName OperatorType { get; set; }
 
         public bool IsOwned { get; set; }
 

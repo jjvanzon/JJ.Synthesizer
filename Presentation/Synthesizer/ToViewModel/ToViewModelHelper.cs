@@ -300,18 +300,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (viewModel == null) throw new NullException(() => viewModel);
 
             viewModel.ID = entity.ID;
+            viewModel.IsSmaller = GetOperatorIsSmaller(entity);
             viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
             viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository);
             viewModel.IsOwned = GetOperatorIsOwned(entity);
-
-            if (entity.OperatorType != null)
-            {
-                viewModel.OperatorType = entity.OperatorType.ToIDAndDisplayName();
-            }
-            else
-            {
-                viewModel.OperatorType = CreateEmptyIDAndName();
-            }
 
             EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
             viewModel.EntityPositionID = entityPosition.ID;

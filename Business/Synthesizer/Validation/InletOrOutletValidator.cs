@@ -7,9 +7,9 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class InletOrOutletValidator_WithUnderlyingPatch : VersatileValidator
+    internal class InletOrOutletValidator : VersatileValidator
     {
-        public InletOrOutletValidator_WithUnderlyingPatch(IInletOrOutlet inletOrOutlet)
+        public InletOrOutletValidator(IInletOrOutlet inletOrOutlet)
         {
             if (inletOrOutlet == null) throw new NullException(() => inletOrOutlet);
 

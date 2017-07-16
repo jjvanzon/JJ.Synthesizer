@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return operatorCalculatorBase.GetType().Name;
         }
 
-        internal static string GetDebuggerDisplay(OperatorWrapperBase operatorWrapperBase)
+        internal static string GetDebuggerDisplay(OperatorWrapper operatorWrapperBase)
         {
             if (operatorWrapperBase == null) throw new NullException(() => operatorWrapperBase);
 

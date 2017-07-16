@@ -24,13 +24,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddProperties()
         {
-            AddProperty(_labelOperatorTypeTitle, _labelOperatorTypeValue);
+            AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
             AddProperty(labelDimension, comboBoxDimension);
             AddProperty(_labelName, _textBoxName);
             AddProperty(labelPosition, numericUpDownPosition);
             AddProperty(labelNameOrDimensionHidden, checkBoxNameOrDimensionHidden);
             AddProperty(labelIsRepeating, checkBoxIsRepeating);
-            AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
         }
 
         // Binding

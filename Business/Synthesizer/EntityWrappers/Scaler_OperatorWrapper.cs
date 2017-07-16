@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     /// Scaler has a specialized OperatorWrapper, because its inlets are not identified by Dimension, but by position,
     /// which makes then harder to use through the standard OperatorWrapper(_WithUnderlyingPatch).
     /// </summary>
-    public class Scaler_OperatorWrapper : OperatorWrapper_WithUnderlyingPatch
+    public class Scaler_OperatorWrapper : OperatorWrapper
     {
         private const int SOURCE_VALUE_A_INDEX = 1;
         private const int SOURCE_VALUE_B_INDEX = 2;

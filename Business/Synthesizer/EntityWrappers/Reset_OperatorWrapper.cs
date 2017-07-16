@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Reset_OperatorWrapper : OperatorWrapper_WithUnderlyingPatch
+    public class Reset_OperatorWrapper : OperatorWrapper
     {
         public Reset_OperatorWrapper(Operator op)
             : base(op)

@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer
         {
             if (patch == null) throw new NullException(() => patch);
 
-            IValidator validator = new PatchValidator_Delete(patch);
+            IValidator validator = new PatchValidator_Delete(patch, _repositories.SampleRepository, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
                 return validator.ToResult();

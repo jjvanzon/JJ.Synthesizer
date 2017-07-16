@@ -51,7 +51,6 @@
     <Compile Include="Mappings\ScaleMapping.cs" />
     <Compile Include="Mappings\ChannelMapping.cs" />
     <Compile Include="Mappings\AudioFileOutputMapping.cs" />
-    <Compile Include="Mappings\OperatorTypeMapping.cs" />
     <Compile Include="Mappings\DocumentMapping.cs" />
     <Compile Include="Mappings\DocumentReferenceMapping.cs" />
     <Compile Include="Mappings\EntityPositionMapping.cs" />
@@ -69,7 +68,6 @@
     <Compile Include="Repositories\IDRepository.cs" />
     <Compile Include="Repositories\DimensionRepository.cs" />
     <Compile Include="Repositories\ScaleTypeRepository.cs" />
-    <Compile Include="Repositories\OperatorTypeRepository.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />
     <Compile Include="Repositories\SampleRepository.cs" />
     <Compile Include="Repositories\SpeakerSetupRepository.cs" />

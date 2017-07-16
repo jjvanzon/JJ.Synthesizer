@@ -119,29 +119,12 @@ namespace JJ.Business.Synthesizer.Validation
 
             switch (operatorTypeEnum)
             {
-                case OperatorTypeEnum.Curve:
-                    return GetUserFriendlyIdentifier_ForCurveOperator(entity, curveRepository);
-
-                case OperatorTypeEnum.CustomOperator:
-                    return GetUserFriendlyIdentifier_ForCustomOperator(entity);
-
-                case OperatorTypeEnum.Number:
-                    return GetUserFriendlyIdentifier_ForNumberOperator(entity);
-
-                case OperatorTypeEnum.PatchInlet:
-                    return GetUserFriendlyIdentifier_ForPatchInlet(entity);
-
-                case OperatorTypeEnum.PatchOutlet:
-                    return GetUserFriendlyIdentifier_ForPatchOutlet(entity);
-
-                case OperatorTypeEnum.Sample:
-                    return GetUserFriendlyIdentifier_ForSampleOperator(entity, sampleRepository);
-
-                //case OperatorTypeEnum.Undefined:
-                //    return GetUserFriendlyIdentifier_ForUndefinedOperatorType(entity);
-
-                default:
-                    return GetUserFriendlyIdentifier_ForOtherOperartorType(entity);
+                case OperatorTypeEnum.Curve: return GetUserFriendlyIdentifier_ForCurveOperator(entity, curveRepository);
+                case OperatorTypeEnum.Sample: return GetUserFriendlyIdentifier_ForSampleOperator(entity, sampleRepository);
+                case OperatorTypeEnum.Number: return GetUserFriendlyIdentifier_ForNumberOperator(entity);
+                case OperatorTypeEnum.PatchInlet: return GetUserFriendlyIdentifier_ForPatchInlet(entity);
+                case OperatorTypeEnum.PatchOutlet: return GetUserFriendlyIdentifier_ForPatchOutlet(entity);
+                default: return GetUserFriendlyIdentifier_ForOtherOperator(entity);
             }
         }
 
@@ -173,86 +156,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
-        }
-
-        public static string GetUserFriendlyIdentifier_ForCustomOperator(Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            // Use Operator Name
-            if (!string.IsNullOrWhiteSpace(entity.Name))
-            {
-                return $"'{entity.Name}'";
-            }
-
-            // Use Underlying Entity Name
-            // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (entity.UnderlyingPatch != null)
-            {
-                return GetUserFriendlyIdentifier(entity.UnderlyingPatch);
-            }
-
-            // Mention 'no name' only
-            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
-        }
-
-        private static string GetUserFriendlyIdentifier_ForNumberOperator(Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            // Use Operator Name
-            if (!string.IsNullOrWhiteSpace(entity.Name))
-            {
-                return $"'{entity.Name}'";
-            }
-
-            // Use Number
-            // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(entity.Data))
-            {
-                double? number = DataPropertyParser.TryParseDouble(entity.Data, nameof(Number_OperatorWrapper.Number));
-                // ReSharper disable once InvertIf
-                if (number.HasValue)
-                {
-                    return $"'{FormatNumber(number.Value)}'";
-                }
-            }
-
-            // Mention 'no name' only
-            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
-        }
-
-        public static string GetUserFriendlyIdentifier_ForPatchInlet(Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            // ReSharper disable once InvertIf
-            if (entity.Inlets.Count == 1)
-            {
-                Inlet inlet = entity.Inlets[0];
-                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(inlet.Name, inlet.GetDimensionEnum(), inlet.Position);
-                return identifier;
-            }
-
-            // Mention 'no name' only
-            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
-        }
-
-        public static string GetUserFriendlyIdentifier_ForPatchOutlet(Operator entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            // ReSharper disable once InvertIf
-            if (entity.Outlets.Count == 1)
-            {
-                Outlet outlet = entity.Outlets[0];
-                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(outlet.Name, outlet.GetDimensionEnum(), outlet.Position);
-                return identifier;
-            }
-
-            // Mention 'no name' only
-            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetDisplayName(entity)}'";
         }
 
         public static string GetUserFriendlyIdentifier_ForSampleOperator(Operator entity, ISampleRepository sampleRepository)
@@ -283,22 +187,86 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetDisplayName(entity)}'";
         }
 
-        private static string GetUserFriendlyIdentifier_ForOtherOperartorType(Operator entity)
+        private static string GetUserFriendlyIdentifier_ForOtherOperator(Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             // Use Operator Name
-            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (!string.IsNullOrWhiteSpace(entity.Name))
             {
                 return $"'{entity.Name}'";
             }
 
+            // Use Underlying Entity Name
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (entity.UnderlyingPatch != null)
+            {
+                return GetUserFriendlyIdentifier(entity.UnderlyingPatch);
+            }
+
             // Mention 'no name' only
-            return $"'{ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(entity)}'";
+            return $"'{ResourceFormatter.GetDisplayName(entity)}'";
+        }
+
+        private static string GetUserFriendlyIdentifier_ForNumberOperator(Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            // Use Operator Name
+            if (!string.IsNullOrWhiteSpace(entity.Name))
+            {
+                return $"'{entity.Name}'";
+            }
+
+            // Use Number
+            // ReSharper disable once InvertIf
+            if (DataPropertyParser.DataIsWellFormed(entity.Data))
+            {
+                double? number = DataPropertyParser.TryParseDouble(entity.Data, nameof(Number_OperatorWrapper.Number));
+                // ReSharper disable once InvertIf
+                if (number.HasValue)
+                {
+                    return $"'{FormatNumber(number.Value)}'";
+                }
+            }
+
+            // Mention 'no name' only
+            return $"'{ResourceFormatter.GetDisplayName(entity)}'";
+        }
+
+        private static string GetUserFriendlyIdentifier_ForPatchInlet(Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            // ReSharper disable once InvertIf
+            if (entity.Inlets.Count == 1)
+            {
+                Inlet inlet = entity.Inlets[0];
+                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(inlet.Name, inlet.GetDimensionEnum(), inlet.Position);
+                return identifier;
+            }
+
+            // Mention 'no name' only
+            return $"'{ResourceFormatter.GetDisplayName(entity)}'";
+        }
+
+        private static string GetUserFriendlyIdentifier_ForPatchOutlet(Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            // ReSharper disable once InvertIf
+            if (entity.Outlets.Count == 1)
+            {
+                Outlet outlet = entity.Outlets[0];
+                string identifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(outlet.Name, outlet.GetDimensionEnum(), outlet.Position);
+                return identifier;
+            }
+
+            // Mention 'no name' only
+            return $"'{ResourceFormatter.GetDisplayName(entity)}'";
         }
 
         public static string GetUserFriendlyIdentifier(Patch entity)

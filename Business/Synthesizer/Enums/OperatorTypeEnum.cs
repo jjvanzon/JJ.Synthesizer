@@ -29,7 +29,7 @@
         /// </summary>
         Noise = 18,
         Interpolate = 19,
-        CustomOperator = 20,
+        //CustomOperator = 20,
         SawUp = 21,
         Square = 22,
         Triangle = 23,

@@ -419,15 +419,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Operator op, [CanBeNull] OperatorType operatorType)
-        {
-            if (op == null) throw new NullException(() => op);
-
-            op.OperatorType = operatorType;
-
-            // No inverse property.
-        }
-
         public static void LinkTo([NotNull] this Operator op, [CanBeNull] Dimension dimension)
         {
             if (op == null) throw new NullException(() => op);

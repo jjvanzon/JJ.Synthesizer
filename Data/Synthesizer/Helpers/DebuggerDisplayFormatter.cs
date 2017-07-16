@@ -131,12 +131,9 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.AppendFormat("x={0} y={1} ", entity.X, entity.Y);
 
-            if (entity.NodeType != null)
+            if (!string.IsNullOrEmpty(entity.NodeType?.Name))
             {
-                if (!string.IsNullOrEmpty(entity.NodeType.Name))
-                {
-                    sb.AppendFormat("({0}) ", entity.NodeType.Name);
-                }
+                sb.AppendFormat("({0}) ", entity.NodeType.Name);
             }
 
             sb.AppendFormat("({0})", entity.ID);
@@ -160,11 +157,6 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", op.GetType().Name);
 
-            if (!string.IsNullOrEmpty(op.OperatorType?.Name))
-            {
-                sb.Append($"{nameof(op.OperatorType)}={op.OperatorType.Name} ");
-            }
-
             if (op.UnderlyingPatch != null)
             {
                 sb.Append($"{nameof(op.UnderlyingPatch)}={op.UnderlyingPatch.Name} ");
@@ -175,8 +167,9 @@ namespace JJ.Data.Synthesizer.Helpers
                 sb.Append($"'{op.Name}' ");
             }
 
-            bool isValidPatchInlet = op.OperatorType != null &&
-                                     string.Equals(op.OperatorType.Name, "PatchInlet") &&
+            bool isValidPatchInlet = op.UnderlyingPatch != null &&
+                                     string.Equals(op.UnderlyingPatch.Document.Name, "System") &&
+                                     string.Equals(op.UnderlyingPatch.Name, "PatchInlet") &&
                                      op.Inlets.Count == 1 &&
                                      op.Inlets[0] != null;
             if (isValidPatchInlet)
@@ -201,10 +194,11 @@ namespace JJ.Data.Synthesizer.Helpers
                 }
             }
 
-            bool isValidPatchOutlet = op.OperatorType != null &&
-                                     string.Equals(op.OperatorType.Name, "PatchOutlet") &&
-                                     op.Outlets.Count == 1 &&
-                                     op.Outlets[0] != null;
+            bool isValidPatchOutlet = op.UnderlyingPatch != null &&
+                                      string.Equals(op.UnderlyingPatch.Document.Name, "System") &&
+                                      string.Equals(op.UnderlyingPatch.Name, "PatchOutlet") &&
+                                      op.Outlets.Count == 1 &&
+                                      op.Outlets[0] != null;
             if (isValidPatchOutlet)
             {
                 Outlet outlet = op.Outlets[0];
@@ -230,14 +224,6 @@ namespace JJ.Data.Synthesizer.Helpers
             sb.Append($"({op.ID})");
 
             return sb.ToString();
-        }
-
-        public static string GetDebuggerDisplay(OperatorType entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            string debuggerDisplay = GetDebuggDisplayWithIDAndName<OperatorType>(entity.ID, entity.Name);
-            return debuggerDisplay;
         }
 
         public static string GetDebuggerDisplay(Patch entity)

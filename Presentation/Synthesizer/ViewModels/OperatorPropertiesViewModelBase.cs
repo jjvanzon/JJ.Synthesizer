@@ -9,9 +9,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int PatchID { get; set; }
         public string Name { get; set; }
 
-        /// <summary> not editable </summary>
-        public IDAndName OperatorType { get; set; }
-
         public IDAndName StandardDimension { get; set; }
         public IList<IDAndName> StandardDimensionLookup { get; set; }
         public bool CanSelectStandardDimension { get; set; }
@@ -24,7 +21,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// to prevent a lot of repeated data. So use the lookup from there.
         /// </summary>
         public IDAndName UnderlyingPatch { get; set; }
-        public bool CanSelectUnderlyingPatch { get; set; }
 
         /// <summary> not displayed </summary>
         public bool HasDimension { get; set; }

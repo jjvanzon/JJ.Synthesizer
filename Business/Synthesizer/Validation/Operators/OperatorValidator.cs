@@ -15,18 +15,19 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_WithUnderlyingPatch : VersatileValidator
+    internal class OperatorValidator : VersatileValidator
     {
-        public OperatorValidator_WithUnderlyingPatch(Operator op, IList<string> expectedDataKeys = null)
+        public OperatorValidator(Operator op, IList<string> expectedDataKeys = null)
         {
             if (op == null) throw new NullException(() => op);
 
             expectedDataKeys = expectedDataKeys ?? new string[0];
 
+            ExecuteValidator(new NameValidator(op.Name, required: false));
             ExecuteValidator(new DataPropertyValidator(op.Data, expectedDataKeys));
             ExecuteValidator(new DimensionInfoValidator(op.HasDimension, op.StandardDimension, op.CustomDimensionName));
-            ExecuteValidator(new InletOrOutletListValidator_WithUnderlyingPatch(op.Inlets));
-            ExecuteValidator(new InletOrOutletListValidator_WithUnderlyingPatch(op.Outlets));
+            ExecuteValidator(new InletOrOutletListValidator(op.Inlets));
+            ExecuteValidator(new InletOrOutletListValidator(op.Outlets));
 
             // ReSharper disable once InvertIf
             if (op.UnderlyingPatch != null)

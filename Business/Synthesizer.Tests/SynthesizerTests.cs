@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Number_OperatorWrapper val1 = x.Number(1);
                 Number_OperatorWrapper val2 = x.Number(2);
                 Number_OperatorWrapper val3 = x.Number(3);
-                OperatorWrapper_WithUnderlyingPatch add = x.Add(val1, val2, val3);
+                OperatorWrapper add = x.Add(val1, val2, val3);
 
                 //IValidator validator = new OperatorValidator_Adder(adder.Operator);
                 //validator.Verify();
@@ -997,7 +997,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var consumingOperatorFactory = new OperatorFactory(patch, repositories);
                 x = consumingOperatorFactory;
                 var sampleOperator = x.Sample(sample);
-                var customOperator = x.CustomOperator(underlyingPatch, sampleOperator);
+                var customOperator = x.New(underlyingPatch, sampleOperator);
 
                 // Check out that Custom_OperatorWrapper API
                 Inlet inlet = customOperator.Inlets[patchInlet.Inlet.Name];

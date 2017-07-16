@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void AddProperties()
         {
-            AddProperty(_labelOperatorTypeTitle, _labelOperatorTypeValue);
+            AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
             AddProperty(_labelName, _textBoxName);
 
             // Put these last, so we can make them invisible dynamically.
@@ -24,7 +24,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Trying to recreate the rows dynamically made a total mess of my base class.
             AddProperty(_labelStandardDimension, _comboBoxStandardDimension);
             AddProperty(_labelCustomDimensionName, _textBoxCustomDimensionName);
-            AddProperty(_labelUnderlyingPatch, _comboBoxUnderlyingPatch);
 
             AddProperty(_labelInletCount, _numericUpDownInletCount);
             AddProperty(_labelOutletCount, _numericUpDownOutletCount);

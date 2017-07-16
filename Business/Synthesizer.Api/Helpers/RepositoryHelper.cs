@@ -24,7 +24,6 @@ namespace JJ.Business.Synthesizer.Api.Helpers
                 CreateRepository<IDocumentReferenceRepository>(ContextHelper.MemoryContext),
                 CreateRepository<INodeRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IOperatorRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOperatorTypeRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IInletRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IOutletRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IScaleRepository>(ContextHelper.MemoryContext),

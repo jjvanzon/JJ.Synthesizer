@@ -32,7 +32,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 CreateRepository<IDocumentReferenceRepository>(context),
                 CreateRepository<INodeRepository>(context),
                 CreateRepository<IOperatorRepository>(context),
-                CreateRepository<IOperatorTypeRepository>(context),
                 CreateRepository<IInletRepository>(context),
                 CreateRepository<IOutletRepository>(context),
                 CreateRepository<IScaleRepository>(context),

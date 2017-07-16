@@ -374,14 +374,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         private static Number_OperatorWrapper CreateDummyNumberOperator(double number)
         {
-            var operatorType = new OperatorType
-            {
-                ID = (int)OperatorTypeEnum.Number,
-                Name = OperatorTypeEnum.Number.ToString()
-            };
-
             var op = new Operator();
-            op.LinkTo(operatorType);
 
             var outlet = new Outlet();
             outlet.LinkTo(op);

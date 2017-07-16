@@ -51,15 +51,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             this._textBoxName.TabIndex = 7;
             // 
-            // _labelOperatorTypeTitle
-            // 
-            this._labelOperatorTypeTitle.TabIndex = 4;
-            this._labelOperatorTypeTitle.Text = "Type:";
-            // 
-            // _labelOperatorTypeValue
-            // 
-            this._labelOperatorTypeValue.TabIndex = 5;
-            // 
             // _labelUnderlyingPatch
             // 
             this._labelUnderlyingPatch.TabIndex = 5;
@@ -210,8 +201,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this._comboBoxUnderlyingPatch, 0);
             this.Controls.SetChildIndex(this._labelUnderlyingPatch, 0);
             this.Controls.SetChildIndex(this._textBoxName, 0);
-            this.Controls.SetChildIndex(this._labelOperatorTypeValue, 0);
-            this.Controls.SetChildIndex(this._labelOperatorTypeTitle, 0);
             this.Controls.SetChildIndex(this._labelName, 0);
             this.Controls.SetChildIndex(this._textBoxCustomDimensionName, 0);
             this.Controls.SetChildIndex(this._labelStandardDimension, 0);

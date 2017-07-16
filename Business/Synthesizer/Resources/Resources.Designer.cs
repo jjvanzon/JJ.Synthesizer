@@ -394,29 +394,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot change inlet count for operator type {0}..
-        /// </summary>
-        internal static string CannotSetInletCountForOperatorType {
-            get {
-                return ResourceManager.GetString("CannotSetInletCountForOperatorType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cannot change inlet count if there are no repeating inlets..
         /// </summary>
         internal static string CannotSetInletCountWithoutRepeatingInlets {
             get {
                 return ResourceManager.GetString("CannotSetInletCountWithoutRepeatingInlets", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot change outlet count for operator type {0}..
-        /// </summary>
-        internal static string CannotSetOutletCountForOperatorType {
-            get {
-                return ResourceManager.GetString("CannotSetOutletCountForOperatorType", resourceCulture);
             }
         }
         
@@ -1785,24 +1767,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string OperatorPatchIsNotTheExpectedPatch {
             get {
                 return ResourceManager.GetString("OperatorPatchIsNotTheExpectedPatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Operator Type.
-        /// </summary>
-        internal static string OperatorType {
-            get {
-                return ResourceManager.GetString("OperatorType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Operator Type.
-        /// </summary>
-        internal static string OperatorTypeName {
-            get {
-                return ResourceManager.GetString("OperatorTypeName", resourceCulture);
             }
         }
         

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Framework.Configuration;
@@ -15,7 +13,6 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -24,11 +21,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const bool DEFAULT_MUST_EXECUTE_MOVE_ACTION_WHILE_DRAGGING = false;
 
-        private static readonly Size _defaultToolStripLabelSize = new Size(86, 22);
         private static readonly bool _mustExecuteOperatorMoveActionWhileDragging = GetMustExecuteOperatorMoveActionWhileDragging();
 
         public event EventHandler<EventArgs<int>> DeleteOperatorRequested;
-        public event EventHandler<CreateOperatorEventArgs> CreateOperatorRequested;
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<SelectOperatorEventArgs> SelectOperatorRequested;
@@ -37,7 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private PatchViewModelToDiagramConverter _converter;
         private PatchViewModelToDiagramConverterResult _converterResult;
-        private bool _operatorToolboxItemsViewModelIsApplied; // Dirty way to only apply it once.
 
         // Constructors
 
@@ -46,16 +40,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         // Gui
 
         protected override void SetTitles() => TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Patch);
-
-        protected override void PositionControls()
-        {
-            base.PositionControls();
-
-            tableLayoutPanelToolboxAndPatch.Left = 0;
-            tableLayoutPanelToolboxAndPatch.Top = StyleHelper.TitleBarHeight;
-            tableLayoutPanelToolboxAndPatch.Width = Width;
-            tableLayoutPanelToolboxAndPatch.Height = Height - StyleHelper.TitleBarHeight;
-        }
 
         // Binding
 
@@ -178,16 +162,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 operatorID,
                 centerX,
                 centerY));
-        }
-
-        private void toolStripLabel_Click(object sender, EventArgs e)
-        {
-            if (ViewModel == null) return;
-
-            var control = (ToolStripItem)sender;
-            int operatorTypeID = (int)control.Tag;
-
-            CreateOperatorRequested?.Invoke(this, new CreateOperatorEventArgs(ViewModel.Entity.ID, operatorTypeID));
         }
 
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)

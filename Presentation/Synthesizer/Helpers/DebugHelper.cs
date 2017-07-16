@@ -14,12 +14,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", viewModel.GetType().Name);
 
-            if (!string.IsNullOrEmpty(viewModel.OperatorType?.Name))
-            {
-                sb.Append(viewModel.OperatorType.Name);
-                sb.Append(' ');
-            }
-
             if (!string.IsNullOrEmpty(viewModel.Caption))
             {
                 sb.AppendFormat("'{0}' ", viewModel.Caption);

@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destLabel.Position.Width = destOperatorRectangle.Position.Width;
             destLabel.Position.Height = destOperatorRectangle.Position.Height;
 
-            if (IsNumberOperator(sourceOperatorViewModel))
+            if (sourceOperatorViewModel.IsSmaller)
             {
                 destLabel.TextStyle = StyleHelper.NumberOperatorTextStyle;
             }
@@ -62,11 +62,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destElement.Parent = null;
                 destElement.Diagram = null;
             }
-        }
-
-        private static bool IsNumberOperator(OperatorViewModel sourceOperatorViewModel)
-        {
-            return sourceOperatorViewModel.OperatorType.ID == (int)OperatorTypeEnum.Number;
         }
     }
 }

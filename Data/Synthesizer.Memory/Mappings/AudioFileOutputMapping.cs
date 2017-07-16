@@ -1,5 +1,4 @@
 ﻿using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.Memory.Helpers;
 using JJ.Framework.Data.Memory;
 
 namespace JJ.Data.Synthesizer.Memory.Mappings
@@ -9,7 +8,7 @@ namespace JJ.Data.Synthesizer.Memory.Mappings
         public AudioFileOutputMapping()
         {
             IdentityType = IdentityType.Assigned;
-            IdentityPropertyName = PropertyNames.ID;
+            IdentityPropertyName = nameof(AudioFileOutput.ID);
         }
     }
 }

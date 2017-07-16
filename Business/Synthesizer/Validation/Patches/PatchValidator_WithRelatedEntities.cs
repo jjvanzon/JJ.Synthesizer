@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
-            ExecuteValidator(new PatchValidator_HiddenButInUse(patch));
+            ExecuteValidator(new PatchValidator_HiddenButInUse(patch, sampleRepository, curveRepository));
             ExecuteValidator(new PatchValidator_IsOperatorsListComplete(patch, sampleRepository, curveRepository));
             ExecuteValidator(new PatchValidator_Name(patch));
             ExecuteValidator(new PatchValidator_UniqueName(patch));

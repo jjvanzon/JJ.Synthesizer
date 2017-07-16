@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Presentation.VectorGraphics.Gestures;
+﻿using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Exceptions;
@@ -81,9 +80,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         private float GetOperatorHeight(OperatorViewModel sourceOperatorViewModel)
         {
-            if (IsNumberOperator(sourceOperatorViewModel))
+            if (sourceOperatorViewModel.IsSmaller)
             {
-                return StyleHelper.NUMBER_OPERATOR_HEIGHT;
+                return StyleHelper.SMALLER_OPERATOR_HEIGHT;
             }
             else
             {
@@ -93,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
         private static float GetOperatorWidth(OperatorViewModel sourceOperatorViewModel)
         {
-            if (IsNumberOperator(sourceOperatorViewModel))
+            if (sourceOperatorViewModel.IsSmaller)
             {
                 return GetNumberOperatorWidth(sourceOperatorViewModel);
             }
@@ -145,9 +144,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             width = width + spacing + spacing;
 
             // Apply minimum operator width
-            if (width < StyleHelper.NUMBER_OPERATOR_MINIMUM_WIDTH)
+            if (width < StyleHelper.SMALLER_OPERATOR_MINIMUM_WIDTH)
             {
-                width = StyleHelper.NUMBER_OPERATOR_MINIMUM_WIDTH;
+                width = StyleHelper.SMALLER_OPERATOR_MINIMUM_WIDTH;
             }
 
             return width;
@@ -168,11 +167,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destElement.Children.Clear();
             destElement.Parent = null;
             destElement.Diagram = null;
-        }
-
-        private static bool IsNumberOperator(OperatorViewModel sourceOperatorViewModel)
-        {
-            return sourceOperatorViewModel.OperatorType.ID == (int)OperatorTypeEnum.Number;
         }
     }
 }

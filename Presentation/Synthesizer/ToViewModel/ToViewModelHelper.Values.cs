@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -10,7 +8,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Mathematics;
@@ -27,38 +24,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public const string CUSTOM_DIMENSION_KEY_PREFIX = "5133584A-BA76-42DB-BD0E-42801FCB96DF-CustomDimension-";
 
         private static readonly bool _idsVisible = CustomConfigurationManager.GetSection<ConfigurationSection>().IDsVisible;
-
-        [Obsolete("Will be replaced with Inlet.NameOrDimensionHidden, " +
-                  "but only after all standard operators have been bootstrapped " +
-                  "into the System Document.")]
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithHiddenInletNames { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.PatchInlet,
-                OperatorTypeEnum.PatchOutlet,
-                OperatorTypeEnum.Number,
-                OperatorTypeEnum.Curve,
-                OperatorTypeEnum.Noise,
-                OperatorTypeEnum.GetDimension,
-                OperatorTypeEnum.Hold,
-                OperatorTypeEnum.DimensionToOutlets,
-                OperatorTypeEnum.InletsToDimension
-            };
-
-        [Obsolete("Will be replaced with Outlet.NameOrDimensionHidden, " +
-                  "but only after all standard operators have been bootstrapped " +
-                  "into the System Document.")]
-        // A list until it will have more items. Then it might be made a HashSet for performance.
-        public static IList<OperatorTypeEnum> OperatorTypeEnums_WithVisibleOutletNames { get; } =
-            new List<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.ChangeTrigger,
-                OperatorTypeEnum.CustomOperator,
-                OperatorTypeEnum.PulseTrigger,
-                OperatorTypeEnum.Reset,
-                OperatorTypeEnum.SetDimension,
-                OperatorTypeEnum.ToggleTrigger,
-            };
 
         // Dimensions
 
@@ -110,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     return false;
             }
 
-            bool hasDimension = entity.HasDimension || (entity.OperatorType?.HasDimension ?? false); // Excuse the smell of polymorphism: OperatorType will be deprecated at some point.
+            bool hasDimension = entity.HasDimension;
             
             return hasDimension;
         }
@@ -230,21 +195,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var sb = new StringBuilder();
 
-            OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
-            bool nameOrDimensionHidden;
-            if (inlet.Operator.UnderlyingPatch != null)
-            {
-                nameOrDimensionHidden = inlet.NameOrDimensionHidden;
-            }
-            else
-            {
-                nameOrDimensionHidden = OperatorTypeEnums_WithHiddenInletNames.Contains(operatorTypeEnum);
-            }
-
-            if (!nameOrDimensionHidden)
+            if (!inlet.NameOrDimensionHidden)
             {
                 // Name or Dimension
-                OperatorWrapperBase wrapper = EntityWrapperFactory.CreateOperatorWrapper(
+                OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(
                     inlet.Operator,
                     curveRepository,
                     sampleRepository);
@@ -344,23 +298,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return false;
         }
 
-        /// <summary>
-        /// In the future, when all operator types are bootstrapped into System Patches
-        /// and no OperatorType entity exists anymore, this method will be obsolete.
-        /// </summary>
-        public static bool GetCanSelectUnderlyingPatch(Operator entity)
+        public static bool GetOperatorIsSmaller(Operator entity)
         {
-            if (entity.OperatorType == null)
-            {
-                return true;
-            }
-
-            if (OperatorTypeEnums_WithStandardPropertiesView.Contains(entity.GetOperatorTypeEnum()))
-            {
-                return true;
-            }
-
-            return false;
+            return entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number;
         }
 
         public static string GetOperatorCaption(
@@ -395,10 +335,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case OperatorTypeEnum.Curve:
                     operatorCaption = GetOperatorCaption_ForCurve(op, curveRepository);
-                    break;
-
-                case OperatorTypeEnum.CustomOperator:
-                    operatorCaption = GetOperatorCaption_ForCustomOperator(op);
                     break;
 
                 case OperatorTypeEnum.GetDimension:
@@ -482,19 +418,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             // Use OperatorTypeDisplayName
             string caption = operatorTypeDisplayName;
-            return caption;
-        }
-
-        private static string GetOperatorCaption_ForCustomOperator(Operator op)
-        {
-            // Use Operator.Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
-            {
-                return op.Name;
-            }
-
-            // Use OperatorTypeDisplayName
-            string caption = ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(op);
             return caption;
         }
 
@@ -631,7 +554,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
             else
             {
-                formattedOperatorTypeDisplayName = ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(op);
+                formattedOperatorTypeDisplayName = ResourceFormatter.GetDisplayName(op);
             }
 
             // Use Operator.Name
@@ -646,20 +569,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
-        private static string GetOperatorCaption_ForOtherOperators(Operator op)
-        {
-            string operatorTypeDisplayName = ResourceFormatter.GetUnderlyingPatchDisplayName_OrOperatorTypeDisplayName(op);
-
-            // Use Operator.Name
-            if (!string.IsNullOrWhiteSpace(op.Name))
-            {
-                return $"{operatorTypeDisplayName}: {op.Name}";
-            }
-
-            // Use OperatorType DisplayName
-            string caption = operatorTypeDisplayName;
-            return caption;
-        }
+        private static string GetOperatorCaption_ForOtherOperators(Operator op) => ResourceFormatter.GetDisplayName(op);
 
         // Outlet
 
@@ -699,7 +609,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                  .Where(x => x.GetDimensionEnum() == DimensionEnum.From)
                                  .Select(x => x.TryGetConstantNumber())
                                  .FirstOrDefault();
-            if (@from.HasValue)
+            if (from.HasValue)
             {
                 double? step = outlet.Operator.Inlets
                                      .Where(x => x.GetDimensionEnum() == DimensionEnum.Step)
@@ -709,7 +619,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     int listIndex = outlet.Operator.Outlets.IndexOf(outlet);
 
-                    double value = @from.Value + step.Value * listIndex;
+                    double value = from.Value + step.Value * listIndex;
 
                     sb.Append(value.ToString("0.####"));
                 }
@@ -735,22 +645,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var sb = new StringBuilder();
 
-            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
-
-            bool nameOrDimensionHidden;
-            if (outlet.Operator.UnderlyingPatch != null)
-            {
-                nameOrDimensionHidden = outlet.NameOrDimensionHidden;
-            }
-            else
-            {
-                nameOrDimensionHidden = !OperatorTypeEnums_WithVisibleOutletNames.Contains(operatorTypeEnum);
-            }
-
-            if (!nameOrDimensionHidden)
+            if (!outlet.NameOrDimensionHidden)
             {
                 // Dimension or Name
-                OperatorWrapperBase wrapper = EntityWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository, sampleRepository);
+                OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository, sampleRepository);
                 string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
                 sb.Append(inletDisplayName);
 

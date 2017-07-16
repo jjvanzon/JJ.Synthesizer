@@ -590,12 +590,6 @@
   <data name="Operator" xml:space="preserve">
     <value>Operator</value>
   </data>
-  <data name="OperatorType" xml:space="preserve">
-    <value>Operator Type</value>
-  </data>
-  <data name="OperatorTypeName" xml:space="preserve">
-    <value>Operator Type</value>
-  </data>
   <data name="Or" xml:space="preserve">
     <value>Or</value>
   </data>
@@ -1079,13 +1073,6 @@
   </data>
   <data name="CannotSetOutletCountWithoutRepeatingOutlets" xml:space="preserve">
     <value>Cannot change outlet count if there are no repeating outlets.</value>
-  </data>
-  <data name="CannotSetInletCountForOperatorType" xml:space="preserve">
-    <value>Cannot change inlet count for operator type {0}.</value>
-    <comment>{0} = name</comment>
-  </data>
-  <data name="CannotSetOutletCountForOperatorType" xml:space="preserve">
-    <value>Cannot change outlet count for operator type {0}.</value>
   </data>
   <data name="RepetitionPositionsNotConsecutive" xml:space="preserve">
     <value>Repetition positions ({0}) are not consecutive.</value>
