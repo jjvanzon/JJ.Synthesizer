@@ -849,7 +849,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet()
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet()
         {
             Operator op = NewBase(MethodBase.GetCurrentMethod());
 
@@ -858,12 +858,12 @@ namespace JJ.Business.Synthesizer
             // Call save to execute side-effects and robust validation.
             _patchManager.SaveOperator(op).Assert();
 
-            return new PatchInlet_OperatorWrapper(op);
+            return new PatchInletOrOutlet_OperatorWrapper(op);
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
         {
-            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
 
             wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
@@ -872,9 +872,9 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(string name)
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet(string name)
         {
-            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Inlet.Name = name;
 
             new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
@@ -882,9 +882,9 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet(string name, double defaultValue)
         {
-            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
 
             wrapper.Inlet.Name = name;
             wrapper.Inlet.DefaultValue = defaultValue;
@@ -894,9 +894,9 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
         {
-            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
 
             wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
             wrapper.Inlet.DefaultValue = defaultValue;
@@ -906,11 +906,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
+        public PatchInletOrOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
         {
             Operator op = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new PatchOutlet_OperatorWrapper(op) { Input = input };
+            var wrapper = new PatchInletOrOutlet_OperatorWrapper(op) { Input = input };
 
             new Operator_SideEffect_GeneratePatchOutletPosition(op).Execute();
 
@@ -922,9 +922,9 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimension, Outlet input = null)
+        public PatchInletOrOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimension, Outlet input = null)
         {
-            PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
+            PatchInletOrOutlet_OperatorWrapper wrapper = PatchOutlet(input);
 
             wrapper.Outlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
@@ -933,9 +933,9 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
+        public PatchInletOrOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
         {
-            PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
+            PatchInletOrOutlet_OperatorWrapper wrapper = PatchOutlet(input);
 
             wrapper.Outlet.Name = name;
 

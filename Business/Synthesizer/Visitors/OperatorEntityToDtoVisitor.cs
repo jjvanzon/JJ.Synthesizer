@@ -1026,7 +1026,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 if (!_patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary.TryGetValue(op, out VariableInput_OperatorDto dto))
                 {
-                    var wrapper = new PatchInlet_OperatorWrapper(op);
+                    var wrapper = new PatchInletOrOutlet_OperatorWrapper(op);
 
                     dto = new VariableInput_OperatorDto
                     {

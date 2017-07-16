@@ -442,7 +442,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var sb = new StringBuilder();
 
-            var wrapper = new PatchInlet_OperatorWrapper(op);
+            var wrapper = new PatchInletOrOutlet_OperatorWrapper(op);
             string name = wrapper.Inlet.Name;
             DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
 
@@ -479,7 +479,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var sb = new StringBuilder();
 
-            var wrapper = new PatchOutlet_OperatorWrapper(op);
+            var wrapper = new PatchInletOrOutlet_OperatorWrapper(op);
             Outlet outlet = wrapper.Outlet;
             string name = outlet.Name;
             DimensionEnum dimensionEnum = outlet.GetDimensionEnum();

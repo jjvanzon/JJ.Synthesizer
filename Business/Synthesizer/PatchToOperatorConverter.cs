@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer
             if (sourcePatch != null)
             {
                 sourceInlets = sourcePatch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                          .Select(x => new PatchInlet_OperatorWrapper(x))
+                                          .Select(x => new PatchInletOrOutlet_OperatorWrapper(x))
                                           .Select(x => x.Inlet)
                                           .ToArray();
             }
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer
             if (sourcePatch != null)
             {
                 sourceOutlets = sourcePatch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                           .Select(x => new PatchOutlet_OperatorWrapper(x))
+                                           .Select(x => new PatchInletOrOutlet_OperatorWrapper(x))
                                            .Select(x => x.Outlet)
                                            .ToArray();
             }

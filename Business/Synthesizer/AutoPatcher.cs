@@ -149,11 +149,11 @@ namespace JJ.Business.Synthesizer
         }
 
         // ReSharper disable once UnusedMethodReturnValue.Local
-        private PatchInlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> intermediateUnmatchedInlets)
+        private PatchInletOrOutlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> intermediateUnmatchedInlets)
         {
             Inlet intermediateFirstUnmatchedInlet = intermediateUnmatchedInlets.First();
 
-            PatchInlet_OperatorWrapper destPatchInletWrapper = ConvertToPatchInlet(intermediateFirstUnmatchedInlet);
+            PatchInletOrOutlet_OperatorWrapper destPatchInletWrapper = ConvertToPatchInlet(intermediateFirstUnmatchedInlet);
 
             foreach (Inlet intermediateUnmatchedInlet in intermediateUnmatchedInlets)
             {
@@ -163,11 +163,11 @@ namespace JJ.Business.Synthesizer
             return destPatchInletWrapper;
         }
 
-        private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet intermediateInlet)
+        private PatchInletOrOutlet_OperatorWrapper ConvertToPatchInlet(Inlet intermediateInlet)
         {
             var operatorFactory = new OperatorFactory(intermediateInlet.Operator.Patch, _repositories);
 
-            PatchInlet_OperatorWrapper destPatchInletWrapper = operatorFactory.PatchInlet();
+            PatchInletOrOutlet_OperatorWrapper destPatchInletWrapper = operatorFactory.PatchInlet();
             intermediateInlet.LinkTo(destPatchInletWrapper.Outlet);
 
             Inlet destInlet = destPatchInletWrapper.Inlet;
@@ -182,10 +182,10 @@ namespace JJ.Business.Synthesizer
         }
 
         // ReSharper disable once UnusedMethodReturnValue.Local
-        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(IList<Outlet> intermediateUnmatchedOutlets)
+        private PatchInletOrOutlet_OperatorWrapper ConvertToPatchOutlet(IList<Outlet> intermediateUnmatchedOutlets)
         {
             Outlet intermediateFirstUnmatchedOutlet = intermediateUnmatchedOutlets.First();
-            PatchOutlet_OperatorWrapper destPatchOutletWrapper = ConvertToPatchOutlet(intermediateFirstUnmatchedOutlet);
+            PatchInletOrOutlet_OperatorWrapper destPatchOutletWrapper = ConvertToPatchOutlet(intermediateFirstUnmatchedOutlet);
 
             Outlet intermediatePatchOutletInput = intermediateFirstUnmatchedOutlet;
             if (intermediateUnmatchedOutlets.Count > 1)
@@ -201,11 +201,11 @@ namespace JJ.Business.Synthesizer
             return destPatchOutletWrapper;
         }
 
-        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet intermediateOutlet)
+        private PatchInletOrOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet intermediateOutlet)
         {
             var operatorFactory = new OperatorFactory(intermediateOutlet.Operator.Patch, _repositories);
 
-            PatchOutlet_OperatorWrapper destPatchOutletWrapper = operatorFactory.PatchOutlet();
+            PatchInletOrOutlet_OperatorWrapper destPatchOutletWrapper = operatorFactory.PatchOutlet();
             destPatchOutletWrapper.Input = intermediateOutlet;
 
             Outlet destOutlet = destPatchOutletWrapper.Outlet;
@@ -440,13 +440,13 @@ namespace JJ.Business.Synthesizer
             IList<Outlet> patches2 = patches.Where(x => !x.Hidden || mustIncludeHidden)
                                             .Where(
                                                 x => !x.EnumerateOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                                       .Select(y => new PatchInlet_OperatorWrapper(y))
+                                                       .Select(y => new PatchInletOrOutlet_OperatorWrapper(y))
                                                        .Where(y => y.Inlet.GetDimensionEnum() == DimensionEnum.Sound)
                                                        .Any())
                                             .OrderBy(x => x.Name)
                                             .SelectMany(
                                                 x => x.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                      .Select(y => new PatchOutlet_OperatorWrapper(y)))
+                                                      .Select(y => new PatchInletOrOutlet_OperatorWrapper(y)))
                                             .Select(x => x.Outlet)
                                             .Where(x => x.GetDimensionEnum() == DimensionEnum.Sound)
                                             .ToArray();
@@ -501,9 +501,9 @@ namespace JJ.Business.Synthesizer
 
             OperatorFactory operatorFactory = new OperatorFactory(patch, _repositories);
 
-            IList<PatchInlet_OperatorWrapper> patchInletWrappers =
+            IList<PatchInletOrOutlet_OperatorWrapper> patchInletWrappers =
                 patch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                     .Select(x => new PatchInlet_OperatorWrapper(x))
+                     .Select(x => new PatchInletOrOutlet_OperatorWrapper(x))
                      .Where(
                          x => x.Inlet.GetDimensionEnum() == DimensionEnum.Sound &&
                               !x.Inlet.DefaultValue.HasValue &&
@@ -515,7 +515,7 @@ namespace JJ.Business.Synthesizer
             {
                 Outlet sineOutlet = operatorFactory.Sine(operatorFactory.Number(440));
 
-                foreach (PatchInlet_OperatorWrapper patchInletWrapper in patchInletWrappers)
+                foreach (PatchInletOrOutlet_OperatorWrapper patchInletWrapper in patchInletWrappers)
                 {
                     patchInletWrapper.Input = sineOutlet;
                 }

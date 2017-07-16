@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 
             IList<int> positions = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
                                           .Where(x => x.ID != _entity.ID) // Not itself
-                                          .Select(x => new PatchOutlet_OperatorWrapper(x).Outlet.Position)
+                                          .Select(x => new PatchInletOrOutlet_OperatorWrapper(x).Outlet.Position)
                                           .ToArray();
             int suggestedPosition = 0;
             bool positionExists = positions.Contains(suggestedPosition);
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.SideEffects
                 positionExists = positions.Contains(suggestedPosition);
             }
 
-            var wrapper = new PatchOutlet_OperatorWrapper(_entity);
+            var wrapper = new PatchInletOrOutlet_OperatorWrapper(_entity);
             wrapper.Outlet.Position = suggestedPosition;
         }
     }

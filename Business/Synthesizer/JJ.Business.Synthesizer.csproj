@@ -579,8 +579,7 @@
     <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Cascading\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\PatchOutlet_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\PatchInlet_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\PatchInletOrOutlet_OperatorWrapper.cs" />
     <Compile Include="Enums\NodeTypeEnum.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />

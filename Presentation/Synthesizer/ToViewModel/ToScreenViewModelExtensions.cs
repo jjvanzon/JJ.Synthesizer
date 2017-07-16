@@ -478,7 +478,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForPatchInlet>(entity);
 
-            Inlet inlet = new PatchInlet_OperatorWrapper(entity).Inlet;
+            Inlet inlet = new PatchInletOrOutlet_OperatorWrapper(entity).Inlet;
 
             // Use Inlet.Name instead of Operator.Name.
             viewModel.Name = inlet.Name;
@@ -509,7 +509,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForPatchOutlet>(entity);
 
-            Outlet outlet = new PatchOutlet_OperatorWrapper(entity).Outlet;
+            Outlet outlet = new PatchInletOrOutlet_OperatorWrapper(entity).Outlet;
 
             viewModel.Name = outlet.Name;
             viewModel.Position = outlet.Position;

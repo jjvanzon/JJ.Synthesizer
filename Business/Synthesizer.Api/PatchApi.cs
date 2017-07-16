@@ -364,28 +364,28 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper Or(Outlet a = null, Outlet b = null)
             => _operatorFactory.Or(a, b);
 
-        public PatchInlet_OperatorWrapper PatchInlet()
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet()
             => _operatorFactory.PatchInlet();
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension)
             => _operatorFactory.PatchInlet(dimension);
 
-        public PatchInlet_OperatorWrapper PatchInlet(string name)
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet(string name)
             => _operatorFactory.PatchInlet(name);
 
-        public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet(string name, double defaultValue)
             => _operatorFactory.PatchInlet(name, defaultValue);
 
-        public PatchInlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
+        public PatchInletOrOutlet_OperatorWrapper PatchInlet(DimensionEnum dimension, double defaultValue)
             => _operatorFactory.PatchInlet(dimension, defaultValue);
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
+        public PatchInletOrOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
             => _operatorFactory.PatchOutlet(input);
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimension, Outlet input = null)
+        public PatchInletOrOutlet_OperatorWrapper PatchOutlet(DimensionEnum dimension, Outlet input = null)
             => _operatorFactory.PatchOutlet(dimension, input);
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
+        public PatchInletOrOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
             => _operatorFactory.PatchOutlet(name, input);
 
         public OperatorWrapper PeakingEQFilter(

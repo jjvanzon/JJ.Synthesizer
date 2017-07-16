@@ -4,9 +4,9 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class PatchInlet_OperatorWrapper : OperatorWrapper
+    public class PatchInletOrOutlet_OperatorWrapper : OperatorWrapper
     {
-        public PatchInlet_OperatorWrapper(Operator op)
+        public PatchInletOrOutlet_OperatorWrapper(Operator op)
             : base(op)
         { }
 

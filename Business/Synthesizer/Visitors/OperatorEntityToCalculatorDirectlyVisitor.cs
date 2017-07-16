@@ -4190,7 +4190,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 if (!_patchInlet_To_Calculator_Dictionary.TryGetValue(patchInlet, out VariableInput_OperatorCalculator variableInputCalculator))
                 {
-                    var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
+                    var wrapper = new PatchInletOrOutlet_OperatorWrapper(patchInlet);
 
                     variableInputCalculator = new VariableInput_OperatorCalculator
                     (
