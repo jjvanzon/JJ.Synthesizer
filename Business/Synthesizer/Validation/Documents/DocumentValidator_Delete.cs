@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
@@ -9,7 +8,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class DocumentValidator_Delete : VersatileValidator
     {
-        public DocumentValidator_Delete([NotNull] Document document)
+        public DocumentValidator_Delete(Document document)
         {
             if (document == null) throw new NullException(() => document);
 

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -16,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
     {
         private readonly IDocumentRepository _documentRepository;
 
-        public DocumentValidator_Unicity(Document document, [NotNull] IDocumentRepository documentRepository)
+        public DocumentValidator_Unicity(Document document, IDocumentRepository documentRepository)
         {
             if (document == null) throw new NullException(() => document);
 

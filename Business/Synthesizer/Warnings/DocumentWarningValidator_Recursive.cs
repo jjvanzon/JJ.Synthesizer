@@ -1,21 +1,20 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Validation;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
     internal class DocumentWarningValidator_Recursive : VersatileValidator
     {
         public DocumentWarningValidator_Recursive(
-            [NotNull] Document document,
-            [NotNull] ICurveRepository curveRepository,
-            [NotNull] ISampleRepository sampleRepository,
-            [NotNull] HashSet<object> alreadyDone)
+            Document document,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            HashSet<object> alreadyDone)
         {
             if (document == null) throw new NullException(() => document);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);

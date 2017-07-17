@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
@@ -11,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_ZeroOrOneRepeatingPatchInlet : VersatileValidator
     {
-        public PatchValidator_ZeroOrOneRepeatingPatchInlet([NotNull] Patch patch)
+        public PatchValidator_ZeroOrOneRepeatingPatchInlet(Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 

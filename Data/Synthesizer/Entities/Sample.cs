@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer.Entities
@@ -25,23 +24,23 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual string OriginalLocation { get; set; }
 
         /// <summary> not nullable </summary>
-        [NotNull]
+        
         public virtual AudioFileFormat AudioFileFormat { get; set; }
 
         /// <summary> not nullable </summary>
-        [NotNull]
+        
         public virtual InterpolationType InterpolationType { get; set; }
 
         /// <summary> not nullable </summary>
-        [NotNull]
+        
         public virtual SampleDataType SampleDataType { get; set; }
 
         /// <summary> not nullable </summary>
-        [NotNull]
+        
         public virtual SpeakerSetup SpeakerSetup { get; set; }
 
         /// <summary> parent, nullable </summary>
-        [CanBeNull]
+        
         public virtual Document Document { get; set; }
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);

@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
@@ -37,9 +36,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Fields
 
-        [NotNull] private readonly TitleBarUserControl _titleBarUserControl;
-        [NotNull] private readonly SpecializedDataGridView _specializedDataGridView;
-        [NotNull] private readonly TableLayoutPanel _tableLayoutPanel;
+        private readonly TitleBarUserControl _titleBarUserControl;
+        private readonly SpecializedDataGridView _specializedDataGridView;
+        private readonly TableLayoutPanel _tableLayoutPanel;
         private int _columnCounter = 1;
 
         // Construction
@@ -174,7 +173,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         /// <summary> base does nothing </summary>
         protected virtual void AddColumns() { }
 
-        protected DataGridViewTextBoxColumn AddHiddenColumn([NotNull] string dataPropertyName)
+        protected DataGridViewTextBoxColumn AddHiddenColumn(string dataPropertyName)
         {
             DataGridViewTextBoxColumn dataGridViewColumn = CreateTextBoxColumn(dataPropertyName);
             dataGridViewColumn.Visible = false;
@@ -182,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             return dataGridViewColumn;
         }
 
-        protected DataGridViewTextBoxColumn AddAutoSizeColumn([NotNull] string dataPropertyName, string title)
+        protected DataGridViewTextBoxColumn AddAutoSizeColumn(string dataPropertyName, string title)
         {
             if (string.IsNullOrWhiteSpace(title)) throw new NullOrEmptyException(() => title);
 
@@ -193,7 +192,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             return dataGridViewColumn;
         }
 
-        protected DataGridViewTextBoxColumn AddColumnWithWidth([NotNull] string dataPropertyName, string title, int widthInPixels)
+        protected DataGridViewTextBoxColumn AddColumnWithWidth(string dataPropertyName, string title, int widthInPixels)
         {
             DataGridViewTextBoxColumn dataGridViewColumn = CreateTextBoxColumn(dataPropertyName);
             dataGridViewColumn.HeaderText = title;
@@ -224,14 +223,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             return dataGridViewColumn;
         }
 
-        protected void AddColumn([NotNull] string dataPropertyName, string title)
+        protected void AddColumn(string dataPropertyName, string title)
         {
             DataGridViewColumn dataGridViewColumn = CreateTextBoxColumn(dataPropertyName);
             dataGridViewColumn.HeaderText = title;
             dataGridViewColumn.Width = DEFAULT_COLUMN_WIDTH_IN_PIXELS;
         }
 
-        private DataGridViewTextBoxColumn CreateTextBoxColumn([NotNull] string dataPropertyName)
+        private DataGridViewTextBoxColumn CreateTextBoxColumn(string dataPropertyName)
         {
             if (string.IsNullOrEmpty(dataPropertyName)) throw new NullOrEmptyException(() => dataPropertyName);
 

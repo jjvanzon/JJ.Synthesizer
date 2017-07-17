@@ -40,10 +40,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.0.0\lib\portable-net45+win8\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
@@ -359,7 +355,7 @@
     <Compile Include="Validation\Documents\DocumentValidator_DoesNotReferenceItself.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_SystemDocumentReferenceMustExist.cs" />
     <Compile Include="Validation\InletOrOutletListValidator.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_AggregateOverDimension.cs" />
+    <Compile Include="Validation\Operators\AggregateOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetInletCount.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount.cs" />
     <Compile Include="Validation\InletOrOutletValidator.cs" />
@@ -696,7 +692,7 @@
     <Compile Include="Validation\ToneValidator.cs" />
     <Compile Include="Validation\ValidationHelper.UserFriendlyIdentifier.cs" />
     <Compile Include="Validation\ValidationHelper.MessagePrefixes.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_IsOfSamePatchOrPatchIsNull_Recursive.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Visitors\OperatorEntityToCalculatorDirectlyVisitor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase.cs" />

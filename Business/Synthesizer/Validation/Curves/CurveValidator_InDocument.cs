@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Framework.Validation;
+﻿using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
@@ -8,7 +7,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
 {
     internal class CurveValidator_InDocument : VersatileValidator
     {
-        public CurveValidator_InDocument([NotNull] Curve obj)
+        public CurveValidator_InDocument(Curve obj)
         {
             if (obj == null) throw new NullException(() => obj);
 

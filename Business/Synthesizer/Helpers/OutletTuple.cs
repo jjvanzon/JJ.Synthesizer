@@ -1,12 +1,11 @@
-﻿using JetBrains.Annotations;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
     public class OutletTuple
     {
-        public OutletTuple([NotNull] Outlet sourceOutlet, Outlet destOutlet)
+        public OutletTuple(Outlet sourceOutlet, Outlet destOutlet)
         {
             SourceOutlet = sourceOutlet ?? throw new NullException(() => sourceOutlet);
             DestOutlet = destOutlet;

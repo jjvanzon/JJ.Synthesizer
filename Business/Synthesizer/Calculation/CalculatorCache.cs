@@ -152,10 +152,6 @@ namespace JJ.Business.Synthesizer.Calculation
         internal RandomCalculatorBase GetRandomCalculator(Operator op)
         {
             if (op == null) throw new NullException(() => op);
-            if (op.GetOperatorTypeEnum() != OperatorTypeEnum.Random)
-            {
-                throw new NotEqualException(() => op.GetOperatorTypeEnum(), OperatorTypeEnum.Random);
-            }
 
             var wrapper = new Random_OperatorWrapper(op);
             ResampleInterpolationTypeEnum resampleInterpolationType = wrapper.InterpolationType;

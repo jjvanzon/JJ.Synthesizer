@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
@@ -12,7 +11,7 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class SortExtensions
     {
-        public static IEnumerable<T> Sort<T>([NotNull] this IEnumerable<T> list)
+        public static IEnumerable<T> Sort<T>(this IEnumerable<T> list)
             where T : IInletOrOutlet
         {
             if (list == null) throw new NullException(() => list);
@@ -26,7 +25,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 x => x.IsObsolete);
         }
 
-        internal static IEnumerable<VariableInput_OperatorCalculator> Sort([NotNull] this IEnumerable<VariableInput_OperatorCalculator> list)
+        internal static IEnumerable<VariableInput_OperatorCalculator> Sort(this IEnumerable<VariableInput_OperatorCalculator> list)
         {
             if (list == null) throw new NullException(() => list);
 
@@ -39,7 +38,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 null);
         }
 
-        internal static IEnumerable<ExtendedVariableInfo> Sort([NotNull] this IEnumerable<ExtendedVariableInfo> list)
+        internal static IEnumerable<ExtendedVariableInfo> Sort(this IEnumerable<ExtendedVariableInfo> list)
         {
             if (list == null) throw new NullException(() => list);
 

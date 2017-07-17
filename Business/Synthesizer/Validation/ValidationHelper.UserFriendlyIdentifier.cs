@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -363,7 +362,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         // Helpers
 
-        private static string GetUserFriendlyIdentifier_WithName_AndNoNameFallback([CanBeNull] string name)
+        private static string GetUserFriendlyIdentifier_WithName_AndNoNameFallback(string name)
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement
             if (!string.IsNullOrWhiteSpace(name))
@@ -376,7 +375,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private static string GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition([CanBeNull] string name, DimensionEnum dimensionEnum, int position)
+        private static string GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(string name, DimensionEnum dimensionEnum, int position)
         {
             // Use Name
             if (!string.IsNullOrWhiteSpace(name))

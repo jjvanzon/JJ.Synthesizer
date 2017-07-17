@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -15,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
 {
     internal class SampleValidator_Delete : VersatileValidator
     {
-        public SampleValidator_Delete([NotNull] Sample sample, [NotNull] ISampleRepository sampleRepository)
+        public SampleValidator_Delete(Sample sample, ISampleRepository sampleRepository)
         {
             if (sample == null) throw new NullException(() => sample);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
@@ -32,7 +31,7 @@ namespace JJ.Business.Synthesizer.Validation.Samples
             }
         }
 
-        private IEnumerable<Operator> EnumerateSampleOperators([NotNull] Sample sample, ISampleRepository sampleRepository)
+        private IEnumerable<Operator> EnumerateSampleOperators(Sample sample, ISampleRepository sampleRepository)
         {
             if (sample == null) throw new NullException(() => sample);
             if (sample.Document == null)

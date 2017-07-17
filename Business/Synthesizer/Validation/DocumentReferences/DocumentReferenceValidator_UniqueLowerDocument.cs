@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
@@ -8,7 +7,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
     internal class DocumentReferenceValidator_UniqueLowerDocument : VersatileValidator
     {
-        public DocumentReferenceValidator_UniqueLowerDocument([NotNull] DocumentReference obj) 
+        public DocumentReferenceValidator_UniqueLowerDocument(DocumentReference obj) 
         {
             if (obj == null) throw new NullException(() => obj);
 

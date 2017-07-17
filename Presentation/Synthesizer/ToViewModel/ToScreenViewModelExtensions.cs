@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using JJ.Framework.Exceptions;
-using JJ.Data.Canonical;
+using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -233,7 +232,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static LibraryPropertiesViewModel ToPropertiesViewModel([NotNull] this DocumentReference documentReference)
+        public static LibraryPropertiesViewModel ToPropertiesViewModel(this DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
@@ -250,8 +249,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static LibrarySelectionPopupViewModel ToLibrarySelectionPopupViewModel(
-            [NotNull] this Document higherDocument, 
-            [NotNull] IList<Document> lowerDocumentCandidates)
+            this Document higherDocument, 
+            IList<Document> lowerDocumentCandidates)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
             if (lowerDocumentCandidates == null) throw new NullException(() => lowerDocumentCandidates);
@@ -267,7 +266,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         /// <summary> The list will be empty, but still the HigherDocumentID property will be filled in. </summary>
-        public static LibrarySelectionPopupViewModel ToEmptyLibrarySelectionPopupViewModel([NotNull] this Document higherDocument)
+        public static LibrarySelectionPopupViewModel ToEmptyLibrarySelectionPopupViewModel(this Document higherDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
@@ -699,7 +698,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static Dictionary<(int documentReferenceID, string canonicalGroupName), LibraryPatchGridViewModel> 
-            ToLibraryPatchGridViewModelDictionary([NotNull] this IList<DocumentReferencePatchGroupDto> dtos)
+            ToLibraryPatchGridViewModelDictionary(this IList<DocumentReferencePatchGroupDto> dtos)
         {
             if (dtos == null) throw new NullException(() => dtos);
 
@@ -756,7 +755,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IList<LibraryPatchPropertiesViewModel> ToLibraryPatchPropertiesViewModelList([NotNull] this Document higherDocument)
+        public static IList<LibraryPatchPropertiesViewModel> ToLibraryPatchPropertiesViewModelList(this Document higherDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
 

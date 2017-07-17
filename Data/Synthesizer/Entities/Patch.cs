@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer.Entities
@@ -19,7 +18,7 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual IList<Operator> DerivedOperators { get; set; } = new List<Operator>();
 
         /// <summary> nullable </summary>
-        [CanBeNull]
+        
         public virtual Document Document { get; set; }
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);

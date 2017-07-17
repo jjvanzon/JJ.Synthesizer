@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Enums;
@@ -10,10 +9,10 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
 using JJ.Framework.Validation;
-using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
@@ -23,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
         private readonly IPatchCalculator[] _patchCalculators;
 
-        public AudioFileOutputCalculatorBase([NotNull] IList<IPatchCalculator> patchCalculators)
+        public AudioFileOutputCalculatorBase(IList<IPatchCalculator> patchCalculators)
         {
             _patchCalculators = patchCalculators?.ToArray() ?? throw new NullException(() => patchCalculators);
         }

@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
@@ -65,7 +64,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet SignalOutlet => InletOutletSelector.GetOutlet(WrappedOperator, DimensionEnum.Signal);
 
-        public override string GetInletDisplayName([NotNull] Inlet inlet)
+        public override string GetInletDisplayName(Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
 
@@ -86,7 +85,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
             return base.GetInletDisplayName(inlet);
         }
-
-        public override string GetOutletDisplayName(Outlet outlet) => ResourceFormatter.Signal;
     }
 }

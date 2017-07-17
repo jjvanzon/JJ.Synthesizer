@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = op.Inlets.Where(x => x.Position == position).ToArray();
+            IList<Inlet> inlets = op.Inlets.Where(x => x.Position == position).Sort().ToArray();
 
             return inlets;
         }
@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = op.Inlets.Where(x => string.Equals(x.Name, name)).ToArray();
+            IList<Inlet> inlets = op.Inlets.Where(x => string.Equals(x.Name, name)).Sort().ToArray();
 
             return inlets;
         }
@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = op.Inlets.Where(x => x.GetDimensionEnum() == dimensionEnum).ToArray();
+            IList<Inlet> inlets = op.Inlets.Where(x => x.GetDimensionEnum() == dimensionEnum).Sort().ToArray();
             return inlets;
         }
 
@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> outlets = op.Outlets.Where(x => x.Position == position).ToArray();
+            IList<Outlet> outlets = op.Outlets.Where(x => x.Position == position).Sort().ToArray();
 
             return outlets;
         }
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> outlets = op.Outlets.Where(x => string.Equals(x.Name, name)).ToArray();
+            IList<Outlet> outlets = op.Outlets.Where(x => string.Equals(x.Name, name)).Sort().ToArray();
 
             return outlets;
         }
@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> outlets = op.Outlets.Where(x => x.GetDimensionEnum() == dimensionEnum).ToArray();
+            IList<Outlet> outlets = op.Outlets.Where(x => x.GetDimensionEnum() == dimensionEnum).Sort().ToArray();
 
             return outlets;
         }
@@ -271,7 +271,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static IList<Outlet> GetInputOutlets(Operator op, int position)
         {
             IList<Inlet> inlets = GetInlets(op, position);
-            IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).ToArray();
+            IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).Sort().ToArray();
             return outlets;
         }
 
@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static IList<Outlet> GetInputOutlets(Operator op, string name)
         {
             IList<Inlet> inlets = GetInlets(op, name);
-            IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).ToArray();
+            IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).Sort().ToArray();
             return outlets;
         }
 
@@ -309,7 +309,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static IList<Outlet> GetInputOutlets(Operator op, DimensionEnum dimensionEnum)
         {
             IList<Inlet> inlets = GetInlets(op, dimensionEnum);
-            IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).ToArray();
+            IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).Sort().ToArray();
             return outlets;
         }
 

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer.Entities
@@ -23,7 +22,6 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual Outlet Outlet { get; set; }
 
         /// <summary> parent, nullable </summary>
-        [CanBeNull]
         public virtual Document Document { get; set; }
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);

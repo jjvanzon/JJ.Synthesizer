@@ -28,23 +28,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get
             {
                 int? sampleID = SampleID;
-                if (!sampleID.HasValue)
-                {
-                    return null;
-                }
-
-                return _sampleRepository.Get(sampleID.Value);
+                return sampleID.HasValue ? _sampleRepository.Get(sampleID.Value) : null;
             }
-            set
-            {
-                if (value == null)
-                {
-                    SampleID = null;
-                    return;
-                }
-
-                SampleID = value.ID;
-            }
+            set => SampleID = value?.ID;
         }
 
         /// <summary> nullable </summary>
@@ -53,12 +39,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get
             {
                 int? sampleID = SampleID;
-                if (!sampleID.HasValue)
-                {
-                    return null;
-                }
-
-                return _sampleRepository.TryGetBytes(sampleID.Value);
+                return sampleID.HasValue ? _sampleRepository.TryGetBytes(sampleID.Value) : null;
             }
         }
 

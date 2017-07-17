@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
@@ -15,12 +13,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (op == null) throw new NullException(() => op);
 
-            if (Enum.TryParse(op.UnderlyingPatch?.Name, out OperatorTypeEnum operatorTypeEnum))
-            {
-                return operatorTypeEnum;
-            }
+            Enum.TryParse(op.UnderlyingPatch?.Name, out OperatorTypeEnum operatorTypeEnum);
 
-            return OperatorTypeEnum.Undefined;
+            return operatorTypeEnum;
         }
 
         public static IList<Operator> GetConnectedOperators(this Operator op)
@@ -42,17 +37,6 @@ namespace JJ.Business.Synthesizer.Extensions
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             switch (operatorTypeEnum)
             {
-                case OperatorTypeEnum.Add:
-                case OperatorTypeEnum.AverageOverInlets:
-                case OperatorTypeEnum.ClosestOverInlets:
-                case OperatorTypeEnum.ClosestOverInletsExp:
-                case OperatorTypeEnum.InletsToDimension:
-                case OperatorTypeEnum.MaxOverInlets:
-                case OperatorTypeEnum.MinOverInlets:
-                case OperatorTypeEnum.Multiply:
-                case OperatorTypeEnum.SortOverInlets:
-                    return true;
-
                 case OperatorTypeEnum.PatchInlet:
                 case OperatorTypeEnum.PatchOutlet:
                     return false;
@@ -67,10 +51,6 @@ namespace JJ.Business.Synthesizer.Extensions
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             switch (operatorTypeEnum)
             {
-                case OperatorTypeEnum.DimensionToOutlets:
-                case OperatorTypeEnum.RangeOverOutlets:
-                    return true;
-
                 case OperatorTypeEnum.PatchInlet:
                 case OperatorTypeEnum.PatchOutlet:
                     return false;

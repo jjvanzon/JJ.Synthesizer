@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -28,10 +27,10 @@ namespace JJ.Business.Synthesizer.Visitors
         private Dictionary<Operator, VariableInput_OperatorDto> _patchInlet_Operator_To_VariableInput_OperatorDto_Dictionary;
 
         public OperatorEntityToDtoVisitor(
-            [NotNull] CalculatorCache calculatorCache,
-            [NotNull] ICurveRepository curveRepository,
-            [NotNull] ISampleRepository sampleRepository,
-            [NotNull] ISpeakerSetupRepository speakerSetupRepository)
+            CalculatorCache calculatorCache,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            ISpeakerSetupRepository speakerSetupRepository)
         {
             _calculatorCache = calculatorCache ?? throw new ArgumentNullException(nameof(calculatorCache));
             _curveRepository = curveRepository ?? throw new ArgumentNullException(nameof(curveRepository));

@@ -2,7 +2,6 @@
 using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 
@@ -13,7 +12,7 @@ namespace JJ.Business.Synthesizer.SideEffects
         private readonly Document _entity;
         private readonly IDocumentRepository _documentRepository;
 
-        public Document_SideEffect_GenerateName(Document entity, [NotNull] IDocumentRepository documentRepository)
+        public Document_SideEffect_GenerateName(Document entity, IDocumentRepository documentRepository)
         {
             _entity = entity ?? throw new NullException(() => entity);
             _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);

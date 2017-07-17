@@ -6,6 +6,7 @@ using JJ.Framework.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
@@ -27,10 +28,12 @@ namespace JJ.Business.Synthesizer.SideEffects
                 return;
             }
 
-            IList<int> positions = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                          .Where(x => x.ID != _entity.ID) // Not itself
-                                          .Select(x => new PatchInletOrOutlet_OperatorWrapper(x).Outlet.Position)
-                                          .ToArray();
+            HashSet<int> positions = _entity.Patch
+                                            .GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                            .Where(x => x.ID != _entity.ID) // Not itself
+                                            .SelectMany(x => x.Outlets)
+                                            .Select(x => x.Position)
+                                            .ToHashSet();
             int suggestedPosition = 0;
             bool positionExists = positions.Contains(suggestedPosition);
 

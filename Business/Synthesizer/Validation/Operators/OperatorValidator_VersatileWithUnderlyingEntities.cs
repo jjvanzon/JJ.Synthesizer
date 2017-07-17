@@ -1,14 +1,13 @@
-﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Validation;
-using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -25,10 +24,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
         /// such as a patch.
         /// </summary>
         public OperatorValidator_VersatileWithUnderlyingEntities(
-            [NotNull] Operator op,
-            [NotNull] ICurveRepository curveRepository,
-            [NotNull] ISampleRepository sampleRepository,
-            [NotNull] HashSet<object> alreadyDone)
+            Operator op,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            HashSet<object> alreadyDone)
         {
             if (op == null) throw new NullException(() => op);
             if (curveRepository == null) throw new NullException(() => curveRepository);

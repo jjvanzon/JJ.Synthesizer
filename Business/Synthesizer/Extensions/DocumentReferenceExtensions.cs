@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
@@ -21,7 +20,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return lowerDocumentReference.LowerDocument?.Name;
         }
 
-        public static IList<string> GetFilledInAliases([NotNull] this IEnumerable<DocumentReference> documentReferences)
+        public static IList<string> GetFilledInAliases(this IEnumerable<DocumentReference> documentReferences)
         {
             if (documentReferences == null) throw new NullException(() => documentReferences);
 

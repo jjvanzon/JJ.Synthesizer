@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+﻿
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly IPatchRepository _patchRepository;
         private readonly IDocumentReferenceRepository _documentReferenceRepository;
 
-        public LibraryPatchPropertiesPresenter([NotNull] IPatchRepository patchRepository, [NotNull] IDocumentReferenceRepository documentReferenceRepository)
+        public LibraryPatchPropertiesPresenter(IPatchRepository patchRepository, IDocumentReferenceRepository documentReferenceRepository)
         {
             _documentReferenceRepository = documentReferenceRepository ?? throw new NullException(() => documentReferenceRepository);
             _patchRepository = patchRepository ?? throw new NullException(() => patchRepository);

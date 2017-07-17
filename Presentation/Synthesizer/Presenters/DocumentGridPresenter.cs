@@ -2,8 +2,6 @@
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using System.Collections.Generic;
-using JetBrains.Annotations;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -17,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly RepositoryWrapper _repositories;
         private readonly AutoPatcher _autoPatcher;
 
-        public DocumentGridPresenter([NotNull] RepositoryWrapper repositories)
+        public DocumentGridPresenter(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
             _autoPatcher = new AutoPatcher(_repositories);

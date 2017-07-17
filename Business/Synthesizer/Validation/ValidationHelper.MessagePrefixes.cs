@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using JJ.Business.Synthesizer.Resources;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -31,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         /// <summary> Only returns a prefix if higherPatch is actually in another document than lowerPatch. </summary>
-        [CanBeNull]
+        
         public static string TryGetHigherDocumentPrefix(Patch lowerPatch, Patch higherPatch)
         {
             if (lowerPatch.Document == higherPatch.Document)
@@ -98,7 +97,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         /// <summary> Uses the name in the message or otherwise the only the entityTypeDisplayName. </summary>
 
-        private static string GetMessagePrefix(string entityTypeDisplayName, [CanBeNull] string identifier)
+        private static string GetMessagePrefix(string entityTypeDisplayName, string identifier)
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement
             if (string.IsNullOrWhiteSpace(identifier))

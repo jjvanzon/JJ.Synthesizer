@@ -1,23 +1,21 @@
 ﻿using System;
-using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using JJ.Data.Canonical;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
-using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -148,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // AutoPatch
 
-        public static Patch ToEntityWithRelatedEntities([NotNull] this AutoPatchPopupViewModel viewModel, [NotNull] RepositoryWrapper repositories)
+        public static Patch ToEntityWithRelatedEntities(this AutoPatchPopupViewModel viewModel, RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
             if (repositories == null) throw new ArgumentNullException(nameof(repositories));
@@ -581,9 +579,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static DocumentReference ToEntity(
-            [NotNull] this LibraryPropertiesViewModel viewModel,
-            [NotNull] IDocumentReferenceRepository documentReferenceRepository,
-            [NotNull] IDocumentRepository documentRepository)
+            this LibraryPropertiesViewModel viewModel,
+            IDocumentReferenceRepository documentReferenceRepository,
+            IDocumentRepository documentRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentReferenceRepository == null) throw new NullException(() => documentReferenceRepository);
@@ -868,7 +866,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForSample viewModel,
-            [NotNull] RepositoryWrapper repositories)
+            RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);

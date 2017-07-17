@@ -1,8 +1,6 @@
-﻿using JetBrains.Annotations;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
-
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable InvertIf
 
@@ -10,7 +8,7 @@ namespace JJ.Business.Synthesizer.LinkTo
 {
     public static class LinkToExtensions
     {
-        public static void LinkTo([NotNull] this AudioFileOutput audioFileOutput, [CanBeNull] Document document)
+        public static void LinkTo(this AudioFileOutput audioFileOutput, Document document)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
@@ -33,7 +31,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this AudioFileOutput audioFileOutput, [CanBeNull] Outlet outlet)
+        public static void LinkTo(this AudioFileOutput audioFileOutput, Outlet outlet)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
@@ -56,7 +54,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Curve curve, [CanBeNull] Document document)
+        public static void LinkTo(this Curve curve, Document document)
         {
             if (curve == null) throw new NullException(() => curve);
 
@@ -79,7 +77,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Node node, [CanBeNull] Curve curve)
+        public static void LinkTo(this Node node, Curve curve)
         {
             if (node == null) throw new NullException(() => node);
 
@@ -102,7 +100,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkToHigherDocument([NotNull] this DocumentReference documentReference, [CanBeNull] Document higherDocument)
+        public static void LinkToHigherDocument(this DocumentReference documentReference, Document higherDocument)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
@@ -125,7 +123,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkToLowerDocument([NotNull] this DocumentReference documentReference, [CanBeNull] Document lowerDocument)
+        public static void LinkToLowerDocument(this DocumentReference documentReference, Document lowerDocument)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
@@ -148,7 +146,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Document document, [CanBeNull] AudioOutput audioOutput)
+        public static void LinkTo(this Document document, AudioOutput audioOutput)
         {
             if (document == null) throw new NullException(() => document);
             document.AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
@@ -156,7 +154,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Patch patch, [CanBeNull] Document document)
+        public static void LinkTo(this Patch patch, Document document)
         {
             if (patch == null) throw new NullException(() => patch);
 
@@ -179,7 +177,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Operator op, [CanBeNull] Patch patch)
+        public static void LinkTo(this Operator op, Patch patch)
         {
             if (op == null) throw new NullException(() => op);
 
@@ -202,7 +200,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkToUnderlyingPatch([NotNull] this Operator derivedOperator, [CanBeNull] Patch underlyingPatch)
+        public static void LinkToUnderlyingPatch(this Operator derivedOperator, Patch underlyingPatch)
         {
             if (derivedOperator == null) throw new NullException(() => derivedOperator);
 
@@ -225,7 +223,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Inlet inlet, [CanBeNull] Operator op)
+        public static void LinkTo(this Inlet inlet, Operator op)
         {
             if (inlet == null) throw new NullException(() => inlet);
 
@@ -248,7 +246,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Outlet outlet, [CanBeNull] Operator op)
+        public static void LinkTo(this Outlet outlet, Operator op)
         {
             if (outlet == null) throw new NullException(() => outlet);
 
@@ -271,7 +269,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Inlet inlet, [CanBeNull] Outlet outlet)
+        public static void LinkTo(this Inlet inlet, Outlet outlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
 
@@ -294,7 +292,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Scale sample, [CanBeNull] Document document)
+        public static void LinkTo(this Scale sample, Document document)
         {
             if (sample == null) throw new NullException(() => sample);
 
@@ -317,7 +315,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Tone tone, [CanBeNull] Scale scale)
+        public static void LinkTo(this Tone tone, Scale scale)
         {
             if (tone == null) throw new NullException(() => tone);
 
@@ -340,7 +338,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo([NotNull] this Sample sample, [CanBeNull] Document document)
+        public static void LinkTo(this Sample sample, Document document)
         {
             if (sample == null) throw new NullException(() => sample);
 
@@ -365,7 +363,7 @@ namespace JJ.Business.Synthesizer.LinkTo
 
         // Enum-Like Entities
 
-        public static void LinkTo([NotNull] this AudioFileOutput audioFileOutput, [CanBeNull] SpeakerSetup speakerSetup)
+        public static void LinkTo(this AudioFileOutput audioFileOutput, SpeakerSetup speakerSetup)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
@@ -374,7 +372,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this AudioFileOutput audioFileOutput, [CanBeNull] SampleDataType sampleDataType)
+        public static void LinkTo(this AudioFileOutput audioFileOutput, SampleDataType sampleDataType)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
@@ -383,7 +381,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this AudioFileOutput audioFileOutput, [CanBeNull] AudioFileFormat audioFileFormat)
+        public static void LinkTo(this AudioFileOutput audioFileOutput, AudioFileFormat audioFileFormat)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
@@ -392,7 +390,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this AudioOutput audioOutput, [CanBeNull] SpeakerSetup speakerSetup)
+        public static void LinkTo(this AudioOutput audioOutput, SpeakerSetup speakerSetup)
         {
             if (audioOutput == null) throw new NullException(() => audioOutput);
 
@@ -401,7 +399,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this IInletOrOutlet inletOrOutlet, [CanBeNull] Dimension dimension)
+        public static void LinkTo(this IInletOrOutlet inletOrOutlet, Dimension dimension)
         {
             if (inletOrOutlet == null) throw new NullException(() => inletOrOutlet);
 
@@ -410,7 +408,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Node node, [CanBeNull] NodeType nodeType)
+        public static void LinkTo(this Node node, NodeType nodeType)
         {
             if (node == null) throw new NullException(() => node);
 
@@ -419,7 +417,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Operator op, [CanBeNull] Dimension dimension)
+        public static void LinkTo(this Operator op, Dimension dimension)
         {
             if (op == null) throw new NullException(() => op);
 
@@ -428,7 +426,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Patch patch, [CanBeNull] Dimension dimension)
+        public static void LinkTo(this Patch patch, Dimension dimension)
         {
             if (patch == null) throw new NullException(() => patch);
 
@@ -437,7 +435,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Sample sample, [CanBeNull] SpeakerSetup speakerSetup)
+        public static void LinkTo(this Sample sample, SpeakerSetup speakerSetup)
         {
             if (sample == null) throw new NullException(() => sample);
 
@@ -446,7 +444,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Sample sample, [CanBeNull] InterpolationType interpolationType)
+        public static void LinkTo(this Sample sample, InterpolationType interpolationType)
         {
             if (sample == null) throw new NullException(() => sample);
 
@@ -455,7 +453,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Sample sample, [CanBeNull] SampleDataType sampleDataType)
+        public static void LinkTo(this Sample sample, SampleDataType sampleDataType)
         {
             if (sample == null) throw new NullException(() => sample);
 
@@ -464,7 +462,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Sample sample, [CanBeNull] AudioFileFormat audioFileFormat)
+        public static void LinkTo(this Sample sample, AudioFileFormat audioFileFormat)
         {
             if (sample == null) throw new NullException(() => sample);
 
@@ -473,7 +471,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo([NotNull] this Scale scale, [CanBeNull] ScaleType scaleType)
+        public static void LinkTo(this Scale scale, ScaleType scaleType)
         {
             if (scale == null) throw new NullException(() => scale);
 

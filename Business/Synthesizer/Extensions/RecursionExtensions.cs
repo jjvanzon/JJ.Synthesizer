@@ -89,7 +89,8 @@ namespace JJ.Business.Synthesizer.Extensions
             if (operatorTypeEnum == OperatorTypeEnum.PatchInlet ||
                 operatorTypeEnum == OperatorTypeEnum.PatchOutlet)
             {
-                // These operator types are allowed to have circular referenced.
+                // These operator types are allowed to have circular references.
+                // (PatchInlet and PatchOutlet's system Patches are based on (yet again) PatchInlets and PatchOutlets.)
                 return false;
             }
 

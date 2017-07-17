@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Dto;
@@ -27,7 +26,7 @@ namespace JJ.Business.Synthesizer
     {
         private readonly RepositoryWrapper _repositories;
 
-        public DocumentManager([NotNull] RepositoryWrapper repositories)
+        public DocumentManager(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
         }
@@ -56,7 +55,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> Will reapply patches from external documents. </summary>
-        public void Refresh([NotNull] Document document)
+        public void Refresh(Document document)
         {
             new Document_SideEffect_ApplyUnderlyingPatches(document, _repositories).Execute();
 
@@ -66,8 +65,7 @@ namespace JJ.Business.Synthesizer
         }
 
         // Create
-
-        [NotNull]
+        
         public Document Create()
         {
             var document = new Document { ID = _repositories.IDRepository.GetID() };
@@ -87,8 +85,7 @@ namespace JJ.Business.Synthesizer
 
             return document;
         }
-
-        [NotNull]
+        
         public Document CreateWithPatch()
         {
             Document document = Create();
@@ -98,8 +95,7 @@ namespace JJ.Business.Synthesizer
             return document;
         }
 
-        [NotNull]
-        public Result<DocumentReference> CreateDocumentReference([NotNull] Document higherDocument, [NotNull] Document lowerDocument)
+        public Result<DocumentReference> CreateDocumentReference(Document higherDocument, Document lowerDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
             if (lowerDocument == null) throw new ArgumentNullException(nameof(lowerDocument));
@@ -130,7 +126,7 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResult Save([NotNull] Document document)
+        public VoidResult Save(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -139,7 +135,7 @@ namespace JJ.Business.Synthesizer
             return validator.ToResult();
         }
 
-        public VoidResult SaveDocumentReference([NotNull] DocumentReference documentReference)
+        public VoidResult SaveDocumentReference(DocumentReference documentReference)
         {
             IValidator validator = new DocumentReferenceValidator_Basic(documentReference);
 
@@ -147,16 +143,14 @@ namespace JJ.Business.Synthesizer
         }
 
         // Delete
-
-        [NotNull]
+        
         public VoidResultDto DeleteWithRelatedEntities(int documentID)
         {
             Document document = _repositories.DocumentRepository.Get(documentID);
             return DeleteWithRelatedEntities(document);
         }
-
-        [NotNull]
-        public VoidResultDto DeleteWithRelatedEntities([NotNull] Document document)
+        
+        public VoidResultDto DeleteWithRelatedEntities(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -172,8 +166,7 @@ namespace JJ.Business.Synthesizer
             return new VoidResultDto { Successful = true };
         }
 
-        [NotNull]
-        public VoidResultDto CanDelete([NotNull] Document document)
+        public VoidResultDto CanDelete(Document document)
         {
             IValidator validator = new DocumentValidator_Delete(document);
             return validator.ToCanonical();
@@ -186,7 +179,7 @@ namespace JJ.Business.Synthesizer
             return result;
         }
 
-        public VoidResult DeleteDocumentReference([NotNull] DocumentReference documentReference)
+        public VoidResult DeleteDocumentReference(DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
@@ -205,7 +198,7 @@ namespace JJ.Business.Synthesizer
 
         // Other
 
-        public IList<Document> GetLowerDocumentCandidates([NotNull] Document higherDocument)
+        public IList<Document> GetLowerDocumentCandidates(Document higherDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
@@ -218,8 +211,7 @@ namespace JJ.Business.Synthesizer
             return lowerDocumentCandidates;
         }
 
-        [NotNull]
-        public VoidResult GetWarningsRecursive([NotNull] Document entity)
+        public VoidResult GetWarningsRecursive(Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -232,8 +224,7 @@ namespace JJ.Business.Synthesizer
             return warningsValidator.ToResult();
         }
 
-        [NotNull]
-        public IList<UsedInDto<Curve>> GetUsedIn([NotNull] IList<Curve> entities)
+        public IList<UsedInDto<Curve>> GetUsedIn(IList<Curve> entities)
         {
             if (entities == null) throw new NullException(() => entities);
 
@@ -246,8 +237,7 @@ namespace JJ.Business.Synthesizer
             return dtos;
         }
 
-        [NotNull]
-        public IList<IDAndName> GetUsedIn([NotNull] Curve curve)
+        public IList<IDAndName> GetUsedIn(Curve curve)
         {
             // ReSharper disable once ImplicitlyCapturedClosure
             if (curve == null) throw new NullException(() => curve);
@@ -267,9 +257,8 @@ namespace JJ.Business.Synthesizer
 
             return idAndNames;
         }
-
-        [NotNull]
-        public IList<UsedInDto<Sample>> GetUsedIn([NotNull] IList<Sample> entities)
+        
+        public IList<UsedInDto<Sample>> GetUsedIn(IList<Sample> entities)
         {
             if (entities == null) throw new NullException(() => entities);
 
@@ -281,9 +270,8 @@ namespace JJ.Business.Synthesizer
                                                     .ToArray();
             return dtos;
         }
-
-        [NotNull]
-        public IList<IDAndName> GetUsedIn([NotNull] Sample sample)
+        
+        public IList<IDAndName> GetUsedIn(Sample sample)
         {
             // ReSharper disable once ImplicitlyCapturedClosure
             if (sample == null) throw new NullException(() => sample);
@@ -304,8 +292,7 @@ namespace JJ.Business.Synthesizer
             return idAndNames;
         }
 
-        [NotNull]
-        public IList<UsedInDto<Patch>> GetUsedIn([NotNull] IList<Patch> entities)
+        public IList<UsedInDto<Patch>> GetUsedIn(IList<Patch> entities)
         {
             if (entities == null) throw new NullException(() => entities);
 
@@ -318,8 +305,7 @@ namespace JJ.Business.Synthesizer
             return dtos;
         }
 
-        [NotNull]
-        public IList<IDAndName> GetUsedIn([NotNull] Patch patch)
+        public IList<IDAndName> GetUsedIn(Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
             if (patch.Document == null) throw new NullException(() => patch.Document);
@@ -412,18 +398,6 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-        public Patch GetSystemPatch(OperatorTypeEnum operatorTypeEnum)
-        {
-            Patch patch = TryGetSystemPatch(operatorTypeEnum);
-
-            if (patch == null)
-            {
-                throw new NotFoundException<Patch>(new { name = operatorTypeEnum.ToString(), hidden = false });
-            }
-
-            return patch;
-        }
-
         public Patch GetSystemPatch(string name)
         {
             Patch patch = TryGetSystemPatch(name);
@@ -434,13 +408,6 @@ namespace JJ.Business.Synthesizer
             }
 
             return patch;
-        }
-
-        public Patch TryGetSystemPatch(OperatorTypeEnum operatorTypeEnum)
-        {
-            string patchName = operatorTypeEnum.ToString();
-
-            return TryGetSystemPatch(patchName);
         }
 
         private Patch TryGetSystemPatch(string name)

@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
@@ -10,7 +9,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class Cache_OperatorWarningValidator : VersatileValidator
     {
-        public Cache_OperatorWarningValidator([NotNull] Operator op)
+        public Cache_OperatorWarningValidator(Operator op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 

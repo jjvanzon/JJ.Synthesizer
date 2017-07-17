@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
@@ -111,10 +110,10 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
-            [NotNull] Operator op,
-            [NotNull] DimensionStackCollection dimensionStackCollection,
-            [NotNull] CalculatorCache calculatorCache,
-            [NotNull] ICurveRepository curveRepository)
+            Operator op,
+            DimensionStackCollection dimensionStackCollection,
+            CalculatorCache calculatorCache,
+            ICurveRepository curveRepository)
         {
             if (op == null) throw new NullException(() => op);
 
@@ -128,8 +127,8 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
-            [NotNull] Curve_OperatorDtoBase_WithoutMinX dto,
-            [NotNull] DimensionStackCollection dimensionStackCollection)
+            Curve_OperatorDtoBase_WithoutMinX dto,
+            DimensionStackCollection dimensionStackCollection)
         {
             if (dto == null) throw new ArgumentNullException(nameof(dto));
 
@@ -140,9 +139,9 @@ namespace JJ.Business.Synthesizer.Helpers
 
         /// <param name="arrayDto">nullable</param>
         public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
-            [CanBeNull] ArrayDto arrayDto,
+            ArrayDto arrayDto,
             DimensionEnum standardDimensionEnum,
-            [NotNull] DimensionStackCollection dimensionStackCollection)
+            DimensionStackCollection dimensionStackCollection)
         {
             if (dimensionStackCollection == null) throw new ArgumentNullException(nameof(dimensionStackCollection));
 

@@ -1,16 +1,14 @@
-﻿using JetBrains.Annotations;
-using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -21,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly PatchManager _patchManager;
         private readonly AutoPatcher _autoPatcher;
 
-        public PatchDetailsPresenter([NotNull] RepositoryWrapper repositories, EntityPositionManager entityPositionManager)
+        public PatchDetailsPresenter(RepositoryWrapper repositories, EntityPositionManager entityPositionManager)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
             _entityPositionManager = entityPositionManager ?? throw new NullException(() => entityPositionManager);

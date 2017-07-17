@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
@@ -11,7 +10,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 {
     internal class DocumentValidator_SystemDocumentReferenceMustExist : VersatileValidator
     {
-        public DocumentValidator_SystemDocumentReferenceMustExist([NotNull] Document document, RepositoryWrapper repositories)
+        public DocumentValidator_SystemDocumentReferenceMustExist(Document document, RepositoryWrapper repositories)
         {
             if (document == null) throw new NullException(() => document);
 

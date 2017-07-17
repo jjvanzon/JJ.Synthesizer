@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -20,7 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private const bool DEFAULT_IS_ROTATING = false;
 
         /// <param name="bytes">nullable</param>
-        public static IList<ArrayDto> CreateArrayDtos([NotNull] Sample sample, [CanBeNull] byte[] bytes)
+        public static IList<ArrayDto> CreateArrayDtos(Sample sample, byte[] bytes)
         {
             if (sample == null) throw new NullException(() => sample);
 

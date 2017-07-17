@@ -1,6 +1,5 @@
 ﻿using JJ.Framework.Validation;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings.Operators;
 using JJ.Data.Synthesizer.Entities;
@@ -12,10 +11,10 @@ namespace JJ.Business.Synthesizer.Warnings
     internal class PatchWarningValidator_WithRelatedEntities : VersatileValidator
     {
         public PatchWarningValidator_WithRelatedEntities(
-            [NotNull] Patch obj,
-            [NotNull] ISampleRepository sampleRepository,
-            [NotNull] ICurveRepository curveRepository,
-            [NotNull] HashSet<object> alreadyDone)
+            Patch obj,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            HashSet<object> alreadyDone)
         {
             if (obj == null) throw new NullException(() => obj);
 

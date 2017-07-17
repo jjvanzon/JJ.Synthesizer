@@ -37,6 +37,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.SumOverDimension
             };
 
+        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
+            new HashSet<OperatorTypeEnum>
+            {
+                OperatorTypeEnum.Random,
+                OperatorTypeEnum.Interpolate
+            };
+
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithSpecializedPropertiesViews { get; } =
             new HashSet<OperatorTypeEnum>
             {
@@ -49,18 +56,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorTypeEnum.Sample
             };
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.Random,
-                OperatorTypeEnum.Interpolate
-            };
-
         public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView { get; } =
             EnumHelper.GetValues<OperatorTypeEnum>()
                       .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
-                      .Except(OperatorTypeEnums_WithSpecializedPropertiesViews)
                       .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
+                      .Except(OperatorTypeEnums_WithSpecializedPropertiesViews)
                       .ToHashSet();
 
         // CurrentInstrument

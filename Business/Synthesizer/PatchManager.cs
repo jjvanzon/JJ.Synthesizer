@@ -2,29 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using GeneratedCSharp;
-using JetBrains.Annotations;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.SideEffects;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
-using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Configuration;
-using JJ.Business.Synthesizer.Validation.Patches;
-using JJ.Framework.Collections;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Visitors;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Roslyn;
 using JJ.Business.Synthesizer.Roslyn.Calculation;
+using JJ.Business.Synthesizer.SideEffects;
+using JJ.Business.Synthesizer.Validation.Operators;
+using JJ.Business.Synthesizer.Validation.Patches;
+using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
+using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
@@ -42,7 +41,7 @@ namespace JJ.Business.Synthesizer
 
         // Constructors
 
-        public PatchManager([NotNull] RepositoryWrapper repositories)
+        public PatchManager(RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
         }
@@ -88,7 +87,7 @@ namespace JJ.Business.Synthesizer
 
         // Save
 
-        public VoidResult SavePatch([NotNull] Patch patch)
+        public VoidResult SavePatch(Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
@@ -147,7 +146,7 @@ namespace JJ.Business.Synthesizer
         {
             if (op == null) throw new NullException(() => op);
 
-            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, patch, _repositories.SampleRepository, _repositories.CurveRepository);
+            IValidator validator = new OperatorValidator_IsOfSamePatchOrPatchIsNull_Recursive(op, patch, _repositories.SampleRepository, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
                 return validator.ToResult();
@@ -179,7 +178,7 @@ namespace JJ.Business.Synthesizer
             return DeletePatchWithRelatedEntities(patch);
         }
 
-        public VoidResult DeletePatchWithRelatedEntities([NotNull] Patch patch)
+        public VoidResult DeletePatchWithRelatedEntities(Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 

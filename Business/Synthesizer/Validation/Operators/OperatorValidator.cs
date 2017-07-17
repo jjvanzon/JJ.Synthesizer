@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+// ReSharper disable SuggestBaseTypeForParameter
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
@@ -53,7 +54,6 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             bool isInList = op.Patch.Document
                               .GetPatchesAndVisibleLowerDocumentPatches()
                               .Any(x => x.ID == underlyingPatch.ID);
-            
             if (!isInList)
             {
                 Messages.AddNotInListMessage(ResourceFormatter.UnderlyingPatch, underlyingPatch.ID);

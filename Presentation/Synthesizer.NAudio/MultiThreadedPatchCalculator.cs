@@ -44,8 +44,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             var calculatorCache = new CalculatorCache();
 
             Outlet soundOutlet = patch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                      .Select(x => new PatchInletOrOutlet_OperatorWrapper(x))
-                                      .Where(x => x.Outlet.GetDimensionEnum() == DimensionEnum.Sound)
+                                      .SelectMany(x => x.Outlets)
+                                      .Where(x => x.GetDimensionEnum() == DimensionEnum.Sound)
                                       .SingleOrDefault();
             if (soundOutlet == null)
             {

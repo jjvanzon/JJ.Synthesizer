@@ -1,21 +1,20 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Validation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Curves
 {
     internal class CurveValidator_Delete : VersatileValidator
     {
-        public CurveValidator_Delete([NotNull] Curve curve, [NotNull] ICurveRepository curveRepository)
+        public CurveValidator_Delete(Curve curve, ICurveRepository curveRepository)
         {
             if (curve == null) throw new NullException(() => curve);
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -31,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation.Curves
             }
         }
 
-        private IEnumerable<Operator> EnumerateCurveOperators([NotNull] Curve curve, ICurveRepository curveRepository)
+        private IEnumerable<Operator> EnumerateCurveOperators(Curve curve, ICurveRepository curveRepository)
         {
             if (curve == null) throw new NullException(() => curve);
             if (curve.Document == null)

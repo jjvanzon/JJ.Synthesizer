@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+﻿
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly IDocumentRepository _documentRepository;
         private readonly AudioFileOutputManager _audioFileOutputManager;
 
-        public AudioFileOutputGridPresenter([NotNull] RepositoryWrapper repositories)
+        public AudioFileOutputGridPresenter(RepositoryWrapper repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 

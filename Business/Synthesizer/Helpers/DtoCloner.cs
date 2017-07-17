@@ -1,5 +1,5 @@
 ﻿using System;
-using JetBrains.Annotations;
+
 using JJ.Business.Synthesizer.Dto;
 using JJ.Framework.Exceptions;
 
@@ -204,7 +204,7 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        public static void Clone_OperatorBaseProperties([NotNull] IOperatorDto source, [NotNull] IOperatorDto dest)
+        public static void Clone_OperatorBaseProperties(IOperatorDto source, IOperatorDto dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));

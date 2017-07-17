@@ -4,9 +4,9 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class OperatorValidator_AggregateOverDimension : OperatorValidator
+    internal class AggregateOverDimension_OperatorValidator : OperatorValidator
     {
-        public OperatorValidator_AggregateOverDimension(Operator obj)
+        public AggregateOverDimension_OperatorValidator(Operator obj)
             : base(
                 obj,
                 expectedDataKeys: new[] { nameof(OperatorWrapper_WithCollectionRecalculation.CollectionRecalculation) })

@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
@@ -10,7 +9,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class Curve_OperatorWarningValidator : VersatileValidator
     {
-        public Curve_OperatorWarningValidator([NotNull] Operator op)
+        public Curve_OperatorWarningValidator(Operator op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
 

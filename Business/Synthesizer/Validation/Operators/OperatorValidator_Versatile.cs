@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                 case OperatorTypeEnum.MinOverDimension:
                 case OperatorTypeEnum.SortOverDimension:
                 case OperatorTypeEnum.SumOverDimension:
-                    ExecuteValidator(new OperatorValidator_AggregateOverDimension(op));
+                    ExecuteValidator(new AggregateOverDimension_OperatorValidator(op));
                     break;
 
                 default:

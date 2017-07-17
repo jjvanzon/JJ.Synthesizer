@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -354,7 +353,7 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-        public Result<Outlet> TryAutoPatchFromDocumentsRandomly([NotNull] IList<Document> documents, bool mustIncludeHidden)
+        public Result<Outlet> TryAutoPatchFromDocumentsRandomly(IList<Document> documents, bool mustIncludeHidden)
         {
             if (documents == null) throw new NullException(() => documents);
 
@@ -495,7 +494,7 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-        public void SubstituteSineForUnfilledInSoundPatchInlets([NotNull] Patch patch)
+        public void SubstituteSineForUnfilledInSoundPatchInlets(Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 

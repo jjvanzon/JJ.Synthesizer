@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
@@ -28,14 +27,14 @@ namespace JJ.Business.Synthesizer
     {
         private readonly SampleRepositories _repositories;
 
-        public SampleManager([NotNull] SampleRepositories repositories)
+        public SampleManager(SampleRepositories repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
         }
 
         // Validate
 
-        public VoidResult Save([NotNull] Sample entity)
+        public VoidResult Save(Sample entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -61,7 +60,7 @@ namespace JJ.Business.Synthesizer
             return Delete(entity);
         }
 
-        public VoidResult Delete([NotNull] Sample sample)
+        public VoidResult Delete(Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
 
@@ -83,7 +82,7 @@ namespace JJ.Business.Synthesizer
         // Create 
 
         /// <summary> Creates a Sample and sets its defaults. </summary>
-        public Sample CreateSample([CanBeNull] Document document = null)
+        public Sample CreateSample(Document document = null)
         {
             var sample = new Sample { ID = _repositories.IDRepository.GetID() };
             _repositories.SampleRepository.Insert(sample);
@@ -96,14 +95,14 @@ namespace JJ.Business.Synthesizer
             return sample;
         }
 
-        public SampleInfo CreateSample([NotNull] byte[] bytes, AudioFileFormatEnum audioFileFormatEnum)
+        public SampleInfo CreateSample(byte[] bytes, AudioFileFormatEnum audioFileFormatEnum)
         {
             if (bytes == null) throw new NullException(() => bytes);
             Stream stream = StreamHelper.BytesToStream(bytes);
             return CreateSample(stream, bytes, audioFileFormatEnum);
         }
 
-        public SampleInfo CreateSample([NotNull] Stream stream, AudioFileFormatEnum audioFileFormatEnum)
+        public SampleInfo CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum)
         {
             if (stream == null) throw new NullException(() => stream);
 
@@ -113,7 +112,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> Creates a Sample from the stream and sets its defaults. Detects the format from the header. </summary>
-        public SampleInfo CreateSample([NotNull] byte[] bytes)
+        public SampleInfo CreateSample(byte[] bytes)
         {
             if (bytes == null) throw new NullException(() => bytes);
             Stream stream = StreamHelper.BytesToStream(bytes);
@@ -121,7 +120,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary> Creates a Sample from the stream and sets its defaults. Detects the format from the header. </summary>
-        public SampleInfo CreateSample([NotNull] Stream stream)
+        public SampleInfo CreateSample(Stream stream)
         {
             if (stream == null) throw new NullException(() => stream);
 
@@ -134,8 +133,8 @@ namespace JJ.Business.Synthesizer
         // Misc
 
         /// <summary> Returns a calculator for each channel. </summary>
-        [NotNull]
-        public IList<ICalculatorWithPosition> CreateCalculators([NotNull] Sample sample, [CanBeNull] byte[] bytes)
+        
+        public IList<ICalculatorWithPosition> CreateCalculators(Sample sample, byte[] bytes)
         {
             IList<ArrayDto> dtos = SampleArrayDtoFactory.CreateArrayDtos(sample, bytes);
             IList<ICalculatorWithPosition> calculators = dtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
@@ -255,7 +254,7 @@ namespace JJ.Business.Synthesizer
             return sample;
         }
 
-        [NotNull]
+        
         private SampleInfo CreateRawSample(byte[] bytes)
         {
             Sample sample = CreateSample();

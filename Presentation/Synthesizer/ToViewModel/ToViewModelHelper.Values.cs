@@ -75,9 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     return false;
             }
 
-            bool hasDimension = entity.HasDimension;
-            
-            return hasDimension;
+            return entity.HasDimension;
         }
 
         // Document
@@ -298,10 +296,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return false;
         }
 
-        public static bool GetOperatorIsSmaller(Operator entity)
-        {
-            return entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number;
-        }
+        public static bool GetOperatorIsSmaller(Operator entity) => entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number;
 
         public static string GetOperatorCaption(
             Operator op,
@@ -579,12 +574,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
 
-            if (operatorTypeEnum == OperatorTypeEnum.PatchOutlet)
-            {
-                return false;
-            }
-
-            return true;
+            bool outletVisible = operatorTypeEnum != OperatorTypeEnum.PatchOutlet;
+            return outletVisible;
         }
 
         public static string GetOutletCaption(Outlet outlet, ISampleRepository sampleRepository, ICurveRepository curveRepository)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
@@ -3086,7 +3085,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         private void AppendTabsCalculate() => TryGetStringBuilderForWritingCalculation()?.AppendTabs();
         private void AppendTabsReset() => TryGetStringBuilderForWritingReset()?.AppendTabs();
 
-        [CanBeNull]
         private StringBuilderWithIndentation TryGetStringBuilderForWritingCalculation()
         {
             // Hold operator just does the whole calculation in the Reset method.
@@ -3107,8 +3105,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             // Otherwise, write to the main calculate method.
             return _stringBuilderForCalculate;
         }
-
-        [CanBeNull]
+        
         private StringBuilderWithIndentation TryGetStringBuilderForWritingReset()
         {
             bool holdOperatorIsActive = _holdOperatorIsActiveStack.Peek();

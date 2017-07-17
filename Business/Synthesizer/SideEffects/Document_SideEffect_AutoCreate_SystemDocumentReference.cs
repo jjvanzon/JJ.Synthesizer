@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
@@ -11,7 +10,7 @@ namespace JJ.Business.Synthesizer.SideEffects
         private readonly Document _document;
         private readonly DocumentManager _documentManager;
 
-        public Document_SideEffect_AutoCreate_SystemDocumentReference([NotNull] Document document, RepositoryWrapper repositories)
+        public Document_SideEffect_AutoCreate_SystemDocumentReference(Document document, RepositoryWrapper repositories)
         {
             _document = document ?? throw new NullException(() => document);
             _documentManager = new DocumentManager(repositories);

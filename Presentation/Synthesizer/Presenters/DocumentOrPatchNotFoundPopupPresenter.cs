@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -17,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private readonly IDocumentRepository _documentRepository;
 
-        public DocumentOrPatchNotFoundPopupPresenter([NotNull] IDocumentRepository documentRepository)
+        public DocumentOrPatchNotFoundPopupPresenter(IDocumentRepository documentRepository)
         {
             _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
         }

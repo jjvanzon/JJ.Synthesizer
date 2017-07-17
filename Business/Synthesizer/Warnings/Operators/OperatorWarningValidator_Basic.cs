@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
@@ -9,7 +8,7 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 {
     internal class OperatorWarningValidator_Basic : VersatileValidator
     {
-        public OperatorWarningValidator_Basic([NotNull] Operator op)
+        public OperatorWarningValidator_Basic(Operator op)
         {
             if (op == null) throw new NullException(() => op);
 

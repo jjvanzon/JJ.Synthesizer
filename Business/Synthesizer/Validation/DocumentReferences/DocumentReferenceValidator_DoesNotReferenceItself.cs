@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
@@ -8,7 +7,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
     internal class DocumentReferenceValidator_DoesNotReferenceItself : VersatileValidator
     {
-        public DocumentReferenceValidator_DoesNotReferenceItself([NotNull] DocumentReference entity)
+        public DocumentReferenceValidator_DoesNotReferenceItself(DocumentReference entity)
         {
             if (entity == null) throw new NullException(() => entity);
 

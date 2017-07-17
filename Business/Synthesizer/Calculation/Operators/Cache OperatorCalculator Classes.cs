@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 
@@ -15,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly DimensionStack _dimensionStack;
 
         public Cache_OperatorCalculator_SingleChannel(
-            [NotNull] TArrayCalculator arrayCalculator, 
+            TArrayCalculator arrayCalculator, 
             DimensionStack dimensionStack)
         {
             if (arrayCalculator == null) throw new ArgumentNullException(nameof(arrayCalculator));
@@ -29,14 +28,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
             double time = _dimensionStack.Get();
-#else
-            double time = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+
             return _arrayCalculator.Calculate(time);
         }
     }
@@ -48,8 +41,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _arrayCalculatorsMaxIndexDouble;
         private readonly DimensionStack _dimensionStack;
         private readonly DimensionStack _channelDimensionStack;
-        private readonly int _dimensionStackIndex;
-        private readonly int _channelDimensionStackIndex;
 
         public Cache_OperatorCalculator_MultiChannel(
             IList<TArrayCalculator> arrayCalculators,
@@ -64,35 +55,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _arrayCalculatorsMaxIndexDouble = _arrayCalculators.Length - 1;
             _dimensionStack = dimensionStack;
             _channelDimensionStack = channelDimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
-            _channelDimensionStackIndex = channelDimensionStack.CurrentIndex;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
             double channelDouble = _channelDimensionStack.Get();
-#else
-            double channelDouble = _channelDimensionStack.Get(_channelDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_channelDimensionStack, _channelDimensionStackIndex);
-#endif
+
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelDouble, _arrayCalculatorsMaxIndexDouble))
             {
                 return 0.0;
             }
             int channelInt = (int)channelDouble;
 
-#if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+
             return _arrayCalculators[channelInt].Calculate(position);
         }
     }

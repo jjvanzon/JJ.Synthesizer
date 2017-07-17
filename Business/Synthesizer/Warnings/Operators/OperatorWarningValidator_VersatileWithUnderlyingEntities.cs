@@ -1,11 +1,10 @@
-﻿using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Validation;
-using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings.Operators
 {
@@ -22,9 +21,9 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
         /// such as a patch.
         /// </summary>
         public OperatorWarningValidator_VersatileWithUnderlyingEntities(
-            [NotNull] Operator op,
-            [NotNull] ISampleRepository sampleRepository,
-            [CanBeNull] HashSet<object> alreadyDone = null)
+            Operator op,
+            ISampleRepository sampleRepository,
+            HashSet<object> alreadyDone = null)
         {
             if (op == null) throw new NullException(() => op);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);

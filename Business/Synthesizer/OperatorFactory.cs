@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.SideEffects;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Exceptions;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {
@@ -24,7 +22,7 @@ namespace JJ.Business.Synthesizer
         private readonly PatchManager _patchManager;
         private readonly DocumentManager _documentManager;
 
-        public OperatorFactory([NotNull] Patch patch, RepositoryWrapper repositories)
+        public OperatorFactory(Patch patch, RepositoryWrapper repositories)
         {
             _patch = patch ?? throw new NullException(() => patch);
             _repositories = repositories ?? throw new NullException(() => repositories);

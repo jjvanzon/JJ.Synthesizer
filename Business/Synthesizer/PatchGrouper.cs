@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -11,7 +10,7 @@ namespace JJ.Business.Synthesizer
 {
     public static class PatchGrouper
     {
-        public static IList<DocumentReferencePatchGroupDto> GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny([NotNull] IList<DocumentReference> documentReferences, bool mustIncludeHidden)
+        public static IList<DocumentReferencePatchGroupDto> GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny(IList<DocumentReference> documentReferences, bool mustIncludeHidden)
         {
             if (documentReferences == null) throw new NullException(() => documentReferences);
 

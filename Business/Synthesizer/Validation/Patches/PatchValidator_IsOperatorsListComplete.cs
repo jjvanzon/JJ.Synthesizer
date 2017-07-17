@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_IsOperatorsListComplete : ValidatorBase
     {
         public PatchValidator_IsOperatorsListComplete(
-            [NotNull] Patch patch,
-            [NotNull] ISampleRepository sampleRepository,
-            [NotNull] ICurveRepository curveRepository)
+            Patch patch,
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository)
         {
             if (patch == null) throw new NullException(() => patch);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);

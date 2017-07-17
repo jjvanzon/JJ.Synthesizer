@@ -27,23 +27,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get
             {
                 int? curveID = CurveID;
-                if (!curveID.HasValue)
-                {
-                    return null;
-                }
-
-                return _curveRepository.Get(curveID.Value);
+                return curveID.HasValue ? _curveRepository.Get(curveID.Value) : null;
             }
-            set
-            {
-                if (value == null)
-                {
-                    CurveID = null;
-                    return;
-                }
-
-                CurveID = value.ID;
-            }
+            set => CurveID = value?.ID;
         }
     }
 }

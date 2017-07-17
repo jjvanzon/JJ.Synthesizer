@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -10,7 +9,7 @@ namespace JJ.Business.Synthesizer.Warnings
 {
     internal class InletWarningValidator : VersatileValidator
     {
-        public InletWarningValidator([NotNull] Inlet inlet)
+        public InletWarningValidator(Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
 

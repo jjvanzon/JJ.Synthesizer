@@ -2,7 +2,6 @@
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.Validation.DocumentReferences;
@@ -16,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
     {
         public DocumentValidator_Recursive(
             Document document,
-            [NotNull] RepositoryWrapper repositories,
+            RepositoryWrapper repositories,
             HashSet<object> alreadyDone)
         {
             if (document == null) throw new NullException(() => document);

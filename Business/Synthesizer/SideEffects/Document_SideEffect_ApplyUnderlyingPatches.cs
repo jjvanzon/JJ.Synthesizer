@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
@@ -14,8 +13,8 @@ namespace JJ.Business.Synthesizer.SideEffects
         private readonly RepositoryWrapper _repositories;
 
         public Document_SideEffect_ApplyUnderlyingPatches(
-            [NotNull] Document document,
-            [NotNull] RepositoryWrapper repositories)
+            Document document,
+            RepositoryWrapper repositories)
         {
             _repositories = repositories ?? throw new NullException(() => repositories);
             _document = document ?? throw new NullException(() => document);

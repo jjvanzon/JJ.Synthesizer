@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_WithRelatedEntities : VersatileValidator
     {
         public PatchValidator_WithRelatedEntities(
-            [NotNull] Patch patch,
-            [NotNull] ICurveRepository curveRepository,
-            [NotNull] ISampleRepository sampleRepository,
-            [NotNull] HashSet<object> alreadyDone)
+            Patch patch,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            HashSet<object> alreadyDone)
         {
             if (patch == null) throw new NullException(() => patch);
             if (curveRepository == null) throw new NullException(() => curveRepository);

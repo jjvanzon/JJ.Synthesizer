@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
 
@@ -7,14 +6,14 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class SampleExtensions
     {
-        public static int GetChannelCount([NotNull] this Sample sample)
+        public static int GetChannelCount(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
             return sample.SpeakerSetup.SpeakerSetupChannels.Count;
         }
 
         /// <param name="bytes">nullable</param>
-        public static double GetDuration([NotNull] this Sample sample, [CanBeNull] byte[] bytes)
+        public static double GetDuration(this Sample sample, byte[] bytes)
         {
             // Bytes are nullable, so we choose here not to make GetDuration crash on that.
             if (bytes == null) return 0.0;
@@ -24,7 +23,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return sample.GetDuration(bytes.Length);
         }
 
-        public static double GetDuration([NotNull] this Sample sample, long byteCount)
+        public static double GetDuration(this Sample sample, long byteCount)
         {
             if (sample == null) throw new NullException(() => sample);
             if (sample.SamplingRate == 0) throw new ZeroException(() => sample.SamplingRate);

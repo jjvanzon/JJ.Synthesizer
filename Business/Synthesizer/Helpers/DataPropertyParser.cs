@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
@@ -28,7 +27,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// Whatever I try, I just cannot make the last semi-colon optional.
         /// Not sure what I am doing wrong, so I am going to work around it.
         /// </summary>
-        private static readonly Regex _regex_WithExcessSemiColonAtTheEnd = CreateRegex_WithExcessiveSemiColonAtTheEnd();
+        private static readonly Regex _regex_WithExcessiveSemiColonAtTheEnd = CreateRegex_WithExcessiveSemiColonAtTheEnd();
 
         private static Regex CreateRegex_WithExcessiveSemiColonAtTheEnd()
         {
@@ -53,7 +52,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             string dataWithExtraSemiColon = data + ";";
 
-            bool isMatch = _regex_WithExcessSemiColonAtTheEnd.IsMatch(dataWithExtraSemiColon);
+            bool isMatch = _regex_WithExcessiveSemiColonAtTheEnd.IsMatch(dataWithExtraSemiColon);
             return isMatch;
         }
 
@@ -256,7 +255,7 @@ namespace JJ.Business.Synthesizer.Helpers
         /// Returns null if key does not exist.
         /// Will throw an exception if Data is not well-formed.
         /// </summary>
-        public static string TryGetString(string data, [CanBeNull] string key)
+        public static string TryGetString(string data, string key)
         {
             IList<ParsedKeyValuePair> results = Parse(data);
 
@@ -317,8 +316,8 @@ namespace JJ.Business.Synthesizer.Helpers
             return newData;
         }
 
-        [NotNull]
-        private static IList<ParsedKeyValuePair> Parse([CanBeNull] string data)
+        
+        private static IList<ParsedKeyValuePair> Parse(string data)
         {
             if (string.IsNullOrEmpty(data))
             {

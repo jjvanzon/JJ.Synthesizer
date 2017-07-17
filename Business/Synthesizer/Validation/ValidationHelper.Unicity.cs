@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -83,7 +82,7 @@ namespace JJ.Business.Synthesizer.Validation
             return isUnique;
         }
 
-        public static bool DocumentReference_LowerDocument_IsUnique(Document higherDocument, [CanBeNull] Document lowerDocument)
+        public static bool DocumentReference_LowerDocument_IsUnique(Document higherDocument, Document lowerDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
