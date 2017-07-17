@@ -491,6 +491,7 @@
     <Content Include="2017-06-19 060 SynthesizerDB Outlet.IsRepeating not null.sql" />
     <Content Include="2017-06-19 070 SynthesizerDB Inlet.RepetitionPosition.sql" />
     <Content Include="2017-06-19 080 SynthesizerDB Outlet.RepetitionPosition.sql" />
+    <Content Include="2017-07-17 010 SynthesizerDB Dimension insert 76 - Inherit.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

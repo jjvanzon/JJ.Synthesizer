@@ -179,6 +179,7 @@
     <Compile Include="Dto\OperatorDtoBase_Filter_VarSound.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarSound.cs" />
+    <Compile Include="Extensions\InheritExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
     <Compile Include="Extensions\IInletOrOutletExtensions.cs" />

@@ -92,6 +92,12 @@
         ReleaseEndMarker = 72,
         Radians = 73,
         HighestFrequency = 74,
-        YesNo = 75
+        YesNo = 75,
+        /// <summary>
+        /// Dimension is determined by the parent.
+        /// For example: if an operator's dimension is Inherit,
+        /// then it falls back to the patch's dimension.
+        /// </summary>
+        Inherit = 76
     }
 }

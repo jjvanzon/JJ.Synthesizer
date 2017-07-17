@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
@@ -11,13 +12,13 @@ namespace JJ.Business.Synthesizer.Extensions
     {
         // AudioFileOutput
 
-        public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioFileOutput audioFileOutput)
+        public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioFileOutput entity)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            if (entity == null) throw new NullException(() => entity);
 
-            if (audioFileOutput.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
+            if (entity.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
 
-            return (SpeakerSetupEnum)audioFileOutput.SpeakerSetup.ID;
+            return entity.SpeakerSetup.ToEnum();
         }
 
         public static void SetSpeakerSetupEnum(this AudioFileOutput entity, SpeakerSetupEnum enumValue, ISpeakerSetupRepository repository)
@@ -41,7 +42,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (entity.SampleDataType == null) return SampleDataTypeEnum.Undefined;
 
-            return (SampleDataTypeEnum)entity.SampleDataType.ID;
+            return entity.SampleDataType.ToEnum();
         }
 
         public static void SetSampleDataTypeEnum(this AudioFileOutput entity, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
@@ -65,7 +66,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (audioFileOutput.AudioFileFormat == null) return AudioFileFormatEnum.Undefined;
 
-            return (AudioFileFormatEnum)audioFileOutput.AudioFileFormat.ID;
+            return audioFileOutput.AudioFileFormat.ToEnum();
         }
 
         public static void SetAudioFileFormatEnum(this AudioFileOutput entity, AudioFileFormatEnum enumValue, IAudioFileFormatRepository repository)
@@ -83,15 +84,23 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
+        // AudioFileFormat
+
+        public static AudioFileFormatEnum ToEnum(this AudioFileFormat entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return (AudioFileFormatEnum)entity.ID;
+        }
+
         // AudioOutput
 
-        public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioOutput audioOutput)
+        public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioOutput entity)
         {
-            if (audioOutput == null) throw new NullException(() => audioOutput);
+            if (entity == null) throw new NullException(() => entity);
 
-            if (audioOutput.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
+            if (entity.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
 
-            return (SpeakerSetupEnum)audioOutput.SpeakerSetup.ID;
+            return entity.SpeakerSetup.ToEnum();
         }
 
         public static void SetSpeakerSetupEnum(this AudioOutput entity, SpeakerSetupEnum enumValue, ISpeakerSetupRepository repository)
@@ -109,6 +118,22 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
+        // Channel
+
+        public static ChannelEnum ToEnum(this Channel entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return (ChannelEnum)entity.ID;
+        }
+
+        // Dimension
+
+        public static DimensionEnum ToEnum(this Dimension entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return (DimensionEnum)entity.ID;
+        }
+
         // Inlet or Outlet
 
         public static DimensionEnum GetDimensionEnum(this IInletOrOutlet entity)
@@ -117,7 +142,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (entity.Dimension == null) return DimensionEnum.Undefined;
 
-            return (DimensionEnum)entity.Dimension.ID;
+            return entity.Dimension.ToEnum();
         }
 
         public static void SetDimensionEnum(this IInletOrOutlet entity, DimensionEnum enumValue, IDimensionRepository repository)
@@ -135,6 +160,14 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
+        // InterpolationType
+
+        public static InterpolationTypeEnum ToEnum(this InterpolationType entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return (InterpolationTypeEnum)entity.ID;
+        }
+
         // Node
 
         public static NodeTypeEnum GetNodeTypeEnum(this Node node)
@@ -143,7 +176,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (node.NodeType == null) return NodeTypeEnum.Undefined;
 
-            return (NodeTypeEnum)node.NodeType.ID;
+            return node.NodeType.ToEnum();
         }
 
         public static void SetNodeTypeEnum(this Node entity, NodeTypeEnum enumValue, INodeTypeRepository repository)
@@ -161,6 +194,14 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
+        // NodeType
+
+        public static NodeTypeEnum ToEnum(this NodeType entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return (NodeTypeEnum)entity.ID;
+        }
+
         // Operator
 
         public static DimensionEnum GetStandardDimensionEnum(this Operator entity)
@@ -169,7 +210,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (entity.StandardDimension == null) return DimensionEnum.Undefined;
 
-            return (DimensionEnum)entity.StandardDimension.ID;
+            return entity.StandardDimension.ToEnum();
         }
 
         public static void SetStandardDimensionEnum(this Operator entity, DimensionEnum enumValue, IDimensionRepository repository)
@@ -189,16 +230,16 @@ namespace JJ.Business.Synthesizer.Extensions
         
         // Operator
 
-        public static DimensionEnum GetStandardDimensionEnum(this Patch entity)
+        public static DimensionEnum GetDefaultStandardDimensionEnum(this Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             if (entity.DefaultStandardDimension == null) return DimensionEnum.Undefined;
 
-            return (DimensionEnum)entity.DefaultStandardDimension.ID;
+            return entity.DefaultStandardDimension.ToEnum();
         }
 
-        public static void SetStandardDimensionEnum(this Patch entity, DimensionEnum enumValue, IDimensionRepository repository)
+        public static void SetDefaultStandardDimensionEnum(this Patch entity, DimensionEnum enumValue, IDimensionRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
@@ -221,7 +262,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (sample.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
 
-            return (SpeakerSetupEnum)sample.SpeakerSetup.ID;
+            return sample.SpeakerSetup.ToEnum();
         }
 
         public static void SetSpeakerSetupEnum(this Sample entity, SpeakerSetupEnum enumValue, ISpeakerSetupRepository repository)
@@ -245,7 +286,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (sample.InterpolationType == null) return InterpolationTypeEnum.Undefined;
 
-            return (InterpolationTypeEnum)sample.InterpolationType.ID;
+            return sample.InterpolationType.ToEnum();
         }
 
         public static void SetInterpolationTypeEnum(this Sample entity, InterpolationTypeEnum enumValue, IInterpolationTypeRepository repository)
@@ -269,7 +310,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (sample.SampleDataType == null) return SampleDataTypeEnum.Undefined;
 
-            return (SampleDataTypeEnum)sample.SampleDataType.ID;
+            return sample.SampleDataType.ToEnum();
         }
 
         public static void SetSampleDataTypeEnum(this Sample entity, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
@@ -293,7 +334,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (sample.AudioFileFormat == null) return AudioFileFormatEnum.Undefined;
 
-            return (AudioFileFormatEnum)sample.AudioFileFormat.ID;
+            return sample.AudioFileFormat.ToEnum();
         }
 
         public static void SetAudioFileFormatEnum(this Sample entity, AudioFileFormatEnum enumValue, IAudioFileFormatRepository repository)
@@ -311,6 +352,14 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
+        // SampleDataType
+
+        public static SampleDataTypeEnum ToEnum(this SampleDataType entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return (SampleDataTypeEnum)entity.ID;
+        }
+
         // Scale
 
         public static ScaleTypeEnum GetScaleTypeEnum(this Scale scale)
@@ -319,7 +368,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (scale.ScaleType == null) return ScaleTypeEnum.Undefined;
 
-            return (ScaleTypeEnum)scale.ScaleType.ID;
+            return scale.ScaleType.ToEnum();
         }
 
         public static void SetScaleTypeEnum(this Scale entity, ScaleTypeEnum enumValue, IScaleTypeRepository repository)
@@ -335,6 +384,22 @@ namespace JJ.Business.Synthesizer.Extensions
                 ScaleType scaleType = repository.Get((int)enumValue);
                 entity.LinkTo(scaleType);
             }
+        }
+
+        // ScaleType
+
+        public static ScaleTypeEnum ToEnum(this ScaleType entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return (ScaleTypeEnum)entity.ID;
+        }
+
+        // SpeakerSetup
+
+        public static SpeakerSetupEnum ToEnum(this SpeakerSetup entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return (SpeakerSetupEnum)entity.ID;
         }
     }
 }
