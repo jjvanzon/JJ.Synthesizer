@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer
             foreach (Patch sourceUnderlyingPatch in sourceUnderlyingPatches)
             {
                 OperatorWrapper intermediateDerivedOperatorWrapper = operatorFactory.New(sourceUnderlyingPatch);
-                intermediateDerivedOperatorWrapper.Name = $"{sourceUnderlyingPatch.Name}";
+                intermediateDerivedOperatorWrapper.WrappedOperator.Name = $"{sourceUnderlyingPatch.Name}";
 
                 intermediateDerivedOperators.Add(intermediateDerivedOperatorWrapper);
             }
@@ -86,27 +86,33 @@ namespace JJ.Business.Synthesizer
 
             // Unmatched inlets of the custom operators become inlets of the new patch.
             IList<Inlet> intermediateUnmatchedInlets = intermediateDerivedOperators.SelectMany(x => x.Inlets)
-                                                                                  .Except(intermediateMatchedInlets)
-                                                                                  .ToArray();
+                                                                                   .Except(intermediateMatchedInlets)
+                                                                                   .ToArray();
 
             // If there is overlap in Inlet Dimension, they will merge to a single PatchInlet.
-            var intermediateUnmatchedInlets_GroupedByDimension = intermediateUnmatchedInlets.Where(x => x.Dimension != null)
-                                                                                            .GroupBy(x => x.GetDimensionEnum());
+            var intermediateUnmatchedInlets_GroupedByDimension =
+                intermediateUnmatchedInlets.Where(x => x.GetDimensionWithFallback() != null)
+                                           .GroupBy(x => x.GetDimensionEnumWithFallback());
+
             foreach (var intermediateUnmatchedInletGroup in intermediateUnmatchedInlets_GroupedByDimension)
             {
                 ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
             }
 
             // If there is overlap in Inlet Name, they will merge to a single PatchInlet.
-            var intermediateUnmatchedInlets_WithoutDimension_GroupedByName = intermediateUnmatchedInlets.Where(x => x.Dimension == null && !string.IsNullOrEmpty(x.Name))
-                                                                                                        .GroupBy(x => x.Name);
+            var intermediateUnmatchedInlets_WithoutDimension_GroupedByName =
+                intermediateUnmatchedInlets.Where(x => x.GetDimensionWithFallback() == null && NameHelper.IsFilledIn(x.GetNameWithFallback()))
+                                           .GroupBy(x => x.GetNameWithFallback());
+
             foreach (var intermediateUnmatchedInletGroup in intermediateUnmatchedInlets_WithoutDimension_GroupedByName)
             {
                 ConvertToPatchInlet(intermediateUnmatchedInletGroup.ToArray());
             }
 
             // If there is no Inlet Dimension or name, unmatched Inlets will convert to individual PatchInlets.
-            var intermediateUnmatchedInlets_WithoutDimensionOrName = intermediateUnmatchedInlets.Where(x => x.Dimension == null && string.IsNullOrEmpty(x.Name));
+            var intermediateUnmatchedInlets_WithoutDimensionOrName =
+                intermediateUnmatchedInlets.Where(x => x.GetDimensionWithFallback() == null && !NameHelper.IsFilledIn(x.GetNameWithFallback()));
+
             foreach (Inlet unmatchedInlet in intermediateUnmatchedInlets_WithoutDimensionOrName)
             {
                 ConvertToPatchInlet(unmatchedInlet);
@@ -114,27 +120,33 @@ namespace JJ.Business.Synthesizer
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
             IList<Outlet> intermediateUnmatchedOutlets = intermediateDerivedOperators.SelectMany(x => x.Outlets)
-                                                                                    .Except(intermediateMatchedOutlets)
-                                                                                    .ToArray();
+                                                                                     .Except(intermediateMatchedOutlets)
+                                                                                     .ToArray();
 
             // If there is overlap in Dimension, they will merge to a single PatchOutlet.
-            var intermediateUnmatchedOutlets_GroupedByDimension = intermediateUnmatchedOutlets.Where(x => x.Dimension != null)
-                                                                                              .GroupBy(x => x.GetDimensionEnum());
+            var intermediateUnmatchedOutlets_GroupedByDimension =
+                intermediateUnmatchedOutlets.Where(x => x.GetDimensionWithFallback() != null)
+                                            .GroupBy(x => x.GetDimensionEnumWithFallback());
+
             foreach (var intermediateUnmatchedOutletGroup in intermediateUnmatchedOutlets_GroupedByDimension)
             {
                 ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
             }
 
             // If there is overlap in name, they will merge to a single PatchOutlet.
-            var intermediateUnmatchedOutlets_WithoutDimension_GroupedByName = intermediateUnmatchedOutlets.Where(x => x.Dimension == null && !string.IsNullOrEmpty(x.Name))
-                                                                                                          .GroupBy(x => x.Name);
+            var intermediateUnmatchedOutlets_WithoutDimension_GroupedByName =
+                intermediateUnmatchedOutlets.Where(x => x.GetDimensionWithFallback() == null && NameHelper.IsFilledIn(x.GetNameWithFallback()))
+                                            .GroupBy(x => x.GetNameWithFallback());
+
             foreach (var intermediateUnmatchedOutletGroup in intermediateUnmatchedOutlets_WithoutDimension_GroupedByName)
             {
                 ConvertToPatchOutlet(intermediateUnmatchedOutletGroup.ToArray());
             }
 
             // If there is no Dimension or name, unmatched Outlets will convert to individual PatchOutlets.
-            var intermediateUnmatchedOutlets_WithoutDimensionOrName = intermediateUnmatchedOutlets.Where(x => x.Dimension == null && string.IsNullOrEmpty(x.Name));
+            var intermediateUnmatchedOutlets_WithoutDimensionOrName =
+                intermediateUnmatchedOutlets.Where(x => x.GetDimensionWithFallback() == null && !NameHelper.IsFilledIn(x.GetNameWithFallback()));
+
             foreach (Outlet intermediateUnmatchedOutlet in intermediateUnmatchedOutlets_WithoutDimensionOrName)
             {
                 ConvertToPatchOutlet(intermediateUnmatchedOutlet);
@@ -170,12 +182,8 @@ namespace JJ.Business.Synthesizer
             intermediateInlet.LinkTo(destPatchInletWrapper.Outlet);
 
             Inlet destInlet = destPatchInletWrapper.Inlet;
-            destInlet.Name = intermediateInlet.Name;
-            destInlet.Dimension = intermediateInlet.Dimension;
-            destInlet.Position = intermediateInlet.Position;
-            destInlet.DefaultValue = intermediateInlet.DefaultValue;
-            destInlet.IsRepeating = intermediateInlet.IsRepeating;
-            destInlet.RepetitionPosition = intermediateInlet.RepetitionPosition;
+
+            InletOutletCloner.Clone(intermediateInlet, destInlet);
 
             return destPatchInletWrapper;
         }
@@ -208,11 +216,8 @@ namespace JJ.Business.Synthesizer
             destPatchOutletWrapper.Input = intermediateOutlet;
 
             Outlet destOutlet = destPatchOutletWrapper.Outlet;
-            destOutlet.Name = intermediateOutlet.Name;
-            destOutlet.Position = intermediateOutlet.Position;
-            destOutlet.Dimension = intermediateOutlet.Dimension;
-            destOutlet.IsRepeating = intermediateOutlet.IsRepeating;
-            destOutlet.RepetitionPosition = intermediateOutlet.RepetitionPosition;
+
+            InletOutletCloner.Clone(intermediateOutlet, destOutlet);
 
             return destPatchOutletWrapper;
         }
@@ -336,7 +341,7 @@ namespace JJ.Business.Synthesizer
 
                 default:
                     IList<Outlet> soundOutlets = selectedOperator.Outlets
-                                                                 .Where(x => x.GetDimensionEnum() == DimensionEnum.Sound)
+                                                                 .Where(x => x.GetDimensionEnumWithFallback() == DimensionEnum.Sound)
                                                                  .ToArray();
 
                     // ReSharper disable once ConvertIfStatementToReturnStatement
@@ -440,14 +445,14 @@ namespace JJ.Business.Synthesizer
                                             .Where(
                                                 x => !x.EnumerateOperatorsOfType(OperatorTypeEnum.PatchInlet)
                                                        .Select(y => new PatchInletOrOutlet_OperatorWrapper(y))
-                                                       .Where(y => y.Inlet.GetDimensionEnum() == DimensionEnum.Sound)
+                                                       .Where(y => y.Inlet.GetDimensionEnumWithFallback() == DimensionEnum.Sound)
                                                        .Any())
                                             .OrderBy(x => x.Name)
                                             .SelectMany(
                                                 x => x.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
                                                       .Select(y => new PatchInletOrOutlet_OperatorWrapper(y)))
                                             .Select(x => x.Outlet)
-                                            .Where(x => x.GetDimensionEnum() == DimensionEnum.Sound)
+                                            .Where(x => x.GetDimensionEnumWithFallback() == DimensionEnum.Sound)
                                             .ToArray();
             return patches2;
         }
@@ -504,7 +509,7 @@ namespace JJ.Business.Synthesizer
                 patch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
                      .Select(x => new PatchInletOrOutlet_OperatorWrapper(x))
                      .Where(
-                         x => x.Inlet.GetDimensionEnum() == DimensionEnum.Sound &&
+                         x => x.Inlet.GetDimensionEnumWithFallback() == DimensionEnum.Sound &&
                               !x.Inlet.DefaultValue.HasValue &&
                               x.Input == null)
                      .ToArray();

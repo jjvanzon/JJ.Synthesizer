@@ -228,7 +228,7 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
         
-        // Operator
+        // Patch
 
         public static DimensionEnum GetDefaultStandardDimensionEnum(this Patch entity)
         {

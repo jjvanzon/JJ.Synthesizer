@@ -526,25 +526,25 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
-            Inlet entity = inletRepository.TryGet(viewModel.ID);
-            if (entity == null)
+            Inlet inlet = inletRepository.TryGet(viewModel.ID);
+            if (inlet == null)
             {
-                entity = new Inlet { ID = viewModel.ID };
-                inletRepository.Insert(entity);
+                inlet = new Inlet { ID = viewModel.ID };
+                inletRepository.Insert(inlet);
             }
-            entity.Position = viewModel.Position;
-            entity.Name = viewModel.Name;
-            entity.DefaultValue = viewModel.DefaultValue;
-            entity.IsObsolete = viewModel.IsObsolete;
-            entity.WarnIfEmpty = viewModel.WarnIfEmpty;
-            entity.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;
-            entity.IsRepeating = viewModel.IsRepeating;
-            entity.RepetitionPosition = viewModel.RepetitionPosition;
+            inlet.Position = viewModel.Position;
+            inlet.Name = viewModel.Name;
+            inlet.DefaultValue = viewModel.DefaultValue;
+            inlet.IsObsolete = viewModel.IsObsolete;
+            inlet.WarnIfEmpty = viewModel.WarnIfEmpty;
+            inlet.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;
+            inlet.IsRepeating = viewModel.IsRepeating;
+            inlet.RepetitionPosition = viewModel.RepetitionPosition;
 
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
+            inlet.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
-            return entity;
+            return inlet;
         }
 
         // Library
@@ -959,23 +959,23 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (dimensionRepository == null) throw new NullException(() => dimensionRepository);
 
-            Outlet entity = outletRepository.TryGet(viewModel.ID);
-            if (entity == null)
+            Outlet outlet = outletRepository.TryGet(viewModel.ID);
+            if (outlet == null)
             {
-                entity = new Outlet { ID = viewModel.ID };
-                outletRepository.Insert(entity);
+                outlet = new Outlet { ID = viewModel.ID };
+                outletRepository.Insert(outlet);
             }
-            entity.Position = viewModel.Position;
-            entity.Name = viewModel.Name;
-            entity.IsObsolete = viewModel.IsObsolete;
-            entity.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;
-            entity.IsRepeating = viewModel.IsRepeating;
-            entity.RepetitionPosition = viewModel.RepetitionPosition;
+            outlet.Position = viewModel.Position;
+            outlet.Name = viewModel.Name;
+            outlet.IsObsolete = viewModel.IsObsolete;
+            outlet.NameOrDimensionHidden = viewModel.NameOrDimensionHidden;
+            outlet.IsRepeating = viewModel.IsRepeating;
+            outlet.RepetitionPosition = viewModel.RepetitionPosition;
 
             var dimensionEnum = (DimensionEnum)(viewModel.Dimension?.ID ?? 0);
-            entity.SetDimensionEnum(dimensionEnum, dimensionRepository);
+            outlet.SetDimensionEnum(dimensionEnum, dimensionRepository);
 
-            return entity;
+            return outlet;
         }
 
         // Patch

@@ -93,8 +93,8 @@ namespace JJ.Business.Synthesizer.Validation
             if (inletOrOutlet == null) throw new NullException(() => inletOrOutlet);
 
             string userFriendlyIdentifier = GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(
-                inletOrOutlet.Name,
-                inletOrOutlet.GetDimensionEnum(),
+                inletOrOutlet.GetNameWithFallback(),
+                inletOrOutlet.GetDimensionEnumWithFallback(),
                 inletOrOutlet.Position);
 
             return userFriendlyIdentifier;

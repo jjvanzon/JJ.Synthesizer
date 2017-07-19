@@ -224,6 +224,7 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase calculator = OperatorCalculatorFactory.Create_Curve_OperatorCalculator(
                 dto.ArrayDto,
                 dto.StandardDimensionEnum,
+                dto.CanonicalCustomDimensionName,
                 _dimensionStackCollection);
 
             _stack.Push(calculator);

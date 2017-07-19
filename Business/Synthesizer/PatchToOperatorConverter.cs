@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer
             {
                 destOperator.HasDimension = sourcePatch.HasDimension;
 
-                bool destDimensionIsFilledIn = !string.IsNullOrWhiteSpace(destOperator.CustomDimensionName) ||
+                bool destDimensionIsFilledIn = NameHelper.IsFilledIn(destOperator.CustomDimensionName) ||
                                                destOperator.StandardDimension != null;
                 if (!destDimensionIsFilledIn)
                 {
@@ -152,13 +152,7 @@ namespace JJ.Business.Synthesizer
             if (operatorTypeEnum != OperatorTypeEnum.PatchInlet || isNew)
             {
                 // Do not convert these properties for PatchInlet.Inlet, since those are custom filled in by the user.
-                destInlet.Name = sourceInlet.Name;
-                destInlet.Dimension = sourceInlet.Dimension;
-                destInlet.Position = sourceInlet.Position;
-                destInlet.DefaultValue = sourceInlet.DefaultValue;
-                destInlet.WarnIfEmpty = sourceInlet.WarnIfEmpty;
-                destInlet.NameOrDimensionHidden = sourceInlet.NameOrDimensionHidden;
-                destInlet.IsRepeating = sourceInlet.IsRepeating;
+                InletOutletCloner.Clone(sourceInlet, destInlet);
             }
 
             return destInlet;
@@ -244,11 +238,7 @@ namespace JJ.Business.Synthesizer
             if (operatorTypeEnum != OperatorTypeEnum.PatchOutlet || isNew)
             {
                 // Do not convert these properties for PatchOutlet.Outlet, since those are custom filled in by the user.
-                destOutlet.Name = sourceOutlet.Name;
-                destOutlet.Dimension = sourceOutlet.Dimension;
-                destOutlet.Position = sourceOutlet.Position;
-                destOutlet.NameOrDimensionHidden = sourceOutlet.NameOrDimensionHidden;
-                destOutlet.IsRepeating = sourceOutlet.IsRepeating;
+                InletOutletCloner.Clone(sourceOutlet, destOutlet);
             }
 
             return destOutlet;

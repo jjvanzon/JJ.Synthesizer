@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
@@ -21,29 +22,35 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (dto == null) throw new NullException(() => dto);
 
-            if (dto.StandardDimensionEnum != DimensionEnum.Undefined)
-            {
-                return GetDimensionStack(dto.StandardDimensionEnum);
-            }
-            else
-            {
-                return GetDimensionStack(dto.CanonicalCustomDimensionName);
-            }
+            return GetDimensionStack(dto.StandardDimensionEnum, dto.CanonicalCustomDimensionName);
         }
 
         public DimensionStack GetDimensionStack(Operator op)
         {
             if (op == null) throw new NullException(() => op);
 
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionStack dimensionStack = GetDimensionStack(
+                op.GetStandardDimensionEnumWithFallback(),
+                op.GetCustomDimensionNameWithFallback());
+
+            return dimensionStack;
+        }
+
+        public DimensionStack GetDimensionStack(DimensionEnum standardDimensionEnum, string customDimensionName)
+        {
+            if (standardDimensionEnum != DimensionEnum.Undefined && NameHelper.IsFilledIn(customDimensionName))
+            {
+                // This might be too harsh an assumption. If this turns out to be true, remove this constraint.
+                throw new Exception($"{standardDimensionEnum} and {customDimensionName} cannot both be filled in.");
+            }
+
             if (standardDimensionEnum != DimensionEnum.Undefined)
             {
                 return GetDimensionStack(standardDimensionEnum);
             }
             else
             {
-                string canonicalCustomDimensionName = NameHelper.ToCanonical(op.CustomDimensionName);
-                return GetDimensionStack(canonicalCustomDimensionName);
+                return GetDimensionStack(customDimensionName);
             }
         }
 
@@ -59,8 +66,10 @@ namespace JJ.Business.Synthesizer.Calculation
             return dimensionStack;
         }
 
-        public DimensionStack GetDimensionStack(string canonicalCustomDimensionName)
+        public DimensionStack GetDimensionStack(string customDimensionName)
         {
+            string canonicalCustomDimensionName = NameHelper.ToCanonical(customDimensionName);
+
             // ReSharper disable once InvertIf
             if (!_customDimensionName_To_DimensionStack_Dictionary.TryGetValue(canonicalCustomDimensionName, out DimensionStack dimensionStack))
             {

@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Inlet> inlets = op.Inlets.Where(x => string.Equals(x.Name, name)).Sort().ToArray();
+            IList<Inlet> inlets = op.Inlets.Where(x => NameHelper.AreEqual(x.Name, name)).Sort().ToArray();
 
             return inlets;
         }
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Outlet> outlets = op.Outlets.Where(x => string.Equals(x.Name, name)).Sort().ToArray();
+            IList<Outlet> outlets = op.Outlets.Where(x => NameHelper.AreEqual(x.Name, name)).Sort().ToArray();
 
             return outlets;
         }

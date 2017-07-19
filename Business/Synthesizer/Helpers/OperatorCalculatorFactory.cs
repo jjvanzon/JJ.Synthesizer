@@ -121,7 +121,11 @@ namespace JJ.Business.Synthesizer.Helpers
             Curve curve = wrapper.Curve;
             ArrayDto arrayDto = calculatorCache.GetCurveArrayDto(curve);
 
-            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(arrayDto, op.GetStandardDimensionEnum(), dimensionStackCollection);
+            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(
+                arrayDto, 
+                op.GetStandardDimensionEnumWithFallback(),
+                op.CustomDimensionName,
+                dimensionStackCollection);
 
             return calculator;
         }
@@ -132,7 +136,11 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (dto == null) throw new ArgumentNullException(nameof(dto));
 
-            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(dto.ArrayDto, dto.StandardDimensionEnum, dimensionStackCollection);
+            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(
+                dto.ArrayDto,
+                dto.StandardDimensionEnum,
+                dto.CanonicalCustomDimensionName,
+                dimensionStackCollection);
 
             return calculator;
         }
@@ -141,6 +149,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
             ArrayDto arrayDto,
             DimensionEnum standardDimensionEnum,
+            string customDimensionName,
             DimensionStackCollection dimensionStackCollection)
         {
             if (dimensionStackCollection == null) throw new ArgumentNullException(nameof(dimensionStackCollection));
@@ -150,12 +159,11 @@ namespace JJ.Business.Synthesizer.Helpers
                 return new Number_OperatorCalculator_Zero();
             }
 
-            DimensionStack dimensionStack = dimensionStackCollection.GetDimensionStack(standardDimensionEnum);
+            DimensionStack dimensionStack = dimensionStackCollection.GetDimensionStack(standardDimensionEnum, customDimensionName);
 
             ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
 
-            var arrayCalculator_MinPosition = arrayCalculator as ArrayCalculator_MinPosition_Line;
-            if (arrayCalculator_MinPosition != null)
+            if (arrayCalculator is ArrayCalculator_MinPosition_Line arrayCalculator_MinPosition)
             {
                 if (standardDimensionEnum == DimensionEnum.Time)
                 {
@@ -167,8 +175,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 }
             }
 
-            var arrayCalculator_MinPositionZero = arrayCalculator as ArrayCalculator_MinPositionZero_Line;
-            if (arrayCalculator_MinPositionZero != null)
+            if (arrayCalculator is ArrayCalculator_MinPositionZero_Line arrayCalculator_MinPositionZero)
             {
                 if (standardDimensionEnum == DimensionEnum.Time)
                 {

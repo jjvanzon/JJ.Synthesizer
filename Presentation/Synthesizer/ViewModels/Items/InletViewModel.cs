@@ -8,7 +8,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
     public sealed class InletViewModel
     {
         public int ID { get; set; }
-        public string Name { get; set; }
         public string Caption { get; set; }
 
         /// <summary> Some inlets that have to be stored, might not have to be shown. </summary>
@@ -24,6 +23,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         // The following properties are not displayed,
         // but are there to have all data present in the view model to restore to a valid state of the entity.
 
+        /// <summary> not displayed </summary>
+        public string Name { get; set; }
         /// <summary> not displayed </summary>
         public IDAndName Dimension { get; set; }
         /// <summary> not displayed </summary>

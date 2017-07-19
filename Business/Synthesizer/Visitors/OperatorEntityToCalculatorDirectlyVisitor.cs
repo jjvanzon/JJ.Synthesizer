@@ -2642,7 +2642,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitPulse(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
             base.VisitPulse(op);
@@ -3004,7 +3004,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitReverse(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -3150,7 +3150,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitSampleOperator(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
             DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
@@ -3252,7 +3252,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitSawDown(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
             base.VisitSawDown(op);
@@ -3297,7 +3297,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitSawUp(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
             base.VisitSawUp(op);
@@ -3392,7 +3392,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitSine(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
             base.VisitSine(op);
@@ -3612,7 +3612,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitSquare(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
             base.VisitSquare(op);
@@ -3662,7 +3662,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitSquash(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -3767,7 +3767,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitStretch(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
             dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
 
@@ -4107,7 +4107,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitTriangle(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
             base.VisitTriangle(op);
@@ -4194,8 +4194,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
                     variableInputCalculator = new VariableInput_OperatorCalculator
                     (
-                        dimensionEnum: wrapper.Inlet.GetDimensionEnum(),
-                        canonicalName: NameHelper.ToCanonical(wrapper.Inlet.Name),
+                        dimensionEnum: wrapper.Inlet.GetDimensionEnumWithFallback(),
+                        canonicalName: NameHelper.ToCanonical(wrapper.Inlet.GetNameWithFallback()),
                         position: wrapper.Inlet.Position,
                         defaultValue: wrapper.Inlet.DefaultValue ?? 0.0
                     );

@@ -33,9 +33,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Absolute(Outlet number = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Number] = number;
 
             return wrapper;
@@ -56,9 +55,8 @@ namespace JJ.Business.Synthesizer
             Outlet centerFrequency = null,
             Outlet width = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
             wrapper.Inputs[DimensionEnum.Width] = width;
@@ -68,9 +66,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper And(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -81,7 +78,7 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null,
             Outlet sliceLength = null,
             Outlet sampleCount = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
             return NewForAggregateFollower(
@@ -98,7 +95,7 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            DimensionEnum? standardDimension = null,
             string customDimension = null,
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
@@ -128,9 +125,8 @@ namespace JJ.Business.Synthesizer
             Outlet centerFrequency = null,
             Outlet width = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
             wrapper.Inputs[DimensionEnum.Width] = width;
@@ -143,9 +139,8 @@ namespace JJ.Business.Synthesizer
             Outlet centerFrequency = null,
             Outlet width = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
             wrapper.Inputs[DimensionEnum.Width] = width;
@@ -160,13 +155,10 @@ namespace JJ.Business.Synthesizer
             Outlet samplingRate = null,
             InterpolationTypeEnum interpolationTypeEnum = InterpolationTypeEnum.Line,
             SpeakerSetupEnum speakerSetupEnum = SpeakerSetupEnum.Mono,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
+            Operator op = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
             var wrapper = new Cache_OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
@@ -181,9 +173,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper ChangeTrigger(Outlet passThrough = null, Outlet reset = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
             wrapper.Inputs[DimensionEnum.Reset] = reset;
 
@@ -196,7 +187,7 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            DimensionEnum? standardDimension = null,
             string customDimension = null,
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
@@ -218,7 +209,7 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            DimensionEnum? standardDimension = null,
             string customDimension = null,
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
@@ -256,13 +247,10 @@ namespace JJ.Business.Synthesizer
 
         public Curve_OperatorWrapper Curve(
             Curve curve = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
+            Operator op = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
             var wrapper = new Curve_OperatorWrapper(op, _repositories.CurveRepository)
             {
@@ -322,24 +310,17 @@ namespace JJ.Business.Synthesizer
 
         private OperatorWrapper DimensionToOutletsPrivate(
             Outlet signal,
-            DimensionEnum? dimension,
+            DimensionEnum? standardDimension,
             string customDimension,
             int? outletCount)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
-
-            // Dimension
-            if (dimension.HasValue)
-            {
-                op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
-            }
-            op.CustomDimensionName = customDimension;
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
+            Operator op = wrapper.WrappedOperator;
 
             // OutletCount
             VoidResult setOutletCountResult = _patchManager.SetOperatorOutletCount(op, outletCount ?? 1);
             setOutletCountResult.Assert();
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
 
             new OperatorValidator_Versatile(op).Assert();
@@ -349,9 +330,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Divide(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -360,9 +340,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper DivideWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
             wrapper.Inputs[DimensionEnum.Origin] = origin;
@@ -372,9 +351,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Equal(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -383,9 +361,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Low] = low;
             wrapper.Inputs[DimensionEnum.High] = high;
             wrapper.Inputs[DimensionEnum.Ratio] = ratio;
@@ -393,23 +370,16 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public OperatorWrapper GetDimension(DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
+        public OperatorWrapper GetDimension(DimensionEnum? standardDimension = null, string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
-
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
             return wrapper;
         }
 
         public OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -418,9 +388,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper GreaterThanOrEqual(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -432,9 +401,8 @@ namespace JJ.Business.Synthesizer
             Outlet minFrequency = null,
             Outlet blobVolume = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Frequency] = minFrequency;
             wrapper.Inputs[DimensionEnum.BlobVolume] = blobVolume;
@@ -448,9 +416,8 @@ namespace JJ.Business.Synthesizer
             Outlet transitionSlope = null,
             Outlet dbGain = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Frequency] = transitionFrequency;
             wrapper.Inputs[DimensionEnum.Slope] = transitionSlope;
@@ -461,9 +428,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Hold(Outlet signal = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
 
             return wrapper;
@@ -471,9 +437,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper If(Outlet condition = null, Outlet then = null, Outlet @else = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Condition] = condition;
             wrapper.Inputs[DimensionEnum.Then] = then;
             wrapper.Inputs[DimensionEnum.Else] = @else;
@@ -524,19 +489,12 @@ namespace JJ.Business.Synthesizer
         private InletsToDimension_OperatorWrapper InletsToDimensionPrivate(
             IList<Outlet> items, 
             ResampleInterpolationTypeEnum? interpolation, 
-            DimensionEnum? dimension,
+            DimensionEnum? standardDimension,
             string customDimension = null)
         {
             if (items == null) throw new NullException(() => items);
 
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
-
-            // Dimension
-            if (dimension.HasValue)
-            {
-                op.SetStandardDimensionEnum(dimension.Value, _repositories.DimensionRepository);
-            }
-            op.CustomDimensionName = customDimension;
+            Operator op = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
             var wrapper = new InletsToDimension_OperatorWrapper(op)
             {
@@ -556,13 +514,10 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null,
             Outlet samplingRate = null,
             ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
+            Operator op = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
             var wrapper = new Interpolate_OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
@@ -574,9 +529,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper LessThan(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -585,9 +539,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper LessThanOrEqual(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -601,15 +554,11 @@ namespace JJ.Business.Synthesizer
             Outlet loopEndMarker = null,
             Outlet releaseEndMarker = null,
             Outlet noteDuration = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
             wrapper.Inputs[DimensionEnum.Skip] = skip;
             wrapper.Inputs[DimensionEnum.LoopStartMarker] = loopStartMarker;
@@ -625,9 +574,8 @@ namespace JJ.Business.Synthesizer
             Outlet maxFrequency = null,
             Outlet blobVolume = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Frequency] = maxFrequency;
             wrapper.Inputs[DimensionEnum.BlobVolume] = blobVolume;
@@ -641,9 +589,8 @@ namespace JJ.Business.Synthesizer
             Outlet transitionSlope = null,
             Outlet dbGain = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Frequency] = transitionFrequency;
             wrapper.Inputs[DimensionEnum.Slope] = transitionSlope;
@@ -666,7 +613,7 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null,
             Outlet sliceLength = null,
             Outlet sampleCount = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
             return NewForAggregateFollower(signal, sliceLength, sampleCount, standardDimension, customDimension, MethodBase.GetCurrentMethod());
@@ -677,7 +624,7 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            DimensionEnum? standardDimension = null,
             string customDimension = null,
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
@@ -706,7 +653,7 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null,
             Outlet sliceLength = null,
             Outlet sampleCount = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
             return NewForAggregateFollower(signal, sliceLength, sampleCount, standardDimension, customDimension, MethodBase.GetCurrentMethod());
@@ -717,7 +664,7 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            DimensionEnum? standardDimension = null,
             string customDimension = null,
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
@@ -744,9 +691,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper MultiplyWithOrigin(Outlet a = null, Outlet b = null, Outlet origin = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
             wrapper.Inputs[DimensionEnum.Origin] = origin;
@@ -756,9 +702,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Negative(Outlet number = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Number] = number;
 
             return wrapper;
@@ -768,24 +713,14 @@ namespace JJ.Business.Synthesizer
             DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
-
-            if (standardDimension.HasValue)
-            {
-                op.SetStandardDimensionEnum(standardDimension.Value, _repositories.DimensionRepository);
-            }
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
-
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
             return wrapper;
         }
 
         public OperatorWrapper Not(Outlet number = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Number] = number;
 
             return wrapper;
@@ -796,9 +731,8 @@ namespace JJ.Business.Synthesizer
             Outlet centerFrequency = null, 
             Outlet width = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
             wrapper.Inputs[DimensionEnum.Width] = width;
@@ -808,9 +742,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper NotEqual(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -828,9 +761,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper OneOverX(Outlet number = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Number] = number;
 
             return wrapper;
@@ -838,9 +770,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Or(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -948,9 +879,8 @@ namespace JJ.Business.Synthesizer
             Outlet width = null,
             Outlet dbGain = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Frequency] = centerFrequency;
             wrapper.Inputs[DimensionEnum.Width] = width;
@@ -961,9 +891,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Base] = @base;
             wrapper.Inputs[DimensionEnum.Exponent] = exponent;
 
@@ -976,28 +905,18 @@ namespace JJ.Business.Synthesizer
             DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            if (standardDimension.HasValue)
-            {
-                op.SetStandardDimensionEnum(standardDimension.Value, _repositories.DimensionRepository);
-            }
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Frequency] = frequency;
             wrapper.Inputs[DimensionEnum.Width] = width;
-
-            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
 
         public OperatorWrapper PulseTrigger(Outlet passThrough = null, Outlet reset = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.PassThrough]= passThrough;
             wrapper.Inputs[DimensionEnum.Reset] = reset;
 
@@ -1006,13 +925,10 @@ namespace JJ.Business.Synthesizer
 
         public Random_OperatorWrapper Random(
             Outlet rate = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
+            Operator op = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
             var wrapper = new Random_OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Rate] = rate;
@@ -1025,15 +941,11 @@ namespace JJ.Business.Synthesizer
             Outlet from = null, 
             Outlet till = null, 
             Outlet step = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.From] = from;
             wrapper.Inputs[DimensionEnum.Till] = till;
             wrapper.Inputs[DimensionEnum.Step] = step;
@@ -1046,7 +958,8 @@ namespace JJ.Business.Synthesizer
             Outlet step = null,
             int? outletCount = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
+            Operator op = wrapper.WrappedOperator;
 
             if (outletCount.HasValue)
             {
@@ -1054,7 +967,6 @@ namespace JJ.Business.Synthesizer
                 setOutletCountResult.Assert();
             }
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.From] = from;
             wrapper.Inputs[DimensionEnum.Step] = step;
 
@@ -1075,15 +987,11 @@ namespace JJ.Business.Synthesizer
         public OperatorWrapper Reverse(
             Outlet signal = null, 
             Outlet factor = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
             wrapper.Inputs[DimensionEnum.Factor] = factor;
 
@@ -1092,9 +1000,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
             wrapper.Inputs[DimensionEnum.Step] = step;
             wrapper.Inputs[DimensionEnum.Offset] = offset;
@@ -1105,13 +1012,10 @@ namespace JJ.Business.Synthesizer
         public Sample_OperatorWrapper Sample(
             Sample sample = null, 
             Outlet frequency = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
+            Operator op = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
             var wrapper = new Sample_OperatorWrapper(op, _repositories.SampleRepository)
             {
@@ -1162,15 +1066,11 @@ namespace JJ.Business.Synthesizer
         public OperatorWrapper SetDimension(
             Outlet passThrough = null, 
             Outlet number = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
             wrapper.Inputs[DimensionEnum.Number] = number;
 
@@ -1180,15 +1080,11 @@ namespace JJ.Business.Synthesizer
         public OperatorWrapper Shift(
             Outlet signal = null,
             Outlet difference = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
             wrapper.Inputs[DimensionEnum.Difference] = difference;
 
@@ -1208,7 +1104,7 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            DimensionEnum? standardDimension = null,
             string customDimension = null,
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
@@ -1238,21 +1134,15 @@ namespace JJ.Business.Synthesizer
             Outlet start = null, 
             Outlet end = null, 
             Outlet frequencyCount = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Sound] = sound;
             wrapper.Inputs[DimensionEnum.Start] = start;
             wrapper.Inputs[DimensionEnum.End] = end;
             wrapper.Inputs[DimensionEnum.FrequencyCount] = frequencyCount;
-
-            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -1269,15 +1159,11 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null,
             Outlet factor = null,
             Outlet origin = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
             wrapper.Inputs[DimensionEnum.Factor] = factor;
             wrapper.Inputs[DimensionEnum.Origin] = origin;
@@ -1289,15 +1175,11 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null, 
             Outlet factor = null, 
             Outlet origin = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
             wrapper.Inputs[DimensionEnum.Factor] = factor;
             wrapper.Inputs[DimensionEnum.Origin] = origin;
@@ -1307,9 +1189,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper Subtract(Outlet a = null, Outlet b = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.A] = a;
             wrapper.Inputs[DimensionEnum.B] = b;
 
@@ -1320,7 +1201,7 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null,
             Outlet sliceLength = null,
             Outlet sampleCount = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
             return NewForAggregateFollower(signal, sliceLength, sampleCount, standardDimension, customDimension, MethodBase.GetCurrentMethod());
@@ -1331,7 +1212,7 @@ namespace JJ.Business.Synthesizer
             Outlet from = null,
             Outlet till = null,
             Outlet step = null,
-            DimensionEnum standardDimension = DimensionEnum.Undefined,
+            DimensionEnum? standardDimension = null,
             string customDimension = null,
             CollectionRecalculationEnum collectionRecalculation = CollectionRecalculationEnum.Continuous)
         {
@@ -1350,15 +1231,11 @@ namespace JJ.Business.Synthesizer
             Outlet signal = null, 
             Outlet exponent = null, 
             Outlet origin = null,
-            DimensionEnum standardDimension = DimensionEnum.Time,
+            DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewWithDimension(MethodBase.GetCurrentMethod(), standardDimension, customDimension);
 
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
             wrapper.Inputs[DimensionEnum.Exponent] = exponent;
             wrapper.Inputs[DimensionEnum.Origin] = origin;
@@ -1368,9 +1245,8 @@ namespace JJ.Business.Synthesizer
 
         public OperatorWrapper ToggleTrigger(Outlet passThrough = null, Outlet reset = null)
         {
-            Operator op = NewBase(MethodBase.GetCurrentMethod());
+            OperatorWrapper wrapper = NewBase(MethodBase.GetCurrentMethod());
 
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
             wrapper.Inputs[DimensionEnum.Reset] = reset;
 
@@ -1390,20 +1266,27 @@ namespace JJ.Business.Synthesizer
             DimensionEnum? standardDimension,
             string customDimension)
         {
-            Operator op = NewBase(methodBase);
+            OperatorWrapper wrapper = NewWithDimension(methodBase, standardDimension, customDimension);
+
+            wrapper.Inputs[DimensionEnum.Frequency] = frequency;
+
+            return wrapper;
+        }
+
+        private OperatorWrapper NewWithDimension(
+            MethodBase methodBase,
+            DimensionEnum? standardDimension,
+            string customDimension)
+        {
+            OperatorWrapper wrapper = NewBase(methodBase);
+            Operator op = wrapper.WrappedOperator;
 
             if (standardDimension.HasValue)
             {
                 op.SetStandardDimensionEnum(standardDimension.Value, _repositories.DimensionRepository);
             }
 
-            if (NameHelper.IsFilledIn(customDimension))
-            {
-                op.CustomDimensionName = customDimension;
-            }
-
-            var wrapper = new OperatorWrapper(op);
-            wrapper.Inputs[DimensionEnum.Frequency] = frequency;
+            op.CustomDimensionName = customDimension;
 
             return wrapper;
         }
@@ -1443,16 +1326,12 @@ namespace JJ.Business.Synthesizer
             Outlet signal,
             Outlet sliceLength,
             Outlet sampleCount,
-            DimensionEnum standardDimension,
+            DimensionEnum? standardDimension,
             string customDimension,
             MethodBase methodBaseWithSameNameAsSystemPatch)
         {
-            Operator op = NewBase(methodBaseWithSameNameAsSystemPatch);
+            OperatorWrapper wrapper = NewWithDimension(methodBaseWithSameNameAsSystemPatch, standardDimension, customDimension);
 
-            op.CustomDimensionName = customDimension;
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-
-            var wrapper = new OperatorWrapper(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
             wrapper.Inputs[DimensionEnum.SliceLength] = sliceLength;
             wrapper.Inputs[DimensionEnum.SampleCount] = sampleCount;
@@ -1465,15 +1344,12 @@ namespace JJ.Business.Synthesizer
             Outlet from,
             Outlet till,
             Outlet step,
-            DimensionEnum standardDimension,
+            DimensionEnum? standardDimension,
             string customDimension,
             CollectionRecalculationEnum collectionRecalculation,
             MethodBase methodBaseWithSameNameAsSystemPatch)
         {
-            Operator op = NewBase(methodBaseWithSameNameAsSystemPatch);
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
+            Operator op = NewWithDimension(methodBaseWithSameNameAsSystemPatch, standardDimension, customDimension);
 
             var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
             wrapper.Inputs[DimensionEnum.Signal] = signal;
@@ -1491,15 +1367,12 @@ namespace JJ.Business.Synthesizer
             Outlet from,
             Outlet till,
             Outlet step,
-            DimensionEnum standardDimension,
+            DimensionEnum? standardDimension,
             string customDimension,
             CollectionRecalculationEnum collectionRecalculation,
             MethodBase methodBaseWithSameNameAsSystemPatch)
         {
-            Operator op = NewBase(methodBaseWithSameNameAsSystemPatch);
-
-            op.SetStandardDimensionEnum(standardDimension, _repositories.DimensionRepository);
-            op.CustomDimensionName = customDimension;
+            Operator op = NewWithDimension(methodBaseWithSameNameAsSystemPatch, standardDimension, customDimension);
 
             var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
             wrapper.Inputs[DimensionEnum.Input] = input;
@@ -1641,7 +1514,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <param name="methodBaseWithSameNameAsSystemPatch">methodBase.Name must match an OperatorTypeEnum member's name.</param>
-        private Operator NewBase(MethodBase methodBaseWithSameNameAsSystemPatch)
+        private OperatorWrapper NewBase(MethodBase methodBaseWithSameNameAsSystemPatch)
         {
             string systemPatchName = methodBaseWithSameNameAsSystemPatch.Name;
 
@@ -1660,7 +1533,7 @@ namespace JJ.Business.Synthesizer
 
             new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
 
-            new OperatorValidator_Versatile(op).Assert();
+            new OperatorValidator(op).Assert();
 
             var wrapper = new OperatorWrapper(op);
             return wrapper;

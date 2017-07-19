@@ -30,13 +30,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static string GetDimensionKey(Operator op)
         {
             // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (!string.IsNullOrEmpty(op.CustomDimensionName))
+            string customDimensionName = op.GetCustomDimensionNameWithFallback();
+            if (!string.IsNullOrEmpty(customDimensionName))
             {
-                return $"{CUSTOM_DIMENSION_KEY_PREFIX}{op.CustomDimensionName}";
+                return $"{CUSTOM_DIMENSION_KEY_PREFIX}{customDimensionName}";
             }
             else
             {
-                return GetDimensionKey(op.GetStandardDimensionEnum());
+                return GetDimensionKey(op.GetStandardDimensionEnumWithFallback());
             }
         }
 
@@ -52,12 +53,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static string TryGetDimensionName(Operator op)
         {
-            if (!string.IsNullOrEmpty(op.CustomDimensionName))
+            string customDimensionName = op.GetCustomDimensionNameWithFallback();
+            if (!string.IsNullOrEmpty(customDimensionName))
             {
-                return op.CustomDimensionName;
+                return customDimensionName;
             }
 
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnum();
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             if (standardDimensionEnum != DimensionEnum.Undefined)
             {
                 return ResourceFormatter.GetDisplayName(standardDimensionEnum);
@@ -173,9 +175,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case OperatorTypeEnum.Stretch:
                 case OperatorTypeEnum.Squash:
-                    if (inlet.GetDimensionEnum() == DimensionEnum.Origin)
+                    if (inlet.GetDimensionEnumWithFallback() == DimensionEnum.Origin)
                     {
-                        if (op.GetStandardDimensionEnum() == DimensionEnum.Time)
+                        if (op.GetStandardDimensionEnumWithFallback() == DimensionEnum.Time)
                         {
                             return false;
                         }
@@ -438,6 +440,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var sb = new StringBuilder();
 
             var wrapper = new PatchInletOrOutlet_OperatorWrapper(op);
+
+            // GetDimensionEnumWithFallback and GetNameWithFallback do not work.
+            // They try to inherit the dimension from the PatchInlet operator,
+            // which is pointless, because it is never filled in.
             string name = wrapper.Inlet.Name;
             DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
 
@@ -476,6 +482,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var wrapper = new PatchInletOrOutlet_OperatorWrapper(op);
             Outlet outlet = wrapper.Outlet;
+
+            // GetDimensionEnumWithFallback and GetNameWithFallback do not work.
+            // They try to inherit the dimension from the PatchInlet operator,
+            // which is pointless, because it is never filled in.
             string name = outlet.Name;
             DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
 

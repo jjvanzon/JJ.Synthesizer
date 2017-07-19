@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             Outlet soundOutlet = patch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
                                       .SelectMany(x => x.Outlets)
-                                      .Where(x => x.GetDimensionEnum() == DimensionEnum.Sound)
+                                      .Where(x => x.GetDimensionEnumWithFallback() == DimensionEnum.Sound)
                                       .SingleOrDefault();
             if (soundOutlet == null)
             {

@@ -27,19 +27,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public OperatorWrapper_Inputs Inputs { get; }
         public OperatorWrapper_Inlets Inlets { get; }
         public OperatorWrapper_Outlets Outlets { get; }
-        public DimensionEnum StandardDimension => WrappedOperator.GetStandardDimensionEnum();
-
-        public string CustomDimension
-        {
-            get => WrappedOperator.CustomDimensionName;
-            set => WrappedOperator.CustomDimensionName = value;
-        }
-
-        public string Name
-        {
-            get => WrappedOperator.Name;
-            set => WrappedOperator.Name = value;
-        }
 
         /// <summary> Determines the Inlet display name based on its name, dimension or position. </summary>
         public virtual string GetInletDisplayName(Inlet inlet)
@@ -52,15 +39,17 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
 
             // Use Name
-            if (!string.IsNullOrWhiteSpace(inlet.Name))
+            string nameWithFallback = inlet.GetNameWithFallback();
+            if (!string.IsNullOrWhiteSpace(nameWithFallback))
             {
-                return ResourceFormatter.GetDisplayName(inlet);
+                return ResourceFormatter.GetDisplayName(nameWithFallback);
             }
 
             // Use Dimension
-            if (inlet.Dimension != null)
+            Dimension dimensionWithFallback = inlet.GetDimensionWithFallback();
+            if (dimensionWithFallback != null)
             {
-                return ResourceFormatter.GetDisplayName(inlet.Dimension);
+                return ResourceFormatter.GetDisplayName(dimensionWithFallback);
             }
 
             // Use List Index (not Position, becuase it does not have to be consecutive).
@@ -80,15 +69,17 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
 
             // Use Name
-            if (!string.IsNullOrWhiteSpace(outlet.Name))
+            string nameWithFallback = outlet.GetNameWithFallback();
+            if (!string.IsNullOrWhiteSpace(nameWithFallback))
             {
-                return ResourceFormatter.GetDisplayName(outlet);
+                return ResourceFormatter.GetDisplayName(nameWithFallback);
             }
 
             // Use Dimension
-            if (outlet.Dimension != null)
+            Dimension dimensionWithFallback = outlet.GetDimensionWithFallback();
+            if (dimensionWithFallback != null)
             {
-                return ResourceFormatter.GetDisplayName(outlet.Dimension);
+                return ResourceFormatter.GetDisplayName(dimensionWithFallback);
             }
 
             // Use List Index (not Position, becuase it does not have to be consecutive).

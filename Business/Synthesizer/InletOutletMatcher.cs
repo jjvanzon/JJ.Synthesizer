@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer
             public bool IsFromOnlyRepeatingToOnlyNonRepeating { get; }
         }
 
-        // Patch to CustomOperator (e.g. for Converters and Validators)
+        // Patch to Operator (e.g. for Converters and Validators)
 
         public static IList<InletTuple> MatchSourceAndDestInlets(Operator destOperator)
         {
@@ -420,20 +420,22 @@ namespace JJ.Business.Synthesizer
             if (inlet == null) throw new NullException(() => inlet);
 
             // Try match by name
-            if (NameHelper.IsFilledIn(outlet.Name))
+            string outletName = outlet.GetNameWithFallback();
+            if (NameHelper.IsFilledIn(outletName))
             {
-                if (NameHelper.AreEqual(outlet.Name, inlet.Name))
+                string inletName = inlet.GetNameWithFallback();
+                if (NameHelper.AreEqual(outletName, inletName))
                 {
                     return true;
                 }
             }
 
             // Try match by Dimension
-            DimensionEnum outletDimensionEnum = outlet.GetDimensionEnum();
+            DimensionEnum outletDimensionEnum = outlet.GetDimensionEnumWithFallback();
             // ReSharper disable once InvertIf
             if (outletDimensionEnum != DimensionEnum.Undefined)
             {
-                DimensionEnum inletDimensionEnum = inlet.GetDimensionEnum();
+                DimensionEnum inletDimensionEnum = inlet.GetDimensionEnumWithFallback();
                 // ReSharper disable once InvertIf
                 if (inletDimensionEnum != DimensionEnum.Undefined)
                 {

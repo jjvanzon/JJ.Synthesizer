@@ -1,5 +1,6 @@
 ﻿using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
@@ -111,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return new IDAndName
             {
                 ID = entity.ID,
-                Name = ResourceFormatter.GetDisplayName(entity.Name)
+                Name = ResourceFormatter.GetDisplayName(entity.GetNameWithFallback())
             };
         }
 

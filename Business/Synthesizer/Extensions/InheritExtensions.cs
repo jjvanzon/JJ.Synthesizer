@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer.Interfaces;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
-    internal static class InheritExtensions
+    public static class InheritExtensions
     {
         /// <summary>In case dimension is 'Inherit', the dimension is resolved from context.</summary>
         public static string GetCustomDimensionNameWithFallback(this Operator op)
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (op == null) throw new ArgumentNullException(nameof(op));
 
             Dimension dimension = op.StandardDimension;
-            if (dimension.ToEnum() == DimensionEnum.Inherit)
+            if (dimension?.ToEnum() == DimensionEnum.Inherit)
             {
                 return op.Patch.DefaultStandardDimension;
             }
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (op == null) throw new ArgumentNullException(nameof(op));
 
             Dimension dimension = op.GetStandardDimensionWithFallback();
-            return dimension.ToEnum();
+            return dimension?.ToEnum() ?? DimensionEnum.Undefined;
         }
 
         /// <summary>In case dimension is 'Inherit', the name is resolved from context.</summary>
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (inletOrOutlet == null) throw new ArgumentNullException(nameof(inletOrOutlet));
 
-            // TODO: Low priority: It is a little strange that if dimension is inherit, then name is inherited.
+            // NOTE: It may be a little strange that if dimension is inherit, then name is inherited.
 
             if (inletOrOutlet.GetDimensionEnum() == DimensionEnum.Inherit)
             {
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (inletOrOutlet == null) throw new ArgumentNullException(nameof(inletOrOutlet));
 
             Dimension dimension = inletOrOutlet.Dimension;
-            if (dimension.ToEnum() == DimensionEnum.Inherit)
+            if (dimension?.ToEnum() == DimensionEnum.Inherit)
             {
                 return inletOrOutlet.Operator.GetStandardDimensionWithFallback();
             }
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             Dimension dimension = inletOrOutlet.GetDimensionWithFallback();
 
-            return dimension.ToEnum();
+            return dimension?.ToEnum() ?? DimensionEnum.Undefined;
         }
     }
 }

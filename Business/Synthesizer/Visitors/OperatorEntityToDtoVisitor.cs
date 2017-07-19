@@ -984,8 +984,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private void SetDimensionProperties(Operator op, IOperatorDto_WithDimension dto)
         {
-            dto.StandardDimensionEnum = op.GetStandardDimensionEnum();
-            dto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.CustomDimensionName);
+            dto.StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
+            dto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback());
         }
 
         // Special Visitation
@@ -1029,8 +1029,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
                     dto = new VariableInput_OperatorDto
                     {
-                        DimensionEnum = wrapper.Inlet.GetDimensionEnum(),
-                        CanonicalName = NameHelper.ToCanonical(wrapper.Inlet.Name),
+                        DimensionEnum = wrapper.Inlet.GetDimensionEnumWithFallback(),
+                        CanonicalName = NameHelper.ToCanonical(wrapper.Inlet.GetNameWithFallback()),
                         Position = wrapper.Inlet.Position,
                         DefaultValue = wrapper.Inlet.DefaultValue ?? 0.0
                     };
