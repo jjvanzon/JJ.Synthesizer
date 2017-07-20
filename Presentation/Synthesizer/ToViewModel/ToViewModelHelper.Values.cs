@@ -53,19 +53,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static string TryGetDimensionName(Operator op)
         {
+            var sb = new StringBuilder();
+
             string customDimensionName = op.GetCustomDimensionNameWithFallback();
-            if (!string.IsNullOrEmpty(customDimensionName))
-            {
-                return customDimensionName;
-            }
-
             DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
-            if (standardDimensionEnum != DimensionEnum.Undefined)
+
+            if (NameHelper.IsFilledIn(customDimensionName))
             {
-                return ResourceFormatter.GetDisplayName(standardDimensionEnum);
+                sb.Append(customDimensionName);
+            }
+            else if (standardDimensionEnum != DimensionEnum.Undefined)
+            {
+                sb.Append(ResourceFormatter.GetDisplayName(standardDimensionEnum));
+            }
+            else if (op.DimensionIsInherited())
+            {
+                sb.Append(ResourceFormatter.Dimension);
             }
 
-            return null;
+            if (op.DimensionIsInherited())
+            {
+                sb.Append($" ({ResourceFormatter.Inherited.ToLower()})");
+            }
+
+            return sb.ToString();
         }
 
         public static bool MustStyleDimension(Operator entity)
@@ -441,11 +452,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var wrapper = new PatchInletOrOutlet_OperatorWrapper(op);
 
-            // GetDimensionEnumWithFallback and GetNameWithFallback do not work.
-            // They try to inherit the dimension from the PatchInlet operator,
-            // which is pointless, because it is never filled in.
-            string name = wrapper.Inlet.Name;
-            DimensionEnum dimensionEnum = wrapper.Inlet.GetDimensionEnum();
+            Inlet inlet = wrapper.Inlet;
+
+            string name = inlet.GetNameWithFallback();
+            DimensionEnum dimensionEnum = inlet.GetDimensionEnumWithFallback();
 
             // Use OperatorType DisplayName
             sb.Append(ResourceFormatter.Inlet);
@@ -460,14 +470,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 sb.Append($": {ResourceFormatter.GetDisplayName(dimensionEnum)}");
             }
+            // Try Say 'Dimension'
+            else if (inlet.DimensionIsInherited())
+            {
+                sb.AppendFormat($": {ResourceFormatter.Dimension}");
+            }
             // Try Use List Index
             else
             {
-                sb.Append($" {wrapper.Inlet.Position}");
+                sb.Append($" {inlet.Position}");
+            }
+
+            if (inlet.DimensionIsInherited())
+            {
+                sb.Append($" ({ResourceFormatter.Inherited.ToLower()})");
             }
 
             // Try Use DefaultValue
-            double? defaultValue = wrapper.Inlet.DefaultValue;
+            double? defaultValue = inlet.DefaultValue;
             if (defaultValue.HasValue)
             {
                 sb.Append($" = {defaultValue.Value}");
@@ -483,11 +503,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var wrapper = new PatchInletOrOutlet_OperatorWrapper(op);
             Outlet outlet = wrapper.Outlet;
 
-            // GetDimensionEnumWithFallback and GetNameWithFallback do not work.
-            // They try to inherit the dimension from the PatchInlet operator,
-            // which is pointless, because it is never filled in.
-            string name = outlet.Name;
-            DimensionEnum dimensionEnum = outlet.GetDimensionEnum();
+            string name = outlet.GetNameWithFallback();
+            DimensionEnum dimensionEnum = outlet.GetDimensionEnumWithFallback();
 
             // Use OperatorType DisplayName
             sb.Append(ResourceFormatter.Outlet);
@@ -500,12 +517,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Try Use Dimension
             else if (dimensionEnum != DimensionEnum.Undefined)
             {
-                sb.AppendFormat(": {0}", ResourceFormatter.GetDisplayName(dimensionEnum));
+                sb.Append($": {ResourceFormatter.GetDisplayName(dimensionEnum)}");
+            }
+            // Try Say 'Dimension'
+            else if (outlet.DimensionIsInherited())
+            {
+                sb.AppendFormat($": {ResourceFormatter.Dimension}");
             }
             // Try Use List Index
             else
             {
-                sb.AppendFormat(" {0}", outlet.Position);
+                sb.Append($" {outlet.Position}");
+            }
+
+            // Inherited
+            if (outlet.DimensionIsInherited())
+            {
+                sb.Append($" ({ResourceFormatter.Inherited.ToLower()})");
             }
 
             return sb.ToString();
@@ -550,28 +578,40 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)
         {
-            DimensionEnum dimensionEnum = op.GetStandardDimensionEnum();
-            string formattedOperatorTypeDisplayName;
-            if (dimensionEnum != DimensionEnum.Undefined)
+            var sb = new StringBuilder();
+
+            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
+            string customDimensionName = op.GetCustomDimensionNameWithFallback();
+
+            if (standardDimensionEnum != DimensionEnum.Undefined)
             {
-                string dimensionDisplayName = ResourceFormatter.GetDisplayName(dimensionEnum);
-                formattedOperatorTypeDisplayName = string.Format(operatorTypeDisplayNameWithPlaceholder, dimensionDisplayName);
+                // StandardDimension
+                sb.AppendFormat(operatorTypeDisplayNameWithPlaceholder, ResourceFormatter.GetDisplayName(standardDimensionEnum));
+            }
+            else if (NameHelper.IsFilledIn(customDimensionName))
+            {
+                // CustomDimensionName
+                sb.AppendFormat(operatorTypeDisplayNameWithPlaceholder, customDimensionName);
             }
             else
             {
-                formattedOperatorTypeDisplayName = ResourceFormatter.GetDisplayName(op);
+                // No Dimension FilledIn
+                sb.Append(ResourceFormatter.GetDisplayName(op));
+            }
+
+            // Inherited
+            if (op.DimensionIsInherited())
+            {
+                sb.Append($" ({ResourceFormatter.Inherited.ToLower()})");
             }
 
             // Use Operator.Name
             if (!string.IsNullOrWhiteSpace(op.Name))
             {
-                return $"{formattedOperatorTypeDisplayName}: {op.Name}";
+                sb.Append($": {op.Name}");
             }
-            // Use OperatorType DisplayName only.
-            else
-            {
-                return formattedOperatorTypeDisplayName;
-            }
+
+            return sb.ToString();
         }
 
         private static string GetOperatorCaption_ForOtherOperators(Operator op) => ResourceFormatter.GetDisplayName(op);

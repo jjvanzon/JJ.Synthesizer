@@ -127,6 +127,8 @@ namespace JJ.Business.Synthesizer.Resources
         public static string HighShelfFilter => Resources.HighShelfFilter;
         public static string Hold => Resources.Hold;
         public static string If => Resources.If;
+        public static string Inherit => Resources.Inherit;
+        public static string Inherited => Resources.Inherited;
         public static string Inlet => Resources.Inlet;
         public static string Inlets => Resources.Inlets;
         public static string InletsToDimension => Resources.InletsToDimension;

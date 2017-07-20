@@ -1132,6 +1132,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inherit.
+        /// </summary>
+        internal static string Inherit {
+            get {
+                return ResourceManager.GetString("Inherit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inherited.
+        /// </summary>
+        internal static string Inherited {
+            get {
+                return ResourceManager.GetString("Inherited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inlet.
         /// </summary>
         internal static string Inlet {

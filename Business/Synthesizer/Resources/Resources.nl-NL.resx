@@ -1074,4 +1074,10 @@
   <data name="FirstRepetitionPosition" xml:space="preserve">
     <value>Eerste herhalingspositie</value>
   </data>
+  <data name="Inherit" xml:space="preserve">
+    <value>Overerven</value>
+  </data>
+  <data name="Inherited" xml:space="preserve">
+    <value>Geërft</value>
+  </data>
 </root>
