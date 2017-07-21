@@ -836,8 +836,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine();
 
             AppendLine($"{GetOperatorTitleComment(dto)} (end)");
-            AppendLine($"bool {isTrue} = {condition} != 0.0;");
-            AppendLine($"double {output} = {isTrue} ? {then} : {@else};");
+            AppendLine($"double {output} = {condition} ? {then} : {@else};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -1362,10 +1361,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendOperatorTitleComment(dto);
 
-            string number = _stack.Pop();
+            string input = _stack.Pop();
             string output = GetLocalOutputName(dto);
 
-            AppendLine($"double {output} = {number} == 0.0 ? 1.0 : 0.0;");
+            AppendLine($"bool {output} = !{input};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2845,7 +2844,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string b = _stack.Pop();
             string output = GetLocalOutputName(dto);
 
-            AppendLine($"double {output} = {a} {operatorSymbol} {b} ? 1.0 : 0.0;");
+            AppendLine($"bool {output} = {a} {operatorSymbol} {b};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -2877,7 +2876,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string b = _stack.Pop();
             string output = GetLocalOutputName(dto);
 
-            AppendLine($"double {output} = {a} != 0.0 {operatorSymbol} {b} != 0.0 ? 1.0 : 0.0;");
+            AppendLine($"bool {output} = {a} {operatorSymbol} {b};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -3533,8 +3532,16 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string generalIdentifier = dto.OperatorTypeEnum.ToString();
             string variationIdentifier = dto.GetType().Name.Replace("_OperatorDto", "").Replace($"{generalIdentifier}_", "");
-            string line = $"// {generalIdentifier} ({variationIdentifier})";
-            return line;
+            if (string.Equals(generalIdentifier, variationIdentifier))
+            {
+                string line = $"// {generalIdentifier}";
+                return line;
+            }
+            else
+            {
+                string line = $"// {generalIdentifier} ({variationIdentifier})";
+                return line;
+            }
         }
 
         /// <summary>

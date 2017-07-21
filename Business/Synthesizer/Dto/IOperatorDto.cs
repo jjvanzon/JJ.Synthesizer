@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Dto
     {
         /// <summary> Only used to add comment to output generated C# code. </summary>
         OperatorTypeEnum OperatorTypeEnum { get; }
-        /// <summary> Assigning list items does not work. Only get or set the list as a whole. </summary>
+        /// <summary> Assigning list items does not work. Only set the list as a whole. </summary>
         IList<IOperatorDto> InputOperatorDtos { get; set; }
 
         /// <summary>

@@ -29,8 +29,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             new OperatorDtoVisitor_InfrastructureVariables(_samplingRate, _targetChannelCount).Execute(dto);
             dto = new OperatorDtoVisitor_MathSimplification().Execute(dto);
-            // Temporarily (2017-07-21) Outcommented, until C# code generator can handle everything around booleans.
-            //dto = new OperatorDtoVisitor_BooleanBoundaries().Execute(dto);
+            dto = new OperatorDtoVisitor_BooleanBoundaries().Execute(dto);
             dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
             dto = new OperatorDtoVisitor_Rewriting().Execute(dto);
             dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);

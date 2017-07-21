@@ -6,7 +6,17 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitor_BooleanBoundaries : OperatorDtoVisitorBase_AfterMathSimplification
     {
-        public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
+        public IOperatorDto Execute(IOperatorDto dto)
+        {
+            IOperatorDto dto2 = Visit_OperatorDto_Polymorphic(dto);
+
+            if (OutputIsAlwaysBoolean(dto2))
+            {
+                return InsertBooleanToDouble(dto2);
+            }
+
+            return dto2;
+        }
 
         // Visit
 
@@ -46,7 +56,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 foreach (IOperatorDto inputOperatorDto in dto.InputOperatorDtos)
                 {
-                    IOperatorDto inputOperatorDto2 = TryProcessBooleanToDoubleBoundary(inputOperatorDto);
+                    IOperatorDto inputOperatorDto2 = TryInsertBooleanToDouble(inputOperatorDto);
                     list.Add(inputOperatorDto2);
                 }
 
@@ -62,7 +72,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_OperatorDto_Base(dto);
 
-            dto.ConditionOperatorDto = TryProcessDoubleToBooleanBoundary(dto.ConditionOperatorDto);
+            dto.ConditionOperatorDto = TryInsertDoubleToBoolean(dto.ConditionOperatorDto);
 
             return dto;
         }
@@ -75,7 +85,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             for (int i = 0; i < dto.InputOperatorDtos.Count; i++)
             {
-                IOperatorDto dto2 = TryProcessDoubleToBooleanBoundary(dto.InputOperatorDtos[i]);
+                IOperatorDto dto2 = TryInsertDoubleToBoolean(dto.InputOperatorDtos[i]);
                 list.Add(dto2);
             }
 
@@ -84,32 +94,36 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        private IOperatorDto TryProcessDoubleToBooleanBoundary(IOperatorDto inputDto)
+        private IOperatorDto TryInsertDoubleToBoolean(IOperatorDto inputDto)
         {
             bool mustConvert = !OutputIsAlwaysBoolean(inputDto);
             if (mustConvert)
             {
-                // Sandwich conversion between the two nodes.
-                IOperatorDto insertedDto = new DoubleToBoolean_OperatorDto { NumberOperatorDto = inputDto };
-
-                return insertedDto;
+                return InsertDoubleToBoolean(inputDto);
             }
 
             return inputDto;
         }
 
-        private IOperatorDto TryProcessBooleanToDoubleBoundary(IOperatorDto inputDto)
+        private static IOperatorDto InsertDoubleToBoolean(IOperatorDto inputDto)
+        {
+            return new DoubleToBoolean_OperatorDto { NumberOperatorDto = inputDto };
+        }
+
+        private IOperatorDto TryInsertBooleanToDouble(IOperatorDto inputDto)
         {
             bool mustConvert = OutputIsAlwaysBoolean(inputDto);
             if (mustConvert)
             {
-                // Sandwich conversion between the two nodes.
-                IOperatorDto insertedDto = new BooleanToDouble_OperatorDto { InputOperatorDto = inputDto };
-
-                return insertedDto;
+                return InsertBooleanToDouble(inputDto);
             }
 
             return inputDto;
+        }
+
+        private static IOperatorDto InsertBooleanToDouble(IOperatorDto inputDto)
+        {
+            return new BooleanToDouble_OperatorDto { InputOperatorDto = inputDto };
         }
 
         private static bool OutputIsAlwaysBoolean(IOperatorDto dto)
