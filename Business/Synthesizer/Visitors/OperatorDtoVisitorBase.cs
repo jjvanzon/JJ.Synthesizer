@@ -95,8 +95,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth), x => Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth((BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth)x ) },
                 { typeof(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth), x => Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth((BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth)x ) },
                 { typeof(BooleanToDouble_OperatorDto), x => Visit_BooleanToDouble_OperatorDto((BooleanToDouble_OperatorDto)x ) },
-                { typeof(BooleanToDouble_OperatorDto_VarInput), x => Visit_BooleanToDouble_OperatorDto_VarInput((BooleanToDouble_OperatorDto_VarInput)x ) },
-                { typeof(BooleanToDouble_OperatorDto_ConstInput), x => Visit_BooleanToDouble_OperatorDto_ConstInput((BooleanToDouble_OperatorDto_ConstInput)x ) },
                 { typeof(Cache_OperatorDto), x => Visit_Cache_OperatorDto((Cache_OperatorDto)x ) },
                 { typeof(Cache_OperatorDto_ConstSignal), x => Visit_Cache_OperatorDto_ConstSignal((Cache_OperatorDto_ConstSignal)x ) },
                 { typeof(Cache_OperatorDto_SingleChannel_Block), x => Visit_Cache_OperatorDto_SingleChannel_Block((Cache_OperatorDto_SingleChannel_Block)x ) },
@@ -143,8 +141,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Divide_OperatorDto_ConstA_VarB), x => Visit_Divide_OperatorDto_ConstA_VarB((Divide_OperatorDto_ConstA_VarB)x ) },
                 { typeof(Divide_OperatorDto_ConstA_ConstB), x => Visit_Divide_OperatorDto_ConstA_ConstB((Divide_OperatorDto_ConstA_ConstB)x ) },
                 { typeof(DoubleToBoolean_OperatorDto), x => Visit_DoubleToBoolean_OperatorDto((DoubleToBoolean_OperatorDto)x ) },
-                { typeof(DoubleToBoolean_OperatorDto_VarNumber), x => Visit_DoubleToBoolean_OperatorDto_VarNumber((DoubleToBoolean_OperatorDto_VarNumber)x ) },
-                { typeof(DoubleToBoolean_OperatorDto_ConstNumber), x => Visit_DoubleToBoolean_OperatorDto_ConstNumber((DoubleToBoolean_OperatorDto_ConstNumber)x ) },
                 { typeof(Equal_OperatorDto), x => Visit_Equal_OperatorDto((Equal_OperatorDto)x ) },
                 { typeof(Equal_OperatorDto_ConstA_ConstB), x => Visit_Equal_OperatorDto_ConstA_ConstB((Equal_OperatorDto_ConstA_ConstB)x ) },
                 { typeof(Equal_OperatorDto_ConstA_VarB), x => Visit_Equal_OperatorDto_ConstA_VarB((Equal_OperatorDto_ConstA_VarB)x ) },
@@ -504,8 +500,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_BooleanToDouble_OperatorDto(BooleanToDouble_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_BooleanToDouble_OperatorDto_VarInput(BooleanToDouble_OperatorDto_VarInput dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_BooleanToDouble_OperatorDto_ConstInput(BooleanToDouble_OperatorDto_ConstInput dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto(Cache_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Block(Cache_OperatorDto_SingleChannel_Block dto) => Visit_OperatorDto_Base(dto);
@@ -552,8 +546,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB(Divide_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB(Divide_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_DoubleToBoolean_OperatorDto_VarNumber(DoubleToBoolean_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_DoubleToBoolean_OperatorDto_ConstNumber(DoubleToBoolean_OperatorDto_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Equal_OperatorDto_ConstA_ConstB(Equal_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Equal_OperatorDto_ConstA_VarB(Equal_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
