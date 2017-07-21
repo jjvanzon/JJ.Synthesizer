@@ -2038,41 +2038,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto)
-        {
-            base.Visit_Shift_OperatorDto(dto);
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
-            MathPropertiesDto distanceMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.DistanceOperatorDto);
-
-            IOperatorDto dto2;
-
-            if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsConst)
-            {
-                dto2 = new Shift_OperatorDto_ConstSignal_ConstDistance { Signal = signalMathPropertiesDto.ConstValue, Distance = distanceMathPropertiesDto.ConstValue };
-            }
-            else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsConst)
-            {
-                dto2 = new Shift_OperatorDto_VarSignal_ConstDistance { SignalOperatorDto = dto.SignalOperatorDto, Distance = distanceMathPropertiesDto.ConstValue };
-            }
-            else if (signalMathPropertiesDto.IsConst && distanceMathPropertiesDto.IsVar)
-            {
-                dto2 = new Shift_OperatorDto_ConstSignal_VarDistance { Signal = signalMathPropertiesDto.ConstValue, DistanceOperatorDto = dto.DistanceOperatorDto };
-            }
-            else if (signalMathPropertiesDto.IsVar && distanceMathPropertiesDto.IsVar)
-            {
-                dto2 = new Shift_OperatorDto_VarSignal_VarDistance { SignalOperatorDto = dto.SignalOperatorDto, DistanceOperatorDto = dto.DistanceOperatorDto };
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
-            }
-
-            DtoCloner.TryClone_WithDimensionProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
             base.Visit_Sine_OperatorDto(dto);

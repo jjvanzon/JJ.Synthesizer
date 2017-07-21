@@ -79,7 +79,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.SawDown, VisitSawDown },
                 { OperatorTypeEnum.SawUp, VisitSawUp },
                 { OperatorTypeEnum.SetDimension, VisitSetDimension },
-                { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
@@ -398,9 +397,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         //[DebuggerHidden]
         protected virtual void VisitSetDimension(Operator op) => VisitOperatorBase(op);
-
-        //[DebuggerHidden]
-        protected virtual void VisitShift(Operator op) => VisitOperatorBase(op);
 
         //[DebuggerHidden]
         protected virtual void VisitSine(Operator op) => VisitOperatorBase(op);

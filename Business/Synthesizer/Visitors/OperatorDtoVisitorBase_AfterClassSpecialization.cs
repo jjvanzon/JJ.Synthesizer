@@ -285,11 +285,6 @@ namespace JJ.Business.Synthesizer.Visitors
             throw new NotSupportedException();
         }
 
-        protected sealed override IOperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto)
-        {
-            throw new NotSupportedException();
-        }
-
         protected sealed override IOperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
             throw new NotSupportedException();

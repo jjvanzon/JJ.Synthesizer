@@ -715,21 +715,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        protected override void VisitShift(Operator op)
-        {
-            base.VisitShift(op);
-
-            var dto = new Shift_OperatorDto
-            {
-                SignalOperatorDto = _stack.Pop(),
-                DistanceOperatorDto = _stack.Pop(),
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
         protected override void VisitSine(Operator op)
         {
             var dto = new Sine_OperatorDto();

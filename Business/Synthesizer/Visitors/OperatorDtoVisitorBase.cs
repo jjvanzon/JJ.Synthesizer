@@ -378,11 +378,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SetDimension_OperatorDto_VarPassThrough_ConstNumber), x => Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber((SetDimension_OperatorDto_VarPassThrough_ConstNumber)x ) },
                 { typeof(SetDimension_OperatorDto_ConstPassThrough_VarNumber), x => Visit_SetDimension_OperatorDto_ConstPassThrough_VarNumber((SetDimension_OperatorDto_ConstPassThrough_VarNumber)x ) },
                 { typeof(SetDimension_OperatorDto_ConstPassThrough_ConstNumber), x => Visit_SetDimension_OperatorDto_ConstPassThrough_ConstNumber((SetDimension_OperatorDto_ConstPassThrough_ConstNumber)x ) },
-                { typeof(Shift_OperatorDto), x => Visit_Shift_OperatorDto((Shift_OperatorDto)x ) },
-                { typeof(Shift_OperatorDto_ConstSignal_ConstDistance), x => Visit_Shift_OperatorDto_ConstSignal_ConstDistance((Shift_OperatorDto_ConstSignal_ConstDistance)x ) },
-                { typeof(Shift_OperatorDto_ConstSignal_VarDistance), x => Visit_Shift_OperatorDto_ConstSignal_VarDistance((Shift_OperatorDto_ConstSignal_VarDistance)x ) },
-                { typeof(Shift_OperatorDto_VarSignal_ConstDistance), x => Visit_Shift_OperatorDto_VarSignal_ConstDistance((Shift_OperatorDto_VarSignal_ConstDistance)x ) },
-                { typeof(Shift_OperatorDto_VarSignal_VarDistance), x => Visit_Shift_OperatorDto_VarSignal_VarDistance((Shift_OperatorDto_VarSignal_VarDistance)x ) },
                 { typeof(Sine_OperatorDto), x => Visit_Sine_OperatorDto((Sine_OperatorDto)x ) },
                 { typeof(Sine_OperatorDto_ZeroFrequency), x => Visit_Sine_OperatorDto_ZeroFrequency((Sine_OperatorDto_ZeroFrequency)x ) },
                 { typeof(Sine_OperatorDto_ConstFrequency_NoOriginShifting), x => Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting((Sine_OperatorDto_ConstFrequency_NoOriginShifting)x ) },
@@ -790,11 +785,6 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_VarNumber(SetDimension_OperatorDto_ConstPassThrough_VarNumber dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_ConstNumber(SetDimension_OperatorDto_ConstPassThrough_ConstNumber dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Shift_OperatorDto(Shift_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);

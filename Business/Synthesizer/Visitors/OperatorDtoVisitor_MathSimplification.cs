@@ -1892,38 +1892,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        // Shift
-
-        protected override IOperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
-        {
-            base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
-
-            MathPropertiesDto distanceMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.Distance);
-
-            if (distanceMathProperties.IsConstZero)
-            {
-                // Identity
-                return dto.SignalOperatorDto;
-            }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         // Sine
 
         protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)

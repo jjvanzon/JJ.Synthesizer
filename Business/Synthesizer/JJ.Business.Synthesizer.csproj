@@ -318,7 +318,6 @@
     <Compile Include="Calculation\Operators\Sample OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Curve OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
-    <Compile Include="Calculation\Operators\Shift OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Helpers\DocumentHelper.cs" />
     <Compile Include="Helpers\InletOrOutletTuple.cs" />
@@ -400,7 +399,6 @@
     <Compile Include="Dto\PeakingEQFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\RangeOverOutlets OperatorDto Classes.cs" />
     <Compile Include="Dto\SawUp OperatorDto Classes.cs" />
-    <Compile Include="Dto\Shift OperatorDto Classes.cs" />
     <Compile Include="Dto\Sine OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverInlets_Outlet_OperatorDto.cs" />

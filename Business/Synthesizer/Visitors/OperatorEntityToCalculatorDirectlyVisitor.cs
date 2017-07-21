@@ -949,52 +949,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        protected override void VisitShift(Operator op)
-        {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
-
-            base.VisitShift(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase differenceCalculator = _stack.Pop();
-
-            double signal = signalCalculator.Calculate();
-            double difference = differenceCalculator.Calculate();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool differenceIsConst = differenceCalculator is Number_OperatorCalculator;
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool differenceIsConstZero = differenceIsConst && difference == 0;
-
-            dimensionStack.Pop();
-
-            if (signalIsConstZero)
-            {
-                calculator = new Number_OperatorCalculator_Zero();
-            }
-            else if (differenceIsConstZero)
-            {
-                calculator = signalCalculator;
-            }
-            else if (signalIsConst)
-            {
-                calculator = signalCalculator;
-            }
-            else if (differenceIsConst)
-            {
-                calculator = new Shift_OperatorCalculator_VarSignal_ConstDistance(signalCalculator, difference, dimensionStack);
-            }
-            else
-            {
-                calculator = new Shift_OperatorCalculator_VarSignal_VarDistance(signalCalculator, differenceCalculator, dimensionStack);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitDimensionToOutletsOutlet(Outlet outlet)
         {
             if (!outlet.RepetitionPosition.HasValue) throw new NullException(() => outlet.RepetitionPosition);

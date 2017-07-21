@@ -2217,34 +2217,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
-        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
-        {
-            return ProcessShift(dto, distance: dto.Distance);
-        }
-
-        protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
-        {
-            return ProcessShift(dto, dto.DistanceOperatorDto);
-        }
-
-        private IOperatorDto ProcessShift(IOperatorDto_VarSignal_WithDimension dto, IOperatorDto distanceOperatorDto = null, double? distance = null)
-        {
-            string distanceLiteral = GetLiteralFromOperatorDtoOrValue(distanceOperatorDto, distance);
-            string sourcePosition = GetPositionNameCamelCase(dto);
-            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-
-            AppendOperatorTitleComment(dto);
-            // IMPORTANT: To shift to the right in the output, you have shift to the left in the input.
-            AppendLine($"{destPosition} = {sourcePosition} {SUBTRACT_SYMBOL} {distanceLiteral};");
-            AppendLine();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            _stack.Push(signal);
-            return dto;
-        }
-
         protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
             PutNumberOnStack(dto.Frequency);

@@ -40,7 +40,7 @@
         //Unbundle = 28,
         Stretch = 29,
         Squash = 30,
-        Shift = 31,
+        //Shift = 31,
 
         /// <summary>
         /// Allows you to reset a whole branch of a patch.
