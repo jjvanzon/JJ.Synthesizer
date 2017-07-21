@@ -792,22 +792,6 @@ namespace JJ.Business.Synthesizer.Visitors
             Process_OperatorDtoBase_AggregateFollower(op, dto);
         }
 
-        protected override void VisitTimePower(Operator op)
-        {
-            base.VisitTimePower(op);
-
-            var dto = new TimePower_OperatorDto
-            {
-                SignalOperatorDto = _stack.Pop(),
-                ExponentOperatorDto = _stack.Pop(),
-                OriginOperatorDto = _stack.Pop(),
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
         protected override void VisitTriangle(Operator op)
         {
             var dto = new Triangle_OperatorDto();

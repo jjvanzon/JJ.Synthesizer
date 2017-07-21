@@ -3981,56 +3981,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        protected override void VisitTimePower(Operator op)
-        {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
-
-            base.VisitTimePower(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase exponentCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
-
-            double signal = signalCalculator.Calculate();
-            double exponent = exponentCalculator.Calculate();
-            double origin = originCalculator.Calculate();
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool exponentIsConst = exponentCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool exponentIsConstZero = exponentIsConst && exponent == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
-            bool exponentIsConstOne = exponentIsConst && exponent == 1;
-
-            dimensionStack.Pop();
-
-            if (signalIsConstZero)
-            {
-                calculator = new Number_OperatorCalculator_Zero();
-            }
-            else if (exponentIsConstZero)
-            {
-                calculator = new Number_OperatorCalculator_One();
-            }
-            else if (exponentIsConstOne)
-            {
-                calculator = signalCalculator;
-            }
-            else if (originIsConstZero)
-            {
-                calculator = new TimePower_OperatorCalculator_VarSignal_VarExponent_ZeroOrigin(signalCalculator, exponentCalculator, dimensionStack);
-            }
-            else
-            {
-                calculator = new TimePower_OperatorCalculator_VarSignal_VarExponent_VarOrigin(signalCalculator, exponentCalculator, originCalculator, dimensionStack);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitToggleTrigger(Operator op)
         {
             base.VisitToggleTrigger(op);

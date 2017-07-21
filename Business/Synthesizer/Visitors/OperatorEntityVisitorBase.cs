@@ -88,7 +88,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Subtract, VisitSubtract },
                 { OperatorTypeEnum.SumOverDimension, VisitSumOverDimension },
                 { OperatorTypeEnum.SumFollower, VisitSumFollower },
-                { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.ToggleTrigger, VisitToggleTrigger },
                 { OperatorTypeEnum.Triangle, VisitTriangle }
             };
@@ -424,9 +423,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         //[DebuggerHidden]
         protected virtual void VisitSumFollower(Operator op) => VisitOperatorBase(op);
-
-        //[DebuggerHidden]
-        protected virtual void VisitTimePower(Operator op) => VisitOperatorBase(op);
 
         //[DebuggerHidden]
         protected virtual void VisitTriangle(Operator op) => VisitOperatorBase(op);

@@ -2455,33 +2455,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_TimePower_OperatorDto(TimePower_OperatorDto dto)
-        {
-            base.Visit_TimePower_OperatorDto(dto);
-
-            MathPropertiesDto signalMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.SignalOperatorDto);
-            MathPropertiesDto originMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.OriginOperatorDto);
-
-            IOperatorDto dto2;
-
-            if (signalMathPropertiesDto.IsConst)
-            {
-                dto2 = new TimePower_OperatorDto_ConstSignal { Signal = signalMathPropertiesDto.ConstValue };
-            }
-            else if (originMathPropertiesDto.IsConstZero)
-            {
-                dto2 = new TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin { SignalOperatorDto = dto.SignalOperatorDto, ExponentOperatorDto = dto.ExponentOperatorDto };
-            }
-            else
-            {
-                dto2 = new TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin { SignalOperatorDto = dto.SignalOperatorDto, ExponentOperatorDto = dto.ExponentOperatorDto, OriginOperatorDto = dto.OriginOperatorDto };
-            }
-
-            DtoCloner.TryClone_WithDimensionProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
         {
             base.Visit_ToggleTrigger_OperatorDto(dto);

@@ -445,10 +445,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SumOverDimension_OperatorDto_AllConsts), x => Visit_SumOverDimension_OperatorDto_AllConsts((SumOverDimension_OperatorDto_AllConsts)x ) },
                 { typeof(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous), x => Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous((SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous)x ) },
                 { typeof(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset), x => Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset((SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset)x ) },
-                { typeof(TimePower_OperatorDto), x => Visit_TimePower_OperatorDto((TimePower_OperatorDto)x ) },
-                { typeof(TimePower_OperatorDto_ConstSignal), x => Visit_TimePower_OperatorDto_ConstSignal((TimePower_OperatorDto_ConstSignal)x ) },
-                { typeof(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin), x => Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin((TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin)x ) },
-                { typeof(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin), x => Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin((TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin)x ) },
                 { typeof(ToggleTrigger_OperatorDto), x => Visit_ToggleTrigger_OperatorDto((ToggleTrigger_OperatorDto)x ) },
                 { typeof(ToggleTrigger_OperatorDto_VarPassThrough_VarReset), x => Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset((ToggleTrigger_OperatorDto_VarPassThrough_VarReset)x ) },
                 { typeof(ToggleTrigger_OperatorDto_VarPassThrough_ConstReset), x => Visit_ToggleTrigger_OperatorDto_VarPassThrough_ConstReset((ToggleTrigger_OperatorDto_VarPassThrough_ConstReset)x ) },
@@ -852,10 +848,6 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_AllConsts(SumOverDimension_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_TimePower_OperatorDto(TimePower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_TimePower_OperatorDto_ConstSignal(TimePower_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_ConstReset(ToggleTrigger_OperatorDto_VarPassThrough_ConstReset dto) => Visit_OperatorDto_Base(dto);

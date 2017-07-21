@@ -40,7 +40,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"Calculation\\{nameof(NoiseCalculator)}.cs",
             $"Calculation\\{nameof(BiQuadFilterWithoutFields)}.cs",
             $"Calculation\\Operators\\{nameof(Loop_OperatorCalculator_Helper)}.cs",
-            $"Calculation\\Operators\\{nameof(TimePower_OperatorCalculator_Helper)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Block)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Cubic)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Hermite)}.cs",

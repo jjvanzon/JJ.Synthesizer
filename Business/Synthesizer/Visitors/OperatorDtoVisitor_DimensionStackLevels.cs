@@ -45,10 +45,7 @@ namespace JJ.Business.Synthesizer.Visitors
             typeof(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin),
             typeof(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin),
             typeof(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting),
-            typeof(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking),
-            typeof(TimePower_OperatorDto),
-            typeof(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin),
-            typeof(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin)
+            typeof(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking)
         };
 
         private Dictionary<Tuple<DimensionEnum, string>, int> _dimensionToCurrentStackLevelDictionary;

@@ -15,7 +15,7 @@
         //Delay = 10,
         //SpeedUp = 11,
         //SlowDown = 12,
-        TimePower = 13,
+        //TimePower = 13,
         //Earlier = 14,
         Number = 15,
         Curve = 16,

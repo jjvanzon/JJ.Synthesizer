@@ -1172,16 +1172,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new TimePower_OperatorCalculator_VarSignal_VarExponent_VarOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new TimePower_OperatorCalculator_VarSignal_VarExponent_ZeroOrigin(_stack.Pop(), _stack.Pop(), dimensionStack));
-        }
-
         protected override IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto)
         {
             return ProcessOperatorDto(dto, () => new ToggleTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));

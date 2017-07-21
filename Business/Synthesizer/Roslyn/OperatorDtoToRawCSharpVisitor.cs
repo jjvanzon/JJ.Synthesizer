@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
@@ -748,37 +747,43 @@ namespace JJ.Business.Synthesizer.Roslyn
             string isTrue = GetUniqueLocalVariableName(nameof(isTrue));
             string output = GetLocalOutputName(dto);
 
-            AppendOperatorTitleComment(dto);
+            AppendLine($"{GetOperatorTitleComment(dto)} (begin)");
+            AppendLine();
 
             // TODO: Lower priority: Putting the then and else clauses in separate methods should be dependent on the if being 'long', 
             // which should be determined in the DTO pre-processing.
-            
+
+            string thenLeftSide;
             if (thenOperatorDto != null)
             {
                 BeginGenerateMethod(thenOperatorDto.OperatorID, nameof(then));
-                string thenLeftSide = GetLiteralFromOperatorDtoOrValue(thenOperatorDto, thenValue);
+                thenLeftSide = GetLiteralFromOperatorDtoOrValue(thenOperatorDto, thenValue);
                 thenLeftSide = EndGenerateMethod(thenLeftSide);
-                AppendLine($"double {then} = {thenLeftSide};");
             }
             else
             {
-                string thenLeftSide = GetLiteralFromOperatorDtoOrValue(null, thenValue);
-                AppendLine($"double {then} = {thenLeftSide};");
+                thenLeftSide = GetLiteralFromOperatorDtoOrValue(null, thenValue);
             }
+            AppendLine($"{GetOperatorTitleComment(dto)} ({nameof(then)})");
+            AppendLine($"double {then} = {thenLeftSide};");
+            AppendLine();
 
+            string elseLeftSide;
             if (elseOperatorDto != null)
             {
                 BeginGenerateMethod(elseOperatorDto.OperatorID, nameof(@else));
-                string elseLeftSide = GetLiteralFromOperatorDtoOrValue(elseOperatorDto, elseValue);
+                elseLeftSide = GetLiteralFromOperatorDtoOrValue(elseOperatorDto, elseValue);
                 elseLeftSide = EndGenerateMethod(elseLeftSide);
-                AppendLine($"double {@else} = {elseLeftSide};");
             }
             else
             {
-                string elseLeftSide = GetLiteralFromOperatorDtoOrValue(null, elseValue);
-                AppendLine($"double {@else} = {elseLeftSide};");
+                elseLeftSide = GetLiteralFromOperatorDtoOrValue(null, elseValue);
             }
+            AppendLine($"{GetOperatorTitleComment(dto)} ({nameof(@else)})");
+            AppendLine($"double {@else} = {elseLeftSide};");
+            AppendLine();
 
+            AppendLine($"{GetOperatorTitleComment(dto)} (end)");
             AppendLine($"bool {isTrue} = {condition} != 0.0;");
             AppendLine($"double {output} = {isTrue} ? {then} : {@else};");
 
@@ -2574,54 +2579,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
-        }
-
-        protected override IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin(TimePower_OperatorDto_VarSignal_VarExponent_VarOrigin dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.OriginOperatorDto);
-            Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
-
-            string exponent = _stack.Pop();
-            string origin = _stack.Pop();
-            string sourcePosition = GetPositionNameCamelCase(dto);
-            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string output = GetLocalOutputName(dto);
-            const string timePower_OperatorCalculator_Helper = nameof(TimePower_OperatorCalculator_Helper);
-            const string getTransformedPosition = nameof(TimePower_OperatorCalculator_Helper.GetTransformedPosition);
-
-            AppendOperatorTitleComment(dto);
-            AppendLine($"{destPosition} = {timePower_OperatorCalculator_Helper}.{getTransformedPosition}({sourcePosition}, {exponent}, {origin});");
-            AppendLine();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            AppendLine($"double {output} = {signal};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        protected override IOperatorDto Visit_TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin(TimePower_OperatorDto_VarSignal_VarExponent_ZeroOrigin dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto.ExponentOperatorDto);
-
-            string exponent = _stack.Pop();
-            string sourcePosition = GetPositionNameCamelCase(dto);
-            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string output = GetLocalOutputName(dto);
-            const string timePower_OperatorCalculator_Helper = nameof(TimePower_OperatorCalculator_Helper);
-            const string getTransformedPosition = nameof(TimePower_OperatorCalculator_Helper.GetTransformedPosition);
-
-            AppendOperatorTitleComment(dto);
-            AppendLine($"{destPosition} = {timePower_OperatorCalculator_Helper}.{getTransformedPosition}({sourcePosition}, {exponent});");
-            AppendLine();
-
-            Visit_OperatorDto_Polymorphic(dto.SignalOperatorDto);
-            string signal = _stack.Pop();
-
-            AppendLine($"double {output} = {signal};");
-
-            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto)
