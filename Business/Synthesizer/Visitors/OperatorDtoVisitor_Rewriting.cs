@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorDtoVisitor_Rewiring : OperatorDtoVisitorBase_AfterMathSimplification
+    internal class OperatorDtoVisitor_Rewriting : OperatorDtoVisitorBase_AfterMathSimplification
     {
         // Execute
 

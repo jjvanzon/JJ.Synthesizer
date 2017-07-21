@@ -316,6 +316,32 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Filter_OperatorDto_AllVars(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
         }
 
+        protected override IOperatorDto Visit_BooleanToDouble_OperatorDto(BooleanToDouble_OperatorDto dto)
+        {
+            return Process_BooleanToDouble(dto, dto.InputOperatorDto, null);
+        }
+
+        protected override IOperatorDto Visit_BooleanToDouble_OperatorDto_ConstInput(BooleanToDouble_OperatorDto_ConstInput dto)
+        {
+            return Process_BooleanToDouble(dto, null, dto.Input);
+        }
+
+        protected override IOperatorDto Visit_BooleanToDouble_OperatorDto_VarInput(BooleanToDouble_OperatorDto_VarInput dto)
+        {
+            return Process_BooleanToDouble(dto, dto.InputOperatorDto, null);
+        }
+
+        private IOperatorDto Process_BooleanToDouble(IOperatorDto dto, IOperatorDto inputOperatorDto, double? inputValue)
+        {
+            string input = GetLiteralFromOperatorDtoOrValue(inputOperatorDto, inputValue);
+            string output = GetLocalOutputName(dto);
+
+            AppendOperatorTitleComment(dto);
+            AppendLine($"double {output} = {input} ? 1.0 : 0.0;");
+
+            return GenerateOperatorWrapUp(dto, output);
+        }
+
         protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto)
         {
             throw new NotImplementedException();
@@ -624,6 +650,32 @@ namespace JJ.Business.Synthesizer.Roslyn
             Visit_OperatorDto_Polymorphic(dto.AOperatorDto);
 
             return ProcessBinaryOperator(dto, DIVIDE_SYMBOL);
+        }
+
+        protected override IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto)
+        {
+            return Process_DoubleToBoolean(dto, dto.NumberOperatorDto, null);
+        }
+
+        protected override IOperatorDto Visit_DoubleToBoolean_OperatorDto_ConstNumber(DoubleToBoolean_OperatorDto_ConstNumber dto)
+        {
+            return Process_DoubleToBoolean(dto, null, dto.Number);
+        }
+
+        protected override IOperatorDto Visit_DoubleToBoolean_OperatorDto_VarNumber(DoubleToBoolean_OperatorDto_VarNumber dto)
+        {
+            return Process_DoubleToBoolean(dto, dto.NumberOperatorDto, null);
+        }
+
+        private IOperatorDto Process_DoubleToBoolean(IOperatorDto dto, IOperatorDto numberOperatorDto, double? numberValue)
+        {
+            string number = GetLiteralFromOperatorDtoOrValue(numberOperatorDto, numberValue);
+            string output = GetLocalOutputName(dto);
+
+            AppendOperatorTitleComment(dto);
+            AppendLine($"bool {output} = {number} == 0.0 ? false : true;");
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)

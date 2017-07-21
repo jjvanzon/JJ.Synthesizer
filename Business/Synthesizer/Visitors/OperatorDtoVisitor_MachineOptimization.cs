@@ -6,10 +6,7 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitor_MachineOptimization : OperatorDtoVisitorBase_AfterMathSimplification
     {
-        public IOperatorDto Execute(IOperatorDto dto)
-        {
-            return Visit_OperatorDto_Polymorphic(dto);
-        }
+        public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
 
         protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
         {
@@ -79,7 +76,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new MinOverInlets_OperatorDto_2Vars { AOperatorDto = dto.Vars[0], BOperatorDto = dto.Vars[1], OperatorID = dto.OperatorID };
             }
-
             return dto;
         }
 

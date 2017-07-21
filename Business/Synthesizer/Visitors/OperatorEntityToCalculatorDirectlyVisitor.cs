@@ -1036,7 +1036,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             _stack.Push(calculator);

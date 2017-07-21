@@ -163,6 +163,8 @@
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
+    <Compile Include="Dto\DoubleToBoolean OperatorDto Classes.cs" />
+    <Compile Include="Dto\BooleanToDouble OperatorDto Classes.cs" />
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
     <Compile Include="Dto\IOperatorDto.cs" />
@@ -171,10 +173,12 @@
     <Compile Include="Dto\IOperatorDto_VarSignal_WithDimension.cs" />
     <Compile Include="Dto\IOperatorDto_WithAdditionalChannelDimension.cs" />
     <Compile Include="Dto\IOperatorDto_WithTargetChannelCount.cs" />
+    <Compile Include="Dto\OperatorDtoBase_ConstInput.cs" />
     <Compile Include="Dto\OperatorDtoBase_ConstSound.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_VarSound.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
+    <Compile Include="Dto\OperatorDtoBase_VarInput.cs" />
     <Compile Include="Dto\OperatorDtoBase_VarSound.cs" />
     <Compile Include="Extensions\InheritExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
@@ -361,10 +365,11 @@
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewiring.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewriting.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_BooleanBoundaries.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_Rewiring.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_Rewriting.cs" />
     <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorExecutor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />
     <Compile Include="Visitors\ToCalculatorResult.cs" />

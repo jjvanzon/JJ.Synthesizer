@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal abstract class OperatorDtoVisitorBase_AfterRewiring : OperatorDtoVisitorBase_AfterMathSimplification
+    internal abstract class OperatorDtoVisitorBase_AfterRewriting : OperatorDtoVisitorBase_AfterMathSimplification
     {
         protected sealed override IOperatorDto Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto)
         {

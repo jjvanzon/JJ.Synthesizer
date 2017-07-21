@@ -1,5 +1,13 @@
 ﻿namespace JJ.Business.Synthesizer.Enums
 {
+    /// <summary>
+    /// This enum is in transition.
+    /// OperatorType is no longer an entity.
+    /// Whenever no logic is tied anymore to an OperatorTypeEnum member, it will be removed.
+    /// New OperatorTypeEnums could be added, that do not even have an operator implementation.
+    /// It might just represent an operation in the generated code.
+    /// Eventually it might be called OperationEnum instead.
+    /// </summary>
     public enum OperatorTypeEnum
     {
         Undefined = 0,
@@ -118,6 +126,8 @@
         PeakingEQFilter = 88,
         LowShelfFilter = 89,
         HighShelfFilter = 90,
-        RangeOverOutlets = 91
+        RangeOverOutlets = 91,
+        DoubleToBoolean = 92,
+        BooleanToDouble = 93
     }
 }

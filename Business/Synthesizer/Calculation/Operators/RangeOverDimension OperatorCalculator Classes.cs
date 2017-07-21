@@ -9,7 +9,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _tillCalculator;
         private readonly OperatorCalculatorBase _stepCalculator;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
 
         public RangeOverDimension_OperatorCalculator_OnlyVars(
             OperatorCalculatorBase fromCalculator,
@@ -24,7 +23,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _tillCalculator = tillCalculator;
             _stepCalculator = stepCalculator;
             _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
         }
 
         public override double Calculate()
@@ -32,14 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Example:
             // index { 0, 1, 2 } => value { 0.5, 2.25, 4 }
 
-#if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
             if (position < 0.0) return 0.0;
 
             double from = _fromCalculator.Calculate();
@@ -68,7 +59,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _tillPlusStep;
         private readonly double _stepDividedBy2;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
 
         public RangeOverDimension_OperatorCalculator_OnlyConsts(
             double from,
@@ -81,7 +71,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _from = from;
             _step = step;
             _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             _tillPlusStep = till + _step;
             _stepDividedBy2 = _step / 2.0;
@@ -92,14 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Example:
             // index { 0, 1, 2 } => value { 0.5, 2.25, 4 }
 
-#if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
             if (position < 0.0) return 0.0;
 
             double valueNonRounded = _from + position * _step;
@@ -122,7 +104,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _from;
         private readonly double _tillPlusOne;
         private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
 
         public RangeOverDimension_OperatorCalculator_WithConsts_AndStepOne(
             double from,
@@ -133,7 +114,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _from = from;
             _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
 
             _tillPlusOne = till + 1.0;
         }
@@ -143,14 +123,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // Example:
             // index { 0, 1, 2 } => value { 0.5, 2.25, 4 }
 
-#if !USE_INVAR_INDICES
             double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
             if (position < 0.0) return 0.0;
 
             double valueNonRounded = _from + position;

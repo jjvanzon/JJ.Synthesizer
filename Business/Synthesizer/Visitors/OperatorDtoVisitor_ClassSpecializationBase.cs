@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -321,7 +321,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_CacheOperatorProperties(dto, dto2);
@@ -356,7 +356,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -501,7 +501,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
                 else
                 {
-                    throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                    throw new VisitationCannotBeHandledException();
                 }
             }
 
@@ -537,7 +537,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -572,7 +572,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -607,7 +607,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -642,7 +642,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -773,7 +773,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -817,7 +817,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_WithDimensionProperties(dto, dto2);
@@ -872,7 +872,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_InterpolateOperatorProperties(dto, dto2);
@@ -907,7 +907,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -942,7 +942,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1122,7 +1122,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
@@ -1178,7 +1178,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1208,7 +1208,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
@@ -1264,7 +1264,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1298,7 +1298,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1324,7 +1324,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1350,7 +1350,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1413,7 +1413,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1448,7 +1448,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1512,7 +1512,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1585,7 +1585,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_WithDimensionProperties(dto, dto2);
@@ -1620,7 +1620,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1670,7 +1670,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_RandomOperatorProperties(dto, dto2);
@@ -1747,7 +1747,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1786,7 +1786,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_WithDimensionProperties(dto, dto2);
@@ -1842,7 +1842,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -1919,7 +1919,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_SampleProperties(dto, dto2);
@@ -1957,7 +1957,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_WithDimensionProperties(dto, dto2);
@@ -1995,7 +1995,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_WithDimensionProperties(dto, dto2);
@@ -2030,7 +2030,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_WithDimensionProperties(dto, dto2);
@@ -2068,7 +2068,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_WithDimensionProperties(dto, dto2);
@@ -2098,7 +2098,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
@@ -2164,7 +2164,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_WithDimensionProperties(dto, dto2);
@@ -2202,7 +2202,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
                 else
                 {
-                    throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                    throw new VisitationCannotBeHandledException();
                 }
             }
             else
@@ -2257,7 +2257,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
                 else
                 {
-                    throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                    throw new VisitationCannotBeHandledException();
                 }
             }
 
@@ -2296,7 +2296,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
                 else
                 {
-                    throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                    throw new VisitationCannotBeHandledException();
                 }
             }
             else
@@ -2351,7 +2351,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
                 else
                 {
-                    throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                    throw new VisitationCannotBeHandledException();
                 }
             }
 
@@ -2387,7 +2387,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -2420,7 +2420,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_AggregateOverDimensionProperties(dto, dto2);
@@ -2482,7 +2482,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.Clone_OperatorBaseProperties(dto, dto2);
@@ -2520,7 +2520,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.TryClone_WithDimensionProperties(dto, dto2);

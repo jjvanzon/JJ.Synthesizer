@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
     public class VisitationCannotBeHandledException : Exception
     {
-        public VisitationCannotBeHandledException(MethodBase method)
+        public VisitationCannotBeHandledException([CallerMemberName] string callerMemberName = null)
         {
-            if (method != null)
+            if (!string.IsNullOrEmpty(callerMemberName))
             {
-                Message = $"Error in {method.Name}. The variation could not be handled.";
+                Message = $"Error in {callerMemberName}. The variation could not be handled.";
             }
             else
             {

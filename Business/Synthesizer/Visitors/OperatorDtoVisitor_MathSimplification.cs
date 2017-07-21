@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 return new Number_OperatorDto_Zero();
             }
 
-            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            throw new VisitationCannotBeHandledException();
         }
 
         protected override IOperatorDto Visit_And_OperatorDto_ConstA_VarB(And_OperatorDto_ConstA_VarB dto)
@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 return dto.AOperatorDto;
             }
 
-            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            throw new VisitationCannotBeHandledException();
         }
 
         protected override IOperatorDto Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
@@ -1323,7 +1323,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 return new Number_OperatorDto_Zero();
             }
 
-            throw new VisitationCannotBeHandledException(MethodBase.GetCurrentMethod());
+            throw new VisitationCannotBeHandledException();
         }
 
         protected override IOperatorDto Visit_Or_OperatorDto_ConstA_VarB(Or_OperatorDto_ConstA_VarB dto)
