@@ -163,8 +163,8 @@
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
-    <Compile Include="Dto\DoubleToBoolean OperatorDto Classes.cs" />
-    <Compile Include="Dto\BooleanToDouble OperatorDto Classes.cs" />
+    <Compile Include="Dto\DoubleToBoolean_OperatorDto.cs" />
+    <Compile Include="Dto\BooleanToDouble_OperatorDto.cs" />
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
     <Compile Include="Dto\IOperatorDto.cs" />
@@ -327,6 +327,7 @@
     <Compile Include="Helpers\SystemPatchNames.cs" />
     <Compile Include="PatchGrouper.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator.cs" />
+    <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator2.cs" />
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\ActivationInfo.cs" />
     <Compile Include="Roslyn\Helpers\GeneratedMethodInfo.cs" />

@@ -28,10 +28,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // General
 
-        public IOperatorDto Execute(IOperatorDto dto)
-        {
-            return Visit_OperatorDto_Polymorphic(dto);
-        }
+        public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
 
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {

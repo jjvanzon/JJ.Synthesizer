@@ -15,16 +15,18 @@ using JJ.Business.Synthesizer.Calculation;
 
 namespace GeneratedCSharp
 {
-    public class GeneratedPatchCalculator : PatchCalculatorBase
+    public class GeneratedPatchCalculator2 : PatchCalculatorBase
     {
         // Fields
 
         private double _origin_2;
+        private double _origin_9;
+        private double _origin_12;
         private double _channel_a_0;
 
         // Constructor
 
-        public GeneratedPatchCalculator(
+        public GeneratedPatchCalculator2(
             int samplingRate,
             int channelCount,
             int channelIndex,
@@ -42,6 +44,8 @@ namespace GeneratedCSharp
             double frameDuration = _frameDuration;
 
             double origin_2 = _origin_2;
+            double origin_9 = _origin_9;
+            double origin_12 = _origin_12;
             double channel_a_0 = _channel_a_0;
 
             double time_b_0 = 0.0;
@@ -55,12 +59,33 @@ namespace GeneratedCSharp
                 double phase_3 = (time_b_0 - origin_2) * 440.0;
                 double sine_4 = SineCalculator.Sin(phase_3);
 
-                // Absolute (VarNumber)
-                double absolute_5 = sine_4;
-                if (absolute_5 < 0.0) absolute_5 = -absolute_5;
+                // GreaterThanOrEqual (VarA_ConstB)
+                bool greaterthanorequal_5 = sine_4 >= 0.0;
+
+                // If (VarCondition_VarThen_VarElse) (begin)
+
+                // Sine (ConstFrequency_WithOriginShifting)
+                double phase_10 = (time_b_0 - origin_9) * 440.0;
+                double sine_11 = SineCalculator.Sin(phase_10);
+
+                // If (VarCondition_VarThen_VarElse) (then)
+                double then_6 = sine_11;
+
+                // Sine (ConstFrequency_WithOriginShifting)
+                double phase_13 = (time_b_0 - origin_12) * 440.0;
+                double sine_14 = SineCalculator.Sin(phase_13);
+
+                // Negative (VarNumber)
+                double negative_15 = -sine_14;
+
+                // If (VarCondition_VarThen_VarElse) (else)
+                double else_7 = negative_15;
+
+                // If (VarCondition_VarThen_VarElse) (end)
+                double if_8 = greaterthanorequal_5 ? then_6 : else_7;
 
                 // Accumulate
-                double value = absolute_5;
+                double value = if_8;
 
                 if (double.IsNaN(value))
                 {
@@ -75,6 +100,8 @@ namespace GeneratedCSharp
             }
 
             _origin_2 = origin_2;
+            _origin_9 = origin_9;
+            _origin_12 = origin_12;
             _channel_a_0 = channel_a_0;
         }
 
@@ -85,6 +112,8 @@ namespace GeneratedCSharp
             double frameDuration = _frameDuration;
 
             double origin_2 = _origin_2;
+            double origin_9 = _origin_9;
+            double origin_12 = _origin_12;
             double channel_a_0 = _channel_a_0;
 
             double time_b_0 = 0.0;
@@ -99,11 +128,36 @@ namespace GeneratedCSharp
             double phase_3 = (time_b_0 - origin_2) * 440.0;
             double sine_4 = SineCalculator.Sin(phase_3);
 
-            // Absolute (VarNumber)
-            double absolute_5 = sine_4;
-            if (absolute_5 < 0.0) absolute_5 = -absolute_5;
+            // GreaterThanOrEqual (VarA_ConstB)
+            bool greaterthanorequal_5 = sine_4 >= 0.0;
+
+            // If (VarCondition_VarThen_VarElse) (begin)
+
+            // Sine (ConstFrequency_WithOriginShifting)
+            origin_9 = time_b_0;
+            double phase_10 = (time_b_0 - origin_9) * 440.0;
+            double sine_11 = SineCalculator.Sin(phase_10);
+
+            // If (VarCondition_VarThen_VarElse) (then)
+            double then_6 = sine_11;
+
+            // Sine (ConstFrequency_WithOriginShifting)
+            origin_12 = time_b_0;
+            double phase_13 = (time_b_0 - origin_12) * 440.0;
+            double sine_14 = SineCalculator.Sin(phase_13);
+
+            // Negative (VarNumber)
+            double negative_15 = -sine_14;
+
+            // If (VarCondition_VarThen_VarElse) (else)
+            double else_7 = negative_15;
+
+            // If (VarCondition_VarThen_VarElse) (end)
+            double if_8 = greaterthanorequal_5 ? then_6 : else_7;
 
             _origin_2 = origin_2;
+            _origin_9 = origin_9;
+            _origin_12 = origin_12;
             _channel_a_0 = channel_a_0;
         }
 

@@ -459,7 +459,7 @@ namespace JJ.Business.Synthesizer
                     return new HardCodedPatchCalculator(samplingRate, channelCount, channelIndex, null, null);
 
                 case CalculationMethodEnum.ExampleGeneratedCode:
-                    return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, double[]>(), new Dictionary<string, double>());
+                    return new GeneratedPatchCalculator(samplingRate, channelCount, channelIndex, new Dictionary<string, ArrayDto>());
 
                 default:
                     throw new ValueNotSupportedException(_calculationMethodEnum);
