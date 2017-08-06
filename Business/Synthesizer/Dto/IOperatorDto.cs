@@ -20,5 +20,15 @@ namespace JJ.Business.Synthesizer.Dto
         /// The only exception is that Number_OperatorDto's do not need an OperatorID, in case of which OperatorID is 0.
         /// </summary>
         int OperatorID { get; set; }
+
+        /// <summary>
+        /// A string that uniquely identifies all processing and input and output
+        /// up until this point of the calculation.
+        /// If two Dto's have the same OperationIdentity it means that it is a duplicate calculation.
+        /// The process that assigns this OperationIdentity will assign a different key
+        /// if similar calculations must still operate on separate state,
+        /// such as the sine waves hiding behind a DimensionToOutlets operator.
+        /// </summary>
+        string OperationIdentity { get; set; }
     }
 }

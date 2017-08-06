@@ -368,6 +368,7 @@
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewriting.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_BooleanBoundaries.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_CalculationDeduplication.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_Rewriting.cs" />
