@@ -34,9 +34,8 @@ namespace JJ.Business.Synthesizer.Visitors
             dto = new OperatorDtoVisitor_Rewriting().Execute(dto);
             dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);
             new OperatorDtoVisitor_DimensionStackLevels().Execute(dto);
-            // TODO: Enable code line again when class is finished.
-            // TODO: Remove outcommented code.
-            //dto = new OperatorDtoVisitor_CalculationDeduplication().Execute(dto);
+            new OperatorDtoVisitor_OperationIdentityAssignment().Execute(dto);
+            dto = new OperatorDtoVisitor_OperationIdentityDeduplication().Execute(dto);
 
             AssertZeroOperatorIDsWhereNeeded(dto);
 

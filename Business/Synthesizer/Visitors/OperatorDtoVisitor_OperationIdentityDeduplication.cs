@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Dto;
 namespace JJ.Business.Synthesizer.Visitors
 {
     /// <summary> OperatorDtoVisitor_AssignOperationIdentities must have run first. </summary>
-    internal class OperatorDtoVisitor_Deduplication : OperatorDtoVisitorBase
+    internal class OperatorDtoVisitor_OperationIdentityDeduplication : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
         private Dictionary<string, IOperatorDto> _dictionary;
 
@@ -19,15 +19,14 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
-            string operationIdentity = dto.OperationIdentity;
-            if (_dictionary.TryGetValue(operationIdentity, out IOperatorDto existingDto))
+            if (_dictionary.TryGetValue(dto.OperationIdentity, out IOperatorDto existingDto))
             {
                 return existingDto;
             }
             else
             {
                 IOperatorDto dto2 = base.Visit_OperatorDto_Polymorphic(dto);
-                _dictionary.Add(operationIdentity, dto2);
+                _dictionary.Add(dto2.OperationIdentity, dto2);
                 return dto2;
             }
         }

@@ -368,10 +368,10 @@
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewriting.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_BooleanBoundaries.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_OperationIdentities.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_OperationIdentityAssignment.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_Deduplication.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_OperationIdentityDeduplication.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_Rewriting.cs" />
     <Compile Include="Visitors\OperatorEntityThruDtoToCalculatorExecutor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase_WithInletCoalescing.cs" />

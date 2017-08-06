@@ -4,6 +4,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
+    /// <summary>
+    /// Will insert DoubleToBoolean_OperatorDto and BooleanToDouble_OperatorDto 
+    /// nodes into the graph where appropriate.
+    /// </summary>
     internal class OperatorDtoVisitor_BooleanBoundaries : OperatorDtoVisitorBase_AfterMathSimplification
     {
         public IOperatorDto Execute(IOperatorDto dto)
