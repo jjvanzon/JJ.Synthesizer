@@ -1,78 +1,86 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitor_OperationIdentityAssignment : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
-        private const char PATH_SEPARATOR = '\\';
-        private const char VALUE_SEPARATOR = '|';
-
-        private Stack<string> _operationIdentityPartStack;
+        private Stack<string> _stack;
 
         public void Execute(IOperatorDto dto)
         {
-            _operationIdentityPartStack = new Stack<string>();
+            _stack = new Stack<string>();
 
             Visit_OperatorDto_Polymorphic(dto);
         }
 
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
-            string operationIdentityPart = FormatOperationIdentityPart_Polymorphic(dto);
-
-            _operationIdentityPartStack.Push(operationIdentityPart);
-
             base.Visit_OperatorDto_Polymorphic(dto);
 
-            dto.OperationIdentity = FormatOperationIdentityPath(_operationIdentityPartStack.Reverse());
+            // TODO: Loop here yourself, pushing numbers,
+            // and visiting input DTO's,
+            // so you can pop them from the stack whether they were doubles in the DTO
+            // or input OperatorDto's.
 
-            _operationIdentityPartStack.Pop();
+            var sb = new StringBuilder();
+
+            sb.Append(dto.OperatorTypeEnum);
+
+            sb.Append('(');
+
+            IList<string> arguments = dto.InputOperatorDtos
+                                         .Select(x => _stack.Pop())
+                                         .Reverse()
+                                         .ToArray();
+
+            int argumentCount = arguments.Count;
+            for (int i = 0; i < argumentCount; i++)
+            {
+                string argument = arguments[i];
+
+                sb.Append(argument);
+
+                bool isLast = i == argumentCount - 1;
+                if (!isLast)
+                {
+                    sb.Append(',');
+                }
+            }
+
+            sb.Append(')');
+
+            dto.OperationIdentity = sb.ToString();
+
+            _stack.Push(dto.OperationIdentity);
 
             return dto;
         }
 
-        private static string FormatOperationIdentityPart_Polymorphic(IOperatorDto dto)
+        protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
+            => ProcessNumber(dto);
+
+        protected override IOperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
+            => ProcessNumber(dto);
+
+        protected override IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
+            => ProcessNumber(dto);
+
+        protected override IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
+            => ProcessNumber(dto);
+
+        private IOperatorDto ProcessNumber(Number_OperatorDto dto)
         {
-            if (dto is Number_OperatorDto dto2)
-            {
-                return FormatIdentityPart_ForNumber(dto2);
-            }
-            else if (dto is DimensionToOutlets_Outlet_OperatorDto dto3)
-            {
-                return FormatIdentityPart_ForDimensionToOutlets(dto3);
-            }
-            else
-            {
-                return FormatIdentityPart_ForOtherOperatorType(dto);
-            }
+            _stack.Push(dto.Number.ToString());
+            return dto;
         }
 
-        private static string FormatIdentityPart_ForNumber(Number_OperatorDto dto)
+        protected override IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
         {
-            return $"{dto.OperatorTypeEnum}{VALUE_SEPARATOR}{dto.Number}";
-        }
-
-        private static string FormatIdentityPart_ForDimensionToOutlets(DimensionToOutlets_Outlet_OperatorDto dto)
-        {
-            return $"{dto.OperatorTypeEnum}{VALUE_SEPARATOR}{dto.OutletPosition}";
-        }
-
-        /// <summary>
-        /// For now, any OperationIdentity includes the OperatorID,
-        /// which means an add operator never gets reused if the input is the same...
-        /// But it is in the safe side, to avoid incorrect deduplications for now.
-        /// </summary>
-        private static string FormatIdentityPart_ForOtherOperatorType(IOperatorDto dto)
-        {
-            return $"{dto.OperatorTypeEnum}{VALUE_SEPARATOR}{dto.OperatorID}";
-        }
-
-        private string FormatOperationIdentityPath(IEnumerable<string> operationIdentityParts)
-        {
-            return StringHelper.Join(PATH_SEPARATOR, operationIdentityParts);
+            _stack.Push($"{dto.OperatorTypeEnum}-{dto.OutletPosition}");
+            return dto;
         }
     }
 }

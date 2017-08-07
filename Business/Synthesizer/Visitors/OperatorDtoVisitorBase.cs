@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden]
         protected virtual IList<IOperatorDto> VisitInputOperatorDtos(IList<IOperatorDto> operatorDtos)
         {
-            // Reverse the order, so calculators pop off a stack in the right order.
+            // Reverse the order, so DTO's pop off a stack in the right order.
             for (int i = operatorDtos.Count - 1; i >= 0; i--)
             {
                 IOperatorDto operatorDto = operatorDtos[i];

@@ -35,7 +35,8 @@ namespace JJ.Business.Synthesizer.Visitors
             dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);
             new OperatorDtoVisitor_DimensionStackLevels().Execute(dto);
             new OperatorDtoVisitor_OperationIdentityAssignment().Execute(dto);
-            dto = new OperatorDtoVisitor_OperationIdentityDeduplication().Execute(dto);
+            // Temporarily (2017-08-06) outcommented, because OperatorIdentities do not work well yet.
+            //dto = new OperatorDtoVisitor_OperationIdentityDeduplication().Execute(dto);
 
             AssertZeroOperatorIDsWhereNeeded(dto);
 
