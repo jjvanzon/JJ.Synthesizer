@@ -23,6 +23,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SoundOperatorDto, CenterFrequencyOperatorDto, WidthOperatorDto };
             set { SoundOperatorDto = value[0]; CenterFrequencyOperatorDto = value[1]; WidthOperatorDto = value[2]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(CenterFrequencyOperatorDto),
+            new InputDto(WidthOperatorDto)
+        };
     }
 
     internal class NotchFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume
@@ -33,5 +40,12 @@ namespace JJ.Business.Synthesizer.Dto
 
         public double Width { get; set; }
         public double CenterFrequency { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(CenterFrequency),
+            new InputDto(Width)
+        };
     }
 }

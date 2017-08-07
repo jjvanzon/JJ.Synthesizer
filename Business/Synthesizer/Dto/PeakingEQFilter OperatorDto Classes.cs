@@ -36,6 +36,14 @@ namespace JJ.Business.Synthesizer.Dto
                 DBGainOperatorDto = value[3];
             }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(CenterFrequencyOperatorDto),
+            new InputDto(WidthOperatorDto),
+            new InputDto(DBGainOperatorDto)
+        };
     }
 
     internal class PeakingEQFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts
@@ -46,5 +54,13 @@ namespace JJ.Business.Synthesizer.Dto
         public double CenterFrequency { get; set; }
         public double Width { get; set; }
         public double DBGain { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(CenterFrequency),
+            new InputDto(Width),
+            new InputDto(DBGain)
+        };
     }
 }

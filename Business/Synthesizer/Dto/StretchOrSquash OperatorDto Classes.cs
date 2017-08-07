@@ -11,6 +11,12 @@ namespace JJ.Business.Synthesizer.Dto
         public double Factor { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(Factor)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin : OperatorDtoBase_WithDimension
@@ -23,6 +29,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { FactorOperatorDto };
             set => FactorOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(FactorOperatorDto)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
@@ -35,6 +47,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto };
             set => SignalOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(Factor)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ZeroOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
@@ -47,6 +65,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, FactorOperatorDto };
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(FactorOperatorDto)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin : OperatorDtoBase_WithDimension
@@ -56,6 +80,13 @@ namespace JJ.Business.Synthesizer.Dto
         public double Origin { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(Factor),
+            new InputDto(Origin)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_VarOrigin : OperatorDtoBase_WithDimension
@@ -69,6 +100,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { OriginOperatorDto };
             set => OriginOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(Factor),
+            new InputDto(OriginOperatorDto)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_ConstOrigin : OperatorDtoBase_WithDimension
@@ -82,6 +120,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { FactorOperatorDto };
             set => FactorOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(FactorOperatorDto),
+            new InputDto(Origin)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_VarOrigin : OperatorDtoBase_WithDimension
@@ -95,6 +140,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { FactorOperatorDto, OriginOperatorDto };
             set { FactorOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(FactorOperatorDto),
+            new InputDto(OriginOperatorDto)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ConstOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
@@ -108,6 +160,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto };
             set => SignalOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(Factor),
+            new InputDto(Origin)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_VarOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
@@ -121,6 +180,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, OriginOperatorDto };
             set { SignalOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(Factor),
+            new InputDto(OriginOperatorDto)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ConstOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
@@ -134,6 +200,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, FactorOperatorDto };
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(FactorOperatorDto),
+            new InputDto(Origin)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
@@ -147,6 +220,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, FactorOperatorDto, OriginOperatorDto };
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; OriginOperatorDto = value[2]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(FactorOperatorDto),
+            new InputDto(OriginOperatorDto)
+        };
     }
 
     // For Time Dimension
@@ -157,6 +237,12 @@ namespace JJ.Business.Synthesizer.Dto
         public double Factor { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(Factor)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking : OperatorDtoBase_WithDimension
@@ -169,6 +255,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { FactorOperatorDto };
             set => FactorOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(FactorOperatorDto)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
@@ -181,6 +273,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto };
             set => SignalOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(Factor)
+        };
     }
 
     internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
@@ -193,5 +291,11 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, FactorOperatorDto };
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(FactorOperatorDto)
+        };
     }
 }

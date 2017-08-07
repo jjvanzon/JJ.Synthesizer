@@ -29,6 +29,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, FactorOperatorDto };
             set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(FactorOperatorDto)
+        };
     }
 
     internal class Reverse_OperatorDto_ConstFactor_WithOriginShifting : Reverse_OperatorDtoBase_ConstFactor
@@ -49,5 +55,11 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto };
             set => SignalOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(Factor)
+        };
     }
 }

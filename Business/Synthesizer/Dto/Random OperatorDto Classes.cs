@@ -16,6 +16,11 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { RateOperatorDto };
             set => RateOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(RateOperatorDto)
+        };
     }
 
     /// <summary> 
@@ -51,6 +56,11 @@ namespace JJ.Business.Synthesizer.Dto
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
         public ArrayDto ArrayDto { get; set; }
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Rate)
+        };
     }
 
     internal class Random_OperatorDto_Line_LagBehind_VarRate : Random_OperatorDto

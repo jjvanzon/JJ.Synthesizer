@@ -11,6 +11,16 @@ namespace JJ.Business.Synthesizer.Dto
         IList<IOperatorDto> InputOperatorDtos { get; set; }
 
         /// <summary>
+        /// Returns the doubles and IOperatorDto's that are the
+        /// inputs of the operator as a single enumerable,
+        /// using a quasi-union type InputDto.
+        /// 
+        /// In the future, this may become the full replacement for the
+        /// InputOperatorDtos, but that would be too high-impact for now (2017-08-17).
+        /// </summary>
+        IEnumerable<InputDto> InputDtos { get; }
+
+        /// <summary>
         /// Regularly used as a cache key:
         /// For Cache operators.
         /// For Random and Noise it is the cache key for offsets.

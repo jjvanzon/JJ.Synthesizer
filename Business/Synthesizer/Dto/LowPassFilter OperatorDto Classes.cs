@@ -23,6 +23,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SoundOperatorDto, MaxFrequencyOperatorDto, BlobVolumeOperatorDto };
             set { SoundOperatorDto = value[0]; MaxFrequencyOperatorDto = value[1]; BlobVolumeOperatorDto = value[2]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(MaxFrequencyOperatorDto),
+            new InputDto(BlobVolumeOperatorDto),
+        };
     }
 
     internal class LowPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume
@@ -31,7 +38,14 @@ namespace JJ.Business.Synthesizer.Dto
         public override double Frequency => MaxFrequency;
         public override double WidthOrBlobVolume => BlobVolume;
 
-        public double BlobVolume { get; set; }
         public double MaxFrequency { get; set; }
+        public double BlobVolume { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(MaxFrequency),
+            new InputDto(BlobVolume),
+        };
     }
 }

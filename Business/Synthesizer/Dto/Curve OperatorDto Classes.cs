@@ -9,16 +9,17 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
 
         public int? CurveID { get; set; }
-        [Obsolete("Obsolete? Check it.")]
         public double MinX { get; set; }
         public ArrayDto ArrayDto { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
+        public override IEnumerable<InputDto> InputDtos => new InputDto[0];
     }
 
     internal class Curve_OperatorDto_NoCurve : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
+        public override IEnumerable<InputDto> InputDtos => new InputDto[0];
     }
 
     internal class Curve_OperatorDto_MinX_NoOriginShifting : Curve_OperatorDtoBase_WithMinX
@@ -36,6 +37,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class Curve_OperatorDtoBase_WithMinX : Curve_OperatorDtoBase_WithoutMinX
     {
         public double MinX { get; set; }
+        public override IEnumerable<InputDto> InputDtos => new InputDto[0];
     }
 
     internal abstract class Curve_OperatorDtoBase_WithoutMinX : OperatorDtoBase_WithDimension
@@ -46,5 +48,6 @@ namespace JJ.Business.Synthesizer.Dto
         public ArrayDto ArrayDto { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
+        public override IEnumerable<InputDto> InputDtos => new InputDto[0];
     }
 }

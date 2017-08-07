@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -11,5 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
             get => Vars;
             set => Vars = value;
         }
+
+        public override IEnumerable<InputDto> InputDtos => Vars.Select(x => new InputDto(x)).ToArray();
     }
 }

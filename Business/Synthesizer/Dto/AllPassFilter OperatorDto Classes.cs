@@ -23,6 +23,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SoundOperatorDto, CenterFrequencyOperatorDto, WidthOperatorDto };
             set { SoundOperatorDto = value[0]; CenterFrequencyOperatorDto = value[1]; WidthOperatorDto = value[2]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(CenterFrequencyOperatorDto),
+            new InputDto(WidthOperatorDto)
+        };
     }
 
     internal class AllPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume
@@ -31,7 +38,14 @@ namespace JJ.Business.Synthesizer.Dto
         public override double Frequency => CenterFrequency;
         public override double WidthOrBlobVolume => Width;
 
-        public double Width { get; set; }
         public double CenterFrequency { get; set; }
+        public double Width { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(CenterFrequency),
+            new InputDto(Width)
+        };
     }
 }

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -7,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sine;
     }
 
-    internal class Sine_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Sine_OperatorDto_ZeroFrequency : OperatorDtoBase_ZeroFrequency
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sine;
     }

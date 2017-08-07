@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Collections;
@@ -14,6 +15,19 @@ namespace JJ.Business.Synthesizer.Dto
 
         public double Input { get; set; }
         public IList<double> Items { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos
+        {
+            get
+            {
+                yield return new InputDto(Input);
+
+                foreach (double item in Items)
+                {
+                    yield return new InputDto(item);
+                }
+            }
+        }
     }
 
     internal class ClosestOverInlets_OperatorDto_VarInput_VarItems : OperatorDtoBase
@@ -27,6 +41,18 @@ namespace JJ.Business.Synthesizer.Dto
         {
             get => InputOperatorDto.Union(ItemOperatorDtos).ToArray();
             set { InputOperatorDto = value[0]; ItemOperatorDtos = value.Skip(1).ToArray(); }
+        }
+
+        public override IEnumerable<InputDto> InputDtos
+        {
+            get
+            {
+                yield return new InputDto(InputOperatorDto);
+                foreach (IOperatorDto itemOperatorDto in ItemOperatorDtos)
+                {
+                    yield return new InputDto(itemOperatorDto);
+                }
+            }
         }
     }
 
@@ -42,6 +68,19 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { InputOperatorDto };
             set => InputOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos
+        {
+            get
+            {
+                yield return new InputDto(InputOperatorDto);
+                foreach (double item in Items)
+                {
+                    yield return new InputDto(item);
+                }
+            }
+        }
+
     }
 
     /// <summary> For Machine Optimization </summary>
@@ -57,6 +96,16 @@ namespace JJ.Business.Synthesizer.Dto
         {
             get => new[] { InputOperatorDto };
             set => InputOperatorDto = value[0];
+        }
+
+        public override IEnumerable<InputDto> InputDtos
+        {
+            get
+            {
+                yield return new InputDto(InputOperatorDto);
+                yield return new InputDto(Item1);
+                yield return new InputDto(Item2);
+            }
         }
     }
 }

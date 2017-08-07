@@ -16,6 +16,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { FromOperatorDto, TillOperatorDto, StepOperatorDto };
             set { FromOperatorDto = value[0]; TillOperatorDto = value[1]; StepOperatorDto = value[2]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(FromOperatorDto),
+            new InputDto(TillOperatorDto),
+            new InputDto(StepOperatorDto)
+        };
     }
 
     internal class RangeOverDimension_OperatorDto_OnlyVars : RangeOverDimension_OperatorDto
@@ -31,6 +38,13 @@ namespace JJ.Business.Synthesizer.Dto
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CanonicalCustomDimensionName { get; set; }
         public int DimensionStackLevel { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(From),
+            new InputDto(Till),
+            new InputDto(Step)
+        };
     }
 
     /// <summary> For Machine Optimization </summary>
@@ -43,5 +57,12 @@ namespace JJ.Business.Synthesizer.Dto
         public DimensionEnum StandardDimensionEnum { get; set; }
         public string CanonicalCustomDimensionName { get; set; }
         public int DimensionStackLevel { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(From),
+            new InputDto(Till),
+            new InputDto(1)
+        };
     }
 }

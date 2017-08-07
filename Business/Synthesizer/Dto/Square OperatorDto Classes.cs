@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Square;
     }
 
-    internal class Square_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Square_OperatorDto_ZeroFrequency : OperatorDtoBase_ZeroFrequency
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Square;
     }

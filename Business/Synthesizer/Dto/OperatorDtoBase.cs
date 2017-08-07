@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public abstract OperatorTypeEnum OperatorTypeEnum { get; }
         public abstract IList<IOperatorDto> InputOperatorDtos { get; set; }
+        public abstract IEnumerable<InputDto> InputDtos { get; }
         public int OperatorID { get; set; }
         public string OperationIdentity { get; set; }
 

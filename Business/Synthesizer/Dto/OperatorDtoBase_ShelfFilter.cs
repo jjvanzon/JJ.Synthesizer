@@ -13,6 +13,14 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SoundOperatorDto, TransitionFrequencyOperatorDto, TransitionSlopeOperatorDto, DBGainOperatorDto };
             set { SoundOperatorDto = value[0]; TransitionFrequencyOperatorDto = value[1]; TransitionSlopeOperatorDto = value[2]; DBGainOperatorDto = value[3]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(TransitionFrequencyOperatorDto),
+            new InputDto(TransitionSlopeOperatorDto),
+            new InputDto(DBGainOperatorDto)
+        };
     }
 
     internal abstract class OperatorDtoBase_ShelfFilter_ManyConsts : OperatorDtoBase_Filter_ManyConsts
@@ -22,5 +30,13 @@ namespace JJ.Business.Synthesizer.Dto
         public double TransitionFrequency { get; set; }
         public double TransitionSlope { get; set; }
         public double DBGain { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(TransitionFrequency),
+            new InputDto(TransitionSlope),
+            new InputDto(DBGain)
+        };
     }
 }

@@ -24,6 +24,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => PassThroughInputOperatorDto;
             set => PassThroughInputOperatorDto = value;
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(PassThroughInputOperatorDto),
+            new InputDto(NumberOperatorDto)
+        };
     }
 
     internal class SetDimension_OperatorDto_VarPassThrough_ConstNumber : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
@@ -44,6 +50,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => PassThroughInputOperatorDto;
             set => PassThroughInputOperatorDto = value;
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(PassThroughInputOperatorDto),
+            new InputDto(Number)
+        };
     }
 
     internal class SetDimension_OperatorDto_ConstPassThrough_VarNumber : OperatorDtoBase_WithDimension
@@ -58,6 +70,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { NumberOperatorDto };
             set => NumberOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(PassThrough),
+            new InputDto(NumberOperatorDto)
+        };
     }
 
     internal class SetDimension_OperatorDto_ConstPassThrough_ConstNumber : OperatorDtoBase_WithDimension
@@ -68,5 +86,11 @@ namespace JJ.Business.Synthesizer.Dto
         public double Number { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(PassThrough),
+            new InputDto(Number)
+        };
     }
 }

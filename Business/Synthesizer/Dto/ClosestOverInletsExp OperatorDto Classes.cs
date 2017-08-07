@@ -14,6 +14,19 @@ namespace JJ.Business.Synthesizer.Dto
 
         public double Input { get; set; }
         public IList<double> Items { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos
+        {
+            get
+            {
+                yield return new InputDto(Input);
+
+                foreach (double item in Items)
+                {
+                    yield return new InputDto(item);
+                }
+            }
+        }
     }
 
     internal class ClosestOverInletsExp_OperatorDto_VarInput_VarItems : ClosestOverInlets_OperatorDto_VarInput_VarItems

@@ -13,6 +13,13 @@ namespace JJ.Business.Synthesizer.Dto
         public double Signal { get; set; }
         public double Step { get; set; }
         public double Offset { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(Step),
+            new InputDto(Offset)
+        };
     }
 
     internal class Round_OperatorDto_ConstSignal : OperatorDtoBase
@@ -28,6 +35,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { StepOperatorDto, OffsetOperatorDto };
             set { StepOperatorDto = value[0]; OffsetOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(StepOperatorDto),
+            new InputDto(OffsetOperatorDto)
+        };
     }
 
     internal class Round_OperatorDto_VarSignal_StepOne_OffsetZero : OperatorDtoBase_VarSignal
@@ -48,6 +62,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, StepOperatorDto, OffsetOperatorDto };
             set { SignalOperatorDto = value[0]; StepOperatorDto = value[1]; OffsetOperatorDto = value[2]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(StepOperatorDto),
+            new InputDto(OffsetOperatorDto)
+        };
     }
 
     internal class Round_OperatorDto_VarSignal_VarStep_ZeroOffset : OperatorDtoBase
@@ -62,6 +83,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, StepOperatorDto };
             set { SignalOperatorDto = value[0]; StepOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(StepOperatorDto),
+            new InputDto(0)
+        };
     }
 
     internal class Round_OperatorDto_VarSignal_VarStep_ConstOffset : OperatorDtoBase
@@ -77,8 +105,15 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, StepOperatorDto };
             set { SignalOperatorDto = value[0]; StepOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(StepOperatorDto),
+            new InputDto(Offset)
+        };
     }
-    
+
     internal class Round_OperatorDto_VarSignal_ConstStep_VarOffset : OperatorDtoBase
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
@@ -92,6 +127,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, OffsetOperatorDto };
             set { SignalOperatorDto = value[0]; OffsetOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(Step),
+            new InputDto(OffsetOperatorDto)
+        };
     }
 
     internal class Round_OperatorDto_VarSignal_ConstStep_ZeroOffset : OperatorDtoBase
@@ -106,6 +148,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto };
             set => SignalOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(Step),
+            new InputDto(0)
+        };
     }
 
     internal class Round_OperatorDto_VarSignal_ConstStep_ConstOffset : OperatorDtoBase
@@ -121,5 +170,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto };
             set => SignalOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(Step),
+            new InputDto(Offset)
+        };
     }
 }

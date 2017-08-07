@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -17,7 +19,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Add;
     }
 
-    internal class Add_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Add_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputDtos
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Add;
     }

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -15,6 +16,14 @@ namespace JJ.Business.Synthesizer.Dto
         public double From { get; set; }
         public double Till { get; set; }
         public double Step { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(From),
+            new InputDto(Till),
+            new InputDto(Step)
+        };
     }
 
     internal class SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous : SumOverDimension_OperatorDto

@@ -14,9 +14,15 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { FrequencyOperatorDto, WidthOperatorDto };
             set { FrequencyOperatorDto = value[0]; WidthOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(FrequencyOperatorDto),
+            new InputDto(WidthOperatorDto)
+        };
     }
 
-    internal class Pulse_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Pulse_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputDtos
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
     }
@@ -31,6 +37,12 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
         public double Width { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Frequency),
+            new InputDto(Width)
+        };
     }
 
     internal class Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
@@ -44,6 +56,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { WidthOperatorDto };
             set => WidthOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Frequency),
+            new InputDto(WidthOperatorDto)
+        };
     }
 
     internal class Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking : OperatorDtoBase_VarFrequency
@@ -56,6 +74,12 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
         public double Width { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(FrequencyOperatorDto),
+            new InputDto(Width)
+        };
     }
 
     internal class Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking : Pulse_OperatorDto

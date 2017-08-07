@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -25,6 +27,16 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, NoteDurationOperatorDto };
             set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(0),
+            new InputDto(LoopStartMarker),
+            new InputDto(LoopEndMarker),
+            new InputDto(CalculationHelper.VERY_HIGH_VALUE),
+            new InputDto(NoteDurationOperatorDto)
+        };
     }
 
     internal class Loop_OperatorDto_ManyConstants : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
@@ -43,6 +55,16 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, NoteDurationOperatorDto };
             set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(Skip),
+            new InputDto(LoopStartMarker),
+            new InputDto(LoopEndMarker),
+            new InputDto(ReleaseEndMarker),
+            new InputDto(NoteDurationOperatorDto)
+        };
     }
 
     internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
@@ -59,6 +81,16 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, ReleaseEndMarkerOperatorDto };
             set { SignalOperatorDto = value[0]; ReleaseEndMarkerOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(SkipAndLoopStartMarker),
+            new InputDto(SkipAndLoopStartMarker),
+            new InputDto(LoopEndMarker),
+            new InputDto(ReleaseEndMarkerOperatorDto),
+            new InputDto(CalculationHelper.VERY_HIGH_VALUE)
+        };
     }
 
     internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
@@ -75,6 +107,16 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, LoopEndMarkerOperatorDto, ReleaseEndMarkerOperatorDto, };
             set { SignalOperatorDto = value[0]; LoopEndMarkerOperatorDto = value[1]; ReleaseEndMarkerOperatorDto = value[2]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(SkipAndLoopStartMarker),
+            new InputDto(SkipAndLoopStartMarker),
+            new InputDto(LoopEndMarkerOperatorDto),
+            new InputDto(ReleaseEndMarkerOperatorDto),
+            new InputDto(CalculationHelper.VERY_HIGH_VALUE)
+        };
     }
 
     internal class Loop_OperatorDto_NoSkipOrRelease : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
@@ -103,6 +145,16 @@ namespace JJ.Business.Synthesizer.Dto
                 NoteDurationOperatorDto = value[3];
             }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(0),
+            new InputDto(LoopStartMarkerOperatorDto),
+            new InputDto(LoopEndMarkerOperatorDto),
+            new InputDto(CalculationHelper.VERY_HIGH_VALUE),
+            new InputDto(NoteDurationOperatorDto)
+        };
     }
 
     internal class Loop_OperatorDto_AllVars : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
@@ -137,5 +189,15 @@ namespace JJ.Business.Synthesizer.Dto
                 NoteDurationOperatorDto = value[5];
             }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(SkipOperatorDto),
+            new InputDto(LoopStartMarkerOperatorDto),
+            new InputDto(LoopEndMarkerOperatorDto),
+            new InputDto(ReleaseEndMarkerOperatorDto),
+            new InputDto(NoteDurationOperatorDto)
+        };
     }
 }

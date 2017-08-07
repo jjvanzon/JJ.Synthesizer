@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new DimensionToOutlets_Outlet_OperatorDto
             {
-                OperandOperatorDto = _stack.Pop(),
+                SignalOperatorDto = _stack.Pop(),
                 OutletPosition = position
             };
 

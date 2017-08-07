@@ -26,6 +26,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SampleCountOperatorDto };
             set => SampleCountOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(SampleCountOperatorDto)
+        };
     }
 
     /// <summary> Slice length does not matter in this case. </summary>
@@ -37,5 +43,11 @@ namespace JJ.Business.Synthesizer.Dto
         public double SampleCount { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Signal),
+            new InputDto(SampleCount)
+        };
     }
 }

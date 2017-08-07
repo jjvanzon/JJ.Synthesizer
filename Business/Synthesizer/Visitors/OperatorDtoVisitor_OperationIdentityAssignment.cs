@@ -18,20 +18,26 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
-            base.Visit_OperatorDto_Polymorphic(dto);
-
-            // TODO: Loop here yourself, pushing numbers,
-            // and visiting input DTO's,
-            // so you can pop them from the stack whether they were doubles in the DTO
-            // or input OperatorDto's.
-
             var sb = new StringBuilder();
 
             sb.Append(dto.OperatorTypeEnum);
+            //sb.Append(dto.GetType().Name);
 
             sb.Append('(');
 
-            IList<string> arguments = dto.InputOperatorDtos
+            foreach (InputDto inputDto in dto.InputDtos)
+            {
+                if (inputDto.Var != null)
+                {
+                    Visit_OperatorDto_Polymorphic(inputDto.Var);
+                }
+                else
+                {
+                    _stack.Push(FormatNumber(inputDto.Const.Value));
+                }
+            }
+
+            IList<string> arguments = dto.InputDtos
                                          .Select(x => _stack.Pop())
                                          .Reverse()
                                          .ToArray();
@@ -73,7 +79,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private IOperatorDto ProcessNumber(Number_OperatorDto dto)
         {
-            _stack.Push(dto.Number.ToString());
+            _stack.Push(FormatNumber(dto.Number));
             return dto;
         }
 
@@ -82,5 +88,7 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push($"{dto.OperatorTypeEnum}-{dto.OutletPosition}");
             return dto;
         }
+
+        private static string FormatNumber(double number) => number.ToString();
     }
 }

@@ -98,11 +98,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private VariableCollections _variableInfo;
 
-        // We need botha list and a stack. A stack for where we are in the processing,
+        // We need both a list and a stack. A stack for where we are in the processing,
         // a list to not lose generated methods, when they are popped from the stack.
 
         private Stack<GeneratedMethodInfo> _generatedMethodInfoStack;
         private Dictionary<int, GeneratedMethodInfo> _operatorID_To_GeneratedMethodInfo_Dictionary;
+
+        private Dictionary<IOperatorDto, string> _resultReuse_Dictionary;
 
         public OperatorDtoToRawCSharpVisitor(int channelIndex, int calculationIndentLevel, int resetIndentLevel)
         {
@@ -118,6 +120,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             _variableInfo = new VariableCollections();
             _generatedMethodInfoStack = new Stack<GeneratedMethodInfo>();
             _operatorID_To_GeneratedMethodInfo_Dictionary = new Dictionary<int, GeneratedMethodInfo>();
+            _resultReuse_Dictionary = new Dictionary<IOperatorDto, string>();
             _counter = 0;
             _holdOperatorIsActiveStack = new Stack<bool>();
             _holdOperatorIsActiveStack.Push(false);
@@ -191,7 +194,14 @@ namespace JJ.Business.Synthesizer.Roslyn
         [DebuggerHidden]
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
-            VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
+            if (_resultReuse_Dictionary.TryGetValue(dto, out string variableName))
+            {
+                _stack.Push(variableName);
+            }
+            else
+            {
+                VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
+            }
 
             return dto;
         }
@@ -601,11 +611,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             BeginGenerateMethod(dto.OperatorID, dto.OperatorTypeEnum);
 
-            string operand = GetLiteralFromOperatorDto(dto.OperandOperatorDto);
+            string signal = GetLiteralFromOperatorDto(dto.SignalOperatorDto);
 
-            operand = EndGenerateMethod(operand);
+            signal = EndGenerateMethod(signal);
 
-            AppendLine($"double {output} = {operand};");
+            AppendLine($"double {output} = {signal};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
@@ -659,9 +669,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string position = GetPositionNameCamelCase(dto);
 
-            _stack.Push(position);
-
-            return dto;
+            return GenerateOperatorWrapUp(dto, position);
         }
 
         protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
@@ -727,8 +735,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLineToReset(GetOperatorTitleComment(dto));
             AppendLineToReset($"{output} = {signal};");
             AppendLineToReset();
-            _stack.Push(output);
-            return dto;
+
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
@@ -1214,7 +1222,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
         {
-            PutNumberOnStack(dto.ConstValue);
+            PutNumberOnStack(dto.Const);
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max, dto.Vars.Count + 1);
@@ -1262,7 +1270,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
         {
-            PutNumberOnStack(dto.ConstValue);
+            PutNumberOnStack(dto.Const);
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min, dto.Vars.Count + 1);
@@ -2225,8 +2233,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string signal = GetLiteralFromOperatorDto(dto.SignalOperatorDto);
 
-            _stack.Push(signal);
-            return dto;
+            return GenerateOperatorWrapUp(dto, signal);
         }
 
         protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
@@ -2470,8 +2477,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string signal = GetLiteralFromOperatorDto(dto.SignalOperatorDto);
 
-            _stack.Push(signal);
-            return dto;
+            return GenerateOperatorWrapUp(dto, signal);
         }
 
         /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
@@ -2490,8 +2496,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string signal = GetLiteralFromOperatorDto(dto.SignalOperatorDto);
 
-            _stack.Push(signal);
-            return dto;
+            return GenerateOperatorWrapUp(dto, signal);
         }
 
         /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
@@ -2520,8 +2525,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string signal = GetLiteralFromOperatorDto(dto.SignalOperatorDto);
 
-            _stack.Push(signal);
-            return dto;
+            return GenerateOperatorWrapUp(dto, signal);
         }
 
         /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>
@@ -2538,8 +2542,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             string signal = GetLiteralFromOperatorDto(dto.SignalOperatorDto);
 
-            _stack.Push(signal);
-            return dto;
+            return GenerateOperatorWrapUp(dto, signal);
         }
 
         protected override IOperatorDto Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
@@ -2659,9 +2662,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string inputVariable = GetInputName(dto);
 
-            _stack.Push(inputVariable);
-
-            return dto;
+            return GenerateOperatorWrapUp(dto, inputVariable);
         }
 
         // Generalized Methods
@@ -2893,7 +2894,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private IOperatorDto ProcessMultiVarOperator_Vars_1Const(OperatorDtoBase_Vars_1Const dto, string operatorSymbol)
         {
-            PutNumberOnStack(dto.ConstValue);
+            PutNumberOnStack(dto.Const);
             dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x));
 
             return ProcessMultiVarOperator(dto, dto.Vars.Count + 1, operatorSymbol);
@@ -3243,11 +3244,15 @@ namespace JJ.Business.Synthesizer.Roslyn
             return convertedName;
         }
 
-        /// <summary> Appends an empty line, pushes the output and returns dto casted to IOperatorDto. </summary>
+        /// <summary> Appends an empty line, pushes the output, adds to _resultReuse_Dictionary and returns dto. </summary>
         private IOperatorDto GenerateOperatorWrapUp(IOperatorDto dto, string output)
         {
             AppendLine();
+
             _stack.Push(output);
+
+            _resultReuse_Dictionary.Add(dto, output);
+
             return dto;
         }
 

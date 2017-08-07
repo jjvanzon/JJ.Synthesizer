@@ -16,6 +16,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { ConditionOperatorDto, ThenOperatorDto, ElseOperatorDto };
             set { ConditionOperatorDto = value[0]; ThenOperatorDto = value[1]; ElseOperatorDto = value[2]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(ConditionOperatorDto),
+            new InputDto(ThenOperatorDto),
+            new InputDto(ElseOperatorDto)
+        };
     }
 
     internal class If_OperatorDto_VarCondition_VarThen_ConstElse : If_OperatorDtoBase_VarCondition
@@ -28,6 +35,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { ConditionOperatorDto, ThenOperatorDto };
             set { ConditionOperatorDto = value[0]; ThenOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(ConditionOperatorDto),
+            new InputDto(ThenOperatorDto),
+            new InputDto(Else)
+        };
     }
 
     internal class If_OperatorDto_VarCondition_ConstThen_VarElse : If_OperatorDtoBase_VarCondition
@@ -40,6 +54,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { ConditionOperatorDto, ElseOperatorDto };
             set { ConditionOperatorDto = value[0]; ElseOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(ConditionOperatorDto),
+            new InputDto(Then),
+            new InputDto(ElseOperatorDto)
+        };
     }
 
     internal class If_OperatorDto_VarCondition_ConstThen_ConstElse : If_OperatorDtoBase_VarCondition
@@ -52,6 +73,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { ConditionOperatorDto };
             set => ConditionOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(ConditionOperatorDto),
+            new InputDto(Then),
+            new InputDto(Else)
+        };
     }
 
     internal class If_OperatorDto_ConstCondition_VarThen_VarElse : OperatorDtoBase
@@ -67,6 +95,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { ThenOperatorDto, ElseOperatorDto };
             set { ThenOperatorDto = value[0]; ElseOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Condition),
+            new InputDto(ThenOperatorDto),
+            new InputDto(ElseOperatorDto)
+        };
     }
 
     internal class If_OperatorDto_ConstCondition_VarThen_ConstElse : OperatorDtoBase
@@ -82,6 +117,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { ThenOperatorDto };
             set => ThenOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Condition),
+            new InputDto(ThenOperatorDto),
+            new InputDto(Else)
+        };
     }
 
     internal class If_OperatorDto_ConstCondition_ConstThen_VarElse : OperatorDtoBase
@@ -97,6 +139,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { ElseOperatorDto };
             set => ElseOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Condition),
+            new InputDto(Then),
+            new InputDto(ElseOperatorDto)
+        };
     }
 
     internal abstract class If_OperatorDtoBase_VarCondition : OperatorDtoBase
@@ -113,5 +162,12 @@ namespace JJ.Business.Synthesizer.Dto
         public double Condition { get; set; }
         public double Then { get; set; }
         public double Else { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(Condition),
+            new InputDto(Then),
+            new InputDto(Else)
+        };
     }
 }

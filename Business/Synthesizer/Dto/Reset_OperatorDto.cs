@@ -16,5 +16,10 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { PassThroughInputOperatorDto };
             set => PassThroughInputOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(PassThroughInputOperatorDto)
+        };
     }
 }

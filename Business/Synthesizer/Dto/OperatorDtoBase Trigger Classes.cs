@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -12,6 +13,8 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { PassThroughInputOperatorDto, ResetOperatorDto };
             set { PassThroughInputOperatorDto = value[0]; ResetOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(PassThroughInputOperatorDto), new InputDto(ResetOperatorDto) };
     }
 
     internal abstract class OperatorDtoBase_Trigger_VarPassThrough_ConstReset : OperatorDtoBase
@@ -24,6 +27,8 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { PassThroughInputOperatorDto };
             set => PassThroughInputOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(PassThroughInputOperatorDto), new InputDto(Reset) };
     }
 
     internal abstract class OperatorDtoBase_Trigger_ConstPassThrough_VarReset : OperatorDtoBase
@@ -36,11 +41,15 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { ResetOperatorDto };
             set => ResetOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(PassThrough), new InputDto(ResetOperatorDto) };
     }
 
     internal abstract class OperatorDtoBase_Trigger_ConstPassThrough_ConstReset : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public double PassThrough { get; set; }
         public double Reset { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(PassThrough), new InputDto(Reset) };
     }
 }

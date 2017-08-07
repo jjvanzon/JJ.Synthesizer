@@ -1,8 +1,9 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class VariableInput_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class VariableInput_OperatorDto : OperatorDtoBase_WithoutInputDtos
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PatchInlet;
 

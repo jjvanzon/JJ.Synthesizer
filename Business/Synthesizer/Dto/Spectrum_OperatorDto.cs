@@ -31,5 +31,13 @@ namespace JJ.Business.Synthesizer.Dto
                 FrequencyCountOperatorDto = value[3];
             }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SoundOperatorDto),
+            new InputDto(StartOperatorDto),
+            new InputDto(EndOperatorDto),
+            new InputDto(FrequencyCountOperatorDto)
+        };
     }
 }

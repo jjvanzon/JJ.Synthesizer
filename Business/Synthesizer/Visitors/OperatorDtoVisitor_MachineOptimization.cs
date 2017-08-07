@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (dto.Vars.Count == 1)
             {
-                return new MaxOverInlets_OperatorDto_1Var_1Const { AOperatorDto = dto.Vars[0], B = dto.ConstValue, OperatorID = dto.OperatorID };
+                return new MaxOverInlets_OperatorDto_1Var_1Const { AOperatorDto = dto.Vars[0], B = dto.Const, OperatorID = dto.OperatorID };
             }
 
             return dto;
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (dto.Vars.Count == 1)
             {
-                return new MinOverInlets_OperatorDto_1Var_1Const { AOperatorDto = dto.Vars[0], B = dto.ConstValue, OperatorID = dto.OperatorID };
+                return new MinOverInlets_OperatorDto_1Var_1Const { AOperatorDto = dto.Vars[0], B = dto.Const, OperatorID = dto.OperatorID };
             }
 
             return dto;

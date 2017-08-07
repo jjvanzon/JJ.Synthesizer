@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Multiply;
     }
 
-    internal class Multiply_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Multiply_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputDtos
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Multiply;
     }

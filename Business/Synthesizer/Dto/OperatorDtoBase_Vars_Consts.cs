@@ -12,5 +12,21 @@ namespace JJ.Business.Synthesizer.Dto
             get => Vars;
             set => Vars = value;
         }
+
+        public override IEnumerable<InputDto> InputDtos
+        {
+            get
+            {
+                foreach (double @const in Consts)
+                {
+                    yield return new InputDto(@const);
+                }
+
+                foreach (IOperatorDto var in Vars)
+                {
+                    yield return new InputDto(var);
+                }
+            }
+        }
     }
 }

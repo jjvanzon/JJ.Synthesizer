@@ -14,12 +14,12 @@ namespace JJ.Business.Synthesizer.Dto
         public IList<ArrayDto> ArrayDtos { get; set; }
     }
 
-    internal class Sample_OperatorDto_NoSample : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Sample_OperatorDto_NoSample : OperatorDtoBase_WithoutInputDtos
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sample;
     }
 
-    internal class Sample_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Sample_OperatorDto_ZeroFrequency : OperatorDtoBase_ZeroFrequency
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sample;
     }

@@ -85,14 +85,14 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Sum();
 
-            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue, OperatorID = dto.OperatorID };
+            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
-            MathPropertiesDto constMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.ConstValue);
+            MathPropertiesDto constMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.Const);
 
             // Identity
             if (constMathProperties.IsConstZero)
@@ -1046,7 +1046,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Max();
 
-            return new MaxOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue, OperatorID = dto.OperatorID };
+            return new MaxOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
@@ -1117,7 +1117,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Min();
 
-            return new MinOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue, OperatorID = dto.OperatorID };
+            return new MinOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
@@ -1164,12 +1164,12 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Product();
 
-            return new Multiply_OperatorDto_Vars_1Const { Vars = dto.Vars, ConstValue = constValue, OperatorID = dto.OperatorID };
+            return new Multiply_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
         {
-            MathPropertiesDto constMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.ConstValue);
+            MathPropertiesDto constMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.Const);
 
             // Identity
             if (constMathProperties.IsConstOne)
@@ -1635,7 +1635,7 @@ namespace JJ.Business.Synthesizer.Visitors
             double stepTimesPosition = dto.Step * dto.OutletPosition;
             var dto2 = new Add_OperatorDto_Vars_1Const
             {
-                ConstValue = stepTimesPosition,
+                Const = stepTimesPosition,
                 Vars = new[] { dto.FromOperatorDto }
             };
             return dto2;

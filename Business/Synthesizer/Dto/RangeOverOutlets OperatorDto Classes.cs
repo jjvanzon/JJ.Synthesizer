@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -17,6 +18,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { FromOperatorDto };
             set => FromOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(FromOperatorDto),
+            new InputDto(0)
+        };
     }
 
     internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep : OperatorDtoBase, IRangeOverOutlets_Outlet_OperatorDto_WithOutletPosition
@@ -32,6 +39,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { FromOperatorDto, StepOperatorDto };
             set { FromOperatorDto = value[0]; StepOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(FromOperatorDto),
+            new InputDto(StepOperatorDto)
+        };
     }
 
     internal class RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep : OperatorDtoBase, IRangeOverOutlets_Outlet_OperatorDto_WithOutletPosition
@@ -47,6 +60,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { FromOperatorDto };
             set => FromOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(FromOperatorDto),
+            new InputDto(Step)
+        };
     }
 
     internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep : OperatorDtoBase, IRangeOverOutlets_Outlet_OperatorDto_WithOutletPosition
@@ -62,6 +81,12 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { StepOperatorDto };
             set => StepOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(From),
+            new InputDto(StepOperatorDto)
+        };
     }
 
     internal class RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep : OperatorDtoBase_WithoutInputOperatorDtos, IRangeOverOutlets_Outlet_OperatorDto_WithOutletPosition
@@ -71,6 +96,12 @@ namespace JJ.Business.Synthesizer.Dto
         public double From { get; set; }
         public double Step { get; set; }
         public int OutletPosition { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(From),
+            new InputDto(Step)
+        };
     }
 
     internal interface IRangeOverOutlets_Outlet_OperatorDto_WithOutletPosition : IOperatorDto

@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxOverInlets;
     }
 
-    internal class MaxOverInlets_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class MaxOverInlets_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputDtos
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxOverInlets;
     }

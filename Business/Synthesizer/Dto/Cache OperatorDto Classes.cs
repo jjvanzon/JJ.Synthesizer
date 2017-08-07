@@ -64,5 +64,13 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SignalOperatorDto, StartOperatorDto, EndOperatorDto, SamplingRateOperatorDto };
             set { SignalOperatorDto = value[0]; StartOperatorDto = value[1]; EndOperatorDto = value[2]; SamplingRateOperatorDto = value[3]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(SignalOperatorDto),
+            new InputDto(StartOperatorDto),
+            new InputDto(EndOperatorDto),
+            new InputDto(SamplingRateOperatorDto)
+        };
     }
 }

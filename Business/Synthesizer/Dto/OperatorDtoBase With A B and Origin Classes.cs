@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -13,6 +14,8 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { AOperatorDto, BOperatorDto, OriginOperatorDto };
             set { AOperatorDto = value[0]; BOperatorDto = value[1]; OriginOperatorDto = value[2]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(AOperatorDto), new InputDto(BOperatorDto), new InputDto(OriginOperatorDto) };
     }
 
     internal abstract class OperatorDtoBase_VarA_VarB_ZeroOrigin : OperatorDtoBase_VarA_VarB
@@ -21,6 +24,8 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class OperatorDtoBase_VarA_VarB_ConstOrigin : OperatorDtoBase_VarA_VarB
     {
         public double Origin { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(AOperatorDto), new InputDto(BOperatorDto), new InputDto(Origin) };
     }
 
     internal abstract class OperatorDtoBase_VarA_ConstB_VarOrigin : OperatorDtoBase
@@ -34,6 +39,8 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { AOperatorDto, OriginOperatorDto };
             set { AOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(AOperatorDto), new InputDto(B), new InputDto(OriginOperatorDto) };
     }
 
     internal abstract class OperatorDtoBase_VarA_ConstB_ZeroOrigin : OperatorDtoBase_VarA_ConstB
@@ -42,6 +49,8 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class OperatorDtoBase_VarA_ConstB_ConstOrigin : OperatorDtoBase_VarA_ConstB
     {
         public double Origin { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(AOperatorDto), new InputDto(B), new InputDto(Origin) };
     }
 
     internal abstract class OperatorDtoBase_ConstA_VarB_VarOrigin : OperatorDtoBase
@@ -55,6 +64,8 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { BOperatorDto, OriginOperatorDto };
             set { BOperatorDto = value[0]; OriginOperatorDto = value[1]; }
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(A), new InputDto(BOperatorDto), new InputDto(OriginOperatorDto) };
     }
 
     internal abstract class OperatorDtoBase_ConstA_VarB_ZeroOrigin : OperatorDtoBase_ConstA_VarB
@@ -63,6 +74,8 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class OperatorDtoBase_ConstA_VarB_ConstOrigin : OperatorDtoBase_ConstA_VarB
     {
         public double Origin { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(A), new InputDto(BOperatorDto), new InputDto(Origin) };
     }
 
     internal abstract class OperatorDtoBase_ConstA_ConstB_VarOrigin : OperatorDtoBase_ConstA_ConstB
@@ -74,6 +87,8 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { OriginOperatorDto };
             set => OriginOperatorDto = value[0];
         }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(A), new InputDto(B), new InputDto(OriginOperatorDto) };
     }
 
     internal abstract class OperatorDtoBase_ConstA_ConstB_ZeroOrigin : OperatorDtoBase_ConstA_ConstB
@@ -82,5 +97,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class OperatorDtoBase_ConstA_ConstB_ConstOrigin : OperatorDtoBase_ConstA_ConstB
     {
         public double Origin { get; set; }
+
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(A), new InputDto(B), new InputDto(Origin) };
     }
 }

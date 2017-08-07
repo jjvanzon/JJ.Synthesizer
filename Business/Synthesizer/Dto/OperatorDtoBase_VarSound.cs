@@ -11,5 +11,8 @@ namespace JJ.Business.Synthesizer.Dto
             get => new[] { SoundOperatorDto };
             set => SoundOperatorDto = value[0];
         }
+
+        // Outcommented to force making a decision in derived classes.
+        //public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(SoundOperatorDto) };
     }
 }

@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Number_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Number_OperatorDto : OperatorDtoBase_WithoutInputDtos
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Number;
 

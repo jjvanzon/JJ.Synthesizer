@@ -7,19 +7,15 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.DimensionToOutlets;
 
-        public IOperatorDto OperandOperatorDto { get; set; }
+        public IOperatorDto SignalOperatorDto { get; set; }
         public int OutletPosition { get; set; }
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get => new[] { OperandOperatorDto };
-            set => OperandOperatorDto = value[0];
+            get => new[] { SignalOperatorDto };
+            set => SignalOperatorDto = value[0];
         }
 
-        public IOperatorDto SignalOperatorDto
-        {
-            get => OperandOperatorDto;
-            set => OperandOperatorDto = value;
-        }
+        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(SignalOperatorDto) };
     }
 }
