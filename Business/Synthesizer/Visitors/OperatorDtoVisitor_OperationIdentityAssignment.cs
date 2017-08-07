@@ -21,7 +21,6 @@ namespace JJ.Business.Synthesizer.Visitors
             var sb = new StringBuilder();
 
             sb.Append(dto.OperatorTypeEnum);
-            //sb.Append(dto.GetType().Name);
 
             sb.Append('(');
 
@@ -40,52 +39,29 @@ namespace JJ.Business.Synthesizer.Visitors
             IList<string> arguments = dto.InputDtos
                                          .Select(x => _stack.Pop())
                                          .Reverse()
-                                         .ToArray();
+                                         .ToList();
 
-            int argumentCount = arguments.Count;
-            for (int i = 0; i < argumentCount; i++)
+            // Some operators require more than just their inputs to identify them.
+            if (dto is Number_OperatorDto number_OperatorDto)
             {
-                string argument = arguments[i];
-
-                sb.Append(argument);
-
-                bool isLast = i == argumentCount - 1;
-                if (!isLast)
-                {
-                    sb.Append(',');
-                }
+                arguments.Add($"{FormatNumber(number_OperatorDto.Number)}");
+            }
+            else if (dto is DimensionToOutlets_Outlet_OperatorDto dimensionToOutlets_Outlet_OperatorDto)
+            {
+                arguments.Add($"[{dimensionToOutlets_Outlet_OperatorDto.OutletPosition}]");
             }
 
+            // TODO: Variable input and dimensions also need special handling.
+
+            string concatinatedArguments = string.Join(",", arguments);
+            sb.Append(concatinatedArguments);
+            
             sb.Append(')');
 
             dto.OperationIdentity = sb.ToString();
 
             _stack.Push(dto.OperationIdentity);
 
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
-            => ProcessNumber(dto);
-
-        protected override IOperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
-            => ProcessNumber(dto);
-
-        protected override IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
-            => ProcessNumber(dto);
-
-        protected override IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
-            => ProcessNumber(dto);
-
-        private IOperatorDto ProcessNumber(Number_OperatorDto dto)
-        {
-            _stack.Push(FormatNumber(dto.Number));
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
-        {
-            _stack.Push($"{dto.OperatorTypeEnum}-{dto.OutletPosition}");
             return dto;
         }
 
