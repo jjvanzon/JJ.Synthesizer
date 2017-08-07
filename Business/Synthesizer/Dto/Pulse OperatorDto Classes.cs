@@ -22,9 +22,15 @@ namespace JJ.Business.Synthesizer.Dto
         };
     }
 
-    internal class Pulse_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputDtos
+    internal class Pulse_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
+
+        public override IEnumerable<InputDto> InputDtos => new[]
+        {
+            new InputDto(0),
+            new InputDto(0)
+        };
     }
 
     internal class Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency

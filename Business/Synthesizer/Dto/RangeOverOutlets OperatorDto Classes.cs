@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {

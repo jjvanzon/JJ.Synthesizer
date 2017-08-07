@@ -15,7 +15,8 @@ namespace JJ.Business.Synthesizer.Dto
         public override IEnumerable<InputDto> InputDtos => new[]
         {
             new InputDto(Signal),
-            new InputDto(Factor)
+            new InputDto(Factor),
+            new InputDto(0)
         };
     }
 
@@ -33,7 +34,8 @@ namespace JJ.Business.Synthesizer.Dto
         public override IEnumerable<InputDto> InputDtos => new[]
         {
             new InputDto(Signal),
-            new InputDto(FactorOperatorDto)
+            new InputDto(FactorOperatorDto),
+            new InputDto(0)
         };
     }
 
@@ -51,7 +53,8 @@ namespace JJ.Business.Synthesizer.Dto
         public override IEnumerable<InputDto> InputDtos => new[]
         {
             new InputDto(SignalOperatorDto),
-            new InputDto(Factor)
+            new InputDto(Factor),
+            new InputDto(0)
         };
     }
 
@@ -69,7 +72,8 @@ namespace JJ.Business.Synthesizer.Dto
         public override IEnumerable<InputDto> InputDtos => new[]
         {
             new InputDto(SignalOperatorDto),
-            new InputDto(FactorOperatorDto)
+            new InputDto(FactorOperatorDto),
+            new InputDto(0)
         };
     }
 
