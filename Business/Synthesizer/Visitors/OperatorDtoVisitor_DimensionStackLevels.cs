@@ -9,50 +9,11 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitor_DimensionStackLevels : OperatorDtoVisitorBase
     {
-        private readonly HashSet<Type> _dimensionWriting_OperatorDto_Types = new HashSet<Type>
-        {
-            typeof(DimensionToOutlets_Outlet_OperatorDto),
-            typeof(Loop_OperatorDto),
-            typeof(Loop_OperatorDto_NoSkipOrRelease_ManyConstants),
-            typeof(Loop_OperatorDto_ManyConstants),
-            typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration),
-            typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration),
-            typeof(Loop_OperatorDto_NoSkipOrRelease),
-            typeof(Loop_OperatorDto_AllVars),
-            typeof(Reverse_OperatorDto),
-            typeof(Reverse_OperatorDto_VarFactor_WithPhaseTracking),
-            typeof(Reverse_OperatorDto_VarFactor_NoPhaseTracking),
-            typeof(Reverse_OperatorDtoBase_VarFactor),
-            typeof(Reverse_OperatorDto_ConstFactor_WithOriginShifting),
-            typeof(Reverse_OperatorDto_ConstFactor_NoOriginShifting),
-            typeof(SetDimension_OperatorDto),
-            typeof(SetDimension_OperatorDto_VarPassThrough_VarNumber),
-            typeof(SetDimension_OperatorDto_VarPassThrough_ConstNumber),
-            typeof(Squash_OperatorDto),
-            typeof(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin),
-            typeof(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin),
-            typeof(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin),
-            typeof(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin),
-            typeof(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin),
-            typeof(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin),
-            typeof(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting),
-            typeof(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking),
-            typeof(Stretch_OperatorDto),
-            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting),
-            typeof(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking)
-        };
-
-        private Dictionary<Tuple<DimensionEnum, string>, int> _dimensionToCurrentStackLevelDictionary;
+        private Dictionary<(DimensionEnum, string), int> _dimensionToCurrentStackLevelDictionary;
 
         public void Execute(IOperatorDto dto)
         {
-            _dimensionToCurrentStackLevelDictionary = new Dictionary<Tuple<DimensionEnum, string>, int>();
+            _dimensionToCurrentStackLevelDictionary = new Dictionary<(DimensionEnum, string), int>();
 
             Visit_OperatorDto_Polymorphic(dto);
         }
@@ -72,8 +33,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             // Determine whether dto is a dimension writer. If not, continue visiting.
-            Type dtoType = dto.GetType();
-            bool isDimensionWriter = _dimensionWriting_OperatorDto_Types.Contains(dtoType);
+            bool isDimensionWriter = VisitorHelper.IsDimensionWriter(dto);
             if (!isDimensionWriter)
             {
                 return base.Visit_OperatorDto_Polymorphic(dto);
@@ -113,7 +73,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private int GetCurrentStackLevel(DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName)
         {
-            var key = new Tuple<DimensionEnum, string>(standardDimensionEnum, canonicalCustomDimensionName);
+            var key = (standardDimensionEnum, canonicalCustomDimensionName);
 
             if (!_dimensionToCurrentStackLevelDictionary.TryGetValue(key, out int stackLevel))
             {
@@ -125,7 +85,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private void SetCurrentStackLevel(DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName, int value)
         {
-            var key = new Tuple<DimensionEnum, string>(standardDimensionEnum, canonicalCustomDimensionName);
+            var key = (standardDimensionEnum, canonicalCustomDimensionName);
 
             _dimensionToCurrentStackLevelDictionary[key] = value;
         }

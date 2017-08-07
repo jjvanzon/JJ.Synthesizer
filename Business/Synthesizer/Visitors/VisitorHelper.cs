@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
@@ -10,6 +12,52 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal static class VisitorHelper
     {
+        public static bool IsDimensionWriter(IOperatorDto dto)
+        {
+            Type dtoType = dto.GetType();
+            bool isDimensionWriter = _dimensionWriting_OperatorDto_Types.Contains(dtoType);
+            return isDimensionWriter;
+        }
+
+        private static HashSet<Type> _dimensionWriting_OperatorDto_Types = new HashSet<Type>
+        {
+            typeof(DimensionToOutlets_Outlet_OperatorDto),
+            typeof(Loop_OperatorDto),
+            typeof(Loop_OperatorDto_NoSkipOrRelease_ManyConstants),
+            typeof(Loop_OperatorDto_ManyConstants),
+            typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration),
+            typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration),
+            typeof(Loop_OperatorDto_NoSkipOrRelease),
+            typeof(Loop_OperatorDto_AllVars),
+            typeof(Reverse_OperatorDto),
+            typeof(Reverse_OperatorDto_VarFactor_WithPhaseTracking),
+            typeof(Reverse_OperatorDto_VarFactor_NoPhaseTracking),
+            typeof(Reverse_OperatorDtoBase_VarFactor),
+            typeof(Reverse_OperatorDto_ConstFactor_WithOriginShifting),
+            typeof(Reverse_OperatorDto_ConstFactor_NoOriginShifting),
+            typeof(SetDimension_OperatorDto),
+            typeof(SetDimension_OperatorDto_VarPassThrough_VarNumber),
+            typeof(SetDimension_OperatorDto_VarPassThrough_ConstNumber),
+            typeof(Squash_OperatorDto),
+            typeof(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin),
+            typeof(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin),
+            typeof(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin),
+            typeof(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin),
+            typeof(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin),
+            typeof(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin),
+            typeof(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting),
+            typeof(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking),
+            typeof(Stretch_OperatorDto),
+            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin),
+            typeof(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin),
+            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin),
+            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin),
+            typeof(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin),
+            typeof(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin),
+            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting),
+            typeof(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking)
+        };
+
         /// <summary>
         /// Checks whether the stack count is incremented by exactly 1 after the action.
         /// It looks like this functionality belongs in a base visitor,

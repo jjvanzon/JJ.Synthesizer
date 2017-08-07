@@ -97,14 +97,13 @@ namespace JJ.Business.Synthesizer.Roslyn
         private Stack<bool> _holdOperatorIsActiveStack;
 
         private VariableCollections _variableInfo;
+        private Dictionary<IOperatorDto, string> _resultReuse_Dictionary;
 
-        // We need both a list and a stack. A stack for where we are in the processing,
+        // We need both a GeneratedMethodInfo list and a stack. A stack for where we are in the processing,
         // a list to not lose generated methods, when they are popped from the stack.
 
         private Stack<GeneratedMethodInfo> _generatedMethodInfoStack;
         private Dictionary<int, GeneratedMethodInfo> _operatorID_To_GeneratedMethodInfo_Dictionary;
-
-        private Dictionary<IOperatorDto, string> _resultReuse_Dictionary;
 
         public OperatorDtoToRawCSharpVisitor(int channelIndex, int calculationIndentLevel, int resetIndentLevel)
         {

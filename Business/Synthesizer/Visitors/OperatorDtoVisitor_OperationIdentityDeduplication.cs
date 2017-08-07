@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.Dto;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
     /// <summary> OperatorDtoVisitor_AssignOperationIdentities must have run first. </summary>
+    [Obsolete("Not obsolete, but not finished. Cannot be used in its current form. See OperatorDtoVisitor_AssignOperationIdentities")]
     internal class OperatorDtoVisitor_OperationIdentityDeduplication : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
         private Dictionary<string, IOperatorDto> _dictionary;
