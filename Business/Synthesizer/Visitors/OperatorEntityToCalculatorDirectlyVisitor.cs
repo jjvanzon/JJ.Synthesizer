@@ -171,9 +171,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
-                                                                        .Select(x => _stack.Pop())
-                                                                        .ToArray();
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets
+                                                                 .Select(x => _stack.Pop())
+                                                                 .Where(x => x != null)
+                                                                 .ToArray();
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Sum());
 
@@ -320,9 +321,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
-                                                                        .Select(x => _stack.Pop())
-                                                                        .ToArray();
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets
+                                                                 .Select(x => _stack.Pop())
+                                                                 .Where(x => x != null)
+                                                                 .ToArray();
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Average());
 
@@ -654,15 +656,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase inputCalculator = _stack.Pop();
 
-            int itemCount = op.Inlets.Count - 1;
-            IList<OperatorCalculatorBase> itemCalculators = new OperatorCalculatorBase[itemCount];
-            for (int i = 0; i < itemCount; i++)
-            {
-                OperatorCalculatorBase itemCalculator = _stack.Pop();
-                itemCalculators[i] = itemCalculator;
-            }
-
-            itemCalculators = itemCalculators.Where(x => x != null).ToArray();
+            IList<OperatorCalculatorBase> itemCalculators = op.Inlets
+                                                              .Skip(1)
+                                                              .Select(x => _stack.Pop())
+                                                              .Where(x => x != null)
+                                                              .ToArray();
 
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
             bool itemsIsEmpty = itemCalculators.Count == 0;
@@ -711,15 +709,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase inputCalculator = _stack.Pop();
 
-            int itemCount = op.Inlets.Count - 1;
-            IList<OperatorCalculatorBase> itemCalculators = new OperatorCalculatorBase[itemCount];
-            for (int i = 0; i < itemCount; i++)
-            {
-                OperatorCalculatorBase itemCalculator = _stack.Pop();
-                itemCalculators[i] = itemCalculator;
-            }
-
-            itemCalculators = itemCalculators.Where(x => x != null).ToArray();
+            IList<OperatorCalculatorBase> itemCalculators = op.Inlets
+                                                              .Skip(1)
+                                                              .Select(x => _stack.Pop())
+                                                              .Where(x => x != null)
+                                                              .ToArray();
 
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
             bool itemsIsEmpty = itemCalculators.Count == 0;
@@ -1796,9 +1790,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
-                                                                        .Select(x => _stack.Pop())
-                                                                        .ToArray();
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets
+                                                                 .Select(x => _stack.Pop())
+                                                                 .Where(x => x != null)
+                                                                 .ToArray();
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Max());
 
@@ -1960,9 +1955,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
-                                                                        .Select(x => _stack.Pop())
-                                                                        .ToArray();
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets
+                                                                 .Select(x => _stack.Pop())
+                                                                 .Where(x => x != null)
+                                                                 .ToArray();
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Min());
 
@@ -2124,9 +2120,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            IList<OperatorCalculatorBase> operandCalculators = op.Inlets.Where(x => x.InputOutlet != null)
-                                                                        .Select(x => _stack.Pop())
-                                                                        .ToArray();
+            IList<OperatorCalculatorBase> operandCalculators = op.Inlets
+                                                                 .Select(x => _stack.Pop())
+                                                                 .Where(x => x != null)
+                                                                 .ToArray();
 
             operandCalculators = TruncateOperandCalculatorList(operandCalculators, x => x.Product());
 
