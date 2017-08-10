@@ -13,7 +13,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto(BandPassFilterConstantTransitionGain_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Cache_OperatorDto(Cache_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_ClosestOverDimension_OperatorDto(ClosestOverDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto(ClosestOverDimensionExp_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto) => throw new NotSupportedException();
@@ -48,7 +47,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Pulse_OperatorDto(Pulse_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto) => throw new NotSupportedException();
@@ -67,7 +65,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Triangle_OperatorDto(Triangle_OperatorDto dto) => throw new NotSupportedException();
     }
 }

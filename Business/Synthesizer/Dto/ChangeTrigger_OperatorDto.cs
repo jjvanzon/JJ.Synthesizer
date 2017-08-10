@@ -6,16 +6,4 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ChangeTrigger;
     }
-
-    internal class ChangeTrigger_OperatorDto_VarPassThrough_VarReset : ChangeTrigger_OperatorDto
-    { }
-
-    internal class ChangeTrigger_OperatorDto_VarPassThrough_ConstReset : ChangeTrigger_OperatorDto
-    { }
-
-    internal class ChangeTrigger_OperatorDto_ConstPassThrough_VarReset : ChangeTrigger_OperatorDto
-    { }
-
-    internal class ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset : ChangeTrigger_OperatorDto
-    { }
 }

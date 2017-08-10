@@ -258,38 +258,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
-        {
-            base.Visit_ChangeTrigger_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.PassThroughInput.IsConst && dto.Reset.IsConst)
-            {
-                dto2 = new ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset();
-            }
-            else if (dto.PassThroughInput.IsConst && dto.Reset.IsVar)
-            {
-                dto2 = new ChangeTrigger_OperatorDto_ConstPassThrough_VarReset();
-            }
-            else if (dto.PassThroughInput.IsVar && dto.Reset.IsConst)
-            {
-                dto2 = new ChangeTrigger_OperatorDto_VarPassThrough_ConstReset();
-            }
-            else if (dto.PassThroughInput.IsVar && dto.Reset.IsVar)
-            {
-                dto2 = new ChangeTrigger_OperatorDto_VarPassThrough_VarReset();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto(ClosestOverDimension_OperatorDto dto)
         {
             base.Visit_ClosestOverDimension_OperatorDto(dto);
@@ -1362,38 +1330,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
-        {
-            base.Visit_PulseTrigger_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.PassThroughInput.IsConst && dto.Reset.IsConst)
-            {
-                dto2 = new PulseTrigger_OperatorDto_ConstPassThrough_ConstReset();
-            }
-            else if (dto.PassThroughInput.IsConst && dto.Reset.IsVar)
-            {
-                dto2 = new PulseTrigger_OperatorDto_ConstPassThrough_VarReset();
-            }
-            else if (dto.PassThroughInput.IsVar && dto.Reset.IsConst)
-            {
-                dto2 = new PulseTrigger_OperatorDto_VarPassThrough_ConstReset();
-            }
-            else if (dto.PassThroughInput.IsVar && dto.Reset.IsVar)
-            {
-                dto2 = new PulseTrigger_OperatorDto_VarPassThrough_VarReset();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto)
         {
             base.Visit_Random_OperatorDto(dto);
@@ -2079,38 +2015,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 dto2 = new SumFollower_OperatorDto_AllVars();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
-        {
-            base.Visit_ToggleTrigger_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.PassThroughInput.IsConst && dto.Reset.IsConst)
-            {
-                dto2 = new ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset();
-            }
-            else if (dto.PassThroughInput.IsConst && dto.Reset.IsVar)
-            {
-                dto2 = new ToggleTrigger_OperatorDto_ConstPassThrough_VarReset();
-            }
-            else if (dto.PassThroughInput.IsVar && dto.Reset.IsConst)
-            {
-                dto2 = new ToggleTrigger_OperatorDto_VarPassThrough_ConstReset();
-            }
-            else if (dto.PassThroughInput.IsVar && dto.Reset.IsVar)
-            {
-                dto2 = new ToggleTrigger_OperatorDto_VarPassThrough_VarReset();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.CloneProperties(dto, dto2);

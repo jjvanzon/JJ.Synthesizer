@@ -293,24 +293,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // ChangeTrigger
 
-        protected override IOperatorDto Visit_ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset(ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset dto)
+        protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
         {
-            return Process_Trigger_ConstPassThrough_ConstReset_Identity(dto);
-        }
-
-        protected override IOperatorDto Visit_ChangeTrigger_OperatorDto_ConstPassThrough_VarReset(ChangeTrigger_OperatorDto_ConstPassThrough_VarReset dto)
-        {
-            return Process_Trigger_ConstPassThrough_VarReset_Identity(dto);
-        }
-
-        protected override IOperatorDto Visit_ChangeTrigger_OperatorDto_VarPassThrough_ConstReset(ChangeTrigger_OperatorDto_VarPassThrough_ConstReset dto)
-        {
-            return Process_Trigger_VarPassThrough_ConstReset_Identity(dto);
-        }
-
-        protected override IOperatorDto Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto)
-        {
-            return Process_Nothing(dto);
+            return ProcessTrigger(dto);
         }
 
         // ClosestOverDimension
@@ -1406,24 +1391,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // PulseTrigger
 
-        protected override IOperatorDto Visit_PulseTrigger_OperatorDto_ConstPassThrough_ConstReset(PulseTrigger_OperatorDto_ConstPassThrough_ConstReset dto)
+        protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
         {
-            return Process_Trigger_ConstPassThrough_ConstReset_Identity(dto);
-        }
-
-        protected override IOperatorDto Visit_PulseTrigger_OperatorDto_ConstPassThrough_VarReset(PulseTrigger_OperatorDto_ConstPassThrough_VarReset dto)
-        {
-            return Process_Trigger_ConstPassThrough_VarReset_Identity(dto);
-        }
-
-        protected override IOperatorDto Visit_PulseTrigger_OperatorDto_VarPassThrough_ConstReset(PulseTrigger_OperatorDto_VarPassThrough_ConstReset dto)
-        {
-            return Process_Trigger_VarPassThrough_ConstReset_Identity(dto);
-        }
-
-        protected override IOperatorDto Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto)
-        {
-            return Process_Nothing(dto);
+            return ProcessTrigger(dto);
         }
 
         // Pulse
@@ -2126,24 +2096,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // ToggleTrigger
 
-        protected override IOperatorDto Visit_ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset(ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset dto)
+        protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
         {
-            return Process_Trigger_ConstPassThrough_ConstReset_Identity(dto);
-        }
-
-        protected override IOperatorDto Visit_ToggleTrigger_OperatorDto_ConstPassThrough_VarReset(ToggleTrigger_OperatorDto_ConstPassThrough_VarReset dto)
-        {
-            return Process_Trigger_ConstPassThrough_VarReset_Identity(dto);
-        }
-
-        protected override IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_ConstReset(ToggleTrigger_OperatorDto_VarPassThrough_ConstReset dto)
-        {
-            return Process_Trigger_VarPassThrough_ConstReset_Identity(dto);
-        }
-
-        protected override IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto)
-        {
-            return Process_Nothing(dto);
+            return ProcessTrigger(dto);
         }
 
         // Triangle
@@ -2270,6 +2225,31 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.A4 = a4;
 
             return dto;
+        }
+
+
+        private IOperatorDto ProcessTrigger(OperatorDtoBase_Trigger dto)
+        {
+            if (dto.PassThroughInput.IsConst && dto.Reset.IsConst)
+            {
+                return Process_Trigger_ConstPassThrough_ConstReset_Identity(dto);
+            }
+            else if (dto.PassThroughInput.IsConst && dto.Reset.IsVar)
+            {
+                return Process_Trigger_ConstPassThrough_VarReset_Identity(dto);
+            }
+            else if (dto.PassThroughInput.IsVar && dto.Reset.IsConst)
+            {
+                return Process_Trigger_VarPassThrough_ConstReset_Identity(dto);
+            }
+            else if (dto.PassThroughInput.IsVar && dto.Reset.IsVar)
+            {
+                return Process_Nothing(dto);
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         private IOperatorDto Process_Trigger_ConstPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto)

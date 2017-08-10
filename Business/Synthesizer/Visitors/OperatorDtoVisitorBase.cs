@@ -118,10 +118,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Cache_OperatorDto_MultiChannel_Line), x => Visit_Cache_OperatorDto_MultiChannel_Line((Cache_OperatorDto_MultiChannel_Line)x ) },
                 { typeof(Cache_OperatorDto_MultiChannel_Stripe), x => Visit_Cache_OperatorDto_MultiChannel_Stripe((Cache_OperatorDto_MultiChannel_Stripe)x ) },
                 { typeof(ChangeTrigger_OperatorDto), x => Visit_ChangeTrigger_OperatorDto((ChangeTrigger_OperatorDto)x ) },
-                { typeof(ChangeTrigger_OperatorDto_VarPassThrough_VarReset), x => Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset((ChangeTrigger_OperatorDto_VarPassThrough_VarReset)x ) },
-                { typeof(ChangeTrigger_OperatorDto_VarPassThrough_ConstReset), x => Visit_ChangeTrigger_OperatorDto_VarPassThrough_ConstReset((ChangeTrigger_OperatorDto_VarPassThrough_ConstReset)x ) },
-                { typeof(ChangeTrigger_OperatorDto_ConstPassThrough_VarReset), x => Visit_ChangeTrigger_OperatorDto_ConstPassThrough_VarReset((ChangeTrigger_OperatorDto_ConstPassThrough_VarReset)x ) },
-                { typeof(ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset), x => Visit_ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset((ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset)x ) },
                 { typeof(ClosestOverDimension_OperatorDto), x => Visit_ClosestOverDimension_OperatorDto((ClosestOverDimension_OperatorDto)x ) },
                 { typeof(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous), x => Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous((ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous)x ) },
                 { typeof(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset), x => Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset((ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset)x ) },
@@ -315,10 +311,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking), x => Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking((Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking)x ) },
                 { typeof(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking), x => Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking((Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking)x ) },
                 { typeof(PulseTrigger_OperatorDto), x => Visit_PulseTrigger_OperatorDto((PulseTrigger_OperatorDto)x ) },
-                { typeof(PulseTrigger_OperatorDto_VarPassThrough_VarReset), x => Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset((PulseTrigger_OperatorDto_VarPassThrough_VarReset)x ) },
-                { typeof(PulseTrigger_OperatorDto_VarPassThrough_ConstReset), x => Visit_PulseTrigger_OperatorDto_VarPassThrough_ConstReset((PulseTrigger_OperatorDto_VarPassThrough_ConstReset)x ) },
-                { typeof(PulseTrigger_OperatorDto_ConstPassThrough_VarReset), x => Visit_PulseTrigger_OperatorDto_ConstPassThrough_VarReset((PulseTrigger_OperatorDto_ConstPassThrough_VarReset)x ) },
-                { typeof(PulseTrigger_OperatorDto_ConstPassThrough_ConstReset), x => Visit_PulseTrigger_OperatorDto_ConstPassThrough_ConstReset((PulseTrigger_OperatorDto_ConstPassThrough_ConstReset)x ) },
                 { typeof(Random_OperatorDto), x => Visit_Random_OperatorDto((Random_OperatorDto)x ) },
                 { typeof(Random_OperatorDto_Block), x => Visit_Random_OperatorDto_Block((Random_OperatorDto_Block)x ) },
                 { typeof(Random_OperatorDto_Stripe_LagBehind), x => Visit_Random_OperatorDto_Stripe_LagBehind((Random_OperatorDto_Stripe_LagBehind)x ) },
@@ -441,10 +433,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous), x => Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous((SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous)x ) },
                 { typeof(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset), x => Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset((SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset)x ) },
                 { typeof(ToggleTrigger_OperatorDto), x => Visit_ToggleTrigger_OperatorDto((ToggleTrigger_OperatorDto)x ) },
-                { typeof(ToggleTrigger_OperatorDto_VarPassThrough_VarReset), x => Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset((ToggleTrigger_OperatorDto_VarPassThrough_VarReset)x ) },
-                { typeof(ToggleTrigger_OperatorDto_VarPassThrough_ConstReset), x => Visit_ToggleTrigger_OperatorDto_VarPassThrough_ConstReset((ToggleTrigger_OperatorDto_VarPassThrough_ConstReset)x ) },
-                { typeof(ToggleTrigger_OperatorDto_ConstPassThrough_VarReset), x => Visit_ToggleTrigger_OperatorDto_ConstPassThrough_VarReset((ToggleTrigger_OperatorDto_ConstPassThrough_VarReset)x ) },
-                { typeof(ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset), x => Visit_ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset((ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset)x ) },
                 { typeof(Triangle_OperatorDto), x => Visit_Triangle_OperatorDto((Triangle_OperatorDto)x ) },
                 { typeof(Triangle_OperatorDto_ZeroFrequency), x => Visit_Triangle_OperatorDto_ZeroFrequency((Triangle_OperatorDto_ZeroFrequency)x ) },
                 { typeof(Triangle_OperatorDto_ConstFrequency_NoOriginShifting), x => Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting((Triangle_OperatorDto_ConstFrequency_NoOriginShifting)x ) },
@@ -499,10 +487,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Line(Cache_OperatorDto_MultiChannel_Line dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Stripe(Cache_OperatorDto_MultiChannel_Stripe dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ChangeTrigger_OperatorDto_VarPassThrough_VarReset(ChangeTrigger_OperatorDto_VarPassThrough_VarReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ChangeTrigger_OperatorDto_VarPassThrough_ConstReset(ChangeTrigger_OperatorDto_VarPassThrough_ConstReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ChangeTrigger_OperatorDto_ConstPassThrough_VarReset(ChangeTrigger_OperatorDto_ConstPassThrough_VarReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset(ChangeTrigger_OperatorDto_ConstPassThrough_ConstReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverDimension_OperatorDto(ClosestOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
@@ -696,10 +680,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_PulseTrigger_OperatorDto_VarPassThrough_VarReset(PulseTrigger_OperatorDto_VarPassThrough_VarReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_PulseTrigger_OperatorDto_VarPassThrough_ConstReset(PulseTrigger_OperatorDto_VarPassThrough_ConstReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_PulseTrigger_OperatorDto_ConstPassThrough_VarReset(PulseTrigger_OperatorDto_ConstPassThrough_VarReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_PulseTrigger_OperatorDto_ConstPassThrough_ConstReset(PulseTrigger_OperatorDto_ConstPassThrough_ConstReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
@@ -822,10 +802,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_VarReset(ToggleTrigger_OperatorDto_VarPassThrough_VarReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto_VarPassThrough_ConstReset(ToggleTrigger_OperatorDto_VarPassThrough_ConstReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto_ConstPassThrough_VarReset(ToggleTrigger_OperatorDto_ConstPassThrough_VarReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset(ToggleTrigger_OperatorDto_ConstPassThrough_ConstReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Triangle_OperatorDto(Triangle_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Triangle_OperatorDto_ZeroFrequency(Triangle_OperatorDto_ZeroFrequency dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
