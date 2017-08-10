@@ -1749,7 +1749,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendLine($"double {output} = {math}.{round}({signal}, MidpointRounding.AwayFromZero);");
 
-            return GenerateOperatorWrapUp(dto, signal);
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset(Round_OperatorDto_VarSignal_VarStep_ConstOffset dto)
@@ -1780,7 +1780,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step}, {offset});");
 
-            return GenerateOperatorWrapUp(dto, signal);
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         private IOperatorDto ProcessRoundZeroOffset(Round_OperatorDtoBase_ZeroOffset dto)
@@ -1795,7 +1795,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendLine($"double {output} = {mathHelper}.{roundWithStep}({signal}, {step});");
 
-            return GenerateOperatorWrapUp(dto, signal);
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(
@@ -2551,13 +2551,13 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string @base = GetLiteralFromInputDto(dto.Base);
             string exponent = GetLiteralFromInputDto(dto.Exponent);
-            string variable = GetLocalOutputName(dto);
+            string output = GetLocalOutputName(dto);
 
             AppendOperatorTitleComment(dto);
 
-            AppendLine($"double {variable} = Math.Pow({@base}, {exponent});");
+            AppendLine($"double {output} = Math.Pow({@base}, {exponent});");
 
-            return GenerateOperatorWrapUp(dto, variable);
+            return GenerateOperatorWrapUp(dto, output);
         }
 
         private IOperatorDto ProcessBinaryOperator(OperatorDtoBase_WithAAndB dto, string operatorSymbol)

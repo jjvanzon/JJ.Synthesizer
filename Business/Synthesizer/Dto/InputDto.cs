@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     internal class InputDto
     {
         [Obsolete("Use InputDtoFactory instead.")]
@@ -12,7 +15,13 @@ namespace JJ.Business.Synthesizer.Dto
         }
 
         [Obsolete("Use InputDtoFactory instead.")]
-        public InputDto(bool isConst = false, bool isConstZero = false, bool isConstOne = false, bool isConstNonZero = false, bool isConstSpecialValue = false, double @const = 0)
+        public InputDto(
+            bool isConst = false,
+            bool isConstZero = false,
+            bool isConstOne = false,
+            bool isConstNonZero = false,
+            bool isConstSpecialValue = false,
+            double @const = 0)
         {
             IsConst = isConst;
             IsConstZero = isConstZero;
@@ -30,5 +39,7 @@ namespace JJ.Business.Synthesizer.Dto
         public bool IsConstSpecialValue { get; }
         public double Const { get; }
         public IOperatorDto Var { get; }
+
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

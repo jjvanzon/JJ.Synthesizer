@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -11,6 +12,20 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     internal static class DebuggerDisplayFormatter
     {
+        public static string GetDebuggerDisplay(InputDto inputDto)
+        {
+            if (inputDto == null) throw new ArgumentNullException(nameof(inputDto));
+
+            if (inputDto.Var != null)
+            {
+                return GetDebuggerDisplay(inputDto.Var);
+            }
+            else
+            {
+                return inputDto.Const.ToString();
+            }
+        }
+
         public static string GetDebuggerDisplay(OperatorCalculatorBase operatorCalculatorBase)
         {
             if (operatorCalculatorBase == null) throw new NullException(() => operatorCalculatorBase);
