@@ -32,7 +32,6 @@ namespace JJ.Business.Synthesizer.Visitors
             typeof(Reverse_OperatorDto),
             typeof(Reverse_OperatorDto_VarFactor_WithPhaseTracking),
             typeof(Reverse_OperatorDto_VarFactor_NoPhaseTracking),
-            typeof(Reverse_OperatorDtoBase_VarFactor),
             typeof(Reverse_OperatorDto_ConstFactor_WithOriginShifting),
             typeof(Reverse_OperatorDto_ConstFactor_NoOriginShifting),
             typeof(SetDimension_OperatorDto),

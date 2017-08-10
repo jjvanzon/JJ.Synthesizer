@@ -13,70 +13,57 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting(Reverse_OperatorDto_ConstFactor_NoOriginShifting dto)
         {
-            double negativeFactor = -dto.Factor;
+            double negativeFactor = -dto.Factor.Const;
 
-            var dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin
-            {
-                SignalOperatorDto = dto.SignalOperatorDto,
-                Factor = negativeFactor,
-                DimensionStackLevel = dto.DimensionStackLevel
-            };
+            var dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin();
+            DtoCloner.CloneProperties(dto, dto2);
 
-            DtoCloner.Clone_WithDimensionProperties(dto, dto2);
+            dto2.Factor = InputDtoFactory.CreateInputDto(negativeFactor);
 
             return dto2;
         }
 
         protected override IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_WithOriginShifting(Reverse_OperatorDto_ConstFactor_WithOriginShifting dto)
         {
-            double negativeFactor = -dto.Factor;
+            double negativeFactor = -dto.Factor.Const;
 
-            var dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting
-            {
-                SignalOperatorDto = dto.SignalOperatorDto,
-                Factor = negativeFactor,
-                DimensionStackLevel = dto.DimensionStackLevel
-            };
+            var dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting();
+            DtoCloner.CloneProperties(dto, dto2);
 
-            DtoCloner.Clone_WithDimensionProperties(dto, dto2);
+            dto2.Factor = InputDtoFactory.CreateInputDto(negativeFactor);
+
 
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking(Reverse_OperatorDto_VarFactor_NoPhaseTracking dto)
+        protected override IOperatorDto Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking(Reverse_OperatorDto_VarFactor_NoPhaseTracking sourceDto)
         {
             var negativeDto = new Negative_OperatorDto_VarNumber
             {
-                NumberOperatorDto = dto.SignalOperatorDto
+                Number = sourceDto.Signal
             };
 
-            var dto3 = new Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin
-            {
-                SignalOperatorDto = negativeDto,
-                FactorOperatorDto = dto.FactorOperatorDto,
-                DimensionStackLevel = dto.DimensionStackLevel
-            };
+            var destDto = new Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin();
+            DtoCloner.CloneProperties(sourceDto, destDto);
 
-            DtoCloner.Clone_WithDimensionProperties(dto, dto3);
+            destDto.Signal = InputDtoFactory.CreateInputDto(negativeDto);
+            destDto.Factor = sourceDto.Factor;
 
-            return dto3;
+            return destDto;
         }
 
         protected override IOperatorDto Visit_Reverse_OperatorDto_VarFactor_WithPhaseTracking(Reverse_OperatorDto_VarFactor_WithPhaseTracking dto)
         {
             var negativeDto = new Negative_OperatorDto_VarNumber
             {
-                NumberOperatorDto = dto.SignalOperatorDto
+                Number = dto.Signal
             };
 
-            var dto3 = new Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking
-            {
-                SignalOperatorDto = negativeDto,
-                FactorOperatorDto = dto.FactorOperatorDto,
-                DimensionStackLevel = dto.DimensionStackLevel
-            };
+            var dto3 = new Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking();
+            DtoCloner.CloneProperties(dto, dto3);
 
-            DtoCloner.Clone_WithDimensionProperties(dto, dto3);
+            dto3.Signal = InputDtoFactory.CreateInputDto(negativeDto);
+            dto3.Factor = dto.Factor;
 
             return dto3;
         }

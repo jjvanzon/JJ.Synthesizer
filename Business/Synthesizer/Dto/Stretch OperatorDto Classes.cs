@@ -2,89 +2,54 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Stretch_OperatorDto : StretchOrSquash_OperatorDto
+    internal class Stretch_OperatorDto : StretchOrSquash_OperatorDtoBase_WithOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
-    internal class Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin : StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin
+    internal class Stretch_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
-    internal class Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin : StretchOrSquash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin
+    internal class Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin : StretchOrSquash_OperatorDtoBase_ZeroOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
-    internal class Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin : StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin
+    internal class Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin : StretchOrSquash_OperatorDtoBase_ZeroOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
-    internal class Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin : StretchOrSquash_OperatorDto_VarSignal_VarFactor_ZeroOrigin
+    internal class Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin : StretchOrSquash_OperatorDtoBase_WithOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
-    internal class Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin : StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin
+    internal class Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin : StretchOrSquash_OperatorDtoBase_WithOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
-    internal class Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin : StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_VarOrigin
+    internal class Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin : StretchOrSquash_OperatorDtoBase_WithOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
-    internal class Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin : StretchOrSquash_OperatorDto_ConstSignal_VarFactor_ConstOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
-    }
-
-    internal class Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin : StretchOrSquash_OperatorDto_ConstSignal_VarFactor_VarOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
-    }
-
-    internal class Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin : StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ConstOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
-    }
-
-    internal class Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin : StretchOrSquash_OperatorDto_VarSignal_ConstFactor_VarOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
-    }
-
-    internal class Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin : StretchOrSquash_OperatorDto_VarSignal_VarFactor_ConstOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
-    }
-
-    internal class Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin : StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin
+    internal class Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin : StretchOrSquash_OperatorDtoBase_WithOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
     // For Time Dimension
 
-    internal class Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting : StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting
+    internal class Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting : StretchOrSquash_OperatorDtoBase_NoOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
-    internal class Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking : StretchOrSquash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
-    }
-
-    internal class Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting : StretchOrSquash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
-    }
-
-    internal class Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking : StretchOrSquash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking
+    internal class Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking : StretchOrSquash_OperatorDtoBase_NoOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }

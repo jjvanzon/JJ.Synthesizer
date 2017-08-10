@@ -34,41 +34,34 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Hermite_LagBehind());
         }
 
-        protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line sourceInletsToDimensionOperatorDto)
+        protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line sourceDto)
         {
-            var destInletsToDimensionOperatorDto = new InletsToDimension_OperatorDto_Stripe_LagBehind
-            {
-                ResampleInterpolationTypeEnum = sourceInletsToDimensionOperatorDto.ResampleInterpolationTypeEnum,
-                Vars = sourceInletsToDimensionOperatorDto.Vars
-            };
-            DtoCloner.Clone_WithDimensionProperties(sourceInletsToDimensionOperatorDto, destInletsToDimensionOperatorDto);
+            var destDto1 = new InletsToDimension_OperatorDto_Stripe_LagBehind();
+            DtoCloner.CloneProperties(sourceDto, destDto1);
+            destDto1.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
 
-            var destInterpolateOperatorDto = new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate
-            {
-                SignalOperatorDto = destInletsToDimensionOperatorDto,
-                SamplingRate = 1.0,
-                ResampleInterpolationTypeEnum = sourceInletsToDimensionOperatorDto.ResampleInterpolationTypeEnum
-            };
-            DtoCloner.Clone_WithDimensionProperties(sourceInletsToDimensionOperatorDto, destInterpolateOperatorDto);
+            var destDto2 = new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate();
+            DtoCloner.CloneProperties(sourceDto, destDto2);
+            destDto2.Signal = InputDtoFactory.CreateInputDto(destDto1);
+            destDto2.SamplingRate = InputDtoFactory.CreateInputDto(1.0);
+            destDto2.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
 
-            return destInterpolateOperatorDto;
+            return destDto2;
         }
 
-        private static IOperatorDto Process_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto sourceInletsToDimensionOperatorDto, Interpolate_OperatorDto destInterpolateOperatorDto)
+        private static IOperatorDto Process_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto sourceDto, Interpolate_OperatorDto destDto)
         {
-            var destInletsToDimensionOperatorDto = new InletsToDimension_OperatorDto_Stripe_LagBehind
-            {
-                ResampleInterpolationTypeEnum = sourceInletsToDimensionOperatorDto.ResampleInterpolationTypeEnum,
-                Vars = sourceInletsToDimensionOperatorDto.Vars
-            };
-            DtoCloner.Clone_WithDimensionProperties(sourceInletsToDimensionOperatorDto, destInletsToDimensionOperatorDto);
+            var intermediateDto = new InletsToDimension_OperatorDto_Stripe_LagBehind();
+            DtoCloner.CloneProperties(sourceDto, intermediateDto);
+            intermediateDto.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
+            intermediateDto.Vars = sourceDto.Vars;
 
-            destInterpolateOperatorDto.SignalOperatorDto = destInletsToDimensionOperatorDto;
-            destInterpolateOperatorDto.SamplingRateOperatorDto = new Number_OperatorDto_One();
-            destInterpolateOperatorDto.ResampleInterpolationTypeEnum = sourceInletsToDimensionOperatorDto.ResampleInterpolationTypeEnum;
-            DtoCloner.Clone_WithDimensionProperties(sourceInletsToDimensionOperatorDto, destInterpolateOperatorDto);
+            DtoCloner.CloneProperties(sourceDto, destDto);
+            destDto.Signal = InputDtoFactory.CreateInputDto(intermediateDto);
+            destDto.SamplingRate = InputDtoFactory.CreateInputDto(1.0);
+            destDto.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
 
-            return destInterpolateOperatorDto;
+            return destDto;
         }
 
         // Random
@@ -93,23 +86,18 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Random_OperatorDto(dto, new Interpolate_OperatorDto_Hermite_LagBehind());
         }
         
-        protected override IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_ConstRate(Random_OperatorDto_Line_LagBehind_ConstRate sourceRandomOperatorDto)
+        protected override IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_ConstRate(Random_OperatorDto_Line_LagBehind_ConstRate sourceDto)
         {
-            // HACK: Here a const sampling rate is replaced with a var again. Looks like we are nullifying an optimization here. What is the real solution?
-            var destNumberOperatorDto = new Number_OperatorDto { Number = sourceRandomOperatorDto.Rate };
+            var destDto1 = new Random_OperatorDto_Stripe_LagBehind();
+            DtoCloner.CloneProperties(sourceDto, destDto1);
 
-            var destRandomOperatorDto = new Random_OperatorDto_Stripe_LagBehind { RateOperatorDto = destNumberOperatorDto };
-            DtoCloner.Clone_RandomOperatorProperties(sourceRandomOperatorDto, destRandomOperatorDto);
+            var destDto2 = new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate();
+            DtoCloner.CloneProperties(sourceDto, destDto2);
+            destDto2.Signal = InputDtoFactory.CreateInputDto(destDto1);
+            destDto2.SamplingRate = sourceDto.Rate;
+            destDto2.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
 
-            var destInterpolateOperatorDto = new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate
-            {
-                SignalOperatorDto = destRandomOperatorDto,
-                SamplingRate = sourceRandomOperatorDto.Rate,
-                ResampleInterpolationTypeEnum = sourceRandomOperatorDto.ResampleInterpolationTypeEnum
-            };
-            DtoCloner.Clone_WithDimensionProperties(sourceRandomOperatorDto, destInterpolateOperatorDto);
-
-            return destInterpolateOperatorDto;
+            return destDto2;
         }
 
         protected override IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_VarRate(Random_OperatorDto_Line_LagBehind_VarRate dto)
@@ -117,17 +105,17 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Random_OperatorDto(dto, new Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate());
         }
 
-        private static IOperatorDto Process_Random_OperatorDto(Random_OperatorDto sourceRandomOperatorDto, Interpolate_OperatorDto destInterpolateOperatorDto)
+        private static IOperatorDto Process_Random_OperatorDto(Random_OperatorDto sourceDto, Interpolate_OperatorDto destDto)
         {
-            var destRandomOperatorDto = new Random_OperatorDto_Stripe_LagBehind { RateOperatorDto = sourceRandomOperatorDto.RateOperatorDto };
-            DtoCloner.Clone_RandomOperatorProperties(sourceRandomOperatorDto, destRandomOperatorDto);
+            var intermediateDto = new Random_OperatorDto_Stripe_LagBehind();
+            DtoCloner.CloneProperties(sourceDto, intermediateDto);
 
-            destInterpolateOperatorDto.SignalOperatorDto = destRandomOperatorDto;
-            destInterpolateOperatorDto.SamplingRateOperatorDto = sourceRandomOperatorDto.RateOperatorDto;
-            destInterpolateOperatorDto.ResampleInterpolationTypeEnum = sourceRandomOperatorDto.ResampleInterpolationTypeEnum;
-            DtoCloner.Clone_WithDimensionProperties(sourceRandomOperatorDto, destInterpolateOperatorDto);
+            DtoCloner.CloneProperties(sourceDto, destDto);
+            destDto.Signal = InputDtoFactory.CreateInputDto(intermediateDto);
+            destDto.SamplingRate = sourceDto.Rate;
+            destDto.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
 
-            return destInterpolateOperatorDto;
+            return destDto;
         }
     }
 }

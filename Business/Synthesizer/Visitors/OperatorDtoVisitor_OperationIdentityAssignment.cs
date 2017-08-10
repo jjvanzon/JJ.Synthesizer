@@ -32,25 +32,19 @@ namespace JJ.Business.Synthesizer.Visitors
 
             sb.Append('(');
 
-            foreach (InputDto inputDto in dto.InputDtos)
+            foreach (InputDto inputDto in dto.Inputs)
             {
                 if (inputDto.Var != null)
                 {
                     Visit_OperatorDto_Polymorphic(inputDto.Var);
                 }
-                else if (inputDto.Const.HasValue)
-                {
-                    _stack.Push(FormatNumber(inputDto.Const.Value));
-                }
                 else
-                {
-                    throw new Exception(
-                        $"{nameof(inputDto)}.{nameof(inputDto.Var)} and " +
-                        $"{nameof(inputDto)}.{nameof(inputDto.Const)} cannot both be null.");
+                { 
+                    _stack.Push(FormatNumber(inputDto.Const));
                 }
             }
 
-            IList<string> arguments = dto.InputDtos
+            IList<string> arguments = dto.Inputs
                                          .Select(x => _stack.Pop())
                                          .Reverse()
                                          .ToList();
@@ -91,7 +85,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 case OperatorTypeEnum.Sample:
                 {
-                    var castedDto = (ISample_OperatorDto_WithSampleID)dto;
+                    var castedDto = (Sample_OperatorDtoBase_WithSampleID)dto;
                     arguments.Add($"{castedDto.SampleID}");
                     break;
                 }

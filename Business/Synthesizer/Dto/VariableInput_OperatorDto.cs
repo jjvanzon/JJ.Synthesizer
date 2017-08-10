@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class VariableInput_OperatorDto : OperatorDtoBase_WithoutInputDtos
+    internal class VariableInput_OperatorDto : OperatorDtoBase_WithoutInputs
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PatchInlet;
 

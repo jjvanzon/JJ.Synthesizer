@@ -10,8 +10,8 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class OperatorDtoBase : IOperatorDto
     {
         public abstract OperatorTypeEnum OperatorTypeEnum { get; }
-        public abstract IList<IOperatorDto> InputOperatorDtos { get; set; }
-        public abstract IEnumerable<InputDto> InputDtos { get; }
+        public abstract IEnumerable<InputDto> Inputs { get; set; }
+
         public int OperatorID { get; set; }
         public string OperationIdentity { get; set; }
 

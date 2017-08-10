@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
@@ -37,6 +38,8 @@ namespace JJ.Business.Synthesizer.Visitors
             _sampleRepository = sampleRepository ?? throw new ArgumentNullException(nameof(sampleRepository));
             _speakerSetupRepository = speakerSetupRepository ?? throw new ArgumentNullException(nameof(speakerSetupRepository));
         }
+
+        // General Visitation
 
         public IOperatorDto Execute(Operator op)
         {
@@ -93,128 +96,40 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override void VisitAbsolute(Operator op)
-        {
-            var dto = new Absolute_OperatorDto();
-            Process_OperatorDtoBase_VarNumber(op, dto);
-        }
+        // Operator Visitation
 
-        protected override void VisitAdd(Operator op)
-        {
-            var dto = new Add_OperatorDto();
-            Process_OperatorDtoBase_Vars(op, dto);
-        }
-
-        protected override void VisitAllPassFilter(Operator op)
-        {
-            base.VisitAllPassFilter(op);
-
-            var dto = new AllPassFilter_OperatorDto
-            {
-                SoundOperatorDto = _stack.Pop(),
-                CenterFrequencyOperatorDto = _stack.Pop(),
-                WidthOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitAnd(Operator op)
-        {
-            var dto = new And_OperatorDto();
-            Process_OperatorDtoBase_VarA_VarB(op, dto);
-        }
-
-        protected override void VisitAverageFollower(Operator op)
-        {
-            var dto = new AverageFollower_OperatorDto();
-            Process_OperatorDtoBase_AggregateFollower(op, dto);
-        }
-
-        protected override void VisitAverageOverDimension(Operator op)
-        {
-            var dto = new AverageOverDimension_OperatorDto();
-            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
-        }
-
-        protected override void VisitAverageOverInlets(Operator op)
-        {
-            var dto = new AverageOverInlets_OperatorDto();
-            Process_OperatorDtoBase_Vars(op, dto);
-        }
-
-        protected override void VisitBandPassFilterConstantPeakGain(Operator op)
-        {
-            var dto = new BandPassFilterConstantPeakGain_OperatorDto();
-            Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth(op, dto);
-        }
-
-        protected override void VisitBandPassFilterConstantTransitionGain(Operator op)
-        {
-            var dto = new BandPassFilterConstantTransitionGain_OperatorDto();
-            Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth(op, dto);
-        }
-
-        protected override void VisitChangeTrigger(Operator op)
-        {
-            var dto = new ChangeTrigger_OperatorDto();
-            Process_OperatorDtoBase_Trigger(op, dto);
-        }
-
-        protected override void VisitClosestOverInlets(Operator op)
-        {
-            var dto = new ClosestOverInlets_OperatorDto();
-            Process_ClosestOverInlets_OperatorDto(op, dto);
-        }
-
-        protected override void VisitClosestOverInletsExp(Operator op)
-        {
-            var dto = new ClosestOverInletsExp_OperatorDto();
-            Process_ClosestOverInlets_OperatorDto(op, dto);
-        }
-
-        protected override void VisitClosestOverDimension(Operator op)
-        {
-            var dto = new ClosestOverDimension_OperatorDto();
-            Process_ClosestOverDimension_OperatorDto(op, dto);
-        }
-
-        protected override void VisitClosestOverDimensionExp(Operator op)
-        {
-            var dto = new ClosestOverDimensionExp_OperatorDto();
-            Process_ClosestOverDimension_OperatorDto(op, dto);
-        }
+        protected override void VisitAbsolute(Operator op) => ProcessOperator(op, new Absolute_OperatorDto());
+        protected override void VisitAdd(Operator op) => ProcessOperator(op, new Add_OperatorDto());
+        protected override void VisitAllPassFilter(Operator op) => ProcessOperator(op, new AllPassFilter_OperatorDto());
+        protected override void VisitAnd(Operator op) => ProcessOperator(op, new And_OperatorDto());
+        protected override void VisitAverageFollower(Operator op) => ProcessOperator(op, new AverageFollower_OperatorDto());
+        protected override void VisitAverageOverDimension(Operator op) => ProcessOperator(op, new AverageOverDimension_OperatorDto());
+        protected override void VisitAverageOverInlets(Operator op) => ProcessOperator(op, new AverageOverInlets_OperatorDto());
+        protected override void VisitBandPassFilterConstantPeakGain(Operator op) => ProcessOperator(op, new BandPassFilterConstantPeakGain_OperatorDto());
+        protected override void VisitBandPassFilterConstantTransitionGain(Operator op) => ProcessOperator(op, new BandPassFilterConstantTransitionGain_OperatorDto());
+        protected override void VisitChangeTrigger(Operator op) => ProcessOperator(op, new ChangeTrigger_OperatorDto());
+        protected override void VisitClosestOverInlets(Operator op) => ProcessOperator(op, new ClosestOverInlets_OperatorDto());
+        protected override void VisitClosestOverInletsExp(Operator op) => ProcessOperator(op, new ClosestOverInletsExp_OperatorDto());
+        protected override void VisitClosestOverDimension(Operator op) => ProcessOperator(op, new ClosestOverDimension_OperatorDto());
+        protected override void VisitClosestOverDimensionExp(Operator op) => ProcessOperator(op, new ClosestOverDimensionExp_OperatorDto());
 
         protected override void VisitCache(Operator op)
         {
-            base.VisitCache(op);
+            var dto = new Cache_OperatorDto();
+            ProcessOperator(op, dto);
 
             var wrapper = new Cache_OperatorWrapper(op);
-
-            var dto = new Cache_OperatorDto
-            {
-                OperatorID = op.ID,
-                SignalOperatorDto = _stack.Pop(),
-                StartOperatorDto = _stack.Pop(),
-                EndOperatorDto = _stack.Pop(),
-                SamplingRateOperatorDto = _stack.Pop(),
-                InterpolationTypeEnum = wrapper.InterpolationType,
-                SpeakerSetupEnum = wrapper.SpeakerSetup,
-                ChannelCount = wrapper.GetChannelCount(_speakerSetupRepository)
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
+            dto.InterpolationTypeEnum = wrapper.InterpolationType;
+            dto.SpeakerSetupEnum = wrapper.SpeakerSetup;
+            dto.ChannelCount = wrapper.GetChannelCount(_speakerSetupRepository);
         }
 
         protected override void VisitCurveOperator(Operator op)
         {
-            base.VisitCurveOperator(op);
+            var dto = new Curve_OperatorDto();
+            ProcessOperator(op, dto);
 
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
-
-            var dto = new Curve_OperatorDto();
 
             Curve curve = wrapper.Curve;
 
@@ -227,453 +142,152 @@ namespace JJ.Business.Synthesizer.Visitors
                                 .First()
                                 .X;
             }
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
         }
 
         protected override void VisitDimensionToOutletsOutlet(Outlet outlet)
         {
             base.VisitDimensionToOutletsOutlet(outlet);
 
-            if (!outlet.RepetitionPosition.HasValue) throw new NullException(() => outlet.RepetitionPosition);
-            int position = outlet.RepetitionPosition.Value;
+            Operator op = outlet.Operator;
 
             var dto = new DimensionToOutlets_Outlet_OperatorDto
             {
-                SignalOperatorDto = _stack.Pop(),
-                OutletPosition = position
+                OperatorID = op.ID,
+                Signal = PopInputDto(),
+                StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback(),
+                CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback())
             };
 
-            SetDimensionProperties(outlet.Operator, dto);
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitDivide(Operator op)
-        {
-            base.VisitDivide(op);
-
-            var dto = new Divide_OperatorDto
+            if (!outlet.RepetitionPosition.HasValue)
             {
-                AOperatorDto = _stack.Pop(),
-                BOperatorDto = _stack.Pop()
-            };
+                throw new NullException(() => outlet.RepetitionPosition);
+            }
+            dto.OutletPosition = outlet.RepetitionPosition.Value;
 
             _stack.Push(dto);
         }
 
-        protected override void VisitEqual(Operator op)
-        {
-            var dto = new Equal_OperatorDto();
-            Process_OperatorDtoBase_VarA_VarB(op, dto);
-        }
-
-        protected override void VisitGetDimension(Operator op)
-        {
-            base.VisitGetDimension(op);
-
-            var dto = new GetDimension_OperatorDto();
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitGreaterThan(Operator op)
-        {
-            var dto = new GreaterThan_OperatorDto();
-            Process_OperatorDtoBase_VarA_VarB(op, dto);
-        }
-
-        protected override void VisitGreaterThanOrEqual(Operator op)
-        {
-            var dto = new GreaterThanOrEqual_OperatorDto();
-            Process_OperatorDtoBase_VarA_VarB(op, dto);
-        }
-
-        protected override void VisitHold(Operator op)
-        {
-            base.VisitHold(op);
-
-            var dto = new Hold_OperatorDto_VarSignal { SignalOperatorDto = _stack.Pop() };
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitHighPassFilter(Operator op)
-        {
-            base.VisitHighPassFilter(op);
-
-            var dto = new HighPassFilter_OperatorDto
-            {
-                SoundOperatorDto = _stack.Pop(),
-                MinFrequencyOperatorDto = _stack.Pop(),
-                BlobVolumeOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitHighShelfFilter(Operator op)
-        {
-            var dto = new HighShelfFilter_OperatorDto();
-            Process_OperatorDtoBase_ShelfFilter_AllVars(op, dto);
-        }
-
-        protected override void VisitIf(Operator op)
-        {
-            base.VisitIf(op);
-
-            var dto = new If_OperatorDto
-            {
-                ConditionOperatorDto = _stack.Pop(),
-                ThenOperatorDto = _stack.Pop(),
-                ElseOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
+        protected override void VisitDivide(Operator op) => ProcessOperator(op, new Divide_OperatorDto());
+        protected override void VisitEqual(Operator op) => ProcessOperator(op, new Equal_OperatorDto());
+        protected override void VisitGetDimension(Operator op) => ProcessOperator(op, new GetDimension_OperatorDto());
+        protected override void VisitGreaterThan(Operator op) => ProcessOperator(op, new GreaterThan_OperatorDto());
+        protected override void VisitGreaterThanOrEqual(Operator op) => ProcessOperator(op, new GreaterThanOrEqual_OperatorDto());
+        protected override void VisitHold(Operator op) => ProcessOperator(op, new Hold_OperatorDto());
+        protected override void VisitHighPassFilter(Operator op) => ProcessOperator(op, new HighPassFilter_OperatorDto());
+        protected override void VisitHighShelfFilter(Operator op) => ProcessOperator(op, new HighShelfFilter_OperatorDto());
+        protected override void VisitIf(Operator op) => ProcessOperator(op, new If_OperatorDto());
 
         protected override void VisitInletsToDimension(Operator op)
         {
+            var dto = new InletsToDimension_OperatorDto();
+            ProcessOperator(op, (OperatorDtoBase_Vars)dto);
+
             var wrapper = new InletsToDimension_OperatorWrapper(op);
-
-            var dto = new InletsToDimension_OperatorDto
-            {
-                ResampleInterpolationTypeEnum = wrapper.InterpolationType
-            };
-
-            Process_OperatorDtoBase_Vars(op, dto);
-
-            SetDimensionProperties(op, dto);
+            dto.ResampleInterpolationTypeEnum = wrapper.InterpolationType;
         }
 
         protected override void VisitInterpolate(Operator op)
         {
-            base.VisitInterpolate(op);
+            var dto = new Interpolate_OperatorDto();
+            ProcessOperator(op, dto);
 
             var wrapper = new Interpolate_OperatorWrapper(op);
-
-            var dto = new Interpolate_OperatorDto
-            {
-                SignalOperatorDto = _stack.Pop(),
-                SamplingRateOperatorDto = _stack.Pop(),
-                ResampleInterpolationTypeEnum = wrapper.InterpolationType
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
+            dto.ResampleInterpolationTypeEnum = wrapper.InterpolationType;
         }
 
-        protected override void VisitLessThan(Operator op)
-        {
-            var dto = new LessThan_OperatorDto();
-            Process_OperatorDtoBase_VarA_VarB(op, dto);
-        }
-
-        protected override void VisitLessThanOrEqual(Operator op)
-        {
-            var dto = new LessThanOrEqual_OperatorDto();
-            Process_OperatorDtoBase_VarA_VarB(op, dto);
-        }
-
-        protected override void VisitLoop(Operator op)
-        {
-            base.VisitLoop(op);
-
-            var dto = new Loop_OperatorDto
-            {
-                SignalOperatorDto = _stack.Pop(),
-                SkipOperatorDto = _stack.Pop(),
-                LoopStartMarkerOperatorDto = _stack.Pop(),
-                LoopEndMarkerOperatorDto = _stack.Pop(),
-                ReleaseEndMarkerOperatorDto = _stack.Pop(),
-                NoteDurationOperatorDto = _stack.Pop(),
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitLowPassFilter(Operator op)
-        {
-            base.VisitLowPassFilter(op);
-
-            var dto = new LowPassFilter_OperatorDto
-            {
-                SoundOperatorDto = _stack.Pop(),
-                MaxFrequencyOperatorDto = _stack.Pop(),
-                BlobVolumeOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitLowShelfFilter(Operator op)
-        {
-            var dto = new LowShelfFilter_OperatorDto();
-            Process_OperatorDtoBase_ShelfFilter_AllVars(op, dto);
-        }
-        
-        protected override void VisitMaxOverDimension(Operator op)
-        {
-            var dto = new MaxOverDimension_OperatorDto();
-            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
-        }
-
-        protected override void VisitMaxOverInlets(Operator op)
-        {
-            var dto = new MaxOverInlets_OperatorDto();
-            Process_OperatorDtoBase_Vars(op, dto);
-        }
-
-        protected override void VisitMaxFollower(Operator op)
-        {
-            var dto = new MaxFollower_OperatorDto();
-            Process_OperatorDtoBase_AggregateFollower(op, dto);
-        }
-
-        protected override void VisitMinOverDimension(Operator op)
-        {
-            var dto = new MinOverDimension_OperatorDto();
-            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
-        }
-
-        protected override void VisitMinOverInlets(Operator op)
-        {
-            var dto = new MinOverInlets_OperatorDto();
-            Process_OperatorDtoBase_Vars(op, dto);
-        }
-
-        protected override void VisitMinFollower(Operator op)
-        {
-            var dto = new MinFollower_OperatorDto();
-            Process_OperatorDtoBase_AggregateFollower(op, dto);
-        }
-
-        protected override void VisitMultiply(Operator op)
-        {
-            var dto = new Multiply_OperatorDto();
-            Process_OperatorDtoBase_Vars(op, dto);
-        }
-
-        protected override void VisitNegative(Operator op)
-        {
-            var dto = new Negative_OperatorDto();
-            Process_OperatorDtoBase_VarNumber(op, dto);
-        }
+        protected override void VisitLessThan(Operator op) => ProcessOperator(op, new LessThan_OperatorDto());
+        protected override void VisitLessThanOrEqual(Operator op) => ProcessOperator(op, new LessThanOrEqual_OperatorDto());
+        protected override void VisitLoop(Operator op) => ProcessOperator(op, new Loop_OperatorDto());
+        protected override void VisitLowPassFilter(Operator op) => ProcessOperator(op, new LowPassFilter_OperatorDto());
+        protected override void VisitLowShelfFilter(Operator op) => ProcessOperator(op, new LowShelfFilter_OperatorDto());
+        protected override void VisitMaxOverDimension(Operator op) => ProcessOperator(op, new MaxOverDimension_OperatorDto());
+        protected override void VisitMaxOverInlets(Operator op) => ProcessOperator(op, new MaxOverInlets_OperatorDto());
+        protected override void VisitMaxFollower(Operator op) => ProcessOperator(op, new MaxFollower_OperatorDto());
+        protected override void VisitMinOverDimension(Operator op) => ProcessOperator(op, new MinOverDimension_OperatorDto());
+        protected override void VisitMinOverInlets(Operator op) => ProcessOperator(op, new MinOverInlets_OperatorDto());
+        protected override void VisitMinFollower(Operator op) => ProcessOperator(op, new MinFollower_OperatorDto());
+        protected override void VisitMultiply(Operator op) => ProcessOperator(op, new Multiply_OperatorDto());
+        protected override void VisitNegative(Operator op) => ProcessOperator(op, new Negative_OperatorDto());
 
         protected override void VisitNoise(Operator op)
         {
-            base.VisitNoise(op);
+            var dto = new Noise_OperatorDto();
+            ProcessOperator(op, dto);
 
-            var dto = new Noise_OperatorDto
-            {
-                OperatorID = op.ID,
-                ArrayDto = _calculatorCache.GetNoiseArrayDto()
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
+            dto.ArrayDto = _calculatorCache.GetNoiseArrayDto();
         }
 
-        protected override void VisitNot(Operator op)
-        {
-            var dto = new Not_OperatorDto();
-            Process_OperatorDtoBase_VarNumber(op, dto);
-        }
-
-        protected override void VisitNotchFilter(Operator op)
-        {
-            base.VisitNotchFilter(op);
-
-            var dto = new NotchFilter_OperatorDto
-            {
-                SoundOperatorDto = _stack.Pop(),
-                CenterFrequencyOperatorDto = _stack.Pop(),
-                WidthOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitNotEqual(Operator op)
-        {
-            var dto = new NotEqual_OperatorDto();
-            Process_OperatorDtoBase_VarA_VarB(op, dto);
-        }
+        protected override void VisitNot(Operator op) => ProcessOperator(op, new Not_OperatorDto());
+        protected override void VisitNotchFilter(Operator op) => ProcessOperator(op, new NotchFilter_OperatorDto());
+        protected override void VisitNotEqual(Operator op) => ProcessOperator(op, new NotEqual_OperatorDto());
 
         protected override void VisitNumber(Operator op)
         {
-            base.VisitNumber(op);
+            var dto = new Number_OperatorDto();
+            ProcessOperator(op, dto);
 
             var wrapper = new Number_OperatorWrapper(op);
-
-            var dto = new Number_OperatorDto
-            {
-                Number = wrapper.Number
-            };
-
-            _stack.Push(dto);
+            dto.Number = wrapper.Number;
         }
 
-        protected override void VisitOr(Operator op)
-        {
-            var dto = new Or_OperatorDto();
-            Process_OperatorDtoBase_VarA_VarB(op, dto);
-        }
-
-        protected override void VisitPeakingEQFilter(Operator op)
-        {
-            base.VisitPeakingEQFilter(op);
-
-            var dto = new PeakingEQFilter_OperatorDto
-            {
-                SoundOperatorDto = _stack.Pop(),
-                CenterFrequencyOperatorDto = _stack.Pop(),
-                WidthOperatorDto = _stack.Pop(),
-                DBGainOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitPower(Operator op)
-        {
-            base.VisitPower(op);
-
-            var dto = new Power_OperatorDto
-            {
-                BaseOperatorDto = _stack.Pop(),
-                ExponentOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitPulse(Operator op)
-        {
-            base.VisitPulse(op);
-
-            var dto = new Pulse_OperatorDto
-            {
-                FrequencyOperatorDto = _stack.Pop(),
-                WidthOperatorDto = _stack.Pop()
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitPulseTrigger(Operator op)
-        {
-            var dto = new PulseTrigger_OperatorDto();
-            Process_OperatorDtoBase_Trigger(op, dto);
-        }
+        protected override void VisitOr(Operator op) => ProcessOperator(op, new Or_OperatorDto());
+        protected override void VisitPeakingEQFilter(Operator op) => ProcessOperator(op, new PeakingEQFilter_OperatorDto());
+        protected override void VisitPower(Operator op) => ProcessOperator(op, new Power_OperatorDto());
+        protected override void VisitPulse(Operator op) => ProcessOperator(op, new Pulse_OperatorDto());
+        protected override void VisitPulseTrigger(Operator op) => ProcessOperator(op, new PulseTrigger_OperatorDto());
 
         protected override void VisitRandom(Operator op)
         {
-            base.VisitRandom(op);
+            var dto = new Random_OperatorDto();
+            ProcessOperator(op, dto);
 
             var wrapper = new Random_OperatorWrapper(op);
-
-            var dto = new Random_OperatorDto
-            {
-                OperatorID = op.ID,
-                RateOperatorDto = _stack.Pop(),
-                ResampleInterpolationTypeEnum = wrapper.InterpolationType,
-                ArrayDto = _calculatorCache.GetRandomArrayDto(wrapper.InterpolationType)
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
+            dto.ResampleInterpolationTypeEnum = wrapper.InterpolationType;
+            dto.ArrayDto = _calculatorCache.GetRandomArrayDto(wrapper.InterpolationType);
         }
 
-        protected override void VisitRangeOverDimension(Operator op)
-        {
-            base.VisitRangeOverDimension(op);
-
-            var dto = new RangeOverDimension_OperatorDto
-            {
-                FromOperatorDto = _stack.Pop(),
-                TillOperatorDto = _stack.Pop(),
-                StepOperatorDto = _stack.Pop(),
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
+        protected override void VisitRangeOverDimension(Operator op) => ProcessOperator(op, new RangeOverDimension_OperatorDto());
 
         protected override void VisitRangeOverOutletsOutlet(Outlet outlet)
         {
             base.VisitRangeOverOutletsOutlet(outlet);
 
+            Operator op = outlet.Operator;
+
             var dto = new RangeOverOutlets_Outlet_OperatorDto
             {
-                FromOperatorDto = _stack.Pop(),
-                StepOperatorDto = _stack.Pop(),
-                OutletPosition = outlet.Position
+                OperatorID = op.ID,
+                From = PopInputDto(),
+                Step = PopInputDto()
             };
+
+            if (!outlet.RepetitionPosition.HasValue)
+            {
+                throw new NullException(() => outlet.RepetitionPosition);
+            }
+            dto.OutletPosition = outlet.RepetitionPosition.Value;
 
             _stack.Push(dto);
         }
 
         protected override void VisitReset(Operator op)
         {
-            base.VisitReset(op);
+            var dto = new Reset_OperatorDto();
+            ProcessOperator(op, dto);
+
+            dto.Name = op.Name;
 
             var wrapper = new Reset_OperatorWrapper(op);
-
-            var dto = new Reset_OperatorDto
-            {
-                PassThroughInputOperatorDto = _stack.Pop(),
-                Name = op.Name,
-                Position = wrapper.Position
-            };
-
-            _stack.Push(dto);
+            dto.Position = wrapper.Position;
         }
 
-        protected override void VisitReverse(Operator op)
-        {
-            base.VisitReverse(op);
-
-            var dto = new Reverse_OperatorDto
-            {
-                SignalOperatorDto = _stack.Pop(),
-                FactorOperatorDto = _stack.Pop(),
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitRound(Operator op)
-        {
-            base.VisitRound(op);
-
-            var dto = new Round_OperatorDto
-            {
-                SignalOperatorDto = _stack.Pop(),
-                StepOperatorDto = _stack.Pop(),
-                OffsetOperatorDto = _stack.Pop()
-            };
-
-            _stack.Push(dto);
-        }
+        protected override void VisitReverse(Operator op) => ProcessOperator(op, new Reverse_OperatorDto());
+        protected override void VisitRound(Operator op) => ProcessOperator(op, new Round_OperatorDto());
 
         protected override void VisitSampleOperator(Operator op)
         {
             var dto = new Sample_OperatorDto();
-            Process_OperatorDtoBase_VarFrequency(op, dto);
+            ProcessOperator(op, dto);
 
             var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
             Sample sample = wrapper.Sample;
@@ -688,273 +302,107 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override void VisitSawDown(Operator op)
-        {
-            var dto = new SawDown_OperatorDto();
-            Process_OperatorDtoBase_VarFrequency(op, dto);
-        }
-
-        protected override void VisitSawUp(Operator op)
-        {
-            var dto = new SawUp_OperatorDto();
-            Process_OperatorDtoBase_VarFrequency(op, dto);
-        }
-
-        protected override void VisitSetDimension(Operator op)
-        {
-            base.VisitSetDimension(op);
-
-            var dto = new SetDimension_OperatorDto
-            {
-                PassThroughInputOperatorDto = _stack.Pop(),
-                NumberOperatorDto = _stack.Pop(),
-            };
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
-        protected override void VisitSine(Operator op)
-        {
-            var dto = new Sine_OperatorDto();
-            Process_OperatorDtoBase_VarFrequency(op, dto);
-        }
+        protected override void VisitSawDown(Operator op) => ProcessOperator(op, new SawDown_OperatorDto());
+        protected override void VisitSawUp(Operator op) => ProcessOperator(op, new SawUp_OperatorDto());
+        protected override void VisitSetDimension(Operator op) => ProcessOperator(op, new SetDimension_OperatorDto());
+        protected override void VisitSine(Operator op) => ProcessOperator(op, new Sine_OperatorDto());
 
         protected override void VisitSortOverInletsOutlet(Outlet outlet)
         {
+            base.VisitSortOverInletsOutlet(outlet);
+
+            Operator op = outlet.Operator;
+
             var dto = new SortOverInlets_Outlet_OperatorDto
             {
-                OutletPosition = outlet.Position,
+                OperatorID = op.ID,
+                StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback(),
+                CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback())
             };
 
-            Process_OperatorDtoBase_Vars(outlet.Operator, dto);
+            dto.Vars = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
+                                       .Where(x => x != null)
+                                       .ToArray();
 
-            SetDimensionProperties(outlet.Operator, dto);
-        }
-
-        protected override void VisitSortOverDimension(Operator op)
-        {
-            var dto = new SortOverDimension_OperatorDto();
-            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
-        }
-
-        protected override void VisitSpectrum(Operator op)
-        {
-            base.VisitSpectrum(op);
-
-            var dto = new Spectrum_OperatorDto
+            if (!outlet.RepetitionPosition.HasValue)
             {
-                SoundOperatorDto = _stack.Pop(),
-                StartOperatorDto = _stack.Pop(),
-                EndOperatorDto = _stack.Pop(),
-                FrequencyCountOperatorDto = _stack.Pop(),
-            };
-
-            SetDimensionProperties(op, dto);
+                throw new NullException(() => outlet.RepetitionPosition);
+            }
+            dto.OutletPosition = outlet.RepetitionPosition.Value;
 
             _stack.Push(dto);
         }
 
-        protected override void VisitSquare(Operator op)
-        {
-            var dto = new Square_OperatorDto();
-            Process_OperatorDtoBase_VarFrequency(op, dto);
-        }
+        protected override void VisitSortOverDimension(Operator op) => ProcessOperator(op, new SortOverDimension_OperatorDto());
+        protected override void VisitSpectrum(Operator op) => ProcessOperator(op, new Spectrum_OperatorDto());
+        protected override void VisitSquare(Operator op) => ProcessOperator(op, new Square_OperatorDto());
+        protected override void VisitSquash(Operator op) => ProcessOperator(op, new Squash_OperatorDto());
+        protected override void VisitStretch(Operator op) => ProcessOperator(op, new Stretch_OperatorDto());
+        protected override void VisitSubtract(Operator op) => ProcessOperator(op, new Subtract_OperatorDto());
+        protected override void VisitSumOverDimension(Operator op) => ProcessOperator(op, new SumOverDimension_OperatorDto());
+        protected override void VisitSumFollower(Operator op) => ProcessOperator(op, new SumFollower_OperatorDto());
+        protected override void VisitTriangle(Operator op) => ProcessOperator(op, new Triangle_OperatorDto());
+        protected override void VisitToggleTrigger(Operator op) => ProcessOperator(op, new ToggleTrigger_OperatorDto());
 
-        protected override void VisitSquash(Operator op)
-        {
-            var dto = new Squash_OperatorDto();
-            Process_StretchOrSquash_OperatorDto(op, dto);
-        }
+        // Helpers
 
-        protected override void VisitStretch(Operator op)
-        {
-            var dto = new Stretch_OperatorDto();
-            Process_StretchOrSquash_OperatorDto(op, dto);
-        }
-
-        protected override void VisitSubtract(Operator op)
-        {
-            var dto = new Subtract_OperatorDto();
-            Process_OperatorDtoBase_VarA_VarB(op, dto);
-        }
-
-        protected override void VisitSumOverDimension(Operator op)
-        {
-            var dto = new SumOverDimension_OperatorDto();
-            Process_OperatorDtoBase_AggregateOverDimension(op, dto);
-        }
-
-        protected override void VisitSumFollower(Operator op)
-        {
-            var dto = new SumFollower_OperatorDto();
-            Process_OperatorDtoBase_AggregateFollower(op, dto);
-        }
-
-        protected override void VisitTriangle(Operator op)
-        {
-            var dto = new Triangle_OperatorDto();
-            Process_OperatorDtoBase_VarFrequency(op, dto);
-        }
-
-        protected override void VisitToggleTrigger(Operator op)
-        {
-            var dto = new ToggleTrigger_OperatorDto();
-            Process_OperatorDtoBase_Trigger(op, dto);
-        }
-
-        // Private Methods
-
-        private void Process_ClosestOverDimension_OperatorDto(Operator op, ClosestOverDimension_OperatorDto dto)
+        private void ProcessOperator(Operator op, ClosestOverInlets_OperatorDto dto)
         {
             VisitOperatorBase(op);
 
-            var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
+            dto.OperatorID = op.ID;
 
-            dto.InputOperatorDto = _stack.Pop();
-            dto.CollectionOperatorDto = _stack.Pop();
-            dto.FromOperatorDto = _stack.Pop();
-            dto.TillOperatorDto = _stack.Pop();
-            dto.StepOperatorDto = _stack.Pop();
-            dto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
+            dto.Input = PopInputDto();
 
-            SetDimensionProperties(op, dto);
-
+            dto.Items = CollectionHelper.Repeat(op.Inlets.Count - 1, () => PopInputDto())
+                                        .Where(x => x != null)
+                                        .ToArray();
             _stack.Push(dto);
         }
 
-        private void Process_ClosestOverInlets_OperatorDto(Operator op, ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
+        private void ProcessOperator(Operator op, OperatorDtoBase_WithCollectionRecalculation dto)
         {
-            VisitOperatorBase(op);
-
-            dto.InputOperatorDto = _stack.Pop();
-            dto.ItemOperatorDtos = op.Inlets.Skip(1).Select(x => _stack.Pop()).ToArray();
-
-            _stack.Push(dto);
-        }
-
-        private void Process_OperatorDtoBase_AggregateFollower(Operator op, OperatorDtoBase_AggregateFollower_AllVars dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.SignalOperatorDto = _stack.Pop();
-            dto.SliceLengthOperatorDto = _stack.Pop();
-            dto.SampleCountOperatorDto = _stack.Pop();
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
-        private void Process_OperatorDtoBase_AggregateOverDimension(Operator op, OperatorDtoBase_AggregateOverDimension_AllVars dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.SignalOperatorDto = _stack.Pop();
-            dto.FromOperatorDto = _stack.Pop();
-            dto.TillOperatorDto = _stack.Pop();
-            dto.StepOperatorDto = _stack.Pop();
+            ProcessOperator(op, (IOperatorDto_WithDimension)dto);
 
             var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
             dto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
         }
 
-        private void Process_OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth(
-            Operator op,
-            OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth dto)
+        private void ProcessOperator(Operator op, IOperatorDto_WithDimension dto)
         {
-            VisitOperatorBase(op);
+            ProcessOperator(op, (IOperatorDto)dto);
 
-            dto.SoundOperatorDto = _stack.Pop();
-            dto.CenterFrequencyOperatorDto = _stack.Pop();
-            dto.WidthOperatorDto = _stack.Pop();
-
-            _stack.Push(dto);
-        }
-
-        private void Process_StretchOrSquash_OperatorDto(Operator op, StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.SignalOperatorDto = _stack.Pop();
-            dto.FactorOperatorDto = _stack.Pop();
-            dto.OriginOperatorDto = _stack.Pop();
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
-        private void Process_OperatorDtoBase_ShelfFilter_AllVars(Operator op, OperatorDtoBase_ShelfFilter_AllVars dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.SoundOperatorDto = _stack.Pop();
-            dto.TransitionFrequencyOperatorDto = _stack.Pop();
-            dto.TransitionSlopeOperatorDto = _stack.Pop();
-            dto.DBGainOperatorDto = _stack.Pop();
-
-            _stack.Push(dto);
-        }
-
-        private void Process_OperatorDtoBase_Trigger(Operator op, OperatorDtoBase_Trigger_VarPassThrough_VarReset dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.PassThroughInputOperatorDto = _stack.Pop();
-            dto.ResetOperatorDto = _stack.Pop();
-
-            _stack.Push(dto);
-        }
-
-        private void Process_OperatorDtoBase_VarA_VarB(Operator op, OperatorDtoBase_VarA_VarB dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.AOperatorDto = _stack.Pop();
-            dto.BOperatorDto = _stack.Pop();
-
-            _stack.Push(dto);
-        }
-
-        private void Process_OperatorDtoBase_VarFrequency(Operator op, OperatorDtoBase_VarFrequency dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.FrequencyOperatorDto = _stack.Pop();
-
-            SetDimensionProperties(op, dto);
-
-            _stack.Push(dto);
-        }
-
-        private void Process_OperatorDtoBase_Vars(Operator op, OperatorDtoBase_Vars dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.Vars = op.Inlets.Where(x => x.InputOutlet != null).Select(x => _stack.Pop()).ToArray();
-
-            _stack.Push(dto);
-        }
-
-        private void Process_OperatorDtoBase_VarNumber(Operator op, OperatorDtoBase_VarNumber dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.NumberOperatorDto = _stack.Pop();
-
-            _stack.Push(dto);
-        }
-
-        private void SetDimensionProperties(Operator op, IOperatorDto_WithDimension dto)
-        {
             dto.StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             dto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback());
+        }
+
+        private void ProcessOperator(Operator op, IOperatorDto dto)
+        {
+            VisitOperatorBase(op);
+
+            dto.OperatorID = op.ID;
+
+            dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
+                                         .Where(x => x != null)
+                                         .ToArray();
+
+            TrySetDimensionProperties(op, dto);
+
+            _stack.Push(dto);
+        }
+
+        private InputDto PopInputDto()
+        {
+            return InputDtoFactory.TryCreateInputDto(_stack.Pop());
+        }
+
+        private void TrySetDimensionProperties(Operator op, IOperatorDto dto)
+        {
+            if (dto is IOperatorDto_WithDimension castedDto)
+            {
+                castedDto.StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
+                castedDto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback());
+            }
         }
 
         // Special Visitation
@@ -964,8 +412,13 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(new Number_OperatorDto { Number = number });
         }
 
-        /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
-        protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
+        protected override void InsertEmptyInput()
+        {
+            _stack.Push(null);
+        }
+
+        /// <summary> As soon as you encounter a Derived Operator's Outlet, the evaluation has to take a completely different course. </summary>
+        protected override void VisitDerivedOperatorOutlet(Outlet customOperatorOutlet)
         {
             // NOTE: Do not try to separate this concept into a different visitor class.
             // It has been tried and resulted in something much more complicated than these two lines of code.
@@ -973,7 +426,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // that needs to tap into the entity model, not DTO model.
 
             // Resolve the underlying patch's outlet
-            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet);
+            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyDerivedOperatorToUnderlyingPatch(customOperatorOutlet);
 
             // Visit the underlying patch's outlet.
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);

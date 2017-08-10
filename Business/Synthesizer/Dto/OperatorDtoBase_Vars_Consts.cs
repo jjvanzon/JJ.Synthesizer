@@ -1,31 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_Vars_Consts : OperatorDtoBase
     {
-        public IList<IOperatorDto> Vars { get; set; }
-        public IList<double> Consts { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
+        public IList<InputDto> Vars { get; set; }
+        public IList<InputDto> Consts { get; set; }
+           
+        public override IEnumerable<InputDto> Inputs
         {
-            get => Vars;
-            set => Vars = value;
-        }
-
-        public override IEnumerable<InputDto> InputDtos
-        {
-            get
+            get => Consts.Union(Vars);
+            set
             {
-                foreach (double @const in Consts)
-                {
-                    yield return new InputDto(@const);
-                }
-
-                foreach (IOperatorDto var in Vars)
-                {
-                    yield return new InputDto(var);
-                }
+                Consts = value.Where(x => x.IsConst).ToArray();
+                Vars = value.Where(x => x.IsVar).ToArray();
             }
         }
     }

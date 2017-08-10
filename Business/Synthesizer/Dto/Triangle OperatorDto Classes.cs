@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Triangle_OperatorDto : OperatorDtoBase_VarFrequency
+    internal class Triangle_OperatorDto : OperatorDtoBase_WithFrequency
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Triangle;
     }
@@ -14,23 +12,15 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Triangle;
     }
 
-    internal class Triangle_OperatorDto_ConstFrequency_NoOriginShifting : OperatorDtoBase_ConstFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Triangle;
-    }
+    internal class Triangle_OperatorDto_ConstFrequency_NoOriginShifting : Triangle_OperatorDto
+    { }
 
-    internal class Triangle_OperatorDto_ConstFrequency_WithOriginShifting : OperatorDtoBase_ConstFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Triangle;
-    }
+    internal class Triangle_OperatorDto_ConstFrequency_WithOriginShifting : Triangle_OperatorDto
+    { }
 
-    internal class Triangle_OperatorDto_VarFrequency_NoPhaseTracking : OperatorDtoBase_VarFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Triangle;
-    }
+    internal class Triangle_OperatorDto_VarFrequency_NoPhaseTracking : Triangle_OperatorDto
+    { }
 
-    internal class Triangle_OperatorDto_VarFrequency_WithPhaseTracking : OperatorDtoBase_VarFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Triangle;
-    }
+    internal class Triangle_OperatorDto_VarFrequency_WithPhaseTracking : Triangle_OperatorDto
+    { }
 }

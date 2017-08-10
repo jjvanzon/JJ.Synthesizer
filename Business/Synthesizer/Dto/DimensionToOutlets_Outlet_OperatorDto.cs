@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class DimensionToOutlets_Outlet_OperatorDto : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
+    internal class DimensionToOutlets_Outlet_OperatorDto : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal, IOperatorDto_WithOutletPosition
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.DimensionToOutlets;
 
-        public IOperatorDto SignalOperatorDto { get; set; }
+        public InputDto Signal { get; set; }
         public int OutletPosition { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SignalOperatorDto };
-            set => SignalOperatorDto = value[0];
+            get => new[] { Signal };
+            set => Signal = value.ElementAt(0);
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(SignalOperatorDto) };
     }
 }

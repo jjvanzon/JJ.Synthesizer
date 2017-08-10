@@ -2,28 +2,20 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class GreaterThan_OperatorDto : GreaterThan_OperatorDto_VarA_VarB
+    internal class GreaterThan_OperatorDto : OperatorDtoBase_WithAAndB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.GreaterThan;
     }
 
-    internal class GreaterThan_OperatorDto_ConstA_ConstB : OperatorDtoBase_ConstA_ConstB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.GreaterThan;
-    }
+    internal class GreaterThan_OperatorDto_ConstA_ConstB : GreaterThan_OperatorDto
+    { }
 
-    internal class GreaterThan_OperatorDto_ConstA_VarB : OperatorDtoBase_ConstA_VarB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.GreaterThan;
-    }
+    internal class GreaterThan_OperatorDto_ConstA_VarB : GreaterThan_OperatorDto
+    { }
 
-    internal class GreaterThan_OperatorDto_VarA_ConstB : OperatorDtoBase_VarA_ConstB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.GreaterThan;
-    }
+    internal class GreaterThan_OperatorDto_VarA_ConstB : GreaterThan_OperatorDto
+    { }
 
-    internal class GreaterThan_OperatorDto_VarA_VarB : OperatorDtoBase_VarA_VarB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.GreaterThan;
-    }
+    internal class GreaterThan_OperatorDto_VarA_VarB : GreaterThan_OperatorDto
+    { }
 }

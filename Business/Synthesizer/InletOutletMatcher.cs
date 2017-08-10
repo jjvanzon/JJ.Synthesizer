@@ -363,15 +363,15 @@ namespace JJ.Business.Synthesizer
         /// after having assigned the Underlying Patch's (PatchInlets') Inlets.
         /// The returned outlet is then ready to be used like any other operator.
         /// 
-        /// Note that even though a CustomOperator can have multiple outlets, you will only be using one at a time in your calculations.
+        /// Note that even though a DerivedOperator can have multiple outlets, you will only be using one at a time in your calculations.
         /// </summary>
-        public static Outlet ApplyCustomOperatorToUnderlyingPatch(Outlet sourceOperatorOutlet)
+        public static Outlet ApplyDerivedOperatorToUnderlyingPatch(Outlet sourceOperatorOutlet)
         {
-            Outlet destUnderlyingOutlet = TryApplyCustomOperatorToUnderlyingPatch(sourceOperatorOutlet);
+            Outlet destUnderlyingOutlet = TryApplyDerivedOperatorToUnderlyingPatch(sourceOperatorOutlet);
             if (destUnderlyingOutlet == null)
             {
                 // TODO: Low priority: This is a vague error message. Can it be made more specific?
-                throw new Exception($"{nameof(destUnderlyingOutlet)} was null after {nameof(TryApplyCustomOperatorToUnderlyingPatch)}.");
+                throw new Exception($"{nameof(destUnderlyingOutlet)} was null after {nameof(TryApplyDerivedOperatorToUnderlyingPatch)}.");
             }
 
             return destUnderlyingOutlet;
@@ -384,11 +384,11 @@ namespace JJ.Business.Synthesizer
         /// after having assigned the Underlying Patch's (PatchInlets') Inlets.
         /// The returned outlet is then ready to be used like any other operator.
         /// 
-        /// Note that even though a CustomOperator can have multiple outlets, 
+        /// Note that even though a DerivedOperator can have multiple outlets, 
         /// you will only be using one at a time in your calculations.
         /// </summary>
         // ReSharper disable once SuggestBaseTypeForParameter
-        private static Outlet TryApplyCustomOperatorToUnderlyingPatch(Outlet operatorOutlet)
+        private static Outlet TryApplyDerivedOperatorToUnderlyingPatch(Outlet operatorOutlet)
         {
             if (operatorOutlet == null) throw new NullException(() => operatorOutlet);
 

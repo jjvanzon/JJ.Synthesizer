@@ -1,37 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Random_OperatorDto : OperatorDtoBase_WithDimension, IRandom_OperatorDto
+    internal class Random_OperatorDto : OperatorDtoBase_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Random;
 
-        public IOperatorDto RateOperatorDto { get; set; }
+        public InputDto Rate { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
         public ArrayDto ArrayDto { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { RateOperatorDto };
-            set => RateOperatorDto = value[0];
+            get => new[] { Rate };
+            set => Rate = value.ElementAt(0);
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(RateOperatorDto)
-        };
-    }
-
-    /// <summary> 
-    /// Mostly used for cloning shared properties. 
-    /// Interpolate_OperatorDto will not do, because the ConstRate
-    /// variation does not derive from it.
-    /// </summary>
-    internal interface IRandom_OperatorDto : IOperatorDto_WithDimension
-    {
-        ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
-        ArrayDto ArrayDto { get; set; }
     }
 
     internal class Random_OperatorDto_Block : Random_OperatorDto
@@ -49,19 +34,8 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Random_OperatorDto_Hermite_LagBehind : Random_OperatorDto
     { }
 
-    internal class Random_OperatorDto_Line_LagBehind_ConstRate : OperatorDtoBase_WithDimension, IRandom_OperatorDto
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Random;
-        public double Rate { get; set; }
-        public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
-        public ArrayDto ArrayDto { get; set; }
-        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Rate)
-        };
-    }
+    internal class Random_OperatorDto_Line_LagBehind_ConstRate : Random_OperatorDto
+    { }
 
     internal class Random_OperatorDto_Line_LagBehind_VarRate : Random_OperatorDto
     { }

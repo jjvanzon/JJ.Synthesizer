@@ -4,23 +4,8 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Curve_OperatorDto : OperatorDtoBase_WithDimension
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
-
-        public int? CurveID { get; set; }
-        public double MinX { get; set; }
-        public ArrayDto ArrayDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
-        public override IEnumerable<InputDto> InputDtos => new InputDto[0];
-    }
-
-    internal class Curve_OperatorDto_NoCurve : OperatorDtoBase_WithoutInputOperatorDtos
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
-        public override IEnumerable<InputDto> InputDtos => new InputDto[0];
-    }
+    internal class Curve_OperatorDto : Curve_OperatorDtoBase_WithMinX
+    { }
 
     internal class Curve_OperatorDto_MinX_NoOriginShifting : Curve_OperatorDtoBase_WithMinX
     { }
@@ -37,17 +22,25 @@ namespace JJ.Business.Synthesizer.Dto
     internal abstract class Curve_OperatorDtoBase_WithMinX : Curve_OperatorDtoBase_WithoutMinX
     {
         public double MinX { get; set; }
-        public override IEnumerable<InputDto> InputDtos => new InputDto[0];
     }
 
     internal abstract class Curve_OperatorDtoBase_WithoutMinX : OperatorDtoBase_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
 
+        /// <summary> 0 in case of no curve. (That made it easier than nullable in one DTO, not nullable in the other.) </summary>
         public int CurveID { get; set; }
         public ArrayDto ArrayDto { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
-        public override IEnumerable<InputDto> InputDtos => new InputDto[0];
+        public override IEnumerable<InputDto> Inputs
+        {
+            get => new InputDto[0];
+            set { }
+        }
+    }
+
+    internal class Curve_OperatorDto_NoCurve : OperatorDtoBase_WithoutInputs
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
     }
 }

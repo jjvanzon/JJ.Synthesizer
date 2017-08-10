@@ -1,41 +1,32 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class ClosestOverDimension_OperatorDto : OperatorDtoBase_WithDimension
+    internal class ClosestOverDimension_OperatorDto : OperatorDtoBase_WithCollectionRecalculation
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverDimension;
 
-        public IOperatorDto InputOperatorDto { get; set; }
-        public IOperatorDto CollectionOperatorDto { get; set; }
-        public IOperatorDto FromOperatorDto { get; set; }
-        public IOperatorDto TillOperatorDto { get; set; }
-        public IOperatorDto StepOperatorDto { get; set; }
+        public InputDto Input { get; set; }
+        public InputDto Collection { get; set; }
+        public InputDto From { get; set; }
+        public InputDto Till { get; set; }
+        public InputDto Step { get; set; }
 
-        public CollectionRecalculationEnum CollectionRecalculationEnum { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { InputOperatorDto, CollectionOperatorDto, FromOperatorDto, TillOperatorDto, StepOperatorDto };
+            get => new[] { Input, Collection, From, Till, Step };
             set
             {
-                InputOperatorDto = value[0];
-                CollectionOperatorDto = value[1];
-                FromOperatorDto = value[2];
-                TillOperatorDto = value[3];
-                StepOperatorDto = value[4];
+                var array = value.ToArray();
+                Input = array[0];
+                Collection = array[1];
+                From = array[2];
+                Till = array[3];
+                Step = array[4];
             }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(InputOperatorDto),
-            new InputDto(CollectionOperatorDto),
-            new InputDto(FromOperatorDto),
-            new InputDto(TillOperatorDto),
-            new InputDto(StepOperatorDto)
-        };
     }
 
     internal class ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous : ClosestOverDimension_OperatorDto

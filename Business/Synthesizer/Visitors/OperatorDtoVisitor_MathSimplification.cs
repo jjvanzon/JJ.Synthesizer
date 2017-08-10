@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Dto;
@@ -37,7 +36,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Depth-first, so deeply pre-calculated NaN's can be picked up.
             IOperatorDto dto2 = base.Visit_OperatorDto_Polymorphic(dto);
 
-            bool anyInputsHaveSpecialValue = dto2.InputOperatorDtos.Any(x => MathPropertiesHelper.GetMathPropertiesDto(x).IsConstSpecialValue);
+            bool anyInputsHaveSpecialValue = dto2.Inputs.Any(x => x.IsConstSpecialValue);
             if (anyInputsHaveSpecialValue)
             {
                 return new Number_OperatorDto_NaN();
@@ -48,17 +47,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Absolute
 
-        protected override IOperatorDto Visit_Absolute_OperatorDto_ConstNumber(Absolute_OperatorDto_ConstNumber dto)
+        protected override IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
         {
-            base.Visit_Absolute_OperatorDto_ConstNumber(dto);
+            base.Visit_Absolute_OperatorDto(dto);
 
-            // Pre-calculate
-            return new Number_OperatorDto { Number = Math.Abs(dto.Number) };
-        }
+            if (dto.Number.IsConst)
+            {
+                // Pre-calculate
+                return new Number_OperatorDto { Number = Math.Abs(dto.Number.Const) };
+            }
 
-        protected override IOperatorDto Visit_Absolute_OperatorDto_VarNumber(Absolute_OperatorDto_VarNumber dto)
-        {
-            return Process_Nothing(dto);
+            return dto;
         }
 
         // Add
@@ -83,19 +82,17 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Add_OperatorDto_Vars_Consts(dto);
 
             // Pre-calculate
-            double constValue = dto.Consts.Sum();
+            double constValue = dto.Consts.Select(x => x.Const).Sum();
 
-            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
+            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = InputDtoFactory.CreateInputDto(constValue), OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
-            MathPropertiesDto constMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.Const);
-
             // Identity
-            if (constMathProperties.IsConstZero)
+            if (dto.Const.IsConstZero)
             {
                 return new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars, OperatorID = dto.OperatorID };
             }
@@ -112,7 +109,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_AllPassFilter_OperatorDto_ConstSound(AllPassFilter_OperatorDto_ConstSound dto)
         {
-            return Process_ConstSound_Identity(dto.Sound);
+            return Process_ConstSound_Identity(dto.Sound.Const);
         }
 
         protected override IOperatorDto Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
@@ -122,57 +119,44 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // And
 
-        protected override IOperatorDto Visit_And_OperatorDto_ConstA_ConstB(And_OperatorDto_ConstA_ConstB dto)
+        protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto)
         {
-            base.Visit_And_OperatorDto_ConstA_ConstB(dto);
+            base.Visit_And_OperatorDto(dto);
 
-            MathPropertiesDto aMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.A);
-            MathPropertiesDto bMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
-
-            // Pre-calculate
-            if (aMathProperties.IsConstNonZero && bMathProperties.IsConstNonZero)
+            if (dto.A.IsConstNonZero && dto.B.IsConstNonZero)
             {
+                // Pre-calculate
                 return new Number_OperatorDto_One();
             }
-            else if (aMathProperties.IsConstZero || bMathProperties.IsConstZero)
+            else if (dto.A.IsConstZero || dto.B.IsConstZero)
             {
+                // Pre-calculate
                 return new Number_OperatorDto_Zero();
             }
+            else if (dto.A.IsConst && dto.B.IsVar)
+            {
+                // Commute
+                InputDto tempA = dto.A;
+                InputDto tempB = dto.B;
+                dto.A = tempB;
+                dto.B = tempA;
 
-            throw new VisitationCannotBeHandledException();
-        }
-
-        protected override IOperatorDto Visit_And_OperatorDto_ConstA_VarB(And_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_And_OperatorDto_ConstA_VarB(dto);
-
-            // Commute
-            return new And_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A, OperatorID = dto.OperatorID };
-        }
-
-        protected override IOperatorDto Visit_And_OperatorDto_VarA_ConstB(And_OperatorDto_VarA_ConstB dto)
-        {
-            base.Visit_And_OperatorDto_VarA_ConstB(dto);
-
-            MathPropertiesDto bMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
-
-            if (bMathProperties.IsConstZero)
+                return dto;
+            }
+            else if (dto.A.IsVar && dto.B.IsConstZero)
             {
                 // 0
                 return new Number_OperatorDto_Zero();
             }
-            else if (bMathProperties.IsConstNonZero)
+            else if (dto.A.IsVar && dto.B.IsConstNonZero)
             {
                 // Identity
-                return dto.AOperatorDto;
+                return dto.A.Var;
             }
-
-            throw new VisitationCannotBeHandledException();
-        }
-
-        protected override IOperatorDto Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
+            else
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         // AverageFollower
@@ -184,7 +168,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_AverageFollower_OperatorDto_ConstSignal(AverageFollower_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // AverageOverDimension
@@ -201,7 +185,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_ConstSignal(AverageOverDimension_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // AverageOverInlets
@@ -225,7 +209,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstSound(BandPassFilterConstantPeakGain_OperatorDto_ConstSound dto)
         {
-            return Process_ConstSound_Identity(dto.Sound);
+            return Process_ConstSound_Identity(dto.Sound.Const);
         }
 
         protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarWidth dto)
@@ -237,7 +221,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstSound(BandPassFilterConstantTransitionGain_OperatorDto_ConstSound dto)
         {
-            return Process_ConstSound_Identity(dto.Sound);
+            return Process_ConstSound_Identity(dto.Sound.Const);
         }
 
         protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth dto)
@@ -254,7 +238,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto)
@@ -360,7 +344,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems(dto);
 
             // Pre-calculate
-            double result = AggregateCalculator.ClosestExp(dto.Input, dto.Items);
+            double result = AggregateCalculator.ClosestExp(dto.Input.Const, dto.Items.Select(x => x.Const).ToArray());
             return new Number_OperatorDto { Number = result };
         }
 
@@ -381,7 +365,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.Items.Count == 1)
             {
                 // Identity
-                return new Number_OperatorDto { Number = dto.Items[0] };
+                return new Number_OperatorDto { Number = dto.Items[0].Const };
             }
 
             return dto;
@@ -399,7 +383,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_ClosestOverInlets_OperatorDto_ConstInput_ConstItems(dto);
 
             // Pre-calculate
-            double result = AggregateCalculator.Closest(dto.Input, dto.Items);
+            double result = AggregateCalculator.Closest(dto.Input.Const, dto.Items.Select(x => x.Const).ToArray());
             return new Number_OperatorDto { Number = result };
         }
 
@@ -420,7 +404,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dto.Items.Count == 1)
             {
                 // Identity
-                return new Number_OperatorDto { Number = dto.Items[0] };
+                return new Number_OperatorDto { Number = dto.Items[0].Const };
             }
 
             return dto;
@@ -470,27 +454,18 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Divide
 
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB(Divide_OperatorDto_ConstA_ConstB dto)
+        protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto)
         {
-            base.Visit_Divide_OperatorDto_ConstA_ConstB(dto);
+            base.Visit_Divide_OperatorDto(dto);
 
-            // Pre-calculate
-            return new Number_OperatorDto { Number = dto.A / dto.B };
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB(Divide_OperatorDto_ConstA_VarB dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB(Divide_OperatorDto_VarA_ConstB dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Divide_OperatorDto_VarA_VarB(Divide_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
+            if (dto.A.IsConst && dto.B.IsConst)
+            {
+                // Pre-calculate
+                return new Number_OperatorDto { Number = dto.A.Const / dto.B.Const };
+            }
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         // Equal
@@ -516,7 +491,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Equal_OperatorDto_ConstA_VarB(dto);
 
             // Commute
-            return new Equal_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A, OperatorID = dto.OperatorID };
+            return new Equal_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
@@ -552,7 +527,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_GreaterThanOrEqual_OperatorDto_ConstA_ConstB(dto);
 
             // Pre-calculate
-            if (dto.A >= dto.B)
+            if (dto.A.Const >= dto.B.Const)
             {
                 return new Number_OperatorDto_One();
             }
@@ -567,7 +542,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_GreaterThanOrEqual_OperatorDto_ConstA_VarB(dto);
 
             // Commute, switch sign
-            return new LessThanOrEqual_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A, OperatorID = dto.OperatorID };
+            return new LessThanOrEqual_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
@@ -587,7 +562,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_GreaterThan_OperatorDto_ConstA_ConstB(dto);
 
             // Pre-calculate
-            if (dto.A > dto.B)
+            if (dto.A.Const > dto.B.Const)
             {
                 return new Number_OperatorDto_One();
             }
@@ -602,7 +577,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_GreaterThan_OperatorDto_ConstA_VarB(dto);
 
             // Commute, switch sign
-            return new LessThan_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A, OperatorID = dto.OperatorID };
+            return new LessThan_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
@@ -624,7 +599,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_HighPassFilter_OperatorDto_ConstSound(HighPassFilter_OperatorDto_ConstSound dto)
         {
-            return Process_ConstSound_Identity(dto.Sound);
+            return Process_ConstSound_Identity(dto.Sound.Const);
         }
 
         protected override IOperatorDto Visit_HighPassFilter_OperatorDto_ManyConsts(HighPassFilter_OperatorDto_ManyConsts dto)
@@ -641,7 +616,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_ConstSound(HighShelfFilter_OperatorDto_ConstSound dto)
         {
-            return Process_ConstSound_Identity(dto.Sound);
+            return Process_ConstSound_Identity(dto.Sound.Const);
         }
 
         protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto)
@@ -658,7 +633,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Hold_OperatorDto_ConstSignal(Hold_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // If
@@ -669,14 +644,14 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Pre-calculate
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isTrue = dto.Condition != 0.0;
+            bool isTrue = dto.Condition.Const != 0.0;
             if (isTrue)
             {
-                return new Number_OperatorDto { Number = dto.Then };
+                return new Number_OperatorDto { Number = dto.Then.Const };
             }
             else
             {
-                return new Number_OperatorDto { Number = dto.Else };
+                return new Number_OperatorDto { Number = dto.Else.Const };
             }
         }
 
@@ -686,14 +661,14 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Pre-calculate
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isTrue = dto.Condition != 0.0;
+            bool isTrue = dto.Condition.Const != 0.0;
             if (isTrue)
             {
-                return new Number_OperatorDto { Number = dto.Then };
+                return new Number_OperatorDto { Number = dto.Then.Const };
             }
             else
             {
-                return dto.ElseOperatorDto;
+                return dto.Else.Var;
             }
         }
 
@@ -703,14 +678,14 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Pre-calculate
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isTrue = dto.Condition != 0.0;
+            bool isTrue = dto.Condition.Const != 0.0;
             if (isTrue)
             {
-                return dto.ThenOperatorDto;
+                return dto.Then.Var;
             }
             else
             {
-                return new Number_OperatorDto { Number = dto.Else };
+                return new Number_OperatorDto { Number = dto.Else.Const };
             }
         }
 
@@ -720,14 +695,14 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Pre-calculate
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isTrue = dto.Condition != 0.0;
+            bool isTrue = dto.Condition.Const != 0.0;
             if (isTrue)
             {
-                return dto.ThenOperatorDto;
+                return dto.Then.Var;
             }
             else
             {
-                return dto.ElseOperatorDto;
+                return dto.Else.Var;
             }
         }
 
@@ -739,7 +714,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dto.Then == dto.Else)
             {
                 // Identity
-                return new Number_OperatorDto { Number = dto.Then };
+                return new Number_OperatorDto { Number = dto.Then.Const };
             }
             else
             {
@@ -808,7 +783,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         protected override IOperatorDto Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto)
@@ -852,7 +827,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_LessThanOrEqual_OperatorDto_ConstA_ConstB(dto);
 
-            if (dto.A <= dto.B)
+            if (dto.A.Const <= dto.B.Const)
             {
                 return new Number_OperatorDto_One();
             }
@@ -867,7 +842,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_LessThanOrEqual_OperatorDto_ConstA_VarB(dto);
 
             // Commute, switch sign
-            return new GreaterThanOrEqual_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A, OperatorID = dto.OperatorID };
+            return new GreaterThanOrEqual_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
@@ -887,7 +862,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_LessThan_OperatorDto_ConstA_ConstB(dto);
 
             // Pre-calculate
-            if (dto.A < dto.B)
+            if (dto.A.Const < dto.B.Const)
             {
                 return new Number_OperatorDto_One();
             }
@@ -902,7 +877,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_LessThan_OperatorDto_ConstA_VarB(dto);
 
             // Commute, switch sign
-            return new GreaterThan_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A, OperatorID = dto.OperatorID };
+            return new GreaterThan_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
@@ -924,7 +899,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Loop_OperatorDto_ConstSignal(Loop_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
@@ -956,7 +931,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_LowPassFilter_OperatorDto_ConstSound(LowPassFilter_OperatorDto_ConstSound dto)
         {
-            return Process_ConstSound_Identity(dto.Sound);
+            return Process_ConstSound_Identity(dto.Sound.Const);
         }
 
         protected override IOperatorDto Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
@@ -973,7 +948,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_ConstSound(LowShelfFilter_OperatorDto_ConstSound dto)
         {
-            return Process_ConstSound_Identity(dto.Sound);
+            return Process_ConstSound_Identity(dto.Sound.Const);
         }
 
         protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
@@ -983,10 +958,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_ManyConsts(LowShelfFilter_OperatorDto_ManyConsts dto)
         {
-            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
+            double limitedFrequency = LimitFrequency(dto.Frequency.Const, dto.NyquistFrequency);
 
             BiQuadFilterWithoutFields.SetLowShelfFilterVariables(
-                dto.SamplingRate, limitedFrequency, dto.TransitionSlope, dto.DBGain,
+                dto.TargetSamplingRate, limitedFrequency, dto.TransitionSlope.Const, dto.DBGain.Const,
                 out double a0, out double a1, out double a2, out double a3, out double a4);
 
             dto.A0 = a0;
@@ -1007,7 +982,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_MaxFollower_OperatorDto_ConstSignal(MaxFollower_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // MaxOverDimension
@@ -1024,7 +999,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_ConstSignal(MaxOverDimension_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // MaxOverInlets
@@ -1044,9 +1019,9 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_MaxOverInlets_OperatorDto_Vars_Consts(dto);
 
             // Pre-calculate
-            double constValue = dto.Consts.Max();
+            double constValue = dto.Consts.Select(x => x.Const).Max();
 
-            return new MaxOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
+            return new MaxOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = InputDtoFactory.CreateInputDto(constValue), OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
@@ -1078,7 +1053,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_MinFollower_OperatorDto_ConstSignal(MinFollower_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // MinOverDimension
@@ -1095,7 +1070,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_MinOverDimension_OperatorDto_ConstSignal(MinOverDimension_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // MinOverInlets
@@ -1115,9 +1090,9 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_MinOverInlets_OperatorDto_Vars_Consts(dto);
 
             // Pre-calculate
-            double constValue = dto.Consts.Min();
+            double constValue = dto.Consts.Select(x => x.Const).Min();
 
-            return new MinOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
+            return new MinOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = InputDtoFactory.CreateInputDto(constValue), OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
@@ -1162,17 +1137,15 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Multiply_OperatorDto_Vars_Consts(dto);
 
             // Pre-calculate
-            double constValue = dto.Consts.Product();
+            double constValue = dto.Consts.Select(x => x.Const).Product();
 
-            return new Multiply_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
+            return new Multiply_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = InputDtoFactory.CreateInputDto(constValue), OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
         {
-            MathPropertiesDto constMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.Const);
-
             // Identity
-            if (constMathProperties.IsConstOne)
+            if (dto.Const.IsConstOne)
             {
                 return new Multiply_OperatorDto_Vars_NoConsts { Vars = dto.Vars, OperatorID = dto.OperatorID };
             }
@@ -1187,7 +1160,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Negative_OperatorDto_ConstNumber(dto);
 
             // Pre-calculate
-            return new Number_OperatorDto { Number = -dto.Number };
+            return new Number_OperatorDto { Number = -dto.Number.Const };
         }
 
         protected override IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto)
@@ -1211,7 +1184,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_NotchFilter_OperatorDto_ConstSound(NotchFilter_OperatorDto_ConstSound dto)
         {
-            return Process_ConstSound_Identity(dto.Sound);
+            return Process_ConstSound_Identity(dto.Sound.Const);
         }
 
         protected override IOperatorDto Visit_NotchFilter_OperatorDto_ManyConsts(NotchFilter_OperatorDto_ManyConsts dto)
@@ -1242,7 +1215,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_NotEqual_OperatorDto_ConstA_VarB(dto);
 
             // Commute
-            return new NotEqual_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A, OperatorID = dto.OperatorID };
+            return new NotEqual_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
@@ -1263,7 +1236,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Pre-calculate
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isFalse = dto.Number == 0.0;
+            bool isFalse = dto.Number.Const == 0.0;
             if (isFalse)
             {
                 return new Number_OperatorDto_One();
@@ -1307,15 +1280,12 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Or_OperatorDto_ConstA_ConstB(dto);
 
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.A);
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
-
             // Pre-calculate
-            if (aMathPropertiesDto.IsConstNonZero || bMathPropertiesDto.IsConstNonZero)
+            if (dto.A.IsConstNonZero || dto.B.IsConstNonZero)
             {
                 return new Number_OperatorDto_One();
             }
-            else if (aMathPropertiesDto.IsConstZero && bMathPropertiesDto.IsConstZero)
+            else if (dto.A.IsConstZero && dto.B.IsConstZero)
             {
                 return new Number_OperatorDto_Zero();
             }
@@ -1328,24 +1298,22 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Or_OperatorDto_ConstA_VarB(dto);
 
             // Commute
-            return new Or_OperatorDto_VarA_ConstB { AOperatorDto = dto.BOperatorDto, B = dto.A, OperatorID = dto.OperatorID };
+            return new Or_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_Or_OperatorDto_VarA_ConstB(Or_OperatorDto_VarA_ConstB dto)
         {
             base.Visit_Or_OperatorDto_VarA_ConstB(dto);
 
-            MathPropertiesDto bMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
-
-            if (bMathPropertiesDto.IsConstNonZero)
+            if (dto.B.IsConstNonZero)
             {
                 // Simplify
                 return new Number_OperatorDto_One();
             }
-            else if (bMathPropertiesDto.IsConstZero)
+            else if (dto.B.IsConstZero)
             {
                 // Identity
-                return dto.AOperatorDto;
+                return dto.A.Var;
             }
 
             return dto;
@@ -1365,15 +1333,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_ConstSound(PeakingEQFilter_OperatorDto_ConstSound dto)
         {
-            return Process_ConstSound_Identity(dto.Sound);
+            return Process_ConstSound_Identity(dto.Sound.Const);
         }
 
         protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
         {
-            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
+            double limitedFrequency = LimitFrequency(dto.Frequency.Const, dto.NyquistFrequency);
 
             BiQuadFilterWithoutFields.SetPeakingEQFilterVariables(
-                dto.SamplingRate, limitedFrequency, dto.Width, dto.DBGain,
+                dto.TargetSamplingRate, limitedFrequency, dto.Width.Const, dto.DBGain.Const,
                 out double a0, out double a1, out double a2, out double a3, out double a4);
 
             dto.A0 = a0;
@@ -1392,21 +1360,19 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Power_OperatorDto_ConstBase_ConstExponent(dto);
 
             // Pre-calculate
-            return new Number_OperatorDto { Number = Math.Pow(dto.Base, dto.Exponent) };
+            return new Number_OperatorDto { Number = Math.Pow(dto.Base.Const, dto.Exponent.Const) };
         }
 
         protected override IOperatorDto Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
         {
             base.Visit_Power_OperatorDto_ConstBase_VarExponent(dto);
 
-            MathPropertiesDto baseMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.Base);
-
-            if (baseMathPropertiesDto.IsConstZero)
+            if (dto.Base.IsConstZero)
             {
                 // 0
                 return new Number_OperatorDto_Zero();
             }
-            else if (baseMathPropertiesDto.IsConstOne)
+            else if (dto.Base.IsConstOne)
             {
                 // 1
                 return new Number_OperatorDto_One();
@@ -1419,17 +1385,15 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
 
-            MathPropertiesDto exponentMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.Exponent);
-
-            if (exponentMathPropertiesDto.IsConstZero)
+            if (dto.Exponent.IsConstZero)
             {
                 // 1
                 return new Number_OperatorDto_One();
             }
-            else if (exponentMathPropertiesDto.IsConstOne)
+            else if (dto.Exponent.IsConstOne)
             {
                 // Identity
-                return dto.BaseOperatorDto;
+                return dto.Base.Var;
             }
 
             return dto;
@@ -1480,7 +1444,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Simplify
             var dto2 = new Square_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = dto.Frequency };
-            DtoCloner.Clone_WithDimensionProperties(dto, dto2);
+            DtoCloner.CloneProperties(dto, dto2);
             return dto2;
         }
 
@@ -1490,7 +1454,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             // Simplify
             var dto2 = new Square_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = dto.Frequency };
-            DtoCloner.Clone_WithDimensionProperties(dto, dto2);
+            DtoCloner.CloneProperties(dto, dto2);
             return dto2;
         }
 
@@ -1519,8 +1483,8 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking(dto);
 
             // Simplify
-            var dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
-            DtoCloner.Clone_WithDimensionProperties(dto, dto2);
+            var dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { Frequency = dto.Frequency };
+            DtoCloner.CloneProperties(dto, dto2);
 
             return dto2;
         }
@@ -1530,8 +1494,8 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking(dto);
 
             // Simplify
-            var dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { FrequencyOperatorDto = dto.FrequencyOperatorDto };
-            DtoCloner.Clone_WithDimensionProperties(dto, dto2);
+            var dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { Frequency = dto.Frequency };
+            DtoCloner.CloneProperties(dto, dto2);
 
             return dto2;
         }
@@ -1618,7 +1582,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep(dto);
 
             // Pre-Calculate
-            double result = dto.From + dto.Step * dto.OutletPosition;
+            double result = dto.From.Const + dto.Step.Const * dto.OutletPosition;
             return new Number_OperatorDto { Number = result };
         }
 
@@ -1632,11 +1596,12 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(dto);
 
             // Simplify
-            double stepTimesPosition = dto.Step * dto.OutletPosition;
+            double stepTimesPosition = dto.Step.Const * dto.OutletPosition;
+
             var dto2 = new Add_OperatorDto_Vars_1Const
             {
-                Const = stepTimesPosition,
-                Vars = new[] { dto.FromOperatorDto }
+                Const = InputDtoFactory.CreateInputDto(stepTimesPosition),
+                Vars = new[] { InputDtoFactory.CreateInputDto(dto.From.Const) }
             };
             return dto2;
         }
@@ -1649,7 +1614,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ZeroStep(RangeOverOutlets_Outlet_OperatorDto_ZeroStep dto)
         {
             // Identity
-            return dto.FromOperatorDto;
+            return dto.From.Var;
         }
 
         // Reset
@@ -1664,7 +1629,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Reverse_OperatorDto_ConstSignal(Reverse_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         protected override IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting(Reverse_OperatorDto_ConstFactor_NoOriginShifting dto)
@@ -1694,7 +1659,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Round_OperatorDto_AllConsts(dto);
 
             // Pre-calculate
-            double result = MathHelper.RoundWithStep(dto.Signal, dto.Step, dto.Offset);
+            double result = MathHelper.RoundWithStep(dto.Signal.Const, dto.Step.Const, dto.Offset.Const);
             return new Number_OperatorDto { Number = result };
         }
 
@@ -1871,12 +1836,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_ConstNumber(SetDimension_OperatorDto_ConstPassThrough_ConstNumber dto)
         {
-            return Process_ConstNumber_Identity(dto.PassThrough);
+            return Process_ConstNumber_Identity(dto.PassThrough.Const);
         }
 
         protected override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_VarNumber(SetDimension_OperatorDto_ConstPassThrough_VarNumber dto)
         {
-            return Process_ConstNumber_Identity(dto.PassThrough);
+            return Process_ConstNumber_Identity(dto.PassThrough.Const);
         }
 
         protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto)
@@ -1930,7 +1895,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // SortOverInlets
@@ -2024,44 +1989,9 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal(Squash_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin(Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin(Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin(Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // Stretch
@@ -2106,44 +2036,9 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal(Stretch_OperatorDto_ConstSignal dto)
         {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin(Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin dto)
-        {
-            return Process_ConstSignal_Identity(dto.Signal);
+            return Process_ConstSignal_Identity(dto.Signal.Const);
         }
 
         // Subtract
@@ -2153,19 +2048,17 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_Subtract_OperatorDto_ConstA_ConstB(dto);
 
             // Pre-calculate
-            return new Number_OperatorDto { Number = dto.A - dto.B };
+            return new Number_OperatorDto { Number = dto.A.Const - dto.B.Const };
         }
 
         protected override IOperatorDto Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
         {
             base.Visit_Subtract_OperatorDto_ConstA_VarB(dto);
 
-            MathPropertiesDto aMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.A);
-
-            if (aMathPropertiesDto.IsConstZero)
+            if (dto.A.IsConstZero)
             {
                 // Identity, switch sign
-                return new Negative_OperatorDto_VarNumber { NumberOperatorDto = dto.BOperatorDto, OperatorID = dto.OperatorID };
+                return new Negative_OperatorDto_VarNumber { Number = dto.B, OperatorID = dto.OperatorID };
             }
 
             return dto;
@@ -2175,12 +2068,10 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Subtract_OperatorDto_VarA_ConstB(dto);
 
-            MathPropertiesDto bMathProperties = MathPropertiesHelper.GetMathPropertiesDto(dto.B);
-
-            if (bMathProperties.IsConstZero)
+            if (dto.B.IsConstZero)
             {
                 // Identity
-                return dto.AOperatorDto;
+                return dto.A.Var;
             }
 
             return dto;
@@ -2203,7 +2094,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount(dto);
 
             // Pre-calculate
-            return new Number_OperatorDto { Number = dto.Signal * dto.SampleCount };
+            return new Number_OperatorDto { Number = dto.Signal.Const * dto.SampleCount.Const };
         }
 
         protected override IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto)
@@ -2223,8 +2114,8 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_SumOverDimension_OperatorDto_AllConsts(dto);
 
             // Pre-calculate
-            int sampleCount = (int)(dto.Till - dto.From / dto.Step);
-            double result = dto.Signal * sampleCount;
+            int sampleCount = (int)(dto.Till.Const - dto.From.Const / dto.Step.Const);
+            double result = dto.Signal.Const * sampleCount;
             return new Number_OperatorDto { Number = result };
         }
 
@@ -2306,10 +2197,10 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume dto,
             SetFilterParametersWithWidthOrBlobVolumeDelegate setFilterParametersDelegate)
         {
-            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
+            double limitedFrequency = LimitFrequency(dto.Frequency.Const, dto.NyquistFrequency);
 
             setFilterParametersDelegate(
-                dto.SamplingRate, limitedFrequency, dto.WidthOrBlobVolume,
+                dto.TargetSamplingRate, limitedFrequency, dto.WidthOrBlobVolume.Const,
                 out double a0, out double a1, out double a2, out double a3, out double a4);
 
             dto.A0 = a0;
@@ -2350,7 +2241,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_OperatorDto_Base(dto);
 
             // Pre-calculate
-            double result = aggregationDelegate(dto.Consts);
+            double result = aggregationDelegate(dto.Consts.Select(x => x.Const));
 
             return new Number_OperatorDto { Number = result };
         }
@@ -2367,9 +2258,9 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorDtoBase_ShelfFilter_ManyConsts dto,
             SetShelfFilterParametersDelegate setFilterParametersDelegate)
         {
-            double limitedFrequency = LimitFrequency(dto.Frequency, dto.NyquistFrequency);
+            double limitedFrequency = LimitFrequency(dto.Frequency.Const, dto.NyquistFrequency);
             setFilterParametersDelegate(
-                dto.SamplingRate, limitedFrequency, dto.TransitionSlope, dto.DBGain,
+                dto.TargetSamplingRate, limitedFrequency, dto.TransitionSlope.Const, dto.DBGain.Const,
                 out double a0, out double a1, out double a2, out double a3, out double a4);
 
             dto.A0 = a0;
@@ -2381,22 +2272,22 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        private IOperatorDto Process_Trigger_ConstPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger_ConstPassThrough_ConstReset dto)
+        private IOperatorDto Process_Trigger_ConstPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto)
         {
             // Identity
-            return new Number_OperatorDto { Number = dto.PassThrough };
+            return new Number_OperatorDto { Number = dto.PassThroughInput.Const };
         }
 
-        private IOperatorDto Process_Trigger_ConstPassThrough_VarReset_Identity(OperatorDtoBase_Trigger_ConstPassThrough_VarReset dto)
+        private IOperatorDto Process_Trigger_ConstPassThrough_VarReset_Identity(OperatorDtoBase_Trigger dto)
         {
             // Identity
-            return new Number_OperatorDto { Number = dto.PassThrough };
+            return new Number_OperatorDto { Number = dto.PassThroughInput.Const };
         }
 
-        private IOperatorDto Process_Trigger_VarPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger_VarPassThrough_ConstReset dto)
+        private IOperatorDto Process_Trigger_VarPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto)
         {
             // Identity
-            return dto.PassThroughInputOperatorDto;
+            return dto.PassThroughInput.Var;
         }
 
         private IOperatorDto Process_Vars_NoConsts(OperatorDtoBase_Vars dto)
@@ -2410,7 +2301,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     return new Number_OperatorDto_Zero();
 
                 case 1:
-                    return dto.Vars[0];
+                    return dto.Vars[0].Var;
 
                 default:
                     return dto;

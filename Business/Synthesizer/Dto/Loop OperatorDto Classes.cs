@@ -1,203 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Loop_OperatorDto : Loop_OperatorDto_AllVars
+    internal class Loop_OperatorDto : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
+
+        public InputDto Signal { get; set; }
+        public InputDto Skip { get; set; }
+        public InputDto LoopStartMarker { get; set; }
+        public InputDto LoopEndMarker { get; set; }
+        public InputDto ReleaseEndMarker { get; set; }
+        public InputDto NoteDuration { get; set; }
+
+        public override IEnumerable<InputDto> Inputs
+        {
+            get => new[]
+            {
+                Signal,
+                Skip,
+                LoopStartMarker,
+                LoopEndMarker,
+                ReleaseEndMarker,
+                NoteDuration
+            };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                Skip = array[1];
+                LoopStartMarker = array[2];
+                LoopEndMarker = array[3];
+                ReleaseEndMarker = array[4];
+                NoteDuration = array[5];
+            }
+        }
+
+    }
+
+    internal class Loop_OperatorDto_ConstSignal : Loop_OperatorDto
     { }
 
-    internal class Loop_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
-    }
+    internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : Loop_OperatorDto
+    { }
 
-    internal class Loop_OperatorDto_NoSkipOrRelease_ManyConstants : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
+    internal class Loop_OperatorDto_ManyConstants : Loop_OperatorDto
+    { }
 
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double LoopStartMarker { get; set; }
-        public double LoopEndMarker { get; set; }
-        public IOperatorDto NoteDurationOperatorDto { get; set; }
+    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration : Loop_OperatorDto
+    { }
 
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, NoteDurationOperatorDto };
-            set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
-        }
+    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration : Loop_OperatorDto
+    { }
 
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(0),
-            new InputDto(LoopStartMarker),
-            new InputDto(LoopEndMarker),
-            new InputDto(CalculationHelper.VERY_HIGH_VALUE),
-            new InputDto(NoteDurationOperatorDto)
-        };
-    }
+    internal class Loop_OperatorDto_NoSkipOrRelease : Loop_OperatorDto
+    { }
 
-    internal class Loop_OperatorDto_ManyConstants : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double Skip { get; set; }
-        public double LoopStartMarker { get; set; }
-        public double LoopEndMarker { get; set; }
-        public double ReleaseEndMarker { get; set; }
-        public IOperatorDto NoteDurationOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, NoteDurationOperatorDto };
-            set { SignalOperatorDto = value[0]; NoteDurationOperatorDto = value[1]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(Skip),
-            new InputDto(LoopStartMarker),
-            new InputDto(LoopEndMarker),
-            new InputDto(ReleaseEndMarker),
-            new InputDto(NoteDurationOperatorDto)
-        };
-    }
-
-    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double SkipAndLoopStartMarker { get; set; }
-        public double LoopEndMarker { get; set; }
-        public IOperatorDto ReleaseEndMarkerOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, ReleaseEndMarkerOperatorDto };
-            set { SignalOperatorDto = value[0]; ReleaseEndMarkerOperatorDto = value[1]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(SkipAndLoopStartMarker),
-            new InputDto(SkipAndLoopStartMarker),
-            new InputDto(LoopEndMarker),
-            new InputDto(ReleaseEndMarkerOperatorDto),
-            new InputDto(CalculationHelper.VERY_HIGH_VALUE)
-        };
-    }
-
-    internal class Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double SkipAndLoopStartMarker { get; set; }
-        public IOperatorDto LoopEndMarkerOperatorDto { get; set; }
-        public IOperatorDto ReleaseEndMarkerOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, LoopEndMarkerOperatorDto, ReleaseEndMarkerOperatorDto, };
-            set { SignalOperatorDto = value[0]; LoopEndMarkerOperatorDto = value[1]; ReleaseEndMarkerOperatorDto = value[2]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(SkipAndLoopStartMarker),
-            new InputDto(SkipAndLoopStartMarker),
-            new InputDto(LoopEndMarkerOperatorDto),
-            new InputDto(ReleaseEndMarkerOperatorDto),
-            new InputDto(CalculationHelper.VERY_HIGH_VALUE)
-        };
-    }
-
-    internal class Loop_OperatorDto_NoSkipOrRelease : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto LoopStartMarkerOperatorDto { get; set; }
-        public IOperatorDto LoopEndMarkerOperatorDto { get; set; }
-        public IOperatorDto NoteDurationOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[]
-            {
-                SignalOperatorDto,
-                LoopStartMarkerOperatorDto,
-                LoopEndMarkerOperatorDto,
-                NoteDurationOperatorDto
-            };
-            set
-            {
-                SignalOperatorDto = value[0];
-                LoopStartMarkerOperatorDto = value[1];
-                LoopEndMarkerOperatorDto = value[2];
-                NoteDurationOperatorDto = value[3];
-            }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(0),
-            new InputDto(LoopStartMarkerOperatorDto),
-            new InputDto(LoopEndMarkerOperatorDto),
-            new InputDto(CalculationHelper.VERY_HIGH_VALUE),
-            new InputDto(NoteDurationOperatorDto)
-        };
-    }
-
-    internal class Loop_OperatorDto_AllVars : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto SkipOperatorDto { get; set; }
-        public IOperatorDto LoopStartMarkerOperatorDto { get; set; }
-        public IOperatorDto LoopEndMarkerOperatorDto { get; set; }
-        public IOperatorDto ReleaseEndMarkerOperatorDto { get; set; }
-        public IOperatorDto NoteDurationOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[]
-            {
-                SignalOperatorDto,
-                SkipOperatorDto,
-                LoopStartMarkerOperatorDto,
-                LoopEndMarkerOperatorDto,
-                ReleaseEndMarkerOperatorDto,
-                NoteDurationOperatorDto
-            };
-            set
-            {
-                SignalOperatorDto = value[0];
-                SkipOperatorDto = value[1];
-                LoopStartMarkerOperatorDto = value[2];
-                LoopEndMarkerOperatorDto = value[3];
-                ReleaseEndMarkerOperatorDto = value[4];
-                NoteDurationOperatorDto = value[5];
-            }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(SkipOperatorDto),
-            new InputDto(LoopStartMarkerOperatorDto),
-            new InputDto(LoopEndMarkerOperatorDto),
-            new InputDto(ReleaseEndMarkerOperatorDto),
-            new InputDto(NoteDurationOperatorDto)
-        };
-    }
+    internal class Loop_OperatorDto_AllVars : Loop_OperatorDto
+    { }
 }

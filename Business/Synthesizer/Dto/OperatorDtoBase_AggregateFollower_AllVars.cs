@@ -1,19 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_AggregateFollower_AllVars : OperatorDtoBase_WithDimension
+    internal abstract class OperatorDtoBase_AggregateFollower_AllVars : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
     {
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto SliceLengthOperatorDto { get; set; }
-        public IOperatorDto SampleCountOperatorDto { get; set; }
+        public InputDto Signal { get; set; }
+        public InputDto SliceLength { get; set; }
+        public InputDto SampleCount { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SignalOperatorDto, SliceLengthOperatorDto, SampleCountOperatorDto };
-            set { SignalOperatorDto = value[0]; SliceLengthOperatorDto = value[1]; SampleCountOperatorDto = value[2]; }
+            get => new[] { Signal, SliceLength, SampleCount };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                SliceLength = array[1];
+                SampleCount = array[2];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[] { new InputDto(SignalOperatorDto), new InputDto(SliceLengthOperatorDto), new InputDto(SampleCountOperatorDto) };
     }
 }

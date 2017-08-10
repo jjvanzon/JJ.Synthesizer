@@ -2,12 +2,12 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class MinOverDimension_OperatorDto : OperatorDtoBase_AggregateOverDimension_AllVars
+    internal class MinOverDimension_OperatorDto : OperatorDtoBase_AggregateOverDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MinOverDimension;
     }
 
-    internal class MinOverDimension_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    internal class MinOverDimension_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MinOverDimension;
     }

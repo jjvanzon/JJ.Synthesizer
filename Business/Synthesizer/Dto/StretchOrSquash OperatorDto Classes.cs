@@ -1,305 +1,63 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class StretchOrSquash_OperatorDto : StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin
-    { }
-
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin : OperatorDtoBase_WithDimension
+    /// <summary> Base class. </summary>
+    internal abstract class StretchOrSquash_OperatorDtoBase_WithOrigin : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
     {
-        public double Signal { get; set; }
-        public double Factor { get; set; }
+        public InputDto Signal { get; set; }
+        public InputDto Factor { get; set; }
+        public InputDto Origin { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
-
-        public override IEnumerable<InputDto> InputDtos => new[]
+        public override IEnumerable<InputDto> Inputs
         {
-            new InputDto(Signal),
-            new InputDto(Factor),
-            new InputDto(0)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin : OperatorDtoBase_WithDimension
-    {
-        public double Signal { get; set; }
-        public IOperatorDto FactorOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { FactorOperatorDto };
-            set => FactorOperatorDto = value[0];
+            get => new[] { Signal, Factor, Origin };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                Factor = array[1];
+                Origin = array[2];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Signal),
-            new InputDto(FactorOperatorDto),
-            new InputDto(0)
-        };
     }
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
+    /// <summary> Base class. </summary>
+    internal abstract class StretchOrSquash_OperatorDtoBase_ZeroOrigin : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
     {
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double Factor { get; set; }
+        public InputDto Signal { get; set; }
+        public InputDto Factor { get; set; }
+        private static readonly InputDto _origin = InputDtoFactory.CreateInputDto(0);
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SignalOperatorDto };
-            set => SignalOperatorDto = value[0];
+            get => new[] { Signal, Factor, _origin };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                Factor = array[1];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(Factor),
-            new InputDto(0)
-        };
     }
 
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ZeroOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
+    /// <summary> Base class. </summary>
+    internal abstract class StretchOrSquash_OperatorDtoBase_NoOrigin : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
     {
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto FactorOperatorDto { get; set; }
+        public InputDto Signal { get; set; }
+        public InputDto Factor { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SignalOperatorDto, FactorOperatorDto };
-            set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
+            get => new[] { Signal, Factor };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                Factor = array[1];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(FactorOperatorDto),
-            new InputDto(0)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin : OperatorDtoBase_WithDimension
-    {
-        public double Signal { get; set; }
-        public double Factor { get; set; }
-        public double Origin { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Signal),
-            new InputDto(Factor),
-            new InputDto(Origin)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_VarOrigin : OperatorDtoBase_WithDimension
-    {
-        public double Signal { get; set; }
-        public double Factor { get; set; }
-        public IOperatorDto OriginOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { OriginOperatorDto };
-            set => OriginOperatorDto = value[0];
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Signal),
-            new InputDto(Factor),
-            new InputDto(OriginOperatorDto)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_ConstOrigin : OperatorDtoBase_WithDimension
-    {
-        public double Signal { get; set; }
-        public IOperatorDto FactorOperatorDto { get; set; }
-        public double Origin { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { FactorOperatorDto };
-            set => FactorOperatorDto = value[0];
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Signal),
-            new InputDto(FactorOperatorDto),
-            new InputDto(Origin)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_VarOrigin : OperatorDtoBase_WithDimension
-    {
-        public double Signal { get; set; }
-        public IOperatorDto FactorOperatorDto { get; set; }
-        public IOperatorDto OriginOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { FactorOperatorDto, OriginOperatorDto };
-            set { FactorOperatorDto = value[0]; OriginOperatorDto = value[1]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Signal),
-            new InputDto(FactorOperatorDto),
-            new InputDto(OriginOperatorDto)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_ConstOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
-    {
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double Factor { get; set; }
-        public double Origin { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto };
-            set => SignalOperatorDto = value[0];
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(Factor),
-            new InputDto(Origin)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_VarOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
-    {
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double Factor { get; set; }
-        public IOperatorDto OriginOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, OriginOperatorDto };
-            set { SignalOperatorDto = value[0]; OriginOperatorDto = value[1]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(Factor),
-            new InputDto(OriginOperatorDto)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_ConstOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
-    {
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto FactorOperatorDto { get; set; }
-        public double Origin { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, FactorOperatorDto };
-            set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(FactorOperatorDto),
-            new InputDto(Origin)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_VarOrigin : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
-    {
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto FactorOperatorDto { get; set; }
-        public IOperatorDto OriginOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, FactorOperatorDto, OriginOperatorDto };
-            set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; OriginOperatorDto = value[2]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(FactorOperatorDto),
-            new InputDto(OriginOperatorDto)
-        };
-    }
-
-    // For Time Dimension
-
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting : OperatorDtoBase_WithDimension
-    {
-        public double Signal { get; set; }
-        public double Factor { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Signal),
-            new InputDto(Factor)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking : OperatorDtoBase_WithDimension
-    {
-        public double Signal { get; set; }
-        public IOperatorDto FactorOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { FactorOperatorDto };
-            set => FactorOperatorDto = value[0];
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Signal),
-            new InputDto(FactorOperatorDto)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
-    {
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double Factor { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto };
-            set => SignalOperatorDto = value[0];
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(Factor)
-        };
-    }
-
-    internal abstract class StretchOrSquash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking : OperatorDtoBase_WithDimension, IOperatorDto_VarSignal_WithDimension
-    {
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto FactorOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, FactorOperatorDto };
-            set { SignalOperatorDto = value[0]; FactorOperatorDto = value[1]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(FactorOperatorDto)
-        };
     }
 }

@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Square_OperatorDto : OperatorDtoBase_VarFrequency
+    internal class Square_OperatorDto : OperatorDtoBase_WithFrequency
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Square;
     }
@@ -12,23 +12,15 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Square;
     }
 
-    internal class Square_OperatorDto_ConstFrequency_NoOriginShifting : OperatorDtoBase_ConstFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Square;
-    }
+    internal class Square_OperatorDto_ConstFrequency_NoOriginShifting : Square_OperatorDto
+    { }
 
-    internal class Square_OperatorDto_ConstFrequency_WithOriginShifting : OperatorDtoBase_ConstFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Square;
-    }
+    internal class Square_OperatorDto_ConstFrequency_WithOriginShifting : Square_OperatorDto
+    { }
 
-    internal class Square_OperatorDto_VarFrequency_NoPhaseTracking : OperatorDtoBase_VarFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Square;
-    }
+    internal class Square_OperatorDto_VarFrequency_NoPhaseTracking : Square_OperatorDto
+    { }
 
-    internal class Square_OperatorDto_VarFrequency_WithPhaseTracking : OperatorDtoBase_VarFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Square;
-    }
+    internal class Square_OperatorDto_VarFrequency_WithPhaseTracking : Square_OperatorDto
+    { }
 }

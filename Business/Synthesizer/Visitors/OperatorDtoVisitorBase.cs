@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -10,7 +12,7 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         private readonly Dictionary<Type, Func<IOperatorDto, IOperatorDto>> _delegateDictionary;
 
-        [DebuggerHidden]
+        /*[DebuggerHidden]*/
         protected virtual IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
             Type type = dto.GetType();
@@ -20,12 +22,17 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new Exception($"No Visit method delegate found in the dictionary for {type.Name}.");
             }
 
+            IList<InputDto> dtoInputs = dto.Inputs.ToArray();
+
             IOperatorDto dto2 = func(dto);
 
             // Revisit as long as different instances keep coming.
-            while (dto2 != dto)
+
+            while (dto2 != dto || !dto2.Inputs.SequenceEqual(dtoInputs))
             {
                 dto = dto2;
+                dtoInputs = dto2.Inputs.ToArray();
+
                 dto2 = Visit_OperatorDto_Polymorphic(dto);
             }
 
@@ -36,22 +43,31 @@ namespace JJ.Business.Synthesizer.Visitors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual IOperatorDto Visit_OperatorDto_Base(IOperatorDto dto)
         {
-            dto.InputOperatorDtos = VisitInputOperatorDtos(dto.InputOperatorDtos);
+            dto.Inputs = VisitInputs(dto.Inputs);
 
             return dto;
         }
 
-        [DebuggerHidden]
-        protected virtual IList<IOperatorDto> VisitInputOperatorDtos(IList<IOperatorDto> operatorDtos)
+        /*[DebuggerHidden]*/
+        protected virtual IList<InputDto> VisitInputs(IEnumerable<InputDto> sourceCollection)
         {
-            // Reverse the order, so DTO's pop off a stack in the right order.
-            for (int i = operatorDtos.Count - 1; i >= 0; i--)
+            return sourceCollection.Select(x => VisitInput(x)).ToArray();
+        }
+
+        /*[DebuggerHidden]*/
+        protected virtual InputDto VisitInput(InputDto inputDto)
+        {
+            if (inputDto.IsVar)
             {
-                IOperatorDto operatorDto = operatorDtos[i];
-                operatorDtos[i] = Visit_OperatorDto_Polymorphic(operatorDto);
+                IOperatorDto var2 = Visit_OperatorDto_Polymorphic(inputDto.Var);
+                if (var2 != inputDto.Var)
+                {
+                    InputDto dto2 = InputDtoFactory.TryCreateInputDto(var2);
+                    return dto2;
+                }
             }
 
-            return operatorDtos;
+            return inputDto;
         }
 
         public OperatorDtoVisitorBase()
@@ -59,8 +75,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _delegateDictionary = new Dictionary<Type, Func<IOperatorDto, IOperatorDto>>
             {
                 { typeof(Absolute_OperatorDto), x => Visit_Absolute_OperatorDto((Absolute_OperatorDto)x ) },
-                { typeof(Absolute_OperatorDto_VarNumber), x => Visit_Absolute_OperatorDto_VarNumber((Absolute_OperatorDto_VarNumber)x ) },
-                { typeof(Absolute_OperatorDto_ConstNumber), x => Visit_Absolute_OperatorDto_ConstNumber((Absolute_OperatorDto_ConstNumber)x ) },
                 { typeof(Add_OperatorDto), x => Visit_Add_OperatorDto((Add_OperatorDto)x ) },
                 { typeof(Add_OperatorDto_Vars_Consts), x => Visit_Add_OperatorDto_Vars_Consts((Add_OperatorDto_Vars_Consts)x ) },
                 { typeof(Add_OperatorDto_Vars_NoConsts), x => Visit_Add_OperatorDto_Vars_NoConsts((Add_OperatorDto_Vars_NoConsts)x ) },
@@ -72,10 +86,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(AllPassFilter_OperatorDto_AllVars), x => Visit_AllPassFilter_OperatorDto_AllVars((AllPassFilter_OperatorDto_AllVars)x ) },
                 { typeof(AllPassFilter_OperatorDto_ManyConsts), x => Visit_AllPassFilter_OperatorDto_ManyConsts((AllPassFilter_OperatorDto_ManyConsts)x ) },
                 { typeof(And_OperatorDto), x => Visit_And_OperatorDto((And_OperatorDto)x ) },
-                { typeof(And_OperatorDto_ConstA_ConstB), x => Visit_And_OperatorDto_ConstA_ConstB((And_OperatorDto_ConstA_ConstB)x ) },
-                { typeof(And_OperatorDto_ConstA_VarB), x => Visit_And_OperatorDto_ConstA_VarB((And_OperatorDto_ConstA_VarB)x ) },
-                { typeof(And_OperatorDto_VarA_ConstB), x => Visit_And_OperatorDto_VarA_ConstB((And_OperatorDto_VarA_ConstB)x ) },
-                { typeof(And_OperatorDto_VarA_VarB), x => Visit_And_OperatorDto_VarA_VarB((And_OperatorDto_VarA_VarB)x ) },
                 { typeof(AverageFollower_OperatorDto), x => Visit_AverageFollower_OperatorDto((AverageFollower_OperatorDto)x ) },
                 { typeof(AverageFollower_OperatorDto_AllVars), x => Visit_AverageFollower_OperatorDto_AllVars((AverageFollower_OperatorDto_AllVars)x ) },
                 { typeof(AverageFollower_OperatorDto_ConstSignal), x => Visit_AverageFollower_OperatorDto_ConstSignal((AverageFollower_OperatorDto_ConstSignal)x ) },
@@ -136,10 +146,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Curve_OperatorDto_MinXZero_WithOriginShifting), x => Visit_Curve_OperatorDto_MinXZero_WithOriginShifting((Curve_OperatorDto_MinXZero_WithOriginShifting)x ) },
                 { typeof(DimensionToOutlets_Outlet_OperatorDto), x => Visit_DimensionToOutlets_Outlet_OperatorDto((DimensionToOutlets_Outlet_OperatorDto)x ) },
                 { typeof(Divide_OperatorDto), x => Visit_Divide_OperatorDto((Divide_OperatorDto)x ) },
-                { typeof(Divide_OperatorDto_VarA_VarB), x => Visit_Divide_OperatorDto_VarA_VarB((Divide_OperatorDto_VarA_VarB)x ) },
-                { typeof(Divide_OperatorDto_VarA_ConstB), x => Visit_Divide_OperatorDto_VarA_ConstB((Divide_OperatorDto_VarA_ConstB)x ) },
-                { typeof(Divide_OperatorDto_ConstA_VarB), x => Visit_Divide_OperatorDto_ConstA_VarB((Divide_OperatorDto_ConstA_VarB)x ) },
-                { typeof(Divide_OperatorDto_ConstA_ConstB), x => Visit_Divide_OperatorDto_ConstA_ConstB((Divide_OperatorDto_ConstA_ConstB)x ) },
                 { typeof(DoubleToBoolean_OperatorDto), x => Visit_DoubleToBoolean_OperatorDto((DoubleToBoolean_OperatorDto)x ) },
                 { typeof(Equal_OperatorDto), x => Visit_Equal_OperatorDto((Equal_OperatorDto)x ) },
                 { typeof(Equal_OperatorDto_ConstA_ConstB), x => Visit_Equal_OperatorDto_ConstA_ConstB((Equal_OperatorDto_ConstA_ConstB)x ) },
@@ -402,37 +408,23 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Square_OperatorDto_VarFrequency_NoPhaseTracking), x => Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking((Square_OperatorDto_VarFrequency_NoPhaseTracking)x ) },
                 { typeof(Square_OperatorDto_VarFrequency_WithPhaseTracking), x => Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking((Square_OperatorDto_VarFrequency_WithPhaseTracking)x ) },
                 { typeof(Squash_OperatorDto), x => Visit_Squash_OperatorDto((Squash_OperatorDto)x ) },
-                { typeof(Squash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin), x => Visit_Squash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin((Squash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin)x ) },
-                { typeof(Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin), x => Visit_Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin((Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin)x ) },
+                { typeof(Squash_OperatorDto_ConstSignal), x => Visit_Squash_OperatorDto_ConstSignal((Squash_OperatorDto_ConstSignal)x ) },
                 { typeof(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin), x => Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin((Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin)x ) },
                 { typeof(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin), x => Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin((Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin)x ) },
-                { typeof(Squash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin), x => Visit_Squash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin((Squash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin)x ) },
-                { typeof(Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin), x => Visit_Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin((Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin)x ) },
-                { typeof(Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin), x => Visit_Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin((Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin)x ) },
-                { typeof(Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin), x => Visit_Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin((Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin)x ) },
                 { typeof(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin), x => Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin((Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin)x ) },
                 { typeof(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin), x => Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin((Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin)x ) },
                 { typeof(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin), x => Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin((Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin)x ) },
                 { typeof(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin), x => Visit_Squash_OperatorDto_VarSignal_VarFactor_VarOrigin((Squash_OperatorDto_VarSignal_VarFactor_VarOrigin)x ) },
-                { typeof(Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting), x => Visit_Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting((Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting)x ) },
-                { typeof(Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking), x => Visit_Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking((Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking)x ) },
                 { typeof(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting), x => Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting((Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting)x ) },
                 { typeof(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking), x => Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking((Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking)x ) },
                 { typeof(Stretch_OperatorDto), x => Visit_Stretch_OperatorDto((Stretch_OperatorDto)x ) },
-                { typeof(Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin), x => Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin((Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin)x ) },
-                { typeof(Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin), x => Visit_Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin((Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin)x ) },
+                { typeof(Stretch_OperatorDto_ConstSignal), x => Visit_Stretch_OperatorDto_ConstSignal((Stretch_OperatorDto_ConstSignal)x ) },
                 { typeof(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin), x => Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin((Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin)x ) },
                 { typeof(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin), x => Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin((Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin)x ) },
-                { typeof(Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin), x => Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin((Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin)x ) },
-                { typeof(Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin), x => Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin((Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin)x ) },
-                { typeof(Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin), x => Visit_Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin((Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin)x ) },
-                { typeof(Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin), x => Visit_Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin((Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin)x ) },
                 { typeof(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin), x => Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin((Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin)x ) },
                 { typeof(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin), x => Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin((Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin)x ) },
                 { typeof(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin), x => Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin((Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin)x ) },
                 { typeof(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin), x => Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin((Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin)x ) },
-                { typeof(Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting), x => Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting((Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting)x ) },
-                { typeof(Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking), x => Visit_Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking((Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking)x ) },
                 { typeof(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting), x => Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting((Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting)x ) },
                 { typeof(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking), x => Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking((Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking)x ) },
                 { typeof(Subtract_OperatorDto), x => Visit_Subtract_OperatorDto((Subtract_OperatorDto)x ) },
@@ -464,8 +456,6 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         [DebuggerHidden] protected virtual IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Absolute_OperatorDto_VarNumber(Absolute_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Absolute_OperatorDto_ConstNumber(Absolute_OperatorDto_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto) => Visit_OperatorDto_Base(dto);
@@ -477,10 +467,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_And_OperatorDto_ConstA_ConstB(And_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_And_OperatorDto_ConstA_VarB(And_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_And_OperatorDto_VarA_ConstB(And_OperatorDto_VarA_ConstB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_And_OperatorDto_VarA_VarB(And_OperatorDto_VarA_VarB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_AverageFollower_OperatorDto_ConstSignal(AverageFollower_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
@@ -541,10 +527,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Divide_OperatorDto_VarA_VarB(Divide_OperatorDto_VarA_VarB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Divide_OperatorDto_VarA_ConstB(Divide_OperatorDto_VarA_ConstB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Divide_OperatorDto_ConstA_VarB(Divide_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Divide_OperatorDto_ConstA_ConstB(Divide_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Equal_OperatorDto_ConstA_ConstB(Equal_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
@@ -807,37 +789,23 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto(Squash_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_ConstSignal_VarFactor_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal(Squash_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_ConstSignal_ConstFactor_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin(Squash_OperatorDto_ConstSignal_ConstFactor_VarOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin(Squash_OperatorDto_ConstSignal_VarFactor_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin(Squash_OperatorDto_ConstSignal_VarFactor_VarOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_VarOrigin(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto(Stretch_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_ConstSignal_ConstFactor_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_ConstSignal_VarFactor_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_ConstSignal(Stretch_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_ConstSignal_ConstFactor_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_ConstSignal_ConstFactor_VarOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_ConstSignal_VarFactor_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin(Stretch_OperatorDto_ConstSignal_VarFactor_VarOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_ConstSignal_ConstFactor_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_ConstSignal_VarFactor_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => Visit_OperatorDto_Base(dto);

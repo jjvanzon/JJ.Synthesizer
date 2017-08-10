@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private static void AssertZeroOperatorIDsWhereNeeded(IOperatorDto dto)
         {
-            IList<IOperatorDto> operatorDtosWithZeroOperatorID = dto.UnionRecursive(x => x.InputOperatorDtos)
+            IList<IOperatorDto> operatorDtosWithZeroOperatorID = dto.UnionRecursive(x => x.Inputs.Where(y => y.IsVar).Select(y => y.Var))
                                                                     .Where(x => x.OperatorTypeEnum != OperatorTypeEnum.Number &&
                                                                                 x.OperatorTypeEnum != OperatorTypeEnum.DoubleToBoolean &&
                                                                                 x.OperatorTypeEnum != OperatorTypeEnum.BooleanToDouble &&

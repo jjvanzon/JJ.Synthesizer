@@ -4080,6 +4080,11 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        protected override void InsertEmptyInput()
+        {
+            _stack.Push(null);
+        }
+
         /// <summary> Converts PatchInlets to VariableInput_OperatorCalculators. </summary>
         protected override void VisitPatchInlet(Operator patchInlet)
         {
@@ -4118,10 +4123,10 @@ namespace JJ.Business.Synthesizer.Visitors
         }
         
         /// <summary> As soon as you encounter a CustomOperator's Outlet, the evaluation has to take a completely different course. </summary>
-        protected override void VisitCustomOperatorOutlet(Outlet customOperatorOutlet)
+        protected override void VisitDerivedOperatorOutlet(Outlet customOperatorOutlet)
         {
             // Resolve the underlying patch's outlet
-            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet);
+            Outlet patchOutlet_Outlet = InletOutletMatcher.ApplyDerivedOperatorToUnderlyingPatch(customOperatorOutlet);
 
             // Visit the underlying patch's outlet.
             VisitOperatorPolymorphic(patchOutlet_Outlet.Operator);
@@ -4156,6 +4161,7 @@ namespace JJ.Business.Synthesizer.Visitors
             IList<OperatorCalculatorBase> operandCalculators,
             Func<IEnumerable<double>, double> constantsCombiningDelegate)
         {
+            operandCalculators = operandCalculators.Where(x => x != null).ToArray();
             IList<OperatorCalculatorBase> constOperandCalculators = operandCalculators.Where(x => x is Number_OperatorCalculator).ToArray();
             IList<OperatorCalculatorBase> varOperandCalculators = operandCalculators.Except(constOperandCalculators).ToArray();
 

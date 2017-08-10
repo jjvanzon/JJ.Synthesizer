@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AverageFollower;
     }
 
-    internal class AverageFollower_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    internal class AverageFollower_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AverageFollower;
     }

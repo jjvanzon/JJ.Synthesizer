@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -15,37 +16,42 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighPassFilter;
 
-        public IOperatorDto MinFrequencyOperatorDto { get; set; }
-        public IOperatorDto BlobVolumeOperatorDto { get; set; }
+        public InputDto MinFrequency { get; set; }
+        public InputDto BlobVolume { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SoundOperatorDto, MinFrequencyOperatorDto, BlobVolumeOperatorDto };
-            set { SoundOperatorDto = value[0]; MinFrequencyOperatorDto = value[1]; BlobVolumeOperatorDto = value[2]; }
+            get => new[] { Sound, MinFrequency, BlobVolume };
+            set
+            {
+                var array = value.ToArray();
+                Sound = array[0];
+                MinFrequency = array[1];
+                BlobVolume = array[2];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SoundOperatorDto),
-            new InputDto(MinFrequencyOperatorDto),
-            new InputDto(BlobVolumeOperatorDto)
-        };
     }
 
     internal class HighPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.HighPassFilter;
-        public override double Frequency => MinFrequency;
-        public override double WidthOrBlobVolume => BlobVolume;
 
-        public double MinFrequency { get; set; }
-        public double BlobVolume { get; set; }
+        public override InputDto Frequency => MinFrequency;
+        public override InputDto WidthOrBlobVolume => BlobVolume;
 
-        public override IEnumerable<InputDto> InputDtos => new[]
+        public InputDto MinFrequency { get; set; }
+        public InputDto BlobVolume { get; set; }
+
+        public override IEnumerable<InputDto> Inputs
         {
-            new InputDto(SoundOperatorDto),
-            new InputDto(MinFrequency),
-            new InputDto(BlobVolume)
-        };
+            get => new[] { Sound, MinFrequency, BlobVolume };
+            set
+            {
+                var array = value.ToArray();
+                Sound = array[0];
+                MinFrequency = array[1];
+                BlobVolume = array[2];
+            }
+        }
     }
 }

@@ -2,16 +2,33 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal sealed class InputDto
+    internal class InputDto
     {
-        public InputDto(double @const) => Const = @const;
-
-        public InputDto(IOperatorDto var)
+        [Obsolete("Use InputDtoFactory instead.")]
+        public InputDto(bool isVar = false, IOperatorDto var = null)
         {
-            Var = var ?? throw new ArgumentNullException(nameof(var));
+            IsVar = isVar;
+            Var = var;
         }
 
-        public double? Const { get; }
+        [Obsolete("Use InputDtoFactory instead.")]
+        public InputDto(bool isConst = false, bool isConstZero = false, bool isConstOne = false, bool isConstNonZero = false, bool isConstSpecialValue = false, double @const = 0)
+        {
+            IsConst = isConst;
+            IsConstZero = isConstZero;
+            IsConstOne = isConstOne;
+            IsConstNonZero = isConstNonZero;
+            IsConstSpecialValue = isConstSpecialValue;
+            Const = @const;
+        }
+
+        public bool IsVar { get; }
+        public bool IsConst { get; }
+        public bool IsConstZero { get; }
+        public bool IsConstOne { get; }
+        public bool IsConstNonZero { get; }
+        public bool IsConstSpecialValue { get; }
+        public double Const { get; }
         public IOperatorDto Var { get; }
     }
 }

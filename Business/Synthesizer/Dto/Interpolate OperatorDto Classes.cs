@@ -1,38 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Interpolate_OperatorDto : OperatorDtoBase_WithDimension, IInterpolate_OperatorDto_VarSignal
+    internal class Interpolate_OperatorDto : OperatorDtoBase_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto SamplingRateOperatorDto { get; set; }
+        public InputDto Signal { get; set; }
+        public InputDto SamplingRate { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SignalOperatorDto, SamplingRateOperatorDto };
-            set { SignalOperatorDto = value[0]; SamplingRateOperatorDto = value[1]; }
+            get => new[] { Signal, SamplingRate };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                SamplingRate = array[1];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(SamplingRateOperatorDto)
-        };
-    }
-
-    /// <summary> 
-    /// Mostly used for cloning shared properties. 
-    /// Interpolate_OperatorDto will not do, because the ConstSamplingRate
-    /// variation does not derive from it.
-    /// </summary>
-    internal interface IInterpolate_OperatorDto_VarSignal : IOperatorDto_WithDimension
-    {
-        IOperatorDto SignalOperatorDto { get; set; }
-        ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
     }
 
     internal class Interpolate_OperatorDto_Block : Interpolate_OperatorDto
@@ -50,16 +39,8 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Interpolate_OperatorDto_Hermite_LagBehind : Interpolate_OperatorDto
     { }
 
-    internal class Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate : OperatorDtoBase_VarSignal, IInterpolate_OperatorDto_VarSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
-
-        public double SamplingRate { get; set; }
-        public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CanonicalCustomDimensionName { get; set; }
-        public int DimensionStackLevel { get; set; }
-    }
+    internal class Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate : Interpolate_OperatorDto
+    { }
 
     internal class Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate : Interpolate_OperatorDto
     { }
@@ -72,7 +53,7 @@ namespace JJ.Business.Synthesizer.Dto
     /// the Random, InletsToDimension and SumOverDimension DTO's
     /// because Interpolate has a Signal inlet.
     /// </summary>
-    internal class Interpolate_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    internal class Interpolate_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
     }

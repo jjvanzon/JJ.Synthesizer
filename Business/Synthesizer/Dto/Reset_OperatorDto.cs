@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -7,19 +8,14 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Reset;
 
-        public IOperatorDto PassThroughInputOperatorDto { get; set; }
+        public InputDto PassThroughInput { get; set; }
         public string Name { get; set; }
         public int? Position { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { PassThroughInputOperatorDto };
-            set => PassThroughInputOperatorDto = value[0];
+            get => new[] { PassThroughInput };
+            set => PassThroughInput = value.ElementAt(0);
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(PassThroughInputOperatorDto)
-        };
     }
 }

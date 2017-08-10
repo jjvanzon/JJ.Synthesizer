@@ -1,119 +1,87 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Power_OperatorDto : Power_OperatorDto_VarBase_VarExponent
+    internal class Power_OperatorDto : OperatorDtoBase
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Power;
+
+        public InputDto Base { get; set; }
+        public InputDto Exponent { get; set; }
+
+        public override IEnumerable<InputDto> Inputs
+        {
+            get => new[] { Base, Exponent };
+            set
+            {
+                var array = value.ToArray();
+                Base = array[0];
+                Exponent = array[1];
+            }
+        }
+    }
+
+    internal class Power_OperatorDto_VarBase_VarExponent : Power_OperatorDto
     { }
 
+    internal class Power_OperatorDto_VarBase_ConstExponent : Power_OperatorDto
+    { }
 
-    internal class Power_OperatorDto_VarBase_VarExponent : OperatorDtoBase
+    internal class Power_OperatorDto_ConstBase_VarExponent : Power_OperatorDto
+    { }
+
+    internal class Power_OperatorDto_ConstBase_ConstExponent : Power_OperatorDto
+    { }
+
+    /// <summary> For Machine Optimization </summary>
+    internal class Power_OperatorDto_VarBase_Exponent2 : Power_OperatorDto_VarBase_FixedExponent
+    {
+        public Power_OperatorDto_VarBase_Exponent2()
+            : base(2)
+        { }
+    }
+
+    /// <summary> For Machine Optimization </summary>
+    internal class Power_OperatorDto_VarBase_Exponent3 : Power_OperatorDto_VarBase_FixedExponent
+    {
+        public Power_OperatorDto_VarBase_Exponent3()
+            : base(3)
+        { }
+    }
+
+    /// <summary> For Machine Optimization </summary>
+    internal class Power_OperatorDto_VarBase_Exponent4 : Power_OperatorDto_VarBase_FixedExponent
+    {
+        public Power_OperatorDto_VarBase_Exponent4()
+            : base(4)
+        { }
+    }
+
+    /// <summary> Base class. For Machine Optimization </summary>
+    internal class Power_OperatorDto_VarBase_FixedExponent : OperatorDtoBase
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Power;
 
-        public IOperatorDto BaseOperatorDto { get; set; }
-        public IOperatorDto ExponentOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
+        public Power_OperatorDto_VarBase_FixedExponent(double exponent)
         {
-            get => new[] { BaseOperatorDto, ExponentOperatorDto };
-            set { BaseOperatorDto = value[0]; ExponentOperatorDto = value[1]; }
+            _exponent = InputDtoFactory.CreateInputDto(exponent);
         }
 
-        public override IEnumerable<InputDto> InputDtos => new[]
+        private readonly InputDto _exponent;
+
+        public InputDto Base { get; set; }
+
+        public override IEnumerable<InputDto> Inputs
         {
-            new InputDto(BaseOperatorDto),
-            new InputDto(ExponentOperatorDto)
-        };
-    }
-
-    internal class Power_OperatorDto_VarBase_ConstExponent : Power_OperatorDtoBase_VarBase
-    {
-        public double Exponent { get; set; }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(BaseOperatorDto),
-            new InputDto(Exponent)
-        };
-    }
-
-    internal class Power_OperatorDto_ConstBase_VarExponent : OperatorDtoBase
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Power;
-
-        public double Base { get; set; }
-        public IOperatorDto ExponentOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { ExponentOperatorDto };
-            set => ExponentOperatorDto = value[0];
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Base),
-            new InputDto(ExponentOperatorDto)
-        };
-    }
-
-    internal class Power_OperatorDto_ConstBase_ConstExponent : OperatorDtoBase_WithoutInputOperatorDtos
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Power;
-
-        public double Base { get; set; }
-        public double Exponent { get; set; }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Base),
-            new InputDto(Exponent)
-        };
-    }
-
-    /// <summary> For Machine Optimization </summary>
-    internal class Power_OperatorDto_VarBase_Exponent2 : Power_OperatorDtoBase_VarBase
-    {
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(BaseOperatorDto),
-            new InputDto(2)
-        };
-    }
-
-    /// <summary> For Machine Optimization </summary>
-    internal class Power_OperatorDto_VarBase_Exponent3 : Power_OperatorDtoBase_VarBase
-    {
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(BaseOperatorDto),
-            new InputDto(3)
-        };
-
-    }
-
-    /// <summary> For Machine Optimization </summary>
-    internal class Power_OperatorDto_VarBase_Exponent4 : Power_OperatorDtoBase_VarBase
-    {
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(BaseOperatorDto),
-            new InputDto(4)
-        };
-    }
-
-    /// <summary> Base class </summary>
-    internal abstract class Power_OperatorDtoBase_VarBase : OperatorDtoBase
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Power;
-
-        public IOperatorDto BaseOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { BaseOperatorDto };
-            set => BaseOperatorDto = value[0];
+            get => new[] { Base, _exponent };
+            set
+            {
+                var array = value.ToArray();
+                Base = array[0];
+            }
         }
     }
 }

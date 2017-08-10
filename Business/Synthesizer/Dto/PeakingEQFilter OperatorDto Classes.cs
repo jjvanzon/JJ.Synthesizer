@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -15,52 +16,57 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
 
-        public IOperatorDto CenterFrequencyOperatorDto { get; set; }
-        public IOperatorDto WidthOperatorDto { get; set; }
-        public IOperatorDto DBGainOperatorDto { get; set; }
+        public InputDto CenterFrequency { get; set; }
+        public InputDto Width { get; set; }
+        public InputDto DBGain { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
             get => new[]
             {
-                SoundOperatorDto,
-                CenterFrequencyOperatorDto,
-                WidthOperatorDto,
-                DBGainOperatorDto
+                Sound,
+                CenterFrequency,
+                Width,
+                DBGain
             };
             set
             {
-                SoundOperatorDto = value[0];
-                CenterFrequencyOperatorDto = value[1];
-                WidthOperatorDto = value[2];
-                DBGainOperatorDto = value[3];
+                var array = value.ToArray();
+                Sound = array[0];
+                CenterFrequency = array[1];
+                Width = array[2];
+                DBGain = array[3];
             }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SoundOperatorDto),
-            new InputDto(CenterFrequencyOperatorDto),
-            new InputDto(WidthOperatorDto),
-            new InputDto(DBGainOperatorDto)
-        };
     }
 
     internal class PeakingEQFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
-        public override double Frequency => CenterFrequency;
 
-        public double CenterFrequency { get; set; }
-        public double Width { get; set; }
-        public double DBGain { get; set; }
+        public override InputDto Frequency => CenterFrequency;
 
-        public override IEnumerable<InputDto> InputDtos => new[]
+        public InputDto CenterFrequency { get; set; }
+        public InputDto Width { get; set; }
+        public InputDto DBGain { get; set; }
+
+        public override IEnumerable<InputDto> Inputs
         {
-            new InputDto(SoundOperatorDto),
-            new InputDto(CenterFrequency),
-            new InputDto(Width),
-            new InputDto(DBGain)
-        };
+            get => new[]
+            {
+                Sound,
+                CenterFrequency,
+                Width,
+                DBGain
+            };
+            set
+            {
+                var array = value.ToArray();
+                Sound = array[0];
+                CenterFrequency = array[1];
+                Width = array[2];
+                DBGain = array[3];
+            }
+        }
     }
 }

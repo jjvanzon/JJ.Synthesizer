@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -15,29 +16,22 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Spectrum;
 
-        public IOperatorDto SoundOperatorDto { get; set; }
-        public IOperatorDto StartOperatorDto { get; set; }
-        public IOperatorDto EndOperatorDto { get; set; }
-        public IOperatorDto FrequencyCountOperatorDto { get; set; }
+        public InputDto Sound { get; set; }
+        public InputDto Start { get; set; }
+        public InputDto End { get; set; }
+        public InputDto FrequencyCount { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SoundOperatorDto, StartOperatorDto, EndOperatorDto, FrequencyCountOperatorDto };
+            get => new[] { Sound, Start, End, FrequencyCount };
             set
             {
-                SoundOperatorDto = value[0];
-                StartOperatorDto = value[1];
-                EndOperatorDto = value[2];
-                FrequencyCountOperatorDto = value[3];
+                var array = value.ToArray();
+                Sound = array[0];
+                Start = array[1];
+                End = array[2];
+                FrequencyCount = array[3];
             }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SoundOperatorDto),
-            new InputDto(StartOperatorDto),
-            new InputDto(EndOperatorDto),
-            new InputDto(FrequencyCountOperatorDto)
-        };
     }
 }

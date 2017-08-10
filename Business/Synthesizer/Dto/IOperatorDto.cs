@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -7,8 +8,6 @@ namespace JJ.Business.Synthesizer.Dto
     {
         /// <summary> Only used to add comment to output generated C# code. </summary>
         OperatorTypeEnum OperatorTypeEnum { get; }
-        /// <summary> Assigning list items does not work. Only set the list as a whole. </summary>
-        IList<IOperatorDto> InputOperatorDtos { get; set; }
 
         /// <summary>
         /// Returns the doubles and IOperatorDto's that are the
@@ -18,7 +17,7 @@ namespace JJ.Business.Synthesizer.Dto
         /// In the future, this may become the full replacement for the
         /// InputOperatorDtos, but that would be too high-impact for now (2017-08-17).
         /// </summary>
-        IEnumerable<InputDto> InputDtos { get; }
+        IEnumerable<InputDto> Inputs { get; set; }
 
         /// <summary>
         /// Regularly used as a cache key:

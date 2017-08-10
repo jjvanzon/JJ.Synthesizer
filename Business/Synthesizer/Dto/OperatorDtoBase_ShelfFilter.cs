@@ -1,42 +1,60 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_ShelfFilter_AllVars : OperatorDtoBase_Filter_VarSound
     {
-        public IOperatorDto TransitionFrequencyOperatorDto { get; set; }
-        public IOperatorDto TransitionSlopeOperatorDto { get; set; }
-        public IOperatorDto DBGainOperatorDto { get; set; }
+        public InputDto TransitionFrequency { get; set; }
+        public InputDto TransitionSlope { get; set; }
+        public InputDto DBGain { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SoundOperatorDto, TransitionFrequencyOperatorDto, TransitionSlopeOperatorDto, DBGainOperatorDto };
-            set { SoundOperatorDto = value[0]; TransitionFrequencyOperatorDto = value[1]; TransitionSlopeOperatorDto = value[2]; DBGainOperatorDto = value[3]; }
+            get => new[]
+            {
+                Sound,
+                TransitionFrequency,
+                TransitionSlope,
+                DBGain
+            };
+            set
+            {
+                var array = value.ToArray();
+                Sound = array[0];
+                TransitionFrequency = array[1];
+                TransitionSlope = array[2];
+                DBGain = array[3];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SoundOperatorDto),
-            new InputDto(TransitionFrequencyOperatorDto),
-            new InputDto(TransitionSlopeOperatorDto),
-            new InputDto(DBGainOperatorDto)
-        };
     }
 
     internal abstract class OperatorDtoBase_ShelfFilter_ManyConsts : OperatorDtoBase_Filter_ManyConsts
     {
-        public override double Frequency => TransitionFrequency;
+        public override InputDto Frequency => TransitionFrequency;
 
-        public double TransitionFrequency { get; set; }
-        public double TransitionSlope { get; set; }
-        public double DBGain { get; set; }
+        public InputDto TransitionFrequency { get; set; }
+        public InputDto TransitionSlope { get; set; }
+        public InputDto DBGain { get; set; }
 
-        public override IEnumerable<InputDto> InputDtos => new[]
+        public override IEnumerable<InputDto> Inputs
         {
-            new InputDto(SoundOperatorDto),
-            new InputDto(TransitionFrequency),
-            new InputDto(TransitionSlope),
-            new InputDto(DBGain)
-        };
+            get => new[]
+            {
+                Sound,
+                TransitionFrequency,
+                TransitionSlope,
+                DBGain
+            };
+            set
+            {
+                var array = value.ToArray();
+                Sound = array[0];
+                TransitionFrequency = array[1];
+                TransitionSlope = array[2];
+                DBGain = array[3];
+            }
+        }
     }
 }

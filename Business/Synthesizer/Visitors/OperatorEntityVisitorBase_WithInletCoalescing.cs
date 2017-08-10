@@ -9,6 +9,7 @@ namespace JJ.Business.Synthesizer.Visitors
     internal abstract class OperatorEntityVisitorBase_WithInletCoalescing : OperatorEntityVisitorBase
     {
         protected abstract void InsertNumber(double number);
+        protected abstract void InsertEmptyInput();
 
         protected override void VisitMultiplyInlet(Inlet inlet)
         {
@@ -17,32 +18,32 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitAverageOverInletsInlet(Inlet inlet)
         {
-            CoalesceByIgnoringEmptyInlet(inlet);
+            CoalesceToEmptyInput(inlet);
         }
 
         protected override void VisitClosestOverInletsExpInlet(Inlet inlet)
         {
-            CoalesceByIgnoringEmptyInlet(inlet);
+            CoalesceToEmptyInput(inlet);
         }
 
         protected override void VisitClosestOverInletsInlet(Inlet inlet)
         {
-            CoalesceByIgnoringEmptyInlet(inlet);
+            CoalesceToEmptyInput(inlet);
         }
 
         protected override void VisitMaxOverInletsInlet(Inlet inlet)
         {
-            CoalesceByIgnoringEmptyInlet(inlet);
+            CoalesceToEmptyInput(inlet);
         }
 
         protected override void VisitMinOverInletsInlet(Inlet inlet)
         {
-            CoalesceByIgnoringEmptyInlet(inlet);
+            CoalesceToEmptyInput(inlet);
         }
 
         protected override void VisitSortOverInletsInlet(Inlet inlet)
         {
-            CoalesceByIgnoringEmptyInlet(inlet);
+            CoalesceToEmptyInput(inlet);
         }
 
         protected override void VisitInletOther(Inlet inlet)
@@ -86,7 +87,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
-            base.VisitInletBase(inlet);
+            VisitInletBase(inlet);
         }
 
         private void CoalesceToOne(Inlet inlet)
@@ -101,9 +102,15 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void CoalesceByIgnoringEmptyInlet(Inlet inlet)
+        private void CoalesceToEmptyInput(Inlet inlet)
         {
-            base.VisitInletBase(inlet);
+            if (inlet.InputOutlet == null)
+            {
+                InsertEmptyInput();
+                return;
+            }
+
+            VisitInletBase(inlet);
         }
     }
 }

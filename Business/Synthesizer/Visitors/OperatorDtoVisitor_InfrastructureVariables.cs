@@ -4,15 +4,15 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitor_InfrastructureVariables : OperatorDtoVisitorBase
     {
-        private readonly int _samplingRate;
+        private readonly int _targetSamplingRate;
         private readonly double _nyquistFrequency;
         private readonly int _targetChannelCount;
 
-        public OperatorDtoVisitor_InfrastructureVariables(int samplingRate, int targetChannelCount)
+        public OperatorDtoVisitor_InfrastructureVariables(int targetSamplingRate, int targetChannelCount)
         {
-            _samplingRate = samplingRate;
+            _targetSamplingRate = targetSamplingRate;
             _targetChannelCount = targetChannelCount;
-            _nyquistFrequency = samplingRate / 2.0;
+            _nyquistFrequency = targetSamplingRate / 2.0;
         }
 
         public void Execute(IOperatorDto dto)
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
         {
-            dto.SamplingRate = _samplingRate;
+            dto.SamplingRate = _targetSamplingRate;
 
             return base.Visit_GetDimension_OperatorDto(dto);
         }
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private IOperatorDto Process_Filter_OperatorDto_VarSound(OperatorDtoBase_Filter_VarSound dto)
         {
-            dto.SamplingRate = _samplingRate;
+            dto.TargetSamplingRate = _targetSamplingRate;
             dto.NyquistFrequency = _nyquistFrequency;
 
             return base.Visit_OperatorDto_Base(dto);

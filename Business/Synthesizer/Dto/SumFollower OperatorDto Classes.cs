@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -14,40 +15,30 @@ namespace JJ.Business.Synthesizer.Dto
     }
 
     /// <summary> Slice length does not matter in this case. </summary>
-    internal class SumFollower_OperatorDto_ConstSignal_VarSampleCount : OperatorDtoBase
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumFollower;
-
-        public double Signal { get; set; }
-        public IOperatorDto SampleCountOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SampleCountOperatorDto };
-            set => SampleCountOperatorDto = value[0];
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Signal),
-            new InputDto(SampleCountOperatorDto)
-        };
-    }
+    internal class SumFollower_OperatorDto_ConstSignal_VarSampleCount : SumFollower_OperatorDtoBase_WithoutSliceLength
+    { }
 
     /// <summary> Slice length does not matter in this case. </summary>
-    internal class SumFollower_OperatorDto_ConstSignal_ConstSampleCount : OperatorDtoBase
+    internal class SumFollower_OperatorDto_ConstSignal_ConstSampleCount : SumFollower_OperatorDtoBase_WithoutSliceLength
+    { }
+
+    /// <summary> Base class. </summary>
+    internal abstract class SumFollower_OperatorDtoBase_WithoutSliceLength : OperatorDtoBase, IOperatorDto_WithSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumFollower;
 
-        public double Signal { get; set; }
-        public double SampleCount { get; set; }
+        public InputDto Signal { get; set; }
+        public InputDto SampleCount { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos { get; set; } = new IOperatorDto[0];
-
-        public override IEnumerable<InputDto> InputDtos => new[]
+        public override IEnumerable<InputDto> Inputs
         {
-            new InputDto(Signal),
-            new InputDto(SampleCount)
-        };
+            get => new[] { Signal, SampleCount };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                SampleCount = array[2];
+            }
+        }
     }
 }

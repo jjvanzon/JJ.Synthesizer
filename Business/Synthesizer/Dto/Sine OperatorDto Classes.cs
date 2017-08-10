@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Sine_OperatorDto : OperatorDtoBase_VarFrequency
+    internal class Sine_OperatorDto : OperatorDtoBase_WithFrequency
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sine;
     }
@@ -13,23 +12,15 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sine;
     }
 
-    internal class Sine_OperatorDto_ConstFrequency_NoOriginShifting : OperatorDtoBase_ConstFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sine;
-    }
+    internal class Sine_OperatorDto_ConstFrequency_NoOriginShifting : Sine_OperatorDto
+    { }
 
-    internal class Sine_OperatorDto_ConstFrequency_WithOriginShifting : OperatorDtoBase_ConstFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sine;
-    }
+    internal class Sine_OperatorDto_ConstFrequency_WithOriginShifting : Sine_OperatorDto
+    { }
 
-    internal class Sine_OperatorDto_VarFrequency_NoPhaseTracking : OperatorDtoBase_VarFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sine;
-    }
+    internal class Sine_OperatorDto_VarFrequency_NoPhaseTracking : Sine_OperatorDto
+    { }
 
-    internal class Sine_OperatorDto_VarFrequency_WithPhaseTracking : OperatorDtoBase_VarFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sine;
-    }
+    internal class Sine_OperatorDto_VarFrequency_WithPhaseTracking : Sine_OperatorDto
+    { }
 }

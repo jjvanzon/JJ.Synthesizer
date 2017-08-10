@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Collections;
@@ -40,10 +41,10 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             // Do some casts and type checks
-            var operatorDto_VarSignal = dto as IOperatorDto_VarSignal;
-            if (operatorDto_VarSignal == null)
+            var operatorDto_WithSignal = dto as IOperatorDto_WithSignal;
+            if (operatorDto_WithSignal == null)
             {
-                throw new IsNotTypeException<IOperatorDto_VarSignal>(() => operatorDto_VarSignal);
+                throw new IsNotTypeException<IOperatorDto_WithSignal>(() => operatorDto_WithSignal);
             }
 
             if (operatorDto_WithDimension == null)
@@ -52,7 +53,9 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             // Visit non-signal inlets normally, because for those the dimension stack level does not increase.
-            foreach (IOperatorDto inputOperatorDto in dto.InputOperatorDtos.Except(operatorDto_VarSignal.SignalOperatorDto))
+            foreach (IOperatorDto inputOperatorDto in dto.Inputs.Where(x => x.IsVar)
+                                                         .Select(x => x.Var)
+                                                         .Except(operatorDto_WithSignal.Signal.Var))
             {
                 Visit_OperatorDto_Polymorphic(inputOperatorDto);
             }
@@ -63,7 +66,7 @@ namespace JJ.Business.Synthesizer.Visitors
             currentStackLevel++;
             SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName, currentStackLevel);
 
-            Visit_OperatorDto_Polymorphic(operatorDto_VarSignal.SignalOperatorDto);
+            Visit_OperatorDto_Polymorphic(operatorDto_WithSignal.Signal.Var);
 
             currentStackLevel--;
             SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName, currentStackLevel);

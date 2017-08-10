@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -7,62 +9,48 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverDimension;
 
-        public IOperatorDto FromOperatorDto { get; set; }
-        public IOperatorDto TillOperatorDto { get; set; }
-        public IOperatorDto StepOperatorDto { get; set; }
+        public InputDto From { get; set; }
+        public InputDto Till { get; set; }
+        public InputDto Step { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { FromOperatorDto, TillOperatorDto, StepOperatorDto };
-            set { FromOperatorDto = value[0]; TillOperatorDto = value[1]; StepOperatorDto = value[2]; }
+            get => new[] { From, Till, Step };
+            set
+            {
+                var array = value.ToArray();
+                From = array[0];
+                Till = array[1];
+                Step = array[2];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(FromOperatorDto),
-            new InputDto(TillOperatorDto),
-            new InputDto(StepOperatorDto)
-        };
     }
 
     internal class RangeOverDimension_OperatorDto_OnlyVars : RangeOverDimension_OperatorDto
     { }
 
-    internal class RangeOverDimension_OperatorDto_OnlyConsts : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverDimension;
-
-        public double From { get; set; }
-        public double Till { get; set; }
-        public double Step { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CanonicalCustomDimensionName { get; set; }
-        public int DimensionStackLevel { get; set; }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(From),
-            new InputDto(Till),
-            new InputDto(Step)
-        };
-    }
+    internal class RangeOverDimension_OperatorDto_OnlyConsts : RangeOverDimension_OperatorDto
+    { }
 
     /// <summary> For Machine Optimization </summary>
-    internal class RangeOverDimension_OperatorDto_WithConsts_AndStepOne : OperatorDtoBase_WithoutInputOperatorDtos, IOperatorDto_WithDimension
+    internal class RangeOverDimension_OperatorDto_WithConsts_AndStepOne : OperatorDtoBase_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverDimension;
 
-        public double From { get; set; }
-        public double Till { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CanonicalCustomDimensionName { get; set; }
-        public int DimensionStackLevel { get; set; }
+        private static readonly InputDto _step = InputDtoFactory.CreateInputDto(1);
 
-        public override IEnumerable<InputDto> InputDtos => new[]
+        public InputDto From { get; set; }
+        public InputDto Till { get; set; }
+
+        public override IEnumerable<InputDto> Inputs
         {
-            new InputDto(From),
-            new InputDto(Till),
-            new InputDto(1)
-        };
+            get => new[] { From, Till, _step };
+            set
+            {
+                var array = value.ToArray();
+                From = array[0];
+                Till = array[1];
+            }
+        }
     }
 }

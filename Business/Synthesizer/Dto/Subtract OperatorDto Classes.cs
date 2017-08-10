@@ -2,28 +2,20 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Subtract_OperatorDto : OperatorDtoBase_VarA_VarB
+    internal class Subtract_OperatorDto : OperatorDtoBase_WithAAndB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Subtract;
     }
 
-    internal class Subtract_OperatorDto_ConstA_ConstB : OperatorDtoBase_ConstA_ConstB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Subtract;
-    }
+    internal class Subtract_OperatorDto_ConstA_ConstB : Subtract_OperatorDto
+    { }
 
-    internal class Subtract_OperatorDto_ConstA_VarB : OperatorDtoBase_ConstA_VarB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Subtract;
-    }
+    internal class Subtract_OperatorDto_ConstA_VarB : Subtract_OperatorDto
+    { }
 
-    internal class Subtract_OperatorDto_VarA_ConstB : OperatorDtoBase_VarA_ConstB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Subtract;
-    }
+    internal class Subtract_OperatorDto_VarA_ConstB : Subtract_OperatorDto
+    { }
 
-    internal class Subtract_OperatorDto_VarA_VarB : OperatorDtoBase_VarA_VarB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Subtract;
-    }
+    internal class Subtract_OperatorDto_VarA_VarB : Subtract_OperatorDto
+    { }
 }

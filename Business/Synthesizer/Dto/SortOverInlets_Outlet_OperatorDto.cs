@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class SortOverInlets_Outlet_OperatorDto : OperatorDtoBase_Vars, IOperatorDto_WithDimension
+    internal class SortOverInlets_Outlet_OperatorDto : OperatorDtoBase_Vars, IOperatorDto_WithDimension, IOperatorDto_WithOutletPosition
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SortOverInlets;
 

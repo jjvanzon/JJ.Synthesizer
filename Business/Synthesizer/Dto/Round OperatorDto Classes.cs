@@ -1,181 +1,92 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Round_OperatorDto : Round_OperatorDto_VarSignal_VarStep_VarOffset
+    internal class Round_OperatorDto : OperatorDtoBase_WithSignal
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
+
+        public InputDto Step { get; set; }
+        public InputDto Offset { get; set; }
+
+        public override IEnumerable<InputDto> Inputs
+        {
+            get => new[] { Signal, Step, Offset };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                Step = array[1];
+                Offset = array[2];
+            }
+        }
+    }
+
+    internal class Round_OperatorDto_AllConsts : Round_OperatorDto
     { }
 
-    internal class Round_OperatorDto_AllConsts : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Round_OperatorDto_ConstSignal : Round_OperatorDto
+    { }
+
+    internal class Round_OperatorDto_VarSignal_VarStep_VarOffset : Round_OperatorDto
+    { }
+
+    internal class Round_OperatorDto_VarSignal_VarStep_ConstOffset : Round_OperatorDto
+    { }
+
+    internal class Round_OperatorDto_VarSignal_ConstStep_VarOffset : Round_OperatorDto
+    { }
+
+    internal class Round_OperatorDto_VarSignal_ConstStep_ConstOffset : Round_OperatorDto
+    { }
+
+    internal class Round_OperatorDto_ConstSignal_VarStep_VarOffset : Round_OperatorDto
+    { }
+
+    internal class Round_OperatorDto_VarSignal_VarStep_ZeroOffset : Round_OperatorDtoBase_ZeroOffset
+    { }
+
+    internal class Round_OperatorDto_VarSignal_ConstStep_ZeroOffset : Round_OperatorDtoBase_ZeroOffset
+    { }
+
+    /// <summary> Base class. </summary>
+    internal abstract class Round_OperatorDtoBase_ZeroOffset : OperatorDtoBase_WithSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
-        public double Signal { get; set; }
-        public double Step { get; set; }
-        public double Offset { get; set; }
+        public InputDto Step { get; set; }
+        private static readonly InputDto _offset = InputDtoFactory.CreateInputDto(0);
 
-        public override IEnumerable<InputDto> InputDtos => new[]
+        public override IEnumerable<InputDto> Inputs
         {
-            new InputDto(Signal),
-            new InputDto(Step),
-            new InputDto(Offset)
-        };
-    }
-
-    internal class Round_OperatorDto_ConstSignal : OperatorDtoBase
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
-
-        public double Signal { get; set; }
-        public IOperatorDto StepOperatorDto { get; set; }
-        public IOperatorDto OffsetOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { StepOperatorDto, OffsetOperatorDto };
-            set { StepOperatorDto = value[0]; OffsetOperatorDto = value[1]; }
+            get => new[] { Signal, Step, _offset };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                Step = array[1];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Signal),
-            new InputDto(StepOperatorDto),
-            new InputDto(OffsetOperatorDto)
-        };
     }
 
-    internal class Round_OperatorDto_VarSignal_StepOne_OffsetZero : OperatorDtoBase_VarSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
-    }
-
-    internal class Round_OperatorDto_VarSignal_VarStep_VarOffset : OperatorDtoBase
+    internal class Round_OperatorDto_VarSignal_StepOne_OffsetZero : OperatorDtoBase_WithSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto StepOperatorDto { get; set; }
-        public IOperatorDto OffsetOperatorDto { get; set; }
+        private static readonly InputDto _step = InputDtoFactory.CreateInputDto(1);
+        private static readonly InputDto _offset = InputDtoFactory.CreateInputDto(0);
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SignalOperatorDto, StepOperatorDto, OffsetOperatorDto };
-            set { SignalOperatorDto = value[0]; StepOperatorDto = value[1]; OffsetOperatorDto = value[2]; }
+            get => new[] { Signal, _step, _offset };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(StepOperatorDto),
-            new InputDto(OffsetOperatorDto)
-        };
-    }
-
-    internal class Round_OperatorDto_VarSignal_VarStep_ZeroOffset : OperatorDtoBase
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto StepOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, StepOperatorDto };
-            set { SignalOperatorDto = value[0]; StepOperatorDto = value[1]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(StepOperatorDto),
-            new InputDto(0)
-        };
-    }
-
-    internal class Round_OperatorDto_VarSignal_VarStep_ConstOffset : OperatorDtoBase
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto StepOperatorDto { get; set; }
-        public double Offset { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, StepOperatorDto };
-            set { SignalOperatorDto = value[0]; StepOperatorDto = value[1]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(StepOperatorDto),
-            new InputDto(Offset)
-        };
-    }
-
-    internal class Round_OperatorDto_VarSignal_ConstStep_VarOffset : OperatorDtoBase
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double Step { get; set; }
-        public IOperatorDto OffsetOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto, OffsetOperatorDto };
-            set { SignalOperatorDto = value[0]; OffsetOperatorDto = value[1]; }
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(Step),
-            new InputDto(OffsetOperatorDto)
-        };
-    }
-
-    internal class Round_OperatorDto_VarSignal_ConstStep_ZeroOffset : OperatorDtoBase
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double Step { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto };
-            set => SignalOperatorDto = value[0];
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(Step),
-            new InputDto(0)
-        };
-    }
-
-    internal class Round_OperatorDto_VarSignal_ConstStep_ConstOffset : OperatorDtoBase
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
-
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public double Step { get; set; }
-        public double Offset { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { SignalOperatorDto };
-            set => SignalOperatorDto = value[0];
-        }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(Step),
-            new InputDto(Offset)
-        };
     }
 }

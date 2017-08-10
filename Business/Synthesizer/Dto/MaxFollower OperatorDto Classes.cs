@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxFollower;
     }
 
-    internal class MaxFollower_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    internal class MaxFollower_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxFollower;
     }

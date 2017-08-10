@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class DoubleToBoolean_OperatorDto : OperatorDtoBase_VarNumber
+    internal class DoubleToBoolean_OperatorDto : OperatorDtoBase_WithNumber
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.DoubleToBoolean;
     }

@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MinOverInlets;
     }
 
-    internal class MinOverInlets_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputDtos
+    internal class MinOverInlets_OperatorDto_NoVars_NoConsts : OperatorDtoBase_WithoutInputs
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MinOverInlets;
     }
@@ -34,13 +34,13 @@ namespace JJ.Business.Synthesizer.Dto
     }
 
     /// <summary> For Machine Optimization </summary>
-    internal class MinOverInlets_OperatorDto_1Var_1Const : OperatorDtoBase_VarA_ConstB
+    internal class MinOverInlets_OperatorDto_1Var_1Const : OperatorDtoBase_WithAAndB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MinOverInlets;
     }
 
     /// <summary> For Machine Optimization </summary>
-    internal class MinOverInlets_OperatorDto_2Vars : OperatorDtoBase_VarA_VarB
+    internal class MinOverInlets_OperatorDto_2Vars : OperatorDtoBase_WithAAndB
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MinOverInlets;
     }

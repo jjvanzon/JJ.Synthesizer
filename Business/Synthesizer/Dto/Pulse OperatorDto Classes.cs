@@ -1,111 +1,80 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Pulse_OperatorDto : OperatorDtoBase_VarFrequency
+    internal class Pulse_OperatorDto : OperatorDtoBase_WithFrequency
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
-        public IOperatorDto WidthOperatorDto { get; set; }
+        public InputDto Width { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { FrequencyOperatorDto, WidthOperatorDto };
-            set { FrequencyOperatorDto = value[0]; WidthOperatorDto = value[1]; }
+            get => new[] { Frequency, Width };
+            set
+            {
+                var array = value.ToArray();
+                Frequency = array[0];
+                Width = array[1];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(FrequencyOperatorDto),
-            new InputDto(WidthOperatorDto)
-        };
     }
 
-    internal class Pulse_OperatorDto_ZeroFrequency : OperatorDtoBase_WithoutInputOperatorDtos
+    internal class Pulse_OperatorDto_ZeroFrequency : OperatorDtoBase
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
 
-        public override IEnumerable<InputDto> InputDtos => new[]
+        private readonly IList<InputDto> _inputs = new[] { InputDtoFactory.CreateInputDto(0), InputDtoFactory.CreateInputDto(0) };
+
+        public override IEnumerable<InputDto> Inputs
         {
-            new InputDto(0),
-            new InputDto(0)
-        };
-    }
-
-    internal class Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
-    }
-
-    internal class Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
-
-        public double Width { get; set; }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Frequency),
-            new InputDto(Width)
-        };
-    }
-
-    internal class Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting : OperatorDtoBase_ConstFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
-
-        public IOperatorDto WidthOperatorDto { get; set; }
-
-        public override IList<IOperatorDto> InputOperatorDtos
-        {
-            get => new[] { WidthOperatorDto };
-            set => WidthOperatorDto = value[0];
+            get => _inputs;
+            set { }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(Frequency),
-            new InputDto(WidthOperatorDto)
-        };
     }
 
-    internal class Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking : OperatorDtoBase_VarFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
-    }
+    internal class Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting : Pulse_OperatorDtoBase_WithoutWidth
+    { }
 
-    internal class Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking : OperatorDtoBase_VarFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
+    internal class Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting : Pulse_OperatorDto
+    { }
 
-        public double Width { get; set; }
+    internal class Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting : Pulse_OperatorDto
+    { }
 
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(FrequencyOperatorDto),
-            new InputDto(Width)
-        };
-    }
+    internal class Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking : Pulse_OperatorDtoBase_WithoutWidth
+    { }
+
+    internal class Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking : Pulse_OperatorDto
+    { }
 
     internal class Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking : Pulse_OperatorDto
     { }
 
-    internal class Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting : Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting
+    internal class Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting : Pulse_OperatorDtoBase_WithoutWidth
     { }
 
-    internal class Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting : Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting
+    internal class Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting : Pulse_OperatorDto
     { }
 
-    internal class Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting : Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting
+    internal class Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting : Pulse_OperatorDto
     { }
 
-    internal class Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking : Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking
+    internal class Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking : Pulse_OperatorDtoBase_WithoutWidth
     { }
 
-    internal class Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking : Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking
+    internal class Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking : Pulse_OperatorDto
     { }
 
-    internal class Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking : Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking
+    internal class Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking : Pulse_OperatorDto
     { }
+
+    /// <summary> Base class. </summary>
+    internal abstract class Pulse_OperatorDtoBase_WithoutWidth : Pulse_OperatorDto
+    {
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Pulse;
+    }
 }

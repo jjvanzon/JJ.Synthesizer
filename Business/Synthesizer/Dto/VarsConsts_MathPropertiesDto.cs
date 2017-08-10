@@ -2,10 +2,10 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class VarsConsts_MathPropertiesDto
+    internal class VarsConsts_InputDto
     {
-        public IList<IOperatorDto> Vars { get; set; }
-        public IList<double> Consts { get; set; }
+        public IList<InputDto> Vars { get; set; }
+        public IList<InputDto> Consts { get; set; }
         public bool HasVars { get; set; }
         public bool HasConsts { get; set; }
         public bool AllAreVar { get; set; }

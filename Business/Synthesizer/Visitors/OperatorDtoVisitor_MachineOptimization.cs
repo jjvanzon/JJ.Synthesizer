@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -12,46 +13,78 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(dto);
 
+            IOperatorDto dto2;
+
             if (dto.Items.Count == 2)
             {
-                return new ClosestOverInlets_OperatorDto_VarInput_2ConstItems { InputOperatorDto = dto.InputOperatorDto, Item1 = dto.Items[0], Item2 = dto.Items[1], OperatorID = dto.OperatorID };
+                dto2 = new ClosestOverInlets_OperatorDto_VarInput_2ConstItems();
+            }
+            else
+            {
+                dto2 = dto;
             }
 
-            return dto;
+            DtoCloner.CloneProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
         {
             base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(dto);
 
+            IOperatorDto dto2;
+
             if (dto.Items.Count == 2)
             {
-                return new ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems { InputOperatorDto = dto.InputOperatorDto, Item1 = dto.Items[0], Item2 = dto.Items[1], OperatorID = dto.OperatorID };
+                dto2 = new ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems();
+            }
+            else
+            {
+                dto2 = dto;
             }
 
-            return dto;
+            DtoCloner.CloneProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
         {
             base.Visit_MaxOverInlets_OperatorDto_Vars_1Const(dto);
 
+            IOperatorDto dto2;
+
             if (dto.Vars.Count == 1)
             {
-                return new MaxOverInlets_OperatorDto_1Var_1Const { AOperatorDto = dto.Vars[0], B = dto.Const, OperatorID = dto.OperatorID };
+                dto2 = new MaxOverInlets_OperatorDto_1Var_1Const();
+            }
+            else
+            {
+                dto2 = dto;
             }
 
-            return dto;
+            DtoCloner.CloneProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
         {
             base.Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(dto);
 
+            IOperatorDto dto2;
+
             if (dto.Vars.Count == 2)
             {
-                return new MaxOverInlets_OperatorDto_2Vars { AOperatorDto = dto.Vars[0], BOperatorDto = dto.Vars[1], OperatorID = dto.OperatorID };
+                dto2 = new MaxOverInlets_OperatorDto_2Vars();
             }
+            else
+            {
+                dto2 = dto;
+            }
+
+            DtoCloner.CloneProperties(dto, dto2);
 
             return dto;
         }
@@ -60,10 +93,18 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MinOverInlets_OperatorDto_Vars_1Const(dto);
 
+            IOperatorDto dto2;
+
             if (dto.Vars.Count == 1)
             {
-                return new MinOverInlets_OperatorDto_1Var_1Const { AOperatorDto = dto.Vars[0], B = dto.Const, OperatorID = dto.OperatorID };
+                dto2 = new MinOverInlets_OperatorDto_1Var_1Const();
             }
+            else
+            {
+                dto2 = dto;
+            }
+
+            DtoCloner.CloneProperties(dto, dto2);
 
             return dto;
         }
@@ -72,11 +113,20 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MinOverInlets_OperatorDto_Vars_NoConsts(dto);
 
+            IOperatorDto dto2;
+
             if (dto.Vars.Count == 2)
             {
-                return new MinOverInlets_OperatorDto_2Vars { AOperatorDto = dto.Vars[0], BOperatorDto = dto.Vars[1], OperatorID = dto.OperatorID };
+                dto2 = new MinOverInlets_OperatorDto_2Vars();
             }
-            return dto;
+            else
+            {
+                dto2 = dto;
+            }
+
+            DtoCloner.CloneProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
@@ -90,14 +140,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 return new Number_OperatorDto_NaN();
             }
 
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (value == 1.0)
             {
                 return new Number_OperatorDto_One();
             }
 
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            // ReSharper disable once ConvertIfStatementToReturnStatement
             if (value == 0.0)
             {
                 return new Number_OperatorDto_Zero();
@@ -110,41 +157,50 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
 
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (dto.Exponent == 2.0)
+            IOperatorDto dto2;
+
+            if (dto.Exponent.Const == 2.0)
             {
-                return new Power_OperatorDto_VarBase_Exponent2 { BaseOperatorDto = dto.BaseOperatorDto, OperatorID = dto.OperatorID };
+                dto2 = new Power_OperatorDto_VarBase_Exponent2();
             }
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            else if (dto.Exponent == 3.0)
+            else if (dto.Exponent.Const == 3.0)
             {
-                return new Power_OperatorDto_VarBase_Exponent3 { BaseOperatorDto = dto.BaseOperatorDto, OperatorID = dto.OperatorID };
+                dto2 = new Power_OperatorDto_VarBase_Exponent3();
             }
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            else if (dto.Exponent == 4.0)
+            else if (dto.Exponent.Const == 4.0)
             {
-                return new Power_OperatorDto_VarBase_Exponent4 { BaseOperatorDto = dto.BaseOperatorDto, OperatorID = dto.OperatorID };
+                dto2 = new Power_OperatorDto_VarBase_Exponent4();
+            }
+            else
+            {
+                dto2 = dto;
             }
 
-            return dto;
+            DtoCloner.CloneProperties(dto, dto2);
+
+            return dto2;
         }
 
         protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
         {
             base.Visit_RangeOverDimension_OperatorDto_OnlyConsts(dto);
 
-            MathPropertiesDto stepMathPropertiesDto = MathPropertiesHelper.GetMathPropertiesDto(dto.Step);
+            IOperatorDto dto2;
 
             // ReSharper disable once InvertIf
-            if (stepMathPropertiesDto.IsConstOne)
+            if (dto.Step.IsConstOne)
             {
-                var dto2 = new RangeOverDimension_OperatorDto_WithConsts_AndStepOne { From = dto.From, Till = dto.Till, OperatorID = dto.OperatorID };
-                DtoCloner.Clone_WithDimensionProperties(dto, dto2);
+                dto2 = new RangeOverDimension_OperatorDto_WithConsts_AndStepOne();
 
-                return dto2;
+            }
+            else
+            {
+                dto2 = dto;
             }
 
-            return dto;
+            DtoCloner.CloneProperties(dto, dto2);
+
+            return dto2;
         }
     }
 }

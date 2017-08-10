@@ -5,10 +5,8 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorDtoVisitorBase_AfterClassSpecialization : OperatorDtoVisitorBase
     {
-        protected sealed override IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto) => throw new NotSupportedException();
@@ -21,7 +19,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Curve_OperatorDto(Curve_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => throw new NotSupportedException();

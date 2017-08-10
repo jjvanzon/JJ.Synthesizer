@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth : OperatorDtoBase_Filter_VarSound
     {
-        public IOperatorDto CenterFrequencyOperatorDto { get; set; }
-        public IOperatorDto WidthOperatorDto { get; set; }
+        public InputDto CenterFrequency { get; set; }
+        public InputDto Width { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SoundOperatorDto, CenterFrequencyOperatorDto, WidthOperatorDto };
-            set { SoundOperatorDto = value[0]; CenterFrequencyOperatorDto = value[1]; WidthOperatorDto = value[2]; }
+            get => new[] { Sound, CenterFrequency, Width };
+            set
+            {
+                var array = value.ToArray();
+                Sound = array[0];
+                CenterFrequency = array[1];
+                Width = array[2];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SoundOperatorDto),
-            new InputDto(CenterFrequencyOperatorDto),
-            new InputDto(WidthOperatorDto)
-        };
     }
 }

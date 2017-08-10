@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -6,7 +7,7 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Cache_OperatorDto : Cache_OperatorDtoBase_NotConstSignal
     { }
 
-    internal class Cache_OperatorDto_ConstSignal : OperatorDtoBase_ConstSignal
+    internal class Cache_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Cache;
     }
@@ -50,27 +51,26 @@ namespace JJ.Business.Synthesizer.Dto
 
         public IList<ArrayDto> ArrayDto { get; set; }
 
-        public IOperatorDto SignalOperatorDto { get; set; }
-        public IOperatorDto StartOperatorDto { get; set; }
-        public IOperatorDto EndOperatorDto { get; set; }
-        public IOperatorDto SamplingRateOperatorDto { get; set; }
+        public InputDto Signal { get; set; }
+        public InputDto Start { get; set; }
+        public InputDto End { get; set; }
+        public InputDto SamplingRate { get; set; }
 
         public int ChannelCount { get; set; }
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
-            get => new[] { SignalOperatorDto, StartOperatorDto, EndOperatorDto, SamplingRateOperatorDto };
-            set { SignalOperatorDto = value[0]; StartOperatorDto = value[1]; EndOperatorDto = value[2]; SamplingRateOperatorDto = value[3]; }
+            get => new[] { Signal, Start, End, SamplingRate };
+            set
+            {
+                var array = value.ToArray();
+                Signal = array[0];
+                Start = array[1];
+                End = array[2];
+                SamplingRate = array[3];
+            }
         }
-
-        public override IEnumerable<InputDto> InputDtos => new[]
-        {
-            new InputDto(SignalOperatorDto),
-            new InputDto(StartOperatorDto),
-            new InputDto(EndOperatorDto),
-            new InputDto(SamplingRateOperatorDto)
-        };
     }
 }

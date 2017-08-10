@@ -5,14 +5,12 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_Vars : OperatorDtoBase
     {
-        public IList<IOperatorDto> Vars { get; set; }
+        public IList<InputDto> Vars { get; set; }
 
-        public override IList<IOperatorDto> InputOperatorDtos
+        public override IEnumerable<InputDto> Inputs
         {
             get => Vars;
-            set => Vars = value;
+            set => Vars = value.ToArray();
         }
-
-        public override IEnumerable<InputDto> InputDtos => Vars.Select(x => new InputDto(x)).ToArray();
     }
 }
