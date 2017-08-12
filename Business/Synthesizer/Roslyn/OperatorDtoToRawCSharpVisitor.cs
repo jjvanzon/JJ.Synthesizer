@@ -220,12 +220,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
         {
-            return ProcessMultiVarOperator_Vars_1Const(dto, PLUS_SYMBOL);
+            return ProcessMultiVarOperator(dto, PLUS_SYMBOL);
         }
 
         protected override IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
         {
-            return ProcessMultiVarOperator_Vars_NoConsts(dto, PLUS_SYMBOL);
+            return ProcessMultiVarOperator(dto, PLUS_SYMBOL);
         }
 
         protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
@@ -262,38 +262,15 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
         {
-            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x.Var));
+            IList<string> items = dto.Vars.Select(x => GetLiteralFromInputDto(x)).ToArray();
+            string sum = GetUniqueLocalVariableName(nameof(sum));
+            string output = GetLocalOutputName(dto);
+            string countLiteral = CompilationHelper.FormatValue(items.Count);
 
             AppendOperatorTitleComment(dto);
 
-            string sum = GetUniqueLocalVariableName(nameof(sum));
-            string output = GetLocalOutputName(dto);
-            int count = dto.Vars.Count;
-
             AppendTabs();
-            Append($"double {sum} =");
-
-            for (int i = 0; i < count; i++)
-            {
-                string value = _stack.Pop();
-
-                Append(' ');
-                Append(value);
-
-                bool isLast = i == count - 1;
-                if (isLast)
-                {
-                    break;
-                }
-
-                Append(" +");
-            }
-
-            Append(';');
-            Append(Environment.NewLine);
-
-            string countLiteral = CompilationHelper.FormatValue(count);
-
+            AppendLine($"double {sum} = {string.Join(" + ", items)};");
             AppendLine($"double {output} = {sum} / {countLiteral};");
 
             return GenerateOperatorWrapUp(dto, output);
@@ -415,122 +392,83 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
         {
-            PutNumberOnStack(dto.Item2.Const);
-            PutNumberOnStack(dto.Item1.Const);
-            Visit_OperatorDto_Polymorphic(dto.Input.Var);
-
-            return Process_ClosestOverInlets(dto, varCount: 2);
+            return Process_ClosestOverInlets(dto, isExp: false);
         }
 
         protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
         {
-            dto.Items.Reverse().ForEach(x => PutNumberOnStack(x.Const));
-            Visit_OperatorDto_Polymorphic(dto.Input.Var);
-
-            return Process_ClosestOverInlets(dto, dto.Items.Count);
+            return Process_ClosestOverInlets(dto, isExp: false);
         }
 
         protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
         {
-            dto.Items.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x.Var));
-            Visit_OperatorDto_Polymorphic(dto.Input.Var);
-
-            return Process_ClosestOverInlets(dto, dto.Items.Count);
-        }
-
-        private IOperatorDto Process_ClosestOverInlets(IOperatorDto dto, int varCount)
-        {
-            AppendOperatorTitleComment(dto);
-
-            string input = _stack.Pop();
-            string firstItem = _stack.Pop();
-            string smallestDistance = GetUniqueLocalVariableName(nameof(smallestDistance));
-            string closestItem = GetUniqueLocalVariableName(nameof(closestItem));
-            string output = GetLocalOutputName(dto);
-            const string geometry = nameof(Geometry);
-            const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
-
-            AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({input}, {firstItem});");
-            AppendLine($"double {closestItem} = {firstItem};");
-            AppendLine();
-
-            // NOTE: i = 1.
-            for (int i = 1; i < varCount; i++)
-            {
-                string item = _stack.Pop();
-                string distance = GetUniqueLocalVariableName(nameof(distance));
-
-                AppendLine($"double {distance} = {geometry}.{absoluteDistance}({input}, {item});");
-
-                AppendLine($"if ({smallestDistance} > {distance})");
-                AppendLine("{");
-                Indent();
-                {
-                    AppendLine($"{smallestDistance} = {distance};");
-                    AppendLine($"{closestItem} = {item};");
-                    Unindent();
-                }
-                AppendLine("}");
-                AppendLine();
-            }
-
-            AppendLine($"double {output} = {closestItem};");
-
-            return GenerateOperatorWrapUp(dto, output);
+            return Process_ClosestOverInlets(dto, isExp: false);
         }
 
         protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
         {
-            PutNumberOnStack(dto.Item2.Const);
-            PutNumberOnStack(dto.Item1.Const);
-            Visit_OperatorDto_Polymorphic(dto.Input.Var);
-
-            return Process_ClosestOverInletsExp(dto, varCount: 2);
+            return Process_ClosestOverInlets(dto, isExp: true);
         }
 
         protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
         {
-            dto.Items.Reverse().ForEach(x => PutNumberOnStack(x.Const));
-            Visit_OperatorDto_Polymorphic(dto.Input.Var);
-
-            return Process_ClosestOverInletsExp(dto, dto.Items.Count);
+            return Process_ClosestOverInlets(dto, isExp: true);
         }
 
         protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
         {
-            dto.Items.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x.Var));
-            Visit_OperatorDto_Polymorphic(dto.Input.Var);
-
-            return Process_ClosestOverInletsExp(dto, dto.Items.Count);
+            return Process_ClosestOverInlets(dto, isExp: true);
         }
 
-        private IOperatorDto Process_ClosestOverInletsExp(IOperatorDto dto, int varCount)
+        private IOperatorDto Process_ClosestOverInlets(ClosestOverInlets_OperatorDto dto, bool isExp)
         {
-            string input = _stack.Pop();
-            string firstItem = _stack.Pop();
-
-            AppendOperatorTitleComment(dto);
-
+            string input = GetLiteralFromInputDto(dto.Input);
+            IList<string> items = dto.Items.Select(x => GetLiteralFromInputDto(x)).ToArray();
+            int itemCount = items.Count;
+            string firstItem = items.First();
             string smallestDistance = GetUniqueLocalVariableName(nameof(smallestDistance));
             string closestItem = GetUniqueLocalVariableName(nameof(closestItem));
             string output = GetLocalOutputName(dto);
-            string logInput = GetUniqueLocalVariableName(nameof(logInput));
+            string transformedInput = GetUniqueLocalVariableName(nameof(transformedInput));
+            string transformedFirstItem = GetUniqueLocalVariableName(nameof(transformedFirstItem));
             const string geometry = nameof(Geometry);
             const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
 
-            AppendLine($"double {logInput} = Math.Log({input});");
+            AppendOperatorTitleComment(dto);
+
+            if (isExp)
+            {
+                AppendLine($"double {transformedInput} = Math.Log({input});");
+                AppendLine($"double {transformedFirstItem} = Math.Log({firstItem});");
+            }
+            else
+            {
+                AppendLine($"double {transformedInput} = {input};");
+                AppendLine($"double {transformedFirstItem} = {firstItem};");
+            }
             AppendLine();
 
-            AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({logInput}, Math.Log({firstItem}));");
+            AppendLine($"double {smallestDistance} = {geometry}.{absoluteDistance}({transformedInput}, {transformedFirstItem});");
             AppendLine($"double {closestItem} = {firstItem};");
             AppendLine();
 
-            for (int i = 1; i < varCount; i++)
+            // NOTE: i = 1.
+            for (int i = 1; i < itemCount; i++)
             {
-                string item = _stack.Pop();
+                string item = items[i];
+                string transformedItem = GetUniqueLocalVariableName(nameof(transformedItem));
                 string distance = GetUniqueLocalVariableName(nameof(distance));
 
-                AppendLine($"double {distance} = {geometry}.{absoluteDistance}({logInput}, Math.Log({item}));");
+                if (isExp)
+                {
+                    AppendLine($"double {transformedItem} = Math.Log({item});");
+                }
+                else
+                {
+                    AppendLine($"double {transformedItem} = {item};");
+                }
+
+                AppendLine($"double {distance} = {geometry}.{absoluteDistance}({transformedInput}, {transformedItem});");
 
                 AppendLine($"if ({smallestDistance} > {distance})");
                 AppendLine("{");
@@ -572,11 +510,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private IOperatorDto ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
         {
-            AppendOperatorTitleComment(dto);
-
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             string output = GetLocalOutputName(dto);
             string position = GetPositionNameCamelCase(dto);
+
+            AppendOperatorTitleComment(dto);
 
             AppendLine($"double {output} = {calculatorName}.Calculate({position});");
 
@@ -689,13 +627,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             _holdOperatorIsActiveStack.Push(true);
 
-            Visit_OperatorDto_Polymorphic(dto.Signal.Var);
+            string signal = GetLiteralFromInputDto(dto.Signal);
+            string output = GetUniqueLongLivedVariableName(dto.OperatorTypeEnum);
 
             _holdOperatorIsActiveStack.Pop();
             _holdOperatorIsActiveStack.Push(false);
-
-            string signal = _stack.Pop();
-            string output = GetUniqueLongLivedVariableName(dto.OperatorTypeEnum);
 
             AppendLineToReset(GetOperatorTitleComment(dto));
             AppendLineToReset($"{output} = {signal};");
@@ -1087,33 +1023,22 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
         {
-            PutNumberOnStack(dto.B.Const);
-            Visit_OperatorDto_Polymorphic(dto.A.Var);
-
             return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Max);
         }
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.B.Var);
-            Visit_OperatorDto_Polymorphic(dto.A.Var);
-
             return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Max);
         }
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
         {
-            PutNumberOnStack(dto.Const.Const);
-            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x.Var));
-
-            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max, dto.Vars.Count + 1);
+            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max);
         }
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
         {
-            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x.Var));
-
-            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max, dto.Vars.Count);
+            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max);
         }
 
         protected override IOperatorDto Visit_MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
@@ -1135,43 +1060,32 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
         {
-            PutNumberOnStack(dto.B.Const);
-            Visit_OperatorDto_Polymorphic(dto.A.Var);
-
             return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
         }
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto)
         {
-            Visit_OperatorDto_Polymorphic(dto.B.Var);
-            Visit_OperatorDto_Polymorphic(dto.A.Var);
-
             return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
         }
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
         {
-            PutNumberOnStack(dto.Const.Const);
-            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x.Var));
-
-            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min, dto.Vars.Count + 1);
+            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min);
         }
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
         {
-            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x.Var));
-
-            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min, dto.Vars.Count);
+            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min);
         }
 
         protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
         {
-            return ProcessMultiVarOperator_Vars_1Const(dto, MULTIPLY_SYMBOL);
+            return ProcessMultiVarOperator(dto, MULTIPLY_SYMBOL);
         }
 
         protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
         {
-            return ProcessMultiVarOperator_Vars_NoConsts(dto, MULTIPLY_SYMBOL);
+            return ProcessMultiVarOperator(dto, MULTIPLY_SYMBOL);
         }
 
         protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
@@ -1254,7 +1168,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private Number_OperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
         {
-            PutNumberOnStack(dto.Number);
+            _stack.Push(CompilationHelper.FormatValue(dto.Number));
 
             return dto;
         }
@@ -2453,20 +2367,22 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto Process_MinOrMaxOverInlets_MoreThan2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum, int varCount)
+        private IOperatorDto Process_MinOrMaxOverInlets_MoreThan2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
         {
-            AppendOperatorTitleComment(dto);
-
-            string firstValue = _stack.Pop();
+            IList<string> values = dto.Inputs.Select(x => GetLiteralFromInputDto(x)).ToArray();
+            int valueCount = values.Count;
+            string firstValue = values.First();
             string output = GetLocalOutputName(dto);
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
+
+            AppendOperatorTitleComment(dto);
 
             AppendLine($"double {output} = {firstValue};");
 
             // NOTE: i = 1.
-            for (int i = 1; i < varCount; i++)
+            for (int i = 1; i < valueCount; i++)
             {
-                string item = _stack.Pop();
+                string item = values[i];
 
                 AppendLine($"if ({output} {operatorSymbol} {item}) {output} = {item};");
             }
@@ -2474,65 +2390,32 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto Process_MinOrMaxOverInlets_With2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
+        private IOperatorDto Process_MinOrMaxOverInlets_With2Inlets(OperatorDtoBase_WithAAndB dto, MinOrMaxEnum minOrMaxEnum)
         {
-            AppendOperatorTitleComment(dto);
-
-            string a = _stack.Pop();
-            string b = _stack.Pop();
+            string a = GetLiteralFromInputDto(dto.A);
+            string b = GetLiteralFromInputDto(dto.B);
             string output = GetLocalOutputName(dto);
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
+
+            AppendOperatorTitleComment(dto);
 
             AppendLine($"double {output} = {a} {operatorSymbol} {b} ? {a} : {b};");
 
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto ProcessMultiVarOperator(IOperatorDto dto, int varCount, string operatorSymbol)
+        private IOperatorDto ProcessMultiVarOperator(IOperatorDto dto, string operatorSymbol)
         {
-            AppendOperatorTitleComment(dto);
+            IList<string> values = dto.Inputs.Select(x => GetLiteralFromInputDto(x)).ToArray();
 
             string output = GetLocalOutputName(dto);
 
+            AppendOperatorTitleComment(dto);
+
             AppendTabs();
-            Append($"double {output} =");
-
-            for (int i = 0; i < varCount; i++)
-            {
-                string value = _stack.Pop();
-
-                Append(' ');
-                Append(value);
-
-                bool isLast = i == varCount - 1;
-                if (isLast)
-                {
-                    break;
-                }
-
-                Append(' ');
-                Append(operatorSymbol);
-            }
-
-            Append(';');
-            Append(Environment.NewLine);
+            AppendLine($"double {output} = {string.Join(" " + operatorSymbol + " ", values)};");
 
             return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private IOperatorDto ProcessMultiVarOperator_Vars_1Const(OperatorDtoBase_Vars_1Const dto, string operatorSymbol)
-        {
-            PutNumberOnStack(dto.Const.Const);
-            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x.Var));
-
-            return ProcessMultiVarOperator(dto, dto.Inputs.Count(), operatorSymbol);
-        }
-
-        private IOperatorDto ProcessMultiVarOperator_Vars_NoConsts(OperatorDtoBase_Vars dto, string operatorSymbol)
-        {
-            dto.Vars.Reverse().ForEach(x => Visit_OperatorDto_Polymorphic(x.Var));
-
-            return ProcessMultiVarOperator(dto, dto.Inputs.Count(), operatorSymbol);
         }
 
         private IOperatorDto ProcessOriginShifter(OperatorDtoBase_WithFrequency dto, Func<string, string> getRightHandFormulaDelegate)
@@ -3040,22 +2923,15 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             if (inputDto.Var != null)
             {
-                return GetLiteralFromOperatorDto(inputDto.Var);
+                Visit_OperatorDto_Polymorphic(inputDto.Var);
+                string literal = _stack.Pop();
+                return literal;
             }
             else
             {
-                return GetLiteralFromValue(inputDto.Const);
+                return CompilationHelper.FormatValue(inputDto.Const);
             }
         }
-
-        private string GetLiteralFromOperatorDto(IOperatorDto operatorDto)
-        {
-            Visit_OperatorDto_Polymorphic(operatorDto);
-            string literal = _stack.Pop();
-            return literal;
-        }
-
-        private static string GetLiteralFromValue(double value) => CompilationHelper.FormatValue(value);
 
         private string GetLocalOutputName(IOperatorDto dto)
         {
@@ -3239,11 +3115,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         private int GetUniqueNumber() => _counter++;
-
-        private void PutNumberOnStack(double value)
-        {
-            _stack.Push(CompilationHelper.FormatValue(value));
-        }
 
         private IList<VariableCollections> GetVariableInfoList()
         {

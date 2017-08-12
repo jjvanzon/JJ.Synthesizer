@@ -2250,7 +2250,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private IOperatorDto Process_WithFrequency(OperatorDtoBase_WithFrequency dto)
         {
-            if (dto.Frequency.IsConst)
+            if (dto.Frequency.IsConstZero)
             {
                 // 0
                 return new Number_OperatorDto_Zero();
