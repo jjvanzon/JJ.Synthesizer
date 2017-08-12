@@ -37,9 +37,4 @@ namespace JJ.Business.Synthesizer.Dto
             set { }
         }
     }
-
-    internal class Curve_OperatorDto_NoCurve : OperatorDtoBase_WithoutInputs
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
-    }
 }

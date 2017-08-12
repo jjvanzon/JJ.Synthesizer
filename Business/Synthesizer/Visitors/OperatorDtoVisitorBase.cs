@@ -134,7 +134,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems), x => Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems((ClosestOverInletsExp_OperatorDto_VarInput_ConstItems)x ) },
                 { typeof(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems), x => Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems((ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems)x ) },
                 { typeof(Curve_OperatorDto), x => Visit_Curve_OperatorDto((Curve_OperatorDto)x ) },
-                { typeof(Curve_OperatorDto_NoCurve), x => Visit_Curve_OperatorDto_NoCurve((Curve_OperatorDto_NoCurve)x ) },
                 { typeof(Curve_OperatorDto_MinX_NoOriginShifting), x => Visit_Curve_OperatorDto_MinX_NoOriginShifting((Curve_OperatorDto_MinX_NoOriginShifting)x ) },
                 { typeof(Curve_OperatorDto_MinX_WithOriginShifting), x => Visit_Curve_OperatorDto_MinX_WithOriginShifting((Curve_OperatorDto_MinX_WithOriginShifting)x ) },
                 { typeof(Curve_OperatorDto_MinXZero_NoOriginShifting), x => Visit_Curve_OperatorDto_MinXZero_NoOriginShifting((Curve_OperatorDto_MinXZero_NoOriginShifting)x ) },
@@ -285,7 +284,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Round_OperatorDto_VarSignal_ConstStep_ZeroOffset), x => Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset((Round_OperatorDto_VarSignal_ConstStep_ZeroOffset)x ) },
                 { typeof(Round_OperatorDto_VarSignal_ConstStep_ConstOffset), x => Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffset((Round_OperatorDto_VarSignal_ConstStep_ConstOffset)x ) },
                 { typeof(Sample_OperatorDto), x => Visit_Sample_OperatorDto((Sample_OperatorDto)x ) },
-                { typeof(Sample_OperatorDto_NoSample), x => Visit_Sample_OperatorDto_NoSample((Sample_OperatorDto_NoSample)x ) },
                 { typeof(Sample_OperatorDto_VarFrequency_WithPhaseTracking), x => Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking((Sample_OperatorDto_VarFrequency_WithPhaseTracking)x ) },
                 { typeof(Sample_OperatorDto_ConstFrequency_WithOriginShifting), x => Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting((Sample_OperatorDto_ConstFrequency_WithOriginShifting)x ) },
                 { typeof(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking), x => Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking((Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking)x ) },
@@ -426,7 +424,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto(Curve_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
@@ -577,7 +574,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset(Round_OperatorDto_VarSignal_ConstStep_ZeroOffset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffset(Round_OperatorDto_VarSignal_ConstStep_ConstOffset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Sample_OperatorDto(Sample_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Sample_OperatorDto_NoSample(Sample_OperatorDto_NoSample dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);

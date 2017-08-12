@@ -63,14 +63,15 @@ namespace JJ.Business.Synthesizer.Helpers
             }
 
             {
-                if (source is Sample_OperatorDtoBase_WithSampleID castedSource &&
-                    dest is Sample_OperatorDtoBase_WithSampleID castedDest)
+                if (source is Sample_OperatorDto castedSource &&
+                    dest is Sample_OperatorDto castedDest)
                 {
                     castedDest.SampleID = castedSource.SampleID;
                     castedDest.SampleChannelCount = castedSource.SampleChannelCount;
                     castedDest.InterpolationTypeEnum = castedSource.InterpolationTypeEnum;
                     castedDest.TargetChannelCount = castedSource.TargetChannelCount;
                     castedDest.ArrayDtos = castedSource.ArrayDtos;
+                    castedDest.ChannelDimensionStackLevel = castedSource.ChannelDimensionStackLevel;
                 }
             }
 

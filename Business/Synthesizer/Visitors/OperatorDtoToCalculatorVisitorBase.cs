@@ -964,7 +964,7 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         private IOperatorDto Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(
-            Sample_OperatorDtoBase_WithSampleID dto,
+            Sample_OperatorDto dto,
             Func<DimensionStack, ICalculatorWithPosition, OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
@@ -981,7 +981,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /// <param name="createOperatorCalculatorDelegate"> Second DimensionStack parameter is the channelDimensionStack </param>
         private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(
-            Sample_OperatorDtoBase_WithSampleID dto,
+            Sample_OperatorDto dto,
             Func<DimensionStack, DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);
@@ -997,7 +997,7 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(
-            Sample_OperatorDtoBase_WithSampleID dto,
+            Sample_OperatorDto dto,
             Func<DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
         {
             base.Visit_OperatorDto_Base(dto);

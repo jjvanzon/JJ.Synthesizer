@@ -354,35 +354,28 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.CurveID == 0)
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            bool hasMinX = dto.MinX != 0.0;
+
+            if (!hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Curve_OperatorDto_NoCurve();
+                dto2 = new Curve_OperatorDto_MinXZero_WithOriginShifting();
+            }
+            else if (!hasMinX && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Curve_OperatorDto_MinXZero_NoOriginShifting();
+            }
+            else if (hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
+            {
+                dto2 = new Curve_OperatorDto_MinX_WithOriginShifting();
+            }
+            else if (hasMinX && dto.StandardDimensionEnum != DimensionEnum.Time)
+            {
+                dto2 = new Curve_OperatorDto_MinX_NoOriginShifting();
             }
             else
             {
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
-                bool hasMinX = dto.MinX != 0.0;
-
-                if (!hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
-                {
-                    dto2 = new Curve_OperatorDto_MinXZero_WithOriginShifting();
-                }
-                else if (!hasMinX && dto.StandardDimensionEnum != DimensionEnum.Time)
-                {
-                    dto2 = new Curve_OperatorDto_MinXZero_NoOriginShifting();
-                }
-                else if (hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
-                {
-                    dto2 = new Curve_OperatorDto_MinX_WithOriginShifting();
-                }
-                else if (hasMinX && dto.StandardDimensionEnum != DimensionEnum.Time)
-                {
-                    dto2 = new Curve_OperatorDto_MinX_NoOriginShifting();
-                }
-                else
-                {
-                    throw new VisitationCannotBeHandledException();
-                }
+                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -1117,11 +1110,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.SampleID == 0)
-            {
-                dto2 = new Sample_OperatorDto_NoSample();
-            }
-            else if (hasTargetChannelCount && dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (hasTargetChannelCount && dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new Sample_OperatorDto_ConstFrequency_WithOriginShifting();
             }

@@ -1846,7 +1846,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return rate;
         }
 
-        private IOperatorDto GenerateSampleChannelSwitchEnd(Sample_OperatorDtoBase_WithSampleID dto, string phase)
+        private IOperatorDto GenerateSampleChannelSwitchEnd(Sample_OperatorDto dto, string phase)
         {
             IList<ArrayDto> arrayDtos = dto.ArrayDtos;
 
@@ -1882,7 +1882,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto GenerateSampleMonoToStereoEnd(Sample_OperatorDtoBase_WithSampleID dto, string phase)
+        private IOperatorDto GenerateSampleMonoToStereoEnd(Sample_OperatorDto dto, string phase)
         {
             // Array
             ArrayDto arrayDto = dto.ArrayDtos.Single();
@@ -1895,7 +1895,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto GenerateSampleStereoToMonoEnd(Sample_OperatorDtoBase_WithSampleID dto, string phase)
+        private IOperatorDto GenerateSampleStereoToMonoEnd(Sample_OperatorDto dto, string phase)
         {
             // Array
             string calculatorName1 = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDtos[0]);

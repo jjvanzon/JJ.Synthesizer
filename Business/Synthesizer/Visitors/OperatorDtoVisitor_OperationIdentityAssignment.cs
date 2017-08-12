@@ -82,10 +82,10 @@ namespace JJ.Business.Synthesizer.Visitors
                     arguments.Add($"{castedDto.CurveID}");
                     break;
                 }
-
+                
                 case OperatorTypeEnum.Sample:
                 {
-                    var castedDto = (Sample_OperatorDtoBase_WithSampleID)dto;
+                    var castedDto = (Sample_OperatorDto)dto;
                     arguments.Add($"{castedDto.SampleID}");
                     break;
                 }
