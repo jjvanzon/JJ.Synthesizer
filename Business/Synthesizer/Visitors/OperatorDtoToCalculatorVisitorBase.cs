@@ -610,7 +610,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto)
+        protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto)
         {
             return ProcessOperatorDto(dto, () => new Not_OperatorCalculator(_stack.Pop()));
         }

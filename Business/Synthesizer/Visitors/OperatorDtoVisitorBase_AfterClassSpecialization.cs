@@ -34,7 +34,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => throw new NotSupportedException();

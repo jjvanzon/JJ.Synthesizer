@@ -244,8 +244,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Negative_OperatorDto), x => Visit_Negative_OperatorDto((Negative_OperatorDto)x ) },
                 { typeof(Noise_OperatorDto), x => Visit_Noise_OperatorDto((Noise_OperatorDto)x ) },
                 { typeof(Not_OperatorDto), x => Visit_Not_OperatorDto((Not_OperatorDto)x ) },
-                { typeof(Not_OperatorDto_VarNumber), x => Visit_Not_OperatorDto_VarNumber((Not_OperatorDto_VarNumber)x ) },
-                { typeof(Not_OperatorDto_ConstNumber), x => Visit_Not_OperatorDto_ConstNumber((Not_OperatorDto_ConstNumber)x ) },
                 { typeof(NotchFilter_OperatorDto), x => Visit_NotchFilter_OperatorDto((NotchFilter_OperatorDto)x ) },
                 { typeof(NotchFilter_OperatorDto_ConstSound), x => Visit_NotchFilter_OperatorDto_ConstSound((NotchFilter_OperatorDto_ConstSound)x ) },
                 { typeof(NotchFilter_OperatorDto_AllVars), x => Visit_NotchFilter_OperatorDto_AllVars((NotchFilter_OperatorDto_AllVars)x ) },
@@ -587,8 +585,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Not_OperatorDto_ConstNumber(Not_OperatorDto_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_NotchFilter_OperatorDto_ConstSound(NotchFilter_OperatorDto_ConstSound dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_NotchFilter_OperatorDto_AllVars(NotchFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);

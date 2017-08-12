@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
 using JJ.Framework.Mathematics;
 // ReSharper disable RedundantIfElseBlock
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -1269,26 +1270,31 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Not
 
-        protected override IOperatorDto Visit_Not_OperatorDto_ConstNumber(Not_OperatorDto_ConstNumber dto)
+        protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto)
         {
-            base.Visit_Not_OperatorDto_ConstNumber(dto);
+            base.Visit_Not_OperatorDto(dto);
 
-            // Pre-calculate
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isFalse = dto.Number.Const == 0.0;
-            if (isFalse)
+            if (dto.Number.IsConst)
             {
-                return new Number_OperatorDto_One();
+                // Pre-calculate
+                bool isFalse = dto.Number.Const == 0.0;
+                if (isFalse)
+                {
+                    return new Number_OperatorDto_One();
+                }
+                else
+                {
+                    return new Number_OperatorDto_Zero();
+                }
+            }
+            else if (dto.Number.IsVar)
+            {
+                return Process_Nothing(dto);
             }
             else
             {
-                return new Number_OperatorDto_Zero();
+                throw new VisitationCannotBeHandledException();
             }
-        }
-
-        protected override IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto)
-        {
-            return Process_Nothing(dto);
         }
 
         // Number

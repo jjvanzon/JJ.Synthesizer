@@ -1225,7 +1225,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto)
+        protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto)
         {
             string input = GetLiteralFromInputDto(dto.Number);
             string output = GetLocalOutputName(dto);

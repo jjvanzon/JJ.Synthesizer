@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
             => ProcessAndOrNot(dto);
 
-        protected override IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto) 
+        protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) 
             => ProcessAndOrNot(dto);
 
         protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
