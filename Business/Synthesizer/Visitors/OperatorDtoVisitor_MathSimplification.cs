@@ -1371,92 +1371,63 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Pulse
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            bool isHalfWidth = IsHalfWidth(dto.Width);
+            if (isHalfWidth)
+            {
+                // Simplify
+                var dto2 = new Square_OperatorDto_ConstFrequency_NoOriginShifting();
+                DtoCloner.CloneProperties(dto, dto2);
+                return dto2;
+            }
+
+            return Process_WithFrequency(dto);
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            bool isHalfWidth = IsHalfWidth(dto.Width);
+            if (isHalfWidth)
+            {
+                // Simplify
+                var dto2 = new Square_OperatorDto_ConstFrequency_WithOriginShifting();
+                DtoCloner.CloneProperties(dto, dto2);
+                return dto2;
+            }
+
+            return Process_WithFrequency(dto);
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            base.Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting(dto);
+            bool isHalfWidth = IsHalfWidth(dto.Width);
+            if (isHalfWidth)
+            {
+                // Simplify
+                var dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { Frequency = dto.Frequency };
+                DtoCloner.CloneProperties(dto, dto2);
+                return dto2;
+            }
 
-            // Simplify
-            var dto2 = new Square_OperatorDto_ConstFrequency_NoOriginShifting { Frequency = dto.Frequency };
-            DtoCloner.CloneProperties(dto, dto2);
-            return dto2;
+            return Process_WithFrequency(dto);
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            base.Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting(dto);
+            bool isHalfWidth = IsHalfWidth(dto.Width);
+            if (isHalfWidth)
+            {
+                // Simplify
+                var dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { Frequency = dto.Frequency };
+                DtoCloner.CloneProperties(dto, dto2);
+                return dto2;
+            }
 
-            // Simplify
-            var dto2 = new Square_OperatorDto_ConstFrequency_WithOriginShifting { Frequency = dto.Frequency };
-            DtoCloner.CloneProperties(dto, dto2);
-            return dto2;
+            return Process_WithFrequency(dto);
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking dto)
-        {
-            base.Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking(dto);
-
-            // Simplify
-            var dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { Frequency = dto.Frequency };
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking dto)
-        {
-            base.Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking(dto);
-
-            // Simplify
-            var dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { Frequency = dto.Frequency };
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ZeroFrequency(Pulse_OperatorDto_ZeroFrequency dto)
-        {
-            return Process_ZeroFrequency(dto);
-        }
+        private static bool IsHalfWidth(InputDto inputDto) => inputDto.Const == 0.5;
 
         // Random
 
@@ -2255,14 +2226,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 default:
                     return dto;
             }
-        }
-
-        private IOperatorDto Process_ZeroFrequency(IOperatorDto dto)
-        {
-            base.Visit_OperatorDto_Base(dto);
-
-            // 0
-            return new Number_OperatorDto_Zero();
         }
     }
 }

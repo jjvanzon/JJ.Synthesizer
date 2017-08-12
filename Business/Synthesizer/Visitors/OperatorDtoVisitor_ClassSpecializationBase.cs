@@ -874,62 +874,23 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Pulse_OperatorDto(dto);
 
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isHalfWidth = dto.Width.IsConst && dto.Width.Const == 0.5;
-
             IOperatorDto dto2;
 
-            if (dto.Frequency.IsConstZero)
+            if (dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Pulse_OperatorDto_ZeroFrequency();
+                dto2 = new Pulse_OperatorDto_ConstFrequency_WithOriginShifting();
             }
-            else if (dto.Frequency.IsConst && isHalfWidth && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting();
+                dto2 = new Pulse_OperatorDto_VarFrequency_WithPhaseTracking();
             }
-            else if (dto.Frequency.IsConst && dto.Width.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Pulse_OperatorDto_ConstFrequency_ConstWidth_WithOriginShifting();
+                dto2 = new Pulse_OperatorDto_ConstFrequency_NoOriginShifting();
             }
-            else if (dto.Frequency.IsConst && dto.Width.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Pulse_OperatorDto_ConstFrequency_VarWidth_WithOriginShifting();
-            }
-            else if (dto.Frequency.IsVar && isHalfWidth && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_VarFrequency_HalfWidth_WithPhaseTracking();
-            }
-            else if (dto.Frequency.IsVar && dto.Width.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_VarFrequency_ConstWidth_WithPhaseTracking();
-            }
-            else if (dto.Frequency.IsVar && dto.Width.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_VarFrequency_VarWidth_WithPhaseTracking();
-            }
-            else if (dto.Frequency.IsConst && isHalfWidth && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting();
-            }
-            else if (dto.Frequency.IsConst && dto.Width.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting();
-            }
-            else if (dto.Frequency.IsConst && dto.Width.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_ConstFrequency_VarWidth_NoOriginShifting();
-            }
-            else if (dto.Frequency.IsVar && isHalfWidth && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking();
-            }
-            else if (dto.Frequency.IsVar && dto.Width.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_VarFrequency_ConstWidth_NoPhaseTracking();
-            }
-            else if (dto.Frequency.IsVar && dto.Width.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_VarFrequency_VarWidth_NoPhaseTracking();
+                dto2 = new Pulse_OperatorDto_VarFrequency_NoPhaseTracking();
             }
             else
             {
