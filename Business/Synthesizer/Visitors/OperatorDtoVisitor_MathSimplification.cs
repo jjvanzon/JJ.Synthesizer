@@ -2069,46 +2069,40 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Subtract
 
-        protected override IOperatorDto Visit_Subtract_OperatorDto_ConstA_ConstB(Subtract_OperatorDto_ConstA_ConstB dto)
+        protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
         {
-            base.Visit_Subtract_OperatorDto_ConstA_ConstB(dto);
+            base.Visit_Subtract_OperatorDto(dto);
 
-            // Pre-calculate
-            return new Number_OperatorDto { Number = dto.A.Const - dto.B.Const };
-        }
-
-        protected override IOperatorDto Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_Subtract_OperatorDto_ConstA_VarB(dto);
-
-            if (dto.A.IsConstZero)
+            if (dto.A.IsConst && dto.B.IsConst)
             {
-                // Identity, switch sign
-                var dto2 = new Negative_OperatorDto();
-                DtoCloner.CloneProperties(dto, dto2);
-                dto2.Number = dto.B;
-                return dto2;
+                // Pre-calculate
+                return new Number_OperatorDto { Number = dto.A.Const - dto.B.Const };
+            }
+            else if (dto.A.IsConst && dto.B.IsVar)
+            {
+                if (dto.A.IsConstZero)
+                {
+                    // Identity, switch sign
+                    var dto2 = new Negative_OperatorDto();
+                    DtoCloner.CloneProperties(dto, dto2);
+                    dto2.Number = dto.B;
+                    return dto2;
+                }
+            }
+            else if (dto.A.IsVar && dto.B.IsConst)
+            {
+                if (dto.B.IsConstZero)
+                {
+                    // Identity
+                    return dto.A.Var;
+                }
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return Process_Nothing(dto);
             }
 
             return dto;
-        }
-
-        protected override IOperatorDto Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
-        {
-            base.Visit_Subtract_OperatorDto_VarA_ConstB(dto);
-
-            if (dto.B.IsConstZero)
-            {
-                // Identity
-                return dto.A.Var;
-            }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
         }
 
         // SumFollower

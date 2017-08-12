@@ -390,10 +390,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting), x => Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting((Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting)x ) },
                 { typeof(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking), x => Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking((Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking)x ) },
                 { typeof(Subtract_OperatorDto), x => Visit_Subtract_OperatorDto((Subtract_OperatorDto)x ) },
-                { typeof(Subtract_OperatorDto_ConstA_ConstB), x => Visit_Subtract_OperatorDto_ConstA_ConstB((Subtract_OperatorDto_ConstA_ConstB)x ) },
-                { typeof(Subtract_OperatorDto_ConstA_VarB), x => Visit_Subtract_OperatorDto_ConstA_VarB((Subtract_OperatorDto_ConstA_VarB)x ) },
-                { typeof(Subtract_OperatorDto_VarA_ConstB), x => Visit_Subtract_OperatorDto_VarA_ConstB((Subtract_OperatorDto_VarA_ConstB)x ) },
-                { typeof(Subtract_OperatorDto_VarA_VarB), x => Visit_Subtract_OperatorDto_VarA_VarB((Subtract_OperatorDto_VarA_VarB)x ) },
                 { typeof(SumFollower_OperatorDto), x => Visit_SumFollower_OperatorDto((SumFollower_OperatorDto)x ) },
                 { typeof(SumFollower_OperatorDto_AllVars), x => Visit_SumFollower_OperatorDto_AllVars((SumFollower_OperatorDto_AllVars)x ) },
                 { typeof(SumFollower_OperatorDto_ConstSignal_VarSampleCount), x => Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount((SumFollower_OperatorDto_ConstSignal_VarSampleCount)x ) },
@@ -727,10 +723,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Subtract_OperatorDto_ConstA_ConstB(Subtract_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto) => Visit_OperatorDto_Base(dto);

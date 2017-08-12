@@ -409,7 +409,7 @@
     <Compile Include="Dto\ClosestOverDimensionExp OperatorDto Classes.cs" />
     <Compile Include="Dto\ClosestOverInlets OperatorDto Classes.cs" />
     <Compile Include="Dto\ClosestOverDimension OperatorDto Classes.cs" />
-    <Compile Include="Dto\Subtract OperatorDto Classes.cs" />
+    <Compile Include="Dto\Subtract_OperatorDto.cs" />
     <Compile Include="Dto\SumFollower OperatorDto Classes.cs" />
     <Compile Include="Dto\SumOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\AverageOverInlets_OperatorDto.cs" />
@@ -423,7 +423,7 @@
     <Compile Include="Dto\DimensionToOutlets_Outlet_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_AggregateOverDimension.cs" />
     <Compile Include="Dto\RangeOverDimension OperatorDto Classes.cs" />
-    <Compile Include="Dto\Negative OperatorDto Classes.cs" />
+    <Compile Include="Dto\Negative_OperatorDto.cs" />
     <Compile Include="Dto\If OperatorDto Classes.cs" />
     <Compile Include="Dto\AverageFollower OperatorDto Classes.cs" />
     <Compile Include="Dto\MaxFollower OperatorDto Classes.cs" />
@@ -436,7 +436,7 @@
     <Compile Include="Dto\OperatorDtoBase_AggregateFollower_AllVars.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithNumber.cs" />
     <Compile Include="Dto\Not OperatorDto Classes.cs" />
-    <Compile Include="Dto\Or OperatorDto Classes.cs" />
+    <Compile Include="Dto\Or_OperatorDto.cs" />
     <Compile Include="Dto\And OperatorDto Classes.cs" />
     <Compile Include="Dto\GreaterThanOrEqual_OperatorDto.cs" />
     <Compile Include="Dto\LessThanOrEqual_OperatorDto.cs" />

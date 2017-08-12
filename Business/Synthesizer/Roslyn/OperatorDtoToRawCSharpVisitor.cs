@@ -2314,17 +2314,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, signal);
         }
 
-        protected override IOperatorDto Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
-        {
-            return ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
-        {
-            return ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
         {
             return ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
         }
