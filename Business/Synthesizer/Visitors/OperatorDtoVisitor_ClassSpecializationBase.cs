@@ -470,54 +470,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto)
-        {
-            base.Visit_If_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Condition.IsVar && dto.Then.IsVar && dto.Else.IsVar)
-            {
-                dto2 = new If_OperatorDto_VarCondition_VarThen_VarElse();
-            }
-            else if (dto.Condition.IsVar && dto.Then.IsVar && dto.Else.IsConst)
-            {
-                dto2 = new If_OperatorDto_VarCondition_VarThen_ConstElse();
-            }
-            else if (dto.Condition.IsVar && dto.Then.IsConst && dto.Else.IsVar)
-            {
-                dto2 = new If_OperatorDto_VarCondition_ConstThen_VarElse();
-            }
-            else if (dto.Condition.IsVar && dto.Then.IsConst && dto.Else.IsConst)
-            {
-                dto2 = new If_OperatorDto_VarCondition_ConstThen_ConstElse();
-            }
-            else if (dto.Condition.IsConst && dto.Then.IsVar && dto.Else.IsVar)
-            {
-                dto2 = new If_OperatorDto_ConstCondition_VarThen_VarElse();
-            }
-            else if (dto.Condition.IsConst && dto.Then.IsVar && dto.Else.IsConst)
-            {
-                dto2 = new If_OperatorDto_ConstCondition_VarThen_ConstElse();
-            }
-            else if (dto.Condition.IsConst && dto.Then.IsConst && dto.Else.IsVar)
-            {
-                dto2 = new If_OperatorDto_ConstCondition_ConstThen_VarElse();
-            }
-            else if (dto.Condition.IsConst && dto.Then.IsConst && dto.Else.IsConst)
-            {
-                dto2 = new If_OperatorDto_ConstCondition_ConstThen_ConstElse();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto)
         {
             base.Visit_InletsToDimension_OperatorDto(dto);

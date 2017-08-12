@@ -704,27 +704,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
-        {
-            return Process_If_OperatorDto(dto);
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
-        {
-            return Process_If_OperatorDto(dto);
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(If_OperatorDto_VarCondition_VarThen_ConstElse dto)
-        {
-            return Process_If_OperatorDto(dto);
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_VarElse(If_OperatorDto_VarCondition_VarThen_VarElse dto)
-        {
-            return Process_If_OperatorDto(dto);
-        }
-
-        private IOperatorDto Process_If_OperatorDto(If_OperatorDto dto)
+        protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto)
         {
             string condition = GetLiteralFromInputDto(dto.Condition);
 

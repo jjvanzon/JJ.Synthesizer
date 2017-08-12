@@ -24,28 +24,4 @@ namespace JJ.Business.Synthesizer.Dto
             }
         }
     }
-
-    internal class If_OperatorDto_VarCondition_VarThen_VarElse : If_OperatorDto
-    { }
-
-    internal class If_OperatorDto_VarCondition_VarThen_ConstElse : If_OperatorDto
-    { }
-
-    internal class If_OperatorDto_VarCondition_ConstThen_VarElse : If_OperatorDto
-    { }
-
-    internal class If_OperatorDto_VarCondition_ConstThen_ConstElse : If_OperatorDto
-    { }
-
-    internal class If_OperatorDto_ConstCondition_VarThen_VarElse : If_OperatorDto
-    { }
-
-    internal class If_OperatorDto_ConstCondition_VarThen_ConstElse : If_OperatorDto
-    { }
-
-    internal class If_OperatorDto_ConstCondition_ConstThen_VarElse : If_OperatorDto
-    { }
-
-    internal class If_OperatorDto_ConstCondition_ConstThen_ConstElse : If_OperatorDto
-    { }
 }

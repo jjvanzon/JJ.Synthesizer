@@ -333,24 +333,28 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Hold_OperatorCalculator_VarSignal(_stack.Pop()));
         }
 
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
+        protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_ConstThen_ConstElse(_stack.Pop(), dto.Then.Const, dto.Else.Const));
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
-        {
-            return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_ConstThen_VarElse(_stack.Pop(), dto.Then.Const, _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(If_OperatorDto_VarCondition_VarThen_ConstElse dto)
-        {
-            return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_VarThen_ConstElse(_stack.Pop(), _stack.Pop(), dto.Else.Const));
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_VarElse(If_OperatorDto_VarCondition_VarThen_VarElse dto)
-        {
-            return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_VarThen_VarElse(_stack.Pop(), _stack.Pop(), _stack.Pop()));
+            if (dto.Condition.IsVar && dto.Then.IsConst && dto.Else.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_ConstThen_ConstElse(_stack.Pop(), dto.Then.Const, dto.Else.Const));
+            }
+            else if (dto.Condition.IsVar && dto.Then.IsConst && dto.Else.IsVar)
+            {
+                return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_ConstThen_VarElse(_stack.Pop(), dto.Then.Const, _stack.Pop()));
+            }
+            else if (dto.Condition.IsVar && dto.Then.IsVar && dto.Else.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_VarThen_ConstElse(_stack.Pop(), _stack.Pop(), dto.Else.Const));
+            }
+            else if (dto.Condition.IsVar && dto.Then.IsVar && dto.Else.IsVar)
+            {
+                return ProcessOperatorDto(dto, () => new If_OperatorCalculator_VarCondition_VarThen_VarElse(_stack.Pop(), _stack.Pop(), _stack.Pop()));
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)

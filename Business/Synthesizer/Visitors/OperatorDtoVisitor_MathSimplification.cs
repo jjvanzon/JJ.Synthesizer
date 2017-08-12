@@ -661,102 +661,74 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // If
 
-        protected override IOperatorDto Visit_If_OperatorDto_ConstCondition_ConstThen_ConstElse(If_OperatorDto_ConstCondition_ConstThen_ConstElse dto)
+        protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto)
         {
-            base.Visit_If_OperatorDto_ConstCondition_ConstThen_ConstElse(dto);
+            base.Visit_If_OperatorDto(dto);
 
-            // Pre-calculate
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isTrue = dto.Condition.Const != 0.0;
-            if (isTrue)
+            if (dto.Condition.IsConst && dto.Then.IsConst && dto.Else.IsConst)
             {
-                return new Number_OperatorDto { Number = dto.Then.Const };
+                // Pre-calculate
+                bool isTrue = dto.Condition.Const != 0.0;
+                if (isTrue)
+                {
+                    return new Number_OperatorDto { Number = dto.Then.Const };
+                }
+                else
+                {
+                    return new Number_OperatorDto { Number = dto.Else.Const };
+                }
             }
-            else
+            else if (dto.Condition.IsConst && dto.Then.IsConst && dto.Else.IsVar)
             {
-                return new Number_OperatorDto { Number = dto.Else.Const };
+                bool isTrue = dto.Condition.Const != 0.0;
+                if (isTrue)
+                {
+                    // Identity
+                    return new Number_OperatorDto { Number = dto.Then.Const };
+                }
+                else
+                {
+                    // Identity
+                    return dto.Else.Var;
+                }
             }
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_ConstCondition_ConstThen_VarElse(If_OperatorDto_ConstCondition_ConstThen_VarElse dto)
-        {
-            base.Visit_If_OperatorDto_ConstCondition_ConstThen_VarElse(dto);
-
-            // Pre-calculate
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isTrue = dto.Condition.Const != 0.0;
-            if (isTrue)
+            else if (dto.Condition.IsConst && dto.Then.IsVar && dto.Else.IsConst)
             {
-                return new Number_OperatorDto { Number = dto.Then.Const };
+                bool isTrue = dto.Condition.Const != 0.0;
+                if (isTrue)
+                {
+                    // Identity
+                    return dto.Then.Var;
+                }
+                else
+                {
+                    // Identity
+                    return new Number_OperatorDto { Number = dto.Else.Const };
+                }
             }
-            else
+            else if (dto.Condition.IsConst && dto.Then.IsVar && dto.Else.IsVar)
             {
-                return dto.Else.Var;
+                bool isTrue = dto.Condition.Const != 0.0;
+                if (isTrue)
+                {
+                    // Identity
+                    return dto.Then.Var;
+                }
+                else
+                {
+                    // Identity
+                    return dto.Else.Var;
+                }
             }
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_ConstCondition_VarThen_ConstElse(If_OperatorDto_ConstCondition_VarThen_ConstElse dto)
-        {
-            base.Visit_If_OperatorDto_ConstCondition_VarThen_ConstElse(dto);
-
-            // Pre-calculate
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isTrue = dto.Condition.Const != 0.0;
-            if (isTrue)
+            else if (dto.Condition.IsVar && dto.Then.IsConst && dto.Else.IsConst)
             {
-                return dto.Then.Var;
+                if (dto.Then == dto.Else)
+                {
+                    // Identity
+                    return new Number_OperatorDto { Number = dto.Then.Const };
+                }
             }
-            else
-            {
-                return new Number_OperatorDto { Number = dto.Else.Const };
-            }
-        }
 
-        protected override IOperatorDto Visit_If_OperatorDto_ConstCondition_VarThen_VarElse(If_OperatorDto_ConstCondition_VarThen_VarElse dto)
-        {
-            base.Visit_If_OperatorDto_ConstCondition_VarThen_VarElse(dto);
-
-            // Pre-calculate
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool isTrue = dto.Condition.Const != 0.0;
-            if (isTrue)
-            {
-                return dto.Then.Var;
-            }
-            else
-            {
-                return dto.Else.Var;
-            }
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(If_OperatorDto_VarCondition_ConstThen_ConstElse dto)
-        {
-            base.Visit_If_OperatorDto_VarCondition_ConstThen_ConstElse(dto);
-
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (dto.Then == dto.Else)
-            {
-                // Identity
-                return new Number_OperatorDto { Number = dto.Then.Const };
-            }
-            else
-            {
-                return Process_Nothing(dto);
-            }
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_ConstThen_VarElse(If_OperatorDto_VarCondition_ConstThen_VarElse dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_ConstElse(If_OperatorDto_VarCondition_VarThen_ConstElse dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_If_OperatorDto_VarCondition_VarThen_VarElse(If_OperatorDto_VarCondition_VarThen_VarElse dto)
-        {
             return Process_Nothing(dto);
         }
 

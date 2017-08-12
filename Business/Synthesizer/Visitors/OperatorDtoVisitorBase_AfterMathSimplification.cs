@@ -21,10 +21,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_HighPassFilter_OperatorDto_ConstSound(HighPassFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_HighShelfFilter_OperatorDto_ConstSound(HighShelfFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Hold_OperatorDto_ConstSignal(Hold_OperatorDto_ConstSignal dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_If_OperatorDto_ConstCondition_ConstThen_ConstElse(If_OperatorDto_ConstCondition_ConstThen_ConstElse dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_If_OperatorDto_ConstCondition_ConstThen_VarElse(If_OperatorDto_ConstCondition_ConstThen_VarElse dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_If_OperatorDto_ConstCondition_VarThen_ConstElse(If_OperatorDto_ConstCondition_VarThen_ConstElse dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_If_OperatorDto_ConstCondition_VarThen_VarElse(If_OperatorDto_ConstCondition_VarThen_VarElse dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Loop_OperatorDto_ConstSignal(Loop_OperatorDto_ConstSignal dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_LowPassFilter_OperatorDto_ConstSound(LowPassFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
