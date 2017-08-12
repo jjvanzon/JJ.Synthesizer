@@ -1601,7 +1601,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
+                        calculator = new Loop_OperatorCalculator_SignalVarOrConst_OtherInputsVar(
                             signalCalculator,
                             skipCalculator,
                             loopStartMarkerCalculator,
@@ -1829,7 +1829,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
                     if (constOperandCalculator == null)
                     {
-                        calculator = new MaxOverInlets_OperatorCalculator_SoundVarOrConst_OtherInputsVar(operandCalculators);
+                        calculator = new MaxOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(operandCalculators);
                     }
                     else
                     {
@@ -1867,7 +1867,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new MaxFollower_OperatorCalculator_SoundVarOrConst_OtherInputsVar(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
+                calculator = new MaxFollower_OperatorCalculator_SignalVarOrConst_OtherInputsVar(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -1993,7 +1993,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 default:
                     if (constOperandCalculator == null)
                     {
-                        calculator = new MinOverInlets_OperatorCalculator_SoundVarOrConst_OtherInputsVar(operandCalculators);
+                        calculator = new MinOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(operandCalculators);
                     }
                     else
                     {

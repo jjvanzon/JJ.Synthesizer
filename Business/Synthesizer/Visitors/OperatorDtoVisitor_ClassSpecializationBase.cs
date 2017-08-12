@@ -84,11 +84,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new AverageFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
+                dto2 = new AverageFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -577,7 +577,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new Loop_OperatorDto_SoundVarOrConst_OtherInputsVar();
+                dto2 = new Loop_OperatorDto_SignalVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -637,11 +637,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -665,7 +665,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new MaxFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
+                dto2 = new MaxFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -719,11 +719,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -747,7 +747,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new MinFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
+                dto2 = new MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -1308,11 +1308,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -1472,11 +1472,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -1504,7 +1504,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new SumFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
+                dto2 = new SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);

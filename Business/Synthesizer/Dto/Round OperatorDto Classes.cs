@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -58,7 +57,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
         public InputDto Step { get; set; }
-        private static readonly InputDto _offset = InputDtoFactory.CreateInputDto(0);
+        private static readonly InputDto _offset = 0;
 
         public override IEnumerable<InputDto> Inputs
         {
@@ -76,8 +75,8 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Round;
 
-        private static readonly InputDto _step = InputDtoFactory.CreateInputDto(1);
-        private static readonly InputDto _offset = InputDtoFactory.CreateInputDto(0);
+        private static readonly InputDto _step = 1;
+        private static readonly InputDto _offset = 0;
 
         public override IEnumerable<InputDto> Inputs
         {

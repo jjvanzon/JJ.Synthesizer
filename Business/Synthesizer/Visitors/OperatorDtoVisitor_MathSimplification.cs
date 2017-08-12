@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Select(x => x.Const).Sum();
 
-            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = InputDtoFactory.CreateInputDto(constValue), OperatorID = dto.OperatorID };
+            return new Add_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // AverageFollower
 
-        protected override IOperatorDto Visit_AverageFollower_OperatorDto_SoundVarOrConst_OtherInputsVar(AverageFollower_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_AverageFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(AverageFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
         {
             return Process_Nothing(dto);
         }
@@ -173,12 +173,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // AverageOverDimension
 
-        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return Process_Nothing(dto);
         }
@@ -878,7 +878,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Loop
 
-        protected override IOperatorDto Visit_Loop_OperatorDto_SoundVarOrConst_OtherInputsVar(Loop_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_SignalVarOrConst_OtherInputsVar(Loop_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
         {
             return Process_Nothing(dto);
         }
@@ -939,7 +939,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // MaxFollower
 
-        protected override IOperatorDto Visit_MaxFollower_OperatorDto_SoundVarOrConst_OtherInputsVar(MaxFollower_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_MaxFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(MaxFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
         {
             return Process_Nothing(dto);
         }
@@ -951,12 +951,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // MaxOverDimension
 
-        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return Process_Nothing(dto);
         }
@@ -985,7 +985,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Select(x => x.Const).Max();
 
-            return new MaxOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = InputDtoFactory.CreateInputDto(constValue), OperatorID = dto.OperatorID };
+            return new MaxOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
@@ -1010,7 +1010,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // MinFollower
 
-        protected override IOperatorDto Visit_MinFollower_OperatorDto_SoundVarOrConst_OtherInputsVar(MinFollower_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
         {
             return Process_Nothing(dto);
         }
@@ -1022,12 +1022,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // MinOverDimension
 
-        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return Process_Nothing(dto);
         }
@@ -1056,7 +1056,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Select(x => x.Const).Min();
 
-            return new MinOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = InputDtoFactory.CreateInputDto(constValue), OperatorID = dto.OperatorID };
+            return new MinOverInlets_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
@@ -1103,7 +1103,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // Pre-calculate
             double constValue = dto.Consts.Select(x => x.Const).Product();
 
-            return new Multiply_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = InputDtoFactory.CreateInputDto(constValue), OperatorID = dto.OperatorID };
+            return new Multiply_OperatorDto_Vars_1Const { Vars = dto.Vars, Const = constValue, OperatorID = dto.OperatorID };
         }
 
         protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
@@ -1516,8 +1516,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto2 = new Add_OperatorDto_Vars_1Const
             {
-                Const = InputDtoFactory.CreateInputDto(stepTimesPosition),
-                Vars = new[] { InputDtoFactory.CreateInputDto(dto.From.Const) }
+                Const = stepTimesPosition,
+                Vars = new InputDto[] { dto.From.Const }
             };
             return dto2;
         }
@@ -1782,12 +1782,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // SortOverDimension
 
-        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return Process_Nothing(dto);
         }
 
-        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return Process_Nothing(dto);
         }
@@ -1972,7 +1972,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // SumFollower
 
-        protected override IOperatorDto Visit_SumFollower_OperatorDto_SoundVarOrConst_OtherInputsVar(SumFollower_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
         {
             return Process_Nothing(dto);
         }
@@ -1992,7 +1992,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // SumOverDimension
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return Process_Nothing(dto);
         }
@@ -2007,7 +2007,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return new Number_OperatorDto { Number = result };
         }
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return Process_Nothing(dto);
         }

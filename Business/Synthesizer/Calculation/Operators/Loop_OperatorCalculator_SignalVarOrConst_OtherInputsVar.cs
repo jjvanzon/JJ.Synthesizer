@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator_SoundVarOrConst_OtherInputsVar : Loop_OperatorCalculator_Base
+    internal class Loop_OperatorCalculator_SignalVarOrConst_OtherInputsVar : Loop_OperatorCalculator_Base
     {
         private readonly OperatorCalculatorBase _skipCalculator;
         private readonly OperatorCalculatorBase _loopStartMarkerCalculator;
@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _releaseEndMarkerCalculator;
         private readonly OperatorCalculatorBase _noteDurationCalculator;
 
-        public Loop_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
+        public Loop_OperatorCalculator_SignalVarOrConst_OtherInputsVar(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase skipCalculator,
             OperatorCalculatorBase loopStartMarkerCalculator,

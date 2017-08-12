@@ -42,8 +42,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var destDto2 = new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate();
             DtoCloner.CloneProperties(sourceDto, destDto2);
-            destDto2.Signal = InputDtoFactory.CreateInputDto(destDto1);
-            destDto2.SamplingRate = InputDtoFactory.CreateInputDto(1.0);
+            destDto2.Signal = destDto1;
+            destDto2.SamplingRate = 1.0;
             destDto2.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
 
             return destDto2;
@@ -57,8 +57,8 @@ namespace JJ.Business.Synthesizer.Visitors
             intermediateDto.Vars = sourceDto.Vars;
 
             DtoCloner.CloneProperties(sourceDto, destDto);
-            destDto.Signal = InputDtoFactory.CreateInputDto(intermediateDto);
-            destDto.SamplingRate = InputDtoFactory.CreateInputDto(1.0);
+            destDto.Signal = intermediateDto;
+            destDto.SamplingRate = 1.0;
             destDto.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
 
             return destDto;
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var destDto2 = new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate();
             DtoCloner.CloneProperties(sourceDto, destDto2);
-            destDto2.Signal = InputDtoFactory.CreateInputDto(destDto1);
+            destDto2.Signal = destDto1;
             destDto2.SamplingRate = sourceDto.Rate;
             destDto2.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
 
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Visitors
             DtoCloner.CloneProperties(sourceDto, intermediateDto);
 
             DtoCloner.CloneProperties(sourceDto, destDto);
-            destDto.Signal = InputDtoFactory.CreateInputDto(intermediateDto);
+            destDto.Signal = intermediateDto;
             destDto.SamplingRate = sourceDto.Rate;
             destDto.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
 

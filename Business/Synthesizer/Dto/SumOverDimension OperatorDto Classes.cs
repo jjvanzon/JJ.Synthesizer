@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.Dto
     internal class SumOverDimension_OperatorDto_AllConsts : SumOverDimension_OperatorDto
     { }
 
-    internal class SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous : SumOverDimension_OperatorDto
+    internal class SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous : SumOverDimension_OperatorDto
     { }
 
-    internal class SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset : SumOverDimension_OperatorDto
+    internal class SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset : SumOverDimension_OperatorDto
     { }
 }

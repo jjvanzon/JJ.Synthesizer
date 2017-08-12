@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -29,7 +28,7 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public InputDto Signal { get; set; }
         public InputDto Factor { get; set; }
-        private static readonly InputDto _origin = InputDtoFactory.CreateInputDto(0);
+        private static readonly InputDto _origin = 0;
 
         public override IEnumerable<InputDto> Inputs
         {

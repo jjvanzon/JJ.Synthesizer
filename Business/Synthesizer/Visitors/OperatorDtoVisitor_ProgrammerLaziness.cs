@@ -14,12 +14,12 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(dto);
 
-            var dto2 = new SumFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
+            var dto2 = new SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
             DtoCloner.CloneProperties(dto, dto2);
 
             dto2.Signal = dto.Signal;
             dto2.SampleCount = dto.SampleCount;
-            dto2.SliceLength = InputDtoFactory.CreateInputDto(1);
+            dto2.SliceLength = 1;
 
             return dto2;
         }

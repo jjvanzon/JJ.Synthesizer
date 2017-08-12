@@ -2,12 +2,12 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class MinFollower_OperatorDto : OperatorDtoBase_AggregateFollower_SoundVarOrConst_OtherInputsVar
+    internal class MinFollower_OperatorDto : OperatorDtoBase_AggregateFollower_SignalVarOrConst_OtherInputsVar
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MinFollower;
     }
 
-    internal class MinFollower_OperatorDto_SoundVarOrConst_OtherInputsVar : OperatorDtoBase_AggregateFollower_SoundVarOrConst_OtherInputsVar
+    internal class MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar : OperatorDtoBase_AggregateFollower_SignalVarOrConst_OtherInputsVar
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MinFollower;
     }

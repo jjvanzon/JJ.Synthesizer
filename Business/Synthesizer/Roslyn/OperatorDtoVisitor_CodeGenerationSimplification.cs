@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             var dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin();
             DtoCloner.CloneProperties(dto, dto2);
 
-            dto2.Factor = InputDtoFactory.CreateInputDto(negativeFactor);
+            dto2.Factor = negativeFactor;
 
             return dto2;
         }
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             var dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting();
             DtoCloner.CloneProperties(dto, dto2);
 
-            dto2.Factor = InputDtoFactory.CreateInputDto(negativeFactor);
+            dto2.Factor = negativeFactor;
 
 
             return dto2;

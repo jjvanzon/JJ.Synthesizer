@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Visitors
             typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration),
             typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration),
             typeof(Loop_OperatorDto_NoSkipOrRelease),
-            typeof(Loop_OperatorDto_SoundVarOrConst_OtherInputsVar),
+            typeof(Loop_OperatorDto_SignalVarOrConst_OtherInputsVar),
             typeof(Reverse_OperatorDto),
             typeof(Reverse_OperatorDto_VarFactor_WithPhaseTracking),
             typeof(Reverse_OperatorDto_VarFactor_NoPhaseTracking),

@@ -268,7 +268,7 @@
     <Compile Include="Calculation\Operators\MaxOrMinFollower_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\AverageFollower_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator_AllVars.cs" />
+    <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator_SignalVarOrConst_OtherInputsVar.cs" />
     <Compile Include="Calculation\Operators\Absolute_OperatorCalculator_VarNumber.cs" />
     <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
@@ -300,7 +300,7 @@
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SawUp OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyVariables.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_SignalVarOrConst_OtherInputsVar.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicAbruptSlope.cs" />
@@ -431,7 +431,7 @@
     <Compile Include="Dto\OperatorDtoBase_Trigger.cs" />
     <Compile Include="Dto\ChangeTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Round OperatorDto Classes.cs" />
-    <Compile Include="Dto\OperatorDtoBase_AggregateFollower_AllVars.cs" />
+    <Compile Include="Dto\OperatorDtoBase_AggregateFollower_SignalVarOrConst_OtherInputsVar.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithNumber.cs" />
     <Compile Include="Dto\Not OperatorDto Classes.cs" />
     <Compile Include="Dto\Or_OperatorDto.cs" />
