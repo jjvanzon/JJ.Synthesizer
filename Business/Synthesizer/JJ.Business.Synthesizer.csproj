@@ -299,7 +299,6 @@
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\SawUp OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_SignalVarOrConst_OtherInputsVar.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LagBehind.cs" />
@@ -397,7 +396,6 @@
     <Compile Include="Dto\OperatorDtoBase_WithDimension.cs" />
     <Compile Include="Dto\PeakingEQFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\RangeOverOutlets OperatorDto Classes.cs" />
-    <Compile Include="Dto\SawUp OperatorDto Classes.cs" />
     <Compile Include="Dto\Sine OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverInlets_Outlet_OperatorDto.cs" />

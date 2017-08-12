@@ -72,9 +72,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string RESET_MNEMONIC = "reset";
 
         /// <summary> {0} = phase </summary>
-        private const string SAW_UP_FORMULA_FORMAT = "-1.0 + (2.0 * {0} % 2.0)";
-
-        /// <summary> {0} = phase </summary>
         private const string SINE_FORMULA_FORMAT = "SineCalculator.Sin({0})";
 
         /// <summary> {0} = phase </summary>
@@ -1828,26 +1825,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             // Wrap-Up
             return GenerateOperatorWrapUp(dto, output);
-        }
-
-        protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessOriginShifter(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return ProcessPhaseTrackingOperator(dto, x => string.Format(SAW_UP_FORMULA_FORMAT, x));
         }
 
         protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto)

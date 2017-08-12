@@ -304,7 +304,6 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override void VisitSawUp(Operator op) => ProcessOperator(op, new SawUp_OperatorDto());
         protected override void VisitSetDimension(Operator op) => ProcessOperator(op, new SetDimension_OperatorDto());
         protected override void VisitSine(Operator op) => ProcessOperator(op, new Sine_OperatorDto());
 

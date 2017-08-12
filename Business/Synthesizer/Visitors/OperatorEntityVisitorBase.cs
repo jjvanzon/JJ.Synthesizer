@@ -77,7 +77,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Reset, VisitReset },
                 { OperatorTypeEnum.Round, VisitRound },
                 { OperatorTypeEnum.Sample, VisitSampleOperator },
-                { OperatorTypeEnum.SawUp, VisitSawUp },
                 { OperatorTypeEnum.SetDimension, VisitSetDimension },
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
@@ -387,9 +386,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         [DebuggerHidden]
         protected virtual void VisitSampleOperator(Operator op) => VisitOperatorBase(op);
-
-        [DebuggerHidden]
-        protected virtual void VisitSawUp(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
         protected virtual void VisitSetDimension(Operator op) => VisitOperatorBase(op);

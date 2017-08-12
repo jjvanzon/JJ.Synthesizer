@@ -291,11 +291,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting), x => Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting((Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting)x ) },
                 { typeof(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking), x => Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking((Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking)x ) },
                 { typeof(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting), x => Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting((Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting)x ) },
-                { typeof(SawUp_OperatorDto), x => Visit_SawUp_OperatorDto((SawUp_OperatorDto)x ) },
-                { typeof(SawUp_OperatorDto_ConstFrequency_NoOriginShifting), x => Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting((SawUp_OperatorDto_ConstFrequency_NoOriginShifting)x ) },
-                { typeof(SawUp_OperatorDto_ConstFrequency_WithOriginShifting), x => Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting((SawUp_OperatorDto_ConstFrequency_WithOriginShifting)x ) },
-                { typeof(SawUp_OperatorDto_VarFrequency_NoPhaseTracking), x => Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking((SawUp_OperatorDto_VarFrequency_NoPhaseTracking)x ) },
-                { typeof(SawUp_OperatorDto_VarFrequency_WithPhaseTracking), x => Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking((SawUp_OperatorDto_VarFrequency_WithPhaseTracking)x ) },
                 { typeof(SetDimension_OperatorDto), x => Visit_SetDimension_OperatorDto((SetDimension_OperatorDto)x ) },
                 { typeof(SetDimension_OperatorDto_VarPassThrough_VarNumber), x => Visit_SetDimension_OperatorDto_VarPassThrough_VarNumber((SetDimension_OperatorDto_VarPassThrough_VarNumber)x ) },
                 { typeof(SetDimension_OperatorDto_VarPassThrough_ConstNumber), x => Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber((SetDimension_OperatorDto_VarPassThrough_ConstNumber)x ) },
@@ -571,11 +566,6 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawUp_OperatorDto(SawUp_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarNumber(SetDimension_OperatorDto_VarPassThrough_VarNumber dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto) => Visit_OperatorDto_Base(dto);

@@ -1707,28 +1707,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_WithFrequency(dto);
         }
 
-        // SawUp
-
-        protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
         // SetDimension
 
         protected override IOperatorDto Visit_SetDimension_OperatorDto_ConstPassThrough_ConstNumber(SetDimension_OperatorDto_ConstPassThrough_ConstNumber dto)

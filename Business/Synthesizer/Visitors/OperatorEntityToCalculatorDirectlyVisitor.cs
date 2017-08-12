@@ -3131,66 +3131,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        protected override void VisitSawUp(Operator op)
-        {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-
-            base.VisitSawUp(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-
-            double frequency = frequencyCalculator.Calculate();
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
-
-            if (frequencyIsConstZero)
-            {
-                // Special Value
-                calculator = new Number_OperatorCalculator_Zero();
-            }
-            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
-            }
-            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
-            }
-            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SawUp_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SawUp_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else
-            {
-                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitSetDimension(Operator op)
         {
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
