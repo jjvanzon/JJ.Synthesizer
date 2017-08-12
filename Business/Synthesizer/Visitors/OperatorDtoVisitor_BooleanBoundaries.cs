@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto)
             => ProcessAndOrNot(dto);
 
-        protected override IOperatorDto Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
             => ProcessAndOrNot(dto);
 
         protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) 

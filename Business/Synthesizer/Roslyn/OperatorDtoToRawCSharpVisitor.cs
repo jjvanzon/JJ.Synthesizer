@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto)
         {
-            return ProcessLogicalBinaryOperator(dto, AND_SYMBOL);
+            return ProcessBinaryBoolOperator(dto, AND_SYMBOL);
         }
 
         protected override IOperatorDto Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
@@ -621,7 +621,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto)
         {
-            return ProcessBinaryOperator(dto, DIVIDE_SYMBOL);
+            return ProcessBinaryDoubleOperator(dto, DIVIDE_SYMBOL);
         }
 
         protected override IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto)
@@ -637,7 +637,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto)
         {
-            return ProcessComparativeOperator(dto, EQUALS_SYMBOL);
+            return ProcessBinaryBoolOperator(dto, EQUALS_SYMBOL);
         }
         
         protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
@@ -649,12 +649,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
         {
-            return ProcessComparativeOperator(dto, GREATER_THAN_SYMBOL);
+            return ProcessBinaryBoolOperator(dto, GREATER_THAN_SYMBOL);
         }
 
         protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
         {
-            return ProcessComparativeOperator(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
+            return ProcessBinaryBoolOperator(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
         }
 
         protected override IOperatorDto Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
@@ -871,12 +871,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
         {
-            return ProcessComparativeOperator(dto, LESS_THAN_SYMBOL);
+            return ProcessBinaryBoolOperator(dto, LESS_THAN_SYMBOL);
         }
 
         protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
         {
-            return ProcessComparativeOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
+            return ProcessBinaryBoolOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
@@ -1249,7 +1249,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
         {
-            return ProcessComparativeOperator(dto, NOT_EQUAL_SYMBOL);
+            return ProcessBinaryBoolOperator(dto, NOT_EQUAL_SYMBOL);
         }
 
         protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
@@ -1279,9 +1279,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             return dto;
         }
 
-        protected override IOperatorDto Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
         {
-            return ProcessLogicalBinaryOperator(dto, OR_SYMBOL);
+            return ProcessBinaryBoolOperator(dto, OR_SYMBOL);
         }
 
         protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
@@ -2316,17 +2316,17 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_Subtract_OperatorDto_ConstA_VarB(Subtract_OperatorDto_ConstA_VarB dto)
         {
-            return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
+            return ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
         }
 
         protected override IOperatorDto Visit_Subtract_OperatorDto_VarA_ConstB(Subtract_OperatorDto_VarA_ConstB dto)
         {
-            return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
+            return ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
         }
 
         protected override IOperatorDto Visit_Subtract_OperatorDto_VarA_VarB(Subtract_OperatorDto_VarA_VarB dto)
         {
-            return ProcessBinaryOperator(dto, SUBTRACT_SYMBOL);
+            return ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
         }
 
         protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
@@ -2529,7 +2529,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto ProcessBinaryOperator(OperatorDtoBase_WithAAndB dto, string operatorSymbol)
+        private IOperatorDto ProcessBinaryDoubleOperator(OperatorDtoBase_WithAAndB dto, string operatorSymbol)
         {
             string a = GetLiteralFromInputDto(dto.A);
             string b = GetLiteralFromInputDto(dto.B);
@@ -2542,20 +2542,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto ProcessComparativeOperator(OperatorDtoBase_WithAAndB dto, string operatorSymbol)
-        {
-            string a = GetLiteralFromInputDto(dto.A);
-            string b = GetLiteralFromInputDto(dto.B);
-            string output = GetLocalOutputName(dto);
-
-            AppendOperatorTitleComment(dto);
-
-            AppendLine($"bool {output} = {a} {operatorSymbol} {b};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private IOperatorDto ProcessLogicalBinaryOperator(OperatorDtoBase_WithAAndB dto, string operatorSymbol)
+        private IOperatorDto ProcessBinaryBoolOperator(OperatorDtoBase_WithAAndB dto, string operatorSymbol)
         {
             string a = GetLiteralFromInputDto(dto.A);
             string b = GetLiteralFromInputDto(dto.B);

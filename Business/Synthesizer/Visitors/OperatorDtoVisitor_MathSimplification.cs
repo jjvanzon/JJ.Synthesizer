@@ -1321,52 +1321,48 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Or
 
-        protected override IOperatorDto Visit_Or_OperatorDto_ConstA_ConstB(Or_OperatorDto_ConstA_ConstB dto)
+        protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
         {
-            base.Visit_Or_OperatorDto_ConstA_ConstB(dto);
+            base.Visit_Or_OperatorDto(dto);
 
-            // Pre-calculate
             if (dto.A.IsConstNonZero || dto.B.IsConstNonZero)
             {
+                // Pre-calculate
                 return new Number_OperatorDto_One();
             }
             else if (dto.A.IsConstZero && dto.B.IsConstZero)
             {
+                // Pre-calculate
                 return new Number_OperatorDto_Zero();
             }
+            else if (dto.A.IsConst && dto.B.IsVar)
+            {
+                // Commute
+                InputDto tempA = dto.A;
+                InputDto tempB = dto.B;
+                dto.A = tempB;
+                dto.B = tempA;
 
-            throw new VisitationCannotBeHandledException();
-        }
-
-        protected override IOperatorDto Visit_Or_OperatorDto_ConstA_VarB(Or_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_Or_OperatorDto_ConstA_VarB(dto);
-
-            // Commute
-            return new Or_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
-        }
-
-        protected override IOperatorDto Visit_Or_OperatorDto_VarA_ConstB(Or_OperatorDto_VarA_ConstB dto)
-        {
-            base.Visit_Or_OperatorDto_VarA_ConstB(dto);
-
-            if (dto.B.IsConstNonZero)
+                return dto;
+            }
+            else if (dto.A.IsVar && dto.B.IsConstNonZero)
             {
                 // Simplify
                 return new Number_OperatorDto_One();
             }
-            else if (dto.B.IsConstZero)
+            else if (dto.A.IsVar && dto.B.IsConstZero)
             {
                 // Identity
                 return dto.A.Var;
             }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return Process_Nothing(dto);
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         // PeakingEQFilter

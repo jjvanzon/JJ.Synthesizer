@@ -930,38 +930,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
-        {
-            base.Visit_Or_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.A.IsConst && dto.B.IsConst)
-            {
-                dto2 = new Or_OperatorDto_ConstA_ConstB();
-            }
-            else if (dto.A.IsVar && dto.B.IsConst)
-            {
-                dto2 = new Or_OperatorDto_VarA_ConstB();
-            }
-            else if (dto.A.IsConst && dto.B.IsVar)
-            {
-                dto2 = new Or_OperatorDto_ConstA_VarB();
-            }
-            else if (dto.A.IsVar && dto.B.IsVar)
-            {
-                dto2 = new Or_OperatorDto_VarA_VarB();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto)
         {
             base.Visit_PeakingEQFilter_OperatorDto(dto);

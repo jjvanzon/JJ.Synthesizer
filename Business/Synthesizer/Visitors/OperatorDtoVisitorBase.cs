@@ -254,10 +254,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Number_OperatorDto_One), x => Visit_Number_OperatorDto_One((Number_OperatorDto_One)x ) },
                 { typeof(Number_OperatorDto_Zero), x => Visit_Number_OperatorDto_Zero((Number_OperatorDto_Zero)x ) },
                 { typeof(Or_OperatorDto), x => Visit_Or_OperatorDto((Or_OperatorDto)x ) },
-                { typeof(Or_OperatorDto_ConstA_ConstB), x => Visit_Or_OperatorDto_ConstA_ConstB((Or_OperatorDto_ConstA_ConstB)x ) },
-                { typeof(Or_OperatorDto_ConstA_VarB), x => Visit_Or_OperatorDto_ConstA_VarB((Or_OperatorDto_ConstA_VarB)x ) },
-                { typeof(Or_OperatorDto_VarA_ConstB), x => Visit_Or_OperatorDto_VarA_ConstB((Or_OperatorDto_VarA_ConstB)x ) },
-                { typeof(Or_OperatorDto_VarA_VarB), x => Visit_Or_OperatorDto_VarA_VarB((Or_OperatorDto_VarA_VarB)x ) },
                 { typeof(PeakingEQFilter_OperatorDto), x => Visit_PeakingEQFilter_OperatorDto((PeakingEQFilter_OperatorDto)x ) },
                 { typeof(PeakingEQFilter_OperatorDto_ConstSound), x => Visit_PeakingEQFilter_OperatorDto_ConstSound((PeakingEQFilter_OperatorDto_ConstSound)x ) },
                 { typeof(PeakingEQFilter_OperatorDto_AllVars), x => Visit_PeakingEQFilter_OperatorDto_AllVars((PeakingEQFilter_OperatorDto_AllVars)x ) },
@@ -595,10 +591,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Or_OperatorDto_ConstA_ConstB(Or_OperatorDto_ConstA_ConstB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Or_OperatorDto_ConstA_VarB(Or_OperatorDto_ConstA_VarB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Or_OperatorDto_VarA_ConstB(Or_OperatorDto_VarA_ConstB dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Or_OperatorDto_VarA_VarB(Or_OperatorDto_VarA_VarB dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto_ConstSound(PeakingEQFilter_OperatorDto_ConstSound dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
