@@ -50,6 +50,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             dto = base.Visit_OperatorDto_Polymorphic(dto);
 
+            // ReSharper disable once InvertIf
             if (dto.OperatorTypeEnum != OperatorTypeEnum.And &&
                 dto.OperatorTypeEnum != OperatorTypeEnum.Or && 
                 dto.OperatorTypeEnum != OperatorTypeEnum.If && 

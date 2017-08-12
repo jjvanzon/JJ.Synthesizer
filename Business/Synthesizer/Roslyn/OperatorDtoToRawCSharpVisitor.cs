@@ -1194,13 +1194,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessMultiVarOperator_Vars_NoConsts(dto, MULTIPLY_SYMBOL);
         }
 
-        protected override IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto)
+        protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
         {
             string number = GetLiteralFromInputDto(dto.Number);
+            string output = GetLocalOutputName(dto);
 
             AppendOperatorTitleComment(dto);
-
-            string output = GetLocalOutputName(dto);
 
             AppendLine($"double {output} = -{number};");
 

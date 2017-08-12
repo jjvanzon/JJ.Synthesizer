@@ -906,30 +906,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
-        {
-            base.Visit_Negative_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Number.IsConst)
-            {
-                dto2 = new Negative_OperatorDto_ConstNumber();
-            }
-            else if (dto.Number.IsVar)
-            {
-                dto2 = new Negative_OperatorDto_VarNumber();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto)
         {
             base.Visit_Not_OperatorDto(dto);

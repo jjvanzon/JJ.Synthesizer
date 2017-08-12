@@ -57,9 +57,11 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/
         protected virtual InputDto VisitInput(InputDto inputDto)
         {
+            // ReSharper disable once InvertIf
             if (inputDto.IsVar)
             {
                 IOperatorDto var2 = Visit_OperatorDto_Polymorphic(inputDto.Var);
+                // ReSharper disable once InvertIf
                 if (var2 != inputDto.Var)
                 {
                     InputDto dto2 = InputDtoFactory.TryCreateInputDto(var2);
@@ -240,8 +242,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Multiply_OperatorDto_NoVars_Consts), x => Visit_Multiply_OperatorDto_NoVars_Consts((Multiply_OperatorDto_NoVars_Consts)x ) },
                 { typeof(Multiply_OperatorDto_Vars_1Const), x => Visit_Multiply_OperatorDto_Vars_1Const((Multiply_OperatorDto_Vars_1Const)x ) },
                 { typeof(Negative_OperatorDto), x => Visit_Negative_OperatorDto((Negative_OperatorDto)x ) },
-                { typeof(Negative_OperatorDto_VarNumber), x => Visit_Negative_OperatorDto_VarNumber((Negative_OperatorDto_VarNumber)x ) },
-                { typeof(Negative_OperatorDto_ConstNumber), x => Visit_Negative_OperatorDto_ConstNumber((Negative_OperatorDto_ConstNumber)x ) },
                 { typeof(Noise_OperatorDto), x => Visit_Noise_OperatorDto((Noise_OperatorDto)x ) },
                 { typeof(Not_OperatorDto), x => Visit_Not_OperatorDto((Not_OperatorDto)x ) },
                 { typeof(Not_OperatorDto_VarNumber), x => Visit_Not_OperatorDto_VarNumber((Not_OperatorDto_VarNumber)x ) },
@@ -585,8 +585,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Multiply_OperatorDto_NoVars_Consts(Multiply_OperatorDto_NoVars_Consts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Negative_OperatorDto_ConstNumber(Negative_OperatorDto_ConstNumber dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto) => Visit_OperatorDto_Base(dto);

@@ -565,7 +565,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
-        protected override IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto)
+        protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
         {
             return ProcessOperatorDto(dto, () => new Negative_OperatorCalculator(_stack.Pop()));
         }

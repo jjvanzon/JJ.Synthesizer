@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking(Reverse_OperatorDto_VarFactor_NoPhaseTracking sourceDto)
         {
-            var negativeDto = new Negative_OperatorDto_VarNumber
+            var negativeDto = new Negative_OperatorDto
             {
                 Number = sourceDto.Signal
             };
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_Reverse_OperatorDto_VarFactor_WithPhaseTracking(Reverse_OperatorDto_VarFactor_WithPhaseTracking dto)
         {
-            var negativeDto = new Negative_OperatorDto_VarNumber
+            var negativeDto = new Negative_OperatorDto
             {
                 Number = dto.Signal
             };

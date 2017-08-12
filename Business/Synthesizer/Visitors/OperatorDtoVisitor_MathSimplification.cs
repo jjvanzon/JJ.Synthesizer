@@ -1182,17 +1182,23 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Negative
 
-        protected override IOperatorDto Visit_Negative_OperatorDto_ConstNumber(Negative_OperatorDto_ConstNumber dto)
+        protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
         {
-            base.Visit_Negative_OperatorDto_ConstNumber(dto);
+            base.Visit_Negative_OperatorDto(dto);
 
-            // Pre-calculate
-            return new Number_OperatorDto { Number = -dto.Number.Const };
-        }
-
-        protected override IOperatorDto Visit_Negative_OperatorDto_VarNumber(Negative_OperatorDto_VarNumber dto)
-        {
-            return Process_Nothing(dto);
+            if (dto.Number.IsConst)
+            {
+                // Pre-calculate
+                return new Number_OperatorDto { Number = -dto.Number.Const };
+            }
+            else if (dto.Number.IsVar)
+            {
+                return Process_Nothing(dto);
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         // Noise
@@ -2076,7 +2082,10 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dto.A.IsConstZero)
             {
                 // Identity, switch sign
-                return new Negative_OperatorDto_VarNumber { Number = dto.B, OperatorID = dto.OperatorID };
+                var dto2 = new Negative_OperatorDto();
+                DtoCloner.CloneProperties(dto, dto2);
+                dto2.Number = dto.B;
+                return dto2;
             }
 
             return dto;

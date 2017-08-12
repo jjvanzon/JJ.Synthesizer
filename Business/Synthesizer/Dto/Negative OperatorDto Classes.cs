@@ -6,10 +6,4 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Negative;
     }
-
-    internal class Negative_OperatorDto_VarNumber : Negative_OperatorDto
-    { }
-
-    internal class Negative_OperatorDto_ConstNumber : Negative_OperatorDto
-    { }
 }

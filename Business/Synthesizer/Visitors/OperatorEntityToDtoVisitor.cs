@@ -132,16 +132,17 @@ namespace JJ.Business.Synthesizer.Visitors
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
 
             Curve curve = wrapper.Curve;
-
-            if (curve != null)
+            if (curve == null)
             {
-                dto.CurveID = curve.ID;
-                dto.ArrayDto = _calculatorCache.GetCurveArrayDto(curve.ID, _curveRepository);
-                dto.MinX = curve.Nodes
-                                .OrderBy(x => x.X)
-                                .First()
-                                .X;
+                return;
             }
+
+            dto.CurveID = curve.ID;
+            dto.ArrayDto = _calculatorCache.GetCurveArrayDto(curve.ID, _curveRepository);
+            dto.MinX = curve.Nodes
+                            .OrderBy(x => x.X)
+                            .First()
+                            .X;
         }
 
         protected override void VisitDimensionToOutletsOutlet(Outlet outlet)
@@ -313,6 +314,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             Operator op = outlet.Operator;
 
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var dto = new SortOverInlets_Outlet_OperatorDto
             {
                 OperatorID = op.ID,
@@ -398,6 +400,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private void TrySetDimensionProperties(Operator op, IOperatorDto dto)
         {
+            // ReSharper disable once InvertIf
             if (dto is IOperatorDto_WithDimension castedDto)
             {
                 castedDto.StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
