@@ -38,13 +38,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class MaxOverInlets_OperatorCalculator_AllVars : OperatorCalculatorBase_WithChildCalculators
+    internal class MaxOverInlets_OperatorCalculator_SoundVarOrConst_OtherInputsVar : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _firstOperandCalculator;
         private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
         private readonly double _remainingOperandCalculatorsCount;
 
-        public MaxOverInlets_OperatorCalculator_AllVars(IList<OperatorCalculatorBase> operandCalculators)
+        public MaxOverInlets_OperatorCalculator_SoundVarOrConst_OtherInputsVar(IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);

@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(dto);
 
-            var dto2 = new SumFollower_OperatorDto_AllVars();
+            var dto2 = new SumFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
             DtoCloner.CloneProperties(dto, dto2);
 
             dto2.Signal = dto.Signal;

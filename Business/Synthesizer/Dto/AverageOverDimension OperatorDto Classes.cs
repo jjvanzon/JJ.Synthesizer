@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AverageOverDimension;
     }
 
-    internal class AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous : AverageOverDimension_OperatorDto
+    internal class AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous : AverageOverDimension_OperatorDto
     { }
 
-    internal class AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset : AverageOverDimension_OperatorDto
+    internal class AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset : AverageOverDimension_OperatorDto
     { }
 }

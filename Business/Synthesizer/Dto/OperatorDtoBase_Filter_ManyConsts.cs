@@ -1,6 +1,6 @@
 ﻿namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_Filter_ManyConsts : OperatorDtoBase_Filter_VarSound
+    internal abstract class OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst : OperatorDtoBase_Filter_VarSound
     {
         public abstract InputDto Frequency { get; }
 

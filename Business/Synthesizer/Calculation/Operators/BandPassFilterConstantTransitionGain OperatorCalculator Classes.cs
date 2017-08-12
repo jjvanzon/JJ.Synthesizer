@@ -3,7 +3,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarWidth
+    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_SoundVarOrConst_OtherInputsVar
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _soundCalculator;
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private int _counter;
 
-        public BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarWidth(
+        public BandPassFilterConstantTransitionGain_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
             OperatorCalculatorBase soundCalculator,
             OperatorCalculatorBase centerFrequencyCalculator,
             OperatorCalculatorBase widthCalculator,
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstWidth
+    internal class BandPassFilterConstantTransitionGain_OperatorCalculator_SoundVarOrConst_OtherInputsConst
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _soundCalculator;
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _targetSamplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
-        public BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstWidth(
+        public BandPassFilterConstantTransitionGain_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
             OperatorCalculatorBase soundCalculator,
             double centerFrequency,
             double width,

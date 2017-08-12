@@ -3,7 +3,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class AllPassFilter_OperatorCalculator_AllVars
+    internal class AllPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _soundCalculator;
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private int _counter;
 
-        public AllPassFilter_OperatorCalculator_AllVars(
+        public AllPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
             OperatorCalculatorBase soundCalculator,
             OperatorCalculatorBase centerFrequencyCalculator,
             OperatorCalculatorBase widthCalculator,
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class AllPassFilter_OperatorCalculator_ManyConsts
+    internal class AllPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _soundCalculator;
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _targetSamplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
-        public AllPassFilter_OperatorCalculator_ManyConsts(
+        public AllPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
             OperatorCalculatorBase soundCalculator,
             double centerFrequency,
             double width,

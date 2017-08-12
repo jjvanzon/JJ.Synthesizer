@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_ShelfFilter_AllVars : OperatorDtoBase_Filter_VarSound
+    internal abstract class OperatorDtoBase_ShelfFilter_SoundVarOrConst_OtherInputsVar : OperatorDtoBase_Filter_VarSound
     {
         public InputDto TransitionFrequency { get; set; }
         public InputDto TransitionSlope { get; set; }
@@ -30,7 +29,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal abstract class OperatorDtoBase_ShelfFilter_ManyConsts : OperatorDtoBase_Filter_ManyConsts
+    internal abstract class OperatorDtoBase_ShelfFilter_SoundVarOrConst_OtherInputsConst : OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst
     {
         public override InputDto Frequency => TransitionFrequency;
 

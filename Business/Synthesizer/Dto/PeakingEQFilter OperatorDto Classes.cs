@@ -4,15 +4,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class PeakingEQFilter_OperatorDto : PeakingEQFilter_OperatorDto_AllVars
+    internal class PeakingEQFilter_OperatorDto : PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar
     { }
 
-    internal class PeakingEQFilter_OperatorDto_ConstSound : OperatorDtoBase_ConstSound
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
-    }
-
-    internal class PeakingEQFilter_OperatorDto_AllVars : OperatorDtoBase_Filter_VarSound
+    internal class PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar : OperatorDtoBase_Filter_VarSound
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
 
@@ -40,7 +35,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class PeakingEQFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts
+    internal class PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst : OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.PeakingEQFilter;
 

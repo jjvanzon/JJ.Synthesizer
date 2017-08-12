@@ -1,7 +1,6 @@
 ﻿using System;
 
 using JJ.Business.Synthesizer.Dto;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {

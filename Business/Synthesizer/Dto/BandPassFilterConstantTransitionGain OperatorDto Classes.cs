@@ -2,22 +2,17 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class BandPassFilterConstantTransitionGain_OperatorDto : OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth
+    internal class BandPassFilterConstantTransitionGain_OperatorDto : OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsVar
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.BandPassFilterConstantTransitionGain;
     }
 
-    internal class BandPassFilterConstantTransitionGain_OperatorDto_ConstSound : OperatorDtoBase_ConstSound
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.BandPassFilterConstantPeakGain;
-    }
-
-    internal class BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth : OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth
+    internal class BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar : OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsVar
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.BandPassFilterConstantTransitionGain;
     }
 
-    internal class BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth : OperatorDtoBase_BandPassFilter_ConstCenterFrequency_ConstWidth
+    internal class BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst : OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsConst
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.BandPassFilterConstantTransitionGain;
     }

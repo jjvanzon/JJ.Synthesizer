@@ -85,14 +85,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateAddCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
-        protected override IOperatorDto Visit_AllPassFilter_OperatorDto_AllVars(AllPassFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessOperatorDto(dto, () => new AllPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
+            return ProcessOperatorDto(dto, () => new AllPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
-        protected override IOperatorDto Visit_AllPassFilter_OperatorDto_ManyConsts(AllPassFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
         {
-            return ProcessOperatorDto(dto, () => new AllPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.TargetSamplingRate));
+            return ProcessOperatorDto(dto, () => new AllPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.TargetSamplingRate));
         }
         
         protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto)
@@ -100,17 +100,17 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new And_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
-        protected override IOperatorDto Visit_AverageFollower_OperatorDto_AllVars(AverageFollower_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_AverageFollower_OperatorDto_SoundVarOrConst_OtherInputsVar(AverageFollower_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new AverageFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
@@ -120,24 +120,24 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new AverageOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstWidth(BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
         {
-            return ProcessOperatorDto(dto, () => new BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstWidth(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.TargetSamplingRate));
+            return ProcessOperatorDto(dto, () => new BandPassFilterConstantPeakGain_OperatorCalculator_SoundVarOrConst_OtherInputsConst(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.TargetSamplingRate));
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarWidth(BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessOperatorDto(dto, () => new BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
+            return ProcessOperatorDto(dto, () => new BandPassFilterConstantPeakGain_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth(BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
         {
-            return ProcessOperatorDto(dto, () => new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstWidth(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.TargetSamplingRate));
+            return ProcessOperatorDto(dto, () => new BandPassFilterConstantTransitionGain_OperatorCalculator_SoundVarOrConst_OtherInputsConst(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.TargetSamplingRate));
         }
 
-        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth(BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth dto)
+        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessOperatorDto(dto, () => new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarWidth(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
+            return ProcessOperatorDto(dto, () => new BandPassFilterConstantTransitionGain_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
         protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
@@ -308,24 +308,24 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessOperatorDto(dto, () => new HighPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
+            return ProcessOperatorDto(dto, () => new HighPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
-        protected override IOperatorDto Visit_HighPassFilter_OperatorDto_ManyConsts(HighPassFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
         {
-            return ProcessOperatorDto(dto, () => new HighPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.MinFrequency.Const, dto.BlobVolume.Const, dto.TargetSamplingRate));
+            return ProcessOperatorDto(dto, () => new HighPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(_stack.Pop(), dto.MinFrequency.Const, dto.BlobVolume.Const, dto.TargetSamplingRate));
         }
 
-        protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_AllVars(HighShelfFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessOperatorDto(dto, () => new HighShelfFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
+            return ProcessOperatorDto(dto, () => new HighShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
-        protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_ManyConsts(HighShelfFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
         {
-            return ProcessOperatorDto(dto, () => new HighShelfFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.TransitionFrequency.Const, dto.TransitionSlope.Const, dto.DBGain.Const, dto.TargetSamplingRate));
+            return ProcessOperatorDto(dto, () => new HighShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(_stack.Pop(), dto.TransitionFrequency.Const, dto.TransitionSlope.Const, dto.DBGain.Const, dto.TargetSamplingRate));
         }
 
         protected override IOperatorDto Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
@@ -439,9 +439,9 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_SoundVarOrConst_OtherInputsVar(Loop_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
@@ -469,37 +469,37 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants(_stack.Pop(), dto.LoopStartMarker.Const, dto.LoopEndMarker.Const, _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_LowPassFilter_OperatorDto_AllVars(LowPassFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessOperatorDto(dto, () => new LowPassFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
+            return ProcessOperatorDto(dto, () => new LowPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
-        protected override IOperatorDto Visit_LowPassFilter_OperatorDto_ManyConsts(LowPassFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
         {
-            return ProcessOperatorDto(dto, () => new LowPassFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.MaxFrequency.Const, dto.BlobVolume.Const, dto.TargetSamplingRate));
+            return ProcessOperatorDto(dto, () => new LowPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(_stack.Pop(), dto.MaxFrequency.Const, dto.BlobVolume.Const, dto.TargetSamplingRate));
         }
 
-        protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_AllVars(LowShelfFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessOperatorDto(dto, () => new LowShelfFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
+            return ProcessOperatorDto(dto, () => new LowShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
-        protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_ManyConsts(LowShelfFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
         {
-            return ProcessOperatorDto(dto, () => new LowShelfFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.TransitionFrequency.Const, dto.TransitionSlope.Const, dto.DBGain.Const, dto.TargetSamplingRate));
+            return ProcessOperatorDto(dto, () => new LowShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(_stack.Pop(), dto.TransitionFrequency.Const, dto.TransitionSlope.Const, dto.DBGain.Const, dto.TargetSamplingRate));
         }
 
-        protected override IOperatorDto Visit_MaxFollower_OperatorDto_AllVars(MaxFollower_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_MaxFollower_OperatorDto_SoundVarOrConst_OtherInputsVar(MaxFollower_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new MaxFollower_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new MaxFollower_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
@@ -521,20 +521,20 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
         {
-            return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_AllVars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
+            return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_SoundVarOrConst_OtherInputsVar(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
-        protected override IOperatorDto Visit_MinFollower_OperatorDto_AllVars(MinFollower_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_MinFollower_OperatorDto_SoundVarOrConst_OtherInputsVar(MinFollower_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new MinFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
@@ -556,7 +556,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
         {
-            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_AllVars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
+            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_SoundVarOrConst_OtherInputsVar(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
         protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
@@ -588,14 +588,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override IOperatorDto Visit_NotchFilter_OperatorDto_AllVars(NotchFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
+            return ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
-        protected override IOperatorDto Visit_NotchFilter_OperatorDto_ManyConsts(NotchFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
         {
-            return ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.TargetSamplingRate));
+            return ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.TargetSamplingRate));
         }
 
         protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
@@ -644,14 +644,14 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Or_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
         }
 
-        protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
-            return ProcessOperatorDto(dto, () => new PeakingEQFilter_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
+            return ProcessOperatorDto(dto, () => new PeakingEQFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate, _samplesBetweenApplyFilterVariables));
         }
 
-        protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto)
+        protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
         {
-            return ProcessOperatorDto(dto, () => new PeakingEQFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.DBGain.Const, dto.TargetSamplingRate));
+            return ProcessOperatorDto(dto, () => new PeakingEQFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.DBGain.Const, dto.TargetSamplingRate));
         }
 
         protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
@@ -1055,12 +1055,12 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
@@ -1070,7 +1070,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new SortOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_Spectrum_OperatorDto_AllVars(Spectrum_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar(Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new Spectrum_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
@@ -1195,17 +1195,17 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_SumFollower_OperatorDto_SoundVarOrConst_OtherInputsVar(SumFollower_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SumFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }

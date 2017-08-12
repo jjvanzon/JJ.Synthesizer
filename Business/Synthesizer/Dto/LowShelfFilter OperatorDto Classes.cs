@@ -2,20 +2,15 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class LowShelfFilter_OperatorDto : LowShelfFilter_OperatorDto_AllVars
+    internal class LowShelfFilter_OperatorDto : LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar
     { }
 
-    internal class LowShelfFilter_OperatorDto_ConstSound : OperatorDtoBase_ConstSound
+    internal class LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar : OperatorDtoBase_ShelfFilter_SoundVarOrConst_OtherInputsVar
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.LowShelfFilter;
     }
 
-    internal class LowShelfFilter_OperatorDto_AllVars : OperatorDtoBase_ShelfFilter_AllVars
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.LowShelfFilter;
-    }
-
-    internal class LowShelfFilter_OperatorDto_ManyConsts : OperatorDtoBase_ShelfFilter_ManyConsts
+    internal class LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst : OperatorDtoBase_ShelfFilter_SoundVarOrConst_OtherInputsConst
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.LowShelfFilter;
     }

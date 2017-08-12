@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_BandPassFilter_ConstCenterFrequency_ConstWidth : OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume
+    internal abstract class OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsConst : OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume
     {
         public override InputDto Frequency => CenterFrequency;
         public override InputDto WidthOrBlobVolume => Width;

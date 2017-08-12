@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SortOverDimension;
     }
 
-    internal class SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous : SortOverDimension_OperatorDto
+    internal class SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous : SortOverDimension_OperatorDto
     { }
 
-    internal class SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset : SortOverDimension_OperatorDto
+    internal class SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset : SortOverDimension_OperatorDto
     { }
 }

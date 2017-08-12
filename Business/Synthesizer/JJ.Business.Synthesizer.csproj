@@ -177,7 +177,7 @@
     <Compile Include="Dto\IOperatorDto_WithTargetChannelCount.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithoutInputs.cs" />
     <Compile Include="Dto\OperatorDtoBase_ZeroFrequency.cs" />
-    <Compile Include="Dto\OperatorDtoBase_ConstSound.cs" />
+    <Compile Include="Dto\2017-08-12 Backup of OperatorDtoBase_ConstSound.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_VarSound.cs" />
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
@@ -392,8 +392,8 @@
     <Compile Include="Dto\Multiply OperatorDto Classes.cs" />
     <Compile Include="Dto\NotchFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\Number OperatorDto Classes.cs" />
-    <Compile Include="Dto\OperatorDtoBase_BandPassFilter_ConstCenterFrequency_ConstWidth.cs" />
-    <Compile Include="Dto\OperatorDtoBase_BandPassFilter_VarCenterFrequency_VarWidth.cs" />
+    <Compile Include="Dto\OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsConst.cs" />
+    <Compile Include="Dto\OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsVar.cs" />
     <Compile Include="Dto\OperatorDtoBase_Consts.cs" />
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithSignal.cs" />

@@ -4,15 +4,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class AllPassFilter_OperatorDto : AllPassFilter_OperatorDto_AllVars
+    internal class AllPassFilter_OperatorDto : AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar
     { }
 
-    internal class AllPassFilter_OperatorDto_ConstSound : OperatorDtoBase_ConstSound
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AllPassFilter;
-    }
-
-    internal class AllPassFilter_OperatorDto_AllVars : OperatorDtoBase_Filter_VarSound
+    internal class AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar : OperatorDtoBase_Filter_VarSound
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AllPassFilter;
 
@@ -32,7 +27,7 @@ namespace JJ.Business.Synthesizer.Dto
         }
     }
 
-    internal class AllPassFilter_OperatorDto_ManyConsts : OperatorDtoBase_Filter_ManyConsts_WithWidthOrBlobVolume
+    internal class AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst : OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AllPassFilter;
         public override InputDto Frequency => CenterFrequency;

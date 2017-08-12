@@ -3,7 +3,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class PeakingEQFilter_OperatorCalculator_AllVars
+    internal class PeakingEQFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _soundCalculator;
@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private int _counter;
 
-        public PeakingEQFilter_OperatorCalculator_AllVars(
+        public PeakingEQFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
             OperatorCalculatorBase soundCalculator,
             OperatorCalculatorBase centerFrequencyCalculator,
             OperatorCalculatorBase widthCalculator,
@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class PeakingEQFilter_OperatorCalculator_ManyConsts : OperatorCalculatorBase_WithChildCalculators
+    internal class PeakingEQFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _soundCalculator;
         private readonly double _centerFrequency;
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _targetSamplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
-        public PeakingEQFilter_OperatorCalculator_ManyConsts(
+        public PeakingEQFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
             OperatorCalculatorBase soundCalculator,
             double centerFrequency,
             double width,

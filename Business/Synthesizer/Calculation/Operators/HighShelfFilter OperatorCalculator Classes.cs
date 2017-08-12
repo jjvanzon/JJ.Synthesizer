@@ -3,7 +3,7 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class HighShelfFilter_OperatorCalculator_AllVars
+    internal class HighShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _soundCalculator;
@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private int _counter;
 
-        public HighShelfFilter_OperatorCalculator_AllVars(
+        public HighShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
             OperatorCalculatorBase soundCalculator,
             OperatorCalculatorBase transitionFrequencyCalculator,
             OperatorCalculatorBase transitionSlopeCalculator,
@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class HighShelfFilter_OperatorCalculator_ManyConsts
+    internal class HighShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst
         : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _soundCalculator;
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double _targetSamplingRate;
         private readonly BiQuadFilter _biQuadFilter;
 
-        public HighShelfFilter_OperatorCalculator_ManyConsts(
+        public HighShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
             OperatorCalculatorBase soundCalculator,
             double transitionFrequency,
             double transitionSlope,

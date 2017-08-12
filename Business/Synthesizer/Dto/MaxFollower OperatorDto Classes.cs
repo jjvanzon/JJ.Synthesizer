@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class MaxFollower_OperatorDto : OperatorDtoBase_AggregateFollower_AllVars
+    internal class MaxFollower_OperatorDto : OperatorDtoBase_AggregateFollower_SoundVarOrConst_OtherInputsVar
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxFollower;
     }
@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxFollower;
     }
 
-    internal class MaxFollower_OperatorDto_AllVars : OperatorDtoBase_AggregateFollower_AllVars
+    internal class MaxFollower_OperatorDto_SoundVarOrConst_OtherInputsVar : OperatorDtoBase_AggregateFollower_SoundVarOrConst_OtherInputsVar
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxFollower;
     }

@@ -1,17 +1,10 @@
-﻿using System;
-using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.Dto;
+﻿using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Calculation.Operators;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Calculation.Random;
-using JJ.Business.Synthesizer.Calculation;
 
 namespace GeneratedCSharp
 {

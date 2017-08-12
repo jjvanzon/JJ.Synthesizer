@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (centerFrequencyIsConst && widthIsConst)
             {
-                calculator = new AllPassFilter_OperatorCalculator_ManyConsts(
+                calculator = new AllPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
                     soundCalculator,
                     centerFrequency,
                     width,
@@ -256,7 +256,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new AllPassFilter_OperatorCalculator_AllVars(
+                calculator = new AllPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                     soundCalculator,
                     centerFrequencyCalculator,
                     widthCalculator,
@@ -491,7 +491,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (centerFrequencyIsConst && widthIsConst)
             {
-                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_ConstCenterFrequency_ConstWidth(
+                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
                     soundCalculator,
                     centerFrequency,
                     width,
@@ -499,7 +499,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_VarCenterFrequency_VarWidth(
+                calculator = new BandPassFilterConstantPeakGain_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                     soundCalculator,
                     centerFrequencyCalculator,
                     widthCalculator,
@@ -552,7 +552,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (centerFrequencyIsConst && widthIsConst)
             {
-                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_ConstCenterFrequency_ConstWidth(
+                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
                     soundCalculator,
                     centerFrequency,
                     width,
@@ -560,7 +560,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_VarCenterFrequency_VarWidth(
+                calculator = new BandPassFilterConstantTransitionGain_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                     soundCalculator,
                     centerFrequencyCalculator,
                     widthCalculator,
@@ -1246,7 +1246,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (minFrequencyIsConst && blobVolumeIsConst)
             {
-                calculator = new HighPassFilter_OperatorCalculator_ManyConsts(
+                calculator = new HighPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
                     soundCalculator, 
                     minFrequency, 
                     blobVolume,
@@ -1254,7 +1254,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new HighPassFilter_OperatorCalculator_AllVars(
+                calculator = new HighPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                     soundCalculator, 
                     minFrequencyCalculator, 
                     blobVolumeCalculator,
@@ -1305,7 +1305,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (transitionFrequencyIsConst && dbGainIsConst && transitionSlopeIsConst)
             {
-                calculator = new HighShelfFilter_OperatorCalculator_ManyConsts(
+                calculator = new HighShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
                     soundCalculator,
                     transitionFrequency,
                     transitionSlope,
@@ -1314,7 +1314,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new HighShelfFilter_OperatorCalculator_AllVars(
+                calculator = new HighShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                     soundCalculator,
                     transitionFrequencyCalculator,
                     transitionSlopeCalculator,
@@ -1601,7 +1601,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator_AllVars(
+                        calculator = new Loop_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                             signalCalculator,
                             skipCalculator,
                             loopStartMarkerCalculator,
@@ -1657,7 +1657,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (maxFrequencyIsConst && blobVolumeIsConst)
             {
-                calculator = new LowPassFilter_OperatorCalculator_ManyConsts(
+                calculator = new LowPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
                     soundCalculator, 
                     maxFrequency, 
                     blobVolume,
@@ -1665,7 +1665,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new LowPassFilter_OperatorCalculator_AllVars(
+                calculator = new LowPassFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                     soundCalculator, 
                     maxFrequencyCalculator, 
                     blobVolumeCalculator,
@@ -1716,7 +1716,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (transitionFrequencyIsConst && dbGainIsConst && transitionSlopeIsConst)
             {
-                calculator = new LowShelfFilter_OperatorCalculator_ManyConsts(
+                calculator = new LowShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
                     soundCalculator,
                     transitionFrequency,
                     transitionSlope,
@@ -1725,7 +1725,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new LowShelfFilter_OperatorCalculator_AllVars(
+                calculator = new LowShelfFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                     soundCalculator,
                     transitionFrequencyCalculator,
                     transitionSlopeCalculator,
@@ -1829,7 +1829,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
                     if (constOperandCalculator == null)
                     {
-                        calculator = new MaxOverInlets_OperatorCalculator_AllVars(operandCalculators);
+                        calculator = new MaxOverInlets_OperatorCalculator_SoundVarOrConst_OtherInputsVar(operandCalculators);
                     }
                     else
                     {
@@ -1867,7 +1867,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new MaxFollower_OperatorCalculator_AllVars(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
+                calculator = new MaxFollower_OperatorCalculator_SoundVarOrConst_OtherInputsVar(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);
@@ -1993,7 +1993,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 default:
                     if (constOperandCalculator == null)
                     {
-                        calculator = new MinOverInlets_OperatorCalculator_AllVars(operandCalculators);
+                        calculator = new MinOverInlets_OperatorCalculator_SoundVarOrConst_OtherInputsVar(operandCalculators);
                     }
                     else
                     {
@@ -2299,7 +2299,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (centerFrequencyIsConst && widthIsConst)
             {
-                calculator = new NotchFilter_OperatorCalculator_ManyConsts(
+                calculator = new NotchFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
                     soundCalculator,
                     centerFrequency,
                     width,
@@ -2307,7 +2307,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new NotchFilter_OperatorCalculator_AllVars(
+                calculator = new NotchFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                     soundCalculator,
                     centerFrequencyCalculator,
                     widthCalculator,
@@ -2494,7 +2494,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (centerFrequencyIsConst && widthIsConst && dbGainIsConst)
             {
-                calculator = new PeakingEQFilter_OperatorCalculator_ManyConsts(
+                calculator = new PeakingEQFilter_OperatorCalculator_SoundVarOrConst_OtherInputsConst(
                     soundCalculator,
                     centerFrequency,
                     width,
@@ -2503,7 +2503,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new PeakingEQFilter_OperatorCalculator_AllVars(
+                calculator = new PeakingEQFilter_OperatorCalculator_SoundVarOrConst_OtherInputsVar(
                     soundCalculator,
                     centerFrequencyCalculator,
                     widthCalculator,

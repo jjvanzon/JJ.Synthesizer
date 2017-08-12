@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxOverDimension;
     }
 
-    internal class MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous : MaxOverDimension_OperatorDto
+    internal class MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous : MaxOverDimension_OperatorDto
     { }
 
-    internal class MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset : MaxOverDimension_OperatorDto
+    internal class MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset : MaxOverDimension_OperatorDto
     { }
 }

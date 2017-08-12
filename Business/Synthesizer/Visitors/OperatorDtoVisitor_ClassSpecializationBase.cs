@@ -58,17 +58,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Sound.IsConst)
+            if (dto.CenterFrequency.IsConst && dto.Width.IsConst)
             {
-                dto2 = new AllPassFilter_OperatorDto_ConstSound();
-            }
-            else if (dto.CenterFrequency.IsConst && dto.Width.IsConst)
-            {
-                dto2 = new AllPassFilter_OperatorDto_ManyConsts();
+                dto2 = new AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst();
             }
             else
             {
-                dto2 = new AllPassFilter_OperatorDto_AllVars();
+                dto2 = new AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -88,11 +84,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+                dto2 = new AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new AverageOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+                dto2 = new AverageOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -116,7 +112,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new AverageFollower_OperatorDto_AllVars();
+                dto2 = new AverageFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -156,17 +152,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Sound.IsConst)
+            if (dto.CenterFrequency.IsConst && dto.Width.IsConst)
             {
-                dto2 = new BandPassFilterConstantPeakGain_OperatorDto_ConstSound();
-            }
-            else if (dto.CenterFrequency.IsConst && dto.Width.IsConst)
-            {
-                dto2 = new BandPassFilterConstantPeakGain_OperatorDto_ConstCenterFrequency_ConstWidth();
+                dto2 = new BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst();
             }
             else
             {
-                dto2 = new BandPassFilterConstantPeakGain_OperatorDto_VarCenterFrequency_VarWidth();
+                dto2 = new BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -180,17 +172,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Sound.IsConst)
+            if (dto.CenterFrequency.IsConst && dto.Width.IsConst)
             {
-                dto2 = new BandPassFilterConstantTransitionGain_OperatorDto_ConstSound();
-            }
-            else if (dto.CenterFrequency.IsConst && dto.Width.IsConst)
-            {
-                dto2 = new BandPassFilterConstantTransitionGain_OperatorDto_ConstCenterFrequency_ConstWidth();
+                dto2 = new BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst();
             }
             else
             {
-                dto2 = new BandPassFilterConstantTransitionGain_OperatorDto_VarCenterFrequency_VarWidth();
+                dto2 = new BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -408,17 +396,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Sound.IsConst)
+            if (dto.MinFrequency.IsConst && dto.BlobVolume.IsConst)
             {
-                dto2 = new HighPassFilter_OperatorDto_ConstSound();
-            }
-            else if (dto.MinFrequency.IsConst && dto.BlobVolume.IsConst)
-            {
-                dto2 = new HighPassFilter_OperatorDto_ManyConsts();
+                dto2 = new HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst();
             }
             else
             {
-                dto2 = new HighPassFilter_OperatorDto_AllVars();
+                dto2 = new HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -432,17 +416,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Sound.IsConst)
+            if (dto.TransitionFrequency.IsConst && dto.TransitionSlope.IsConst & dto.DBGain.IsConst)
             {
-                dto2 = new HighShelfFilter_OperatorDto_ConstSound();
-            }
-            else if (dto.TransitionFrequency.IsConst && dto.TransitionSlope.IsConst & dto.DBGain.IsConst)
-            {
-                dto2 = new HighShelfFilter_OperatorDto_ManyConsts();
+                dto2 = new HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst();
             }
             else
             {
-                dto2 = new HighShelfFilter_OperatorDto_AllVars();
+                dto2 = new HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -604,7 +584,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new Loop_OperatorDto_AllVars();
+                dto2 = new Loop_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -618,17 +598,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Sound.IsConst)
+            if (dto.MaxFrequency.IsConst && dto.BlobVolume.IsConst)
             {
-                dto2 = new LowPassFilter_OperatorDto_ConstSound();
-            }
-            else if (dto.MaxFrequency.IsConst && dto.BlobVolume.IsConst)
-            {
-                dto2 = new LowPassFilter_OperatorDto_ManyConsts();
+                dto2 = new LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst();
             }
             else
             {
-                dto2 = new LowPassFilter_OperatorDto_AllVars();
+                dto2 = new LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -642,17 +618,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Sound.IsConst)
+            if (dto.TransitionSlope.IsConst && dto.TransitionSlope.IsConst & dto.DBGain.IsConst)
             {
-                dto2 = new LowShelfFilter_OperatorDto_ConstSound();
-            }
-            else if (dto.TransitionSlope.IsConst && dto.TransitionSlope.IsConst & dto.DBGain.IsConst)
-            {
-                dto2 = new LowShelfFilter_OperatorDto_ManyConsts();
+                dto2 = new LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst();
             }
             else
             {
-                dto2 = new LowShelfFilter_OperatorDto_AllVars();
+                dto2 = new LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -672,11 +644,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+                dto2 = new MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new MaxOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+                dto2 = new MaxOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -700,7 +672,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new MaxFollower_OperatorDto_AllVars();
+                dto2 = new MaxFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -754,11 +726,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new MinOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+                dto2 = new MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new MinOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+                dto2 = new MinOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -782,7 +754,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new MinFollower_OperatorDto_AllVars();
+                dto2 = new MinFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -864,17 +836,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Sound.IsConst)
+            if (dto.CenterFrequency.IsConst && dto.Width.IsConst)
             {
-                dto2 = new NotchFilter_OperatorDto_ConstSound();
-            }
-            else if (dto.CenterFrequency.IsConst && dto.Width.IsConst)
-            {
-                dto2 = new NotchFilter_OperatorDto_ManyConsts();
+                dto2 = new NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst();
             }
             else
             {
-                dto2 = new NotchFilter_OperatorDto_AllVars();
+                dto2 = new NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -888,17 +856,13 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Sound.IsConst)
+            if (dto.CenterFrequency.IsConst && dto.Width.IsConst & dto.DBGain.IsConst)
             {
-                dto2 = new PeakingEQFilter_OperatorDto_ConstSound();
-            }
-            else if (dto.CenterFrequency.IsConst && dto.Width.IsConst & dto.DBGain.IsConst)
-            {
-                dto2 = new PeakingEQFilter_OperatorDto_ManyConsts();
+                dto2 = new PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst();
             }
             else
             {
-                dto2 =new PeakingEQFilter_OperatorDto_AllVars();
+                dto2 =new PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -1410,11 +1374,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new SortOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+                dto2 = new SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new SortOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+                dto2 = new SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -1430,16 +1394,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Spectrum_OperatorDto(dto);
 
-            IOperatorDto dto2;
-
-            if (dto.Sound.IsConst)
-            {
-                dto2 = new Spectrum_OperatorDto_ConstSound();
-            }
-            else
-            {
-                dto2 = new Spectrum_OperatorDto_AllVars();
-            }
+            IOperatorDto dto2 = new Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar();
 
             DtoCloner.CloneProperties(dto, dto2);
 
@@ -1598,11 +1553,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new SumOverDimension_OperatorDto_AllVars_CollectionRecalculationContinuous();
+                dto2 = new SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new SumOverDimension_OperatorDto_AllVars_CollectionRecalculationUponReset();
+                dto2 = new SumOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
             }
             else
             {
@@ -1630,7 +1585,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new SumFollower_OperatorDto_AllVars();
+                dto2 = new SumFollower_OperatorDto_SoundVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);

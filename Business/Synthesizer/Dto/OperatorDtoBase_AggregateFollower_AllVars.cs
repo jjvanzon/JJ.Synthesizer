@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_AggregateFollower_AllVars : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
+    internal abstract class OperatorDtoBase_AggregateFollower_SoundVarOrConst_OtherInputsVar : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
     {
         public InputDto Signal { get; set; }
         public InputDto SliceLength { get; set; }
