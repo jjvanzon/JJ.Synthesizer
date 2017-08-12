@@ -1294,56 +1294,17 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override IOperatorDto Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
-        {
-            return Process_Math_Pow(dto);
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
-        {
-            return Process_Math_Pow(dto);
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent2(Power_OperatorDto_VarBase_Exponent2 dto)
+        protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
         {
             string @base = GetLiteralFromInputDto(dto.Base);
+            string exponent = GetLiteralFromInputDto(dto.Exponent);
             string output = GetLocalOutputName(dto);
 
             AppendOperatorTitleComment(dto);
 
-            AppendLine($"double {output} = {@base} * {@base};");
+            AppendLine($"double {output} = Math.Pow({@base}, {exponent});");
 
             return GenerateOperatorWrapUp(dto, output);
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent3(Power_OperatorDto_VarBase_Exponent3 dto)
-        {
-            string @base = GetLiteralFromInputDto(dto.Base);
-            string output = GetLocalOutputName(dto);
-
-            AppendOperatorTitleComment(dto);
-
-            AppendLine($"double {output} = {@base} * {@base} * {@base};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent4(Power_OperatorDto_VarBase_Exponent4 dto)
-        {
-            string @base = GetLiteralFromInputDto(dto.Base);
-            string output = GetLocalOutputName(dto);
-
-            AppendOperatorTitleComment(dto);
-
-            AppendLine($"double {output} = {@base} * {@base};");
-            AppendLine($"{output} *= {output};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
-        {
-            return Process_Math_Pow(dto);
         }
 
         protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_ConstWidth_NoOriginShifting dto)
@@ -2502,19 +2463,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 AppendLine($"ref {x1}, ref {x2}, ref {y1}, ref {y2});");
                 Unindent();
             }
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        private IOperatorDto Process_Math_Pow(Power_OperatorDto dto)
-        {
-            string @base = GetLiteralFromInputDto(dto.Base);
-            string exponent = GetLiteralFromInputDto(dto.Exponent);
-            string output = GetLocalOutputName(dto);
-
-            AppendOperatorTitleComment(dto);
-
-            AppendLine($"double {output} = Math.Pow({@base}, {exponent});");
 
             return GenerateOperatorWrapUp(dto, output);
         }

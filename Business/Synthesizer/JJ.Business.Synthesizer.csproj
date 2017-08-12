@@ -157,6 +157,7 @@
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Helper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Calculation\Operators\2017-08-12 Backup of Power OperatorCalculator Classes %28with _Exponent2 variations etc%29.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -183,6 +184,7 @@
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithInput.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithSound.cs" />
+    <Compile Include="Dto\2017-08-12 Backup of Power OperatorDto Classes.cs" />
     <Compile Include="Extensions\InheritExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
@@ -471,7 +473,7 @@
     <Compile Include="Dto\OperatorDtoBase_WithFrequency.cs" />
     <Compile Include="Dto\OperatorDtoBase_Vars.cs" />
     <Compile Include="Dto\OperatorDtoBase_Vars_1Const.cs" />
-    <Compile Include="Dto\Power OperatorDto Classes.cs" />
+    <Compile Include="Dto\Power_OperatorDto.cs" />
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
     <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />

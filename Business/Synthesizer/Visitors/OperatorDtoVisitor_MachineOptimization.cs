@@ -153,32 +153,26 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
+        protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
         {
-            base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
+            base.Visit_Power_OperatorDto(dto);
 
-            IOperatorDto dto2;
+            switch (dto.Exponent.Const)
+            {
+                case 2.0:
+                    return new Multiply_OperatorDto_Vars_Consts { Vars = new[] { dto.Base, dto.Base } };
 
-            if (dto.Exponent.Const == 2.0)
-            {
-                dto2 = new Power_OperatorDto_VarBase_Exponent2();
-            }
-            else if (dto.Exponent.Const == 3.0)
-            {
-                dto2 = new Power_OperatorDto_VarBase_Exponent3();
-            }
-            else if (dto.Exponent.Const == 4.0)
-            {
-                dto2 = new Power_OperatorDto_VarBase_Exponent4();
-            }
-            else
-            {
-                dto2 = dto;
-            }
+                case 3.0:
+                    return new Multiply_OperatorDto_Vars_Consts { Vars = new[] { dto.Base, dto.Base, dto.Base } };
 
-            DtoCloner.CloneProperties(dto, dto2);
+                case 4.0:
+                    var dto2 = new Multiply_OperatorDto_Vars_Consts { Vars = new[] { dto.Base, dto.Base } };
+                    var dto3 = new Multiply_OperatorDto_Vars_Consts { Vars = new[] { dto2, dto.Base } };
+                    return dto3;
 
-            return dto2;
+                default:
+                    return dto;
+            }
         }
 
         protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)

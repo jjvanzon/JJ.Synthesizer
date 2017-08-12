@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return operatorCalculatorBase.GetType().Name;
         }
 
-        internal static string GetDebuggerDisplay(OperatorWrapper operatorWrapperBase)
+        public static string GetDebuggerDisplay(OperatorWrapper operatorWrapperBase)
         {
             if (operatorWrapperBase == null) throw new NullException(() => operatorWrapperBase);
 
@@ -41,6 +41,12 @@ namespace JJ.Business.Synthesizer.Helpers
 
             return debuggerDisplay;
         }
+
+        /// <summary>
+        /// Solves the ambiguity with GetDebuggerDisplay(InputDto) that was introduced due to the
+        /// implicit conversion from OperatorDtoBase to InputDto.
+        /// </summary>
+        public static string GetDebuggerDisplay(OperatorDtoBase operatorDto) => GetDebuggerDisplay((IOperatorDto)operatorDto);
 
         public static string GetDebuggerDisplay(IOperatorDto operatorDto)
         {

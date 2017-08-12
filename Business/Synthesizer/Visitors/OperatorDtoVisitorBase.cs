@@ -259,13 +259,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(PeakingEQFilter_OperatorDto_AllVars), x => Visit_PeakingEQFilter_OperatorDto_AllVars((PeakingEQFilter_OperatorDto_AllVars)x ) },
                 { typeof(PeakingEQFilter_OperatorDto_ManyConsts), x => Visit_PeakingEQFilter_OperatorDto_ManyConsts((PeakingEQFilter_OperatorDto_ManyConsts)x ) },
                 { typeof(Power_OperatorDto), x => Visit_Power_OperatorDto((Power_OperatorDto)x ) },
-                { typeof(Power_OperatorDto_VarBase_VarExponent), x => Visit_Power_OperatorDto_VarBase_VarExponent((Power_OperatorDto_VarBase_VarExponent)x ) },
-                { typeof(Power_OperatorDto_VarBase_ConstExponent), x => Visit_Power_OperatorDto_VarBase_ConstExponent((Power_OperatorDto_VarBase_ConstExponent)x ) },
-                { typeof(Power_OperatorDto_ConstBase_VarExponent), x => Visit_Power_OperatorDto_ConstBase_VarExponent((Power_OperatorDto_ConstBase_VarExponent)x ) },
-                { typeof(Power_OperatorDto_ConstBase_ConstExponent), x => Visit_Power_OperatorDto_ConstBase_ConstExponent((Power_OperatorDto_ConstBase_ConstExponent)x ) },
-                { typeof(Power_OperatorDto_VarBase_Exponent2), x => Visit_Power_OperatorDto_VarBase_Exponent2((Power_OperatorDto_VarBase_Exponent2)x ) },
-                { typeof(Power_OperatorDto_VarBase_Exponent3), x => Visit_Power_OperatorDto_VarBase_Exponent3((Power_OperatorDto_VarBase_Exponent3)x ) },
-                { typeof(Power_OperatorDto_VarBase_Exponent4), x => Visit_Power_OperatorDto_VarBase_Exponent4((Power_OperatorDto_VarBase_Exponent4)x ) },
                 { typeof(Pulse_OperatorDto), x => Visit_Pulse_OperatorDto((Pulse_OperatorDto)x ) },
                 { typeof(Pulse_OperatorDto_ZeroFrequency), x => Visit_Pulse_OperatorDto_ZeroFrequency((Pulse_OperatorDto_ZeroFrequency)x ) },
                 { typeof(Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting), x => Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting((Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting)x ) },
@@ -592,13 +585,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto_AllVars(PeakingEQFilter_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto_ManyConsts(PeakingEQFilter_OperatorDto_ManyConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Power_OperatorDto_ConstBase_ConstExponent(Power_OperatorDto_ConstBase_ConstExponent dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent2(Power_OperatorDto_VarBase_Exponent2 dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent3(Power_OperatorDto_VarBase_Exponent3 dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent4(Power_OperatorDto_VarBase_Exponent4 dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Pulse_OperatorDto(Pulse_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Pulse_OperatorDto_ZeroFrequency(Pulse_OperatorDto_ZeroFrequency dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);

@@ -2563,29 +2563,21 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 calculator = new Number_OperatorCalculator(Math.Pow(@base, exponent));
             }
-            else if (baseIsConst)
+            else if (baseIsConst && !exponentIsConst)
             {
                 calculator = new Power_OperatorCalculator_ConstBase_VarExponent(@base, exponentCalculator);
             }
-            else if (!baseIsConst && exponentIsConst && exponent == 2.0)
-            {
-                calculator = new Power_OperatorCalculator_VarBase_Exponent2(baseCalculator);
-            }
-            else if (!baseIsConst && exponentIsConst && exponent == 3.0)
-            {
-                calculator = new Power_OperatorCalculator_VarBase_Exponent3(baseCalculator);
-            }
-            else if (!baseIsConst && exponentIsConst && exponent == 4.0)
-            {
-                calculator = new Power_OperatorCalculator_VarBase_Exponent4(baseCalculator);
-            }
-            else if (exponentIsConst)
+            else if (!baseIsConst && exponentIsConst)
             {
                 calculator = new Power_OperatorCalculator_VarBase_ConstExponent(baseCalculator, exponent);
             }
-            else
+            else if (!baseIsConst && !exponentIsConst)
             {
                 calculator = new Power_OperatorCalculator_VarBase_VarExponent(baseCalculator, exponentCalculator);
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
             }
 
             _stack.Push(calculator);

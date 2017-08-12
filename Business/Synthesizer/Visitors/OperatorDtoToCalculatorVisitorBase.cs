@@ -650,34 +650,24 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new PeakingEQFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.DBGain.Const, dto.TargetSamplingRate));
         }
 
-        protected override IOperatorDto Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
+        protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_ConstBase_VarExponent(dto.Base.Const, _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
-        {
-            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_ConstExponent(_stack.Pop(), dto.Exponent.Const));
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
-        {
-            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_VarExponent(_stack.Pop(), _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent2(Power_OperatorDto_VarBase_Exponent2 dto)
-        {
-            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_Exponent2(_stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent3(Power_OperatorDto_VarBase_Exponent3 dto)
-        {
-            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_Exponent3(_stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_Exponent4(Power_OperatorDto_VarBase_Exponent4 dto)
-        {
-            return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_Exponent4(_stack.Pop()));
+            if (dto.Base.IsConst && dto.Exponent.IsVar)
+            {
+                return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_ConstBase_VarExponent(dto.Base.Const, _stack.Pop()));
+            }
+            else if (dto.Base.IsVar && dto.Exponent.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_ConstExponent(_stack.Pop(), dto.Exponent.Const));
+            }
+            else if (dto.Base.IsVar && dto.Exponent.IsVar)
+            {
+                return ProcessOperatorDto(dto, () => new Power_OperatorCalculator_VarBase_VarExponent(_stack.Pop(), _stack.Pop()));
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)

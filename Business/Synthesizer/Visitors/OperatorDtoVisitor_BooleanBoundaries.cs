@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private static InputDto InsertDoubleToBoolean(InputDto inputDto)
         {
-            return InputDtoFactory.CreateInputDto(new DoubleToBoolean_OperatorDto { Number = inputDto });
+            return new DoubleToBoolean_OperatorDto { Number = inputDto };
         }
 
         private InputDto TryInsertBooleanToDouble(InputDto inputDto)
@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         private static InputDto InsertBooleanToDouble(InputDto inputDto)
         {
-            return InputDtoFactory.CreateInputDto(new BooleanToDouble_OperatorDto { Input = inputDto });
+            return new BooleanToDouble_OperatorDto { Input = inputDto };
         }
 
         private static bool OutputIsAlwaysBoolean(InputDto inputDto)

@@ -41,5 +41,13 @@ namespace JJ.Business.Synthesizer.Dto
         public IOperatorDto Var { get; }
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+
+        public static implicit operator InputDto(double @const) => InputDtoFactory.CreateInputDto(@const);
+
+        /// <summary>
+        /// Unfortunately IOperatorDto cannot be the source of the conversion.
+        /// It has to be OperatorDtoBase, because implicit C# operators will not take interfaces as the source.
+        /// </summary>
+        public static implicit operator InputDto(OperatorDtoBase var) => InputDtoFactory.CreateInputDto(var);
     }
 }

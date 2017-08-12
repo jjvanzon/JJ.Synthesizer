@@ -954,38 +954,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
-        {
-            base.Visit_Power_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Base.IsConst && dto.Exponent.IsConst)
-            {
-                dto2 = new Power_OperatorDto_ConstBase_ConstExponent();
-            }
-            else if (dto.Base.IsVar && dto.Exponent.IsConst)
-            {
-                dto2 = new Power_OperatorDto_VarBase_ConstExponent();
-            }
-            else if (dto.Base.IsConst && dto.Exponent.IsVar)
-            {
-                dto2 = new Power_OperatorDto_ConstBase_VarExponent();
-            }
-            else if (dto.Base.IsVar && dto.Exponent.IsVar)
-            {
-                dto2 = new Power_OperatorDto_VarBase_VarExponent();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Pulse_OperatorDto(Pulse_OperatorDto dto)
         {
             base.Visit_Pulse_OperatorDto(dto);

@@ -44,7 +44,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_Multiply_OperatorDto_Vars_Consts(Multiply_OperatorDto_Vars_Consts dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_NotchFilter_OperatorDto_ConstSound(NotchFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_PeakingEQFilter_OperatorDto_ConstSound(PeakingEQFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Power_OperatorDto_ConstBase_ConstExponent(Power_OperatorDto_ConstBase_ConstExponent dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_HalfWidth_NoOriginShifting dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_HalfWidth_WithOriginShifting dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_HalfWidth_NoPhaseTracking dto) => throw new NotSupportedException();

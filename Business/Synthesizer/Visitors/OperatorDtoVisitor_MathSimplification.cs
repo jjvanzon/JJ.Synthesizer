@@ -57,8 +57,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Pre-calculate
                 return new Number_OperatorDto { Number = Math.Abs(dto.Number.Const) };
             }
-
-            return dto;
+            else
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         // Add
@@ -97,8 +99,10 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new Add_OperatorDto_Vars_NoConsts { Vars = dto.Vars, OperatorID = dto.OperatorID };
             }
-
-            return dto;
+            else
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         // AllPassFilter
@@ -353,8 +357,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Identity
                 return new Number_OperatorDto { Number = dto.Items[0].Const };
             }
-
-            return dto;
+            else
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
@@ -392,8 +398,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Identity
                 return new Number_OperatorDto { Number = dto.Items[0].Const };
             }
-
-            return dto;
+            else
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
@@ -733,7 +741,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                return dto;
+                return Process_Nothing(dto);
             }
         }
 
@@ -1177,8 +1185,10 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return new Multiply_OperatorDto_Vars_NoConsts { Vars = dto.Vars, OperatorID = dto.OperatorID };
             }
-
-            return dto;
+            else
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         // Negative
@@ -1396,19 +1406,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Power
 
-        protected override IOperatorDto Visit_Power_OperatorDto_ConstBase_ConstExponent(Power_OperatorDto_ConstBase_ConstExponent dto)
+
+        protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
         {
-            base.Visit_Power_OperatorDto_ConstBase_ConstExponent(dto);
+            base.Visit_Power_OperatorDto(dto);
 
-            // Pre-calculate
-            return new Number_OperatorDto { Number = Math.Pow(dto.Base.Const, dto.Exponent.Const) };
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_ConstBase_VarExponent(Power_OperatorDto_ConstBase_VarExponent dto)
-        {
-            base.Visit_Power_OperatorDto_ConstBase_VarExponent(dto);
-
-            if (dto.Base.IsConstZero)
+            if (dto.Base.IsConst && dto.Exponent.IsConst)
+            {
+                // Pre-calculate
+                return new Number_OperatorDto { Number = Math.Pow(dto.Base.Const, dto.Exponent.Const) };
+            }
+            else if (dto.Base.IsConstZero)
             {
                 // 0
                 return new Number_OperatorDto_Zero();
@@ -1418,14 +1426,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 // 1
                 return new Number_OperatorDto_One();
             }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_ConstExponent(Power_OperatorDto_VarBase_ConstExponent dto)
-        {
-            base.Visit_Power_OperatorDto_VarBase_ConstExponent(dto);
-
             if (dto.Exponent.IsConstZero)
             {
                 // 1
@@ -1436,13 +1436,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Identity
                 return dto.Base.Var;
             }
-
-            return dto;
-        }
-
-        protected override IOperatorDto Visit_Power_OperatorDto_VarBase_VarExponent(Power_OperatorDto_VarBase_VarExponent dto)
-        {
-            return Process_Nothing(dto);
+            else 
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         // PulseTrigger
@@ -2096,13 +2093,10 @@ namespace JJ.Business.Synthesizer.Visitors
                     // Identity
                     return dto.A.Var;
                 }
-            }
-            else if (dto.A.IsVar && dto.B.IsVar)
-            {
-                return Process_Nothing(dto);
+
             }
 
-            return dto;
+            return Process_Nothing(dto);
         }
 
         // SumFollower
