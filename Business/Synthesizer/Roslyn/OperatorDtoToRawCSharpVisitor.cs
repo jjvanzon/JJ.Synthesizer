@@ -269,7 +269,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendOperatorTitleComment(dto);
 
-            AppendTabs();
             AppendLine($"double {sum} = {string.Join(" + ", items)};");
             AppendLine($"double {output} = {sum} / {countLiteral};");
 
@@ -2412,7 +2411,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendOperatorTitleComment(dto);
 
-            AppendTabs();
             AppendLine($"double {output} = {string.Join(" " + operatorSymbol + " ", values)};");
 
             return GenerateOperatorWrapUp(dto, output);
