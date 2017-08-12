@@ -73,10 +73,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Random, VisitRandom },
                 { OperatorTypeEnum.RangeOverDimension, VisitRangeOverDimension },
                 { OperatorTypeEnum.Interpolate, VisitInterpolate },
+                { OperatorTypeEnum.Remainder, VisitRemainder },
                 { OperatorTypeEnum.Reset, VisitReset },
                 { OperatorTypeEnum.Round, VisitRound },
                 { OperatorTypeEnum.Sample, VisitSampleOperator },
-                { OperatorTypeEnum.SawDown, VisitSawDown },
                 { OperatorTypeEnum.SawUp, VisitSawUp },
                 { OperatorTypeEnum.SetDimension, VisitSetDimension },
                 { OperatorTypeEnum.Sine, VisitSine },
@@ -377,6 +377,9 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitInterpolate(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
+        protected virtual void VisitRemainder(Operator op) => VisitOperatorBase(op);
+
+        [DebuggerHidden]
         protected virtual void VisitReset(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
@@ -384,9 +387,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         [DebuggerHidden]
         protected virtual void VisitSampleOperator(Operator op) => VisitOperatorBase(op);
-
-        [DebuggerHidden]
-        protected virtual void VisitSawDown(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
         protected virtual void VisitSawUp(Operator op) => VisitOperatorBase(op);
