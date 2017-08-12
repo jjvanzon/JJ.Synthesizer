@@ -635,12 +635,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
-        {
-            return ProcessComparativeOperator(dto, EQUALS_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto)
         {
             return ProcessComparativeOperator(dto, EQUALS_SYMBOL);
         }
@@ -652,22 +647,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, position);
         }
 
-        protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
         {
             return ProcessComparativeOperator(dto, GREATER_THAN_SYMBOL);
         }
 
-        protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_VarB(GreaterThan_OperatorDto_VarA_VarB dto)
-        {
-            return ProcessComparativeOperator(dto, GREATER_THAN_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
-        {
-            return ProcessComparativeOperator(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(GreaterThanOrEqual_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
         {
             return ProcessComparativeOperator(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
         }
@@ -884,22 +869,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
         {
             return ProcessComparativeOperator(dto, LESS_THAN_SYMBOL);
         }
 
-        protected override IOperatorDto Visit_LessThan_OperatorDto_VarA_VarB(LessThan_OperatorDto_VarA_VarB dto)
-        {
-            return ProcessComparativeOperator(dto, LESS_THAN_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
-        {
-            return ProcessComparativeOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_VarA_VarB(LessThanOrEqual_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
         {
             return ProcessComparativeOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
@@ -1273,12 +1248,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Filter_OperatorDto_ManyConsts(dto);
         }
 
-        protected override IOperatorDto Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
-        {
-            return ProcessComparativeOperator(dto, NOT_EQUAL_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
         {
             return ProcessComparativeOperator(dto, NOT_EQUAL_SYMBOL);
         }

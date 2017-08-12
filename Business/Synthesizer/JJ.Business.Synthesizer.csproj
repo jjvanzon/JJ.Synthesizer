@@ -438,11 +438,11 @@
     <Compile Include="Dto\Not OperatorDto Classes.cs" />
     <Compile Include="Dto\Or OperatorDto Classes.cs" />
     <Compile Include="Dto\And OperatorDto Classes.cs" />
-    <Compile Include="Dto\GreaterThanOrEqual OperatorDto Classes.cs" />
-    <Compile Include="Dto\LessThanOrEqual OperatorDto Classes.cs" />
-    <Compile Include="Dto\GreaterThan OperatorDto Classes.cs" />
-    <Compile Include="Dto\LessThan OperatorDto Classes.cs" />
-    <Compile Include="Dto\NotEqual OperatorDto Classes .cs" />
+    <Compile Include="Dto\GreaterThanOrEqual_OperatorDto.cs" />
+    <Compile Include="Dto\LessThanOrEqual_OperatorDto.cs" />
+    <Compile Include="Dto\GreaterThan_OperatorDto.cs" />
+    <Compile Include="Dto\LessThan_OperatorDto.cs" />
+    <Compile Include="Dto\NotEqual_OperatorDto.cs" />
     <Compile Include="Dto\Random OperatorDto Classes.cs" />
     <Compile Include="Dto\Pulse OperatorDto Classes.cs" />
     <Compile Include="Dto\SawDown OperatorDto Classes.cs" />
@@ -453,7 +453,7 @@
     <Compile Include="Dto\StretchOrSquash OperatorDto Classes.cs" />
     <Compile Include="Dto\Squash OperatorDto Classes.cs" />
     <Compile Include="Dto\Stretch OperatorDto Classes.cs" />
-    <Compile Include="Dto\Equal OperatorDto Classes.cs" />
+    <Compile Include="Dto\Equal_OperatorDto.cs" />
     <Compile Include="Dto\MinFollower_OperatorDto.cs" />
     <Compile Include="Dto\Reverse OperatorDto Classes.cs" />
     <Compile Include="Dto\PulseTrigger OperatorDto Classes.cs" />

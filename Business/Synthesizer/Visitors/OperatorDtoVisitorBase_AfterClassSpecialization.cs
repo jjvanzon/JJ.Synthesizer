@@ -18,17 +18,12 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Curve_OperatorDto(Curve_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto) => throw new NotSupportedException();
@@ -42,7 +37,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto) => throw new NotSupportedException();

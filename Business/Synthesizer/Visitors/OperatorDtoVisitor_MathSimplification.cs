@@ -448,6 +448,17 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Pre-calculate
                 return new Number_OperatorDto { Number = dto.A.Const / dto.B.Const };
             }
+            else if (dto.A.IsConstZero)
+            {
+                // Identity
+                return new Number_OperatorDto { Number = dto.A.Const };
+            }
+            else if (dto.B.IsConstOne)
+            {
+                // Identity
+                return dto.A.Var;
+            }
+            else
             {
                 return Process_Nothing(dto);
             }
@@ -455,38 +466,44 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Equal
 
-        protected override IOperatorDto Visit_Equal_OperatorDto_ConstA_ConstB(Equal_OperatorDto_ConstA_ConstB dto)
+        protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto)
         {
-            base.Visit_Equal_OperatorDto_ConstA_ConstB(dto);
+            base.Visit_Equal_OperatorDto(dto);
 
-            // Pre-calculate
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (dto.A == dto.B)
+            if (dto.A.IsConst && dto.B.IsConst)
             {
-                return new Number_OperatorDto_One();
+                // Pre-calculate
+                if (dto.A == dto.B)
+                {
+                    return new Number_OperatorDto_One();
+                }
+                else
+                {
+                    return new Number_OperatorDto_Zero();
+                }
+            }
+            else if (dto.A.IsConst && dto.B.IsVar)
+            {
+                // Commute
+                InputDto tempA = dto.A;
+                InputDto tempB = dto.B;
+                dto.A = tempB;
+                dto.B = tempA;
+
+                return dto;
+            }
+            else if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return Process_Nothing(dto);
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return Process_Nothing(dto);
             }
             else
             {
-                return new Number_OperatorDto_Zero();
+                throw new VisitationCannotBeHandledException();
             }
-        }
-
-        protected override IOperatorDto Visit_Equal_OperatorDto_ConstA_VarB(Equal_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_Equal_OperatorDto_ConstA_VarB(dto);
-
-            // Commute
-            return new Equal_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
-        }
-
-        protected override IOperatorDto Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
         }
 
         // GetDimension
@@ -505,74 +522,86 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        // GreaterThanOrEqual
-
-        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_ConstA_ConstB(GreaterThanOrEqual_OperatorDto_ConstA_ConstB dto)
-        {
-            base.Visit_GreaterThanOrEqual_OperatorDto_ConstA_ConstB(dto);
-
-            // Pre-calculate
-            if (dto.A.Const >= dto.B.Const)
-            {
-                return new Number_OperatorDto_One();
-            }
-            else
-            {
-                return new Number_OperatorDto_Zero();
-            }
-        }
-
-        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_ConstA_VarB(GreaterThanOrEqual_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_GreaterThanOrEqual_OperatorDto_ConstA_VarB(dto);
-
-            // Commute, switch sign
-            return new LessThanOrEqual_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
-        }
-
-        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(GreaterThanOrEqual_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         // GreaterThan
 
-        protected override IOperatorDto Visit_GreaterThan_OperatorDto_ConstA_ConstB(GreaterThan_OperatorDto_ConstA_ConstB dto)
+        protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
         {
-            base.Visit_GreaterThan_OperatorDto_ConstA_ConstB(dto);
+            base.Visit_GreaterThan_OperatorDto(dto);
 
-            // Pre-calculate
-            if (dto.A.Const > dto.B.Const)
+            if (dto.A.IsConst && dto.B.IsConst)
             {
-                return new Number_OperatorDto_One();
+                // Pre-calculate
+                if (dto.A.Const > dto.B.Const)
+                {
+                    return new Number_OperatorDto_One();
+                }
+                else
+                {
+                    return new Number_OperatorDto_Zero();
+                }
+            }
+            else if (dto.A.IsConst && dto.B.IsVar)
+            {
+                // Commute, switch sign
+                var dto2 = new LessThan_OperatorDto();
+                DtoCloner.CloneProperties(dto, dto2);
+                dto2.A = dto.B;
+                dto2.B = dto.A;
+                return dto2;
+            }
+            else if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return Process_Nothing(dto);
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return Process_Nothing(dto);
             }
             else
             {
-                return new Number_OperatorDto_Zero();
+                throw new VisitationCannotBeHandledException();
             }
         }
 
-        protected override IOperatorDto Visit_GreaterThan_OperatorDto_ConstA_VarB(GreaterThan_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_GreaterThan_OperatorDto_ConstA_VarB(dto);
+        // GreaterThanOrEqual
 
-            // Commute, switch sign
-            return new LessThan_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
-        }
-
-        protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
         {
-            return Process_Nothing(dto);
-        }
+            base.Visit_GreaterThanOrEqual_OperatorDto(dto);
 
-        protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_VarB(GreaterThan_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
+            if (dto.A.IsConst && dto.B.IsConst)
+            {
+                // Pre-calculate
+                if (dto.A.Const >= dto.B.Const)
+                {
+                    return new Number_OperatorDto_One();
+                }
+                else
+                {
+                    return new Number_OperatorDto_Zero();
+                }
+            }
+            else if (dto.A.IsConst && dto.B.IsVar)
+            {
+                // Commute, switch sign
+                var dto2 = new LessThanOrEqual_OperatorDto();
+                DtoCloner.CloneProperties(dto, dto2);
+                dto2.A = dto.B;
+                dto2.B = dto.A;
+                return dto2;
+            }
+            else if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return Process_Nothing(dto);
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return Process_Nothing(dto);
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         // HighPassFilter
@@ -806,73 +835,86 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Nothing(dto);
         }
 
-        // LessThanOrEqual
-
-        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_ConstA_ConstB(LessThanOrEqual_OperatorDto_ConstA_ConstB dto)
-        {
-            base.Visit_LessThanOrEqual_OperatorDto_ConstA_ConstB(dto);
-
-            if (dto.A.Const <= dto.B.Const)
-            {
-                return new Number_OperatorDto_One();
-            }
-            else
-            {
-                return new Number_OperatorDto_Zero();
-            }
-        }
-
-        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_ConstA_VarB(LessThanOrEqual_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_LessThanOrEqual_OperatorDto_ConstA_VarB(dto);
-
-            // Commute, switch sign
-            return new GreaterThanOrEqual_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
-        }
-
-        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_VarA_VarB(LessThanOrEqual_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
-        }
-
         // LessThan
 
-        protected override IOperatorDto Visit_LessThan_OperatorDto_ConstA_ConstB(LessThan_OperatorDto_ConstA_ConstB dto)
+        protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
         {
-            base.Visit_LessThan_OperatorDto_ConstA_ConstB(dto);
+            base.Visit_LessThan_OperatorDto(dto);
 
-            // Pre-calculate
-            if (dto.A.Const < dto.B.Const)
+            if (dto.A.IsConst && dto.B.IsConst)
             {
-                return new Number_OperatorDto_One();
+                // Pre-calculate
+                if (dto.A.Const < dto.B.Const)
+                {
+                    return new Number_OperatorDto_One();
+                }
+                else
+                {
+                    return new Number_OperatorDto_Zero();
+                }
+            }
+            else if (dto.A.IsConst && dto.B.IsVar)
+            {
+                // Commute, switch sign
+                var dto2 = new GreaterThan_OperatorDto();
+                DtoCloner.CloneProperties(dto, dto2);
+                dto2.A = dto.B;
+                dto2.B = dto.A;
+                return dto2;
+            }
+            else if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return Process_Nothing(dto);
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return Process_Nothing(dto);
             }
             else
             {
-                return new Number_OperatorDto_Zero();
+                throw new VisitationCannotBeHandledException();
             }
         }
 
-        protected override IOperatorDto Visit_LessThan_OperatorDto_ConstA_VarB(LessThan_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_LessThan_OperatorDto_ConstA_VarB(dto);
+        // LessThanOrEqual
 
-            // Commute, switch sign
-            return new GreaterThan_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
-        }
-
-        protected override IOperatorDto Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
         {
-            return Process_Nothing(dto);
-        }
+            base.Visit_LessThanOrEqual_OperatorDto(dto);
 
-        protected override IOperatorDto Visit_LessThan_OperatorDto_VarA_VarB(LessThan_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
+            if (dto.A.IsConst && dto.B.IsConst)
+            {
+                // Pre-calculate
+                if (dto.A.Const <= dto.B.Const)
+                {
+                    return new Number_OperatorDto_One();
+                }
+                else
+                {
+                    return new Number_OperatorDto_Zero();
+                }
+            }
+            else if (dto.A.IsConst && dto.B.IsVar)
+            {
+                // Commute, switch sign
+                var dto2 = new GreaterThanOrEqual_OperatorDto();
+                DtoCloner.CloneProperties(dto, dto2);
+                dto2.A = dto.B;
+                dto2.B = dto.A;
+                return dto2;
+            }
+            else if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return Process_Nothing(dto);
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return Process_Nothing(dto);
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         // Loop
@@ -1179,38 +1221,44 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // NotEqual
 
-        protected override IOperatorDto Visit_NotEqual_OperatorDto_ConstA_ConstB(NotEqual_OperatorDto_ConstA_ConstB dto)
+        protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
         {
-            base.Visit_NotEqual_OperatorDto_ConstA_ConstB(dto);
+            base.Visit_NotEqual_OperatorDto(dto);
 
-            // Pre-calculate
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (dto.A != dto.B)
+            if (dto.A.IsConst && dto.B.IsConst)
             {
-                return new Number_OperatorDto_One();
+                // Pre-calculate
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                if (dto.A != dto.B)
+                {
+                    return new Number_OperatorDto_One();
+                }
+                else
+                {
+                    return new Number_OperatorDto_Zero();
+                }
+            }
+            else if (dto.A.IsConst && dto.B.IsVar)
+            {
+                // Commute
+                var dto2 = new NotEqual_OperatorDto();
+                DtoCloner.CloneProperties(dto, dto2);
+                dto2.A = dto.B;
+                dto2.B = dto.A;
+                return dto2;
+            }
+            else if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return Process_Nothing(dto);
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return Process_Nothing(dto);
             }
             else
             {
-                return new Number_OperatorDto_Zero();
+                throw new VisitationCannotBeHandledException();
             }
-        }
-
-        protected override IOperatorDto Visit_NotEqual_OperatorDto_ConstA_VarB(NotEqual_OperatorDto_ConstA_VarB dto)
-        {
-            base.Visit_NotEqual_OperatorDto_ConstA_VarB(dto);
-
-            // Commute
-            return new NotEqual_OperatorDto_VarA_ConstB { A = dto.B, B = dto.A, OperatorID = dto.OperatorID };
-        }
-
-        protected override IOperatorDto Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
-        {
-            return Process_Nothing(dto);
         }
 
         // Not

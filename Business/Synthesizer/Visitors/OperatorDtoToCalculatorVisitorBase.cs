@@ -255,14 +255,20 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_Equal_OperatorDto_VarA_ConstB(Equal_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new Equal_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
-        }
-
-        protected override IOperatorDto Visit_Equal_OperatorDto_VarA_VarB(Equal_OperatorDto_VarA_VarB dto)
-        {
-            return ProcessOperatorDto(dto, () => new Equal_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new Equal_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
+            }
+            else if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new Equal_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
@@ -270,24 +276,36 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new GetDimension_OperatorCalculator(dimensionStack));
         }
 
-        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_VarA_ConstB(GreaterThanOrEqual_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new GreaterThanOrEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
+            if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new GreaterThanOrEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
+            }
+            else if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new GreaterThanOrEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
-        protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_VarA_VarB(GreaterThanOrEqual_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new GreaterThanOrEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_ConstB(GreaterThan_OperatorDto_VarA_ConstB dto)
-        {
-            return ProcessOperatorDto(dto, () => new GreaterThan_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
-        }
-
-        protected override IOperatorDto Visit_GreaterThan_OperatorDto_VarA_VarB(GreaterThan_OperatorDto_VarA_VarB dto)
-        {
-            return ProcessOperatorDto(dto, () => new GreaterThan_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new GreaterThan_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return ProcessOperatorDto(dto, () => new GreaterThan_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         protected override IOperatorDto Visit_HighPassFilter_OperatorDto_AllVars(HighPassFilter_OperatorDto_AllVars dto)
@@ -385,24 +403,36 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new Interpolate_OperatorCalculator_Stripe_LagBehind(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_VarA_ConstB(LessThanOrEqual_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new LessThanOrEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
+            if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new LessThanOrEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return ProcessOperatorDto(dto, () => new LessThanOrEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
-        protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto_VarA_VarB(LessThanOrEqual_OperatorDto_VarA_VarB dto)
+        protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new LessThanOrEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_LessThan_OperatorDto_VarA_ConstB(LessThan_OperatorDto_VarA_ConstB dto)
-        {
-            return ProcessOperatorDto(dto, () => new LessThan_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
-        }
-
-        protected override IOperatorDto Visit_LessThan_OperatorDto_VarA_VarB(LessThan_OperatorDto_VarA_VarB dto)
-        {
-            return ProcessOperatorDto(dto, () => new LessThan_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new LessThan_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return ProcessOperatorDto(dto, () => new LessThan_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
@@ -564,14 +594,20 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator_ManyConsts(_stack.Pop(), dto.CenterFrequency.Const, dto.Width.Const, dto.TargetSamplingRate));
         }
 
-        protected override IOperatorDto Visit_NotEqual_OperatorDto_VarA_ConstB(NotEqual_OperatorDto_VarA_ConstB dto)
+        protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new NotEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
-        }
-
-        protected override IOperatorDto Visit_NotEqual_OperatorDto_VarA_VarB(NotEqual_OperatorDto_VarA_VarB dto)
-        {
-            return ProcessOperatorDto(dto, () => new NotEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            if (dto.A.IsVar && dto.B.IsConst)
+            {
+                return ProcessOperatorDto(dto, () => new NotEqual_OperatorCalculator_VarA_ConstB(_stack.Pop(), dto.B.Const));
+            }
+            else if (dto.A.IsVar && dto.B.IsVar)
+            {
+                return ProcessOperatorDto(dto, () => new NotEqual_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         protected override IOperatorDto Visit_Not_OperatorDto_VarNumber(Not_OperatorDto_VarNumber dto)

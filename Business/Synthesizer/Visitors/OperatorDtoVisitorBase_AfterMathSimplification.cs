@@ -18,12 +18,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems(ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_ClosestOverInlets_OperatorDto_ConstInput_ConstItems(ClosestOverInlets_OperatorDto_ConstInput_ConstItems dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Equal_OperatorDto_ConstA_ConstB(Equal_OperatorDto_ConstA_ConstB dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Equal_OperatorDto_ConstA_VarB(Equal_OperatorDto_ConstA_VarB dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_ConstA_ConstB(GreaterThanOrEqual_OperatorDto_ConstA_ConstB dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto_ConstA_VarB(GreaterThanOrEqual_OperatorDto_ConstA_VarB dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_GreaterThan_OperatorDto_ConstA_ConstB(GreaterThan_OperatorDto_ConstA_ConstB dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_GreaterThan_OperatorDto_ConstA_VarB(GreaterThan_OperatorDto_ConstA_VarB dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_HighPassFilter_OperatorDto_ConstSound(HighPassFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_HighShelfFilter_OperatorDto_ConstSound(HighShelfFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Hold_OperatorDto_ConstSignal(Hold_OperatorDto_ConstSignal dto) => throw new NotSupportedException();
@@ -32,10 +26,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_If_OperatorDto_ConstCondition_VarThen_ConstElse(If_OperatorDto_ConstCondition_VarThen_ConstElse dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_If_OperatorDto_ConstCondition_VarThen_VarElse(If_OperatorDto_ConstCondition_VarThen_VarElse dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_LessThanOrEqual_OperatorDto_ConstA_ConstB(LessThanOrEqual_OperatorDto_ConstA_ConstB dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_LessThanOrEqual_OperatorDto_ConstA_VarB(LessThanOrEqual_OperatorDto_ConstA_VarB dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_LessThan_OperatorDto_ConstA_ConstB(LessThan_OperatorDto_ConstA_ConstB dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_LessThan_OperatorDto_ConstA_VarB(LessThan_OperatorDto_ConstA_VarB dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Loop_OperatorDto_ConstSignal(Loop_OperatorDto_ConstSignal dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_LowPassFilter_OperatorDto_ConstSound(LowPassFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_LowShelfFilter_OperatorDto_ConstSound(LowShelfFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
@@ -54,8 +44,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_Multiply_OperatorDto_Vars_Consts(Multiply_OperatorDto_Vars_Consts dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Negative_OperatorDto_ConstNumber(Negative_OperatorDto_ConstNumber dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_NotchFilter_OperatorDto_ConstSound(NotchFilter_OperatorDto_ConstSound dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_NotEqual_OperatorDto_ConstA_ConstB(NotEqual_OperatorDto_ConstA_ConstB dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_NotEqual_OperatorDto_ConstA_VarB(NotEqual_OperatorDto_ConstA_VarB dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Not_OperatorDto_ConstNumber(Not_OperatorDto_ConstNumber dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Or_OperatorDto_ConstA_ConstB(Or_OperatorDto_ConstA_ConstB dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Or_OperatorDto_ConstA_VarB(Or_OperatorDto_ConstA_VarB dto) => throw new NotSupportedException();
