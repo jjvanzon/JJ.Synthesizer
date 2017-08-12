@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Dto
             set
             {
                 Vars = value.Where(x => x.IsVar).ToArray();
-                Const = value.Where(x => x.IsConst).Single();
+                Const = value.Where(x => x.IsConst).FirstOrDefault();
             }
         }
     }
