@@ -337,7 +337,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset), x => Visit_SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset((SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset)x ) },
                 { typeof(SortOverInlets_Outlet_OperatorDto), x => Visit_SortOverInlets_Outlet_OperatorDto((SortOverInlets_Outlet_OperatorDto)x ) },
                 { typeof(Spectrum_OperatorDto), x => Visit_Spectrum_OperatorDto((Spectrum_OperatorDto)x ) },
-                { typeof(Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar), x => Visit_Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar((Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar)x ) },
                 { typeof(Square_OperatorDto), x => Visit_Square_OperatorDto((Square_OperatorDto)x ) },
                 { typeof(Square_OperatorDto_ZeroFrequency), x => Visit_Square_OperatorDto_ZeroFrequency((Square_OperatorDto_ZeroFrequency)x ) },
                 { typeof(Square_OperatorDto_ConstFrequency_NoOriginShifting), x => Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting((Square_OperatorDto_ConstFrequency_NoOriginShifting)x ) },
@@ -645,7 +644,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_SoundVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar(Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Square_OperatorDto(Square_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Square_OperatorDto_ZeroFrequency(Square_OperatorDto_ZeroFrequency dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);

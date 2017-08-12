@@ -47,7 +47,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Square_OperatorDto(Square_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Squash_OperatorDto(Squash_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Stretch_OperatorDto(Stretch_OperatorDto dto) => throw new NotSupportedException();

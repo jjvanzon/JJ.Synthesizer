@@ -1850,7 +1850,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Spectrum
 
-        protected override IOperatorDto Visit_Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar(Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
         {
             if (dto.Sound.IsConst)
             {

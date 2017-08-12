@@ -1390,17 +1390,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
-        {
-            base.Visit_Spectrum_OperatorDto(dto);
-
-            IOperatorDto dto2 = new Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar();
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Square_OperatorDto(Square_OperatorDto dto)
         {
             base.Visit_Square_OperatorDto(dto);

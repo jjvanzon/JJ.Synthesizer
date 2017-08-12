@@ -4,11 +4,8 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Spectrum_OperatorDto : Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar
-    { }
-
-    internal class Spectrum_OperatorDto_SoundVarOrConst_OtherInputsVar : OperatorDtoBase_WithDimension
-    {
+    internal class Spectrum_OperatorDto : OperatorDtoBase_WithDimension
+    { 
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Spectrum;
 
         public InputDto Sound { get; set; }
