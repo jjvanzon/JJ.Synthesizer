@@ -1132,38 +1132,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_SawDown_OperatorDto(SawDown_OperatorDto dto)
-        {
-            base.Visit_SawDown_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new SawDown_OperatorDto_VarFrequency_WithPhaseTracking();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new SawDown_OperatorDto_VarFrequency_NoPhaseTracking();
-            }
-            else if (dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new SawDown_OperatorDto_ConstFrequency_WithOriginShifting();
-            }
-            else if (dto.Frequency.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new SawDown_OperatorDto_ConstFrequency_NoOriginShifting();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_SawUp_OperatorDto(SawUp_OperatorDto dto)
         {
             base.Visit_SawUp_OperatorDto(dto);

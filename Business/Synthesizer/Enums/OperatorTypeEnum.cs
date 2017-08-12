@@ -87,7 +87,7 @@
         MaxFollower = 49,
         AverageFollower = 50,
         //Scaler = 51,
-        SawDown = 52,
+        //SawDown = 52,
         Absolute = 53,
         //Reverse = 54,
         Round = 55,
@@ -128,6 +128,7 @@
         HighShelfFilter = 90,
         RangeOverOutlets = 91,
         DoubleToBoolean = 92,
-        BooleanToDouble = 93
+        BooleanToDouble = 93,
+        Remainder = 94
     }
 }

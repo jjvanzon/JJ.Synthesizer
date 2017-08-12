@@ -56,6 +56,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string NOT_EQUAL_SYMBOL = "!=";
         private const string OR_SYMBOL = "||";
         private const string PLUS_SYMBOL = "+";
+        private const string REMAINDER_SYMBOL = "%";
         private const string SUBTRACT_SYMBOL = "-";
 
         private const string ANONYMOUS_MNEMONIC = "anynomous";
@@ -69,9 +70,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string PREVIOUS_POSITION_MNEMONIC = "prevpos";
         private const string RATE_MNEMONIC = "rate";
         private const string RESET_MNEMONIC = "reset";
-
-        /// <summary> {0} = phase </summary>
-        private const string SAW_DOWN_FORMULA_FORMAT = "1.0 - (2.0 * {0} % 2.0)";
 
         /// <summary> {0} = phase </summary>
         private const string SAW_UP_FORMULA_FORMAT = "-1.0 + (2.0 * {0} % 2.0)";
@@ -1506,6 +1504,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
+        protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto)
+        {
+            return ProcessBinaryDoubleOperator(dto, REMAINDER_SYMBOL);
+        }
+
         protected override IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto)
         {
             throw new NotImplementedException();
@@ -1825,26 +1828,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             // Wrap-Up
             return GenerateOperatorWrapUp(dto, output);
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessOriginShifter(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return ProcessPhaseTrackingOperator(dto, x => string.Format(SAW_DOWN_FORMULA_FORMAT, x));
         }
 
         protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)

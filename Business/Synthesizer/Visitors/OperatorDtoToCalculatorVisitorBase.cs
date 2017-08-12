@@ -795,6 +795,11 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(_stack.Pop(), _stack.Pop(), dto.OutletPosition));
         }
 
+        protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto)
+        {
+            return ProcessOperatorDto(dto, () => new Remainder_OperatorCalculator(_stack.Pop(), _stack.Pop()));
+        }
+
         protected override IOperatorDto Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
         {
             return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_ConstSignal(dto.Signal.Const, _stack.Pop(), _stack.Pop()));
@@ -989,25 +994,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
 
             return dto;
-        }
-        protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new SawDown_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new SawDown_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new SawDown_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new SawDown_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)

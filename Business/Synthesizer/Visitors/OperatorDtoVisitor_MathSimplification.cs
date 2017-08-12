@@ -1548,6 +1548,33 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto.From.Var;
         }
 
+        // Remainder
+
+        protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto)
+        {
+            base.Visit_Remainder_OperatorDto(dto);
+
+            if (dto.A.IsConst && dto.B.IsConst)
+            {
+                // Pre-calculate
+                return new Number_OperatorDto { Number = dto.A.Const % dto.B.Const };
+            }
+            else if (dto.A.IsConstZero)
+            {
+                // Identity
+                return new Number_OperatorDto { Number = dto.A.Const };
+            }
+            else if (dto.B.IsConstOne)
+            {
+                // 0
+                return new Number_OperatorDto_Zero();
+            }
+            else
+            {
+                return Process_Nothing(dto);
+            }
+        }
+
         // Reset
 
         protected override IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto)
@@ -1677,28 +1704,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 return new Number_OperatorDto_Zero();
             }
 
-            return Process_WithFrequency(dto);
-        }
-
-        // SawDown
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
             return Process_WithFrequency(dto);
         }
 

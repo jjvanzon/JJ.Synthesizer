@@ -157,6 +157,7 @@
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Helper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Calculation\Operators\Remainder_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -181,6 +182,7 @@
     <Compile Include="Dto\OperatorDtoBase_Filter_ManyConsts.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithInput.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithSound.cs" />
+    <Compile Include="Dto\Remainder_OperatorDto.cs" />
     <Compile Include="Extensions\InheritExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
@@ -293,7 +295,6 @@
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Round OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\SawDown OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
@@ -440,7 +441,6 @@
     <Compile Include="Dto\NotEqual_OperatorDto.cs" />
     <Compile Include="Dto\Random OperatorDto Classes.cs" />
     <Compile Include="Dto\Pulse OperatorDto Classes.cs" />
-    <Compile Include="Dto\SawDown OperatorDto Classes.cs" />
     <Compile Include="Dto\Spectrum_OperatorDto.cs" />
     <Compile Include="Dto\HighPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\LowPassFilter OperatorDto Classes.cs" />

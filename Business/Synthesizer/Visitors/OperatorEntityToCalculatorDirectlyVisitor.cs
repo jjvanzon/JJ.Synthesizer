@@ -1404,6 +1404,58 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
+        protected override void VisitInterpolate(Operator op)
+        {
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
+            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
+
+            base.VisitInterpolate(op);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
+
+            double signal = signalCalculator.Calculate();
+            double samplingRate = samplingRateCalculator.Calculate();
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool samplingRateIsConst = samplingRateCalculator is Number_OperatorCalculator;
+
+            bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
+
+            bool samplingRateIsConstSpecialValue = samplingRateIsConst && DoubleHelper.IsSpecialValue(samplingRate);
+
+            dimensionStack.Pop();
+
+            if (signalIsConst)
+            {
+                // Const signal Preceeds weird numbers.
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (samplingRateIsConstZero)
+            {
+                // Special Value: Time stands still.
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (samplingRateIsConstSpecialValue)
+            {
+                // Wierd number
+                // Note that if signal is const,
+                // an indeterminate sampling rate can still render a determinite result.
+                calculator = new Number_OperatorCalculator(double.NaN);
+            }
+            else
+            {
+                var wrapper = new Interpolate_OperatorWrapper(op);
+                ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
+
+                calculator = OperatorCalculatorFactory.Create_Interpolate_OperatorCalculator(resampleInterpolationTypeEnum, signalCalculator, samplingRateCalculator, dimensionStack);
+            }
+
+            _stack.Push(calculator);
+        }
+
         [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitLessThan(Operator op)
         {
@@ -2893,56 +2945,12 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        protected override void VisitInterpolate(Operator op)
+        protected override void VisitRemainder(Operator op)
         {
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
+            base.VisitRemainder(op);
 
-            base.VisitInterpolate(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
-
-            double signal = signalCalculator.Calculate();
-            double samplingRate = samplingRateCalculator.Calculate();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool samplingRateIsConst = samplingRateCalculator is Number_OperatorCalculator;
-
-            bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
-
-            bool samplingRateIsConstSpecialValue = samplingRateIsConst && DoubleHelper.IsSpecialValue(samplingRate);
-
-            dimensionStack.Pop();
-
-            if (signalIsConst)
-            {
-                // Const signal Preceeds weird numbers.
-                calculator = new Number_OperatorCalculator(signal);
-            }
-            else if (samplingRateIsConstZero)
-            {
-                // Special Value: Time stands still.
-                calculator = new Number_OperatorCalculator(signal);
-            }
-            else if (samplingRateIsConstSpecialValue)
-            {
-                // Wierd number
-                // Note that if signal is const,
-                // an indeterminate sampling rate can still render a determinite result.
-                calculator = new Number_OperatorCalculator(double.NaN);
-            }
-            else
-            {
-                var wrapper = new Interpolate_OperatorWrapper(op);
-                ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
-
-                calculator = OperatorCalculatorFactory.Create_Interpolate_OperatorCalculator(resampleInterpolationTypeEnum, signalCalculator, samplingRateCalculator, dimensionStack);
-            }
-
-            _stack.Push(calculator);
+            // No more optimization for the Calculator classes. Use compiled mode for that.
+            _stack.Push(new Remainder_OperatorCalculator(_stack.Pop(), _stack.Pop()));
         }
 
         [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
@@ -3116,51 +3124,6 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             if (calculator == null)
-            {
-                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitSawDown(Operator op)
-        {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-
-            base.VisitSawDown(op);
-
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-
-            double frequency = frequencyCalculator.Calculate();
-
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
-
-            if (frequencyIsConstZero)
-            {
-                // Special Value
-                calculator = new Number_OperatorCalculator_Zero();
-            }
-            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SawDown_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
-            }
-            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SawDown_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new SawDown_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new SawDown_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else
             {
                 throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
             }

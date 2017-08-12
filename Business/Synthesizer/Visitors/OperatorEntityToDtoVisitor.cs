@@ -271,6 +271,8 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
+        protected override void VisitRemainder(Operator op) => ProcessOperator(op, new Remainder_OperatorDto());
+
         protected override void VisitReset(Operator op)
         {
             var dto = new Reset_OperatorDto();
@@ -302,7 +304,6 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override void VisitSawDown(Operator op) => ProcessOperator(op, new SawDown_OperatorDto());
         protected override void VisitSawUp(Operator op) => ProcessOperator(op, new SawUp_OperatorDto());
         protected override void VisitSetDimension(Operator op) => ProcessOperator(op, new SetDimension_OperatorDto());
         protected override void VisitSine(Operator op) => ProcessOperator(op, new Sine_OperatorDto());

@@ -266,6 +266,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep((RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep)x ) },
                 { typeof(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep((RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep)x ) },
                 { typeof(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep((RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep)x ) },
+                { typeof(Remainder_OperatorDto), x => Visit_Remainder_OperatorDto((Remainder_OperatorDto)x ) },
                 { typeof(Reset_OperatorDto), x => Visit_Reset_OperatorDto((Reset_OperatorDto)x ) },
                 { typeof(Round_OperatorDto), x => Visit_Round_OperatorDto((Round_OperatorDto)x ) },
                 { typeof(Round_OperatorDto_AllConsts), x => Visit_Round_OperatorDto_AllConsts((Round_OperatorDto_AllConsts)x ) },
@@ -290,11 +291,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting), x => Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting((Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting)x ) },
                 { typeof(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking), x => Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking((Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking)x ) },
                 { typeof(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting), x => Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting((Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting)x ) },
-                { typeof(SawDown_OperatorDto), x => Visit_SawDown_OperatorDto((SawDown_OperatorDto)x ) },
-                { typeof(SawDown_OperatorDto_ConstFrequency_NoOriginShifting), x => Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting((SawDown_OperatorDto_ConstFrequency_NoOriginShifting)x ) },
-                { typeof(SawDown_OperatorDto_ConstFrequency_WithOriginShifting), x => Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting((SawDown_OperatorDto_ConstFrequency_WithOriginShifting)x ) },
-                { typeof(SawDown_OperatorDto_VarFrequency_NoPhaseTracking), x => Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking((SawDown_OperatorDto_VarFrequency_NoPhaseTracking)x ) },
-                { typeof(SawDown_OperatorDto_VarFrequency_WithPhaseTracking), x => Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking((SawDown_OperatorDto_VarFrequency_WithPhaseTracking)x ) },
                 { typeof(SawUp_OperatorDto), x => Visit_SawUp_OperatorDto((SawUp_OperatorDto)x ) },
                 { typeof(SawUp_OperatorDto_ConstFrequency_NoOriginShifting), x => Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting((SawUp_OperatorDto_ConstFrequency_NoOriginShifting)x ) },
                 { typeof(SawUp_OperatorDto_ConstFrequency_WithOriginShifting), x => Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting((SawUp_OperatorDto_ConstFrequency_WithOriginShifting)x ) },
@@ -550,6 +546,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto_AllConsts(Round_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
@@ -574,11 +571,6 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawDown_OperatorDto(SawDown_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawUp_OperatorDto(SawUp_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
