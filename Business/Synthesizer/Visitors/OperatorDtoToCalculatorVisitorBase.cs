@@ -795,26 +795,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(_stack.Pop(), _stack.Pop(), dto.OutletPosition));
         }
 
-        protected override IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting(Reverse_OperatorDto_ConstFactor_NoOriginShifting dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Reverse_OperatorCalculator_ConstFactor_NoOriginShifting(_stack.Pop(), dto.Factor.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_WithOriginShifting(Reverse_OperatorDto_ConstFactor_WithOriginShifting dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Reverse_OperatorCalculator_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking(Reverse_OperatorDto_VarFactor_NoPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Reverse_OperatorCalculator_VarFactor_NoPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Reverse_OperatorDto_VarFactor_WithPhaseTracking(Reverse_OperatorDto_VarFactor_WithPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Reverse_OperatorCalculator_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
-        }
-
         protected override IOperatorDto Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
         {
             return ProcessOperatorDto(dto, () => new Round_OperatorCalculator_ConstSignal(dto.Signal.Const, _stack.Pop(), _stack.Pop()));

@@ -106,9 +106,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
             dto = preProcessingVisitor.Execute(dto);
 
-            var codeGenerationSimplificationVisitor = new OperatorDtoVisitor_CodeGenerationSimplification();
-            dto = codeGenerationSimplificationVisitor.Execute(dto);
-
             var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex);
             OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);
 

@@ -39,7 +39,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Reverse_OperatorDto(Reverse_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Sample_OperatorDto(Sample_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_SawDown_OperatorDto(SawDown_OperatorDto dto) => throw new NotSupportedException();

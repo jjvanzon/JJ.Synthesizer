@@ -295,7 +295,6 @@
     <Compile Include="Calculation\Operators\Round OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SawDown OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Reverse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
@@ -342,8 +341,6 @@
     <Compile Include="Roslyn\Helpers\OperatorDtoToCSharpVisitorResult.cs" />
     <Compile Include="Roslyn\Helpers\ExtendedVariableInfo.cs" />
     <Compile Include="Roslyn\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
-    <Compile Include="Roslyn\OperatorDtoVisitorBase_AfterCodeGenerationSimplification.cs" />
-    <Compile Include="Roslyn\OperatorDtoVisitor_CodeGenerationSimplification.cs" />
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
     <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
@@ -453,7 +450,6 @@
     <Compile Include="Dto\Stretch OperatorDto Classes.cs" />
     <Compile Include="Dto\Equal_OperatorDto.cs" />
     <Compile Include="Dto\MinFollower_OperatorDto.cs" />
-    <Compile Include="Dto\Reverse OperatorDto Classes.cs" />
     <Compile Include="Dto\PulseTrigger OperatorDto Classes.cs" />
     <Compile Include="Dto\ToggleTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Triangle OperatorDto Classes.cs" />

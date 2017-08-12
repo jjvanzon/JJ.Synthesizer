@@ -267,12 +267,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep((RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep)x ) },
                 { typeof(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep((RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep)x ) },
                 { typeof(Reset_OperatorDto), x => Visit_Reset_OperatorDto((Reset_OperatorDto)x ) },
-                { typeof(Reverse_OperatorDto), x => Visit_Reverse_OperatorDto((Reverse_OperatorDto)x ) },
-                { typeof(Reverse_OperatorDto_ConstSignal), x => Visit_Reverse_OperatorDto_ConstSignal((Reverse_OperatorDto_ConstSignal)x ) },
-                { typeof(Reverse_OperatorDto_VarFactor_WithPhaseTracking), x => Visit_Reverse_OperatorDto_VarFactor_WithPhaseTracking((Reverse_OperatorDto_VarFactor_WithPhaseTracking)x ) },
-                { typeof(Reverse_OperatorDto_VarFactor_NoPhaseTracking), x => Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking((Reverse_OperatorDto_VarFactor_NoPhaseTracking)x ) },
-                { typeof(Reverse_OperatorDto_ConstFactor_WithOriginShifting), x => Visit_Reverse_OperatorDto_ConstFactor_WithOriginShifting((Reverse_OperatorDto_ConstFactor_WithOriginShifting)x ) },
-                { typeof(Reverse_OperatorDto_ConstFactor_NoOriginShifting), x => Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting((Reverse_OperatorDto_ConstFactor_NoOriginShifting)x ) },
                 { typeof(Round_OperatorDto), x => Visit_Round_OperatorDto((Round_OperatorDto)x ) },
                 { typeof(Round_OperatorDto_AllConsts), x => Visit_Round_OperatorDto_AllConsts((Round_OperatorDto_AllConsts)x ) },
                 { typeof(Round_OperatorDto_ConstSignal), x => Visit_Round_OperatorDto_ConstSignal((Round_OperatorDto_ConstSignal)x ) },
@@ -557,12 +551,6 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Reverse_OperatorDto(Reverse_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Reverse_OperatorDto_ConstSignal(Reverse_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Reverse_OperatorDto_VarFactor_WithPhaseTracking(Reverse_OperatorDto_VarFactor_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Reverse_OperatorDto_VarFactor_NoPhaseTracking(Reverse_OperatorDto_VarFactor_NoPhaseTracking dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_WithOriginShifting(Reverse_OperatorDto_ConstFactor_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Reverse_OperatorDto_ConstFactor_NoOriginShifting(Reverse_OperatorDto_ConstFactor_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto_AllConsts(Round_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);

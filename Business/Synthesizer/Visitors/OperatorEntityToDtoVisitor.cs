@@ -282,7 +282,6 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.Position = wrapper.Position;
         }
 
-        protected override void VisitReverse(Operator op) => ProcessOperator(op, new Reverse_OperatorDto());
         protected override void VisitRound(Operator op) => ProcessOperator(op, new Round_OperatorDto());
 
         protected override void VisitSampleOperator(Operator op)

@@ -23,7 +23,7 @@ using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Roslyn
 {
-    internal class OperatorDtoToRawCSharpVisitor : OperatorDtoVisitorBase_AfterCodeGenerationSimplification
+    internal class OperatorDtoToRawCSharpVisitor : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
         [SuppressMessage("ReSharper", "UnusedMember.Local")]
         private enum MinOrMaxEnum

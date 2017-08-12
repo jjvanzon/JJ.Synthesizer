@@ -1013,42 +1013,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Reverse_OperatorDto(Reverse_OperatorDto dto)
-        {
-            base.Visit_Reverse_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Signal.IsConst)
-            {
-                dto2 = new Reverse_OperatorDto_ConstSignal();
-            }
-            else if (dto.Factor.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Reverse_OperatorDto_VarFactor_WithPhaseTracking();
-            }
-            else if (dto.Factor.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Reverse_OperatorDto_VarFactor_NoPhaseTracking();
-            }
-            else if (dto.Factor.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Reverse_OperatorDto_ConstFactor_WithOriginShifting();
-            }
-            else if (dto.Factor.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Reverse_OperatorDto_ConstFactor_NoOriginShifting();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto)
         {
             base.Visit_Round_OperatorDto(dto);
