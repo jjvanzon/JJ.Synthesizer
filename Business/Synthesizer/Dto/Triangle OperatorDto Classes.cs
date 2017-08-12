@@ -7,11 +7,6 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Triangle;
     }
 
-    internal class Triangle_OperatorDto_ZeroFrequency : OperatorDtoBase_ZeroFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Triangle;
-    }
-
     internal class Triangle_OperatorDto_ConstFrequency_NoOriginShifting : Triangle_OperatorDto
     { }
 

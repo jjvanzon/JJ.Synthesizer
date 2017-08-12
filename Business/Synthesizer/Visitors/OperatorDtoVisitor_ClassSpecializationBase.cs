@@ -1160,10 +1160,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Sample_OperatorDto_NoSample();
             }
-            else if (dto.Frequency.IsConstZero)
-            {
-                dto2 = new Sample_OperatorDto_ZeroFrequency();
-            }
             else if (hasTargetChannelCount && dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new Sample_OperatorDto_ConstFrequency_WithOriginShifting();
@@ -1228,11 +1224,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Frequency.IsConstZero)
-            {
-                dto2 = new SawDown_OperatorDto_ZeroFrequency();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new SawDown_OperatorDto_VarFrequency_WithPhaseTracking();
             }
@@ -1264,11 +1256,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Frequency.IsConstZero)
-            {
-                dto2 = new SawUp_OperatorDto_ZeroFrequency();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new SawUp_OperatorDto_VarFrequency_WithPhaseTracking();
             }
@@ -1332,11 +1320,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Frequency.IsConstZero)
-            {
-                dto2 = new Sine_OperatorDto_ZeroFrequency();
-            } 
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new Sine_OperatorDto_VarFrequency_WithPhaseTracking();
             }
@@ -1396,11 +1380,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Frequency.IsConstZero)
-            {
-                dto2 = new Square_OperatorDto_ZeroFrequency();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking();
             }
@@ -1588,11 +1568,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Frequency.IsConstZero)
-            {
-                dto2 = new Triangle_OperatorDto_ZeroFrequency();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new Triangle_OperatorDto_VarFrequency_WithPhaseTracking();
             }

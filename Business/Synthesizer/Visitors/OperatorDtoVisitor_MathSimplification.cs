@@ -1658,121 +1658,106 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_ZeroFrequency(Sample_OperatorDto_ZeroFrequency dto)
-        {
-            return Process_ZeroFrequency(dto);
+            return Process_WithFrequency(dto);
         }
 
         // SawDown
 
         protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_NoOriginShifting(SawDown_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_SawDown_OperatorDto_ConstFrequency_WithOriginShifting(SawDown_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_NoPhaseTracking(SawDown_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_SawDown_OperatorDto_VarFrequency_WithPhaseTracking(SawDown_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_SawDown_OperatorDto_ZeroFrequency(SawDown_OperatorDto_ZeroFrequency dto)
-        {
-            return Process_ZeroFrequency(dto);
+            return Process_WithFrequency(dto);
         }
 
         // SawUp
 
         protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_NoOriginShifting(SawUp_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_SawUp_OperatorDto_ConstFrequency_WithOriginShifting(SawUp_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_NoPhaseTracking(SawUp_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_SawUp_OperatorDto_VarFrequency_WithPhaseTracking(SawUp_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_SawUp_OperatorDto_ZeroFrequency(SawUp_OperatorDto_ZeroFrequency dto)
-        {
-            return Process_ZeroFrequency(dto);
+            return Process_WithFrequency(dto);
         }
 
         // SetDimension
@@ -1801,27 +1786,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto)
-        {
-            return Process_ZeroFrequency(dto);
+            return Process_WithFrequency(dto);
         }
 
         // SortOverDimension
@@ -1867,27 +1847,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_ZeroFrequency(Square_OperatorDto_ZeroFrequency dto)
-        {
-            return Process_ZeroFrequency(dto);
+            return Process_WithFrequency(dto);
         }
 
         // Squash
@@ -2072,27 +2047,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
         {
-            return Process_Nothing(dto);
+            return Process_WithFrequency(dto);
         }
 
         protected override IOperatorDto Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
         {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_Triangle_OperatorDto_ZeroFrequency(Triangle_OperatorDto_ZeroFrequency dto)
-        {
-            return Process_ZeroFrequency(dto);
+            return Process_WithFrequency(dto);
         }
 
         // Helpers
@@ -2113,6 +2083,17 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             // Identity
             return new Number_OperatorDto { Number = sound };
+        }
+
+        private IOperatorDto Process_WithFrequency(OperatorDtoBase_WithFrequency dto)
+        {
+            if (dto.Frequency.IsConst)
+            {
+                // 0
+                return new Number_OperatorDto_Zero();
+            }
+
+            return dto;
         }
 
         private IOperatorDto Process_Filter_SoundVarOrConst_OtherInputsVar(IOperatorDto_WithSound dto)
@@ -2215,7 +2196,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             return dto;
         }
-
 
         private IOperatorDto Process_Trigger(OperatorDtoBase_Trigger dto)
         {

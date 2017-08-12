@@ -11,11 +11,6 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sample;
     }
 
-    internal class Sample_OperatorDto_ZeroFrequency : OperatorDtoBase_ZeroFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sample;
-    }
-
     internal class Sample_OperatorDto_VarFrequency_WithPhaseTracking : Sample_OperatorDtoBase_WithSampleID
     { }
 

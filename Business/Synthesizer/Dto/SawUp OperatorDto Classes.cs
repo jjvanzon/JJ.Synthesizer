@@ -7,11 +7,6 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SawUp;
     }
 
-    internal class SawUp_OperatorDto_ZeroFrequency : OperatorDtoBase_ZeroFrequency
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SawUp;
-    }
-
     internal class SawUp_OperatorDto_ConstFrequency_NoOriginShifting : SawUp_OperatorDto
     { }
 
