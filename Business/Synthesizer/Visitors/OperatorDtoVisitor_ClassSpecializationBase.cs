@@ -9,15 +9,6 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorDtoVisitor_ClassSpecializationBase : OperatorDtoVisitorBase
     {
-        protected override IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
-        {
-            base.Visit_Absolute_OperatorDto(dto);
-
-            dto.Number = InputDtoFactory.CreateInputDto(dto.Number.Var);
-
-            return dto;
-        }
-
         protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
             base.Visit_Add_OperatorDto(dto);

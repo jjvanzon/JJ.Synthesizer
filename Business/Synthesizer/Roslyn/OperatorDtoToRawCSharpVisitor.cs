@@ -1840,13 +1840,14 @@ namespace JJ.Business.Synthesizer.Roslyn
         private IOperatorDto ProcessSetDimension(SetDimension_OperatorDto dto)
         {
             string numberLiteral = GetLiteralFromInputDto(dto.Number);
-            string signal = GetLiteralFromInputDto(dto.PassThrough);
             string position = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             AppendOperatorTitleComment(dto);
 
             AppendLine($"{position} = {numberLiteral};");
             AppendLine();
+
+            string signal = GetLiteralFromInputDto(dto.PassThrough);
 
             return GenerateOperatorWrapUp(dto, signal);
         }

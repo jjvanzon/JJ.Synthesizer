@@ -1564,11 +1564,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Identity
                 return new Number_OperatorDto { Number = dto.A.Const };
             }
-            else if (dto.B.IsConstOne)
-            {
-                // 0
-                return new Number_OperatorDto_Zero();
-            }
             else
             {
                 return Process_Nothing(dto);
