@@ -210,12 +210,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
-        {
-            return ProcessMultiVarOperator(dto, PLUS_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
+        protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
             return ProcessMultiVarOperator(dto, PLUS_SYMBOL);
         }
@@ -1069,12 +1064,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min);
         }
 
-        protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
-        {
-            return ProcessMultiVarOperator(dto, MULTIPLY_SYMBOL);
-        }
-
-        protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
             return ProcessMultiVarOperator(dto, MULTIPLY_SYMBOL);
         }

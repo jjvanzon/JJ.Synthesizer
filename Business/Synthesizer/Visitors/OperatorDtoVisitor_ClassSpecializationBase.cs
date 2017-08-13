@@ -9,40 +9,6 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorDtoVisitor_ClassSpecializationBase : OperatorDtoVisitorBase
     {
-        protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
-        {
-            base.Visit_Add_OperatorDto(dto);
-
-            VarsConsts_InputDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
-
-            IOperatorDto dto2;
-
-            if (inputDto.HasVars && inputDto.HasConsts)
-            {
-                dto2 = new Add_OperatorDto_Vars_Consts();
-            }
-            else if (inputDto.HasVars && !inputDto.HasConsts)
-            {
-                dto2 = new Add_OperatorDto_Vars_NoConsts();
-            }
-            else if (!inputDto.HasVars && inputDto.HasConsts)
-            {
-                dto2 = new Add_OperatorDto_NoVars_Consts();
-            }
-            else if (!inputDto.HasVars && !inputDto.HasConsts)
-            {
-                dto2 = new Add_OperatorDto_NoVars_NoConsts();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto)
         {
             base.Visit_AllPassFilter_OperatorDto(dto);
@@ -769,40 +735,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (!inputDto.HasVars && !inputDto.HasConsts)
             {
                 dto2 = new MinOverInlets_OperatorDto_NoVars_NoConsts();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
-        {
-            base.Visit_Multiply_OperatorDto(dto);
-
-            VarsConsts_InputDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
-
-            IOperatorDto dto2;
-
-            if (inputDto.HasVars && inputDto.HasConsts)
-            {
-                dto2 = new Multiply_OperatorDto_Vars_Consts();
-            }
-            else if (inputDto.HasVars && !inputDto.HasConsts)
-            {
-                dto2 = new Multiply_OperatorDto_Vars_NoConsts();
-            }
-            else if (!inputDto.HasVars && inputDto.HasConsts)
-            {
-                dto2 = new Multiply_OperatorDto_NoVars_Consts();
-            }
-            else if (!inputDto.HasVars && !inputDto.HasConsts)
-            {
-                dto2 = new Multiply_OperatorDto_NoVars_NoConsts();
             }
             else
             {

@@ -10,5 +10,9 @@ namespace JJ.Business.Synthesizer.Dto
         public bool HasConsts { get; set; }
         public bool AllAreVar { get; set; }
         public bool AllAreConst { get; set; }
+        public bool ConstIsOne { get; set; }
+        public bool ConstIsZero { get; set; }
+        /// <summary> nullable </summary>
+        public InputDto Const { get; set; }
     }
 }

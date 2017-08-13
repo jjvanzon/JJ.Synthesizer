@@ -160,14 +160,14 @@ namespace JJ.Business.Synthesizer.Visitors
             switch (dto.Exponent.Const)
             {
                 case 2.0:
-                    return new Multiply_OperatorDto_Vars_Consts { Vars = new[] { dto.Base, dto.Base } };
+                    return new Multiply_OperatorDto { Inputs = new[] { dto.Base, dto.Base } };
 
                 case 3.0:
-                    return new Multiply_OperatorDto_Vars_Consts { Vars = new[] { dto.Base, dto.Base, dto.Base } };
+                    return new Multiply_OperatorDto { Inputs = new[] { dto.Base, dto.Base, dto.Base } };
 
                 case 4.0:
-                    var dto2 = new Multiply_OperatorDto_Vars_Consts { Vars = new[] { dto.Base, dto.Base } };
-                    var dto3 = new Multiply_OperatorDto_Vars_Consts { Vars = new[] { dto2, dto.Base } };
+                    var dto2 = new Multiply_OperatorDto { Inputs = new[] { dto.Base, dto.Base } };
+                    var dto3 = new Multiply_OperatorDto { Inputs = new[] { dto2, dto.Base } };
                     return dto3;
 
                 default:

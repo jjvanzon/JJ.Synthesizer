@@ -5,7 +5,6 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorDtoVisitorBase_AfterClassSpecialization : OperatorDtoVisitorBase
     {
-        protected sealed override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto) => throw new NotSupportedException();
@@ -32,7 +31,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto) => throw new NotSupportedException();

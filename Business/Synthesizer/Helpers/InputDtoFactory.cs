@@ -75,6 +75,13 @@ namespace JJ.Business.Synthesizer.Helpers
                 AllAreVar = !hasConsts
             };
 
+            if (constInputDtos.Count == 1)
+            {
+                varsConsts_InputDto.Const = constInputDtos.Single().Const;
+                varsConsts_InputDto.ConstIsZero = varsConsts_InputDto.Const.Const == 0.0;
+                varsConsts_InputDto.ConstIsOne = varsConsts_InputDto.Const.Const == 1.0;
+            }
+
             return varsConsts_InputDto;
         }
     }

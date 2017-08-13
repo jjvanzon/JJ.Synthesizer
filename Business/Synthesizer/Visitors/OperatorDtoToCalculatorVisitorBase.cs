@@ -76,14 +76,23 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Absolute_OperatorCalculator_VarNumber(_stack.Pop()));
         }
 
-        protected override IOperatorDto Visit_Add_OperatorDto_Vars_1Const(Add_OperatorDto_Vars_1Const dto)
+        protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.Const.Const));
-        }
+            var inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
 
-        protected override IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
-        {
-            return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateAddCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
+            switch (inputDto.Consts.Count)
+            {
+                case 0:
+                    return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateAddCalculator_Vars(inputDto.Vars.Select(x => _stack.Pop()).ToArray()));
+
+                case 1:
+                    return ProcessOperatorDto(
+                        dto,
+                        () => OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(inputDto.Vars.Select(x => _stack.Pop()).ToArray(), inputDto.Const.Const));
+
+                default:
+                    throw new VisitationCannotBeHandledException();
+            }
         }
 
         protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
@@ -560,14 +569,23 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(dto.Vars.Select(x => _stack.Pop()).ToArray()));
         }
 
-        protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_1Const(Multiply_OperatorDto_Vars_1Const dto)
+        protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.Const.Const));
-        }
+            var inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
 
-        protected override IOperatorDto Visit_Multiply_OperatorDto_Vars_NoConsts(Multiply_OperatorDto_Vars_NoConsts dto)
-        {
-            return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(dto.Vars.Select(x => _stack.Pop()).ToArray()));
+            switch (inputDto.Consts.Count)
+            {
+                case 0:
+                    return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(inputDto.Vars.Select(x => _stack.Pop()).ToArray()));
+
+                case 1:
+                    return ProcessOperatorDto(
+                        dto,
+                        () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(inputDto.Vars.Select(x => _stack.Pop()).ToArray(), inputDto.Const.Const));
+
+                default:
+                    throw new VisitationCannotBeHandledException();
+            }
         }
 
         protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
