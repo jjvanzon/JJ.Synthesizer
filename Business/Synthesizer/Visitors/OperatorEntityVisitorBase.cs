@@ -68,7 +68,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.PatchOutlet, VisitPatchOutlet },
                 { OperatorTypeEnum.PeakingEQFilter, VisitPeakingEQFilter },
                 { OperatorTypeEnum.Power, VisitPower },
-                { OperatorTypeEnum.Pulse, VisitPulse },
                 { OperatorTypeEnum.PulseTrigger, VisitPulseTrigger },
                 { OperatorTypeEnum.Random, VisitRandom },
                 { OperatorTypeEnum.RangeOverDimension, VisitRangeOverDimension },
@@ -81,7 +80,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
-                { OperatorTypeEnum.Square, VisitSquare },
                 { OperatorTypeEnum.Squash, VisitSquash },
                 { OperatorTypeEnum.Stretch, VisitStretch },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
@@ -361,9 +359,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitPower(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
-        protected virtual void VisitPulse(Operator op) => VisitOperatorBase(op);
-
-        [DebuggerHidden]
         protected virtual void VisitPulseTrigger(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
@@ -398,9 +393,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         [DebuggerHidden]
         protected virtual void VisitSpectrum(Operator op) => VisitOperatorBase(op);
-
-        [DebuggerHidden]
-        protected virtual void VisitSquare(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
         protected virtual void VisitSquash(Operator op) => VisitOperatorBase(op);

@@ -1386,66 +1386,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return Process_Trigger(dto);
         }
 
-        // Pulse
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            bool isHalfWidth = IsHalfWidth(dto.Width);
-            if (isHalfWidth)
-            {
-                // Simplify
-                var dto2 = new Square_OperatorDto_ConstFrequency_NoOriginShifting();
-                DtoCloner.CloneProperties(dto, dto2);
-                return dto2;
-            }
-
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            bool isHalfWidth = IsHalfWidth(dto.Width);
-            if (isHalfWidth)
-            {
-                // Simplify
-                var dto2 = new Square_OperatorDto_ConstFrequency_WithOriginShifting();
-                DtoCloner.CloneProperties(dto, dto2);
-                return dto2;
-            }
-
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            bool isHalfWidth = IsHalfWidth(dto.Width);
-            if (isHalfWidth)
-            {
-                // Simplify
-                var dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking { Frequency = dto.Frequency };
-                DtoCloner.CloneProperties(dto, dto2);
-                return dto2;
-            }
-
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            bool isHalfWidth = IsHalfWidth(dto.Width);
-            if (isHalfWidth)
-            {
-                // Simplify
-                var dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking { Frequency = dto.Frequency };
-                DtoCloner.CloneProperties(dto, dto2);
-                return dto2;
-            }
-
-            return Process_WithFrequency(dto);
-        }
-
-        private static bool IsHalfWidth(InputDto inputDto) => inputDto.Const == 0.5;
-
         // Random
 
         protected override IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
@@ -1783,28 +1723,6 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 return Process_Nothing(dto);
             }
-        }
-
-        // Square
-
-        protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return Process_WithFrequency(dto);
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return Process_WithFrequency(dto);
         }
 
         // Squash

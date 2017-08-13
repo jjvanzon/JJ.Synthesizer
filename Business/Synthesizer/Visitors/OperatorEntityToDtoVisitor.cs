@@ -234,7 +234,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitOr(Operator op) => ProcessOperator(op, new Or_OperatorDto());
         protected override void VisitPeakingEQFilter(Operator op) => ProcessOperator(op, new PeakingEQFilter_OperatorDto());
         protected override void VisitPower(Operator op) => ProcessOperator(op, new Power_OperatorDto());
-        protected override void VisitPulse(Operator op) => ProcessOperator(op, new Pulse_OperatorDto());
         protected override void VisitPulseTrigger(Operator op) => ProcessOperator(op, new PulseTrigger_OperatorDto());
 
         protected override void VisitRandom(Operator op)
@@ -336,7 +335,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitSortOverDimension(Operator op) => ProcessOperator(op, new SortOverDimension_OperatorDto());
         protected override void VisitSpectrum(Operator op) => ProcessOperator(op, new Spectrum_OperatorDto());
-        protected override void VisitSquare(Operator op) => ProcessOperator(op, new Square_OperatorDto());
         protected override void VisitSquash(Operator op) => ProcessOperator(op, new Squash_OperatorDto());
         protected override void VisitStretch(Operator op) => ProcessOperator(op, new Stretch_OperatorDto());
         protected override void VisitSubtract(Operator op) => ProcessOperator(op, new Subtract_OperatorDto());

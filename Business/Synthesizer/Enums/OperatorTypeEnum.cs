@@ -39,7 +39,7 @@
         Interpolate = 19,
         //CustomOperator = 20,
         //SawUp = 21,
-        Square = 22,
+        //Square = 22,
         Triangle = 23,
         //Exponent = 24,
         Loop = 25,
@@ -64,7 +64,7 @@
         LowPassFilter = 33,
         HighPassFilter = 34,
         Spectrum = 35,
-        Pulse = 36,
+        //Pulse = 36,
 
         /// <summary>
         /// More suited to the needs of generating random numbers than the Noise operator,

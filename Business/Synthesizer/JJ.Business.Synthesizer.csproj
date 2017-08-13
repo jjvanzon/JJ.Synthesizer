@@ -241,7 +241,6 @@
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
-    <Compile Include="Calculation\Operators\Square OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
@@ -306,7 +305,6 @@
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicEquidistant.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate.cs" />
-    <Compile Include="Calculation\Operators\Pulse OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Triangle OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Sine OperatorCalculator Classes.cs" />
@@ -438,7 +436,6 @@
     <Compile Include="Dto\LessThan_OperatorDto.cs" />
     <Compile Include="Dto\NotEqual_OperatorDto.cs" />
     <Compile Include="Dto\Random OperatorDto Classes.cs" />
-    <Compile Include="Dto\Pulse OperatorDto Classes.cs" />
     <Compile Include="Dto\Spectrum_OperatorDto.cs" />
     <Compile Include="Dto\HighPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\LowPassFilter OperatorDto Classes.cs" />
@@ -458,7 +455,6 @@
     <Compile Include="Dto\Curve OperatorDto Classes.cs" />
     <Compile Include="Dto\Divide_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithAAndB.cs" />
-    <Compile Include="Dto\Square OperatorDto Classes.cs" />
     <Compile Include="Dto\OperatorDtoBase.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithFrequency.cs" />
     <Compile Include="Dto\OperatorDtoBase_Vars.cs" />

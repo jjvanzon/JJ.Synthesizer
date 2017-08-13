@@ -74,9 +74,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> {0} = phase </summary>
         private const string SINE_FORMULA_FORMAT = "SineCalculator.Sin({0})";
 
-        /// <summary> {0} = phase </summary>
-        private const string SQUARE_FORMULA_FORMAT = "{0} % 1.0 < 0.5 ? 1.0 : -1.0";
-
         private const double SAMPLE_BASE_FREQUENCY = 440.0;
 
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
@@ -1195,73 +1192,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return Process_Pulse_WithOriginShifting(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return Process_Pulse_NoPhaseTrackingOrOriginShifting(dto);
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return Process_Pulse_WithPhaseTracking(dto);
-        }
-
-        private IOperatorDto Process_Pulse_NoPhaseTrackingOrOriginShifting(Pulse_OperatorDto dto)
-        {
-            string frequency = GetLiteralFromInputDto(dto.Frequency);
-            string width = GetLiteralFromInputDto(dto.Width);
-            string output = GetLocalOutputName(dto);
-
-            AppendOperatorTitleComment(dto);
-
-            string phase = GeneratePhaseCalculationNoPhaseTrackingOrOriginShifting(dto, frequency);
-
-            AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        // ReSharper disable once SuggestBaseTypeForParameter
-        private IOperatorDto Process_Pulse_WithOriginShifting(Pulse_OperatorDto dto)
-        {
-            string frequency = GetLiteralFromInputDto(dto.Frequency);
-            string width = GetLiteralFromInputDto(dto.Width);
-            string output = GetLocalOutputName(dto);
-
-            AppendOperatorTitleComment(dto);
-
-            string phase = GeneratePhaseCalculationWithOriginShifting(dto, frequency);
-
-            AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
-        // ReSharper disable once SuggestBaseTypeForParameter
-        private IOperatorDto Process_Pulse_WithPhaseTracking(Pulse_OperatorDto dto)
-        {
-            string frequency = GetLiteralFromInputDto(dto.Frequency);
-            string width = GetLiteralFromInputDto(dto.Width);
-            string output = GetLocalOutputName(dto);
-
-            AppendOperatorTitleComment(dto);
-
-            string phase = GeneratePhaseCalculationWithPhaseTracking(dto, frequency);
-
-            AppendLine($"double {output} = {phase} % 1.0 < {width} ? 1.0 : -1.0;");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
         protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
         {
             throw new NotImplementedException();
@@ -1924,26 +1854,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
         {
             throw new NotImplementedException();
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessOriginShifter(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return ProcessWithFrequency_WithoutPhaseTrackingOrOriginShifting(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return ProcessPhaseTrackingOperator(dto, x => string.Format(SQUARE_FORMULA_FORMAT, x));
         }
 
         protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)

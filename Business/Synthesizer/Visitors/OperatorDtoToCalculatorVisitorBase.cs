@@ -680,70 +680,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new PulseTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_NoOriginShifting(Pulse_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            if (dto.Width.IsConst)
-            {
-                return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_NoOriginShifting(dto.Frequency.Const, dto.Width.Const, dimensionStack));
-            }
-            else if (dto.Width.IsVar)
-            {
-                return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_ConstFrequency_VarWidth_NoOriginShifting(dto.Frequency.Const, _stack.Pop(), dimensionStack));
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_ConstFrequency_WithOriginShifting(Pulse_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            if (dto.Width.IsConst)
-            {
-                return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_ConstFrequency_ConstWidth_WithOriginShifting(dto.Frequency.Const, dto.Width.Const, dimensionStack));
-            }
-            else if (dto.Width.IsVar)
-            {
-                return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_ConstFrequency_VarWidth_WithOriginShifting(dto.Frequency.Const, _stack.Pop(), dimensionStack));
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_NoPhaseTracking(Pulse_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            if (dto.Width.IsConst)
-            {
-                return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_VarFrequency_ConstWidth_NoPhaseTracking(_stack.Pop(), dto.Width.Const, dimensionStack));
-            }
-            else if (dto.Width.IsVar)
-            {
-                return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_VarFrequency_VarWidth_NoPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-        }
-
-        protected override IOperatorDto Visit_Pulse_OperatorDto_VarFrequency_WithPhaseTracking(Pulse_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            if (dto.Width.IsConst)
-            {
-                return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_VarFrequency_ConstWidth_WithPhaseTracking(_stack.Pop(), dto.Width.Const, dimensionStack));
-            }
-            else if (dto.Width.IsVar)
-            {
-                return ProcessWithDimension(dto, dimensionStack => new Pulse_OperatorCalculator_VarFrequency_VarWidth_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-        }
-
         protected override IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
         {
             base.Visit_OperatorDto_Base(dto);
@@ -1044,26 +980,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new Spectrum_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_NoOriginShifting(Square_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Square_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_ConstFrequency_WithOriginShifting(Square_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Square_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_NoPhaseTracking(Square_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Square_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto_VarFrequency_WithPhaseTracking(Square_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Square_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)

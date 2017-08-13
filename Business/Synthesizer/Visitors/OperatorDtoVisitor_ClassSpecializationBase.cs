@@ -854,38 +854,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Pulse_OperatorDto(Pulse_OperatorDto dto)
-        {
-            base.Visit_Pulse_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_ConstFrequency_WithOriginShifting();
-            }
-            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_VarFrequency_WithPhaseTracking();
-            }
-            if (dto.Frequency.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_ConstFrequency_NoOriginShifting();
-            }
-            if (dto.Frequency.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Pulse_OperatorDto_VarFrequency_NoPhaseTracking();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto)
         {
             base.Visit_Random_OperatorDto(dto);
@@ -1204,38 +1172,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
                 dto2 = new SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_Square_OperatorDto(Square_OperatorDto dto)
-        {
-            base.Visit_Square_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Square_OperatorDto_VarFrequency_WithPhaseTracking();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Square_OperatorDto_VarFrequency_NoPhaseTracking();
-            }
-            else if (dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Square_OperatorDto_ConstFrequency_WithOriginShifting();
-            }
-            else if (dto.Frequency.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Square_OperatorDto_ConstFrequency_NoOriginShifting();
             }
             else
             {
