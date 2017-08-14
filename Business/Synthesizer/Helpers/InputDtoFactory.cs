@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return inputDto;
         }
 
-        public static VarsConstsDto GetVarsConstsDto(IEnumerable<InputDto> inputDtos)
+        public static AggregateInfo CreateVarsConstsDto(IEnumerable<InputDto> inputDtos)
         {
             IList<InputDto> constInputDtos = inputDtos.Where(x => x.IsConst).ToArray();
 
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Helpers
             bool hasVars = varInputDtos.Any();
             bool hasConsts = constInputDtos.Any();
 
-            var varsConsts_InputDto = new VarsConstsDto
+            var varsConsts_InputDto = new AggregateInfo
             {
                 Vars = varInputDtos,
                 Consts = constInputDtos,

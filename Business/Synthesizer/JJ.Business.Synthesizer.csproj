@@ -168,6 +168,7 @@
     <Compile Include="Dto\BooleanToDouble_OperatorDto.cs" />
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
+    <Compile Include="Dto\IOperatorDto_WithAggregateInfo.cs" />
     <Compile Include="Dto\IOperatorDto_WithOutletPosition.cs" />
     <Compile Include="Dto\IOperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_InputsOnly.cs" />
@@ -388,7 +389,6 @@
     <Compile Include="Dto\Number OperatorDto Classes.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsConst.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsVar.cs" />
-    <Compile Include="Dto\OperatorDtoBase_Consts.cs" />
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithSignal.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithDimension.cs" />
@@ -397,9 +397,9 @@
     <Compile Include="Dto\Sine OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverInlets_Outlet_OperatorDto.cs" />
-    <Compile Include="Dto\ClosestOverInletsExp OperatorDto Classes.cs" />
+    <Compile Include="Dto\ClosestOverInletsExp_OperatorDto.cs" />
     <Compile Include="Dto\ClosestOverDimensionExp OperatorDto Classes.cs" />
-    <Compile Include="Dto\ClosestOverInlets OperatorDto Classes.cs" />
+    <Compile Include="Dto\ClosestOverInlets_OperatorDto.cs" />
     <Compile Include="Dto\ClosestOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\Subtract_OperatorDto.cs" />
     <Compile Include="Dto\SumFollower OperatorDto Classes.cs" />
@@ -459,7 +459,7 @@
     <Compile Include="Dto\OperatorDtoBase_WithFrequency.cs" />
     <Compile Include="Dto\Power_OperatorDto.cs" />
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
-    <Compile Include="Dto\VarsConstsDto.cs" />
+    <Compile Include="Dto\AggregateInfo.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />
     <Compile Include="Helpers\DtoCloner.cs" />
     <Compile Include="Helpers\InputDtoFactory.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class VarsConstsDto
+    internal class AggregateInfo
     {
         public IList<InputDto> Vars { get; set; }
         public IList<InputDto> Consts { get; set; }

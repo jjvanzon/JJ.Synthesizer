@@ -2,8 +2,10 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class MaxOverInlets_OperatorDto : OperatorDtoBase_InputsOnly
+    internal class MaxOverInlets_OperatorDto : OperatorDtoBase_InputsOnly, IOperatorDto_WithAggregateInfo
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxOverInlets;
+
+        public AggregateInfo AggregateInfo { get; set; }
     }
 }

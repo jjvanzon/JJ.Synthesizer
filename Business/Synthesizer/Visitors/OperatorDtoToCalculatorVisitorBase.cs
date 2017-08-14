@@ -78,17 +78,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
-            var inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
-
-            switch (inputDto.Consts.Count)
+            switch (dto.AggregateInfo.Consts.Count)
             {
                 case 0:
-                    return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateAddCalculator_Vars(inputDto.Vars.Select(x => _stack.Pop()).ToArray()));
+                    return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateAddCalculator_Vars(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray()));
 
                 case 1:
                     return ProcessOperatorDto(
                         dto,
-                        () => OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(inputDto.Vars.Select(x => _stack.Pop()).ToArray(), inputDto.Const.Const));
+                        () => OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const.Const));
 
                 default:
                     throw new VisitationCannotBeHandledException();
@@ -175,34 +173,40 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems dto)
+        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new ClosestOverInletsExp_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.Item1.Const, dto.Item2.Const));
+            if (dto.AggregateInfo.OnlyConsts && dto.AggregateInfo.Consts.Count == 2)
+            {
+                return ProcessOperatorDto(dto, () => new ClosestOverInlets_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.AggregateInfo.Consts[0].Const, dto.AggregateInfo.Consts[1].Const));
+            }
+            else if (dto.AggregateInfo.OnlyConsts)
+            {
+                return ProcessOperatorDto(dto, () => new ClosestOverInlets_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items.Select(x => x.Const).ToArray()));
+            }
+            else if (dto.AggregateInfo.OnlyVars)
+            {
+                return ProcessOperatorDto(dto, () => new ClosestOverInlets_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
+            }
+
+            return base.Visit_ClosestOverInlets_OperatorDto(dto);
         }
 
-        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
+        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new ClosestOverInletsExp_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items.Select(x => x.Const).ToArray()));
-        }
+            if (dto.AggregateInfo.OnlyConsts && dto.AggregateInfo.Consts.Count == 2)
+            {
+                return ProcessOperatorDto(dto, () => new ClosestOverInletsExp_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.AggregateInfo.Consts[0].Const, dto.AggregateInfo.Consts[1].Const));
+            }
+            else if (dto.AggregateInfo.OnlyConsts)
+            {
+                return ProcessOperatorDto(dto, () => new ClosestOverInletsExp_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items.Select(x => x.Const).ToArray()));
+            }
+            else if (dto.AggregateInfo.OnlyVars)
+            {
+                return ProcessOperatorDto(dto, () => new ClosestOverInletsExp_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
+            }
 
-        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_VarItems(ClosestOverInletsExp_OperatorDto_VarInput_VarItems dto)
-        {
-            return ProcessOperatorDto(dto, () => new ClosestOverInletsExp_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
-        }
-
-        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_2ConstItems(ClosestOverInlets_OperatorDto_VarInput_2ConstItems dto)
-        {
-            return ProcessOperatorDto(dto, () => new ClosestOverInlets_OperatorCalculator_VarInput_2ConstItems(_stack.Pop(), dto.Item1.Const, dto.Item2.Const));
-        }
-
-        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
-        {
-            return ProcessOperatorDto(dto, () => new ClosestOverInlets_OperatorCalculator_VarInput_ConstItems(_stack.Pop(), dto.Items.Select(x => x.Const).ToArray()));
-        }
-
-        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_VarItems(ClosestOverInlets_OperatorDto_VarInput_VarItems dto)
-        {
-            return ProcessOperatorDto(dto, () => new ClosestOverInlets_OperatorCalculator_VarInput_VarItems(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
+            return base.Visit_ClosestOverInletsExp_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto)
@@ -516,23 +520,21 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
         {
-            VarsConstsDto inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
-
-            if (inputDto.Vars.Count == 1 && inputDto.Consts.Count == 1)
+            if (dto.AggregateInfo.Vars.Count == 1 && dto.AggregateInfo.Consts.Count == 1)
             {
-                return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), inputDto.Const.Const));
+                return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.AggregateInfo.Const.Const));
             }
-            else if (inputDto.OnlyVars && inputDto.Vars.Count == 2)
+            else if (dto.AggregateInfo.OnlyVars && dto.AggregateInfo.Vars.Count == 2)
             {
                 return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_2Vars(_stack.Pop(), _stack.Pop()));
             }
-            else if (inputDto.HasVars && inputDto.Consts.Count == 1)
+            else if (dto.AggregateInfo.HasVars && dto.AggregateInfo.Consts.Count == 1)
             {
-                return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_Vars_1Const(inputDto.Vars.Select(x => _stack.Pop()).ToArray(), inputDto.Const.Const));
+                return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const.Const));
             }
-            else if (inputDto.OnlyVars)
+            else if (dto.AggregateInfo.OnlyVars)
             {
-                return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(inputDto.Vars.Select(x => _stack.Pop()).ToArray()));
+                return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray()));
             }
             else
             {
@@ -557,23 +559,21 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
         {
-            VarsConstsDto inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
-
-            if (inputDto.Vars.Count == 1 && inputDto.Consts.Count == 1)
+            if (dto.AggregateInfo.Vars.Count == 1 && dto.AggregateInfo.Consts.Count == 1)
             {
-                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), inputDto.Const.Const));
+                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.AggregateInfo.Const.Const));
             }
-            else if (inputDto.OnlyVars && inputDto.Vars.Count == 2)
+            else if (dto.AggregateInfo.OnlyVars && dto.AggregateInfo.Vars.Count == 2)
             {
                 return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_2Vars(_stack.Pop(), _stack.Pop()));
             }
-            else if (inputDto.HasVars && inputDto.Consts.Count == 1)
+            else if (dto.AggregateInfo.HasVars && dto.AggregateInfo.Consts.Count == 1)
             {
-                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_Vars_1Const(inputDto.Vars.Select(x => _stack.Pop()).ToArray(), inputDto.Const.Const));
+                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const.Const));
             }
-            else if (inputDto.OnlyVars)
+            else if (dto.AggregateInfo.OnlyVars)
             {
-                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(inputDto.Vars.Select(x => _stack.Pop()).ToArray()));
+                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray()));
             }
             else
             {
@@ -583,17 +583,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
-            var inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
-
-            switch (inputDto.Consts.Count)
+            switch (dto.AggregateInfo.Consts.Count)
             {
                 case 0:
-                    return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(inputDto.Vars.Select(x => _stack.Pop()).ToArray()));
+                    return ProcessOperatorDto(dto, () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray()));
 
                 case 1:
                     return ProcessOperatorDto(
                         dto,
-                        () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(inputDto.Vars.Select(x => _stack.Pop()).ToArray(), inputDto.Const.Const));
+                        () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const.Const));
 
                 default:
                     throw new VisitationCannotBeHandledException();

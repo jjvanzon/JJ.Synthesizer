@@ -9,46 +9,6 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
 
-        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(ClosestOverInlets_OperatorDto_VarInput_ConstItems dto)
-        {
-            base.Visit_ClosestOverInlets_OperatorDto_VarInput_ConstItems(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Items.Count == 2)
-            {
-                dto2 = new ClosestOverInlets_OperatorDto_VarInput_2ConstItems();
-            }
-            else
-            {
-                dto2 = dto;
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(ClosestOverInletsExp_OperatorDto_VarInput_ConstItems dto)
-        {
-            base.Visit_ClosestOverInletsExp_OperatorDto_VarInput_ConstItems(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Items.Count == 2)
-            {
-                dto2 = new ClosestOverInletsExp_OperatorDto_VarInput_2ConstItems();
-            }
-            else
-            {
-                dto2 = dto;
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
             base.Visit_Number_OperatorDto(dto);

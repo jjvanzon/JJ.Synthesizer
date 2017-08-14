@@ -227,58 +227,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
-        {
-            base.Visit_ClosestOverInlets_OperatorDto(dto);
-
-            VarsConstsDto itemsMathProperties = InputDtoFactory.GetVarsConstsDto(dto.Items);
-
-            IOperatorDto dto2;
-
-            if (dto.Input.IsConst && itemsMathProperties.OnlyConsts)
-            {
-                dto2 = new ClosestOverInlets_OperatorDto_ConstInput_ConstItems();
-            }
-            else if (dto.Input.IsVar && itemsMathProperties.OnlyConsts)
-            {
-                dto2 = new ClosestOverInlets_OperatorDto_VarInput_ConstItems();
-            }
-            else
-            {
-                dto2 = new ClosestOverInlets_OperatorDto_VarInput_VarItems();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
-        {
-            base.Visit_ClosestOverInletsExp_OperatorDto(dto);
-
-            VarsConstsDto itemsMathProperties = InputDtoFactory.GetVarsConstsDto(dto.Items);
-
-            IOperatorDto dto2;
-
-            if (dto.Input.IsConst && itemsMathProperties.OnlyConsts)
-            {
-                dto2 = new ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems();
-            }
-            else if (dto.Input.IsVar && itemsMathProperties.OnlyConsts)
-            {
-                dto2 = new ClosestOverInletsExp_OperatorDto_VarInput_ConstItems();
-            }
-            else
-            {
-                dto2 = new ClosestOverInletsExp_OperatorDto_VarInput_VarItems();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Curve_OperatorDto(Curve_OperatorDto dto)
         {
             base.Visit_Curve_OperatorDto(dto);

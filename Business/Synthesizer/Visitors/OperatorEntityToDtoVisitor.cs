@@ -345,34 +345,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Helpers
 
-        private void ProcessOperator(Operator op, ClosestOverInlets_OperatorDto dto)
-        {
-            VisitOperatorBase(op);
-
-            dto.OperatorID = op.ID;
-
-            dto.Input = PopInputDto();
-
-            dto.Items = CollectionHelper.Repeat(op.Inlets.Count - 1, () => PopInputDto())
-                                        .Where(x => x != null)
-                                        .ToArray();
-            _stack.Push(dto);
-        }
-
         private void ProcessOperator(Operator op, OperatorDtoBase_WithCollectionRecalculation dto)
-        {
-            ProcessOperator(op, (IOperatorDto_WithDimension)dto);
-
-            var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
-            dto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
-        }
-
-        private void ProcessOperator(Operator op, IOperatorDto_WithDimension dto)
         {
             ProcessOperator(op, (IOperatorDto)dto);
 
-            dto.StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
-            dto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback());
+            var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
+            dto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
         }
 
         private void ProcessOperator(Operator op, IOperatorDto dto)
@@ -385,7 +363,20 @@ namespace JJ.Business.Synthesizer.Visitors
                                          .Where(x => x != null)
                                          .ToArray();
 
-            TrySetDimensionProperties(op, dto);
+            {
+                if (dto is IOperatorDto_WithDimension castedDto)
+                {
+                    castedDto.StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
+                    castedDto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback());
+                }
+            }
+
+            {
+                if (dto is IOperatorDto_WithAggregateInfo castedDto)
+                {
+                    castedDto.AggregateInfo = InputDtoFactory.CreateVarsConstsDto(dto.Inputs);
+                }
+            }
 
             _stack.Push(dto);
         }
@@ -393,16 +384,6 @@ namespace JJ.Business.Synthesizer.Visitors
         private InputDto PopInputDto()
         {
             return InputDtoFactory.TryCreateInputDto(_stack.Pop());
-        }
-
-        private void TrySetDimensionProperties(Operator op, IOperatorDto dto)
-        {
-            // ReSharper disable once InvertIf
-            if (dto is IOperatorDto_WithDimension castedDto)
-            {
-                castedDto.StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
-                castedDto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback());
-            }
         }
 
         // Special Visitation
