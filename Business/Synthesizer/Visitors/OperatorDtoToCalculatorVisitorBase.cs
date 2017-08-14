@@ -549,24 +549,30 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
+        protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.B.Const));
-        }
+            VarsConstsDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
 
-        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto)
-        {
-            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_2Vars(_stack.Pop(), _stack.Pop()));
-        }
-
-        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
-        {
-            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_Vars_1Const(dto.Vars.Select(x => _stack.Pop()).ToArray(), dto.Const.Const));
-        }
-
-        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
-        {
-            return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(dto.Vars.Select(x => _stack.Pop()).ToArray()));
+            if (inputDto.Vars.Count == 1 && inputDto.Consts.Count == 1)
+            {
+                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), inputDto.Const.Const));
+            }
+            else if (inputDto.OnlyVars && inputDto.Vars.Count == 2)
+            {
+                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_2Vars(_stack.Pop(), _stack.Pop()));
+            }
+            else if (inputDto.HasVars && inputDto.Consts.Count == 1)
+            {
+                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_Vars_1Const(inputDto.Vars.Select(x => _stack.Pop()).ToArray(), inputDto.Const.Const));
+            }
+            else if (inputDto.OnlyVars)
+            {
+                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(inputDto.Vars.Select(x => _stack.Pop()).ToArray()));
+            }
+            else
+            {
+                throw new VisitationCannotBeHandledException();
+            }
         }
 
         protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)

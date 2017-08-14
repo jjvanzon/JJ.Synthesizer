@@ -1044,24 +1044,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto)
+        protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
         {
-            return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
-        }
-
-        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto)
-        {
-            return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
-        }
-
-        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto)
-        {
-            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min);
-        }
-
-        protected override IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto)
-        {
-            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min);
+            if (dto.Inputs.Count == 2)
+            {
+                return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
+            }
+            else
+            {
+                return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min);
+            }
         }
 
         protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
@@ -2250,10 +2242,10 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto Process_MinOrMaxOverInlets_With2Inlets(OperatorDtoBase_WithAAndB dto, MinOrMaxEnum minOrMaxEnum)
+        private IOperatorDto Process_MinOrMaxOverInlets_With2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
         {
-            string a = GetLiteralFromInputDto(dto.A);
-            string b = GetLiteralFromInputDto(dto.B);
+            string a = GetLiteralFromInputDto(dto.Inputs[0]);
+            string b = GetLiteralFromInputDto(dto.Inputs[1]);
             string output = GetLocalOutputName(dto);
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 

@@ -462,7 +462,7 @@
     <Compile Include="Dto\OperatorDtoBase_Vars_1Const.cs" />
     <Compile Include="Dto\Power_OperatorDto.cs" />
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
-    <Compile Include="Dto\VarsConsts_MathPropertiesDto.cs" />
+    <Compile Include="Dto\VarsConstsDto.cs" />
     <Compile Include="Extensions\InletExtensions.cs" />
     <Compile Include="Helpers\DtoCloner.cs" />
     <Compile Include="Helpers\InputDtoFactory.cs" />

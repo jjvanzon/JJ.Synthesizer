@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return inputDto;
         }
 
-        public static VarsConsts_InputDto Get_VarsConsts_InputDto(IEnumerable<InputDto> inputDtos)
+        public static VarsConstsDto Get_VarsConsts_InputDto(IEnumerable<InputDto> inputDtos)
         {
             IList<InputDto> constInputDtos = inputDtos.Where(x => x.IsConst).ToArray();
 
@@ -65,21 +65,23 @@ namespace JJ.Business.Synthesizer.Helpers
             bool hasVars = varInputDtos.Any();
             bool hasConsts = constInputDtos.Any();
 
-            var varsConsts_InputDto = new VarsConsts_InputDto
+            var varsConsts_InputDto = new VarsConstsDto
             {
                 Vars = varInputDtos,
                 Consts = constInputDtos,
                 HasConsts = hasConsts,
                 HasVars = hasVars,
-                AllAreConst = !hasVars,
-                AllAreVar = !hasConsts
+                OnlyConsts = !hasVars,
+                OnlyVars = !hasConsts,
+                IsEmpty = inputDtos.Count() == 0
             };
 
             if (constInputDtos.Count == 1)
             {
-                varsConsts_InputDto.Const = constInputDtos.Single().Const;
-                varsConsts_InputDto.ConstIsZero = varsConsts_InputDto.Const.Const == 0.0;
-                varsConsts_InputDto.ConstIsOne = varsConsts_InputDto.Const.Const == 1.0;
+                InputDto constInputDto = constInputDtos.Single();
+                varsConsts_InputDto.Const = constInputDto;
+                varsConsts_InputDto.ConstIsZero = constInputDto.IsConstZero;
+                varsConsts_InputDto.ConstIsOne = constInputDto.IsConstOne;
             }
 
             return varsConsts_InputDto;

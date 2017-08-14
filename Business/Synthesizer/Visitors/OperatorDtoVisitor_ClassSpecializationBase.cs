@@ -81,11 +81,11 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_AverageOverInlets_OperatorDto(dto);
 
-            VarsConsts_InputDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
+            VarsConstsDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
 
             IOperatorDto dto2;
 
-            if (inputDto.AllAreConst)
+            if (inputDto.OnlyConsts)
             {
                 dto2 = new AverageOverInlets_OperatorDto_AllConsts();
             }
@@ -257,15 +257,15 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_ClosestOverInlets_OperatorDto(dto);
 
-            VarsConsts_InputDto itemsMathProperties = InputDtoFactory.Get_VarsConsts_InputDto(dto.Items);
+            VarsConstsDto itemsMathProperties = InputDtoFactory.Get_VarsConsts_InputDto(dto.Items);
 
             IOperatorDto dto2;
 
-            if (dto.Input.IsConst && itemsMathProperties.AllAreConst)
+            if (dto.Input.IsConst && itemsMathProperties.OnlyConsts)
             {
                 dto2 = new ClosestOverInlets_OperatorDto_ConstInput_ConstItems();
             }
-            else if (dto.Input.IsVar && itemsMathProperties.AllAreConst)
+            else if (dto.Input.IsVar && itemsMathProperties.OnlyConsts)
             {
                 dto2 = new ClosestOverInlets_OperatorDto_VarInput_ConstItems();
             }
@@ -283,15 +283,15 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_ClosestOverInletsExp_OperatorDto(dto);
 
-            VarsConsts_InputDto itemsMathProperties = InputDtoFactory.Get_VarsConsts_InputDto(dto.Items);
+            VarsConstsDto itemsMathProperties = InputDtoFactory.Get_VarsConsts_InputDto(dto.Items);
 
             IOperatorDto dto2;
 
-            if (dto.Input.IsConst && itemsMathProperties.AllAreConst)
+            if (dto.Input.IsConst && itemsMathProperties.OnlyConsts)
             {
                 dto2 = new ClosestOverInletsExp_OperatorDto_ConstInput_ConstItems();
             }
-            else if (dto.Input.IsVar && itemsMathProperties.AllAreConst)
+            else if (dto.Input.IsVar && itemsMathProperties.OnlyConsts)
             {
                 dto2 = new ClosestOverInletsExp_OperatorDto_VarInput_ConstItems();
             }
@@ -634,7 +634,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MaxOverInlets_OperatorDto(dto);
 
-            VarsConsts_InputDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
+            VarsConstsDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
 
             IOperatorDto dto2;
 
@@ -710,40 +710,6 @@ namespace JJ.Business.Synthesizer.Visitors
             DtoCloner.CloneProperties(dto, dto2);
 
             return dto;
-        }
-
-        protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
-        {
-            base.Visit_MinOverInlets_OperatorDto(dto);
-
-            VarsConsts_InputDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Vars);
-
-            IOperatorDto dto2;
-
-            if (inputDto.HasVars && inputDto.HasConsts)
-            {
-                dto2 = new MinOverInlets_OperatorDto_Vars_Consts();
-            }
-            else if (inputDto.HasVars && !inputDto.HasConsts)
-            {
-                dto2 = new MinOverInlets_OperatorDto_Vars_NoConsts();
-            }
-            else if (!inputDto.HasVars && inputDto.HasConsts)
-            {
-                dto2 = new MinOverInlets_OperatorDto_NoVars_Consts();
-            }
-            else if (!inputDto.HasVars && !inputDto.HasConsts)
-            {
-                dto2 = new MinOverInlets_OperatorDto_NoVars_NoConsts();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
         }
 
         protected override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)

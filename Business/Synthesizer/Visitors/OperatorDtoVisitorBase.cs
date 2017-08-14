@@ -207,13 +207,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous), x => Visit_MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous((MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous)x) },
                 { typeof(MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset), x => Visit_MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset((MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset)x) },
                 { typeof(MinOverInlets_OperatorDto), x => Visit_MinOverInlets_OperatorDto((MinOverInlets_OperatorDto)x) },
-                { typeof(MinOverInlets_OperatorDto_Vars_Consts), x => Visit_MinOverInlets_OperatorDto_Vars_Consts((MinOverInlets_OperatorDto_Vars_Consts)x) },
-                { typeof(MinOverInlets_OperatorDto_Vars_NoConsts), x => Visit_MinOverInlets_OperatorDto_Vars_NoConsts((MinOverInlets_OperatorDto_Vars_NoConsts)x) },
-                { typeof(MinOverInlets_OperatorDto_NoVars_NoConsts), x => Visit_MinOverInlets_OperatorDto_NoVars_NoConsts((MinOverInlets_OperatorDto_NoVars_NoConsts)x) },
-                { typeof(MinOverInlets_OperatorDto_NoVars_Consts), x => Visit_MinOverInlets_OperatorDto_NoVars_Consts((MinOverInlets_OperatorDto_NoVars_Consts)x) },
-                { typeof(MinOverInlets_OperatorDto_Vars_1Const), x => Visit_MinOverInlets_OperatorDto_Vars_1Const((MinOverInlets_OperatorDto_Vars_1Const)x) },
-                { typeof(MinOverInlets_OperatorDto_1Var_1Const), x => Visit_MinOverInlets_OperatorDto_1Var_1Const((MinOverInlets_OperatorDto_1Var_1Const)x) },
-                { typeof(MinOverInlets_OperatorDto_2Vars), x => Visit_MinOverInlets_OperatorDto_2Vars((MinOverInlets_OperatorDto_2Vars)x) },
                 { typeof(Multiply_OperatorDto), x => Visit_Multiply_OperatorDto((Multiply_OperatorDto)x) },
                 { typeof(Negative_OperatorDto), x => Visit_Negative_OperatorDto((Negative_OperatorDto)x) },
                 { typeof(Noise_OperatorDto), x => Visit_Noise_OperatorDto((Noise_OperatorDto)x) },
@@ -462,13 +455,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_Consts(MinOverInlets_OperatorDto_Vars_Consts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_NoConsts(MinOverInlets_OperatorDto_Vars_NoConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto_NoVars_NoConsts(MinOverInlets_OperatorDto_NoVars_NoConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto_NoVars_Consts(MinOverInlets_OperatorDto_NoVars_Consts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto_Vars_1Const(MinOverInlets_OperatorDto_Vars_1Const dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto_1Var_1Const(MinOverInlets_OperatorDto_1Var_1Const dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto_2Vars(MinOverInlets_OperatorDto_2Vars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto) => Visit_OperatorDto_Base(dto);
