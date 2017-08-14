@@ -374,7 +374,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 if (dto is IOperatorDto_WithAggregateInfo castedDto)
                 {
-                    castedDto.AggregateInfo = InputDtoFactory.CreateVarsConstsDto(dto.Inputs);
+                    castedDto.AggregateInfo = AggregateInfoFactory.CreateAggregateInfo(dto.Inputs);
                 }
             }
 

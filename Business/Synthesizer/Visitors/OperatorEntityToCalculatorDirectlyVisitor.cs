@@ -2831,17 +2831,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 double value = from + step * position;
                 calculator = new Number_OperatorCalculator(value);
             }
-            else if (fromIsConst)
-            {
-                calculator = new RangeOverOutlets_OperatorCalculator_ConstFrom_VarStep(from, stepCalculator, position);
-            }
-            else if (stepIsConst)
-            {
-                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_ConstStep(fromCalculator, step, position);
-            }
             else
             {
-                calculator = new RangeOverOutlets_OperatorCalculator_VarFrom_VarStep(fromCalculator, stepCalculator, position);
+                calculator = new RangeOverOutlets_OperatorCalculator(fromCalculator, stepCalculator, position);
             }
 
             _stack.Push(calculator);

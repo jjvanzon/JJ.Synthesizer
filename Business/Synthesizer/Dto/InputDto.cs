@@ -49,5 +49,7 @@ namespace JJ.Business.Synthesizer.Dto
         /// It has to be OperatorDtoBase, because implicit C# operators will not take interfaces as the source.
         /// </summary>
         public static implicit operator InputDto(OperatorDtoBase var) => InputDtoFactory.CreateInputDto(var);
+
+        public static implicit operator double (InputDto dto) => dto.Const;
     }
 }

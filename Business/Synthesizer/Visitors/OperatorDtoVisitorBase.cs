@@ -22,21 +22,27 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new Exception($"No Visit method delegate found in the dictionary for {type.Name}.");
             }
 
-            IList<InputDto> dtoInputs = dto.Inputs.ToArray();
+            IList<InputDto> originalDtoInputs = dto.Inputs.ToArray();
+            IOperatorDto originalDto = dto;
 
-            IOperatorDto dto2 = func(dto);
+            IOperatorDto newDto = func(originalDto);
 
             // Revisit as long as different instances keep coming.
 
-            while (dto2 != dto || !dto2.Inputs.SequenceEqual(dtoInputs))
+            while (newDto != originalDto || !newDto.Inputs.SequenceEqual(originalDtoInputs))
             {
-                dto = dto2;
-                dtoInputs = dto2.Inputs.ToArray();
+                if (newDto is IOperatorDto_WithAggregateInfo castedNewDto)
+                {
+                    castedNewDto.AggregateInfo = AggregateInfoFactory.CreateAggregateInfo(castedNewDto.Inputs);
+                }
 
-                dto2 = Visit_OperatorDto_Polymorphic(dto);
+                originalDto = newDto;
+                originalDtoInputs = newDto.Inputs.ToArray();
+
+                newDto = Visit_OperatorDto_Polymorphic(newDto);
             }
 
-            return dto2;
+            return newDto;
         }
 
         [DebuggerHidden]
@@ -222,11 +228,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(RangeOverDimension_OperatorDto_OnlyConsts), x => Visit_RangeOverDimension_OperatorDto_OnlyConsts((RangeOverDimension_OperatorDto_OnlyConsts)x) },
                 { typeof(RangeOverDimension_OperatorDto_WithConsts_AndStepOne), x => Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne((RangeOverDimension_OperatorDto_WithConsts_AndStepOne)x) },
                 { typeof(RangeOverOutlets_Outlet_OperatorDto), x => Visit_RangeOverOutlets_Outlet_OperatorDto((RangeOverOutlets_Outlet_OperatorDto)x) },
-                { typeof(RangeOverOutlets_Outlet_OperatorDto_ZeroStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ZeroStep((RangeOverOutlets_Outlet_OperatorDto_ZeroStep)x) },
-                { typeof(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep((RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep)x) },
-                { typeof(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep((RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep)x) },
-                { typeof(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep((RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep)x) },
-                { typeof(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep), x => Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep((RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep)x) },
                 { typeof(Remainder_OperatorDto), x => Visit_Remainder_OperatorDto((Remainder_OperatorDto)x) },
                 { typeof(Reset_OperatorDto), x => Visit_Reset_OperatorDto((Reset_OperatorDto)x) },
                 { typeof(Round_OperatorDto), x => Visit_Round_OperatorDto((Round_OperatorDto)x) },
@@ -453,11 +454,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ZeroStep(RangeOverOutlets_Outlet_OperatorDto_ZeroStep dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto) => Visit_OperatorDto_Base(dto);

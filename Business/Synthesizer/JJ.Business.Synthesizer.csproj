@@ -190,6 +190,7 @@
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
     <Compile Include="Extensions\IInletOrOutletExtensions.cs" />
     <Compile Include="Extensions\SortExtensions.cs" />
+    <Compile Include="Helpers\AggregateInfoFactory.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\CurveArrayDtoFactory.cs" />
@@ -393,7 +394,7 @@
     <Compile Include="Dto\OperatorDtoBase_WithSignal.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithDimension.cs" />
     <Compile Include="Dto\PeakingEQFilter OperatorDto Classes.cs" />
-    <Compile Include="Dto\RangeOverOutlets OperatorDto Classes.cs" />
+    <Compile Include="Dto\RangeOverOutlets_Outlet_OperatorDto.cs" />
     <Compile Include="Dto\Sine OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverInlets_Outlet_OperatorDto.cs" />

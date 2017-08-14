@@ -1361,30 +1361,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep dto)
-        {
-            return Process_RangeOverOutlets_Outlet(dto);
-        }
-
-        protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep(RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep dto)
-        {
-            return Process_RangeOverOutlets_Outlet(dto);
-        }
-
-        // ReSharper disable once SuggestBaseTypeForParameter
-        private IOperatorDto Process_RangeOverOutlets_Outlet(RangeOverOutlets_Outlet_OperatorDto dto)
-        {
-            string from = GetLiteralFromInputDto(dto.From);
-            string step = GetLiteralFromInputDto(dto.Step);
-            string output = GetLocalOutputName(dto);
-
-            AppendOperatorTitleComment(dto);
-
-            AppendLine($"double {output} = {from} + {step} * {dto.OutletPosition};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
         protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto)
         {
             return ProcessBinaryDoubleOperator(dto, REMAINDER_SYMBOL);

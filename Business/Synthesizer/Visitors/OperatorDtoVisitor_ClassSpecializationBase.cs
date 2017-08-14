@@ -722,42 +722,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto)
-        {
-            base.Visit_RangeOverOutlets_Outlet_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Step.IsConstZero)
-            {
-                dto2 = new RangeOverOutlets_Outlet_OperatorDto_ZeroStep();
-            }
-            else if (dto.From.IsConst && dto.Step.IsConst)
-            {
-                dto2 = new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_ConstStep { OutletPosition = dto.OutletPosition };
-            }
-            else if (dto.From.IsVar && dto.Step.IsConst)
-            {
-                dto2 = new RangeOverOutlets_Outlet_OperatorDto_VarFrom_ConstStep { OutletPosition = dto.OutletPosition };
-            }
-            else if (dto.From.IsConst && dto.Step.IsVar)
-            {
-                dto2 = new RangeOverOutlets_Outlet_OperatorDto_ConstFrom_VarStep { OutletPosition = dto.OutletPosition };
-            }
-            else if (dto.From.IsVar && dto.Step.IsVar)
-            {
-                dto2 = new RangeOverOutlets_Outlet_OperatorDto_VarFrom_VarStep { OutletPosition = dto.OutletPosition };
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto)
         {
             base.Visit_Round_OperatorDto(dto);
