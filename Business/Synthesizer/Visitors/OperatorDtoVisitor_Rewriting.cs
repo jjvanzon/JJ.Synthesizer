@@ -54,7 +54,6 @@ namespace JJ.Business.Synthesizer.Visitors
             var intermediateDto = new InletsToDimension_OperatorDto_Stripe_LagBehind();
             DtoCloner.CloneProperties(sourceDto, intermediateDto);
             intermediateDto.ResampleInterpolationTypeEnum = sourceDto.ResampleInterpolationTypeEnum;
-            intermediateDto.Vars = sourceDto.Vars;
 
             DtoCloner.CloneProperties(sourceDto, destDto);
             destDto.Signal = intermediateDto;

@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new AverageOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray()));
+            return ProcessOperatorDto(dto, () => new AverageOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
         }
 
         protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
@@ -369,12 +369,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_Block(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_Block(dto.Inputs.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_Stripe(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new InletsToDimension_OperatorCalculator_Stripe(dto.Inputs.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
@@ -1004,7 +1004,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new SortOverInlets_OperatorCalculator(dto.Vars.Select(x => _stack.Pop()).ToArray(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new SortOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)

@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitInletsToDimension(Operator op)
         {
             var dto = new InletsToDimension_OperatorDto();
-            ProcessOperator(op, (OperatorDtoBase_Vars)dto);
+            ProcessOperator(op, dto);
 
             var wrapper = new InletsToDimension_OperatorWrapper(op);
             dto.ResampleInterpolationTypeEnum = wrapper.InterpolationType;
@@ -320,9 +320,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback())
             };
 
-            dto.Vars = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
-                                       .Where(x => x != null)
-                                       .ToArray();
+            dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
+                                         .Where(x => x != null)
+                                         .ToArray();
 
             if (!outlet.RepetitionPosition.HasValue)
             {

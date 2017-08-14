@@ -457,7 +457,6 @@
     <Compile Include="Dto\OperatorDtoBase_WithAAndB.cs" />
     <Compile Include="Dto\OperatorDtoBase.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithFrequency.cs" />
-    <Compile Include="Dto\OperatorDtoBase_Vars.cs" />
     <Compile Include="Dto\Power_OperatorDto.cs" />
     <Compile Include="Dto\VariableInput_OperatorDto.cs" />
     <Compile Include="Dto\VarsConstsDto.cs" />

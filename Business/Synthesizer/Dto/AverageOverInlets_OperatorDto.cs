@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class AverageOverInlets_OperatorDto : OperatorDtoBase_Vars
+    internal class AverageOverInlets_OperatorDto : OperatorDtoBase_InputsOnly
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AverageOverInlets;
     }

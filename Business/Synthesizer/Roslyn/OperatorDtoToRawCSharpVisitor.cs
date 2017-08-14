@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
         {
-            IList<string> items = dto.Vars.Select(x => GetLiteralFromInputDto(x)).ToArray();
+            IList<string> items = dto.Inputs.Select(x => GetLiteralFromInputDto(x)).ToArray();
             string sum = GetUniqueLocalVariableName(nameof(sum));
             string output = GetLocalOutputName(dto);
             string countLiteral = CompilationHelper.FormatValue(items.Count);
@@ -709,14 +709,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine("{");
             Indent();
             {
-                int count = dto.Vars.Count;
+                int count = dto.Inputs.Count;
 
                 for (int i = 0; i < count; i++)
                 {
                     AppendLine($"case {i}:");
                     Indent();
                     {
-                        string operand = GetLiteralFromInputDto(dto.Vars[i]);
+                        string operand = GetLiteralFromInputDto(dto.Inputs[i]);
 
                         AppendLine($"{output} = {operand};");
                         AppendLine("break;");
@@ -1791,11 +1791,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
         {
             string position = GetPositionNameCamelCase(dto);
-            string items = GetLongLivedDoubleArrayVariableName(dto.Vars.Count);
+            string items = GetLongLivedDoubleArrayVariableName(dto.Inputs.Count);
             string output = GetLocalOutputName(dto);
             const string conversionHelper = nameof(ConversionHelper);
             const string canCastToNonNegativeInt32WithMax = nameof(ConversionHelper.CanCastToNonNegativeInt32WithMax);
-            string maxIndex = CompilationHelper.FormatValue(dto.Vars.Count - 1);
+            string maxIndex = CompilationHelper.FormatValue(dto.Inputs.Count - 1);
 
             AppendOperatorTitleComment(dto);
 
@@ -1810,9 +1810,9 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine("}");
             AppendLine();
 
-            for (int i = 0; i < dto.Vars.Count; i++)
+            for (int i = 0; i < dto.Inputs.Count; i++)
             {
-                string item = GetLiteralFromInputDto(dto.Vars[i]);
+                string item = GetLiteralFromInputDto(dto.Inputs[i]);
 
                 AppendLine($"{items}[{i}] = {item};");
             }
