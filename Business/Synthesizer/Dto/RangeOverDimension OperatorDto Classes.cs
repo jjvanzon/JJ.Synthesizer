@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Till { get; set; }
         public InputDto Step { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { From, Till, Step };
             set
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto From { get; set; }
         public InputDto Till { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { From, Till, _step };
             set

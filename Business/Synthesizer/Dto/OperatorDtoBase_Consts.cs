@@ -7,9 +7,9 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public IList<InputDto> Consts { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
-            get => Consts;
+            get => Consts.ToArray();
             set => Consts = value.ToArray();
         }
     }

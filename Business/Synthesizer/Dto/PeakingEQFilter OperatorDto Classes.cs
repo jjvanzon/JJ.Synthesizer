@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Width { get; set; }
         public InputDto DBGain { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[]
             {
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Width { get; set; }
         public InputDto DBGain { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[]
             {

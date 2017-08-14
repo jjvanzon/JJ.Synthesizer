@@ -4,6 +4,6 @@ namespace JJ.Business.Synthesizer.Dto
 {
     internal abstract class OperatorDtoBase_InputsOnly : OperatorDtoBase
     {
-        public override IEnumerable<InputDto> Inputs { get; set; }
+        public override IReadOnlyList<InputDto> Inputs { get; set; }
     }
 }

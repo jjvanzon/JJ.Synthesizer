@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Then { get; set; }
         public InputDto Else { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Condition, Then, Else };
             set

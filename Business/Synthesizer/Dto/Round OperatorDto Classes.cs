@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Step { get; set; }
         public InputDto Offset { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Signal, Step, Offset };
             set
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Step { get; set; }
         private static readonly InputDto _offset = 0;
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Signal, Step, _offset };
             set
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Dto
         private static readonly InputDto _step = 1;
         private static readonly InputDto _offset = 0;
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Signal, _step, _offset };
             set

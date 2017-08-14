@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Step { get; set; }
         public int OutletPosition { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { From, Step };
             set
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Dto
 
         public InputDto From { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { From, _step };
             set => From = value.First();

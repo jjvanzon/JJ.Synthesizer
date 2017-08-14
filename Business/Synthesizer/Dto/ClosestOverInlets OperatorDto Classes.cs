@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Input { get; set; }
         public IList<InputDto> Items { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
-            get => Input.Union(Items);
+            get => Input.Union(Items).ToArray();
             set
             {
                 Input = value.FirstOrDefault();

@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Signal, Start, End, SamplingRate };
             set

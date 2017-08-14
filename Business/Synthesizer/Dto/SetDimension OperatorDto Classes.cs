@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Dto
             set => PassThrough = value;
         }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { PassThrough, Number };
             set

@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto SamplingRate { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Signal, SamplingRate };
             set

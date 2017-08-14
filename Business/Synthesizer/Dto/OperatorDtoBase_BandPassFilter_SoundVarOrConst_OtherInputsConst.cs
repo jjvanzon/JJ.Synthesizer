@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto CenterFrequency { get; set; }
         public InputDto Width { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Sound, CenterFrequency, Width };
             set

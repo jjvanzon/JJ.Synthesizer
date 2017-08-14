@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Dto
         public int CurveID { get; set; }
         public ArrayDto ArrayDto { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new InputDto[0];
             set { }

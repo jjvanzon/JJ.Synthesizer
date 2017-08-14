@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         [DebuggerHidden]
-        protected virtual IList<InputDto> VisitInputs(IEnumerable<InputDto> sourceCollection)
+        protected virtual IReadOnlyList<InputDto> VisitInputs(IReadOnlyList<InputDto> sourceCollection)
         {
             return sourceCollection.Select(x => VisitInput(x)).ToArray();
         }

@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Signal { get; set; }
         public InputDto SampleCount { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Signal, SampleCount };
             set

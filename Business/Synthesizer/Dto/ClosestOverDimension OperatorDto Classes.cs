@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Till { get; set; }
         public InputDto Step { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Input, Collection, From, Till, Step };
             set

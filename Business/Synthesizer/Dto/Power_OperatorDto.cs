@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Base { get; set; }
         public InputDto Exponent { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Base, Exponent };
             set

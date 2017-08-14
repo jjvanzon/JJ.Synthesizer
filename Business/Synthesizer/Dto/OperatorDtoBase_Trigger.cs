@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto PassThroughInput { get; set; }
         public InputDto Reset { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { PassThroughInput, Reset };
             set

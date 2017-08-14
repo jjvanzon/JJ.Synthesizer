@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto End { get; set; }
         public InputDto FrequencyCount { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Sound, Start, End, FrequencyCount };
             set

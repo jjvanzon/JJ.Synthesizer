@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto MaxFrequency { get; set; }
         public InputDto BlobVolume { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Sound, MaxFrequency, BlobVolume };
             set
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto MaxFrequency { get; set; }
         public InputDto BlobVolume { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Sound, MaxFrequency, BlobVolume };
             set

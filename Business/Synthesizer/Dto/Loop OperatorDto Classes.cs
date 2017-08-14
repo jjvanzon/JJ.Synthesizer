@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto ReleaseEndMarker { get; set; }
         public InputDto NoteDuration { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[]
             {

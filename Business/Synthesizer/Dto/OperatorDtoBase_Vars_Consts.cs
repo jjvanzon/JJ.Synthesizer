@@ -8,9 +8,9 @@ namespace JJ.Business.Synthesizer.Dto
         public IList<InputDto> Vars { get; set; }
         public IList<InputDto> Consts { get; set; }
            
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
-            get => Consts.Union(Vars);
+            get => Consts.Union(Vars).ToArray();
             set
             {
                 Consts = value.Where(x => x.IsConst).ToArray();

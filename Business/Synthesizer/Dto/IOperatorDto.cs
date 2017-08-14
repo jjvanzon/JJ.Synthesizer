@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Dto
         /// In the future, this may become the full replacement for the
         /// InputOperatorDtos, but that would be too high-impact for now (2017-08-17).
         /// </summary>
-        IEnumerable<InputDto> Inputs { get; set; }
+        IReadOnlyList<InputDto> Inputs { get; set; }
 
         /// <summary>
         /// Regularly used as a cache key:

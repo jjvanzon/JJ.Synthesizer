@@ -430,7 +430,7 @@
     <Compile Include="Dto\OperatorDtoBase_WithNumber.cs" />
     <Compile Include="Dto\Not OperatorDto Classes.cs" />
     <Compile Include="Dto\Or_OperatorDto.cs" />
-    <Compile Include="Dto\And OperatorDto Classes.cs" />
+    <Compile Include="Dto\And_OperatorDto.cs" />
     <Compile Include="Dto\GreaterThanOrEqual_OperatorDto.cs" />
     <Compile Include="Dto\LessThanOrEqual_OperatorDto.cs" />
     <Compile Include="Dto\GreaterThan_OperatorDto.cs" />

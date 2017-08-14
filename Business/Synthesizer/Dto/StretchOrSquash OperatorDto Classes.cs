@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Factor { get; set; }
         public InputDto Origin { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Signal, Factor, Origin };
             set
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Factor { get; set; }
         private static readonly InputDto _origin = 0;
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Signal, Factor, _origin };
             set
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Signal { get; set; }
         public InputDto Factor { get; set; }
 
-        public override IEnumerable<InputDto> Inputs
+        public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Signal, Factor };
             set
