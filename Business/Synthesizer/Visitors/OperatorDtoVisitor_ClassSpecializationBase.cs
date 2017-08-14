@@ -77,32 +77,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
-        {
-            base.Visit_AverageOverInlets_OperatorDto(dto);
-
-            VarsConstsDto inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
-
-            IOperatorDto dto2;
-
-            if (inputDto.OnlyConsts)
-            {
-                dto2 = new AverageOverInlets_OperatorDto_AllConsts();
-            }
-            else if (inputDto.HasVars)
-            {
-                dto2 = new AverageOverInlets_OperatorDto_Vars();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
         {
             base.Visit_BandPassFilterConstantPeakGain_OperatorDto(dto);

@@ -180,14 +180,20 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // AverageOverInlets
 
-        protected override IOperatorDto Visit_AverageOverInlets_OperatorDto_AllConsts(AverageOverInlets_OperatorDto_AllConsts dto)
+        protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
         {
-            return Process_NoVars_Consts(dto, Enumerable.Average);
-        }
+            base.Visit_AverageOverInlets_OperatorDto(dto);
 
-        protected override IOperatorDto Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
-        {
-            return Process_Nothing(dto);
+            VarsConstsDto inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
+
+            if (inputDto.OnlyConsts)
+            {
+                return Process_NoVars_Consts(dto, Enumerable.Average);
+            }
+            else
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         // BandPassFilterConstantPeakGain

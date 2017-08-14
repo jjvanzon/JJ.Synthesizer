@@ -247,7 +247,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_AverageOverInlets_OperatorDto_Vars(AverageOverInlets_OperatorDto_Vars dto)
+        protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
         {
             IList<string> items = dto.Vars.Select(x => GetLiteralFromInputDto(x)).ToArray();
             string sum = GetUniqueLocalVariableName(nameof(sum));
