@@ -49,46 +49,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
-        {
-            base.Visit_MaxOverInlets_OperatorDto_Vars_1Const(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Vars.Count == 1)
-            {
-                dto2 = new MaxOverInlets_OperatorDto_1Var_1Const();
-            }
-            else
-            {
-                dto2 = dto;
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
-        {
-            base.Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Vars.Count == 2)
-            {
-                dto2 = new MaxOverInlets_OperatorDto_2Vars();
-            }
-            else
-            {
-                dto2 = dto;
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto;
-        }
-
         protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
             base.Visit_Number_OperatorDto(dto);

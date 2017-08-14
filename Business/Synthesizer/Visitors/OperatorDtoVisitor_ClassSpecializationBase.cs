@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_AverageOverInlets_OperatorDto(dto);
 
-            VarsConstsDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
+            VarsConstsDto inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
 
             IOperatorDto dto2;
 
@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_ClosestOverInlets_OperatorDto(dto);
 
-            VarsConstsDto itemsMathProperties = InputDtoFactory.Get_VarsConsts_InputDto(dto.Items);
+            VarsConstsDto itemsMathProperties = InputDtoFactory.GetVarsConstsDto(dto.Items);
 
             IOperatorDto dto2;
 
@@ -283,7 +283,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_ClosestOverInletsExp_OperatorDto(dto);
 
-            VarsConstsDto itemsMathProperties = InputDtoFactory.Get_VarsConsts_InputDto(dto.Items);
+            VarsConstsDto itemsMathProperties = InputDtoFactory.GetVarsConstsDto(dto.Items);
 
             IOperatorDto dto2;
 
@@ -628,40 +628,6 @@ namespace JJ.Business.Synthesizer.Visitors
             DtoCloner.CloneProperties(dto, dto2);
 
             return dto;
-        }
-
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
-        {
-            base.Visit_MaxOverInlets_OperatorDto(dto);
-
-            VarsConstsDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
-
-            IOperatorDto dto2;
-
-            if (inputDto.HasVars && inputDto.HasConsts)
-            {
-                dto2 = new MaxOverInlets_OperatorDto_Vars_Consts();
-            }
-            else if (inputDto.HasVars && !inputDto.HasConsts)
-            {
-                dto2 = new MaxOverInlets_OperatorDto_Vars_NoConsts();
-            }
-            else if (!inputDto.HasVars && inputDto.HasConsts)
-            {
-                dto2 = new MaxOverInlets_OperatorDto_NoVars_Consts();
-            }
-            else if (!inputDto.HasVars && !inputDto.HasConsts)
-            {
-                dto2 = new MaxOverInlets_OperatorDto_NoVars_NoConsts();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
         }
 
         protected override IOperatorDto Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)

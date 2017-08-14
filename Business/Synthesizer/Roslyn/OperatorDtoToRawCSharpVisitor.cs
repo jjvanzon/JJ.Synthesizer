@@ -1007,24 +1007,16 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
+        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
         {
-            return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Max);
-        }
-
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
-        {
-            return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Max);
-        }
-
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
-        {
-            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max);
-        }
-
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
-        {
-            return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Max);
+            if (dto.Inputs.Count == 2)
+            {
+                return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
+            }
+            else
+            {
+                return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min);
+            }
         }
 
         protected override IOperatorDto Visit_MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto)

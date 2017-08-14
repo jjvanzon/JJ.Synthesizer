@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return inputDto;
         }
 
-        public static VarsConstsDto Get_VarsConsts_InputDto(IEnumerable<InputDto> inputDtos)
+        public static VarsConstsDto GetVarsConstsDto(IEnumerable<InputDto> inputDtos)
         {
             IList<InputDto> constInputDtos = inputDtos.Where(x => x.IsConst).ToArray();
 

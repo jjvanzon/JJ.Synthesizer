@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
         {
-            VarsConstsDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
+            VarsConstsDto inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
 
             if (inputDto.HasVars && inputDto.ConstIsZero)
             {
@@ -963,48 +963,36 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // MaxOverInlets
 
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_NoVars_Consts(MaxOverInlets_OperatorDto_NoVars_Consts dto)
+        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
         {
-            return Process_NoVars_Consts(dto, Enumerable.Max);
-        }
+            base.Visit_MaxOverInlets_OperatorDto(dto);
 
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_NoVars_NoConsts(MaxOverInlets_OperatorDto_NoVars_NoConsts dto)
-        {
-            return Process_NoVars_NoConsts(dto);
-        }
+            VarsConstsDto inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
 
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_Consts(MaxOverInlets_OperatorDto_Vars_Consts dto)
-        {
-            base.Visit_MaxOverInlets_OperatorDto_Vars_Consts(dto);
-
-            // Pre-calculate
-            var dto2 = new MaxOverInlets_OperatorDto_Vars_1Const();
-            DtoCloner.CloneProperties(dto, dto2);
-
-            dto2.Vars = dto.Vars;
-            dto2.Const = dto.Consts.Select(x => x.Const).Max();
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_NoConsts(MaxOverInlets_OperatorDto_Vars_NoConsts dto)
-        {
-            return Process_Vars_NoConsts(dto);
-        }
-
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_1Var_1Const(MaxOverInlets_OperatorDto_1Var_1Const dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_2Vars(MaxOverInlets_OperatorDto_2Vars dto)
-        {
-            return Process_Nothing(dto);
-        }
-
-        protected override IOperatorDto Visit_MaxOverInlets_OperatorDto_Vars_1Const(MaxOverInlets_OperatorDto_Vars_1Const dto)
-        {
-            return Process_Nothing(dto);
+            if (inputDto.HasVars && inputDto.Consts.Count > 1)
+            {
+                // Pre-calculate
+                base.Visit_MaxOverInlets_OperatorDto(dto);
+                double aggregate = inputDto.Consts.Min(x => x.Const);
+                dto.Inputs = inputDto.Vars.Union(aggregate).ToArray();
+                return dto;
+            }
+            else if (inputDto.OnlyVars)
+            {
+                return Process_Vars_NoConsts(dto);
+            }
+            else if (inputDto.OnlyConsts)
+            {
+                return Process_NoVars_Consts(dto, Enumerable.Min);
+            }
+            else if (inputDto.IsEmpty)
+            {
+                return Process_NoVars_NoConsts(dto);
+            }
+            else
+            {
+                return Process_Nothing(dto);
+            }
         }
 
         // MinFollower
@@ -1042,7 +1030,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MinOverInlets_OperatorDto(dto);
 
-            VarsConstsDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
+            VarsConstsDto inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
 
             if (inputDto.HasVars && inputDto.Consts.Count > 1)
             {
@@ -1074,7 +1062,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
         {
-            VarsConstsDto inputDto = InputDtoFactory.Get_VarsConsts_InputDto(dto.Inputs);
+            VarsConstsDto inputDto = InputDtoFactory.GetVarsConstsDto(dto.Inputs);
 
             if (inputDto.HasVars && inputDto.ConstIsOne)
             {
