@@ -15,25 +15,14 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_Curve_OperatorDto(Curve_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Sample_OperatorDto(Sample_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Squash_OperatorDto(Squash_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Stretch_OperatorDto(Stretch_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Triangle_OperatorDto(Triangle_OperatorDto dto) => throw new NotSupportedException();
     }
 }

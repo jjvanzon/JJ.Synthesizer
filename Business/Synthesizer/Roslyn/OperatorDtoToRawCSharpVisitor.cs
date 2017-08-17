@@ -761,7 +761,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessBinaryBoolOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
-        protected override IOperatorDto Visit_Loop_OperatorDto_SignalVarOrConst_OtherInputsVar(Loop_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
         {
             return Process_Loop_OperatorDto(dto);
         }
@@ -1864,14 +1864,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(
-            SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(
+            SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(
-            SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(
+            SumOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }

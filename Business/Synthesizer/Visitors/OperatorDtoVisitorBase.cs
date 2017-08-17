@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration), x => Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration((Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration)x) },
                 { typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration), x => Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration((Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration)x) },
                 { typeof(Loop_OperatorDto_NoSkipOrRelease), x => Visit_Loop_OperatorDto_NoSkipOrRelease((Loop_OperatorDto_NoSkipOrRelease)x) },
-                { typeof(Loop_OperatorDto_SignalVarOrConst_OtherInputsVar), x => Visit_Loop_OperatorDto_SignalVarOrConst_OtherInputsVar((Loop_OperatorDto_SignalVarOrConst_OtherInputsVar)x) },
+                { typeof(Loop_OperatorDto_AllVars), x => Visit_Loop_OperatorDto_AllVars((Loop_OperatorDto_AllVars)x) },
                 { typeof(LowPassFilter_OperatorDto), x => Visit_LowPassFilter_OperatorDto((LowPassFilter_OperatorDto)x) },
                 { typeof(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar), x => Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar((LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar)x) },
                 { typeof(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst), x => Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst((LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst)x) },
@@ -268,8 +268,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SumFollower_OperatorDto_ConstSignal_ConstSampleCount), x => Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount((SumFollower_OperatorDto_ConstSignal_ConstSampleCount)x) },
                 { typeof(SumOverDimension_OperatorDto), x => Visit_SumOverDimension_OperatorDto((SumOverDimension_OperatorDto)x) },
                 { typeof(SumOverDimension_OperatorDto_AllConsts), x => Visit_SumOverDimension_OperatorDto_AllConsts((SumOverDimension_OperatorDto_AllConsts)x) },
-                { typeof(SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous), x => Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous((SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous)x) },
-                { typeof(SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset), x => Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset((SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset)x) },
+                { typeof(SumOverDimension_OperatorDto_CollectionRecalculationContinuous), x => Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous((SumOverDimension_OperatorDto_CollectionRecalculationContinuous)x) },
+                { typeof(SumOverDimension_OperatorDto_CollectionRecalculationUponReset), x => Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset((SumOverDimension_OperatorDto_CollectionRecalculationUponReset)x) },
                 { typeof(ToggleTrigger_OperatorDto), x => Visit_ToggleTrigger_OperatorDto((ToggleTrigger_OperatorDto)x) },
                 { typeof(Triangle_OperatorDto), x => Visit_Triangle_OperatorDto((Triangle_OperatorDto)x) },
                 { typeof(Triangle_OperatorDto_ZeroFrequency), x => Visit_Triangle_OperatorDto_ZeroFrequency((Triangle_OperatorDto_ZeroFrequency)x) },
@@ -368,7 +368,7 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_NoSkipOrRelease(Loop_OperatorDto_NoSkipOrRelease dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_SignalVarOrConst_OtherInputsVar(Loop_OperatorDto_SignalVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
@@ -473,8 +473,8 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount(SumFollower_OperatorDto_ConstSignal_ConstSampleCount dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_AllConsts(SumOverDimension_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Triangle_OperatorDto(Triangle_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Triangle_OperatorDto_ZeroFrequency(Triangle_OperatorDto_ZeroFrequency dto) => Visit_OperatorDto_Base(dto);

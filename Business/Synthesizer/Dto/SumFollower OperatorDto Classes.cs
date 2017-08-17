@@ -4,12 +4,12 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class SumFollower_OperatorDto : OperatorDtoBase_AggregateFollower_SignalVarOrConst_OtherInputsVar
+    internal class SumFollower_OperatorDto : OperatorDtoBase_AggregateFollower
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumFollower;
     }
 
-    internal class SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar : OperatorDtoBase_AggregateFollower_SignalVarOrConst_OtherInputsVar
+    internal class SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar : OperatorDtoBase_AggregateFollower
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SumFollower;
     }

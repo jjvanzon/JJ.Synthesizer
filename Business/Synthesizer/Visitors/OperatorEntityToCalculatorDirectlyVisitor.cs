@@ -1653,7 +1653,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     }
                     else
                     {
-                        calculator = new Loop_OperatorCalculator_SignalVarOrConst_OtherInputsVar(
+                        calculator = new Loop_OperatorCalculator_AllVars(
                             signalCalculator,
                             skipCalculator,
                             loopStartMarkerCalculator,
@@ -1919,7 +1919,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new MaxFollower_OperatorCalculator_SignalVarOrConst_OtherInputsVar(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
+                calculator = new MaxFollower_OperatorCalculator(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack);
             }
 
             _stack.Push(calculator);

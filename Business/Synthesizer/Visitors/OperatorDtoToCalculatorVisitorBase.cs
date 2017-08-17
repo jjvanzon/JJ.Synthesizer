@@ -453,9 +453,9 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override IOperatorDto Visit_Loop_OperatorDto_SignalVarOrConst_OtherInputsVar(Loop_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_SignalVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new Loop_OperatorCalculator_AllVars(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto)
@@ -505,7 +505,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new MaxFollower_OperatorCalculator_SignalVarOrConst_OtherInputsVar(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new MaxFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
         protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -1035,12 +1035,12 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new SumFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
         }

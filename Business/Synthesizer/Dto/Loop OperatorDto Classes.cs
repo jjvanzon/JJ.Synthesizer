@@ -58,6 +58,6 @@ namespace JJ.Business.Synthesizer.Dto
     internal class Loop_OperatorDto_NoSkipOrRelease : Loop_OperatorDto
     { }
 
-    internal class Loop_OperatorDto_SignalVarOrConst_OtherInputsVar : Loop_OperatorDto
+    internal class Loop_OperatorDto_AllVars : Loop_OperatorDto
     { }
 }

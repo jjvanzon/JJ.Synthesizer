@@ -272,7 +272,7 @@
     <Compile Include="Calculation\Operators\MaxOrMinFollower_OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\AverageFollower_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator_SignalVarOrConst_OtherInputsVar.cs" />
+    <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Absolute_OperatorCalculator_VarNumber.cs" />
     <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
@@ -301,7 +301,7 @@
     <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_SignalVarOrConst_OtherInputsVar.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_AllVars.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicAbruptSlope.cs" />
@@ -367,7 +367,6 @@
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewriting.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_BooleanBoundaries.cs" />
-    <Compile Include="Visitors\2017-08-15 Backup of OperatorDtoVisitor_MathSimplification.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_OperationIdentityAssignment.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
@@ -427,7 +426,7 @@
     <Compile Include="Dto\OperatorDtoBase_Trigger.cs" />
     <Compile Include="Dto\ChangeTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Round_OperatorDto.cs" />
-    <Compile Include="Dto\OperatorDtoBase_AggregateFollower_SignalVarOrConst_OtherInputsVar.cs" />
+    <Compile Include="Dto\OperatorDtoBase_AggregateFollower.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithNumber.cs" />
     <Compile Include="Dto\Not_OperatorDto.cs" />
     <Compile Include="Dto\Or_OperatorDto.cs" />

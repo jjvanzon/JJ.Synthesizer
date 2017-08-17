@@ -2,9 +2,9 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class MaxFollower_OperatorCalculator_SignalVarOrConst_OtherInputsVar : MaxOrMinFollower_OperatorCalculatorBase
+    internal class MaxFollower_OperatorCalculator : MaxOrMinFollower_OperatorCalculatorBase
     {
-        public MaxFollower_OperatorCalculator_SignalVarOrConst_OtherInputsVar(
+        public MaxFollower_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,

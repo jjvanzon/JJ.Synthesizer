@@ -416,7 +416,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new Loop_OperatorDto_SignalVarOrConst_OtherInputsVar();
+                dto2 = new Loop_OperatorDto_AllVars();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -871,11 +871,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new SumOverDimension_OperatorDto_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new SumOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new SumOverDimension_OperatorDto_CollectionRecalculationUponReset();
             }
             else
             {
