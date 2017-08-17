@@ -75,26 +75,20 @@ namespace JJ.Business.Synthesizer.Helpers
                 }
             }
 
+
             {
-                if (source is Curve_OperatorDtoBase_WithoutMinX castedSource &&
-                    dest is Curve_OperatorDtoBase_WithoutMinX castedDest)
+                if (source is Curve_OperatorDto castedSource &&
+                    dest is Curve_OperatorDto castedDest)
                 {
                     castedDest.CurveID = castedSource.CurveID;
                     castedDest.ArrayDto = castedSource.ArrayDto;
-                }
-            }
-
-            {
-                if (source is Curve_OperatorDtoBase_WithMinX castedSource &&
-                    dest is Curve_OperatorDtoBase_WithMinX castedDest)
-                {
                     castedDest.MinX = castedSource.MinX;
                 }
             }
 
             {
-                if (source is Cache_OperatorDtoBase_NotConstSignal castedSource &&
-                    dest is Cache_OperatorDtoBase_NotConstSignal castedDest)
+                if (source is Cache_OperatorDto castedSource &&
+                    dest is Cache_OperatorDto castedDest)
                 {
                     castedDest.ChannelCount = castedSource.ChannelCount;
                     castedDest.InterpolationTypeEnum = castedSource.InterpolationTypeEnum;

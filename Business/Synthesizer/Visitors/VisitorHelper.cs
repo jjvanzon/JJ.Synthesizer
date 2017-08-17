@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return isDimensionWriter;
         }
 
-        private static HashSet<Type> _dimensionWriting_OperatorDto_Types = new HashSet<Type>
+        private static readonly HashSet<Type> _dimensionWriting_OperatorDto_Types = new HashSet<Type>
         {
             typeof(DimensionToOutlets_Outlet_OperatorDto),
             typeof(Loop_OperatorDto),
@@ -30,26 +30,14 @@ namespace JJ.Business.Synthesizer.Visitors
             typeof(Loop_OperatorDto_NoSkipOrRelease),
             typeof(Loop_OperatorDto_SignalVarOrConst_OtherInputsVar),
             typeof(SetDimension_OperatorDto),
-            typeof(SetDimension_OperatorDto_VarPassThrough_VarNumber),
-            typeof(SetDimension_OperatorDto_VarPassThrough_ConstNumber),
             typeof(Squash_OperatorDto),
-            typeof(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin),
-            typeof(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin),
-            typeof(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin),
-            typeof(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin),
-            typeof(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin),
-            typeof(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin),
-            typeof(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting),
-            typeof(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking),
+            typeof(Squash_OperatorDto_ZeroOrigin),
+            typeof(Squash_OperatorDto_ConstFactor_WithOriginShifting),
+            typeof(Squash_OperatorDto_VarFactor_WithPhaseTracking),
             typeof(Stretch_OperatorDto),
-            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin),
-            typeof(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting),
-            typeof(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking)
+            typeof(Stretch_OperatorDto_ZeroOrigin),
+            typeof(Stretch_OperatorDto_ConstFactor_WithOriginShifting),
+            typeof(Stretch_OperatorDto_VarFactor_WithPhaseTracking),
         };
 
         /// <summary>

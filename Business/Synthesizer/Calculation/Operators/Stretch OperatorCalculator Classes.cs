@@ -4,80 +4,14 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    // Const-Const-Zero does not exist.
-
-    // Const-Var-Zero does not exist.
-
-    // Var-Const-Zero
-
-    internal class Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin 
-        : OperatorCalculatorBase_WithChildCalculators, IPositionTransformer
-    {
-        private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _factor;
-        private readonly DimensionStack _dimensionStack;
-
-        public Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(
-            OperatorCalculatorBase signalCalculator,
-            double factor,
-            DimensionStack dimensionStack)
-            : base(new[] { signalCalculator })
-        {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertFactor(factor);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _signalCalculator = signalCalculator;
-            _factor = factor;
-            _dimensionStack = dimensionStack;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double transformedPosition = GetTransformedPosition();
-
-            _dimensionStack.Push(transformedPosition);
-
-            double result = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
-
-            return result;
-        }
-
-        public override void Reset()
-        {
-            double transformedPosition = GetTransformedPosition();
-
-            _dimensionStack.Push(transformedPosition);
-
-            base.Reset();
-
-            _dimensionStack.Pop();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double GetTransformedPosition()
-        {
-            double position = _dimensionStack.Get();
-
-            double transformedPosition = StretchOperatorCalculatorHelper.TransformPosition(position, _factor);
-
-            return transformedPosition;
-        }
-    }
-
-    // Var-Var-Zero
-
-    internal class Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin 
+    internal class Stretch_OperatorCalculator_ZeroOrigin 
         : OperatorCalculatorBase_WithChildCalculators, IPositionTransformer
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _factorCalculator;
         private readonly DimensionStack _dimensionStack;
 
-        public Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(
+        public Stretch_OperatorCalculator_ZeroOrigin(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             DimensionStack dimensionStack)
@@ -133,224 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    // Const-Const-Const does not exist.
-
-    // Const-Const-Var does not exist.
-
-    // Const-Var-Const does not exist.
-
-    // Const-Var-Var does not exist.
-
-    // Var-Const-Const
-
-    internal class Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin
-        : OperatorCalculatorBase_WithChildCalculators, IPositionTransformer
-    {
-        private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _factor;
-        private readonly double _origin;
-        private readonly DimensionStack _dimensionStack;
-
-        public Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(
-            OperatorCalculatorBase signalCalculator,
-            double factor,
-            double origin,
-            DimensionStack dimensionStack)
-            : base(new[]
-            {
-                signalCalculator
-            })
-        {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertFactor(factor);
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (origin == 0) throw new ZeroException(() => origin);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _signalCalculator = signalCalculator;
-            _factor = factor;
-            _origin = origin;
-            _dimensionStack = dimensionStack;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double transformedPosition = GetTransformedPosition();
-
-            _dimensionStack.Push(transformedPosition);
-
-            double result = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
-
-            return result;
-        }
-
-        public override void Reset()
-        {
-            double transformedPosition = GetTransformedPosition();
-
-            _dimensionStack.Push(transformedPosition);
-
-            base.Reset();
-
-            _dimensionStack.Pop();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double GetTransformedPosition()
-        {
-            double position = _dimensionStack.Get();
-
-            double transformedPosition = StretchOperatorCalculatorHelper.TransformPosition(position, _factor, _origin);
-
-            return transformedPosition;
-        }
-    }
-
-    // Var-Const-Var
-
-    internal class Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin 
-        : OperatorCalculatorBase_WithChildCalculators, IPositionTransformer
-    {
-        private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly double _factor;
-        private readonly OperatorCalculatorBase _originCalculator;
-        private readonly DimensionStack _dimensionStack;
-
-        public Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(
-            OperatorCalculatorBase signalCalculator,
-            double factor,
-            OperatorCalculatorBase originCalculator,
-            DimensionStack dimensionStack)
-            : base(new[]
-            {
-                signalCalculator,
-                originCalculator
-            })
-        {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertFactor(factor);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(originCalculator, () => originCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _signalCalculator = signalCalculator;
-            _factor = factor;
-            _originCalculator = originCalculator;
-            _dimensionStack = dimensionStack;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double transformedPosition = GetTransformedPosition();
-
-            _dimensionStack.Push(transformedPosition);
-
-            double result2 = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
-
-            return result2;
-        }
-
-        public override void Reset()
-        {
-            double transformedPosition = GetTransformedPosition();
-
-            _dimensionStack.Push(transformedPosition);
-
-            base.Reset();
-
-            _dimensionStack.Pop();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double GetTransformedPosition()
-        {
-            double position = _dimensionStack.Get();
-
-            double origin = _originCalculator.Calculate();
-
-            double transformedPosition = StretchOperatorCalculatorHelper.TransformPosition(position, _factor, origin);
-            return transformedPosition;
-        }
-    }
-
-    // Var-Var-Const
-
-    internal class Stretch_OperatorCalculator_VarSignal_VarFactor_ConstOrigin
-        : OperatorCalculatorBase_WithChildCalculators, IPositionTransformer
-    {
-        private readonly OperatorCalculatorBase _signalCalculator;
-        private readonly OperatorCalculatorBase _factorCalculator;
-        private readonly double _origin;
-        private readonly DimensionStack _dimensionStack;
-
-        public Stretch_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(
-            OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase factorCalculator,
-            double origin,
-            DimensionStack dimensionStack)
-            : base(new[]
-            {
-                signalCalculator,
-                factorCalculator
-            })
-        {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(factorCalculator, () => factorCalculator);
-            if (origin == 0) throw new ZeroException(() => origin);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _signalCalculator = signalCalculator;
-            _factorCalculator = factorCalculator;
-            _origin = origin;
-            _dimensionStack = dimensionStack;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double transformedPosition = GetTransformedPosition();
-
-            _dimensionStack.Push(transformedPosition);
-
-            double result = _signalCalculator.Calculate();
-
-            _dimensionStack.Pop();
-
-            return result;
-        }
-
-        public override void Reset()
-        {
-            double transformedPosition = GetTransformedPosition();
-
-            _dimensionStack.Push(transformedPosition);
-
-            base.Reset();
-
-            _dimensionStack.Pop();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double GetTransformedPosition()
-        {
-            double factor = _factorCalculator.Calculate();
-
-            double position = _dimensionStack.Get();
-
-            double transformedPosition = StretchOperatorCalculatorHelper.TransformPosition(position, factor, _origin);
-
-            return transformedPosition;
-        }
-    }
-
-    // Var-Var-Var
-
-    internal class Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin 
+    internal class Stretch_OperatorCalculator_WithOrigin 
         : OperatorCalculatorBase_WithChildCalculators, IPositionTransformer
     {
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -358,7 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _originCalculator;
         private readonly DimensionStack _dimensionStack;
 
-        public Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin(
+        public Stretch_OperatorCalculator_WithOrigin(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             OperatorCalculatorBase originCalculator,
@@ -422,7 +139,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     // For Time Dimension
 
-    internal class Stretch_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking 
+    internal class Stretch_OperatorCalculator_VarFactor_WithPhaseTracking 
         : OperatorCalculatorBase_WithChildCalculators, IPositionTransformer
     {
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -432,7 +149,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousPosition;
 
-        public Stretch_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(
+        public Stretch_OperatorCalculator_VarFactor_WithPhaseTracking(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase factorCalculator,
             DimensionStack dimensionStack)
@@ -520,7 +237,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Stretch_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting 
+    internal class Stretch_OperatorCalculator_ConstFactor_WithOriginShifting 
         : OperatorCalculatorBase_WithChildCalculators, IPositionTransformer
     {
         private readonly OperatorCalculatorBase _signalCalculator;
@@ -529,7 +246,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private double _origin;
 
-        public Stretch_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(
+        public Stretch_OperatorCalculator_ConstFactor_WithOriginShifting(
             OperatorCalculatorBase signalCalculator,
             double factor,
             DimensionStack dimensionStack)

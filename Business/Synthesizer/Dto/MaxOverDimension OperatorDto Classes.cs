@@ -7,14 +7,12 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxOverDimension;
     }
 
-    internal class MaxOverDimension_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.MaxOverDimension;
-    }
-
-    internal class MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous : MaxOverDimension_OperatorDto
+    internal class MaxOverDimension_OperatorDto_CollectionRecalculationContinuous : MaxOverDimension_OperatorDto
     { }
 
-    internal class MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset : MaxOverDimension_OperatorDto
+    internal class MaxOverDimension_OperatorDto_CollectionRecalculationUponReset : MaxOverDimension_OperatorDto
+    { }
+
+    internal class MaxOverDimension_OperatorDto_ConstSignal : MaxOverDimension_OperatorDto
     { }
 }

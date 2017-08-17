@@ -1341,7 +1341,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                calculator = new Hold_OperatorCalculator_VarSignal(signalCalculator);
+                calculator = new Hold_OperatorCalculator(signalCalculator);
             }
 
             _stack.Push(calculator);
@@ -2847,80 +2847,11 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(new Remainder_OperatorCalculator(_stack.Pop(), _stack.Pop()));
         }
 
-        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitRound(Operator op)
         {
             base.VisitRound(op);
 
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase stepCalculator = _stack.Pop();
-            OperatorCalculatorBase offsetCalculator = _stack.Pop();
-
-            double signal = signalCalculator.Calculate();
-            double step = stepCalculator.Calculate();
-            double offset = offsetCalculator.Calculate();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool stepIsConst = stepCalculator is Number_OperatorCalculator;
-            bool offsetIsConst = offsetCalculator is Number_OperatorCalculator;
-
-            bool offsetIsConstZero = offsetIsConst && offset % 1.0 == 0;
-
-            bool stepIsConstOne = stepIsConst && step == 1;
-
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
-            bool stepIsConstSpecialValue = stepIsConst && DoubleHelper.IsSpecialValue(step);
-            bool offsetIsConstSpecialValue = offsetIsConst && DoubleHelper.IsSpecialValue(offset);
-
-            if (signalIsConstSpecialValue || stepIsConstSpecialValue || offsetIsConstSpecialValue)
-            {
-                calculator = new Number_OperatorCalculator(double.NaN);
-            }
-            else if (signalIsConst)
-            {
-                calculator = new Round_OperatorCalculator_ConstSignal(signal, stepCalculator, offsetCalculator);
-            }
-            else if (stepIsConstOne && offsetIsConstZero)
-            {
-                calculator = new Round_OperatorCalculator_VarSignal_StepOne_OffsetZero(signalCalculator);
-            }
-            else
-            {
-                if (stepIsConst && offsetIsConstZero)
-                {
-                    calculator = new Round_OperatorCalculator_VarSignal_ConstStep_ZeroOffset(signalCalculator, step);
-                }
-                else if (stepIsConst && offsetIsConst)
-                {
-                    calculator = new Round_OperatorCalculator_VarSignal_ConstStep_ConstOffset(signalCalculator, step, offset);
-                }
-                else if (stepIsConst && !offsetIsConst)
-                {
-                    calculator = new Round_OperatorCalculator_VarSignal_ConstStep_VarOffset(signalCalculator, step, offsetCalculator);
-                }
-                else if (!stepIsConst && offsetIsConstZero)
-                {
-                    calculator = new Round_OperatorCalculator_VarSignal_VarStep_ZeroOffset(signalCalculator, stepCalculator);
-                }
-                else if (!stepIsConst && offsetIsConst)
-                {
-                    calculator = new Round_OperatorCalculator_VarSignal_VarStep_ConstOffset(signalCalculator, stepCalculator, offset);
-                }
-                else if (!stepIsConst && !offsetIsConst)
-                {
-                    calculator = new Round_OperatorCalculator_VarSignal_VarStep_VarOffset(signalCalculator, stepCalculator, offsetCalculator);
-                }
-                else
-                // ReSharper disable once HeuristicUnreachableCode
-                {
-                    // ReSharper disable once HeuristicUnreachableCode
-                    throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-                }
-            }
-
-            _stack.Push(calculator);
+            _stack.Push(new Round_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
         protected override void VisitSampleOperator(Operator op)
@@ -3038,9 +2969,8 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase numberCalculator = _stack.Pop();
 
             bool passThroughIsConst = passThroughCalculator is Number_OperatorCalculator;
-            bool numberIsConst = numberCalculator is Number_OperatorCalculator;
 
-            double number = numberCalculator.Calculate();
+            numberCalculator.Calculate();
 
             dimensionStack.Pop();
 
@@ -3048,13 +2978,9 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 operatorCalculator = passThroughCalculator;
             }
-            else if (numberIsConst)
-            {
-                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_ConstNumber(passThroughCalculator, number, dimensionStack);
-            }
             else
-            {
-                operatorCalculator = new SetDimension_OperatorCalculator_VarPassThrough_VarNumber(passThroughCalculator, numberCalculator, dimensionStack);
+            { 
+                operatorCalculator = new SetDimension_OperatorCalculator(passThroughCalculator, numberCalculator, dimensionStack);
             }
 
             _stack.Push(operatorCalculator);
@@ -3342,38 +3268,22 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 if (!signalIsConst && factorIsConst)
                 {
-                    calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
+                    calculator = new Squash_OperatorCalculator_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
                 }
                 else if (!signalIsConst && !factorIsConst)
                 {
-                    calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
+                    calculator = new Squash_OperatorCalculator_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
                 }
             }
             else
             {
-                if (!signalIsConst && factorIsConst && originIsConstZero)
+                if (originIsConstZero)
                 {
-                    calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(signalCalculator, factor, dimensionStack);
+                    calculator = new Squash_OperatorCalculator_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
                 }
-                else if (!signalIsConst && !factorIsConst && originIsConstZero)
+                else 
                 {
-                    calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
-                }
-                else if (!signalIsConst && factorIsConst && originIsConst)
-                {
-                    calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(signalCalculator, factor, origin, dimensionStack);
-                }
-                else if (!signalIsConst && factorIsConst && !originIsConst)
-                {
-                    calculator = new Squash_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(signalCalculator, factor, originCalculator, dimensionStack);
-                }
-                else if (!signalIsConst && !factorIsConst && originIsConst)
-                {
-                    calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(signalCalculator, factorCalculator, origin, dimensionStack);
-                }
-                else if (!signalIsConst && !factorIsConst && !originIsConst)
-                {
-                    calculator = new Squash_OperatorCalculator_VarSignal_VarFactor_VarOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
+                    calculator = new Squash_OperatorCalculator_WithOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
                 }
             }
 
@@ -3445,40 +3355,24 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (standardDimensionEnum == DimensionEnum.Time)
             {
-                if (!signalIsConst && factorIsConst)
+                if (factorIsConst)
                 {
-                    calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
+                    calculator = new Stretch_OperatorCalculator_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
                 }
-                else if (!signalIsConst && !factorIsConst)
+                else if (!factorIsConst)
                 {
-                    calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
+                    calculator = new Stretch_OperatorCalculator_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
                 }
             }
             else
             {
-                if (!signalIsConst && factorIsConst && originIsConstZero)
+                if (originIsConstZero)
                 {
-                    calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_ZeroOrigin(signalCalculator, factor, dimensionStack);
+                    calculator = new Stretch_OperatorCalculator_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
                 }
-                else if (!signalIsConst && !factorIsConst && originIsConstZero)
+                else
                 {
-                    calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
-                }
-                else if (!signalIsConst && factorIsConst && originIsConst)
-                {
-                    calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_ConstOrigin(signalCalculator, factor, origin, dimensionStack);
-                }
-                else if (!signalIsConst && factorIsConst && !originIsConst)
-                {
-                    calculator = new Stretch_OperatorCalculator_VarSignal_ConstFactor_VarOrigin(signalCalculator, factor, originCalculator, dimensionStack);
-                }
-                else if (!signalIsConst && !factorIsConst && originIsConst)
-                {
-                    calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_ConstOrigin(signalCalculator, factorCalculator, origin, dimensionStack);
-                }
-                else if (!signalIsConst && !factorIsConst && !originIsConst)
-                {
-                    calculator = new Stretch_OperatorCalculator_VarSignal_VarFactor_VarOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
+                    calculator = new Stretch_OperatorCalculator_WithOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
                 }
             }
 

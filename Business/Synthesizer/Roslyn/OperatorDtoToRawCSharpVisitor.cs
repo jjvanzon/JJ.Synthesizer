@@ -230,19 +230,19 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessBinaryBoolOperator(dto, AND_SYMBOL);
         }
 
-        protected override IOperatorDto Visit_AverageFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(AverageFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(
-            AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(
+            AverageOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(
-            AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset(
+            AverageOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -474,7 +474,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessCurve_WithOriginShifting(dto);
         }
 
-        private IOperatorDto ProcessCurve_NoOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
+        private IOperatorDto ProcessCurve_NoOriginShifting(Curve_OperatorDto dto)
         {
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             string output = GetLocalOutputName(dto);
@@ -487,7 +487,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto ProcessCurve_WithOriginShifting(Curve_OperatorDtoBase_WithoutMinX dto)
+        private IOperatorDto ProcessCurve_WithOriginShifting(Curve_OperatorDto dto)
         {
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             string output = GetLocalOutputName(dto);
@@ -581,7 +581,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
         }
 
-        protected override IOperatorDto Visit_Hold_OperatorDto_VarSignal(Hold_OperatorDto_VarSignal dto)
+        protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto)
         {
             // The calculate procedure should only use the held variable. 
             // The Reset procedure should do a calculation of that held variable. 
@@ -970,19 +970,19 @@ namespace JJ.Business.Synthesizer.Roslyn
             return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
         }
 
-        protected override IOperatorDto Visit_MaxFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(MaxFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(
-            MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(
+            MaxOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(
-            MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(
+            MaxOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -999,19 +999,19 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
         }
 
-        protected override IOperatorDto Visit_MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto)
+        protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(
-            MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(
+            MinOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(
-            MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationUponReset(
+            MinOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -1371,37 +1371,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_Round_OperatorDto_ConstSignal(Round_OperatorDto_ConstSignal dto)
-        {
-            // This DTO is not optimal for this kind of calculation engine. Do some optimization in-place here.
-            if (dto.Offset.IsConstZero)
-            {
-                var dto2 = new Round_OperatorDto_VarSignal_VarStep_ZeroOffset();
-                DtoCloner.CloneProperties(dto, dto2);
-                return ProcessRoundZeroOffset(dto2);
-            }
-            else
-            {
-                return ProcessRoundWithOffset(dto);
-            }
-        }
-
-        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_ConstStep_ConstOffset(Round_OperatorDto_VarSignal_ConstStep_ConstOffset dto)
-        {
-            return ProcessRoundWithOffset(dto);
-        }
-
-        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_ConstStep_VarOffset(Round_OperatorDto_VarSignal_ConstStep_VarOffset dto)
-        {
-            return ProcessRoundWithOffset(dto);
-        }
-
-        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_ConstStep_ZeroOffset(Round_OperatorDto_VarSignal_ConstStep_ZeroOffset dto)
-        {
-            return ProcessRoundZeroOffset(dto);
-        }
-
-        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_StepOne_OffsetZero(Round_OperatorDto_VarSignal_StepOne_OffsetZero dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_StepOne_ZeroOffset(Round_OperatorDto_StepOne_ZeroOffset dto)
         {
             string signal = GetLiteralFromInputDto(dto.Signal);
             string output = GetLocalOutputName(dto);
@@ -1415,22 +1385,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_VarStep_ConstOffset(Round_OperatorDto_VarSignal_VarStep_ConstOffset dto)
-        {
-            return ProcessRoundWithOffset(dto);
-        }
-
-        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_VarStep_VarOffset(Round_OperatorDto_VarSignal_VarStep_VarOffset dto)
-        {
-            return ProcessRoundWithOffset(dto);
-        }
-
-        protected override IOperatorDto Visit_Round_OperatorDto_VarSignal_VarStep_ZeroOffset(Round_OperatorDto_VarSignal_VarStep_ZeroOffset dto)
-        {
-            return ProcessRoundZeroOffset(dto);
-        }
-
-        private IOperatorDto ProcessRoundWithOffset(Round_OperatorDto dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_WithOffset(Round_OperatorDto_WithOffset dto)
         {
             string signal = GetLiteralFromInputDto(dto.Signal);
             string step = GetLiteralFromInputDto(dto.Step);
@@ -1446,7 +1401,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        private IOperatorDto ProcessRoundZeroOffset(Round_OperatorDtoBase_ZeroOffset dto)
+        protected override IOperatorDto Visit_Round_OperatorDto_ZeroOffset(Round_OperatorDto_ZeroOffset dto)
         {
             string signal = GetLiteralFromInputDto(dto.Signal);
             string step = GetLiteralFromInputDto(dto.Step);
@@ -1687,24 +1642,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_ConstNumber(SetDimension_OperatorDto_VarPassThrough_ConstNumber dto)
+        protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
-            return ProcessSetDimension(dto);
-        }
-
-        protected override IOperatorDto Visit_SetDimension_OperatorDto_VarPassThrough_VarNumber(SetDimension_OperatorDto_VarPassThrough_VarNumber dto)
-        {
-            return ProcessSetDimension(dto);
-        }
-
-        private IOperatorDto ProcessSetDimension(SetDimension_OperatorDto dto)
-        {
-            string numberLiteral = GetLiteralFromInputDto(dto.Number);
+            string number = GetLiteralFromInputDto(dto.Number);
             string position = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
 
             AppendOperatorTitleComment(dto);
 
-            AppendLine($"{position} = {numberLiteral};");
+            AppendLine($"{position} = {number};");
             AppendLine();
 
             string signal = GetLiteralFromInputDto(dto.PassThrough);
@@ -1732,14 +1677,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessPhaseTrackingOperator(dto, x => string.Format(SINE_FORMULA_FORMAT, x));
         }
 
-        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous(
-            SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(
+            SortOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
         {
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset(
-            SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset dto)
+        protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationUponReset(
+            SortOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
         {
             throw new NotImplementedException();
         }
@@ -1786,84 +1731,44 @@ namespace JJ.Business.Synthesizer.Roslyn
             throw new NotImplementedException();
         }
 
-        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto)
         {
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin(Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
-        {
-            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting(Squash_OperatorDto_ConstFactor_WithOriginShifting dto)
         {
             return Process_StretchOrSquash_WithOriginShifting(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_ZeroOrigin(Squash_OperatorDto_ZeroOrigin dto)
         {
             return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin(Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
-        {
-            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_VarOrigin(Squash_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
-        {
-            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Squash);
-        }
-
-        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarFactor_WithPhaseTracking dto)
         {
             return Process_StretchOrSquash_WithPhaseTracking(dto, StretchOrSquashEnum.Squash);
         }
 
-        protected override IOperatorDto Visit_Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
-        {
-            return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Squash);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_WithOrigin(Stretch_OperatorDto_WithOrigin dto)
         {
             return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
-        {
-            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstFactor_WithOriginShifting(Stretch_OperatorDto_ConstFactor_WithOriginShifting dto)
         {
             return Process_StretchOrSquash_WithOriginShifting(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_ZeroOrigin(Stretch_OperatorDto_ZeroOrigin dto)
         {
             return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
-        {
-            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
-        {
-            return Process_StretchOrSquash_WithOrigin(dto, StretchOrSquashEnum.Stretch);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_Stretch_OperatorDto_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarFactor_WithPhaseTracking dto)
         {
             return Process_StretchOrSquash_WithPhaseTracking(dto, StretchOrSquashEnum.Stretch);
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
-        {
-            return Process_StretchOrSquash_ZeroOrigin(dto, StretchOrSquashEnum.Stretch);
         }
 
         /// <summary> Assumes all inlets except the signal inlet were already pushed onto the stack. </summary>

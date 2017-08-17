@@ -35,41 +35,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Signal.IsConst)
+            if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new AverageOverDimension_OperatorDto_ConstSignal();
-            }
-            else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
-            {
-                dto2 = new AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new AverageOverDimension_OperatorDto_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new AverageOverDimension_OperatorDto_CollectionRecalculationUponReset();
             }
             else
             {
                 throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
-        {
-            base.Visit_AverageFollower_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Signal.IsConst)
-            {
-                dto2 = new AverageFollower_OperatorDto_ConstSignal();
-            }
-            else
-            {
-                dto2 = new AverageFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -127,7 +103,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Cache_OperatorDto_ConstSignal();
             }
-            else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
+            if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
             {
                 dto2 = new Cache_OperatorDto_SingleChannel_Block();
             }
@@ -236,6 +212,10 @@ namespace JJ.Business.Synthesizer.Visitors
             // ReSharper disable once CompareOfFloatsByEqualityOperator
             bool hasMinX = dto.MinX != 0.0;
 
+            if (dto.CurveID == 0)
+            {
+                dto2 = new Curve_OperatorDto_NoCurve();
+            }
             if (!hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new Curve_OperatorDto_MinXZero_WithOriginShifting();
@@ -295,26 +275,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 dto2 = new HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto)
-        {
-            base.Visit_Hold_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Signal.IsConst)
-            {
-                dto2 = new Hold_OperatorDto_ConstSignal();
-            }
-            else
-            {
-                dto2 = new Hold_OperatorDto_VarSignal();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -516,11 +476,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new MaxOverDimension_OperatorDto_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new MaxOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new MaxOverDimension_OperatorDto_CollectionRecalculationUponReset();
             }
             else
             {
@@ -530,26 +490,6 @@ namespace JJ.Business.Synthesizer.Visitors
             DtoCloner.CloneProperties(dto, dto2);
 
             return dto2;
-        }
-
-        protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
-        {
-            base.Visit_MaxFollower_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Signal.IsConst)
-            {
-                dto2 = new MaxFollower_OperatorDto_ConstSignal();
-            }
-            else
-            {
-                dto2 = new MaxFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto;
         }
 
         protected override IOperatorDto Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto)
@@ -564,11 +504,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new MinOverDimension_OperatorDto_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new MinOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new MinOverDimension_OperatorDto_CollectionRecalculationUponReset();
             }
             else
             {
@@ -578,26 +518,6 @@ namespace JJ.Business.Synthesizer.Visitors
             DtoCloner.CloneProperties(dto, dto2);
 
             return dto2;
-        }
-
-        protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
-        {
-            base.Visit_MinFollower_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Signal.IsConst)
-            {
-                dto2 = new MinFollower_OperatorDto_ConstSignal();
-            }
-            else
-            {
-                dto2 = new MinFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto;
         }
 
         protected override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)
@@ -696,25 +616,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (dto.From.IsConst && dto.Till.IsConst && dto.Step.IsConst)
             {
-                dto2 = new RangeOverDimension_OperatorDto_OnlyConsts
-                {
-                    From = dto.From,
-                    Till = dto.Till,
-                    Step = dto.Step,
-                    StandardDimensionEnum = dto.StandardDimensionEnum,
-                    CanonicalCustomDimensionName = dto.CanonicalCustomDimensionName
-                };
+                dto2 = new RangeOverDimension_OperatorDto_OnlyConsts();
             }
             else
             {
-                dto2 = new RangeOverDimension_OperatorDto_OnlyVars
-                {
-                    From = dto.From,
-                    Till = dto.Till,
-                    Step = dto.Step,
-                    StandardDimensionEnum = dto.StandardDimensionEnum,
-                    CanonicalCustomDimensionName = dto.CanonicalCustomDimensionName
-                };
+                dto2 = new RangeOverDimension_OperatorDto_OnlyVars();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -732,41 +638,17 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Round_OperatorDto_AllConsts();
             }
-            else if (dto.Signal.IsConst)
+            else if (dto.Step.IsConstOne && dto.Offset.IsConstZero)
             {
-                dto2 = new Round_OperatorDto_ConstSignal();
+                dto2 = new Round_OperatorDto_StepOne_ZeroOffset();
             }
-            else if (dto.Signal.IsVar && dto.Step.IsConstOne && dto.Offset.IsConstZero)
+            if (dto.Offset.IsConstZero)
             {
-                dto2 = new Round_OperatorDto_VarSignal_StepOne_OffsetZero();
-            }
-            else if (dto.Signal.IsVar && dto.Step.IsVar && dto.Offset.IsVar)
-            {
-                dto2 = new Round_OperatorDto_VarSignal_VarStep_VarOffset();
-            }
-            else if (dto.Signal.IsVar && dto.Step.IsVar && dto.Offset.IsConstZero)
-            {
-                dto2 = new Round_OperatorDto_VarSignal_VarStep_ZeroOffset();
-            }
-            else if (dto.Signal.IsVar && dto.Step.IsVar && dto.Offset.IsConst)
-            {
-                dto2 = new Round_OperatorDto_VarSignal_VarStep_ConstOffset();
-            }
-            else if (dto.Signal.IsVar && dto.Step.IsConst && dto.Offset.IsVar)
-            {
-                dto2 = new Round_OperatorDto_VarSignal_ConstStep_VarOffset();
-            }
-            else if (dto.Signal.IsVar && dto.Step.IsConst && dto.Offset.IsConstZero)
-            {
-                dto2 = new Round_OperatorDto_VarSignal_ConstStep_ZeroOffset();
-            }
-            else if (dto.Signal.IsVar && dto.Step.IsConst && dto.Offset.IsConst)
-            {
-                dto2 = new Round_OperatorDto_VarSignal_ConstStep_ConstOffset();
+                dto2 = new Round_OperatorDto_ZeroOffset();
             }
             else
             {
-                throw new VisitationCannotBeHandledException();
+                dto2 = new Round_OperatorDto_WithOffset();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -783,7 +665,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (hasTargetChannelCount && dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.SampleID == 0)
+            {
+                dto2 = new Sample_OperatorDto_NoSample();
+            }
+            else if (dto.Frequency.IsConstZero)
+            {
+                dto2 = new Sample_OperatorDto_ZeroFrequency();
+            }
+            else if (hasTargetChannelCount && dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new Sample_OperatorDto_ConstFrequency_WithOriginShifting();
             }
@@ -840,38 +730,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             return dto2;
         }
-        
-        protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
-        {
-            base.Visit_SetDimension_OperatorDto(dto);
-
-            OperatorDtoBase_WithDimension dto2;
-
-            if (dto.PassThrough.IsConst && dto.Number.IsConst)
-            {
-                dto2 = new SetDimension_OperatorDto_ConstPassThrough_ConstNumber();
-            }
-            else if (dto.PassThrough.IsVar && dto.Number.IsConst)
-            {
-                dto2 = new SetDimension_OperatorDto_VarPassThrough_ConstNumber();
-            }
-            else if (dto.PassThrough.IsConst && dto.Number.IsVar)
-            {
-                dto2 = new SetDimension_OperatorDto_ConstPassThrough_VarNumber();
-            }
-            else if (dto.PassThrough.IsVar && dto.Number.IsVar)
-            {
-                dto2 = new SetDimension_OperatorDto_VarPassThrough_VarNumber();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
 
         protected override IOperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
         {
@@ -879,7 +737,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsConstZero)
+            {
+                dto2 = new Sine_OperatorDto_ZeroFrequency();
+            }
+            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new Sine_OperatorDto_VarFrequency_WithPhaseTracking();
             }
@@ -917,11 +779,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.Continuous)
             {
-                dto2 = new SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous();
+                dto2 = new SortOverDimension_OperatorDto_CollectionRecalculationContinuous();
             }
             else if (dto.CollectionRecalculationEnum == CollectionRecalculationEnum.UponReset)
             {
-                dto2 = new SortOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset();
+                dto2 = new SortOverDimension_OperatorDto_CollectionRecalculationUponReset();
             }
             else
             {
@@ -943,41 +805,21 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Squash_OperatorDto_ConstSignal();
             }
-            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsVar)
+            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Factor.IsVar)
             {
-                dto2 = new Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking();
+                dto2 = new Squash_OperatorDto_VarFactor_WithPhaseTracking();
             }
-            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsConst)
+            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Factor.IsConst)
             {
-                dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting();
+                dto2 = new Squash_OperatorDto_ConstFactor_WithOriginShifting();
             }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsVar && dto.Origin.IsVar)
+            else if (dto.Origin.IsConstZero)
             {
-                dto2 = new Squash_OperatorDto_VarSignal_VarFactor_VarOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsVar && dto.Origin.IsConstZero)
-            {
-                dto2 = new Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsVar && dto.Origin.IsConst)
-            {
-                dto2 = new Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsConst && dto.Origin.IsVar)
-            {
-                dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsConst && dto.Origin.IsConstZero)
-            {
-                dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsConst && dto.Origin.IsConst)
-            {
-                dto2 = new Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin();
+                dto2 = new Squash_OperatorDto_ZeroOrigin();
             }
             else
             {
-                throw new VisitationCannotBeHandledException();
+                dto2 = new Squash_OperatorDto_WithOrigin();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -995,41 +837,21 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Stretch_OperatorDto_ConstSignal();
             }
-            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsVar)
+            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Factor.IsVar)
             {
-                dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking();
+                dto2 = new Stretch_OperatorDto_VarFactor_WithPhaseTracking();
             }
-            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsConst)
+            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Factor.IsConst)
             {
-                dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting();
+                dto2 = new Stretch_OperatorDto_ConstFactor_WithOriginShifting();
             }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsVar && dto.Origin.IsVar)
+            else if (dto.Origin.IsConstZero)
             {
-                dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsVar && dto.Origin.IsConstZero)
-            {
-                dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsVar && dto.Origin.IsConst)
-            {
-                dto2 = new Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsConst && dto.Origin.IsVar)
-            {
-                dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsConst && dto.Origin.IsConstZero)
-            {
-                dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin();
-            }
-            else if (dto.StandardDimensionEnum != DimensionEnum.Time && dto.Signal.IsVar && dto.Factor.IsConst && dto.Origin.IsConst)
-            {
-                dto2 = new Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin();
+                dto2 = new Stretch_OperatorDto_ZeroOrigin();
             }
             else
             {
-                throw new VisitationCannotBeHandledException();
+                dto2 = new Stretch_OperatorDto_WithOrigin();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -1095,7 +917,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.Frequency.IsConstZero)
+            {
+                dto2 = new Triangle_OperatorDto_ZeroFrequency();
+            }
+            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
             {
                 dto2 = new Triangle_OperatorDto_VarFrequency_WithPhaseTracking();
             }

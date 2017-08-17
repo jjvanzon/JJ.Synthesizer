@@ -7,14 +7,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AverageOverDimension;
     }
 
-    internal class AverageOverDimension_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AverageOverDimension;
-    }
-
-    internal class AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationContinuous : AverageOverDimension_OperatorDto
+    internal class AverageOverDimension_OperatorDto_CollectionRecalculationContinuous : AverageOverDimension_OperatorDto
     { }
 
-    internal class AverageOverDimension_OperatorDto_SignalVarOrConst_OtherInputsVar_CollectionRecalculationUponReset : AverageOverDimension_OperatorDto
+    internal class AverageOverDimension_OperatorDto_CollectionRecalculationUponReset : AverageOverDimension_OperatorDto
     { }
 }

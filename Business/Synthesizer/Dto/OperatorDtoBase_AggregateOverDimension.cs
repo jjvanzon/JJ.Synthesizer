@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_AggregateOverDimension : OperatorDtoBase_WithCollectionRecalculation
+    internal abstract class OperatorDtoBase_AggregateOverDimension : OperatorDtoBase_WithCollectionRecalculation, IOperatorDto_WithSignal
     {
         public InputDto Signal { get; set; }
         public InputDto From { get; set; }

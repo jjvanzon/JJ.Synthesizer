@@ -2,12 +2,12 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Hold_OperatorCalculator_VarSignal : OperatorCalculatorBase_WithChildCalculators
+    internal class Hold_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _signalCalculator;
         private double _value;
 
-        public Hold_OperatorCalculator_VarSignal(OperatorCalculatorBase signalCalculator)
+        public Hold_OperatorCalculator(OperatorCalculatorBase signalCalculator)
             : base(new[] { signalCalculator })
         {
             OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);

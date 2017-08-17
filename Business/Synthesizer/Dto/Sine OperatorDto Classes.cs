@@ -7,6 +7,9 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Sine;
     }
 
+    internal class Sine_OperatorDto_ZeroFrequency : Sine_OperatorDto
+    { }
+
     internal class Sine_OperatorDto_ConstFrequency_NoOriginShifting : Sine_OperatorDto
     { }
 

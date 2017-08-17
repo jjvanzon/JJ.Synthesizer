@@ -85,52 +85,52 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Cubic(Cache_OperatorDto_MultiChannel_Cubic dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Hermite(Cache_OperatorDto_MultiChannel_Hermite dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Line(Cache_OperatorDto_MultiChannel_Line dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Stripe(Cache_OperatorDto_MultiChannel_Stripe dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Block(Cache_OperatorDto_SingleChannel_Block dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Cubic(Cache_OperatorDto_SingleChannel_Cubic dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Hermite(Cache_OperatorDto_SingleChannel_Hermite dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Line(Cache_OperatorDto_SingleChannel_Line dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Stripe(Cache_OperatorDto_SingleChannel_Stripe dto)
         {
-            return Process_Cache_OperatorDtoBase_NotConstSignal(dto);
+            return Process_Cache_OperatorDto(dto);
         }
 
         // Helpers
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// because it is the only operator type for which you need to 
         /// calculate during optimization time, so calculate while the executable calculation is still being built up.
         /// </summary>
-        private IOperatorDto Process_Cache_OperatorDtoBase_NotConstSignal(Cache_OperatorDtoBase_NotConstSignal dto)
+        private IOperatorDto Process_Cache_OperatorDto(Cache_OperatorDto dto)
         {
             base.Visit_OperatorDto_Base(dto);
 

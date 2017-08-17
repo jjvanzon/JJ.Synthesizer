@@ -28,16 +28,4 @@ namespace JJ.Business.Synthesizer.Dto
             }
         }
     }
-
-    internal class SetDimension_OperatorDto_VarPassThrough_VarNumber : SetDimension_OperatorDto
-    { }
-
-    internal class SetDimension_OperatorDto_VarPassThrough_ConstNumber : SetDimension_OperatorDto
-    { }
-
-    internal class SetDimension_OperatorDto_ConstPassThrough_VarNumber : SetDimension_OperatorDto
-    { }
-
-    internal class SetDimension_OperatorDto_ConstPassThrough_ConstNumber : SetDimension_OperatorDto
-    { }
 }

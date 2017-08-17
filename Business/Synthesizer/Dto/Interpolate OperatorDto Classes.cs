@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Interpolate_OperatorDto : OperatorDtoBase_WithDimension
+    internal class Interpolate_OperatorDto : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
@@ -23,6 +23,9 @@ namespace JJ.Business.Synthesizer.Dto
             }
         }
     }
+
+    internal class Interpolate_OperatorDto_ConstSignal : Interpolate_OperatorDto
+    { }
 
     internal class Interpolate_OperatorDto_Block : Interpolate_OperatorDto
     { }
@@ -47,14 +50,4 @@ namespace JJ.Business.Synthesizer.Dto
 
     internal class Interpolate_OperatorDto_Stripe_LagBehind : Interpolate_OperatorDto
     { }
-
-    /// <summary>
-    /// The existence of this DTO class is asymmetric to
-    /// the Random, InletsToDimension and SumOverDimension DTO's
-    /// because Interpolate has a Signal inlet.
-    /// </summary>
-    internal class Interpolate_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
-    }
 }

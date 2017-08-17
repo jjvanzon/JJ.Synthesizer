@@ -6,10 +6,4 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Hold;
     }
-
-    internal class Hold_OperatorDto_VarSignal : Hold_OperatorDto
-    { }
-
-    internal class Hold_OperatorDto_ConstSignal : Hold_OperatorDto
-    { }
 }

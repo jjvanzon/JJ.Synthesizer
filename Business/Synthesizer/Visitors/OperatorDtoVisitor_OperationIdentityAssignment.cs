@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 case OperatorTypeEnum.Curve:
                 {
-                    var castedDto = (Curve_OperatorDtoBase_WithoutMinX)dto;
+                    var castedDto = (Curve_OperatorDto)dto;
                     arguments.Add($"{castedDto.CurveID}");
                     break;
                 }

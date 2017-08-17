@@ -21,6 +21,12 @@ namespace JJ.Business.Synthesizer.Dto
         public IList<ArrayDto> ArrayDtos { get; set; }
     }
 
+    internal class Sample_OperatorDto_NoSample : Sample_OperatorDto
+    { }
+
+    internal class Sample_OperatorDto_ZeroFrequency : Sample_OperatorDto
+    { }
+
     internal class Sample_OperatorDto_VarFrequency_WithPhaseTracking : Sample_OperatorDto
     { }
 

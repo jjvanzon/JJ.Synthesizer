@@ -7,49 +7,29 @@ namespace JJ.Business.Synthesizer.Dto
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
     }
 
-    internal class Squash_OperatorDto_ConstSignal : OperatorDtoBase_WithSignal
+    internal class Squash_OperatorDto_WithOrigin : StretchOrSquash_OperatorDtoBase_WithOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
     }
 
-    internal class Squash_OperatorDto_VarSignal_ConstFactor_ZeroOrigin : StretchOrSquash_OperatorDtoBase_ZeroOrigin
+    internal class Squash_OperatorDto_ZeroOrigin : StretchOrSquash_OperatorDtoBase_ZeroOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
     }
 
-    internal class Squash_OperatorDto_VarSignal_VarFactor_ZeroOrigin : StretchOrSquash_OperatorDtoBase_ZeroOrigin
+    internal class Squash_OperatorDto_ConstSignal : StretchOrSquash_OperatorDtoBase_NoOrigin
     {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
-    }
-
-    internal class Squash_OperatorDto_VarSignal_ConstFactor_ConstOrigin : StretchOrSquash_OperatorDtoBase_WithOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
-    }
-
-    internal class Squash_OperatorDto_VarSignal_ConstFactor_VarOrigin : StretchOrSquash_OperatorDtoBase_WithOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
-    }
-
-    internal class Squash_OperatorDto_VarSignal_VarFactor_ConstOrigin : StretchOrSquash_OperatorDtoBase_WithOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
-    }
-
-    internal class Squash_OperatorDto_VarSignal_VarFactor_VarOrigin : StretchOrSquash_OperatorDtoBase_WithOrigin
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Stretch;
     }
 
     // For Time Dimension
 
-    internal class Squash_OperatorDto_VarSignal_ConstFactor_WithOriginShifting : StretchOrSquash_OperatorDtoBase_NoOrigin
+    internal class Squash_OperatorDto_ConstFactor_WithOriginShifting : StretchOrSquash_OperatorDtoBase_NoOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
     }
 
-    internal class Squash_OperatorDto_VarSignal_VarFactor_WithPhaseTracking : StretchOrSquash_OperatorDtoBase_NoOrigin
+    internal class Squash_OperatorDto_VarFactor_WithPhaseTracking : StretchOrSquash_OperatorDtoBase_NoOrigin
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
     }

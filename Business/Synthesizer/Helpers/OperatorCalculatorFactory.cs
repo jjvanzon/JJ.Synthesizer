@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
-            Curve_OperatorDtoBase_WithoutMinX dto,
+            Curve_OperatorDto dto,
             DimensionStackCollection dimensionStackCollection)
         {
             if (dto == null) throw new ArgumentNullException(nameof(dto));
