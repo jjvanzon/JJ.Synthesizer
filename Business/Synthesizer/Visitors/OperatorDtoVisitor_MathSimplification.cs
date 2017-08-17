@@ -72,30 +72,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto.Inputs = dto.Inputs.Except(dto.AggregateInfo.Const).ToArray();
                 return dto;
             }
-            else if (dto.AggregateInfo.HasVars && dto.AggregateInfo.Consts.Count > 1)
-            {
-                // Pre-calculate
-                InputDto aggregate = dto.AggregateInfo.Consts.Sum(x => x);
-                dto.Inputs = dto.AggregateInfo.Vars.Union(aggregate).ToArray();
-                return dto;
-            }
-            else if (dto.AggregateInfo.OnlyVars)
-            {
-                return ProcessOnlyVars(dto);
-            }
-            else if (dto.AggregateInfo.OnlyConsts)
-            {
-                return ProcessOnlyConsts(dto, Enumerable.Sum);
-            }
-            else if (dto.AggregateInfo.IsEmpty)
-            {
-                // 0
-                return new Number_OperatorDto(0);
-            }
-            else
-            {
-                return dto;
-            }
+
+            return ProcessAggregateOverInlets(dto, Enumerable.Sum);
         }
 
         // AllPassFilter
@@ -167,14 +145,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_AverageOverInlets_OperatorDto(dto);
 
-            if (dto.AggregateInfo.OnlyConsts)
-            {
-                return ProcessOnlyConsts(dto, Enumerable.Average);
-            }
-            else
-            {
-                return dto;
-            }
+            return ProcessAggregateOverInlets(dto, Enumerable.Average);
         }
 
         // BandPassFilterConstantPeakGain
@@ -229,19 +200,29 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.Input.IsVar && dto.AggregateInfo.OnlyConsts)
             {
-                if (dto.Items.Count == 0)
+                switch (dto.Items.Count)
                 {
-                    // 0
-                    return new Number_OperatorDto(0);
-                }
-                if (dto.Items.Count == 1)
-                {
-                    // Identity
-                    return new Number_OperatorDto { Number = dto.Items[0] };
+                    case 0:
+                        // 0
+                        return new Number_OperatorDto(0);
+
+                    case 1:
+                        // Identity
+                        return new Number_OperatorDto { Number = dto.Items[0] };
+
+                    default:
+                        return dto;
                 }
             }
-
-            return dto;
+            else if (dto.AggregateInfo.IsEmpty)
+            {
+                // 0
+                return new Number_OperatorDto(0);
+            }
+            else
+            {
+                return dto;
+            }
         }
 
         // ClosestOverInletsExp
@@ -258,19 +239,29 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.Input.IsVar && dto.AggregateInfo.OnlyConsts)
             {
-                if (dto.Items.Count == 0)
+                switch (dto.Items.Count)
                 {
-                    // 0
-                    return new Number_OperatorDto(0);
-                }
-                if (dto.Items.Count == 1)
-                {
-                    // Identity
-                    return new Number_OperatorDto { Number = dto.Items[0] };
+                    case 0:
+                        // 0
+                        return new Number_OperatorDto(0);
+
+                    case 1:
+                        // Identity
+                        return new Number_OperatorDto { Number = dto.Items[0] };
+
+                    default:
+                        return dto;
                 }
             }
-
-            return dto;
+            else if (dto.AggregateInfo.IsEmpty)
+            {
+                // 0
+                return new Number_OperatorDto(0);
+            }
+            else
+            {
+                return dto;
+            }
         }
 
         // Curve
@@ -648,28 +639,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MaxOverInlets_OperatorDto(dto);
 
-            if (dto.AggregateInfo.HasVars && dto.AggregateInfo.Consts.Count > 1)
-            {
-                // Pre-calculate
-                InputDto aggregate = dto.AggregateInfo.Consts.Min(x => x);
-                dto.Inputs = dto.AggregateInfo.Vars.Union(aggregate).ToArray();
-                return dto;
-            }
-            else if (dto.AggregateInfo.OnlyVars)
-            {
-                return ProcessOnlyVars(dto);
-            }
-            else if (dto.AggregateInfo.OnlyConsts)
-            {
-                return ProcessOnlyConsts(dto, Enumerable.Min);
-            }
-            else if (dto.AggregateInfo.IsEmpty)
-            {
-                // 0
-                return new Number_OperatorDto(0);
-            }
-
-            return dto;
+            return ProcessAggregateOverInlets(dto, Enumerable.Min);
         }
 
         // MinFollower
@@ -692,28 +662,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_MinOverInlets_OperatorDto(dto);
 
-            if (dto.AggregateInfo.HasVars && dto.AggregateInfo.Consts.Count > 1)
-            {
-                // Pre-calculate
-                InputDto aggregate = dto.AggregateInfo.Consts.Min(x => x.Const);
-                dto.Inputs = dto.AggregateInfo.Vars.Union(aggregate).ToArray();
-                return dto;
-            }
-            else if (dto.AggregateInfo.OnlyVars)
-            {
-                return ProcessOnlyVars(dto);
-            }
-            else if (dto.AggregateInfo.OnlyConsts)
-            {
-                return ProcessOnlyConsts(dto, Enumerable.Min);
-            }
-            else if (dto.AggregateInfo.IsEmpty)
-            {
-                // 0
-                return new Number_OperatorDto(0);
-            }
-
-            return dto;
+            return ProcessAggregateOverInlets(dto, Enumerable.Min);
         }
 
         // Multiply
@@ -728,33 +677,15 @@ namespace JJ.Business.Synthesizer.Visitors
                 dto.Inputs = dto.Inputs.Except(dto.AggregateInfo.Const).ToArray();
                 return dto;
             }
-            else if (dto.AggregateInfo.HasVars && dto.AggregateInfo.Consts.Count > 1)
-            {
-                // Pre-calculate
-                InputDto aggregate = dto.AggregateInfo.Consts.Product(x => x);
-                dto.Inputs = dto.AggregateInfo.Vars.Union(aggregate).ToArray();
-                return dto;
-            }
             else if (dto.AggregateInfo.Consts.Any(x => x.IsConstZero))
             {
                 // 0
                 return new Number_OperatorDto(0);
             }
-            else if (dto.AggregateInfo.OnlyVars)
+            else
             {
-                return ProcessOnlyVars(dto);
+                return ProcessAggregateOverInlets(dto, CollectionExtensions.Product);
             }
-            else if (dto.AggregateInfo.OnlyConsts)
-            {
-                return ProcessOnlyConsts(dto, CollectionExtensions.Product);
-            }
-            else if (dto.AggregateInfo.IsEmpty)
-            {
-                // 0
-                return new Number_OperatorDto(0);
-            }
-
-            return dto;
         }
 
         // Negative
@@ -1188,14 +1119,46 @@ namespace JJ.Business.Synthesizer.Visitors
             return limitedFrequency;
         }
 
-        private IOperatorDto ProcessOnlyConsts(
-            IOperatorDto dto, 
-            Func<IEnumerable<double>, double> aggregationDelegate)
+        private IOperatorDto ProcessAggregateOverInlets(IOperatorDto_WithAggregateInfo dto, Func<IEnumerable<double>, double> aggregationDelegate)
         {
-            // Pre-calculate
-            double result = aggregationDelegate(dto.Inputs.Select(x => x.Const));
+            if (dto.AggregateInfo.HasVars && dto.AggregateInfo.Consts.Count > 1)
+            {
+                // Pre-calculate
+                InputDto aggregate = aggregationDelegate(dto.AggregateInfo.Consts.Select(x => x.Const));
+                dto.Inputs = dto.AggregateInfo.Vars.Union(aggregate).ToArray();
+                return dto;
+            }
+            else if (dto.AggregateInfo.OnlyVars)
+            {
+                switch (dto.Inputs.Count)
+                {
+                    case 0:
+                        // 0
+                        return new Number_OperatorDto(0);
 
-            return new Number_OperatorDto { Number = result };
+                    case 1:
+                        // Identity
+                        return dto.Inputs.Single().Var;
+
+                    default:
+                        return dto;
+                }
+            }
+            else if (dto.AggregateInfo.OnlyConsts)
+            {
+                // Pre-calculate
+                double result = aggregationDelegate(dto.Inputs.Select(x => x.Const));
+                return new Number_OperatorDto { Number = result };
+            }
+            else if (dto.AggregateInfo.IsEmpty)
+            {
+                // 0
+                return new Number_OperatorDto(0);
+            }
+            else
+            {
+                return dto;
+            }
         }
 
         private IOperatorDto Process_ShelfFilter_SoundVarOrConst_OtherInputsConst(
@@ -1260,22 +1223,6 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             // Identity
             return dto.PassThroughInput.Var;
-        }
-
-        private IOperatorDto ProcessOnlyVars(IOperatorDto dto)
-        {
-            switch (dto.Inputs.Count)
-            {
-                case 0:
-                    // 0
-                    return new Number_OperatorDto(0);
-
-                case 1:
-                    return dto.Inputs.Single().Var;
-
-                default:
-                    return dto;
-            }
         }
 
         private IOperatorDto ProcessZero(IOperatorDto dto)

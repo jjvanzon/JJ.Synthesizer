@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 case 1:
                     return ProcessOperatorDto(
                         dto,
-                        () => OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const.Const));
+                        () => OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const));
 
                 default:
                     throw new VisitationCannotBeHandledException();
@@ -530,7 +530,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.AggregateInfo.HasVars && dto.AggregateInfo.Consts.Count == 1)
             {
-                return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const.Const));
+                return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const));
             }
             else if (dto.AggregateInfo.OnlyVars)
             {
@@ -561,7 +561,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             if (dto.AggregateInfo.Vars.Count == 1 && dto.AggregateInfo.Consts.Count == 1)
             {
-                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.AggregateInfo.Const.Const));
+                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_1Var_1Const(_stack.Pop(), dto.AggregateInfo.Const));
             }
             else if (dto.AggregateInfo.OnlyVars && dto.AggregateInfo.Vars.Count == 2)
             {
@@ -569,7 +569,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (dto.AggregateInfo.HasVars && dto.AggregateInfo.Consts.Count == 1)
             {
-                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const.Const));
+                return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const));
             }
             else if (dto.AggregateInfo.OnlyVars)
             {
@@ -591,7 +591,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 case 1:
                     return ProcessOperatorDto(
                         dto,
-                        () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const.Const));
+                        () => OperatorCalculatorFactory.CreateMultiplyCalculator_Vars_1Const(dto.AggregateInfo.Vars.Select(x => _stack.Pop()).ToArray(), dto.AggregateInfo.Const));
 
                 default:
                     throw new VisitationCannotBeHandledException();

@@ -14,7 +14,6 @@ namespace JJ.Business.Synthesizer.Dto
         public bool ConstIsOne { get; set; }
         public bool ConstIsZero { get; set; }
         /// <summary> nullable </summary>
-        [Obsolete("Const.Const looks strange. Consider refactoring this.")]
         public InputDto Const { get; set; }
         public bool IsEmpty { get; set; }
     }
