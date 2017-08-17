@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Visitors
             bool anyInputsHaveSpecialValue = dto2.Inputs.Any(x => x.IsConstSpecialValue);
             if (anyInputsHaveSpecialValue)
             {
-                return new Number_OperatorDto_NaN();
+                return new Number_OperatorDto(double.NaN);
             }
 
             return dto2;
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.AggregateInfo.IsEmpty)
             {
                 // 0
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
             else
             {
@@ -119,12 +119,12 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dto.A.IsConstNonZero && dto.B.IsConstNonZero)
             {
                 // Pre-calculate
-                return new Number_OperatorDto_One();
+                return new Number_OperatorDto(1);
             }
             else if (dto.A.IsConstZero || dto.B.IsConstZero)
             {
                 // Pre-calculate
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
             else if (dto.A.IsConst && dto.B.IsVar)
             {
@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.A.IsVar && dto.B.IsConstZero)
             {
                 // 0
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
             else if (dto.A.IsVar && dto.B.IsConstNonZero)
             {
@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 if (dto.Items.Count == 0)
                 {
                     // 0
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
                 }
                 if (dto.Items.Count == 1)
                 {
@@ -261,7 +261,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 if (dto.Items.Count == 0)
                 {
                     // 0
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
                 }
                 if (dto.Items.Count == 1)
                 {
@@ -318,11 +318,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Pre-calculate
                 if (dto.A == dto.B)
                 {
-                    return new Number_OperatorDto_One();
+                    return new Number_OperatorDto(1);
                 }
                 else
                 {
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
                 }
             }
             else if (dto.A.IsConst && dto.B.IsVar)
@@ -373,11 +373,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Pre-calculate
                 if (dto.A > dto.B)
                 {
-                    return new Number_OperatorDto_One();
+                    return new Number_OperatorDto(1);
                 }
                 else
                 {
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
                 }
             }
             else if (dto.A.IsConst && dto.B.IsVar)
@@ -404,11 +404,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Pre-calculate
                 if (dto.A >= dto.B)
                 {
-                    return new Number_OperatorDto_One();
+                    return new Number_OperatorDto(1);
                 }
                 else
                 {
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
                 }
             }
             else if (dto.A.IsConst && dto.B.IsVar)
@@ -546,11 +546,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Pre-calculate
                 if (dto.A < dto.B)
                 {
-                    return new Number_OperatorDto_One();
+                    return new Number_OperatorDto(1);
                 }
                 else
                 {
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
                 }
             }
             else if (dto.A.IsConst && dto.B.IsVar)
@@ -577,11 +577,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Pre-calculate
                 if (dto.A <= dto.B)
                 {
-                    return new Number_OperatorDto_One();
+                    return new Number_OperatorDto(1);
                 }
                 else
                 {
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
                 }
             }
             else if (dto.A.IsConst && dto.B.IsVar)
@@ -666,7 +666,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.AggregateInfo.IsEmpty)
             {
                 // 0
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
 
             return dto;
@@ -710,7 +710,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.AggregateInfo.IsEmpty)
             {
                 // 0
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
 
             return dto;
@@ -738,7 +738,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.AggregateInfo.Consts.Any(x => x.IsConstZero))
             {
                 // 0
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
             else if (dto.AggregateInfo.OnlyVars)
             {
@@ -751,7 +751,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.AggregateInfo.IsEmpty)
             {
                 // 0
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
 
             return dto;
@@ -796,11 +796,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (dto.A != dto.B)
                 {
-                    return new Number_OperatorDto_One();
+                    return new Number_OperatorDto(1);
                 }
                 else
                 {
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
                 }
             }
             else if (dto.A.IsConst && dto.B.IsVar)
@@ -824,11 +824,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 bool isFalse = dto.Number == 0.0;
                 if (isFalse)
                 {
-                    return new Number_OperatorDto_One();
+                    return new Number_OperatorDto(1);
                 }
                 else
                 {
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
                 }
             }
 
@@ -844,12 +844,12 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dto.A.IsConstNonZero || dto.B.IsConstNonZero)
             {
                 // Pre-calculate
-                return new Number_OperatorDto_One();
+                return new Number_OperatorDto(1);
             }
             else if (dto.A.IsConstZero && dto.B.IsConstZero)
             {
                 // Pre-calculate
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
             else if (dto.A.IsConst && dto.B.IsVar)
             {
@@ -859,7 +859,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.A.IsVar && dto.B.IsConstNonZero)
             {
                 // Simplify
-                return new Number_OperatorDto_One();
+                return new Number_OperatorDto(1);
             }
             else if (dto.A.IsVar && dto.B.IsConstZero)
             {
@@ -916,17 +916,17 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (dto.Base.IsConstZero)
             {
                 // 0
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
             else if (dto.Base.IsConstOne)
             {
                 // 1
-                return new Number_OperatorDto_One();
+                return new Number_OperatorDto(1);
             }
             if (dto.Exponent.IsConstZero)
             {
                 // 1
-                return new Number_OperatorDto_One();
+                return new Number_OperatorDto(1);
             }
             else if (dto.Exponent.IsConstOne)
             {
@@ -1032,7 +1032,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dto.Sound.IsConst)
             {
                 // 0
-                return new Number_OperatorDto_Zero();
+                return new Number_OperatorDto(0);
             }
             else
             {
@@ -1268,7 +1268,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 case 0:
                     // 0
-                    return new Number_OperatorDto_Zero();
+                    return new Number_OperatorDto(0);
 
                 case 1:
                     return dto.Inputs.Single().Var;
@@ -1283,7 +1283,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.Visit_OperatorDto_Base(dto);
 
             // 0
-            return new Number_OperatorDto_Zero();
+            return new Number_OperatorDto(0);
         }
 
         private IOperatorDto ProcessWithSignal(IOperatorDto_WithSignal dto)

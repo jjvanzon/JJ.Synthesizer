@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
             if (arrayDto == null)
             {
-                return new Number_OperatorCalculator_Zero();
+                return new Number_OperatorCalculator(0);
             }
 
             DimensionStack dimensionStack = dimensionStackCollection.GetDimensionStack(standardDimensionEnum, customDimensionName);

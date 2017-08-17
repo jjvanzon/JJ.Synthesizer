@@ -312,9 +312,7 @@
     <Compile Include="Calculation\Operators\Triangle OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Sine OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Noise_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Number_OperatorCalculator_One.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
-    <Compile Include="Calculation\Operators\Number_OperatorCalculator_Zero.cs" />
     <Compile Include="Calculation\Patches\SingleChannelPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\Sample OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Curve OperatorCalculator Classes.cs" />
@@ -387,7 +385,7 @@
     <Compile Include="Dto\InputDto.cs" />
     <Compile Include="Dto\Multiply_OperatorDto.cs" />
     <Compile Include="Dto\NotchFilter OperatorDto Classes.cs" />
-    <Compile Include="Dto\Number OperatorDto Classes.cs" />
+    <Compile Include="Dto\Number_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsConst.cs" />
     <Compile Include="Dto\OperatorDtoBase_BandPassFilter_SoundVarOrConst_OtherInputsVar.cs" />
     <Compile Include="Dto\OperatorDtoBase_ShelfFilter.cs" />

@@ -653,21 +653,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Number_OperatorCalculator(dto.Number));
         }
 
-        protected override IOperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
-        {
-            return ProcessOperatorDto(dto, () => new Number_OperatorCalculator(double.NaN));
-        }
-
-        protected override IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
-        {
-            return ProcessOperatorDto(dto, () => new Number_OperatorCalculator_One());
-        }
-
-        protected override IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
-        {
-            return ProcessOperatorDto(dto, () => new Number_OperatorCalculator_Zero());
-        }
-
         protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
         {
             return ProcessOperatorDto(dto, () => new Or_OperatorCalculator_VarA_VarB(_stack.Pop(), _stack.Pop()));

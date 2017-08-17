@@ -1093,26 +1093,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
         {
-            return ProcessNumberOperatorDto(dto);
-        }
-
-        protected override IOperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto)
-        {
-            return ProcessNumberOperatorDto(dto);
-        }
-
-        protected override IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto)
-        {
-            return ProcessNumberOperatorDto(dto);
-        }
-
-        protected override IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto)
-        {
-            return ProcessNumberOperatorDto(dto);
-        }
-
-        private Number_OperatorDto ProcessNumberOperatorDto(Number_OperatorDto dto)
-        {
             _stack.Push(CompilationHelper.FormatValue(dto.Number));
 
             return dto;

@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Visitors
             switch (operandCalculators.Count)
             {
                 case 0:
-                    calculator = new Number_OperatorCalculator_Zero();
+                    calculator = new Number_OperatorCalculator(0);
                     break;
 
                 case 1:
@@ -293,11 +293,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aIsConstNonZero && bIsConstNonZero)
             {
-                calculator = new Number_OperatorCalculator_One();
+                calculator = new Number_OperatorCalculator(1);
             }
             else if (aIsConstZero || bIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (aIsConstNonZero && !bIsConst)
             {
@@ -331,7 +331,7 @@ namespace JJ.Business.Synthesizer.Visitors
             switch (operandCalculators.Count)
             {
                 case 0:
-                    calculator = new Number_OperatorCalculator_Zero();
+                    calculator = new Number_OperatorCalculator(0);
                     break;
 
                 case 1:
@@ -381,11 +381,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (stepIsConstZero)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (stepIsConstNegative)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
@@ -675,7 +675,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (itemsIsEmpty)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (inputIsConst && allItemsAreConst)
             {
@@ -728,7 +728,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (itemsIsEmpty)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (inputIsConst && allItemsAreConst)
             {
@@ -798,11 +798,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (stepIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (stepIsConstNegative)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (collectionIsConst)
             {
@@ -886,11 +886,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (stepIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (stepIsConstNegative)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (collectionIsConst)
             {
@@ -1002,11 +1002,11 @@ namespace JJ.Business.Synthesizer.Visitors
             if (bIsConstZero)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (aIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (bIsConstOne)
             {
@@ -1611,7 +1611,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 // that is just not worth is, because it makes no sense to apply a loop to a constant.
                 // So to not return e.g. the number 2 before and after the loop
                 // just return 0. Nobody wants to loop throught a constant.
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else
             {
@@ -1854,7 +1854,7 @@ namespace JJ.Business.Synthesizer.Visitors
             switch (operandCalculators.Count)
             {
                 case 0:
-                    calculator = new Number_OperatorCalculator_Zero();
+                    calculator = new Number_OperatorCalculator(0);
                     break;
 
                 case 1:
@@ -1959,11 +1959,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (stepIsConstZero)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (stepIsConstNegative)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
@@ -2019,7 +2019,7 @@ namespace JJ.Business.Synthesizer.Visitors
             switch (operandCalculators.Count)
             {
                 case 0:
-                    calculator = new Number_OperatorCalculator_Zero();
+                    calculator = new Number_OperatorCalculator(0);
                     break;
 
                 case 1:
@@ -2124,11 +2124,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (stepIsConstZero)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (stepIsConstNegative)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
@@ -2205,14 +2205,14 @@ namespace JJ.Business.Synthesizer.Visitors
             // Handle zero
             if (isZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else
             {
                 switch (operandCalculators.Count)
                 {
                     case 0:
-                        calculator = new Number_OperatorCalculator_Zero();
+                        calculator = new Number_OperatorCalculator(0);
                         break;
 
                     case 1:
@@ -2434,11 +2434,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (number == 0.0)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (number == 1.0)
             {
-                calculator = new Number_OperatorCalculator_One();
+                calculator = new Number_OperatorCalculator(1);
             }
             else
             {
@@ -2474,15 +2474,15 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (aIsConstNonZero)
             {
-                calculator = new Number_OperatorCalculator_One();
+                calculator = new Number_OperatorCalculator(1);
             }
             else if (bIsConstNonZero)
             {
-                calculator = new Number_OperatorCalculator_One();
+                calculator = new Number_OperatorCalculator(1);
             }
             else if (aIsConstZero && bIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (aIsConstZero && !bIsConst)
             {
@@ -2597,15 +2597,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (baseIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (baseIsConstOne)
             {
-                calculator = new Number_OperatorCalculator_One();
+                calculator = new Number_OperatorCalculator(1);
             }
             else if (exponentIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_One();
+                calculator = new Number_OperatorCalculator(1);
             }
             else if (exponentIsConstOne)
             {
@@ -2687,7 +2687,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (rateIsConstZero)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             // TODO: Add more variations.
             else
@@ -2874,12 +2874,12 @@ namespace JJ.Business.Synthesizer.Visitors
             SampleInfo sampleInfo = wrapper.SampleInfo;
             if (sampleInfo.Sample == null)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (frequencyIsConstZero)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else
             {
@@ -3009,7 +3009,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 // Special value
                 // Frequency 0 means time stands still.
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
@@ -3069,11 +3069,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (stepIsConstZero)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (stepIsConstNegative)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
@@ -3135,7 +3135,7 @@ namespace JJ.Business.Synthesizer.Visitors
             switch (operandCalculators.Count)
             {
                 case 0:
-                    calculator = new Number_OperatorCalculator_Zero();
+                    calculator = new Number_OperatorCalculator(0);
                     break;
 
                 default:
@@ -3186,12 +3186,12 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (signalIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (signalIsConst)
             {
                 // Zero frequencies
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else
             {
@@ -3254,7 +3254,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (signalIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (factorIsConstOne)
             {
@@ -3343,7 +3343,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (signalIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (factorIsConstOne)
             {
@@ -3402,7 +3402,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (aIsConstZero && bIsConstZero)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (bIsConstZero)
             {
@@ -3464,11 +3464,11 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else if (stepIsConstZero)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (stepIsConstNegative)
             {
-                operatorCalculator = new Number_OperatorCalculator_Zero();
+                operatorCalculator = new Number_OperatorCalculator(0);
             }
             else if (fromIsConstSpecialValue || tillIsConstSpecialValue || stepIsConstSpecialValue)
             {
@@ -3593,7 +3593,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else if (frequencyIsConstZero)
             {
                 // Special Value
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
             {
@@ -3627,11 +3627,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (number == 0.0)
             {
-                calculator = new Number_OperatorCalculator_Zero();
+                calculator = new Number_OperatorCalculator(0);
             }
             else if (number == 1.0)
             {
-                calculator = new Number_OperatorCalculator_One();
+                calculator = new Number_OperatorCalculator(1);
             }
             else
             {

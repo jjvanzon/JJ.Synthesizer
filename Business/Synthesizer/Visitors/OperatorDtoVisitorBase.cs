@@ -191,9 +191,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst), x => Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst((NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst)x) },
                 { typeof(NotEqual_OperatorDto), x => Visit_NotEqual_OperatorDto((NotEqual_OperatorDto)x) },
                 { typeof(Number_OperatorDto), x => Visit_Number_OperatorDto((Number_OperatorDto)x) },
-                { typeof(Number_OperatorDto_NaN), x => Visit_Number_OperatorDto_NaN((Number_OperatorDto_NaN)x) },
-                { typeof(Number_OperatorDto_One), x => Visit_Number_OperatorDto_One((Number_OperatorDto_One)x) },
-                { typeof(Number_OperatorDto_Zero), x => Visit_Number_OperatorDto_Zero((Number_OperatorDto_Zero)x) },
                 { typeof(Or_OperatorDto), x => Visit_Or_OperatorDto((Or_OperatorDto)x) },
                 { typeof(PeakingEQFilter_OperatorDto), x => Visit_PeakingEQFilter_OperatorDto((PeakingEQFilter_OperatorDto)x) },
                 { typeof(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar), x => Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar((PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar)x) },
@@ -396,9 +393,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Number_OperatorDto_NaN(Number_OperatorDto_NaN dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Number_OperatorDto_One(Number_OperatorDto_One dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Number_OperatorDto_Zero(Number_OperatorDto_Zero dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
