@@ -63,8 +63,8 @@ namespace JJ.Business.Synthesizer.Helpers
             }
 
             {
-                if (source is Sample_OperatorDto castedSource &&
-                    dest is Sample_OperatorDto castedDest)
+                if (source is SampleWithRate1_OperatorDto castedSource &&
+                    dest is SampleWithRate1_OperatorDto castedDest)
                 {
                     castedDest.SampleID = castedSource.SampleID;
                     castedDest.SampleChannelCount = castedSource.SampleChannelCount;

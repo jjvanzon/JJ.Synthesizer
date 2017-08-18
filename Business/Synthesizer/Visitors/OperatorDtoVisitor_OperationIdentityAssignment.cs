@@ -83,9 +83,9 @@ namespace JJ.Business.Synthesizer.Visitors
                     break;
                 }
                 
-                case OperatorTypeEnum.Sample:
+                case OperatorTypeEnum.SampleWithRate1:
                 {
-                    var castedDto = (Sample_OperatorDto)dto;
+                    var castedDto = (SampleWithRate1_OperatorDto)dto;
                     arguments.Add($"{castedDto.SampleID}");
                     break;
                 }

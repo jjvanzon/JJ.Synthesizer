@@ -923,12 +923,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Sample
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_NoSample(Sample_OperatorDto_NoSample dto)
-        {
-            return ProcessZero(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_ZeroFrequency(Sample_OperatorDto_ZeroFrequency dto)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto)
         {
             return ProcessZero(dto);
         }
@@ -938,13 +933,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
             return ProcessIdentity(dto.PassThrough);
-        }
-
-        // Sine
-
-        protected override IOperatorDto Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto)
-        {
-            return ProcessZero(dto);
         }
 
         // SortOverDimension
@@ -975,14 +963,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_Squash_OperatorDto_ConstSignal(Squash_OperatorDto_ConstSignal dto)
         {
-            return ProcessIdentity(dto);
+            return ProcessIdentity(dto.Signal);
         }
 
-        // Stretch
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstSignal(Stretch_OperatorDto_ConstSignal dto)
+        protected override IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto)
         {
-            return ProcessIdentity(dto);
+            return ProcessZero(dto);
         }
 
         // Subtract
@@ -1040,13 +1026,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
         {
             return Process_Trigger(dto);
-        }
-
-        // Triangle
-
-        protected override IOperatorDto Visit_Triangle_OperatorDto_ZeroFrequency(Triangle_OperatorDto_ZeroFrequency dto)
-        {
-            return ProcessZero(dto);
         }
 
         // Helpers

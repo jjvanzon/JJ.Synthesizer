@@ -754,117 +754,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new Round_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
-        {
-            return Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(dto, (dimensionStack, underlyingCalculator) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_NoOriginShifting(dto.Frequency.Const, underlyingCalculator, dimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
-        {
-            return Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(dto, (dimensionStack, underlyingCalculator) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_WithOriginShifting(dto.Frequency.Const, underlyingCalculator, dimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
-        {
-            return Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, underlyingCalculators) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency.Const, underlyingCalculators, dimensionStack, channelDimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
-        {
-            return Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(dto, (dimensionStack, underlyingCalculators) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_ConstFrequency_StereoToMono_NoOriginShifting(dto.Frequency.Const, underlyingCalculators, dimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
-        {
-            return Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(dto, (dimensionStack, underlyingCalculators) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_ConstFrequency_StereoToMono_WithOriginShifting(dto.Frequency.Const, underlyingCalculators, dimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, underlyingCalculators) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency.Const, underlyingCalculators, dimensionStack, channelDimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
-        {
-            return Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(dto, (dimensionStack, underlyingCalculator) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_VarFrequency_MonoToStereo_NoPhaseTracking(_stack.Pop(), underlyingCalculator, dimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
-        {
-            return Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(dto, (dimensionStack, underlyingCalculator) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_VarFrequency_MonoToStereo_WithPhaseTracking(_stack.Pop(), underlyingCalculator, dimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, underlyingCalculators) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), underlyingCalculators, dimensionStack, channelDimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
-        {
-            return Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(dto, (dimensionStack, underlyingCalculators) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_VarFrequency_StereoToMono_NoPhaseTracking(_stack.Pop(), underlyingCalculators, dimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
-        {
-            return Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(dto, (dimensionStack, underlyingCalculators) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_VarFrequency_StereoToMono_WithPhaseTracking(_stack.Pop(), underlyingCalculators, dimensionStack);
-            });
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(dto, (dimensionStack, channelDimensionStack, underlyingCalculators) =>
-            {
-                // ReSharper disable once ConvertToLambdaExpression
-                return new Sample_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), underlyingCalculators, dimensionStack, channelDimensionStack);
-            });
-        }
-
-        private IOperatorDto Process_Sample_OperatorDto_SingleInputChannel_SingleOutputChannel(
-            Sample_OperatorDto dto,
-            Func<DimensionStack, ICalculatorWithPosition, OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto)
         {
             base.Visit_OperatorDto_Base(dto);
 
@@ -872,67 +762,45 @@ namespace JJ.Business.Synthesizer.Visitors
             ICalculatorWithPosition underlyingCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            var calculator = createOperatorCalculatorDelegate(dimensionStack, underlyingCalculator);
-            _stack.Push(calculator);
+            _stack.Push(new SampleWithRate1_OperatorCalculator_MonoToStereo(underlyingCalculator, dimensionStack));
 
             return dto;
         }
 
-        /// <param name="createOperatorCalculatorDelegate"> Second DimensionStack parameter is the channelDimensionStack </param>
-        private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannel_MultipleOutputChannels(
-            Sample_OperatorDto dto,
-            Func<DimensionStack, DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
+            IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(x1 => ArrayCalculatorFactory.CreateArrayCalculator(x1)).ToArray();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
             DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
-            var calculator = createOperatorCalculatorDelegate(dimensionStack, channelDimensionStack, underlyingCalculators);
+            var calculator = new SampleWithRate1_OperatorCalculator_NoChannelConversion(underlyingCalculators, dimensionStack, channelDimensionStack);
             _stack.Push(calculator);
 
             return dto;
         }
 
-        private IOperatorDto Process_Sample_OperatorDto_MultipleInputChannels_SingleOutputChannel(
-            Sample_OperatorDto dto,
-            Func<DimensionStack, IList<ICalculatorWithPosition>, OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto)
         {
             base.Visit_OperatorDto_Base(dto);
 
-            IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
+            IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(x1 => ArrayCalculatorFactory.CreateArrayCalculator(x1)).ToArray();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
 
-            var calculator = createOperatorCalculatorDelegate(dimensionStack, underlyingCalculators);
-            _stack.Push(calculator);
+            _stack.Push(new SampleWithRate1_OperatorCalculator_StereoToMono(underlyingCalculators, dimensionStack));
 
             return dto;
         }
-        
+
         protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
             return ProcessWithDimension(dto, dimensionStack => new SetDimension_OperatorCalculator(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_NoOriginShifting(Sine_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new Sine_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Sine_OperatorDto_ConstFrequency_WithOriginShifting(Sine_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Sine_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Sine_OperatorDto_VarFrequency_NoPhaseTracking(Sine_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Sine_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Sine_OperatorDto_VarFrequency_WithPhaseTracking(Sine_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new SineWithRate1_OperatorCalculator(dimensionStack));
         }
 
         protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -975,26 +843,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessWithDimension(dto, dimensionStack => new Squash_OperatorCalculator_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
         }
 
-        protected override IOperatorDto Visit_Stretch_OperatorDto_WithOrigin(Stretch_OperatorDto_WithOrigin dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_WithOrigin(_stack.Pop(), _stack.Pop(), _stack.Pop(), dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ZeroOrigin(Stretch_OperatorDto_ZeroOrigin dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_ZeroOrigin(_stack.Pop(), _stack.Pop(), dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_ConstFactor_WithOriginShifting(Stretch_OperatorDto_ConstFactor_WithOriginShifting dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_ConstFactor_WithOriginShifting(_stack.Pop(), dto.Factor, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarFactor_WithPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Stretch_OperatorCalculator_VarFactor_WithPhaseTracking(_stack.Pop(), _stack.Pop(), dimensionStack));
-        }
-
         protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
         {
             if (dto.A.IsConst && dto.B.IsVar)
@@ -1035,24 +883,9 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new ToggleTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
        }
 
-        protected override IOperatorDto Visit_Triangle_OperatorDto_ConstFrequency_NoOriginShifting(Triangle_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_TriangleWithRate1_OperatorDto(TriangleWithRate1_OperatorDto dto)
         {
-            return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_ConstFrequency_NoOriginShifting(dto.Frequency.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Triangle_OperatorDto_ConstFrequency_WithOriginShifting(Triangle_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_ConstFrequency_WithOriginShifting(dto.Frequency.Const, dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Triangle_OperatorDto_VarFrequency_NoPhaseTracking(Triangle_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_VarFrequency_NoPhaseTracking(_stack.Pop(), dimensionStack));
-        }
-
-        protected override IOperatorDto Visit_Triangle_OperatorDto_VarFrequency_WithPhaseTracking(Triangle_OperatorDto_VarFrequency_WithPhaseTracking dto)
-        {
-            return ProcessWithDimension(dto, dimensionStack => new Triangle_OperatorCalculator_VarFrequency_WithPhaseTracking(_stack.Pop(), dimensionStack));
+            return ProcessWithDimension(dto, dimensionStack => new TriangleWithRate1_OperatorCalculator(dimensionStack));
         }
 
         // Special Visitation

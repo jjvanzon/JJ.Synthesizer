@@ -285,15 +285,27 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitRound(Operator op) => ProcessOperator(op, new Round_OperatorDto());
 
-        protected override void VisitSampleOperator(Operator op)
+        /// <see cref="OperatorEntityVisitorBase.VisitSampleWithRate1"/>
+        private Operator _currentSampleOperator;
+
+        /// <see cref="OperatorEntityVisitorBase.VisitSampleWithRate1"/>
+        protected override void VisitSampleOutlet(Outlet outlet)
         {
-            var dto = new Sample_OperatorDto();
+            _currentSampleOperator = outlet.Operator;
+            base.VisitSampleOutlet(outlet);
+        }
+
+        /// <see cref="OperatorEntityVisitorBase.VisitSampleWithRate1"/>
+        protected override void VisitSampleWithRate1(Operator op)
+        {
+            var dto = new SampleWithRate1_OperatorDto();
             ProcessOperator(op, dto);
 
-            var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
+            SetDimensionProperties(_currentSampleOperator, dto);
+
+            var wrapper = new Sample_OperatorWrapper(_currentSampleOperator, _sampleRepository);
             Sample sample = wrapper.Sample;
 
-            // ReSharper disable once InvertIf
             if (sample != null)
             {
                 dto.SampleID = sample.ID;
@@ -304,7 +316,7 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected override void VisitSetDimension(Operator op) => ProcessOperator(op, new SetDimension_OperatorDto());
-        protected override void VisitSine(Operator op) => ProcessOperator(op, new Sine_OperatorDto());
+        protected override void VisitSineWithRate1(Operator op) => ProcessOperator(op, new SineWithRate1_OperatorDto());
 
         protected override void VisitSortOverInletsOutlet(Outlet outlet)
         {
@@ -336,15 +348,18 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitSortOverDimension(Operator op) => ProcessOperator(op, new SortOverDimension_OperatorDto());
         protected override void VisitSpectrum(Operator op) => ProcessOperator(op, new Spectrum_OperatorDto());
         protected override void VisitSquash(Operator op) => ProcessOperator(op, new Squash_OperatorDto());
-        protected override void VisitStretch(Operator op) => ProcessOperator(op, new Stretch_OperatorDto());
         protected override void VisitSubtract(Operator op) => ProcessOperator(op, new Subtract_OperatorDto());
         protected override void VisitSumOverDimension(Operator op) => ProcessOperator(op, new SumOverDimension_OperatorDto());
         protected override void VisitSumFollower(Operator op) => ProcessOperator(op, new SumFollower_OperatorDto());
-        protected override void VisitTriangle(Operator op) => ProcessOperator(op, new Triangle_OperatorDto());
+        protected override void VisitTriangleWithRate1(Operator op) => ProcessOperator(op, new TriangleWithRate1_OperatorDto());
         protected override void VisitToggleTrigger(Operator op) => ProcessOperator(op, new ToggleTrigger_OperatorDto());
 
         // Helpers
 
+        /// <summary>
+        /// Contains all the code shared by all the operator types' processing +
+        /// setting the CollectionRecalculation.
+        /// </summary>
         private void ProcessOperator(Operator op, OperatorDtoBase_WithCollectionRecalculation dto)
         {
             ProcessOperator(op, (IOperatorDto)dto);
@@ -353,6 +368,9 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
         }
 
+        /// <summary>
+        /// Contains all the code shared by all the operator types' processing.
+        /// </summary>
         private void ProcessOperator(Operator op, IOperatorDto dto)
         {
             VisitOperatorBase(op);
@@ -366,8 +384,7 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 if (dto is IOperatorDto_WithDimension castedDto)
                 {
-                    castedDto.StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
-                    castedDto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback());
+                    SetDimensionProperties(op, castedDto);
                 }
             }
 
@@ -379,6 +396,12 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             _stack.Push(dto);
+        }
+
+        private static void SetDimensionProperties(Operator op, IOperatorDto_WithDimension dto)
+        {
+            dto.StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
+            dto.CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback());
         }
 
         private InputDto PopInputDto()

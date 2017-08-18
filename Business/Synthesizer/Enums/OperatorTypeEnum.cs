@@ -18,7 +18,7 @@
         PatchInlet = 5,
         PatchOutlet = 6,
         Power = 7,
-        Sine = 8,
+        //Sine = 8,
         Subtract = 9,
         //Delay = 10,
         //SpeedUp = 11,
@@ -40,13 +40,13 @@
         //CustomOperator = 20,
         //SawUp = 21,
         //Square = 22,
-        Triangle = 23,
+        //Triangle = 23,
         //Exponent = 24,
         Loop = 25,
         //Select = 26,
         //Bundle = 27,
         //Unbundle = 28,
-        Stretch = 29,
+        //Stretch = 29,
         Squash = 30,
         //Shift = 31,
 
@@ -129,6 +129,9 @@
         RangeOverOutlets = 91,
         DoubleToBoolean = 92,
         BooleanToDouble = 93,
-        Remainder = 94
+        Remainder = 94,
+        SampleWithRate1 = 95,
+        SineWithRate1 = 96,
+        TriangleWithRate1 = 97
     }
 }

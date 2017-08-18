@@ -75,18 +75,17 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Remainder, VisitRemainder },
                 { OperatorTypeEnum.Reset, VisitReset },
                 { OperatorTypeEnum.Round, VisitRound },
-                { OperatorTypeEnum.Sample, VisitSampleOperator },
+                { OperatorTypeEnum.SampleWithRate1, VisitSampleWithRate1 },
                 { OperatorTypeEnum.SetDimension, VisitSetDimension },
-                { OperatorTypeEnum.Sine, VisitSine },
+                { OperatorTypeEnum.SineWithRate1, VisitSineWithRate1 },
                 { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
                 { OperatorTypeEnum.Squash, VisitSquash },
-                { OperatorTypeEnum.Stretch, VisitStretch },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
                 { OperatorTypeEnum.SumOverDimension, VisitSumOverDimension },
                 { OperatorTypeEnum.SumFollower, VisitSumFollower },
                 { OperatorTypeEnum.ToggleTrigger, VisitToggleTrigger },
-                { OperatorTypeEnum.Triangle, VisitTriangle }
+                { OperatorTypeEnum.TriangleWithRate1, VisitTriangleWithRate1 }
             };
 
             _visitInletDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Inlet>>
@@ -106,6 +105,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.DimensionToOutlets, VisitDimensionToOutletsOutlet },
                 { OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutletsOutlet },
                 { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet },
+                { OperatorTypeEnum.Sample, VisitSampleOutlet },
                 { OperatorTypeEnum.Undefined, VisitDerivedOperatorOutlet }
             };
         }
@@ -379,14 +379,24 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden]
         protected virtual void VisitRound(Operator op) => VisitOperatorBase(op);
 
+        /// <summary>
+        /// The Sample and SampleWithRate1 operators require special processing.
+        /// The Sample operator will store the SampleID in its data property.
+        /// But the SampleWithRate1 is the one we need to create a DTO for,
+        /// with the sample information in it.
+        /// 
+        /// This is because the Sample operator has such specific requirements in the UI
+        /// and it is easiest to store the SampleID with the Sample operator,
+        /// while the underlying SampleWithRate1 operator will be the one actually working with the sample.
+        /// </summary>
         [DebuggerHidden]
-        protected virtual void VisitSampleOperator(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitSampleWithRate1(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
         protected virtual void VisitSetDimension(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
-        protected virtual void VisitSine(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitSineWithRate1(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
         protected virtual void VisitSortOverDimension(Operator op) => VisitOperatorBase(op);
@@ -398,9 +408,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitSquash(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
-        protected virtual void VisitStretch(Operator op) => VisitOperatorBase(op);
-
-        [DebuggerHidden]
         protected virtual void VisitSubtract(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
@@ -410,7 +417,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitSumFollower(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
-        protected virtual void VisitTriangle(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitTriangleWithRate1(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
         protected virtual void VisitToggleTrigger(Operator op) => VisitOperatorBase(op);
@@ -454,5 +461,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
         [DebuggerHidden]
         protected virtual void VisitSortOverInletsOutlet(Outlet outlet) => VisitOutletBase(outlet);
+
+        [DebuggerHidden]
+        protected virtual void VisitSampleOutlet(Outlet outlet) => VisitDerivedOperatorOutlet(outlet);
     }
 }

@@ -86,67 +86,27 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Samples
 
-        protected override IOperatorDto Visit_Sample_OperatorDto(Sample_OperatorDto dto)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto(SampleWithRate1_OperatorDto dto)
         {
             return Process_OperatorDto_WithTargetChannelCount(dto);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting dto)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto)
         {
             return Process_OperatorDto_WithTargetChannelCount(dto);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting(Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting dto)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto)
         {
             return Process_OperatorDto_WithTargetChannelCount(dto);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_NoOriginShifting(Sample_OperatorDto_ConstFrequency_NoOriginShifting dto)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto)
         {
             return Process_OperatorDto_WithTargetChannelCount(dto);
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting(Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_ConstFrequency_WithOriginShifting(Sample_OperatorDto_ConstFrequency_WithOriginShifting dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking(Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_NoPhaseTracking(Sample_OperatorDto_VarFrequency_NoPhaseTracking dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking(Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
-
-        protected override IOperatorDto Visit_Sample_OperatorDto_VarFrequency_WithPhaseTracking(Sample_OperatorDto_VarFrequency_WithPhaseTracking dto)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto)
         {
             return Process_OperatorDto_WithTargetChannelCount(dto);
         }

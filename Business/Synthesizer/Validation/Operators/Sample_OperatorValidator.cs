@@ -11,9 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
     internal class Sample_OperatorValidator : OperatorValidator
     {
         public Sample_OperatorValidator(Operator op)
-            : base(
-                op,
-                expectedDataKeys: new[] { nameof(Sample_OperatorWrapper.SampleID) })
+            : base(op, expectedDataKeys: new[] { nameof(Sample_OperatorWrapper.SampleID) })
         { 
             if (!DataPropertyParser.DataIsWellFormed(op))
             {

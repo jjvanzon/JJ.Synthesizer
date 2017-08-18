@@ -34,10 +34,6 @@ namespace JJ.Business.Synthesizer.Visitors
             typeof(Squash_OperatorDto_ZeroOrigin),
             typeof(Squash_OperatorDto_ConstFactor_WithOriginShifting),
             typeof(Squash_OperatorDto_VarFactor_WithPhaseTracking),
-            typeof(Stretch_OperatorDto),
-            typeof(Stretch_OperatorDto_ZeroOrigin),
-            typeof(Stretch_OperatorDto_ConstFactor_WithOriginShifting),
-            typeof(Stretch_OperatorDto_VarFactor_WithPhaseTracking),
         };
 
         /// <summary>

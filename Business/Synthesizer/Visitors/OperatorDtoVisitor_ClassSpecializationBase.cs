@@ -656,7 +656,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Sample_OperatorDto(Sample_OperatorDto dto)
+        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto(SampleWithRate1_OperatorDto dto)
         {
             int sampleChannelCount = dto.SampleChannelCount;
             bool hasTargetChannelCount = sampleChannelCount == dto.TargetChannelCount;
@@ -667,95 +667,19 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (dto.SampleID == 0)
             {
-                dto2 = new Sample_OperatorDto_NoSample();
+                dto2 = new SampleWithRate1_OperatorDto_NoSample();
             }
-            else if (dto.Frequency.IsConstZero)
+            else if (hasTargetChannelCount)
             {
-                dto2 = new Sample_OperatorDto_ZeroFrequency();
+                dto2 = new SampleWithRate1_OperatorDto_NoChannelConversion();
             }
-            else if (hasTargetChannelCount && dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
+            else if (isFromMonoToStereo)
             {
-                dto2 = new Sample_OperatorDto_ConstFrequency_WithOriginShifting();
+                dto2 = new SampleWithRate1_OperatorDto_MonoToStereo();
             }
-            else if (hasTargetChannelCount && dto.Frequency.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
+            else if (isFromStereoToMono)
             {
-                dto2 = new Sample_OperatorDto_ConstFrequency_NoOriginShifting();
-            }
-            else if (hasTargetChannelCount && dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_VarFrequency_WithPhaseTracking();
-            }
-            else if (hasTargetChannelCount && dto.Frequency.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_VarFrequency_NoPhaseTracking();
-            }
-            else if (isFromMonoToStereo && dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_ConstFrequency_MonoToStereo_WithOriginShifting();
-            }
-            else if (isFromMonoToStereo && dto.Frequency.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_ConstFrequency_MonoToStereo_NoOriginShifting();
-            }
-            else if (isFromMonoToStereo && dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_VarFrequency_MonoToStereo_WithPhaseTracking();
-            }
-            else if (isFromMonoToStereo && dto.Frequency.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_VarFrequency_MonoToStereo_NoPhaseTracking();
-            }
-            else if (isFromStereoToMono && dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_ConstFrequency_StereoToMono_WithOriginShifting();
-            }
-            else if (isFromStereoToMono && dto.Frequency.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_ConstFrequency_StereoToMono_NoOriginShifting();
-            }
-            else if (isFromStereoToMono && dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_VarFrequency_StereoToMono_WithPhaseTracking();
-            }
-            else if (isFromStereoToMono && dto.Frequency.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Sample_OperatorDto_VarFrequency_StereoToMono_NoPhaseTracking();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_Sine_OperatorDto(Sine_OperatorDto dto)
-        {
-            base.Visit_Sine_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Frequency.IsConstZero)
-            {
-                dto2 = new Sine_OperatorDto_ZeroFrequency();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Sine_OperatorDto_VarFrequency_WithPhaseTracking();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Sine_OperatorDto_VarFrequency_NoPhaseTracking();
-            }
-            else if (dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Sine_OperatorDto_ConstFrequency_WithOriginShifting();
-            }
-            else if (dto.Frequency.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Sine_OperatorDto_ConstFrequency_NoOriginShifting();
+                dto2 = new SampleWithRate1_OperatorDto_StereoToMono();
             }
             else
             {
@@ -805,6 +729,10 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 dto2 = new Squash_OperatorDto_ConstSignal();
             }
+            else if (dto.Factor.IsConstZero)
+            {
+                dto2 = new Squash_OperatorDto_FactorZero();
+            }
             else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Factor.IsVar)
             {
                 dto2 = new Squash_OperatorDto_VarFactor_WithPhaseTracking();
@@ -820,38 +748,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 dto2 = new Squash_OperatorDto_WithOrigin();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_Stretch_OperatorDto(Stretch_OperatorDto dto)
-        {
-            base.Visit_Stretch_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Signal.IsConst)
-            {
-                dto2 = new Stretch_OperatorDto_ConstSignal();
-            }
-            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Factor.IsVar)
-            {
-                dto2 = new Stretch_OperatorDto_VarFactor_WithPhaseTracking();
-            }
-            else if (dto.StandardDimensionEnum == DimensionEnum.Time && dto.Factor.IsConst)
-            {
-                dto2 = new Stretch_OperatorDto_ConstFactor_WithOriginShifting();
-            }
-            else if (dto.Origin.IsConstZero)
-            {
-                dto2 = new Stretch_OperatorDto_ZeroOrigin();
-            }
-            else
-            {
-                dto2 = new Stretch_OperatorDto_WithOrigin();
             }
 
             DtoCloner.CloneProperties(dto, dto2);
@@ -904,42 +800,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 dto2 = new SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
-        protected override IOperatorDto Visit_Triangle_OperatorDto(Triangle_OperatorDto dto)
-        {
-            base.Visit_Triangle_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Frequency.IsConstZero)
-            {
-                dto2 = new Triangle_OperatorDto_ZeroFrequency();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Triangle_OperatorDto_VarFrequency_WithPhaseTracking();
-            }
-            else if (dto.Frequency.IsVar && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Triangle_OperatorDto_VarFrequency_NoPhaseTracking();
-            }
-            else if (dto.Frequency.IsConst && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Triangle_OperatorDto_ConstFrequency_WithOriginShifting();
-            }
-            else if (dto.Frequency.IsConst && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Triangle_OperatorDto_ConstFrequency_NoOriginShifting();
-            }
-            else
-            {
-                throw new VisitationCannotBeHandledException();
             }
 
             DtoCloner.CloneProperties(dto, dto2);

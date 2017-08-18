@@ -158,6 +158,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calculation\Operators\Remainder_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SineWithRate1_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\TriangleWithoutFrequency_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorBase.cs" />
     <Compile Include="Calculation\Patches\PatchCalculatorHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -298,7 +300,6 @@
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Round_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_AllVars.cs" />
@@ -309,12 +310,10 @@
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Triangle OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Sine OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Noise_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
     <Compile Include="Calculation\Patches\SingleChannelPatchCalculator.cs" />
-    <Compile Include="Calculation\Operators\Sample OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\SampleWithRate1 OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Curve OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
@@ -393,7 +392,7 @@
     <Compile Include="Dto\OperatorDtoBase_WithDimension.cs" />
     <Compile Include="Dto\PeakingEQFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\RangeOverOutlets_Outlet_OperatorDto.cs" />
-    <Compile Include="Dto\Sine OperatorDto Classes.cs" />
+    <Compile Include="Dto\SineWithRate1_OperatorDto.cs" />
     <Compile Include="Dto\SortOverDimension OperatorDto Classes.cs" />
     <Compile Include="Dto\SortOverInlets_Outlet_OperatorDto.cs" />
     <Compile Include="Dto\ClosestOverInletsExp_OperatorDto.cs" />
@@ -439,18 +438,16 @@
     <Compile Include="Dto\HighPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\LowPassFilter OperatorDto Classes.cs" />
     <Compile Include="Dto\Reset_OperatorDto.cs" />
-    <Compile Include="Dto\StretchOrSquash OperatorDto Classes.cs" />
     <Compile Include="Dto\Squash OperatorDto Classes.cs" />
-    <Compile Include="Dto\Stretch OperatorDto Classes.cs" />
     <Compile Include="Dto\Equal_OperatorDto.cs" />
     <Compile Include="Dto\MinFollower_OperatorDto.cs" />
     <Compile Include="Dto\PulseTrigger_OperatorDto.cs" />
     <Compile Include="Dto\ToggleTrigger_OperatorDto.cs" />
-    <Compile Include="Dto\Triangle OperatorDto Classes.cs" />
+    <Compile Include="Dto\TriangleWithRate1_OperatorDto.cs" />
     <Compile Include="Dto\Loop OperatorDto Classes.cs" />
     <Compile Include="Dto\Interpolate OperatorDto Classes.cs" />
     <Compile Include="Dto\Noise_OperatorDto.cs" />
-    <Compile Include="Dto\Sample OperatorDto Classes.cs" />
+    <Compile Include="Dto\SampleWithRate1 OperatorDto Classes.cs" />
     <Compile Include="Dto\Curve OperatorDto Classes.cs" />
     <Compile Include="Dto\Divide_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithAAndB.cs" />

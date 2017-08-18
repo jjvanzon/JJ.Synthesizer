@@ -184,7 +184,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case OperatorTypeEnum.PatchInlet:
                     return false;
 
-                case OperatorTypeEnum.Stretch:
                 case OperatorTypeEnum.Squash:
                     if (inlet.GetDimensionEnumWithFallback() == DimensionEnum.Origin)
                     {

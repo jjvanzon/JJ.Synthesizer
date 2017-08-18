@@ -2854,31 +2854,31 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(new Round_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
         }
 
-        protected override void VisitSampleOperator(Operator op)
+        /// <see cref="OperatorEntityVisitorBase.VisitSampleWithRate1"/>
+        private Operator _currentSampleOperator;
+
+        /// <see cref="OperatorEntityVisitorBase.VisitSampleWithRate1"/>
+        protected override void VisitSampleOutlet(Outlet outlet)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
+            _currentSampleOperator = outlet.Operator;
+
+            base.VisitSampleOutlet(outlet);
+        }
+
+        /// <see cref="OperatorEntityVisitorBase.VisitSampleWithRate1"/>
+        protected override void VisitSampleWithRate1(Operator op)
+        {
+            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(_currentSampleOperator);
             DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
 
-            base.VisitSampleOperator(op);
+            base.VisitSampleWithRate1(op);
 
             OperatorCalculatorBase calculator = null;
 
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-
-            double frequency = frequencyCalculator.Calculate();
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
-
-            var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
+            var wrapper = new Sample_OperatorWrapper(_currentSampleOperator, _sampleRepository);
             SampleInfo sampleInfo = wrapper.SampleInfo;
             if (sampleInfo.Sample == null)
             {
-                calculator = new Number_OperatorCalculator(0);
-            }
-            else if (frequencyIsConstZero)
-            {
-                // Special Value
                 calculator = new Number_OperatorCalculator(0);
             }
             else
@@ -2891,60 +2891,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 if (sampleChannelCount == _targetChannelCount)
                 {
-                    if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, underlyingCalculators, dimensionStack, channelDimensionStack);
-                    }
-                    else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, underlyingCalculators, dimensionStack, channelDimensionStack);
-                    }
-                    else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, underlyingCalculators, dimensionStack, channelDimensionStack);
-                    }
-                    else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, underlyingCalculators, dimensionStack, channelDimensionStack);
-                    }
+                    calculator = new SampleWithRate1_OperatorCalculator_NoChannelConversion(underlyingCalculators, dimensionStack, channelDimensionStack);
                 }
                 else if (sampleChannelCount == 1 && _targetChannelCount == 2)
                 {
-                    if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_WithOriginShifting(frequency, underlyingCalculator, dimensionStack);
-                    }
-                    else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_ConstFrequency_MonoToStereo_NoOriginShifting(frequency, underlyingCalculator, dimensionStack);
-                    }
-                    else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_VarFrequency_MonoToStereo_WithPhaseTracking(frequencyCalculator, underlyingCalculator, dimensionStack);
-                    }
-                    else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_VarFrequency_MonoToStereo_NoPhaseTracking(frequencyCalculator, underlyingCalculator, dimensionStack);
-                    }
+                    calculator = new SampleWithRate1_OperatorCalculator_MonoToStereo(underlyingCalculator, dimensionStack);
                 }
                 else if (sampleChannelCount == 2 && _targetChannelCount == 1)
                 {
-                    if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_ConstFrequency_StereoToMono_WithOriginShifting(frequency, underlyingCalculators, dimensionStack);
-                    }
-                    else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_ConstFrequency_StereoToMono_NoOriginShifting(frequency, underlyingCalculators, dimensionStack);
-                    }
-                    else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_VarFrequency_StereoToMono_WithPhaseTracking(frequencyCalculator, underlyingCalculators, dimensionStack);
-                    }
-                    else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-                    {
-                        calculator = new Sample_OperatorCalculator_VarFrequency_StereoToMono_NoPhaseTracking(frequencyCalculator, underlyingCalculators, dimensionStack);
-                    }
+                    calculator = new SampleWithRate1_OperatorCalculator_StereoToMono(underlyingCalculators, dimensionStack);
                 }
             }
 
@@ -2986,53 +2941,13 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(operatorCalculator);
         }
 
-        protected override void VisitSine(Operator op)
+        protected override void VisitSineWithRate1(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
-            base.VisitSine(op);
+            base.VisitSineWithRate1(op);
 
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            double frequency = frequencyCalculator.Calculate();
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
-            bool frequencyIsConstSpecialValue = frequencyIsConst && DoubleHelper.IsSpecialValue(frequency);
-
-            if (frequencyIsConstSpecialValue)
-            {
-                calculator = new Number_OperatorCalculator(double.NaN);
-            }
-            else if (frequencyIsConstZero)
-            {
-                // Special value
-                // Frequency 0 means time stands still.
-                calculator = new Number_OperatorCalculator(0);
-            }
-            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
-            }
-            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Sine_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else
-            {
-                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
+            _stack.Push(new SineWithRate1_OperatorCalculator(dimensionStack));
         }
 
         protected override void VisitSortOverDimension(Operator op)
@@ -3206,7 +3121,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(calculator);
         }
 
-        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
         protected override void VisitSquash(Operator op)
         {
             DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
@@ -3284,95 +3198,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 else 
                 {
                     calculator = new Squash_OperatorCalculator_WithOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
-                }
-            }
-
-            if (calculator == null)
-            {
-                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
-        }
-
-        [SuppressMessage("ReSharper", "ConditionIsAlwaysTrueOrFalse")]
-        protected override void VisitStretch(Operator op)
-        {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
-            dimensionStack.Push(DEFAULT_DIMENSION_VALUE);
-
-            base.VisitStretch(op);
-
-            OperatorCalculatorBase calculator = null;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase factorCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
-
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
-
-            double signal = signalIsConst ? signalCalculator.Calculate() : 0.0;
-            double factor = factorIsConst ? factorCalculator.Calculate() : 0.0;
-            double origin = originIsConst ? originCalculator.Calculate() : 0.0;
-
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool factorIsConstZero = factorIsConst && factor == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
-
-            bool factorIsConstOne = factorIsConst && factor == 1;
-
-            bool signalIsConstSpecialValue = signalIsConst && DoubleHelper.IsSpecialValue(signal);
-            bool factorIsConstSpecialValue = factorIsConst && DoubleHelper.IsSpecialValue(factor);
-            bool originIsConstSpecialValue = originIsConst && DoubleHelper.IsSpecialValue(origin);
-
-            dimensionStack.Pop();
-
-            if (factorIsConstSpecialValue || signalIsConstSpecialValue || originIsConstSpecialValue)
-            {
-                // Special Value
-                calculator = new Number_OperatorCalculator(double.NaN);
-            }
-            if (factorIsConstZero)
-            {
-                // Special Value
-                // Slow down 0 times, means speed up to infinity, equals undefined.
-                calculator = new Number_OperatorCalculator(double.NaN);
-            }
-            else if (signalIsConstZero)
-            {
-                calculator = new Number_OperatorCalculator(0);
-            }
-            else if (factorIsConstOne)
-            {
-                calculator = signalCalculator;
-            }
-            else if (signalIsConst)
-            {
-                calculator = signalCalculator;
-            }
-            else if (standardDimensionEnum == DimensionEnum.Time)
-            {
-                if (factorIsConst)
-                {
-                    calculator = new Stretch_OperatorCalculator_ConstFactor_WithOriginShifting(signalCalculator, factor, dimensionStack);
-                }
-                else if (!factorIsConst)
-                {
-                    calculator = new Stretch_OperatorCalculator_VarFactor_WithPhaseTracking(signalCalculator, factorCalculator, dimensionStack);
-                }
-            }
-            else
-            {
-                if (originIsConstZero)
-                {
-                    calculator = new Stretch_OperatorCalculator_ZeroOrigin(signalCalculator, factorCalculator, dimensionStack);
-                }
-                else
-                {
-                    calculator = new Stretch_OperatorCalculator_WithOrigin(signalCalculator, factorCalculator, originCalculator, dimensionStack);
                 }
             }
 
@@ -3570,53 +3395,13 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(operatorCalculator);
         }
 
-        protected override void VisitTriangle(Operator op)
+        protected override void VisitTriangleWithRate1(Operator op)
         {
-            DimensionEnum standardDimensionEnum = op.GetStandardDimensionEnumWithFallback();
             DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(op);
 
-            base.VisitTriangle(op);
+            base.VisitTriangleWithRate1(op);
 
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
-            double frequency = frequencyCalculator.Calculate();
-            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
-            bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
-            bool frequencyIsConstSpecialValue = frequencyIsConst && DoubleHelper.IsSpecialValue(frequency);
-
-            if (frequencyIsConstSpecialValue)
-            {
-                // Special Value
-                calculator = new Number_OperatorCalculator(double.NaN);
-            }
-            else if (frequencyIsConstZero)
-            {
-                // Special Value
-                calculator = new Number_OperatorCalculator(0);
-            }
-            else if (frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Triangle_OperatorCalculator_ConstFrequency_WithOriginShifting(frequency, dimensionStack);
-            }
-            else if (frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Triangle_OperatorCalculator_ConstFrequency_NoOriginShifting(frequency, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum == DimensionEnum.Time)
-            {
-                calculator = new Triangle_OperatorCalculator_VarFrequency_WithPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else if (!frequencyIsConst && standardDimensionEnum != DimensionEnum.Time)
-            {
-                calculator = new Triangle_OperatorCalculator_VarFrequency_NoPhaseTracking(frequencyCalculator, dimensionStack);
-            }
-            else
-            {
-                throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());
-            }
-
-            _stack.Push(calculator);
+            _stack.Push(new TriangleWithRate1_OperatorCalculator(dimensionStack));
         }
 
         // Special Visitation
