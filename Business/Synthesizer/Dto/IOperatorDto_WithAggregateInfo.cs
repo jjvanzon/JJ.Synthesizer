@@ -2,6 +2,6 @@
 {
     internal interface IOperatorDto_WithAggregateInfo : IOperatorDto
     {
-        AggregateInfo AggregateInfo { get; set; }
+        AggregateInfo GetAggregateInfo();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Dto
@@ -13,7 +14,7 @@ namespace JJ.Business.Synthesizer.Dto
         public IList<InputDto> Items { get; set; }
 
         /// <summary> In case of ClosestOverInlets(Exp), AggregateInfo is only about the Items, not about the Input. </summary>
-        public AggregateInfo AggregateInfo { get; set; }
+        public AggregateInfo GetAggregateInfo() => AggregateInfoFactory.CreateAggregateInfo(Items);
 
         public override IReadOnlyList<InputDto> Inputs
         {

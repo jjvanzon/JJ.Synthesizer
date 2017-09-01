@@ -419,12 +419,10 @@ namespace JJ.Business.Synthesizer
             int channelIndex,
             CalculatorCache calculatorCache)
         {
-                
             IPatchCalculator patchCalculator;
             switch (_calculationMethodEnum)
             {
                 case CalculationMethodEnum.EntityThruDtoToCalculator:
-                case CalculationMethodEnum.EntityToCalculatorDirectly:
                     patchCalculator = new SingleChannelPatchCalculator(
                         outlet,
                         samplingRate,

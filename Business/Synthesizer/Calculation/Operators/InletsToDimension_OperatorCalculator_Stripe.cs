@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Helpers;
@@ -9,16 +10,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase[] _operandCalculators;
         private readonly double _maxIndexDouble;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
-        
-        public InletsToDimension_OperatorCalculator_Stripe(IList<OperatorCalculatorBase> operandCalculators, DimensionStack dimensionStack)
+        private readonly OperatorCalculatorBase _positionInputCalculator;
+
+        [Obsolete(
+            "Not obsolete, but make sure that you pass the positionInputCalculator " +
+            "is passed to the operandCalculators. When they are, remove this obsolete attribute.")]
+        public InletsToDimension_OperatorCalculator_Stripe(
+            IList<OperatorCalculatorBase> operandCalculators,
+            OperatorCalculatorBase positionInputCalculator)
             : base(operandCalculators)
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
 
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _positionInputCalculator = positionInputCalculator;
             _operandCalculators = operandCalculators.ToArray();
             _maxIndexDouble = operandCalculators.Count - 1;
         }
@@ -26,14 +29,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            double position = _positionInputCalculator.Calculate();
+     
             // Correct position, to get stripe interpolation.
             position += 0.5;
 

@@ -4,27 +4,26 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class SetDimension_OperatorDto : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
+    internal class SetDimension_OperatorDto : OperatorDtoBase_WithPositionOutput
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
-        public InputDto PassThrough { get; set; }
-        public InputDto Number { get; set; }
-
-        public InputDto Signal
+        public InputDto PassThrough
         {
-            get => PassThrough;
-            set => PassThrough = value;
+            get => Signal;
+            set => Signal = value;
         }
+
+        public InputDto Number { get; set; }
 
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new[] { PassThrough, Number };
+            get => new[] { Signal, Number, Position };
             set
             {
-                var array = value.ToArray();
-                PassThrough = array[0];
-                Number = array[1];
+                Signal = value.ElementAtOrDefault(0);
+                Number = value.ElementAtOrDefault(1);
+                Position = value.ElementAtOrDefault(2);
             }
         }
     }

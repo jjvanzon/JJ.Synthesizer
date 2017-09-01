@@ -33,42 +33,41 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             // Determine whether dto is a dimension writer. If not, continue visiting.
-            bool isDimensionWriter = VisitorHelper.IsDimensionWriter(dto);
+            bool isDimensionWriter = dto is IOperatorDto_PositionWriter;
             if (!isDimensionWriter)
             {
                 return base.Visit_OperatorDto_Polymorphic(dto);
             }
 
             // Do some casts and type checks
-            var operatorDto_WithSignal = dto as IOperatorDto_WithSignal;
-            if (operatorDto_WithSignal == null)
+            var operatorDto_WithSignal_WithDimension = dto as IOperatorDto_WithSignal_WithDimension;
+            if (operatorDto_WithSignal_WithDimension == null)
             {
-                throw new IsNotTypeException<IOperatorDto_WithSignal>(() => operatorDto_WithSignal);
-            }
-
-            if (operatorDto_WithDimension == null)
-            {
-                throw new IsNotTypeException<IOperatorDto_WithDimension>(() => operatorDto_WithDimension);
+                throw new IsNotTypeException<IOperatorDto_WithSignal_WithDimension>(() => operatorDto_WithSignal_WithDimension);
             }
 
             // Visit non-signal inlets normally, because for those the dimension stack level does not increase.
-            foreach (IOperatorDto inputOperatorDto in dto.Inputs.Where(x => x.IsVar)
-                                                         .Select(x => x.Var)
-                                                         .Except(operatorDto_WithSignal.Signal.Var))
+            foreach (IOperatorDto inputOperatorDto in dto.Inputs
+                                                         .Except(operatorDto_WithSignal_WithDimension.Signal)
+                                                         .Where(x => x.IsVar)
+                                                         .Select(x => x.Var))
             {
                 Visit_OperatorDto_Polymorphic(inputOperatorDto);
             }
 
             // Only behind the signal inlet the dimension stack level increases.
-            int currentStackLevel = GetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName);
+            if (operatorDto_WithSignal_WithDimension.Signal.IsVar)
+            {
+                int currentStackLevel = GetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName);
 
-            currentStackLevel++;
-            SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName, currentStackLevel);
+                currentStackLevel++;
+                SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName, currentStackLevel);
 
-            Visit_OperatorDto_Polymorphic(operatorDto_WithSignal.Signal.Var);
+                Visit_OperatorDto_Polymorphic(operatorDto_WithSignal_WithDimension.Signal.Var);
 
-            currentStackLevel--;
-            SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName, currentStackLevel);
+                currentStackLevel--;
+                SetCurrentStackLevel(operatorDto_WithDimension.StandardDimensionEnum, operatorDto_WithDimension.CanonicalCustomDimensionName, currentStackLevel);
+            }
 
             return dto;
         }

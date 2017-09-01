@@ -4,7 +4,8 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class RangeOverDimension_OperatorDto : OperatorDtoBase_WithDimension
+    internal class RangeOverDimension_OperatorDto
+        : OperatorDtoBase_PositionReader
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverDimension;
 
@@ -14,13 +15,13 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new[] { From, Till, Step };
+            get => new[] { From, Till, Step, Position };
             set
             {
-                var array = value.ToArray();
-                From = array[0];
-                Till = array[1];
-                Step = array[2];
+                From = value.ElementAtOrDefault(0);
+                Till = value.ElementAtOrDefault(1);
+                Step = value.ElementAtOrDefault(2);
+                Position = value.ElementAtOrDefault(3);
             }
         }
     }
@@ -32,24 +33,6 @@ namespace JJ.Business.Synthesizer.Dto
     { }
 
     /// <summary> For Machine Optimization </summary>
-    internal class RangeOverDimension_OperatorDto_WithConsts_AndStepOne : OperatorDtoBase_WithDimension
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverDimension;
-
-        private static readonly InputDto _step = 1;
-
-        public InputDto From { get; set; }
-        public InputDto Till { get; set; }
-
-        public override IReadOnlyList<InputDto> Inputs
-        {
-            get => new[] { From, Till, _step };
-            set
-            {
-                var array = value.ToArray();
-                From = array[0];
-                Till = array[1];
-            }
-        }
-    }
+    internal class RangeOverDimension_OperatorDto_WithConsts_AndStepOne : RangeOverDimension_OperatorDto
+    { }
 }

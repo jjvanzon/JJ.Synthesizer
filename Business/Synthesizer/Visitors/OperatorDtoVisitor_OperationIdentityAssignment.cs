@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    [Obsolete("Not obsolete, but not finished. Cannot be used in its current form.")]
-    internal class OperatorDtoVisitor_OperationIdentityAssignment : OperatorDtoVisitorBase_AfterProgrammerLaziness
+    internal class OperatorDtoVisitor_OperationIdentityAssignment : OperatorDtoVisitorBase
     {
         private Stack<string> _stack;
 
@@ -23,6 +20,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             if (!string.IsNullOrEmpty(dto.OperationIdentity))
             {
+                _stack.Push(dto.OperationIdentity);
                 return dto;
             }
 
@@ -31,6 +29,52 @@ namespace JJ.Business.Synthesizer.Visitors
             sb.Append(dto.OperatorTypeEnum);
 
             sb.Append('(');
+
+            var arguments = new List<string>(dto.Inputs.Count);
+
+
+            // Some operators require more than just their inputs to identify their operation.
+            switch (dto)
+            {
+                case Number_OperatorDto castedDto:
+                    arguments.Add($"{FormatNumber(castedDto.Number)}");
+                    break;
+
+                case VariableInput_OperatorDto castedDto:
+                {
+                    arguments.Add($"{nameof(castedDto.Position)}={castedDto.Position}");
+                    break;
+                }
+
+                case Curve_OperatorDto castedDto:
+                {
+                    arguments.Add($"{nameof(castedDto.CurveID)}={castedDto.CurveID}");
+                    break;
+                }
+
+                case SampleWithRate1_OperatorDto castedDto:
+                {
+                    arguments.Add($"{nameof(castedDto.SampleID)}={castedDto.SampleID}");
+                    break;
+                }
+
+                // TODO: There might be more operator types that need this.
+            }
+
+            {
+                if (dto is IOperatorDto_WithDimension castedDto)
+                {
+                    if (castedDto.StandardDimensionEnum != Enums.DimensionEnum.Undefined)
+                    {
+                        arguments.Add($"StandardDimension={castedDto.StandardDimensionEnum}");
+                    }
+                    if (!string.IsNullOrEmpty(castedDto.CanonicalCustomDimensionName))
+                    {
+                        arguments.Add($"CustomDimension={castedDto.CanonicalCustomDimensionName}");
+                    }
+                }
+            }
+
 
             foreach (InputDto inputDto in dto.Inputs)
             {
@@ -42,66 +86,10 @@ namespace JJ.Business.Synthesizer.Visitors
                 { 
                     _stack.Push(FormatNumber(inputDto.Const));
                 }
+
+                string argument = _stack.Pop();
+                arguments.Add(argument);
             }
-
-            IList<string> arguments = dto.Inputs
-                                         .Select(x => _stack.Pop())
-                                         .Reverse()
-                                         .ToList();
-
-            // Some operators require more than just their inputs to identify their operation.
-            {
-                if (dto is IOperatorDto_WithDimension castedDto)
-                {
-                    arguments.Add($"{castedDto.CanonicalCustomDimensionName}");
-                    arguments.Add($"{castedDto.StandardDimensionEnum}");
-                }
-            }
-
-            switch (dto.OperatorTypeEnum)
-            {
-                case OperatorTypeEnum.Number:
-                {
-                    var castedDto = (Number_OperatorDto)dto;
-                    arguments.Add($"{FormatNumber(castedDto.Number)}");
-                    break;
-                }
-
-                case OperatorTypeEnum.PatchInlet:
-                {
-                    var castedDto = (VariableInput_OperatorDto)dto;
-                    arguments.Add($"{castedDto.DimensionEnum}");
-                    arguments.Add($"{castedDto.CanonicalName}");
-                    arguments.Add($"{castedDto.Position}");
-                    break;
-                }
-
-                case OperatorTypeEnum.Curve:
-                {
-                    var castedDto = (Curve_OperatorDto)dto;
-                    arguments.Add($"{castedDto.CurveID}");
-                    break;
-                }
-                
-                case OperatorTypeEnum.SampleWithRate1:
-                {
-                    var castedDto = (SampleWithRate1_OperatorDto)dto;
-                    arguments.Add($"{castedDto.SampleID}");
-                    break;
-                }
-
-                // TODO: There are way more operator types that need this, basically anything that has
-                // something in their data property.
-            }
-
-            // TODO: 
-            // If a dimension is applicable to an operation,
-            // all dimension transformations done in front of the operation,
-            // must become part of the OperationIdentity.
-            // But this is so difficult.
-            // It would have been easy if the dimension tranformation were
-            // converted to just regular input earlier on in the DTO processing.
-            // Which as of now (2017-08-07) is not the case yet.
 
             string concatinatedArguments = string.Join(",", arguments);
             sb.Append(concatinatedArguments);

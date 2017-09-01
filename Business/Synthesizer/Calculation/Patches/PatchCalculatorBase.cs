@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
+// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -14,8 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected readonly Dictionary<DimensionEnum, double> _dimensionEnum_To_Value_Dictionary = new Dictionary<DimensionEnum, double>();
         protected readonly Dictionary<string, double> _name_To_Value_Dictionary = new Dictionary<string, double>();
-        protected readonly Dictionary<Tuple<DimensionEnum, int>, double> _dimensionEnumAndPosition_To_Value_Dictionary = new Dictionary<Tuple<DimensionEnum, int>, double>();
-        protected readonly Dictionary<Tuple<string, int>, double> _nameAndPosition_To_Value_Dictionary = new Dictionary<Tuple<string, int>, double>();
+        protected readonly Dictionary<(DimensionEnum, int), double> _dimensionEnumAndPosition_To_Value_Dictionary = new Dictionary<(DimensionEnum, int), double>();
+        protected readonly Dictionary<(string, int), double> _nameAndPosition_To_Value_Dictionary = new Dictionary<(string, int), double>();
         protected readonly Dictionary<int, double> _position_To_Value_Dictionary = new Dictionary<int, double>();
 
         public PatchCalculatorBase(int samplingRate, int channelCount, int channelIndex)
@@ -74,7 +75,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public double GetValue(DimensionEnum dimensionEnum, int position)
         {
-            var key = new Tuple<DimensionEnum, int>(dimensionEnum, position);
+            var key = (dimensionEnum, position);
 
             _dimensionEnumAndPosition_To_Value_Dictionary.TryGetValue(key, out double value);
             return value;
@@ -82,7 +83,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public virtual void SetValue(DimensionEnum dimensionEnum, int position, double value)
         {
-            var key = new Tuple<DimensionEnum, int>(dimensionEnum, position);
+            var key = (dimensionEnum, position);
 
             _dimensionEnumAndPosition_To_Value_Dictionary[key] = value;
         }
@@ -91,7 +92,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             string canonicalName = NameHelper.ToCanonical(name);
 
-            var key = new Tuple<string, int>(canonicalName, position);
+            var key = (canonicalName, position);
 
             _nameAndPosition_To_Value_Dictionary.TryGetValue(key, out double value);
             return value;
@@ -101,7 +102,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             string canonicalName = NameHelper.ToCanonical(name);
 
-            var key = new Tuple<string, int>(canonicalName, position);
+            var key = (canonicalName, position);
 
             _nameAndPosition_To_Value_Dictionary[key] = value;
         }
@@ -116,31 +117,26 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 throw new InvalidTypeException<PatchCalculatorBase>(() => sourcePatchCalculator);
             }
 
-            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._position_To_Value_Dictionary)
             {
                 SetValue(entry.Key, entry.Value);
             }
 
-            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._dimensionEnum_To_Value_Dictionary)
             {
                 SetValue(entry.Key, entry.Value);
             }
 
-            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._name_To_Value_Dictionary)
             {
                 SetValue(entry.Key, entry.Value);
             }
 
-            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._dimensionEnumAndPosition_To_Value_Dictionary)
             {
                 SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
             }
 
-            // ReSharper disable once SuggestVarOrType_Elsewhere
             foreach (var entry in castedSource._nameAndPosition_To_Value_Dictionary)
             {
                 SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
@@ -150,15 +146,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         // Reset
 
         public abstract void Reset(double time);
-
-        public virtual void Reset(double time, string name)
-        {
-            throw new NotSupportedException();
-        }
-
-        public virtual void Reset(double time, int position)
-        {
-            throw new NotSupportedException();
-        }
+        public virtual void Reset(double time, string name) => throw new NotSupportedException();
+        public virtual void Reset(double time, int position) => throw new NotSupportedException();
     }
 }

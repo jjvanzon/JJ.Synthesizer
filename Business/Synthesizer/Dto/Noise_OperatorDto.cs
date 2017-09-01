@@ -1,14 +1,19 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Noise_OperatorDto : OperatorDtoBase_WithoutInputs, IOperatorDto_WithDimension
+    internal class Noise_OperatorDto : OperatorDtoBase_PositionReader
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Noise;
 
         public ArrayDto ArrayDto { get; set; }
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CanonicalCustomDimensionName { get; set; }
-        public int DimensionStackLevel { get; set; }
+
+        public override IReadOnlyList<InputDto> Inputs
+        {
+            get => new[] { Position };
+            set => Position = value.FirstOrDefault();
+        }
     }
 }

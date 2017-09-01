@@ -4,7 +4,8 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Interpolate_OperatorDto : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
+    internal class Interpolate_OperatorDto 
+        : OperatorDtoBase_PositionReader, IOperatorDto_WithSignal_WithDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
@@ -14,12 +15,12 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new[] { Signal, SamplingRate };
+            get => new[] { Signal, SamplingRate, Position };
             set
             {
-                var array = value.ToArray();
-                Signal = array[0];
-                SamplingRate = array[1];
+                Signal = value.ElementAtOrDefault(0);
+                SamplingRate = value.ElementAtOrDefault(1);
+                Position = value.ElementAtOrDefault(2);
             }
         }
     }

@@ -12,22 +12,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator, 
             OperatorCalculatorBase fromCalculator, 
             OperatorCalculatorBase tillCalculator, 
-            OperatorCalculatorBase stepCalculator, 
-            DimensionStack dimensionStack) 
-            : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
+            OperatorCalculatorBase stepCalculator,
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
+            : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, positionInputCalculator, positionOutputCalculator)
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            double position = _positionInputCalculator.Calculate();
+
             double value = _arrayCalculator.Calculate(position);
             return value;
         }

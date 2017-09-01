@@ -5,11 +5,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
 
@@ -19,23 +15,28 @@ namespace JJ.Business.Synthesizer.Helpers
     /// For when creating an OperatorCalculator based on criteria is used
     /// in more places than just the OptimizedPatchCalculatorVisitor.
     /// </summary>
-    internal static partial class OperatorCalculatorFactory
+    internal static class OperatorCalculatorFactory
     {
         public static OperatorCalculatorBase Create_Interpolate_OperatorCalculator(
             ResampleInterpolationTypeEnum resampleInterpolationTypeEnum,
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
-            DimensionStack dimensionStack)
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
         {
             OperatorCalculatorBase calculator;
             switch (resampleInterpolationTypeEnum)
             {
                 case ResampleInterpolationTypeEnum.Block:
-                    calculator = new Interpolate_OperatorCalculator_Block(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_Block(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator);
                     break;
 
                 case ResampleInterpolationTypeEnum.Stripe:
-                    calculator = new Interpolate_OperatorCalculator_Stripe_LagBehind(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_Stripe_LagBehind(
+                        signalCalculator,
+                        samplingRateCalculator,
+                        positionInputCalculator,
+                        positionOutputCalculator);
                     break;
 
                 case ResampleInterpolationTypeEnum.Line:
@@ -43,28 +44,52 @@ namespace JJ.Business.Synthesizer.Helpers
                     if (samplingRateIsConst)
                     {
                         double samplingRate = samplingRateCalculator.Calculate();
-                        calculator = new Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate(signalCalculator, samplingRate, dimensionStack);
+                        calculator = new Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate(
+                            signalCalculator,
+                            samplingRate,
+                            positionInputCalculator,
+                            positionOutputCalculator);
                     }
                     else
                     {
-                        calculator = new Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate(signalCalculator, samplingRateCalculator, dimensionStack);
+                        calculator = new Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate(
+                            signalCalculator,
+                            samplingRateCalculator,
+                            positionInputCalculator,
+                            positionOutputCalculator);
                     }
                     break;
 
                 case ResampleInterpolationTypeEnum.CubicEquidistant:
-                    calculator = new Interpolate_OperatorCalculator_CubicEquidistant(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_CubicEquidistant(
+                        signalCalculator,
+                        samplingRateCalculator,
+                        positionInputCalculator,
+                        positionOutputCalculator);
                     break;
 
                 case ResampleInterpolationTypeEnum.CubicAbruptSlope:
-                    calculator = new Interpolate_OperatorCalculator_CubicAbruptSlope(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_CubicAbruptSlope(
+                        signalCalculator,
+                        samplingRateCalculator,
+                        positionInputCalculator,
+                        positionOutputCalculator);
                     break;
 
                 case ResampleInterpolationTypeEnum.CubicSmoothSlope:
-                    calculator = new Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind(
+                        signalCalculator,
+                        samplingRateCalculator,
+                        positionInputCalculator,
+                        positionOutputCalculator);
                     break;
 
                 case ResampleInterpolationTypeEnum.Hermite:
-                    calculator = new Interpolate_OperatorCalculator_Hermite_LagBehind(signalCalculator, samplingRateCalculator, dimensionStack);
+                    calculator = new Interpolate_OperatorCalculator_Hermite_LagBehind(
+                        signalCalculator,
+                        samplingRateCalculator,
+                        positionInputCalculator,
+                        positionOutputCalculator);
                     break;
 
                 default:
@@ -76,90 +101,61 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static OperatorCalculatorBase Create_Cache_OperatorCalculator(
             IList<ICalculatorWithPosition> arrayCalculators,
-            DimensionStack dimensionStack,
-            DimensionStack channelDimensionStack)
+            VariableInput_OperatorCalculator dimensionCalculator,
+            VariableInput_OperatorCalculator channelDimensionCalculator)
         {
             if (arrayCalculators.Count == 1)
             {
                 ICalculatorWithPosition arrayCalculator = arrayCalculators[0];
-                OperatorCalculatorBase calculator = Create_Cache_OperatorCalculator_SingleChannel(arrayCalculator, dimensionStack);
+                OperatorCalculatorBase calculator = Create_Cache_OperatorCalculator_SingleChannel(arrayCalculator, dimensionCalculator);
                 return calculator;
             }
             else
             {
-                OperatorCalculatorBase calculator = Create_Cache_OperatorCalculator_MultiChannel(arrayCalculators, dimensionStack, channelDimensionStack);
+                OperatorCalculatorBase calculator = Create_Cache_OperatorCalculator_MultiChannel(arrayCalculators, dimensionCalculator, channelDimensionCalculator);
                 return calculator;
             }
         }
 
-        public static OperatorCalculatorBase Create_Cache_OperatorCalculator_MultiChannel(IList<ICalculatorWithPosition> arrayCalculators, DimensionStack dimensionStack, DimensionStack channelDimensionStack)
+        public static OperatorCalculatorBase Create_Cache_OperatorCalculator_MultiChannel(
+            IList<ICalculatorWithPosition> arrayCalculators,
+            VariableInput_OperatorCalculator dimensionCalculator,
+            VariableInput_OperatorCalculator channelDimensionCalculator)
         {
             Type arrayCalculatorType = arrayCalculators.GetItemType();
             Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_MultiChannel<>).MakeGenericType(arrayCalculatorType);
-            
-            var calculator = (OperatorCalculatorBase)Activator.CreateInstance(cache_OperatorCalculator_Type, arrayCalculators, dimensionStack, channelDimensionStack);
+
+            var calculator = (OperatorCalculatorBase)Activator.CreateInstance(
+                cache_OperatorCalculator_Type,
+                arrayCalculators,
+                dimensionCalculator,
+                channelDimensionCalculator);
             return calculator;
         }
 
-        public static OperatorCalculatorBase Create_Cache_OperatorCalculator_SingleChannel(ICalculatorWithPosition arrayCalculator, DimensionStack dimensionStack)
+        public static OperatorCalculatorBase Create_Cache_OperatorCalculator_SingleChannel(
+            ICalculatorWithPosition arrayCalculator,
+            VariableInput_OperatorCalculator dimensionCalculator)
         {
             Type arrayCalculatorType = arrayCalculator.GetType();
             Type cache_OperatorCalculator_Type = typeof(Cache_OperatorCalculator_SingleChannel<>).MakeGenericType(arrayCalculatorType);
-            var calculator = (OperatorCalculatorBase)Activator.CreateInstance(cache_OperatorCalculator_Type, arrayCalculator, dimensionStack);
-            return calculator;
-        }
-
-        public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
-            Operator op,
-            DimensionStackCollection dimensionStackCollection,
-            CalculatorCache calculatorCache,
-            ICurveRepository curveRepository)
-        {
-            if (op == null) throw new NullException(() => op);
-
-            var wrapper = new Curve_OperatorWrapper(op, curveRepository);
-            Curve curve = wrapper.Curve;
-            ArrayDto arrayDto = calculatorCache.GetCurveArrayDto(curve);
-
-            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(
-                arrayDto, 
-                op.GetStandardDimensionEnumWithFallback(),
-                op.CustomDimensionName,
-                dimensionStackCollection);
-
-            return calculator;
-        }
-
-        public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
-            Curve_OperatorDto dto,
-            DimensionStackCollection dimensionStackCollection)
-        {
-            if (dto == null) throw new ArgumentNullException(nameof(dto));
-
-            OperatorCalculatorBase calculator = Create_Curve_OperatorCalculator(
-                dto.ArrayDto,
-                dto.StandardDimensionEnum,
-                dto.CanonicalCustomDimensionName,
-                dimensionStackCollection);
-
+            var calculator = (OperatorCalculatorBase)Activator.CreateInstance(cache_OperatorCalculator_Type, arrayCalculator, dimensionCalculator);
             return calculator;
         }
 
         /// <param name="arrayDto">nullable</param>
         public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
+            OperatorCalculatorBase positionCalculator,
             ArrayDto arrayDto,
             DimensionEnum standardDimensionEnum,
-            string customDimensionName,
-            DimensionStackCollection dimensionStackCollection)
+            string customDimensionName)
         {
-            if (dimensionStackCollection == null) throw new ArgumentNullException(nameof(dimensionStackCollection));
+            if (positionCalculator == null) throw new ArgumentNullException(nameof(positionCalculator));
 
             if (arrayDto == null)
             {
                 return new Number_OperatorCalculator(0);
             }
-
-            DimensionStack dimensionStack = dimensionStackCollection.GetDimensionStack(standardDimensionEnum, customDimensionName);
 
             ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
 
@@ -167,11 +163,11 @@ namespace JJ.Business.Synthesizer.Helpers
             {
                 if (standardDimensionEnum == DimensionEnum.Time)
                 {
-                    return new Curve_OperatorCalculator_MinX_WithOriginShifting(arrayCalculator_MinPosition, dimensionStack);
+                    return new Curve_OperatorCalculator_MinX_WithOriginShifting(positionCalculator, arrayCalculator_MinPosition);
                 }
                 else
                 {
-                    return new Curve_OperatorCalculator_MinX_NoOriginShifting(arrayCalculator_MinPosition, dimensionStack);
+                    return new Curve_OperatorCalculator_MinX_NoOriginShifting(positionCalculator, arrayCalculator_MinPosition);
                 }
             }
 
@@ -179,11 +175,11 @@ namespace JJ.Business.Synthesizer.Helpers
             {
                 if (standardDimensionEnum == DimensionEnum.Time)
                 {
-                    return new Curve_OperatorCalculator_MinXZero_WithOriginShifting(arrayCalculator_MinPositionZero, dimensionStack);
+                    return new Curve_OperatorCalculator_MinXZero_WithOriginShifting(positionCalculator, arrayCalculator_MinPositionZero);
                 }
                 else
                 {
-                    return new Curve_OperatorCalculator_MinXZero_NoOriginShifting(arrayCalculator_MinPositionZero, dimensionStack);
+                    return new Curve_OperatorCalculator_MinXZero_NoOriginShifting(positionCalculator, arrayCalculator_MinPositionZero);
                 }
             }
 

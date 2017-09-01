@@ -8,8 +8,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,
-            DimensionStack dimensionStack)
-            : base(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack)
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
+            : base(
+                signalCalculator,
+                sliceLengthCalculator,
+                sampleCountCalculator,
+                positionInputCalculator,
+                positionOutputCalculator)
         { }
 
         protected override double GetMaxOrMin(RedBlackTree<double, double> redBlackTree)

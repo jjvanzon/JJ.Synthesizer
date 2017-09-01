@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { PassThroughInput };
-            set => PassThroughInput = value.ElementAt(0);
+            set => PassThroughInput = value.ElementAtOrDefault(0);
         }
     }
 }

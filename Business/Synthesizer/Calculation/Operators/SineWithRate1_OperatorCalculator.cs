@@ -1,22 +1,21 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class SineWithRate1_OperatorCalculator : OperatorCalculatorBase
     {
-        private readonly DimensionStack _dimensionStack;
+        private readonly OperatorCalculatorBase _positionCalculator;
 
-        public SineWithRate1_OperatorCalculator(DimensionStack dimensionStack)
+        public SineWithRate1_OperatorCalculator(OperatorCalculatorBase positionCalculator)
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _dimensionStack = dimensionStack;
+            _positionCalculator = positionCalculator ?? throw new ArgumentNullException(nameof(positionCalculator));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            double position = _dimensionStack.Get();
+            double position = _positionCalculator.Calculate();
             double value = SineCalculator.Sin(position);
             return value;
         }

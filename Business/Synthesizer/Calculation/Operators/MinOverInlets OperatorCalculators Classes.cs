@@ -5,46 +5,13 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class MinOverInlets_OperatorCalculator_Vars_1Const : OperatorCalculatorBase_WithChildCalculators
-    {
-        private readonly OperatorCalculatorBase[] _varOperandCalculators;
-        private readonly double _varOperandCalculatorsCount;
-        private readonly double _constValue;
-
-        public MinOverInlets_OperatorCalculator_Vars_1Const(IList<OperatorCalculatorBase> operandCalculators, double constValue)
-            : base(operandCalculators)
-        {
-            _varOperandCalculators = operandCalculators?.ToArray() ?? throw new NullException(() => operandCalculators);
-            _varOperandCalculatorsCount = _varOperandCalculators.Length;
-            _constValue = constValue;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double min = _constValue;
-
-            for (int i = 0; i < _varOperandCalculatorsCount; i++)
-            {
-                double value = _varOperandCalculators[i].Calculate();
-
-                if (min > value)
-                {
-                    min = value;
-                }
-            }
-
-            return min;
-        }
-    }
-
-    internal class MinOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar : OperatorCalculatorBase_WithChildCalculators
+    internal class MinOverInlets_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _firstOperandCalculator;
         private readonly OperatorCalculatorBase[] _remainingOperandCalculators;
         private readonly double _remainingOperandCalculatorsCount;
         
-        public MinOverInlets_OperatorCalculator_SignalVarOrConst_OtherInputsVar(IList<OperatorCalculatorBase> operandCalculators)
+        public MinOverInlets_OperatorCalculator(IList<OperatorCalculatorBase> operandCalculators)
             : base(operandCalculators)
         {
             if (operandCalculators == null) throw new NullException(() => operandCalculators);
@@ -71,65 +38,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return result;
-        }
-    }
-
-    internal class MinOverInlets_OperatorCalculator_1Var_1Const : OperatorCalculatorBase_WithChildCalculators
-    {
-        private readonly OperatorCalculatorBase _varCalculator;
-        private readonly double _constValue;
-
-        public MinOverInlets_OperatorCalculator_1Var_1Const(OperatorCalculatorBase varCalculator, double constValue)
-            : base(new[] { varCalculator })
-        {
-            _varCalculator = varCalculator ?? throw new NullException(() => varCalculator);
-            _constValue = constValue;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double varValue = _varCalculator.Calculate();
-
-            if (_constValue < varValue)
-            {
-                return _constValue;
-            }
-            else
-            {
-                return varValue;
-            }
-        }
-    }
-
-    internal class MinOverInlets_OperatorCalculator_2Vars : OperatorCalculatorBase_WithChildCalculators
-    {
-        private readonly OperatorCalculatorBase _aCalculator;
-        private readonly OperatorCalculatorBase _bCalculator;
-
-        public MinOverInlets_OperatorCalculator_2Vars(
-            OperatorCalculatorBase aCalculator,
-            OperatorCalculatorBase bCalculator)
-            : base(new[] { aCalculator, bCalculator })
-        {
-            _aCalculator = aCalculator ?? throw new NullException(() => aCalculator);
-            _bCalculator = bCalculator ?? throw new NullException(() => bCalculator);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double a = _aCalculator.Calculate();
-            double b = _bCalculator.Calculate();
-
-            if (a < b)
-            {
-                return a;
-            }
-            else
-            {
-                return b;
-            }
         }
     }
 }

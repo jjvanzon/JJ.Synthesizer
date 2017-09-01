@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -9,8 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _sliceLengthCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionCalculator;
 
         private double _sampleDistance;
         protected double _sampleCountDouble;
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,
-            DimensionStack dimensionStack)
+            OperatorCalculatorBase positionCalculator)
             : base(new[]
             {
                 signalCalculator,
@@ -34,31 +34,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 sampleCountCalculator
             })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(sliceLengthCalculator, () => sliceLengthCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-            
-            _signalCalculator = signalCalculator;
-            _sliceLengthCalculator = sliceLengthCalculator;
-            _sampleCountCalculator = sampleCountCalculator;
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _signalCalculator = signalCalculator ?? throw new NullException(() => signalCalculator);
+            _sliceLengthCalculator = sliceLengthCalculator ?? throw new NullException(() => sliceLengthCalculator);
+            _sampleCountCalculator = sampleCountCalculator ?? throw new NullException(() => sampleCountCalculator);
+            _positionCalculator = positionCalculator ?? throw new NullException(() => signalCalculator);
 
             ResetNonRecursive();
         }
 
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
+            double position = _positionCalculator.Calculate();
 
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
             // Update _passedSamplingLength
             double positionChange = position - _previousPosition;
             if (positionChange >= 0)
@@ -111,15 +98,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            double position = _positionCalculator.Calculate();
 
             _previousPosition = position;
 
@@ -152,7 +131,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 sampleCountInt = (int)_sampleCountDouble;
             }
 
-            Queue<double> queue = new Queue<double>(sampleCountInt);
+            var queue = new Queue<double>(sampleCountInt);
             for (int i = 0; i < sampleCountInt; i++)
             {
                 queue.Enqueue(0.0);

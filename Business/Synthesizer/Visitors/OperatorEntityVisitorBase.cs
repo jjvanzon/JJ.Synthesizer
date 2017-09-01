@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             _visitOperatorDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Operator>>
             {
-                { OperatorTypeEnum.Absolute, VisitAbsolute },
+                //{ OperatorTypeEnum.Absolute, VisitAbsolute },
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.AllPassFilter, VisitAllPassFilter },
                 { OperatorTypeEnum.And, VisitAnd },
@@ -106,7 +106,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutletsOutlet },
                 { OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet },
                 { OperatorTypeEnum.Sample, VisitSampleOutlet },
-                { OperatorTypeEnum.Undefined, VisitDerivedOperatorOutlet }
+                { OperatorTypeEnum.Undefined, VisitDerivedOperatorOutlet },
+                { OperatorTypeEnum.Absolute, VisitDerivedOperatorOutlet }
             };
         }
 

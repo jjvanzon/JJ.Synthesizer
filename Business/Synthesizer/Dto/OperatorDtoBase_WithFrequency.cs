@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Frequency };
-            set => Frequency = value.ElementAt(0);
+            set => Frequency = value.ElementAtOrDefault(0);
         }
     }
 }

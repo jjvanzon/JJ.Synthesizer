@@ -31,11 +31,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             while (newDto != originalDto || !newDto.Inputs.SequenceEqual(originalDtoInputs))
             {
-                if (newDto is IOperatorDto_WithAggregateInfo castedNewDto)
-                {
-                    castedNewDto.AggregateInfo = AggregateInfoFactory.CreateAggregateInfo(castedNewDto.Inputs);
-                }
-
                 originalDto = newDto;
                 originalDtoInputs = newDto.Inputs.ToArray();
 
@@ -49,33 +44,46 @@ namespace JJ.Business.Synthesizer.Visitors
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual IOperatorDto Visit_OperatorDto_Base(IOperatorDto dto)
         {
-            dto.Inputs = VisitInputs(dto.Inputs);
+            dto.Inputs = dto.Inputs.Reverse().Select(x => VisitInputDto(x)).Reverse().ToArray();
 
             return dto;
         }
 
         [DebuggerHidden]
-        protected virtual IReadOnlyList<InputDto> VisitInputs(IReadOnlyList<InputDto> sourceCollection)
-        {
-            return sourceCollection.Select(x => VisitInput(x)).ToArray();
-        }
-
-        [DebuggerHidden]
-        protected virtual InputDto VisitInput(InputDto inputDto)
+        protected virtual InputDto VisitInputDto(InputDto inputDto)
         {
             // ReSharper disable once InvertIf
             if (inputDto.IsVar)
             {
-                IOperatorDto var2 = Visit_OperatorDto_Polymorphic(inputDto.Var);
-                // ReSharper disable once InvertIf
-                if (var2 != inputDto.Var)
-                {
-                    InputDto dto2 = InputDtoFactory.TryCreateInputDto(var2);
-                    return dto2;
-                }
+                return VisitVarInputDto(inputDto);
             }
+            else if (inputDto.IsConst)
+            {
+                return VisitConstInputDto(inputDto);
+            }
+            else
+            {
+                throw new Exception(
+                    $"{nameof(inputDto)}.{nameof(inputDto.IsVar)} and " +
+                    $"{nameof(inputDto)}.{nameof(inputDto.IsConst)} cannot both be false.");
+            }
+        }
 
-            return inputDto;
+        protected virtual InputDto VisitConstInputDto(InputDto inputDto) => inputDto;
+
+        protected virtual InputDto VisitVarInputDto(InputDto inputDto)
+        {
+            IOperatorDto var2 = Visit_OperatorDto_Polymorphic(inputDto.Var);
+            // ReSharper disable once InvertIf
+            if (var2 != inputDto.Var)
+            {
+                InputDto inputDto2 = InputDtoFactory.TryCreateInputDto(var2);
+                return inputDto2;
+            }
+            else
+            {
+                return inputDto;
+            }
         }
 
         public OperatorDtoVisitorBase()
@@ -117,10 +125,8 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(ClosestOverInletsExp_OperatorDto), x => Visit_ClosestOverInletsExp_OperatorDto((ClosestOverInletsExp_OperatorDto)x) },
                 { typeof(Curve_OperatorDto), x => Visit_Curve_OperatorDto((Curve_OperatorDto)x) },
                 { typeof(Curve_OperatorDto_NoCurve), x => Visit_Curve_OperatorDto_NoCurve((Curve_OperatorDto_NoCurve)x) },
-                { typeof(Curve_OperatorDto_MinX_NoOriginShifting), x => Visit_Curve_OperatorDto_MinX_NoOriginShifting((Curve_OperatorDto_MinX_NoOriginShifting)x) },
-                { typeof(Curve_OperatorDto_MinX_WithOriginShifting), x => Visit_Curve_OperatorDto_MinX_WithOriginShifting((Curve_OperatorDto_MinX_WithOriginShifting)x) },
-                { typeof(Curve_OperatorDto_MinXZero_NoOriginShifting), x => Visit_Curve_OperatorDto_MinXZero_NoOriginShifting((Curve_OperatorDto_MinXZero_NoOriginShifting)x) },
-                { typeof(Curve_OperatorDto_MinXZero_WithOriginShifting), x => Visit_Curve_OperatorDto_MinXZero_WithOriginShifting((Curve_OperatorDto_MinXZero_WithOriginShifting)x) },
+                { typeof(Curve_OperatorDto_NoOriginShifting), x => Visit_Curve_OperatorDto_NoOriginShifting((Curve_OperatorDto_NoOriginShifting)x) },
+                { typeof(Curve_OperatorDto_WithOriginShifting), x => Visit_Curve_OperatorDto_WithOriginShifting((Curve_OperatorDto_WithOriginShifting)x) },
                 { typeof(DimensionToOutlets_Outlet_OperatorDto), x => Visit_DimensionToOutlets_Outlet_OperatorDto((DimensionToOutlets_Outlet_OperatorDto)x) },
                 { typeof(Divide_OperatorDto), x => Visit_Divide_OperatorDto((Divide_OperatorDto)x) },
                 { typeof(DoubleToBoolean_OperatorDto), x => Visit_DoubleToBoolean_OperatorDto((DoubleToBoolean_OperatorDto)x) },
@@ -158,11 +164,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(LessThanOrEqual_OperatorDto), x => Visit_LessThanOrEqual_OperatorDto((LessThanOrEqual_OperatorDto)x) },
                 { typeof(Loop_OperatorDto), x => Visit_Loop_OperatorDto((Loop_OperatorDto)x) },
                 { typeof(Loop_OperatorDto_ConstSignal), x => Visit_Loop_OperatorDto_ConstSignal((Loop_OperatorDto_ConstSignal)x) },
-                { typeof(Loop_OperatorDto_NoSkipOrRelease_ManyConstants), x => Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants((Loop_OperatorDto_NoSkipOrRelease_ManyConstants)x) },
-                { typeof(Loop_OperatorDto_ManyConstants), x => Visit_Loop_OperatorDto_ManyConstants((Loop_OperatorDto_ManyConstants)x) },
-                { typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration), x => Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration((Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration)x) },
-                { typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration), x => Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration((Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration)x) },
-                { typeof(Loop_OperatorDto_NoSkipOrRelease), x => Visit_Loop_OperatorDto_NoSkipOrRelease((Loop_OperatorDto_NoSkipOrRelease)x) },
                 { typeof(Loop_OperatorDto_AllVars), x => Visit_Loop_OperatorDto_AllVars((Loop_OperatorDto_AllVars)x) },
                 { typeof(LowPassFilter_OperatorDto), x => Visit_LowPassFilter_OperatorDto((LowPassFilter_OperatorDto)x) },
                 { typeof(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar), x => Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar((LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar)x) },
@@ -232,14 +233,13 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SortOverInlets_Outlet_OperatorDto), x => Visit_SortOverInlets_Outlet_OperatorDto((SortOverInlets_Outlet_OperatorDto)x) },
                 { typeof(Spectrum_OperatorDto), x => Visit_Spectrum_OperatorDto((Spectrum_OperatorDto)x) },
                 { typeof(Squash_OperatorDto), x => Visit_Squash_OperatorDto((Squash_OperatorDto)x) },
-                { typeof(Squash_OperatorDto_ConstSignal), x => Visit_Squash_OperatorDto_ConstSignal((Squash_OperatorDto_ConstSignal)x) },
                 { typeof(Squash_OperatorDto_WithOrigin), x => Visit_Squash_OperatorDto_WithOrigin((Squash_OperatorDto_WithOrigin)x) },
                 { typeof(Squash_OperatorDto_ZeroOrigin), x => Visit_Squash_OperatorDto_ZeroOrigin((Squash_OperatorDto_ZeroOrigin)x) },
                 { typeof(Squash_OperatorDto_ConstFactor_WithOriginShifting), x => Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting((Squash_OperatorDto_ConstFactor_WithOriginShifting)x) },
                 { typeof(Squash_OperatorDto_VarFactor_WithPhaseTracking), x => Visit_Squash_OperatorDto_VarFactor_WithPhaseTracking((Squash_OperatorDto_VarFactor_WithPhaseTracking)x) },
                 { typeof(Subtract_OperatorDto), x => Visit_Subtract_OperatorDto((Subtract_OperatorDto)x) },
                 { typeof(SumFollower_OperatorDto), x => Visit_SumFollower_OperatorDto((SumFollower_OperatorDto)x) },
-                { typeof(SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar), x => Visit_SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar((SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar)x) },
+                { typeof(SumFollower_OperatorDto_AllVars), x => Visit_SumFollower_OperatorDto_AllVars((SumFollower_OperatorDto_AllVars)x) },
                 { typeof(SumFollower_OperatorDto_ConstSignal_VarSampleCount), x => Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount((SumFollower_OperatorDto_ConstSignal_VarSampleCount)x) },
                 { typeof(SumFollower_OperatorDto_ConstSignal_ConstSampleCount), x => Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount((SumFollower_OperatorDto_ConstSignal_ConstSampleCount)x) },
                 { typeof(SumOverDimension_OperatorDto), x => Visit_SumOverDimension_OperatorDto((SumOverDimension_OperatorDto)x) },
@@ -293,10 +293,8 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto(Curve_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_MinX_NoOriginShifting(Curve_OperatorDto_MinX_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_MinX_WithOriginShifting(Curve_OperatorDto_MinX_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_MinXZero_NoOriginShifting(Curve_OperatorDto_MinXZero_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_MinXZero_WithOriginShifting(Curve_OperatorDto_MinXZero_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_NoOriginShifting(Curve_OperatorDto_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_WithOriginShifting(Curve_OperatorDto_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto) => Visit_OperatorDto_Base(dto);
@@ -334,11 +332,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_ConstSignal(Loop_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_NoSkipOrRelease_ManyConstants(Loop_OperatorDto_NoSkipOrRelease_ManyConstants dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_ManyConstants(Loop_OperatorDto_ManyConstants dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_NoSkipOrRelease(Loop_OperatorDto_NoSkipOrRelease dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
@@ -409,14 +402,13 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto(Squash_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstSignal(Squash_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ZeroOrigin(Squash_OperatorDto_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting(Squash_OperatorDto_ConstFactor_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarFactor_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar(SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount(SumFollower_OperatorDto_ConstSignal_ConstSampleCount dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);

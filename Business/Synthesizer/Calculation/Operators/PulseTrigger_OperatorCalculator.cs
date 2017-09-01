@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -15,11 +16,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase resetCalculator)
             : base (new[] { calculationCalculator, resetCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(calculationCalculator, () => calculationCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(resetCalculator, () => resetCalculator);
-
-            _calculationCalculator = calculationCalculator;
-            _resetCalculator = resetCalculator;
+            _calculationCalculator = calculationCalculator ?? throw new NullException(() => calculationCalculator);
+            _resetCalculator = resetCalculator ?? throw new NullException(() => resetCalculator);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

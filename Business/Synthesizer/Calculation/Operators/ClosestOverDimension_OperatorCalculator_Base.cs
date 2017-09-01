@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Framework.Collections;
+using JJ.Framework.Exceptions;
 using CollectionHelper = JJ.Business.Synthesizer.CopiedCode.FromFramework.CollectionHelper;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -21,11 +22,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
-            DimensionStack dimensionStack)
-            : base(collectionCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
+            : base(collectionCalculator, fromCalculator, tillCalculator, stepCalculator, positionInputCalculator, positionOutputCalculator)
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
             _inputCalculator = inputCalculator;
 
             _childOperatorCalculators = _childOperatorCalculators.Union(inputCalculator).ToArray();

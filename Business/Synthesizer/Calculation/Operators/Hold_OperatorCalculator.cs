@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -10,18 +11,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Hold_OperatorCalculator(OperatorCalculatorBase signalCalculator)
             : base(new[] { signalCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-
-            _signalCalculator = signalCalculator;
+            _signalCalculator = signalCalculator ?? throw new NullException(() => signalCalculator);
 
             ResetPrivate();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            return _value;
-        }
+        public override double Calculate() => _value;
 
         public override void Reset()
         {
@@ -33,9 +29,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             // but gets a value from it upon reset.
         }
 
-        private void ResetPrivate()
-        {
-            _value = _signalCalculator.Calculate();
-        }
+        private void ResetPrivate() => _value = _signalCalculator.Calculate();
     }
 }

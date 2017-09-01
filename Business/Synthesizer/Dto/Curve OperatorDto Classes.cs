@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Curve_OperatorDto : OperatorDtoBase_WithDimension
+    internal class Curve_OperatorDto : OperatorDtoBase_PositionReader
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Curve;
 
@@ -14,23 +15,17 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new InputDto[0];
-            set { }
+            get => new[] { Position };
+            set => Position = value.FirstOrDefault();
         }
     }
 
     internal class Curve_OperatorDto_NoCurve : Curve_OperatorDto
     { }
 
-    internal class Curve_OperatorDto_MinX_NoOriginShifting : Curve_OperatorDto
+    internal class Curve_OperatorDto_NoOriginShifting : Curve_OperatorDto
     { }
 
-    internal class Curve_OperatorDto_MinX_WithOriginShifting : Curve_OperatorDto
-    { }
-
-    internal class Curve_OperatorDto_MinXZero_NoOriginShifting : Curve_OperatorDto
-    { }
-
-    internal class Curve_OperatorDto_MinXZero_WithOriginShifting : Curve_OperatorDto
+    internal class Curve_OperatorDto_WithOriginShifting : Curve_OperatorDto
     { }
 }

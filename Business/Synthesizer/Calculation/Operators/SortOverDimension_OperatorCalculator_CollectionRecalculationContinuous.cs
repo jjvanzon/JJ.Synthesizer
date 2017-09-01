@@ -11,8 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
-            DimensionStack dimensionStack)
-            : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
+            : base(signalCalculator, fromCalculator, tillCalculator, stepCalculator, positionInputCalculator, positionOutputCalculator)
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -20,14 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             RecalculateCollection();
 
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            double position = _positionInputCalculator.Calculate();
 
             // Stripe interpolation
             position += 0.5;

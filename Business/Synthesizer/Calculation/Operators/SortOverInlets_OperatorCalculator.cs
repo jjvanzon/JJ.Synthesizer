@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -11,18 +12,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly double[] _items;
         private readonly double _maxIndexDouble;
         private readonly int _itemCount;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
+
+        private readonly OperatorCalculatorBase _positionCalculator;
 
         public SortOverInlets_OperatorCalculator(
             IList<OperatorCalculatorBase> itemCalculators,
-            DimensionStack dimensionStack) 
-            : base(itemCalculators)
+            OperatorCalculatorBase positionCalculator) 
+            : base(itemCalculators.Union(positionCalculator).ToArray())
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _positionCalculator = positionCalculator;
 
             _itemCalculators = itemCalculators.ToArray();
             _itemCount = itemCalculators.Count;
@@ -32,14 +30,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            double position = _positionCalculator.Calculate();
+
             if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))
             {
                 return 0.0;

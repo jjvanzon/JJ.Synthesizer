@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -31,12 +31,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (width >= 1.0) throw new GreaterThanOrEqualException(() => width, 1.0);
             if (double.IsNaN(width)) throw new NaNException(() => width);
             if (double.IsInfinity(width)) throw new InfinityException(() => width);
-        }
-
-        public static void AssertDimensionStack(DimensionStack dimensionStack)
-        {
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
-            if (dimensionStack.CurrentIndex < 0) throw new LessThanException(() => dimensionStack.CurrentIndex, 0);
         }
 
         public static void AssertDimensionEnum(DimensionEnum dimensionEnum)
@@ -90,34 +84,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (factor == 0.0) throw new ZeroException(() => factor);
             if (double.IsNaN(factor)) throw new NaNException(() => factor);
             if (double.IsInfinity(factor)) throw new InfinityException(() => factor);
-        }
-
-        /// <summary> Asserts that the calculator is not null and not a Number_OperatorCalculator.</summary>
-        public static void AssertChildOperatorCalculator(
-            OperatorCalculatorBase operatorCalculatorBase,
-            Expression<Func<object>> expression)
-        {
-            if (operatorCalculatorBase == null) throw new NullException(expression);
-            if (operatorCalculatorBase is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(expression);
-        }
-
-        public static void AssertChildOperatorCalculator_OnlyUsedUponResetState(
-            OperatorCalculatorBase operatorCalculatorBase,
-            Expression<Func<object>> expression)
-        {
-            if (operatorCalculatorBase == null) throw new NullException(expression);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AssertStackIndex(DimensionStack dimensionStack, int dimensionStackIndex)
-        {
-            if (dimensionStack.CurrentIndex != dimensionStackIndex)
-            {
-                throw new NotEqualException(() => dimensionStack.CurrentIndex, () => dimensionStackIndex);
-                //string message = String.Format("dimensionStack.CurrentIndex was expected to be '{0}' but is actually '{1}'.", dimensionStackIndex, dimensionStack.CurrentIndex);
-                //Debug.WriteLine(message);
-                //Debug.WriteLine(Environment.StackTrace);
-            }
         }
     }
 }

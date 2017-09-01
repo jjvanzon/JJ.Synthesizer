@@ -1,39 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class InletsToDimension_OperatorCalculator_Block : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase[] _operandCalculators;
+        private readonly OperatorCalculatorBase _positionCalculator;
         private readonly double _maxIndexDouble;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
-        
-        public InletsToDimension_OperatorCalculator_Block(IList<OperatorCalculatorBase> operandCalculators, DimensionStack dimensionStack)
+
+        [Obsolete(
+            "Not obsolete, but make sure that you pass the positionCalculator " +
+            "is passed to the operandCalculators. When they are, remove this obsolete attribute.")]
+        public InletsToDimension_OperatorCalculator_Block(
+            IList<OperatorCalculatorBase> operandCalculators,
+            OperatorCalculatorBase positionCalculator)
             : base(operandCalculators)
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
             _operandCalculators = operandCalculators.ToArray();
+            _positionCalculator = positionCalculator;
             _maxIndexDouble = operandCalculators.Count - 1;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            double position = _positionCalculator.Calculate();
+
             double result;
 
             if (ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))

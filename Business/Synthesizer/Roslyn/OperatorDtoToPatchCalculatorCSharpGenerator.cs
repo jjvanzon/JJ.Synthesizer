@@ -53,7 +53,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             sb.AppendLine("using " + typeof(ConversionHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(Dictionary<,>).Namespace + ";");
             sb.AppendLine("using " + typeof(DimensionEnum).Namespace + ";");
-            sb.AppendLine("using " + typeof(Loop_OperatorCalculator_Helper).Namespace + ";");
             sb.AppendLine("using " + typeof(MathHelper).Namespace + ";");
             sb.AppendLine("using " + typeof(MethodImplAttribute).Namespace + ";");
             sb.AppendLine("using " + typeof(NameHelper).Namespace + ";");

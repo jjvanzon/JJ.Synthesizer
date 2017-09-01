@@ -1,37 +1,25 @@
-﻿using System.Runtime.CompilerServices;
-using JJ.Framework.Exceptions;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Noise_OperatorCalculator : OperatorCalculatorBase
+    internal class Noise_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionCalculator;
+        protected readonly NoiseCalculator _noiseCalculator;
 
-        private readonly NoiseCalculator _noiseCalculator;
-
-        public Noise_OperatorCalculator(NoiseCalculator noiseCalculator, DimensionStack dimensionStack)
+        public Noise_OperatorCalculator(OperatorCalculatorBase positionCalculator, NoiseCalculator noiseCalculator)
+            : base(new[] { positionCalculator })
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _noiseCalculator = noiseCalculator ?? throw new NullException(() => noiseCalculator);
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _positionCalculator = positionCalculator ?? throw new ArgumentNullException(nameof(positionCalculator));
+            _noiseCalculator = noiseCalculator ?? throw new ArgumentNullException(nameof(noiseCalculator));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            double position = _positionCalculator.Calculate();
             double value = _noiseCalculator.Calculate(position);
-
             return value;
         }
 

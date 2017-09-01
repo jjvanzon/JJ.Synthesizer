@@ -14,9 +14,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionInputCalculator;
+        private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
         private double _x0;
         private double _x1;
@@ -27,22 +26,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
-            DimensionStack dimensionStack)
-            : base(new[]
-            {
-                signalCalculator,
-                samplingRateCalculator
-            })
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
+            : base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(samplingRateCalculator, () => samplingRateCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
-            _dimensionStack = dimensionStack;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+            _positionInputCalculator = positionInputCalculator;
+            _positionOutputCalculator = positionOutputCalculator;
 
             ResetNonRecursive();
         }
@@ -50,45 +41,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double x = _dimensionStack.Get();
-#else
-            double x = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            double x = _positionInputCalculator.Calculate();
+
             if (x > _x1)
             {
                 _x0 = _x1;
                 _y0 = _y1;
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Push(_x1);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                _positionOutputCalculator._value = _x1;
+
                 double samplingRate = GetSamplingRate();
                 double dx = 1.0 / samplingRate;
 
                 _x1 += dx;
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(_x1);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                _positionOutputCalculator._value = _x1;
+
                 _y1 = _signalCalculator.Calculate();
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
                 double dy = _y1 - _y0;
                 _a = dy / dx;
             }
@@ -98,31 +68,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _x1 = _x0;
                 _y1 = _y0;
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Push(_x0);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x0);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                _positionOutputCalculator._value = _x0;
+
                 double samplingRate0 = GetSamplingRate();
                 double dx0 = 1.0 / samplingRate0;
                 _x0 -= dx0;
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(_x0);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x0);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                _positionOutputCalculator._value = _x0;
+
                 _y0 = _signalCalculator.Calculate();
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
                 double dy = _y1 - _y0;
                 _a = dy / dx0;
             }
@@ -161,14 +116,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResetNonRecursive()
         {
-#if !USE_INVAR_INDICES
-            double x = _dimensionStack.Get();
-#else
-            double x = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            double x = _positionInputCalculator.Calculate();
+
             double y = _signalCalculator.Calculate();
             double samplingRate = GetSamplingRate();
 

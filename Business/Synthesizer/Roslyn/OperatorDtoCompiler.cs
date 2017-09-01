@@ -14,7 +14,6 @@ using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
-using JJ.Business.Synthesizer.Visitors;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
@@ -39,7 +38,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             $"Calculation\\{nameof(SineCalculator)}.cs",
             $"Calculation\\{nameof(NoiseCalculator)}.cs",
             $"Calculation\\{nameof(BiQuadFilterWithoutFields)}.cs",
-            $"Calculation\\Operators\\{nameof(Loop_OperatorCalculator_Helper)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Block)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Cubic)}.cs",
             $"Calculation\\Arrays\\{nameof(ArrayCalculator_MinPosition_Hermite)}.cs",
@@ -102,9 +100,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             int channelIndex)
         {
             if (dto == null) throw new NullException(() => dto);
-
-            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
-            dto = preProcessingVisitor.Execute(dto);
 
             var codeGenerator = new OperatorDtoToPatchCalculatorCSharpGenerator(channelCount, channelIndex);
             OperatorDtoToPatchCalculatorCSharpGeneratorResult codeGeneratorResult = codeGenerator.Execute(dto, GENERATED_NAME_SPACE, GENERATED_CLASS_NAME);

@@ -132,6 +132,7 @@
         Remainder = 94,
         SampleWithRate1 = 95,
         SineWithRate1 = 96,
-        TriangleWithRate1 = 97
+        TriangleWithRate1 = 97,
+        VariableInput = 98
     }
 }

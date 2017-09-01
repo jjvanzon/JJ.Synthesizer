@@ -1,5 +1,4 @@
-﻿using JJ.Framework.Exceptions;
-using System;
+﻿using System;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using System.Runtime.CompilerServices;
 
@@ -11,9 +10,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionInputCalculator;
+        private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
         private double _xMinus1;
         private double _x0;
@@ -28,19 +26,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
-            DimensionStack dimensionStack)
-            : base(new[] { signalCalculator, samplingRateCalculator })
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
+            : base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            // TODO: Interpolate with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
-            //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
             _signalCalculator = signalCalculator;
-            _samplingRateCalculator = samplingRateCalculator ?? throw new NullException(() => samplingRateCalculator);
-            _dimensionStack = dimensionStack;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+            _samplingRateCalculator = samplingRateCalculator;
+            _positionInputCalculator = positionInputCalculator;
+            _positionOutputCalculator = positionOutputCalculator;
 
             ResetNonRecursive();
         }
@@ -48,14 +41,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double x = _dimensionStack.Get();
-#else
-            double x = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            double x = _positionInputCalculator.Calculate();
+     
             // TODO: What if position goes in reverse?
             // TODO: What if _x0 or _x1 are way off? How will it correct itself?
             // When x goes past _x1 you must shift things.
@@ -70,32 +57,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _y1 = _y2;
 
                 // Determine next sample
-#if !USE_INVAR_INDICES
-                _dimensionStack.Push(_x1);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                _positionOutputCalculator._value = _x1;
+
                 double samplingRate1 = GetSamplingRate();
 
                 _dx1 = 1.0 / samplingRate1;
                 _x2 = _x1 + _dx1;
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(_x2);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x2);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
-                _y2 = _signalCalculator.Calculate();
+                _positionOutputCalculator._value = _x2;
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
+                _y2 = _signalCalculator.Calculate();
             }
 
             double y = Interpolator.Interpolate_Cubic_SmoothSlope(
@@ -132,14 +103,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResetNonRecursive()
         {
-#if !USE_INVAR_INDICES
-            double x = _dimensionStack.Get();
-#else
-            double x = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            double x = _positionInputCalculator.Calculate();
+
             double y = _signalCalculator.Calculate();
             double samplingRate = GetSamplingRate();
 

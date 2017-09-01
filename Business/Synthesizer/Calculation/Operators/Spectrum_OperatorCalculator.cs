@@ -8,13 +8,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Spectrum_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
+        private readonly OperatorCalculatorBase _positionInputCalculator;
+        private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
         private readonly OperatorCalculatorBase _soundCalculator;
         private readonly OperatorCalculatorBase _startCalculator;
         private readonly OperatorCalculatorBase _endCalculator;
         private readonly OperatorCalculatorBase _frequencyCountCalculator;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
 
         private readonly LomontFFT _lomontFFT;
 
@@ -26,28 +25,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase startCalculator,
             OperatorCalculatorBase endCalculator,
             OperatorCalculatorBase frequencyCountCalculator,
-            DimensionStack dimensionStack)
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
             : base(new[]
             {
                 soundCalculator,
                 startCalculator,
                 endCalculator,
-                frequencyCountCalculator
+                frequencyCountCalculator,
+                positionInputCalculator,
+                positionOutputCalculator
             })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(soundCalculator, () => soundCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(startCalculator, () => startCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(endCalculator, () => endCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(frequencyCountCalculator, () => frequencyCountCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
             _soundCalculator = soundCalculator;
             _startCalculator = startCalculator;
             _endCalculator = endCalculator;
             _frequencyCountCalculator = frequencyCountCalculator;
-            _dimensionStack = dimensionStack;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+            _positionInputCalculator = positionInputCalculator;
+            _positionOutputCalculator = positionOutputCalculator;
 
             _lomontFFT = new LomontFFT();
 
@@ -57,14 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double time = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            double position = _positionInputCalculator.Calculate();
 
             if (position < 0) position = 0;
             if (position > _maxPosition) position = _maxPosition;
@@ -125,19 +113,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double t = start;
             for (int i = 0; i < frequencyCountTimesTwo; i++)
             {
-#if !USE_INVAR_INDICES
-                _dimensionStack.Push(t);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, t);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                _positionOutputCalculator._value = t;
+
                 double value = _soundCalculator.Calculate();
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
                 data[i] = value;
 
                 t += dt;

@@ -1,4 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -9,9 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Not_OperatorCalculator(OperatorCalculatorBase numberCalculator)
             : base(new[] { numberCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(numberCalculator, () => numberCalculator);
-
-            _numberCalculator = numberCalculator;
+            _numberCalculator = numberCalculator ?? throw new NullException(() => numberCalculator);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

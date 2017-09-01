@@ -1,15 +1,20 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class InletsToDimension_OperatorDto : OperatorDtoBase_InputsOnly, IOperatorDto_WithDimension
+    internal class InletsToDimension_OperatorDto : OperatorDtoBase_PositionReader
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.InletsToDimension;
 
-        public DimensionEnum StandardDimensionEnum { get; set; }
-        public string CanonicalCustomDimensionName { get; set; }
-        public int DimensionStackLevel { get; set; }
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
+
+        public override IReadOnlyList<InputDto> Inputs
+        {
+            get => new[] { Position };
+            set => Position = value.FirstOrDefault();
+        }
     }
 
     internal class InletsToDimension_OperatorDto_Block : InletsToDimension_OperatorDto

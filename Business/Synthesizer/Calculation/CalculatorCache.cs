@@ -230,46 +230,6 @@ namespace JJ.Business.Synthesizer.Calculation
 
         internal ArrayDto GetRandomArrayDto_Stripe() => _randomArrayDto_Stripe;
 
-        /// <summary>
-        /// Out comes an array calculator for each channel.
-        /// The concrete type of the ArrayCalculators is the same, 
-        /// so if you have to DO something with the concrete type,
-        /// you only have to check one of them.
-        /// </summary>
-        /// <param name="samplingRate">greater than 0</param>
-        internal IList<ArrayDto> GetCacheArrayDtos(
-            Operator op,
-            OperatorCalculatorBase signalCalculator,
-            double start,
-            double end,
-            double samplingRate,
-            DimensionStack dimensionStack,
-            DimensionStack channelDimensionStack,
-            ISpeakerSetupRepository speakerSetupRepository)
-        {
-            if (op == null) throw new NullException(() => op);
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-
-            var wrapper = new Cache_OperatorWrapper(op);
-            SpeakerSetup speakerSetup = speakerSetupRepository.Get((int)wrapper.SpeakerSetup);
-            int channelCount = speakerSetup.SpeakerSetupChannels.Count;
-            InterpolationTypeEnum interpolationTypeEnum = wrapper.InterpolationType;
-
-            IList<ArrayDto> arrayCalculators = GetCacheArrayDtos(
-                op.ID, 
-                signalCalculator, 
-                start, 
-                end, 
-                samplingRate,
-                channelCount,
-                interpolationTypeEnum,
-                dimensionStack, 
-                channelDimensionStack);
-
-            return arrayCalculators;
-        }
-
         internal IList<ArrayDto> GetCacheArrayDtos(
             int operatorID, 
             OperatorCalculatorBase signalCalculator, 
@@ -278,8 +238,8 @@ namespace JJ.Business.Synthesizer.Calculation
             double samplingRate,
             int channelCount,
             InterpolationTypeEnum interpolationTypeEnum,
-            DimensionStack dimensionStack,
-            DimensionStack channelDimensionStack)
+            VariableInput_OperatorCalculator dimensionCalculator,
+            VariableInput_OperatorCalculator channelDimensionCalculator)
         {
             if (operatorID == 0) throw new ZeroException(() => operatorID);
 
@@ -295,8 +255,8 @@ namespace JJ.Business.Synthesizer.Calculation
                         samplingRate,
                         channelCount,
                         interpolationTypeEnum,
-                        dimensionStack,
-                        channelDimensionStack);
+                        dimensionCalculator,
+                        channelDimensionCalculator);
 
                     _cacheOperatorID_To_ArrayDtos_Dictionary.Add(operatorID, arrayCalculators);
                 }
@@ -312,8 +272,8 @@ namespace JJ.Business.Synthesizer.Calculation
             double rate,
             int channelCount,
             InterpolationTypeEnum interpolationTypeEnum,
-            DimensionStack dimensionStack,
-            DimensionStack channelDimensionStack)
+            VariableInput_OperatorCalculator dimensionCalculator,
+            VariableInput_OperatorCalculator channelDimensionCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (channelCount < 1) throw new LessThanException(() => channelCount, 1);
@@ -325,8 +285,8 @@ namespace JJ.Business.Synthesizer.Calculation
             if (double.IsInfinity(rate)) throw new InfinityException(() => rate);
             if (rate <= 0.0) throw new LessThanOrEqualException(() => rate, 0.0);
             if (end <= start) throw new LessThanOrEqualException(() => end, () => start);
-            if (dimensionStack == null) throw new NullException(() => dimensionStack);
-            if (channelDimensionStack == null) throw new NullException(() => channelDimensionStack);
+            if (dimensionCalculator == null) throw new NullException(() => dimensionCalculator);
+            if (channelDimensionCalculator == null) throw new NullException(() => channelDimensionCalculator);
 
             double length = end - start;
             int tickCount = (int)(length * rate) + 1;
@@ -336,20 +296,14 @@ namespace JJ.Business.Synthesizer.Calculation
 
             for (int channelIndex = 0; channelIndex < channelCount; channelIndex++)
             {
-#if !USE_INVAR_INDICES
-                channelDimensionStack.Set(channelIndex);
-#else
-                channelDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
-#endif
+                channelDimensionCalculator._value = channelIndex;
+
                 var samples = new double[tickCount];
 
                 double position = start;
 
-#if !USE_INVAR_INDICES
-                dimensionStack.Set(position);
-#else
-                timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
-#endif
+                dimensionCalculator._value = position;
+
                 for (int i = 0; i < tickCount; i++)
                 {
                     double sample = signalCalculator.Calculate();
@@ -357,11 +311,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
                     position += tickLength;
 
-#if !USE_INVAR_INDICES
-                    dimensionStack.Set(position);
-#else
-                    timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
-#endif
+                    dimensionCalculator._value = position;
                 }
 
                 var arrayDto = new ArrayDto

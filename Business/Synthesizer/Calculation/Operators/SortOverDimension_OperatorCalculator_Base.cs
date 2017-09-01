@@ -16,8 +16,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
-            DimensionStack dimensionStack)
-            : base(collectionCalculator, fromCalculator, tillCalculator, stepCalculator, dimensionStack)
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
+            : base(collectionCalculator, fromCalculator, tillCalculator, stepCalculator, positionInputCalculator, positionOutputCalculator)
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

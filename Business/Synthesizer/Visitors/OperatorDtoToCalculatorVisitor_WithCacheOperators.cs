@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -26,62 +27,6 @@ namespace JJ.Business.Synthesizer.Visitors
                   curveRepository, 
                   sampleRepository)
         { }
-
-        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin dto)
-        //{
-        //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ConstOrigin(dto);
-
-        //    return ProcessWithDimensionTranformation(dto);
-        //}
-
-        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin dto)
-        //{
-        //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_VarOrigin(dto);
-
-        //    return ProcessWithDimensionTranformation(dto);
-        //}
-
-        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting dto)
-        //{
-        //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_WithOriginShifting(dto);
-
-        //    return ProcessWithDimensionTranformation(dto);
-        //}
-
-        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin dto)
-        //{
-        //    base.Visit_Stretch_OperatorDto_VarSignal_ConstFactor_ZeroOrigin(dto);
-
-        //    return ProcessWithDimensionTranformation(dto);
-        //}
-
-        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin dto)
-        //{
-        //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_VarOrigin(dto);
-
-        //    return ProcessWithDimensionTranformation(dto);
-        //}
-
-        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking dto)
-        //{
-        //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_WithPhaseTracking(dto);
-
-        //    return ProcessWithDimensionTranformation(dto);
-        //}
-
-        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin dto)
-        //{
-        //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_ZeroOrigin(dto);
-
-        //    return ProcessWithDimensionTranformation(dto);
-        //}
-
-        //protected override IOperatorDto Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin dto)
-        //{
-        //    base.Visit_Stretch_OperatorDto_VarSignal_VarFactor_ConstOrigin(dto);
-
-        //    return ProcessWithDimensionTranformation(dto);
-        //}
 
         protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto)
         {
@@ -146,13 +91,22 @@ namespace JJ.Business.Synthesizer.Visitors
 
             OperatorCalculatorBase calculator;
 
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
-
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase startCalculator = _stack.Pop();
             OperatorCalculatorBase endCalculator = _stack.Pop();
             OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
+
+            OperatorCalculatorBase positionCalculator = _stack.Pop();
+            if (!(positionCalculator is VariableInput_OperatorCalculator castedPositionCalculator))
+            {
+                throw new UnexpectedTypeException(() => positionCalculator);
+            }
+
+            OperatorCalculatorBase channelCalculator = _stack.Pop();
+            if (!(channelCalculator is VariableInput_OperatorCalculator castedChannelCalculator))
+            {
+                throw new UnexpectedTypeException(() => channelCalculator);
+            }
 
             double start = startCalculator.Calculate();
             double end = endCalculator.Calculate();
@@ -173,35 +127,17 @@ namespace JJ.Business.Synthesizer.Visitors
                     samplingRate,
                     dto.ChannelCount,
                     dto.InterpolationTypeEnum,
-                    dimensionStack,
-                    channelDimensionStack);
+                    castedPositionCalculator,
+                    castedChannelCalculator);
 
                 IList<ICalculatorWithPosition> arrayCalculators = arrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
 
-                calculator = OperatorCalculatorFactory.Create_Cache_OperatorCalculator(arrayCalculators, dimensionStack, channelDimensionStack);
+                calculator = OperatorCalculatorFactory.Create_Cache_OperatorCalculator(arrayCalculators, castedPositionCalculator, castedChannelCalculator);
             }
 
             _stack.Push(calculator);
 
             return dto;
         }
-
-        //private IOperatorDto ProcessWithDimensionTranformation<TDto>(TDto dto)
-        //    where TDto : OperatorDtoBase, IOperatorDtoWithDimension
-        //{
-        //    var calculator = _stack.Peek() as IPositionTransformer;
-        //    if (calculator == null)
-        //    {
-        //        throw new InvalidTypeException<IPositionTransformer>(() => calculator);
-        //    }
-
-        //    double transformedPosition = calculator.GetTransformedPosition();
-
-        //    DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dto);
-
-        //    dimensionStack.Push(transformedPosition);
-
-        //    return dto;
-        //}
     }
 }

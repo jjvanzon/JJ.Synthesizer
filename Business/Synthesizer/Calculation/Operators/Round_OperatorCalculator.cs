@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -16,10 +15,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase offsetCalculator)
             : base(new[] { signalCalculator, stepCalculator, offsetCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(stepCalculator, () => stepCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(offsetCalculator, () => offsetCalculator);
-
             _signalCalculator = signalCalculator;
             _stepCalculator = stepCalculator;
             _offsetCalculator = offsetCalculator;

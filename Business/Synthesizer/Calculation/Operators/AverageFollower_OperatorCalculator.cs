@@ -8,8 +8,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,
-            DimensionStack dimensionStack)
-            : base(signalCalculator, sliceLengthCalculator, sampleCountCalculator, dimensionStack)
+            OperatorCalculatorBase positionCalculator)
+            : base(signalCalculator, sliceLengthCalculator, sampleCountCalculator, positionCalculator)
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -10,9 +9,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _samplingRateCalculator;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionInputCalculator;
+        private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
         private double _x0;
         private double _x1;
@@ -21,20 +19,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Interpolate_OperatorCalculator_Block(
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase samplingRateCalculator,
-            DimensionStack dimensionStack)
-            : base(new[] { signalCalculator, samplingRateCalculator })
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
+            : base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator })
         {
-            if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new InvalidTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            // TODO: Interpolate with constant sampling rate does not have specialized calculators yet. Reactivate code line after those specialized calculators have been programmed.
-            //if (samplingRateCalculator is Number_OperatorCalculator) throw new IsNotTypeException<Number_OperatorCalculator>(() => samplingRateCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
             _signalCalculator = signalCalculator;
-            _samplingRateCalculator = samplingRateCalculator ?? throw new NullException(() => samplingRateCalculator);
-            _dimensionStack = dimensionStack;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+            _samplingRateCalculator = samplingRateCalculator;
+            _positionInputCalculator = positionInputCalculator;
+            _positionOutputCalculator = positionOutputCalculator;
 
             ResetNonRecursive();
         }
@@ -42,14 +34,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double x = _dimensionStack.Get();
-#else
-            double x = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            double x = _positionInputCalculator.Calculate();
+     
             // TODO: What if position goes in reverse?
             // TODO: What if _x1 is way off? How will it correct itself?
             // When x goes past _x1 you must shift things.
@@ -59,14 +45,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _x0 = _x1;
 
                 // Determine next sample
-#if !USE_INVAR_INDICES
-                _dimensionStack.Push(_x1);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                _positionOutputCalculator._value = _x1;
+
                 double samplingRate1 = GetSamplingRate();
                 double dx1 = 1.0 / samplingRate1;
                 _x1 += dx1;
@@ -75,10 +55,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // to _x0 here, but x on the dimension stack is the 'old' _x1, 
                 // which is the new _x0. So x on the dimension stack is already _x0.
                 _y0 = _signalCalculator.Calculate();
-
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
             }
             else if (x < _x0)
             {
@@ -86,31 +62,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 _x1 = _x0;
 
                 // Determine next sample
-#if !USE_INVAR_INDICES
-                _dimensionStack.Push(_x0);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x1);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                _positionOutputCalculator._value = _x0;
+
                 double samplingRate0 = GetSamplingRate();
                 double dx0 = 1.0 / samplingRate0;
                 _x0 -= dx0;
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Set(_x0);
-#else
-                _dimensionStack.Set(_nextDimensionStackIndex, _x0);
-#endif
-#if ASSERT_INVAR_INDICES
-                OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
-                _y0 = _signalCalculator.Calculate();
+                _positionOutputCalculator._value = _x0;
 
-#if !USE_INVAR_INDICES
-                _dimensionStack.Pop();
-#endif
+                _y0 = _signalCalculator.Calculate();
             }
 
             return _y0;
@@ -142,14 +102,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ResetNonRecursive()
         {
-#if !USE_INVAR_INDICES
-            double x = _dimensionStack.Get();
-#else
-            double x = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            double x = _positionInputCalculator.Calculate();
+
             double y = _signalCalculator.Calculate();
             double samplingRate = GetSamplingRate();
 

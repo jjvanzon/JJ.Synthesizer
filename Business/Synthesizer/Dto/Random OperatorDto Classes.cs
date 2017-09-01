@@ -4,7 +4,8 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Random_OperatorDto : OperatorDtoBase_WithDimension
+    internal class Random_OperatorDto 
+        : OperatorDtoBase_PositionReader
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Random;
 
@@ -14,8 +15,12 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new[] { Rate };
-            set => Rate = value.ElementAt(0);
+            get => new[] { Rate, Position };
+            set
+            {
+                Rate = value.ElementAtOrDefault(0);
+                Position = value.ElementAtOrDefault(1);
+            }
         }
     }
 

@@ -1,59 +1,48 @@
-﻿using JJ.Framework.Exceptions;
+﻿using System;
+using JJ.Framework.Exceptions;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Curve_OperatorCalculator_MinX_NoOriginShifting : OperatorCalculatorBase
+    internal class Curve_OperatorCalculator_MinX_NoOriginShifting : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly ArrayCalculator_MinPosition_Line _underlyingCalculator;
-        private readonly DimensionStack _dimensionStack;
-        // ReSharper disable once NotAccessedField.Local
-        private readonly int _dimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionCalculator;
+        private readonly ArrayCalculator_MinPosition_Line _underlyingArrayCalculator;
 
-        public Curve_OperatorCalculator_MinX_NoOriginShifting(ArrayCalculator_MinPosition_Line underlyingCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinX_NoOriginShifting(
+            OperatorCalculatorBase positionCalculator,
+            ArrayCalculator_MinPosition_Line underlyingArrayCalculator)
+            : base(new[] { positionCalculator })
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
+            _positionCalculator = positionCalculator ?? throw new ArgumentNullException(nameof(positionCalculator));
 
-            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _underlyingArrayCalculator = underlyingArrayCalculator ?? throw new NullException(() => underlyingArrayCalculator);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-
-            double value = _underlyingCalculator.Calculate(position);
-
+            double position = _positionCalculator.Calculate();
+            double value = _underlyingArrayCalculator.Calculate(position);
             return value;
         }
     }
 
-    internal class Curve_OperatorCalculator_MinX_WithOriginShifting : OperatorCalculatorBase
+    internal class Curve_OperatorCalculator_MinX_WithOriginShifting : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly ArrayCalculator_MinPosition_Line _underlyingCalculator;
-        private readonly DimensionStack _dimensionStack;
-        // ReSharper disable once NotAccessedField.Local
-        private readonly int _dimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionCalculator;
+        private readonly ArrayCalculator_MinPosition_Line _underlyingArrayCalculator;
 
         private double _origin;
 
-        public Curve_OperatorCalculator_MinX_WithOriginShifting(ArrayCalculator_MinPosition_Line underlyingCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinX_WithOriginShifting(
+            OperatorCalculatorBase positionCalculator,
+            ArrayCalculator_MinPosition_Line underlyingCalculator)
+            : base(new[] { positionCalculator })
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _positionCalculator = positionCalculator ?? throw new ArgumentNullException(nameof(positionCalculator));
+            _underlyingArrayCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
 
             ResetPrivate();
         }
@@ -61,127 +50,67 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            double position = _positionCalculator.Calculate();
             double phase = position - _origin;
-
-            double value = _underlyingCalculator.Calculate(phase);
-
+            double value = _underlyingArrayCalculator.Calculate(phase);
             return value;
         }
 
-        public override void Reset()
-        {
-            ResetPrivate();
-        }
-
-        private void ResetPrivate()
-        {
-#if !USE_INVAR_INDICES
-            _origin = _dimensionStack.Get();
-#else
-            _origin = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-        }
+        public override void Reset() => ResetPrivate();
+        private void ResetPrivate() => _origin = _positionCalculator.Calculate();
     }
 
-    internal class Curve_OperatorCalculator_MinXZero_NoOriginShifting : OperatorCalculatorBase
+    internal class Curve_OperatorCalculator_MinXZero_NoOriginShifting : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly ArrayCalculator_MinPositionZero_Line _underlyingCalculator;
-        private readonly DimensionStack _dimensionStack;
-        // ReSharper disable once NotAccessedField.Local
-        private readonly int _dimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionCalculator;
+        private readonly ArrayCalculator_MinPositionZero_Line _underlyingArrayCalculator;
 
-        public Curve_OperatorCalculator_MinXZero_NoOriginShifting(ArrayCalculator_MinPositionZero_Line underlyingCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinXZero_NoOriginShifting(
+            OperatorCalculatorBase positionCalculator,
+            ArrayCalculator_MinPositionZero_Line underlyingArrayCalculator)
+            : base(new[] { positionCalculator })
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
-            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _positionCalculator = positionCalculator ?? throw new ArgumentNullException(nameof(positionCalculator));
+            _underlyingArrayCalculator = underlyingArrayCalculator ?? throw new NullException(() => underlyingArrayCalculator);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-            double value = _underlyingCalculator.Calculate(position);
+            double position = _positionCalculator.Calculate();
+            double value = _underlyingArrayCalculator.Calculate(position);
             return value;
         }
     }
 
-    internal class Curve_OperatorCalculator_MinXZero_WithOriginShifting : OperatorCalculatorBase
+    internal class Curve_OperatorCalculator_MinXZero_WithOriginShifting : OperatorCalculatorBase_WithChildCalculators
     {
-        private readonly ArrayCalculator_MinPositionZero_Line _underlyingCalculator;
-        private readonly DimensionStack _dimensionStack;
-        // ReSharper disable once NotAccessedField.Local
-        private readonly int _dimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionCalculator;
+        private readonly ArrayCalculator_MinPositionZero_Line _underlyingArrayCalculator;
 
         private double _origin;
 
-        public Curve_OperatorCalculator_MinXZero_WithOriginShifting(ArrayCalculator_MinPositionZero_Line underlyingCalculator, DimensionStack dimensionStack)
+        public Curve_OperatorCalculator_MinXZero_WithOriginShifting(
+            OperatorCalculatorBase positionCalculator,
+            ArrayCalculator_MinPositionZero_Line underlyingCalculator)
+            : base(new[] { positionCalculator })
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
+            _positionCalculator = positionCalculator ?? throw new ArgumentNullException(nameof(positionCalculator));
+            _underlyingArrayCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
 
-            _underlyingCalculator = underlyingCalculator ?? throw new NullException(() => underlyingCalculator);
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
-
-            // ReSharper disable once VirtualMemberCallInConstructor
-            Reset();
+            ResetPrivate();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-
+            double position = _positionCalculator.Calculate();
             double phase = position - _origin;
-
-            double value = _underlyingCalculator.Calculate(phase);
-
+            double value = _underlyingArrayCalculator.Calculate(phase);
             return value;
         }
 
-        public override void Reset()
-        {
-            ResetPrivate();
-        }
-
-        private void ResetPrivate()
-        {
-#if !USE_INVAR_INDICES
-            _origin = _dimensionStack.Get();
-#else
-            _origin = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-        }
+        public override void Reset() => ResetPrivate();
+        private void ResetPrivate() => _origin = _positionCalculator.Calculate();
     }
 }

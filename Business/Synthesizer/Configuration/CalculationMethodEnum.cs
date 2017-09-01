@@ -3,7 +3,6 @@
     public enum CalculationMethodEnum
     {
         Undefined,
-        EntityToCalculatorDirectly,
         EntityThruDtoToCalculator,
         Roslyn,
         Roslyn_WithUninlining_WithRefParameters,

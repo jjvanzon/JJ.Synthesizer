@@ -2,7 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_WithCollectionRecalculation : OperatorDtoBase_WithDimension
+    internal abstract class OperatorDtoBase_WithCollectionRecalculation 
+        : OperatorDtoBase_PositionReader
     {
         public CollectionRecalculationEnum CollectionRecalculationEnum { get; set; }
     }

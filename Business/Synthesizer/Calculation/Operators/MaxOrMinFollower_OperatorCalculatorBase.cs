@@ -13,9 +13,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _signalCalculator;
         private readonly OperatorCalculatorBase _sliceLengthCalculator;
         private readonly OperatorCalculatorBase _sampleCountCalculator;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _nextDimensionStackIndex;
-        private readonly int _previousDimensionStackIndex;
+        private readonly OperatorCalculatorBase _positionInputCalculator;
+        private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
         private double _sampleDuration;
         private double _sampleCountDouble;
@@ -37,25 +36,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase sliceLengthCalculator,
             OperatorCalculatorBase sampleCountCalculator,
-            DimensionStack dimensionStack)
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
             : base(new[]
             {
                 signalCalculator,
                 sliceLengthCalculator,
-                sampleCountCalculator
+                sampleCountCalculator,
+                positionInputCalculator,
+                positionOutputCalculator
             })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(signalCalculator, () => signalCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(sliceLengthCalculator, () => sliceLengthCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator_OnlyUsedUponResetState(sampleCountCalculator, () => sampleCountCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
             _signalCalculator = signalCalculator;
             _sliceLengthCalculator = sliceLengthCalculator;
             _sampleCountCalculator = sampleCountCalculator;
-            _dimensionStack = dimensionStack;
-            _previousDimensionStackIndex = dimensionStack.CurrentIndex;
-            _nextDimensionStackIndex = dimensionStack.CurrentIndex + 1;
+            _positionInputCalculator = positionInputCalculator;
+            _positionOutputCalculator = positionOutputCalculator;
 
             ResetNonRecursive();
         }
@@ -65,14 +61,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            double position = _positionInputCalculator.Calculate();
+
             bool isForward = position >= _previousPosition;
             if (isForward)
             {
@@ -91,19 +81,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-#if !USE_INVAR_INDICES
-                        _dimensionStack.Push(_nextSamplePosition);
-#else
-                        _dimensionStack.Set(_nextDimensionStackIndex, _nextSamplePosition);
-#endif
-#if ASSERT_INVAR_INDICES
-                        OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                        _positionOutputCalculator._value = _nextSamplePosition;
+
                         CalculateValueAndUpdateCollections();
 
-#if !USE_INVAR_INDICES
-                        _dimensionStack.Pop();
-#endif
                         _nextSamplePosition += _sampleDuration;
                     }
                     while (position > _nextSamplePosition);
@@ -129,20 +110,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
                     do
                     {
-#if !USE_INVAR_INDICES
-                        _dimensionStack.Push(_nextSamplePosition);
-#else
-                        _dimensionStack.Set(_nextDimensionStackIndex, _nextSamplePosition);
-#endif
-#if ASSERT_INVAR_INDICES
-                        OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
+                        _positionOutputCalculator._value = _nextSamplePosition;
 
                         CalculateValueAndUpdateCollections();
 
-#if !USE_INVAR_INDICES
-                        _dimensionStack.Pop();
-#endif
                         _nextSamplePosition -= _sampleDuration;
                     }
                     while (position < _nextSamplePosition);
@@ -185,14 +156,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetNonRecursive()
         {
-#if !USE_INVAR_INDICES
-            double position = _dimensionStack.Get();
-#else
-            double position = _dimensionStack.Get(_previousDimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _previousDimensionStackIndex);
-#endif
+            double position = _positionInputCalculator.Calculate();
+
             _previousPosition = position;
 
             _maxOrMin = 0.0;

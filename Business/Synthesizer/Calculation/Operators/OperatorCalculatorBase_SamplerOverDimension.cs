@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         protected readonly OperatorCalculatorBase _fromCalculator;
         protected readonly OperatorCalculatorBase _tillCalculator;
         protected readonly OperatorCalculatorBase _stepCalculator;
-        protected readonly DimensionStack _dimensionStack;
-        protected readonly int _dimensionStackIndex;
+        protected readonly OperatorCalculatorBase _positionInputCalculator;
+        protected readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
         protected double _step;
         protected double _length;
@@ -20,23 +20,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase fromCalculator,
             OperatorCalculatorBase tillCalculator,
             OperatorCalculatorBase stepCalculator,
-            DimensionStack dimensionStack)
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
             : base(new[]
             {
                 collectionCalculator,
                 fromCalculator,
                 tillCalculator,
-                stepCalculator
+                stepCalculator,
+                positionInputCalculator,
+                positionOutputCalculator
             })
         {
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
             _collectionCalculator = collectionCalculator;
             _fromCalculator = fromCalculator;
             _tillCalculator = tillCalculator;
             _stepCalculator = stepCalculator;
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _positionInputCalculator = positionInputCalculator;
+            _positionOutputCalculator = positionOutputCalculator;
 
             // ReSharper disable once VirtualMemberCallInConstructor
             ResetNonRecursive();
@@ -70,14 +71,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void RecalculateCollection()
         {
-#if !USE_INVAR_INDICES
-            double originalPosition = _dimensionStack.Get();
-#else
-            double originalPosition = _dimensionStack.Get(_dimensionStackIndex);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            double originalPosition = _positionInputCalculator.Calculate();
+
             double from = _fromCalculator.Calculate();
             double till = _tillCalculator.Calculate();
             _step = _stepCalculator.Calculate();
@@ -87,14 +82,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double position = from;
 
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-            _dimensionStack.Set(from);
-#else
-            _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
+            _positionOutputCalculator._value = from;
+
             double sample = _collectionCalculator.Calculate();
 
             ProcessFirstSample(sample);
@@ -112,14 +101,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 while (position <= till)
                 {
-#if ASSERT_INVAR_INDICES
-                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-                    _dimensionStack.Set(position);
-#else
-                    _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
+                    _positionOutputCalculator._value = position;
+
                     sample = _collectionCalculator.Calculate();
 
                     ProcessNextSample(sample);
@@ -132,14 +115,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 // Is backwards
                 while (position >= till)
                 {
-#if ASSERT_INVAR_INDICES
-                    OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-                    _dimensionStack.Set(position);
-#else
-                    _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
+                    _positionOutputCalculator._value = position;
+
                     sample = _collectionCalculator.Calculate();
 
                     ProcessNextSample(sample);
@@ -147,14 +124,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     position += _step;
                 }
             }
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
-#if !USE_INVAR_INDICES
-            _dimensionStack.Set(originalPosition);
-#else
-            _dimensionStack.Set(_dimensionStackIndex, originalPosition);
-#endif
+
+            _positionOutputCalculator._value = originalPosition;
+
             FinalizeSampling();
         }
     }

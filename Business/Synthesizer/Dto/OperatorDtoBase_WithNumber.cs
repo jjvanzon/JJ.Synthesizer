@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Dto
         public override IReadOnlyList<InputDto> Inputs
         {
             get => new[] { Number };
-            set => Number = value.ElementAt(0);
+            set => Number = value.ElementAtOrDefault(0);
         }
     }
 }

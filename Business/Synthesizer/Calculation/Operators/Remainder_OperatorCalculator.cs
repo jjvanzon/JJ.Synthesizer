@@ -13,13 +13,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase bCalculator)
             : base(new[] { aCalculator, bCalculator })
         {
-            if (aCalculator == null) throw new NullException(() => aCalculator);
-            if (aCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => aCalculator);
-            if (bCalculator == null) throw new NullException(() => bCalculator);
-            if (bCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => bCalculator);
-
-            _aCalculator = aCalculator;
-            _bCalculator = bCalculator;
+            _aCalculator = aCalculator ?? throw new NullException(() => aCalculator);
+            _bCalculator = bCalculator ?? throw new NullException(() => bCalculator);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

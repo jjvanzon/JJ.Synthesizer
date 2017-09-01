@@ -152,11 +152,9 @@
     </Compile>
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
-    <Compile Include="Calculation\Operators\IPositionTransformer.cs" />
+    <Compile Include="Calculation\Operators\HighShelfFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Helper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="Calculation\Operators\Random_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Remainder_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SineWithRate1_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TriangleWithoutFrequency_OperatorCalculator.cs" />
@@ -170,10 +168,14 @@
     <Compile Include="Dto\BooleanToDouble_OperatorDto.cs" />
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
+    <Compile Include="Dto\IOperatorDto_PositionReader.cs" />
+    <Compile Include="Dto\IOperatorDto_PositionWriter.cs" />
     <Compile Include="Dto\IOperatorDto_WithAggregateInfo.cs" />
     <Compile Include="Dto\IOperatorDto_WithOutletPosition.cs" />
     <Compile Include="Dto\IOperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_InputsOnly.cs" />
+    <Compile Include="Dto\OperatorDtoBase_PositionReader.cs" />
+    <Compile Include="Dto\OperatorDtoBase_WithPositionOutput.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithCollectionRecalculation.cs" />
     <Compile Include="Dto\IOperatorDto_WithSound.cs" />
     <Compile Include="Dto\IOperatorDto_WithSignal.cs" />
@@ -196,31 +198,19 @@
     <Compile Include="Helpers\CalculationHelper.cs" />
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\CurveArrayDtoFactory.cs" />
-    <Compile Include="Calculation\DimensionStackCollection.cs" />
-    <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Vars.cs">
-      <DependentUpon>Add OperatorCalculator Classes Vars.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Calculation\Operators\Add OperatorCalculator Classes Vars_1Const.cs">
-      <DependentUpon>Add OperatorCalculator Classes Vars_1Const.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Calculation\Operators\PeakingEQFilter OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\LowShelfFilter OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\HighShelfFilter OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\NotchFilter OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\BandPassFilterConstantTransitionGain OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\BandPassFilterConstantPeakGain OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\PeakingEQFilter_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\LowShelfFilter_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\NotchFilter_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\BandPassFilterConstantTransitionGain_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\BandPassFilterConstantPeakGain_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
-    <Compile Include="Calculation\Operators\ClosestOverInlets OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\ClosestOverInletsExp OperatorCalculators.cs" />
+    <Compile Include="Calculation\Operators\ClosestOverInlets_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\ClosestOverInletsExp_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset.cs" />
-    <Compile Include="Calculation\Operators\AllPassFilter OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\RangeOverOutlets OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\AllPassFilter_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\RangeOverOutlets_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_SamplerOverDimension.cs" />
     <Compile Include="Calculation\Operators\SortOverInlets_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
@@ -229,19 +219,7 @@
     <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
-    <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes Vars_1Const.cs">
-      <DependentUpon>Multiply OperatorCalculator Classes Vars_1Const.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes Vars.cs">
-      <DependentUpon>Multiply OperatorCalculator Classes Vars.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Calculation\Operators\Add_OperatorCalculator_VarArray_1Const.cs" />
-    <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_VarArray_1Const.cs" />
-    <Compile Include="Calculation\Operators\Add_OperatorCalculator_VarArray.cs" />
+    <Compile Include="Calculation\Operators\Add_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Multiply_OperatorCalculator_VarArray.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
@@ -255,54 +233,46 @@
     <Compile Include="Calculation\Operators\AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\MinOverInlets OperatorCalculators Classes.cs" />
     <Compile Include="Calculation\Operators\MaxOverInlets OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\RangeOverDimension OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_OtherInterpolationTypes.cs" />
+    <Compile Include="Calculation\Operators\RangeOverDimension_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\DimensionToOutlets_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Hold_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SetDimension_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_Base.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_WithPositionOutput.cs" />
     <Compile Include="Calculation\Operators\GetDimension_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\ToggleTrigger_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_ManyConstants.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_NoSkipOrRelease_ManyConstants.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_NoSkipOrRelease.cs" />
     <Compile Include="Calculation\Operators\MinFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxOrMinFollower_OperatorCalculatorBase.cs" />
-    <Compile Include="Calculation\Operators\If OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\If_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Absolute_OperatorCalculator_VarNumber.cs" />
+    <Compile Include="Calculation\Operators\Absolute_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Or_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\And_OperatorCalculator_VarA_VarB.cs" />
-    <Compile Include="Calculation\Operators\GreaterThanOrEqual OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\GreaterThan OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\LessThanOrEqual OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\LessThan OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\NotEqual OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Equal OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\HighPassFilter OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\LowPassFilter OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\Or_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Divide_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\And_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\GreaterThanOrEqual_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\GreaterThan_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\LessThanOrEqual_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\LessThan_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\NotEqual_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Equal_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\HighPassFilter_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\LowPassFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="Calculation\Operators\Squash OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
-    <Compile Include="Calculation\Operators\ChangeTrigger_OperatorCalculator_VarPassThrough_VarReset.cs" />
+    <Compile Include="Calculation\Operators\ChangeTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\PulseTrigger_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Block and Stripe Interpolation.cs" />
-    <Compile Include="Calculation\Operators\Random OperatorCalculator Classes, Other Interpolations.cs" />
+    <Compile Include="Calculation\Operators\Random_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Round_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\Loop_OperatorCalculator_AllVars.cs" />
+    <Compile Include="Calculation\Operators\Power_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicAbruptSlope.cs" />
@@ -362,8 +332,10 @@
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterDtoPreprocessing.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewriting.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_BooleanBoundaries.cs" />
+    <Compile Include="Visitors\OperatorDtoVisitor_TransformationsToPositionInputs.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_OperationIdentityAssignment.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
@@ -473,26 +445,6 @@
     <Compile Include="CopiedCode\FromFramework\MathHelper.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculator_Vars.cs">
-      <DependentUpon>OperatorCalculatorFactory.CreateAddCalculator_Vars.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorWithConst.cs">
-      <DependentUpon>OperatorCalculatorFactory.CreateAddCalculatorWithConst.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.cs">
-      <DependentUpon>OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.cs">
-      <DependentUpon>OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Calculation\Operators\SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd.cs" />
     <Compile Include="Calculation\Random\RandomCalculatorBase.cs" />
     <Compile Include="Calculation\Random\RandomCalculator_Stripe.cs" />
@@ -506,7 +458,6 @@
     <Compile Include="Calculation\NoiseCalculator.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Calculation\DimensionStack.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithCollectionRecalculation.cs" />
@@ -674,7 +625,6 @@
     <Compile Include="Validation\ValidationHelper.MessagePrefixes.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_IsOfSamePatchOrPatchIsNull_Recursive.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
-    <Compile Include="Visitors\OperatorEntityToCalculatorDirectlyVisitor.cs" />
     <Compile Include="Visitors\OperatorEntityVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\PatchWarningValidator_WithRelatedEntities.cs" />
@@ -780,38 +730,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Roslyn\README.TXT" />
-    <None Include="Calculation\Operators\Multiply OperatorCalculator Classes Vars.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Multiply OperatorCalculator Classes Vars.cs</LastGenOutput>
-    </None>
-    <None Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OperatorCalculatorFactory.CreateMultiplyCalculatorOnlyVars.cs</LastGenOutput>
-    </None>
-    <None Include="Calculation\Operators\Multiply OperatorCalculator Classes Vars_1Const.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Multiply OperatorCalculator Classes Vars_1Const.cs</LastGenOutput>
-    </None>
-    <None Include="Helpers\OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OperatorCalculatorFactory.CreateMultiplyCalculatorWithConst.cs</LastGenOutput>
-    </None>
-    <None Include="Calculation\Operators\Add OperatorCalculator Classes Vars_1Const.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Add OperatorCalculator Classes Vars_1Const.cs</LastGenOutput>
-    </None>
-    <None Include="Calculation\Operators\Add OperatorCalculator Classes Vars.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Add OperatorCalculator Classes Vars.cs</LastGenOutput>
-    </None>
-    <None Include="Helpers\OperatorCalculatorFactory.CreateAddCalculator_Vars.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculator_Vars.cs</LastGenOutput>
-    </None>
-    <None Include="Helpers\OperatorCalculatorFactory.CreateAddCalculatorWithConst.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OperatorCalculatorFactory.CreateAddCalculatorWithConst.cs</LastGenOutput>
-    </None>
     <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
   </ItemGroup>

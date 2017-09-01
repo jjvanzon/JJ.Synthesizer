@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -7,23 +6,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly OperatorCalculatorBase _passThroughCalculator;
         private readonly OperatorCalculatorBase _numberCalculator;
-        private readonly DimensionStack _dimensionStack;
-        private readonly int _dimensionStackIndex;
+        private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
         public SetDimension_OperatorCalculator(
             OperatorCalculatorBase passThroughCalculator,
             OperatorCalculatorBase numberCalculator,
-            DimensionStack dimensionStack)
-            : base(new[] { passThroughCalculator, numberCalculator })
+            VariableInput_OperatorCalculator positionOutputCalculator)
+            : base(new[] { passThroughCalculator, numberCalculator, positionOutputCalculator })
         {
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(passThroughCalculator, () => passThroughCalculator);
-            OperatorCalculatorHelper.AssertChildOperatorCalculator(numberCalculator, () => numberCalculator);
-            OperatorCalculatorHelper.AssertDimensionStack(dimensionStack);
-
             _passThroughCalculator = passThroughCalculator;
             _numberCalculator = numberCalculator;
-            _dimensionStack = dimensionStack;
-            _dimensionStackIndex = dimensionStack.CurrentIndex;
+            _positionOutputCalculator = positionOutputCalculator;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -31,19 +24,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _numberCalculator.Calculate();
 
-#if !USE_INVAR_INDICES
-            _dimensionStack.Push(position);
-#else
-            _dimensionStack.Set(_dimensionStackIndex, position);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _dimensionStackIndex);
-#endif
+            _positionOutputCalculator._value = position;
+
             double outputValue = _passThroughCalculator.Calculate();
 
-#if !USE_INVAR_INDICES
-            _dimensionStack.Pop();
-#endif
             return outputValue;
         }
 
@@ -51,19 +35,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double position = _numberCalculator.Calculate();
 
-#if !USE_INVAR_INDICES
-            _dimensionStack.Push(position);
-#else
-            _dimensionStack.Set(_nextDimensionStackIndex, position);
-#endif
-#if ASSERT_INVAR_INDICES
-            OperatorCalculatorHelper.AssertStackIndex(_dimensionStack, _nextDimensionStackIndex);
-#endif
-            base.Reset();
+            _positionOutputCalculator._value = position;
 
-#if !USE_INVAR_INDICES
-            _dimensionStack.Pop();
-#endif
+            base.Reset();
         }
     }
 }

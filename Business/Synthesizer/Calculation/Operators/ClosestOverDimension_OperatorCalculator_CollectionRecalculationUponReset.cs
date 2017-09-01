@@ -5,19 +5,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset : ClosestOverDimension_OperatorCalculator_Base
     {
         public ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
-            OperatorCalculatorBase inputCalculator, 
-            OperatorCalculatorBase collectionCalculator, 
-            OperatorCalculatorBase fromCalculator, 
-            OperatorCalculatorBase tillCalculator, 
-            OperatorCalculatorBase stepCalculator, 
-            DimensionStack dimensionStack) 
+            OperatorCalculatorBase inputCalculator,
+            OperatorCalculatorBase collectionCalculator,
+            OperatorCalculatorBase fromCalculator,
+            OperatorCalculatorBase tillCalculator,
+            OperatorCalculatorBase stepCalculator,
+            OperatorCalculatorBase positionInputCalculator,
+            VariableInput_OperatorCalculator positionOutputCalculator)
             : base(
-                  inputCalculator,
-                  collectionCalculator, 
-                  fromCalculator, 
-                  tillCalculator, 
-                  stepCalculator, 
-                  dimensionStack)
+                inputCalculator,
+                collectionCalculator,
+                fromCalculator,
+                tillCalculator,
+                stepCalculator,
+                positionInputCalculator,
+                positionOutputCalculator)
         { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

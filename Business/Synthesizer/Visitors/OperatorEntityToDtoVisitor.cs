@@ -98,25 +98,25 @@ namespace JJ.Business.Synthesizer.Visitors
 
         // Operator Visitation
 
-        protected override void VisitAbsolute(Operator op) => ProcessOperator(op, new Absolute_OperatorDto());
-        protected override void VisitAdd(Operator op) => ProcessOperator(op, new Add_OperatorDto());
-        protected override void VisitAllPassFilter(Operator op) => ProcessOperator(op, new AllPassFilter_OperatorDto());
-        protected override void VisitAnd(Operator op) => ProcessOperator(op, new And_OperatorDto());
-        protected override void VisitAverageFollower(Operator op) => ProcessOperator(op, new AverageFollower_OperatorDto());
-        protected override void VisitAverageOverDimension(Operator op) => ProcessOperator(op, new AverageOverDimension_OperatorDto());
-        protected override void VisitAverageOverInlets(Operator op) => ProcessOperator(op, new AverageOverInlets_OperatorDto());
-        protected override void VisitBandPassFilterConstantPeakGain(Operator op) => ProcessOperator(op, new BandPassFilterConstantPeakGain_OperatorDto());
-        protected override void VisitBandPassFilterConstantTransitionGain(Operator op) => ProcessOperator(op, new BandPassFilterConstantTransitionGain_OperatorDto());
-        protected override void VisitChangeTrigger(Operator op) => ProcessOperator(op, new ChangeTrigger_OperatorDto());
-        protected override void VisitClosestOverInlets(Operator op) => ProcessOperator(op, new ClosestOverInlets_OperatorDto());
-        protected override void VisitClosestOverInletsExp(Operator op) => ProcessOperator(op, new ClosestOverInletsExp_OperatorDto());
-        protected override void VisitClosestOverDimension(Operator op) => ProcessOperator(op, new ClosestOverDimension_OperatorDto());
-        protected override void VisitClosestOverDimensionExp(Operator op) => ProcessOperator(op, new ClosestOverDimensionExp_OperatorDto());
+        protected override void VisitAbsolute(Operator op) => ProcessOperatorPolymorphic(op, new Absolute_OperatorDto());
+        protected override void VisitAdd(Operator op) => ProcessOperatorPolymorphic(op, new Add_OperatorDto());
+        protected override void VisitAllPassFilter(Operator op) => ProcessOperatorPolymorphic(op, new AllPassFilter_OperatorDto());
+        protected override void VisitAnd(Operator op) => ProcessOperatorPolymorphic(op, new And_OperatorDto());
+        protected override void VisitAverageFollower(Operator op) => ProcessOperatorPolymorphic(op, new AverageFollower_OperatorDto());
+        protected override void VisitAverageOverDimension(Operator op) => ProcessOperatorPolymorphic(op, new AverageOverDimension_OperatorDto());
+        protected override void VisitAverageOverInlets(Operator op) => ProcessOperatorPolymorphic(op, new AverageOverInlets_OperatorDto());
+        protected override void VisitBandPassFilterConstantPeakGain(Operator op) => ProcessOperatorPolymorphic(op, new BandPassFilterConstantPeakGain_OperatorDto());
+        protected override void VisitBandPassFilterConstantTransitionGain(Operator op) => ProcessOperatorPolymorphic(op, new BandPassFilterConstantTransitionGain_OperatorDto());
+        protected override void VisitChangeTrigger(Operator op) => ProcessOperatorPolymorphic(op, new ChangeTrigger_OperatorDto());
+        protected override void VisitClosestOverInlets(Operator op) => ProcessOperatorPolymorphic(op, new ClosestOverInlets_OperatorDto());
+        protected override void VisitClosestOverInletsExp(Operator op) => ProcessOperatorPolymorphic(op, new ClosestOverInletsExp_OperatorDto());
+        protected override void VisitClosestOverDimension(Operator op) => ProcessOperatorPolymorphic(op, new ClosestOverDimension_OperatorDto());
+        protected override void VisitClosestOverDimensionExp(Operator op) => ProcessOperatorPolymorphic(op, new ClosestOverDimensionExp_OperatorDto());
 
         protected override void VisitCache(Operator op)
         {
             var dto = new Cache_OperatorDto();
-            ProcessOperator(op, dto);
+            ProcessOperatorPolymorphic(op, dto);
 
             var wrapper = new Cache_OperatorWrapper(op);
             dto.InterpolationTypeEnum = wrapper.InterpolationType;
@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitCurveOperator(Operator op)
         {
             var dto = new Curve_OperatorDto();
-            ProcessOperator(op, dto);
+            ProcessOperatorPolymorphic(op, dto);
 
             var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
 
@@ -151,12 +151,15 @@ namespace JJ.Business.Synthesizer.Visitors
 
             Operator op = outlet.Operator;
 
+            // NOTE: Do not call ProcessOperatorPolymorphic, because that will cause circular processing.
+
             var dto = new DimensionToOutlets_Outlet_OperatorDto
             {
                 OperatorID = op.ID,
                 Signal = PopInputDto(),
                 StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback(),
-                CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback())
+                CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback()),
+                Position = new Number_OperatorDto(0)
             };
 
             if (!outlet.RepetitionPosition.HasValue)
@@ -168,20 +171,20 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        protected override void VisitDivide(Operator op) => ProcessOperator(op, new Divide_OperatorDto());
-        protected override void VisitEqual(Operator op) => ProcessOperator(op, new Equal_OperatorDto());
-        protected override void VisitGetDimension(Operator op) => ProcessOperator(op, new GetDimension_OperatorDto());
-        protected override void VisitGreaterThan(Operator op) => ProcessOperator(op, new GreaterThan_OperatorDto());
-        protected override void VisitGreaterThanOrEqual(Operator op) => ProcessOperator(op, new GreaterThanOrEqual_OperatorDto());
-        protected override void VisitHold(Operator op) => ProcessOperator(op, new Hold_OperatorDto());
-        protected override void VisitHighPassFilter(Operator op) => ProcessOperator(op, new HighPassFilter_OperatorDto());
-        protected override void VisitHighShelfFilter(Operator op) => ProcessOperator(op, new HighShelfFilter_OperatorDto());
-        protected override void VisitIf(Operator op) => ProcessOperator(op, new If_OperatorDto());
+        protected override void VisitDivide(Operator op) => ProcessOperatorPolymorphic(op, new Divide_OperatorDto());
+        protected override void VisitEqual(Operator op) => ProcessOperatorPolymorphic(op, new Equal_OperatorDto());
+        protected override void VisitGetDimension(Operator op) => ProcessOperatorPolymorphic(op, new GetDimension_OperatorDto());
+        protected override void VisitGreaterThan(Operator op) => ProcessOperatorPolymorphic(op, new GreaterThan_OperatorDto());
+        protected override void VisitGreaterThanOrEqual(Operator op) => ProcessOperatorPolymorphic(op, new GreaterThanOrEqual_OperatorDto());
+        protected override void VisitHold(Operator op) => ProcessOperatorPolymorphic(op, new Hold_OperatorDto());
+        protected override void VisitHighPassFilter(Operator op) => ProcessOperatorPolymorphic(op, new HighPassFilter_OperatorDto());
+        protected override void VisitHighShelfFilter(Operator op) => ProcessOperatorPolymorphic(op, new HighShelfFilter_OperatorDto());
+        protected override void VisitIf(Operator op) => ProcessOperatorPolymorphic(op, new If_OperatorDto());
 
         protected override void VisitInletsToDimension(Operator op)
         {
             var dto = new InletsToDimension_OperatorDto();
-            ProcessOperator(op, dto);
+            ProcessOperatorPolymorphic(op, dto);
 
             var wrapper = new InletsToDimension_OperatorWrapper(op);
             dto.ResampleInterpolationTypeEnum = wrapper.InterpolationType;
@@ -190,69 +193,71 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitInterpolate(Operator op)
         {
             var dto = new Interpolate_OperatorDto();
-            ProcessOperator(op, dto);
+            ProcessOperatorPolymorphic(op, dto);
 
             var wrapper = new Interpolate_OperatorWrapper(op);
             dto.ResampleInterpolationTypeEnum = wrapper.InterpolationType;
         }
 
-        protected override void VisitLessThan(Operator op) => ProcessOperator(op, new LessThan_OperatorDto());
-        protected override void VisitLessThanOrEqual(Operator op) => ProcessOperator(op, new LessThanOrEqual_OperatorDto());
-        protected override void VisitLoop(Operator op) => ProcessOperator(op, new Loop_OperatorDto());
-        protected override void VisitLowPassFilter(Operator op) => ProcessOperator(op, new LowPassFilter_OperatorDto());
-        protected override void VisitLowShelfFilter(Operator op) => ProcessOperator(op, new LowShelfFilter_OperatorDto());
-        protected override void VisitMaxOverDimension(Operator op) => ProcessOperator(op, new MaxOverDimension_OperatorDto());
-        protected override void VisitMaxOverInlets(Operator op) => ProcessOperator(op, new MaxOverInlets_OperatorDto());
-        protected override void VisitMaxFollower(Operator op) => ProcessOperator(op, new MaxFollower_OperatorDto());
-        protected override void VisitMinOverDimension(Operator op) => ProcessOperator(op, new MinOverDimension_OperatorDto());
-        protected override void VisitMinOverInlets(Operator op) => ProcessOperator(op, new MinOverInlets_OperatorDto());
-        protected override void VisitMinFollower(Operator op) => ProcessOperator(op, new MinFollower_OperatorDto());
-        protected override void VisitMultiply(Operator op) => ProcessOperator(op, new Multiply_OperatorDto());
-        protected override void VisitNegative(Operator op) => ProcessOperator(op, new Negative_OperatorDto());
+        protected override void VisitLessThan(Operator op) => ProcessOperatorPolymorphic(op, new LessThan_OperatorDto());
+        protected override void VisitLessThanOrEqual(Operator op) => ProcessOperatorPolymorphic(op, new LessThanOrEqual_OperatorDto());
+        protected override void VisitLoop(Operator op) => ProcessOperatorPolymorphic(op, new Loop_OperatorDto());
+        protected override void VisitLowPassFilter(Operator op) => ProcessOperatorPolymorphic(op, new LowPassFilter_OperatorDto());
+        protected override void VisitLowShelfFilter(Operator op) => ProcessOperatorPolymorphic(op, new LowShelfFilter_OperatorDto());
+        protected override void VisitMaxOverDimension(Operator op) => ProcessOperatorPolymorphic(op, new MaxOverDimension_OperatorDto());
+        protected override void VisitMaxOverInlets(Operator op) => ProcessOperatorPolymorphic(op, new MaxOverInlets_OperatorDto());
+        protected override void VisitMaxFollower(Operator op) => ProcessOperatorPolymorphic(op, new MaxFollower_OperatorDto());
+        protected override void VisitMinOverDimension(Operator op) => ProcessOperatorPolymorphic(op, new MinOverDimension_OperatorDto());
+        protected override void VisitMinOverInlets(Operator op) => ProcessOperatorPolymorphic(op, new MinOverInlets_OperatorDto());
+        protected override void VisitMinFollower(Operator op) => ProcessOperatorPolymorphic(op, new MinFollower_OperatorDto());
+        protected override void VisitMultiply(Operator op) => ProcessOperatorPolymorphic(op, new Multiply_OperatorDto());
+        protected override void VisitNegative(Operator op) => ProcessOperatorPolymorphic(op, new Negative_OperatorDto());
 
         protected override void VisitNoise(Operator op)
         {
             var dto = new Noise_OperatorDto();
-            ProcessOperator(op, dto);
+            ProcessOperatorPolymorphic(op, dto);
 
             dto.ArrayDto = _calculatorCache.GetNoiseArrayDto();
         }
 
-        protected override void VisitNot(Operator op) => ProcessOperator(op, new Not_OperatorDto());
-        protected override void VisitNotchFilter(Operator op) => ProcessOperator(op, new NotchFilter_OperatorDto());
-        protected override void VisitNotEqual(Operator op) => ProcessOperator(op, new NotEqual_OperatorDto());
+        protected override void VisitNot(Operator op) => ProcessOperatorPolymorphic(op, new Not_OperatorDto());
+        protected override void VisitNotchFilter(Operator op) => ProcessOperatorPolymorphic(op, new NotchFilter_OperatorDto());
+        protected override void VisitNotEqual(Operator op) => ProcessOperatorPolymorphic(op, new NotEqual_OperatorDto());
 
         protected override void VisitNumber(Operator op)
         {
             var dto = new Number_OperatorDto();
-            ProcessOperator(op, dto);
+            ProcessOperatorPolymorphic(op, dto);
 
             var wrapper = new Number_OperatorWrapper(op);
             dto.Number = wrapper.Number;
         }
 
-        protected override void VisitOr(Operator op) => ProcessOperator(op, new Or_OperatorDto());
-        protected override void VisitPeakingEQFilter(Operator op) => ProcessOperator(op, new PeakingEQFilter_OperatorDto());
-        protected override void VisitPower(Operator op) => ProcessOperator(op, new Power_OperatorDto());
-        protected override void VisitPulseTrigger(Operator op) => ProcessOperator(op, new PulseTrigger_OperatorDto());
+        protected override void VisitOr(Operator op) => ProcessOperatorPolymorphic(op, new Or_OperatorDto());
+        protected override void VisitPeakingEQFilter(Operator op) => ProcessOperatorPolymorphic(op, new PeakingEQFilter_OperatorDto());
+        protected override void VisitPower(Operator op) => ProcessOperatorPolymorphic(op, new Power_OperatorDto());
+        protected override void VisitPulseTrigger(Operator op) => ProcessOperatorPolymorphic(op, new PulseTrigger_OperatorDto());
 
         protected override void VisitRandom(Operator op)
         {
             var dto = new Random_OperatorDto();
-            ProcessOperator(op, dto);
+            ProcessOperatorPolymorphic(op, dto);
 
             var wrapper = new Random_OperatorWrapper(op);
             dto.ResampleInterpolationTypeEnum = wrapper.InterpolationType;
             dto.ArrayDto = _calculatorCache.GetRandomArrayDto(wrapper.InterpolationType);
         }
 
-        protected override void VisitRangeOverDimension(Operator op) => ProcessOperator(op, new RangeOverDimension_OperatorDto());
+        protected override void VisitRangeOverDimension(Operator op) => ProcessOperatorPolymorphic(op, new RangeOverDimension_OperatorDto());
 
         protected override void VisitRangeOverOutletsOutlet(Outlet outlet)
         {
             base.VisitRangeOverOutletsOutlet(outlet);
 
             Operator op = outlet.Operator;
+
+            // NOTE: Do not call ProcessOperatorPolymorphic, because that will cause circular processing.
 
             var dto = new RangeOverOutlets_Outlet_OperatorDto
             {
@@ -270,12 +275,12 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        protected override void VisitRemainder(Operator op) => ProcessOperator(op, new Remainder_OperatorDto());
+        protected override void VisitRemainder(Operator op) => ProcessOperatorPolymorphic(op, new Remainder_OperatorDto());
 
         protected override void VisitReset(Operator op)
         {
             var dto = new Reset_OperatorDto();
-            ProcessOperator(op, dto);
+            ProcessOperatorPolymorphic(op, dto);
 
             dto.Name = op.Name;
 
@@ -283,7 +288,7 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.Position = wrapper.Position;
         }
 
-        protected override void VisitRound(Operator op) => ProcessOperator(op, new Round_OperatorDto());
+        protected override void VisitRound(Operator op) => ProcessOperatorPolymorphic(op, new Round_OperatorDto());
 
         /// <see cref="OperatorEntityVisitorBase.VisitSampleWithRate1"/>
         private Operator _currentSampleOperator;
@@ -299,7 +304,8 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override void VisitSampleWithRate1(Operator op)
         {
             var dto = new SampleWithRate1_OperatorDto();
-            ProcessOperator(op, dto);
+
+            ProcessOperatorPolymorphic(op, dto);
 
             SetDimensionProperties(_currentSampleOperator, dto);
 
@@ -315,14 +321,16 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override void VisitSetDimension(Operator op) => ProcessOperator(op, new SetDimension_OperatorDto());
-        protected override void VisitSineWithRate1(Operator op) => ProcessOperator(op, new SineWithRate1_OperatorDto());
+        protected override void VisitSetDimension(Operator op) => ProcessOperatorPolymorphic(op, new SetDimension_OperatorDto());
+        protected override void VisitSineWithRate1(Operator op) => ProcessOperatorPolymorphic(op, new SineWithRate1_OperatorDto());
 
         protected override void VisitSortOverInletsOutlet(Outlet outlet)
         {
             base.VisitSortOverInletsOutlet(outlet);
 
             Operator op = outlet.Operator;
+
+            // NOTE: Do not call ProcessOperatorPolymorphic, because that will cause circular processing.
 
             // ReSharper disable once UseObjectOrCollectionInitializer
             var dto = new SortOverInlets_Outlet_OperatorDto
@@ -345,33 +353,21 @@ namespace JJ.Business.Synthesizer.Visitors
             _stack.Push(dto);
         }
 
-        protected override void VisitSortOverDimension(Operator op) => ProcessOperator(op, new SortOverDimension_OperatorDto());
-        protected override void VisitSpectrum(Operator op) => ProcessOperator(op, new Spectrum_OperatorDto());
-        protected override void VisitSquash(Operator op) => ProcessOperator(op, new Squash_OperatorDto());
-        protected override void VisitSubtract(Operator op) => ProcessOperator(op, new Subtract_OperatorDto());
-        protected override void VisitSumOverDimension(Operator op) => ProcessOperator(op, new SumOverDimension_OperatorDto());
-        protected override void VisitSumFollower(Operator op) => ProcessOperator(op, new SumFollower_OperatorDto());
-        protected override void VisitTriangleWithRate1(Operator op) => ProcessOperator(op, new TriangleWithRate1_OperatorDto());
-        protected override void VisitToggleTrigger(Operator op) => ProcessOperator(op, new ToggleTrigger_OperatorDto());
+        protected override void VisitSortOverDimension(Operator op) => ProcessOperatorPolymorphic(op, new SortOverDimension_OperatorDto());
+        protected override void VisitSpectrum(Operator op) => ProcessOperatorPolymorphic(op, new Spectrum_OperatorDto());
+        protected override void VisitSquash(Operator op) => ProcessOperatorPolymorphic(op, new Squash_OperatorDto());
+        protected override void VisitSubtract(Operator op) => ProcessOperatorPolymorphic(op, new Subtract_OperatorDto());
+        protected override void VisitSumOverDimension(Operator op) => ProcessOperatorPolymorphic(op, new SumOverDimension_OperatorDto());
+        protected override void VisitSumFollower(Operator op) => ProcessOperatorPolymorphic(op, new SumFollower_OperatorDto());
+        protected override void VisitTriangleWithRate1(Operator op) => ProcessOperatorPolymorphic(op, new TriangleWithRate1_OperatorDto());
+        protected override void VisitToggleTrigger(Operator op) => ProcessOperatorPolymorphic(op, new ToggleTrigger_OperatorDto());
 
         // Helpers
 
         /// <summary>
-        /// Contains all the code shared by all the operator types' processing +
-        /// setting the CollectionRecalculation.
-        /// </summary>
-        private void ProcessOperator(Operator op, OperatorDtoBase_WithCollectionRecalculation dto)
-        {
-            ProcessOperator(op, (IOperatorDto)dto);
-
-            var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
-            dto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
-        }
-
-        /// <summary>
         /// Contains all the code shared by all the operator types' processing.
         /// </summary>
-        private void ProcessOperator(Operator op, IOperatorDto dto)
+        private void ProcessOperatorPolymorphic(Operator op, IOperatorDto dto)
         {
             VisitOperatorBase(op);
 
@@ -388,10 +384,33 @@ namespace JJ.Business.Synthesizer.Visitors
                 }
             }
 
+            // TODO: Remove outcommented code.
+            //{
+            //    if (dto is IOperatorDto_WithAggregateInfo castedDto)
+            //    {
+            //        castedDto.GetAggregateInfo = AggregateInfoFactory.CreateAggregateInfo(dto.Inputs);
+            //    }
+            //}
+
             {
-                if (dto is IOperatorDto_WithAggregateInfo castedDto)
+                if (dto is OperatorDtoBase_WithCollectionRecalculation castedDto)
                 {
-                    castedDto.AggregateInfo = AggregateInfoFactory.CreateAggregateInfo(dto.Inputs);
+                    var wrapper = new OperatorWrapper_WithCollectionRecalculation(op);
+                    castedDto.CollectionRecalculationEnum = wrapper.CollectionRecalculation;
+                }
+            }
+
+            {
+                if (dto is IOperatorDto_PositionReader castedDto)
+                {
+                    castedDto.Position = new Number_OperatorDto(0);
+                }
+            }
+
+            {
+                if (dto is IOperatorDto_WithAdditionalChannelDimension castedDto)
+                {
+                    castedDto.Channel = new Number_OperatorDto(0);
                 }
             }
 
@@ -455,8 +474,8 @@ namespace JJ.Business.Synthesizer.Visitors
 
                     dto = new VariableInput_OperatorDto
                     {
-                        DimensionEnum = wrapper.Inlet.GetDimensionEnumWithFallback(),
-                        CanonicalName = NameHelper.ToCanonical(wrapper.Inlet.GetNameWithFallback()),
+                        StandardDimensionEnum = wrapper.Inlet.GetDimensionEnumWithFallback(),
+                        CanonicalCustomDimensionName = NameHelper.ToCanonical(wrapper.Inlet.GetNameWithFallback()),
                         Position = wrapper.Inlet.Position,
                         DefaultValue = wrapper.Inlet.DefaultValue ?? 0.0
                     };

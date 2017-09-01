@@ -209,28 +209,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool hasMinX = dto.MinX != 0.0;
-
             if (dto.CurveID == 0)
             {
                 dto2 = new Curve_OperatorDto_NoCurve();
             }
-            if (!hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
+            if (dto.StandardDimensionEnum == DimensionEnum.Time)
             {
-                dto2 = new Curve_OperatorDto_MinXZero_WithOriginShifting();
+                dto2 = new Curve_OperatorDto_WithOriginShifting();
             }
-            else if (!hasMinX && dto.StandardDimensionEnum != DimensionEnum.Time)
+            else if (dto.StandardDimensionEnum != DimensionEnum.Time)
             {
-                dto2 = new Curve_OperatorDto_MinXZero_NoOriginShifting();
-            }
-            else if (hasMinX && dto.StandardDimensionEnum == DimensionEnum.Time)
-            {
-                dto2 = new Curve_OperatorDto_MinX_WithOriginShifting();
-            }
-            else if (hasMinX && dto.StandardDimensionEnum != DimensionEnum.Time)
-            {
-                dto2 = new Curve_OperatorDto_MinX_NoOriginShifting();
+                dto2 = new Curve_OperatorDto_NoOriginShifting();
             }
             else
             {
@@ -382,37 +371,11 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.Visit_Loop_OperatorDto(dto);
 
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
-            bool skipEqualsLoopStartMarker = dto.Skip.IsConst && dto.LoopStartMarker.IsConst && dto.Skip.Const == dto.LoopStartMarker.Const;
-            bool noNoteDuration = dto.NoteDuration.IsConst && dto.NoteDuration.Const >= CalculationHelper.VERY_HIGH_VALUE;
-            bool noReleaseEndMarker = dto.ReleaseEndMarker.IsConst && dto.ReleaseEndMarker.Const >= CalculationHelper.VERY_HIGH_VALUE;
-            bool noSkip = dto.Skip.IsConstZero;
-
             IOperatorDto dto2;
 
             if (dto.Signal.IsConst)
             {
                 dto2 = new Loop_OperatorDto_ConstSignal();
-            }
-            else if (noSkip && noReleaseEndMarker && dto.LoopStartMarker.IsConst && dto.LoopEndMarker.IsConst)
-            {
-                dto2 = new Loop_OperatorDto_NoSkipOrRelease_ManyConstants();
-            }
-            else if (dto.Skip.IsConst && dto.LoopStartMarker.IsConst && dto.LoopEndMarker.IsConst && dto.ReleaseEndMarker.IsConst)
-            {
-                dto2 = new Loop_OperatorDto_ManyConstants();
-            }
-            else if (dto.Skip.IsConst && skipEqualsLoopStartMarker && dto.LoopEndMarker.IsConst && noNoteDuration)
-            {
-                dto2 = new Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration();
-            }
-            else if (dto.Skip.IsConst && skipEqualsLoopStartMarker && dto.LoopEndMarker.IsVar && noNoteDuration)
-            {
-                dto2 = new Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration();
-            }
-            else if (noSkip && noReleaseEndMarker)
-            {
-                dto2 = new Loop_OperatorDto_NoSkipOrRelease();
             }
             else
             {
@@ -725,11 +688,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
             IOperatorDto dto2;
 
-            if (dto.Signal.IsConst)
-            {
-                dto2 = new Squash_OperatorDto_ConstSignal();
-            }
-            else if (dto.Factor.IsConstZero)
+            if (dto.Factor.IsConstZero)
             {
                 dto2 = new Squash_OperatorDto_FactorZero();
             }
@@ -799,7 +758,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             else
             {
-                dto2 = new SumFollower_OperatorDto_SignalVarOrConst_OtherInputsVar();
+                dto2 = new SumFollower_OperatorDto_AllVars();
             }
 
             DtoCloner.CloneProperties(dto, dto2);

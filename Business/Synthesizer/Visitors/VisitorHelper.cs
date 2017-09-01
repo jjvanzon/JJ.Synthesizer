@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
@@ -12,30 +10,6 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal static class VisitorHelper
     {
-        public static bool IsDimensionWriter(IOperatorDto dto)
-        {
-            Type dtoType = dto.GetType();
-            bool isDimensionWriter = _dimensionWriting_OperatorDto_Types.Contains(dtoType);
-            return isDimensionWriter;
-        }
-
-        private static readonly HashSet<Type> _dimensionWriting_OperatorDto_Types = new HashSet<Type>
-        {
-            typeof(DimensionToOutlets_Outlet_OperatorDto),
-            typeof(Loop_OperatorDto),
-            typeof(Loop_OperatorDto_NoSkipOrRelease_ManyConstants),
-            typeof(Loop_OperatorDto_ManyConstants),
-            typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_ConstLoopEndMarker_NoNoteDuration),
-            typeof(Loop_OperatorDto_ConstSkip_WhichEqualsLoopStartMarker_VarLoopEndMarker_NoNoteDuration),
-            typeof(Loop_OperatorDto_NoSkipOrRelease),
-            typeof(Loop_OperatorDto_AllVars),
-            typeof(SetDimension_OperatorDto),
-            typeof(Squash_OperatorDto),
-            typeof(Squash_OperatorDto_ZeroOrigin),
-            typeof(Squash_OperatorDto_ConstFactor_WithOriginShifting),
-            typeof(Squash_OperatorDto_VarFactor_WithPhaseTracking),
-        };
-
         /// <summary>
         /// Checks whether the stack count is incremented by exactly 1 after the action.
         /// It looks like this functionality belongs in a base visitor,
@@ -79,21 +53,6 @@ namespace JJ.Business.Synthesizer.Visitors
             }
             int samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
             return samplesBetweenApplyFilterVariables;
-        }
-
-        public static void AssertDimensionStacksCountsAre1(DimensionStackCollection dimensionStackCollection)
-        {
-            if (dimensionStackCollection == null) throw new NullException(() => dimensionStackCollection);
-
-            foreach (DimensionStack dimensionStack in dimensionStackCollection.GetDimensionStacks())
-            {
-                // ReSharper disable once InvertIf
-                if (dimensionStack.Count != 1) // 1, because a single item is added by default as when the DimensionStackCollection is initialized.
-                {
-                    var dimensionIdentifier = new { dimensionStack.CanonicalCustomDimensionName, dimensionStack.StandardDimensionEnum };
-                    throw new Exception($"DimensionStack.Count for DimensionStack {dimensionIdentifier} should be 1 but it is {dimensionStack.Count}.");
-                }
-            }
         }
     }
 }

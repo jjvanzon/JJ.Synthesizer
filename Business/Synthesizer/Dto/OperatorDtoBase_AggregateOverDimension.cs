@@ -3,7 +3,8 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_AggregateOverDimension : OperatorDtoBase_WithCollectionRecalculation, IOperatorDto_WithSignal
+    internal abstract class OperatorDtoBase_AggregateOverDimension
+        : OperatorDtoBase_WithCollectionRecalculation, IOperatorDto_WithSignal_WithDimension
     {
         public InputDto Signal { get; set; }
         public InputDto From { get; set; }
@@ -12,14 +13,14 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new[] { Signal, From, Till, Step };
+            get => new[] { Signal, From, Till, Step, Position };
             set
             {
-                var array = value.ToArray();
-                Signal = array[0];
-                From = array[1];
-                Till = array[2];
-                Step = array[3];
+                Signal = value.ElementAtOrDefault(0);
+                From = value.ElementAtOrDefault(1);
+                Till = value.ElementAtOrDefault(2);
+                Step = value.ElementAtOrDefault(3);
+                Position = value.ElementAtOrDefault(4);
             }
         }
     }

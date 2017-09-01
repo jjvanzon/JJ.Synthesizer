@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Configuration;
@@ -23,8 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 #endif
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
-        private readonly DimensionStackCollection _dimensionStackCollection;
-        private readonly DimensionStack _timeDimensionStack;
+        private readonly VariableInput_OperatorCalculator _timeInputCalculator;
 
         private readonly OperatorCalculatorBase _outputOperatorCalculator;
         /// <summary> Array, instead of IList&lt;T&gt; for optimization in calculating values. </summary>
@@ -50,22 +48,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             ToCalculatorResult result;
             switch (_calculationMethodEnum)
             {
-                case CalculationMethodEnum.EntityToCalculatorDirectly:
-                    {
-                        var visitor = new OperatorEntityToCalculatorDirectlyVisitor(
-                            topLevelOutlet,
-                            samplingRate,
-                            channelCount,
-                            secondsBetweenApplyFilterVariables,
-                            calculatorCache,
-                            curveRepository,
-                            sampleRepository,
-                            speakerSetupRepository);
-
-                        result = visitor.Execute();
-                        break;
-                    }
-
                 case CalculationMethodEnum.EntityThruDtoToCalculator:
                     {
                         var visitor = new OperatorEntityThruDtoToCalculatorExecutor(
@@ -86,7 +68,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // Yield over results to fields.
-            _dimensionStackCollection = result.DimensionStackCollection;
             _outputOperatorCalculator = result.Output_OperatorCalculator;
             _inputOperatorCalculators = result.Input_OperatorCalculators.Sort().ToArray();
             _position_To_ResettableOperatorCalculators_Dictionary = 
@@ -103,35 +84,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 DimensionEnum dimensionEnum = inputOperatorCalculator.DimensionEnum;
                 string name = NameHelper.ToCanonical(inputOperatorCalculator.CanonicalName);
 
-                // Copy input calculator (default) values to dimensions.
-                DimensionStack dimensionStackByEnum = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-                dimensionStackByEnum.Set(value);
-
-                DimensionStack dimensionStackByName = _dimensionStackCollection.GetDimensionStack(name);
-                dimensionStackByName.Set(value);
-
                 // Copy input calculator values to dictionaries.
                 _position_To_Value_Dictionary[position] = value;
                 _dimensionEnum_To_Value_Dictionary[dimensionEnum] = value;
                 _name_To_Value_Dictionary[name] = value;
-
-                var key2 = new Tuple<DimensionEnum, int>(dimensionEnum, position);
-                _dimensionEnumAndPosition_To_Value_Dictionary[key2] = value;
-
-                var key1 = new Tuple<string, int>(name, position);
-                _nameAndPosition_To_Value_Dictionary[key1] = value;
+                _dimensionEnumAndPosition_To_Value_Dictionary[(dimensionEnum, position)] = value;
+                _nameAndPosition_To_Value_Dictionary[(name, position)] = value;
             }
 
-            // Get special dimensions' stacks.
-            _timeDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Time);
-            DimensionStack channelDimensionStack = _dimensionStackCollection.GetDimensionStack(DimensionEnum.Channel);
+            // Get special dimensions' inputs.
 
+            // Instead of just getting a Single one with DimensionEnum.Time / DimensionEnum.Channel,
+            // make the filters a little more specific and the selection more multiplificy tollerant,
+            // because these dimensions can just as well be used by the user,
+            // even though it is supposed to be used primarily by the system.
+            // Note that e.g. _timeInputCalculator can even be null, if the calculation does not even use time.
+
+            _timeInputCalculator = result.Input_OperatorCalculators
+                                         .Where(x => x.DimensionEnum == DimensionEnum.Time && x.Position == 0 && x.CanonicalName == "")
+                                         .DefaultIfEmpty(new VariableInput_OperatorCalculator(DimensionEnum.Time, "", 0, 0))
+                                         .First();
+
+            VariableInput_OperatorCalculator channelInputCalculator = result.Input_OperatorCalculators
+                                                                            .Where(x => x.DimensionEnum == DimensionEnum.Channel && x.Position == 0 && x.CanonicalName == "")
+                                                                            .DefaultIfEmpty(new VariableInput_OperatorCalculator(DimensionEnum.Channel, "", 0, 0))
+                                                                            .FirstOrDefault();
             // Set special channel dimension value.
-#if !USE_INVAR_INDICES
-            channelDimensionStack.Set(channelIndex);
-#else
-            _channelDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, channelIndex);
-#endif
+            channelInputCalculator._value = channelIndex;
         }
 
         // Calculate
@@ -148,18 +127,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             int channelCount = _channelCount;
             double frameDuration = _frameDuration;
             int valueCount = frameCount * channelCount;
-            DimensionStack timeDimensionStack = _timeDimensionStack;
+            VariableInput_OperatorCalculator timeInputCalculator = _timeInputCalculator;
 
             double t = t0;
 
             // Writes values in an interleaved way to the buffer.
             for (int i = channelIndex; i < valueCount; i += channelCount)
             {
-#if !USE_INVAR_INDICES
-                timeDimensionStack.Set(t);
-#else
-                timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, t);
-#endif
+                timeInputCalculator._value = t;
+
                 double value = _outputOperatorCalculator.Calculate();
 
                 // winmm will trip over NaN.
@@ -193,9 +169,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             base.SetValue(dimensionEnum, value);
 
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-            dimensionStack.Set(value);
-
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
                 if (inputCalculator.DimensionEnum == dimensionEnum)
@@ -211,9 +184,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(canonicalName);
-            dimensionStack.Set(value);
-
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
                 if (string.Equals(inputCalculator.CanonicalName, canonicalName))
@@ -226,9 +196,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         public override void SetValue(DimensionEnum dimensionEnum, int position, double value)
         {
             base.SetValue(dimensionEnum, position, value);
-
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(dimensionEnum);
-            dimensionStack.Set(value);
 
             int position2 = 0;
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
@@ -253,9 +220,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             string canonicalName = NameHelper.ToCanonical(name);
 
-            DimensionStack dimensionStack = _dimensionStackCollection.GetDimensionStack(canonicalName);
-            dimensionStack.Set(value);
-
             int position2 = 0;
             foreach (VariableInput_OperatorCalculator inputCalculator in _inputOperatorCalculators)
             {
@@ -277,11 +241,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public override void Reset(double time)
         {
-#if !USE_INVAR_INDICES
-            _timeDimensionStack.Set(time);
-#else
-            _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
-#endif
+            _timeInputCalculator._value = time;
+     
             //// HACK: Reset does not work for other dimensions than time.
             //// (This means that MidiInputProcessor should reset only for the time dimension,
             //// but through the Reset method of IPatchCalculator you cannot be specific about what dimension it is.)
@@ -301,11 +262,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             string canonicalName = NameHelper.ToCanonical(name);
 
-#if !USE_INVAR_INDICES
-            _timeDimensionStack.Set(time);
-#else
-            _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
-#endif
+            _timeInputCalculator._value = time;
+     
             //// HACK: Reset does not work for other dimensions than time.
             //// (This means that MidiInputProcessor should reset only for the time dimension,
             //// but through the Reset method of IPatchCalculator you cannot be specific about what dimension it is.)
@@ -330,11 +288,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public override void Reset(double time, int position)
         {
-#if !USE_INVAR_INDICES
-            _timeDimensionStack.Set(time);
-#else
-            _timeDimensionStack.Set(TOP_LEVEL_DIMENSION_STACK_INDEX, time);
-#endif
+            _timeInputCalculator._value = time;
+     
             //// HACK: Reset does not work for other dimensions than time.
             //// (This means that MidiInputProcessor should reset only for the time dimension,
             //// but through the Reset method of IPatchCalculator you cannot be specific about what dimension it is.)
