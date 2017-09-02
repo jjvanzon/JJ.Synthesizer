@@ -422,7 +422,7 @@ namespace JJ.Business.Synthesizer
             IPatchCalculator patchCalculator;
             switch (_calculationMethodEnum)
             {
-                case CalculationMethodEnum.EntityThruDtoToCalculator:
+                case CalculationMethodEnum.CalculatorClasses:
                     patchCalculator = new SingleChannelPatchCalculator(
                         outlet,
                         samplingRate,

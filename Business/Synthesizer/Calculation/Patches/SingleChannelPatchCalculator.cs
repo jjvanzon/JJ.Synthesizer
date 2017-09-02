@@ -48,9 +48,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             ToCalculatorResult result;
             switch (_calculationMethodEnum)
             {
-                case CalculationMethodEnum.EntityThruDtoToCalculator:
+                case CalculationMethodEnum.CalculatorClasses:
                     {
-                        var visitor = new OperatorEntityThruDtoToCalculatorExecutor(
+                        var visitor = new OperatorEntityToCalculatorExecutor(
                             samplingRate,
                             channelCount,
                             secondsBetweenApplyFilterVariables,

@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorEntityThruDtoToCalculatorExecutor
+    internal class OperatorEntityToCalculatorExecutor
     {
         private readonly int _targetSamplingRate;
         private readonly int _targetChannelCount;
@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Visitors
         private readonly ISampleRepository _sampleRepository;
         private readonly ISpeakerSetupRepository _speakerSetupRepository;
 
-        public OperatorEntityThruDtoToCalculatorExecutor(
+        public OperatorEntityToCalculatorExecutor(
             int targetSamplingRate,
             int targetChannelCount,
             double secondsBetweenApplyFilterVariables,
