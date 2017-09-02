@@ -9,13 +9,13 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitor_TransformationsToPositionInputs : OperatorDtoVisitorBase_AfterProgrammerLaziness
     {
-        private Dictionary<(DimensionEnum, string), Stack<IOperatorDto_PositionWriter>> _dimension_ToPositionWriterStack_Dictionary;
+        private Dictionary<(DimensionEnum, string), Stack<IOperatorDto_WithPositionOutput>> _dimension_ToPositionWriterStack_Dictionary;
 
         public IOperatorDto Execute(IOperatorDto dto)
         {
             if (dto == null) throw new ArgumentNullException(nameof(dto));
 
-            _dimension_ToPositionWriterStack_Dictionary = new Dictionary<(DimensionEnum, string), Stack<IOperatorDto_PositionWriter>>();
+            _dimension_ToPositionWriterStack_Dictionary = new Dictionary<(DimensionEnum, string), Stack<IOperatorDto_WithPositionOutput>>();
 
             dto = Visit_OperatorDto_Polymorphic(dto);
 
@@ -25,10 +25,10 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
             var positionReaderDto = dto as IOperatorDto_PositionReader;
-            var positionWriterDto = dto as IOperatorDto_PositionWriter;
+            var positionWriterDto = dto as IOperatorDto_WithPositionOutput;
             var dtoWithAdditionalChannelDimension = dto as IOperatorDto_WithAdditionalChannelDimension;
-            Stack<IOperatorDto_PositionWriter> transformationStack = TryGetPositionWriterStack(positionReaderDto);
-            Stack<IOperatorDto_PositionWriter> channelTransformationStack = null;
+            Stack<IOperatorDto_WithPositionOutput> transformationStack = TryGetPositionWriterStack(positionReaderDto);
+            Stack<IOperatorDto_WithPositionOutput> channelTransformationStack = null;
             if (dtoWithAdditionalChannelDimension != null)
             {
                 channelTransformationStack = GetPositionWriterStack(DimensionEnum.Channel, "");
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (positionReaderDto != null)
             {
                 // Set Position Reader's Position Input
-                IOperatorDto_PositionWriter inputPositionWriterDto = transformationStack.PeekOrDefault();
+                IOperatorDto_WithPositionOutput inputPositionWriterDto = transformationStack.PeekOrDefault();
 
                 if (inputPositionWriterDto != null)
                 {
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dtoWithAdditionalChannelDimension != null)
             {
                 // Set Position Reader's Position Input
-                IOperatorDto_PositionWriter inputPositionWriterDto = channelTransformationStack.PeekOrDefault();
+                IOperatorDto_WithPositionOutput inputPositionWriterDto = channelTransformationStack.PeekOrDefault();
 
                 if (inputPositionWriterDto != null)
                 {
@@ -122,7 +122,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Annul position writer signal, so it does not accidentally get used anymore.
                 // -1 is less confusing than 0 as a quasi-null.
                 // NaN is no option, because NaN inputs => NaN output.
-                positionWriterDto.Signal = new Number_OperatorDto(-1);
+
+                if (!(dto is Cache_OperatorDto)) // Cache needs the signal, even though it also needs everything to be a position reader.
+                {
+                    positionWriterDto.Signal = new Number_OperatorDto(-1);
+                }
 
                 // Pop Position Writer
                 transformationStack.Pop();
@@ -131,7 +135,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        private Stack<IOperatorDto_PositionWriter> TryGetPositionWriterStack(IOperatorDto_WithDimension positionReaderDto)
+        private Stack<IOperatorDto_WithPositionOutput> TryGetPositionWriterStack(IOperatorDto_WithDimension positionReaderDto)
         {
             if (positionReaderDto == null)
             {
@@ -141,20 +145,20 @@ namespace JJ.Business.Synthesizer.Visitors
             return GetPositionWriterStack(positionReaderDto);
         }
 
-        private Stack<IOperatorDto_PositionWriter> GetPositionWriterStack(IOperatorDto_WithDimension castedDto)
+        private Stack<IOperatorDto_WithPositionOutput> GetPositionWriterStack(IOperatorDto_WithDimension castedDto)
         {
             if (castedDto == null) throw new ArgumentNullException(nameof(castedDto));
 
             return GetPositionWriterStack(castedDto.StandardDimensionEnum, castedDto.CanonicalCustomDimensionName);
         }
 
-        private Stack<IOperatorDto_PositionWriter> GetPositionWriterStack(DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName)
+        private Stack<IOperatorDto_WithPositionOutput> GetPositionWriterStack(DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName)
         {
             var key = (standardDimensionEnum, canonicalCustomDimensionName);
 
-            if (!_dimension_ToPositionWriterStack_Dictionary.TryGetValue(key, out Stack<IOperatorDto_PositionWriter> stack))
+            if (!_dimension_ToPositionWriterStack_Dictionary.TryGetValue(key, out Stack<IOperatorDto_WithPositionOutput> stack))
             {
-                stack = new Stack<IOperatorDto_PositionWriter>();
+                stack = new Stack<IOperatorDto_WithPositionOutput>();
                 _dimension_ToPositionWriterStack_Dictionary[key] = stack;
             }
 

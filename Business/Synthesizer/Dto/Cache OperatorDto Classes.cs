@@ -4,7 +4,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Cache_OperatorDto : OperatorDtoBase_WithDimension, IOperatorDto_WithSignal_WithDimension
+    internal class Cache_OperatorDto 
+        : OperatorDtoBase_PositionReader, 
+          IOperatorDto_WithSignal_WithDimension,
+          IOperatorDto_WithAdditionalChannelDimension
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Cache;
 
@@ -14,21 +17,24 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto Start { get; set; }
         public InputDto End { get; set; }
         public InputDto SamplingRate { get; set; }
+        public InputDto Channel { get; set; }
 
+        public int ChannelDimensionStackLevel { get; set; }
         public int ChannelCount { get; set; }
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }
 
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new[] { Signal, Start, End, SamplingRate };
+            get => new[] { Signal, Start, End, SamplingRate, Position, Channel };
             set
             {
-                var array = value.ToArray();
-                Signal = array[0];
-                Start = array[1];
-                End = array[2];
-                SamplingRate = array[3];
+                Signal = value.ElementAtOrDefault(0);
+                Start = value.ElementAtOrDefault(1);
+                End = value.ElementAtOrDefault(2);
+                SamplingRate = value.ElementAtOrDefault(3);
+                Position = value.ElementAtOrDefault(4);
+                Channel = value.ElementAtOrDefault(5);
             }
         }
     }

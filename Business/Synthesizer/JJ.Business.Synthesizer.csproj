@@ -169,7 +169,7 @@
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
     <Compile Include="Dto\IOperatorDto_PositionReader.cs" />
-    <Compile Include="Dto\IOperatorDto_PositionWriter.cs" />
+    <Compile Include="Dto\IOperatorDto_WithPositionOutput.cs" />
     <Compile Include="Dto\IOperatorDto_WithAggregateInfo.cs" />
     <Compile Include="Dto\IOperatorDto_WithOutletPosition.cs" />
     <Compile Include="Dto\IOperatorDto.cs" />

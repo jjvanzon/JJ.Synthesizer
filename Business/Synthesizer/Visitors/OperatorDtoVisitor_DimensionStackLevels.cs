@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             // Determine whether dto is a dimension writer. If not, continue visiting.
-            bool isDimensionWriter = dto is IOperatorDto_PositionWriter;
+            bool isDimensionWriter = dto is IOperatorDto_WithPositionOutput;
             if (!isDimensionWriter)
             {
                 return base.Visit_OperatorDto_Polymorphic(dto);
