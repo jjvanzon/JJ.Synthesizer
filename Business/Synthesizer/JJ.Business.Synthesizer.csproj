@@ -307,7 +307,7 @@
     <Compile Include="Roslyn\OperatorDtoCompiler.cs" />
     <Compile Include="Roslyn\OperatorDtoToRawCSharpVisitor.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoToCSharpVisitorResult.cs" />
-    <Compile Include="Roslyn\Helpers\ExtendedVariableInfo.cs" />
+    <Compile Include="Roslyn\Helpers\InputVariableInfo.cs" />
     <Compile Include="Roslyn\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
@@ -337,7 +337,6 @@
     <Compile Include="Visitors\OperatorDtoVisitor_BooleanBoundaries.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_TransformationsToPositionInputs.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_OperationIdentityAssignment.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_DimensionStackLevels.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_InfrastructureVariables.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_OperationIdentityDeduplication.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_Rewriting.cs" />

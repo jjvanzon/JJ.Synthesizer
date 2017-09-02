@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 null);
         }
 
-        internal static IEnumerable<ExtendedVariableInfo> Sort(this IEnumerable<ExtendedVariableInfo> list)
+        internal static IEnumerable<InputVariableInfo> Sort(this IEnumerable<InputVariableInfo> list)
         {
             if (list == null) throw new NullException(() => list);
 

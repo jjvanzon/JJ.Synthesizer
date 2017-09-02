@@ -66,7 +66,6 @@ namespace JJ.Business.Synthesizer.Visitors
                     // take position inputs from the outside, so they become variable inputs.
                     var variableInput_OperatorDto = new VariableInput_OperatorDto
                     {
-                        DimensionStackLevel = positionReaderDto.DimensionStackLevel,
                         CanonicalCustomDimensionName = positionReaderDto.CanonicalCustomDimensionName,
                         StandardDimensionEnum = positionReaderDto.StandardDimensionEnum
                     };
@@ -89,7 +88,6 @@ namespace JJ.Business.Synthesizer.Visitors
                     // take position inputs from the outside, so they become variable inputs.
                     var variableInput_OperatorDto = new VariableInput_OperatorDto
                     {
-                        DimensionStackLevel = dtoWithAdditionalChannelDimension.ChannelDimensionStackLevel,
                         StandardDimensionEnum = DimensionEnum.Channel
                     };
                     dtoWithAdditionalChannelDimension.Channel = variableInput_OperatorDto;

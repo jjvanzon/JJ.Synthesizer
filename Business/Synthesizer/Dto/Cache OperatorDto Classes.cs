@@ -19,7 +19,6 @@ namespace JJ.Business.Synthesizer.Dto
         public InputDto SamplingRate { get; set; }
         public InputDto Channel { get; set; }
 
-        public int ChannelDimensionStackLevel { get; set; }
         public int ChannelCount { get; set; }
         public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
         public SpeakerSetupEnum SpeakerSetupEnum { get; set; }

@@ -24,7 +24,6 @@ namespace JJ.Business.Synthesizer.Helpers
                 {
                     castedDest.CanonicalCustomDimensionName = castedSource.CanonicalCustomDimensionName;
                     castedDest.StandardDimensionEnum = castedSource.StandardDimensionEnum;
-                    castedDest.DimensionStackLevel = castedSource.DimensionStackLevel;
                 }
             }
 
@@ -71,7 +70,6 @@ namespace JJ.Business.Synthesizer.Helpers
                     castedDest.InterpolationTypeEnum = castedSource.InterpolationTypeEnum;
                     castedDest.TargetChannelCount = castedSource.TargetChannelCount;
                     castedDest.ArrayDtos = castedSource.ArrayDtos;
-                    castedDest.ChannelDimensionStackLevel = castedSource.ChannelDimensionStackLevel;
                 }
             }
 

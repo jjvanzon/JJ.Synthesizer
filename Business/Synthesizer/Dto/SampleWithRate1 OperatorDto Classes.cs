@@ -18,7 +18,6 @@ namespace JJ.Business.Synthesizer.Dto
         public int TargetChannelCount { get; set; }
         /// <summary> 0 in case of no sample. (That made it easier than nullable in one DTO, not nullable in the other.) </summary>
         public int SampleID { get; set; }
-        public int ChannelDimensionStackLevel { get; set; }
         public IList<ArrayDto> ArrayDtos { get; set; }
 
         public override IReadOnlyList<InputDto> Inputs

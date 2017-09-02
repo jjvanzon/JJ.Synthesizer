@@ -6,7 +6,7 @@ using JJ.Framework.Exceptions;
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    internal class ExtendedVariableInfo
+    internal class InputVariableInfo
     {
         public string VariableNameCamelCase { get; }
         /// <summary> Can be null or empty. </summary>
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public double? DefaultValue { get; }
         public double? Value { get; }
 
-        public ExtendedVariableInfo(
+        public InputVariableInfo(
             string variableNameCamelCase,
             string canonicalName,
             DimensionEnum dimensionEnum, 

@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             {
                 if (visitorResult.InputVariableInfos.Any())
                 {
-                    foreach (ExtendedVariableInfo inputVariableInfo in visitorResult.InputVariableInfos)
+                    foreach (InputVariableInfo inputVariableInfo in visitorResult.InputVariableInfos)
                     {
                         sb.AppendLine($"_{inputVariableInfo.VariableNameCamelCase} = {CompilationHelper.FormatValue(inputVariableInfo.Value ?? 0.0)};");
                     }
@@ -355,7 +355,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendSetValue_ByPosition(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> inputVariableInfos = visitorResult.InputVariableInfos.Sort().ToArray();
+            IList<InputVariableInfo> inputVariableInfos = visitorResult.InputVariableInfos.Sort().ToArray();
 
             sb.AppendLine("public override void SetValue(int position, double value)");
             sb.AppendLine("{");
@@ -395,9 +395,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendSetValue_ByDimensionEnum(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> variableInfos = visitorResult.InputVariableInfos
-                                                                     .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
-                                                                     .ToArray();
+            IList<InputVariableInfo> inputVariableInfos = visitorResult.InputVariableInfos
+                                                                       .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
+                                                                       .ToArray();
 
             sb.AppendLine("public override void SetValue(DimensionEnum dimensionEnum, double value)");
             sb.AppendLine("{");
@@ -406,7 +406,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("base.SetValue(dimensionEnum, value);");
                 sb.AppendLine();
 
-                AppendSetValue_FieldAssignments_ByDimensionEnum(sb, variableInfos);
+                AppendSetValue_FieldAssignments_ByDimensionEnum(sb, inputVariableInfos);
 
                 sb.Unindent();
             }
@@ -415,9 +415,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendSetValue_ByName(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> variableInfos = visitorResult.InputVariableInfos
-                                                                     .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
-                                                                     .ToArray();
+            IList<InputVariableInfo> inputVariableInfos = visitorResult.InputVariableInfos
+                                                                       .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
+                                                                       .ToArray();
 
             sb.AppendLine("public override void SetValue(string name, double value)");
             sb.AppendLine("{");
@@ -429,16 +429,16 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("string canonicalName = NameHelper.ToCanonical(name);");
                 sb.AppendLine();
 
-                AppendSetValue_FieldAssignments_ByCanonicalName(sb, variableInfos);
+                AppendSetValue_FieldAssignments_ByCanonicalName(sb, inputVariableInfos);
 
                 sb.Unindent();
             }
             sb.AppendLine("}");
         }
-        
+
         private void AppendSetValue_ByDimensionEnumAndPosition(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> inputVariableInfosToInclude =
+            IList<InputVariableInfo> inputVariableInfosToInclude =
                 visitorResult.InputVariableInfos
                              .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
                              .Sort()
@@ -461,7 +461,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendSetValue_ByNameAndPosition(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> inputVariableInfosToInclude =
+            IList<InputVariableInfo> inputVariableInfosToInclude =
                 visitorResult.InputVariableInfos
                              .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
                              .Sort()
@@ -485,7 +485,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         /// <summary> Assumes that the variable dimensionEnum is already declared in the generated code. </summary>
-        private void AppendSetValue_FieldAssignments_ByDimensionEnum(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByDimensionEnum(StringBuilderWithIndentation sb, IList<InputVariableInfo> variableInfos)
         {
             // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.DimensionEnum);
@@ -507,7 +507,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                     sb.AppendLine($"case {nameof(DimensionEnum)}.{group.Key}:");
                     sb.Indent();
                     {
-                        foreach (ExtendedVariableInfo variableInfo in group)
+                        foreach (InputVariableInfo variableInfo in group)
                         {
                             sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
                         }
@@ -525,7 +525,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// <summary> 
         /// Assumes that the variable canonicalName is already declared in the generated code.
         /// </summary>
-        private void AppendSetValue_FieldAssignments_ByCanonicalName(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByCanonicalName(StringBuilderWithIndentation sb, IList<InputVariableInfo> variableInfos)
         {
             // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.CanonicalName);
@@ -543,7 +543,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("{");
                 sb.Indent();
                 {
-                    foreach (ExtendedVariableInfo variableInfo in group)
+                    foreach (InputVariableInfo variableInfo in group)
                     {
                         sb.AppendLine($"_{variableInfo.VariableNameCamelCase} = value;");
                     }
@@ -558,7 +558,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// Assumes that the variable dimensionEnum is already declared in the generated code.
         /// Assumes variableInfos are already order by Position.
         /// </summary>
-        private void AppendSetValue_FieldAssignments_ByDimensionEnumAndPosition(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByDimensionEnumAndPosition(StringBuilderWithIndentation sb, IList<InputVariableInfo> variableInfos)
         {
             // ReSharper disable once SuggestVarOrType_Elsewhere
             var groups = variableInfos.GroupBy(x => x.DimensionEnum);
@@ -566,7 +566,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             foreach (var group in groups)
             {
                 int i = 0;
-                foreach (ExtendedVariableInfo inputVariableInfo in group)
+                foreach (InputVariableInfo inputVariableInfo in group)
                 {
                     sb.AppendLine($"if (dimensionEnum == {nameof(DimensionEnum)}.{group.Key} && position == {i})");
                     sb.AppendLine("{");
@@ -587,7 +587,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         /// Assumes that the variable canonicalName is already declared in the generated code.
         /// Assumes variableInfos are already order by Position.
         /// </summary>
-        private void AppendSetValue_FieldAssignments_ByCanonicalNameAndPosition(StringBuilderWithIndentation sb, IList<ExtendedVariableInfo> variableInfos)
+        private void AppendSetValue_FieldAssignments_ByCanonicalNameAndPosition(StringBuilderWithIndentation sb, IList<InputVariableInfo> variableInfos)
         {
             // Input Variables
             // ReSharper disable once SuggestVarOrType_Elsewhere
@@ -596,7 +596,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             foreach (var group in groups)
             {
                 int i = 0;
-                foreach (ExtendedVariableInfo inputVariableInfo in group)
+                foreach (InputVariableInfo inputVariableInfo in group)
                 {
                     sb.AppendLine($"if (String.Equals(canonicalName, \"{group.Key}\") && position == {i})");
                     sb.AppendLine("{");
@@ -619,7 +619,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                                                                       .ToArray();
         }
 
-        private bool IsAnonymousDimension(ExtendedVariableInfo extendedVariableInfo)
+        private bool IsAnonymousDimension(InputVariableInfo extendedVariableInfo)
         {
             bool isAnonymousDimension = extendedVariableInfo.DimensionEnum == DimensionEnum.Undefined && string.IsNullOrEmpty(extendedVariableInfo.CanonicalName);
             return isAnonymousDimension;

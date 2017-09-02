@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Helpers
             return operatorDto.GetType().Name;
         }
 
-        public static string GetDebuggerDisplay(ExtendedVariableInfo variableInfo)
+        public static string GetDebuggerDisplay(InputVariableInfo variableInfo)
         {
             if (variableInfo == null) throw new NullException(() => variableInfo);
 

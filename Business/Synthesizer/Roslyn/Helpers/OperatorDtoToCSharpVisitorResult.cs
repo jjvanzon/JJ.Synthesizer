@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public string ReturnValueLiteral { get; }
         public string FirstTimeVariableNameCamelCase { get; }
         public IList<string> LongLivedDoubleVariableNamesCamelCase { get; }
-        public IList<ExtendedVariableInfo> InputVariableInfos { get; }
+        public IList<InputVariableInfo> InputVariableInfos { get; }
         public IList<ArrayCalculationInfo> ArrayCalculationInfos { get; }
         public IList<DoubleArrayVariableInfo> LongLivedDoubleArrayVariableInfos { get; }
         public IList<string> CalculationMethodCodeList { get; }
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             string returnValueLiteral,
             string firstTimeVariableNameCamelCase,
             IList<string> longLivedPreviousPositionVariableNamesCamelCase,
-            IList<ExtendedVariableInfo> inputVariableInfos,
+            IList<InputVariableInfo> inputVariableInfos,
             IList<ArrayCalculationInfo> arrayCalculationInfos,
             IList<DoubleArrayVariableInfo> longLivedDoubleArrayVariableInfos,
             IList<string> calculationMethodCodeList,

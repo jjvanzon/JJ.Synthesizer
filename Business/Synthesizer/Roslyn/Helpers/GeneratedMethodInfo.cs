@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public IList<GeneratedParameterInfo> GetGeneratedParameterInfos()
         {
             // TODO: Repeated code from Execute method.
-            IList<ExtendedVariableInfo> inputVariableInfos = VariableInfo.VariableName_To_InputVariableInfo_Dictionary.Values.ToArray();
+            IList<InputVariableInfo> inputVariableInfos = VariableInfo.VariableName_To_InputVariableInfo_Dictionary.Values.ToArray();
             IList<ArrayCalculationInfo> arrayCalculationInfos = VariableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray();
 
             IList<string> longLivedDoubleVariableNamesCamelCase = VariableInfo.LongLivedDoubleVariableNamesCamelCase.ToArray();

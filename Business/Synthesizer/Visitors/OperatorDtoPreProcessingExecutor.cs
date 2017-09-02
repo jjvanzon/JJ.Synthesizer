@@ -27,7 +27,6 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             if (dto == null) throw new NullException(() => dto);
 
-            new OperatorDtoVisitor_DimensionStackLevels().Execute(dto);
             dto = new OperatorDtoVisitor_TransformationsToPositionInputs().Execute(dto);
             new OperatorDtoVisitor_InfrastructureVariables(_samplingRate, _targetChannelCount).Execute(dto);
             dto = new OperatorDtoVisitor_MathSimplification().Execute(dto);
