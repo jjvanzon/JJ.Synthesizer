@@ -4,8 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Random_OperatorDto 
-        : OperatorDtoBase_PositionReader
+    internal class Random_OperatorDto : OperatorDtoBase_PositionReader
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Random;
 

@@ -9,9 +9,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public string ReturnValueLiteral { get; }
         public string FirstTimeVariableNameCamelCase { get; }
         public IList<string> LongLivedDoubleVariableNamesCamelCase { get; }
-        public IList<string> LocallyReusedDoubleVariableNamesCamelCase { get; }
         public IList<ExtendedVariableInfo> InputVariableInfos { get; }
-        public IList<ExtendedVariableInfo> LongLivedDimensionVariableInfos { get; }
         public IList<ArrayCalculationInfo> ArrayCalculationInfos { get; }
         public IList<DoubleArrayVariableInfo> LongLivedDoubleArrayVariableInfos { get; }
         public IList<string> CalculationMethodCodeList { get; }
@@ -23,9 +21,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             string returnValueLiteral,
             string firstTimeVariableNameCamelCase,
             IList<string> longLivedPreviousPositionVariableNamesCamelCase,
-            IList<string> locallyReusedDoubleVariableNamesCamelCase,
             IList<ExtendedVariableInfo> inputVariableInfos,
-            IList<ExtendedVariableInfo> longLivedDimensionVariableInfos,
             IList<ArrayCalculationInfo> arrayCalculationInfos,
             IList<DoubleArrayVariableInfo> longLivedDoubleArrayVariableInfos,
             IList<string> calculationMethodCodeList,
@@ -36,9 +32,7 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
             ReturnValueLiteral = returnValueLiteral;
             FirstTimeVariableNameCamelCase = firstTimeVariableNameCamelCase;
             LongLivedDoubleVariableNamesCamelCase = longLivedPreviousPositionVariableNamesCamelCase;
-            LocallyReusedDoubleVariableNamesCamelCase = locallyReusedDoubleVariableNamesCamelCase;
             InputVariableInfos = inputVariableInfos;
-            LongLivedDimensionVariableInfos = longLivedDimensionVariableInfos;
             ArrayCalculationInfos = arrayCalculationInfos;
             LongLivedDoubleArrayVariableInfos = longLivedDoubleArrayVariableInfos;
             CalculationMethodCodeList = calculationMethodCodeList;

@@ -24,15 +24,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public Dictionary<VariableInput_OperatorDto, string> VariableInput_OperatorDto_To_VariableName_Dictionary { get; } =
             new Dictionary<VariableInput_OperatorDto, string>();
 
-        // Information for Dimension Values
-
-        public Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>
-            DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary { get; } =
-            new Dictionary<Tuple<DimensionEnum, string, int>, ExtendedVariableInfo>();
-
-        public Dictionary<Tuple<DimensionEnum, string>, string> StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary { get; } =
-            new Dictionary<Tuple<DimensionEnum, string>, string>();
-
         // Information about Satellite Calculators
 
         public Dictionary<ArrayDto, ArrayCalculationInfo> ArrayDto_To_ArrayCalculationInfo_Dictionary { get; } =

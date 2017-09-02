@@ -31,18 +31,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public IList<GeneratedParameterInfo> GetGeneratedParameterInfos()
         {
             // TODO: Repeated code from Execute method.
-            IList<ExtendedVariableInfo> longLivedDimensionVariableInfos =
-                VariableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                            .Where(x => x.Position == 0)
-                            .ToArray();
-
-            IList<string> locallyReusedDoubleVariableNamesCamelCase =
-                VariableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                            // ReSharper disable once PossibleMultipleEnumeration
-                            .Except(longLivedDimensionVariableInfos)
-                            .Select(x => x.VariableNameCamelCase)
-                            .ToArray();
-
             IList<ExtendedVariableInfo> inputVariableInfos = VariableInfo.VariableName_To_InputVariableInfo_Dictionary.Values.ToArray();
             IList<ArrayCalculationInfo> arrayCalculationInfos = VariableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray();
 
@@ -51,12 +39,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
 
             IList<GeneratedParameterInfo> list =
                 longLivedDoubleVariableNamesCamelCase.Select(y => new GeneratedParameterInfo { NameCamelCase = y, TypeName = nameof(Double) })
-                                                     .Union(
-                                                         locallyReusedDoubleVariableNamesCamelCase.Select(
-                                                             y => new GeneratedParameterInfo { NameCamelCase = y, TypeName = nameof(Double) }))
-                                                     .Union(
-                                                         longLivedDimensionVariableInfos.Select(
-                                                             y => new GeneratedParameterInfo { NameCamelCase = y.VariableNameCamelCase, TypeName = nameof(Double) }))
                                                      .Union(
                                                          inputVariableInfos.Select(
                                                              y => new GeneratedParameterInfo { NameCamelCase = y.VariableNameCamelCase, TypeName = nameof(Double) }))

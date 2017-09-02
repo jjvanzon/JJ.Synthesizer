@@ -3,7 +3,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
@@ -39,7 +38,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             // Build up Method Bodies
             var visitor = new OperatorDtoToRawCSharpVisitor(
-                _channelIndex,
                 RAW_CALCULATION_CODE_INDENT_LEVEL,
                 RAW_RESET_CODE_INDENT_LEVEL);
             OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto);
@@ -229,9 +227,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 // Copy Fields to Local
                 AppendCopyFieldsToLocal(sb, visitorResult);
 
-                // Declare Locally Reused Variables
-                AppendDeclareLocallyReusedVariables(sb, visitorResult);
-
                 // Initialize ValueCount variable
                 sb.AppendLine($"int valueCount = frameCount * {_channelCount};");
 
@@ -289,9 +284,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 // Copy Fields to Local
                 AppendCopyFieldsToLocal(sb, visitorResult);
 
-                // Declare Locally Reused Variables
-                AppendDeclareLocallyReusedVariables(sb, visitorResult);
-
                 // Initialize First Time Variable
                 sb.AppendLine($"{visitorResult.FirstTimeVariableNameCamelCase} = time;");
                 sb.AppendLine();
@@ -338,20 +330,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 foreach (DoubleArrayVariableInfo variableInfo in visitorResult.LongLivedDoubleArrayVariableInfos)
                 {
                     sb.AppendLine($"double[] {variableInfo.NameCamelCase} = _{variableInfo.NameCamelCase};");
-                }
-                sb.AppendLine();
-            }
-        }
-
-        private static void AppendDeclareLocallyReusedVariables(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
-        {
-            // ReSharper disable once InvertIf
-            if (visitorResult.LocallyReusedDoubleVariableNamesCamelCase.Any())
-            {
-                foreach (string variableName in visitorResult.LocallyReusedDoubleVariableNamesCamelCase)
-                {
-                    // TODO: Not sure if = 0.0 would harm performance at all, but it is needed to use ref parameters with uninlined methods.
-                    sb.AppendLine($"double {variableName} = 0.0;");
                 }
                 sb.AppendLine();
             }
@@ -417,8 +395,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendSetValue_ByDimensionEnum(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> variableInfos = visitorResult.LongLivedDimensionVariableInfos
-                                                                     .Union(visitorResult.InputVariableInfos)
+            IList<ExtendedVariableInfo> variableInfos = visitorResult.InputVariableInfos
                                                                      .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
                                                                      .ToArray();
 
@@ -438,8 +415,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendSetValue_ByName(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> variableInfos = visitorResult.LongLivedDimensionVariableInfos
-                                                                     .Union(visitorResult.InputVariableInfos)
+            IList<ExtendedVariableInfo> variableInfos = visitorResult.InputVariableInfos
                                                                      .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
                                                                      .ToArray();
 
@@ -462,12 +438,6 @@ namespace JJ.Business.Synthesizer.Roslyn
         
         private void AppendSetValue_ByDimensionEnumAndPosition(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> longLivedDimensionVariableInfosToInclude =
-                visitorResult.LongLivedDimensionVariableInfos
-                             .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
-                             .Sort()
-                             .ToArray();
-
             IList<ExtendedVariableInfo> inputVariableInfosToInclude =
                 visitorResult.InputVariableInfos
                              .Where(x => x.DimensionEnum != DimensionEnum.Undefined || IsAnonymousDimension(x))
@@ -481,10 +451,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("base.SetValue(dimensionEnum, position, value);");
                 sb.AppendLine();
 
-                // Dimension Variables
-                AppendSetValue_FieldAssignments_ByDimensionEnum(sb, longLivedDimensionVariableInfosToInclude);
-                sb.AppendLine();
-
                 // Input Variables
                 AppendSetValue_FieldAssignments_ByDimensionEnumAndPosition(sb, inputVariableInfosToInclude);
 
@@ -495,12 +461,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private void AppendSetValue_ByNameAndPosition(StringBuilderWithIndentation sb, OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            IList<ExtendedVariableInfo> longLivedDimensionVariableInfosToInclude =
-                visitorResult.LongLivedDimensionVariableInfos
-                             .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
-                             .Sort()
-                             .ToArray();
-
             IList<ExtendedVariableInfo> inputVariableInfosToInclude =
                 visitorResult.InputVariableInfos
                              .Where(x => !string.IsNullOrEmpty(x.CanonicalName) || IsAnonymousDimension(x))
@@ -514,10 +474,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 sb.AppendLine("base.SetValue(name, position, value);");
                 sb.AppendLine();
                 sb.AppendLine("string canonicalName = NameHelper.ToCanonical(name);");
-                sb.AppendLine();
-
-                // Dimension Variables
-                AppendSetValue_FieldAssignments_ByCanonicalName(sb, longLivedDimensionVariableInfosToInclude);
                 sb.AppendLine();
 
                 // Input Variables
@@ -659,8 +615,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private IList<string> GetDoubleInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult)
         {
-            return visitorResult.LongLivedDoubleVariableNamesCamelCase.Union(visitorResult.LongLivedDimensionVariableInfos.Select(x => x.VariableNameCamelCase))
-                                                                      .Union(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
+            return visitorResult.LongLivedDoubleVariableNamesCamelCase.Union(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
                                                                       .ToArray();
         }
 

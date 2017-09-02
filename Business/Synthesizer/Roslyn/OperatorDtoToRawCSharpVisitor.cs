@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
@@ -18,7 +17,6 @@ using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 // Class alias to prevent accidentally use other things from JJ.Framework.Mathematics, 
 // for which the copy from JJ.Business.Synthesizer.CopiedCode.FromFramework should be used.
-using NumberingSystems = JJ.Framework.Mathematics.NumberingSystems;
 using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Roslyn
@@ -51,20 +49,15 @@ namespace JJ.Business.Synthesizer.Roslyn
         private const string REMAINDER_SYMBOL = "%";
         private const string SUBTRACT_SYMBOL = "-";
 
-        private const string ANONYMOUS_MNEMONIC = "anynomous";
         private const string ARRAY_CALCULATOR_MNEMONIC = "arraycalculator";
         private const string ARRAY_MNEMONIC = "array";
         private const string CALCULATE_MNEMONIC = "calculate";
         private const string DEFAULT_INPUT_MNEMONIC = "input";
         private const string OFFSET_MNEMONIC = "offset";
-        private const string ORIGIN_MNEMONIC = "origin";
-        private const string PHASE_MNEMONIC = "phase";
-        private const string PREVIOUS_POSITION_MNEMONIC = "prevpos";
         private const string RESET_MNEMONIC = "reset";
 
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
-        private readonly int _channelIndex;
         private readonly int _calculationIndentLevel;
         private readonly int _resetIndentLevel;
 
@@ -83,9 +76,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         private Stack<GeneratedMethodInfo> _generatedMethodInfoStack;
         private Dictionary<int, GeneratedMethodInfo> _operatorID_To_GeneratedMethodInfo_Dictionary;
 
-        public OperatorDtoToRawCSharpVisitor(int channelIndex, int calculationIndentLevel, int resetIndentLevel)
+        public OperatorDtoToRawCSharpVisitor(int calculationIndentLevel, int resetIndentLevel)
         {
-            _channelIndex = channelIndex;
             _calculationIndentLevel = calculationIndentLevel;
             _resetIndentLevel = resetIndentLevel;
             _variableInfo = new VariableCollections();
@@ -112,8 +104,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 IndentLevel = _resetIndentLevel
             };
 
-            AppendInitializeDimensionValues();
-
             Visit_OperatorDto_Polymorphic(dto);
 
             // Gather up output
@@ -122,19 +112,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             string returnValueLiteral = _stack.Pop();
 
             // Get some more variable info
-            string firstTimeVariableNameCamelCase = GetPositionNameCamelCase(0, DimensionEnum.Time);
-
-            IList<ExtendedVariableInfo> longLivedDimensionVariableInfos =
-                _variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                             .Where(x => x.Position == 0)
-                             .Except(x => string.Equals(x.VariableNameCamelCase, firstTimeVariableNameCamelCase))
-                             .ToArray();
-
-            IList<string> locallyReusedDoubleVariableNamesCamelCase =
-                _variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.Values
-                             .Except(longLivedDimensionVariableInfos)
-                             .Select(x => x.VariableNameCamelCase)
-                             .ToArray();
+            string firstTimeVariableNameCamelCase =
+                _variableInfo.VariableName_To_InputVariableInfo_Dictionary
+                             .Where(x => x.Value.DimensionEnum == DimensionEnum.Time && x.Value.Position == 0 && x.Value.CanonicalName == "")
+                             .Select(x => x.Key)
+                             .DefaultIfEmpty(GetUniqueLongLivedVariableName(nameof(DimensionEnum.Time)))
+                             .First();
 
             IList<ExtendedVariableInfo> inputVariableInfos = _variableInfo.VariableName_To_InputVariableInfo_Dictionary.Values.ToArray();
             IList<ArrayCalculationInfo> arrayCalculationInfos = _variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray();
@@ -149,23 +132,11 @@ namespace JJ.Business.Synthesizer.Roslyn
                 returnValueLiteral,
                 firstTimeVariableNameCamelCase,
                 _variableInfo.LongLivedDoubleVariableNamesCamelCase,
-                locallyReusedDoubleVariableNamesCamelCase,
                 inputVariableInfos,
-                longLivedDimensionVariableInfos,
                 arrayCalculationInfos,
                 _variableInfo.LongLivedDoubleArrayVariableInfos,
                 calculationMethodCodeList,
                 resetMethodCodeList);
-        }
-
-        private void AppendInitializeDimensionValues()
-        {
-            AppendLineToReset("// Initialize Dimensions Values");
-
-            string channel = GetPositionNameCamelCase(0, DimensionEnum.Channel);
-            AppendLineToReset($"{channel} = {_channelIndex};");
-
-            AppendLineToReset();
         }
 
         /*[DebuggerHidden]*/
@@ -186,7 +157,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
         {
             string number = GetLiteralFromInputDto(dto.Number);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -236,8 +207,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
         {
             IList<string> items = dto.Inputs.Select(x => GetLiteralFromInputDto(x)).ToArray();
-            string sum = GetUniqueLocalVariableName(nameof(sum));
-            string output = GetLocalOutputName(dto);
+            string sum = GetUniqueVariableNameCamelCase(nameof(sum));
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string countLiteral = CompilationHelper.FormatValue(items.Count);
 
             AppendOperatorTitleComment(dto);
@@ -275,7 +246,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_BooleanToDouble_OperatorDto(BooleanToDouble_OperatorDto dto)
         {
             string input = GetLiteralFromInputDto(dto.Input);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
             AppendLine($"double {output} = {input} ? 1.0 : 0.0;");
@@ -378,11 +349,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             IList<string> items = dto.Items.Select(x => GetLiteralFromInputDto(x)).ToArray();
             int itemCount = items.Count;
             string firstItem = items.First();
-            string smallestDistance = GetUniqueLocalVariableName(nameof(smallestDistance));
-            string closestItem = GetUniqueLocalVariableName(nameof(closestItem));
-            string output = GetLocalOutputName(dto);
-            string transformedInput = GetUniqueLocalVariableName(nameof(transformedInput));
-            string transformedFirstItem = GetUniqueLocalVariableName(nameof(transformedFirstItem));
+            string smallestDistance = GetUniqueVariableNameCamelCase(nameof(smallestDistance));
+            string closestItem = GetUniqueVariableNameCamelCase(nameof(closestItem));
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
+            string transformedInput = GetUniqueVariableNameCamelCase(nameof(transformedInput));
+            string transformedFirstItem = GetUniqueVariableNameCamelCase(nameof(transformedFirstItem));
             const string geometry = nameof(Geometry);
             const string absoluteDistance = nameof(Geometry.AbsoluteDistance);
 
@@ -408,8 +379,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             for (int i = 1; i < itemCount; i++)
             {
                 string item = items[i];
-                string transformedItem = GetUniqueLocalVariableName(nameof(transformedItem));
-                string distance = GetUniqueLocalVariableName(nameof(distance));
+                string transformedItem = GetUniqueVariableNameCamelCase(nameof(transformedItem));
+                string distance = GetUniqueVariableNameCamelCase(nameof(distance));
 
                 if (isExp)
                 {
@@ -443,7 +414,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Curve_OperatorDto_NoOriginShifting(Curve_OperatorDto_NoOriginShifting dto)
         {
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string position = GetLiteralFromInputDto(dto.Position);
 
             AppendOperatorTitleComment(dto);
@@ -457,9 +428,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             string position = GetLiteralFromInputDto(dto.Position);
-            string origin = GetLongLivedOriginName();
-            string phase = GetLocalPhaseName();
-            string output = GetLocalOutputName(dto);
+            string origin = GetUniqueLongLivedVariableName(nameof(origin));
+            string phase = GetUniqueVariableNameCamelCase(nameof(phase)); // Does not need to be long-lived.
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -479,7 +450,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto)
         {
             string number = GetLiteralFromInputDto(dto.Number);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
             AppendLine($"bool {output} = {number} == 0.0 ? false : true;");
@@ -551,9 +522,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string condition = GetLiteralFromInputDto(dto.Condition);
 
-            string then = GetUniqueLocalVariableName(nameof(then));
-            string @else = GetUniqueLocalVariableName(nameof(@else));
-            string output = GetLocalOutputName(dto);
+            string then = GetUniqueVariableNameCamelCase(nameof(then));
+            string @else = GetUniqueVariableNameCamelCase(nameof(@else));
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendLine($"{GetOperatorTitleComment(dto)} (begin)");
             AppendLine();
@@ -611,9 +582,9 @@ namespace JJ.Business.Synthesizer.Roslyn
         private IOperatorDto Process_InletsToDimension(InletsToDimension_OperatorDto dto, bool isStripe)
         {
             string position = GetLiteralFromInputDto(dto.Position);
-            string transformedPosition = GetUniqueLocalVariableName(nameof(transformedPosition));
-            string castedPosition = GetUniqueLocalVariableName(nameof(castedPosition));
-            string output = GetLocalOutputName(dto);
+            string transformedPosition = GetUniqueVariableNameCamelCase(nameof(transformedPosition));
+            string castedPosition = GetUniqueVariableNameCamelCase(nameof(castedPosition));
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -710,10 +681,10 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private IOperatorDto Process_Loop_OperatorDto(Loop_OperatorDto dto)
         {
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string sourcePosition = GetLiteralFromInputDto(dto.Position);
-            string origin = GetLongLivedOriginName();
-            string nullableInputPosition = GetUniqueLocalVariableName(nameof(nullableInputPosition));
+            string origin = GetUniqueLongLivedVariableName(nameof(origin));
+            string nullableInputPosition = GetUniqueVariableNameCamelCase(nameof(nullableInputPosition));
 
             AppendOperatorTitleComment(dto);
 
@@ -727,20 +698,20 @@ namespace JJ.Business.Synthesizer.Roslyn
             // while if you inline it, you could get inputs only when you need them,
             // which is more efficient.
 
-            string outputPosition = GetUniqueLocalVariableName(nameof(outputPosition));
-            string inputPosition = GetUniqueLocalVariableName(nameof(inputPosition));
-            string isBeforeAttack = GetUniqueLocalVariableName(nameof(isBeforeAttack));
-            string isInAttack = GetUniqueLocalVariableName(nameof(isInAttack));
-            string cycleLength = GetUniqueLocalVariableName(nameof(cycleLength));
-            string outputLoopStart = GetUniqueLocalVariableName(nameof(outputLoopStart));
-            string noteEndPhase = GetUniqueLocalVariableName(nameof(noteEndPhase));
-            string outputLoopEnd = GetUniqueLocalVariableName(nameof(outputLoopEnd));
-            string isInLoop = GetUniqueLocalVariableName(nameof(isInLoop));
-            string phase = GetUniqueLocalVariableName(nameof(phase));
-            string releaseLength = GetUniqueLocalVariableName(nameof(releaseLength));
-            string outputReleaseEndPosition = GetUniqueLocalVariableName(nameof(outputReleaseEndPosition));
-            string isInRelease = GetUniqueLocalVariableName(nameof(isInRelease));
-            string positionInRelease = GetUniqueLocalVariableName(nameof(positionInRelease));
+            string outputPosition = GetUniqueVariableNameCamelCase(nameof(outputPosition));
+            string inputPosition = GetUniqueVariableNameCamelCase(nameof(inputPosition));
+            string isBeforeAttack = GetUniqueVariableNameCamelCase(nameof(isBeforeAttack));
+            string isInAttack = GetUniqueVariableNameCamelCase(nameof(isInAttack));
+            string cycleLength = GetUniqueVariableNameCamelCase(nameof(cycleLength));
+            string outputLoopStart = GetUniqueVariableNameCamelCase(nameof(outputLoopStart));
+            string noteEndPhase = GetUniqueVariableNameCamelCase(nameof(noteEndPhase));
+            string outputLoopEnd = GetUniqueVariableNameCamelCase(nameof(outputLoopEnd));
+            string isInLoop = GetUniqueVariableNameCamelCase(nameof(isInLoop));
+            string phase = GetUniqueVariableNameCamelCase(nameof(phase));
+            string releaseLength = GetUniqueVariableNameCamelCase(nameof(releaseLength));
+            string outputReleaseEndPosition = GetUniqueVariableNameCamelCase(nameof(outputReleaseEndPosition));
+            string isInRelease = GetUniqueVariableNameCamelCase(nameof(isInRelease));
+            string positionInRelease = GetUniqueVariableNameCamelCase(nameof(positionInRelease));
             AppendLine($"double? {nullableInputPosition};");
             AppendLine();
             AppendLine($"double {outputPosition} = {sourcePosition};");
@@ -950,7 +921,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
         {
             string number = GetLiteralFromInputDto(dto.Number);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -962,7 +933,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto)
         {
             string position = GetLiteralFromInputDto(dto.Position);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperatorID);
             string arrayCalculator = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             const string noiseCalculatorHelper = nameof(NoiseCalculatorHelper);
@@ -981,7 +952,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto)
         {
             string input = GetLiteralFromInputDto(dto.Number);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -1031,7 +1002,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string @base = GetLiteralFromInputDto(dto.Base);
             string exponent = GetLiteralFromInputDto(dto.Exponent);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -1058,7 +1029,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         private IOperatorDto Process_Random_OperatorDto(Random_OperatorDto dto)
         {
             string rate = GetLiteralFromInputDto(dto.Rate);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperatorID);
             string arrayCalculator = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             const string randomCalculatorHelper = nameof(RandomCalculatorHelper);
@@ -1083,13 +1054,13 @@ namespace JJ.Business.Synthesizer.Roslyn
             string till = GetLiteralFromInputDto(dto.Till);
             string step = GetLiteralFromInputDto(dto.Step);
             string position = GetLiteralFromInputDto(dto.Position);
-            string output = GetLocalOutputName(dto);
-            string tillPlusStep = GetUniqueLocalVariableName(nameof(tillPlusStep));
-            string valueNonRounded = GetUniqueLocalVariableName(nameof(valueNonRounded));
-            string upperBound = GetUniqueLocalVariableName(nameof(upperBound));
-            string valueNonRoundedCorrected = GetUniqueLocalVariableName(nameof(valueNonRoundedCorrected));
-            string stepDividedBy2 = GetUniqueLocalVariableName(nameof(stepDividedBy2));
-            string valueRounded = GetUniqueLocalVariableName(nameof(valueRounded));
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
+            string tillPlusStep = GetUniqueVariableNameCamelCase(nameof(tillPlusStep));
+            string valueNonRounded = GetUniqueVariableNameCamelCase(nameof(valueNonRounded));
+            string upperBound = GetUniqueVariableNameCamelCase(nameof(upperBound));
+            string valueNonRoundedCorrected = GetUniqueVariableNameCamelCase(nameof(valueNonRoundedCorrected));
+            string stepDividedBy2 = GetUniqueVariableNameCamelCase(nameof(stepDividedBy2));
+            string valueRounded = GetUniqueVariableNameCamelCase(nameof(valueRounded));
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -1144,11 +1115,11 @@ namespace JJ.Business.Synthesizer.Roslyn
             string till = GetLiteralFromInputDto(dto.Till);
             string step = GetLiteralFromInputDto(dto.Step);
             string position = GetLiteralFromInputDto(dto.Position);
-            string output = GetLocalOutputName(dto);
-            string valueNonRounded = GetUniqueLocalVariableName(nameof(valueNonRounded));
-            string upperBound = GetUniqueLocalVariableName(nameof(upperBound));
-            string valueNonRoundedCorrected = GetUniqueLocalVariableName(nameof(valueNonRoundedCorrected));
-            string valueRounded = GetUniqueLocalVariableName(nameof(valueRounded));
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
+            string valueNonRounded = GetUniqueVariableNameCamelCase(nameof(valueNonRounded));
+            string upperBound = GetUniqueVariableNameCamelCase(nameof(upperBound));
+            string valueNonRoundedCorrected = GetUniqueVariableNameCamelCase(nameof(valueNonRoundedCorrected));
+            string valueRounded = GetUniqueVariableNameCamelCase(nameof(valueRounded));
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -1200,12 +1171,12 @@ namespace JJ.Business.Synthesizer.Roslyn
             string from = GetLiteralFromInputDto(dto.From);
             string till = GetLiteralFromInputDto(dto.Till);
             string position = GetLiteralFromInputDto(dto.Position);
-            string output = GetLocalOutputName(dto);
-            string tillPlusOne = GetUniqueLocalVariableName(nameof(tillPlusOne));
-            string valueNonRounded = GetUniqueLocalVariableName(nameof(valueNonRounded));
-            string upperBound = GetUniqueLocalVariableName(nameof(upperBound));
-            string valueNonRoundedCorrected = GetUniqueLocalVariableName(nameof(valueNonRoundedCorrected));
-            string valueRounded = GetUniqueLocalVariableName(nameof(valueRounded));
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
+            string tillPlusOne = GetUniqueVariableNameCamelCase(nameof(tillPlusOne));
+            string valueNonRounded = GetUniqueVariableNameCamelCase(nameof(valueNonRounded));
+            string upperBound = GetUniqueVariableNameCamelCase(nameof(upperBound));
+            string valueNonRoundedCorrected = GetUniqueVariableNameCamelCase(nameof(valueNonRoundedCorrected));
+            string valueRounded = GetUniqueVariableNameCamelCase(nameof(valueRounded));
             const string math = nameof(Math);
             const string round = nameof(Math.Round);
             const string midpointRounding = nameof(MidpointRounding);
@@ -1268,7 +1239,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Round_OperatorDto_StepOne_ZeroOffset(Round_OperatorDto_StepOne_ZeroOffset dto)
         {
             string signal = GetLiteralFromInputDto(dto.Signal);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             const string math = nameof(Math);
             const string round = nameof(Math.Round);
 
@@ -1284,7 +1255,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string signal = GetLiteralFromInputDto(dto.Signal);
             string step = GetLiteralFromInputDto(dto.Step);
             string offset = GetLiteralFromInputDto(dto.Offset);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -1299,7 +1270,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string signal = GetLiteralFromInputDto(dto.Signal);
             string step = GetLiteralFromInputDto(dto.Step);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             const string mathHelper = nameof(MathHelper);
             const string roundWithStep = nameof(MathHelper.RoundWithStep);
 
@@ -1314,7 +1285,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             ArrayDto arrayDto = dto.ArrayDtos.Single();
             string calculatorName = GetArrayCalculatorVariableNameCamelCaseAndCache(arrayDto);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string position = GetLiteralFromInputDto(dto.Position);
 
             AppendOperatorTitleComment(dto);
@@ -1328,8 +1299,8 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             IList<ArrayDto> arrayDtos = dto.ArrayDtos;
             string channelIndexDouble = GetLiteralFromInputDto(dto.Channel);
-            string channelIndex = GetUniqueLocalVariableName(DimensionEnum.Channel);
-            string output = GetLocalOutputName(dto);
+            string channelIndex = GetUniqueVariableNameCamelCase(DimensionEnum.Channel);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string position = GetLiteralFromInputDto(dto.Position);
 
             AppendOperatorTitleComment(dto);
@@ -1365,7 +1336,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string calculatorName1 = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDtos[0]);
             string calculatorName2 = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDtos[1]);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string position = GetLiteralFromInputDto(dto.Position);
 
             AppendOperatorTitleComment(dto);
@@ -1384,7 +1355,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
             string number = GetLiteralFromInputDto(dto.Number);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
             AppendLine($"{output} = {number};");
@@ -1395,7 +1366,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto)
         {
             string position = GetLiteralFromInputDto(dto.Position);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -1418,9 +1389,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
         {
-            string position = GetPositionNameCamelCase(dto);
+            string position = GetLiteralFromInputDto(dto.Position);
             string items = GetLongLivedDoubleArrayVariableName(dto.Inputs.Count);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             const string conversionHelper = nameof(ConversionHelper);
             const string canCastToNonNegativeInt32WithMax = nameof(ConversionHelper.CanCastToNonNegativeInt32WithMax);
             string maxIndex = CompilationHelper.FormatValue(dto.Inputs.Count - 1);
@@ -1462,11 +1433,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string factor = GetLiteralFromInputDto(dto.Factor);
             string origin = GetLiteralFromInputDto(dto.Origin);
-            string sourcePosition = GetPositionNameCamelCase(dto);
-            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GetLiteralFromInputDto(dto.Position);
+            string destPosition = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
-            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) * {factor} + {origin};");
+            AppendLine($"double {destPosition} = ({sourcePosition} - {origin}) * {factor} + {origin};");
 
             return GenerateOperatorWrapUp(dto, destPosition);
         }
@@ -1474,13 +1445,13 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting(Squash_OperatorDto_ConstFactor_WithOriginShifting dto)
         {
             string factor = GetLiteralFromInputDto(dto.Factor);
-            string sourcePosition = GetPositionNameCamelCase(dto);
-            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
-            string origin = GetLongLivedOriginName();
+            string sourcePosition = GetLiteralFromInputDto(dto.Position);
+            string destPosition = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
+            string origin = GetUniqueLongLivedVariableName(nameof(origin));
 
             AppendOperatorTitleComment(dto);
             AppendLineToReset($"{origin} = {sourcePosition};");
-            AppendLine($"{destPosition} = ({sourcePosition} - {origin}) * {factor} + {origin};");
+            AppendLine($"double {destPosition} = ({sourcePosition} - {origin}) * {factor} + {origin};");
 
             return GenerateOperatorWrapUp(dto, destPosition);
         }
@@ -1488,11 +1459,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Squash_OperatorDto_ZeroOrigin(Squash_OperatorDto_ZeroOrigin dto)
         {
             string factor = GetLiteralFromInputDto(dto.Factor);
-            string sourcePosition = GetPositionNameCamelCase(dto);
-            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string sourcePosition = GetLiteralFromInputDto(dto.Position);
+            string destPosition = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
-            AppendLine($"{destPosition} = {sourcePosition} * {factor};");
+            AppendLine($"double {destPosition} = {sourcePosition} * {factor};");
             
             return GenerateOperatorWrapUp(dto, destPosition);
         }
@@ -1500,24 +1471,22 @@ namespace JJ.Business.Synthesizer.Roslyn
         protected override IOperatorDto Visit_Squash_OperatorDto_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarFactor_WithPhaseTracking dto)
         {
             string factor = GetLiteralFromInputDto(dto.Factor);
-            string phase = GetLongLivedPhaseName();
-            string previousPosition = GetLongLivedPreviousPositionName();
-            string sourcePosition = GetPositionNameCamelCase(dto);
-            string destPosition = GetPositionNameCamelCase(dto, dto.DimensionStackLevel + 1);
+            string phase = GetUniqueLongLivedVariableName(nameof(phase));
+            string previousPosition = GetUniqueLongLivedVariableName(nameof(previousPosition));
+            string sourcePosition = GetLiteralFromInputDto(dto.Position);
+            string destPosition = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
-            string positionTranformationLine = $"{destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * {factor};";
+            string positionTranformationLine = $"double {destPosition} = {phase} + ({sourcePosition} - {previousPosition}) * {factor};";
 
             AppendLineToCalculate(positionTranformationLine);
             AppendLineToCalculate($"{previousPosition} = {sourcePosition};");
             AppendLineToCalculate($"{phase} = {destPosition};");
             // I need two different variables for destPosition and phase, because destPosition is reused by different uses of the same stack level, while phase needs to be uniquely used by the operator instance.
-            AppendLineToCalculate();
 
             AppendLineToReset($"{phase} = 0.0;");
             AppendLineToReset($"{previousPosition} = {sourcePosition};");
             AppendLineToReset(positionTranformationLine);
-            AppendLineToReset();
 
             return GenerateOperatorWrapUp(dto, destPosition);
         }
@@ -1551,14 +1520,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         protected override IOperatorDto Visit_TriangleWithRate1_OperatorDto(TriangleWithRate1_OperatorDto dto)
         {
-            //string position = GetPositionNameCamelCase(dto);
             string position = GetLiteralFromInputDto(dto.Position);
 
             AppendOperatorTitleComment(dto);
 
-            string shiftedPhase = GetUniqueLocalVariableName(nameof(shiftedPhase));
-            string relativePhase = GetUniqueLocalVariableName(nameof(relativePhase));
-            string output = GetLocalOutputName(dto);
+            string shiftedPhase = GetUniqueVariableNameCamelCase(nameof(shiftedPhase));
+            string relativePhase = GetUniqueVariableNameCamelCase(nameof(relativePhase));
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             // Correct the phase shift, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
             AppendLine($"double {shiftedPhase} = {position} + 0.25;");
@@ -1593,21 +1561,21 @@ namespace JJ.Business.Synthesizer.Roslyn
 
             AppendOperatorTitleComment(dto);
 
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             string x1 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x1)}");
             string x2 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
             string y1 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
             string y2 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
-            string a0 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a0)}");
-            string a1 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a1)}");
-            string a2 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a2)}");
-            string a3 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a3)}");
-            string a4 = GetUniqueLocalVariableName($"{dto.OperatorTypeEnum}{nameof(a4)}");
+            string a0 = GetUniqueVariableNameCamelCase($"{dto.OperatorTypeEnum}{nameof(a0)}");
+            string a1 = GetUniqueVariableNameCamelCase($"{dto.OperatorTypeEnum}{nameof(a1)}");
+            string a2 = GetUniqueVariableNameCamelCase($"{dto.OperatorTypeEnum}{nameof(a2)}");
+            string a3 = GetUniqueVariableNameCamelCase($"{dto.OperatorTypeEnum}{nameof(a3)}");
+            string a4 = GetUniqueVariableNameCamelCase($"{dto.OperatorTypeEnum}{nameof(a4)}");
 
             string nyquistFrequency = CompilationHelper.FormatValue(dto.NyquistFrequency);
             string samplingRate = CompilationHelper.FormatValue(dto.TargetSamplingRate);
-            string limitedFrequency = GetUniqueLocalVariableName(nameof(limitedFrequency));
+            string limitedFrequency = GetUniqueVariableNameCamelCase(nameof(limitedFrequency));
             const string biQuadFilterClassName = nameof(BiQuadFilterWithoutFields);
             string setFilterVariablesMethodName = biQuadFilterSetFilterVariablesMethodName;
             const string transformMethodName = nameof(BiQuadFilterWithoutFields.Transform);
@@ -1649,7 +1617,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string x2 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(x2)}");
             string y1 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y1)}");
             string y2 = GetUniqueLongLivedVariableName($"{dto.OperatorTypeEnum}{nameof(y2)}");
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             string a0 = CompilationHelper.FormatValue(dto.A0);
             string a1 = CompilationHelper.FormatValue(dto.A1);
@@ -1677,7 +1645,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string a = GetLiteralFromInputDto(dto.A);
             string b = GetLiteralFromInputDto(dto.B);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -1690,7 +1658,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string a = GetLiteralFromInputDto(dto.A);
             string b = GetLiteralFromInputDto(dto.B);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -1704,7 +1672,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             IList<string> values = dto.Inputs.Select(x => GetLiteralFromInputDto(x)).ToArray();
             int valueCount = values.Count;
             string firstValue = values.First();
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 
             AppendOperatorTitleComment(dto);
@@ -1726,7 +1694,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string a = GetLiteralFromInputDto(dto.Inputs[0]);
             string b = GetLiteralFromInputDto(dto.Inputs[1]);
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
             string operatorSymbol = GetOperatorSymbol(minOrMaxEnum);
 
             AppendOperatorTitleComment(dto);
@@ -1740,7 +1708,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             IList<string> values = dto.Inputs.Select(x => GetLiteralFromInputDto(x)).ToArray();
 
-            string output = GetLocalOutputName(dto);
+            string output = GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
 
             AppendOperatorTitleComment(dto);
 
@@ -1975,7 +1943,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                         throw new ValueNotSupportedException(_calculationMethodEnum);
                     }
 
-                    string output = GetUniqueLocalVariableName(generatedMethodInfo.MethodNameForCalculate);
+                    string output = GetUniqueVariableNameCamelCase(generatedMethodInfo.MethodNameForCalculate);
 
                     AppendLineToCalculate($"double {output} = {generatedMethodInfo.MethodNameForCalculate}({argumentListCode});");
                     AppendLineToReset($"double {output} = {generatedMethodInfo.MethodNameForReset}({argumentListCode});");
@@ -2027,11 +1995,11 @@ namespace JJ.Business.Synthesizer.Roslyn
         }
 
         /// <summary> Returns the phase literal. </summary>
-        private string GeneratePhaseCalculationWithPhaseTracking(IOperatorDto_WithDimension dto, string rate)
+        private string GeneratePhaseCalculationWithPhaseTracking(IOperatorDto_PositionReader dto, string rate)
         {
-            string position = GetPositionNameCamelCase(dto);
-            string previousPosition = GetLongLivedPreviousPositionName();
-            string phase = GetLongLivedPhaseName();
+            string position = GetLiteralFromInputDto(dto.Position);
+            string previousPosition = GetUniqueLongLivedVariableName(nameof(previousPosition));
+            string phase = GetUniqueLongLivedVariableName(nameof(phase));
 
             AppendLineToReset($"{previousPosition} = {position};");
             AppendLineToReset($"{phase} = 0.0;");
@@ -2083,36 +2051,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
 
             return arrayCalculationInfo.NameCamelCase;
-        }
-
-        /// <summary>
-        /// Formats the dimension into a string that is close to the dimension name + a unique character sequence.
-        /// E.g.: "prettiness_1"
-        /// </summary>
-        private string GetDimensionAlias(DimensionEnum dimensionEnum, string canonicalCustomDimensionName)
-        {
-            var key = new Tuple<DimensionEnum, string>(dimensionEnum, canonicalCustomDimensionName);
-
-            if (!_variableInfo.StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary.TryGetValue(key, out string alias))
-            {
-                object mnemonic;
-                if (dimensionEnum != DimensionEnum.Undefined)
-                {
-                    mnemonic = dimensionEnum;
-                }
-                else
-                {
-                    mnemonic = canonicalCustomDimensionName;
-                }
-                alias = GetUniqueDimensionAlias(mnemonic);
-            }
-
-            foreach (VariableCollections variableInfo in GetVariableInfoList())
-            {
-                variableInfo.StandardDimensionEnumAndCanonicalCustomDimensionName_To_Alias_Dictionary[key] = alias;
-            }
-
-            return alias;
         }
 
         private string GetInputName(VariableInput_OperatorDto dto)
@@ -2167,21 +2105,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             }
         }
 
-        private string GetLocalOutputName(IOperatorDto dto)
-        {
-            return GetUniqueVariableNameCamelCase(dto.OperatorTypeEnum);
-        }
-
-        private string GetLocalPhaseName()
-        {
-            string variableName = GetUniqueVariableNameCamelCase(PHASE_MNEMONIC);
-            return variableName;
-        }
-
-        private string GetLongLivedOriginName() => GetUniqueLongLivedVariableName(ORIGIN_MNEMONIC);
-        private string GetLongLivedPhaseName() => GetUniqueLongLivedVariableName(PHASE_MNEMONIC);
-        private string GetLongLivedPreviousPositionName() => GetUniqueLongLivedVariableName(PREVIOUS_POSITION_MNEMONIC);
-
         /// <summary> '&gt;' for Min, '&lt;' for Max </summary>
         private string GetOperatorSymbol(MinOrMaxEnum minOrMaxEnum)
         {
@@ -2213,79 +2136,6 @@ namespace JJ.Business.Synthesizer.Roslyn
                 return line;
             }
         }
-
-        /// <summary>
-        /// If it is the first level dimension position, the variable will be long lived.
-        /// Higher level dimension positions will become local variables.
-        /// </summary>
-        private string GetPositionNameCamelCase(IOperatorDto_WithDimension dto, int? alternativeStackIndexLevel = null)
-        {
-            string canonicalCustomDimensionName = dto.CanonicalCustomDimensionName;
-            DimensionEnum standardDimensionEnum = dto.StandardDimensionEnum;
-            int stackLevel = alternativeStackIndexLevel ?? dto.DimensionStackLevel;
-
-            return GetPositionNameCamelCase(stackLevel, standardDimensionEnum, canonicalCustomDimensionName);
-        }
-
-        /// <summary>
-        /// If it is the first level dimension position, the variable will be long lived.
-        /// Higher level dimension positions will become local variables.
-        /// </summary>
-        private string GetPositionNameCamelCase(int stackLevel, DimensionEnum standardDimensionEnum = DimensionEnum.Undefined, string canonicalCustomDimensionName = "")
-        {
-            // Get DimensionAlias
-            string dimensionAlias = GetDimensionAlias(standardDimensionEnum, canonicalCustomDimensionName);
-
-            // Format PositionVariableNAme
-            string positionVariableName = $"{dimensionAlias}_{stackLevel}";
-
-            foreach (VariableCollections variableInfo in GetVariableInfoList())
-            {
-                variableInfo.PositionVariableNamesCamelCaseHashSet.Add(positionVariableName);
-            }
-
-            // Manage Dictionary with Dimension Info
-            var key = new Tuple<DimensionEnum, string, int>(standardDimensionEnum, canonicalCustomDimensionName, stackLevel);
-
-            if (!_variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary.TryGetValue(key, out ExtendedVariableInfo extendedVariableInfo))
-            {
-                extendedVariableInfo = new ExtendedVariableInfo(
-                    positionVariableName,
-                    canonicalCustomDimensionName,
-                    standardDimensionEnum,
-                    stackLevel,
-                    defaultValue: null);
-            }
-
-            foreach (VariableCollections variableInfo in GetVariableInfoList())
-            {
-                variableInfo.DimensionEnumCustomDimensionNameAndStackLevel_To_DimensionVariableInfo_Dictionary[key] = extendedVariableInfo;
-            }
-
-            return positionVariableName;
-        }
-
-        private string GetUniqueDimensionAlias(object mnemonic)
-        {
-            string convertedMnemonic = Convert.ToString(mnemonic);
-            if (string.IsNullOrWhiteSpace(convertedMnemonic))
-            {
-                convertedMnemonic = ANONYMOUS_MNEMONIC;
-            }
-
-            string nonUniqueNameInCode = Convert_DisplayName_To_NonUniqueNameInCode_WithoutUnderscores(convertedMnemonic);
-            string uniqueLetterSequence = GetUniqueLetterSequence();
-
-            string variableName = $"{nonUniqueNameInCode}_{uniqueLetterSequence}";
-            return variableName;
-        }
-
-        private string GetUniqueLetterSequence()
-        {
-            return NumberingSystems.ToLetterSequence(_counter++, firstChar: 'a', lastChar: 'z');
-        }
-
-        private string GetUniqueLocalVariableName(object mnemonic) => GetUniqueVariableNameCamelCase(mnemonic);
 
         /// <param name="mnemonic">
         /// Will be incorporated into the variable name. It will be converted to string.
