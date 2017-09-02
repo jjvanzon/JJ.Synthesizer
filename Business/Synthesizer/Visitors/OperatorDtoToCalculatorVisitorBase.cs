@@ -379,7 +379,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return ProcessOperatorDto(dto, () =>
             { 
-                NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(dto.OperatorID);
+                NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(dto.OperationIdentity);
                 return new Noise_OperatorCalculator(_stack.Pop(), noiseCalculator);
             });
         }
@@ -438,7 +438,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return ProcessOperatorDto(dto, () =>
             {
-                RandomCalculator_Block randomCalculator = _calculatorCache.GetRandomCalculator_Block(dto.OperatorID);
+                RandomCalculator_Block randomCalculator = _calculatorCache.GetRandomCalculator_Block(dto.OperationIdentity);
                 return new Random_OperatorCalculator_Block(randomCalculator, _stack.Pop(), _stack.Pop());
             });
         }
@@ -447,7 +447,7 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             return ProcessOperatorDto(dto, () =>
             {
-                RandomCalculator_Stripe randomCalculator = _calculatorCache.GetRandomCalculator_Stripe(dto.OperatorID);
+                RandomCalculator_Stripe randomCalculator = _calculatorCache.GetRandomCalculator_Stripe(dto.OperationIdentity);
                 return new Random_OperatorCalculator_Stripe(randomCalculator, _stack.Pop(), _stack.Pop());
             });
         }

@@ -12,7 +12,6 @@ namespace JJ.Business.Synthesizer.Dto
         public abstract OperatorTypeEnum OperatorTypeEnum { get; }
         public abstract IReadOnlyList<InputDto> Inputs { get; set; }
 
-        public int OperatorID { get; set; }
         public string OperationIdentity { get; set; }
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);

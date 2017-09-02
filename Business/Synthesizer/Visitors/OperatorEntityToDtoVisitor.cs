@@ -74,9 +74,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 VisitorHelper.WithStackCheck(_stack, () => base.VisitOperatorPolymorphic(op));
-
-                IOperatorDto dto = _stack.Peek();
-                dto.OperatorID = op.ID;
             }
         }
 
@@ -86,9 +83,6 @@ namespace JJ.Business.Synthesizer.Visitors
             if (hasOutletVisitation)
             {
                 VisitorHelper.WithStackCheck(_stack, () => base.VisitOutletPolymorphic(outlet));
-
-                IOperatorDto dto = _stack.Peek();
-                dto.OperatorID = outlet.Operator.ID;
             }
             else
             {
@@ -155,7 +149,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new DimensionToOutlets_Outlet_OperatorDto
             {
-                OperatorID = op.ID,
                 Signal = PopInputDto(),
                 StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback(),
                 CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback()),
@@ -261,7 +254,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             var dto = new RangeOverOutlets_Outlet_OperatorDto
             {
-                OperatorID = op.ID,
                 From = PopInputDto(),
                 Step = PopInputDto()
             };
@@ -335,7 +327,6 @@ namespace JJ.Business.Synthesizer.Visitors
             // ReSharper disable once UseObjectOrCollectionInitializer
             var dto = new SortOverInlets_Outlet_OperatorDto
             {
-                OperatorID = op.ID,
                 StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback(),
                 CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback())
             };
@@ -370,8 +361,6 @@ namespace JJ.Business.Synthesizer.Visitors
         private void ProcessOperatorPolymorphic(Operator op, IOperatorDto dto)
         {
             VisitOperatorBase(op);
-
-            dto.OperatorID = op.ID;
 
             dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
                                          .Where(x => x != null)

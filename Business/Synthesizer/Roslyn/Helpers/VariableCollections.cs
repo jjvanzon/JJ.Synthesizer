@@ -24,6 +24,6 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
         public Dictionary<ArrayDto, ArrayCalculationInfo> ArrayDto_To_ArrayCalculationInfo_Dictionary { get; } =
             new Dictionary<ArrayDto, ArrayCalculationInfo>();
 
-        public Dictionary<int, string> RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary { get; } = new Dictionary<int, string>();
+        public Dictionary<string, string> RandomOrNoiseOperationIdentity_To_OffsetVariableNameCamelCase_Dictionary { get; } = new Dictionary<string, string>();
     }
 }

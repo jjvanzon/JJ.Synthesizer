@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         // a list to not lose generated methods, when they are popped from the stack.
 
         private Stack<GeneratedMethodInfo> _generatedMethodInfoStack;
-        private Dictionary<int, GeneratedMethodInfo> _operatorID_To_GeneratedMethodInfo_Dictionary;
+        private Dictionary<string, GeneratedMethodInfo> _operationIdentity_To_GeneratedMethodInfo_Dictionary;
 
         public OperatorDtoToRawCSharpVisitor(int calculationIndentLevel, int resetIndentLevel)
         {
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             _stack = new Stack<string>();
             _variableInfo = new VariableCollections();
             _generatedMethodInfoStack = new Stack<GeneratedMethodInfo>();
-            _operatorID_To_GeneratedMethodInfo_Dictionary = new Dictionary<int, GeneratedMethodInfo>();
+            _operationIdentity_To_GeneratedMethodInfo_Dictionary = new Dictionary<string, GeneratedMethodInfo>();
             _resultReuse_Dictionary = new Dictionary<IOperatorDto, string>();
             _counter = 0;
             _holdOperatorIsActiveStack = new Stack<bool>();
@@ -123,8 +123,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             IList<ArrayCalculationInfo> arrayCalculationInfos = _variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray();
 
             // ReSharper disable once InvokeAsExtensionMethod
-            IList<string> calculationMethodCodeList = _operatorID_To_GeneratedMethodInfo_Dictionary.Values.Select(x => x.MethodCodeForCalculate).ToArray();
-            IList<string> resetMethodCodeList = _operatorID_To_GeneratedMethodInfo_Dictionary.Values.Select(x => x.MethodCodeForReset).ToArray();
+            IList<string> calculationMethodCodeList = _operationIdentity_To_GeneratedMethodInfo_Dictionary.Values.Select(x => x.MethodCodeForCalculate).ToArray();
+            IList<string> resetMethodCodeList = _operationIdentity_To_GeneratedMethodInfo_Dictionary.Values.Select(x => x.MethodCodeForReset).ToArray();
 
             return new OperatorDtoToCSharpVisitorResult(
                 rawCalculationCode,
@@ -535,7 +535,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string thenLeftSide;
             if (dto.Then.IsVar)
             {
-                BeginGenerateMethod(dto.Then.Var.OperatorID, nameof(then));
+                BeginGenerateMethod(dto.Then.Var.OperationIdentity, nameof(then));
                 thenLeftSide = GetLiteralFromInputDto(dto.Then);
                 thenLeftSide = EndGenerateMethod(thenLeftSide);
             }
@@ -550,7 +550,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             string elseLeftSide;
             if (dto.Else.IsVar)
             {
-                BeginGenerateMethod(dto.Else.Var.OperatorID, nameof(@else));
+                BeginGenerateMethod(dto.Else.Var.OperationIdentity, nameof(@else));
                 elseLeftSide = GetLiteralFromInputDto(dto.Else);
                 elseLeftSide = EndGenerateMethod(elseLeftSide);
             }
@@ -934,7 +934,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string position = GetLiteralFromInputDto(dto.Position);
             string output = GetVariableName(dto.OperatorTypeEnum);
-            string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperatorID);
+            string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperationIdentity);
             string arrayCalculator = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             const string noiseCalculatorHelper = nameof(NoiseCalculatorHelper);
             const string generateOffset = nameof(NoiseCalculatorHelper.GenerateOffset);
@@ -1030,7 +1030,7 @@ namespace JJ.Business.Synthesizer.Roslyn
         {
             string rate = GetLiteralFromInputDto(dto.Rate);
             string output = GetVariableName(dto.OperatorTypeEnum);
-            string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperatorID);
+            string offset = GetRandomOrNoiseOffsetVariableNameCamelCase(dto.OperationIdentity);
             string arrayCalculator = GetArrayCalculatorVariableNameCamelCaseAndCache(dto.ArrayDto);
             const string randomCalculatorHelper = nameof(RandomCalculatorHelper);
             const string generateOffset = nameof(RandomCalculatorHelper.GenerateOffset);
@@ -1786,15 +1786,15 @@ namespace JJ.Business.Synthesizer.Roslyn
             return _stringBuilderForReset;
         }
 
-        /// <param name="operatorID">key for a unique method</param>
-        private void BeginGenerateMethod(int operatorID, object mnemonic)
+        /// <param name="operationIdentity">key for a unique method</param>
+        private void BeginGenerateMethod(string operationIdentity, object mnemonic)
         {
             switch (_calculationMethodEnum)
             {
                 case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
                 case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
                     GeneratedMethodInfo generatedMethodInfo;
-                    if (!_operatorID_To_GeneratedMethodInfo_Dictionary.TryGetValue(operatorID, out generatedMethodInfo))
+                    if (!_operationIdentity_To_GeneratedMethodInfo_Dictionary.TryGetValue(operationIdentity, out generatedMethodInfo))
                     {
                         generatedMethodInfo = new GeneratedMethodInfo
                         {
@@ -1802,7 +1802,7 @@ namespace JJ.Business.Synthesizer.Roslyn
                             MethodNameForReset = GetMethodName($"{RESET_MNEMONIC}{mnemonic}"),
                         };
 
-                        _operatorID_To_GeneratedMethodInfo_Dictionary[operatorID] = generatedMethodInfo;
+                        _operationIdentity_To_GeneratedMethodInfo_Dictionary[operationIdentity] = generatedMethodInfo;
                     }
                     else
                     {
@@ -2002,17 +2002,17 @@ namespace JJ.Business.Synthesizer.Roslyn
             return phase;
         }
 
-        private string GetRandomOrNoiseOffsetVariableNameCamelCase(int operatorID)
+        private string GetRandomOrNoiseOffsetVariableNameCamelCase(string operationIdentity)
         {
             // ReSharper disable once InvertIf
-            if (!_variableInfo.RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operatorID, out string variableNameCamelCase))
+            if (!_variableInfo.RandomOrNoiseOperationIdentity_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operationIdentity, out string variableNameCamelCase))
             {
                 variableNameCamelCase = GetLongLivedVariableName(OFFSET_MNEMONIC);
             }
 
             foreach (VariableCollections variableInfo in GetVariableInfoList())
             {
-                variableInfo.RandomOrNoiseOperatorID_To_OffsetVariableNameCamelCase_Dictionary[operatorID] = variableNameCamelCase;
+                variableInfo.RandomOrNoiseOperationIdentity_To_OffsetVariableNameCamelCase_Dictionary[operationIdentity] = variableNameCamelCase;
             }
 
             return variableNameCamelCase;

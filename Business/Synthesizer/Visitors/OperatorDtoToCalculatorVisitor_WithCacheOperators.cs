@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 IList<ArrayDto> arrayDtos = _calculatorCache.GetCacheArrayDtos(
-                    dto.OperatorID,
+                    dto.OperationIdentity,
                     signalCalculator,
                     start,
                     end,

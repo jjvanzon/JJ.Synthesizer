@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Random;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -31,17 +30,17 @@ namespace JJ.Business.Synthesizer.Calculation
         private readonly Dictionary<Sample, IList<ArrayDto>> _sample_To_ArrayDtos_Dictionary = new Dictionary<Sample, IList<ArrayDto>>();
         private readonly object _sampleLock = new object();
 
-        private readonly Dictionary<int, NoiseCalculator> _operatorID_To_NoiseCalculator_Dictionary = new Dictionary<int, NoiseCalculator>();
-        private readonly object _operatorID_To_NoiseCalculator_Dictionary_Lock = new object();
+        private readonly Dictionary<string, NoiseCalculator> _operationIdentity_To_NoiseCalculator_Dictionary = new Dictionary<string, NoiseCalculator>();
+        private readonly object _operationIdentity_To_NoiseCalculator_Dictionary_Lock = new object();
 
-        private readonly Dictionary<int, RandomCalculator_Block> _operatorID_To_RandomCalculator_Block_Dictionary = new Dictionary<int, RandomCalculator_Block>();
-        private readonly object _operatorID_To_RandomCalculator_Block_Dictionary_Lock = new object();
+        private readonly Dictionary<string, RandomCalculator_Block> _operationIdentity_To_RandomCalculator_Block_Dictionary = new Dictionary<string, RandomCalculator_Block>();
+        private readonly object _operationIdentity_To_RandomCalculator_Block_Dictionary_Lock = new object();
 
-        private readonly Dictionary<int, RandomCalculator_Stripe> _operatorID_To_RandomCalculator_Stripe_Dictionary = new Dictionary<int, RandomCalculator_Stripe>();
-        private readonly object _operatorID_To_RandomCalculator_Stripe_Dictionary_Lock = new object();
+        private readonly Dictionary<string, RandomCalculator_Stripe> _operationIdentity_To_RandomCalculator_Stripe_Dictionary = new Dictionary<string, RandomCalculator_Stripe>();
+        private readonly object _operationIdentity_To_RandomCalculator_Stripe_Dictionary_Lock = new object();
 
-        private readonly Dictionary<int, IList<ArrayDto>> _cacheOperatorID_To_ArrayDtos_Dictionary = new Dictionary<int, IList<ArrayDto>>();
-        private readonly object _cacheOperatorID_To_ArrayDtos_Dictionary_Lock = new object();
+        private readonly Dictionary<string, IList<ArrayDto>> _cacheOperationIdentity_To_ArrayDtos_Dictionary = new Dictionary<string, IList<ArrayDto>>();
+        private readonly object _cacheOperationIdentity_To_ArrayDtos_Dictionary_Lock = new object();
 
         private static readonly ArrayDto _randomArrayDto_Block = new ArrayDto
         {
@@ -129,17 +128,17 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        internal NoiseCalculator GetNoiseCalculator(int operatorID)
+        internal NoiseCalculator GetNoiseCalculator(string operationIdentity)
         {
-            if (operatorID == 0) throw new ZeroException(() => operatorID);
+            if (string.IsNullOrEmpty(operationIdentity)) throw new NullOrEmptyException(nameof(operationIdentity));
 
-            lock (_operatorID_To_NoiseCalculator_Dictionary_Lock)
+            lock (_operationIdentity_To_NoiseCalculator_Dictionary_Lock)
             {
                 // ReSharper disable once InvertIf
-                if (!_operatorID_To_NoiseCalculator_Dictionary.TryGetValue(operatorID, out NoiseCalculator noiseCalculator))
+                if (!_operationIdentity_To_NoiseCalculator_Dictionary.TryGetValue(operationIdentity, out NoiseCalculator noiseCalculator))
                 {
                     noiseCalculator = new NoiseCalculator();
-                    _operatorID_To_NoiseCalculator_Dictionary.Add(operatorID, noiseCalculator);
+                    _operationIdentity_To_NoiseCalculator_Dictionary.Add(operationIdentity, noiseCalculator);
                 }
 
                 return noiseCalculator;
@@ -148,65 +147,34 @@ namespace JJ.Business.Synthesizer.Calculation
 
         internal ArrayDto GetNoiseArrayDto() => _noiseArrayDto;
 
-        internal RandomCalculatorBase GetRandomCalculator(Operator op)
+        internal RandomCalculator_Stripe GetRandomCalculator_Stripe(string operationIdentity)
         {
-            if (op == null) throw new NullException(() => op);
+            if (string.IsNullOrEmpty(operationIdentity)) throw new NullOrEmptyException(nameof(operationIdentity));
 
-            var wrapper = new Random_OperatorWrapper(op);
-            ResampleInterpolationTypeEnum resampleInterpolationType = wrapper.InterpolationType;
-
-            RandomCalculatorBase randomCalculator = GetRandomCalculator(op.ID, resampleInterpolationType);
-            return randomCalculator;
-        }
-
-        internal RandomCalculatorBase GetRandomCalculator(int operatorID, ResampleInterpolationTypeEnum resampleInterpolationType)
-        {
-            switch (resampleInterpolationType)
-            {
-                case ResampleInterpolationTypeEnum.Block:
-                    return GetRandomCalculator_Block(operatorID);
-
-                case ResampleInterpolationTypeEnum.Stripe:
-                case ResampleInterpolationTypeEnum.Line:
-                case ResampleInterpolationTypeEnum.CubicEquidistant:
-                case ResampleInterpolationTypeEnum.CubicAbruptSlope:
-                case ResampleInterpolationTypeEnum.CubicSmoothSlope:
-                case ResampleInterpolationTypeEnum.Hermite:
-                    return GetRandomCalculator_Stripe(operatorID);
-
-                default:
-                    throw new ValueNotSupportedException(resampleInterpolationType);
-            }
-        }
-
-        internal RandomCalculator_Stripe GetRandomCalculator_Stripe(int operatorID)
-        {
-            if (operatorID == 0) throw new ZeroException(() => operatorID);
-
-            lock (_operatorID_To_RandomCalculator_Stripe_Dictionary_Lock)
+            lock (_operationIdentity_To_RandomCalculator_Stripe_Dictionary_Lock)
             {
                 // ReSharper disable once InvertIf
-                if (!_operatorID_To_RandomCalculator_Stripe_Dictionary.TryGetValue(operatorID, out RandomCalculator_Stripe randomCalculator))
+                if (!_operationIdentity_To_RandomCalculator_Stripe_Dictionary.TryGetValue(operationIdentity, out RandomCalculator_Stripe randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_Stripe();
-                    _operatorID_To_RandomCalculator_Stripe_Dictionary.Add(operatorID, randomCalculator);
+                    _operationIdentity_To_RandomCalculator_Stripe_Dictionary.Add(operationIdentity, randomCalculator);
                 }
 
                 return randomCalculator;
             }
         }
 
-        internal RandomCalculator_Block GetRandomCalculator_Block(int operatorID)
+        internal RandomCalculator_Block GetRandomCalculator_Block(string operationIdentity)
         {
-            if (operatorID == 0) throw new ZeroException(() => operatorID);
+            if (string.IsNullOrEmpty(operationIdentity)) throw new NullOrEmptyException(nameof(operationIdentity));
 
-            lock (_operatorID_To_RandomCalculator_Block_Dictionary_Lock)
+            lock (_operationIdentity_To_RandomCalculator_Block_Dictionary_Lock)
             {
                 // ReSharper disable once InvertIf
-                if (!_operatorID_To_RandomCalculator_Block_Dictionary.TryGetValue(operatorID, out RandomCalculator_Block randomCalculator))
+                if (!_operationIdentity_To_RandomCalculator_Block_Dictionary.TryGetValue(operationIdentity, out RandomCalculator_Block randomCalculator))
                 {
                     randomCalculator = new RandomCalculator_Block();
-                    _operatorID_To_RandomCalculator_Block_Dictionary.Add(operatorID, randomCalculator);
+                    _operationIdentity_To_RandomCalculator_Block_Dictionary.Add(operationIdentity, randomCalculator);
                 }
                 return randomCalculator;
             }
@@ -219,19 +187,17 @@ namespace JJ.Business.Synthesizer.Calculation
                 case ResampleInterpolationTypeEnum.Block:
                     return GetRandomArrayDto_Block();
 
-                case ResampleInterpolationTypeEnum.Stripe:
-                    return GetRandomArrayDto_Stripe();
-
                 default:
-                    throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
+                    return GetRandomArrayDto_Stripe();
             }
         }
+
         internal ArrayDto GetRandomArrayDto_Block() => _randomArrayDto_Block;
 
         internal ArrayDto GetRandomArrayDto_Stripe() => _randomArrayDto_Stripe;
 
         internal IList<ArrayDto> GetCacheArrayDtos(
-            int operatorID, 
+            string operationIdentity, 
             OperatorCalculatorBase signalCalculator, 
             double start, 
             double end, 
@@ -241,12 +207,12 @@ namespace JJ.Business.Synthesizer.Calculation
             VariableInput_OperatorCalculator dimensionCalculator,
             VariableInput_OperatorCalculator channelDimensionCalculator)
         {
-            if (operatorID == 0) throw new ZeroException(() => operatorID);
+            if (string.IsNullOrEmpty(operationIdentity)) throw new NullOrEmptyException(nameof(operationIdentity));
 
-            lock (_cacheOperatorID_To_ArrayDtos_Dictionary_Lock)
+            lock (_cacheOperationIdentity_To_ArrayDtos_Dictionary_Lock)
             {
                 // ReSharper disable once InvertIf
-                if (!_cacheOperatorID_To_ArrayDtos_Dictionary.TryGetValue(operatorID, out IList<ArrayDto> arrayCalculators))
+                if (!_cacheOperationIdentity_To_ArrayDtos_Dictionary.TryGetValue(operationIdentity, out IList<ArrayDto> arrayCalculators))
                 {
                     arrayCalculators = CreateCacheArrayDtos(
                         signalCalculator,
@@ -258,7 +224,7 @@ namespace JJ.Business.Synthesizer.Calculation
                         dimensionCalculator,
                         channelDimensionCalculator);
 
-                    _cacheOperatorID_To_ArrayDtos_Dictionary.Add(operatorID, arrayCalculators);
+                    _cacheOperationIdentity_To_ArrayDtos_Dictionary.Add(operationIdentity, arrayCalculators);
                 }
 
                 return arrayCalculators;

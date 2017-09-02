@@ -12,7 +12,6 @@ namespace JJ.Business.Synthesizer.Helpers
             if (dest == null) throw new ArgumentNullException(nameof(dest));
 
             dest.Inputs = source.Inputs;
-            dest.OperatorID = source.OperatorID;
             dest.OperationIdentity = source.OperationIdentity;
 
             // Type checks are done here instead of overloads with different parameter types,

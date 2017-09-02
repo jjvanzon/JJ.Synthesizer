@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Collections;
+﻿using JJ.Business.Synthesizer.Dto;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Visitors
@@ -37,34 +32,7 @@ namespace JJ.Business.Synthesizer.Visitors
             new OperatorDtoVisitor_OperationIdentityAssignment().Execute(dto);
             dto = new OperatorDtoVisitor_OperationIdentityDeduplication().Execute(dto);
 
-            AssertZeroOperatorIDsWhereNeeded(dto);
-
             return dto;
-        }
-
-        private static readonly HashSet<OperatorTypeEnum> _operatorTypeEnums_With_OperatorID_0_Allowed = new HashSet<OperatorTypeEnum>
-        {
-            OperatorTypeEnum.Number,
-            OperatorTypeEnum.DoubleToBoolean,
-            OperatorTypeEnum.BooleanToDouble,
-            OperatorTypeEnum.VariableInput
-        };
-
-        private static void AssertZeroOperatorIDsWhereNeeded(IOperatorDto dto)
-        {
-            IList<IOperatorDto> operatorDtosWithZeroOperatorID = dto.UnionRecursive(x => x.Inputs.Where(y => y.IsVar).Select(y => y.Var))
-                                                                    .Where(x => !_operatorTypeEnums_With_OperatorID_0_Allowed.Contains(x.OperatorTypeEnum) && x.OperatorID == 0)
-                                                                    .ToArray();
-            if (operatorDtosWithZeroOperatorID.Count != 0)
-            {
-                string concatinatedAllowedOperatorTypeEnums = string.Join(", ", _operatorTypeEnums_With_OperatorID_0_Allowed);
-                string distinctConcatinatedActualOperatorDtoTypeNames = string.Join(", ", operatorDtosWithZeroOperatorID.Select(x => x.GetType().Name).Distinct());
-                throw new Exception(
-                    "Error pre-processing OperatorDto's. " +
-                    $"There are {operatorDtosWithZeroOperatorID.Count} OperatorDto's with OperatorID = 0 with OperatorTypes that are not allowed. " +
-                    $"Allowed {nameof(OperatorTypeEnum)}s: {concatinatedAllowedOperatorTypeEnums} " +
-                    $"Dto types: {{{distinctConcatinatedActualOperatorDtoTypeNames}}}");
-            }
         }
     }
 }
