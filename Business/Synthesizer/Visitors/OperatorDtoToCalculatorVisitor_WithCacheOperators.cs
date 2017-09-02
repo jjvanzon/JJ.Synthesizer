@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
@@ -15,14 +14,10 @@ namespace JJ.Business.Synthesizer.Visitors
     internal class OperatorDtoToCalculatorVisitor_WithCacheOperators : OperatorDtoToCalculatorVisitorBase
     {
         public OperatorDtoToCalculatorVisitor_WithCacheOperators(
-            int targetSamplingRate, 
-            double secondsBetweenApplyFilterVariables, 
             CalculatorCache calculatorCache, 
             ICurveRepository curveRepository, 
             ISampleRepository sampleRepository) 
             : base(
-                  targetSamplingRate, 
-                  secondsBetweenApplyFilterVariables, 
                   calculatorCache, 
                   curveRepository, 
                   sampleRepository)

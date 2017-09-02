@@ -9,7 +9,6 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         private readonly int _targetSamplingRate;
         private readonly int _targetChannelCount;
-        private readonly double _secondsBetweenApplyFilterVariables;
         private readonly CalculatorCache _calculatorCache;
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -18,7 +17,6 @@ namespace JJ.Business.Synthesizer.Visitors
         public OperatorEntityToCalculatorExecutor(
             int targetSamplingRate,
             int targetChannelCount,
-            double secondsBetweenApplyFilterVariables,
             CalculatorCache calculatorCache,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
@@ -27,7 +25,6 @@ namespace JJ.Business.Synthesizer.Visitors
             _targetChannelCount = targetChannelCount;
             _targetSamplingRate = targetSamplingRate;
             _targetChannelCount = targetChannelCount;
-            _secondsBetweenApplyFilterVariables = secondsBetweenApplyFilterVariables;
             _calculatorCache = calculatorCache;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
@@ -42,8 +39,6 @@ namespace JJ.Business.Synthesizer.Visitors
             dto = new OperatorDtoPreProcessingExecutor(_targetSamplingRate, _targetChannelCount).Execute(dto);
 
             var visitor3 = new OperatorDtoToCalculatorVisitor_WithCacheOperators(
-                _targetSamplingRate, 
-                _secondsBetweenApplyFilterVariables, 
                 _calculatorCache, 
                 _curveRepository, 
                 _sampleRepository);

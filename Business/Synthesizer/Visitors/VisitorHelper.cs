@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Diagnostics;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
@@ -42,17 +41,6 @@ namespace JJ.Business.Synthesizer.Visitors
                     ExpressionHelper.GetText(() => stack.Count),
                     stack.Count));
             }
-        }
-
-        public static int GetSamplesBetweenApplyFilterVariables(double secondsBetweenApplyFilterVariables, int samplingRate)
-        {
-            double samplesBetweenApplyFilterVariablesDouble = secondsBetweenApplyFilterVariables * samplingRate;
-            if (!ConversionHelper.CanCastToPositiveInt32(samplesBetweenApplyFilterVariablesDouble))
-            {
-                throw new Exception($"{new { samplesBetweenApplyFilterVariablesDouble }} cannot be cast to positive Int32.");
-            }
-            int samplesBetweenApplyFilterVariables = (int)(secondsBetweenApplyFilterVariables * samplingRate);
-            return samplesBetweenApplyFilterVariables;
         }
     }
 }

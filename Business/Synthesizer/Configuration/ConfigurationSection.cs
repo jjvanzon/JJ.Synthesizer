@@ -19,9 +19,6 @@ namespace JJ.Business.Synthesizer.Configuration
         public int CachedNoiseSamplingRate { get; set; }
 
         [XmlAttribute]
-        public double SecondsBetweenApplyFilterVariables { get; set; }
-
-        [XmlAttribute]
         public CalculationMethodEnum CalculationMethod { get; set; }
 
         [XmlAttribute]

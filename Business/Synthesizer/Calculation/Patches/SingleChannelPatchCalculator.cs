@@ -37,7 +37,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             int channelCount,
             int channelIndex,
             CalculatorCache calculatorCache,
-            double secondsBetweenApplyFilterVariables,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             ISpeakerSetupRepository speakerSetupRepository)
@@ -53,7 +52,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         var visitor = new OperatorEntityToCalculatorExecutor(
                             samplingRate,
                             channelCount,
-                            secondsBetweenApplyFilterVariables,
                             calculatorCache,
                             curveRepository,
                             sampleRepository,

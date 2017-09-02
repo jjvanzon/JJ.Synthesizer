@@ -11,17 +11,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private readonly OperatorCalculatorBase _blobVolumeCalculator;
         private readonly double _targetSamplingRate;
         private readonly double _nyquistFrequency;
-        private readonly int _samplesBetweenApplyFilterVariables;
         private readonly BiQuadFilter _biQuadFilter;
-
-        private int _counter;
 
         public LowPassFilter_OperatorCalculator(
             OperatorCalculatorBase soundCalculator,
             OperatorCalculatorBase maxFrequencyCalculator,
             OperatorCalculatorBase blobVolumeCalculator,
-            double targetSamplingRate,
-            int samplesBetweenApplyFilterVariables)
+            double targetSamplingRate)
                 : base(new []
                 {
                     soundCalculator,
@@ -29,13 +25,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     blobVolumeCalculator
                 })
         {
-            if (samplesBetweenApplyFilterVariables < 1) throw new LessThanException(() => samplesBetweenApplyFilterVariables, 1);
-
             _soundCalculator = soundCalculator ?? throw new NullException(() => soundCalculator);
             _maxFrequencyCalculator = maxFrequencyCalculator ?? throw new NullException(() => maxFrequencyCalculator);
             _blobVolumeCalculator = blobVolumeCalculator ?? throw new NullException(() => blobVolumeCalculator);
             _targetSamplingRate = targetSamplingRate;
-            _samplesBetweenApplyFilterVariables = samplesBetweenApplyFilterVariables;
             _biQuadFilter = new BiQuadFilter();
 
             _nyquistFrequency = _targetSamplingRate / 2.0;
@@ -46,16 +39,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override double Calculate()
         {
-            if (_counter > _samplesBetweenApplyFilterVariables)
-            {
-                SetFilterVariables();
-                _counter = 0;
-            }
+            SetFilterVariables();
 
             double sound = _soundCalculator.Calculate();
             double result = _biQuadFilter.Transform(sound);
-
-            _counter++;
 
             return result;
         }
@@ -70,7 +57,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private void ResetNonRecursive()
         {
             SetFilterVariables();
-            _counter = 0;
             _biQuadFilter.ResetSamples();
         }
 

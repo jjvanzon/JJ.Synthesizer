@@ -34,7 +34,6 @@ namespace JJ.Business.Synthesizer
     /// </summary>
     public class PatchManager
     {
-        private static readonly double _secondsBetweenApplyFilterVariables = CustomConfigurationManager.GetSection<ConfigurationSection>().SecondsBetweenApplyFilterVariables;
         private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
         private readonly RepositoryWrapper _repositories;
@@ -429,7 +428,6 @@ namespace JJ.Business.Synthesizer
                         channelCount,
                         channelIndex,
                         calculatorCache,
-                        _secondsBetweenApplyFilterVariables,
                         _repositories.CurveRepository,
                         _repositories.SampleRepository,
                         _repositories.SpeakerSetupRepository);
