@@ -604,14 +604,14 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine("{");
             Indent();
             {
-                int count = dto.Inputs.Count;
+                int count = dto.InputsExceptPosition.Count - 1;
 
                 for (int i = 0; i < count; i++)
                 {
                     AppendLine($"case {i}:");
                     Indent();
                     {
-                        string operand = GetLiteralFromInputDto(dto.Inputs[i]);
+                        string operand = GetLiteralFromInputDto(dto.InputsExceptPosition[i]);
 
                         AppendLine($"{output} = {operand};");
                         AppendLine("break;");

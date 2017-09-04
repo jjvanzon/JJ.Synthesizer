@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Dto
 {
@@ -10,10 +11,16 @@ namespace JJ.Business.Synthesizer.Dto
 
         public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
 
+        public IList<InputDto> InputsExceptPosition { get; set; }
+
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new[] { Position };
-            set => Position = value.FirstOrDefault();
+            get => InputsExceptPosition.Union(Position).ToArray();
+            set
+            {
+                InputsExceptPosition = value.Take(value.Count - 1).ToArray();
+                Position = value.LastOrDefault();
+            }
         }
     }
 

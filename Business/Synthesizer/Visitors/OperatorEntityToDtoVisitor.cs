@@ -176,11 +176,25 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitInletsToDimension(Operator op)
         {
-            var dto = new InletsToDimension_OperatorDto();
-            ProcessOperatorPolymorphic(op, dto);
+            base.VisitInletsToDimension(op);
+
+            // NOTE: Do not call ProcessOperatorPolymorphic, 
+            // because 'dto.Inputs = op.Inputs' does not work.
+
+            var dto = new InletsToDimension_OperatorDto
+            {
+                InputsExceptPosition = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
+                                                       .Where(x => x != null)
+                                                       .ToArray(),
+                Position = new Number_OperatorDto(0)
+            };
+
+            SetDimensionProperties(op, dto);
 
             var wrapper = new InletsToDimension_OperatorWrapper(op);
             dto.ResampleInterpolationTypeEnum = wrapper.InterpolationType;
+
+            _stack.Push(dto);
         }
 
         protected override void VisitInterpolate(Operator op)

@@ -272,12 +272,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
         {
-            return ProcessOperatorDto(dto, () => new InletsToDimension_OperatorCalculator_Block(dto.Inputs.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
+            return ProcessOperatorDto(dto, () => new InletsToDimension_OperatorCalculator_Block(dto.InputsExceptPosition.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
         }
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
         {
-            return ProcessOperatorDto(dto, () => new InletsToDimension_OperatorCalculator_Stripe(dto.Inputs.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
+            return ProcessOperatorDto(dto, () => new InletsToDimension_OperatorCalculator_Stripe(dto.InputsExceptPosition.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
         }
 
         protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
