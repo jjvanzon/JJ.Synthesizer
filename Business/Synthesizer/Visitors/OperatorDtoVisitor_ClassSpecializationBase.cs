@@ -9,6 +9,11 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorDtoVisitor_ClassSpecializationBase : OperatorDtoVisitorBase
     {
+        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
+        {
+            return WithAlreadyProcessedCheck(dto, () => base.Visit_OperatorDto_Polymorphic(dto));
+        }
+
         protected override IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto)
         {
             base.Visit_AllPassFilter_OperatorDto(dto);

@@ -20,6 +20,11 @@ namespace JJ.Business.Synthesizer.Visitors
             Visit_OperatorDto_Polymorphic(dto);
         }
 
+        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
+        {
+            return WithAlreadyProcessedCheck(dto, () => base.Visit_OperatorDto_Polymorphic(dto));
+        }
+
         // GetDimension
 
         protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)

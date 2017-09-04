@@ -26,8 +26,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             if (_dictionary.TryGetValue(key, out IOperatorDto existingDto))
             {
-                Debug.WriteLine($"Reusing result of OperatorDto {key}");
-                //Console.WriteLine
                 return existingDto;
             }
             else

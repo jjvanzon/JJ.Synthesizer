@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
@@ -58,9 +59,43 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
-            VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
+            if (_dto_To_Calculator_Dictionary.TryGetValue(dto, out OperatorCalculatorBase calculator))
+            {
+                _stack.Push(calculator);
+            }
+            else
+            {
+                VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
+
+                _dto_To_Calculator_Dictionary[dto] = _stack.Peek();
+            }
 
             return dto;
+        }
+
+        /// <summary> Returned dto is the same as input dto, but that makes the caller code shorter. </summary>
+        private IOperatorDto ProcessOperatorDto(IOperatorDto dto, Func<OperatorCalculatorBase> createOperatorCalculatorDelegate)
+        {
+            int stackCountBefore = _stack.Count;
+
+            base.Visit_OperatorDto_Base(dto);
+
+            OperatorCalculatorBase calculator = createOperatorCalculatorDelegate();
+
+            // Pop non-popped (unused) inputs.
+            while (_stack.Count > stackCountBefore)
+            {
+                _stack.Pop();
+            }
+
+            _stack.Push(calculator);
+
+            return dto;
+        }
+
+        private VariableInput_OperatorCalculator GetPositionOutputCalculator(IOperatorDto_WithDimension dto)
+        {
+            return _dimensionToVariableInputCalculatorDictionary[(dto.StandardDimensionEnum, dto.CanonicalCustomDimensionName)];
         }
 
         protected override InputDto VisitConstInputDto(InputDto inputDto)
@@ -664,41 +699,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 _dimensionToVariableInputCalculatorDictionary[(dto.StandardDimensionEnum, dto.CanonicalCustomDimensionName)] = calculator;
                 return calculator;
             });
-        }
-
-        // Helpers
-
-        /// <summary>
-        /// Returned dto is the same as input dto,
-        /// but that makes the caller code shorter.
-        /// </summary>
-        private IOperatorDto ProcessOperatorDto(IOperatorDto dto, Func<OperatorCalculatorBase> createOperatorCalculatorDelegate)
-        {
-            if (!_dto_To_Calculator_Dictionary.TryGetValue(dto, out OperatorCalculatorBase calculator))
-            {
-                int stackCountBefore = _stack.Count;
-
-                base.Visit_OperatorDto_Base(dto);
-
-                calculator = createOperatorCalculatorDelegate();
-
-                // Pop non-popped (unused) inputs.
-                while (_stack.Count > stackCountBefore)
-                {
-                    _stack.Pop();
-                }
-
-                _dto_To_Calculator_Dictionary[dto] = calculator;
-            }
-
-            _stack.Push(calculator);
-
-            return dto;
-        }
-
-        private VariableInput_OperatorCalculator GetPositionOutputCalculator(IOperatorDto_WithDimension dto)
-        {
-            return _dimensionToVariableInputCalculatorDictionary[(dto.StandardDimensionEnum, dto.CanonicalCustomDimensionName)];
         }
     }
 }

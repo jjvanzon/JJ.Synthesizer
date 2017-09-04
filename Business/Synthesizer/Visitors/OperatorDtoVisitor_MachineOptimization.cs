@@ -9,6 +9,11 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
 
+        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
+        {
+            return WithAlreadyProcessedCheck(dto, () => base.Visit_OperatorDto_Polymorphic(dto));
+        }
+
         protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
         {
             base.Visit_Power_OperatorDto(dto);

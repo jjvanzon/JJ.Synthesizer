@@ -149,6 +149,8 @@ namespace JJ.Business.Synthesizer.Roslyn
             else
             {
                 VisitorHelper.WithStackCheck(_stack, () => base.Visit_OperatorDto_Polymorphic(dto));
+
+                _resultReuse_Dictionary.Add(dto, _stack.Peek());
             }
 
             return dto;
@@ -1980,8 +1982,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             AppendLine();
 
             _stack.Push(output);
-
-            _resultReuse_Dictionary.Add(dto, output);
 
             return dto;
         }

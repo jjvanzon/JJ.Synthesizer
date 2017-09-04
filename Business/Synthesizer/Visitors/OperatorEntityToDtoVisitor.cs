@@ -248,8 +248,6 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             base.VisitRangeOverOutletsOutlet(outlet);
 
-            Operator op = outlet.Operator;
-
             // NOTE: Do not call ProcessOperatorPolymorphic, because that will cause circular processing.
 
             var dto = new RangeOverOutlets_Outlet_OperatorDto
@@ -372,14 +370,6 @@ namespace JJ.Business.Synthesizer.Visitors
                     SetDimensionProperties(op, castedDto);
                 }
             }
-
-            // TODO: Remove outcommented code.
-            //{
-            //    if (dto is IOperatorDto_WithAggregateInfo castedDto)
-            //    {
-            //        castedDto.GetAggregateInfo = AggregateInfoFactory.CreateAggregateInfo(dto.Inputs);
-            //    }
-            //}
 
             {
                 if (dto is OperatorDtoBase_WithCollectionRecalculation castedDto)

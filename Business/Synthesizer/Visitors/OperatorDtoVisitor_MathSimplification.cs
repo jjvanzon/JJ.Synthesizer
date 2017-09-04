@@ -31,18 +31,21 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
-            // NaN / Infinity
-
-            // Depth-first, so deeply pre-calculated NaN's can be picked up.
-            IOperatorDto dto2 = base.Visit_OperatorDto_Polymorphic(dto);
-
-            bool anyInputsHaveSpecialValue = dto2.Inputs.Any(x => x.IsConstSpecialValue);
-            if (anyInputsHaveSpecialValue)
+            return WithAlreadyProcessedCheck(dto, () =>
             {
-                return new Number_OperatorDto(double.NaN);
-            }
+                // NaN / Infinity
 
-            return dto2;
+                // Depth-first, so deeply pre-calculated NaN's can be picked up.
+                IOperatorDto dto2 = base.Visit_OperatorDto_Polymorphic(dto);
+
+                bool anyInputsHaveSpecialValue = dto2.Inputs.Any(x => x.IsConstSpecialValue);
+                if (anyInputsHaveSpecialValue)
+                {
+                    return new Number_OperatorDto(double.NaN);
+                }
+
+                return dto2;
+            });
         }
 
         // Operation-Specific

@@ -10,7 +10,30 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitorBase
     {
+        private readonly Dictionary<IOperatorDto, IOperatorDto> _operatorDto_To_OperatorDto_Dictionary = new Dictionary<IOperatorDto, IOperatorDto>();
+
         private readonly Dictionary<Type, Func<IOperatorDto, IOperatorDto>> _delegateDictionary;
+
+        protected bool AlreadyProcessed(IOperatorDto dto) => _operatorDto_To_OperatorDto_Dictionary.ContainsKey(dto);
+
+        /// <summary>
+        /// For performance, first checks in a dictionary, whether the operator DTO was already processed
+        /// and returns the already processed dto. Otherwise the passed action is executed.
+        /// </summary>
+        protected IOperatorDto WithAlreadyProcessedCheck(IOperatorDto dto, Func<IOperatorDto> action)
+        {
+            if (_operatorDto_To_OperatorDto_Dictionary.TryGetValue(dto, out IOperatorDto dto2))
+            {
+                //Debug.WriteLine($"{GetType().Name}: Skipping already processed DTO #{_operatorDto_To_OperatorDto_Dictionary.Count - 1} {dto}.");
+                return dto2;
+            }
+
+            dto2 = action();
+
+            _operatorDto_To_OperatorDto_Dictionary[dto] = dto2;
+
+            return dto2;
+        }
 
         [DebuggerHidden]
         protected virtual IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)

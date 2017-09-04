@@ -5,11 +5,16 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal class OperatorDtoVisitor_Rewriting : OperatorDtoVisitorBase_AfterMathSimplification
     {
-        // Execute
+        // General
 
         public IOperatorDto Execute(IOperatorDto dto)
         {
             return Visit_OperatorDto_Polymorphic(dto);
+        }
+
+        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
+        {
+            return WithAlreadyProcessedCheck(dto, () => base.Visit_OperatorDto_Polymorphic(dto));
         }
 
         // InletsToDimension

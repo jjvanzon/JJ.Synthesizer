@@ -39,28 +39,31 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
-            dto = base.Visit_OperatorDto_Polymorphic(dto);
-
-            // ReSharper disable once InvertIf
-            if (dto.OperatorTypeEnum != OperatorTypeEnum.And &&
-                dto.OperatorTypeEnum != OperatorTypeEnum.Or && 
-                dto.OperatorTypeEnum != OperatorTypeEnum.If && 
-                dto.OperatorTypeEnum != OperatorTypeEnum.Not &&
-                dto.OperatorTypeEnum != OperatorTypeEnum.BooleanToDouble &&
-                dto.OperatorTypeEnum != OperatorTypeEnum.DoubleToBoolean)
+            return WithAlreadyProcessedCheck(dto, () =>
             {
-                var list = new List<InputDto>();
+                dto = base.Visit_OperatorDto_Polymorphic(dto);
 
-                foreach (InputDto inputDto in dto.Inputs)
+                // ReSharper disable once InvertIf
+                if (dto.OperatorTypeEnum != OperatorTypeEnum.And &&
+                    dto.OperatorTypeEnum != OperatorTypeEnum.Or &&
+                    dto.OperatorTypeEnum != OperatorTypeEnum.If &&
+                    dto.OperatorTypeEnum != OperatorTypeEnum.Not &&
+                    dto.OperatorTypeEnum != OperatorTypeEnum.BooleanToDouble &&
+                    dto.OperatorTypeEnum != OperatorTypeEnum.DoubleToBoolean)
                 {
-                    InputDto inputDto2 = TryInsertBooleanToDouble(inputDto);
-                    list.Add(inputDto2);
+                    var list = new List<InputDto>();
+
+                    foreach (InputDto inputDto in dto.Inputs)
+                    {
+                        InputDto inputDto2 = TryInsertBooleanToDouble(inputDto);
+                        list.Add(inputDto2);
+                    }
+
+                    dto.Inputs = list;
                 }
 
-                dto.Inputs = list;
-            }
-
-            return dto;
+                return dto;
+            });
         }
 
         // Process

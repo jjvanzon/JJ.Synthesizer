@@ -24,113 +24,117 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
-            var positionReaderDto = dto as IOperatorDto_PositionReader;
-            var positionWriterDto = dto as IOperatorDto_WithPositionOutput;
-            var dtoWithAdditionalChannelDimension = dto as IOperatorDto_WithAdditionalChannelDimension;
-            Stack<IOperatorDto_WithPositionOutput> transformationStack = TryGetPositionWriterStack(positionReaderDto);
-            Stack<IOperatorDto_WithPositionOutput> channelTransformationStack = null;
-            if (dtoWithAdditionalChannelDimension != null)
+            return WithAlreadyProcessedCheck(dto, () =>
             {
-                channelTransformationStack = GetPositionWriterStack(DimensionEnum.Channel, "");
-            }
-
-            // Visit Non-Signal Inputs
-            // (and leave Signal Input intact.)
-            var inputDtoList = new List<InputDto>();
-            foreach (InputDto inputDto in dto.Inputs)
-            {
-                if (inputDto == positionWriterDto?.Signal)
+                var positionReaderDto = dto as IOperatorDto_PositionReader;
+                var positionWriterDto = dto as IOperatorDto_WithPositionOutput;
+                var dtoWithAdditionalChannelDimension = dto as IOperatorDto_WithAdditionalChannelDimension;
+                Stack<IOperatorDto_WithPositionOutput> transformationStack = TryGetPositionWriterStack(positionReaderDto);
+                Stack<IOperatorDto_WithPositionOutput> channelTransformationStack = null;
+                if (dtoWithAdditionalChannelDimension != null)
                 {
-                    inputDtoList.Add(inputDto);
+                    channelTransformationStack = GetPositionWriterStack(DimensionEnum.Channel, "");
                 }
-                else
-                {
-                    InputDto inputDto2 = VisitInputDto(inputDto);
-                    inputDtoList.Add(inputDto2);
-                }
-            }
-            dto.Inputs = inputDtoList;
 
-            if (positionReaderDto != null)
-            {
-                // Set Position Reader's Position Input
-                IOperatorDto_WithPositionOutput inputPositionWriterDto = transformationStack.PeekOrDefault();
-
-                if (inputPositionWriterDto != null)
+                // Visit Non-Signal Inputs
+                // (and leave Signal Input intact.)
+                var inputDtoList = new List<InputDto>();
+                foreach (InputDto inputDto in dto.Inputs)
                 {
-                    positionReaderDto.Position = InputDtoFactory.CreateInputDto(inputPositionWriterDto);
-                }
-                else
-                {
-                    // PositionReaders that have Position inputs that are not position transformations,
-                    // take position inputs from the outside, so they become variable inputs.
-                    var variableInput_OperatorDto = new VariableInput_OperatorDto
+                    if (inputDto == positionWriterDto?.Signal)
                     {
-                        CanonicalCustomDimensionName = positionReaderDto.CanonicalCustomDimensionName,
-                        StandardDimensionEnum = positionReaderDto.StandardDimensionEnum
-                    };
-                    positionReaderDto.Position = variableInput_OperatorDto;
-                }
-            }
-
-            if (dtoWithAdditionalChannelDimension != null)
-            {
-                // Set Position Reader's Position Input
-                IOperatorDto_WithPositionOutput inputPositionWriterDto = channelTransformationStack.PeekOrDefault();
-
-                if (inputPositionWriterDto != null)
-                {
-                    dtoWithAdditionalChannelDimension.Channel = InputDtoFactory.CreateInputDto(inputPositionWriterDto);
-                }
-                else
-                {
-                    // PositionReaders that have Position inputs that are not position transformations,
-                    // take position inputs from the outside, so they become variable inputs.
-                    var variableInput_OperatorDto = new VariableInput_OperatorDto
+                        inputDtoList.Add(inputDto);
+                    }
+                    else
                     {
-                        StandardDimensionEnum = DimensionEnum.Channel
-                    };
-                    dtoWithAdditionalChannelDimension.Channel = variableInput_OperatorDto;
+                        InputDto inputDto2 = VisitInputDto(inputDto);
+                        inputDtoList.Add(inputDto2);
+                    }
                 }
-            }
+                dto.Inputs = inputDtoList;
 
-            if (positionWriterDto != null)
-            {
-                // Push Position Writer
-                transformationStack.Push(positionWriterDto);
-
-                // Visit Signal Input
-                if (positionWriterDto.Signal.IsVar)
+                if (positionReaderDto != null)
                 {
-                    // TODO: Use VisitInputDto instead?
-                    IOperatorDto signal2 = Visit_OperatorDto_Polymorphic(positionWriterDto.Signal.Var);
-                    positionWriterDto.Signal = InputDtoFactory.CreateInputDto(signal2);
+                    // Set Position Reader's Position Input
+                    IOperatorDto_WithPositionOutput inputPositionWriterDto = transformationStack.PeekOrDefault();
+
+                    if (inputPositionWriterDto != null)
+                    {
+                        positionReaderDto.Position = InputDtoFactory.CreateInputDto(inputPositionWriterDto);
+                    }
+                    else
+                    {
+                        // PositionReaders that have Position inputs that are not position transformations,
+                        // take position inputs from the outside, so they become variable inputs.
+                        var variableInput_OperatorDto = new VariableInput_OperatorDto
+                        {
+                            CanonicalCustomDimensionName = positionReaderDto.CanonicalCustomDimensionName,
+                            StandardDimensionEnum = positionReaderDto.StandardDimensionEnum
+                        };
+                        positionReaderDto.Position = variableInput_OperatorDto;
+                    }
                 }
 
-                // Replace position writer with its signal.
-                if (positionWriterDto.Signal.IsVar)
+                if (dtoWithAdditionalChannelDimension != null)
                 {
-                    dto = positionWriterDto.Signal.Var;
+                    // Set Position Reader's Position Input
+                    IOperatorDto_WithPositionOutput inputPositionWriterDto = channelTransformationStack.PeekOrDefault();
+
+                    if (inputPositionWriterDto != null)
+                    {
+                        dtoWithAdditionalChannelDimension.Channel = InputDtoFactory.CreateInputDto(inputPositionWriterDto);
+                    }
+                    else
+                    {
+                        // PositionReaders that have Position inputs that are not position transformations,
+                        // take position inputs from the outside, so they become variable inputs.
+                        var variableInput_OperatorDto = new VariableInput_OperatorDto
+                        {
+                            StandardDimensionEnum = DimensionEnum.Channel
+                        };
+                        dtoWithAdditionalChannelDimension.Channel = variableInput_OperatorDto;
+                    }
                 }
-                else
+
+                if (positionWriterDto != null)
                 {
-                    dto = new Number_OperatorDto(positionWriterDto.Signal);
+                    // Push Position Writer
+                    transformationStack.Push(positionWriterDto);
+
+                    // Visit Signal Input
+                    if (positionWriterDto.Signal.IsVar)
+                    {
+                        // TODO: Use VisitInputDto instead?
+                        IOperatorDto signal2 = Visit_OperatorDto_Polymorphic(positionWriterDto.Signal.Var);
+                        positionWriterDto.Signal = InputDtoFactory.CreateInputDto(signal2);
+                    }
+
+                    // Replace position writer with its signal.
+                    if (positionWriterDto.Signal.IsVar)
+                    {
+                        dto = positionWriterDto.Signal.Var;
+                    }
+                    else
+                    {
+                        dto = new Number_OperatorDto(positionWriterDto.Signal);
+                    }
+
+                    // Annul position writer signal, so it does not accidentally get used anymore.
+                    // -1 is less confusing than 0 as a quasi-null.
+                    // NaN is no option, because NaN inputs => NaN output.
+
+                    if (!(dto is Cache_OperatorDto)
+                    ) // Cache needs the signal, even though it also needs everything to be a position reader.
+                    {
+                        positionWriterDto.Signal = new Number_OperatorDto(-1);
+                    }
+
+                    // Pop Position Writer
+                    transformationStack.Pop();
                 }
 
-                // Annul position writer signal, so it does not accidentally get used anymore.
-                // -1 is less confusing than 0 as a quasi-null.
-                // NaN is no option, because NaN inputs => NaN output.
-
-                if (!(dto is Cache_OperatorDto)) // Cache needs the signal, even though it also needs everything to be a position reader.
-                {
-                    positionWriterDto.Signal = new Number_OperatorDto(-1);
-                }
-
-                // Pop Position Writer
-                transformationStack.Pop();
-            }
-
-            return dto;
+                return dto;
+            });
         }
 
         private Stack<IOperatorDto_WithPositionOutput> TryGetPositionWriterStack(IOperatorDto_WithDimension positionReaderDto)
