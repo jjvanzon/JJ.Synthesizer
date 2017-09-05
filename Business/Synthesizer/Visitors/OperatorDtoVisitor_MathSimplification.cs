@@ -864,7 +864,17 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
         {
-            return ProcessIdentity(dto.PassThrough);
+            // SetDimension just outputs a transformed dimension after 'TransformationsToPositionInputs' has run.
+
+            // Identity
+            if (dto.Number.IsVar)
+            {
+                return dto.Number.Var;
+            }
+            else
+            {
+                return new Number_OperatorDto(dto.Number.Const);
+            }
         }
 
         protected override IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto)
@@ -886,7 +896,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 return dto;
             }
         }
-
+        
         protected override IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto)
         {
             return ProcessZero(dto);

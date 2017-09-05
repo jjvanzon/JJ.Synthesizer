@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 var positionReaderDto = dto as IOperatorDto_PositionReader;
                 var positionWriterDto = dto as IOperatorDto_WithPositionOutput;
                 var dtoWithAdditionalChannelDimension = dto as IOperatorDto_WithAdditionalChannelDimension;
+
                 Stack<IOperatorDto_WithPositionOutput> transformationStack = TryGetPositionWriterStack(positionReaderDto);
                 Stack<IOperatorDto_WithPositionOutput> channelTransformationStack = null;
                 if (dtoWithAdditionalChannelDimension != null)

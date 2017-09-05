@@ -17,11 +17,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
-            return WithAlreadyProcessedCheck(dto, () =>
+            dto = WithAlreadyProcessedCheck(dto, () =>
             {
                 if (!string.IsNullOrEmpty(dto.OperationIdentity))
                 {
-                    _stack.Push(dto.OperationIdentity);
                     return dto;
                 }
 
@@ -75,7 +74,6 @@ namespace JJ.Business.Synthesizer.Visitors
                     }
                 }
 
-
                 foreach (InputDto inputDto in dto.Inputs)
                 {
                     if (inputDto.Var != null)
@@ -98,10 +96,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
                 dto.OperationIdentity = sb.ToString();
 
-                _stack.Push(dto.OperationIdentity);
-
                 return dto;
             });
+
+            _stack.Push(dto.OperationIdentity);
+
+            return dto;
         }
 
         private static string FormatNumber(double number) => number.ToString();

@@ -555,11 +555,6 @@ namespace JJ.Business.Synthesizer.Visitors
             });
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
-        {
-            return ProcessOperatorDto(dto, () => new SetDimension_OperatorCalculator(_stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
-        }
-
         protected override IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto)
         {
             return ProcessOperatorDto(dto, () => new SineWithRate1_OperatorCalculator(_stack.Pop()));

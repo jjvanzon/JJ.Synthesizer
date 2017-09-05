@@ -1354,17 +1354,6 @@ namespace JJ.Business.Synthesizer.Roslyn
             return GenerateOperatorWrapUp(dto, output);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
-        {
-            string number = GetLiteralFromInputDto(dto.Number);
-            string output = GetVariableName(dto.OperatorTypeEnum);
-
-            AppendOperatorTitleComment(dto);
-            AppendLine($"{output} = {number};");
-
-            return GenerateOperatorWrapUp(dto, output);
-        }
-
         protected override IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto)
         {
             string position = GetLiteralFromInputDto(dto.Position);

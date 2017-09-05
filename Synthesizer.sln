@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.10
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{72857B67-3003-486C-9BB3-34AF5748BE95}"
 EndProject
@@ -1287,6 +1287,9 @@ Global
 		{4D7EE000-E58D-4EB8-8DB3-B3BFED50CFFB} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{06933DCA-EB38-4766-9794-A4EC0F5DA135} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{C3E382BA-94E2-4AB5-855B-17BF0C10ACCB} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3414313-7017-4FA4-9609-1C5DD252B9A7}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 55

@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Spectrum_OperatorDto : OperatorDtoBase_WithDimension
+    internal class Spectrum_OperatorDto : OperatorDtoBase_PositionReader
     { 
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Spectrum;
 
@@ -15,14 +15,14 @@ namespace JJ.Business.Synthesizer.Dto
 
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new[] { Sound, Start, End, FrequencyCount };
+            get => new[] { Sound, Start, End, FrequencyCount, Position };
             set
             {
-                var array = value.ToArray();
-                Sound = array[0];
-                Start = array[1];
-                End = array[2];
-                FrequencyCount = array[3];
+                Sound = value.ElementAtOrDefault(0);
+                Start = value.ElementAtOrDefault(1);
+                End = value.ElementAtOrDefault(2);
+                FrequencyCount = value.ElementAtOrDefault(3);
+                Position = value.ElementAtOrDefault(4);
             }
         }
     }

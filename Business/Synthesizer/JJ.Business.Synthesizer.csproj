@@ -238,7 +238,6 @@
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Block.cs" />
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Hold_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\SetDimension_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_WithPositionOutput.cs" />
     <Compile Include="Calculation\Operators\GetDimension_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\ToggleTrigger_OperatorCalculator.cs" />
