@@ -372,26 +372,6 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        protected override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto)
-        {
-            base.Visit_Loop_OperatorDto(dto);
-
-            IOperatorDto dto2;
-
-            if (dto.Signal.IsConst)
-            {
-                dto2 = new Loop_OperatorDto_ConstSignal();
-            }
-            else
-            {
-                dto2 = new Loop_OperatorDto_AllVars();
-            }
-
-            DtoCloner.CloneProperties(dto, dto2);
-
-            return dto2;
-        }
-
         protected override IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto)
         {
             base.Visit_LowPassFilter_OperatorDto(dto);

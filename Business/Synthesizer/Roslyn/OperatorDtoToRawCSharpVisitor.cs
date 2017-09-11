@@ -676,7 +676,7 @@ namespace JJ.Business.Synthesizer.Roslyn
             return ProcessBinaryBoolOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
         }
 
-        protected override IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto)
         {
             return Process_Loop_OperatorDto(dto);
         }

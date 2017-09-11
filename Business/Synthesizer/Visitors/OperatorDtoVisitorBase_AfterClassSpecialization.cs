@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Visitors
         protected sealed override IOperatorDto Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto) => throw new NotSupportedException();
-        protected sealed override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto) => throw new NotSupportedException();
         protected sealed override IOperatorDto Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto) => throw new NotSupportedException();

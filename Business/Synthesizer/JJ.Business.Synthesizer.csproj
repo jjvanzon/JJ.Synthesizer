@@ -414,7 +414,7 @@
     <Compile Include="Dto\PulseTrigger_OperatorDto.cs" />
     <Compile Include="Dto\ToggleTrigger_OperatorDto.cs" />
     <Compile Include="Dto\TriangleWithRate1_OperatorDto.cs" />
-    <Compile Include="Dto\Loop OperatorDto Classes.cs" />
+    <Compile Include="Dto\Loop_OperatorDto.cs" />
     <Compile Include="Dto\Interpolate OperatorDto Classes.cs" />
     <Compile Include="Dto\Noise_OperatorDto.cs" />
     <Compile Include="Dto\SampleWithRate1 OperatorDto Classes.cs" />

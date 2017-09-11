@@ -38,10 +38,4 @@ namespace JJ.Business.Synthesizer.Dto
             }
         }
     }
-
-    internal class Loop_OperatorDto_ConstSignal : Loop_OperatorDto
-    { }
-
-    internal class Loop_OperatorDto_AllVars : Loop_OperatorDto
-    { }
 }

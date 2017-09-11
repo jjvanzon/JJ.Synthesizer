@@ -330,9 +330,27 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessOperatorDto(dto, () => new LessThan_OperatorCalculator(_stack.Pop(), _stack.Pop()));
         }
 
-        protected override IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto)
+        protected override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto)
         {
-            return ProcessOperatorDto(dto, () => new Loop_OperatorCalculator_WithPositionOutput(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
+            return ProcessOperatorDto(dto, () =>
+            {
+                // ReSharper disable once UnusedVariable
+                OperatorCalculatorBase signalCalculator = _stack.Pop();
+                OperatorCalculatorBase skipCalculator = _stack.Pop();
+                OperatorCalculatorBase loopStartMarkerCalculator = _stack.Pop();
+                OperatorCalculatorBase loopEndMarkerCalculator = _stack.Pop();
+                OperatorCalculatorBase releaseEndMarkerCalculator = _stack.Pop();
+                OperatorCalculatorBase noteDurationCalculator = _stack.Pop();
+                OperatorCalculatorBase positionCalculator = _stack.Pop();
+
+                return new Loop_OperatorCalculator_WithPositionOutput(
+                    positionCalculator,
+                    skipCalculator,
+                    loopStartMarkerCalculator,
+                    loopEndMarkerCalculator,
+                    releaseEndMarkerCalculator,
+                    noteDurationCalculator);
+            });
         }
 
         protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)

@@ -186,8 +186,6 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(LessThan_OperatorDto), x => Visit_LessThan_OperatorDto((LessThan_OperatorDto)x) },
                 { typeof(LessThanOrEqual_OperatorDto), x => Visit_LessThanOrEqual_OperatorDto((LessThanOrEqual_OperatorDto)x) },
                 { typeof(Loop_OperatorDto), x => Visit_Loop_OperatorDto((Loop_OperatorDto)x) },
-                { typeof(Loop_OperatorDto_ConstSignal), x => Visit_Loop_OperatorDto_ConstSignal((Loop_OperatorDto_ConstSignal)x) },
-                { typeof(Loop_OperatorDto_AllVars), x => Visit_Loop_OperatorDto_AllVars((Loop_OperatorDto_AllVars)x) },
                 { typeof(LowPassFilter_OperatorDto), x => Visit_LowPassFilter_OperatorDto((LowPassFilter_OperatorDto)x) },
                 { typeof(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar), x => Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar((LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar)x) },
                 { typeof(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst), x => Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst((LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst)x) },
@@ -354,8 +352,6 @@ namespace JJ.Business.Synthesizer.Visitors
         [DebuggerHidden] protected virtual IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_ConstSignal(Loop_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto_AllVars(Loop_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
         [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
