@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
+// ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -29,7 +30,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 var positionReaderDto = dto as IOperatorDto_PositionReader;
                 if (positionReaderDto != null)
                 {
-                    var transformationStack = TryGetTransformationStack(positionReaderDto);
+                    var transformationStack = GetTransformationStack(positionReaderDto);
                     positionReaderDto.Position = CreatePositionInput(transformationStack.PeekOrDefault(), positionReaderDto.StandardDimensionEnum, positionReaderDto.CanonicalCustomDimensionName);
                 }
 
@@ -64,8 +65,9 @@ namespace JJ.Business.Synthesizer.Visitors
                 // So visit especially for that.
                 if (transformationDto != null)
                 {
+                    var transformationStack = GetTransformationStack(transformationDto);
+                
                     // Push Position Transformation
-                    Stack<IOperatorDto_PositionTransformation> transformationStack = TryGetTransformationStack(transformationDto);
                     transformationStack.Push(transformationDto);
 
                     // Visit Signal
@@ -75,21 +77,12 @@ namespace JJ.Business.Synthesizer.Visitors
                     dto = transformationDto.Signal.VarOrConst;
 
                     // Annul position transformation signal.
-                    // (So it does not accidentally get used anymore.)
-                    // (-1 is less confusing than 0 as a quasi-null.)
-                    // (NaN is no option, because NaN inputs => NaN output.)
-                    // TODO: Consider inserting NaN anyway and omitting the NaN math optimization,
-                    // since is kind of pointless to performance-optimize a bad calculation.
                     if (!(dto is Cache_OperatorDto)) // Cache needs the signal, even though it also needs everything to be a position reader.
                     {
-                        transformationDto.Signal = new Number_OperatorDto(-1);
+                        transformationDto.Signal = new Number_OperatorDto(double.NaN);
                     }
-                }
-
-                if (transformationDto != null)
-                {
+                 
                     // Pop Position Transformation
-                    Stack<IOperatorDto_PositionTransformation> transformationStack = TryGetTransformationStack(transformationDto);
                     transformationStack.Pop();
                 }
 
@@ -99,7 +92,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return WithAlreadyProcessedCheck(dto, func);
         }
 
-        private static InputDto CreatePositionInput(IOperatorDto_WithDimension inputOperatorDto, DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName)
+        private static InputDto CreatePositionInput(IOperatorDto inputOperatorDto, DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName)
         {
             if (inputOperatorDto != null)
             {
@@ -115,16 +108,6 @@ namespace JJ.Business.Synthesizer.Visitors
                     StandardDimensionEnum = standardDimensionEnum
                 };
             }
-        }
-
-        private Stack<IOperatorDto_PositionTransformation> TryGetTransformationStack(IOperatorDto_WithDimension dto)
-        {
-            if (dto == null)
-            {
-                return null;
-            }
-
-            return GetTransformationStack(dto);
         }
 
         private Stack<IOperatorDto_PositionTransformation> GetTransformationStack(IOperatorDto_WithDimension dto)
