@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Squash_OperatorDto : OperatorDtoBase_WithPositionOutput
+    internal class Squash_OperatorDto : OperatorDtoBase_PositionTransformation
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Squash;
 

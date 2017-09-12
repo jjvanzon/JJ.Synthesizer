@@ -12,6 +12,7 @@ namespace JJ.Business.Synthesizer.Dto
         {
             IsVar = isVar;
             Var = var;
+            VarOrConst = var;
         }
 
         [Obsolete("Use InputDtoFactory instead.")]
@@ -29,6 +30,7 @@ namespace JJ.Business.Synthesizer.Dto
             IsConstNonZero = isConstNonZero;
             IsConstSpecialValue = isConstSpecialValue;
             Const = @const;
+            VarOrConst = new Number_OperatorDto(@const);
         }
 
         public bool IsVar { get; }
@@ -39,6 +41,7 @@ namespace JJ.Business.Synthesizer.Dto
         public bool IsConstSpecialValue { get; }
         public double Const { get; }
         public IOperatorDto Var { get; }
+        public IOperatorDto VarOrConst { get; }
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
 

@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 namespace JJ.Business.Synthesizer.Dto
 {
     internal class DimensionToOutlets_Outlet_OperatorDto 
-        : OperatorDtoBase_WithPositionOutput, IOperatorDto_WithOutletPosition
+        : OperatorDtoBase_PositionTransformation, IOperatorDto_WithOutletPosition
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.DimensionToOutlets;
 

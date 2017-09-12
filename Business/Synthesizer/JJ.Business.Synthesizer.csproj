@@ -169,13 +169,13 @@
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
     <Compile Include="Dto\IOperatorDto_PositionReader.cs" />
-    <Compile Include="Dto\IOperatorDto_WithPositionOutput.cs" />
+    <Compile Include="Dto\IOperatorDto_PositionTransformation.cs" />
     <Compile Include="Dto\IOperatorDto_WithAggregateInfo.cs" />
     <Compile Include="Dto\IOperatorDto_WithOutletPosition.cs" />
     <Compile Include="Dto\IOperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_InputsOnly.cs" />
     <Compile Include="Dto\OperatorDtoBase_PositionReader.cs" />
-    <Compile Include="Dto\OperatorDtoBase_WithPositionOutput.cs" />
+    <Compile Include="Dto\OperatorDtoBase_PositionTransformation.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithCollectionRecalculation.cs" />
     <Compile Include="Dto\IOperatorDto_WithSound.cs" />
     <Compile Include="Dto\IOperatorDto_WithSignal.cs" />

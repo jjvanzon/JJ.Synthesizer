@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// For performance, first checks in a dictionary, whether the operator DTO was already processed
         /// and returns the already processed dto. Otherwise the passed action is executed.
         /// </summary>
+        [DebuggerHidden]
         protected IOperatorDto WithAlreadyProcessedCheck(IOperatorDto dto, Func<IOperatorDto> action)
         {
             if (_operatorDto_To_OperatorDto_Dictionary.TryGetValue(dto, out IOperatorDto dto2))
@@ -92,8 +93,10 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
+        [DebuggerHidden]
         protected virtual InputDto VisitConstInputDto(InputDto inputDto) => inputDto;
 
+        [DebuggerHidden]
         protected virtual InputDto VisitVarInputDto(InputDto inputDto)
         {
             IOperatorDto var2 = Visit_OperatorDto_Polymorphic(inputDto.Var);

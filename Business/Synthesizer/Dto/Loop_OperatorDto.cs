@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Loop_OperatorDto : OperatorDtoBase_WithPositionOutput
+    internal class Loop_OperatorDto : OperatorDtoBase_PositionTransformation
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Loop;
 
