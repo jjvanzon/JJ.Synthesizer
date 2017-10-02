@@ -12,9 +12,6 @@ namespace JJ.Business.Synthesizer.Dto
         /// Returns the doubles and IOperatorDto's that are the
         /// inputs of the operator as a single enumerable,
         /// using a quasi-union type InputDto.
-        /// 
-        /// In the future, this may become the full replacement for the
-        /// InputOperatorDtos, but that would be too high-impact for now (2017-08-17).
         /// </summary>
         IReadOnlyList<InputDto> Inputs { get; set; }
 

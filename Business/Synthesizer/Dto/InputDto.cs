@@ -38,6 +38,7 @@ namespace JJ.Business.Synthesizer.Dto
         public bool IsConstZero { get; }
         public bool IsConstOne { get; }
         public bool IsConstNonZero { get; }
+        /// <summary> Meaning it is NaN, PositiveInfinity or NegativeInfinity. </summary>
         public bool IsConstSpecialValue { get; }
         public double Const { get; }
         public IOperatorDto Var { get; }

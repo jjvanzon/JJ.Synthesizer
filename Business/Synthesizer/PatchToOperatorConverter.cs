@@ -12,21 +12,20 @@ using JJ.Framework.Exceptions;
 namespace JJ.Business.Synthesizer
 {
     /// <summary>
-    /// Converts a Patch to a CustomOperator.
+    /// Converts a Patch to a derived Operator.
     /// A Patch can have PatchInlet and PatchOutlet Operators in it.
-    /// This Patch can function as a template for a CustomOperator.
+    /// This Patch can function as a template for an operator.
     /// 
-    /// This class applies the Patch to the CustomOperator.
-    /// The CustomOperator can already exist in case of which it is adapted to match
+    /// This class applies the Patch to the Operator.
+    /// The Operator can already exist in case of which it is adapted to match
     /// its new UnderlyingPatch.
     /// 
-    /// No Inlets or Outlets of the CustomOperators are thrown away,
-    /// if there are still things connected to it, so a CustomOperator can end up with inlets and outlets
-    /// that are not even in the UnderlyingPatch.
+    /// No Inlets or Outlets of the Operator are thrown away,
+    /// if there are still things connected to it, so an Operator can end up with inlets and outlets
+    /// that are not even in the UnderlyingPatch anymore.
     /// 
-    /// However, existing Inlets and Outlets are matches with the new Patch as best as possible.
-    /// First an existing Inlet or Outlet is matched by name, otherwise an it is matched by Dimension,
-    /// otherwise by Position.
+    /// However, existing Inlets and Outlets are matched with the new Patch as best as possible
+    /// by name, Dimension, Position, IsRepeating or combinations thereof.
     /// And if none match, the Inlet or Outlet is deleted if not in use, or kept if it was in use.
     /// </summary>
     internal class PatchToOperatorConverter

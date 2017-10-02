@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
-using Canonicals = JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;

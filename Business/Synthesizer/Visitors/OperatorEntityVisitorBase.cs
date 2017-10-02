@@ -19,7 +19,6 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             _visitOperatorDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Operator>>
             {
-                //{ OperatorTypeEnum.Absolute, VisitAbsolute },
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.AllPassFilter, VisitAllPassFilter },
                 { OperatorTypeEnum.And, VisitAnd },

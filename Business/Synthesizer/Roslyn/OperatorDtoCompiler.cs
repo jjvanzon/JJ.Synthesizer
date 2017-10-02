@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Text;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;

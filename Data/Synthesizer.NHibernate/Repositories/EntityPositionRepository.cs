@@ -5,7 +5,7 @@ using JJ.Framework.Data.NHibernate;
 
 namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
-    public class EntityPositionRepository : JJ.Data.Synthesizer.DefaultRepositories.EntityPositionRepository
+    public class EntityPositionRepository : DefaultRepositories.EntityPositionRepository
     {
         private new readonly NHibernateContext _context;
 

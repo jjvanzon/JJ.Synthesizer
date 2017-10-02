@@ -226,10 +226,6 @@ namespace JJ.Business.Synthesizer
         {
             if (candicateDestInletsOrOutlets == null) throw new NullException(() => candicateDestInletsOrOutlets);
 
-            // NOTE: You cannot use RepetitionPosition in the matching,
-            // because source is a PatchInlet, whose RepetitionPosition has no meaning and cannot be matched with an Operator Inlet,
-            // whose RepetitionPosition does have meaning.
-
             // In case of PatchInlet.Inlet or PatchOutlet.Outlet:
             // Can't match it by any property, because those are all custom filled in by the user.
             // You gotta take the first or default!
@@ -244,13 +240,15 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
+            // NOTE: You cannot use RepetitionPosition in the matching,
+            // because source is a PatchInlet, whose RepetitionPosition has no meaning and cannot be matched with an Operator Inlet,
+            // whose RepetitionPosition does have meaning.
+            // You gotta take the first or default!
             if (sourceInletOrOutlet.IsRepeating)
             {
                 // Try match by IsRepeating = true
                 {
-                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(
-                        x => x.IsRepeating);
-
+                    IInletOrOutlet destInletOrOutlet = candicateDestInletsOrOutlets.FirstOrDefault(x => x.IsRepeating);
                     return destInletOrOutlet;
                 }
             }

@@ -48,19 +48,8 @@ namespace JJ.Business.Synthesizer.Helpers
             IDRepository = idRepository ?? throw new NullException(() => idRepository);
         }
 
-        public void Commit()
-        {
-            AudioFileOutputRepository.Commit();
-        }
-
-        public void Rollback()
-        {
-            AudioFileOutputRepository.Rollback();
-        }
-
-        public void Flush()
-        {
-            AudioFileOutputRepository.Flush();
-        }
+        public void Commit() => AudioFileOutputRepository.Commit();
+        public void Rollback() => AudioFileOutputRepository.Rollback();
+        public void Flush() => AudioFileOutputRepository.Flush();
     }
 }

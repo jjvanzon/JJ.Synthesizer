@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Helpers
                 HasVars = hasVars,
                 OnlyConsts = !hasVars,
                 OnlyVars = !hasConsts,
-                IsEmpty = inputDtos.Count() == 0
+                IsEmpty = !inputDtos.Any()
             };
 
             if (constInputDtos.Count == 1)

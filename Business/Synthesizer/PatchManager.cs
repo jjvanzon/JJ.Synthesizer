@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary>
-        /// Related operators will also be added to the patch.
+        /// Related operators will also be added to the operator's patch.
         /// If one of the related operators has a different patch assigned to it,
         /// a validation message is returned.
         /// </summary>
@@ -212,8 +212,8 @@ namespace JJ.Business.Synthesizer
         /// <summary>
         /// Deletes the operator, its inlets and outlets
         /// and connections to its inlets and outlets.
-        /// Also applies changes to underlying documents to dependent CustomOperators.
-        /// Also cleans up obsolete inlets and outlets from custom operators.
+        /// Also applies changes to underlying documents to derived operators.
+        /// Also cleans up obsolete inlets and outlets from operators.
         /// </summary>
         public void DeleteOperatorWithRelatedEntities(Operator op)
         {
@@ -354,7 +354,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <summary>
-        /// Does work, shared for creating multiple calculators only once.
+        /// Does work, that is shared for creating multiple calculators, only once.
         /// In particular in compiled mode, this means it compiles the calculation only once.
         /// Note that you are still going to have to call it once for each channel, unfortunately,
         /// due to the inherent behavior of sample mixing inside the PatchCalculators.
@@ -373,18 +373,15 @@ namespace JJ.Business.Synthesizer
                 case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
                 case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
                 {
-                    var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
-                        calculatorCache,
-                        _repositories.CurveRepository,
-                        _repositories.SampleRepository,
-                        _repositories.SpeakerSetupRepository);
-                    IOperatorDto dto = entityToDtoVisitor.Execute(outlet);
+                    IOperatorDto dto = new OperatorEntityToDtoVisitor(
+                            calculatorCache,
+                            _repositories.CurveRepository,
+                            _repositories.SampleRepository,
+                            _repositories.SpeakerSetupRepository).Execute(outlet);
 
-                    var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
-                    dto = preProcessingVisitor.Execute(dto);
+                    dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
 
-                    var compiler = new OperatorDtoCompiler();
-                    ActivationInfo activationInfo = compiler.CompileToPatchCalculatorActivationInfo(dto, samplingRate, channelCount, channelIndex);
+                    ActivationInfo activationInfo = new OperatorDtoCompiler().CompileToPatchCalculatorActivationInfo(dto, samplingRate, channelCount, channelIndex);
 
                     IList<IPatchCalculator> patchCalculators = CollectionHelper.Repeat(
                         calculatorCount,
@@ -395,15 +392,7 @@ namespace JJ.Business.Synthesizer
                 default:
                 {
                     IList<IPatchCalculator> patchCalculators =
-                        CollectionHelper.Repeat(
-                                            calculatorCount,
-                                            () =>
-                                                CreateCalculator(
-                                                    outlet,
-                                                    samplingRate,
-                                                    channelCount,
-                                                    channelIndex,
-                                                    calculatorCache))
+                        CollectionHelper.Repeat(calculatorCount, () => CreateCalculator(outlet, samplingRate, channelCount, channelIndex, calculatorCache))
                                         .ToArray();
 
                     return patchCalculators;
@@ -436,18 +425,14 @@ namespace JJ.Business.Synthesizer
                 case CalculationMethodEnum.Roslyn:
                 case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
                 case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
-                    var entityToDtoVisitor = new OperatorEntityToDtoVisitor(
+                    IOperatorDto dto = new OperatorEntityToDtoVisitor(
                         calculatorCache,
                         _repositories.CurveRepository,
                         _repositories.SampleRepository,
-                        _repositories.SpeakerSetupRepository);
-                    IOperatorDto dto = entityToDtoVisitor.Execute(outlet);
+                        _repositories.SpeakerSetupRepository).Execute(outlet);
 
-                    var preProcessingVisitor = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount);
-                    dto = preProcessingVisitor.Execute(dto);
-
-                    var compiler = new OperatorDtoCompiler();
-                    patchCalculator = compiler.CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
+                    dto = new OperatorDtoPreProcessingExecutor(samplingRate, channelCount).Execute(dto);
+                    patchCalculator = new OperatorDtoCompiler().CompileToPatchCalculator(dto, samplingRate, channelCount, channelIndex);
 
                     break;
 

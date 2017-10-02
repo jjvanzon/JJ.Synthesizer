@@ -4,7 +4,7 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
-    public class IDRepository : JJ.Data.Synthesizer.DefaultRepositories.IDRepository
+    public class IDRepository : DefaultRepositories.IDRepository
     {
         private readonly string _connectionString;
 

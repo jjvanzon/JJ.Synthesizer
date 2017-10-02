@@ -19,12 +19,6 @@ namespace JJ.Business.SynthesizerPrototype.Helpers
             }
         }
 
-        public override string Message
-        {
-            get
-            {
-                return _message;
-            }
-        }
+        public override string Message => _message;
     }
 }

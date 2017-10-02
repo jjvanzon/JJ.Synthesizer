@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// For performance, first checks in a dictionary, whether the operator DTO was already processed
         /// and returns the already processed dto. Otherwise the passed action is executed.
         /// </summary>
-        [DebuggerHidden]
+        /*[DebuggerHidden]*/
         protected IOperatorDto WithAlreadyProcessedCheck(IOperatorDto dto, Func<IOperatorDto> action)
         {
             if (_operatorDto_To_OperatorDto_Dictionary.TryGetValue(dto, out IOperatorDto dto2))
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto2;
         }
 
-        [DebuggerHidden]
+        /*[DebuggerHidden]*/
         protected virtual IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
         {
             Type type = dto.GetType();
@@ -46,25 +46,67 @@ namespace JJ.Business.Synthesizer.Visitors
                 throw new Exception($"No Visit method delegate found in the dictionary for {type.Name}.");
             }
 
-            IList<InputDto> originalDtoInputs = dto.Inputs.ToArray();
             IOperatorDto originalDto = dto;
+            IReadOnlyList<InputDto> originalInputDtos = originalDto.Inputs;
 
             IOperatorDto newDto = func(originalDto);
+            IReadOnlyList<InputDto> newInputDtos = newDto.Inputs;
 
             // Revisit as long as different instances keep coming.
 
-            while (newDto != originalDto || !newDto.Inputs.SequenceEqual(originalDtoInputs))
+            while (newDto != originalDto || !AreEqual(newInputDtos, originalInputDtos))
             {
                 originalDto = newDto;
-                originalDtoInputs = newDto.Inputs.ToArray();
+                originalInputDtos = originalDto.Inputs;
 
                 newDto = Visit_OperatorDto_Polymorphic(newDto);
+                newInputDtos = newDto.Inputs;
             }
 
             return newDto;
         }
+    
+        private bool AreEqual(IReadOnlyList<InputDto> list1, IReadOnlyList<InputDto> list2)
+        {
+            if (list1.Count != list2.Count) return false;
 
-        [DebuggerHidden]
+            int count = list1.Count;
+            for (int i = 0; i < count; i++)
+            {
+                InputDto item1 = list1[i];
+                InputDto item2 = list2[i];
+
+                if (!AreEqual(item1, item2))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool AreEqual(InputDto item1, InputDto item2)
+        {
+            if (item1 == item2)
+            {
+                return true;
+            }
+
+            if (item1.IsConst && item2.IsConst)
+            {
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                return item1.Const == item2.Const;
+            }
+
+            if (item1.IsVar && item2.IsVar)
+            {
+                return item1.Var == item2.Var;
+            }
+
+            return false;
+        }
+
+        /*[DebuggerHidden]*/
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual IOperatorDto Visit_OperatorDto_Base(IOperatorDto dto)
         {
@@ -73,7 +115,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        [DebuggerHidden]
+        /*[DebuggerHidden]*/
         protected virtual InputDto VisitInputDto(InputDto inputDto)
         {
             // ReSharper disable once InvertIf
@@ -93,10 +135,10 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        [DebuggerHidden]
+        /*[DebuggerHidden]*/
         protected virtual InputDto VisitConstInputDto(InputDto inputDto) => inputDto;
 
-        [DebuggerHidden]
+        /*[DebuggerHidden]*/
         protected virtual InputDto VisitVarInputDto(InputDto inputDto)
         {
             IOperatorDto var2 = Visit_OperatorDto_Polymorphic(inputDto.Var);
@@ -276,169 +318,169 @@ namespace JJ.Business.Synthesizer.Visitors
             };
         }
 
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto(BandPassFilterConstantTransitionGain_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_BooleanToDouble_OperatorDto(BooleanToDouble_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto(Cache_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Block(Cache_OperatorDto_SingleChannel_Block dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Cubic(Cache_OperatorDto_SingleChannel_Cubic dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Hermite(Cache_OperatorDto_SingleChannel_Hermite dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Line(Cache_OperatorDto_SingleChannel_Line dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Stripe(Cache_OperatorDto_SingleChannel_Stripe dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Cubic(Cache_OperatorDto_MultiChannel_Cubic dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Hermite(Cache_OperatorDto_MultiChannel_Hermite dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Line(Cache_OperatorDto_MultiChannel_Line dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Stripe(Cache_OperatorDto_MultiChannel_Stripe dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverDimension_OperatorDto(ClosestOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto(ClosestOverDimensionExp_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto(Curve_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_NoOriginShifting(Curve_OperatorDto_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Curve_OperatorDto_WithOriginShifting(Curve_OperatorDto_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind(InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Hermite_LagBehind(InletsToDimension_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto_CubicEquidistant(Interpolate_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MaxOverDimension_OperatorDto_ConstSignal(MaxOverDimension_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto_ConstSignal(MinOverDimension_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_ConstRate(Random_OperatorDto_Line_LagBehind_ConstRate dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_VarRate(Random_OperatorDto_Line_LagBehind_VarRate dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_CubicSmoothSlope_LagBehind(Random_OperatorDto_CubicSmoothSlope_LagBehind dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Random_OperatorDto_Hermite_LagBehind(Random_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Round_OperatorDto_AllConsts(Round_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Round_OperatorDto_StepOne_ZeroOffset(Round_OperatorDto_StepOne_ZeroOffset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Round_OperatorDto_WithOffset(Round_OperatorDto_WithOffset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Round_OperatorDto_ZeroOffset(Round_OperatorDto_ZeroOffset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto(SampleWithRate1_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto(Squash_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ZeroOrigin(Squash_OperatorDto_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting(Squash_OperatorDto_ConstFactor_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Squash_OperatorDto_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarFactor_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount(SumFollower_OperatorDto_ConstSignal_ConstSampleCount dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_AllConsts(SumOverDimension_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_TriangleWithRate1_OperatorDto(TriangleWithRate1_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        [DebuggerHidden] protected virtual IOperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(AverageOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset(AverageOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto(BandPassFilterConstantTransitionGain_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_BooleanToDouble_OperatorDto(BooleanToDouble_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto(Cache_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Block(Cache_OperatorDto_SingleChannel_Block dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Cubic(Cache_OperatorDto_SingleChannel_Cubic dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Hermite(Cache_OperatorDto_SingleChannel_Hermite dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Line(Cache_OperatorDto_SingleChannel_Line dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Stripe(Cache_OperatorDto_SingleChannel_Stripe dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Cubic(Cache_OperatorDto_MultiChannel_Cubic dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Hermite(Cache_OperatorDto_MultiChannel_Hermite dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Line(Cache_OperatorDto_MultiChannel_Line dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Stripe(Cache_OperatorDto_MultiChannel_Stripe dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ClosestOverDimension_OperatorDto(ClosestOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto(ClosestOverDimensionExp_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Curve_OperatorDto(Curve_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Curve_OperatorDto_NoOriginShifting(Curve_OperatorDto_NoOriginShifting dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Curve_OperatorDto_WithOriginShifting(Curve_OperatorDto_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind(InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Hermite_LagBehind(InletsToDimension_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_CubicEquidistant(Interpolate_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MaxOverDimension_OperatorDto(MaxOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MaxOverDimension_OperatorDto_ConstSignal(MaxOverDimension_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(MaxOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(MaxOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto(MinOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto_ConstSignal(MinOverDimension_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(MinOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationUponReset(MinOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_ConstRate(Random_OperatorDto_Line_LagBehind_ConstRate dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_VarRate(Random_OperatorDto_Line_LagBehind_VarRate dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_CubicSmoothSlope_LagBehind(Random_OperatorDto_CubicSmoothSlope_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Hermite_LagBehind(Random_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto(Round_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto_AllConsts(Round_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto_StepOne_ZeroOffset(Round_OperatorDto_StepOne_ZeroOffset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto_WithOffset(Round_OperatorDto_WithOffset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Round_OperatorDto_ZeroOffset(Round_OperatorDto_ZeroOffset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto(SampleWithRate1_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(SortOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationUponReset(SortOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Squash_OperatorDto(Squash_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Squash_OperatorDto_ZeroOrigin(Squash_OperatorDto_ZeroOrigin dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting(Squash_OperatorDto_ConstFactor_WithOriginShifting dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Squash_OperatorDto_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarFactor_WithPhaseTracking dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount(SumFollower_OperatorDto_ConstSignal_ConstSampleCount dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_AllConsts(SumOverDimension_OperatorDto_AllConsts dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(SumOverDimension_OperatorDto_CollectionRecalculationUponReset dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_TriangleWithRate1_OperatorDto(TriangleWithRate1_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto) => Visit_OperatorDto_Base(dto);
     }
 }

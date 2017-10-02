@@ -14,15 +14,6 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool CanCastToPositiveInt32(double value)
-        {
-            return value >= 1.0 &&
-                   value <= int.MaxValue &&
-                   !double.IsNaN(value) &&
-                   !double.IsInfinity(value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool CanCastToInt32(double value)
         {
             return value >= int.MinValue &&
