@@ -150,9 +150,9 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new DimensionToOutlets_Outlet_OperatorDto
             {
                 Signal = PopInputDto(),
+                Position = new Number_OperatorDto(double.NaN),
                 StandardDimensionEnum = op.GetStandardDimensionEnumWithFallback(),
                 CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback()),
-                Position = new Number_OperatorDto(0)
             };
 
             if (!outlet.RepetitionPosition.HasValue)
@@ -186,7 +186,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 InputsExceptPosition = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
                                                        .Where(x => x != null)
                                                        .ToArray(),
-                Position = new Number_OperatorDto(0)
+                Position = new Number_OperatorDto(double.NaN)
             };
 
             SetDimensionProperties(op, dto);
@@ -326,6 +326,7 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected override void VisitSetDimension(Operator op) => ProcessOperatorPolymorphic(op, new SetDimension_OperatorDto());
+
         protected override void VisitSineWithRate1(Operator op) => ProcessOperatorPolymorphic(op, new SineWithRate1_OperatorDto());
 
         protected override void VisitSortOverInletsOutlet(Outlet outlet)
@@ -396,14 +397,14 @@ namespace JJ.Business.Synthesizer.Visitors
             {
                 if (dto is IOperatorDto_PositionReader castedDto)
                 {
-                    castedDto.Position = new Number_OperatorDto(0);
+                    castedDto.Position = castedDto.Position ?? new Number_OperatorDto(double.NaN);
                 }
             }
 
             {
                 if (dto is IOperatorDto_WithAdditionalChannelDimension castedDto)
                 {
-                    castedDto.Channel = new Number_OperatorDto(0);
+                    castedDto.Channel = castedDto.Channel ?? new Number_OperatorDto(double.NaN);
                 }
             }
 

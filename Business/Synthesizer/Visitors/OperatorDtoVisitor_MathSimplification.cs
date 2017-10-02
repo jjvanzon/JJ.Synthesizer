@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Visitors
     internal class OperatorDtoVisitor_MathSimplification : OperatorDtoVisitor_ClassSpecializationBase
     {
         private delegate void SetFilterParametersWithWidthOrBlobVolumeDelegate(
-            double samplingRate, double limitedFrequency, double widthOrBlobVolume, 
+            double samplingRate, double limitedFrequency, double widthOrBlobVolume,
             out double a0, out double a1, out double a2, out double a3, out double a4);
 
         private delegate void SetShelfFilterParametersDelegate(
@@ -302,20 +302,20 @@ namespace JJ.Business.Synthesizer.Visitors
             switch (dto.StandardDimensionEnum)
             {
                 case DimensionEnum.SamplingRate:
-                {
-                    var dto2 = new Number_OperatorDto();
-                    DtoCloner.CloneProperties(dto, dto2);
-                    dto2.Number = dto.SamplingRate;
-                    return dto2;
-                }
+                    {
+                        var dto2 = new Number_OperatorDto();
+                        DtoCloner.CloneProperties(dto, dto2);
+                        dto2.Number = dto.SamplingRate;
+                        return dto2;
+                    }
 
                 case DimensionEnum.HighestFrequency:
-                {
-                    var dto2 = new Number_OperatorDto();
-                    DtoCloner.CloneProperties(dto, dto2);
-                    dto2.Number = dto.SamplingRate / 2.0;
-                    return dto2;
-                }
+                    {
+                        var dto2 = new Number_OperatorDto();
+                        DtoCloner.CloneProperties(dto, dto2);
+                        dto2.Number = dto.SamplingRate / 2.0;
+                        return dto2;
+                    }
             }
 
             if (dto.Position.IsVar)
@@ -331,7 +331,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
             return dto;
         }
-
 
         protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
         {
@@ -789,7 +788,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 // Identity
                 return dto.Base.Var;
             }
-            else 
+            else
             {
                 return dto;
             }
@@ -848,14 +847,7 @@ namespace JJ.Business.Synthesizer.Visitors
             // SetDimension just outputs a transformed dimension after 'TransformationsToPositionInputs' has run.
 
             // Identity
-            if (dto.Number.IsVar)
-            {
-                return dto.Number.Var;
-            }
-            else
-            {
-                return new Number_OperatorDto(dto.Number.Const);
-            }
+            return dto.Position.VarOrConst;
         }
 
         protected override IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto)
@@ -877,7 +869,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 return dto;
             }
         }
-        
+
         protected override IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto)
         {
             return ProcessZero(dto);

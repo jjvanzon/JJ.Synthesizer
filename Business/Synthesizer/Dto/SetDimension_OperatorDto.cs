@@ -8,16 +8,13 @@ namespace JJ.Business.Synthesizer.Dto
     {
         public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
 
-        public InputDto Number { get; set; }
-
         public override IReadOnlyList<InputDto> Inputs
         {
-            get => new[] { Signal, Number, Position };
+            get => new[] { Signal, Position };
             set
             {
                 Signal = value.ElementAtOrDefault(0);
-                Number = value.ElementAtOrDefault(1);
-                Position = value.ElementAtOrDefault(2);
+                Position = value.ElementAtOrDefault(1);
             }
         }
     }
