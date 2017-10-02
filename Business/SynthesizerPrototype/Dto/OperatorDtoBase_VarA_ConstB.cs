@@ -9,8 +9,8 @@ namespace JJ.Business.SynthesizerPrototype.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return new[] { AOperatorDto }; }
-            set { AOperatorDto = value[0]; }
+            get => new[] { AOperatorDto };
+            set => AOperatorDto = value[0];
         }
     }
 }

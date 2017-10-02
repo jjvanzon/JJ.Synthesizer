@@ -9,8 +9,8 @@ namespace JJ.Business.SynthesizerPrototype.Dto
 
         public override IList<IOperatorDto> InputOperatorDtos
         {
-            get { return Vars; }
-            set { Vars = value; }
+            get => Vars;
+            set => Vars = value;
         }
     }
 }
