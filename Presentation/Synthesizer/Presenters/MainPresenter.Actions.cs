@@ -1614,52 +1614,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // LibraryPatch
 
-        public void LibraryPatchGridClose(int lowerDocumentReferenceID, string group)
-        {
-            // GetViewModel
-            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
-
-            // Template Method
-            LibraryPatchGridViewModel viewModel = ReadOnlyActionTemplateMethod(userInput, () => _libraryPatchGridPresenter.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleLibraryPatchGrid = null;
-            }
-        }
-
-        public void LibraryPatchGridOpenItemExternally(int lowerDocumentReferenceID, string group, int patchID)
-        {
-            // GetViewModel
-            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
-
-            // TemplateMethod
-            ActionTemplateMethod(userInput, () => _libraryPatchGridPresenter.OpenItemExternally(userInput, patchID));
-        }
-
-        public void LibraryPatchGridPlay(int lowerDocumentReferenceID, string group, int patchID)
-        {
-            // GetViewModel
-            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
-
-            // TemplateMethod
-            ActionTemplateMethod(userInput, () => _libraryPatchGridPresenter.Play(userInput, patchID));
-        }
-
-        public void LibraryPatchGridShow(int lowerDocumentReferenceID, string group)
-        {
-            // GetViewModel
-            LibraryPatchGridViewModel userInput = ViewModelSelector.GetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReferenceID, group);
-
-            // Template Method
-            LibraryPatchGridViewModel viewModel = ReadOnlyActionTemplateMethod(userInput, () => _libraryPatchGridPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleLibraryPatchGrid = viewModel;
-            }
-        }
-
         public void LibraryPatchPropertiesClose(int patchID)
         {
             // GetViewModel

@@ -65,7 +65,6 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForInletsToDimension.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithInterpolation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCache.cs" />
-    <Compile Include="Presenters\LibraryPatchGridPresenter.cs" />
     <Compile Include="Presenters\PatchGridPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.Actions.cs" />
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
@@ -128,7 +127,6 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCache.cs" />
     <Compile Include="ViewModels\Items\TreeLeafViewModel.cs" />
     <Compile Include="ViewModels\Partials\PatchTreeNodeViewModel.cs" />
-    <Compile Include="ViewModels\LibraryPatchGridViewModel.cs" />
     <Compile Include="ViewModels\PatchPropertiesViewModel.cs" />
     <Compile Include="ViewModels\PatchGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />

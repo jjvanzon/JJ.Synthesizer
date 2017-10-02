@@ -105,7 +105,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 LibraryGrid = CreateEmptyLibraryGridViewModel(),
                 LibraryPropertiesDictionary = new Dictionary<int, LibraryPropertiesViewModel>(),
                 LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
-                LibraryPatchGridDictionary = new Dictionary<(int, string), LibraryPatchGridViewModel>(),
                 LibraryPatchPropertiesDictionary = new Dictionary<int, LibraryPatchPropertiesViewModel>(),
                 NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
                 OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),
@@ -216,15 +215,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 List = new List<LibraryListItemViewModel>()
             };
 
-            return viewModel;
-        }
-
-        public static LibraryPatchGridViewModel CreateEmptyLibraryPatchGridViewModel()
-        {
-            var viewModel = new LibraryPatchGridViewModel
-            {
-                List = new List<IDAndName>()
-            };
             return viewModel;
         }
 

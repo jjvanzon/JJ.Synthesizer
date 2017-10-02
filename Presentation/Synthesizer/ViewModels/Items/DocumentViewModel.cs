@@ -33,8 +33,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
         public LibraryGridViewModel LibraryGrid { get; set; }
         public LibrarySelectionPopupViewModel LibrarySelectionPopup { get; set; }
-        public LibraryPatchGridViewModel VisibleLibraryPatchGrid { get; set; }
-        public Dictionary<(int lowerDocumentReferenceID, string canonicalGroupName), LibraryPatchGridViewModel> LibraryPatchGridDictionary { get; set; }
         public Dictionary<int, LibraryPropertiesViewModel> LibraryPropertiesDictionary { get; set; }
         public LibraryPropertiesViewModel VisibleLibraryProperties { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }

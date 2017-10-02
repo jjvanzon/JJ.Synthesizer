@@ -46,7 +46,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentProperties = document.ToPropertiesViewModel(),
                 LibraryGrid = document.ToLibraryGridViewModel(),
                 LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),
-                LibraryPatchGridDictionary = documentReferencePatchGroupDtos.ToLibraryPatchGridViewModelDictionary(),
                 LibraryPatchPropertiesDictionary = document.ToLibraryPatchPropertiesViewModelList().ToDictionary(x => x.PatchID),
                 LibraryPropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.DocumentReferenceID),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),

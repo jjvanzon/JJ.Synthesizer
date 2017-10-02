@@ -697,64 +697,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static Dictionary<(int documentReferenceID, string canonicalGroupName), LibraryPatchGridViewModel> 
-            ToLibraryPatchGridViewModelDictionary(this IList<DocumentReferencePatchGroupDto> dtos)
-        {
-            if (dtos == null) throw new NullException(() => dtos);
-
-            var viewModelDictionary = new Dictionary<(int documentReferenceID, string canonicalGroupName), LibraryPatchGridViewModel>();
-
-            foreach (DocumentReferencePatchGroupDto dto in dtos)
-            {
-                foreach (PatchGroupDto patchGroupDto in dto.Groups)
-                {
-                    LibraryPatchGridViewModel viewModel = dto.LowerDocumentReference.ToLibraryPatchGridViewModel(patchGroupDto.Patches, patchGroupDto.CanonicalGroupName);
-                    var key = (dto.LowerDocumentReference.ID, patchGroupDto.CanonicalGroupName);
-                    viewModelDictionary[key] = viewModel;
-                }
-
-                // Always include groupless, even when empty, 
-                // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
-                bool containsGroupless = dto.Groups.Any(x => string.IsNullOrEmpty(x.CanonicalGroupName));
-                // ReSharper disable once InvertIf
-                if (!containsGroupless)
-                {
-
-                    LibraryPatchGridViewModel viewModel = ToViewModelHelper.CreateEmptyLibraryPatchGridViewModel();
-                    string canonicalGroupName = NameHelper.ToCanonical("");
-                    var key = (dto.LowerDocumentReference.ID, canonicalGroupName);
-                    viewModelDictionary[key] = viewModel;
-                }
-            }
-
-            return viewModelDictionary;
-        }
-
-        public static LibraryPatchGridViewModel ToLibraryPatchGridViewModel(this DocumentReference lowerDocumentReference, IList<Patch> patchesInGroup, string group)
-        {
-            if (patchesInGroup == null) throw new NullException(() => patchesInGroup);
-
-            var viewModel = new LibraryPatchGridViewModel
-            {
-                LowerDocumentReferenceID = lowerDocumentReference.ID,
-                Group = group,
-                ValidationMessages = new List<string>(),
-                List = patchesInGroup.OrderBy(x => x.Name)
-                                     .Select(x => x.ToIDAndName())
-                                     .ToList()
-            };
-
-            string groupIdentifier = group;
-            if (string.IsNullOrWhiteSpace(groupIdentifier))
-            {
-                groupIdentifier = CommonResourceFormatter.NoObject_WithName(ResourceFormatter.Group);
-            }
-
-            viewModel.Title = $"{lowerDocumentReference.GetAliasOrName()}  >  {ResourceFormatter.Patches}  >  {groupIdentifier}";
-
-            return viewModel;
-        }
-
         public static IList<LibraryPatchPropertiesViewModel> ToLibraryPatchPropertiesViewModelList(this Document higherDocument)
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);

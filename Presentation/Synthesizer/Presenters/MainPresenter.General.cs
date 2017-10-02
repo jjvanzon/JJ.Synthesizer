@@ -28,7 +28,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private const int DEFAULT_ADD_INLET_COUNT = 2;
         private const int DEFAULT_AGGREGATE_OVER_INLETS_INLET_COUNT = 3;
-        private const int DEFAULT_CLOSEST_OVER_INLETS_ITEM_COUNT = 2;
         private const int DEFAULT_RANGE_OVER_OUTLETS_OUTLET_COUNT = 16;
         private const int DEFAULT_MULTIPLY_INLET_COUNT = 2;
         private const int DEFAULT_SORT_OVER_INLETS_INLET_COUNT = 8;
@@ -58,7 +57,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentPropertiesPresenter _documentPropertiesPresenter;
         private readonly DocumentTreePresenter _documentTreePresenter;
         private readonly LibraryGridPresenter _libraryGridPresenter;
-        private readonly LibraryPatchGridPresenter _libraryPatchGridPresenter;
         private readonly LibraryPatchPropertiesPresenter _libraryPatchPropertiesPresenter;
         private readonly LibraryPropertiesPresenter _libraryPropertiesPresenter;
         private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
@@ -136,7 +134,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
             _documentTreePresenter = new DocumentTreePresenter(_repositories);
             _libraryGridPresenter = new LibraryGridPresenter(_repositories);
-            _libraryPatchGridPresenter = new LibraryPatchGridPresenter(_repositories);
             _libraryPatchPropertiesPresenter = new LibraryPatchPropertiesPresenter(_repositories.PatchRepository, _repositories.DocumentReferenceRepository);
             _libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
             _librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
@@ -178,8 +175,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.LibraryGrid.Visible = false;
             MainViewModel.Document.ScaleGrid.Visible = false;
 
-            MainViewModel.Document.VisibleLibraryPatchGrid = null;
-            MainViewModel.Document.LibraryPatchGridDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisiblePatchGrid = null;
             MainViewModel.Document.PatchGridDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisiblePatchDetails = null;

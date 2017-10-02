@@ -264,7 +264,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentPropertiesRefresh();
             DocumentTreeRefresh();
             LibraryGridRefresh();
-            LibraryPatchGridDictionaryRefresh();
             LibraryPatchPropertiesDictionaryRefresh();
             LibraryPropertiesDictionaryRefresh();
             LibrarySelectionPopupRefresh();
@@ -297,83 +296,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
             LibraryGridViewModel viewModel = _libraryGridPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void LibraryPatchGridDictionaryRefresh()
-        {
-            Document higherDocument = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var viewModelDictionary = MainViewModel.Document.LibraryPatchGridDictionary;
-
-            var keysToKeep = new List<(int, string)>();
-
-            IEnumerable<DocumentReference> lowerDocumentReferences = higherDocument.LowerDocumentReferences
-                                                                                   .Where(x => x.LowerDocument != null);
-            foreach (DocumentReference lowerDocumentReference in lowerDocumentReferences)
-            {
-                HashSet<string> groups = PatchGrouper.GetPatchGroupNames(lowerDocumentReference.LowerDocument.Patches, mustIncludeHidden: false).ToHashSet();
-
-                // Always include groupless, even when empty, 
-                // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
-                groups.Add(NameHelper.ToCanonical(""));
-
-                foreach (string group in groups)
-                {
-                    var key = (lowerDocumentReference.ID, NameHelper.ToCanonical(group));
-                    keysToKeep.Add(key);
-
-                    LibraryPatchGridViewModel viewModel = ViewModelSelector.TryGetLibraryPatchGridViewModel(MainViewModel.Document, lowerDocumentReference.ID, group);
-                    if (viewModel == null)
-                    {
-                        // Business
-                        IList<Patch> patchesInGroup = PatchGrouper.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(higherDocument.Patches, group, mustIncludeHidden: false);
-
-                        viewModel = lowerDocumentReference.ToLibraryPatchGridViewModel(patchesInGroup, group);
-                        viewModel.Successful = true;
-
-                        viewModelDictionary[key] = viewModel;
-                    }
-                    else
-                    {
-                        LibraryPatchGridRefresh(viewModel);
-                    }
-                }
-            }
-
-            // Delete operations
-            LibraryPatchGridViewModel visibleViewModel = MainViewModel.Document.VisibleLibraryPatchGrid;
-            (int, string)? visibleKey = null;
-            if (visibleViewModel != null)
-            {
-                string canonicalGroupName = NameHelper.ToCanonical(visibleViewModel.Group);
-                int lowerDocumentReferenceID = visibleViewModel.LowerDocumentReferenceID;
-                visibleKey = (lowerDocumentReferenceID, canonicalGroupName);
-            }
-
-            IEnumerable<(int, string)> existingKeys = viewModelDictionary.Keys;
-            IList<(int, string)> keysToDelete = existingKeys.Except(keysToKeep).ToArray();
-
-            foreach ((int, string) keyToDelete in keysToDelete)
-            {
-                viewModelDictionary.Remove(keyToDelete);
-
-                // ReSharper disable once InvertIf
-                if (visibleKey.HasValue)
-                {
-                    if (Equals(visibleKey.Value, keyToDelete))
-                    {
-                        MainViewModel.Document.VisibleLibraryPatchGrid = null;
-                    }
-                }
-            }
-        }
-
-        private void LibraryPatchGridRefresh(LibraryPatchGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-            LibraryPatchGridViewModel viewModel = _libraryPatchGridPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 

@@ -75,7 +75,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
-            documentTreeUserControl.ShowLibraryPatchGridRequested += documentTreeUserControl_ShowLibraryPatchGridRequested;
             documentTreeUserControl.ShowLibraryPatchPropertiesRequested += documentTreeUserControl_ShowLibraryPatchPropertiesRequested;
             documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
@@ -88,10 +87,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryGridUserControl.OpenItemExternallyRequested += libraryGridUserControl_OpenItemExternallyRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
-            libraryPatchGridUserControl.CloseRequested += libraryPatchGridUserControl_CloseRequested;
-            libraryPatchGridUserControl.PlayRequested += libraryPatchGridUserControl_PlayRequested;
-            libraryPatchGridUserControl.ShowItemRequested += libraryPatchGridUserControl_ShowItemRequested;
-            libraryPatchGridUserControl.OpenItemExternallyRequested += libraryPatchGridUserControl_OpenItemExternallyRequested;
             libraryPatchPropertiesUserControl.AddToInstrumentRequested += libraryPatchPropertiesUserControl_AddToInstrument;
             libraryPatchPropertiesUserControl.CloseRequested += libraryPatchPropertiesUserControl_CloseRequested;
             libraryPatchPropertiesUserControl.OpenExternallyRequested += libraryPatchPropertiesUserControl_OpenExternallyRequested;
@@ -523,11 +518,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_ShowLibrariesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibraryGridShow);
 
-        private void documentTreeUserControl_ShowLibraryPatchGridRequested(object sender, LibraryPatchGroupEventArgs e)
-        {
-            TemplateActionHandler(() => _presenter.LibraryPatchGridShow(e.LowerDocumentReferenceID, e.PatchGroup));
-        }
-
         private void documentTreeUserControl_ShowLibraryPatchPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _presenter.LibraryPatchPropertiesShow(e.Value));
@@ -539,7 +529,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.LibraryPropertiesShow(e.Value);
-                    _presenter.LibraryPatchGridShow(e.Value, group: null);
                 });
         }
 
@@ -682,45 +671,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.LibraryPropertiesShow(e.Value);
-                    _presenter.LibraryPatchGridShow(e.Value, group: null);
                 });
-        }
-
-        private void libraryPatchGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.LibraryPatchGridClose(libraryPatchGridUserControl.ViewModel.LowerDocumentReferenceID, libraryPatchGridUserControl.ViewModel.Group);
-                });
-        }
-
-        private void libraryPatchGridUserControl_OpenItemExternallyRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.LibraryPatchGridOpenItemExternally(
-                        libraryPatchGridUserControl.ViewModel.LowerDocumentReferenceID,
-                        libraryPatchGridUserControl.ViewModel.Group,
-                        e.Value);
-                    OpenDocumentExternallyAndOptionallyPatchIfNeeded();
-                });
-        }
-
-        private void libraryPatchGridUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.LibraryPatchPropertiesPlay(e.Value);
-                    PlayOutletIfNeeded();
-                });
-        }
-
-        private void libraryPatchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _presenter.LibraryPatchPropertiesShow(e.Value));
         }
 
         private void libraryPatchPropertiesUserControl_AddToInstrument(object sender, EventArgs<int> e)

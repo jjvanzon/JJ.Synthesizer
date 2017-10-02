@@ -28,7 +28,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPatchPropertiesRequested;
-        public event EventHandler<LibraryPatchGroupEventArgs> ShowLibraryPatchGridRequested;
         public event EventHandler ShowCurvesRequested;
         public event EventHandler ShowSamplesRequested;
         public event EventHandler ShowAudioOutputRequested;
@@ -723,13 +722,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 int id = (int)node.Tag;
                 ShowLibraryPatchPropertiesRequested(this, new EventArgs<int>(id));
-            }
-
-            // ReSharper disable once InvertIf
-            if (_libraryPatchGroupTreeNodes.Contains(node))
-            {
-                LibraryPatchGroupEventArgs e2 = ParseLibraryPatchGroupTag(node.Tag);
-                ShowLibraryPatchGridRequested(this, e2);
             }
         }
 
