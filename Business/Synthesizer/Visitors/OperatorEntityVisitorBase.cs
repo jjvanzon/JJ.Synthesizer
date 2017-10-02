@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Equal, VisitEqual },
-                { OperatorTypeEnum.GetDimension, VisitGetDimension },
+                { OperatorTypeEnum.GetPosition, VisitGetPosition },
                 { OperatorTypeEnum.GreaterThan, VisitGreaterThan },
                 { OperatorTypeEnum.GreaterThanOrEqual, VisitGreaterThanOrEqual },
                 { OperatorTypeEnum.Hold, VisitHold },
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Reset, VisitReset },
                 { OperatorTypeEnum.Round, VisitRound },
                 { OperatorTypeEnum.SampleWithRate1, VisitSampleWithRate1 },
-                { OperatorTypeEnum.SetDimension, VisitSetDimension },
+                { OperatorTypeEnum.SetPosition, VisitSetPosition },
                 { OperatorTypeEnum.SineWithRate1, VisitSineWithRate1 },
                 { OperatorTypeEnum.SortOverDimension, VisitSortOverDimension },
                 { OperatorTypeEnum.Spectrum, VisitSpectrum },
@@ -266,7 +266,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitEqual(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
-        protected virtual void VisitGetDimension(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitGetPosition(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
         protected virtual void VisitGreaterThan(Operator op) => VisitOperatorBase(op);
@@ -393,7 +393,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitSampleWithRate1(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
-        protected virtual void VisitSetDimension(Operator op) => VisitOperatorBase(op);
+        protected virtual void VisitSetPosition(Operator op) => VisitOperatorBase(op);
 
         [DebuggerHidden]
         protected virtual void VisitSineWithRate1(Operator op) => VisitOperatorBase(op);

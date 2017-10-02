@@ -1322,7 +1322,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //                inlet.ListIndex = j;
         //            }
 
-        //            var wrapper = new GetDimension_OperatorWrapper(op);
+        //            var wrapper = new GetPosition_OperatorWrapper(op);
         //            // This is the strangest if,
         //            // but this adds the Dimension key to the operator's data property,
         //            // without removing the original Dimension property.
@@ -3372,7 +3372,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //        inletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.TimePower, 2, DimensionEnum.Origin));
         //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.TimePower, 0, DimensionEnum.Signal));
 
-        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.GetDimension, 0, DimensionEnum.Number));
+        //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.GetPosition, 0, DimensionEnum.Number));
 
         //        outletTuples.Add(new InletOrOutletTuple(OperatorTypeEnum.MaxOverInlets, 0, DimensionEnum.Number));
 
@@ -4297,7 +4297,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
         //}
 
-        //public static void Migrate_OperatorType_ToUnderlyingPatch_ForChangeTrigger_PulseTrigger_ToggleTrigger_Hold_GetDimension_SetDimension_Round_Spectrum(Action<string> progressCallback)
+        //public static void Migrate_OperatorType_ToUnderlyingPatch_ForChangeTrigger_PulseTrigger_ToggleTrigger_Hold_GetPosition_SetPosition_Round_Spectrum(Action<string> progressCallback)
         //{
         //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -4311,8 +4311,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.PulseTrigger, repositories, progressCallback);
         //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.ToggleTrigger, repositories, progressCallback);
         //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Hold, repositories, progressCallback);
-        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.GetDimension, repositories, progressCallback);
-        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SetDimension, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.GetPosition, repositories, progressCallback);
+        //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.SetPosition, repositories, progressCallback);
         //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Round, repositories, progressCallback);
         //        Migrate_OperatorType_ToUnderlingPatch_WithoutTransaction(OperatorTypeEnum.Spectrum, repositories, progressCallback);
 

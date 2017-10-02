@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Resources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -979,20 +979,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Get Dimension.
+        ///   Looks up a localized string similar to Get Position.
         /// </summary>
-        internal static string GetDimension {
+        internal static string GetPosition {
             get {
-                return ResourceManager.GetString("GetDimension", resourceCulture);
+                return ResourceManager.GetString("GetPosition", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Get {0}.
         /// </summary>
-        internal static string GetDimensionWithPlaceholder {
+        internal static string GetPositionWithPlaceholder {
             get {
-                return ResourceManager.GetString("GetDimensionWithPlaceholder", resourceCulture);
+                return ResourceManager.GetString("GetPositionWithPlaceholder", resourceCulture);
             }
         }
         
@@ -2338,20 +2338,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Set Dimension.
+        ///   Looks up a localized string similar to Set Position.
         /// </summary>
-        internal static string SetDimension {
+        internal static string SetPosition {
             get {
-                return ResourceManager.GetString("SetDimension", resourceCulture);
+                return ResourceManager.GetString("SetPosition", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Set {0}.
         /// </summary>
-        internal static string SetDimensionWithPlaceholder {
+        internal static string SetPositionWithPlaceholder {
             get {
-                return ResourceManager.GetString("SetDimensionWithPlaceholder", resourceCulture);
+                return ResourceManager.GetString("SetPositionWithPlaceholder", resourceCulture);
             }
         }
         

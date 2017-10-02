@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(Divide_OperatorDto), x => Visit_Divide_OperatorDto((Divide_OperatorDto)x) },
                 { typeof(DoubleToBoolean_OperatorDto), x => Visit_DoubleToBoolean_OperatorDto((DoubleToBoolean_OperatorDto)x) },
                 { typeof(Equal_OperatorDto), x => Visit_Equal_OperatorDto((Equal_OperatorDto)x) },
-                { typeof(GetDimension_OperatorDto), x => Visit_GetDimension_OperatorDto((GetDimension_OperatorDto)x) },
+                { typeof(GetPosition_OperatorDto), x => Visit_GetPosition_OperatorDto((GetPosition_OperatorDto)x) },
                 { typeof(GreaterThan_OperatorDto), x => Visit_GreaterThan_OperatorDto((GreaterThan_OperatorDto)x) },
                 { typeof(GreaterThanOrEqual_OperatorDto), x => Visit_GreaterThanOrEqual_OperatorDto((GreaterThanOrEqual_OperatorDto)x) },
                 { typeof(HighPassFilter_OperatorDto), x => Visit_HighPassFilter_OperatorDto((HighPassFilter_OperatorDto)x) },
@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { typeof(SampleWithRate1_OperatorDto_NoChannelConversion), x => Visit_SampleWithRate1_OperatorDto_NoChannelConversion((SampleWithRate1_OperatorDto_NoChannelConversion)x) },
                 { typeof(SampleWithRate1_OperatorDto_NoSample), x => Visit_SampleWithRate1_OperatorDto_NoSample((SampleWithRate1_OperatorDto_NoSample)x) },
                 { typeof(SampleWithRate1_OperatorDto_StereoToMono), x => Visit_SampleWithRate1_OperatorDto_StereoToMono((SampleWithRate1_OperatorDto_StereoToMono)x) },
-                { typeof(SetDimension_OperatorDto), x => Visit_SetDimension_OperatorDto((SetDimension_OperatorDto)x) },
+                { typeof(SetPosition_OperatorDto), x => Visit_SetPosition_OperatorDto((SetPosition_OperatorDto)x) },
                 { typeof(SineWithRate1_OperatorDto), x => Visit_SineWithRate1_OperatorDto((SineWithRate1_OperatorDto)x) },
                 { typeof(SortOverDimension_OperatorDto), x => Visit_SortOverDimension_OperatorDto((SortOverDimension_OperatorDto)x) },
                 { typeof(SortOverDimension_OperatorDto_ConstSignal), x => Visit_SortOverDimension_OperatorDto_ConstSignal((SortOverDimension_OperatorDto_ConstSignal)x) },
@@ -365,7 +365,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_GetPosition_OperatorDto(GetPosition_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
@@ -456,7 +456,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto) => Visit_OperatorDto_Base(dto);
-        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
+        /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SetPosition_OperatorDto(SetPosition_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
         /*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);

@@ -384,8 +384,8 @@
   <data name="From" xml:space="preserve">
     <value>Van</value>
   </data>
-  <data name="GetDimension" xml:space="preserve">
-    <value>Dimensie opvragen</value>
+  <data name="GetPosition" xml:space="preserve">
+    <value>Positie opvragen</value>
   </data>
   <data name="GreaterThan" xml:space="preserve">
     <value>&gt;</value>
@@ -711,8 +711,8 @@
   <data name="SemiTones" xml:space="preserve">
     <value>Halve tonen</value>
   </data>
-  <data name="SetDimension" xml:space="preserve">
-    <value>Dimensie instellen</value>
+  <data name="SetPosition" xml:space="preserve">
+    <value>Positie instellen</value>
   </data>
   <data name="Shift" xml:space="preserve">
     <value>Schuiven</value>
@@ -903,7 +903,7 @@
   <data name="DocumentTree" xml:space="preserve">
     <value>Document boomstructuur</value>
   </data>
-  <data name="GetDimensionWithPlaceholder" xml:space="preserve">
+  <data name="GetPositionWithPlaceholder" xml:space="preserve">
     <value>{0} opvragen</value>
   </data>
   <data name="Group" xml:space="preserve">
@@ -921,7 +921,7 @@
   <data name="Range" xml:space="preserve">
     <value>Reeks</value>
   </data>
-  <data name="SetDimensionWithPlaceholder" xml:space="preserve">
+  <data name="SetPositionWithPlaceholder" xml:space="preserve">
     <value>{0} instellen</value>
   </data>
   <data name="Sort" xml:space="preserve">

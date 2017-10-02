@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitDivide(Operator op) => ProcessOperatorPolymorphic(op, new Divide_OperatorDto());
         protected override void VisitEqual(Operator op) => ProcessOperatorPolymorphic(op, new Equal_OperatorDto());
-        protected override void VisitGetDimension(Operator op) => ProcessOperatorPolymorphic(op, new GetDimension_OperatorDto());
+        protected override void VisitGetPosition(Operator op) => ProcessOperatorPolymorphic(op, new GetPosition_OperatorDto());
         protected override void VisitGreaterThan(Operator op) => ProcessOperatorPolymorphic(op, new GreaterThan_OperatorDto());
         protected override void VisitGreaterThanOrEqual(Operator op) => ProcessOperatorPolymorphic(op, new GreaterThanOrEqual_OperatorDto());
         protected override void VisitHold(Operator op) => ProcessOperatorPolymorphic(op, new Hold_OperatorDto());
@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
         }
 
-        protected override void VisitSetDimension(Operator op) => ProcessOperatorPolymorphic(op, new SetDimension_OperatorDto());
+        protected override void VisitSetPosition(Operator op) => ProcessOperatorPolymorphic(op, new SetPosition_OperatorDto());
 
         protected override void VisitSineWithRate1(Operator op) => ProcessOperatorPolymorphic(op, new SineWithRate1_OperatorDto());
 

@@ -145,8 +145,8 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
             => _operatorFactory.Exponent(low, high, ratio);
 
-        public OperatorWrapper GetDimension(DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
-            => _operatorFactory.GetDimension(standardDimension, customDimension);
+        public OperatorWrapper GetPosition(DimensionEnum standardDimension = DimensionEnum.Undefined, string customDimension = null)
+            => _operatorFactory.GetPosition(standardDimension, customDimension);
 
         public OperatorWrapper GreaterThan(Outlet a = null, Outlet b = null)
             => _operatorFactory.GreaterThan(a, b);

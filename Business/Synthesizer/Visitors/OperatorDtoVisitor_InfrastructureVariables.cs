@@ -25,13 +25,13 @@ namespace JJ.Business.Synthesizer.Visitors
             return WithAlreadyProcessedCheck(dto, () => base.Visit_OperatorDto_Polymorphic(dto));
         }
 
-        // GetDimension
+        // GetPosition
 
-        protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_GetPosition_OperatorDto(GetPosition_OperatorDto dto)
         {
             dto.SamplingRate = _targetSamplingRate;
 
-            return base.Visit_GetDimension_OperatorDto(dto);
+            return base.Visit_GetPosition_OperatorDto(dto);
         }
 
         // Filters

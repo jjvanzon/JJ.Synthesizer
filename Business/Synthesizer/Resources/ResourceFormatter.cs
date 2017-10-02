@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Frequencies => Resources.Frequencies;
         public static string Frequency => Resources.Frequency;
         public static string From => Resources.From;
-        public static string GetDimension => Resources.GetDimension;
+        public static string GetPosition => Resources.GetPosition;
         public static string GreaterThan => Resources.GreaterThan;
         public static string GreaterThanOrEqual => Resources.GreaterThanOrEqual;
         public static string Group => Resources.Group;
@@ -254,7 +254,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string SelectedOperatorHasNoOutlets => Resources.SelectedOperatorHasNoOutlets;
         public static string SemiTone => Resources.SemiTone;
         public static string SemiTones => Resources.SemiTones;
-        public static string SetDimension => Resources.SetDimension;
+        public static string SetPosition => Resources.SetPosition;
         public static string Shift => Resources.Shift;
         public static string Signal => Resources.Signal;
         public static string Sine => Resources.Sine;
@@ -319,10 +319,10 @@ namespace JJ.Business.Synthesizer.Resources
 
         public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
         public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
-        public static string GetDimensionWithPlaceholder(string dimension) => string.Format(Resources.GetDimensionWithPlaceholder, dimension);
+        public static string GetPositionWithPlaceholder(string dimension) => string.Format(Resources.GetPositionWithPlaceholder, dimension);
         public static string MustBePowerOf2(string name) => string.Format(Resources.MustBePowerOf2, name);
         public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
-        public static string SetDimensionWithPlaceholder(string dimension) => string.Format(Resources.SetDimensionWithPlaceholder, dimension);
+        public static string SetPositionWithPlaceholder(string dimension) => string.Format(Resources.SetPositionWithPlaceholder, dimension);
 
         // Generic methods that could return several different resource text
 

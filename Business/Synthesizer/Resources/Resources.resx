@@ -388,8 +388,8 @@
   <data name="From" xml:space="preserve">
     <value>From</value>
   </data>
-  <data name="GetDimension" xml:space="preserve">
-    <value>Get Dimension</value>
+  <data name="GetPosition" xml:space="preserve">
+    <value>Get Position</value>
   </data>
   <data name="GreaterThan" xml:space="preserve">
     <value>&gt;</value>
@@ -718,8 +718,8 @@
   <data name="SemiTones" xml:space="preserve">
     <value>Semitones</value>
   </data>
-  <data name="SetDimension" xml:space="preserve">
-    <value>Set Dimension</value>
+  <data name="SetPosition" xml:space="preserve">
+    <value>Set Position</value>
   </data>
   <data name="Shift" xml:space="preserve">
     <value>Shift</value>
@@ -911,7 +911,7 @@
   <data name="DocumentTree" xml:space="preserve">
     <value>Document Tree</value>
   </data>
-  <data name="GetDimensionWithPlaceholder" xml:space="preserve">
+  <data name="GetPositionWithPlaceholder" xml:space="preserve">
     <value>Get {0}</value>
     <comment>{0} = dimension, example: Get Time</comment>
   </data>
@@ -930,7 +930,7 @@
   <data name="Range" xml:space="preserve">
     <value>Range</value>
   </data>
-  <data name="SetDimensionWithPlaceholder" xml:space="preserve">
+  <data name="SetPositionWithPlaceholder" xml:space="preserve">
     <value>Set {0}</value>
     <comment>{0} = dimension, example: Set Time</comment>
   </data>

@@ -295,9 +295,9 @@ namespace JJ.Business.Synthesizer.Visitors
             return dto;
         }
 
-        protected override IOperatorDto Visit_GetDimension_OperatorDto(GetDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_GetPosition_OperatorDto(GetPosition_OperatorDto dto)
         {
-            base.Visit_GetDimension_OperatorDto(dto);
+            base.Visit_GetPosition_OperatorDto(dto);
 
             switch (dto.StandardDimensionEnum)
             {
@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Visitors
             }
 
             // This is a little bit tricky:
-            // GetDimension with a const is actually a leaf-GetDimension,
+            // GetPosition with a const is actually a leaf-GetPosition,
             // which means eventually further down the processing lane,
             // they are turned into variable input.
 
@@ -842,7 +842,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return ProcessZero(dto);
         }
 
-        protected override IOperatorDto Visit_SetDimension_OperatorDto(SetDimension_OperatorDto dto)
+        protected override IOperatorDto Visit_SetPosition_OperatorDto(SetPosition_OperatorDto dto)
         {
             // SetDimension just outputs a transformed dimension after 'TransformationsToPositionInputs' has run.
 

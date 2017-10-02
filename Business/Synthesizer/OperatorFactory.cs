@@ -366,7 +366,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public OperatorWrapper GetDimension(DimensionEnum? standardDimension = null, string customDimension = null)
+        public OperatorWrapper GetPosition(DimensionEnum? standardDimension = null, string customDimension = null)
         {
             OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
             return wrapper;
@@ -1451,7 +1451,7 @@ namespace JJ.Business.Synthesizer
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Divide))) return Divide();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Equal))) return Equal();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Exponent))) return Exponent();
-            if (NameHelper.AreEqual(underlyingPatch.Name, nameof(GetDimension))) return GetDimension();
+            if (NameHelper.AreEqual(underlyingPatch.Name, nameof(GetPosition))) return GetPosition();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(GreaterThan))) return GreaterThan();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(GreaterThanOrEqual))) return GreaterThanOrEqual();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(HighPassFilter))) return HighPassFilter();

@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class SetDimension_OperatorDto : OperatorDtoBase_PositionTransformation
+    internal class SetPosition_OperatorDto : OperatorDtoBase_PositionTransformation
     {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetDimension;
+        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SetPosition;
 
         public override IReadOnlyList<InputDto> Inputs
         {

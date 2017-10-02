@@ -239,7 +239,7 @@
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Hold_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_WithPositionOutput.cs" />
-    <Compile Include="Calculation\Operators\GetDimension_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\GetPosition_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\ToggleTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MinFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxOrMinFollower_OperatorCalculatorBase.cs" />
@@ -379,7 +379,7 @@
     <Compile Include="Dto\MinOverInlets_OperatorDto.cs" />
     <Compile Include="Dto\MaxOverInlets_OperatorDto.cs" />
     <Compile Include="Dto\Cache OperatorDto Classes.cs" />
-    <Compile Include="Dto\GetDimension_OperatorDto.cs" />
+    <Compile Include="Dto\GetPosition_OperatorDto.cs" />
     <Compile Include="Dto\DimensionToOutlets_Outlet_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_AggregateOverDimension.cs" />
     <Compile Include="Dto\RangeOverDimension OperatorDto Classes.cs" />
@@ -389,7 +389,7 @@
     <Compile Include="Dto\MaxFollower_OperatorDto.cs" />
     <Compile Include="Dto\Absolute_OperatorDto.cs" />
     <Compile Include="Dto\Hold_OperatorDto.cs" />
-    <Compile Include="Dto\SetDimension_OperatorDto.cs" />
+    <Compile Include="Dto\SetPosition_OperatorDto.cs" />
     <Compile Include="Dto\OperatorDtoBase_Trigger.cs" />
     <Compile Include="Dto\ChangeTrigger_OperatorDto.cs" />
     <Compile Include="Dto\Round_OperatorDto.cs" />

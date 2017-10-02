@@ -83,8 +83,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             switch (entity.GetOperatorTypeEnum())
             {
-                case OperatorTypeEnum.GetDimension:
-                case OperatorTypeEnum.SetDimension:
+                case OperatorTypeEnum.GetPosition:
+                case OperatorTypeEnum.SetPosition:
                     return false;
             }
 
@@ -344,8 +344,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     operatorCaption = GetOperatorCaption_ForCurve(op, curveRepository);
                     break;
 
-                case OperatorTypeEnum.GetDimension:
-                    operatorCaption = GetOperatorCaption_ForGetDimension(op);
+                case OperatorTypeEnum.GetPosition:
+                    operatorCaption = GetOperatorCaption_ForGetPosition(op);
                     break;
 
                 case OperatorTypeEnum.MaxOverDimension:
@@ -379,8 +379,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     operatorCaption = GetOperatorCaption_ForSample(op, sampleRepository);
                     break;
 
-                case OperatorTypeEnum.SetDimension:
-                    operatorCaption = GetOperatorCaption_ForSetDimension(op);
+                case OperatorTypeEnum.SetPosition:
+                    operatorCaption = GetOperatorCaption_ForSetPosition(op);
                     break;
 
                 case OperatorTypeEnum.SortOverDimension:
@@ -561,18 +561,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return caption;
         }
 
-        private static string GetOperatorCaption_ForGetDimension(Operator op)
+        private static string GetOperatorCaption_ForGetPosition(Operator op)
         {
             return GetOperatorCaption_WithDimensionPlaceholder(
                 op,
-                ResourceFormatter.GetDimensionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
+                ResourceFormatter.GetPositionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
         }
 
-        private static string GetOperatorCaption_ForSetDimension(Operator op)
+        private static string GetOperatorCaption_ForSetPosition(Operator op)
         {
             return GetOperatorCaption_WithDimensionPlaceholder(
                 op,
-                ResourceFormatter.SetDimensionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
+                ResourceFormatter.SetPositionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
         }
 
         private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)
