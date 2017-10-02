@@ -1066,7 +1066,7 @@ namespace JJ.Business.Synthesizer
             OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 
             wrapper.Inputs[DimensionEnum.PassThrough] = passThrough;
-            wrapper.Inputs[DimensionEnum.Number] = number;
+            wrapper.Inputs[DimensionEnum.Inherit] = number;
 
             return wrapper;
         }

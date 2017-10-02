@@ -98,6 +98,7 @@
         /// For example: if an operator's dimension is Inherit,
         /// then it falls back to the patch's dimension.
         /// </summary>
-        Inherit = 76
+        Inherit = 76,
+        Position = 77
     }
 }

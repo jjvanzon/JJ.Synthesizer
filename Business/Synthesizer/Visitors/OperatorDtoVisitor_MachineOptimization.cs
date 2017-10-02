@@ -46,7 +46,6 @@ namespace JJ.Business.Synthesizer.Visitors
             if (dto.Step.IsConstOne)
             {
                 dto2 = new RangeOverDimension_OperatorDto_WithConsts_AndStepOne();
-
             }
             else
             {

@@ -378,7 +378,6 @@ namespace JJ.Business.Synthesizer.Visitors
             dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
                                          .Where(x => x != null)
                                          .ToArray();
-
             {
                 if (dto is IOperatorDto_WithDimension castedDto)
                 {

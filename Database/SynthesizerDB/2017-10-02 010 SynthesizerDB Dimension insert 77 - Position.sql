@@ -1,0 +1,1 @@
+insert into Dimension (Name, ID) values ('Position', 77);
