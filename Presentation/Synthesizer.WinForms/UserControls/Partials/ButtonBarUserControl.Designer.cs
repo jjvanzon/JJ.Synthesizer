@@ -29,107 +29,39 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.buttonClose = new System.Windows.Forms.Button();
-            this.buttonRemove = new System.Windows.Forms.Button();
-            this.buttonAdd = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.buttonPlay = new System.Windows.Forms.Button();
-            this.buttonRefresh = new System.Windows.Forms.Button();
-            this.buttonOpen = new System.Windows.Forms.Button();
-            this.buttonNew = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonAddToInstrument = new System.Windows.Forms.Button();
+            this.buttonNew = new System.Windows.Forms.Button();
+            this.buttonOpen = new System.Windows.Forms.Button();
+            this.buttonRefresh = new System.Windows.Forms.Button();
+            this.buttonPlay = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonAdd = new System.Windows.Forms.Button();
+            this.buttonRemove = new System.Windows.Forms.Button();
+            this.buttonClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // buttonClose
+            // toolTip
             // 
-            this.buttonClose.FlatAppearance.BorderSize = 0;
-            this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClose.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.CloseIcon;
-            this.buttonClose.Location = new System.Drawing.Point(314, 8);
-            this.buttonClose.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(21, 23);
-            this.buttonClose.TabIndex = 13;
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+            this.toolTip.AutomaticDelay = 1;
+            this.toolTip.AutoPopDelay = 100000;
+            this.toolTip.InitialDelay = 1;
+            this.toolTip.ReshowDelay = 1;
+            this.toolTip.UseAnimation = false;
+            this.toolTip.UseFading = false;
             // 
-            // buttonRemove
+            // buttonAddToInstrument
             // 
-            this.buttonRemove.FlatAppearance.BorderSize = 0;
-            this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
-            this.buttonRemove.Location = new System.Drawing.Point(289, 8);
-            this.buttonRemove.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(21, 23);
-            this.buttonRemove.TabIndex = 14;
-            this.buttonRemove.UseVisualStyleBackColor = true;
-            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
-            // 
-            // buttonAdd
-            // 
-            this.buttonAdd.FlatAppearance.BorderSize = 0;
-            this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAdd.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.AddIcon;
-            this.buttonAdd.Location = new System.Drawing.Point(264, 8);
-            this.buttonAdd.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(21, 23);
-            this.buttonAdd.TabIndex = 15;
-            this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.FlatAppearance.BorderSize = 0;
-            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSave.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.SaveIcon;
-            this.buttonSave.Location = new System.Drawing.Point(139, 8);
-            this.buttonSave.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(21, 23);
-            this.buttonSave.TabIndex = 16;
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // buttonPlay
-            // 
-            this.buttonPlay.FlatAppearance.BorderSize = 0;
-            this.buttonPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPlay.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PlayIcon;
-            this.buttonPlay.Location = new System.Drawing.Point(104, 8);
-            this.buttonPlay.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonPlay.Name = "buttonPlay";
-            this.buttonPlay.Size = new System.Drawing.Size(21, 23);
-            this.buttonPlay.TabIndex = 17;
-            this.buttonPlay.UseVisualStyleBackColor = true;
-            this.buttonPlay.Click += new System.EventHandler(this.buttonPlay_Click);
-            // 
-            // buttonRefresh
-            // 
-            this.buttonRefresh.FlatAppearance.BorderSize = 0;
-            this.buttonRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonRefresh.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RefreshIcon;
-            this.buttonRefresh.Location = new System.Drawing.Point(172, 8);
-            this.buttonRefresh.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(21, 23);
-            this.buttonRefresh.TabIndex = 18;
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
-            // 
-            // buttonOpen
-            // 
-            this.buttonOpen.FlatAppearance.BorderSize = 0;
-            this.buttonOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonOpen.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIcon;
-            this.buttonOpen.Location = new System.Drawing.Point(205, 8);
-            this.buttonOpen.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(21, 23);
-            this.buttonOpen.TabIndex = 19;
-            this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            this.buttonAddToInstrument.FlatAppearance.BorderSize = 0;
+            this.buttonAddToInstrument.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAddToInstrument.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PianoIcon;
+            this.buttonAddToInstrument.Location = new System.Drawing.Point(72, 9);
+            this.buttonAddToInstrument.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonAddToInstrument.Name = "buttonAddToInstrument";
+            this.buttonAddToInstrument.Size = new System.Drawing.Size(21, 23);
+            this.buttonAddToInstrument.TabIndex = 21;
+            this.buttonAddToInstrument.UseVisualStyleBackColor = true;
+            this.buttonAddToInstrument.Click += new System.EventHandler(this.buttonAddToInstrument_Click);
             // 
             // buttonNew
             // 
@@ -144,16 +76,101 @@
             this.buttonNew.UseVisualStyleBackColor = true;
             this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
             // 
-            // toolTip
+            // buttonOpen
             // 
-            this.toolTip.AutomaticDelay = 0;
-            this.toolTip.AutoPopDelay = 1000000000;
-            this.toolTip.InitialDelay = 0;
-            this.toolTip.ReshowDelay = 0;
+            this.buttonOpen.FlatAppearance.BorderSize = 0;
+            this.buttonOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonOpen.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIcon;
+            this.buttonOpen.Location = new System.Drawing.Point(205, 8);
+            this.buttonOpen.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(21, 23);
+            this.buttonOpen.TabIndex = 19;
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            // 
+            // buttonRefresh
+            // 
+            this.buttonRefresh.FlatAppearance.BorderSize = 0;
+            this.buttonRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRefresh.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RefreshIcon;
+            this.buttonRefresh.Location = new System.Drawing.Point(172, 8);
+            this.buttonRefresh.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(21, 23);
+            this.buttonRefresh.TabIndex = 18;
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            // 
+            // buttonPlay
+            // 
+            this.buttonPlay.FlatAppearance.BorderSize = 0;
+            this.buttonPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPlay.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PlayIcon;
+            this.buttonPlay.Location = new System.Drawing.Point(104, 8);
+            this.buttonPlay.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonPlay.Name = "buttonPlay";
+            this.buttonPlay.Size = new System.Drawing.Size(21, 23);
+            this.buttonPlay.TabIndex = 17;
+            this.buttonPlay.UseVisualStyleBackColor = true;
+            this.buttonPlay.Click += new System.EventHandler(this.buttonPlay_Click);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.FlatAppearance.BorderSize = 0;
+            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSave.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.SaveIcon;
+            this.buttonSave.Location = new System.Drawing.Point(139, 8);
+            this.buttonSave.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(21, 23);
+            this.buttonSave.TabIndex = 16;
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // buttonAdd
+            // 
+            this.buttonAdd.FlatAppearance.BorderSize = 0;
+            this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAdd.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.AddIcon;
+            this.buttonAdd.Location = new System.Drawing.Point(264, 8);
+            this.buttonAdd.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.Size = new System.Drawing.Size(21, 23);
+            this.buttonAdd.TabIndex = 15;
+            this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            // 
+            // buttonRemove
+            // 
+            this.buttonRemove.FlatAppearance.BorderSize = 0;
+            this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
+            this.buttonRemove.Location = new System.Drawing.Point(289, 8);
+            this.buttonRemove.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonRemove.Name = "buttonRemove";
+            this.buttonRemove.Size = new System.Drawing.Size(21, 23);
+            this.buttonRemove.TabIndex = 14;
+            this.buttonRemove.UseVisualStyleBackColor = true;
+            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.FlatAppearance.BorderSize = 0;
+            this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonClose.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.CloseIcon;
+            this.buttonClose.Location = new System.Drawing.Point(314, 8);
+            this.buttonClose.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(21, 23);
+            this.buttonClose.TabIndex = 13;
+            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // ButtonBarUserControl
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.buttonAddToInstrument);
             this.Controls.Add(this.buttonNew);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.buttonRefresh);
@@ -181,5 +198,6 @@
         private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Button buttonNew;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button buttonAddToInstrument;
     }
 }

@@ -11,6 +11,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     internal partial class ButtonBarUserControl : UserControl
     {
         public event EventHandler AddClicked;
+        public event EventHandler AddToInstrumentClicked;
         public event EventHandler CloseClicked;
         public event EventHandler NewClicked;
         public event EventHandler OpenClicked;
@@ -24,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         private void TitleBarUserControl_Load(object sender, EventArgs e)
         {
             buttonAdd.Visible = _addButtonVisible;
+            buttonAddToInstrument.Visible = _addToInstrumentButtonVisible;
             buttonClose.Visible = _closeButtonVisible;
             buttonNew.Visible = _newButtonVisible;
             buttonOpen.Visible = _openButtonVisible;
@@ -39,6 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         private void SetTitles()
         {
             toolTip.SetToolTip(buttonAdd, CommonResourceFormatter.Add);
+            toolTip.SetToolTip(buttonAddToInstrument, ResourceFormatter.AddToInstrument);
             toolTip.SetToolTip(buttonClose, CommonResourceFormatter.Close);
             toolTip.SetToolTip(buttonNew, CommonResourceFormatter.New);
             toolTip.SetToolTip(buttonOpen, CommonResourceFormatter.Open);
@@ -50,6 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
         private bool _addButtonVisible;
+        [DefaultValue(false)]
         public bool AddButtonVisible
         {
             get => _addButtonVisible;
@@ -57,6 +61,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 _addButtonVisible = value;
                 buttonAdd.Visible = _addButtonVisible;
+                PositionControls();
+            }
+        }
+
+        /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
+        private bool _addToInstrumentButtonVisible;
+        public bool AddToInstrumentButtonVisible
+        {
+            get => _addToInstrumentButtonVisible;
+            set
+            {
+                _addToInstrumentButtonVisible = value;
+                buttonAddToInstrument.Visible = _addToInstrumentButtonVisible;
                 PositionControls();
             }
         }
@@ -159,8 +176,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void PositionControls()
         {
-            Width = GetVisibleButtonCount() * StyleHelper.IconButtonSize +
-                    (GetVisibleButtonCount() - 1) * StyleHelper.DefaultSpacing;
+            int visibleButtonCount = GetVisibleButtonCount();
+
+            Width = visibleButtonCount * StyleHelper.IconButtonSize +
+                    (visibleButtonCount - 1) * StyleHelper.DefaultSpacing;
 
             Height = _height;
 
@@ -177,6 +196,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 (buttonOpen, OpenButtonVisible),
                 (buttonRefresh, RefreshButtonVisible),
                 (buttonSave, SaveButtonVisible),
+                (buttonAddToInstrument, AddToInstrumentButtonVisible),
                 (buttonPlay, PlayButtonVisible)
             };
 
@@ -197,6 +217,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         // Events
 
         private void buttonAdd_Click(object sender, EventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonAddToInstrument_Click(object sender, EventArgs e) => AddToInstrumentClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonClose_Click(object sender, EventArgs e) => CloseClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonNew_Click(object sender, EventArgs e) => NewClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonOpen_Click(object sender, EventArgs e) => OpenClicked?.Invoke(sender, EventArgs.Empty);
@@ -211,6 +232,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             int count = 0;
             if (_addButtonVisible) count++;
+            if (_addToInstrumentButtonVisible) count++;
             if (_closeButtonVisible) count++;
             if (_newButtonVisible) count++;
             if (_openButtonVisible) count++;

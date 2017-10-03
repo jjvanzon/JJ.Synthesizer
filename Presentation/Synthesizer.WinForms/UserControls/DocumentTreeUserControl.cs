@@ -18,12 +18,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private static readonly string _separator = Guid.NewGuid().ToString();
 
-        public event EventHandler SaveRequested;
-        public event EventHandler RefreshRequested;
-        public event EventHandler PlayRequested;
-        public event EventHandler OpenItemExternallyRequested;
+        public event EventHandler AddToInstrumentRequested;
         public event EventHandler CloseRequested;
         public event EventHandler NewRequested;
+        public event EventHandler OpenItemExternallyRequested;
+        public event EventHandler PlayRequested;
+        public event EventHandler RefreshRequested;
+        public event EventHandler SaveRequested;
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
@@ -83,9 +84,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
-            titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
-            titleBarUserControl.OpenButtonVisible = ViewModel.CanOpenExternally;
+            titleBarUserControl.AddToInstrumentButtonVisible = ViewModel.CanAddToInstrument;
             titleBarUserControl.NewButtonVisible = ViewModel.CanCreateNew;
+            titleBarUserControl.OpenButtonVisible = ViewModel.CanOpenExternally;
+            titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
 
             _patchGroupTreeNodes = new HashSet<TreeNode> { _patchesTreeNode };
             _patchTreeNodes = new HashSet<TreeNode>();
@@ -564,6 +566,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
+
+        private void titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested(this, EventArgs.Empty);
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
         private void titleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested(sender, EventArgs.Empty);
         private void titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested(sender, EventArgs.Empty);

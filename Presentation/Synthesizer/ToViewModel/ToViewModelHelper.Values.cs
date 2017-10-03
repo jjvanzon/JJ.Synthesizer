@@ -93,6 +93,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Document
 
+        public static bool GetCanAddToInstrument(DocumentTreeNodeTypeEnum selectedNodeType)
+        {
+            switch (selectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                case DocumentTreeNodeTypeEnum.Patch:
+                    return true;
+
+                case DocumentTreeNodeTypeEnum.AudioOutput:
+                case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                case DocumentTreeNodeTypeEnum.Curves:
+                case DocumentTreeNodeTypeEnum.Libraries:
+                case DocumentTreeNodeTypeEnum.Library:
+                case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                case DocumentTreeNodeTypeEnum.Samples:
+                case DocumentTreeNodeTypeEnum.Scales:
+                default:
+                    return false;
+            }
+        }
+
         public static bool GetCanCreateNew(DocumentTreeNodeTypeEnum selectedNodeType, bool patchDetailsVisible)
         {
             if (!patchDetailsVisible)

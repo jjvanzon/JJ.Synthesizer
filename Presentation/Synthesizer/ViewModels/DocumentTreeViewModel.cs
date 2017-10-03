@@ -20,6 +20,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int? SelectedPatchGroupLowerDocumentReferenceID { get; set; }
         public string SelectedCanonicalPatchGroup { get; set; }
         public bool CanPlay { get; set; }
+        /// <summary> TODO: Fill this in with the appropriate values. </summary>
+        public bool CanAddToInstrument { get; set; }
         public bool CanOpenExternally { get; set; }
         public bool CanCreateNew { get; set; }
         internal int? OutletIDToPlay { get; set; }

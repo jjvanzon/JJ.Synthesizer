@@ -54,6 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             documentPropertiesUserControl.PlayRequested += documentPropertiesUserControl_PlayRequested;
+            documentTreeUserControl.AddToInstrumentRequested += DocumentTreeUserControl_AddToInstrumentRequested;
             documentTreeUserControl.AudioFileOutputsNodeSelected += documentTreeUserControl_AudioFileOutputsNodeSelected;
             documentTreeUserControl.AudioOutputNodeSelected += documentTreeUserControl_AudioOutputNodeSelected;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
@@ -545,6 +546,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.SampleGridShow);
 
         private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.ScaleGridShow);
+
+        private void DocumentTreeUserControl_AddToInstrumentRequested(object sender, EventArgs e)
+        {
+            TemplateActionHandler(_presenter.DocumentTreeAddToInstrument);
+        }
 
         private void documentTreeUserControl_AudioFileOutputsNodeSelected(object sender, EventArgs e)
         {

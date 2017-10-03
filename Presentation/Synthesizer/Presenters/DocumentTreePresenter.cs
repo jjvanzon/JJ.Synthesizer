@@ -201,8 +201,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             action(viewModel);
 
             // Non-Persisted
-            viewModel.CanPlay = ToViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
+            viewModel.CanAddToInstrument = ToViewModelHelper.GetCanAddToInstrument(viewModel.SelectedNodeType);
             viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(viewModel.SelectedNodeType);
+            viewModel.CanPlay = ToViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
 
             // Successful
             viewModel.Successful = true;
@@ -214,12 +215,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
-            destViewModel.SelectedNodeType = sourceViewModel.SelectedNodeType;
-            destViewModel.SelectedItemID = sourceViewModel.SelectedItemID;
+            destViewModel.CanAddToInstrument = sourceViewModel.CanAddToInstrument;
+            destViewModel.CanPlay = sourceViewModel.CanPlay;
             destViewModel.OutletIDToPlay = sourceViewModel.OutletIDToPlay;
             destViewModel.SelectedCanonicalPatchGroup = sourceViewModel.SelectedCanonicalPatchGroup;
+            destViewModel.SelectedItemID = sourceViewModel.SelectedItemID;
+            destViewModel.SelectedNodeType = sourceViewModel.SelectedNodeType;
             destViewModel.SelectedPatchGroupLowerDocumentReferenceID = sourceViewModel.SelectedPatchGroupLowerDocumentReferenceID;
-            destViewModel.CanPlay = sourceViewModel.CanPlay;
         }
 
         private void ClearSelectedItemIfDeleted(DocumentTreeViewModel viewModel)

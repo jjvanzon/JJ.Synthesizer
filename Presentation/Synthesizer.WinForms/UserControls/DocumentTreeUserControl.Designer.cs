@@ -55,6 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // titleBarUserControl
             // 
             this.titleBarUserControl.AddButtonVisible = false;
+            this.titleBarUserControl.AddToInstrumentButtonVisible = true;
             this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
             this.titleBarUserControl.CloseButtonVisible = true;
             this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -70,6 +71,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Size = new System.Drawing.Size(269, 32);
             this.titleBarUserControl.TabIndex = 3;
             this.titleBarUserControl.TitleLabelVisible = false;
+            this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.titleBarUserControl_AddToInstrumentClicked);
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             this.titleBarUserControl.NewClicked += new System.EventHandler(this.titleBarUserControl_NewClicked);
             this.titleBarUserControl.OpenClicked += new System.EventHandler(this.titleBarUserControl_OpenClicked);

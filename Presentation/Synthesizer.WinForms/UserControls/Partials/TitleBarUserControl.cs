@@ -20,6 +20,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             remove => buttonBarUserControl.AddClicked -= value;
         }
 
+        public event EventHandler AddToInstrumentClicked
+        {
+            add => buttonBarUserControl.AddToInstrumentClicked += value;
+            remove => buttonBarUserControl.AddToInstrumentClicked -= value;
+        }
+
         public event EventHandler CloseClicked
         {
             add => buttonBarUserControl.CloseClicked += value;
@@ -85,6 +91,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 buttonBarUserControl.AddButtonVisible = value;
+                PositionControls();
+            }
+        }
+
+        public bool AddToInstrumentButtonVisible
+        {
+            get => buttonBarUserControl.AddToInstrumentButtonVisible;
+            set
+            {
+                buttonBarUserControl.AddToInstrumentButtonVisible = value;
                 PositionControls();
             }
         }

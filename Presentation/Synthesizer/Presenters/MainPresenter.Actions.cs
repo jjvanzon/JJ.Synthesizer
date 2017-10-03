@@ -1125,6 +1125,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.WarningMessages = warningsResult.Messages;
         }
 
+        public void DocumentTreeAddToInstrument()
+        {
+            // Uses DocumentTree view, but affects CurrentInstrument view,
+            // so cannot just be delegated to DocumentTreePresenter.
+
+            if (!MainViewModel.Document.DocumentTree.SelectedItemID.HasValue)
+            {
+                throw new NotHasValueException(() => MainViewModel.Document.DocumentTree.SelectedItemID);
+            }
+
+            int patchID = MainViewModel.Document.DocumentTree.SelectedItemID.Value;
+
+            AddToInstrument(patchID);
+        }
+
         public void DocumentTreeClose() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.Close);
 
         public void DocumentTreeNew()
@@ -1353,19 +1368,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document);
 
                 // Non-Persisted
-                viewModel.Visible = userInput.Visible;
-                viewModel.ValidationMessages.AddRange(result.Messages);
-                viewModel.Successful = result.Successful;
+                viewModel.CanAddToInstrument = userInput.CanAddToInstrument;
+                viewModel.CanCreateNew = userInput.CanCreateNew;
+                viewModel.CanPlay = userInput.CanPlay;
                 viewModel.OutletIDToPlay = outlet?.ID;
+                viewModel.SelectedCanonicalPatchGroup = userInput.SelectedCanonicalPatchGroup;
                 viewModel.SelectedItemID = userInput.SelectedItemID;
                 viewModel.SelectedNodeType = userInput.SelectedNodeType;
-                viewModel.SelectedCanonicalPatchGroup = userInput.SelectedCanonicalPatchGroup;
                 viewModel.SelectedPatchGroupLowerDocumentReferenceID = userInput.SelectedPatchGroupLowerDocumentReferenceID;
-                viewModel.CanPlay = userInput.CanPlay;
-                viewModel.CanCreateNew = userInput.CanCreateNew;
+                viewModel.Successful = result.Successful;
+                viewModel.ValidationMessages.AddRange(result.Messages);
+                viewModel.Visible = userInput.Visible;
 
                 return viewModel;
-
             }
         }
 
