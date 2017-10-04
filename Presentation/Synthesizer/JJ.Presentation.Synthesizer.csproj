@@ -56,7 +56,6 @@
     <Compile Include="Presenters\DocumentOrPatchNotFoundPopupPresenter.cs" />
     <Compile Include="Presenters\GridPresenterBase.cs" />
     <Compile Include="Presenters\IOperatorPropertiesPresenter.cs" />
-    <Compile Include="Presenters\LibraryGridPresenter.cs" />
     <Compile Include="Presenters\LibraryPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibrarySelectionPopupPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
@@ -111,7 +110,6 @@
     <Compile Include="ViewModels\Items\LibraryListItemViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
-    <Compile Include="ViewModels\LibraryGridViewModel.cs" />
     <Compile Include="ViewModels\LibraryPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Items\PatchListItemViewModel.cs" />
     <Compile Include="ViewModels\Items\CurveListItemViewModel.cs" />

@@ -34,7 +34,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentOrPatchNotFoundPopupViewModel), DispatchDocumentOrPatchNotFoundPopupViewModel },
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
-                { typeof(LibraryGridViewModel), DispatchLibraryGridViewModel },
                 { typeof(LibraryPropertiesViewModel), DispatchLibraryPropertiesViewModel },
                 { typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
@@ -330,33 +329,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 MainViewModel.Document.PatchToOpenExternally = castedViewModel.PatchToOpenExternally;
                 castedViewModel.PatchToOpenExternally = null;
-            }
-
-            DispatchViewModelBase(castedViewModel);
-        }
-
-        private void DispatchLibraryGridViewModel(ViewModelBase viewModel)
-        {
-            var castedViewModel = (LibraryGridViewModel)viewModel;
-
-            MainViewModel.Document.LibraryGrid = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllGridAndDetailViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            if (castedViewModel.OutletIDToPlay.HasValue)
-            {
-                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
-                castedViewModel.OutletIDToPlay = null;
-            }
-
-            if (castedViewModel.DocumentToOpenExternally != null)
-            {
-                MainViewModel.Document.DocumentToOpenExternally = castedViewModel.DocumentToOpenExternally;
-                castedViewModel.DocumentToOpenExternally = null;
             }
 
             DispatchViewModelBase(castedViewModel);

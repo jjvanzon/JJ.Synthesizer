@@ -18,7 +18,6 @@
             this.splitContainerTreeAndRightSide = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerCenterAndProperties = new System.Windows.Forms.SplitContainer();
-            this.libraryGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryGridUserControl();
             this.toneGridEditUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ToneGridEditUserControl();
             this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
             this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
@@ -106,7 +105,6 @@
             // 
             // splitContainerCenterAndProperties.Panel1
             // 
-            this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.libraryGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.scaleGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.curveGridUserControl);
@@ -142,16 +140,6 @@
             this.splitContainerCenterAndProperties.SplitterDistance = 851;
             this.splitContainerCenterAndProperties.SplitterWidth = 5;
             this.splitContainerCenterAndProperties.TabIndex = 2;
-            // 
-            // libraryGridUserControl
-            // 
-            this.libraryGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.libraryGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.libraryGridUserControl.Location = new System.Drawing.Point(0, 0);
-            this.libraryGridUserControl.Name = "libraryGridUserControl";
-            this.libraryGridUserControl.Size = new System.Drawing.Size(851, 532);
-            this.libraryGridUserControl.TabIndex = 14;
-            this.libraryGridUserControl.ViewModel = null;
             // 
             // toneGridEditUserControl
             // 
@@ -821,7 +809,6 @@
         private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForInletsToDimension operatorPropertiesUserControl_ForInletsToDimension;
         private UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation operatorPropertiesUserControl_WithCollectionRecalculation;
-        private UserControls.LibraryGridUserControl libraryGridUserControl;
         private UserControls.LibraryPropertiesUserControl libraryPropertiesUserControl;
         private System.Windows.Forms.SplitContainer splitContainerCurvesAndTopSide;
         private UserControls.CurveDetailsListUserControl curveDetailsListUserControl;

@@ -30,7 +30,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentGridUserControl.ViewModel = _presenter.MainViewModel.DocumentGrid;
             documentPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentProperties;
             documentTreeUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentTree;
-            libraryGridUserControl.ViewModel = _presenter.MainViewModel.Document.LibraryGrid;
             libraryPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleLibraryProperties;
             _librarySelectionPopupForm.ViewModel = _presenter.MainViewModel.Document.LibrarySelectionPopup;
             nodePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleNodeProperties;

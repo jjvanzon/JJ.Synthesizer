@@ -1486,57 +1486,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ActionTemplateMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
         }
 
-        public void LibraryGridClose()
-        {
-            // GetViewModel
-            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
-
-            // TemplateMethod
-            ReadOnlyActionTemplateMethod(userInput, () => _libraryGridPresenter.Close(userInput));
-        }
-
-        public void LibraryGridRemove(int documentReferenceID)
-        {
-            // GetViewModel
-            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
-
-            // Template Method
-            LibraryGridViewModel viewModel = ActionTemplateMethod(userInput, () => _libraryGridPresenter.Remove(userInput, documentReferenceID));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
-        public void LibraryGridOpenItemExternally(int documentReferenceID)
-        {
-            // GetViewModel
-            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
-
-            // TemplateMethod
-            ActionTemplateMethod(userInput, () => _libraryGridPresenter.OpenItemExternally(userInput, documentReferenceID));
-        }
-
-        public void LibraryGridPlay(int documentReferenceID)
-        {
-            // GetViewModel
-            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
-
-            // TemplateMethod
-            ActionTemplateMethod(userInput, () => _libraryGridPresenter.Play(userInput, documentReferenceID));
-        }
-
-        public void LibraryGridShow()
-        {
-            // GetViewModel
-            LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
-
-            // TemplateMethod
-            ReadOnlyActionTemplateMethod(userInput, () => _libraryGridPresenter.Show(userInput));
-        }
-
         public void LibraryPropertiesClose(int documentReferenceID)
         {
             // GetViewModel

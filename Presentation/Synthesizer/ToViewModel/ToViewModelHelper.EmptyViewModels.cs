@@ -102,7 +102,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvePropertiesDictionary = new Dictionary<int, CurvePropertiesViewModel>(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = new RecursiveDocumentTreeViewModelFactory().CreateEmptyDocumentTreeViewModel(),
-                LibraryGrid = CreateEmptyLibraryGridViewModel(),
                 LibraryPropertiesDictionary = new Dictionary<int, LibraryPropertiesViewModel>(),
                 LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
                 NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
@@ -201,17 +200,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = new IDAndName(),
                 ValidationMessages = new List<string>()
-            };
-
-            return viewModel;
-        }
-
-        public static LibraryGridViewModel CreateEmptyLibraryGridViewModel()
-        {
-            var viewModel = new LibraryGridViewModel
-            {
-                ValidationMessages = new List<string>(),
-                List = new List<LibraryListItemViewModel>()
             };
 
             return viewModel;

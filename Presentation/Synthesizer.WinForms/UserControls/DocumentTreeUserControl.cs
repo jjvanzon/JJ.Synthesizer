@@ -35,7 +35,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ShowAudioOutputRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
-        public event EventHandler ShowLibrariesRequested;
         public event EventHandler<EventArgs<string>> PatchGroupNodeSelected;
         public event EventHandler<EventArgs<int>> PatchNodeSelected;
         public event EventHandler<EventArgs<int>> LibraryNodeSelected;
@@ -694,11 +693,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (node == _curvesTreeNode)
             {
                 ShowCurvesRequested(this, EventArgs.Empty);
-            }
-
-            if (node == _librariesTreeNode)
-            {
-                ShowLibrariesRequested(this, EventArgs.Empty);
             }
 
             if (_patchGroupTreeNodes.Contains(node))

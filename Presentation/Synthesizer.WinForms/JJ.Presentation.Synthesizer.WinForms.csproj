@@ -123,12 +123,6 @@
     <Compile Include="UserControls\CurveDetailsListUserControl.Designer.cs">
       <DependentUpon>CurveDetailsListUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\LibraryGridUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\LibraryGridUserControl.Designer.cs">
-      <DependentUpon>LibraryGridUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\AudioFileOutputGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -391,9 +385,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsListUserControl.resx">
       <DependentUpon>CurveDetailsListUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\LibraryGridUserControl.resx">
-      <DependentUpon>LibraryGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputGridUserControl.resx">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>

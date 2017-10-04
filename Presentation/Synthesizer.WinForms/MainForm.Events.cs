@@ -77,18 +77,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
-            documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
             documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
             documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
-            libraryGridUserControl.AddRequested += libraryGridUserControl_AddRequested;
-            libraryGridUserControl.CloseRequested += libraryGridUserControl_CloseRequested;
-            libraryGridUserControl.PlayRequested += libraryGridUserControl_PlayRequested;
-            libraryGridUserControl.OpenItemExternallyRequested += libraryGridUserControl_OpenItemExternallyRequested;
-            libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
-            libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
@@ -602,8 +595,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_ShowCurvesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurveGridShow);
 
-        private void documentTreeUserControl_ShowLibrariesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibraryGridShow);
-
         private void documentTreeUserControl_ShowLibraryPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(
@@ -644,41 +635,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         // Library
-
-        private void libraryGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibraryAdd);
-
-        private void libraryGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibraryGridClose);
-
-        private void libraryGridUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.LibraryGridPlay(e.Value);
-                    PlayOutletIfNeeded();
-                });
-        }
-
-        private void libraryGridUserControl_OpenItemExternallyRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.LibraryGridOpenItemExternally(e.Value);
-                    OpenDocumentExternallyAndOptionallyPatchIfNeeded();
-                });
-        }
-
-        private void libraryGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.LibraryGridRemove(e.Value));
-
-        private void libraryGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.LibraryPropertiesShow(e.Value);
-                });
-        }
 
         private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {

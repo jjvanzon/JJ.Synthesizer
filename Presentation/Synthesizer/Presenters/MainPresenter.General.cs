@@ -56,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentOrPatchNotFoundPopupPresenter _documentOrPatchNotFoundPresenter;
         private readonly DocumentPropertiesPresenter _documentPropertiesPresenter;
         private readonly DocumentTreePresenter _documentTreePresenter;
-        private readonly LibraryGridPresenter _libraryGridPresenter;
         private readonly LibraryPropertiesPresenter _libraryPropertiesPresenter;
         private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
         private readonly MenuPresenter _menuPresenter;
@@ -132,7 +131,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentOrPatchNotFoundPresenter = new DocumentOrPatchNotFoundPopupPresenter(_repositories.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
             _documentTreePresenter = new DocumentTreePresenter(_documentManager, _repositories);
-            _libraryGridPresenter = new LibraryGridPresenter(_repositories);
             _libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
             _librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
             _menuPresenter = new MenuPresenter();
@@ -170,7 +168,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.AudioFileOutputGrid.Visible = false;
             MainViewModel.Document.CurveGrid.Visible = false;
             MainViewModel.Document.SampleGrid.Visible = false;
-            MainViewModel.Document.LibraryGrid.Visible = false;
             MainViewModel.Document.ScaleGrid.Visible = false;
 
             MainViewModel.Document.VisiblePatchGrid = null;

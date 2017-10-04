@@ -44,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveLookup = ToViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
                 CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
-                LibraryGrid = document.ToLibraryGridViewModel(),
                 LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),
                 LibraryPropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.DocumentReferenceID),
                 NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),

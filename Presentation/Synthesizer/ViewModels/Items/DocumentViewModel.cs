@@ -31,7 +31,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public CurvePropertiesViewModel VisibleCurveProperties { get; set; }
         public Dictionary<int, CurvePropertiesViewModel> CurvePropertiesDictionary { get; set; }
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
-        public LibraryGridViewModel LibraryGrid { get; set; }
         public LibrarySelectionPopupViewModel LibrarySelectionPopup { get; set; }
         public Dictionary<int, LibraryPropertiesViewModel> LibraryPropertiesDictionary { get; set; }
         public LibraryPropertiesViewModel VisibleLibraryProperties { get; set; }
