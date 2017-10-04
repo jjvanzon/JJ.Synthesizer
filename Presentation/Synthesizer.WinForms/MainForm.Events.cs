@@ -76,7 +76,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowLibrariesRequested += documentTreeUserControl_ShowLibrariesRequested;
-            documentTreeUserControl.ShowLibraryPatchPropertiesRequested += documentTreeUserControl_ShowLibraryPatchPropertiesRequested;
             documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
             documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
@@ -88,10 +87,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryGridUserControl.OpenItemExternallyRequested += libraryGridUserControl_OpenItemExternallyRequested;
             libraryGridUserControl.RemoveRequested += libraryGridUserControl_RemoveRequested;
             libraryGridUserControl.ShowItemRequested += libraryGridUserControl_ShowItemRequested;
-            libraryPatchPropertiesUserControl.AddToInstrumentRequested += libraryPatchPropertiesUserControl_AddToInstrument;
-            libraryPatchPropertiesUserControl.CloseRequested += libraryPatchPropertiesUserControl_CloseRequested;
-            libraryPatchPropertiesUserControl.OpenExternallyRequested += libraryPatchPropertiesUserControl_OpenExternallyRequested;
-            libraryPatchPropertiesUserControl.PlayRequested += libraryPatchPropertiesUserControl_PlayRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
@@ -519,11 +514,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_ShowLibrariesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibraryGridShow);
 
-        private void documentTreeUserControl_ShowLibraryPatchPropertiesRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _presenter.LibraryPatchPropertiesShow(e.Value));
-        }
-
         private void documentTreeUserControl_ShowLibraryPropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(
@@ -677,41 +667,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.LibraryPropertiesShow(e.Value);
-                });
-        }
-
-        private void libraryPatchPropertiesUserControl_AddToInstrument(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.AddToInstrument(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void libraryPatchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _presenter.LibraryPatchPropertiesClose(e.Value));
-        }
-
-        private void libraryPatchPropertiesUserControl_OpenExternallyRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.LibraryPatchPropertiesOpenExternally(e.Value);
-                    OpenDocumentExternallyAndOptionallyPatchIfNeeded();
-                });
-        }
-
-        private void libraryPatchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.LibraryPatchPropertiesPlay(e.Value);
-                    PlayOutletIfNeeded();
                 });
         }
 

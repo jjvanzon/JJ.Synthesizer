@@ -57,7 +57,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentPropertiesPresenter _documentPropertiesPresenter;
         private readonly DocumentTreePresenter _documentTreePresenter;
         private readonly LibraryGridPresenter _libraryGridPresenter;
-        private readonly LibraryPatchPropertiesPresenter _libraryPatchPropertiesPresenter;
         private readonly LibraryPropertiesPresenter _libraryPropertiesPresenter;
         private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
         private readonly MenuPresenter _menuPresenter;
@@ -134,7 +133,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
             _documentTreePresenter = new DocumentTreePresenter(_repositories);
             _libraryGridPresenter = new LibraryGridPresenter(_repositories);
-            _libraryPatchPropertiesPresenter = new LibraryPatchPropertiesPresenter(_repositories.PatchRepository, _repositories.DocumentReferenceRepository);
             _libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
             _librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
             _menuPresenter = new MenuPresenter();
@@ -196,8 +194,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.NodePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleLibraryProperties = null;
             MainViewModel.Document.LibraryPropertiesDictionary.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.VisibleLibraryPatchProperties = null;
-            MainViewModel.Document.LibraryPatchPropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties = null;
             MainViewModel.Document.OperatorPropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleOperatorProperties_ForCache = null;

@@ -35,7 +35,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(LibraryGridViewModel), DispatchLibraryGridViewModel },
-                { typeof(LibraryPatchPropertiesViewModel), DispatchLibraryPatchPropertiesViewModel },
                 { typeof(LibraryPropertiesViewModel), DispatchLibraryPropertiesViewModel },
                 { typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
@@ -358,42 +357,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 MainViewModel.Document.DocumentToOpenExternally = castedViewModel.DocumentToOpenExternally;
                 castedViewModel.DocumentToOpenExternally = null;
-            }
-
-            DispatchViewModelBase(castedViewModel);
-        }
-
-        private void DispatchLibraryPatchPropertiesViewModel(ViewModelBase viewModel)
-        {
-            var castedViewModel = (LibraryPatchPropertiesViewModel)viewModel;
-
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var dictionary = MainViewModel.Document.LibraryPatchPropertiesDictionary;
-            dictionary[castedViewModel.PatchID] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleLibraryPatchProperties = castedViewModel;
-            }
-
-            if (castedViewModel.OutletIDToPlay.HasValue)
-            {
-                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
-                castedViewModel.OutletIDToPlay = null;
-            }
-
-            if (castedViewModel.DocumentToOpenExternally != null)
-            {
-                MainViewModel.Document.DocumentToOpenExternally = castedViewModel.DocumentToOpenExternally;
-                castedViewModel.DocumentToOpenExternally = null;
-            }
-
-            if (castedViewModel.PatchToOpenExternally != null)
-            {
-                MainViewModel.Document.PatchToOpenExternally = castedViewModel.PatchToOpenExternally;
-                castedViewModel.PatchToOpenExternally = null;
             }
 
             DispatchViewModelBase(castedViewModel);

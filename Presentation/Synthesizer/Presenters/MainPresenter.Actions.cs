@@ -1627,54 +1627,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ActionTemplateMethod(userInput, () => _librarySelectionPopupPresenter.Play(userInput, lowerDocumentID));
         }
 
-        // LibraryPatch
-
-        public void LibraryPatchPropertiesClose(int patchID)
-        {
-            // GetViewModel
-            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
-
-            // Template Method
-            LibraryPatchPropertiesViewModel viewModel = ActionTemplateMethod(userInput, () => _libraryPatchPropertiesPresenter.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleLibraryPatchProperties = null;
-            }
-        }
-
-        public void LibraryPatchPropertiesOpenExternally(int patchID)
-        {
-            // GetViewModel
-            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
-
-            // Template Method
-            ActionTemplateMethod(userInput, () => _libraryPatchPropertiesPresenter.OpenExternally(userInput));
-        }
-
-        public void LibraryPatchPropertiesPlay(int patchID)
-        {
-            // GetViewModel
-            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
-
-            // TemplateMethod
-            ActionTemplateMethod(userInput, () => _libraryPatchPropertiesPresenter.Play(userInput, _repositories));
-        }
-
-        public void LibraryPatchPropertiesShow(int patchID)
-        {
-            // GetViewModel
-            LibraryPatchPropertiesViewModel userInput = ViewModelSelector.GetLibraryPatchPropertiesViewModel(MainViewModel.Document, patchID);
-
-            // Template Method
-            LibraryPatchPropertiesViewModel viewModel = ReadOnlyActionTemplateMethod(userInput, () => _libraryPatchPropertiesPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleLibraryPatchProperties = viewModel;
-            }
-        }
-
         // Node
 
         /// <summary>

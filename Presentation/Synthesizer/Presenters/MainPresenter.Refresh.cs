@@ -264,7 +264,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentPropertiesRefresh();
             DocumentTreeRefresh();
             LibraryGridRefresh();
-            LibraryPatchPropertiesDictionaryRefresh();
             LibraryPropertiesDictionaryRefresh();
             LibrarySelectionPopupRefresh();
             NodePropertiesDictionaryRefresh();
@@ -296,57 +295,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             LibraryGridViewModel userInput = MainViewModel.Document.LibraryGrid;
             LibraryGridViewModel viewModel = _libraryGridPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void LibraryPatchPropertiesDictionaryRefresh()
-        {
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var viewModelDictionary = MainViewModel.Document.LibraryPatchPropertiesDictionary;
-
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-            foreach (DocumentReference lowerDocumentReference in document.LowerDocumentReferences)
-            {
-                // ReSharper disable once InvertIf
-                if (lowerDocumentReference.LowerDocument != null)
-                {
-                    foreach (Patch patch in lowerDocumentReference.LowerDocument.Patches)
-                    {
-                        LibraryPatchPropertiesViewModel viewModel = ViewModelSelector.TryGetLibraryPatchPropertiesViewModel(MainViewModel.Document, patch.ID);
-                        if (viewModel == null)
-                        {
-                            viewModel = patch.ToLibraryPatchPropertiesViewModel(lowerDocumentReference);
-
-                            viewModel.Successful = true;
-                            viewModelDictionary[patch.ID] = viewModel;
-                        }
-                        else
-                        {
-                            LibraryPatchPropertiesRefresh(viewModel);
-                        }
-                    }
-                }
-            }
-
-            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
-            IEnumerable<int> idsToKeep = document.LowerDocumentReferences.SelectMany(x => x.LowerDocument.Patches).Select(x => x.ID);
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
-
-            foreach (int idToDelete in idsToDelete.ToArray())
-            {
-                viewModelDictionary.Remove(idToDelete);
-
-                if (MainViewModel.Document.VisibleLibraryPatchProperties?.PatchID == idToDelete)
-                {
-                    MainViewModel.Document.VisibleLibraryPatchProperties = null;
-                }
-            }
-        }
-
-        private void LibraryPatchPropertiesRefresh(LibraryPatchPropertiesViewModel userInput)
-        {
-            LibraryPatchPropertiesViewModel viewModel = _libraryPatchPropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 

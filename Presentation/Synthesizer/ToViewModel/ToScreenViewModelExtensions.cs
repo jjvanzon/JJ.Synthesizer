@@ -697,49 +697,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IList<LibraryPatchPropertiesViewModel> ToLibraryPatchPropertiesViewModelList(this Document higherDocument)
-        {
-            if (higherDocument == null) throw new NullException(() => higherDocument);
-
-            var viewModels = new List<LibraryPatchPropertiesViewModel>();
-
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (DocumentReference lowerDocumentReference in higherDocument.LowerDocumentReferences)
-            {
-                // ReSharper disable once InvertIf
-                if (lowerDocumentReference.LowerDocument != null)
-                {
-                    // ReSharper disable once LoopCanBeConvertedToQuery
-                    foreach (Patch patch in lowerDocumentReference.LowerDocument.Patches.Where(x => !x.Hidden))
-                    {
-                        LibraryPatchPropertiesViewModel viewModel = patch.ToLibraryPatchPropertiesViewModel(lowerDocumentReference);
-                        viewModels.Add(viewModel);
-                    }
-                }
-            }
-
-            return viewModels;
-        }
-
-        public static LibraryPatchPropertiesViewModel ToLibraryPatchPropertiesViewModel(this Patch patch, DocumentReference lowerDocumentReference)
-        {
-            if (patch == null) throw new NullException(() => patch);
-            if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
-
-            var viewModel = new LibraryPatchPropertiesViewModel
-            {
-                DocumentReferenceID = lowerDocumentReference.ID,
-                PatchID = patch.ID,
-                Name = patch.Name,
-                Group = patch.GroupName,
-                Library = lowerDocumentReference.GetAliasOrName(),
-                ValidationMessages = new List<string>()
-            };
-
-            return viewModel;
-
-        }
-
         // Sample
 
         public static SamplePropertiesViewModel ToPropertiesViewModel(this Sample entity, SampleRepositories repositories)

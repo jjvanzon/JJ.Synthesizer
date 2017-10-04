@@ -57,7 +57,7 @@
     <Compile Include="Presenters\GridPresenterBase.cs" />
     <Compile Include="Presenters\IOperatorPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibraryGridPresenter.cs" />
-    <Compile Include="Presenters\LibraryPatchPropertiesPresenter.cs" />
+    <Compile Include="Presenters\2017-10-04 Backup of LibraryPatchPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibraryPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibrarySelectionPopupPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenterBase.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="ViewModels\Items\DocumentTreeNodeTypeEnum.cs" />
     <Compile Include="ViewModels\Items\AutoPatchPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\LibraryListItemViewModel.cs" />
-    <Compile Include="ViewModels\LibraryPatchPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\2017-10-04 Backup of LibraryPatchPropertiesViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
     <Compile Include="ViewModels\LibraryGridViewModel.cs" />

@@ -156,11 +156,9 @@
     <Compile Include="UserControls\Bases\PropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\LibraryPatchPropertiesUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\LibraryPatchPropertiesUserControl.Designer.cs">
-      <DependentUpon>LibraryPatchPropertiesUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\2017-10-04 Backup of LibraryPatchPropertiesUserControl.cs" />
+    <Compile Include="UserControls\2017-10-04 Backup of LibraryPatchPropertiesUserControl.Designer.cs">
+      <DependentUpon>2017-10-04 Backup of LibraryPatchPropertiesUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\LibraryPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -413,8 +411,8 @@
     <EmbeddedResource Include="UserControls\CurrentInstrumentUserControl.resx">
       <DependentUpon>CurrentInstrumentUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\LibraryPatchPropertiesUserControl.resx">
-      <DependentUpon>LibraryPatchPropertiesUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\2017-10-04 Backup of LibraryPatchPropertiesUserControl.resx">
+      <DependentUpon>2017-10-04 Backup of LibraryPatchPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LibraryPropertiesUserControl.resx">
       <DependentUpon>LibraryPropertiesUserControl.cs</DependentUpon>

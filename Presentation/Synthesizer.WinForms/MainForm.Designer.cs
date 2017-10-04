@@ -28,7 +28,6 @@
             this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
-            this.libraryPatchPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryPatchPropertiesUserControl();
             this.libraryPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryPropertiesUserControl();
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_WithCollectionRecalculation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation();
@@ -120,7 +119,6 @@
             // 
             // splitContainerCenterAndProperties.Panel2
             // 
-            this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.libraryPatchPropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.libraryPropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForNumber);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithCollectionRecalculation);
@@ -275,28 +273,6 @@
             this.sampleGridUserControl.TabIndex = 9;
             this.sampleGridUserControl.ViewModel = null;
             this.sampleGridUserControl.Visible = false;
-            // 
-            // libraryPatchPropertiesUserControl
-            // 
-            this.libraryPatchPropertiesUserControl.AddButtonVisible = false;
-            this.libraryPatchPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.libraryPatchPropertiesUserControl.CloseButtonVisible = true;
-            this.libraryPatchPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.libraryPatchPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.libraryPatchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
-            this.libraryPatchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4);
-            this.libraryPatchPropertiesUserControl.Name = "libraryPatchPropertiesUserControl";
-            this.libraryPatchPropertiesUserControl.OpenExternallyButtonVisible = true;
-            this.libraryPatchPropertiesUserControl.PlayButtonVisible = true;
-            this.libraryPatchPropertiesUserControl.RefreshButtonVisible = false;
-            this.libraryPatchPropertiesUserControl.RemoveButtonVisible = false;
-            this.libraryPatchPropertiesUserControl.SaveButtonVisible = false;
-            this.libraryPatchPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
-            this.libraryPatchPropertiesUserControl.TabIndex = 1;
-            this.libraryPatchPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.libraryPatchPropertiesUserControl.TitleBarText = "Patch Properties";
-            this.libraryPatchPropertiesUserControl.TitleLabelVisible = true;
-            this.libraryPatchPropertiesUserControl.ViewModel = null;
             // 
             // libraryPropertiesUserControl
             // 
@@ -847,7 +823,6 @@
         private UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation operatorPropertiesUserControl_WithCollectionRecalculation;
         private UserControls.LibraryGridUserControl libraryGridUserControl;
         private UserControls.LibraryPropertiesUserControl libraryPropertiesUserControl;
-        private UserControls.LibraryPatchPropertiesUserControl libraryPatchPropertiesUserControl;
         private System.Windows.Forms.SplitContainer splitContainerCurvesAndTopSide;
         private UserControls.CurveDetailsListUserControl curveDetailsListUserControl;
     }

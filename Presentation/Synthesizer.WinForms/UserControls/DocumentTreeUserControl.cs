@@ -28,7 +28,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
-        public event EventHandler<EventArgs<int>> ShowLibraryPatchPropertiesRequested;
         public event EventHandler ShowCurvesRequested;
         public event EventHandler ShowSamplesRequested;
         public event EventHandler ShowAudioOutputRequested;
@@ -720,12 +719,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 int id = (int)node.Tag;
                 ShowLibraryPropertiesRequested(this, new EventArgs<int>(id));
-            }
-
-            if (_libraryPatchTreeNodes.Contains(node))
-            {
-                int id = (int)node.Tag;
-                ShowLibraryPatchPropertiesRequested(this, new EventArgs<int>(id));
             }
         }
 
