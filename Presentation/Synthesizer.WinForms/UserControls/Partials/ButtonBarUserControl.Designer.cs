@@ -46,7 +46,7 @@
             this.toolTip.AutomaticDelay = 1;
             this.toolTip.AutoPopDelay = 100000;
             this.toolTip.InitialDelay = 1;
-            this.toolTip.ReshowDelay = 1;
+            this.toolTip.ReshowDelay = 200;
             this.toolTip.UseAnimation = false;
             this.toolTip.UseFading = false;
             // 
@@ -54,7 +54,7 @@
             // 
             this.buttonAddToInstrument.FlatAppearance.BorderSize = 0;
             this.buttonAddToInstrument.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAddToInstrument.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PianoIcon;
+            this.buttonAddToInstrument.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PianoIconUniformLongerKeys;
             this.buttonAddToInstrument.Location = new System.Drawing.Point(72, 9);
             this.buttonAddToInstrument.Margin = new System.Windows.Forms.Padding(0);
             this.buttonAddToInstrument.Name = "buttonAddToInstrument";

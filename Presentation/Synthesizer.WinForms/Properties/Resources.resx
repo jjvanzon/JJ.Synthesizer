@@ -139,6 +139,12 @@
   <data name="PianoIconLighter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PianoIconLighter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PianoIconUniform" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PianoIconUniform.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PianoIconUniformLongerKeys" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PianoIconUniformLongerKeys.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="PlayIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PlayIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

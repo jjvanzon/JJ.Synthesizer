@@ -683,6 +683,8 @@
     <None Include="Resources\NewIcon.png" />
     <None Include="Resources\PianoIcon.png" />
     <None Include="Resources\PianoIconLighter.png" />
+    <None Include="Resources\PianoIconUniform.png" />
+    <None Include="Resources\PianoIconUniformLongerKeys.png" />
     <Content Include="Resources\RefreshIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
