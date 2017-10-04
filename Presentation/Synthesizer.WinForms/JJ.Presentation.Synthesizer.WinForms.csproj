@@ -53,9 +53,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Third Party\NHibernate\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-    </Reference>
     <Reference Include="NHibernate.ByteCode.Castle">
       <HintPath>..\..\Third Party\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
