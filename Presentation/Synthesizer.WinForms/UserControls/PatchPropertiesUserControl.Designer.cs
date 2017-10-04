@@ -33,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.textBoxGroup = new System.Windows.Forms.TextBox();
-            this.buttonAddToInstrument = new System.Windows.Forms.Button();
             this.labelHidden = new System.Windows.Forms.Label();
             this.checkBoxHidden = new System.Windows.Forms.CheckBox();
             this.checkBoxHasDimension = new System.Windows.Forms.CheckBox();
@@ -79,20 +78,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxGroup.Name = "textBoxGroup";
             this.textBoxGroup.Size = new System.Drawing.Size(105, 22);
             this.textBoxGroup.TabIndex = 13;
-            // 
-            // buttonAddToInstrument
-            // 
-            this.buttonAddToInstrument.FlatAppearance.BorderSize = 0;
-            this.buttonAddToInstrument.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAddToInstrument.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
-            this.buttonAddToInstrument.Location = new System.Drawing.Point(58, 251);
-            this.buttonAddToInstrument.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonAddToInstrument.Name = "buttonAddToInstrument";
-            this.buttonAddToInstrument.Size = new System.Drawing.Size(257, 32);
-            this.buttonAddToInstrument.TabIndex = 9;
-            this.buttonAddToInstrument.Text = "buttonAddToInstrument";
-            this.buttonAddToInstrument.UseVisualStyleBackColor = true;
-            this.buttonAddToInstrument.Click += new System.EventHandler(this.buttonAddToInstrument_Click);
             // 
             // labelHidden
             // 
@@ -191,13 +176,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.labelName);
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.textBoxGroup);
-            this.Controls.Add(this.buttonAddToInstrument);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PatchPropertiesUserControl";
             this.PlayButtonVisible = true;
             this.RemoveButtonVisible = true;
             this.Size = new System.Drawing.Size(487, 302);
-            this.Controls.SetChildIndex(this.buttonAddToInstrument, 0);
             this.Controls.SetChildIndex(this.textBoxGroup, 0);
             this.Controls.SetChildIndex(this.textBoxName, 0);
             this.Controls.SetChildIndex(this.labelName, 0);
@@ -221,7 +204,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelGroup;
         private System.Windows.Forms.TextBox textBoxGroup;
-        private System.Windows.Forms.Button buttonAddToInstrument;
         private System.Windows.Forms.Label labelHidden;
         private System.Windows.Forms.CheckBox checkBoxHidden;
         private System.Windows.Forms.CheckBox checkBoxHasDimension;

@@ -12,6 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
     {
         private readonly TitleBarUserControl _titleBarUserControl;
 
+        public event EventHandler<EventArgs<int>> AddToInstrumentRequested;
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
         public event EventHandler<EventArgs<int>> SaveRequested;
@@ -34,6 +35,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
             _titleBarUserControl = CreateTitleBarUserControl();
             Controls.Add(_titleBarUserControl);
+            _titleBarUserControl.AddToInstrumentClicked += _titleBarUserControl_AddToInstrumentClicked;
             _titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
             _titleBarUserControl.SaveClicked += _titleBarUserControl_SaveClicked;
             _titleBarUserControl.OpenClicked += _titleBarUserControl_OpenClicked;
@@ -107,6 +109,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         {
             get => _titleBarUserControl.AddButtonVisible;
             set => _titleBarUserControl.AddButtonVisible = value;
+        }
+
+        public bool AddToInstrumentButtonVisible
+        {
+            get => _titleBarUserControl.AddToInstrumentButtonVisible;
+            set => _titleBarUserControl.AddToInstrumentButtonVisible = value;
         }
 
         public bool RemoveButtonVisible
@@ -190,6 +198,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Events
 
+
+        private void _titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
         private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenExternallyRequested?.Invoke(sender, new EventArgs<int>(GetID()));
         private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();

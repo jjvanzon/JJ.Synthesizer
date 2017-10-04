@@ -10,12 +10,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchPropertiesUserControl : PropertiesUserControlBase
     {
-        private bool _applyViewModelToControlsIsBusy = false;
+        private bool _applyViewModelToControlsIsBusy;
 
-        public event EventHandler<EventArgs<int>> AddToInstrumentRequested;
         public event EventHandler<EventArgs<int>> HasDimensionChanged;
 
-        public PatchPropertiesUserControl() => InitializeComponent();
+        public PatchPropertiesUserControl()
+        {
+            InitializeComponent();
+
+            AddToInstrumentButtonVisible = true;
+        }
 
         // Gui
 
@@ -27,7 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelHasDimension, checkBoxHasDimension);
             AddProperty(labelDefaultStandardDimension, comboBoxDefaultStandardDimension);
             AddProperty(labelDefaultCustomDimensionName, textBoxDefaultCustomDimensionName);
-            AddProperty(buttonAddToInstrument, null);
         }
 
         protected override void SetTitles()
@@ -41,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelHidden.Text = ResourceFormatter.Hidden;
             checkBoxHasDimension.Text = null;
             checkBoxHidden.Text = null;
-            buttonAddToInstrument.Text = ResourceFormatter.AddToInstrument;
         }
 
         // Binding
@@ -94,8 +96,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Events
-
-        private void buttonAddToInstrument_Click(object sender, EventArgs e) => AddToInstrumentRequested.Invoke(this, new EventArgs<int>(ViewModel.ID));
 
         private void checkBoxHasDimension_CheckedChanged(object sender, EventArgs e)
         {
