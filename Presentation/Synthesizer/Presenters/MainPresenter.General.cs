@@ -131,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentGridPresenter = new DocumentGridPresenter(_repositories);
             _documentOrPatchNotFoundPresenter = new DocumentOrPatchNotFoundPopupPresenter(_repositories.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
-            _documentTreePresenter = new DocumentTreePresenter(_repositories);
+            _documentTreePresenter = new DocumentTreePresenter(_documentManager, _repositories);
             _libraryGridPresenter = new LibraryGridPresenter(_repositories);
             _libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
             _librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);

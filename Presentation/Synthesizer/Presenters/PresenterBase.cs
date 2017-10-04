@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class PresenterBase<TViewModel>
         where TViewModel : ViewModelBase
     {
-        protected virtual void CopyNonPersistedProperties(TViewModel sourceViewModel, TViewModel destViewModel)
+        public virtual void CopyNonPersistedProperties(TViewModel sourceViewModel, TViewModel destViewModel)
         {
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
             if (destViewModel == null) throw new NullException(() => destViewModel);

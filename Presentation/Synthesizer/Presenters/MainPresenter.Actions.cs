@@ -1125,10 +1125,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.WarningMessages = warningsResult.Messages;
         }
 
+        public void DocumentTreeAdd()
+        {
+            // Involves both DocumentTree and LibrarySelectionPopup,
+            // so cannot be handled by a single sub-presenter.
+
+            DocumentTreeNodeTypeEnum documentTreeNodeTypeEnum = MainViewModel.Document.DocumentTree.SelectedNodeType;
+
+            switch (documentTreeNodeTypeEnum)
+            {
+                case DocumentTreeNodeTypeEnum.Libraries:
+                    LibraryAdd();
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(documentTreeNodeTypeEnum);
+            }
+        }
+
         public void DocumentTreeAddToInstrument()
         {
-            // Uses DocumentTree view, but affects CurrentInstrument view,
-            // so cannot just be delegated to DocumentTreePresenter.
+            // Inolves both DocumentTree and CurrentInstrument view,
+            // so cannot be handled by a single sub-presenter.
 
             if (!MainViewModel.Document.DocumentTree.SelectedItemID.HasValue)
             {
@@ -1368,19 +1386,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document);
 
                 // Non-Persisted
-                viewModel.CanAddToInstrument = userInput.CanAddToInstrument;
-                viewModel.CanCreateNew = userInput.CanCreateNew;
-                viewModel.CanPlay = userInput.CanPlay;
+                _documentTreePresenter.CopyNonPersistedProperties(userInput, viewModel);
                 viewModel.OutletIDToPlay = outlet?.ID;
-                viewModel.SelectedCanonicalPatchGroup = userInput.SelectedCanonicalPatchGroup;
-                viewModel.SelectedItemID = userInput.SelectedItemID;
-                viewModel.SelectedNodeType = userInput.SelectedNodeType;
-                viewModel.SelectedPatchGroupLowerDocumentReferenceID = userInput.SelectedPatchGroupLowerDocumentReferenceID;
                 viewModel.Successful = result.Successful;
                 viewModel.ValidationMessages.AddRange(result.Messages);
-                viewModel.Visible = userInput.Visible;
 
                 return viewModel;
+            }
+        }
+
+        public void DocumentTreeRemove()
+        {
+            // GetViewModel
+            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+            // Template Method
+            DocumentTreeViewModel viewModel = ActionTemplateMethod(userInput, () => _documentTreePresenter.Remove(userInput));
+
+            // Refresh
+            if (viewModel.Successful)
+            {
+                DocumentViewModelRefresh();
             }
         }
 

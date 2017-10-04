@@ -6,16 +6,20 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
 using System.Linq;
+using JJ.Business.Synthesizer;
+using JJ.Framework.Business;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentTreePresenter : PresenterBase<DocumentTreeViewModel>
     {
         private readonly RepositoryWrapper _repositories;
+        private readonly DocumentManager _documentManager;
 
-        public DocumentTreePresenter(RepositoryWrapper repositories)
+        public DocumentTreePresenter(DocumentManager documentManager, RepositoryWrapper repositories)
         {
-            _repositories = repositories ?? throw new NullException(() => repositories);
+            _documentManager = documentManager ?? throw new ArgumentNullException(nameof(documentManager));
+            _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
         }
 
         public DocumentTreeViewModel Close(DocumentTreeViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = false);
@@ -51,6 +55,34 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => TemplateMethod(userInput, x => { });
+
+        public DocumentTreeViewModel Remove(DocumentTreeViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    if (!userInput.SelectedItemID.HasValue)
+                    {
+                        throw new NullException(() => userInput.SelectedItemID);
+                    }
+
+                    switch (userInput.SelectedNodeType)
+                    {
+                        case DocumentTreeNodeTypeEnum.Library:
+                            // Business
+                            VoidResult result = _documentManager.DeleteDocumentReference(userInput.SelectedItemID.Value);
+
+                            // Non-Persisted
+                            viewModel.Successful = result.Successful;
+                            viewModel.ValidationMessages = result.Messages;
+                            break;
+
+                        default:
+                            throw new ValueNotSupportedException(userInput.SelectedNodeType);
+                    }
+                });
+        }
 
         public DocumentTreeViewModel Show(DocumentTreeViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = true);
 
@@ -201,9 +233,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             action(viewModel);
 
             // Non-Persisted
+            viewModel.CanAdd = ToViewModelHelper.GetCanAdd(viewModel.SelectedNodeType);
             viewModel.CanAddToInstrument = ToViewModelHelper.GetCanAddToInstrument(viewModel.SelectedNodeType);
             viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(viewModel.SelectedNodeType);
             viewModel.CanPlay = ToViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
+            viewModel.CanRemove = ToViewModelHelper.GetCanRemove(viewModel.SelectedNodeType);
 
             // Successful
             viewModel.Successful = true;
@@ -211,17 +245,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        protected override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
+        public override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
         {
             base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
+            destViewModel.CanAdd = sourceViewModel.CanAdd;
             destViewModel.CanAddToInstrument = sourceViewModel.CanAddToInstrument;
+            destViewModel.CanCreateNew = sourceViewModel.CanCreateNew;
+            destViewModel.CanOpenExternally = sourceViewModel.CanOpenExternally;
             destViewModel.CanPlay = sourceViewModel.CanPlay;
+            destViewModel.CanRemove = sourceViewModel.CanRemove;
             destViewModel.OutletIDToPlay = sourceViewModel.OutletIDToPlay;
             destViewModel.SelectedCanonicalPatchGroup = sourceViewModel.SelectedCanonicalPatchGroup;
             destViewModel.SelectedItemID = sourceViewModel.SelectedItemID;
             destViewModel.SelectedNodeType = sourceViewModel.SelectedNodeType;
             destViewModel.SelectedPatchGroupLowerDocumentReferenceID = sourceViewModel.SelectedPatchGroupLowerDocumentReferenceID;
+            destViewModel.Visible = destViewModel.Visible;
         }
 
         private void ClearSelectedItemIfDeleted(DocumentTreeViewModel viewModel)

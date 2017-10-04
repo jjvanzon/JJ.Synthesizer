@@ -115,6 +115,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
+        public static bool GetCanAdd(DocumentTreeNodeTypeEnum selectedNodeType)
+        {
+            switch (selectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.Libraries:
+                    return true;
+
+                case DocumentTreeNodeTypeEnum.AudioOutput:
+                case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                case DocumentTreeNodeTypeEnum.Curves:
+                case DocumentTreeNodeTypeEnum.Library:
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+                case DocumentTreeNodeTypeEnum.Patch:
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                case DocumentTreeNodeTypeEnum.Samples:
+                case DocumentTreeNodeTypeEnum.Scales:
+                default:
+                    return false;
+            }
+        }
+
         public static bool GetCanCreateNew(DocumentTreeNodeTypeEnum selectedNodeType, bool patchDetailsVisible)
         {
             if (!patchDetailsVisible)
@@ -177,6 +199,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case DocumentTreeNodeTypeEnum.Curves:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
                 case DocumentTreeNodeTypeEnum.Libraries:
+                case DocumentTreeNodeTypeEnum.Patch:
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                case DocumentTreeNodeTypeEnum.Samples:
+                case DocumentTreeNodeTypeEnum.Scales:
+                default:
+                    return false;
+            }
+        }
+
+        public static bool GetCanRemove(DocumentTreeNodeTypeEnum selectedNodeType)
+        {
+            switch (selectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.Library:
+                    return true;
+
+                case DocumentTreeNodeTypeEnum.AudioOutput:
+                case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                case DocumentTreeNodeTypeEnum.Curves:
+                case DocumentTreeNodeTypeEnum.Libraries:
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
                 case DocumentTreeNodeTypeEnum.Patch:
                 case DocumentTreeNodeTypeEnum.PatchGroup:
                 case DocumentTreeNodeTypeEnum.Samples:

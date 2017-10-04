@@ -18,12 +18,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private static readonly string _separator = Guid.NewGuid().ToString();
 
+        public event EventHandler AddRequested;
         public event EventHandler AddToInstrumentRequested;
         public event EventHandler CloseRequested;
         public event EventHandler NewRequested;
         public event EventHandler OpenItemExternallyRequested;
         public event EventHandler PlayRequested;
         public event EventHandler RefreshRequested;
+        public event EventHandler RemoveRequested;
         public event EventHandler SaveRequested;
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
@@ -83,10 +85,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
+            titleBarUserControl.AddButtonVisible = ViewModel.CanAdd;
             titleBarUserControl.AddToInstrumentButtonVisible = ViewModel.CanAddToInstrument;
             titleBarUserControl.NewButtonVisible = ViewModel.CanCreateNew;
             titleBarUserControl.OpenButtonVisible = ViewModel.CanOpenExternally;
             titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
+            titleBarUserControl.RemoveButtonVisible = ViewModel.CanRemove;
 
             _patchGroupTreeNodes = new HashSet<TreeNode> { _patchesTreeNode };
             _patchTreeNodes = new HashSet<TreeNode>();
@@ -566,12 +570,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         // Events
 
 
+
+        private void titleBarUserControl_AddClicked(object sender, EventArgs e) => AddRequested(this, EventArgs.Empty);
         private void titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested(this, EventArgs.Empty);
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
         private void titleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested(sender, EventArgs.Empty);
         private void titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested(sender, EventArgs.Empty);
         private void titleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
         private void titleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested(sender, EventArgs.Empty);
+        private void titleBarUserControl_RemoveClicked(object sender, EventArgs e) => RemoveRequested(this, EventArgs.Empty);
         private void titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested(sender, EventArgs.Empty);
 
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);

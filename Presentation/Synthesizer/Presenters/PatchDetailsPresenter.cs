@@ -366,7 +366,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _entityPositionManager);
         }
 
-        protected override void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)
+        public override void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)
         {
             base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 

@@ -54,7 +54,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             documentPropertiesUserControl.PlayRequested += documentPropertiesUserControl_PlayRequested;
-            documentTreeUserControl.AddToInstrumentRequested += DocumentTreeUserControl_AddToInstrumentRequested;
+            documentTreeUserControl.AddRequested += documentTreeUserControl_AddRequested;
+            documentTreeUserControl.AddToInstrumentRequested += documentTreeUserControl_AddToInstrumentRequested;
             documentTreeUserControl.AudioFileOutputsNodeSelected += documentTreeUserControl_AudioFileOutputsNodeSelected;
             documentTreeUserControl.AudioOutputNodeSelected += documentTreeUserControl_AudioOutputNodeSelected;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
@@ -69,6 +70,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.PlayRequested += documentTreeUserControl_PlayRequested;
             documentTreeUserControl.OpenItemExternallyRequested += documentTreeUserControl_OpenItemExternallyRequested;
             documentTreeUserControl.RefreshRequested += documentTreeUserControl_RefreshRequested;
+            documentTreeUserControl.RemoveRequested += documentTreeUserControl_RemoveRequested;
             documentTreeUserControl.SamplesNodeSelected += documentTreeUserControl_SamplesNodeSelected;
             documentTreeUserControl.SaveRequested += documentTreeUserControl_SaveRequested;
             documentTreeUserControl.ScalesNodeSelected += documentTreeUserControl_ScalesNodeSelected;
@@ -314,7 +316,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.AddToInstrument(e.Value);
-
                     RecreatePatchCalculatorIfSuccessful();
                 });
         }
@@ -502,44 +503,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document Tree
 
-        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeClose);
+        private void documentTreeUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeAdd);
 
-        private void documentTreeUserControl_SaveRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentSave);
-
-        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AudioFileOutputGridShow);
-
-        private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AudioOutputPropertiesShow);
-
-        private void documentTreeUserControl_ShowCurvesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurveGridShow);
-
-        private void documentTreeUserControl_ShowLibrariesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibraryGridShow);
-
-        private void documentTreeUserControl_ShowLibraryPropertiesRequested(object sender, EventArgs<int> e)
+        private void documentTreeUserControl_AddToInstrumentRequested(object sender, EventArgs e)
         {
             TemplateActionHandler(
                 () =>
                 {
-                    _presenter.LibraryPropertiesShow(e.Value);
+                    _presenter.DocumentTreeAddToInstrument();
+                    RecreatePatchCalculatorIfSuccessful();
                 });
-        }
-
-        private void documentTreeUserControl_ShowPatchGridRequested(object sender, EventArgs<string> e)
-        {
-            TemplateActionHandler(() => _presenter.PatchGridShow(e.Value));
-        }
-
-        private void documentTreeUserControl_ShowPatchDetailsRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _presenter.PatchDetailsShow(e.Value));
-        }
-
-        private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.SampleGridShow);
-
-        private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.ScaleGridShow);
-
-        private void DocumentTreeUserControl_AddToInstrumentRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_presenter.DocumentTreeAddToInstrument);
         }
 
         private void documentTreeUserControl_AudioFileOutputsNodeSelected(object sender, EventArgs e)
@@ -548,6 +521,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         private void documentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectAudioOutput);
+
+        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeClose);
 
         private void documentTreeUserControl_CurvesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectCurves);
 
@@ -613,9 +588,44 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
+        private void documentTreeUserControl_RemoveRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeRemove);
+
         private void documentTreeUserControl_SamplesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectSamples);
 
         private void documentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectScales);
+
+        private void documentTreeUserControl_SaveRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentSave);
+
+        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AudioFileOutputGridShow);
+
+        private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AudioOutputPropertiesShow);
+
+        private void documentTreeUserControl_ShowCurvesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurveGridShow);
+
+        private void documentTreeUserControl_ShowLibrariesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibraryGridShow);
+
+        private void documentTreeUserControl_ShowLibraryPropertiesRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.LibraryPropertiesShow(e.Value);
+                });
+        }
+
+        private void documentTreeUserControl_ShowPatchGridRequested(object sender, EventArgs<string> e)
+        {
+            TemplateActionHandler(() => _presenter.PatchGridShow(e.Value));
+        }
+
+        private void documentTreeUserControl_ShowPatchDetailsRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.PatchDetailsShow(e.Value));
+        }
+
+        private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.SampleGridShow);
+
+        private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.ScaleGridShow);
 
         // Document Properties
 
