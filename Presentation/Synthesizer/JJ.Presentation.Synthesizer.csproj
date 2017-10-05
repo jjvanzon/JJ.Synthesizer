@@ -107,7 +107,6 @@
     <Compile Include="ViewModels\DocumentOrPatchNotFoundPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\DocumentTreeNodeTypeEnum.cs" />
     <Compile Include="ViewModels\Items\AutoPatchPopupViewModel.cs" />
-    <Compile Include="ViewModels\Items\LibraryListItemViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
     <Compile Include="ViewModels\LibraryPropertiesViewModel.cs" />

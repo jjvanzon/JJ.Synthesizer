@@ -83,30 +83,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Libraries
 
-        public static IList<LibraryListItemViewModel> ToListItemViewModels(this IList<DocumentReference> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<LibraryListItemViewModel> viewModels = entities.OrderBy(x => x.GetAliasOrName())
-                                                                 .Select(x => x.ToListItemViewModel())
-                                                                 .ToArray();
-            return viewModels;
-        }
-
-        public static LibraryListItemViewModel ToListItemViewModel(this DocumentReference entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new LibraryListItemViewModel
-            {
-                DocumentReferenceID = entity.ID,
-                ReferencedDocumentName = entity.LowerDocument.Name,
-                Alias = entity.Alias
-            };
-
-            return viewModel;
-        }
-
         public static IList<IDAndName> ToIDAndNameList(IList<Document> entities)
         {
             if (entities == null) throw new NullException(() => entities);

@@ -308,7 +308,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(
                 () =>
                 {
-                    _presenter.AddToInstrument(e.Value);
+                    _presenter.PatchPropertiesAddToInstrument(e.Value);
                     RecreatePatchCalculatorIfSuccessful();
                 });
         }

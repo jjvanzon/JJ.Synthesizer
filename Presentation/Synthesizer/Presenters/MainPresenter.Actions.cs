@@ -496,7 +496,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // CurrentInstrument
 
-        public void AddToInstrument(int patchID)
+        private void AddToInstrument(int patchID)
         {
             // GetViewModel
             CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
@@ -1135,8 +1135,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             switch (documentTreeNodeTypeEnum)
             {
                 case DocumentTreeNodeTypeEnum.Libraries:
-                    LibraryAdd();
+                {
+                    // GetViewModel
+                    LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+                    
+                        // Template Method
+                    ActionTemplateMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
                     break;
+                }
 
                 default:
                     throw new ValueNotSupportedException(documentTreeNodeTypeEnum);
@@ -1476,15 +1482,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         // Library
-
-        public void LibraryAdd()
-        {
-            // GetViewModel
-            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
-
-            // Template Method
-            ActionTemplateMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
-        }
 
         public void LibraryPropertiesClose(int documentReferenceID)
         {
@@ -2560,6 +2557,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 MainViewModel.Document.VisiblePatchGrid = viewModel;
             }
+        }
+
+        public void PatchPropertiesAddToInstrument(int id)
+        {
+            AddToInstrument(id);
         }
 
         public void PatchPropertiesClose(int id)
