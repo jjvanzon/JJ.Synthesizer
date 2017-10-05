@@ -81,30 +81,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.Text = value;
         }
 
-        public bool PlayButtonVisible
-        {
-            get => _titleBarUserControl.PlayButtonVisible;
-            set => _titleBarUserControl.PlayButtonVisible = value;
-        }
-
-        public bool SaveButtonVisible
-        {
-            get => _titleBarUserControl.SaveButtonVisible;
-            set => _titleBarUserControl.SaveButtonVisible = value;
-        }
-
-        public bool RefreshButtonVisible
-        {
-            get => _titleBarUserControl.RefreshButtonVisible;
-            set => _titleBarUserControl.RefreshButtonVisible = value;
-        }
-
-        public bool OpenExternallyButtonVisible
-        {
-            get => _titleBarUserControl.OpenButtonVisible;
-            set => _titleBarUserControl.OpenButtonVisible = value;
-        }
-
         public bool AddButtonVisible
         {
             get => _titleBarUserControl.AddButtonVisible;
@@ -117,10 +93,34 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.AddToInstrumentButtonVisible = value;
         }
 
+        public bool OpenExternallyButtonVisible
+        {
+            get => _titleBarUserControl.OpenButtonVisible;
+            set => _titleBarUserControl.OpenButtonVisible = value;
+        }
+
+        public bool PlayButtonVisible
+        {
+            get => _titleBarUserControl.PlayButtonVisible;
+            set => _titleBarUserControl.PlayButtonVisible = value;
+        }
+
         public bool RemoveButtonVisible
         {
             get => _titleBarUserControl.RemoveButtonVisible;
             set => _titleBarUserControl.RemoveButtonVisible = value;
+        }
+
+        public bool RefreshButtonVisible
+        {
+            get => _titleBarUserControl.RefreshButtonVisible;
+            set => _titleBarUserControl.RefreshButtonVisible = value;
+        }
+
+        public bool SaveButtonVisible
+        {
+            get => _titleBarUserControl.SaveButtonVisible;
+            set => _titleBarUserControl.SaveButtonVisible = value;
         }
 
         public bool CloseButtonVisible

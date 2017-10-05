@@ -135,6 +135,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_WithCollectionRecalculation.LoseFocusRequested += operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
+            patchDetailsUserControl.AddToInstrumentRequested += patchDetailsUserControl_AddToInstrumentRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
@@ -973,6 +974,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         // Patch
+
+        private void patchDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.PatchDetailsAddToInstrument(e.Value);
+                    RecreatePatchCalculatorIfSuccessful();
+                });
+        }
 
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {

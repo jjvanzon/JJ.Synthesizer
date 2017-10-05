@@ -1158,7 +1158,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 throw new NotHasValueException(() => MainViewModel.Document.DocumentTree.SelectedItemID);
             }
-
             int patchID = MainViewModel.Document.DocumentTree.SelectedItemID.Value;
 
             AddToInstrument(patchID);
@@ -2474,6 +2473,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 DocumentViewModelRefresh();
             }
+        }
+
+        public void PatchDetailsAddToInstrument(int id)
+        {
+            AddToInstrument(id);
         }
 
         public void PatchDetailsClose(int id)
