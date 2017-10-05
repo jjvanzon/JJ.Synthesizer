@@ -1,6 +1,5 @@
-﻿using JJ.Framework.Exceptions;
+﻿using System;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
@@ -12,14 +11,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class AudioFileOutputPropertiesPresenter 
         : PropertiesPresenterBase<AudioFileOutput, AudioFileOutputPropertiesViewModel>
     {
-        private readonly IAudioFileOutputRepository _audioFileOutputRepository;
         private readonly AudioFileOutputManager _audioFileOutputManager;
+        private readonly IAudioFileOutputRepository _audioFileOutputRepository;
 
-        public AudioFileOutputPropertiesPresenter(AudioFileOutputRepositories repositories)
+        public AudioFileOutputPropertiesPresenter(AudioFileOutputManager audioFileOutputManager, IAudioFileOutputRepository audioFileOutputRepository)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-            _audioFileOutputRepository = repositories.AudioFileOutputRepository;
-            _audioFileOutputManager = new AudioFileOutputManager(repositories);
+            _audioFileOutputRepository = audioFileOutputRepository ?? throw new ArgumentNullException(nameof(audioFileOutputRepository));
+            _audioFileOutputManager = audioFileOutputManager ?? throw new ArgumentNullException(nameof(audioFileOutputManager));
         }
 
         protected override AudioFileOutput GetEntity(AudioFileOutputPropertiesViewModel userInput)

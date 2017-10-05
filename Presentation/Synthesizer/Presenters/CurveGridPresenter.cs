@@ -1,8 +1,8 @@
-﻿using JJ.Framework.Exceptions;
+﻿using System;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using System.Collections.Generic;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
@@ -19,13 +19,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentManager _documentManager;
         private readonly CurveManager _curveManager;
 
-        public CurveGridPresenter(RepositoryWrapper repositories)
+        public CurveGridPresenter(CurveManager curveManager, RepositoryWrapper repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
             _documentRepository = repositories.DocumentRepository;
             _documentManager = new DocumentManager(repositories);
-            _curveManager = new CurveManager(new CurveRepositories(repositories));
+            _curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
         }
 
         protected override CurveGridViewModel CreateViewModel(CurveGridViewModel userInput)

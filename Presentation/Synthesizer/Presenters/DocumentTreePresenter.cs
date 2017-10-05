@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Framework.Business;
+using JJ.Framework.Collections;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -15,10 +16,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
+        private readonly PatchManager _patchManager;
 
-        public DocumentTreePresenter(DocumentManager documentManager, RepositoryWrapper repositories)
+        public DocumentTreePresenter(DocumentManager documentManager, PatchManager patchManager, RepositoryWrapper repositories)
         {
             _documentManager = documentManager ?? throw new ArgumentNullException(nameof(documentManager));
+            _patchManager = patchManager ?? throw new ArgumentNullException(nameof(patchManager));
             _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
         }
 
@@ -70,13 +73,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     switch (userInput.SelectedNodeType)
                     {
                         case DocumentTreeNodeTypeEnum.Library:
+                        {
                             // Business
                             VoidResult result = _documentManager.DeleteDocumentReference(userInput.SelectedItemID.Value);
 
                             // Non-Persisted
-                            viewModel.Successful = result.Successful;
                             viewModel.ValidationMessages = result.Messages;
+
+                            // Successful?
+                            viewModel.Successful = result.Successful;
+
                             break;
+                        }
+
+                        case DocumentTreeNodeTypeEnum.Patch:
+                        {
+                            // GetEntity
+                            Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
+
+                            // Businesss
+                            IResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
+
+                            // Non-Persisted
+                            viewModel.ValidationMessages.AddRange(result.Messages);
+
+                            // Successful?
+                            viewModel.Successful = result.Successful;
+
+                            break;
+                        }
 
                         default:
                             throw new ValueNotSupportedException(userInput.SelectedNodeType);

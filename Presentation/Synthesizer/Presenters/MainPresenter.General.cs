@@ -113,15 +113,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _scaleManager = new ScaleManager(scaleRepositories);
 
             // Create Presenters
-            _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories);
-            _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(audioFileOutputRepositories);
+            _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_audioFileOutputManager, _repositories.DocumentRepository);
+            _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(_audioFileOutputManager, _repositories.AudioFileOutputRepository);
             _audioOutputPropertiesPresenter = new AudioOutputPropertiesPresenter(
                 _repositories.AudioOutputRepository,
                 _repositories.SpeakerSetupRepository, 
                 _repositories.IDRepository);
-            _currentInstrumentPresenter = new CurrentInstrumentPresenter(_repositories);
+            _currentInstrumentPresenter = new CurrentInstrumentPresenter(_autoPatcher, _repositories.DocumentRepository, _repositories.PatchRepository);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
-            _curveGridPresenter = new CurveGridPresenter(_repositories);
+            _curveGridPresenter = new CurveGridPresenter(_curveManager, _repositories);
             _curvePropertiesPresenter = new CurvePropertiesPresenter(_curveRepositories);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();
@@ -130,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentGridPresenter = new DocumentGridPresenter(_repositories);
             _documentOrPatchNotFoundPresenter = new DocumentOrPatchNotFoundPopupPresenter(_repositories.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
-            _documentTreePresenter = new DocumentTreePresenter(_documentManager, _repositories);
+            _documentTreePresenter = new DocumentTreePresenter(_documentManager, _patchManager, _repositories);
             _libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
             _librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
             _menuPresenter = new MenuPresenter();

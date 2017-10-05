@@ -213,6 +213,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             switch (selectedNodeType)
             {
                 case DocumentTreeNodeTypeEnum.Library:
+                case DocumentTreeNodeTypeEnum.Patch:
                     return true;
 
                 case DocumentTreeNodeTypeEnum.AudioOutput:
@@ -221,7 +222,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case DocumentTreeNodeTypeEnum.Libraries:
                 case DocumentTreeNodeTypeEnum.LibraryPatch:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
-                case DocumentTreeNodeTypeEnum.Patch:
                 case DocumentTreeNodeTypeEnum.PatchGroup:
                 case DocumentTreeNodeTypeEnum.Samples:
                 case DocumentTreeNodeTypeEnum.Scales:

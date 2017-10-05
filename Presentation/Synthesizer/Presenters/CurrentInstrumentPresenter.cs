@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
@@ -13,13 +14,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurrentInstrumentPresenter : PresenterBase<CurrentInstrumentViewModel>
     {
-        private readonly RepositoryWrapper _repositories;
+        private readonly IDocumentRepository _documentRepository;
+        private readonly IPatchRepository _patchRepository;
         private readonly AutoPatcher _autoPatcher;
 
-        public CurrentInstrumentPresenter(RepositoryWrapper repositories)
+        public CurrentInstrumentPresenter(AutoPatcher autoPatcher, IDocumentRepository documentRepository, IPatchRepository patchRepository)
         {
-            _repositories = repositories ?? throw new NullException(() => repositories);
-            _autoPatcher = new AutoPatcher(_repositories);
+            _autoPatcher = autoPatcher ?? throw new ArgumentNullException(nameof(autoPatcher));
+            _documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
+            _patchRepository = patchRepository ?? throw new ArgumentNullException(nameof(patchRepository));
         }
 
         public CurrentInstrumentViewModel Show(CurrentInstrumentViewModel userInput)
@@ -33,9 +36,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
+            Document document = _documentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // ToViewModel
             CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
@@ -61,9 +64,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
+            Document document = _documentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // ToViewModel
             CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
@@ -89,12 +92,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
+            Document document = _documentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // Business
-            Patch entity = _repositories.PatchRepository.Get(patchID);
+            Patch entity = _patchRepository.Get(patchID);
             entities.Add(entity);
 
             // ToViewModel
@@ -120,9 +123,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
+            Document document = _documentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // Business
             entities.RemoveFirst(x => x.ID == patchID);
@@ -150,9 +153,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
+            Document document = _documentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
+            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // Business
             int currentPosition = entities.IndexOf(x => x.ID == patchID);
@@ -181,9 +184,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
+            Document document = _documentRepository.Get(userInput.DocumentID);
             IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entites = ids.Select(x => _repositories.PatchRepository.Get(x)).ToList();
+            IList<Patch> entites = ids.Select(x => _patchRepository.Get(x)).ToList();
 
             // ToViewModel
             CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entites, document);
@@ -208,8 +211,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntities
-            Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
-            IList<Patch> entities = userInput.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
+            Document document = _documentRepository.Get(userInput.DocumentID);
+            IList<Patch> entities = userInput.List.Select(x => _patchRepository.Get(x.ID)).ToArray();
 
             // Business
             Patch autoPatch = _autoPatcher.AutoPatch(entities);

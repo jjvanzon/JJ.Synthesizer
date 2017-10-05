@@ -1,9 +1,7 @@
-﻿
+﻿using System;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
@@ -14,12 +12,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly IDocumentRepository _documentRepository;
         private readonly AudioFileOutputManager _audioFileOutputManager;
 
-        public AudioFileOutputGridPresenter(RepositoryWrapper repositories)
+        public AudioFileOutputGridPresenter(AudioFileOutputManager audioFileOutputManager, IDocumentRepository documentRepository)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _documentRepository = repositories.DocumentRepository ?? throw new NullException(() => repositories.DocumentRepository);
-            _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
+            _audioFileOutputManager = audioFileOutputManager ?? throw new ArgumentNullException(nameof(audioFileOutputManager));
+            _documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
         }
 
         protected override AudioFileOutputGridViewModel CreateViewModel(AudioFileOutputGridViewModel userInput)
