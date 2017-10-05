@@ -1139,8 +1139,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // GetViewModel
                     LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
                     
-                        // Template Method
+                    // Template Method
                     ActionTemplateMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
+                    break;
+                }
+
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                {
+                    PatchCreate(MainViewModel.Document.DocumentTree.SelectedCanonicalPatchGroup);
                     break;
                 }
 
