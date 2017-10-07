@@ -29,9 +29,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.treeView = new System.Windows.Forms.TreeView();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,12 +92,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.treeView.Margin = new System.Windows.Forms.Padding(0);
             this.treeView.Name = "treeView";
             this.treeView.ShowLines = false;
-            this.treeView.ShowNodeToolTips = true;
             this.treeView.Size = new System.Drawing.Size(269, 468);
             this.treeView.TabIndex = 4;
             this.treeView.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.treeView_NodeMouseHover);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutoPopDelay = 100000;
+            this.toolTip.InitialDelay = 500;
+            this.toolTip.ReshowDelay = 100000;
+            this.toolTip.UseAnimation = false;
+            this.toolTip.UseFading = false;
             // 
             // DocumentTreeUserControl
             // 
@@ -114,5 +123,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TreeView treeView;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

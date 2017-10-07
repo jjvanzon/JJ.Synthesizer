@@ -67,6 +67,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public DocumentTreeUserControl()
         {
             InitializeComponent();
+
             ApplyStyling();
             AddInvariantNodes();
         }
@@ -109,9 +110,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ConvertNodes(ViewModel);
             SetSelectedNode();
 
-            if (_mouseHoverNode != null)
+            // The following code is for working around wonky WinForms behavior.
+            // You really would not want to know this information, but it does explain the code.
+            // - Whether or not the TreeView.ShowNodeToolTips is set,
+            //   TreeView control will show the node's text as a tool tip if it the text does not fit on screen.
+            //   (the TreeView.ShowNodeToolTips only controls whether the TreNode.ToolTipText is used.
+            //    I know: This makes ShowNodeToolTips a really bad property name.)
+            // - We use a ToolTip component for better control over the timers around showing the tooltip.
+            //   TreeView does not offer that control. For instance we want to keep the ToolTip not to auto-hide after x amount of time.
+            // - But then we still need to let TreeView and ToolTip play along toghether,
+            //   otherwise they will both be showing tooltips at the same time.
+            string treeViewsOwnToolTipText = _mouseHoverNode?.Text;
+            if (!string.Equals(ViewModel.PatchToolTipText ?? "", treeViewsOwnToolTipText ?? ""))
             {
-                _mouseHoverNode.ToolTipText = ViewModel.PatchToolTipText;
+                toolTip.SetToolTip(treeView, ViewModel.PatchToolTipText);
+            }
+            else
+            {
+                toolTip.SetToolTip(treeView, "");
             }
         }
 
