@@ -62,6 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private TreeNode _audioFileOutputListTreeNode;
         private TreeNode _librariesTreeNode;
         private TreeNode _patchesTreeNode;
+        private TreeNode _mouseHoverNode;
 
         public DocumentTreeUserControl()
         {
@@ -107,6 +108,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             ConvertNodes(ViewModel);
             SetSelectedNode();
+
+            if (_mouseHoverNode != null)
+            {
+                _mouseHoverNode.ToolTipText = ViewModel.PatchToolTipText;
+            }
         }
 
         private void AddInvariantNodes()
@@ -679,11 +685,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (_patchTreeNodes.Contains(e.Node))
             {
+                _mouseHoverNode = e.Node;
+
                 int patchID = (int)e.Node.Tag;
                 PatchHovered.Invoke(sender, new EventArgs<int>(patchID));
-
-                // Hmmm... fast, but not accoding to the pattern.
-                e.Node.ToolTipText = ViewModel.PatchToolTipText;
             }
         }
 

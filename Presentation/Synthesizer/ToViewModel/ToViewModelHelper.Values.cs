@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -6,6 +8,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;
@@ -814,6 +817,25 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             aggregate /= connectedInletCount;
 
             return aggregate;
+        }
+
+        // Patch
+
+        public static string GetPatchNodeToolTipText(Patch patch, IList<IDAndName> usedInDtos)
+        {
+            if (patch == null) throw new ArgumentNullException(nameof(patch));
+            if (usedInDtos == null) throw new ArgumentNullException(nameof(usedInDtos));
+
+            string formattedUsedInList = FormatUsedInList(usedInDtos);
+
+            if (string.IsNullOrEmpty(formattedUsedInList))
+            {
+                return patch.Name;
+            }
+            else
+            { 
+                return $"{patch.Name}. {ResourceFormatter.UsedIn}: {formattedUsedInList}";
+            }
         }
 
         // Tone

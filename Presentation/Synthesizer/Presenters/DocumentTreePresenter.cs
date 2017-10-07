@@ -243,13 +243,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<IDAndName> usedInDtos = _documentManager.GetUsedIn(patch);
 
                     // ToViewModel
-                    // TODO: Delegate all this to ViewModelHelper.Values.cs.
-                    viewModel.PatchToolTipText = patch.Name;
-                    string formattedUsedInList = ToViewModelHelper.FormatUsedInList(usedInDtos);
-                    if (!string.IsNullOrEmpty(formattedUsedInList))
-                    {
-                        viewModel.PatchToolTipText += $". {ResourceFormatter.UsedIn}: {formattedUsedInList}";
-                    }
+                    viewModel.PatchToolTipText = ToViewModelHelper.GetPatchNodeToolTipText(patch, usedInDtos);
                 });
         }
 
