@@ -44,10 +44,8 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\OperatorEntityAndViewModel.cs" />
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
-    <Compile Include="Helpers\PatchGroupDto_WithUsedIn.cs" />
     <Compile Include="Helpers\StyleGradeEnum.cs" />
     <Compile Include="Helpers\ToPatchWithRelatedEntitiesResult.cs" />
     <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />
@@ -63,7 +61,6 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForInletsToDimension.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithInterpolation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCache.cs" />
-    <Compile Include="Presenters\PatchGridPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.Actions.cs" />
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCurve.cs" />
@@ -110,7 +107,6 @@
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
     <Compile Include="ViewModels\LibraryPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\Items\PatchListItemViewModel.cs" />
     <Compile Include="ViewModels\Items\CurveListItemViewModel.cs" />
     <Compile Include="ViewModels\Items\DimensionViewModel.cs" />
     <Compile Include="ViewModels\Items\ScaleViewModel.cs" />
@@ -123,7 +119,6 @@
     <Compile Include="ViewModels\Items\TreeLeafViewModel.cs" />
     <Compile Include="ViewModels\Partials\PatchTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\PatchGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeletedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />

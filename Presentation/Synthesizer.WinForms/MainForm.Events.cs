@@ -80,7 +80,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
-            documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
@@ -147,11 +146,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
             patchDetailsUserControl.ShowOperatorPropertiesRequested += patchDetailsUserControl_ShowOperatorPropertiesRequested;
             patchDetailsUserControl.ShowPatchPropertiesRequested += patchDetailsUserControl_ShowPatchPropertiesRequested;
-            patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
-            patchGridUserControl.AddRequested += patchGridUserControl_AddRequested;
-            patchGridUserControl.PlayRequested += patchGridUserControl_PlayRequested;
-            patchGridUserControl.RemoveRequested += patchGridUserControl_RemoveRequested;
-            patchGridUserControl.ShowItemRequested += patchGridUserControl_ShowItemRequested;
             patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
             patchPropertiesUserControl.HasDimensionChanged += patchPropertiesUserControl_HasDimensionChanged;
@@ -611,11 +605,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void documentTreeUserControl_ShowPatchGridRequested(object sender, EventArgs<string> e)
-        {
-            TemplateActionHandler(() => _presenter.PatchGridShow(e.Value));
-        }
-
         private void documentTreeUserControl_ShowPatchDetailsRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _presenter.PatchDetailsShow(e.Value));
@@ -1060,38 +1049,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _presenter.PatchPropertiesShow(e.Value));
         }
 
-        private void patchGridUserControl_AddRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(() => _presenter.PatchCreate(patchGridUserControl.ViewModel.Group));
-        }
-
-        private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(() => _presenter.PatchGridClose(patchGridUserControl.ViewModel.Group));
-        }
-
-        private void patchGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.PatchGridDelete(patchGridUserControl.ViewModel.Group, e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void patchGridUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.PatchGridPlay(patchGridUserControl.ViewModel.Group, e.Value);
-                    PlayOutletIfNeeded();
-                });
-        }
-
-        private void patchGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.PatchDetailsShow(e.Value));
-
         private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _presenter.PatchPropertiesClose(e.Value));
@@ -1275,7 +1232,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.DocumentDeleteConfirm(e.Value));
+            TemplateActionHandler(_presenter.DocumentDeleteConfirm);
         }
 
         private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentDeletedOK);

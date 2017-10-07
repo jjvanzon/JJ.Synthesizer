@@ -71,35 +71,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public PatchDetailsViewModel Delete(PatchDetailsViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
-
-            // Businesss
-            IResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
-
-            // ToViewModel
-            PatchDetailsViewModel viewModel = CreateViewModel(patch);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-
-            // Successful?
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
-        }
-
         /// <summary>
         /// Deletes the selected operator.
         /// Produces a validation message if no operator is selected.
@@ -360,7 +331,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private PatchDetailsViewModel CreateViewModel(Patch patch)
         {
             return patch.ToDetailsViewModel(
-                _repositories.DimensionRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _entityPositionManager);

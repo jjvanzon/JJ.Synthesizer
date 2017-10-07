@@ -294,12 +294,6 @@
     <Compile Include="UserControls\SamplePropertiesUserControl.Designer.cs">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\PatchGridUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\PatchGridUserControl.Designer.cs">
-      <DependentUpon>PatchGridUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\DocumentPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -466,9 +460,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\SamplePropertiesUserControl.resx">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\PatchGridUserControl.resx">
-      <DependentUpon>PatchGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentPropertiesUserControl.resx">
       <DependentUpon>DocumentPropertiesUserControl.cs</DependentUpon>

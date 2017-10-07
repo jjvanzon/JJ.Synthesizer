@@ -38,7 +38,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                 Patch patch = null;
                     Operator op = null;
                 DocumentReference higherDocumentReference = null;
-                    Document higherDocument = null;
                 DocumentReference lowerDocumentReference = null;
 
             var level_1_documentQuery = _context.Session.QueryOver(() => document)

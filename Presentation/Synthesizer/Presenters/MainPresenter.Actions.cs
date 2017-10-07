@@ -383,7 +383,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             AutoPatchPopupViewModel autoPatchPopupViewModel = autoPatch.ToAutoPatchViewModel(
-                _repositories.DimensionRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _repositories.InterpolationTypeRepository,
@@ -466,7 +465,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     {
                         // ToViewModel
                         viewModel2 = patch.ToAutoPatchViewModel(
-                            _repositories.DimensionRepository,
                             _repositories.SampleRepository,
                             _repositories.CurveRepository,
                             _repositories.InterpolationTypeRepository,
@@ -734,7 +732,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        public void DocumentDeleteConfirm(int id)
+        public void DocumentDeleteConfirm()
         {
             // GetViewModel
             DocumentDeleteViewModel viewModel = MainViewModel.DocumentDelete;
@@ -930,26 +928,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DocumentOpen(Document document)
         {
             // Business
-            IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
-            IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
             IList<UsedInDto<Sample>> sampleUsedInDtos = _documentManager.GetUsedIn(document.Samples);
-            IList<UsedInDto<Patch>> grouplessPatchUsedInDtos = _documentManager.GetUsedIn(grouplessPatches);
-            IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn = patchGroupDtos.Select(
-                                                                                          x => new PatchGroupDto_WithUsedIn
-                                                                                          {
-                                                                                              GroupName = x.FriendlyGroupName,
-                                                                                              PatchUsedInDtos = _documentManager.GetUsedIn(x.Patches)
-                                                                                          })
-                                                                                      .ToArray();
-            IList<DocumentReferencePatchGroupDto> documentReferencePatchGroupDtos =
-                PatchGrouper.GetDocumentReferencePatchGroupDtos_IncludingGrouplessIfAny(document.LowerDocumentReferences, mustIncludeHidden: false);
 
             // ToViewModel
             DocumentViewModel viewModel = document.ToViewModel(
-                grouplessPatchUsedInDtos,
-                patchGroupDtos_WithUsedIn,
-                documentReferencePatchGroupDtos,
                 curveUsedInDtos,
                 sampleUsedInDtos,
                 _repositories,
@@ -993,7 +976,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Successful = true);
             viewModel.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
             viewModel.PatchDetailsDictionary.Values.ForEach(x => x.Successful = true);
-            viewModel.PatchGridDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.PatchPropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.SampleGrid.Successful = true;
             viewModel.SamplePropertiesDictionary.Values.ForEach(x => x.Successful = true);
@@ -1135,23 +1117,68 @@ namespace JJ.Presentation.Synthesizer.Presenters
             switch (documentTreeNodeTypeEnum)
             {
                 case DocumentTreeNodeTypeEnum.Libraries:
-                {
-                    // GetViewModel
-                    LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
-                    
-                    // Template Method
-                    ActionTemplateMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
+                    DocumentTreeAddLibrary();
                     break;
-                }
 
                 case DocumentTreeNodeTypeEnum.PatchGroup:
-                {
-                    PatchCreate(MainViewModel.Document.DocumentTree.SelectedCanonicalPatchGroup);
+                    DocumentTreeCreatePatch(MainViewModel.Document.DocumentTree.SelectedCanonicalPatchGroup);
                     break;
-                }
 
                 default:
                     throw new ValueNotSupportedException(documentTreeNodeTypeEnum);
+            }
+        }
+
+        private void DocumentTreeAddLibrary()
+        {
+            // GetViewModel
+            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+
+            // Template Method
+            ActionTemplateMethod(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
+        }
+
+        /// <param name="group">nullable</param>
+        private void DocumentTreeCreatePatch(string group)
+        {
+            // GetViewModel
+            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+            int patchID = 0;
+
+            // Template Method
+            DocumentTreeViewModel viewModel = ActionTemplateMethod(
+                userInput,
+                () =>
+                {
+                    // RefreshCounter
+                    userInput.RefreshCounter++;
+
+                    // Set !Successful
+                    userInput.Successful = false;
+
+                    // GetEntity
+                    Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+
+                    // Business
+                    Patch patch = _patchManager.CreatePatch(document);
+                    patch.GroupName = group;
+                    patchID = patch.ID;
+
+                    // Successful
+                    userInput.Successful = true;
+
+                    return userInput;
+                });
+
+            if (viewModel.Successful)
+            {
+                // Refresh
+                DocumentViewModelRefresh();
+
+                // Redirect
+                PatchDetailsShow(patchID);
+                PatchPropertiesShow(patchID);
             }
         }
 
@@ -2418,65 +2445,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Patch
 
-        /// <param name="group">nullable</param>
-        public void PatchCreate(string group)
-        {
-            // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
-
-            int patchID = 0;
-
-            // Template Method
-            PatchGridViewModel viewModel = ActionTemplateMethod(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-                    // Business
-                    Patch patch = _patchManager.CreatePatch(document);
-                    patch.GroupName = group;
-                    patchID = patch.ID;
-
-                    // Successful
-                    userInput.Successful = true;
-
-                    return userInput;
-                });
-
-            if (viewModel.Successful)
-            {
-                // Refresh
-                DocumentViewModelRefresh();
-
-                // Redirect
-                PatchDetailsShow(patchID);
-                PatchPropertiesShow(patchID);
-            }
-        }
-
-        public void PatchGridDelete(string group, int patchID)
-        {
-            // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
-
-            // Template Method
-            PatchGridViewModel viewModel = ActionTemplateMethod(userInput, () => _patchGridPresenter.Delete(userInput, patchID));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
         public void PatchDetailsAddToInstrument(int id)
         {
             AddToInstrument(id);
@@ -2525,43 +2493,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel.Successful)
             {
                 MainViewModel.Document.VisiblePatchDetails = viewModel;
-            }
-        }
-
-        public void PatchGridClose(string group)
-        {
-            // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
-
-            // Template Method
-            PatchGridViewModel viewModel = ReadOnlyActionTemplateMethod(userInput, () => _patchGridPresenter.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisiblePatchGrid = null;
-            }
-        }
-
-        public void PatchGridPlay(string group, int patchID)
-        {
-            // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
-
-            // TemplateMethod
-            ActionTemplateMethod(userInput, () => _patchGridPresenter.Play(userInput, patchID));
-        }
-
-        public void PatchGridShow(string group)
-        {
-            // GetViewModel
-            PatchGridViewModel userInput = ViewModelSelector.GetPatchGridViewModel(MainViewModel.Document, group);
-
-            // Template Method
-            PatchGridViewModel viewModel = ReadOnlyActionTemplateMethod(userInput, () => _patchGridPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisiblePatchGrid = viewModel;
             }
         }
 

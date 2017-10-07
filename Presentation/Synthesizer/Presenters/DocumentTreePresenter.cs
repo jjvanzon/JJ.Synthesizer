@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
@@ -55,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                             break;
 
                         default:
-                           throw new ValueNotSupportedException(userInput.SelectedNodeType);
+                            throw new ValueNotSupportedException(userInput.SelectedNodeType);
                     }
                 });
         }
@@ -64,51 +63,57 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentTreeViewModel Remove(DocumentTreeViewModel userInput)
         {
+            switch (userInput.SelectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.Library:
+                    return RemoveLibrary(userInput);
+
+                case DocumentTreeNodeTypeEnum.Patch:
+                    return DeletePatch(userInput);
+
+                default:
+                    throw new ValueNotSupportedException(userInput.SelectedNodeType);
+            }
+        }
+
+        private DocumentTreeViewModel RemoveLibrary(DocumentTreeViewModel userInput)
+        {
             return TemplateMethod(
                 userInput,
                 viewModel =>
                 {
-                    if (!userInput.SelectedItemID.HasValue)
-                    {
-                        throw new NullException(() => userInput.SelectedItemID);
-                    }
+                    if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
-                    switch (userInput.SelectedNodeType)
-                    {
-                        case DocumentTreeNodeTypeEnum.Library:
-                        {
-                            // Business
-                            VoidResult result = _documentManager.DeleteDocumentReference(userInput.SelectedItemID.Value);
+                    // Business
+                    VoidResult result = _documentManager.DeleteDocumentReference(userInput.SelectedItemID.Value);
 
-                            // Non-Persisted
-                            viewModel.ValidationMessages = result.Messages;
+                    // Non-Persisted
+                    viewModel.ValidationMessages = result.Messages;
 
-                            // Successful?
-                            viewModel.Successful = result.Successful;
+                    // Successful?
+                    viewModel.Successful = result.Successful;
+                });
+        }
 
-                            break;
-                        }
+        private DocumentTreeViewModel DeletePatch(DocumentTreeViewModel userInput)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
-                        case DocumentTreeNodeTypeEnum.Patch:
-                        {
-                            // GetEntity
-                            Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
+                    // GetEntity
+                    Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
 
-                            // Businesss
-                            IResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
+                    // Businesss
+                    IResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
 
-                            // Non-Persisted
-                            viewModel.ValidationMessages.AddRange(result.Messages);
+                    // Non-Persisted
+                    viewModel.ValidationMessages.AddRange(result.Messages);
 
-                            // Successful?
-                            viewModel.Successful = result.Successful;
-
-                            break;
-                        }
-
-                        default:
-                            throw new ValueNotSupportedException(userInput.SelectedNodeType);
-                    }
+                    // Successful?
+                    viewModel.Successful = result.Successful;
                 });
         }
 
@@ -345,9 +350,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
                                                .Any();
                     if (!nodeExists)
-                    { 
-                
-                        
+                    {
+
+
                         ClearSelection(viewModel);
                     }
                     break;

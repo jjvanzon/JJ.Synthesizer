@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
@@ -15,16 +16,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         public static DocumentViewModel ToViewModel(
             this Document document,
-            IList<UsedInDto<Patch>> grouplessPatchUsedInDtos,
-            IList<PatchGroupDto_WithUsedIn> patchGroupDtos_WithUsedIn,
-            IList<DocumentReferencePatchGroupDto> documentReferencePatchGroupDtos,
             IList<UsedInDto<Curve>> curveUsedInDtos,
             IList<UsedInDto<Sample>> sampleUsedInDtos,
             RepositoryWrapper repositories,
             EntityPositionManager entityPositionManager)
         {
-            if (document == null) throw new NullException(() => document);
-            if (documentReferencePatchGroupDtos == null) throw new NullException(() => documentReferencePatchGroupDtos);
+            if (document == null) throw new ArgumentNullException(nameof(document));
             if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
             if (sampleUsedInDtos == null) throw new NullException(() => sampleUsedInDtos);
             // ReSharper disable once ImplicitlyCapturedClosure
@@ -57,8 +54,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForSamples = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithCollectionRecalculation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithCollectionRecalculation()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithInterpolation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInterpolation()).ToDictionary(x => x.ID),
-                PatchDetailsDictionary = document.Patches.Select(x => x.ToDetailsViewModel(repositories.DimensionRepository, repositories.SampleRepository, repositories.CurveRepository, entityPositionManager)).ToDictionary(x => x.Entity.ID),
-                PatchGridDictionary = ToViewModelHelper.CreatePatchGridViewModelDictionary(grouplessPatchUsedInDtos, patchGroupDtos_WithUsedIn, document.ID),
+                PatchDetailsDictionary = document.Patches.Select(x => x.ToDetailsViewModel(repositories.SampleRepository, repositories.CurveRepository, entityPositionManager)).ToDictionary(x => x.Entity.ID),
                 PatchPropertiesDictionary = document.Patches.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 SampleLookup = ToViewModelHelper.CreateSampleLookupViewModel(document),
                 SampleGrid = sampleUsedInDtos.ToGridViewModel(document.ID),
@@ -87,7 +83,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static AutoPatchPopupViewModel ToAutoPatchViewModel(
             this Patch patch,
-            IDimensionRepository dimensionRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
             IInterpolationTypeRepository interpolationTypeRepository,
@@ -111,7 +106,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForSamples = patch.ToPropertiesViewModelList_ForSamples(sampleRepository).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithCollectionRecalculation = patch.ToPropertiesViewModelList_WithCollectionRecalculation().ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithInterpolation = patch.ToPropertiesViewModelList_WithInterpolation().ToDictionary(x => x.ID),
-                PatchDetails = patch.ToDetailsViewModel(dimensionRepository, sampleRepository, curveRepository, entityPositionManager),
+                PatchDetails = patch.ToDetailsViewModel(sampleRepository, curveRepository, entityPositionManager),
                 PatchProperties = patch.ToPropertiesViewModel(),
                 ValidationMessages = new List<string>()
             };

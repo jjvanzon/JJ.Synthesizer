@@ -212,18 +212,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return patch;
         }
 
-        // CurrentInstrument
-
-        public static IList<Patch> ToEntities(this CurrentInstrumentViewModel viewModel, IPatchRepository patchRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            IList<Patch> underlyingPatches = viewModel.List.Select(itemViewModel => patchRepository.Get(itemViewModel.ID)).ToArray();
-
-            return underlyingPatches;
-        }
-
         // Curve
 
         public static void ToEntitiesWithNodes(

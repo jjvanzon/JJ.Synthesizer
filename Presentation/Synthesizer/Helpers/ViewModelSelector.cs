@@ -2,7 +2,7 @@
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Helpers;
+// ReSharper disable InlineOutVariableDeclaration
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
@@ -129,18 +129,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new NotFoundException<Dictionary<int, NodePropertiesViewModel>>(new { curveID });
-        }
-
-        public static Dictionary<int, NodePropertiesViewModel> GetNodePropertiesViewModelDictionary_ByNodeID(DocumentViewModel documentViewModel, int nodeID)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            if (documentViewModel.NodePropertiesDictionary.ContainsKey(nodeID))
-            {
-                return documentViewModel.NodePropertiesDictionary;
-            }
-
-            throw new NotFoundException<Dictionary<int, NodePropertiesViewModel>>(new { nodeID });
         }
 
         // Operator
@@ -549,29 +537,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             return null;
-        }
-
-        public static PatchGridViewModel GetPatchGridViewModel(DocumentViewModel documentViewModel, string group)
-        {
-            PatchGridViewModel viewModel = TryGetPatchGridViewModel(documentViewModel, group);
-
-            if (viewModel == null)
-            {
-                throw new NotFoundException<PatchGridViewModel>(new { group });
-            }
-
-            return viewModel;
-        }
-
-        public static PatchGridViewModel TryGetPatchGridViewModel(DocumentViewModel documentViewModel, string group)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            string key = NameHelper.ToCanonical(group);
-
-            documentViewModel.PatchGridDictionary.TryGetValue(key, out PatchGridViewModel viewModel);
-
-            return viewModel;
         }
 
         // Sample

@@ -114,29 +114,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Inlet
 
-        public static IList<InletViewModel> ToViewModels(
-            this IList<Inlet> entities,
-            IDimensionRepository dimensionRepository,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            EntityPositionManager entityPositionManager)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<InletViewModel> viewModels = entities.Sort()
-                                                       .Select(
-                                                           x => x.ToViewModel(
-                                                               dimensionRepository,
-                                                               curveRepository,
-                                                               sampleRepository,
-                                                               entityPositionManager))
-                                                       .ToList();
-            return viewModels;
-        }
-
         public static InletViewModel ToViewModel(
             this Inlet entity,
-            IDimensionRepository dimensionRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             EntityPositionManager entityPositionManager)
@@ -235,46 +214,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorViewModel ToViewModel_WithRelatedEntities_AndInverseProperties(
-            this Operator op,
-            IDimensionRepository dimensionRepository,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            EntityPositionManager entityPositionManager)
-        {
-            if (op == null) throw new NullException(() => op);
-            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-
-            OperatorViewModel operatorViewModel = op.ToViewModel(sampleRepository, curveRepository, entityPositionManager);
-            operatorViewModel.Inlets = op.Inlets.ToViewModels(dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
-            operatorViewModel.Outlets = op.Outlets.ToViewModels(dimensionRepository, curveRepository, sampleRepository, entityPositionManager);
-
-            // This is the inverse property in the view model!
-            foreach (OutletViewModel outletViewModel in operatorViewModel.Outlets)
-            {
-                outletViewModel.Operator = operatorViewModel;
-            }
-
-            return operatorViewModel;
-        }
-
         // Outlet
-
-        public static IList<OutletViewModel> ToViewModels(
-            this IList<Outlet> entities,
-            IDimensionRepository dimensionRepository,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            EntityPositionManager entityPositionManager)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<OutletViewModel> viewModels = entities.Sort()
-                                                        .Select(x => x.ToViewModel(curveRepository, sampleRepository, entityPositionManager))
-                                                        .ToList();
-            return viewModels;
-        }
 
         public static OutletViewModel ToViewModel(
             this Outlet entity,

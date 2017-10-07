@@ -71,7 +71,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_WithInterpolation _operatorPropertiesPresenter_WithInterpolation;
         private readonly OperatorPropertiesPresenter_WithCollectionRecalculation _operatorPropertiesPresenter_WithCollectionRecalculation;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
-        private readonly PatchGridPresenter _patchGridPresenter;
         private readonly PatchPropertiesPresenter _patchPropertiesPresenter;
         private readonly SampleGridPresenter _sampleGridPresenter;
         private readonly SamplePropertiesPresenter _samplePropertiesPresenter;
@@ -146,7 +145,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_WithInterpolation = new OperatorPropertiesPresenter_WithInterpolation(_repositories);
             _operatorPropertiesPresenter_WithCollectionRecalculation= new OperatorPropertiesPresenter_WithCollectionRecalculation(_repositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionManager);
-            _patchGridPresenter = new PatchGridPresenter(repositories);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
             _sampleGridPresenter = new SampleGridPresenter(_repositories);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_repositories);
@@ -170,8 +168,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.SampleGrid.Visible = false;
             MainViewModel.Document.ScaleGrid.Visible = false;
 
-            MainViewModel.Document.VisiblePatchGrid = null;
-            MainViewModel.Document.PatchGridDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisiblePatchDetails = null;
             MainViewModel.Document.PatchDetailsDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleToneGridEdit = null;

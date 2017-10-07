@@ -1,5 +1,4 @@
 ﻿using System;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;

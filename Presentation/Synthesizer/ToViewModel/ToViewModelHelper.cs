@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
@@ -154,23 +153,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         // Patch-Related
-
-        public static Dictionary<string, PatchGridViewModel> CreatePatchGridViewModelDictionary(
-            IList<UsedInDto<Patch>> grouplessPatchUsedInDtos,
-            IList<PatchGroupDto_WithUsedIn> patchGroupDtos,
-            int rootDocumentID)
-        {
-            if (grouplessPatchUsedInDtos == null) throw new NullException(() => grouplessPatchUsedInDtos);
-            if (patchGroupDtos == null) throw new NullException(() => patchGroupDtos);
-
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var list = new List<PatchGridViewModel>();
-
-            list.Add(grouplessPatchUsedInDtos.ToGridViewModel(rootDocumentID, null));
-            list.AddRange(patchGroupDtos.Select(x => x.PatchUsedInDtos.ToGridViewModel(rootDocumentID, x.GroupName)));
-
-            return list.ToDictionary(x => NameHelper.ToCanonical(x.Group));
-        }
 
         /// <summary>
         /// Is used to be able to update an existing operator view model in-place
@@ -339,24 +321,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);
                 sb.AppendFormat(" ({0}: {1})", ResourceFormatter.UsedIn, formattedUsedInList);
-            }
-
-            return sb.ToString();
-        }
-
-        public static string FormatUsedInDto(UsedInDto<Sample> dto)
-        {
-            if (dto == null) throw new NullException(() => dto);
-
-            var sb = new StringBuilder();
-
-            sb.Append(dto.Entity.Name);
-
-            // ReSharper disable once InvertIf
-            if (dto.UsedInIDAndNames.Count > 0)
-            {
-                string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);
-                sb.Append($" ({ResourceFormatter.UsedIn}: {formattedUsedInList})");
             }
 
             return sb.ToString();

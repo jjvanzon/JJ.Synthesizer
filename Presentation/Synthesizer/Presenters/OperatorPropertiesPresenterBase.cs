@@ -39,6 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
+            // ReSharper disable once InvertIf
             if (entity.CanSetOutletCount())
             {
                 VoidResult result = _patchManager.SetOperatorOutletCount(entity, userInput.OutletCount);

@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Presentation;
-using System;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

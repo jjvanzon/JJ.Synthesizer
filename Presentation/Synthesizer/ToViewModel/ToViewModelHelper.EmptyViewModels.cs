@@ -116,7 +116,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_WithInterpolation = new Dictionary<int, OperatorPropertiesViewModel_WithInterpolation>(),
                 OperatorPropertiesDictionary_WithCollectionRecalculation = new Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation>(),
                 PatchDetailsDictionary = new Dictionary<int, PatchDetailsViewModel>(),
-                PatchGridDictionary = new Dictionary<string, PatchGridViewModel>(),
                 PatchPropertiesDictionary = new Dictionary<int, PatchPropertiesViewModel>(),
                 SampleGrid = CreateEmptySampleGridViewModel(),
                 SampleLookup = new List<IDAndName>(),
@@ -237,27 +236,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static MenuViewModel CreateEmptyMenuViewModel()
         {
             MenuViewModel viewModel = CreateMenuViewModel(documentIsOpen: false);
-            return viewModel;
-        }
-
-        public static PagerViewModel CreateEmptyPagerViewModel()
-        {
-            var viewModel = new PagerViewModel
-            {
-                VisiblePageNumbers = new int[0]
-            };
-
-            return viewModel;
-        }
-
-        public static PatchGridViewModel CreateEmptyPatchGridViewModel()
-        {
-            var viewModel = new PatchGridViewModel
-            {
-                List = new List<PatchListItemViewModel>(),
-                ValidationMessages = new List<string>()
-            };
-
             return viewModel;
         }
 

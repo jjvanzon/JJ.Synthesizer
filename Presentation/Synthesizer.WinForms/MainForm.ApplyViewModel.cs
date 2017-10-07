@@ -56,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_WithInterpolation.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithInterpolation;
             operatorPropertiesUserControl_WithInterpolation.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
             patchDetailsUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchDetails;
-            patchGridUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchGrid;
             patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchProperties;
             sampleGridUserControl.ViewModel = _presenter.MainViewModel.Document.SampleGrid;
             samplePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleSampleProperties;

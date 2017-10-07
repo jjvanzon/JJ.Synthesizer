@@ -29,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler RemoveRequested;
         public event EventHandler SaveRequested;
 
-        public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
         public event EventHandler ShowCurvesRequested;
@@ -727,11 +726,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (node == _curvesTreeNode)
             {
                 ShowCurvesRequested(this, EventArgs.Empty);
-            }
-
-            if (_patchGroupTreeNodes.Contains(node))
-            {
-                ShowPatchGridRequested(this, new EventArgs<string>((string)node.Tag));
             }
 
             if (_patchTreeNodes.Contains(node))

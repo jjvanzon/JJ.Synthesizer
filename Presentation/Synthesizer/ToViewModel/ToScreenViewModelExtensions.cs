@@ -7,12 +7,10 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
@@ -619,38 +617,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchDetailsViewModel ToDetailsViewModel(
             this Patch patch,
-            IDimensionRepository dimensionRepository,
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
             EntityPositionManager entityPositionManager)
         {
             var converter = new RecursiveToPatchViewModelConverter(
-                dimensionRepository,
                 sampleRepository,
                 curveRepository,
                 entityPositionManager);
 
             return converter.ConvertToDetailsViewModel(patch);
-        }
-
-        public static PatchGridViewModel ToGridViewModel(
-            this IList<UsedInDto<Patch>> patchUsedInDtosInGroup,
-            int documentID,
-            string group)
-        {
-            if (patchUsedInDtosInGroup == null) throw new NullException(() => patchUsedInDtosInGroup);
-
-            var viewModel = new PatchGridViewModel
-            {
-                DocumentID = documentID,
-                Group = group,
-                ValidationMessages = new List<string>(),
-                List = patchUsedInDtosInGroup.OrderBy(x => x.Entity.Name)
-                                             .Select(x => x.ToListItemViewModel())
-                                             .ToList()
-            };
-
-            return viewModel;
         }
 
         public static PatchPropertiesViewModel ToPropertiesViewModel(this Patch patch)

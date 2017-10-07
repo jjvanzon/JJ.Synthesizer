@@ -59,9 +59,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation> OperatorPropertiesDictionary_WithCollectionRecalculation { get; set; }
         public PatchDetailsViewModel VisiblePatchDetails { get; set; }
         public Dictionary<int, PatchDetailsViewModel> PatchDetailsDictionary { get; set; }
-        public PatchGridViewModel VisiblePatchGrid { get; set; }
-        /// <summary> Key is GroupName converted to canonical form (lower case, no excessive white space etc. Groupless patches have key "". </summary>
-        public Dictionary<string, PatchGridViewModel> PatchGridDictionary { get; set; }
         public PatchPropertiesViewModel VisiblePatchProperties { get; set; }
         public Dictionary<int, PatchPropertiesViewModel> PatchPropertiesDictionary { get; set; }
         public SampleGridViewModel SampleGrid { get; set; }

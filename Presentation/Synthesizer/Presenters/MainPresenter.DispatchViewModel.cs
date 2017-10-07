@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -49,7 +48,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_WithInterpolation), DispatchOperatorPropertiesViewModel_WithInterpolation },
                 { typeof(OperatorPropertiesViewModel_WithCollectionRecalculation), DispatchOperatorPropertiesViewModel_WithCollectionRecalculation },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
-                { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(PatchPropertiesViewModel), DispatchPatchPropertiesViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
                 { typeof(SamplePropertiesViewModel), DispatchSamplePropertiesViewModel },
@@ -624,30 +622,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     castedViewModel.Visible = true;
                     MainViewModel.Document.VisiblePatchDetails = castedViewModel;
                 }
-            }
-
-            if (castedViewModel.OutletIDToPlay.HasValue)
-            {
-                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
-                castedViewModel.OutletIDToPlay = null;
-            }
-
-            DispatchViewModelBase(castedViewModel);
-        }
-
-        private void DispatchPatchGridViewModel(ViewModelBase viewModel)
-        {
-            var castedViewModel = (PatchGridViewModel)viewModel;
-
-            string key = NameHelper.ToCanonical(castedViewModel.Group);
-
-            MainViewModel.Document.PatchGridDictionary[key] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllGridAndDetailViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisiblePatchGrid = castedViewModel;
             }
 
             if (castedViewModel.OutletIDToPlay.HasValue)

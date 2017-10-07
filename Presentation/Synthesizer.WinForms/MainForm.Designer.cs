@@ -22,7 +22,6 @@
             this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
             this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
             this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
-            this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
             this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
@@ -109,7 +108,6 @@
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.scaleGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.curveGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.audioFileOutputGridUserControl);
-            this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.patchGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.documentDetailsUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.documentGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.patchDetailsUserControl);
@@ -187,18 +185,6 @@
             this.audioFileOutputGridUserControl.TabIndex = 5;
             this.audioFileOutputGridUserControl.ViewModel = null;
             this.audioFileOutputGridUserControl.Visible = false;
-            // 
-            // patchGridUserControl
-            // 
-            this.patchGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.patchGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.patchGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.patchGridUserControl.Location = new System.Drawing.Point(0, 0);
-            this.patchGridUserControl.Margin = new System.Windows.Forms.Padding(4);
-            this.patchGridUserControl.Name = "patchGridUserControl";
-            this.patchGridUserControl.Size = new System.Drawing.Size(851, 532);
-            this.patchGridUserControl.TabIndex = 13;
-            this.patchGridUserControl.ViewModel = null;
             // 
             // documentDetailsUserControl
             // 
@@ -784,7 +770,6 @@
         private System.Windows.Forms.SplitContainer splitContainerCenterAndProperties;
         private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
         private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
-        private UserControls.PatchGridUserControl patchGridUserControl;
         private UserControls.AudioFileOutputGridUserControl audioFileOutputGridUserControl;
         private UserControls.CurveGridUserControl curveGridUserControl;
         private UserControls.SampleGridUserControl sampleGridUserControl;

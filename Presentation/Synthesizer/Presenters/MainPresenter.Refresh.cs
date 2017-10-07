@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Collections;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -277,7 +273,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesDictionary_WithInterpolation_Refresh();
             OperatorPropertiesDictionaryRefresh();
             PatchDetailsDictionaryRefresh();
-            PatchGridDictionaryRefresh();
             PatchPropertiesDictionaryRefresh();
             SampleGridRefresh();
             SampleLookupRefresh();
@@ -895,7 +890,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (viewModel == null)
                 {
                     viewModel = entity.ToDetailsViewModel(
-                        _repositories.DimensionRepository, 
                         _repositories.SampleRepository,
                         _repositories.CurveRepository, 
                         _entityPositionManager);
@@ -927,65 +921,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void PatchDetailsRefresh(PatchDetailsViewModel userInput)
         {
             PatchDetailsViewModel viewModel = _patchDetailsPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void PatchGridDictionaryRefresh()
-        {
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var viewModelDictionary = MainViewModel.Document.PatchGridDictionary;
-
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-            IList<string> groups = PatchGrouper.GetPatchGroupNames(document.Patches, mustIncludeHidden: true);
-
-            // Always include groupless, even when empty, 
-            // otherwise trying to open the empty grid of groupless patches crashes for lack of a key.
-            groups.Add(NameHelper.ToCanonical(""));
-
-            foreach (string group in groups)
-            {
-                PatchGridViewModel viewModel = ViewModelSelector.TryGetPatchGridViewModel(MainViewModel.Document, group);
-                if (viewModel == null)
-                {
-                    IList<Patch> patchesInGroup = PatchGrouper.GetPatchesInGroup_OrGrouplessIfGroupNameEmpty(document.Patches, group, mustIncludeHidden: true);
-                    IList<UsedInDto<Patch>> usedInDtos = _documentManager.GetUsedIn(patchesInGroup);
-
-                    viewModel = usedInDtos.ToGridViewModel(document.ID, group);
-                    viewModel.Successful = true;
-
-                    string canonicalGroup = NameHelper.ToCanonical(group);
-
-                    viewModelDictionary[canonicalGroup] = viewModel;
-                }
-                else
-                {
-                    PatchGridRefresh(viewModel);
-                }
-            }
-
-            // Delete operations
-            string canonicalVisiblePatchGridGroup = NameHelper.ToCanonical(MainViewModel.Document.VisiblePatchGrid?.Group);
-
-            IEnumerable<string> keysToKeep = groups;
-            IEnumerable<string> existingKeys = viewModelDictionary.Keys.Select(x => NameHelper.ToCanonical(x));
-            IEnumerable<string> keysToDelete = keysToKeep.Select(x => NameHelper.ToCanonical(x)).Except(existingKeys);
-
-            foreach (string canonicalGroupToDelete in keysToDelete)
-            {
-                viewModelDictionary.Remove(canonicalGroupToDelete);
-
-                if (string.Equals(canonicalVisiblePatchGridGroup, canonicalGroupToDelete))
-                {
-                    MainViewModel.Document.VisiblePatchGrid = null;
-                }
-            }
-        }
-
-        private void PatchGridRefresh(PatchGridViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-            PatchGridViewModel viewModel = _patchGridPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 

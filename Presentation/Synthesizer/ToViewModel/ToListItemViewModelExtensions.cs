@@ -4,7 +4,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
@@ -92,32 +91,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                   .ToList();
 
             return viewModels;
-        }
-
-        // Patches
-
-        public static IList<PatchListItemViewModel> ToListItemViewModels(this IList<UsedInDto<Patch>> dtos)
-        {
-            if (dtos == null) throw new NullException(() => dtos);
-
-            IList<PatchListItemViewModel> viewModels = dtos.Select(x => x.ToListItemViewModel())
-                                                           .OrderBy(x => x.Name)
-                                                           .ToList();
-            return viewModels;
-        }
-
-        public static PatchListItemViewModel ToListItemViewModel(this UsedInDto<Patch> dto)
-        {
-            if (dto == null) throw new NullException(() => dto);
-
-            var viewModel = new PatchListItemViewModel
-            {
-                ID = dto.Entity.ID,
-                Name = dto.Entity.Name,
-                UsedIn = ToViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
-            };
-
-            return viewModel;
         }
 
         // Samples
