@@ -23,10 +23,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler NewRequested;
         public event EventHandler OpenItemExternallyRequested;
+        public event EventHandler<EventArgs<int>> PatchHovered;
         public event EventHandler PlayRequested;
         public event EventHandler RefreshRequested;
         public event EventHandler RemoveRequested;
         public event EventHandler SaveRequested;
+
         public event EventHandler<EventArgs<string>> ShowPatchGridRequested;
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
@@ -35,6 +37,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ShowAudioOutputRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
+
         public event EventHandler<EventArgs<string>> PatchGroupNodeSelected;
         public event EventHandler<EventArgs<int>> PatchNodeSelected;
         public event EventHandler<EventArgs<int>> LibraryNodeSelected;
@@ -568,8 +571,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-
-
         private void titleBarUserControl_AddClicked(object sender, EventArgs e) => AddRequested(this, EventArgs.Empty);
         private void titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested(this, EventArgs.Empty);
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
@@ -671,6 +672,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 var e2 = ParseLibraryPatchGroupTag(node.Tag);
                 LibraryPatchGroupNodeSelected(this, e2);
+            }
+        }
+
+        private void treeView_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
+        {
+            if (_patchTreeNodes.Contains(e.Node))
+            {
+                int patchID = (int)e.Node.Tag;
+                PatchHovered.Invoke(sender, new EventArgs<int>(patchID));
+
+                // Hmmm... fast, but not accoding to the pattern.
+                e.Node.ToolTipText = ViewModel.PatchToolTipText;
             }
         }
 

@@ -66,6 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.LibraryPatchGroupNodeSelected += documentTreeUserControl_LibraryPatchGroupNodeSelected;
             documentTreeUserControl.NewRequested += documentTreeUserControl_NewRequested;
             documentTreeUserControl.PatchGroupNodeSelected += documentTreeUserControl_PatchGroupNodeSelected;
+            documentTreeUserControl.PatchHovered += documentTreeUserControl_PatchHovered;
             documentTreeUserControl.PatchNodeSelected += documentTreeUserControl_PatchNodeSelected;
             documentTreeUserControl.PlayRequested += documentTreeUserControl_PlayRequested;
             documentTreeUserControl.OpenItemExternallyRequested += documentTreeUserControl_OpenItemExternallyRequested;
@@ -197,7 +198,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBoxHelper.DocumentOrPatchNotFoundOK += MessageBoxHelper_DocumentOrPatchNotFoundOK;
             MessageBoxHelper.PopupMessagesOK += MessageBoxHelper_PopupMessagesOK;
         }
-
+        
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Program.RemoveMainWindow(this);
@@ -555,6 +556,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e)
         {
             TemplateActionHandler(() => _presenter.DocumentTreeSelectPatchGroup(e.Value));
+        }
+
+        private void documentTreeUserControl_PatchHovered(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.DocumentTreeHoverPatch(e.Value));
         }
 
         private void documentTreeUserControl_PatchNodeSelected(object sender, EventArgs<int> e)

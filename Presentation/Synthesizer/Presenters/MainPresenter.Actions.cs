@@ -1171,6 +1171,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentTreeClose() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.Close);
 
+        public void DocumentTreeHoverPatch(int id) => ReadOnlyDocumentTreeActionTemplate(x => _documentTreePresenter.HoverPatch(x, id));
+
         public void DocumentTreeNew()
         {
             // GetViewModel
@@ -1429,10 +1431,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentTreeSelectLibraries() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.SelectLibraries);
 
-        public void DocumentTreeSelectLibrary(int id)
-        {
-            ReadOnlyDocumentTreeActionTemplate(x => _documentTreePresenter.SelectLibrary(x, id));
-        }
+        public void DocumentTreeSelectLibrary(int id) => ReadOnlyDocumentTreeActionTemplate(x => _documentTreePresenter.SelectLibrary(x, id));
 
         public void DocumentTreeSelectLibraryPatch(int id)
         {
@@ -1448,10 +1447,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentTreeSelectScales() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.SelectScales);
 
-        public void DocumentTreeSelectPatch(int id)
-        {
-            ReadOnlyDocumentTreeActionTemplate(x => _documentTreePresenter.SelectPatch(x, id));
-        }
+        public void DocumentTreeSelectPatch(int id) => ReadOnlyDocumentTreeActionTemplate(x => _documentTreePresenter.SelectPatch(x, id));
 
         public void DocumentTreeSelectPatchGroup(string group)
         {

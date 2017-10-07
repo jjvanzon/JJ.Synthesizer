@@ -5,8 +5,11 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 
@@ -224,6 +227,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(group);
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
+                });
+        }
+
+        public DocumentTreeViewModel HoverPatch(DocumentTreeViewModel userInput, int id)
+        {
+            return TemplateMethod(
+                userInput,
+                viewModel =>
+                {
+                    // GetEntity
+                    Patch patch = _repositories.PatchRepository.Get(id);
+
+                    // Business
+                    IList<IDAndName> usedInDtos = _documentManager.GetUsedIn(patch);
+
+                    // ToViewModel
+                    // TODO: Delegate all this to ViewModelHelper.Values.cs.
+                    viewModel.PatchToolTipText = patch.Name;
+                    string formattedUsedInList = ToViewModelHelper.FormatUsedInList(usedInDtos);
+                    if (!string.IsNullOrEmpty(formattedUsedInList))
+                    {
+                        viewModel.PatchToolTipText += $". {ResourceFormatter.UsedIn}: {formattedUsedInList}";
+                    }
                 });
         }
 

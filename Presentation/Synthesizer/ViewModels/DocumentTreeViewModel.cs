@@ -27,6 +27,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public int? SelectedPatchGroupLowerDocumentReferenceID { get; set; }
         public string SelectedCanonicalPatchGroup { get; set; }
 
+        public string PatchToolTipText { get; set; }
+        
         internal int? OutletIDToPlay { get; set; }
         internal IDAndName DocumentToOpenExternally { get; set; }
         internal IDAndName PatchToOpenExternally { get; set; }

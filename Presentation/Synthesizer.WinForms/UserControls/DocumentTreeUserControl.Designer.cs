@@ -90,8 +90,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.treeView.Margin = new System.Windows.Forms.Padding(0);
             this.treeView.Name = "treeView";
             this.treeView.ShowLines = false;
+            this.treeView.ShowNodeToolTips = true;
             this.treeView.Size = new System.Drawing.Size(269, 468);
             this.treeView.TabIndex = 4;
+            this.treeView.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.treeView_NodeMouseHover);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
             // 
