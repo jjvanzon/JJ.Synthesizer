@@ -23,6 +23,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             References(x => x.AudioFileFormat, ColumnNames.AudioFileFormatID);
             References(x => x.InterpolationType, ColumnNames.InterpolationTypeID);
             References(x => x.Document, ColumnNames.DocumentID);
+            References(x => x.Operator, ColumnNames.OperatorID);
         }
     }
 }

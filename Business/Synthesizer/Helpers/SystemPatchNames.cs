@@ -15,5 +15,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void MaxOverInlets() { }
         public static void MinOverInlets() { }
         public static void SortOverInlets() { }
+        public static void Sample() { }
     }
 }

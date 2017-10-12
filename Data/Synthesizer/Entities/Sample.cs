@@ -13,35 +13,29 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual bool IsActive { get; set; }
         public virtual int SamplingRate { get; set; }
 
-        /// <summary>
-        /// E.g. when you need to skip a header of a file.
-        /// </summary>
+        /// <summary> E.g. when you need to skip a header of a file. </summary>
         public virtual int BytesToSkip { get; set; }
 
-        /// <summary>
-        /// Optional. E.g. the file path.
-        /// </summary>
+        /// <summary> Optional. E.g. the file path. </summary>
         public virtual string OriginalLocation { get; set; }
 
         /// <summary> not nullable </summary>
-        
         public virtual AudioFileFormat AudioFileFormat { get; set; }
 
         /// <summary> not nullable </summary>
-        
         public virtual InterpolationType InterpolationType { get; set; }
 
         /// <summary> not nullable </summary>
-        
         public virtual SampleDataType SampleDataType { get; set; }
 
         /// <summary> not nullable </summary>
-        
         public virtual SpeakerSetup SpeakerSetup { get; set; }
 
         /// <summary> parent, nullable </summary>
-        
         public virtual Document Document { get; set; }
+
+        /// <summary> nullable (for now) </summary>
+        public virtual Operator Operator { get; set; }
 
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }

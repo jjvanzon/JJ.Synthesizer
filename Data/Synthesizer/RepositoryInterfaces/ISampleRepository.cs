@@ -1,4 +1,5 @@
-﻿using JJ.Data.Synthesizer.Entities;
+﻿using System.Collections.Generic;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
@@ -7,5 +8,6 @@ namespace JJ.Data.Synthesizer.RepositoryInterfaces
     {
         void SetBytes(int id, byte[] bytes);
         byte[] TryGetBytes(int id);
+        IList<Sample> GetAll();
     }
 }

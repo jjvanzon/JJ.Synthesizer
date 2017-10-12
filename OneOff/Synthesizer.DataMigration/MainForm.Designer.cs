@@ -34,21 +34,21 @@
             // checkBoxMustAssertWarningIncrease
             // 
             this.checkBoxMustAssertWarningIncrease.AutoSize = true;
-            this.checkBoxMustAssertWarningIncrease.Location = new System.Drawing.Point(163, 105);
+            this.checkBoxMustAssertWarningIncrease.Location = new System.Drawing.Point(185, 105);
+            this.checkBoxMustAssertWarningIncrease.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBoxMustAssertWarningIncrease.Name = "checkBoxMustAssertWarningIncrease";
-            this.checkBoxMustAssertWarningIncrease.Size = new System.Drawing.Size(219, 21);
+            this.checkBoxMustAssertWarningIncrease.Size = new System.Drawing.Size(249, 24);
             this.checkBoxMustAssertWarningIncrease.TabIndex = 1;
             this.checkBoxMustAssertWarningIncrease.Text = "Must Assert Warning Increase";
             this.checkBoxMustAssertWarningIncrease.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(939, 538);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1038, 593);
             this.Controls.Add(this.checkBoxMustAssertWarningIncrease);
             this.Description = "C# processes for migrating data when it is not easily done with SQL.";
-            this.Margin = new System.Windows.Forms.Padding(5);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.MustShowExceptions = true;
             this.Name = "MainForm";
             this.OnRunProcess += new System.EventHandler(this.MainForm_OnRunProcess);

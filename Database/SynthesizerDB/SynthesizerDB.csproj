@@ -379,6 +379,7 @@
     <Content Include="2017-07-15 010 SynthesizerDB Patch.Hidden update to 0 for Loop, PatchInlet, PatchOutlet, Random, Reset in System Document.sql" />
     <Content Include="2017-07-14 010 SynthesizerDB Patch.Hidden update to 0 for Exponent, Reverse, Scaler, Shift, Squash, Stretch, TimePower in System Document.sql" />
     <Content Include="2017-07-13 010 SynthesizerDB Patch.Hidden update to 0 for Cache, Curve, Interpolate, Number, Sample in System Document.sql" />
+    <Content Include="2017-10-12 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-07-15 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-07-14 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-07-13 020 SynthesizerDB RUN UTILITY.sql" />
@@ -493,6 +494,9 @@
     <Content Include="2017-06-19 080 SynthesizerDB Outlet.RepetitionPosition.sql" />
     <Content Include="2017-10-02 010 SynthesizerDB Dimension insert 77 - Position.sql" />
     <Content Include="2017-07-17 010 SynthesizerDB Dimension insert 76 - Inherit.sql" />
+    <Content Include="2017-10-11 010 SynthesizerDB Sample.OperatorID.sql" />
+    <Content Include="2017-10-11 020 SynthesizerDB FK_Sample_Operator.sql" />
+    <Content Include="2017-10-11 030 SynthesizerDB IX_Sample_OperatorID.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

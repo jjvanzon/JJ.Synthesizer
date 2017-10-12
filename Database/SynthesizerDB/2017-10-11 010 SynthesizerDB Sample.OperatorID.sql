@@ -1,0 +1,1 @@
+alter table Sample add OperatorID int null;

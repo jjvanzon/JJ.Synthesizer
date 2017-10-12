@@ -109,11 +109,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return new IDAndName
+            string nameWithFallback = entity.GetNameWithFallback();
+
+            var idAndName = new IDAndName
             {
-                ID = entity.ID,
-                Name = ResourceFormatter.GetDisplayName(entity.GetNameWithFallback())
+                ID = entity.ID
             };
+
+            if (!string.IsNullOrEmpty(nameWithFallback))
+            {
+                idAndName.Name = ResourceFormatter.GetDisplayName(nameWithFallback);
+            }
+
+            return idAndName;
         }
 
         public static IDAndName ToIDAndDisplayName(this ResampleInterpolationTypeEnum enumValue)

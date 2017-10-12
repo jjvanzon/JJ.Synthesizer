@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Data;
 using System;
+using System.Collections.Generic;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 
@@ -26,5 +27,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         {
             throw new NotSupportedException("Bytes can only be accessed using a specialized repository.");
         }
+
+        public virtual IList<Sample> GetAll() => throw new RepositoryMethodNotImplementedException();
     }
 }

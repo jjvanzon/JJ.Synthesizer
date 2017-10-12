@@ -23,7 +23,6 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             ValidateDocumentNameUnique(document);
             ValidateAudioFileOutputNamesUnique(document);
             ValidatePatchNamesUnique(document);
-            ValidateSampleNamesUnique(document);
             ValidateScaleNamesUnique(document);
             ValidateDocumentReferencesUnique(document);
             ValidateDocumentReferenceAliasesUnique(document);
@@ -60,19 +59,6 @@ namespace JJ.Business.Synthesizer.Validation.Documents
             if (duplicateNames.Count > 0)
             {
                 string messagePrefix = ResourceFormatter.Patches + ": ";
-                string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
-                Messages.Add(messagePrefix + message);
-            }
-        }
-
-        private void ValidateSampleNamesUnique(Document document)
-        {
-            IList<string> duplicateNames = ValidationHelper.GetDuplicateSampleNames(document);
-
-            // ReSharper disable once InvertIf
-            if (duplicateNames.Count > 0)
-            {
-                string messagePrefix = ResourceFormatter.Samples + ": ";
                 string message = ValidationResourceFormatter.NotUniquePlural(CommonResourceFormatter.Names, duplicateNames);
                 Messages.Add(messagePrefix + message);
             }

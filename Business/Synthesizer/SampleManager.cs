@@ -40,8 +40,7 @@ namespace JJ.Business.Synthesizer
 
             var validators = new List<IValidator>
             {
-                new SampleValidator(entity),
-                new SampleValidator_UniqueName(entity)
+                new SampleValidator(entity)
             };
 
             if (entity.Document != null)

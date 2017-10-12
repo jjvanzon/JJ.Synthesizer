@@ -1,4 +1,6 @@
-﻿using JJ.Framework.Data;
+﻿using System.Collections.Generic;
+using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
@@ -20,6 +22,11 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
         public override void SetBytes(int id, byte[] bytes)
         {
             _context.SetSampleBytes(id, bytes);
+        }
+
+        public override IList<Sample> GetAll()
+        {
+            return _context.Session.QueryOver<Sample>().List();
         }
     }
 }

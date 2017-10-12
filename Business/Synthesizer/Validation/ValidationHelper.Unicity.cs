@@ -169,35 +169,6 @@ namespace JJ.Business.Synthesizer.Validation
             return duplicateNames;
         }
 
-        // Sample
-
-        public static bool SampleNameIsUnique(Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-
-            bool isUnique = SampleNameIsUnique(sample.Document, sample.Name);
-
-            return isUnique;
-        }
-
-        public static bool SampleNameIsUnique(Document document, string name)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            bool isUnique = NameIsUnique(document.Samples.Select(x => x.Name), name);
-
-            return isUnique;
-        }
-
-        public static IList<string> GetDuplicateSampleNames(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            IList<string> duplicateNames = GetDuplicateNames(document.Samples.Select(x => x.Name));
-
-            return duplicateNames;
-        }
-
         // Scale
 
         public static bool ScaleNameIsUnique(Scale scale)

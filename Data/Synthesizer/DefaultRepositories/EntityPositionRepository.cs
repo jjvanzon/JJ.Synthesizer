@@ -36,9 +36,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             Delete(entity);
         }
 
-        public virtual int DeleteOrphans()
-        {
-            throw new RepositoryMethodNotImplementedException();
-        }
+        public virtual int DeleteOrphans() => throw new RepositoryMethodNotImplementedException();
     }
 }
