@@ -6,7 +6,6 @@ using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -91,48 +90,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                   .ToList();
 
             return viewModels;
-        }
-
-        // Samples
-
-        public static IList<SampleListItemViewModel> ToListItemViewModels(this IList<UsedInDto<Sample>> dtos)
-        {
-            if (dtos == null) throw new NullException(() => dtos);
-
-            IList<SampleListItemViewModel> viewModels = dtos.Select(x => x.ToListItemViewModel())
-                                                            .OrderBy(x => x.Name)
-                                                            .ToList();
-            return viewModels;
-        }
-
-        public static SampleListItemViewModel ToListItemViewModel(this UsedInDto<Sample> dto)
-        {
-            if (dto == null) throw new NullException(() => dto);
-
-            Sample entity = dto.Entity;
-
-            var viewModel = new SampleListItemViewModel
-            {
-                IsActive = entity.IsActive,
-                IsActiveText = entity.IsActive ? CommonResourceFormatter.Yes : CommonResourceFormatter.No,
-                Name = entity.Name,
-                SamplingRate = entity.SamplingRate,
-                ID = entity.ID,
-                UsedIn = ToViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
-            };
-
-            // TODO: Do this with enums.
-            if (entity.SampleDataType != null)
-            {
-                viewModel.SampleDataType = ResourceFormatter.GetDisplayName(entity.SampleDataType.Name);
-            }
-
-            if (entity.SpeakerSetup != null)
-            {
-                viewModel.SpeakerSetup = ResourceFormatter.GetDisplayName(entity.SpeakerSetup.Name);
-            }
-
-            return viewModel;
         }
     }
 }

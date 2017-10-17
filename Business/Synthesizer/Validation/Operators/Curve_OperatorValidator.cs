@@ -7,7 +7,7 @@ using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Curve_OperatorValidator : OperatorValidator
+    internal class Curve_OperatorValidator : OperatorValidator_Basic
     {
         public Curve_OperatorValidator(Operator op)
             : base(

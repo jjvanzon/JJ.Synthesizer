@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -446,8 +447,11 @@ namespace JJ.Business.Synthesizer.Api
         public OperatorWrapper Round(Outlet signal = null, Outlet step = null, Outlet offset = null)
             => _operatorFactory.Round(signal, step, offset);
 
-        public Sample_OperatorWrapper Sample(Sample sample = null, Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null)
-            => _operatorFactory.Sample(sample, frequency, standardDimension, customDimension);
+        public OperatorWrapper Sample(Stream stream , Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null, AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
+            => _operatorFactory.Sample(stream, frequency, standardDimension, customDimension, audioFileFormatEnum);
+
+        public OperatorWrapper Sample(byte[] bytes, Outlet frequency = null, DimensionEnum standardDimension = DimensionEnum.Time, string customDimension = null, AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
+            => _operatorFactory.Sample(bytes, frequency, standardDimension, customDimension, audioFileFormatEnum);
 
         public OperatorWrapper SawDown(Outlet frequency = null, DimensionEnum? standardDimension = null, string customDimension = null)
             => _operatorFactory.SawDown(frequency, standardDimension, customDimension);

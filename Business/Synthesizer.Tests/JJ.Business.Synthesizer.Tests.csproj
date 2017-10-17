@@ -71,13 +71,11 @@
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="CurveTests.cs" />
-    <Compile Include="Helpers\HardCodedOperatorCalculator.cs" />
     <Compile Include="Helpers\ITestOperatorCalculator.cs" />
     <Compile Include="Helpers\EntityFactory.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="DatabaseContextTests.cs" />
-    <Compile Include="SampleTests.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

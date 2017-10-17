@@ -9,10 +9,7 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public static class EntityWrapperFactory
     {
-        public static OperatorWrapper CreateOperatorWrapper(
-            Operator op,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository)
+        public static OperatorWrapper CreateOperatorWrapper(Operator op, ICurveRepository curveRepository)
         {
             if (op == null) throw new NullException(() => op);
 
@@ -20,7 +17,6 @@ namespace JJ.Business.Synthesizer.Helpers
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.Curve: return new Curve_OperatorWrapper(op, curveRepository);
-                case OperatorTypeEnum.Sample: return new Sample_OperatorWrapper(op, sampleRepository);
                 case OperatorTypeEnum.Cache: return new Cache_OperatorWrapper(op);
                 case OperatorTypeEnum.InletsToDimension: return new InletsToDimension_OperatorWrapper(op);
                 case OperatorTypeEnum.Interpolate: return new Interpolate_OperatorWrapper(op);

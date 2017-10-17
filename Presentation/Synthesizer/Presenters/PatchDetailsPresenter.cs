@@ -330,10 +330,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private PatchDetailsViewModel CreateViewModel(Patch patch)
         {
-            return patch.ToDetailsViewModel(
-                _repositories.SampleRepository,
-                _repositories.CurveRepository,
-                _entityPositionManager);
+            return patch.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionManager);
         }
 
         public override void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)

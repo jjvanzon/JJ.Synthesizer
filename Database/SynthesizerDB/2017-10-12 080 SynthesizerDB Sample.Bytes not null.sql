@@ -1,0 +1,1 @@
+alter table Sample alter column Bytes varbinary(max) not null;

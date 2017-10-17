@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Extensions
@@ -26,6 +27,18 @@ namespace JJ.Business.Synthesizer.Extensions
             if (patch.Document == null) throw new NullException(() => patch.Document);
 
             return patch.Document.IsSystemDocument();
+        }
+
+        public static bool IsSamplePatch(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            if (!patch.IsSystemPatch())
+            {
+                return false;
+            }
+
+            return string.Equals(patch.Name, nameof(SystemPatchNames.Sample));
         }
     }
 }

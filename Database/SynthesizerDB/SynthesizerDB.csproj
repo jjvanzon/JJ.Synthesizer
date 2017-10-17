@@ -497,6 +497,22 @@
     <Content Include="2017-10-11 010 SynthesizerDB Sample.OperatorID.sql" />
     <Content Include="2017-10-11 020 SynthesizerDB FK_Sample_Operator.sql" />
     <Content Include="2017-10-11 030 SynthesizerDB IX_Sample_OperatorID.sql" />
+    <Content Include="2017-10-12 020 SynthesizerDB IX_Sample_OperatorID drop index.sql" />
+    <Content Include="2017-10-12 030 SynthesizerDB Sample.OperatorID not null.sql" />
+    <Content Include="2017-10-12 040 SynthesizerDB IX_Sample_OperatorID_Unique.sql" />
+    <Content Include="2017-10-12 050 SynthesizerDB IX_Sample_DocumentID drop index.sql" />
+    <Content Include="2017-10-12 060 SynthesizerDB FK_Sample_Document drop FK.sql" />
+    <Content Include="2017-10-12 070 SynthesizerDB Sample.DocumentID drop column.sql" />
+    <Content Include="2017-10-12 080 SynthesizerDB Sample.Bytes not null.sql" />
+    <Content Include="2017-10-14 010 SynthesizerDB Operator.Data clear for Sample Operators.sql" />
+    <Content Include="2017-10-17 010 SynthesizerDB Operator.SampleID.sql" />
+    <Content Include="2017-10-17 020 SynthesizerDB FK_Operator_Sample.sql" />
+    <Content Include="2017-10-17 030 SynthesizerDB IX_Sample_OperatorID.sql" />
+    <Content Include="2017-10-17 040 SynthesizerDB migrate Sample.OperatorID to Operator.SampleID.sql" />
+    <Content Include="2017-10-17 050 SynthesizerDB IX_Sample_OperatorID_Unique drop index.sql" />
+    <Content Include="2017-10-17 060 SynthesizerDB FK_Sample_Operator drop constraint.sql" />
+    <Content Include="2017-10-17 070 SynthesizerDB Sample.OperatorID drop column.sql" />
+    <Content Include="2017-10-17 080 SynthesizerDB Sample.Bytes null.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -88,10 +88,10 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             //                                                 .Fetch(x => x.Patches).Eager
             //                                                 .Future<Document>();
 
-            var level_2_samplesQuery = _context.Session.QueryOver(() => document)
-                                                       .Left.JoinAlias(() => document.Samples, () => sample)
-                                                       .Where(() => document.ID == documentID)
-                                                       .Future<Document>();
+            //var level_2_samplesQuery = _context.Session.QueryOver(() => document)
+            //                                           .Left.JoinAlias(() => document.Samples, () => sample)
+            //                                           .Where(() => document.ID == documentID)
+            //                                           .Future<Document>();
 
             var level_2_scalesQuery = _context.Session.QueryOver(() => document)
                                                       .Left.JoinAlias(() => document.Scales, () => scale)

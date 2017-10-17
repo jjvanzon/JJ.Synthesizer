@@ -145,7 +145,7 @@ namespace JJ.Business.Synthesizer
         {
             if (op == null) throw new NullException(() => op);
 
-            IValidator validator = new OperatorValidator_IsOfSamePatchOrPatchIsNull_Recursive(op, patch, _repositories.SampleRepository, _repositories.CurveRepository);
+            IValidator validator = new OperatorValidator_IsOfSamePatchOrPatchIsNull_Recursive(op, patch, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
                 return validator.ToResult();
@@ -181,13 +181,19 @@ namespace JJ.Business.Synthesizer
         {
             if (patch == null) throw new NullException(() => patch);
 
-            IValidator validator = new PatchValidator_Delete(patch, _repositories.SampleRepository, _repositories.CurveRepository);
+            IValidator validator = new PatchValidator_Delete(patch, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
                 return validator.ToResult();
             }
 
-            patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
+            patch.DeleteRelatedEntities(
+                _repositories.OperatorRepository,
+                _repositories.InletRepository,
+                _repositories.OutletRepository,
+                _repositories.SampleRepository,
+                _repositories.EntityPositionRepository);
+
             patch.UnlinkRelatedEntities();
             _repositories.PatchRepository.Delete(patch);
 
@@ -225,7 +231,7 @@ namespace JJ.Business.Synthesizer
             Patch patch = op.Patch;
 
             op.UnlinkRelatedEntities();
-            op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
+            op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.SampleRepository, _repositories.EntityPositionRepository);
             _repositories.OperatorRepository.Delete(op);
 
             new Patch_SideEffect_UpdateDerivedOperators(patch, _repositories).Execute();

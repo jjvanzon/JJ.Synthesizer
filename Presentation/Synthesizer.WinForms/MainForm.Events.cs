@@ -72,7 +72,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.OpenItemExternallyRequested += documentTreeUserControl_OpenItemExternallyRequested;
             documentTreeUserControl.RefreshRequested += documentTreeUserControl_RefreshRequested;
             documentTreeUserControl.RemoveRequested += documentTreeUserControl_RemoveRequested;
-            documentTreeUserControl.SamplesNodeSelected += documentTreeUserControl_SamplesNodeSelected;
             documentTreeUserControl.SaveRequested += documentTreeUserControl_SaveRequested;
             documentTreeUserControl.ScalesNodeSelected += documentTreeUserControl_ScalesNodeSelected;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
@@ -80,7 +79,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
-            documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
@@ -152,15 +150,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchPropertiesUserControl.LoseFocusRequested += patchPropertiesUserControl_LoseFocusRequested;
             patchPropertiesUserControl.PlayRequested += patchPropertiesUserControl_PlayRequested;
             patchPropertiesUserControl.RemoveRequested += patchPropertiesUserControl_RemoveRequested;
-            sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
-            sampleGridUserControl.AddRequested += sampleGridUserControl_AddRequested;
-            sampleGridUserControl.PlayRequested += sampleGridUserControl_PlayRequested;
-            sampleGridUserControl.RemoveRequested += sampleGridUserControl_RemoveRequested;
-            sampleGridUserControl.ShowItemRequested += sampleGridUserControl_ShowItemRequested;
-            samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
-            samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
-            samplePropertiesUserControl.PlayRequested += samplePropertiesUserControl_PlayRequested;
-            samplePropertiesUserControl.RemoveRequested += samplePropertiesUserControl_RemoveRequested;
             scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
             scaleGridUserControl.AddRequested += scaleGridUserControl_AddRequested;
             scaleGridUserControl.RemoveRequested += scaleGridUserControl_RemoveRequested;
@@ -186,13 +175,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _librarySelectionPopupForm.OpenItemExternallyRequested += _librarySelectionPopupForm_OpenItemExternallyRequested;
             _librarySelectionPopupForm.PlayRequested += _librarySelectionPopupForm_PlayRequested;
 
-            MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
-            MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
-            MessageBoxHelper.DocumentDeletedOK += MessageBoxHelper_DocumentDeletedOK;
-            MessageBoxHelper.DocumentOrPatchNotFoundOK += MessageBoxHelper_DocumentOrPatchNotFoundOK;
-            MessageBoxHelper.PopupMessagesOK += MessageBoxHelper_PopupMessagesOK;
+            ModalPopupHelper.DocumentDeleteConfirmed += ModalPopupHelper_DocumentDeleteConfirmed;
+            ModalPopupHelper.DocumentDeleteCanceled += ModalPopupHelper_DocumentDeleteCanceled;
+            ModalPopupHelper.DocumentDeletedOK += ModalPopupHelper_DocumentDeletedOK;
+            ModalPopupHelper.DocumentOrPatchNotFoundOK += ModalPopupHelper_DocumentOrPatchNotFoundOK;
+            ModalPopupHelper.PopupMessagesOK += ModalPopupHelper_PopupMessagesOK;
+            ModalPopupHelper.SampleFileBrowserCancel += ModalPopupHelper_SampleFileBrowserCancel;
+            ModalPopupHelper.SampleFileBrowserOK += ModalPopupHelper_SampleFileBrowserOK;
         }
-        
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Program.RemoveMainWindow(this);
@@ -584,8 +575,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_RemoveRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeRemove);
 
-        private void documentTreeUserControl_SamplesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectSamples);
-
         private void documentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectScales);
 
         private void documentTreeUserControl_SaveRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentSave);
@@ -609,8 +598,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             TemplateActionHandler(() => _presenter.PatchDetailsShow(e.Value));
         }
-
-        private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.SampleGridShow);
 
         private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.ScaleGridShow);
 
@@ -1084,61 +1071,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        // Sample
-
-        private void sampleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.SampleCreate);
-
-        private void sampleGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.SampleGridClose);
-
-        private void sampleGridUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.SampleGridPlay(e.Value);
-                    PlayOutletIfNeeded();
-                });
-        }
-
-        private void sampleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.SampleGridDelete(e.Value));
-
-        private void sampleGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.SamplePropertiesShow(e.Value));
-
-        private void samplePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.SamplePropertiesLoseFocus(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.SamplePropertiesClose(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void samplePropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.SamplePropertiesPlay(e.Value);
-                    PlayOutletIfNeeded();
-                });
-        }
-
-        private void samplePropertiesUserControl_RemoveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _presenter.SamplePropertiesDelete(e.Value));
-        }
-
         // Scale
 
         private void scaleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.ScaleCreate);
@@ -1228,18 +1160,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Message Boxes
 
-        private void MessageBoxHelper_DocumentDeleteCanceled(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentDeleteCancel);
+        private void ModalPopupHelper_DocumentDeleteCanceled(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentDeleteCancel);
 
-        private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e)
+        private void ModalPopupHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(_presenter.DocumentDeleteConfirm);
         }
 
-        private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentDeletedOK);
-
-        private void MessageBoxHelper_DocumentOrPatchNotFoundOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentOrPatchNotFoundOK);
-
-        private void MessageBoxHelper_PopupMessagesOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.PopupMessagesOK);
+        private void ModalPopupHelper_DocumentDeletedOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentDeletedOK);
+        private void ModalPopupHelper_DocumentOrPatchNotFoundOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentOrPatchNotFoundOK);
+        private void ModalPopupHelper_PopupMessagesOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.PopupMessagesOK);
+        private void ModalPopupHelper_SampleFileBrowserCancel(object sender, EventArgs e) => TemplateActionHandler(_presenter.SampleFileBrowserCancel);
+        private void ModalPopupHelper_SampleFileBrowserOK(object sender, EventArgs e) => TemplateActionHandler(_presenter.SampleFileBrowserOK);
 
         // DocumentCannotDeleteForm
 

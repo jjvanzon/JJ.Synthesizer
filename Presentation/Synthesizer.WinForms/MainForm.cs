@@ -41,8 +41,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private readonly InfrastructureFacade _infrastructureFacade;
         private readonly AutoPatcher _autoPatcher;
 
-        private readonly DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
         private readonly AutoPatchPopupForm _autoPatchPopupForm = new AutoPatchPopupForm();
+        private readonly DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
         private readonly LibrarySelectionPopupForm _librarySelectionPopupForm = new LibrarySelectionPopupForm();
 
         public MainForm()

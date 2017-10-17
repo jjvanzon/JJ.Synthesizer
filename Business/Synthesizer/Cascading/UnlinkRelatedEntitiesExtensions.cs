@@ -97,7 +97,6 @@ namespace JJ.Business.Synthesizer.Cascading
             sample.UnlinkInterpolationType();
             sample.UnlinkSampleDataType();
             sample.UnlinkSpeakerSetup();
-            sample.UnlinkDocument();
         }
 
         public static void UnlinkRelatedEntities(this Scale scale)

@@ -48,6 +48,7 @@ namespace JJ.Business.Synthesizer.Resources
         public static string BrightnessModulationDepth => Resources.BrightnessModulationDepth;
         public static string BrightnessModulationSpeed => Resources.BrightnessModulationSpeed;
         public static string Byte => Resources.Byte;
+        public static string Bytes => Resources.Bytes;
         public static string BytesToSkip => Resources.BytesToSkip;
         public static string Cache => Resources.Cache;
         public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem) => string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);
@@ -326,12 +327,6 @@ namespace JJ.Business.Synthesizer.Resources
 
         // Generic methods that could return several different resource text
 
-        /// <summary> You can use this overload if the object resourceName's ToString converts it to the resource key. </summary>
-        public static string GetDisplayName(object resourceName)
-        {
-            return GetDisplayName(Convert.ToString(resourceName));
-        }
-
         public static string GetDisplayName(string resourceName)
         {
             string str = Resources.ResourceManager.GetString(resourceName);
@@ -353,18 +348,17 @@ namespace JJ.Business.Synthesizer.Resources
             return str;
         }
 
-        public static string GetDisplayName(Patch entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
+        // AudioFileFormat
 
-            if (entity.IsSystemPatch())
-            {
-                return GetDisplayName(entity.Name);
-            }
-            else
-            {
-                return entity.Name;
-            }
+        internal static string GetDisplayName(AudioFileFormatEnum audioFileFormatEnum) => GetDisplayName(audioFileFormatEnum.ToString());
+
+        internal static string GetDisplayName(AudioFileFormat audioFileFormat) => GetDisplayName(audioFileFormat.ToEnum());
+
+        // CollectionRecalculation
+
+        public static string GetDisplayName(CollectionRecalculationEnum enumValue)
+        {
+            return GetDisplayName(enumValue.ToString());
         }
 
         // Dimension
@@ -456,20 +450,20 @@ namespace JJ.Business.Synthesizer.Resources
             return outlet.Name;
         }
 
-        // SpeakerSetup
+        // Patch
 
-        public static string GetDisplayName(SpeakerSetup entity)
+        public static string GetDisplayName(Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            SpeakerSetupEnum dimensionEnum = (SpeakerSetupEnum)entity.ID;
-
-            return GetDisplayName(dimensionEnum);
-        }
-
-        public static string GetDisplayName(SpeakerSetupEnum enumValue)
-        {
-            return GetDisplayName(enumValue.ToString());
+            if (entity.IsSystemPatch())
+            {
+                return GetDisplayName(entity.Name);
+            }
+            else
+            {
+                return entity.Name;
+            }
         }
 
         // ResampleInterpolationType
@@ -479,12 +473,11 @@ namespace JJ.Business.Synthesizer.Resources
             return GetDisplayName(enumValue.ToString());
         }
 
-        // CollectionRecalculation
+        // SampleDataType
 
-        public static string GetDisplayName(CollectionRecalculationEnum enumValue)
-        {
-            return GetDisplayName(enumValue.ToString());
-        }
+        internal static string GetDisplayName(SampleDataTypeEnum sampleDataTypeEnum) => GetDisplayName(sampleDataTypeEnum.ToString());
+
+        internal static string GetDisplayName(SampleDataType sampleDataType) => GetDisplayName(sampleDataType.ToEnum());
 
         // ScaleType Singular
 
@@ -570,6 +563,22 @@ namespace JJ.Business.Synthesizer.Resources
         {
             ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
             return GetDisplayNamePlural(scaleTypeEnum);
+        }
+
+        // SpeakerSetup
+
+        public static string GetDisplayName(SpeakerSetup entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            SpeakerSetupEnum dimensionEnum = (SpeakerSetupEnum)entity.ID;
+
+            return GetDisplayName(dimensionEnum);
+        }
+
+        public static string GetDisplayName(SpeakerSetupEnum enumValue)
+        {
+            return GetDisplayName(enumValue.ToString());
         }
     }
 }

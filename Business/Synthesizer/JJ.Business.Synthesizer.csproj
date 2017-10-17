@@ -326,7 +326,7 @@
     <Compile Include="Validation\Operators\OperatorValidator_SetInletCount.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount.cs" />
     <Compile Include="Validation\InletOrOutletValidator.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_Basic.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />
@@ -491,7 +491,6 @@
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Interpolate_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Sample_OperatorWrapper.cs" />
     <Compile Include="Enums\OperatorTypeEnum.cs" />
     <Compile Include="Enums\SpeakerSetupEnum.cs" />
     <Compile Include="Enums\ChannelEnum.cs" />
@@ -584,7 +583,6 @@
     <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingPatch.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_UpdateDerivedOperators.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Sample_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Helpers\WavHeaderStruct.cs" />
@@ -593,7 +591,6 @@
     <Compile Include="Validation\Curves\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
     <Compile Include="Validation\Operators\Interpolate_OperatorValidator.cs" />
-    <Compile Include="Validation\Samples\SampleValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Delete.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Delete.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Basic.cs" />
@@ -603,10 +600,9 @@
     <Compile Include="Validation\Documents\DocumentValidator_Recursive.cs" />
     <Compile Include="Validation\Operators\Sample_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Curve_OperatorValidator.cs" />
-    <Compile Include="Validation\Samples\SampleValidator.cs" />
+    <Compile Include="Validation\SampleValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator.cs" />
     <Compile Include="Validation\Patches\PatchValidator_WithRelatedEntities.cs" />
-    <Compile Include="Validation\Samples\SampleValidator_Delete.cs" />
     <Compile Include="Validation\Scales\ScaleValidator_InDocument.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_UniqueName.cs" />
     <Compile Include="Validation\Scales\ScaleValidator_UniqueName.cs" />
@@ -627,13 +623,11 @@
     <Compile Include="Warnings\PatchWarningValidator_WithRelatedEntities.cs" />
     <Compile Include="Warnings\SampleWarningValidator.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Basic.cs" />
-    <Compile Include="Warnings\Operators\Sample_OperatorWarningValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
     <Compile Include="Validation\Operators\Number_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_VersatileWithUnderlyingEntities.cs" />
     <Compile Include="EntityWrappers\Number_OperatorWrapper.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
-    <Compile Include="Helpers\PropertyNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Versatile.cs" />
     <Compile Include="Warnings\Operators\Curve_OperatorWarningValidator.cs" />
@@ -730,7 +724,9 @@
     <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Validation\Samples\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

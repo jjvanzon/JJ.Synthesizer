@@ -193,16 +193,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 });
         }
 
-        public DocumentTreeViewModel SelectSamples(DocumentTreeViewModel userInput)
-        {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Samples;
-                });
-        }
-
         public DocumentTreeViewModel SelectScales(DocumentTreeViewModel userInput)
         {
             return TemplateMethod(

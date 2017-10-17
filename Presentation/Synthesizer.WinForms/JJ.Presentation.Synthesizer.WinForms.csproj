@@ -97,7 +97,7 @@
     <Compile Include="Forms\AutoPatchPopupForm.Designer.cs">
       <DependentUpon>AutoPatchPopupForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\MessageBoxHelper.cs" />
+    <Compile Include="Helpers\ModalPopupHelper.cs" />
     <Compile Include="MainForm.ApplyViewModel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -290,12 +290,6 @@
     <Compile Include="UserControls\ScaleGridUserControl.Designer.cs">
       <DependentUpon>ScaleGridUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SamplePropertiesUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\SamplePropertiesUserControl.Designer.cs">
-      <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\DocumentPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -334,12 +328,6 @@
     </Compile>
     <Compile Include="UserControls\Partials\MenuUserControl.Designer.cs">
       <DependentUpon>MenuUserControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\SampleGridUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\SampleGridUserControl.Designer.cs">
-      <DependentUpon>SampleGridUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\DocumentGridUserControl.cs">
       <SubType>UserControl</SubType>
@@ -460,9 +448,6 @@
     <EmbeddedResource Include="UserControls\ScaleGridUserControl.resx">
       <DependentUpon>ScaleGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\SamplePropertiesUserControl.resx">
-      <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentPropertiesUserControl.resx">
       <DependentUpon>DocumentPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -480,9 +465,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Partials\MenuUserControl.resx">
       <DependentUpon>MenuUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\SampleGridUserControl.resx">
-      <DependentUpon>SampleGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentGridUserControl.resx">
       <DependentUpon>DocumentGridUserControl.cs</DependentUpon>

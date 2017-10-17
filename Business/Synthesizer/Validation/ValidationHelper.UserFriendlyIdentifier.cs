@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -7,6 +8,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation.Resources;
@@ -109,7 +111,6 @@ namespace JJ.Business.Synthesizer.Validation
 
         public static string GetUserFriendlyIdentifier(
             Operator entity,
-            ISampleRepository sampleRepository,
             ICurveRepository curveRepository)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -119,7 +120,7 @@ namespace JJ.Business.Synthesizer.Validation
             switch (operatorTypeEnum)
             {
                 case OperatorTypeEnum.Curve: return GetUserFriendlyIdentifier_ForCurveOperator(entity, curveRepository);
-                case OperatorTypeEnum.Sample: return GetUserFriendlyIdentifier_ForSampleOperator(entity, sampleRepository);
+                case OperatorTypeEnum.Sample: return GetUserFriendlyIdentifier_ForSampleOperator(entity);
                 case OperatorTypeEnum.Number: return GetUserFriendlyIdentifier_ForNumberOperator(entity);
                 case OperatorTypeEnum.PatchInlet: return GetUserFriendlyIdentifier_ForPatchInlet(entity);
                 case OperatorTypeEnum.PatchOutlet: return GetUserFriendlyIdentifier_ForPatchOutlet(entity);
@@ -158,10 +159,9 @@ namespace JJ.Business.Synthesizer.Validation
             return $"'{ResourceFormatter.GetDisplayName(entity)}'";
         }
 
-        public static string GetUserFriendlyIdentifier_ForSampleOperator(Operator entity, ISampleRepository sampleRepository)
+        public static string GetUserFriendlyIdentifier_ForSampleOperator(Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             // Use Operator Name
             if (!string.IsNullOrWhiteSpace(entity.Name))
@@ -170,19 +170,10 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Underlying Entity Name
-            // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(entity))
+            Sample underlyingEntity = entity.Sample;
+            if (underlyingEntity != null)
             {
-                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, nameof(Sample_OperatorWrapper.SampleID));
-                // ReSharper disable once InvertIf
-                if (underlyingEntityID.HasValue)
-                {
-                    Sample underlyingEntity = sampleRepository.TryGet(underlyingEntityID.Value);
-                    if (underlyingEntity != null)
-                    {
-                        return GetUserFriendlyIdentifier(underlyingEntity);
-                    }
-                }
+                return GetUserFriendlyIdentifier(underlyingEntity);
             }
 
             // Mention 'no name' only
@@ -290,35 +281,32 @@ namespace JJ.Business.Synthesizer.Validation
 
             // Message prefix would become something like: 
             // Sample '16-Bit Mono 44100Hz WAV-File'
-            // ReSharper disable once UseStringInterpolation
 
-            var sb = new StringBuilder();
-
-            sb.Append('\'');
-
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            var identifierElements = new List<string>();
             if (entity.SampleDataType != null)
             {
-                sb.Append(ResourceFormatter.GetDisplayName(entity.SampleDataType));
+                string sampleDataTypeDisplayName = ResourceFormatter.GetDisplayName(entity.SampleDataType);
+                identifierElements.Add(sampleDataTypeDisplayName);
             }
 
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (entity.SpeakerSetup != null)
             {
-                sb.Append(ResourceFormatter.GetDisplayName(entity.SpeakerSetup));
+                string speakerSetupDisplayName = ResourceFormatter.GetDisplayName(entity.SpeakerSetup);
+                identifierElements.Add(speakerSetupDisplayName);
             }
 
-            sb.Append($"{entity.SamplingRate}Hz");
+            string samplingRateDisplayText = $"{entity.SamplingRate}Hz";
+            identifierElements.Add(samplingRateDisplayText);
 
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (entity.AudioFileFormat != null)
             {
-                sb.Append(ResourceFormatter.GetDisplayName(entity.AudioFileFormat));
+                string audioFileFormatDisplayName = ResourceFormatter.GetDisplayName(entity.AudioFileFormat);
+                identifierElements.Add(audioFileFormatDisplayName);
             }
 
-            sb.Append('\'');
+            string indentifier = StringHelper.Join(' ', identifierElements);
 
-            return sb.ToString();
+            return $"'{indentifier}'";
         }
 
         public static string GetUserFriendlyIdentifier(Scale entity)

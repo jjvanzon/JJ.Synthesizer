@@ -408,7 +408,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             // even though the CurveDetailsList ToEntity already covers deletion.
             viewModel.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
             viewModel.LibraryPropertiesDictionary.Values.ToEntities(destDocument, repositories);
-            viewModel.SamplePropertiesDictionary.Values.ToEntities(destDocument, new SampleRepositories(repositories));
             viewModel.ScalePropertiesDictionary.Values.ToEntities(scaleRepositories, destDocument);
             viewModel.ToneGridEditDictionary.Values.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
 
@@ -859,21 +858,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
+            Operator op = ConvertToOperator_Base(viewModel, repositories);
 
-            var wrapper = new Sample_OperatorWrapper(entity, repositories.SampleRepository);
+            Sample sample = viewModel.Sample.ToEntity(new SampleRepositories(repositories));
+            op.LinkTo(sample);
 
-            bool sampleIsFilledIn = viewModel.Sample != null && viewModel.Sample.ID != 0;
-            if (sampleIsFilledIn)
-            {
-                wrapper.SampleID = viewModel.Sample.ID;
-            }
-            else
-            {
-                wrapper.SampleID = null;
-            }
-
-            return entity;
+            return op;
         }
 
         public static Operator ToEntity(
@@ -1026,14 +1016,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Sample
 
-        public static Sample ToEntity(this SamplePropertiesViewModel viewModel, SampleRepositories repositories)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            return viewModel.Entity.ToEntity(repositories);
-        }
-
         public static Sample ToEntity(this SampleViewModel viewModel, SampleRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -1068,35 +1050,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             repositories.SampleRepository.SetBytes(viewModel.ID, viewModel.Bytes);
 
             return entity;
-        }
-
-        public static void ToEntities(this IEnumerable<SamplePropertiesViewModel> viewModelList, Document destDocument, SampleRepositories repositories)
-        {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destDocument == null) throw new NullException(() => destDocument);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (SamplePropertiesViewModel viewModel in viewModelList)
-            {
-                Sample entity = viewModel.ToEntity(repositories);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            var sampleManager = new SampleManager(repositories);
-
-            IList<int> existingIDs = destDocument.Samples.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                sampleManager.Delete(idToDelete);
-            }
         }
 
         // Scale

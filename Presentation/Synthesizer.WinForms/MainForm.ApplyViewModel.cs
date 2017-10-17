@@ -48,7 +48,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForPatchInlet.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
             operatorPropertiesUserControl_ForPatchOutlet.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet;
             operatorPropertiesUserControl_ForPatchOutlet.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForSample.SetSampleLookup(_presenter.MainViewModel.Document.SampleLookup);
             operatorPropertiesUserControl_ForSample.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
             operatorPropertiesUserControl_ForSample.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForSample;
             operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation;
@@ -57,8 +56,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_WithInterpolation.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
             patchDetailsUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchDetails;
             patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchProperties;
-            sampleGridUserControl.ViewModel = _presenter.MainViewModel.Document.SampleGrid;
-            samplePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleSampleProperties;
             scaleGridUserControl.ViewModel = _presenter.MainViewModel.Document.ScaleGrid;
             scalePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleScaleProperties;
             toneGridEditUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleToneGridEdit;
@@ -95,12 +92,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             // Modal Windows
             if (_presenter.MainViewModel.DocumentDelete.Visible)
             {
-                MessageBoxHelper.ShowDocumentConfirmDelete(this, _presenter.MainViewModel.DocumentDelete);
+                ModalPopupHelper.ShowDocumentConfirmDelete(this, _presenter.MainViewModel.DocumentDelete);
             }
 
             if (_presenter.MainViewModel.DocumentDeleted.Visible)
             {
-                MessageBoxHelper.ShowDocumentIsDeleted(this);
+                ModalPopupHelper.ShowDocumentIsDeleted(this);
             }
 
             if (_presenter.MainViewModel.DocumentCannotDelete.Visible)
@@ -120,10 +117,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _librarySelectionPopupForm.Visible = false;
             }
 
+            if (_presenter.MainViewModel.Document.SampleFileBrowser.Visible)
+            {
+                ModalPopupHelper.ShowSampleFileBrowser(this, _presenter.MainViewModel.Document.SampleFileBrowser);
+            }
+
             if (_presenter.MainViewModel.ValidationMessages.Count != 0)
             {
                 // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-                MessageBoxHelper.ShowMessageBox(this, string.Join(Environment.NewLine, _presenter.MainViewModel.ValidationMessages));
+                ModalPopupHelper.ShowMessageBox(this, string.Join(Environment.NewLine, _presenter.MainViewModel.ValidationMessages));
 
                 // Clear them so the next time the message box is not shown (message box is a temporary solution).
                 _presenter.MainViewModel.ValidationMessages.Clear();
@@ -134,7 +136,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 IList<string> messages = _presenter.MainViewModel.PopupMessages;
                 _presenter.MainViewModel.PopupMessages = new List<string>();
 
-                MessageBoxHelper.ShowPopupMessages(this, messages);
+                ModalPopupHelper.ShowPopupMessages(this, messages);
             }
 
             if (_presenter.MainViewModel.WarningMessages.Count != 0)
@@ -142,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
                 IList<string> messages = _presenter.MainViewModel.WarningMessages;
                 _presenter.MainViewModel.WarningMessages = new List<string>();
-                MessageBoxHelper.ShowMessageBox(
+                ModalPopupHelper.ShowMessageBox(
                     this,
                     ResourceFormatter.Warnings + ":" + Environment.NewLine + 
                     string.Join(Environment.NewLine, messages));
@@ -150,7 +152,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             if (_presenter.MainViewModel.DocumentOrPatchNotFound.Visible)
             {
-                MessageBoxHelper.ShowDocumentOrPatchNotFoundPopup(this, _presenter.MainViewModel.DocumentOrPatchNotFound);
+                ModalPopupHelper.ShowDocumentOrPatchNotFoundPopup(this, _presenter.MainViewModel.DocumentOrPatchNotFound);
             }
 
             // Focus control if not valid.

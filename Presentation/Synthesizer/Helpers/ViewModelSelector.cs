@@ -539,29 +539,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return null;
         }
 
-        // Sample
-
-        public static SamplePropertiesViewModel GetSamplePropertiesViewModel(DocumentViewModel documentViewModel, int sampleID)
-        {
-            SamplePropertiesViewModel viewModel = TryGetSamplePropertiesViewModel(documentViewModel, sampleID);
-
-            if (viewModel == null)
-            {
-                throw new NotFoundException<SamplePropertiesViewModel>(sampleID);
-            }
-
-            return viewModel;
-        }
-
-        public static SamplePropertiesViewModel TryGetSamplePropertiesViewModel(DocumentViewModel documentViewModel, int sampleID)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            documentViewModel.SamplePropertiesDictionary.TryGetValue(sampleID, out SamplePropertiesViewModel samplePropertiesViewModel);
-
-            return samplePropertiesViewModel;
-        }
-
         // Scale
 
         public static ScalePropertiesViewModel GetScalePropertiesViewModel(DocumentViewModel documentViewModel, int scaleID)

@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     break;
 
                 default:
-                    ExecuteValidator(new OperatorValidator(op));
+                    ExecuteValidator(new OperatorValidator_Basic(op));
                     break;
             }
         }

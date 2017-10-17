@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Business.Synthesizer.Validation.DocumentReferences;
 using JJ.Business.Synthesizer.Validation.Patches;
-using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
@@ -74,17 +73,6 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                 ExecuteValidator(new ScaleValidator_InDocument(scale), messagePrefix);
                 ExecuteValidator(new Versatile_ScaleValidator_WithoutTones(scale), messagePrefix);
                 ExecuteValidator(new ScaleValidator_Tones(scale), messagePrefix);
-            }
-
-            foreach (Sample sample in document.Samples)
-            {
-                if (alreadyDone.Contains(sample))
-                {
-                    continue;
-                }
-                alreadyDone.Add(sample);
-
-                ExecuteValidator(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
             }
 
             foreach (DocumentReference lowerDocumentReference in document.LowerDocumentReferences)

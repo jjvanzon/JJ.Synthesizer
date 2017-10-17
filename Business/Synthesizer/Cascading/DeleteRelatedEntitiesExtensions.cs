@@ -29,7 +29,13 @@ namespace JJ.Business.Synthesizer.Cascading
 
             foreach (Patch patch in document.Patches.ToArray())
             {
-                patch.DeleteRelatedEntities(repositories.OperatorRepository, repositories.InletRepository, repositories.OutletRepository, repositories.EntityPositionRepository);
+                patch.DeleteRelatedEntities(
+                    repositories.OperatorRepository,
+                    repositories.InletRepository,
+                    repositories.OutletRepository,
+                    repositories.SampleRepository,
+                    repositories.EntityPositionRepository);
+
                 patch.UnlinkRelatedEntities();
                 repositories.PatchRepository.Delete(patch);
             }
@@ -53,12 +59,6 @@ namespace JJ.Business.Synthesizer.Cascading
                 repositories.CurveRepository.Delete(curve);
             }
 
-            foreach (Sample sample in document.Samples.ToArray())
-            {
-                sample.UnlinkRelatedEntities();
-                repositories.SampleRepository.Delete(sample);
-            }
-
             foreach (Scale scale in document.Scales.ToArray())
             {
                 scale.DeleteRelatedEntities(repositories.ToneRepository);
@@ -75,9 +75,10 @@ namespace JJ.Business.Synthesizer.Cascading
 
         public static void DeleteRelatedEntities(
             this Patch patch,
-            IOperatorRepository operatorRepository, 
+            IOperatorRepository operatorRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
+            ISampleRepository sampleRepository,
             IEntityPositionRepository entityPositionRepository)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -88,7 +89,7 @@ namespace JJ.Business.Synthesizer.Cascading
 
             foreach (Operator op in patch.Operators.ToArray())
             {
-                op.DeleteRelatedEntities(inletRepository, outletRepository, entityPositionRepository);
+                op.DeleteRelatedEntities(inletRepository, outletRepository, sampleRepository, entityPositionRepository);
                 op.UnlinkRelatedEntities();
                 operatorRepository.Delete(op);
             }
@@ -98,11 +99,13 @@ namespace JJ.Business.Synthesizer.Cascading
             this Operator op, 
             IInletRepository inletRepository, 
             IOutletRepository outletRepository,
+            ISampleRepository sampleRepository,
             IEntityPositionRepository entityPositionRepository)
         {
             if (op == null) throw new NullException(() => op);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (sampleRepository == null) throw new ArgumentNullException(nameof(sampleRepository));
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
             foreach (Inlet inlet in op.Inlets.ToArray())
@@ -122,6 +125,12 @@ namespace JJ.Business.Synthesizer.Cascading
             if (entityPosition != null)
             {
                 entityPositionRepository.Delete(entityPosition);
+            }
+
+            if (op.Sample != null)
+            {
+                op.Sample.UnlinkRelatedEntities();
+                sampleRepository.Delete(op.Sample);
             }
         }
 

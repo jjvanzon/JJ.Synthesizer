@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
             foreach (Operator op in obj.Operators)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(op, sampleRepository, curveRepository);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(op, curveRepository);
                 ExecuteValidator(new OperatorWarningValidator_VersatileWithUnderlyingEntities(op, sampleRepository, alreadyDone), messagePrefix);
             }
         }

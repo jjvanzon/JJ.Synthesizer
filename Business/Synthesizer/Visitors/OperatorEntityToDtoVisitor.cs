@@ -304,7 +304,7 @@ namespace JJ.Business.Synthesizer.Visitors
             base.VisitSampleOutlet(outlet);
         }
 
-        /// <see cref="OperatorEntityVisitorBase.VisitSampleWithRate1"/>
+        /// <inheritdoc />
         protected override void VisitSampleWithRate1(Operator op)
         {
             var dto = new SampleWithRate1_OperatorDto();
@@ -313,16 +313,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
             SetDimensionProperties(_currentSampleOperator, dto);
 
-            var wrapper = new Sample_OperatorWrapper(_currentSampleOperator, _sampleRepository);
-            Sample sample = wrapper.Sample;
-
-            if (sample != null)
-            {
-                dto.SampleID = sample.ID;
-                dto.InterpolationTypeEnum = sample.GetInterpolationTypeEnum();
-                dto.SampleChannelCount = sample.GetChannelCount();
-                dto.ArrayDtos = _calculatorCache.GetSampleArrayDtos(sample.ID, _sampleRepository);
-            }
+            Sample sample = _currentSampleOperator.Sample;
+            dto.SampleID = sample.ID;
+            dto.InterpolationTypeEnum = sample.GetInterpolationTypeEnum();
+            dto.SampleChannelCount = sample.GetChannelCount();
+            dto.ArrayDtos = _calculatorCache.GetSampleArrayDtos(sample.ID, _sampleRepository);
         }
 
         protected override void VisitSetPosition(Operator op) => ProcessOperatorPolymorphic(op, new SetPosition_OperatorDto());

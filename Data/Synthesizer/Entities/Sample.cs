@@ -31,12 +31,6 @@ namespace JJ.Data.Synthesizer.Entities
         /// <summary> not nullable </summary>
         public virtual SpeakerSetup SpeakerSetup { get; set; }
 
-        /// <summary> parent, nullable </summary>
-        public virtual Document Document { get; set; }
-
-        /// <summary> nullable (for now) </summary>
-        public virtual Operator Operator { get; set; }
-
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

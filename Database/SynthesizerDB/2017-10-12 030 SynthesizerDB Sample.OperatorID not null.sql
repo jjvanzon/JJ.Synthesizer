@@ -1,0 +1,1 @@
+alter table Sample alter column OperatorID int not null

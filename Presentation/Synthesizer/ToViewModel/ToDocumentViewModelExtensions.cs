@@ -17,17 +17,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static DocumentViewModel ToViewModel(
             this Document document,
             IList<UsedInDto<Curve>> curveUsedInDtos,
-            IList<UsedInDto<Sample>> sampleUsedInDtos,
             RepositoryWrapper repositories,
             EntityPositionManager entityPositionManager)
         {
             if (document == null) throw new ArgumentNullException(nameof(document));
             if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
-            if (sampleUsedInDtos == null) throw new NullException(() => sampleUsedInDtos);
             // ReSharper disable once ImplicitlyCapturedClosure
             if (repositories == null) throw new NullException(() => repositories);
-
-            var sampleRepositories = new SampleRepositories(repositories);
 
             var viewModel = new DocumentViewModel
             {
@@ -51,14 +47,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForNumbers = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForPatchInlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForPatchOutlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForSamples = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository)).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForSamples = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForSamples(repositories.SampleRepository, repositories.InterpolationTypeRepository)).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithCollectionRecalculation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithCollectionRecalculation()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithInterpolation = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_WithInterpolation()).ToDictionary(x => x.ID),
-                PatchDetailsDictionary = document.Patches.Select(x => x.ToDetailsViewModel(repositories.SampleRepository, repositories.CurveRepository, entityPositionManager)).ToDictionary(x => x.Entity.ID),
+                PatchDetailsDictionary = document.Patches.Select(x => x.ToDetailsViewModel(repositories.CurveRepository, entityPositionManager)).ToDictionary(x => x.Entity.ID),
                 PatchPropertiesDictionary = document.Patches.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
-                SampleLookup = ToViewModelHelper.CreateSampleLookupViewModel(document),
-                SampleGrid = sampleUsedInDtos.ToGridViewModel(document.ID),
-                SamplePropertiesDictionary = document.Samples.Select(x => x.ToPropertiesViewModel(sampleRepositories)).ToDictionary(x => x.Entity.ID),
+                SampleFileBrowser = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel(),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesDictionary = document.Scales.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID)
@@ -103,10 +97,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_ForNumbers = patch.ToPropertiesViewModelList_ForNumbers().ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForPatchInlets = patch.ToPropertiesViewModelList_ForPatchInlets().ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForPatchOutlets = patch.ToPropertiesViewModelList_ForPatchOutlets().ToDictionary(x => x.ID),
-                OperatorPropertiesDictionary_ForSamples = patch.ToPropertiesViewModelList_ForSamples(sampleRepository).ToDictionary(x => x.ID),
+                OperatorPropertiesDictionary_ForSamples = patch.ToPropertiesViewModelList_ForSamples(sampleRepository, interpolationTypeRepository).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithCollectionRecalculation = patch.ToPropertiesViewModelList_WithCollectionRecalculation().ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_WithInterpolation = patch.ToPropertiesViewModelList_WithInterpolation().ToDictionary(x => x.ID),
-                PatchDetails = patch.ToDetailsViewModel(sampleRepository, curveRepository, entityPositionManager),
+                PatchDetails = patch.ToDetailsViewModel(curveRepository, entityPositionManager),
                 PatchProperties = patch.ToPropertiesViewModel(),
                 ValidationMessages = new List<string>()
             };

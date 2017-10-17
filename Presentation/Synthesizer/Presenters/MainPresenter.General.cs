@@ -38,7 +38,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private const float OPERATOR_HEIGHT = 30f;
 
         private readonly RepositoryWrapper _repositories;
-        private readonly SampleRepositories _sampleRepositories;
         private readonly CurveRepositories _curveRepositories;
 
         private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
@@ -72,8 +71,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_WithCollectionRecalculation _operatorPropertiesPresenter_WithCollectionRecalculation;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
         private readonly PatchPropertiesPresenter _patchPropertiesPresenter;
-        private readonly SampleGridPresenter _sampleGridPresenter;
-        private readonly SamplePropertiesPresenter _samplePropertiesPresenter;
+        private readonly SampleFileBrowserPresenter _sampleFileBrowserPresenter;
         private readonly ScaleGridPresenter _scaleGridPresenter;
         private readonly ScalePropertiesPresenter _scalePropertiesPresenter;
         private readonly ToneGridEditPresenter _toneGridEditPresenter;
@@ -85,7 +83,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentManager _documentManager;
         private readonly EntityPositionManager _entityPositionManager;
         private readonly PatchManager _patchManager;
-        private readonly SampleManager _sampleManager;
         private readonly ScaleManager _scaleManager;
 
         public MainViewModel MainViewModel { get; private set; }
@@ -95,7 +92,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Create Repositories
             _repositories = repositories ?? throw new NullException(() => repositories);
             _curveRepositories = new CurveRepositories(_repositories);
-            _sampleRepositories = new SampleRepositories(_repositories);
             var scaleRepositories = new ScaleRepositories(_repositories);
             var audioFileOutputRepositories = new AudioFileOutputRepositories(_repositories);
 
@@ -108,7 +104,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.EntityPositionRepository, 
                 _repositories.IDRepository);
             _patchManager = new PatchManager(_repositories);
-            _sampleManager = new SampleManager(_sampleRepositories);
             _scaleManager = new ScaleManager(scaleRepositories);
 
             // Create Presenters
@@ -146,8 +141,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_WithCollectionRecalculation= new OperatorPropertiesPresenter_WithCollectionRecalculation(_repositories);
             _patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionManager);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
-            _sampleGridPresenter = new SampleGridPresenter(_repositories);
-            _samplePropertiesPresenter = new SamplePropertiesPresenter(_repositories);
+            _sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _entityPositionManager, _repositories);
             _scaleGridPresenter = new ScaleGridPresenter(_repositories);
             _scalePropertiesPresenter = new ScalePropertiesPresenter(scaleRepositories);
             _toneGridEditPresenter = new ToneGridEditPresenter(scaleRepositories);
@@ -165,7 +159,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.AudioFileOutputGrid.Visible = false;
             MainViewModel.Document.CurveGrid.Visible = false;
-            MainViewModel.Document.SampleGrid.Visible = false;
             MainViewModel.Document.ScaleGrid.Visible = false;
 
             MainViewModel.Document.VisiblePatchDetails = null;
@@ -209,8 +202,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisiblePatchProperties = null;
             MainViewModel.Document.PatchPropertiesDictionary.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.VisibleSampleProperties = null;
-            MainViewModel.Document.SamplePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.VisibleScaleProperties = null;
             MainViewModel.Document.ScalePropertiesDictionary.Values.ForEach(x => x.Visible = false);
         }

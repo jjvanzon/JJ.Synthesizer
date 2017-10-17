@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Canonical;
@@ -12,6 +14,7 @@ using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
+using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer
 {
@@ -20,6 +23,7 @@ namespace JJ.Business.Synthesizer
         private readonly Patch _patch;
         private readonly RepositoryWrapper _repositories;
         private readonly PatchManager _patchManager;
+        private readonly SampleManager _sampleManager;
         private readonly DocumentManager _documentManager;
 
         public OperatorFactory(Patch patch, RepositoryWrapper repositories)
@@ -29,6 +33,7 @@ namespace JJ.Business.Synthesizer
 
             _documentManager = new DocumentManager(_repositories);
             _patchManager = new PatchManager(_repositories);
+            _sampleManager = new SampleManager(new SampleRepositories(repositories));
         }
 
         public OperatorWrapper Absolute(Outlet number = null)
@@ -319,8 +324,6 @@ namespace JJ.Business.Synthesizer
 
             wrapper.Inputs[DimensionEnum.Signal] = signal;
 
-            new OperatorValidator_Versatile(op).Assert();
-
             return wrapper;
         }
 
@@ -500,8 +503,6 @@ namespace JJ.Business.Synthesizer
             
             // Items
             wrapper.Inputs.SetMany(DimensionEnum.Item, items);
-
-            new OperatorValidator_Versatile(op).Assert();
 
             return wrapper;
         }
@@ -790,8 +791,6 @@ namespace JJ.Business.Synthesizer
 
             wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
-            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
-
             return wrapper;
         }
 
@@ -799,8 +798,6 @@ namespace JJ.Business.Synthesizer
         {
             PatchInletOrOutlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Inlet.Name = name;
-
-            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -812,8 +809,6 @@ namespace JJ.Business.Synthesizer
             wrapper.Inlet.Name = name;
             wrapper.Inlet.DefaultValue = defaultValue;
 
-            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
-
             return wrapper;
         }
 
@@ -823,8 +818,6 @@ namespace JJ.Business.Synthesizer
 
             wrapper.Inlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
             wrapper.Inlet.DefaultValue = defaultValue;
-
-            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -840,8 +833,6 @@ namespace JJ.Business.Synthesizer
             // Call save to execute side-effects and robust validation.
             _patchManager.SaveOperator(op).Assert();
 
-            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
-
             return wrapper;
         }
 
@@ -851,8 +842,6 @@ namespace JJ.Business.Synthesizer
 
             wrapper.Outlet.SetDimensionEnum(dimension, _repositories.DimensionRepository);
 
-            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
-
             return wrapper;
         }
 
@@ -861,8 +850,6 @@ namespace JJ.Business.Synthesizer
             PatchInletOrOutlet_OperatorWrapper wrapper = PatchOutlet(input);
 
             wrapper.Outlet.Name = name;
-
-            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
 
             return wrapper;
         }
@@ -1003,18 +990,33 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Sample_OperatorWrapper Sample(
-            Sample sample = null, 
+        public OperatorWrapper Sample(
+            Stream stream, 
             Outlet frequency = null,
             DimensionEnum? standardDimension = null,
-            string customDimension = null)
+            string customDimension = null,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
         {
-            Operator op = NewWithDimension(standardDimension, customDimension);
+            byte[] bytes = StreamHelper.StreamToBytes(stream);
 
-            var wrapper = new Sample_OperatorWrapper(op, _repositories.SampleRepository)
-            {
-                SampleID = sample?.ID
-            };
+            OperatorWrapper wrapper = Sample(bytes, frequency, standardDimension, customDimension, audioFileFormatEnum);
+
+            return wrapper;
+        }
+
+        public OperatorWrapper Sample(
+            byte[] bytes,
+            Outlet frequency = null,
+            DimensionEnum? standardDimension = null,
+            string customDimension = null,
+            AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
+        {
+            OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
+
+            SampleInfo sampleInfo = _sampleManager.CreateSample(bytes, audioFileFormatEnum);
+            Sample sample = sampleInfo.Sample;
+            wrapper.WrappedOperator.LinkTo(sample);
+
             wrapper.Inputs[DimensionEnum.Frequency] = frequency;
 
             return wrapper;
@@ -1423,12 +1425,13 @@ namespace JJ.Business.Synthesizer
                 inlet.LinkTo(operand);
             }
 
-            new OperatorValidator_Versatile(wrapper.WrappedOperator).Assert();
-
             return wrapper;
         }
 
-        /// <summary> Called from the DocumentTree view's New action. </summary>
+        /// <summary>
+        /// Called from the DocumentTree view's New action.
+        /// Does not support creating a Sample operator.
+        /// </summary>
         public OperatorWrapper New(Patch underlyingPatch, int variableInletOrOutletCount = 16)
         {
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Absolute))) return Absolute();
@@ -1491,7 +1494,6 @@ namespace JJ.Business.Synthesizer
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Reset))) return Reset();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Reverse))) return Reverse();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Round))) return Round();
-            if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Sample))) return Sample();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SawDown))) return SawDown();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SawUp))) return SawUp();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Scaler))) return Scaler();
@@ -1511,6 +1513,12 @@ namespace JJ.Business.Synthesizer
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ToggleTrigger))) return ToggleTrigger();
             if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Triangle))) return Triangle();
 
+            if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Sample)))
+            {
+                throw new NotSupportedException(
+                    $"{nameof(Sample)} operator cannot be created with the generic {nameof(New)} method, " +
+                    $"because it needs a byte array or Stream. Call the {nameof(Sample)} method instead.");
+            }
             OperatorWrapper op = NewBase(underlyingPatch);
             return op;
         }
@@ -1533,7 +1541,7 @@ namespace JJ.Business.Synthesizer
 
             new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
 
-            new OperatorValidator(op).Assert();
+            new OperatorValidator_Basic(op).Assert();
 
             var wrapper = new OperatorWrapper(op);
             return wrapper;

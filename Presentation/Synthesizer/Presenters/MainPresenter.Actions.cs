@@ -9,7 +9,6 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Mathematics;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
@@ -929,12 +928,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             // Business
             IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
-            IList<UsedInDto<Sample>> sampleUsedInDtos = _documentManager.GetUsedIn(document.Samples);
 
             // ToViewModel
             DocumentViewModel viewModel = document.ToViewModel(
                 curveUsedInDtos,
-                sampleUsedInDtos,
                 _repositories,
                 _entityPositionManager);
 
@@ -977,9 +974,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
             viewModel.PatchDetailsDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.PatchPropertiesDictionary.Values.ForEach(x => x.Successful = true);
-            viewModel.SampleGrid.Successful = true;
-            viewModel.SamplePropertiesDictionary.Values.ForEach(x => x.Successful = true);
-            viewModel.SamplePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.ScaleGrid.Successful = true;
             viewModel.ScalePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.ToneGridEditDictionary.Values.ForEach(x => x.Successful = true);
@@ -1240,15 +1234,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         Patch underlyingPatch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
                         Patch patch = _repositories.PatchRepository.Get(MainViewModel.Document.VisiblePatchDetails.Entity.ID);
 
-                        // Business
-                        var operatorFactory = new OperatorFactory(patch, _repositories);
-                        Operator op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
-                        _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+                        bool isSamplePatch = underlyingPatch.IsSamplePatch();
+                        if (isSamplePatch)
+                        {
+                            // ToViewModel
+                            MainViewModel.Document.SampleFileBrowser.Visible = true;
+                            MainViewModel.Document.SampleFileBrowser.DestPatchID = patch.ID;
+                        }
+                        else
+                        {
+                            // Business
+                            var operatorFactory = new OperatorFactory(patch, _repositories);
+                            Operator op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
+                            _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+                        }
 
                         // Successful
                         userInput.Successful = true;
 
-                        // Do not do Tbother with ToViewModel. We will do a full Refresh later.
+                        // Do not do bother with ToViewModel. We will do a full Refresh later.
                         return userInput;
 
                     default:
@@ -1358,38 +1362,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         break;
                     }
 
-                    case DocumentTreeNodeTypeEnum.Samples:
-                    {
-                        // Business
-                        Sample sample = Randomizer.TryGetRandomItem(document.Samples);
-                        if (sample != null)
-                        {
-                            Patch patch = _patchManager.CreatePatch();
-
-                            var x = new OperatorFactory(patch, _repositories);
-                            Outlet outlet2 = x.Sample(sample);
-
-                            VoidResult result2 = _patchManager.SavePatch(patch);
-
-                            result = new Result<Outlet>
-                            {
-                                Successful = result2.Successful,
-                                Messages = result2.Messages,
-                                Data = outlet2
-                            };
-                        }
-                        else
-                        {
-                            result = new Result<Outlet>
-                            {
-                                Successful = false,
-                                Messages = new[] { ResourceFormatter.NoSoundFound }
-                            };
-                        }
-
-                        break;
-                    }
-
                     case DocumentTreeNodeTypeEnum.Libraries:
                     {
                         // Business
@@ -1469,8 +1441,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             ReadOnlyDocumentTreeActionTemplate(x => _documentTreePresenter.SelectLibraryPatchGroup(x, lowerDocumentReferenceID, patchGroup));
         }
-
-        public void DocumentTreeSelectSamples() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.SelectSamples);
 
         public void DocumentTreeSelectScales() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.SelectScales);
 
@@ -2581,156 +2551,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         // Sample
+    
+        public void SampleFileBrowserCancel()
+        {
+            SampleFileBrowserViewModel userInput = MainViewModel.Document.SampleFileBrowser;
 
-        public void SampleCreate()
+            ReadOnlyActionTemplateMethod(userInput, () => _sampleFileBrowserPresenter.Cancel(userInput));
+        }
+
+        public void SampleFileBrowserOK()
         {
             // GetViewModel
-            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
+            SampleFileBrowserViewModel userInput = MainViewModel.Document.SampleFileBrowser;
 
-            // Template Method
-            SampleGridViewModel viewModel = ActionTemplateMethod(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-                    // Business
-                    // ReSharper disable once UnusedVariable
-                    Sample sample = _sampleManager.CreateSample(document);
-
-                    // Successful
-                    userInput.Successful = true;
-
-                    return userInput;
-                });
+            // TemplateMethod
+            SampleFileBrowserViewModel viewModel = ActionTemplateMethod(userInput, () => _sampleFileBrowserPresenter.OK(userInput));
 
             // Refresh
             if (viewModel.Successful)
             {
                 DocumentViewModelRefresh();
-            }
-        }
-
-        public void SampleGridDelete(int sampleID)
-        {
-            // GetViewModel
-            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
-
-            // Template Method
-            SampleGridViewModel viewModel = ActionTemplateMethod(userInput, () => _sampleGridPresenter.Delete(userInput, sampleID));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
-        public void SampleGridClose()
-        {
-            // GetViewModel
-            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
-
-            // Template Method
-            ReadOnlyActionTemplateMethod(userInput, () => _sampleGridPresenter.Close(userInput));
-        }
-
-        public void SampleGridPlay(int sampleID)
-        {
-            // GetViewModel
-            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
-
-            // TemplateMethod
-            ActionTemplateMethod(userInput, () => _sampleGridPresenter.Play(userInput, sampleID));
-        }
-
-        public void SampleGridShow()
-        {
-            // GetViewModel
-            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
-
-            // Template Method
-            ReadOnlyActionTemplateMethod(userInput, () => _sampleGridPresenter.Show(userInput));
-        }
-
-        public void SamplePropertiesClose(int id)
-        {
-            // GetViewModel
-            SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, id);
-
-            // TemplateMethod
-            SamplePropertiesViewModel viewModel = ActionTemplateMethod(userInput, () => _samplePropertiesPresenter.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleSampleProperties = null;
-
-                // Refresh
-                SampleGridRefresh();
-                SampleLookupRefresh();
-                PatchDetailsDictionaryRefresh();
-            }
-        }
-
-        public void SamplePropertiesLoseFocus(int id)
-        {
-            // GetViewModel
-            SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, id);
-
-            // TemplateMethod
-            SamplePropertiesViewModel viewModel = ActionTemplateMethod(userInput, () => _samplePropertiesPresenter.LoseFocus(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                SampleGridRefresh();
-                SampleLookupRefresh();
-                PatchDetailsDictionaryRefresh();
-            }
-        }
-
-        public void SamplePropertiesPlay(int id)
-        {
-            // GetViewModel
-            SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, id);
-
-            // Template Method
-            ActionTemplateMethod(userInput, () => _samplePropertiesPresenter.Play(userInput));
-        }
-
-        public void SamplePropertiesDelete(int id)
-        {
-            // GetViewModel
-            SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, id);
-
-            // Template Method
-            SamplePropertiesViewModel viewModel = ActionTemplateMethod(userInput, () => _samplePropertiesPresenter.Delete(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
-        public void SamplePropertiesShow(int id)
-        {
-            // GetViewModel
-            SamplePropertiesViewModel userInput = ViewModelSelector.GetSamplePropertiesViewModel(MainViewModel.Document, id);
-
-            // Template Method
-            SamplePropertiesViewModel viewModel = ReadOnlyActionTemplateMethod(userInput, () => _samplePropertiesPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleSampleProperties = viewModel;
             }
         }
 
@@ -3169,6 +3009,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary> See summary of TemplateActionMethod. This version omits the full document validation. </summary>
+        /// <see cref="TemplateActionMethod"/>
         private TViewModel ReadOnlyActionTemplateMethod<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
             where TViewModel : ViewModelBase
         {

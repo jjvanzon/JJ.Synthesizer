@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Exceptions;
+﻿using System;
+using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
@@ -338,27 +339,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo(this Sample sample, Document document)
+        public static void LinkTo(this Operator op, Sample sample)
         {
-            if (sample == null) throw new NullException(() => sample);
+            if (op == null) throw new ArgumentNullException(nameof(op));
 
-            if (sample.Document != null)
-            {
-                if (sample.Document.Samples.Contains(sample))
-                {
-                    sample.Document.Samples.Remove(sample);
-                }
-            }
+            op.Sample = sample;
 
-            sample.Document = document;
-
-            if (sample.Document != null)
-            {
-                if (!sample.Document.Samples.Contains(sample))
-                {
-                    sample.Document.Samples.Add(sample);
-                }
-            }
+            // No inverse property.
         }
 
         // Enum-Like Entities

@@ -131,23 +131,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-        // Sample
-
-        public static IList<IDAndName> CreateSampleLookupViewModel(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var list = new List<IDAndName>(document.Samples.Count + 1);
-
-            list.Add(new IDAndName { ID = 0, Name = null });
-
-            list.AddRange(document.Samples
-                                  .OrderBy(x => x.Name)
-                                  .Select(x => x.ToIDAndName()));
-            return list;
-        }
-
         // ScaleType
 
         private static readonly IList<IDAndName> _scaleTypeLookupViewModel =  CreateScaleTypeLookupViewModel();

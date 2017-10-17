@@ -6,8 +6,9 @@ namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
     public interface ISampleRepository : IRepository<Sample, int>
     {
-        void SetBytes(int id, byte[] bytes);
-        byte[] TryGetBytes(int id);
+        byte[] TryGetBytes(int sampleID);
+        byte[] GetBytes(int sampleID);
+        void SetBytes(int sampleID, byte[] bytes);
         IList<Sample> GetAll();
     }
 }

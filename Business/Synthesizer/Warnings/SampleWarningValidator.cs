@@ -17,25 +17,20 @@ namespace JJ.Business.Synthesizer.Warnings
             if (sample == null) throw new NullException(() => sample);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
-
             if (alreadyDone.Contains(sample))
             {
                 return;
             }
             alreadyDone.Add(sample);
 
-            For(sample.Amplifier, ResourceFormatter.Amplifier).IsNot(0.0);
+            For(sample.Amplifier, ResourceFormatter.Amplifier).NotZero();
 
             if (!sample.IsActive)
             {
                 Messages.Add(ResourceFormatter.NotActive);
             }
 
-            if (bytes == null)
-            {
-                Messages.Add(ResourceFormatter.NotLoaded);
-            }
-            else if (bytes.Length == 0)
+            if (bytes?.Length == 0)
             {
                 Messages.Add(ValidationResourceFormatter.IsZero(CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Samples)));
             }

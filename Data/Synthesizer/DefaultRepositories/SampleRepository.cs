@@ -1,8 +1,8 @@
 ﻿using JJ.Framework.Data;
-using System;
 using System.Collections.Generic;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
@@ -12,21 +12,21 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
-        /// <summary>
-        /// does nothing
-        /// </summary>
-        public virtual void SetBytes(int id, byte[] bytes)
+        /// <summary> base does nothing </summary>
+        public virtual byte[] TryGetBytes(int sampleID) => throw new RepositoryMethodNotImplementedException();
+
+        public byte[] GetBytes(int sampleID)
         {
-            throw new NotSupportedException("Bytes can only be accessed using a specialized repository.");
+            byte[] bytes = TryGetBytes(sampleID);
+            if (bytes == null)
+            {
+                throw new NotFoundException<byte[]>(new { sampleID });
+            }
+            return bytes;
         }
 
-        /// <summary>
-        /// does nothing
-        /// </summary>
-        public virtual byte[] TryGetBytes(int id)
-        {
-            throw new NotSupportedException("Bytes can only be accessed using a specialized repository.");
-        }
+        /// <summary> base does nothing </summary>
+        public virtual void SetBytes(int sampleID, byte[] bytes) => throw new RepositoryMethodNotImplementedException();
 
         public virtual IList<Sample> GetAll() => throw new RepositoryMethodNotImplementedException();
     }

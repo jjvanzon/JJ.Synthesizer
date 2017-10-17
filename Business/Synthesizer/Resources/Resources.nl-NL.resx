@@ -1080,4 +1080,7 @@
   <data name="Inherited" xml:space="preserve">
     <value>Geërft</value>
   </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
 </root>

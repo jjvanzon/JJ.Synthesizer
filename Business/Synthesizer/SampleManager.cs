@@ -5,16 +5,13 @@ using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
@@ -23,7 +20,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-    public class SampleManager
+    internal class SampleManager
     {
         private readonly SampleRepositories _repositories;
 
@@ -38,101 +35,34 @@ namespace JJ.Business.Synthesizer
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var validators = new List<IValidator>
-            {
-                new SampleValidator(entity)
-            };
+            byte[] bytes = _repositories.SampleRepository.TryGetBytes(entity.ID);
 
-            if (entity.Document != null)
-            {
-                validators.Add(new SampleValidator_InDocument(entity));
-            }
+            IValidator validator = new SampleValidator(entity, bytes);
 
-            return validators.ToResult();
+            return validator.ToResult();
         }
 
-        // Delete
+        // Create
 
-        public VoidResult Delete(int id)
-        {
-            Sample entity = _repositories.SampleRepository.Get(id);
-            return Delete(entity);
-        }
-
-        public VoidResult Delete(Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-
-            IValidator validator = new SampleValidator_Delete(sample, _repositories.SampleRepository);
-
-            if (!validator.IsValid)
-            {
-                return validator.ToResult();
-            }
-            else
-            {
-                sample.UnlinkRelatedEntities();
-                _repositories.SampleRepository.Delete(sample);
-
-                return new VoidResult { Successful = true };
-            }
-        }
-
-        // Create 
-
-        /// <summary> Creates a Sample and sets its defaults. </summary>
-        public Sample CreateSample(Document document = null)
-        {
-            var sample = new Sample { ID = _repositories.IDRepository.GetID() };
-            _repositories.SampleRepository.Insert(sample);
-
-            sample.LinkTo(document);
-
-            new Sample_SideEffect_SetDefaults(sample, _repositories).Execute();
-            new Sample_SideEffect_GenerateName(sample).Execute();
-
-            return sample;
-        }
-
-        public SampleInfo CreateSample(byte[] bytes, AudioFileFormatEnum audioFileFormatEnum)
+        public SampleInfo CreateSample(byte[] bytes, AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
         {
             if (bytes == null) throw new NullException(() => bytes);
             Stream stream = StreamHelper.BytesToStream(bytes);
             return CreateSample(stream, bytes, audioFileFormatEnum);
         }
 
-        public SampleInfo CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum)
+        public SampleInfo CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
         {
             if (stream == null) throw new NullException(() => stream);
 
             stream.Position = 0;
             byte[] bytes = StreamHelper.StreamToBytes(stream);
             return CreateSample(stream, bytes, audioFileFormatEnum);
-        }
-
-        /// <summary> Creates a Sample from the stream and sets its defaults. Detects the format from the header. </summary>
-        public SampleInfo CreateSample(byte[] bytes)
-        {
-            if (bytes == null) throw new NullException(() => bytes);
-            Stream stream = StreamHelper.BytesToStream(bytes);
-            return CreateSample(stream, bytes);
-        }
-
-        /// <summary> Creates a Sample from the stream and sets its defaults. Detects the format from the header. </summary>
-        public SampleInfo CreateSample(Stream stream)
-        {
-            if (stream == null) throw new NullException(() => stream);
-
-            stream.Position = 0;
-            byte[] bytes = StreamHelper.StreamToBytes(stream);
-
-            return CreateSample(stream, bytes);
         }
 
         // Misc
 
         /// <summary> Returns a calculator for each channel. </summary>
-        
         public IList<ICalculatorWithPosition> CreateCalculators(Sample sample, byte[] bytes)
         {
             IList<ArrayDto> dtos = SampleArrayDtoFactory.CreateArrayDtos(sample, bytes);
@@ -146,6 +76,11 @@ namespace JJ.Business.Synthesizer
         {
             if (stream == null) throw new NullException(() => stream);
 
+            if (audioFileFormatEnum == AudioFileFormatEnum.Undefined)
+            {
+                audioFileFormatEnum = DetectAudioFileFormat(stream, bytes);
+            }
+            
             switch (audioFileFormatEnum)
             {
                 case AudioFileFormatEnum.Wav:
@@ -159,7 +94,7 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-        private SampleInfo CreateSample(Stream stream, byte[] bytes)
+        private AudioFileFormatEnum DetectAudioFileFormat(Stream stream, byte[] bytes)
         {
             // Detect wav header
             if (bytes.Length >= WavHeaderConstants.WAV_HEADER_LENGTH)
@@ -171,20 +106,11 @@ namespace JJ.Business.Synthesizer
                 IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
                 if (validator.IsValid)
                 {
-                    // Create Wav Sample
-                    Sample wavSample = CreateWavSampleFromHeader(wavHeaderStruct);
-                    stream.Position = 0;
-                    return new SampleInfo
-                    {
-                        Sample = wavSample,
-                        Bytes = bytes
-                    };
+                    return AudioFileFormatEnum.Wav;
                 }
             }
 
-            // Create Raw Sample
-            SampleInfo rawSampleInfo = CreateSample(stream, AudioFileFormatEnum.Raw);
-            return rawSampleInfo;
+            return AudioFileFormatEnum.Raw;
         }
 
         private SampleInfo CreateWavSample(Stream stream, byte[] bytes)
@@ -198,6 +124,7 @@ namespace JJ.Business.Synthesizer
             stream.Position = 0;
             var reader = new BinaryReader(stream);
             WavHeaderStruct wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
+            stream.Position = 0;
 
             // Validate header
             IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
@@ -205,7 +132,7 @@ namespace JJ.Business.Synthesizer
 
             // Create Sample
             Sample sample = CreateWavSampleFromHeader(wavHeaderStruct);
-            stream.Position = 0;
+            _repositories.SampleRepository.SetBytes(sample.ID, bytes);
 
             return new SampleInfo
             {
@@ -218,7 +145,9 @@ namespace JJ.Business.Synthesizer
         {
             AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
 
-            Sample sample = CreateSample();
+            Sample sample = CreateSampleEntity();
+
+            sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Wav, _repositories.AudioFileFormatRepository);
 
             sample.SamplingRate = audioFileInfo.SamplingRate;
 
@@ -252,18 +181,29 @@ namespace JJ.Business.Synthesizer
 
             return sample;
         }
-
         
         private SampleInfo CreateRawSample(byte[] bytes)
         {
-            Sample sample = CreateSample();
+            Sample sample = CreateSampleEntity();
             sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _repositories.AudioFileFormatRepository);
+            _repositories.SampleRepository.SetBytes(sample.ID, bytes);
 
             return new SampleInfo
             {
                 Sample = sample,
                 Bytes = bytes
             };
+        }
+
+        /// <summary> Creates a Sample and sets its defaults. </summary>
+        private Sample CreateSampleEntity()
+        {
+            var sample = new Sample { ID = _repositories.IDRepository.GetID() };
+            _repositories.SampleRepository.Insert(sample);
+
+            new Sample_SideEffect_SetDefaults(sample, _repositories).Execute();
+
+            return sample;
         }
     }
 }

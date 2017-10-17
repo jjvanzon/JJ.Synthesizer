@@ -18,6 +18,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 
         /// <summary> nullable, but only temporarily in the DocumentSave action. </summary>
         public AutoPatchPopupViewModel AutoPatchPopup { get; set; }
+
         public CurrentInstrumentViewModel CurrentInstrument { get; set; }
 
         /// <summary>
@@ -25,9 +26,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// It is suggested that they be shown at the bottom of the screen.
         /// </summary>
         public Dictionary<int, CurveDetailsViewModel> CurveDetailsDictionary { get; set; }
+
         public CurveGridViewModel CurveGrid { get; set; }
+
         /// <summary> This lookup is used by OperatorProperties_ForCurves. </summary>
         public IList<IDAndName> CurveLookup { get; set; }
+
         public CurvePropertiesViewModel VisibleCurveProperties { get; set; }
         public Dictionary<int, CurvePropertiesViewModel> CurvePropertiesDictionary { get; set; }
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
@@ -61,11 +65,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, PatchDetailsViewModel> PatchDetailsDictionary { get; set; }
         public PatchPropertiesViewModel VisiblePatchProperties { get; set; }
         public Dictionary<int, PatchPropertiesViewModel> PatchPropertiesDictionary { get; set; }
-        public SampleGridViewModel SampleGrid { get; set; }
-        /// <summary> This lookup is used by OperatorProperties_ForSamples. </summary>
-        public IList<IDAndName> SampleLookup { get; set; }
-        public SamplePropertiesViewModel VisibleSampleProperties { get; set; }
-        public Dictionary<int, SamplePropertiesViewModel> SamplePropertiesDictionary { get; set; }
         public ScaleGridViewModel ScaleGrid { get; set; }
         public ScalePropertiesViewModel VisibleScaleProperties { get; set; }
         public Dictionary<int, ScalePropertiesViewModel> ScalePropertiesDictionary { get; set; }
@@ -74,5 +73,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, ToneGridEditViewModel> ToneGridEditDictionary { get; set; }
         /// <summary> This lookup is used by OperatorProperties_ForCustomOperators. </summary>
         public IList<IDAndName> UnderlyingPatchLookup { get; set; }
+        public SampleFileBrowserViewModel SampleFileBrowser { get; set; }
     }
 }

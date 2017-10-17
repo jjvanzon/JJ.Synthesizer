@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -345,12 +344,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IList<OperatorPropertiesViewModel_ForSample> ToPropertiesViewModelList_ForSamples(
             this Patch patch,
-            ISampleRepository sampleRepository)
+            ISampleRepository sampleRepository,
+            IInterpolationTypeRepository interpolationTypeRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.Sample)
-                        .Select(x => x.ToPropertiesViewModel_ForSample(sampleRepository))
+                        .Select(x => x.ToPropertiesViewModel_ForSample(sampleRepository, interpolationTypeRepository))
                         .ToList();
         }
 
@@ -515,24 +515,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static OperatorPropertiesViewModel_ForSample ToPropertiesViewModel_ForSample(
-            this Operator entity,
-            ISampleRepository sampleRepository)
+            this Operator op,
+            ISampleRepository sampleRepository,
+            IInterpolationTypeRepository interpolationTypeRepository)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (op == null) throw new NullException(() => op);
+            if (sampleRepository == null) throw new ArgumentNullException(nameof(sampleRepository));
 
-            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForSample>(entity);
+            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForSample>(op);
 
-            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+            viewModel.AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel();
+            viewModel.SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel();
+            viewModel.SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel();
+            viewModel.InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
 
-            Sample sample = wrapper.Sample;
-            if (sample != null)
-            {
-                viewModel.Sample = sample.ToIDAndName();
-            }
-            else
-            {
-                viewModel.Sample = ToViewModelHelper.CreateEmptyIDAndName();
-            }
+            byte[] bytes = sampleRepository.GetBytes(op.Sample.ID);
+            viewModel.Sample = op.Sample.ToViewModel(bytes);
 
             return viewModel;
         }
@@ -617,12 +615,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchDetailsViewModel ToDetailsViewModel(
             this Patch patch,
-            ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
             EntityPositionManager entityPositionManager)
         {
             var converter = new RecursiveToPatchViewModelConverter(
-                sampleRepository,
                 curveRepository,
                 entityPositionManager);
 
@@ -655,44 +651,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.DefaultStandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
             }
-
-            return viewModel;
-        }
-
-        // Sample
-
-        public static SamplePropertiesViewModel ToPropertiesViewModel(this Sample entity, SampleRepositories repositories)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (entity.Document == null) throw new NullException(() => entity.Document);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var viewModel = new SamplePropertiesViewModel
-            {
-                DocumentID = entity.Document.ID,
-                AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel(),
-                SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel(),
-                SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
-                InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(repositories.InterpolationTypeRepository),
-                ValidationMessages = new List<string>()
-            };
-
-            byte[] bytes = repositories.SampleRepository.TryGetBytes(entity.ID);
-            viewModel.Entity = entity.ToViewModel(bytes);
-
-            return viewModel;
-        }
-
-        public static SampleGridViewModel ToGridViewModel(this IList<UsedInDto<Sample>> dtos, int documentID)
-        {
-            if (dtos == null) throw new NullException(() => dtos);
-
-            var viewModel = new SampleGridViewModel
-            {
-                DocumentID = documentID,
-                List = dtos.ToListItemViewModels(),
-                ValidationMessages = new List<string>()
-            };
 
             return viewModel;
         }

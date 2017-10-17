@@ -77,6 +77,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             op.LinkToUnderlyingPatch(null);
         }
 
+        public static void UnlinkSample(this Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            op.LinkTo((Sample)null);
+        }
+
         public static void UnlinkOperator(this Inlet inlet)
         {
             if (inlet == null) throw new NullException(() => inlet);
@@ -110,13 +117,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (tone == null) throw new NullException(() => tone);
 
             tone.LinkTo((Scale)null);
-        }
-
-        public static void UnlinkDocument(this Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-
-            sample.LinkTo((Document)null);
         }
 
         // Enum-Like Entities

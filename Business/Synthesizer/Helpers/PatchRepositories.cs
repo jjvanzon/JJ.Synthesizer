@@ -10,7 +10,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public IInletRepository InletRepository { get; }
         public IOutletRepository OutletRepository { get; }
         public ICurveRepository CurveRepository { get; }
-        public ISampleRepository SampleRepository { get; }
         public IDocumentRepository DocumentRepository { get; }
         public IDimensionRepository DimensionRepository { get; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; }
@@ -28,7 +27,6 @@ namespace JJ.Business.Synthesizer.Helpers
             InletRepository = repositoryWrapper.InletRepository;
             OutletRepository = repositoryWrapper.OutletRepository;
             CurveRepository = repositoryWrapper.CurveRepository;
-            SampleRepository = repositoryWrapper.SampleRepository;
             DocumentRepository = repositoryWrapper.DocumentRepository;
             DimensionRepository = repositoryWrapper.DimensionRepository;
             SpeakerSetupRepository = repositoryWrapper.SpeakerSetupRepository;
@@ -43,7 +41,6 @@ namespace JJ.Business.Synthesizer.Helpers
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
             IDocumentRepository documentRepository,
             IDimensionRepository dimensionRepository,
             ISpeakerSetupRepository speakerSetupRepository,
@@ -56,7 +53,6 @@ namespace JJ.Business.Synthesizer.Helpers
             InletRepository = inletRepository ?? throw new NullException(() => inletRepository);
             OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
             CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-            SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
             DocumentRepository = documentRepository ?? throw new NullException(() => documentRepository);
             DimensionRepository = dimensionRepository ?? throw new NullException(() => dimensionRepository);
             SpeakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);

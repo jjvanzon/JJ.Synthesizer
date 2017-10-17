@@ -49,8 +49,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_WithCollectionRecalculation), DispatchOperatorPropertiesViewModel_WithCollectionRecalculation },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchPropertiesViewModel), DispatchPatchPropertiesViewModel },
-                { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
-                { typeof(SamplePropertiesViewModel), DispatchSamplePropertiesViewModel },
+                { typeof(SampleFileBrowserViewModel), DispatchSampleFileBrowserViewModel },
                 { typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
                 { typeof(ScalePropertiesViewModel), DispatchScalePropertiesViewModel },
                 { typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel },
@@ -657,49 +656,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModelBase(castedViewModel);
         }
 
-        private void DispatchSampleGridViewModel(ViewModelBase viewModel)
+        private void DispatchSampleFileBrowserViewModel(ViewModelBase viewModel)
         {
-            var castedViewModel = (SampleGridViewModel)viewModel;
+            var castedViewModel = (SampleFileBrowserViewModel)viewModel;
 
-            MainViewModel.Document.SampleGrid = castedViewModel;
+            MainViewModel.Document.SampleFileBrowser = castedViewModel;
 
-            if (castedViewModel.Visible)
-            {
-                HideAllGridAndDetailViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            if (castedViewModel.OutletIDToPlay.HasValue)
-            {
-                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
-                castedViewModel.OutletIDToPlay = null;
-            }
-
-            DispatchViewModelBase(castedViewModel);
-        }
-
-        private void DispatchSamplePropertiesViewModel(ViewModelBase viewModel)
-        {
-            var castedViewModel = (SamplePropertiesViewModel)viewModel;
-
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var dictionary = MainViewModel.Document.SamplePropertiesDictionary;
-            dictionary[castedViewModel.Entity.ID] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleSampleProperties = castedViewModel;
-            }
-
-            if (castedViewModel.OutletIDToPlay.HasValue)
-            {
-                MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
-                castedViewModel.OutletIDToPlay = null;
-            }
-
-            DispatchViewModelBase(castedViewModel);
+            DispatchViewModelBase(viewModel);
         }
 
         private void DispatchScaleGridViewModel(ViewModelBase viewModel)

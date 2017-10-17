@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer
         {
             if (documentReference == null) throw new NullException(() => documentReference);
 
-            IValidator validator = new DocumentReferenceValidator_Delete(documentReference, _repositories.SampleRepository, _repositories.CurveRepository);
+            IValidator validator = new DocumentReferenceValidator_Delete(documentReference, _repositories.CurveRepository);
 
             // ReSharper disable once InvertIf
             if (validator.IsValid)
@@ -252,40 +252,6 @@ namespace JJ.Business.Synthesizer
                                  new Curve_OperatorWrapper(x, _repositories.CurveRepository).CurveID == curve.ID)
                      .Select(x => x.Patch)
                      .Distinct(x => x.ID);
-
-            IList<IDAndName> idAndNames = patches.Select(x => new IDAndName { ID = x.ID, Name = x.Name }).ToArray();
-
-            return idAndNames;
-        }
-        
-        public IList<UsedInDto<Sample>> GetUsedIn(IList<Sample> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<UsedInDto<Sample>> dtos = entities.Select(x => new UsedInDto<Sample>
-                                                    {
-                                                        Entity = x,
-                                                        UsedInIDAndNames = GetUsedIn(x)
-                                                    })
-                                                    .ToArray();
-            return dtos;
-        }
-        
-        public IList<IDAndName> GetUsedIn(Sample sample)
-        {
-            // ReSharper disable once ImplicitlyCapturedClosure
-            if (sample == null) throw new NullException(() => sample);
-            // ReSharper disable once ImplicitlyCapturedClosure
-            if (sample.Document == null) throw new NullException(() => sample.Document);
-
-            IEnumerable<Patch> patches =
-                sample.Document
-                      .Patches
-                      .SelectMany(x => x.Operators)
-                      .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Sample &&
-                                  new Sample_OperatorWrapper(x, _repositories.SampleRepository).SampleID == sample.ID)
-                      .Select(x => x.Patch)
-                      .Distinct(x => x.ID);
 
             IList<IDAndName> idAndNames = patches.Select(x => new IDAndName { ID = x.ID, Name = x.Name }).ToArray();
 

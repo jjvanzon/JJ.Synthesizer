@@ -381,12 +381,12 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /// <summary>
         /// The Sample and SampleWithRate1 operators require special processing.
-        /// The Sample operator will store the SampleID in its data property.
-        /// But the SampleWithRate1 is the one we need to create a DTO for,
+        /// A Sample will reference its Sample operator.
+        /// But the SampleWithRate1 operator is the one we need to create a DTO for,
         /// with the sample information in it.
         /// 
         /// This is because the Sample operator has such specific requirements in the UI
-        /// and it is easiest to store the SampleID with the Sample operator,
+        /// and it is easiest to store the reference to the Operator with the Sample operator,
         /// while the underlying SampleWithRate1 operator will be the one actually working with the sample.
         /// </summary>
         [DebuggerHidden]

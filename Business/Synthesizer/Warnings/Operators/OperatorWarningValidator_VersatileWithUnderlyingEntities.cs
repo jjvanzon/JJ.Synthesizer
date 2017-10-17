@@ -36,14 +36,11 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
 
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
             {
-                if (int.TryParse(op.Data, out int sampleID))
+                Sample sample = op.Sample;
+                if (sample != null)
                 {
-                    Sample sample = sampleRepository.TryGet(sampleID);
-                    if (sample != null)
-                    {
-                        byte[] bytes = sampleRepository.TryGetBytes(sampleID);
-                        ExecuteValidator(new SampleWarningValidator(sample, bytes, alreadyDone));
-                    }
+                    byte[] bytes = sampleRepository.TryGetBytes(sample.ID);
+                    ExecuteValidator(new SampleWarningValidator(sample, bytes, alreadyDone));
                 }
             }
 

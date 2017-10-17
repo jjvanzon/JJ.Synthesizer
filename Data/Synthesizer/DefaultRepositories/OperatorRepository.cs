@@ -20,10 +20,5 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
                            .Where(x => x.UnderlyingPatch.ID == underlyingPatchID)
                            .ToArray();
         }
-
-        public virtual IList<Operator> GetManyByOperatorTypeID_AndSingleDataKeyAndValue(int operatorTypeID, string dataKey, string dataValue)
-        {
-            throw new RepositoryMethodNotImplementedException();
-        }
     }
 }

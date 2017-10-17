@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Curves;
-using JJ.Business.Synthesizer.Validation.Samples;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
@@ -51,32 +50,34 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                     Curve curve = curveRepository.TryGet(curveID);
                     if (curve != null)
                     {
-                        if (!alreadyDone.Contains(curve))
+                        if (alreadyDone.Contains(curve))
                         {
-                            alreadyDone.Add(curve);
-
-                            string curveMessagePrefix = ValidationHelper.GetMessagePrefix(curve);
-
-                            ExecuteValidator(new CurveValidator_WithoutNodes(curve), curveMessagePrefix);
-                            ExecuteValidator(new CurveValidator_Nodes(curve), curveMessagePrefix);
+                            return;
                         }
+                        alreadyDone.Add(curve);
+
+                        string curveMessagePrefix = ValidationHelper.GetMessagePrefix(curve);
+
+                        ExecuteValidator(new CurveValidator_WithoutNodes(curve), curveMessagePrefix);
+                        ExecuteValidator(new CurveValidator_Nodes(curve), curveMessagePrefix);
                     }
                 }
             }
 
             if (operatorTypeEnum == OperatorTypeEnum.Sample)
             {
-                if (int.TryParse(op.Data, out int sampleID))
+                Sample sample = op.Sample;
+
+                if (sample != null)
                 {
-                    Sample sample = sampleRepository.TryGet(sampleID);
-                    if (sample != null)
+                    if (alreadyDone.Contains(sample))
                     {
-                        if (!alreadyDone.Contains(sample))
-                        {
-                            alreadyDone.Add(sample);
-                            ExecuteValidator(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
-                        }
+                        return;
                     }
+                    alreadyDone.Add(sample);
+
+                    byte[] bytes = sampleRepository.TryGetBytes(sample.ID);
+                    ExecuteValidator(new SampleValidator(sample, bytes), ValidationHelper.GetMessagePrefix(sample));
                 }
             }
         }

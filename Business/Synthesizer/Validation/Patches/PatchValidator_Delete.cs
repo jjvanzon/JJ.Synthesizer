@@ -11,10 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_Delete : VersatileValidator
     {
-        public PatchValidator_Delete(
-            Patch lowerPatch,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
+        public PatchValidator_Delete(Patch lowerPatch, ICurveRepository curveRepository)
         {
             if (lowerPatch == null) throw new NullException(() => lowerPatch);
 
@@ -26,7 +23,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
                 Patch higherPatch = op.Patch;
                 string higherDocumentPrefix = ValidationHelper.TryGetHigherDocumentPrefix(lowerPatch, higherPatch);
                 string higherPatchPrefix = ValidationHelper.GetMessagePrefix(op.Patch);
-                string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier(op, sampleRepository, curveRepository);
+                string higherOperatorIdentifier = ResourceFormatter.Operator + " " + ValidationHelper.GetUserFriendlyIdentifier(op, curveRepository);
 
                 Messages.Add(
                     CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(

@@ -14,14 +14,14 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             _context = (SynthesizerContext)context;
         }
 
-        public override byte[] TryGetBytes(int id)
+        public override byte[] TryGetBytes(int sampleID)
         {
-            return _context.TryGetSampleBytes(id);
+            return _context.TryGetSampleBytes(sampleID);
         }
 
-        public override void SetBytes(int id, byte[] bytes)
+        public override void SetBytes(int sampleID, byte[] bytes)
         {
-            _context.SetSampleBytes(id, bytes);
+            _context.SetSampleBytes(sampleID, bytes);
         }
 
         public override IList<Sample> GetAll()

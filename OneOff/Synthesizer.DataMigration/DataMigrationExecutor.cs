@@ -191,127 +191,127 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
         // Specific Migrations
 
-        /// <summary>
-        /// There are multiple situations that need to be handled:
-        /// - Sample Operators without a sample.
-        /// - Sample Operators with sole ownership over a sample.
-        /// - Sample Operators with joint ownership of the sample sample.
-        /// - Samples without an operator.
-        /// All those sitations have to translated to unique and required link between an operator and a sample.
-        /// 
-        /// In this version of the migration procedure,
-        /// all samples without an operator are deleted.
-        /// Those are not that important and it makes the migration a whole lot simpler.
-        /// </summary>
-        public static void Migrate_FromOperator_Data_ToSample_Operator(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        ///// <summary>
+        ///// There are multiple situations that need to be handled:
+        ///// - Sample Operators without a sample.
+        ///// - Sample Operators with sole ownership over a sample.
+        ///// - Sample Operators with joint ownership of the sample sample.
+        ///// - Samples without an operator.
+        ///// All those sitations have to translated to unique and required link between an operator and a sample.
+        ///// 
+        ///// In this version of the migration procedure,
+        ///// all samples without an operator are deleted.
+        ///// Those are not that important and it makes the migration a whole lot simpler.
+        ///// </summary>
+        //public static void Migrate_FromOperator_Data_ToSample_Operator(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-                var documentManager = new DocumentManager(repositories);
-                var sampleManager = new SampleManager(new SampleRepositories(repositories));
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //        var documentManager = new DocumentManager(repositories);
+        //        var sampleManager = new SampleManager(new SampleRepositories(repositories));
 
-                Patch systemPatch = documentManager.GetSystemPatch(nameof(SystemPatchNames.Sample));
-                IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(systemPatch.ID);
+        //        Patch systemPatch = documentManager.GetSystemPatch(nameof(SystemPatchNames.Sample));
+        //        IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(systemPatch.ID);
 
-                // Loop through Sample Operators
-                {
-                    int count = operators.Count;
-                    for (int i = 0; i < count; i++)
-                    {
-                        Operator op = operators[i];
+        //        // Loop through Sample Operators
+        //        {
+        //            int count = operators.Count;
+        //            for (int i = 0; i < count; i++)
+        //            {
+        //                Operator op = operators[i];
 
-                        int? sampleID = DataPropertyParser.TryGetInt32(op, nameof(Sample_OperatorWrapper.SampleID));
-                        if (sampleID.HasValue)
-                        {
-                            // Clone Sample
-                            Sample originalSample = repositories.SampleRepository.Get(sampleID.Value);
-                            Sample newSample = CloneSample(originalSample, repositories);
+        //                int? sampleID = DataPropertyParser.TryGetInt32(op, nameof(Sample_OperatorWrapper.SampleID));
+        //                if (sampleID.HasValue)
+        //                {
+        //                    // Clone Sample
+        //                    Sample originalSample = repositories.SampleRepository.Get(sampleID.Value);
+        //                    Sample newSample = CloneSample(originalSample, repositories);
 
-                            // Set Bytes
-                            byte[] bytes = repositories.SampleRepository.TryGetBytes(sampleID.Value);
-                            bytes = bytes ?? new byte[0]; // Create empty byte array if null.
-                            repositories.SampleRepository.SetBytes(newSample.ID, bytes);
+        //                    // Set Bytes
+        //                    byte[] bytes = repositories.SampleRepository.TryGetBytes(sampleID.Value);
+        //                    bytes = bytes ?? new byte[0]; // Create empty byte array if null.
+        //                    repositories.SampleRepository.SetBytes(newSample.ID, bytes);
 
-                            // Link new Sample to Operator.
-                            newSample.Operator = op;
-                            DataPropertyParser.SetValue(op, nameof(Sample_OperatorWrapper.SampleID), newSample.ID);
-                        }
-                        else
-                        {
-                            // Operator is sample-less
-                            // Create a new sample.
-                            Sample newSample = sampleManager.CreateSample(op.Patch.Document);
+        //                    // Link new Sample to Operator.
+        //                    newSample.Operator = op;
+        //                    DataPropertyParser.SetValue(op, nameof(Sample_OperatorWrapper.SampleID), newSample.ID);
+        //                }
+        //                else
+        //                {
+        //                    // Operator is sample-less
+        //                    // Create a new sample.
+        //                    Sample newSample = sampleManager.CreateSample(op.Patch.Document);
 
-                            // Set bytes
-                            repositories.SampleRepository.SetBytes(newSample.ID, new byte[0]);
+        //                    // Set bytes
+        //                    repositories.SampleRepository.SetBytes(newSample.ID, new byte[0]);
 
-                            // Link new Sample to Operator.
-                            newSample.Operator = op;
-                            DataPropertyParser.SetValue(op, nameof(Sample_OperatorWrapper.SampleID), newSample.ID);
-                        }
+        //                    // Link new Sample to Operator.
+        //                    newSample.Operator = op;
+        //                    DataPropertyParser.SetValue(op, nameof(Sample_OperatorWrapper.SampleID), newSample.ID);
+        //                }
 
-                        progressCallback($"Migrated {nameof(Operator)} {i + 1}/{count}.");
-                    }
-                }
+        //                progressCallback($"Migrated {nameof(Operator)} {i + 1}/{count}.");
+        //            }
+        //        }
 
-                // Flush so GetAll includes the new samples.
-                context.Flush();
+        //        // Flush so GetAll includes the new samples.
+        //        context.Flush();
 
-                // Now delete all orphaned samples,
-                // because we created clones for every sample.
-                // (Yes, this also deletes all samples that were already not in use, but so be it.) 
-                {
-                    IList<Sample> samples = repositories.SampleRepository.GetAll();
-                    int count = samples.Count;
-                    for (int i = 0; i < count; i++)
-                    {
-                        Sample sample = samples[i];
-                        bool isUsed = sample.Operator != null;
-                        if (!isUsed)
-                        {
-                            VoidResult result = sampleManager.Delete(sample);
-                            result.Assert();
-                        }
+        //        // Now delete all orphaned samples,
+        //        // because we created clones for every sample.
+        //        // (Yes, this also deletes all samples that were already not in use, but so be it.) 
+        //        {
+        //            IList<Sample> samples = repositories.SampleRepository.GetAll();
+        //            int count = samples.Count;
+        //            for (int i = 0; i < count; i++)
+        //            {
+        //                Sample sample = samples[i];
+        //                bool isUsed = sample.Operator != null;
+        //                if (!isUsed)
+        //                {
+        //                    VoidResult result = sampleManager.Delete(sample);
+        //                    result.Assert();
+        //                }
 
-                        progressCallback($"Migrated {nameof(Sample)} {i + 1}/{count}.");
-                    }
-                }
+        //                progressCallback($"Migrated {nameof(Sample)} {i + 1}/{count}.");
+        //            }
+        //        }
 
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
-                //throw new Exception("Temporarily not committing, for debugging.");
+        //        //throw new Exception("Temporarily not committing, for debugging.");
 
-                context.Commit();
-            }
+        //        context.Commit();
+        //    }
 
-            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
-        }
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
 
-        private static Sample CloneSample(Sample originalSample, RepositoryWrapper repositories)
-        {
-            var clonedSample = new Sample { ID = repositories.IDRepository.GetID() };
-            repositories.SampleRepository.Insert(clonedSample);
+        //private static Sample CloneSample(Sample originalSample, RepositoryWrapper repositories)
+        //{
+        //    var clonedSample = new Sample { ID = repositories.IDRepository.GetID() };
+        //    repositories.SampleRepository.Insert(clonedSample);
 
-            clonedSample.Amplifier = originalSample.Amplifier;
-            clonedSample.BytesToSkip = originalSample.BytesToSkip;
-            clonedSample.IsActive = originalSample.IsActive;
-            clonedSample.Name = originalSample.Name;
-            clonedSample.OriginalLocation = originalSample.OriginalLocation;
-            clonedSample.SamplingRate = originalSample.SamplingRate;
-            clonedSample.TimeMultiplier = originalSample.TimeMultiplier;
+        //    clonedSample.Amplifier = originalSample.Amplifier;
+        //    clonedSample.BytesToSkip = originalSample.BytesToSkip;
+        //    clonedSample.IsActive = originalSample.IsActive;
+        //    clonedSample.Name = originalSample.Name;
+        //    clonedSample.OriginalLocation = originalSample.OriginalLocation;
+        //    clonedSample.SamplingRate = originalSample.SamplingRate;
+        //    clonedSample.TimeMultiplier = originalSample.TimeMultiplier;
             
-            clonedSample.LinkTo(originalSample.AudioFileFormat);
-            clonedSample.LinkTo(originalSample.Document);
-            clonedSample.LinkTo(originalSample.InterpolationType);
-            clonedSample.LinkTo(originalSample.SampleDataType);
-            clonedSample.LinkTo(originalSample.SpeakerSetup);
+        //    clonedSample.LinkTo(originalSample.AudioFileFormat);
+        //    clonedSample.LinkTo(originalSample.Document);
+        //    clonedSample.LinkTo(originalSample.InterpolationType);
+        //    clonedSample.LinkTo(originalSample.SampleDataType);
+        //    clonedSample.LinkTo(originalSample.SpeakerSetup);
 
-            return clonedSample;
-        }
+        //    return clonedSample;
+        //}
     }
 }

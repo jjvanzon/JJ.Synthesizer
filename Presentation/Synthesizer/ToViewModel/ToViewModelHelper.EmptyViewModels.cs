@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using JJ.Data.Canonical;
-using JJ.Framework.Presentation;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
@@ -117,9 +116,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesDictionary_WithCollectionRecalculation = new Dictionary<int, OperatorPropertiesViewModel_WithCollectionRecalculation>(),
                 PatchDetailsDictionary = new Dictionary<int, PatchDetailsViewModel>(),
                 PatchPropertiesDictionary = new Dictionary<int, PatchPropertiesViewModel>(),
-                SampleGrid = CreateEmptySampleGridViewModel(),
-                SampleLookup = new List<IDAndName>(),
-                SamplePropertiesDictionary = new Dictionary<int, SamplePropertiesViewModel>(),
+                SampleFileBrowser = CreateEmptySampleFileBrowserViewModel(),
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesDictionary = new Dictionary<int, ScalePropertiesViewModel>(),
                 ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
@@ -239,17 +236,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static SampleGridViewModel CreateEmptySampleGridViewModel()
-        {
-            var viewModel = new SampleGridViewModel
-            {
-                List = new List<SampleListItemViewModel>(),
-                ValidationMessages = new List<string>()
-            };
-
-            return viewModel;
-        }
-
         public static ScaleGridViewModel CreateEmptyScaleGridViewModel()
         {
             var viewModel = new ScaleGridViewModel
@@ -287,6 +273,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchViewModel
             {
                 OperatorDictionary = new Dictionary<int, OperatorViewModel>()
+            };
+
+            return viewModel;
+        }
+
+        public static SampleFileBrowserViewModel CreateEmptySampleFileBrowserViewModel()
+        {
+            var viewModel = new SampleFileBrowserViewModel
+            {
+                ValidationMessages = new List<string>()
             };
 
             return viewModel;

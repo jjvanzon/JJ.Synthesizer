@@ -78,8 +78,7 @@ namespace JJ.Data.Synthesizer.NHibernate
         {
             base.Delete(entity);
 
-            Sample sample = entity as Sample;
-            if (sample != null)
+            if (entity is Sample sample)
             {
                 lock (_sampleBytesLock)
                 {

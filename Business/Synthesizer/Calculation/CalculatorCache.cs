@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Calculation
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             Sample sample = sampleRepository.Get(sampleID);
-            byte[] bytes = sampleRepository.TryGetBytes(sampleID);
+            byte[] bytes = sampleRepository.GetBytes(sampleID);
 
             var sampleInfo = new SampleInfo { Sample = sample, Bytes = bytes };
 

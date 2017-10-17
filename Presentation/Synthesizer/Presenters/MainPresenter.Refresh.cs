@@ -274,9 +274,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesDictionaryRefresh();
             PatchDetailsDictionaryRefresh();
             PatchPropertiesDictionaryRefresh();
-            SampleGridRefresh();
-            SampleLookupRefresh();
-            SamplePropertiesDictionaryRefresh();
             ScaleGridRefresh();
             ScalePropertiesDictionaryRefresh();
             ToneGridEditDictionaryRefresh();
@@ -736,7 +733,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForSample viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
-                    viewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
+                    viewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository, _repositories.InterpolationTypeRepository);
                     viewModel.Successful = true;
                     viewModelDictionary[op.ID] = viewModel;
                 }
@@ -871,7 +868,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ToViewModelHelper.RefreshViewModel_WithInletsAndOutlets(
                 entity,
                 operatorViewModel,
-                _repositories.SampleRepository,
                 _repositories.CurveRepository,
                 _entityPositionManager);
         }
@@ -889,10 +885,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchDetailsViewModel viewModel = ViewModelSelector.TryGetPatchDetailsViewModel(MainViewModel.Document, entity.ID);
                 if (viewModel == null)
                 {
-                    viewModel = entity.ToDetailsViewModel(
-                        _repositories.SampleRepository,
-                        _repositories.CurveRepository, 
-                        _entityPositionManager);
+                    viewModel = entity.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionManager);
 
                     viewModel.Successful = true;
                     viewModelDictionary[entity.ID] = viewModel;
@@ -966,63 +959,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void PatchPropertiesRefresh(PatchPropertiesViewModel userInput)
         {
             PatchPropertiesViewModel viewModel = _patchPropertiesPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void SampleGridRefresh()
-        {
-            SampleGridViewModel userInput = MainViewModel.Document.SampleGrid;
-            SampleGridViewModel viewModel = _sampleGridPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void SampleLookupRefresh()
-        {
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            MainViewModel.Document.SampleLookup = ToViewModelHelper.CreateSampleLookupViewModel(document);
-        }
-
-        private void SamplePropertiesDictionaryRefresh()
-        {
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var viewModelDictionary = MainViewModel.Document.SamplePropertiesDictionary;
-
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Sample> entities = document.Samples;
-
-            foreach (Sample entity in entities)
-            {
-                SamplePropertiesViewModel viewModel = ViewModelSelector.TryGetSamplePropertiesViewModel(MainViewModel.Document, entity.ID);
-                if (viewModel == null)
-                {
-                    viewModel = entity.ToPropertiesViewModel(_sampleRepositories);
-                    viewModel.Successful = true;
-                    viewModelDictionary[entity.ID] = viewModel;
-                }
-                else
-                {
-                    SamplePropertiesRefresh(viewModel);
-                }
-            }
-
-            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
-            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
-
-            foreach (int idToDelete in idsToDelete.ToArray())
-            {
-                viewModelDictionary.Remove(idToDelete);
-
-                if (MainViewModel.Document.VisibleSampleProperties?.Entity.ID == idToDelete)
-                {
-                    MainViewModel.Document.VisibleSampleProperties = null;
-                }
-            }
-        }
-
-        private void SamplePropertiesRefresh(SamplePropertiesViewModel userInput)
-        {
-            SamplePropertiesViewModel viewModel = _samplePropertiesPresenter.Refresh(userInput);
             DispatchViewModel(viewModel);
         }
 

@@ -111,7 +111,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case DocumentTreeNodeTypeEnum.Library:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
                 case DocumentTreeNodeTypeEnum.PatchGroup:
-                case DocumentTreeNodeTypeEnum.Samples:
                 case DocumentTreeNodeTypeEnum.Scales:
                 default:
                     return false;
@@ -133,7 +132,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case DocumentTreeNodeTypeEnum.LibraryPatch:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
                 case DocumentTreeNodeTypeEnum.Patch:
-                case DocumentTreeNodeTypeEnum.Samples:
                 case DocumentTreeNodeTypeEnum.Scales:
                 default:
                     return false;
@@ -160,7 +158,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case DocumentTreeNodeTypeEnum.Library:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
                 case DocumentTreeNodeTypeEnum.PatchGroup:
-                case DocumentTreeNodeTypeEnum.Samples:
                 case DocumentTreeNodeTypeEnum.Scales:
                 default:
                     return false;
@@ -172,13 +169,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             switch (selectedNodeType)
             {
                 case DocumentTreeNodeTypeEnum.AudioOutput:
+                case DocumentTreeNodeTypeEnum.Libraries:
                 case DocumentTreeNodeTypeEnum.Library:
                 case DocumentTreeNodeTypeEnum.LibraryPatch:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
                 case DocumentTreeNodeTypeEnum.Patch:
                 case DocumentTreeNodeTypeEnum.PatchGroup:
-                case DocumentTreeNodeTypeEnum.Samples:
-                case DocumentTreeNodeTypeEnum.Libraries:
                     return true;
 
                 case DocumentTreeNodeTypeEnum.AudioFileOutputList:
@@ -204,7 +200,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case DocumentTreeNodeTypeEnum.Libraries:
                 case DocumentTreeNodeTypeEnum.Patch:
                 case DocumentTreeNodeTypeEnum.PatchGroup:
-                case DocumentTreeNodeTypeEnum.Samples:
                 case DocumentTreeNodeTypeEnum.Scales:
                 default:
                     return false;
@@ -226,7 +221,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 case DocumentTreeNodeTypeEnum.LibraryPatch:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
                 case DocumentTreeNodeTypeEnum.PatchGroup:
-                case DocumentTreeNodeTypeEnum.Samples:
                 case DocumentTreeNodeTypeEnum.Scales:
                 default:
                     return false;
@@ -267,20 +261,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return true;
         }
 
-        public static string GetInletCaption(
-            Inlet inlet,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
+        public static string GetInletCaption(Inlet inlet, ICurveRepository curveRepository)
         {
             var sb = new StringBuilder();
 
             if (!inlet.NameOrDimensionHidden)
             {
                 // Name or Dimension
-                OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(
-                    inlet.Operator,
-                    curveRepository,
-                    sampleRepository);
+                OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(inlet.Operator, curveRepository);
                 string inletDisplayName = wrapper.GetInletDisplayName(inlet);
                 sb.Append(inletDisplayName);
 
@@ -379,13 +367,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static bool GetOperatorIsSmaller(Operator entity) => entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number;
 
-        public static string GetOperatorCaption(
-            Operator op,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
+        public static string GetOperatorCaption(Operator op, ICurveRepository curveRepository)
         {
             if (op == null) throw new NullException(() => op);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
@@ -445,7 +429,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     break;
 
                 case OperatorTypeEnum.Sample:
-                    operatorCaption = GetOperatorCaption_ForSample(op, sampleRepository);
+                    operatorCaption = GetOperatorCaption_ForSample(op);
                     break;
 
                 case OperatorTypeEnum.SetPosition:
@@ -607,7 +591,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return sb.ToString();
         }
 
-        private static string GetOperatorCaption_ForSample(Operator op, ISampleRepository sampleRepository)
+        private static string GetOperatorCaption_ForSample(Operator op)
         {
             string operatorTypeDisplayName = ResourceFormatter.Sample;
 
@@ -618,8 +602,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use Sample.Name
-            var wrapper = new Sample_OperatorWrapper(op, sampleRepository);
-            Sample underlyingEntity = wrapper.Sample;
+            Sample underlyingEntity = op.Sample;
             if (!string.IsNullOrWhiteSpace(underlyingEntity?.Name))
             {
                 return $"{operatorTypeDisplayName}: {underlyingEntity.Name}";
@@ -696,7 +679,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return outletVisible;
         }
 
-        public static string GetOutletCaption(Outlet outlet, ISampleRepository sampleRepository, ICurveRepository curveRepository)
+        public static string GetOutletCaption(Outlet outlet, ICurveRepository curveRepository)
         {
             if (outlet == null) throw new NullException(() => outlet);
 
@@ -706,7 +689,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     return GetOutletCaption_ForRangeOverOutlets(outlet);
 
                 default:
-                    return GetOutletCaption_ForOtherOperatorType(outlet, sampleRepository, curveRepository);
+                    return GetOutletCaption_ForOtherOperatorType(outlet, curveRepository);
             }
         }
 
@@ -747,17 +730,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return sb.ToString();
         }
 
-        private static string GetOutletCaption_ForOtherOperatorType(
-            Outlet outlet,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
+        private static string GetOutletCaption_ForOtherOperatorType(Outlet outlet, ICurveRepository curveRepository)
         {
             var sb = new StringBuilder();
 
             if (!outlet.NameOrDimensionHidden)
             {
                 // Dimension or Name
-                OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository, sampleRepository);
+                OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository);
                 string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
                 sb.Append(inletDisplayName);
 

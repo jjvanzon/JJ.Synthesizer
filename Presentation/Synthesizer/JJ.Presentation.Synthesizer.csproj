@@ -73,6 +73,7 @@
     <Compile Include="Presenters\NodePropertiesPresenter.cs" />
     <Compile Include="Presenters\PresenterBase.cs" />
     <Compile Include="Presenters\PropertiesPresenterBase.cs" />
+    <Compile Include="Presenters\SampleFileBrowserPresenter.cs" />
     <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\TitleBarPresenter.cs" />
     <Compile Include="Presenters\ToneGridEditPresenter.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="ViewModels\DocumentOrPatchNotFoundPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\DocumentTreeNodeTypeEnum.cs" />
     <Compile Include="ViewModels\Items\AutoPatchPopupViewModel.cs" />
+    <Compile Include="ViewModels\SampleFileBrowserViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
     <Compile Include="ViewModels\LibraryPropertiesViewModel.cs" />
@@ -123,9 +125,7 @@
     <Compile Include="ViewModels\DocumentDeletedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
     <Compile Include="Presenters\MenuPresenter.cs" />
-    <Compile Include="Presenters\SamplePropertiesPresenter.cs" />
     <Compile Include="Presenters\CurveDetailsPresenter.cs" />
-    <Compile Include="Presenters\SampleGridPresenter.cs" />
     <Compile Include="Presenters\DocumentGridPresenter.cs" />
     <Compile Include="Presenters\CurveGridPresenter.cs" />
     <Compile Include="Presenters\PatchDetailsPresenter.cs" />
@@ -148,7 +148,6 @@
     <Compile Include="ViewModels\Items\AudioFileOutputViewModel.cs" />
     <Compile Include="ViewModels\Items\DocumentViewModel.cs" />
     <Compile Include="ViewModels\Items\NodeViewModel.cs" />
-    <Compile Include="ViewModels\Items\SampleListItemViewModel.cs" />
     <Compile Include="ViewModels\Items\InletViewModel.cs" />
     <Compile Include="ViewModels\Items\OperatorViewModel.cs" />
     <Compile Include="ViewModels\Items\OutletViewModel.cs" />
@@ -169,8 +168,6 @@
     <Compile Include="ViewModels\Partials\LibrariesTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\CurvePropertiesViewModel.cs" />
-    <Compile Include="ViewModels\SamplePropertiesViewModel.cs" />
-    <Compile Include="ViewModels\SampleGridViewModel.cs" />
     <Compile Include="ViewModels\NodePropertiesViewModel.cs" />
     <Compile Include="ViewModels\ToneGridEditViewModel.cs" />
     <Compile Include="ViewModels\ScaleGridViewModel.cs" />

@@ -77,12 +77,9 @@ namespace JJ.Business.Synthesizer.Validation
 
         public static string GetMessagePrefix(Node entity, int number) => GetMessagePrefix(ResourceFormatter.Node, GetUserFriendlyIdentifier(entity, number));
 
-        public static string GetMessagePrefix(
-            Operator entity,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
+        public static string GetMessagePrefix(Operator entity, ICurveRepository curveRepository)
         {
-            return GetMessagePrefix(ResourceFormatter.Operator, GetUserFriendlyIdentifier(entity, sampleRepository, curveRepository));
+            return GetMessagePrefix(ResourceFormatter.Operator, GetUserFriendlyIdentifier(entity, curveRepository));
         }
 
         public static string GetMessagePrefix(Patch entity) => GetMessagePrefix(ResourceFormatter.Patch, GetUserFriendlyIdentifier(entity));

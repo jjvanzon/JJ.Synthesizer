@@ -1,0 +1,1 @@
+drop index Sample.IX_Sample_OperatorID_Unique

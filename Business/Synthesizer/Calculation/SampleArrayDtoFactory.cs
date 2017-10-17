@@ -3,7 +3,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Validation.Samples;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
@@ -23,12 +23,12 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (sample == null) throw new NullException(() => sample);
 
-            IValidator validator = new SampleValidator(sample);
+            IValidator validator = new SampleValidator(sample, bytes);
             validator.Assert();
 
             double[][] samples;
 
-            if (bytes == null || bytes.Length == 0 || !sample.IsActive)
+            if (bytes.Length == 0 || !sample.IsActive)
             {
                 samples = new double[0][];
             }

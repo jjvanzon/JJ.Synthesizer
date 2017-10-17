@@ -49,7 +49,6 @@
     <Compile Include="Helpers\RepositoryHelper.cs" />
     <Compile Include="PatchApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Synthesizer.Memory\JJ.Data.Synthesizer.Memory.csproj">

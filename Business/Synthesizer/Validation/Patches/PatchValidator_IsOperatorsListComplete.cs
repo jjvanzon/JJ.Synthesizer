@@ -11,13 +11,9 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 {
     internal class PatchValidator_IsOperatorsListComplete : ValidatorBase
     {
-        public PatchValidator_IsOperatorsListComplete(
-            Patch patch,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
+        public PatchValidator_IsOperatorsListComplete(Patch patch, ICurveRepository curveRepository)
         {
             if (patch == null) throw new NullException(() => patch);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
 
             IList<Operator> operatorsInGraph = patch.GetOperatorsRecursive();
@@ -25,7 +21,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
             foreach (Operator operatorMissingInList in operatorsMissingInList)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(operatorMissingInList, sampleRepository, curveRepository);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(operatorMissingInList, curveRepository);
                 string message = ResourceFormatter.OperatorIsInGraphButNotInList;
 
                 Messages.Add(messagePrefix + message);

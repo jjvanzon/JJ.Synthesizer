@@ -34,6 +34,9 @@ namespace JJ.Data.Synthesizer.Entities
         /// </summary>
         public virtual bool HasDimension { get; set; }
 
+        /// <summary> optional </summary>
+        public virtual Sample Sample { get; set; }
+
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

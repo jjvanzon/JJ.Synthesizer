@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-    internal class Interpolate_OperatorValidator : OperatorValidator
+    internal class Interpolate_OperatorValidator : OperatorValidator_Basic
     {
         public Interpolate_OperatorValidator(Operator obj)
             : base(

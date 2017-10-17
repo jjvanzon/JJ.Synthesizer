@@ -13,10 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
     internal class DocumentReferenceValidator_Delete : VersatileValidator
     {
-        public DocumentReferenceValidator_Delete(
-            DocumentReference obj,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository)
+        public DocumentReferenceValidator_Delete(DocumentReference obj, ICurveRepository curveRepository)
         {
             if (obj == null) throw new NullException(() => obj);
 
@@ -41,7 +38,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
             foreach (Operator higherCustomOperator in higherCustomOperators)
             {
                 string higherPatchPrefix = ValidationHelper.GetMessagePrefix(higherCustomOperator.Patch);
-                string higherCustomOperatorIdentifier = ValidationHelper.GetUserFriendlyIdentifier(higherCustomOperator, sampleRepository, curveRepository);
+                string higherCustomOperatorIdentifier = ValidationHelper.GetUserFriendlyIdentifier(higherCustomOperator, curveRepository);
 
                 string message = CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(
                     documentReferenceIdentifier,

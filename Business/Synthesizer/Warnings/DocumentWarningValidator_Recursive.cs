@@ -48,14 +48,6 @@ namespace JJ.Business.Synthesizer.Warnings
                     messagePrefix);
             }
 
-            foreach (Sample sample in document.Samples)
-            {
-                byte[] bytes = sampleRepository.TryGetBytes(sample.ID);
-
-                string messagePrefix = ValidationHelper.GetMessagePrefix(sample);
-                ExecuteValidator(new SampleWarningValidator(sample, bytes, alreadyDone), messagePrefix);
-            }
-
             // TODO:
 
             // DocumentWarningValidator_Basic?

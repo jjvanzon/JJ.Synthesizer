@@ -32,7 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
         public event EventHandler ShowCurvesRequested;
-        public event EventHandler ShowSamplesRequested;
         public event EventHandler ShowAudioOutputRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
@@ -43,7 +42,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<LibraryPatchGroupEventArgs> LibraryPatchGroupNodeSelected;
         public event EventHandler<EventArgs<int>> LibraryPatchNodeSelected;
         public event EventHandler CurvesNodeSelected;
-        public event EventHandler SamplesNodeSelected;
         public event EventHandler AudioOutputNodeSelected;
         public event EventHandler AudioFileOutputsNodeSelected;
         public event EventHandler ScalesNodeSelected;
@@ -54,7 +52,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private HashSet<TreeNode> _libraryTreeNodes;
         private HashSet<TreeNode> _libraryPatchTreeNodes;
         private HashSet<TreeNode> _libraryPatchGroupTreeNodes;
-        private TreeNode _samplesTreeNode;
         private TreeNode _curvesTreeNode;
         private TreeNode _scalesTreeNode;
         private TreeNode _audioOutputNode;
@@ -136,9 +133,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             treeView.Nodes.Add(_patchesTreeNode);
             _patchesTreeNode.Expand();
 
-            _samplesTreeNode = new TreeNode();
-            treeView.Nodes.Add(_samplesTreeNode);
-
             _curvesTreeNode = new TreeNode();
             treeView.Nodes.Add(_curvesTreeNode);
 
@@ -158,11 +152,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ConvertNodes(DocumentTreeViewModel viewModel)
         {
-            if (_samplesTreeNode.Text != viewModel.SamplesNode.Text)
-            {
-                _samplesTreeNode.Text = viewModel.SamplesNode.Text;
-            }
-
             if (_curvesTreeNode.Text != viewModel.CurvesNode.Text)
             {
                 _curvesTreeNode.Text = viewModel.CurvesNode.Text;
@@ -562,7 +551,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     break;
 
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
-
                     if (!ViewModel.SelectedPatchGroupLowerDocumentReferenceID.HasValue)
                     {
                         throw new NullException(() => ViewModel.SelectedPatchGroupLowerDocumentReferenceID);
@@ -570,10 +558,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                     string tag = FormatLibraryPatchGroupTag(ViewModel.SelectedPatchGroupLowerDocumentReferenceID.Value, ViewModel.SelectedCanonicalPatchGroup);
                     treeView.SelectedNode = _libraryPatchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, tag)).First();
-                    break;
-
-                case DocumentTreeNodeTypeEnum.Samples:
-                    treeView.SelectedNode = _samplesTreeNode;
                     break;
 
                 case DocumentTreeNodeTypeEnum.Scales:
@@ -666,11 +650,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 PatchNodeSelected(this, new EventArgs<int>(id));
             }
 
-            if (node == _samplesTreeNode)
-            {
-                SamplesNodeSelected(this, EventArgs.Empty);
-            }
-
             if (node == _scalesTreeNode)
             {
                 ScalesNodeSelected(this, EventArgs.Empty);
@@ -732,11 +711,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 int id = (int)node.Tag;
                 ShowPatchDetailsRequested(this, new EventArgs<int>(id));
-            }
-
-            if (node == _samplesTreeNode)
-            {
-                ShowSamplesRequested(this, EventArgs.Empty);
             }
 
             if (node == _scalesTreeNode)

@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
-            ExecuteValidator(new PatchValidator_HiddenButInUse(patch, sampleRepository, curveRepository));
-            ExecuteValidator(new PatchValidator_IsOperatorsListComplete(patch, sampleRepository, curveRepository));
+            ExecuteValidator(new PatchValidator_HiddenButInUse(patch, curveRepository));
+            ExecuteValidator(new PatchValidator_IsOperatorsListComplete(patch, curveRepository));
             ExecuteValidator(new PatchValidator_Name(patch));
             ExecuteValidator(new PatchValidator_UniqueName(patch));
             ExecuteValidator(new PatchValidator_ZeroOrOneRepeatingPatchInlet(patch));
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 
             foreach (Operator op in patch.Operators)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(op, sampleRepository, curveRepository);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(op, curveRepository);
 
                 ExecuteValidator(new OperatorValidator_IsCircular(op), messagePrefix);
 
