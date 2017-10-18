@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using System.Threading;
-using JJ.Business.Synthesizer.Api;
+using JJ.Business.Synthesizer;
 using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.NAudio
@@ -28,7 +28,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public InfrastructureFacade(RepositoryWrapper repositories)
         {
-            _audioOutput = AudioOutputApi.Create();
+            var audioOutputManager = new AudioOutputManager(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
+            _audioOutput = audioOutputManager.CreateWithDefaults();
             _timeProvider = new TimeProvider();
             _noteRecycler = new NoteRecycler(_audioOutput.MaxConcurrentNotes);
 

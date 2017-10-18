@@ -5,10 +5,8 @@ using JJ.Framework.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Framework.Testing;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Tests
@@ -19,14 +17,15 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Curve_Off()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
-                INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
+                var repositories = PersistenceHelper.CreateCurveRepositories(context);
+                var curveManager = new CurveManager(repositories);
 
-                Curve curve = CreateTestCurve();
-                curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Off, nodeTypeRepository));
+                Curve curve = CreateTestCurve(curveManager);
+                curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Off, repositories.NodeTypeRepository));
 
-                ICalculatorWithPosition calculator = CurveApi.CreateInterpretedCalculator(curve);
+                ICalculatorWithPosition calculator = curveManager.CreateInterpretedCalculator(curve);
                 AssertHelper.AreEqual(0, () => calculator.Calculate(0.0));
                 AssertHelper.AreEqual(0, () => calculator.Calculate(0.5));
                 AssertHelper.AreEqual(0, () => calculator.Calculate(1.0));
@@ -38,14 +37,15 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Curve_Block()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
-                INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
+                var repositories = PersistenceHelper.CreateCurveRepositories(context);
+                var curveManager = new CurveManager(repositories);
 
-                Curve curve = CreateTestCurve();
-                curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Block, nodeTypeRepository));
+                Curve curve = CreateTestCurve(curveManager);
+                curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Block, repositories.NodeTypeRepository));
 
-                ICalculatorWithPosition calculator = CurveApi.CreateInterpretedCalculator(curve);
+                ICalculatorWithPosition calculator = curveManager.CreateInterpretedCalculator(curve);
                 AssertHelper.AreEqual(1, () => calculator.Calculate(0.0));
                 AssertHelper.AreEqual(1, () => calculator.Calculate(0.5));
                 AssertHelper.AreEqual(2, () => calculator.Calculate(1.0));
@@ -57,14 +57,15 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Curve_Line()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
-                INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
+                var repositories = PersistenceHelper.CreateCurveRepositories(context);
+                var curveManager = new CurveManager(repositories);
 
-                Curve curve = CreateTestCurve();
-                curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Line, nodeTypeRepository));
+                Curve curve = CreateTestCurve(curveManager);
+                curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Line, repositories.NodeTypeRepository));
 
-                ICalculatorWithPosition calculator = CurveApi.CreateInterpretedCalculator(curve);
+                ICalculatorWithPosition calculator = curveManager.CreateInterpretedCalculator(curve);
                 AssertHelper.AreEqual(1.0, () => calculator.Calculate(0.0));
                 AssertHelper.AreEqual(1.5, () => calculator.Calculate(0.5));
                 AssertHelper.AreEqual(2.0, () => calculator.Calculate(1.0));
@@ -76,12 +77,11 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Curve_MixedNodeTypes()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-
-                var curveFactory = new CurveManager(new CurveRepositories(repositories));
-                Curve curve = curveFactory.Create
+                var repositories = PersistenceHelper.CreateCurveRepositories(context);
+                var curveManager = new CurveManager(repositories);
+                Curve curve = curveManager.Create
                 (
                     3,
                     new NodeInfo(0.5, NodeTypeEnum.Off),
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests
                     new NodeInfo(0.5, NodeTypeEnum.Off)
                 );
 
-                ICalculatorWithPosition calculator = CurveApi.CreateInterpretedCalculator(curve);
+                ICalculatorWithPosition calculator = curveManager.CreateInterpretedCalculator(curve);
 
                 // Off
                 AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.0));
@@ -111,9 +111,9 @@ namespace JJ.Business.Synthesizer.Tests
 
         // Helpers
 
-        public static Curve CreateTestCurve()
+        public static Curve CreateTestCurve(CurveManager curveManager)
         {
-            Curve curve = CurveApi.Create(2, 1, 2, 0);
+            Curve curve = curveManager.Create(2, 1, 2, 0);
             curve.Name = "Curve";
             return curve;
         }

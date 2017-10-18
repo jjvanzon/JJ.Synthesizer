@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Api;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
-using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
@@ -22,6 +21,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
     public class CurveDetailsViewModelToDiagramConverter
     {
+        private readonly CurveManager _curveManager;
+
         private class CurveInfo
         {
             public Curve MockCurve { get; set; }
@@ -72,8 +73,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         /// <summary> Not nullable. Never replaced with a new instance. Neither are its properties. </summary>
         public CurveDetailsViewModelToDiagramConverterResult Result { get; }
 
-        public CurveDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+        public CurveDetailsViewModelToDiagramConverter(
+            int doubleClickSpeedInMilliseconds,
+            int doubleClickDeltaInPixels,
+            CurveManager curveManager)
         {
+            _curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
+
             Result = new CurveDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 
             _xAxis = CreateXAxis(Result.Diagram);
@@ -96,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             if (curveDetailsViewModel.Nodes.Count < MINIMUM_NODE_COUNT) throw new LessThanException(() => curveDetailsViewModel.Nodes.Count, MINIMUM_NODE_COUNT);
 
             _currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Nodes.Values.ToArray());
-            _currentCurveCalculator = CurveApi.CreateInterpretedCalculator(_currentCurveInfo.MockCurve);
+            _currentCurveCalculator = _curveManager.CreateInterpretedCalculator(_currentCurveInfo.MockCurve);
 
             // Delete All Lines
             IList<Element> elementsToDelete = Result.Diagram.Elements
@@ -685,7 +691,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         {
             IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => CreateNodeInfo(x)).ToArray();
 
-            Curve mockCurve = CurveApi.Create(nodeInfoList);
+            Curve mockCurve = _curveManager.Create(nodeInfoList);
 
             IList<NodeTuple> nodeTuples = new List<NodeTuple>();
 

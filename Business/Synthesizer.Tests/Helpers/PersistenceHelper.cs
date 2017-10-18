@@ -1,40 +1,20 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Tests.Configuration;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Configuration;
 using JJ.Framework.Data;
-using JJ.Framework.Data.Memory;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal static class PersistenceHelper
     {
-        private static readonly ConfigurationSection _config;
-
-        static PersistenceHelper()
+        public static IContext CreateContext()
         {
-            _config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-        }
-
-        public static IContext CreateMemoryContext()
-        {
-            return ContextFactory.CreateContextFromConfiguration(_config.MemoryPersistence);
-        }
-
-        public static IContext CreateDatabaseContext()
-        {
-            return ContextFactory.CreateContextFromConfiguration(_config.DatabasePersistence);
+            return ContextFactory.CreateContextFromConfiguration();
         }
 
         public static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context)
         {
-            if (context is MemoryContext)
-            {
-                return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context, _config.MemoryPersistence);
-            }
-
-            return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context, _config.DatabasePersistence);
+            return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context);
         }
 
         public static RepositoryWrapper CreateRepositories(IContext context)
@@ -71,6 +51,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             );
 
             return repositories;
+        }
+
+        public static CurveRepositories CreateCurveRepositories(IContext context)
+        {
+            return new CurveRepositories(CreateRepositories(context));
         }
     }
 }

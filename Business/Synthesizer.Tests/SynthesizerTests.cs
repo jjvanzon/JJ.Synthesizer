@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Framework.Common;
 using JJ.Framework.Data;
@@ -10,7 +11,6 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests
                 // Test recursive validator
                 CultureHelper.SetThreadCultureName("nl-NL");
 
-                add.Inputs[0] = null;
+                add.Inlets.First().InputOutlet = null;
                 var valueOperatorWrapper = new Number_OperatorWrapper(subtract.Inputs[DimensionEnum.B].Operator);
                 valueOperatorWrapper.Number = 0;
                 subtract.WrappedOperator.Inlets[0].Name = "134";
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_Add()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_ShorterCodeNotation()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_SineWithCurve_InterpretedMode()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -228,7 +228,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_OptimizedPatchCalculator()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -251,7 +251,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_PatchCalculator_WithNullInlet()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -274,7 +274,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_PatchCalculator_Nulls()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_PatchCalculator_NestedOperators()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -320,7 +320,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_NoiseOperator()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 var repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -381,7 +381,7 @@ namespace JJ.Business.Synthesizer.Tests
             const int alternativeSamplingRate = 25;
             const int amplification = 20000;
 
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -446,7 +446,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_InterpolateOperator_Sine()
         {
-            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
@@ -489,84 +489,97 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_SawUp()
         {
-            var x = new PatchApi();
-            var saw = x.SawUp(x.Number(0.5));
-
-            IPatchCalculator patchCalculator = x.CreateCalculator(
-                saw,
-                DEFAULT_SAMPLING_RATE,
-                DEFAULT_CHANNEL_COUNT,
-                DEFAULT_CHANNEL_INDEX,
-                new CalculatorCache());
-
-            var times = new[]
+            using (IContext context = PersistenceHelper.CreateContext())
             {
-                0.00,
-                0.25,
-                0.50,
-                0.75,
-                1.00,
-                1.25,
-                1.50,
-                1.75,
-                2.00
-            };
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
+                var patchManager = new PatchManager(repositories);
+                Patch patch = patchManager.CreatePatch();
+                var x = new OperatorFactory(patch, repositories);
 
-            var values = new List<double>(times.Length);
+                var saw = x.SawUp(x.Number(0.5));
 
-            foreach (double time in times)
-            {
-                double value = TestHelper.CalculateOneValue(patchCalculator);
-                values.Add(value);
+                IPatchCalculator patchCalculator = patchManager.CreateCalculator(
+                    saw,
+                    DEFAULT_SAMPLING_RATE,
+                    DEFAULT_CHANNEL_COUNT,
+                    DEFAULT_CHANNEL_INDEX,
+                    new CalculatorCache());
+
+                var times = new[]
+                {
+                    0.00,
+                    0.25,
+                    0.50,
+                    0.75,
+                    1.00,
+                    1.25,
+                    1.50,
+                    1.75,
+                    2.00
+                };
+
+                var values = new List<double>(times.Length);
+
+                foreach (double time in times)
+                {
+                    double value = TestHelper.CalculateOneValue(patchCalculator);
+                    values.Add(value);
+                }
             }
         }
 
         [TestMethod]
         public void Test_Synthesizer_Triangle()
         {
-            var patcher = new PatchApi();
-            var outlet = patcher.Triangle(patcher.Number(1));
-
-            IPatchCalculator patchCalculator = patcher.CreateCalculator(
-                outlet,
-                DEFAULT_SAMPLING_RATE,
-                DEFAULT_CHANNEL_COUNT,
-                DEFAULT_CHANNEL_INDEX,
-                new CalculatorCache());
-
-            double[] times =
+            using (IContext context = PersistenceHelper.CreateContext())
             {
-                0.000,
-                0.125,
-                0.250,
-                0.375,
-                0.500,
-                0.625,
-                0.750,
-                0.875,
-                1.000,
-                1.125,
-                1.250,
-                1.375,
-                1.500,
-                1.625,
-                1.750,
-                1.875,
-                2.000
-            };
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
+                var patchManager = new PatchManager(repositories);
+                Patch patch = patchManager.CreatePatch();
+                var operatorFactory = new OperatorFactory(patch, repositories);
+                var outlet = operatorFactory.Triangle(operatorFactory.Number(1));
 
-            var values = new List<double>(times.Length);
-            foreach (double time in times)
-            {
-                double value = TestHelper.CalculateOneValue(patchCalculator, time);
-                values.Add(value);
+                IPatchCalculator patchCalculator = patchManager.CreateCalculator(
+                    outlet,
+                    DEFAULT_SAMPLING_RATE,
+                    DEFAULT_CHANNEL_COUNT,
+                    DEFAULT_CHANNEL_INDEX,
+                    new CalculatorCache());
+
+                double[] times =
+                {
+                    0.000,
+                    0.125,
+                    0.250,
+                    0.375,
+                    0.500,
+                    0.625,
+                    0.750,
+                    0.875,
+                    1.000,
+                    1.125,
+                    1.250,
+                    1.375,
+                    1.500,
+                    1.625,
+                    1.750,
+                    1.875,
+                    2.000
+                };
+
+                var values = new List<double>(times.Length);
+                foreach (double time in times)
+                {
+                    double value = TestHelper.CalculateOneValue(patchCalculator, time);
+                    values.Add(value);
+                }
             }
         }
 
         [TestMethod]
         public void Test_Synthesizer_ValidateAllRootDocuments()
         {
-            using (IContext context = PersistenceHelper.CreateDatabaseContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 var repositories = PersistenceHelper.CreateRepositories(context);
                 var documentManager = new DocumentManager(repositories);
@@ -591,7 +604,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_OperatorFactory_GenericMethods()
         {
-            using (IContext context = PersistenceHelper.CreateDatabaseContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 var repositories = PersistenceHelper.CreateRepositories(context);
                 var patchManager = new PatchManager(repositories);

@@ -478,9 +478,6 @@
     <None Include="Config\Dev Local Machine\App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Config\Dev Memory\App.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Config\Dev Private Network\App.config">
       <SubType>Designer</SubType>
     </None>
@@ -511,10 +508,6 @@
     <ProjectReference Include="..\..\Data\Canonical\JJ.Data.Canonical.csproj">
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Data.Canonical</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Business\Synthesizer.Api\JJ.Business.Synthesizer.Api.csproj">
-      <Project>{9451509b-96e7-43a7-87a2-74e5e582c0cd}</Project>
-      <Name>JJ.Business.Synthesizer.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Business\Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
@@ -556,10 +549,6 @@
       <Project>{ceeb755d-de12-4e70-816e-546c429b44b7}</Project>
       <Name>JJ.Framework.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Data.Memory\JJ.Framework.Data.Memory.csproj">
-      <Project>{86348b50-eca9-4849-a221-73f0ed31713b}</Project>
-      <Name>JJ.Framework.Data.Memory</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Data.NHibernate\JJ.Framework.Data.NHibernate.csproj">
       <Project>{db783ed9-fde6-458f-a094-457b7f4283a0}</Project>
       <Name>JJ.Framework.Data.NHibernate</Name>
@@ -583,10 +572,6 @@
     <ProjectReference Include="..\..\Framework\Presentation.WinForms\JJ.Framework.Presentation.WinForms.csproj">
       <Project>{84a66716-c686-4b8e-a092-cfe38ca7dde0}</Project>
       <Name>JJ.Framework.Presentation.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Data\Synthesizer.Memory\JJ.Data.Synthesizer.Memory.csproj">
-      <Project>{bc3be171-ad84-4ee4-8356-06a581bdcdf7}</Project>
-      <Name>JJ.Data.Synthesizer.Memory</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Data\Synthesizer.NHibernate\JJ.Data.Synthesizer.NHibernate.csproj">
       <Project>{afcf2122-db43-461c-9fdf-41adec10a375}</Project>
@@ -640,6 +625,9 @@
     <None Include="Resources\PianoIconUniform.png" />
     <None Include="Resources\PianoIconUniformLongerKeys.png" />
     <Content Include="Resources\RefreshIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Config\Dev Memory\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

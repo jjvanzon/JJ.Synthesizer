@@ -58,6 +58,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _infrastructureFacade = new InfrastructureFacade(_repositories);
             _autoPatcher = new AutoPatcher(_repositories);
 
+            curveDetailsListUserControl.SetCurveManager(new CurveManager(new CurveRepositories(_repositories)));
+
             BindEvents();
             ApplyStyling();
         }

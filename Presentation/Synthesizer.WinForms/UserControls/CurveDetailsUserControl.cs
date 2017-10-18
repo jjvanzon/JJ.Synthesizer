@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Business.Synthesizer.Resources;
@@ -26,24 +27,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> ShowCurvePropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowNodePropertiesRequested;
 
-        private readonly CurveDetailsViewModelToDiagramConverter _converter;
+        /// <summary> Only create after SetCurveManager is called. </summary>
+        private CurveDetailsViewModelToDiagramConverter _converter;
 
         public CurveDetailsUserControl()
         {
-            _converter = new CurveDetailsViewModelToDiagramConverter(
-                SystemInformation.DoubleClickTime,
-                SystemInformation.DoubleClickSize.Width);
-
-            _converter.Result.KeyDownGesture.KeyDown += Diagram_KeyDown;
-            _converter.Result.SelectNodeGesture.SelectNodeRequested += SelectNodeGesture_NodeSelected;
-            _converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
-            _converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
-            _converter.Result.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
-            _converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
-            _converter.Result.ShowNodePropertiesMouseGesture.ShowNodePropertiesRequested += ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested;
-            _converter.Result.ShowNodePropertiesKeyboardGesture.ShowNodePropertiesRequested += ShowNodePropertiesKeyboardGesture_ShowNodePropertiesRequested;
-            _converter.Result.NodeToolTipGesture.ToolTipTextRequested += NodeToolTipGesture_ToolTipTextRequested;
-
             InitializeComponent();
 
             TitleBarBackColor = SystemColors.Window;
@@ -56,6 +44,29 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void CurveDetailsUserControl_Load(object sender, EventArgs e)
         {
             diagramControl.Diagram = _converter.Result.Diagram;
+        }
+
+        /// <summary>
+        /// It is exceptional to pass a business logic object to a UI element,
+        /// but the Curve editors use the calculation of the business layer,
+        /// in order to plot the curve exactly as used in the sound calculations.
+        /// </summary>
+        public void SetCurveManager(CurveManager curveManager)
+        {
+            _converter = new CurveDetailsViewModelToDiagramConverter(
+                SystemInformation.DoubleClickTime,
+                SystemInformation.DoubleClickSize.Width,
+                curveManager);
+
+            _converter.Result.KeyDownGesture.KeyDown += Diagram_KeyDown;
+            _converter.Result.SelectNodeGesture.SelectNodeRequested += SelectNodeGesture_NodeSelected;
+            _converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
+            _converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
+            _converter.Result.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
+            _converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
+            _converter.Result.ShowNodePropertiesMouseGesture.ShowNodePropertiesRequested += ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested;
+            _converter.Result.ShowNodePropertiesKeyboardGesture.ShowNodePropertiesRequested += ShowNodePropertiesKeyboardGesture_ShowNodePropertiesRequested;
+            _converter.Result.NodeToolTipGesture.ToolTipTextRequested += NodeToolTipGesture_ToolTipTextRequested;
         }
 
         // Gui
@@ -87,6 +98,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
+            AssertConverter();
+
             _converter.Execute(ViewModel);
 
             diagramControl.Refresh();
@@ -133,6 +146,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SelectNodeGesture_NodeSelected(object sender, ElementEventArgs e)
         {
             if (ViewModel == null) return;
+            AssertConverter();
 
             int nodeID = (int)e.Element.Tag;
 
@@ -145,6 +159,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
             if (NodeMoving == null) return;
+            AssertConverter();
 
             int nodeID = (int)e.Element.Tag;
 
@@ -170,6 +185,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // TODO: Lots of code repetition betwen Moved and Moving events.
             if (ViewModel == null) return;
             if (NodeMoved == null) return;
+            AssertConverter();
 
             int nodeID = (int)e.Element.Tag;
 
@@ -227,6 +243,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
             CreateNodeRequested?.Invoke(this, new EventArgs<int>(ViewModel.Curve.ID));
+        }
+
+        private void AssertConverter()
+        {
+            if (_converter == null)
+            {
+                throw new Exception($"{nameof(_converter)} is null. Call {nameof(SetCurveManager)} first.");
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
@@ -25,6 +26,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> ShowNodePropertiesRequested;
 
         private readonly IList<CurveDetailsUserControl> _userControls = new List<CurveDetailsUserControl>();
+        private CurveManager _curveManager;
+
+        /// <see cref="CurveDetailsUserControl.SetCurveManager "/>
+        public void SetCurveManager(CurveManager curveManager)
+        {
+            _curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
+        }
 
         private IList<CurveDetailsViewModel> _viewModels;
         public IList<CurveDetailsViewModel> ViewModels
@@ -59,9 +67,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 var userControl = new CurveDetailsUserControl
                 {
                     Name = $"{nameof(CurveDetailsUserControl)}{i}",
-                    ViewModel = viewModel,
                     Font = StyleHelper.DefaultFont
                 };
+                userControl.SetCurveManager(_curveManager);
+                userControl.ViewModel = viewModel;
 
                 userControl.ChangeSelectedNodeTypeRequested += CurveDetailsUserControl_ChangeSelectedNodeTypeRequested;
                 userControl.CloseRequested += CurveDetailsUserControl_CloseRequested;

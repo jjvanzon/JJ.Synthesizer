@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Framework.Common;
-using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

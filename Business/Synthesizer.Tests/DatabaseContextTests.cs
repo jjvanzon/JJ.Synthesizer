@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_DatabaseContext()
         {
-            using (IContext context = PersistenceHelper.CreateDatabaseContext())
+            using (IContext context = PersistenceHelper.CreateContext())
             {
                 var operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
                 var op = new Operator();

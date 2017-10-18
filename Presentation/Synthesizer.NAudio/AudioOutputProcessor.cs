@@ -30,8 +30,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
             _timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
 
-            _desiredLatencyInMilliseconds = ConvertDurationToMilliseconds(desiredBufferDuration);
             _sampleProvider = new AudioOutputSampleProvider(_patchCalculatorContainer, _timeProvider, samplingRate, channelCount);
+
+            UpdateAudioProperties(samplingRate, channelCount, desiredBufferDuration);
         }
 
         public void UpdateAudioProperties(int samplingRate, int channelCount, double desiredBufferDuration)

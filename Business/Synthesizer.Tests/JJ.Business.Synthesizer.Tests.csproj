@@ -69,7 +69,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\ITestOperatorCalculator.cs" />
     <Compile Include="Helpers\EntityFactory.cs" />
@@ -108,10 +107,6 @@
       <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
       <Name>JJ.Framework.IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Data.Memory\JJ.Framework.Data.Memory.csproj">
-      <Project>{86348b50-eca9-4849-a221-73f0ed31713b}</Project>
-      <Name>JJ.Framework.Data.Memory</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Data.NHibernate\JJ.Framework.Data.NHibernate.csproj">
       <Project>{db783ed9-fde6-458f-a094-457b7f4283a0}</Project>
       <Name>JJ.Framework.Data.NHibernate</Name>
@@ -136,10 +131,6 @@
       <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
       <Name>JJ.Framework.Validation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Data\Synthesizer.Memory\JJ.Data.Synthesizer.Memory.csproj">
-      <Project>{bc3be171-ad84-4ee4-8356-06a581bdcdf7}</Project>
-      <Name>JJ.Data.Synthesizer.Memory</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Data\Synthesizer.NHibernate\JJ.Data.Synthesizer.NHibernate.csproj">
       <Project>{afcf2122-db43-461c-9fdf-41adec10a375}</Project>
       <Name>JJ.Data.Synthesizer.NHibernate</Name>
@@ -156,10 +147,6 @@
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Data.Canonical</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Synthesizer.Api\JJ.Business.Synthesizer.Api.csproj">
-      <Project>{9451509b-96e7-43a7-87a2-74e5e582c0cd}</Project>
-      <Name>JJ.Business.Synthesizer.Api</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
@@ -171,6 +158,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
