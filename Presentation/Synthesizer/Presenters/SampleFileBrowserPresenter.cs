@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -62,6 +63,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             var operatorFactory = new OperatorFactory(patch, _repositories);
             Operator op = operatorFactory.Sample(userInput.Bytes);
+
+            string fileName = Path.GetFileName(userInput.FilePath);
+            op.Name = fileName;
+            op.Sample.Name = fileName;
+            op.Sample.OriginalLocation = userInput.FilePath;
+
             _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
             // ToViewModel
@@ -83,6 +90,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             destViewModel.DestPatchID = sourceViewModel.DestPatchID;
             destViewModel.Bytes = sourceViewModel.Bytes;
+            destViewModel.FilePath = sourceViewModel.FilePath;
         }
     }
 }

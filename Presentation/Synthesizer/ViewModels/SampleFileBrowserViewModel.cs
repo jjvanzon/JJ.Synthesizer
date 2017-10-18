@@ -6,5 +6,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
     {
         public byte[] Bytes { get; set; }
         public int DestPatchID { get; set; }
+        public string FilePath { get; set; }
     }
 }

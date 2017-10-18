@@ -134,6 +134,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                             using (Stream stream = new FileStream(_openFileDialog.FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                             {
                                 viewModel.Bytes = StreamHelper.StreamToBytes(stream);
+                                viewModel.FilePath = _openFileDialog.FileName;
                             }
 
                             SampleFileBrowserOK(_dummySender, EventArgs.Empty);
