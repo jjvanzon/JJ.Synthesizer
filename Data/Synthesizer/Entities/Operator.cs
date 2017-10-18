@@ -37,6 +37,9 @@ namespace JJ.Data.Synthesizer.Entities
         /// <summary> optional </summary>
         public virtual Sample Sample { get; set; }
 
+        /// <summary> curve </summary>
+        public virtual Curve Curve { get; set; }
+
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

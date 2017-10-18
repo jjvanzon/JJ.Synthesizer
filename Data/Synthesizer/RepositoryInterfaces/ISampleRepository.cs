@@ -9,6 +9,5 @@ namespace JJ.Data.Synthesizer.RepositoryInterfaces
         byte[] TryGetBytes(int sampleID);
         byte[] GetBytes(int sampleID);
         void SetBytes(int sampleID, byte[] bytes);
-        IList<Sample> GetAll();
     }
 }

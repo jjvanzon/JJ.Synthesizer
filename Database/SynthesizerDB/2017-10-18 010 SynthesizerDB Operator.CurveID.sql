@@ -1,0 +1,1 @@
+alter table Operator add CurveID int null;

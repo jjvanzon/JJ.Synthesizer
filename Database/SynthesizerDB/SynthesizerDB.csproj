@@ -513,6 +513,9 @@
     <Content Include="2017-10-17 060 SynthesizerDB FK_Sample_Operator drop constraint.sql" />
     <Content Include="2017-10-17 070 SynthesizerDB Sample.OperatorID drop column.sql" />
     <Content Include="2017-10-17 080 SynthesizerDB Sample.Bytes null.sql" />
+    <Content Include="2017-10-18 010 SynthesizerDB Operator.CurveID.sql" />
+    <Content Include="2017-10-18 020 SynthesizerDB IX_Operator_CurveID.sql" />
+    <Content Include="2017-10-18 030 SynthesizerDB FK_Operator_Curve.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,5 +1,4 @@
 ﻿using JJ.Framework.Data;
-using System.Collections.Generic;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
@@ -27,7 +26,5 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 
         /// <summary> base does nothing </summary>
         public virtual void SetBytes(int sampleID, byte[] bytes) => throw new RepositoryMethodNotImplementedException();
-
-        public virtual IList<Sample> GetAll() => throw new RepositoryMethodNotImplementedException();
     }
 }

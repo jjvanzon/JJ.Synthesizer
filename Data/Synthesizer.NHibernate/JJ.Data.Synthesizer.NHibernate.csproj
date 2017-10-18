@@ -78,6 +78,7 @@
     <Compile Include="Mapping\ToneMapping.cs" />
     <Compile Include="Names\ColumnNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\CurveRepository.cs" />
     <Compile Include="Repositories\DocumentRepository.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />
     <Compile Include="Repositories\IDRepository.cs" />

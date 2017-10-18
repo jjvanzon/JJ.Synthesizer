@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public static void Add() { }
         public static void ClosestOverInlets() { }
         public static void ClosestOverInletsExp() { }
+        public static void Curve() { }
         public static void RangeOverOutlets() { }
         public static void Multiply() { }
         public static void MaxOverInlets() { }
