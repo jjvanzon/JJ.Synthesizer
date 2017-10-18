@@ -626,9 +626,7 @@
     <None Include="Resources\PianoIconUniformLongerKeys.png" />
     <Content Include="Resources\RefreshIcon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Config\Dev Memory\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>del "$(TargetDir)*.cs"</PreBuildEvent>
