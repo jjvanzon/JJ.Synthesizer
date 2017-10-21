@@ -1,5 +1,4 @@
-﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     partial class OperatorPropertiesUserControl_ForCurve
     {
@@ -29,8 +28,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelCurve = new System.Windows.Forms.Label();
-            this.comboBoxCurve = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // _labelName
@@ -61,34 +58,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this._labelCustomDimensionName.TabIndex = 7;
             this._labelCustomDimensionName.Text = "Custom Dimension";
             // 
-            // labelCurve
-            // 
-            this.labelCurve.Location = new System.Drawing.Point(0, 0);
-            this.labelCurve.Margin = new System.Windows.Forms.Padding(0);
-            this.labelCurve.Name = "labelCurve";
-            this.labelCurve.Size = new System.Drawing.Size(10, 10);
-            this.labelCurve.TabIndex = 15;
-            this.labelCurve.Text = "labelCurve";
-            this.labelCurve.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // comboBoxCurve
-            // 
-            this.comboBoxCurve.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxCurve.FormattingEnabled = true;
-            this.comboBoxCurve.Location = new System.Drawing.Point(0, 0);
-            this.comboBoxCurve.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxCurve.Name = "comboBoxCurve";
-            this.comboBoxCurve.Size = new System.Drawing.Size(421, 24);
-            this.comboBoxCurve.TabIndex = 16;
-            // 
             // OperatorPropertiesUserControl_ForCurve
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Controls.Add(this.labelCurve);
-            this.Controls.Add(this.comboBoxCurve);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "OperatorPropertiesUserControl_ForCurve";
             this.RemoveButtonVisible = true;
@@ -99,15 +74,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this._labelCustomDimensionName, 0);
             this.Controls.SetChildIndex(this._comboBoxStandardDimension, 0);
             this.Controls.SetChildIndex(this._labelStandardDimension, 0);
-            this.Controls.SetChildIndex(this.comboBoxCurve, 0);
-            this.Controls.SetChildIndex(this.labelCurve, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label labelCurve;
-        private System.Windows.Forms.ComboBox comboBoxCurve;
     }
 }

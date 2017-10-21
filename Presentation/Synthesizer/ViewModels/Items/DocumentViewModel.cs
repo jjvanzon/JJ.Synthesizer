@@ -27,13 +27,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// </summary>
         public Dictionary<int, CurveDetailsViewModel> CurveDetailsDictionary { get; set; }
 
-        public CurveGridViewModel CurveGrid { get; set; }
-
-        /// <summary> This lookup is used by OperatorProperties_ForCurves. </summary>
-        public IList<IDAndName> CurveLookup { get; set; }
-
-        public CurvePropertiesViewModel VisibleCurveProperties { get; set; }
-        public Dictionary<int, CurvePropertiesViewModel> CurvePropertiesDictionary { get; set; }
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
         public LibrarySelectionPopupViewModel LibrarySelectionPopup { get; set; }
         public Dictionary<int, LibraryPropertiesViewModel> LibraryPropertiesDictionary { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -216,86 +217,27 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static void ToEntitiesWithNodes(
             this IEnumerable<CurveDetailsViewModel> viewModelList, 
-            Document destDocument, 
+            IList<Curve> existingEntities, 
             CurveRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destDocument == null) throw new NullException(() => destDocument);
+            if (existingEntities == null) throw new NullException(() => existingEntities);
             if (repositories == null) throw new NullException(() => repositories);
 
-            var idsToKeep = new HashSet<int>();
+            var idsToKeep = new HashSet<Curve>();
 
             foreach (CurveDetailsViewModel viewModel in viewModelList)
             {
                 Curve entity = viewModel.ToEntityWithNodes(repositories);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
+                idsToKeep.Add(entity);
             }
 
-            var curveManager = new CurveManager(repositories);
-
-            IList<int> existingIDs = destDocument.Curves.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
+            IEnumerable<Curve> entitiesToDelete = existingEntities.Except(idsToKeep);
+            foreach (Curve entityToDelete in entitiesToDelete.ToArray())
             {
-                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
-                result.Assert();
+                entityToDelete.DeleteRelatedEntities(repositories.NodeRepository);
+                repositories.CurveRepository.Delete(entityToDelete);
             }
-        }
-
-        public static void ToEntities(
-            this IEnumerable<CurvePropertiesViewModel> viewModelList, 
-            Document destDocument, 
-            CurveRepositories repositories)
-        {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destDocument == null) throw new NullException(() => destDocument);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (CurvePropertiesViewModel viewModel in viewModelList)
-            {
-                Curve entity = viewModel.ToEntity(repositories.CurveRepository);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            var curveManager = new CurveManager(repositories);
-
-            IList<int> existingIDs = destDocument.Curves.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
-                result.Assert();
-            }
-        }
-
-        public static Curve ToEntity(
-            this CurvePropertiesViewModel viewModel, 
-            ICurveRepository curveRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-
-            Curve entity = curveRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Curve { ID = viewModel.ID };
-                curveRepository.Insert(entity);
-            }
-            entity.Name = viewModel.Name;
-
-            return entity;
         }
 
         public static Curve ToEntityWithNodes(this CurveDetailsViewModel viewModel, CurveRepositories repositories)
@@ -401,9 +343,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             viewModel.AudioFileOutputPropertiesDictionary.Values.ToEntities(destDocument, new AudioFileOutputRepositories(repositories));
             viewModel.AudioOutputProperties.ToEntity(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository);
-            viewModel.CurvePropertiesDictionary.Values.ToEntities(destDocument, curveRepositories);
+            // Order-Dependence: OperatorPropertiesViewModel_ForCurve should be converted before CurveDetails.
+            // (Because that links it to the parent, which is needed for determining which to delete.)
+            viewModel.CurveDetailsDictionary.Values.ToEntitiesWithNodes(destDocument.GetCurves(), curveRepositories);
             // Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
-            viewModel.CurveDetailsDictionary.Values.ToEntitiesWithNodes(destDocument, curveRepositories);
             // TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
             // even though the CurveDetailsList ToEntity already covers deletion.
             viewModel.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
@@ -654,9 +597,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Operator 
 
-        public static Operator ToEntity(
-            this OperatorViewModel viewModel, 
-            IOperatorRepository operatorRepository)
+        public static Operator ToEntity(this OperatorViewModel viewModel, IOperatorRepository operatorRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -672,13 +613,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel viewModel,
-            RepositoryWrapper repositories)
+        public static Operator ToEntity(this OperatorPropertiesViewModel viewModel, RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
+            Operator entity = viewModel.ToOperator_Base(repositories);
 
             return entity;
         }
@@ -687,7 +626,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
+            Operator entity = viewModel.ToOperator_Base(repositories);
 
             new Cache_OperatorWrapper(entity)
             {
@@ -702,30 +641,35 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
+            Operator op = viewModel.ToOperator_Base(repositories);
 
-            var wrapper = new Curve_OperatorWrapper(entity, repositories.CurveRepository);
+            Curve curve = viewModel.ToCurve(repositories);
 
-            bool curveIsFilledIn = viewModel.Curve != null && viewModel.Curve.ID != 0;
-            if (curveIsFilledIn)
-            {
-                wrapper.CurveID = viewModel.Curve.ID;
-            }
-            else
-            {
-                wrapper.CurveID = null;
-            }
+            op.Curve = curve;
 
-            return entity;
+            return op;
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForInletsToDimension viewModel,
-            RepositoryWrapper repositories)
+        private static Curve ToCurve(this OperatorPropertiesViewModel_ForCurve viewModel, RepositoryWrapper repositories)
+        {
+            Curve curve = repositories.CurveRepository.TryGet(viewModel.CurveID);
+
+            if (curve == null)
+            {
+                curve = new Curve { ID = viewModel.CurveID };
+                repositories.CurveRepository.Insert(curve);
+            }
+
+            curve.Name = viewModel.Name;
+
+            return curve;
+        }
+
+        public static Operator ToEntity(this OperatorPropertiesViewModel_ForInletsToDimension viewModel, RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
+            Operator entity = viewModel.ToOperator_Base(repositories);
 
             new InletsToDimension_OperatorWrapper(entity)
             {
@@ -735,13 +679,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForNumber viewModel,
-            RepositoryWrapper repositories)
+        public static Operator ToEntity(this OperatorPropertiesViewModel_ForNumber viewModel, RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
+            Operator entity = viewModel.ToOperator_Base(repositories);
 
             // ReSharper disable once InvertIf
             if (double.TryParse(viewModel.Number, out double number))
@@ -755,14 +697,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Operator ToOperatorWithInlet(
-            this OperatorPropertiesViewModel_ForPatchInlet viewModel,
-            RepositoryWrapper repositories)
+        public static Operator ToOperatorWithInlet(this OperatorPropertiesViewModel_ForPatchInlet viewModel, RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Operator op = ConvertToOperator_Base(viewModel, repositories);
+            Operator op = viewModel.ToOperator_Base(repositories);
 
             Inlet inlet = op.Inlets.FirstOrDefault();
             if (inlet == null)
@@ -811,14 +751,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return op;
         }
 
-        public static Operator ToOperatorWithOutlet(
-            this OperatorPropertiesViewModel_ForPatchOutlet viewModel,
-            RepositoryWrapper repositories)
+        public static Operator ToOperatorWithOutlet(this OperatorPropertiesViewModel_ForPatchOutlet viewModel, RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Operator op = ConvertToOperator_Base(viewModel, repositories);
+            Operator op = viewModel.ToOperator_Base(repositories);
 
             Outlet outlet = op.Outlets.FirstOrDefault();
             if (outlet == null)
@@ -851,14 +789,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return op;
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForSample viewModel,
-            RepositoryWrapper repositories)
+        public static Operator ToEntity(this OperatorPropertiesViewModel_ForSample viewModel, RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Operator op = ConvertToOperator_Base(viewModel, repositories);
+            Operator op = viewModel.ToOperator_Base(repositories);
 
             Sample sample = viewModel.Sample.ToEntity(new SampleRepositories(repositories));
             op.LinkTo(sample);
@@ -866,13 +802,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return op;
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_WithInterpolation viewModel,
-            RepositoryWrapper repositories)
+        public static Operator ToEntity(this OperatorPropertiesViewModel_WithInterpolation viewModel, RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
+            Operator entity = viewModel.ToOperator_Base(repositories);
 
             new Interpolate_OperatorWrapper(entity) { InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0) };
 
@@ -885,7 +819,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator entity = ConvertToOperator_Base(viewModel, repositories);
+            Operator entity = viewModel.ToOperator_Base(repositories);
 
             new OperatorWrapper_WithCollectionRecalculation(entity)
             {
@@ -895,9 +829,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        private static Operator ConvertToOperator_Base(
-            OperatorPropertiesViewModelBase viewModel,
-            RepositoryWrapper repositories)
+        private static Operator ToOperator_Base(this OperatorPropertiesViewModelBase viewModel, RepositoryWrapper repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);

@@ -29,8 +29,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <LangVersion>
-    </LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -42,6 +41,7 @@
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -75,7 +75,7 @@
     <Compile Include="EventArg\LibraryPatchGroupEventArgs.cs" />
     <Compile Include="EventArg\ScaleAndToneEventArgs.cs" />
     <Compile Include="EventArg\NodeEventArgs.cs" />
-    <Compile Include="EventArg\SelectOperatorEventArgs.cs" />
+    <Compile Include="EventArg\PatchAndOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
     <Compile Include="EventArg\MoveOperatorEventArgs.cs" />
     <Compile Include="EventArg\MoveNodeEventArgs.cs" />
@@ -184,12 +184,6 @@
     </Compile>
     <Compile Include="UserControls\CurveDetailsUserControl.Designer.cs">
       <DependentUpon>CurveDetailsUserControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\CurvePropertiesUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\CurvePropertiesUserControl.Designer.cs">
-      <DependentUpon>CurvePropertiesUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NodePropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -335,12 +329,6 @@
     <Compile Include="UserControls\DocumentGridUserControl.Designer.cs">
       <DependentUpon>DocumentGridUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CurveGridUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\CurveGridUserControl.Designer.cs">
-      <DependentUpon>CurveGridUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\PatchDetailsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -396,9 +384,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsUserControl.resx">
       <DependentUpon>CurveDetailsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CurvePropertiesUserControl.resx">
-      <DependentUpon>CurvePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\NodePropertiesUserControl.resx">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
@@ -468,9 +453,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentGridUserControl.resx">
       <DependentUpon>DocumentGridUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CurveGridUserControl.resx">
-      <DependentUpon>CurveGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\PatchDetailsUserControl.resx">
       <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>

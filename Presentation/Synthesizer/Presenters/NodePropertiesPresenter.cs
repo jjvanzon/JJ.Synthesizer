@@ -17,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public NodePropertiesPresenter(CurveRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
+
             _nodeRepository = repositories.NodeRepository;
             _curveManager = new CurveManager(repositories);
         }
@@ -38,9 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public NodePropertiesViewModel Delete(NodePropertiesViewModel userInput)
         {
-            return TemplateAction(
-                userInput,
-                entity => _curveManager.DeleteNode(entity));
+            return TemplateAction(userInput, entity => _curveManager.DeleteNode(entity));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public KeyDownGesture KeyDownGesture { get; }
         public SelectNodeGesture SelectNodeGesture { get; }
         public MoveGesture MoveNodeGesture { get; }
-        public ShowCurvePropertiesGesture ShowCurvePropertiesGesture { get; }
+        public DoubleClickBackgroundGesture DoubleClickBackgroundGesture { get; }
         public ChangeNodeTypeGesture ChangeNodeTypeGesture { get; }
         public ShowNodePropertiesMouseGesture ShowNodePropertiesMouseGesture { get; }
         public ShowNodePropertiesKeyboardGesture ShowNodePropertiesKeyboardGesture { get; }
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             ShowNodePropertiesKeyboardGesture = new ShowNodePropertiesKeyboardGesture();
             ChangeNodeTypeGesture = new ChangeNodeTypeGesture();
 
-            ShowCurvePropertiesGesture = new ShowCurvePropertiesGesture(
+            DoubleClickBackgroundGesture = new DoubleClickBackgroundGesture(
                 doubleClickSpeedInMilliseconds,
                 doubleClickDeltaInPixels);
 
@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 StyleHelper.ToolTipTextStyle);
 
             Diagram.Gestures.Add(KeyDownGesture);
-            Diagram.Background.Gestures.Add(ShowCurvePropertiesGesture);
+            Diagram.Background.Gestures.Add(DoubleClickBackgroundGesture);
             Diagram.Background.Gestures.Add(ChangeNodeTypeGesture);
             Diagram.Background.Gestures.Add(ShowNodePropertiesKeyboardGesture);
         }

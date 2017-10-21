@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 // ReSharper disable InvertIf
+// ReSharper disable RedundantCaseLabel
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -549,75 +550,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Curve
 
-        public void CurveGridShow()
+        private void CurveShow(int curveID)
         {
-            // GetViewModel
-            CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
-
-            // TemplateMethod
-            ReadOnlyActionTemplateMethod(userInput, () => _curveGridPresenter.Show(userInput));
-        }
-
-        public void CurveGridClose()
-        {
-            // GetViewModel
-            CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
-
-            // TemplateMethod
-            ReadOnlyActionTemplateMethod(userInput, () => _curveGridPresenter.Close(userInput));
-        }
-
-        public void CurveCreate()
-        {
-            // GetViewModel
-            CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
-
-            // Template Method
-            CurveGridViewModel viewModel = ActionTemplateMethod(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-                    // Business
-                    _curveManager.Create(document);
-
-                    // Successful
-                    userInput.Successful = true;
-
-                    return userInput;
-                });
-
-            // Refresh
-            if (viewModel.Successful)
+            ReadOnlyActionTemplateMethod(() =>
             {
-                DocumentViewModelRefresh();
-            }
+                // Get operator ID using view model, because you cannot reliably use the entity model to get an Operator by CurveID.
+                // (Long explanation:
+                //  It would require an ORM query, which only works for flushed entities.
+                //  And you require an ORM query, because it Operator.Curve does not have an inverse property Curve.Operator.
+                //  And the inverse property is not there, because inverse properties are hacky for 1-to-1 relationships with ORM.
+                //  And an intermediate flush would not work, if the there are integrity problems, that cannot be persisted to the database.)
+                OperatorPropertiesViewModel_ForCurve propertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByCurveID(MainViewModel.Document, curveID);
+                int operatorID = propertiesViewModel.ID;
+
+                // GetEntity
+                Operator op = _repositories.OperatorRepository.Get(operatorID);
+                int patchID = op.Patch.ID;
+                
+                // Redirect
+                OperatorPropertiesShow(operatorID);
+                CurveDetailsShow(curveID);
+                PatchDetailsShow(patchID);
+                OperatorSelect(patchID, operatorID);
+            });
         }
 
-        public void CurveGridDelete(int id)
-        {
-            // GetViewModel
-            CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
-
-            // Template Method
-            CurveGridViewModel viewModel = ActionTemplateMethod(userInput, () => _curveGridPresenter.Delete(userInput, id));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
-        public void CurveDetailsShow(int id)
+        private void CurveDetailsShow(int id)
         {
             // GetViewModel
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
@@ -642,67 +600,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             ActionTemplateMethod(userInput, () => _curveDetailsPresenter.LoseFocus(userInput));
-        }
-
-        public void CurvePropertiesShow(int id)
-        {
-            // GetViewModel
-            CurvePropertiesViewModel userInput = ViewModelSelector.GetCurvePropertiesViewModel(MainViewModel.Document, id);
-
-            // TemplateMethod
-            CurvePropertiesViewModel viewModel = ReadOnlyActionTemplateMethod(userInput, () => _curvePropertiesPresenter.Show(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleCurveProperties = viewModel;
-            }
-        }
-
-        public void CurvePropertiesClose(int id)
-        {
-            // GetViewModel
-            CurvePropertiesViewModel userInput = ViewModelSelector.GetCurvePropertiesViewModel(MainViewModel.Document, id);
-
-            // TemplateMethod
-            CurvePropertiesViewModel viewModel = ActionTemplateMethod(userInput, () => _curvePropertiesPresenter.Close(userInput));
-
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisibleCurveProperties = null;
-
-                // Refresh
-                DocumentViewModelRefresh();
-            }
-        }
-
-        public void CurvePropertiesDelete(int id)
-        {
-            // GetViewModel
-            CurvePropertiesViewModel userInput = ViewModelSelector.GetCurvePropertiesViewModel(MainViewModel.Document, id);
-
-            // Template Method
-            CurvePropertiesViewModel viewModel = ActionTemplateMethod(userInput, () => _curvePropertiesPresenter.Delete(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-        }
-
-        public void CurvePropertiesLoseFocus(int id)
-        {
-            // GetViewModel
-            CurvePropertiesViewModel userInput = ViewModelSelector.GetCurvePropertiesViewModel(MainViewModel.Document, id);
-
-            // TemplateMethod
-            CurvePropertiesViewModel viewModel = ActionTemplateMethod(userInput, () => _curvePropertiesPresenter.LoseFocus(userInput));
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
         }
 
         // Document Grid
@@ -926,14 +823,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DocumentOpen(Document document)
         {
-            // Business
-            IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
-
             // ToViewModel
-            DocumentViewModel viewModel = document.ToViewModel(
-                curveUsedInDtos,
-                _repositories,
-                _entityPositionManager);
+            DocumentViewModel viewModel = document.ToViewModel(_repositories, _entityPositionManager);
 
             // Non-Persisted
             viewModel.DocumentTree.Visible = true;
@@ -957,8 +848,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
             viewModel.CurrentInstrument.Successful = true;
             viewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
-            viewModel.CurveGrid.Successful = true;
-            viewModel.CurvePropertiesDictionary.Values.ForEach(x => x.Successful = true);
             viewModel.DocumentProperties.Successful = true;
             viewModel.DocumentTree.Successful = true;
             viewModel.NodePropertiesDictionary.Values.ForEach(x => x.Successful = true);
@@ -1375,11 +1264,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         break;
                     }
 
-                    // ReSharper disable once RedundantCaseLabel
                     case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-                    // ReSharper disable once RedundantCaseLabel
-                    case DocumentTreeNodeTypeEnum.Curves:
-                    // ReSharper disable once RedundantCaseLabel
                     case DocumentTreeNodeTypeEnum.Scales:
                     default:
                     {
@@ -1425,8 +1310,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void DocumentTreeSelectAudioFileOutputs() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.SelectAudioFileOutputs);
 
         public void DocumentTreeSelectAudioOutput() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.SelectAudioOutput);
-
-        public void DocumentTreeSelectCurves() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.SelectCurves);
 
         public void DocumentTreeSelectLibraries() => ReadOnlyDocumentTreeActionTemplate(_documentTreePresenter.SelectLibraries);
 
@@ -1941,7 +1824,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesClose_ForCurve(int id)
         {
             // GetViewModel
-            OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
+            OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, id);
 
             // TemplateMethod
             OperatorPropertiesViewModel_ForCurve viewModel = ActionTemplateMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.Close(userInput));
@@ -2129,7 +2012,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesLoseFocus_ForCurve(int id)
         {
             // GetViewModel
-            OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
+            OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, id);
 
             // TemplateMethod
             OperatorPropertiesViewModel_ForCurve viewModel = ActionTemplateMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.LoseFocus(userInput));
@@ -2265,7 +2148,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ActionTemplateMethod(userInput, () => GetOperatorPropertiesPresenter(id).Play(userInput));
         }
 
-        public void OperatorPropertiesShow(int id)
+        private void OperatorPropertiesShow(int id)
         {
             // GetViewModel & Partial Action
             {
@@ -2293,7 +2176,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
             {
-                OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, id);
+                OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, id);
                 if (userInput != null)
                 {
                     OperatorPropertiesViewModel_ForCurve viewModel = ReadOnlyActionTemplateMethod(userInput, () => _operatorPropertiesPresenter_ForCurve.Show(userInput));
@@ -2411,6 +2294,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Partial Action
             ReadOnlyActionTemplateMethod(userInput, () => _patchDetailsPresenter.SelectOperator(userInput, operatorID));
+        }
+
+        public void OperatorExpand(int patchID, int operatorID)
+        {
+            // GetViewModel
+            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
+
+            // Action
+            Curve curve = null;
+            ReadOnlyActionTemplateMethod(userInput, () =>
+            {
+                Operator op = _repositories.OperatorRepository.Get(operatorID);
+                curve = op.Curve;
+
+                return userInput;
+            });
+
+            // Redirect
+            if (curve != null)
+            {
+                CurveShow(curve.ID);
+            }
+            else
+            {
+                OperatorPropertiesShow(operatorID);
+            }
         }
 
         // Patch
@@ -3009,7 +2918,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary> See summary of TemplateActionMethod. This version omits the full document validation. </summary>
-        /// <see cref="TemplateActionMethod"/>
+        /// <see cref="ActionTemplateMethod"/>
         private TViewModel ReadOnlyActionTemplateMethod<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
             where TViewModel : ViewModelBase
         {
@@ -3031,6 +2940,48 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
 
             return viewModel;
+        }
+
+        /// <summary>
+        /// See summary of TemplateActionMethod. This version omits the full document validation and successful flags.
+        /// That does mean there is not a whole lot left.
+        /// This method does however do a full DocumentViewModel ToEntity conversion,
+        /// and dispatching the view model (for insteance needed to hide other view models if a new view model is displayed on top).
+        /// </summary>
+        /// <see cref="ActionTemplateMethod"/>
+        private void ReadOnlyActionTemplateMethod<TViewModel>(Func<TViewModel> partialAction)
+            where TViewModel : ViewModelBase
+        {
+            // ToEntity
+            if (MainViewModel.Document.IsOpen)
+            {
+                MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            }
+
+            // Partial Action
+            TViewModel viewModel = partialAction();
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
+        }
+
+        /// <summary>
+        /// See summary of TemplateActionMethod. This version omits the full document validation, successful flags
+        /// and view model dispatching.
+        /// That does mean there is not a whole lot left.
+        /// This method does however do a full DocumentViewModel ToEntity conversion,
+        /// </summary>
+        /// <see cref="ActionTemplateMethod"/>
+        private void ReadOnlyActionTemplateMethod(Action partialAction)
+        {
+            // ToEntity
+            if (MainViewModel.Document.IsOpen)
+            {
+                MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            }
+
+            // Partial Action
+            partialAction();
         }
     }
 }

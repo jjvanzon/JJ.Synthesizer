@@ -18,10 +18,6 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual string Name { get; set; }
         public virtual IList<Node> Nodes { get; set; }
 
-        /// <summary> nullable </summary>
-        
-        public virtual Document Document { get; set; }
-
         private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }

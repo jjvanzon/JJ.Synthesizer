@@ -22,9 +22,10 @@ namespace JJ.Business.Synthesizer
     {
         private readonly Patch _patch;
         private readonly RepositoryWrapper _repositories;
+        private readonly DocumentManager _documentManager;
         private readonly PatchManager _patchManager;
         private readonly SampleManager _sampleManager;
-        private readonly DocumentManager _documentManager;
+        private readonly CurveManager _curveManager;
 
         public OperatorFactory(Patch patch, RepositoryWrapper repositories)
         {
@@ -34,6 +35,7 @@ namespace JJ.Business.Synthesizer
             _documentManager = new DocumentManager(_repositories);
             _patchManager = new PatchManager(_repositories);
             _sampleManager = new SampleManager(new SampleRepositories(repositories));
+            _curveManager = new CurveManager(new CurveRepositories(repositories));
         }
 
         public OperatorWrapper Absolute(Outlet number = null)
@@ -246,17 +248,73 @@ namespace JJ.Business.Synthesizer
             return NewWithInputAndItemsInlets(input, items);
         }
 
-        public Curve_OperatorWrapper Curve(
-            Curve curve = null,
+        public OperatorWrapper Curve(
             DimensionEnum? standardDimension = null,
             string customDimension = null)
         {
-            Operator op = NewWithDimension(standardDimension, customDimension);
+            OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
+            Operator op = wrapper.WrappedOperator;
 
-            var wrapper = new Curve_OperatorWrapper(op, _repositories.CurveRepository)
-            {
-                CurveID = curve?.ID
-            };
+            Curve curve = _curveManager.Create();
+            op.LinkTo(curve);
+
+            return wrapper;
+        }
+
+        public OperatorWrapper Curve(
+            DimensionEnum? standardDimension = null,
+            string customDimension = null,
+            params NodeInfo[] nodeInfos)
+        {
+            OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
+            Operator op = wrapper.WrappedOperator;
+
+            Curve curve = _curveManager.Create(nodeInfos);
+            op.LinkTo(curve);
+
+            return wrapper;
+        }
+
+        public OperatorWrapper Curve(
+            IList<NodeInfo> nodeInfos,
+            DimensionEnum? standardDimension = null,
+            string customDimension = null)
+        {
+            OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
+            Operator op = wrapper.WrappedOperator;
+
+            Curve curve = _curveManager.Create(nodeInfos);
+            op.LinkTo(curve);
+
+            return wrapper;
+        }
+
+        public OperatorWrapper Curve(
+            double xSpan,
+            DimensionEnum? standardDimension = null,
+            string customDimension = null,
+            params NodeInfo[] nodeInfos)
+        {
+            OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
+            Operator op = wrapper.WrappedOperator;
+
+            Curve curve = _curveManager.Create(xSpan, nodeInfos);
+            op.LinkTo(curve);
+
+            return wrapper;
+        }
+
+        public OperatorWrapper Curve(
+            double xSpan,
+            DimensionEnum? standardDimension = null,
+            string customDimension = null,
+            params double?[] yValues)
+        {
+            OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
+            Operator op = wrapper.WrappedOperator;
+
+            Curve curve = _curveManager.Create(xSpan, yValues);
+            op.LinkTo(curve);
 
             return wrapper;
         }
@@ -1012,10 +1070,11 @@ namespace JJ.Business.Synthesizer
             AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
         {
             OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
+            Operator op = wrapper.WrappedOperator;
 
             SampleInfo sampleInfo = _sampleManager.CreateSample(bytes, audioFileFormatEnum);
             Sample sample = sampleInfo.Sample;
-            wrapper.WrappedOperator.LinkTo(sample);
+            op.LinkTo(sample);
 
             wrapper.Inputs[DimensionEnum.Frequency] = frequency;
 

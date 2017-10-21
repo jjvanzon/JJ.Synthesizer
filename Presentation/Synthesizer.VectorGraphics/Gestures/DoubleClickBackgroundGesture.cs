@@ -4,19 +4,19 @@ using JJ.Framework.Presentation.VectorGraphics.Gestures;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
-    public class ShowCurvePropertiesGesture : GestureBase
+    public class DoubleClickBackgroundGesture : GestureBase
     {
-        public event EventHandler ShowCurvePropertiesRequested;
+        public event EventHandler DoubleClick;
 
         private readonly DoubleClickGesture _doubleClickGesture;
 
-        internal ShowCurvePropertiesGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+        internal DoubleClickBackgroundGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
             _doubleClickGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
             _doubleClickGesture.DoubleClick += _doubleClickGesture_DoubleClick;
         }
 
-        ~ShowCurvePropertiesGesture()
+        ~DoubleClickBackgroundGesture()
         {
             if (_doubleClickGesture != null)
             {
@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
         {
-            ShowCurvePropertiesRequested?.Invoke(this, EventArgs.Empty);
+            DoubleClick?.Invoke(this, EventArgs.Empty);
         }
     }
 }

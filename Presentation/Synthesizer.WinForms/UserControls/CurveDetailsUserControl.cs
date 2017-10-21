@@ -24,7 +24,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<MoveNodeEventArgs> NodeMoving;
         public event EventHandler<MoveNodeEventArgs> NodeMoved;
         public event EventHandler<NodeEventArgs> SelectNodeRequested;
-        public event EventHandler<EventArgs<int>> ShowCurvePropertiesRequested;
         public event EventHandler<EventArgs<int>> ShowNodePropertiesRequested;
 
         /// <summary> Only create after SetCurveManager is called. </summary>
@@ -62,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converter.Result.SelectNodeGesture.SelectNodeRequested += SelectNodeGesture_NodeSelected;
             _converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
             _converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
-            _converter.Result.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
+            //_converter.Result.DoubleClickBackgroundGesture.DoubleClick += ...;
             _converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
             _converter.Result.ShowNodePropertiesMouseGesture.ShowNodePropertiesRequested += ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested;
             _converter.Result.ShowNodePropertiesKeyboardGesture.ShowNodePropertiesRequested += ShowNodePropertiesKeyboardGesture_ShowNodePropertiesRequested;
@@ -204,11 +203,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Refresh ToolTip Text
             NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
             _converter.Result.NodeToolTipGesture.SetToolTipText(nodeViewModel.Caption);
-        }
-
-        private void ShowCurvePropertiesGesture_ShowCurvePropertiesRequested(object sender, EventArgs e)
-        {
-            ShowCurvePropertiesRequested?.Invoke(this, new EventArgs<int>(ViewModel.Curve.ID));
         }
 
         private void ChangeNodeTypeGesture_ChangeNodeTypeRequested(object sender, EventArgs e)

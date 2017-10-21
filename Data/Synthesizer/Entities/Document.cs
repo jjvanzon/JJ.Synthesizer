@@ -12,7 +12,6 @@ namespace JJ.Data.Synthesizer.Entities
         public Document()
         {
             AudioFileOutputs = new List<AudioFileOutput>();
-            Curves = new List<Curve>();
             Patches = new List<Patch>();
             Scales = new List<Scale>();
             LowerDocumentReferences = new List<DocumentReference>();
@@ -21,12 +20,8 @@ namespace JJ.Data.Synthesizer.Entities
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
-
-        public virtual IList<AudioFileOutput> AudioFileOutputs { get; set; }
-
         public virtual AudioOutput AudioOutput { get; set; }
-        public virtual IList<Curve> Curves { get; set; }
-
+        public virtual IList<AudioFileOutput> AudioFileOutputs { get; set; }
         public virtual IList<Patch> Patches { get; set; }
         public virtual IList<Scale> Scales { get; set; }
         public virtual IList<DocumentReference> LowerDocumentReferences { get; set; }

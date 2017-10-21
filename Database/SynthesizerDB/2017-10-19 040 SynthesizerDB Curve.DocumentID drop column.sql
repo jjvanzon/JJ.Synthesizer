@@ -1,0 +1,1 @@
+alter table Curve drop column DocumentID

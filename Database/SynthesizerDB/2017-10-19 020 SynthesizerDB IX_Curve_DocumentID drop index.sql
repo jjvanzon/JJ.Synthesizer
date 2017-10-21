@@ -1,0 +1,1 @@
+drop index Curve.IX_Curve_DocumentID

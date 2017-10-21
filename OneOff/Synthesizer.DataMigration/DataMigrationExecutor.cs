@@ -315,120 +315,120 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         //    return clonedSample;
         //}
 
-        /// <summary>
-        /// There are multiple situations that need to be handled:
-        /// - Curve Operators without a curve.
-        /// - Curve Operators with sole ownership over a cample.
-        /// - Curve Operators with joint ownership of the curve.
-        /// - Curve without an operator.
-        /// All those sitations have to translated to unique and required link between an operator and a curve.
-        /// 
-        /// In this version of the migration procedure,
-        /// all curves without an operator are deleted.
-        /// Those are not that important and it makes the migration a whole lot simpler.
-        /// </summary>
-        public static void Migrate_FromOperator_Data_ToOperator_Curve(Action<string> progressCallback)
-        {
-            if (progressCallback == null) throw new NullException(() => progressCallback);
+        ///// <summary>
+        ///// There are multiple situations that need to be handled:
+        ///// - Curve Operators without a curve.
+        ///// - Curve Operators with sole ownership over a cample.
+        ///// - Curve Operators with joint ownership of the curve.
+        ///// - Curve without an operator.
+        ///// All those sitations have to translated to unique and required link between an operator and a curve.
+        ///// 
+        ///// In this version of the migration procedure,
+        ///// all curves without an operator are deleted.
+        ///// Those are not that important and it makes the migration a whole lot simpler.
+        ///// </summary>
+        //public static void Migrate_FromOperator_Data_ToOperator_Curve(Action<string> progressCallback)
+        //{
+        //    if (progressCallback == null) throw new NullException(() => progressCallback);
 
-            progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+        //    progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
 
-            using (IContext context = PersistenceHelper.CreateContext())
-            {
-                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-                var documentManager = new DocumentManager(repositories);
-                var curveManager = new CurveManager(new CurveRepositories(repositories));
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+        //        var documentManager = new DocumentManager(repositories);
+        //        var curveManager = new CurveManager(new CurveRepositories(repositories));
 
-                Patch systemPatch = documentManager.GetSystemPatch(nameof(SystemPatchNames.Curve));
-                IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(systemPatch.ID);
+        //        Patch systemPatch = documentManager.GetSystemPatch(nameof(SystemPatchNames.Curve));
+        //        IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(systemPatch.ID);
 
-                // Loop through Operators
-                {
-                    int count = operators.Count;
-                    for (int i = 0; i < count; i++)
-                    {
-                        Operator op = operators[i];
+        //        // Loop through Operators
+        //        {
+        //            int count = operators.Count;
+        //            for (int i = 0; i < count; i++)
+        //            {
+        //                Operator op = operators[i];
 
-                        Curve newCurve;
+        //                Curve newCurve;
 
-                        int? curveID = DataPropertyParser.TryGetInt32(op, nameof(Curve_OperatorWrapper.CurveID));
-                        if (curveID.HasValue)
-                        {
-                            // Clone Curve
-                            Curve originalCurve = repositories.CurveRepository.Get(curveID.Value);
-                            newCurve = CloneCurve(originalCurve, repositories);
-                            newCurve.LinkTo(originalCurve.Document);
-                        }
-                        else
-                        {
-                            // Operator is curve-less
-                            // Create a new curve.
-                            newCurve = curveManager.Create(op.Patch.Document, 1, 0, 0);
-                        }
+        //                int? curveID = DataPropertyParser.TryGetInt32(op, nameof(Curve_OperatorWrapper.CurveID));
+        //                if (curveID.HasValue)
+        //                {
+        //                    // Clone Curve
+        //                    Curve originalCurve = repositories.CurveRepository.Get(curveID.Value);
+        //                    newCurve = CloneCurve(originalCurve, repositories);
+        //                    newCurve.LinkTo(originalCurve.Document);
+        //                }
+        //                else
+        //                {
+        //                    // Operator is curve-less
+        //                    // Create a new curve.
+        //                    newCurve = curveManager.Create(op.Patch.Document, 1, 0, 0);
+        //                }
 
-                        // Link new Curve to Operator.
-                        op.Curve = newCurve;
-                        DataPropertyParser.SetValue(op, nameof(Curve_OperatorWrapper.CurveID), newCurve.ID);
+        //                // Link new Curve to Operator.
+        //                op.Curve = newCurve;
+        //                DataPropertyParser.SetValue(op, nameof(Curve_OperatorWrapper.CurveID), newCurve.ID);
 
-                        progressCallback($"Migrated {nameof(Operator)} {i + 1}/{count}.");
-                    }
-                }
+        //                progressCallback($"Migrated {nameof(Operator)} {i + 1}/{count}.");
+        //            }
+        //        }
 
-                // Flush so GetAll includes the new curves.
-                context.Flush();
+        //        // Flush so GetAll includes the new curves.
+        //        context.Flush();
 
-                // Now delete all orphaned curves,
-                // because we created clones for every curve.
-                // (Yes, this also deletes all curves that were already not in use, but so be it.)
+        //        // Now delete all orphaned curves,
+        //        // because we created clones for every curve.
+        //        // (Yes, this also deletes all curves that were already not in use, but so be it.)
 
-                HashSet<int> usedCurveIDs = operators.Select(x => x.Curve.ID).ToHashSet();
-                IList<Curve> curves = repositories.CurveRepository.GetAll();
+        //        HashSet<int> usedCurveIDs = operators.Select(x => x.Curve.ID).ToHashSet();
+        //        IList<Curve> curves = repositories.CurveRepository.GetAll();
 
-                {
-                    int count = curves.Count;
-                    for (int i = 0; i < count; i++)
-                    {
-                        Curve curve = curves[i];
-                        bool isUsed = usedCurveIDs.Contains(curve.ID);
-                        if (!isUsed)
-                        {
-                            VoidResult result = curveManager.DeleteWithRelatedEntities(curve);
-                            result.Assert();
-                        }
+        //        {
+        //            int count = curves.Count;
+        //            for (int i = 0; i < count; i++)
+        //            {
+        //                Curve curve = curves[i];
+        //                bool isUsed = usedCurveIDs.Contains(curve.ID);
+        //                if (!isUsed)
+        //                {
+        //                    VoidResult result = curveManager.DeleteWithRelatedEntities(curve);
+        //                    result.Assert();
+        //                }
 
-                        progressCallback($"Migrated {nameof(Curve)} {i + 1}/{count}.");
-                    }
-                }
+        //                progressCallback($"Migrated {nameof(Curve)} {i + 1}/{count}.");
+        //            }
+        //        }
 
-                AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+        //        AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
-                //throw new Exception("Temporarily not committing, for debugging.");
+        //        //throw new Exception("Temporarily not committing, for debugging.");
 
-                context.Commit();
-            }
+        //        context.Commit();
+        //    }
 
-            progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
-        }
+        //    progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+        //}
 
-        private static Curve CloneCurve(Curve originalCurve, RepositoryWrapper repositories)
-        {
-            var clonedCurve = new Curve { ID = repositories.IDRepository.GetID() };
-            repositories.CurveRepository.Insert(clonedCurve);
+        //private static Curve CloneCurve(Curve originalCurve, RepositoryWrapper repositories)
+        //{
+        //    var clonedCurve = new Curve { ID = repositories.IDRepository.GetID() };
+        //    repositories.CurveRepository.Insert(clonedCurve);
 
-            clonedCurve.Name = originalCurve.Name;
+        //    clonedCurve.Name = originalCurve.Name;
 
-            foreach (Node originalNode in originalCurve.Nodes)
-            {
-                var clonedNode = new Node { ID = repositories.IDRepository.GetID() };
-                repositories.NodeRepository.Insert(clonedNode);
-                clonedNode.X = originalNode.X;
-                clonedNode.Y = originalNode.Y;
-                clonedNode.Slope = originalNode.Slope;
-                clonedNode.LinkTo(originalNode.NodeType);
-                clonedNode.LinkTo(clonedCurve);
-            }
+        //    foreach (Node originalNode in originalCurve.Nodes)
+        //    {
+        //        var clonedNode = new Node { ID = repositories.IDRepository.GetID() };
+        //        repositories.NodeRepository.Insert(clonedNode);
+        //        clonedNode.X = originalNode.X;
+        //        clonedNode.Y = originalNode.Y;
+        //        clonedNode.Slope = originalNode.Slope;
+        //        clonedNode.LinkTo(originalNode.NodeType);
+        //        clonedNode.LinkTo(clonedCurve);
+        //    }
 
-            return clonedCurve;
-        }
+        //    return clonedCurve;
+        //}
     }
 }

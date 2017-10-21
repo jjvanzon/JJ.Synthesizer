@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JJ.Framework.Exceptions">
@@ -64,7 +66,7 @@
     <Compile Include="Gestures\ShowOperatorPropertiesKeyboardGesture.cs" />
     <Compile Include="Gestures\ShowNodePropertiesKeyboardGesture.cs" />
     <Compile Include="Gestures\ShowNodePropertiesMouseGesture.cs" />
-    <Compile Include="Gestures\ShowCurvePropertiesGesture.cs" />
+    <Compile Include="Gestures\DoubleClickBackgroundGesture.cs" />
     <Compile Include="Helpers\LineGestureHelper.cs" />
     <Compile Include="Helpers\PositionHelper.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />

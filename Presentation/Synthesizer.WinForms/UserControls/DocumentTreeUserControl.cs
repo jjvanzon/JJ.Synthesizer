@@ -31,7 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
-        public event EventHandler ShowCurvesRequested;
         public event EventHandler ShowAudioOutputRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
@@ -41,7 +40,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> LibraryNodeSelected;
         public event EventHandler<LibraryPatchGroupEventArgs> LibraryPatchGroupNodeSelected;
         public event EventHandler<EventArgs<int>> LibraryPatchNodeSelected;
-        public event EventHandler CurvesNodeSelected;
         public event EventHandler AudioOutputNodeSelected;
         public event EventHandler AudioFileOutputsNodeSelected;
         public event EventHandler ScalesNodeSelected;
@@ -52,7 +50,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private HashSet<TreeNode> _libraryTreeNodes;
         private HashSet<TreeNode> _libraryPatchTreeNodes;
         private HashSet<TreeNode> _libraryPatchGroupTreeNodes;
-        private TreeNode _curvesTreeNode;
         private TreeNode _scalesTreeNode;
         private TreeNode _audioOutputNode;
         private TreeNode _audioFileOutputListTreeNode;
@@ -133,9 +130,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             treeView.Nodes.Add(_patchesTreeNode);
             _patchesTreeNode.Expand();
 
-            _curvesTreeNode = new TreeNode();
-            treeView.Nodes.Add(_curvesTreeNode);
-
             _scalesTreeNode = new TreeNode();
             treeView.Nodes.Add(_scalesTreeNode);
 
@@ -152,11 +146,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ConvertNodes(DocumentTreeViewModel viewModel)
         {
-            if (_curvesTreeNode.Text != viewModel.CurvesNode.Text)
-            {
-                _curvesTreeNode.Text = viewModel.CurvesNode.Text;
-            }
-
             if (_scalesTreeNode.Text != viewModel.ScalesNode.Text)
             {
                 _scalesTreeNode.Text = viewModel.ScalesNode.Text;
@@ -534,10 +523,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     treeView.SelectedNode = _audioOutputNode;
                     break;
 
-                case DocumentTreeNodeTypeEnum.Curves:
-                    treeView.SelectedNode = _curvesTreeNode;
-                    break;
-
                 case DocumentTreeNodeTypeEnum.Libraries:
                     treeView.SelectedNode = _librariesTreeNode;
                     break;
@@ -629,11 +614,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 AudioOutputNodeSelected(this, EventArgs.Empty);
             }
 
-            if (node == _curvesTreeNode)
-            {
-                CurvesNodeSelected(this, EventArgs.Empty);
-            }
-
             if (node == _librariesTreeNode)
             {
                 LibrariesNodeSelected(this, EventArgs.Empty);
@@ -700,11 +680,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (node == _audioOutputNode)
             {
                 ShowAudioOutputRequested(this, EventArgs.Empty);
-            }
-
-            if (node == _curvesTreeNode)
-            {
-                ShowCurvesRequested(this, EventArgs.Empty);
             }
 
             if (_patchTreeNodes.Contains(node))

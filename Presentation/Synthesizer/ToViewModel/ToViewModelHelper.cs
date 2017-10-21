@@ -280,7 +280,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.ID = entity.ID;
             viewModel.IsSmaller = GetOperatorIsSmaller(entity);
             viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
-            viewModel.Caption = GetOperatorCaption(entity, curveRepository);
+            viewModel.Caption = GetOperatorCaption(entity);
             viewModel.IsOwned = GetOperatorIsOwned(entity);
 
             EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);

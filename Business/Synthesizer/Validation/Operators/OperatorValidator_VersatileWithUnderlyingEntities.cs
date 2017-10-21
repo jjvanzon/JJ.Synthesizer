@@ -43,11 +43,10 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-            if (operatorTypeEnum == OperatorTypeEnum.Curve)
+            switch (operatorTypeEnum)
             {
-                if (int.TryParse(op.Data, out int curveID))
-                {
-                    Curve curve = curveRepository.TryGet(curveID);
+                case OperatorTypeEnum.Curve:
+                    Curve curve = op.Curve;
                     if (curve != null)
                     {
                         if (alreadyDone.Contains(curve))
@@ -61,24 +60,23 @@ namespace JJ.Business.Synthesizer.Validation.Operators
                         ExecuteValidator(new CurveValidator_WithoutNodes(curve), curveMessagePrefix);
                         ExecuteValidator(new CurveValidator_Nodes(curve), curveMessagePrefix);
                     }
-                }
-            }
+                    break;
 
-            if (operatorTypeEnum == OperatorTypeEnum.Sample)
-            {
-                Sample sample = op.Sample;
+                case OperatorTypeEnum.Sample:
+                    Sample sample = op.Sample;
 
-                if (sample != null)
-                {
-                    if (alreadyDone.Contains(sample))
+                    if (sample != null)
                     {
-                        return;
-                    }
-                    alreadyDone.Add(sample);
+                        if (alreadyDone.Contains(sample))
+                        {
+                            return;
+                        }
+                        alreadyDone.Add(sample);
 
-                    byte[] bytes = sampleRepository.TryGetBytes(sample.ID);
-                    ExecuteValidator(new SampleValidator(sample, bytes), ValidationHelper.GetMessagePrefix(sample));
-                }
+                        byte[] bytes = sampleRepository.TryGetBytes(sample.ID);
+                        ExecuteValidator(new SampleValidator(sample, bytes), ValidationHelper.GetMessagePrefix(sample));
+                    }
+                    break;
             }
         }
     }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -83,44 +82,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static CurveDetailsViewModel ToDetailsViewModel(this Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (entity.Document == null) throw new NullException(() => entity.Document);
 
             var viewModel = new CurveDetailsViewModel
             {
                 Curve = entity.ToIDAndName(),
-                DocumentID = entity.Document.ID,
                 Nodes = entity.Nodes.ToViewModelDictionary(),
                 NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel(),
-                ValidationMessages = new List<string>()
-            };
-
-            return viewModel;
-        }
-
-        public static CurveGridViewModel ToGridViewModel(this IList<UsedInDto<Curve>> dtos, int documentID)
-        {
-            if (dtos == null) throw new NullException(() => dtos);
-
-            var viewModel = new CurveGridViewModel
-            {
-                DocumentID = documentID,
-                List = dtos.ToListItemViewModels(),
-                ValidationMessages = new List<string>()
-            };
-
-            return viewModel;
-        }
-
-        public static CurvePropertiesViewModel ToPropertiesViewModel(this Curve entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (entity.Document == null) throw new NullException(() => entity.Document);
-
-            var viewModel = new CurvePropertiesViewModel
-            {
-                ID = entity.ID,
-                Name = entity.Name,
-                DocumentID = entity.Document.ID,
                 ValidationMessages = new List<string>()
             };
 
@@ -262,8 +229,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         // Operator
 
         /// <summary> Converts to properties view models, the operators that do not have a specialized properties view. </summary>
-        public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WitStandardPropertiesView(
-            this Patch patch)
+        public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WitStandardPropertiesView(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
@@ -410,16 +376,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForCurve>(entity);
 
-            var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
-
-            Curve curve = wrapper.Curve;
+            Curve curve = entity.Curve;
             if (curve != null)
             {
-                viewModel.Curve = curve.ToIDAndName();
-            }
-            else
-            {
-                viewModel.Curve = ToViewModelHelper.CreateEmptyIDAndName();
+                viewModel.Name = curve.Name;
+                viewModel.CurveID = curve.ID;
             }
 
             return viewModel;

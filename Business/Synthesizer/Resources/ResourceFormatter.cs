@@ -76,7 +76,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string CubicSmoothSlope => Resources.CubicSmoothSlope;
         public static string CurrentInstrument => Resources.CurrentInstrument;
         public static string Curve => Resources.Curve;
-        public static string Curves => Resources.Curves;
         public static string Custom => Resources.Custom;
         public static string CustomDimension => Resources.CustomDimension;
         public static string CustomDimensionName => Resources.CustomDimensionName;

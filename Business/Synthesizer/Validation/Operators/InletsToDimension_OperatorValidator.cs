@@ -6,10 +6,11 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class InletsToDimension_OperatorValidator : OperatorValidator_Basic
     {
-        public InletsToDimension_OperatorValidator(Operator obj)
-            : base(obj, expectedDataKeys: new[] { nameof(InletsToDimension_OperatorWrapper.InterpolationType) })
+        public InletsToDimension_OperatorValidator(Operator op)
+            : base(op, expectedDataKeys: new[] { nameof(InletsToDimension_OperatorWrapper.InterpolationType) })
         { 
-            ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(obj.Data));
+            ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(op.Data));
+            ExecuteValidator(new OperatorValidator_CurveAndSampleAreNull(op));
         }
     }
 }

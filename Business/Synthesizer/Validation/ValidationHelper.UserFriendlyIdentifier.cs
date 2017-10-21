@@ -140,19 +140,10 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             // Use Underlying Entity Name
-            // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(entity))
+            Curve underlyingEntity = entity.Curve;
+            if (underlyingEntity != null)
             {
-                int? underlyingEntityID = DataPropertyParser.TryParseInt32(entity, nameof(Curve_OperatorWrapper.CurveID));
-                // ReSharper disable once InvertIf
-                if (underlyingEntityID.HasValue)
-                {
-                    Curve underlyingEntity = curveRepository.TryGet(underlyingEntityID.Value);
-                    if (underlyingEntity != null)
-                    {
-                        return GetUserFriendlyIdentifier(underlyingEntity);
-                    }
-                }
+                return GetUserFriendlyIdentifier(underlyingEntity);
             }
 
             // Mention 'no name' only

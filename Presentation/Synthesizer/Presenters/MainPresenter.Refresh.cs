@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
@@ -102,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var viewModelDictionary = MainViewModel.Document.CurveDetailsDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Curve> entities = document.Curves;
+            IList<Curve> entities = document.GetCurves();
 
             foreach (Curve entity in entities)
             {
@@ -150,69 +149,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        private void CurveGridRefresh()
-        {
-            CurveGridViewModel userInput = MainViewModel.Document.CurveGrid;
-            CurveGridViewModel viewModel = _curveGridPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
-        private void CurveLookupRefresh()
-        {
-            // GetEntity
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-            // Business
-            IList<UsedInDto<Curve>> curveUsedInDtos = _documentManager.GetUsedIn(document.Curves);
-
-            // ToViewModel
-            MainViewModel.Document.CurveLookup = ToViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos);
-        }
-
-        private void CurvePropertiesDictionaryRefresh()
-        {
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var viewModelDictionary = MainViewModel.Document.CurvePropertiesDictionary;
-
-            Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Curve> entities = document.Curves;
-
-            foreach (Curve entity in entities)
-            {
-                CurvePropertiesViewModel viewModel = ViewModelSelector.TryGetCurvePropertiesViewModel(MainViewModel.Document, entity.ID);
-                if (viewModel == null)
-                {
-                    viewModel = entity.ToPropertiesViewModel();
-                    viewModel.Successful = true;
-                    viewModelDictionary[entity.ID] = viewModel;
-                }
-                else
-                {
-                    CurvePropertiesRefresh(viewModel);
-                }
-            }
-
-            IEnumerable<int> existingIDs = viewModelDictionary.Keys;
-            IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
-
-            foreach (int idToDelete in idsToDelete.ToArray())
-            {
-                viewModelDictionary.Remove(idToDelete);
-                
-                if (MainViewModel.Document.VisibleCurveProperties?.ID == idToDelete)
-                {
-                    MainViewModel.Document.VisibleCurveProperties = null;
-                }
-            }
-        }
-
-        private void CurvePropertiesRefresh(CurvePropertiesViewModel userInput)
-        {
-            CurvePropertiesViewModel viewModel = _curvePropertiesPresenter.Refresh(userInput);
-            DispatchViewModel(viewModel);
-        }
-
         private void DocumentGridRefresh()
         {
             // GetViewModel
@@ -254,9 +190,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AudioOutputPropertiesRefresh();
             CurrentInstrumentRefresh();
             CurveDetailsDictionaryRefresh();
-            CurveGridRefresh();
-            CurveLookupRefresh();
-            CurvePropertiesDictionaryRefresh();
             DocumentPropertiesRefresh();
             DocumentTreeRefresh();
             LibraryPropertiesDictionaryRefresh();
@@ -339,7 +272,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var viewModelDictionary = MainViewModel.Document.NodePropertiesDictionary;
 
             Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-            IList<Node> entities = document.Curves.SelectMany(x => x.Nodes).ToArray();
+            IList<Node> entities = document.GetCurves().SelectMany(x => x.Nodes).ToArray();
 
             foreach (Node entity in entities)
             {
@@ -535,7 +468,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (Operator op in operators)
             {
-                OperatorPropertiesViewModel_ForCurve viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve(MainViewModel.Document, op.ID);
+                OperatorPropertiesViewModel_ForCurve viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, op.ID);
                 if (viewModel == null)
                 {
                     viewModel = op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);

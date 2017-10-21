@@ -5,7 +5,6 @@
         Undefined,
         AudioFileOutputList,
         AudioOutput,
-        Curves,
         Libraries,
         Library,
         LibraryPatch,

@@ -19,6 +19,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
+    /// <summary> Public for instance to validate in the CurveDetails view. </summary>
     public class CurveManager
     {
         private readonly CurveRepositories _repositories;
@@ -51,22 +52,7 @@ namespace JJ.Business.Synthesizer
             return curve;
         }
 
-        public Curve Create(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            Curve curve = Create();
-            curve.LinkTo(document);
-
-            new Curve_SideEffect_GenerateName(curve).Execute();
-
-            return curve;
-        }
-
-        public Curve Create(params NodeInfo[] nodeInfos)
-        {
-            return Create((IList<NodeInfo>)nodeInfos);
-        }
+        public Curve Create(params NodeInfo[] nodeInfos) => Create((IList<NodeInfo>)nodeInfos);
 
         public Curve Create(IList<NodeInfo> nodeInfos)
         {
@@ -86,7 +72,7 @@ namespace JJ.Business.Synthesizer
         }
 
         /// <param name="nodeInfos">When a NodeInfo is null, a node will not be created at that point in time.</param>
-        public Curve Create(double timeSpan, params NodeInfo[] nodeInfos)
+        public Curve Create(double xSpan, params NodeInfo[] nodeInfos)
         {
             // TODO: I do not like this method signature looks in the method calls.
 
@@ -94,7 +80,7 @@ namespace JJ.Business.Synthesizer
 
             Curve curve = CreateWithoutNodes();
 
-            double[] times = GetEquidistantPointsOverX(timeSpan, nodeInfos.Length);
+            double[] times = GetEquidistantPointsOverX(xSpan, nodeInfos.Length);
 
             for (int i = 0; i < nodeInfos.Length; i++)
             {
@@ -111,15 +97,6 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
-            return curve;
-        }
-
-        /// <param name="values">When a value is null, a node will not be created at that point in time.</param>
-        public Curve Create(Document document, double timeSpan, params double?[] values)
-        {
-            if (document == null) throw new NullException(() => document);
-            Curve curve = Create(timeSpan, values);
-            curve.LinkTo(document);
             return curve;
         }
 
@@ -205,7 +182,7 @@ namespace JJ.Business.Synthesizer
             }
         }
 
-        // Validate
+        // Save
 
         public VoidResult SaveCurveWithRelatedEntities(Curve entity)
         {
@@ -216,11 +193,6 @@ namespace JJ.Business.Synthesizer
                 new CurveValidator_WithoutNodes(entity),
                 new CurveValidator_Nodes(entity)
             };
-
-            if (entity.Document != null)
-            {
-                validators.Add(new CurveValidator_InDocument(entity));
-            }
 
             return validators.ToResult();
         }
@@ -237,31 +209,6 @@ namespace JJ.Business.Synthesizer
         }
 
         // Delete
-
-        public VoidResult DeleteWithRelatedEntities(int curveID)
-        {
-            Curve curve = _repositories.CurveRepository.Get(curveID);
-            return DeleteWithRelatedEntities(curve);
-        }
-
-        public VoidResult DeleteWithRelatedEntities(Curve curve)
-        {
-            if (curve == null) throw new NullException(() => curve);
-
-            IValidator validator = new CurveValidator_Delete(curve, _repositories.CurveRepository);
-            if (!validator.IsValid)
-            {
-                return validator.ToResult();
-            }
-            else
-            {
-                curve.UnlinkRelatedEntities();
-                curve.DeleteRelatedEntities(_repositories.NodeRepository);
-                _repositories.CurveRepository.Delete(curve);
-
-                return new VoidResult { Successful = true };
-            }
-        }
 
         public void DeleteNode(int nodeID)
         {

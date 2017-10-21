@@ -6,12 +6,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 {
     internal class AggregateOverDimension_OperatorValidator : OperatorValidator_Basic
     {
-        public AggregateOverDimension_OperatorValidator(Operator obj)
+        public AggregateOverDimension_OperatorValidator(Operator op)
             : base(
-                obj,
+                op,
                 expectedDataKeys: new[] { nameof(OperatorWrapper_WithCollectionRecalculation.CollectionRecalculation) })
         {
-            ExecuteValidator(new CollectionRecalculation_DataProperty_Validator(obj.Data));
+            ExecuteValidator(new CollectionRecalculation_DataProperty_Validator(op.Data));
+            ExecuteValidator(new OperatorValidator_CurveAndSampleAreNull(op));
         }
     }
 }

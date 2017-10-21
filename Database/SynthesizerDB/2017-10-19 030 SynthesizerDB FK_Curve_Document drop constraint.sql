@@ -1,0 +1,1 @@
+alter table Curve drop constraint FK_Curve_Document

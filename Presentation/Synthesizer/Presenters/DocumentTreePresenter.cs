@@ -139,16 +139,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 });
         }
 
-        public DocumentTreeViewModel SelectCurves(DocumentTreeViewModel userInput)
-        {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Curves;
-                });
-        }
-
         public DocumentTreeViewModel SelectLibraries(DocumentTreeViewModel userInput)
         {
             return TemplateMethod(

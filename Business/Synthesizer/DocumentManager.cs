@@ -224,40 +224,6 @@ namespace JJ.Business.Synthesizer
             return warningsValidator.ToResult();
         }
 
-        public IList<UsedInDto<Curve>> GetUsedIn(IList<Curve> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<UsedInDto<Curve>> dtos = entities.Select(x => new UsedInDto<Curve>
-                                                   {
-                                                       Entity = x,
-                                                       UsedInIDAndNames = GetUsedIn(x)
-                                                   })
-                                                   .ToArray();
-            return dtos;
-        }
-
-        public IList<IDAndName> GetUsedIn(Curve curve)
-        {
-            // ReSharper disable once ImplicitlyCapturedClosure
-            if (curve == null) throw new NullException(() => curve);
-            // ReSharper disable once ImplicitlyCapturedClosure
-            if (curve.Document == null) throw new NullException(() => curve.Document);
-
-            IEnumerable<Patch> patches = 
-                curve.Document
-                     .Patches
-                     .SelectMany(x => x.Operators)
-                     .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Curve &&
-                                 new Curve_OperatorWrapper(x, _repositories.CurveRepository).CurveID == curve.ID)
-                     .Select(x => x.Patch)
-                     .Distinct(x => x.ID);
-
-            IList<IDAndName> idAndNames = patches.Select(x => new IDAndName { ID = x.ID, Name = x.Name }).ToArray();
-
-            return idAndNames;
-        }
-
         public IList<UsedInDto<Patch>> GetUsedIn(IList<Patch> entities)
         {
             if (entities == null) throw new NullException(() => entities);

@@ -21,13 +21,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             audioFileOutput.LinkTo((Outlet)null);
         }
 
-        public static void UnlinkDocument(this Curve curve)
-        {
-            if (curve == null) throw new NullException(() => curve);
-
-            curve.LinkTo((Document)null);
-        }
-
         public static void UnlinkAudioOutput(this Document document)
         {
             if (document == null) throw new NullException(() => document);
@@ -75,6 +68,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (op == null) throw new NullException(() => op);
 
             op.LinkToUnderlyingPatch(null);
+        }
+
+        public static void UnlinkCurve(this Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            op.LinkTo((Curve)null);
         }
 
         public static void UnlinkSample(this Operator op)

@@ -23,8 +23,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
             currentInstrumentUserControl.ViewModel = _presenter.MainViewModel.Document.CurrentInstrument;
             currentInstrumentUserControl.Visible = currentInstrumentUserControl.ViewModel.Visible;
-            curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.CurveGrid;
-            curvePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleCurveProperties;
             curveDetailsListUserControl.ViewModels = _presenter.MainViewModel.Document.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
             documentDetailsUserControl.ViewModel = _presenter.MainViewModel.DocumentDetails;
             documentGridUserControl.ViewModel = _presenter.MainViewModel.DocumentGrid;
@@ -37,7 +35,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
             operatorPropertiesUserControl_ForCache.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;
             operatorPropertiesUserControl_ForCache.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForCurve.SetCurveLookup(_presenter.MainViewModel.Document.CurveLookup);
             operatorPropertiesUserControl_ForCurve.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCurve;
             operatorPropertiesUserControl_ForCurve.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
             operatorPropertiesUserControl_ForInletsToDimension.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension;

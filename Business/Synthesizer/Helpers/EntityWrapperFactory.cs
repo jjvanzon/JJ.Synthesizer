@@ -16,7 +16,6 @@ namespace JJ.Business.Synthesizer.Helpers
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             switch (operatorTypeEnum)
             {
-                case OperatorTypeEnum.Curve: return new Curve_OperatorWrapper(op, curveRepository);
                 case OperatorTypeEnum.Cache: return new Cache_OperatorWrapper(op);
                 case OperatorTypeEnum.InletsToDimension: return new InletsToDimension_OperatorWrapper(op);
                 case OperatorTypeEnum.Interpolate: return new Interpolate_OperatorWrapper(op);

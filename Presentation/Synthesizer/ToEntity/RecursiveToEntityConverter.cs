@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 // HACK: Do cascading here, without causing delete constraints or side-effects to go off.
                 // In practice these were already executed before.
                 op.UnlinkRelatedEntities();
-                op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.SampleRepository, _repositories.EntityPositionRepository);
+                op.DeleteRelatedEntities(_repositories);
                 _repositories.OperatorRepository.Delete(op);
 
             }

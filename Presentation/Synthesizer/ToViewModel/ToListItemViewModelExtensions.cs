@@ -53,32 +53,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        // Curves
-
-        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<UsedInDto<Curve>> dtos)
-        {
-            if (dtos == null) throw new NullException(() => dtos);
-
-            IList<CurveListItemViewModel> viewModels = dtos.Select(x => x.ToListItemViewModel())
-                                                           .OrderBy(x => x.Name)
-                                                           .ToList();
-            return viewModels;
-        }
-
-        public static CurveListItemViewModel ToListItemViewModel(this UsedInDto<Curve> dto)
-        {
-            if (dto == null) throw new NullException(() => dto);
-
-            var viewModel = new CurveListItemViewModel
-            {
-                ID = dto.Entity.ID,
-                Name = dto.Entity.Name,
-                UsedIn = ToViewModelHelper.FormatUsedInList(dto.UsedInIDAndNames)
-            };
-
-            return viewModel;
-        }
-
         // Libraries
 
         public static IList<IDAndName> ToIDAndNameList(IList<Document> entities)

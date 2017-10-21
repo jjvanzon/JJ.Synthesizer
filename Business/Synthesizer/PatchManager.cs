@@ -187,13 +187,7 @@ namespace JJ.Business.Synthesizer
                 return validator.ToResult();
             }
 
-            patch.DeleteRelatedEntities(
-                _repositories.OperatorRepository,
-                _repositories.InletRepository,
-                _repositories.OutletRepository,
-                _repositories.SampleRepository,
-                _repositories.EntityPositionRepository);
-
+            patch.DeleteRelatedEntities(_repositories);
             patch.UnlinkRelatedEntities();
             _repositories.PatchRepository.Delete(patch);
 
@@ -231,7 +225,7 @@ namespace JJ.Business.Synthesizer
             Patch patch = op.Patch;
 
             op.UnlinkRelatedEntities();
-            op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.SampleRepository, _repositories.EntityPositionRepository);
+            op.DeleteRelatedEntities(_repositories);
             _repositories.OperatorRepository.Delete(op);
 
             new Patch_SideEffect_UpdateDerivedOperators(patch, _repositories).Execute();

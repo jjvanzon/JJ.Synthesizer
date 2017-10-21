@@ -55,29 +55,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo(this Curve curve, Document document)
-        {
-            if (curve == null) throw new NullException(() => curve);
-
-            if (curve.Document != null)
-            {
-                if (curve.Document.Curves.Contains(curve))
-                {
-                    curve.Document.Curves.Remove(curve);
-                }
-            }
-
-            curve.Document = document;
-
-            if (curve.Document != null)
-            {
-                if (!curve.Document.Curves.Contains(curve))
-                {
-                    curve.Document.Curves.Add(curve);
-                }
-            }
-        }
-
         public static void LinkTo(this Node node, Curve curve)
         {
             if (node == null) throw new NullException(() => node);
@@ -224,6 +201,24 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
+        public static void LinkTo(this Operator op, Curve curve)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+
+            op.Curve = curve;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this Operator op, Sample sample)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+
+            op.Sample = sample;
+
+            // No inverse property.
+        }
+
         public static void LinkTo(this Inlet inlet, Operator op)
         {
             if (inlet == null) throw new NullException(() => inlet);
@@ -337,15 +332,6 @@ namespace JJ.Business.Synthesizer.LinkTo
                     tone.Scale.Tones.Add(tone);
                 }
             }
-        }
-
-        public static void LinkTo(this Operator op, Sample sample)
-        {
-            if (op == null) throw new ArgumentNullException(nameof(op));
-
-            op.Sample = sample;
-
-            // No inverse property.
         }
 
         // Enum-Like Entities

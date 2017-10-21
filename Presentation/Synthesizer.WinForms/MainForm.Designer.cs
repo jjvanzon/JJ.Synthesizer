@@ -20,7 +20,6 @@
             this.splitContainerCenterAndProperties = new System.Windows.Forms.SplitContainer();
             this.toneGridEditUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ToneGridEditUserControl();
             this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
-            this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
             this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
             this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
@@ -33,7 +32,6 @@
             this.operatorPropertiesUserControl_ForCache = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCache();
             this.operatorPropertiesUserControl_WithInterpolation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithInterpolation();
             this.nodePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.NodePropertiesUserControl();
-            this.curvePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurvePropertiesUserControl();
             this.operatorPropertiesUserControl_ForCurve = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCurve();
             this.scalePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScalePropertiesUserControl();
             this.operatorPropertiesUserControl_ForPatchInlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchInlet();
@@ -104,7 +102,6 @@
             // 
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.scaleGridUserControl);
-            this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.curveGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.audioFileOutputGridUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.documentDetailsUserControl);
             this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.documentGridUserControl);
@@ -120,7 +117,6 @@
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCache);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithInterpolation);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.nodePropertiesUserControl);
-            this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.curvePropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCurve);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.scalePropertiesUserControl);
             this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchInlet);
@@ -157,18 +153,6 @@
             this.scaleGridUserControl.Size = new System.Drawing.Size(851, 532);
             this.scaleGridUserControl.TabIndex = 11;
             this.scaleGridUserControl.ViewModel = null;
-            // 
-            // curveGridUserControl
-            // 
-            this.curveGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.curveGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.curveGridUserControl.Location = new System.Drawing.Point(0, 0);
-            this.curveGridUserControl.Margin = new System.Windows.Forms.Padding(4);
-            this.curveGridUserControl.Name = "curveGridUserControl";
-            this.curveGridUserControl.Size = new System.Drawing.Size(851, 532);
-            this.curveGridUserControl.TabIndex = 6;
-            this.curveGridUserControl.ViewModel = null;
-            this.curveGridUserControl.Visible = false;
             // 
             // audioFileOutputGridUserControl
             // 
@@ -413,29 +397,6 @@
             this.nodePropertiesUserControl.TitleBarText = "Node Properties";
             this.nodePropertiesUserControl.TitleLabelVisible = true;
             this.nodePropertiesUserControl.ViewModel = null;
-            // 
-            // curvePropertiesUserControl
-            // 
-            this.curvePropertiesUserControl.AddButtonVisible = false;
-            this.curvePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.curvePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.curvePropertiesUserControl.CloseButtonVisible = true;
-            this.curvePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.curvePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.curvePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
-            this.curvePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
-            this.curvePropertiesUserControl.Name = "curvePropertiesUserControl";
-            this.curvePropertiesUserControl.OpenExternallyButtonVisible = false;
-            this.curvePropertiesUserControl.PlayButtonVisible = false;
-            this.curvePropertiesUserControl.RefreshButtonVisible = false;
-            this.curvePropertiesUserControl.RemoveButtonVisible = true;
-            this.curvePropertiesUserControl.SaveButtonVisible = false;
-            this.curvePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
-            this.curvePropertiesUserControl.TabIndex = 1;
-            this.curvePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-            this.curvePropertiesUserControl.TitleBarText = "Curve Properties";
-            this.curvePropertiesUserControl.TitleLabelVisible = true;
-            this.curvePropertiesUserControl.ViewModel = null;
             // 
             // operatorPropertiesUserControl_ForCurve
             // 
@@ -732,7 +693,6 @@
         private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
         private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
         private UserControls.AudioFileOutputGridUserControl audioFileOutputGridUserControl;
-        private UserControls.CurveGridUserControl curveGridUserControl;
         private UserControls.AudioFileOutputPropertiesUserControl audioFileOutputPropertiesUserControl;
         private UserControls.PatchDetailsUserControl patchDetailsUserControl;
         private UserControls.PatchPropertiesUserControl patchPropertiesUserControl;
@@ -745,7 +705,6 @@
         private UserControls.ToneGridEditUserControl toneGridEditUserControl;
         private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
-        private UserControls.CurvePropertiesUserControl curvePropertiesUserControl;
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
         private UserControls.CurrentInstrumentUserControl currentInstrumentUserControl;
         private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;

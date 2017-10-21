@@ -9,6 +9,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
             : base(op)
         {
             For(op.Sample, ResourceFormatter.Sample).NotNull();
+            For(op.Curve, ResourceFormatter.Curve).IsNull();
         }
     }
 }

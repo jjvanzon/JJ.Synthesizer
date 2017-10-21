@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -69,7 +71,6 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchOutlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchInlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
-    <Compile Include="Presenters\CurvePropertiesPresenter.cs" />
     <Compile Include="Presenters\NodePropertiesPresenter.cs" />
     <Compile Include="Presenters\PresenterBase.cs" />
     <Compile Include="Presenters\PropertiesPresenterBase.cs" />
@@ -109,7 +110,6 @@
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
     <Compile Include="ViewModels\LibraryPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\Items\CurveListItemViewModel.cs" />
     <Compile Include="ViewModels\Items\DimensionViewModel.cs" />
     <Compile Include="ViewModels\Items\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Items\ToneViewModel.cs" />
@@ -127,7 +127,6 @@
     <Compile Include="Presenters\MenuPresenter.cs" />
     <Compile Include="Presenters\CurveDetailsPresenter.cs" />
     <Compile Include="Presenters\DocumentGridPresenter.cs" />
-    <Compile Include="Presenters\CurveGridPresenter.cs" />
     <Compile Include="Presenters\PatchDetailsPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
@@ -138,7 +137,6 @@
     <Compile Include="ViewModels\AudioFileOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\AudioFileOutputGridViewModel.cs" />
     <Compile Include="ViewModels\CurveDetailsViewModel.cs" />
-    <Compile Include="ViewModels\CurveGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="ViewModels\DocumentGridViewModel.cs" />
@@ -167,7 +165,6 @@
     <Compile Include="ViewModels\Partials\LibraryTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\LibrariesTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
-    <Compile Include="ViewModels\CurvePropertiesViewModel.cs" />
     <Compile Include="ViewModels\NodePropertiesViewModel.cs" />
     <Compile Include="ViewModels\ToneGridEditViewModel.cs" />
     <Compile Include="ViewModels\ScaleGridViewModel.cs" />
@@ -239,9 +236,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Presenters\MainPresenter.Refresh.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

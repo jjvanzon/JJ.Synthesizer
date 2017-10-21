@@ -619,24 +619,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Curve ID.
-        /// </summary>
-        internal static string CurveID {
-            get {
-                return ResourceManager.GetString("CurveID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Curves.
-        /// </summary>
-        internal static string Curves {
-            get {
-                return ResourceManager.GetString("Curves", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Custom.
         /// </summary>
         internal static string Custom {

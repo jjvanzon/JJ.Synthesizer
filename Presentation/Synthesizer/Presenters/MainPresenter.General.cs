@@ -45,8 +45,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly AudioOutputPropertiesPresenter _audioOutputPropertiesPresenter;
         private readonly CurrentInstrumentPresenter _currentInstrumentPresenter;
         private readonly CurveDetailsPresenter _curveDetailsPresenter;
-        private readonly CurveGridPresenter _curveGridPresenter;
-        private readonly CurvePropertiesPresenter _curvePropertiesPresenter;
         private readonly DocumentCannotDeletePresenter _documentCannotDeletePresenter;
         private readonly DocumentDeletedPresenter _documentDeletedPresenter;
         private readonly DocumentDeletePresenter _documentDeletePresenter;
@@ -115,8 +113,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.IDRepository);
             _currentInstrumentPresenter = new CurrentInstrumentPresenter(_autoPatcher, _repositories.DocumentRepository, _repositories.PatchRepository);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
-            _curveGridPresenter = new CurveGridPresenter(_curveManager, _repositories);
-            _curvePropertiesPresenter = new CurvePropertiesPresenter(_curveRepositories);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();
             _documentDeletePresenter = new DocumentDeletePresenter(_repositories);
@@ -158,7 +154,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.DocumentGrid.Visible = false;
 
             MainViewModel.Document.AudioFileOutputGrid.Visible = false;
-            MainViewModel.Document.CurveGrid.Visible = false;
             MainViewModel.Document.ScaleGrid.Visible = false;
 
             MainViewModel.Document.VisiblePatchDetails = null;
@@ -173,8 +168,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document.AudioOutputProperties.Visible = false;
             MainViewModel.Document.VisibleAudioFileOutputProperties = null;
             MainViewModel.Document.AudioFileOutputPropertiesDictionary.Values.ForEach(x => x.Visible = false);
-            MainViewModel.Document.VisibleCurveProperties = null;
-            MainViewModel.Document.CurvePropertiesDictionary.Values.ForEach(x => x.Visible = false);
             MainViewModel.Document.DocumentProperties.Visible = false;
             MainViewModel.Document.VisibleNodeProperties = null;
             MainViewModel.Document.NodePropertiesDictionary.Values.ForEach(x => x.Visible = false);

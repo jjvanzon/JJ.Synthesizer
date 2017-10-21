@@ -298,12 +298,6 @@
   <data name="Curve" xml:space="preserve">
     <value>Curve</value>
   </data>
-  <data name="CurveID" xml:space="preserve">
-    <value>Curve ID</value>
-  </data>
-  <data name="Curves" xml:space="preserve">
-    <value>Curves</value>
-  </data>
   <data name="CustomDimensionName" xml:space="preserve">
     <value>Custom Dimension Name</value>
   </data>

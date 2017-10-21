@@ -2,6 +2,8 @@
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
+using System.Linq;
+
 // ReSharper disable InlineOutVariableDeclaration
 
 namespace JJ.Presentation.Synthesizer.Helpers
@@ -48,27 +50,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
             documentViewModel.CurveDetailsDictionary.TryGetValue(curveID, out CurveDetailsViewModel viewModel);
-
-            return viewModel;
-        }
-
-        public static CurvePropertiesViewModel GetCurvePropertiesViewModel(DocumentViewModel documentViewModel, int curveID)
-        {
-            CurvePropertiesViewModel propertiesViewModel = TryGetCurvePropertiesViewModel(documentViewModel, curveID);
-
-            if (propertiesViewModel == null)
-            {
-                throw new NotFoundException<CurvePropertiesViewModel>(curveID);
-            }
-
-            return propertiesViewModel;
-        }
-
-        public static CurvePropertiesViewModel TryGetCurvePropertiesViewModel(DocumentViewModel documentViewModel, int curveID)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            documentViewModel.CurvePropertiesDictionary.TryGetValue(curveID, out CurvePropertiesViewModel viewModel);
 
             return viewModel;
         }
@@ -164,7 +145,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             OperatorPropertiesViewModelBase viewModel =
                 TryGetOperatorPropertiesViewModel(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForCache(documentViewModel, operatorID) ??
-                TryGetOperatorPropertiesViewModel_ForCurve(documentViewModel, operatorID) ??
+                TryGetOperatorPropertiesViewModel_ForCurve_ByOperatorID(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForInletsToDimension(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForNumber(documentViewModel, operatorID) ??
                 TryGetOperatorPropertiesViewModel_ForPatchInlet(documentViewModel, operatorID) ??
@@ -237,17 +218,17 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return null;
         }
 
-        public static OperatorPropertiesViewModel_ForCurve GetOperatorPropertiesViewModel_ForCurve(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_ForCurve GetOperatorPropertiesViewModel_ForCurve_ByOperatorID(DocumentViewModel documentViewModel, int operatorID)
         {
-            OperatorPropertiesViewModel_ForCurve viewModel = TryGetOperatorPropertiesViewModel_ForCurve(documentViewModel, operatorID);
+            OperatorPropertiesViewModel_ForCurve viewModel = TryGetOperatorPropertiesViewModel_ForCurve_ByOperatorID(documentViewModel, operatorID);
             if (viewModel == null)
             {
-                throw new NotFoundException<OperatorPropertiesViewModel_ForCurve>(operatorID);
+                throw new NotFoundException<OperatorPropertiesViewModel_ForCurve>(new {operatorID});
             }
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForCurve TryGetOperatorPropertiesViewModel_ForCurve(DocumentViewModel documentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_ForCurve TryGetOperatorPropertiesViewModel_ForCurve_ByOperatorID(DocumentViewModel documentViewModel, int operatorID)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
@@ -263,6 +244,29 @@ namespace JJ.Presentation.Synthesizer.Helpers
             {
                 return viewModel;
             }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForCurve GetOperatorPropertiesViewModel_ForCurve_ByCurveID(DocumentViewModel documentViewModel, int curveID)
+        {
+            OperatorPropertiesViewModel_ForCurve viewModel = TryGetOperatorPropertiesViewModel_ForCurve_ByCurveID(documentViewModel, curveID);
+            if (viewModel == null)
+            {
+                throw new NotFoundException<OperatorPropertiesViewModel_ForCurve>(new {curveID});
+            }
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForCurve TryGetOperatorPropertiesViewModel_ForCurve_ByCurveID(DocumentViewModel documentViewModel, int curveID)
+        {
+            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+            IEnumerable<OperatorPropertiesViewModel_ForCurve> viewModelList = Enumerable.Union(
+                documentViewModel.OperatorPropertiesDictionary_ForCurves.Select(x => x.Value),
+                documentViewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForCurves.Select(x => x.Value));
+
+            OperatorPropertiesViewModel_ForCurve viewModel = viewModelList.FirstOrDefault(x => x.CurveID == curveID);
 
             return viewModel;
         }

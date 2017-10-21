@@ -123,9 +123,7 @@ namespace JJ.Business.Synthesizer.Visitors
             var dto = new Curve_OperatorDto();
             ProcessOperatorPolymorphic(op, dto);
 
-            var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
-
-            Curve curve = wrapper.Curve;
+            Curve curve = op.Curve;
             if (curve == null)
             {
                 return;

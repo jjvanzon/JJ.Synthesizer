@@ -26,13 +26,6 @@ namespace JJ.Business.Synthesizer.Cascading
             audioOutput.UnlinkSpeakerSetup();
         }
 
-        public static void UnlinkRelatedEntities(this Curve curve)
-        {
-            if (curve == null) throw new NullException(() => curve);
-
-            curve.UnlinkDocument();
-        }
-
         public static void UnlinkRelatedEntities(this DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);

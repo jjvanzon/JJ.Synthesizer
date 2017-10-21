@@ -75,17 +75,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static CurveGridViewModel CreateEmptyCurveGridViewModel()
-        {
-            var viewModel = new CurveGridViewModel
-            {
-                List = new List<CurveListItemViewModel>(),
-                ValidationMessages = new List<string>()
-            };
-
-            return viewModel;
-        }
-
         public static DocumentViewModel CreateEmptyDocumentViewModel()
         {
             var viewModel = new DocumentViewModel
@@ -96,9 +85,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AutoPatchPopup = CreateEmptyAutoPatchViewModel(),
                 CurrentInstrument = CreateEmptyCurrentInstrumentViewModel(),
                 CurveDetailsDictionary = new Dictionary<int, CurveDetailsViewModel>(),
-                CurveGrid = CreateEmptyCurveGridViewModel(),
-                CurveLookup = new List<IDAndName>(),
-                CurvePropertiesDictionary = new Dictionary<int, CurvePropertiesViewModel>(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = new RecursiveDocumentTreeViewModelFactory().CreateEmptyDocumentTreeViewModel(),
                 LibraryPropertiesDictionary = new Dictionary<int, LibraryPropertiesViewModel>(),

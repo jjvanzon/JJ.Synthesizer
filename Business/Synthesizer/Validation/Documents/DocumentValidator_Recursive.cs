@@ -42,19 +42,6 @@ namespace JJ.Business.Synthesizer.Validation.Documents
                 ExecuteValidator(new AudioOutputValidator(document.AudioOutput), ValidationHelper.GetMessagePrefix(document.AudioOutput));
             }
 
-            foreach (Curve curve in document.Curves)
-            {
-                if (alreadyDone.Contains(curve))
-                {
-                    continue;
-                }
-                alreadyDone.Add(curve);
-
-                string messagePrefix = ValidationHelper.GetMessagePrefix(curve);
-                ExecuteValidator(new CurveValidator_WithoutNodes(curve), messagePrefix);
-                ExecuteValidator(new CurveValidator_Nodes(curve), messagePrefix);
-            }
-
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);

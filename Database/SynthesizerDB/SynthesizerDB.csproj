@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -516,6 +518,10 @@
     <Content Include="2017-10-18 010 SynthesizerDB Operator.CurveID.sql" />
     <Content Include="2017-10-18 020 SynthesizerDB IX_Operator_CurveID.sql" />
     <Content Include="2017-10-18 030 SynthesizerDB FK_Operator_Curve.sql" />
+    <Content Include="2017-10-19 010 SynthesizerDB Operator.Data clear for Curve Operators.sql" />
+    <Content Include="2017-10-19 020 SynthesizerDB IX_Curve_DocumentID drop index.sql" />
+    <Content Include="2017-10-19 030 SynthesizerDB FK_Curve_Document drop constraint.sql" />
+    <Content Include="2017-10-19 040 SynthesizerDB Curve.DocumentID drop column.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

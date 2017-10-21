@@ -29,13 +29,7 @@ namespace JJ.Business.Synthesizer.Cascading
 
             foreach (Patch patch in document.Patches.ToArray())
             {
-                patch.DeleteRelatedEntities(
-                    repositories.OperatorRepository,
-                    repositories.InletRepository,
-                    repositories.OutletRepository,
-                    repositories.SampleRepository,
-                    repositories.EntityPositionRepository);
-
+                patch.DeleteRelatedEntities(repositories);
                 patch.UnlinkRelatedEntities();
                 repositories.PatchRepository.Delete(patch);
             }
@@ -52,13 +46,6 @@ namespace JJ.Business.Synthesizer.Cascading
                 repositories.AudioFileOutputRepository.Delete(audioFileOutput);
             }
 
-            foreach (Curve curve in document.Curves.ToArray())
-            {
-                curve.DeleteRelatedEntities(repositories.NodeRepository);
-                curve.UnlinkRelatedEntities();
-                repositories.CurveRepository.Delete(curve);
-            }
-
             foreach (Scale scale in document.Scales.ToArray())
             {
                 scale.DeleteRelatedEntities(repositories.ToneRepository);
@@ -73,64 +60,53 @@ namespace JJ.Business.Synthesizer.Cascading
             }
         }
 
-        public static void DeleteRelatedEntities(
-            this Patch patch,
-            IOperatorRepository operatorRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            ISampleRepository sampleRepository,
-            IEntityPositionRepository entityPositionRepository)
+        public static void DeleteRelatedEntities(this Patch patch, RepositoryWrapper repositories)
         {
             if (patch == null) throw new NullException(() => patch);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
             foreach (Operator op in patch.Operators.ToArray())
             {
-                op.DeleteRelatedEntities(inletRepository, outletRepository, sampleRepository, entityPositionRepository);
+                op.DeleteRelatedEntities(repositories);
                 op.UnlinkRelatedEntities();
-                operatorRepository.Delete(op);
+                repositories.OperatorRepository.Delete(op);
             }
         }
 
-        public static void DeleteRelatedEntities(
-            this Operator op, 
-            IInletRepository inletRepository, 
-            IOutletRepository outletRepository,
-            ISampleRepository sampleRepository,
-            IEntityPositionRepository entityPositionRepository)
+        public static void DeleteRelatedEntities(this Operator op, RepositoryWrapper repositories)
         {
-            if (op == null) throw new NullException(() => op);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (sampleRepository == null) throw new ArgumentNullException(nameof(sampleRepository));
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            if (repositories == null) throw new NullException(() => repositories);
 
             foreach (Inlet inlet in op.Inlets.ToArray())
             {
                 inlet.UnlinkRelatedEntities();
-                inletRepository.Delete(inlet);
+                repositories.InletRepository.Delete(inlet);
             }
 
             foreach (Outlet outlet in op.Outlets.ToArray())
             {
                 outlet.UnlinkRelatedEntities();
-                outletRepository.Delete(outlet);
+                repositories.OutletRepository.Delete(outlet);
             }
 
             // Be null-tolerant to be able to get out of trouble if something is missing.
-            EntityPosition entityPosition = entityPositionRepository.TryGetByEntityTypeNameAndEntityID(typeof(OperatingSystem).Name, op.ID);
+            EntityPosition entityPosition = repositories.EntityPositionRepository.TryGetByEntityTypeNameAndEntityID(typeof(OperatingSystem).Name, op.ID);
             if (entityPosition != null)
             {
-                entityPositionRepository.Delete(entityPosition);
+                repositories.EntityPositionRepository.Delete(entityPosition);
             }
 
             if (op.Sample != null)
             {
                 op.Sample.UnlinkRelatedEntities();
-                sampleRepository.Delete(op.Sample);
+                repositories.SampleRepository.Delete(op.Sample);
+            }
+
+            if (op.Curve != null)
+            {
+                op.Curve.DeleteRelatedEntities(repositories.NodeRepository);
+                repositories.CurveRepository.Delete(op.Curve);
             }
         }
 

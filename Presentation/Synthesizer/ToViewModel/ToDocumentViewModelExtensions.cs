@@ -5,10 +5,9 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -16,14 +15,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         public static DocumentViewModel ToViewModel(
             this Document document,
-            IList<UsedInDto<Curve>> curveUsedInDtos,
             RepositoryWrapper repositories,
             EntityPositionManager entityPositionManager)
         {
             if (document == null) throw new ArgumentNullException(nameof(document));
-            if (curveUsedInDtos == null) throw new NullException(() => curveUsedInDtos);
-            // ReSharper disable once ImplicitlyCapturedClosure
-            if (repositories == null) throw new NullException(() => repositories);
+            if (repositories == null) throw new ArgumentNullException(nameof(repositories));
 
             var viewModel = new DocumentViewModel
             {
@@ -32,14 +28,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileOutputPropertiesDictionary = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 AutoPatchPopup = ToViewModelHelper.CreateEmptyAutoPatchViewModel(),
                 CurrentInstrument = ToViewModelHelper.CreateCurrentInstrumentViewModelWithEmptyList(document),
-                CurveDetailsDictionary = document.Curves.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.Curve.ID),
-                CurveGrid = curveUsedInDtos.ToGridViewModel(document.ID),
-                CurveLookup = ToViewModelHelper.CreateCurveLookupViewModel(curveUsedInDtos),
-                CurvePropertiesDictionary = document.Curves.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
+                CurveDetailsDictionary = document.GetCurves().Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.Curve.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),
                 LibraryPropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.DocumentReferenceID),
-                NodePropertiesDictionary = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
+                NodePropertiesDictionary = document.GetCurves().SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 OperatorPropertiesDictionary = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WitStandardPropertiesView()).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForCaches = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToDictionary(x => x.ID),
                 OperatorPropertiesDictionary_ForCurves = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves(repositories.CurveRepository)).ToDictionary(x => x.ID),

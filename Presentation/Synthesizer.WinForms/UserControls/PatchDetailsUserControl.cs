@@ -26,8 +26,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> DeleteOperatorRequested;
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
-        public event EventHandler<SelectOperatorEventArgs> SelectOperatorRequested;
-        public event EventHandler<EventArgs<int>> ShowOperatorPropertiesRequested;
+        public event EventHandler<PatchAndOperatorEventArgs> SelectOperatorRequested;
+        public event EventHandler<PatchAndOperatorEventArgs> ExpandOperatorRequested;
         public event EventHandler<EventArgs<int>> ShowPatchPropertiesRequested;
 
         private PatchViewModelToDiagramConverter _converter;
@@ -170,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
-            SelectOperatorRequested?.Invoke(this, new SelectOperatorEventArgs(ViewModel.Entity.ID, operatorID));
+            SelectOperatorRequested?.Invoke(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, operatorID));
 
             _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
         }
@@ -185,12 +185,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
         {
-            ShowOperatorPropertiesRequested?.Invoke(this, new EventArgs<int>(e.ID));
+            ExpandOperatorRequested?.Invoke(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, e.ID));
         }
 
         private void ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
         {
-            ShowOperatorPropertiesRequested?.Invoke(this, new EventArgs<int>(e.ID));
+            ExpandOperatorRequested?.Invoke(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, e.ID));
         }
 
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.

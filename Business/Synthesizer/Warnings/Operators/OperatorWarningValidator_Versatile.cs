@@ -19,7 +19,6 @@ namespace JJ.Business.Synthesizer.Warnings.Operators
             {
                 // Only ones with specialized validators are in here. Others are covered with the Basic validator already executed above.
                 case OperatorTypeEnum.Cache: ExecuteValidator(new Cache_OperatorWarningValidator(op)); break;
-                case OperatorTypeEnum.Curve: ExecuteValidator(new Curve_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Number: ExecuteValidator(new Number_OperatorWarningValidator(op)); break;
                 case OperatorTypeEnum.Spectrum: ExecuteValidator(new Spectrum_OperatorWarningValidator(op)); break;
             }

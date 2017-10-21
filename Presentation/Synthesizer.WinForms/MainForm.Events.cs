@@ -34,15 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveDetailsListUserControl.NodeMoving += curveDetailsUserControl_NodeMoving;
             curveDetailsListUserControl.NodeMoved += curveDetailsUserControl_NodeMoved;
             curveDetailsListUserControl.SelectNodeRequested += curveDetailsUserControl_SelectNodeRequested;
-            curveDetailsListUserControl.ShowCurvePropertiesRequested += curveDetailsUserControl_ShowCurvePropertiesRequested;
             curveDetailsListUserControl.ShowNodePropertiesRequested += curveDetailsUserControl_ShowNodePropertiesRequested;
-            curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
-            curveGridUserControl.AddRequested += curveGridUserControl_AddRequested;
-            curveGridUserControl.RemoveRequested += curveGridUserControl_RemoveRequested;
-            curveGridUserControl.ShowItemRequested += curveGridUserControl_ShowItemRequested;
-            curvePropertiesUserControl.CloseRequested += curvePropertiesUserControl_CloseRequested;
-            curvePropertiesUserControl.LoseFocusRequested += curvePropertiesUserControl_LoseFocusRequested;
-            curvePropertiesUserControl.RemoveRequested += curvePropertiesUserControl_RemoveRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
             documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
@@ -59,7 +51,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.AudioFileOutputsNodeSelected += documentTreeUserControl_AudioFileOutputsNodeSelected;
             documentTreeUserControl.AudioOutputNodeSelected += documentTreeUserControl_AudioOutputNodeSelected;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
-            documentTreeUserControl.CurvesNodeSelected += documentTreeUserControl_CurvesNodeSelected;
             documentTreeUserControl.LibrariesNodeSelected += documentTreeUserControl_LibrariesNodeSelected;
             documentTreeUserControl.LibraryNodeSelected += documentTreeUserControl_LibraryNodeSelected;
             documentTreeUserControl.LibraryPatchNodeSelected += documentTreeUserControl_LibraryPatchNodeSelected;
@@ -76,7 +67,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ScalesNodeSelected += documentTreeUserControl_ScalesNodeSelected;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
-            documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
@@ -142,7 +132,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             patchDetailsUserControl.RemoveRequested += patchDetailsUserControl_RemoveRequested;
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
-            patchDetailsUserControl.ShowOperatorPropertiesRequested += patchDetailsUserControl_ShowOperatorPropertiesRequested;
+            patchDetailsUserControl.ExpandOperatorRequested += patchDetailsUserControl_ExpandOperatorRequested;
             patchDetailsUserControl.ShowPatchPropertiesRequested += patchDetailsUserControl_ShowPatchPropertiesRequested;
             patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
@@ -331,22 +321,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve
 
-        private void curveGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurveCreate);
-
-        private void curveGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.CurveGridDelete(e.Value));
-
-        private void curveGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurveGridClose);
-
-        private void curveGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.CurveDetailsShow(e.Value);
-                    _presenter.CurvePropertiesShow(e.Value);
-                });
-        }
-
         private void curveDetailsUserControl_SelectNodeRequested(object sender, NodeEventArgs e)
         {
             TemplateActionHandler(() => _presenter.NodeSelect(e.CurveID, e.NodeID));
@@ -411,29 +385,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _presenter.CurveDetailsLoseFocus(e.Value));
         }
 
-        private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _presenter.CurvePropertiesShow(e.Value));
-        }
-
         private void curveDetailsUserControl_ShowNodePropertiesRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _presenter.NodePropertiesShow(e.Value));
-        }
-
-        private void curvePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _presenter.CurvePropertiesLoseFocus(e.Value));
-        }
-
-        private void curvePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _presenter.CurvePropertiesClose(e.Value));
-        }
-
-        private void curvePropertiesUserControl_RemoveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _presenter.CurvePropertiesDelete(e.Value));
         }
 
         // Document Grid
@@ -503,8 +457,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectAudioOutput);
 
         private void documentTreeUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeClose);
-
-        private void documentTreeUserControl_CurvesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectCurves);
 
         private void documentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentTreeSelectLibraries);
 
@@ -582,8 +534,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AudioFileOutputGridShow);
 
         private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AudioOutputPropertiesShow);
-
-        private void documentTreeUserControl_ShowCurvesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurveGridShow);
 
         private void documentTreeUserControl_ShowLibraryPropertiesRequested(object sender, EventArgs<int> e)
         {
@@ -1021,14 +971,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
+        private void patchDetailsUserControl_SelectOperatorRequested(object sender, PatchAndOperatorEventArgs e)
         {
             TemplateActionHandler(() => _presenter.OperatorSelect(e.PatchID, e.OperatorID));
         }
 
-        private void patchDetailsUserControl_ShowOperatorPropertiesRequested(object sender, EventArgs<int> e)
+        private void patchDetailsUserControl_ExpandOperatorRequested(object sender, PatchAndOperatorEventArgs e)
         {
-            TemplateActionHandler(() => _presenter.OperatorPropertiesShow(e.Value));
+            TemplateActionHandler(() => _presenter.OperatorExpand(e.PatchID, e.OperatorID));
         }
 
         private void patchDetailsUserControl_ShowPatchPropertiesRequested(object sender, EventArgs<int> e)

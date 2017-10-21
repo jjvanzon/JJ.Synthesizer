@@ -42,22 +42,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idAndNames;
         }
 
-        // Curve
-
-        public static IList<IDAndName> CreateCurveLookupViewModel(IList<UsedInDto<Curve>> dtos)
-        {
-            if (dtos == null) throw new NullException(() => dtos);
-
-            // ReSharper disable once UseObjectOrCollectionInitializer
-            var list = new List<IDAndName>(dtos.Count + 1);
-
-            list.Add(new IDAndName { ID = 0, Name = null });
-
-            list.AddRange(dtos.OrderBy(x => x.Entity.Name).Select(x => x.ToIDAndNameWithUsedIn()));
-
-            return list;
-        }
-
         // Dimension
 
         private static readonly IList<IDAndName> _dimensionLookupViewModel = CreateDimensionLookupViewModel();

@@ -23,8 +23,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(AutoPatchPopupViewModel), DispatchAutoPatchViewModel },
                 { typeof(CurrentInstrumentViewModel), DispatchCurrentInstrumentViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
-                { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
-                { typeof(CurvePropertiesViewModel), DispatchCurvePropertiesViewModel },
                 { typeof(DocumentCannotDeleteViewModel), DispatchDocumentCannotDeleteViewModel },
                 { typeof(DocumentDeletedViewModel), DispatchDocumentDeletedViewModel },
                 { typeof(DocumentDeleteViewModel), DispatchDocumentDeleteViewModel },
@@ -166,39 +164,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ReSharper disable once SuggestVarOrType_Elsewhere
             var dictionary = MainViewModel.Document.CurveDetailsDictionary;
             dictionary[castedViewModel.Curve.ID] = castedViewModel;
-
-            DispatchViewModelBase(castedViewModel);
-        }
-
-        private void DispatchCurveGridViewModel(ViewModelBase viewModel)
-        {
-            var castedViewModel = (CurveGridViewModel)viewModel;
-
-            MainViewModel.Document.CurveGrid = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllGridAndDetailViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            DispatchViewModelBase(castedViewModel);
-        }
-
-        private void DispatchCurvePropertiesViewModel(ViewModelBase viewModel)
-        {
-            var castedViewModel = (CurvePropertiesViewModel)viewModel;
-
-            // ReSharper disable once SuggestVarOrType_Elsewhere
-            var dictionary = MainViewModel.Document.CurvePropertiesDictionary;
-            dictionary[castedViewModel.ID] = castedViewModel;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-                MainViewModel.Document.VisibleCurveProperties = castedViewModel;
-            }
 
             DispatchViewModelBase(castedViewModel);
         }

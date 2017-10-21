@@ -106,7 +106,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case DocumentTreeNodeTypeEnum.AudioOutput:
                 case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-                case DocumentTreeNodeTypeEnum.Curves:
                 case DocumentTreeNodeTypeEnum.Libraries:
                 case DocumentTreeNodeTypeEnum.Library:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
@@ -127,7 +126,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case DocumentTreeNodeTypeEnum.AudioOutput:
                 case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-                case DocumentTreeNodeTypeEnum.Curves:
                 case DocumentTreeNodeTypeEnum.Library:
                 case DocumentTreeNodeTypeEnum.LibraryPatch:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
@@ -153,7 +151,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case DocumentTreeNodeTypeEnum.AudioOutput:
                 case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-                case DocumentTreeNodeTypeEnum.Curves:
                 case DocumentTreeNodeTypeEnum.Libraries:
                 case DocumentTreeNodeTypeEnum.Library:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
@@ -178,7 +175,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     return true;
 
                 case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-                case DocumentTreeNodeTypeEnum.Curves:
                 case DocumentTreeNodeTypeEnum.Scales:
                 default:
                     return false;
@@ -195,7 +191,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case DocumentTreeNodeTypeEnum.AudioFileOutputList:
                 case DocumentTreeNodeTypeEnum.AudioOutput:
-                case DocumentTreeNodeTypeEnum.Curves:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
                 case DocumentTreeNodeTypeEnum.Libraries:
                 case DocumentTreeNodeTypeEnum.Patch:
@@ -216,7 +211,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 case DocumentTreeNodeTypeEnum.AudioOutput:
                 case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-                case DocumentTreeNodeTypeEnum.Curves:
                 case DocumentTreeNodeTypeEnum.Libraries:
                 case DocumentTreeNodeTypeEnum.LibraryPatch:
                 case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
@@ -367,10 +361,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static bool GetOperatorIsSmaller(Operator entity) => entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number;
 
-        public static string GetOperatorCaption(Operator op, ICurveRepository curveRepository)
+        public static string GetOperatorCaption(Operator op)
         {
             if (op == null) throw new NullException(() => op);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
@@ -394,7 +387,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     break;
 
                 case OperatorTypeEnum.Curve:
-                    operatorCaption = GetOperatorCaption_ForCurve(op, curveRepository);
+                    operatorCaption = GetOperatorCaption_ForCurve(op);
                     break;
 
                 case OperatorTypeEnum.GetPosition:
@@ -458,7 +451,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return operatorCaption;
         }
 
-        private static string GetOperatorCaption_ForCurve(Operator op, ICurveRepository curveRepository)
+        private static string GetOperatorCaption_ForCurve(Operator op)
         {
             string operatorTypeDisplayName = ResourceFormatter.Curve;
 
@@ -469,8 +462,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use Curve.Name
-            var wrapper = new Curve_OperatorWrapper(op, curveRepository);
-            Curve underlyingEntity = wrapper.Curve;
+            Curve underlyingEntity = op.Curve;
             if (!string.IsNullOrWhiteSpace(underlyingEntity?.Name))
             {
                 return $"{operatorTypeDisplayName}: {underlyingEntity.Name}";

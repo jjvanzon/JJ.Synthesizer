@@ -24,7 +24,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     PatchNodes = new List<PatchTreeNodeViewModel>(),
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>(),
                 },
-                CurvesNode = CreateTreeLeafViewModel(ResourceFormatter.Curves, count: 0),
                 ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, count: 0),
                 AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
                 AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, count: 0),
@@ -46,7 +45,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentTreeViewModel
             {
                 ID = document.ID,
-                CurvesNode = CreateTreeLeafViewModel(ResourceFormatter.Curves, document.Curves.Count),
                 ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
                 AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
                 AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, document.AudioFileOutputs.Count),

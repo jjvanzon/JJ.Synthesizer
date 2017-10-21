@@ -49,16 +49,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                                                                 .Where(() => document.ID == documentID)
                                                                 .Future<Document>();
 
-            var level_2_curvesQuery = _context.Session.QueryOver(() => document)
-                                                      .Left.JoinAlias(() => document.Curves, () => curve)
-                                                      .Where(() => document.ID == documentID)
-                                                      .Future<Document>();
-
-            var level_3_nodesQuery = _context.Session.QueryOver(() => curve)
-                                                     .Fetch(x => x.Nodes).Eager
-                                                     .Where(x => x.Document.ID == documentID)
-                                                     .Future<Curve>();
-
             var level_2_patchesQuery = _context.Session.QueryOver(() => document)
                                                        .Left.JoinAlias(() => document.Patches, () => patch)
                                                        .Where(() => document.ID == documentID)
@@ -87,11 +77,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             //                                                 .Where(() => document.ID == documentID)
             //                                                 .Fetch(x => x.Patches).Eager
             //                                                 .Future<Document>();
-
-            //var level_2_samplesQuery = _context.Session.QueryOver(() => document)
-            //                                           .Left.JoinAlias(() => document.Samples, () => sample)
-            //                                           .Where(() => document.ID == documentID)
-            //                                           .Future<Document>();
 
             var level_2_scalesQuery = _context.Session.QueryOver(() => document)
                                                       .Left.JoinAlias(() => document.Scales, () => scale)
@@ -136,6 +121,31 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                                                        .Where(() => document.ID == documentID)
                                                        .Fetch(x => x.UnderlyingPatch).Eager
                                                        .Future<Operator>();
+
+            var level_4_curveQuery = _context.Session.QueryOver(() => op)
+                                             .JoinAlias(() => op.Patch, () => patch)
+                                             .JoinAlias(() => patch.Document, () => document)
+                                             .Where(() => document.ID == documentID)
+                                             .Fetch(x => x.Curve)
+                                             .Eager
+                                             .Future<Operator>();
+
+            // Too bad: There is no curve.Operator to link upward to.
+            //var level_5_nodesQuery = _context.Session.QueryOver(() => curve)
+            //                                 .JoinAlias(() => curve.Operator, () => op)
+            //                                 .JoinAlias(() => op.Patch, () => patch)
+            //                                 .JoinAlias(() => patch.Document, () => document)
+            //                                 .Where(() => document.ID == documentID)
+            //                                 .Fetch(x => x.Nodes).Eager
+            //                                 .Future<Curve>();
+
+            var level_4_sampleQuery = _context.Session.QueryOver(() => op)
+                                             .JoinAlias(() => op.Patch, () => patch)
+                                             .JoinAlias(() => patch.Document, () => document)
+                                             .Where(() => document.ID == documentID)
+                                             .Fetch(x => x.Sample)
+                                             .Eager
+                                             .Future<Operator>();
 
             Document outputDocument = level_1_documentQuery.FirstOrDefault();
             return outputDocument;

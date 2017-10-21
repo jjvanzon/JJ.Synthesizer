@@ -163,14 +163,11 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                CurveManager curveManager = new CurveManager(new CurveRepositories(repositories));
-                Curve curve = curveManager.Create(1, 0, 1, 0.8, null, null, 0.8, 0);
-
                 var patchManager = new PatchManager(repositories);
                 Patch patch = patchManager.CreatePatch();
                 var x = new OperatorFactory(patch, repositories);
 
-                var outlet = x.MultiplyWithOrigin(x.Curve(curve), x.Sine(x.Number(440)));
+                var outlet = x.MultiplyWithOrigin(x.Curve(1, DimensionEnum.Time, "",  0, 1, 0.8, null, null, 0.8, 0), x.Sine(x.Number(440)));
 
                 CultureHelper.SetThreadCultureName("nl-NL");
 
@@ -181,7 +178,7 @@ namespace JJ.Business.Synthesizer.Tests
                 //};
                 //validators.ForEach(y => y.Verify());
 
-                VoidResult result = curveManager.SaveCurveWithRelatedEntities(curve);
+                VoidResult result = patchManager.SavePatch(patch);
                 if (!result.Successful)
                 {
                     string messages = string.Join(", ", result.Messages);
@@ -221,7 +218,6 @@ namespace JJ.Business.Synthesizer.Tests
                 {
                     values[0] = TestHelper.CalculateOneValue(calculator, time);
                 }
-                ;
             }
         }
 

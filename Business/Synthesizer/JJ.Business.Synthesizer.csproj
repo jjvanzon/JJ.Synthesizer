@@ -27,6 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>default</LangVersion>
+    <LangVersion>latest</LangVersion>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
@@ -323,6 +324,7 @@
     <Compile Include="Validation\Documents\DocumentValidator_SystemDocumentReferenceMustExist.cs" />
     <Compile Include="Validation\InletOrOutletListValidator.cs" />
     <Compile Include="Validation\Operators\AggregateOverDimension_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_CurveAndSampleAreNull.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetInletCount.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount.cs" />
     <Compile Include="Validation\InletOrOutletValidator.cs" />
@@ -481,7 +483,6 @@
     <Compile Include="Helpers\CalculatorNotFoundException.cs" />
     <Compile Include="Helpers\DataPropertyParser.cs" />
     <Compile Include="Helpers\InletOutletSelector.cs" />
-    <Compile Include="Helpers\PatchRepositories.cs" />
     <Compile Include="Helpers\SampleInfo.cs" />
     <Compile Include="Helpers\ScaleRepositories.cs" />
     <Compile Include="Dto\UsedInDto.cs" />
@@ -502,7 +503,6 @@
     <Compile Include="Cascading\DeleteRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Cascading\UnlinkRelatedEntitiesExtensions.cs" />
-    <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchInletOrOutlet_OperatorWrapper.cs" />
     <Compile Include="Enums\NodeTypeEnum.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
@@ -532,7 +532,6 @@
     <Compile Include="SideEffects\Operator_SideEffect_UpdateDerivedOperators.cs" />
     <Compile Include="SideEffects\SideEffectHelper.cs" />
     <Compile Include="Validation\AudioOutputValidator.cs" />
-    <Compile Include="Validation\Curves\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DataProperty\CollectionRecalculation_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\ResampleInterpolationType_DataProperty_Validator.cs" />
@@ -583,7 +582,6 @@
     <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingPatch.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_UpdateDerivedOperators.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Helpers\WavHeaderStruct.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_SetDefaults.cs" />
@@ -591,7 +589,6 @@
     <Compile Include="Validation\Curves\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
     <Compile Include="Validation\Operators\Interpolate_OperatorValidator.cs" />
-    <Compile Include="Validation\Curves\CurveValidator_Delete.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Delete.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Basic.cs" />
     <Compile Include="Validation\NameValidator.cs" />
@@ -630,7 +627,6 @@
     <Compile Include="LinkTo\LinkToExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Versatile.cs" />
-    <Compile Include="Warnings\Operators\Curve_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_Versatile.cs" />
     <Compile Include="Warnings\Operators\OperatorWarningValidator_VersatileWithUnderlyingEntities.cs" />
