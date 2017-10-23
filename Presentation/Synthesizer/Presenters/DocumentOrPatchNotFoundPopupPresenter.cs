@@ -7,6 +7,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 
@@ -34,9 +35,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetEntities
             Document document = _documentRepository.TryGetByName(documentName);
             string canonicalPatchName = NameHelper.ToCanonical(patchName);
-            Patch patch = document.Patches
-                                  .Where(x => string.Equals(NameHelper.ToCanonical(x.Name), canonicalPatchName))
-                                  .SingleWithClearException(new { canonicalPatchName });
+            Patch patch = document?.Patches
+                .Where(x => string.Equals(NameHelper.ToCanonical(x.Name), canonicalPatchName))
+                .SingleWithClearException(new { canonicalPatchName });
 
             // ToViewModel
             string message;
@@ -65,28 +66,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public DocumentOrPatchNotFoundPopupViewModel OK(DocumentOrPatchNotFoundPopupViewModel userInput)
+        public void OK(DocumentOrPatchNotFoundPopupViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToViewModel
-            var viewModel = ToViewModelHelper.CreateDocumentOrPatchNotFoundPopupViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.MustCloseMainView = true;
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            ExecuteNonPersistedAction(userInput, () =>
+            {
+                userInput.MustCloseMainView = true;
+                userInput.Visible = false;
+            });
         }
     }
 }

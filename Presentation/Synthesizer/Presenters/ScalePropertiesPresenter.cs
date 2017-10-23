@@ -1,27 +1,28 @@
-﻿using JJ.Framework.Exceptions;
+﻿using System;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class ScalePropertiesPresenter : PropertiesPresenterBase<Scale, ScalePropertiesViewModel>
     {
-        private readonly ScaleRepositories _repositories;
+        private readonly IScaleRepository _scaleRepository;
         private readonly ScaleManager _scaleManager;
 
-        public ScalePropertiesPresenter(ScaleRepositories repositories)
+        public ScalePropertiesPresenter(IScaleRepository scaleRepository, ScaleManager scaleManager)
         {
-            _repositories = repositories ?? throw new NullException(() => repositories);
-            _scaleManager = new ScaleManager(_repositories);
+            _scaleRepository = scaleRepository ?? throw new ArgumentNullException(nameof(scaleRepository));
+            _scaleManager = scaleManager ?? throw new ArgumentNullException(nameof(scaleManager));
         }
 
         protected override Scale GetEntity(ScalePropertiesViewModel userInput)
         {
-            return _repositories.ScaleRepository.Get(userInput.Entity.ID);
+            return _scaleRepository.Get(userInput.Entity.ID);
         }
 
         protected override ScalePropertiesViewModel ToViewModel(Scale entity)
@@ -36,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public ScalePropertiesViewModel Delete(ScalePropertiesViewModel userInput)
         {
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity =>
                 {

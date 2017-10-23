@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 
@@ -37,13 +38,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _documentManager.SaveDocumentReference(entity);
         }
 
-        public LibraryPropertiesViewModel OpenExternally(LibraryPropertiesViewModel userInput)
+        public void OpenExternally(LibraryPropertiesViewModel viewModel)
         {
-            return TemplateAction(
-                userInput,
-                viewModel =>
+            ExecuteAction(
+                viewModel,
+                _ =>
                 {
-                    viewModel.DocumentToOpenExternally = GetEntity(userInput).LowerDocument.ToIDAndName();
+                    viewModel.DocumentToOpenExternally = GetEntity(viewModel).LowerDocument.ToIDAndName();
                 });
         }
 
@@ -51,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Outlet outlet = null;
 
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity =>
                 {
@@ -71,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public LibraryPropertiesViewModel Remove(LibraryPropertiesViewModel userInput)
         {
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity => _documentManager.DeleteDocumentReference(entity));
         }

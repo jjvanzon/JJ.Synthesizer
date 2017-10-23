@@ -1,8 +1,8 @@
-﻿using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Helpers;
+﻿using System;
+using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 
@@ -13,12 +13,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly IDocumentRepository _documentRepository;
         private readonly ScaleManager _scaleManager;
 
-        public ScaleGridPresenter(RepositoryWrapper repositories)
+        public ScaleGridPresenter(IDocumentRepository documentRepository, ScaleManager scaleManager)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _documentRepository = repositories.DocumentRepository;
-            _scaleManager = new ScaleManager(new ScaleRepositories(repositories));
+            _documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
+            _scaleManager = scaleManager ?? throw new ArgumentNullException(nameof(scaleManager));
         }
 
         protected override ScaleGridViewModel CreateViewModel(ScaleGridViewModel userInput)
@@ -34,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public ScaleGridViewModel Delete(ScaleGridViewModel userInput, int id)
         {
-            return TemplateMethod(
+            return ExecuteAction(
                 userInput,
                 viewModel =>
                 {

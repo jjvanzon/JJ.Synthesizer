@@ -6,10 +6,11 @@ using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 
-namespace JJ.Presentation.Synthesizer.Presenters
+namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
     internal abstract class OperatorPropertiesPresenterBase<TViewModel> 
-        : PropertiesPresenterBase<Operator, TViewModel>, IOperatorPropertiesPresenter
+        : PropertiesPresenterBase<Operator, TViewModel>, 
+          IOperatorPropertiesPresenter
         where TViewModel : OperatorPropertiesViewModelBase
     {
         protected readonly RepositoryWrapper _repositories;
@@ -23,10 +24,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _autoPatcher = new AutoPatcher(_repositories);
         }
 
-        protected override Operator GetEntity(TViewModel userInput)
-        {
-            return _repositories.OperatorRepository.Get(userInput.ID);
-        }
+        protected override Operator GetEntity(TViewModel userInput) => _repositories.OperatorRepository.Get(userInput.ID);
 
         protected override IResult SaveWithUserInput(Operator entity, TViewModel userInput)
         {
@@ -56,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Outlet outlet = null;
 
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity =>
                 {
@@ -68,7 +66,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                     return result;
                 },
-                // ReSharper disable once ImplicitlyCapturedClosure
                 viewModel =>
                 {
                     viewModel.OutletIDToPlay = outlet?.ID;
@@ -77,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public TViewModel Delete(TViewModel userInput)
         {
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity =>
                 {

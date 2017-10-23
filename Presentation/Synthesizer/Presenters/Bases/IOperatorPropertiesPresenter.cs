@@ -1,6 +1,6 @@
 using JJ.Presentation.Synthesizer.ViewModels;
 
-namespace JJ.Presentation.Synthesizer.Presenters
+namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
     internal interface IOperatorPropertiesPresenter
     {

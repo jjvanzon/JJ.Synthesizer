@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.Validators;
 using JJ.Business.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -21,11 +22,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return op.ToPropertiesViewModel_ForPatchInlet();
         }
 
-        protected override Operator GetEntity(OperatorPropertiesViewModel_ForPatchInlet userInput)
-        {
-            return _repositories.OperatorRepository.Get(userInput.ID);
-        }
-
         protected override IResult SaveWithUserInput(Operator entity, OperatorPropertiesViewModel_ForPatchInlet userInput)
         {
             IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(userInput);
@@ -34,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return validator.ToResult();
             }
             
-            return _patchManager.SaveOperator(entity);
+            return base.SaveWithUserInput(entity, userInput);
         }
     }
 }

@@ -6,6 +6,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -39,6 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // GetEntities
             Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
+
             Inlet inlet = _repositories.InletRepository.Get(inletID);
             Outlet inputOutlet = _repositories.OutletRepository.Get(inputOutletID);
 
@@ -219,57 +221,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public PatchDetailsViewModel SelectOperator(PatchDetailsViewModel userInput, int operatorID)
+        public void SelectOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            PatchDetailsViewModel viewModel = CreateViewModel(entity);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            SetSelectedOperator(viewModel, operatorID);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            ExecuteNonPersistedAction(viewModel, () => SetSelectedOperator(viewModel, operatorID));
         }
 
-        public PatchDetailsViewModel Show(PatchDetailsViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            PatchDetailsViewModel viewModel = CreateViewModel(entity);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
+        public void Show(PatchDetailsViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
         private PatchDetailsViewModel Update(PatchDetailsViewModel userInput)
         {
@@ -312,20 +269,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
-            viewModel.SelectedOperator = null;
-
-            foreach (OperatorViewModel operatorViewModel in viewModel.Entity.OperatorDictionary.Values)
+            OperatorViewModel previousSelectedOperatorViewModel = viewModel.SelectedOperator;
+            if (previousSelectedOperatorViewModel != null)
             {
-                if (operatorViewModel.ID == operatorID)
-                {
-                    operatorViewModel.IsSelected = true;
-                    viewModel.SelectedOperator = operatorViewModel;
-                }
-                else
-                {
-                    operatorViewModel.IsSelected = false;
-                }
+                previousSelectedOperatorViewModel.IsSelected = false;
             }
+
+            if (viewModel.Entity.OperatorDictionary.TryGetValue(operatorID, out OperatorViewModel selectedOperatorViewModel))
+            {
+                selectedOperatorViewModel.IsSelected = true;
+            }
+
+            viewModel.SelectedOperator = selectedOperatorViewModel;
         }
 
         private PatchDetailsViewModel CreateViewModel(Patch patch)
@@ -339,10 +294,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             destViewModel.CanSave = sourceViewModel.CanSave;
 
-            if (sourceViewModel.SelectedOperator != null)
-            {
-                SetSelectedOperator(destViewModel, sourceViewModel.SelectedOperator.ID);
-            }
+            SetSelectedOperator(destViewModel, sourceViewModel.SelectedOperator?.ID ?? 0);
         }
     }
 }

@@ -1,50 +1,31 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Helpers;
+﻿using System;
+using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class ToneGridEditPresenter : PresenterBase<ToneGridEditViewModel>
     {
-        private readonly ScaleRepositories _repositories;
+        private readonly IScaleRepository _scaleRepository;
         private readonly ScaleManager _scaleManager;
 
-        public ToneGridEditPresenter(ScaleRepositories repositories)
+        public ToneGridEditPresenter(IScaleRepository scaleRepository, ScaleManager scaleManager)
         {
-            _repositories = repositories ?? throw new NullException(() => repositories);
-            _scaleManager = new ScaleManager(_repositories);
+            _scaleRepository = scaleRepository ?? throw new ArgumentNullException(nameof(scaleRepository));
+            _scaleManager = scaleManager ?? throw new ArgumentNullException(nameof(scaleManager));
         }
 
-        public ToneGridEditViewModel Show(ToneGridEditViewModel userInput)
+        public void Show(ToneGridEditViewModel viewModel)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
-
-            // ToViewModel
-            ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
         }
 
         public ToneGridEditViewModel Refresh(ToneGridEditViewModel userInput)
@@ -58,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.Successful = false;
 
             // GetEntity
-            Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
+            Scale scale = _scaleRepository.Get(userInput.ScaleID);
 
             // ToViewModel
             ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
@@ -117,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // GetEntity
-            Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
+            Scale scale = _scaleRepository.Get(userInput.ScaleID);
 
             // Business
             VoidResult result = _scaleManager.Save(scale);

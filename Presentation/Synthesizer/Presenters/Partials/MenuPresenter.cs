@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
-namespace JJ.Presentation.Synthesizer.Presenters
+namespace JJ.Presentation.Synthesizer.Presenters.Partials
 {
     internal class MenuPresenter
     {

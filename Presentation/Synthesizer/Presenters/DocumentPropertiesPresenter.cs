@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -40,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Outlet outlet = null;
 
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity =>
                 {
@@ -55,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel =>
                 {
                     viewModel.OutletIDToPlay = outlet?.ID;
-
                 });
         }
     }

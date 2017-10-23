@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer;
 using JJ.Data.Canonical;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -27,39 +28,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
         }
 
-        public DocumentTreeViewModel Close(DocumentTreeViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = false);
+        public void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 
-        public DocumentTreeViewModel OpenItemExternally(DocumentTreeViewModel userInput)
+        public DocumentTreeViewModel OpenItemExternally(DocumentTreeViewModel viewModel)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
+            return ExecuteAction(
+                viewModel,
+                _ =>
                 {
-                    if (!userInput.SelectedItemID.HasValue)
+                    if (!viewModel.SelectedItemID.HasValue)
                     {
-                        throw new NullException(() => userInput.SelectedItemID);
+                        throw new NullException(() => viewModel.SelectedItemID);
                     }
 
-                    switch (userInput.SelectedNodeType)
+                    switch (viewModel.SelectedNodeType)
                     {
                         case DocumentTreeNodeTypeEnum.Library:
-                            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(userInput.SelectedItemID.Value);
+                            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedItemID.Value);
                             viewModel.DocumentToOpenExternally = documentReference.LowerDocument.ToIDAndName();
                             break;
 
                         case DocumentTreeNodeTypeEnum.LibraryPatch:
-                            Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
+                            Patch patch = _repositories.PatchRepository.Get(viewModel.SelectedItemID.Value);
                             viewModel.DocumentToOpenExternally = patch.Document.ToIDAndName();
                             viewModel.PatchToOpenExternally = patch.ToIDAndName();
                             break;
 
                         default:
-                            throw new ValueNotSupportedException(userInput.SelectedNodeType);
+                            throw new ValueNotSupportedException(viewModel.SelectedNodeType);
                     }
                 });
         }
 
-        public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => TemplateMethod(userInput, x => { });
+        public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => ExecuteAction(userInput, x => { });
 
         public DocumentTreeViewModel Remove(DocumentTreeViewModel userInput)
         {
@@ -78,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private DocumentTreeViewModel RemoveLibrary(DocumentTreeViewModel userInput)
         {
-            return TemplateMethod(
+            return ExecuteAction(
                 userInput,
                 viewModel =>
                 {
@@ -97,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private DocumentTreeViewModel DeletePatch(DocumentTreeViewModel userInput)
         {
-            return TemplateMethod(
+            return ExecuteAction(
                 userInput,
                 viewModel =>
                 {
@@ -117,65 +118,50 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 });
         }
 
-        public DocumentTreeViewModel Show(DocumentTreeViewModel userInput) => TemplateMethod(userInput, viewModel => viewModel.Visible = true);
+        public void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
-        public DocumentTreeViewModel SelectAudioFileOutputs(DocumentTreeViewModel userInput)
+        public void SelectAudioFileOutputs(DocumentTreeViewModel viewModel)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputList;
-                });
+            ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputList);
         }
 
-        public DocumentTreeViewModel SelectAudioOutput(DocumentTreeViewModel userInput)
+        public void SelectAudioOutput(DocumentTreeViewModel viewModel)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioOutput;
-                });
+            ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioOutput);
         }
 
-        public DocumentTreeViewModel SelectLibraries(DocumentTreeViewModel userInput)
+        public void SelectLibraries(DocumentTreeViewModel viewModel)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Libraries;
-                });
+            ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Libraries);
         }
 
-        public DocumentTreeViewModel SelectLibrary(DocumentTreeViewModel userInput, int id)
+        public void SelectLibrary(DocumentTreeViewModel viewModel, int id)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
+            ExecuteNonPersistedAction(
+                viewModel,
+                () =>
                 {
                     viewModel.SelectedItemID = id;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Library;
                 });
         }
 
-        public DocumentTreeViewModel SelectLibraryPatch(DocumentTreeViewModel userInput, int id)
+        public void SelectLibraryPatch(DocumentTreeViewModel viewModel, int id)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
+            ExecuteNonPersistedAction(
+                viewModel,
+                () =>
                 {
                     viewModel.SelectedItemID = id;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatch;
                 });
         }
 
-        public DocumentTreeViewModel SelectLibraryPatchGroup(DocumentTreeViewModel userInput, int lowerDocumentReferenceID, string patchGroup)
+        public void SelectLibraryPatchGroup(DocumentTreeViewModel viewModel, int lowerDocumentReferenceID, string patchGroup)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
+            ExecuteNonPersistedAction(
+                viewModel,
+                () =>
                 {
                     viewModel.SelectedPatchGroupLowerDocumentReferenceID = lowerDocumentReferenceID;
                     viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(patchGroup);
@@ -183,32 +169,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 });
         }
 
-        public DocumentTreeViewModel SelectScales(DocumentTreeViewModel userInput)
+        public void SelectScales(DocumentTreeViewModel viewModel)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
-                {
-                    viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales;
-                });
+            ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales);
         }
 
-        public DocumentTreeViewModel SelectPatch(DocumentTreeViewModel userInput, int id)
+        public void SelectPatch(DocumentTreeViewModel viewModel, int id)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
+            ExecuteNonPersistedAction(
+                viewModel,
+                () =>
                 {
                     viewModel.SelectedItemID = id;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Patch;
                 });
         }
 
-        public DocumentTreeViewModel SelectPatchGroup(DocumentTreeViewModel userInput, string group)
+        public void SelectPatchGroup(DocumentTreeViewModel viewModel, string group)
         {
-            return TemplateMethod(
-                userInput,
-                viewModel =>
+            ExecuteNonPersistedAction(
+                viewModel,
+                () =>
                 {
                     viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(group);
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
@@ -217,7 +198,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentTreeViewModel HoverPatch(DocumentTreeViewModel userInput, int id)
         {
-            return TemplateMethod(
+            return ExecuteAction(
                 userInput,
                 viewModel =>
                 {
@@ -234,7 +215,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Helpers
 
-        private DocumentTreeViewModel TemplateMethod(DocumentTreeViewModel userInput, Action<DocumentTreeViewModel> action)
+        private DocumentTreeViewModel ExecuteAction(DocumentTreeViewModel userInput, Action<DocumentTreeViewModel> action)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -263,16 +244,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             action(viewModel);
 
             // Non-Persisted
-            viewModel.CanAdd = ToViewModelHelper.GetCanAdd(viewModel.SelectedNodeType);
-            viewModel.CanAddToInstrument = ToViewModelHelper.GetCanAddToInstrument(viewModel.SelectedNodeType);
-            viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(viewModel.SelectedNodeType);
-            viewModel.CanPlay = ToViewModelHelper.GetCanPlay(viewModel.SelectedNodeType);
-            viewModel.CanRemove = ToViewModelHelper.GetCanRemove(viewModel.SelectedNodeType);
+            SetSelectedNodeType(viewModel, viewModel.SelectedNodeType);
 
             // Successful
             viewModel.Successful = true;
 
             return viewModel;
+        }
+
+        protected override void ExecuteNonPersistedAction(DocumentTreeViewModel viewModel, Action action)
+        {
+            base.ExecuteNonPersistedAction(viewModel, action);
+
+            // Non-Persisted
+            SetSelectedNodeType(viewModel, viewModel.SelectedNodeType);
+        }
+
+        private static void SetSelectedNodeType(DocumentTreeViewModel viewModel, DocumentTreeNodeTypeEnum nodeType)
+        {
+            viewModel.SelectedNodeType = nodeType;
+
+            viewModel.CanAdd = ToViewModelHelper.GetCanAdd(nodeType);
+            viewModel.CanAddToInstrument = ToViewModelHelper.GetCanAddToInstrument(nodeType);
+            viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(nodeType);
+            viewModel.CanPlay = ToViewModelHelper.GetCanPlay(nodeType);
+            viewModel.CanRemove = ToViewModelHelper.GetCanRemove(nodeType);
         }
 
         public override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)

@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -88,35 +89,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public DocumentDetailsViewModel Close(DocumentDetailsViewModel userInput)
+        public void Close(DocumentDetailsViewModel viewModel)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToEntity
-            Document document = userInput.ToEntityWithAudioOutput(
-                _repositories.DocumentRepository,
-                _repositories.DocumentReferenceRepository,
-                _repositories.AudioOutputRepository,
-                _repositories.PatchRepository,
-                _repositories.SpeakerSetupRepository);
-
-            // ToViewModel
-            DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
         }
     }
 }

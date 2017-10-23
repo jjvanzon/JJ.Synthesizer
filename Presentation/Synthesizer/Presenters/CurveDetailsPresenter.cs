@@ -7,6 +7,7 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Collections;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -21,15 +22,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _curveManager = new CurveManager(_repositories);
         }
 
-        public CurveDetailsViewModel Show(CurveDetailsViewModel userInput)
+        public void Show(CurveDetailsViewModel viewModel)
         {
-            return TemplateMethod(userInput, viewModel => viewModel.Visible = true);
+            ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
         }
 
-        public CurveDetailsViewModel Refresh(CurveDetailsViewModel userInput)
-        {
-            return TemplateMethod(userInput, x => { });
-        }
+        public CurveDetailsViewModel Refresh(CurveDetailsViewModel userInput) => ExecuteAction(userInput, x => { });
 
         public CurveDetailsViewModel Close(CurveDetailsViewModel userInput)
         {
@@ -43,14 +41,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public CurveDetailsViewModel LoseFocus(CurveDetailsViewModel userInput)
-        {
-            return Validate(userInput);
-        }
+        public CurveDetailsViewModel LoseFocus(CurveDetailsViewModel userInput) => Validate(userInput);
 
         private CurveDetailsViewModel Validate(CurveDetailsViewModel userInput)
         {
-            return TemplateMethod(
+            return ExecuteAction(
                 userInput,
                 viewModel =>
                 {
@@ -68,9 +63,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 });
         }
 
-        public CurveDetailsViewModel SelectNode(CurveDetailsViewModel userInput, int nodeID)
+        public void SelectNode(CurveDetailsViewModel viewModel, int nodeID)
         {
-            return TemplateMethod(userInput, viewModel => viewModel.SelectedNodeID = nodeID);
+            ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeID = nodeID);
         }
 
         public CurveDetailsViewModel NodeMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y)
@@ -85,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private CurveDetailsViewModel NodeMovedOrMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y)
         {
-            return TemplateMethod(
+            return ExecuteAction(
                 userInput,
                 viewModel =>
                 {
@@ -100,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Helpers
 
-        private CurveDetailsViewModel TemplateMethod(CurveDetailsViewModel userInput, Action<CurveDetailsViewModel> action)
+        private CurveDetailsViewModel ExecuteAction(CurveDetailsViewModel userInput, Action<CurveDetailsViewModel> action)
         {
             if (userInput == null) throw new NullException(() => userInput);
 

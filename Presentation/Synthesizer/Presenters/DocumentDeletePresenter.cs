@@ -6,6 +6,7 @@ using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -92,30 +93,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public DocumentDeleteViewModel Cancel(DocumentDeleteViewModel userInput)
+        public void Cancel(DocumentDeleteViewModel viewModel)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Document document = _documentRepository.Get(userInput.Document.ID);
-
-            // ToViewModel
-            DocumentDeleteViewModel viewModel = document.ToDeleteViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
         }
     }
 }

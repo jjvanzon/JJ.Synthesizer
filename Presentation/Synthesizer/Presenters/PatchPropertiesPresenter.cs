@@ -1,9 +1,9 @@
 ﻿using JJ.Framework.Exceptions;
-using Canonicals = JJ.Data.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Outlet outlet = null;
 
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity =>
                 {
@@ -58,14 +58,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public PatchPropertiesViewModel Delete(PatchPropertiesViewModel userInput)
         {
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity => _patchManager.DeletePatchWithRelatedEntities(entity));
         }
 
         public PatchPropertiesViewModel ChangeHasDimension(PatchPropertiesViewModel userInput)
         {
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity => _patchManager.SavePatch(entity));
         }

@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -39,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public NodePropertiesViewModel Delete(NodePropertiesViewModel userInput)
         {
-            return TemplateAction(userInput, entity => _curveManager.DeleteNode(entity));
+            return ExecuteAction(userInput, entity => _curveManager.DeleteNode(entity));
         }
     }
 }

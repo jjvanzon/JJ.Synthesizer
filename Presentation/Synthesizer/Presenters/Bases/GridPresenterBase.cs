@@ -2,27 +2,18 @@
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 
-namespace JJ.Presentation.Synthesizer.Presenters
+namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
     internal abstract class GridPresenterBase<TViewModel> : PresenterBase<TViewModel>
         where TViewModel : ViewModelBase
     {
-        public TViewModel Show(TViewModel userInput)
-        {
-            return TemplateMethod(userInput, viewModel => viewModel.Visible = true);
-        }
+        public void Show(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
-        public TViewModel Refresh(TViewModel userInput)
-        {
-            return TemplateMethod(userInput, x => { });
-        }
+        public TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput, x => { });
 
-        public TViewModel Close(TViewModel userInput)
-        {
-            return TemplateMethod(userInput, viewModel => viewModel.Visible = false);
-        }
+        public void Close(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 
-        protected TViewModel TemplateMethod(TViewModel userInput, Action<TViewModel> action)
+        protected TViewModel ExecuteAction(TViewModel userInput, Action<TViewModel> action)
         {
             if (userInput == null) throw new NullException(() => userInput);
 

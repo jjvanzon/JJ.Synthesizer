@@ -4,7 +4,7 @@ using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 
-namespace JJ.Presentation.Synthesizer.Presenters
+namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
     internal abstract class PropertiesPresenterBase<TEntity, TViewModel> : PresenterBase<TViewModel>
         where TViewModel : ViewModelBase
@@ -15,30 +15,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary> Base does nothing. Not mandatory to override for read-only views. </summary>
         protected virtual IResult Save(TEntity entity) => null;
         
-        /// <summary> Base does nothing. Not mandatory to override for read-only views. </summary>
-        protected virtual IResult SaveWithUserInput(TEntity entity, TViewModel userInput)
-        {
-            return Save(entity);
-        }
+        /// <summary> Base delegates to Save, whose base method does nothing. </summary>
+        protected virtual IResult SaveWithUserInput(TEntity entity, TViewModel userInput) => Save(entity);
 
-        public TViewModel Show(TViewModel userInput)
-        {
-            return TemplateAction(userInput, viewModel => viewModel.Visible = true);
-        }
+        public void Show(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
-        public TViewModel Refresh(TViewModel userInput)
-        {
-            return TemplateAction(userInput);
-        }
+        public TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput);
 
         public TViewModel LoseFocus(TViewModel userInput)
         {
-            return TemplateAction(userInput, entity => SaveWithUserInput(entity, userInput));
+            return ExecuteAction(userInput, entity => SaveWithUserInput(entity, userInput));
         }
 
         public TViewModel Close(TViewModel userInput)
         {
-            return TemplateAction(
+            return ExecuteAction(
                 userInput,
                 entity => SaveWithUserInput(entity, userInput),
                 viewModel =>
@@ -53,9 +44,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// Creating a new view model and copying basic non-persisted properties to it.
         /// You can extend this with more logic.
         /// </summary>
-        protected TViewModel TemplateAction(TViewModel userInput, Action<TViewModel> nonPersisted)
+        protected TViewModel ExecuteAction(TViewModel userInput, Action<TViewModel> nonPersisted)
         {
-            return TemplateAction(userInput, null, nonPersisted);
+            return ExecuteAction(userInput, null, nonPersisted);
         }
 
         /// <summary>
@@ -64,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// You can extend this with more logic.
         /// </summary>
         /// <param name="businessDelegate">Can return null.</param>
-        protected TViewModel TemplateAction(
+        protected TViewModel ExecuteAction(
             TViewModel userInput,
             Func<TEntity, IResult> businessDelegate = null,
             Action<TViewModel> nonPersistedDelegate = null)

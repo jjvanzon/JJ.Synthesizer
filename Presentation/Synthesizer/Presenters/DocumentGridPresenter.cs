@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -19,6 +20,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
             _autoPatcher = new AutoPatcher(_repositories);
+        }
+
+        public DocumentGridViewModel Load(DocumentGridViewModel viewModel)
+        {
+            return ExecuteAction(viewModel, x => x.Visible = true);
         }
 
         protected override DocumentGridViewModel CreateViewModel(DocumentGridViewModel userInput)
@@ -38,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentGridViewModel Play(DocumentGridViewModel userInput, int id)
         {
-            return TemplateMethod(
+            return ExecuteAction(
                 userInput,
                 viewModel =>
                 {

@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
@@ -31,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public AudioFileOutputGridViewModel Delete(AudioFileOutputGridViewModel userInput, int id)
         {
-            return TemplateMethod(
+            return ExecuteAction(
                 userInput,
                 viewModel =>
                 {

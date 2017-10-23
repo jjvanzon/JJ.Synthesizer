@@ -4,6 +4,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using System.Collections.Generic;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -33,30 +34,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public DocumentCannotDeleteViewModel OK(DocumentCannotDeleteViewModel userInput)
+        public void OK(DocumentCannotDeleteViewModel viewModel)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Document document = _documentRepository.Get(userInput.Document.ID);
-
-            // ToViewModel
-            DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(userInput.ValidationMessages);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
         }
     }
 }

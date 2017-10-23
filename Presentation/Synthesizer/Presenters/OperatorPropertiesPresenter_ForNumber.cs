@@ -1,6 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -12,9 +13,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             : base(repositories)
         { }
 
-        protected override OperatorPropertiesViewModel_ForNumber ToViewModel(Operator op)
-        {
-            return op.ToPropertiesViewModel_ForNumber();
-        }
+        protected override OperatorPropertiesViewModel_ForNumber ToViewModel(Operator op) => op.ToPropertiesViewModel_ForNumber();
     }
 }

@@ -3,6 +3,7 @@ using System.IO;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
@@ -24,27 +25,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
         }
 
-        public SampleFileBrowserViewModel Cancel(SampleFileBrowserViewModel userInput)
+        public void Cancel(SampleFileBrowserViewModel userInput)
         {
-            if (userInput == null) throw new ArgumentNullException(nameof(userInput));
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToViewModel
-            var viewModel = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel();
-
-            // Non-Persited
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            ExecuteNonPersistedAction(userInput, () =>
+            {
+                userInput.Visible = false;
+                userInput.Bytes = new byte[0];
+            });
         }
 
         public SampleFileBrowserViewModel OK(SampleFileBrowserViewModel userInput)

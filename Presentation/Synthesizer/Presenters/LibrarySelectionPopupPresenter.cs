@@ -6,6 +6,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 
@@ -106,30 +107,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public LibrarySelectionPopupViewModel OpenItemExternally(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)
+        public void OpenItemExternally(LibrarySelectionPopupViewModel viewModel, int lowerDocumentID)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            if (viewModel == null) throw new NullException(() => viewModel);
 
             // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
+            viewModel.RefreshCounter++;
 
             // Business
             Document document = _repositories.DocumentRepository.Get(lowerDocumentID);
 
             // CreateViewModel
-            LibrarySelectionPopupViewModel viewModel = CreateViewModel(userInput);
             viewModel.DocumentToOpenExternally = document.ToIDAndName();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
         }
 
         public LibrarySelectionPopupViewModel Play(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)

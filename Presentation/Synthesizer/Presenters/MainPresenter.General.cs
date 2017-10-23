@@ -6,6 +6,8 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Collections;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
+using JJ.Presentation.Synthesizer.Presenters.Partials;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -138,9 +140,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionManager);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
             _sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _entityPositionManager, _repositories);
-            _scaleGridPresenter = new ScaleGridPresenter(_repositories);
-            _scalePropertiesPresenter = new ScalePropertiesPresenter(scaleRepositories);
-            _toneGridEditPresenter = new ToneGridEditPresenter(scaleRepositories);
+            _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, _scaleManager);
+            _scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, _scaleManager);
+            _toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, _scaleManager);
             _titleBarPresenter = new TitleBarPresenter();
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();

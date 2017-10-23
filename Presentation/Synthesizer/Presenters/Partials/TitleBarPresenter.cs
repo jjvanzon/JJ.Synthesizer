@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Configuration;
 using JJ.Presentation.Synthesizer.Helpers;
 
-namespace JJ.Presentation.Synthesizer.Presenters
+namespace JJ.Presentation.Synthesizer.Presenters.Partials
 {
     internal class TitleBarPresenter
     {
@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (openDocument != null)
             {
-                sb.AppendFormat("{0} - ", openDocument.Name);
+                sb.Append($"{openDocument.Name} - ");
             }
 
             sb.Append(ResourceFormatter.ApplicationName);
