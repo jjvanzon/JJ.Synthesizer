@@ -1,7 +1,7 @@
-﻿using System;
-using JJ.Framework.Collections;
+﻿using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {

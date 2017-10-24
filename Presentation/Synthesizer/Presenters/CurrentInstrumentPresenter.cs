@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
@@ -10,6 +7,9 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -54,32 +54,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public CurrentInstrumentViewModel Close(CurrentInstrumentViewModel userInput)
+        public void Close(CurrentInstrumentViewModel viewModel)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntities
-            Document document = _documentRepository.Get(userInput.DocumentID);
-            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
-
-            // ToViewModel
-            CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
         }
 
         public CurrentInstrumentViewModel Add(CurrentInstrumentViewModel userInput, int patchID)

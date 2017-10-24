@@ -499,7 +499,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Close(userInput));
+            ExecuteNonPersistedAction(userInput, () => _currentInstrumentPresenter.Close(userInput));
         }
 
         public void CurrentInstrumentMovePatch(int patchID, int newPosition)
@@ -572,7 +572,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            ExecuteReadAction(userInput, () => _curveDetailsPresenter.Show(userInput));
+            ExecuteNonPersistedAction(userInput, () => _curveDetailsPresenter.Show(userInput));
         }
 
         public void CurveDetailsClose(int id)
@@ -872,7 +872,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentOrPatchNotFoundPopupViewModel userInput = MainViewModel.DocumentOrPatchNotFound;
 
             // Template Method
-            ExecuteReadAction(userInput, () => _documentOrPatchNotFoundPresenter.OK(userInput));
+            ExecuteNonPersistedAction(userInput, () => _documentOrPatchNotFoundPresenter.OK(userInput));
         }
 
         public void DocumentPropertiesShow()
@@ -1442,7 +1442,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
             // Template Method
-            ExecuteReadAction(userInput, () => _librarySelectionPopupPresenter.Cancel(userInput));
+            ExecuteNonPersistedAction(userInput, () => _librarySelectionPopupPresenter.Cancel(userInput));
         }
 
         public void LibrarySelectionPopupOK(int? lowerDocumentID)
@@ -1742,7 +1742,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
             // TemplateMethod
-            ExecuteReadAction(userInput, () => _curveDetailsPresenter.SelectNode(userInput, nodeID));
+            ExecuteNonPersistedAction(userInput, () => _curveDetailsPresenter.SelectNode(userInput, nodeID));
         }
 
         // Operator
@@ -2154,7 +2154,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter.Show(viewModel));
                     return;
                 }
             }
@@ -2162,7 +2162,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForCache viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter_ForCache.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter_ForCache.Show(viewModel));
                     return;
                 }
             }
@@ -2170,7 +2170,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForCurve viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter_ForCurve.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter_ForCurve.Show(viewModel));
                     return;
                 }
             }
@@ -2178,7 +2178,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForInletsToDimension viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter_ForInletsToDimension.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter_ForInletsToDimension.Show(viewModel));
                     return;
                 }
             }
@@ -2186,7 +2186,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForNumber viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter_ForNumber.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter_ForNumber.Show(viewModel));
                     return;
                 }
             }
@@ -2194,7 +2194,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchInlet viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter_ForPatchInlet.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter_ForPatchInlet.Show(viewModel));
                     return;
                 }
             }
@@ -2202,7 +2202,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForPatchOutlet viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter_ForPatchOutlet.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter_ForPatchOutlet.Show(viewModel));
                     return;
                 }
             }
@@ -2210,7 +2210,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_ForSample viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter_ForSample.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter_ForSample.Show(viewModel));
                     return;
                 }
             }
@@ -2218,7 +2218,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_WithInterpolation viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter_WithInterpolation.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter_WithInterpolation.Show(viewModel));
                     return;
                 }
             }
@@ -2226,7 +2226,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
                 if (viewModel != null)
                 {
-                    ExecuteReadAction(viewModel, () => _operatorPropertiesPresenter_WithCollectionRecalculation.Show(viewModel));
+                    ExecuteNonPersistedAction(viewModel, () => _operatorPropertiesPresenter_WithCollectionRecalculation.Show(viewModel));
                     return;
                 }
             }
@@ -2240,7 +2240,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
             // Partial Action
-            ExecuteReadAction(userInput, () => _patchDetailsPresenter.SelectOperator(userInput, operatorID));
+            ExecuteNonPersistedAction(userInput, () => _patchDetailsPresenter.SelectOperator(userInput, operatorID));
         }
 
         public void OperatorExpand(int operatorID)
@@ -2311,7 +2311,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
             // TemplateMethod
-            ExecuteReadAction(userInput, () => _patchDetailsPresenter.Show(userInput));
+            ExecuteNonPersistedAction(userInput, () => _patchDetailsPresenter.Show(userInput));
         }
 
         public void PatchPropertiesAddToInstrument(int id)
@@ -2390,7 +2390,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchPropertiesViewModel viewModel = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
-            ExecuteReadAction(viewModel, () => _patchPropertiesPresenter.Show(viewModel));
+            ExecuteNonPersistedAction(viewModel, () => _patchPropertiesPresenter.Show(viewModel));
         }
 
         // Sample
@@ -2399,7 +2399,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             SampleFileBrowserViewModel userInput = MainViewModel.Document.SampleFileBrowser;
 
-            ExecuteReadAction(userInput, () => _sampleFileBrowserPresenter.Cancel(userInput));
+            ExecuteNonPersistedAction(userInput, () => _sampleFileBrowserPresenter.Cancel(userInput));
         }
 
         public void SampleFileBrowserOK()
@@ -2493,17 +2493,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             ScalePropertiesViewModel viewModel1 = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
             ToneGridEditViewModel viewModel2 = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID: id);
-
-            // RefreshCounter
-            viewModel1.RefreshCounter++;
-            viewModel2.RefreshCounter++;
-
-            // Set !Successful
-            viewModel1.Successful = false;
-            viewModel2.Successful = false;
-
-            // ToEntity
-            MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Actions
             _scalePropertiesPresenter.Show(viewModel1);

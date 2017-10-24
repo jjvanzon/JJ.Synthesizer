@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
@@ -9,6 +9,7 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -26,27 +27,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _autoPatcher = new AutoPatcher(_repositories);
         }
 
-        public LibrarySelectionPopupViewModel Cancel(LibrarySelectionPopupViewModel userInput)
+        public void Cancel(LibrarySelectionPopupViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ToViewModel
-            LibrarySelectionPopupViewModel viewModel = CreateEmptyViewModel(userInput);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = false;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            ExecuteNonPersistedAction(userInput, () =>
+            {
+                userInput.Visible = false;
+                userInput.List = new List<IDAndName>();
+            });
         }
 
         public LibrarySelectionPopupViewModel OK(LibrarySelectionPopupViewModel userInput, int? lowerDocumentID)
