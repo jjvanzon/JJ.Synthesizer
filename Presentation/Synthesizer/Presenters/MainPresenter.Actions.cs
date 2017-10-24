@@ -1078,15 +1078,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
             // TemplateMethod
-            DocumentTreeViewModel viewModel = ExecuteWriteAction(userInput, func);
-
-            // Refresh
-            if (viewModel.Successful)
-            {
-                DocumentViewModelRefresh();
-            }
-
-            DocumentTreeViewModel func()
+            Operator op = null;
+            DocumentTreeViewModel viewModel = ExecuteWriteAction(userInput, () =>
             {
                 // RefreshCounter
                 userInput.RefreshCounter++;
@@ -1123,7 +1116,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         {
                             // Business
                             var operatorFactory = new OperatorFactory(patch, _repositories);
-                            Operator op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
+                            op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
                             _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
                         }
 
@@ -1135,6 +1128,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     default:
                         throw new ValueNotSupportedException(userInput.SelectedNodeType);
+                }
+            });
+
+            if (viewModel.Successful)
+            {
+                // Refresh
+                DocumentViewModelRefresh();
+
+                // Redirect
+                if (op != null)
+                {
+                    OperatorExpand(op.ID);
                 }
             }
         }

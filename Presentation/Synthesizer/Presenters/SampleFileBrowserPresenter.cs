@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using System;
+using System.IO;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
             // ToViewModel
-            var viewModel = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel();
+            SampleFileBrowserViewModel viewModel = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel();
 
             // Non-Persited
             CopyNonPersistedProperties(userInput, viewModel);
