@@ -485,7 +485,6 @@
     <Compile Include="Helpers\InletOutletSelector.cs" />
     <Compile Include="Helpers\SampleInfo.cs" />
     <Compile Include="Helpers\ScaleRepositories.cs" />
-    <Compile Include="Dto\UsedInDto.cs" />
     <Compile Include="Helpers\VisitationCannotBeHandledException.cs" />
     <Compile Include="Helpers\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />

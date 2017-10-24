@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms.Extensions;
@@ -16,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         public event EventHandler<EventArgs<int>> CloseRequested;
         public event EventHandler<EventArgs<int>> LoseFocusRequested;
         public event EventHandler<EventArgs<int>> SaveRequested;
-        public event EventHandler<EventArgs<int>> OpenExternallyRequested;
+        public event EventHandler<EventArgs<int>> ExpandRequested;
         public event EventHandler<EventArgs<int>> PlayRequested;
         public event EventHandler<EventArgs<int>> RemoveRequested;
 
@@ -38,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             _titleBarUserControl.AddToInstrumentClicked += _titleBarUserControl_AddToInstrumentClicked;
             _titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
             _titleBarUserControl.SaveClicked += _titleBarUserControl_SaveClicked;
-            _titleBarUserControl.OpenClicked += _titleBarUserControl_OpenClicked;
+            _titleBarUserControl.ExpandClicked += _titleBarUserControl_ExpandClicked;
             _titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
             _titleBarUserControl.RemoveClicked += _titleBarUserControl_RemoveClicked;
         }
@@ -49,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             {
                 _titleBarUserControl.CloseClicked -= _titleBarUserControl_CloseClicked;
                 _titleBarUserControl.SaveClicked -= _titleBarUserControl_SaveClicked;
-                _titleBarUserControl.OpenClicked -= _titleBarUserControl_OpenClicked;
+                _titleBarUserControl.ExpandClicked -= _titleBarUserControl_ExpandClicked;
                 _titleBarUserControl.PlayClicked -= _titleBarUserControl_PlayClicked;
                 _titleBarUserControl.RemoveClicked -= _titleBarUserControl_RemoveClicked;
             }
@@ -93,10 +94,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.AddToInstrumentButtonVisible = value;
         }
 
-        public bool OpenExternallyButtonVisible
+        [DefaultValue(false)]
+        public bool ExpandButtonVisible
         {
-            get => _titleBarUserControl.OpenButtonVisible;
-            set => _titleBarUserControl.OpenButtonVisible = value;
+            get => _titleBarUserControl.ExpandButtonVisible;
+            set => _titleBarUserControl.ExpandButtonVisible = value;
         }
 
         public bool PlayButtonVisible
@@ -201,7 +203,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         private void _titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
-        private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenExternallyRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+        private void _titleBarUserControl_ExpandClicked(object sender, EventArgs e) => ExpandRequested?.Invoke(sender, new EventArgs<int>(GetID()));
         private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
         private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e) => Delete();
         private void _titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));

@@ -97,21 +97,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        // Curve
-
-        public static IDAndName ToIDAndNameWithUsedIn(this UsedInDto<Curve> dto)
-        {
-            if (dto == null) throw new NullException(() => dto);
-
-            var idAndName = new IDAndName
-            {
-                ID = dto.Entity.ID,
-                Name = ToViewModelHelper.FormatUsedInDto(dto)
-            };
-
-            return idAndName;
-        }
-
         // Inlet
 
         public static InletViewModel ToViewModel(

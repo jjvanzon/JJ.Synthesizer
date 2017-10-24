@@ -16,6 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
             action();
 
             viewModel.RefreshCounter++;
+            viewModel.Successful = true;
         }
 
         public virtual void CopyNonPersistedProperties(TViewModel sourceViewModel, TViewModel destViewModel)

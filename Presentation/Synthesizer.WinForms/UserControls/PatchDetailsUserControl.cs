@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<PatchAndOperatorEventArgs> SelectOperatorRequested;
-        public event EventHandler<PatchAndOperatorEventArgs> ExpandOperatorRequested;
+        public event EventHandler<EventArgs<int>> ExpandOperatorRequested;
         public event EventHandler<EventArgs<int>> ShowPatchPropertiesRequested;
 
         private PatchViewModelToDiagramConverter _converter;
@@ -91,6 +91,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowPatchPropertiesGesture_ShowPatchPropertiesRequested(object sender, EventArgs e)
         {
+            // ReSharper disable once PossibleNullReferenceException
             ShowPatchPropertiesRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
         }
 
@@ -121,7 +122,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int inletID =  VectorGraphicsTagHelper.GetInletID(e.DroppedOnElement.Tag);
             int outletID = VectorGraphicsTagHelper.GetOutletID(e.DraggedElement.Tag);
 
-            ChangeInputOutletRequested?.Invoke(this, new ChangeInputOutletEventArgs(
+            // ReSharper disable once PossibleNullReferenceException
+            ChangeInputOutletRequested(this, new ChangeInputOutletEventArgs(
                 ViewModel.Entity.ID,
                 inletID,
                 outletID));
@@ -157,7 +159,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
 
-            MoveOperatorRequested?.Invoke(this, new MoveOperatorEventArgs(
+            // ReSharper disable once PossibleNullReferenceException
+            MoveOperatorRequested(this, new MoveOperatorEventArgs(
                 ViewModel.Entity.ID,
                 operatorID,
                 centerX,
@@ -170,7 +173,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
-            SelectOperatorRequested?.Invoke(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, operatorID));
+            // ReSharper disable once PossibleNullReferenceException
+            SelectOperatorRequested(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, operatorID));
 
             _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
         }
@@ -178,19 +182,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
-            DeleteOperatorRequested?.Invoke(this, new EventArgs<int>(ViewModel.Entity.ID));
+            // ReSharper disable once PossibleNullReferenceException
+            DeleteOperatorRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
 
             _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
         }
 
         private void ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
         {
-            ExpandOperatorRequested?.Invoke(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, e.ID));
+            // ReSharper disable once PossibleNullReferenceException
+            ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
         }
 
         private void ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
         {
-            ExpandOperatorRequested?.Invoke(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, e.ID));
+            // ReSharper disable once PossibleNullReferenceException
+            ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
         }
 
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.
@@ -201,9 +208,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int inletID = VectorGraphicsTagHelper.GetInletID(e.Element.Tag);
 
-            InletViewModel inletViewModel = ViewModel.Entity.OperatorDictionary.Values.SelectMany(x => x.Inlets)
-                                                                               .Where(x => x.ID == inletID)
-                                                                               .Single();
+            InletViewModel inletViewModel = ViewModel.Entity.OperatorDictionary.Values
+                                                                               .SelectMany(x => x.Inlets)
+                                                                               .Single(x => x.ID == inletID);
             e.ToolTipText = inletViewModel.Caption;
         }
 
@@ -214,8 +221,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int id = VectorGraphicsTagHelper.GetOutletID(e.Element.Tag);
 
             OutletViewModel outletViewModel = ViewModel.Entity.OperatorDictionary.Values.SelectMany(x => x.Outlets)
-                                                                                        .Where(x => x.ID == id)
-                                                                                        .Single();
+                                                                                        .Single(x => x.ID == id);
             e.ToolTipText = outletViewModel.Caption;
         }
 

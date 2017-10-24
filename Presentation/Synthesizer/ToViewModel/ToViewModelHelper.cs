@@ -146,7 +146,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
                 CurrentInstrument = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
-                ValidationMessages = new List<string>()
+                ValidationMessages = new List<string>(),
+                Successful = true
             };
 
             return viewModel;
@@ -303,24 +304,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         // UsedIn
-
-        public static string FormatUsedInDto(UsedInDto<Curve> dto)
-        {
-            if (dto == null) throw new NullException(() => dto);
-
-            var sb = new StringBuilder();
-
-            sb.Append(dto.Entity.Name);
-
-            // ReSharper disable once InvertIf
-            if (dto.UsedInIDAndNames.Count > 0)
-            {
-                string formattedUsedInList = FormatUsedInList(dto.UsedInIDAndNames);
-                sb.AppendFormat(" ({0}: {1})", ResourceFormatter.UsedIn, formattedUsedInList);
-            }
-
-            return sb.ToString();
-        }
 
         public static string FormatUsedInList(IList<IDAndName> idAndNames)
         {

@@ -70,7 +70,7 @@
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
-            this.titleBarUserControl.OpenButtonVisible = false;
+            this.titleBarUserControl.ExpandButtonVisible = false;
             this.titleBarUserControl.PlayButtonVisible = false;
             this.titleBarUserControl.RefreshButtonVisible = false;
             this.titleBarUserControl.RemoveButtonVisible = true;

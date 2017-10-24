@@ -32,7 +32,7 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonAddToInstrument = new System.Windows.Forms.Button();
             this.buttonNew = new System.Windows.Forms.Button();
-            this.buttonOpen = new System.Windows.Forms.Button();
+            this.buttonExpand = new System.Windows.Forms.Button();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -76,18 +76,18 @@
             this.buttonNew.UseVisualStyleBackColor = true;
             this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
             // 
-            // buttonOpen
+            // buttonExpand
             // 
-            this.buttonOpen.FlatAppearance.BorderSize = 0;
-            this.buttonOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonOpen.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIcon;
-            this.buttonOpen.Location = new System.Drawing.Point(205, 8);
-            this.buttonOpen.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(21, 23);
-            this.buttonOpen.TabIndex = 19;
-            this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            this.buttonExpand.FlatAppearance.BorderSize = 0;
+            this.buttonExpand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonExpand.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIcon;
+            this.buttonExpand.Location = new System.Drawing.Point(205, 8);
+            this.buttonExpand.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonExpand.Name = "buttonExpand";
+            this.buttonExpand.Size = new System.Drawing.Size(21, 23);
+            this.buttonExpand.TabIndex = 19;
+            this.buttonExpand.UseVisualStyleBackColor = true;
+            this.buttonExpand.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
             // buttonRefresh
             // 
@@ -172,7 +172,7 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.buttonAddToInstrument);
             this.Controls.Add(this.buttonNew);
-            this.Controls.Add(this.buttonOpen);
+            this.Controls.Add(this.buttonExpand);
             this.Controls.Add(this.buttonRefresh);
             this.Controls.Add(this.buttonPlay);
             this.Controls.Add(this.buttonSave);
@@ -195,7 +195,7 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonPlay;
         private System.Windows.Forms.Button buttonRefresh;
-        private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.Button buttonExpand;
         private System.Windows.Forms.Button buttonNew;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button buttonAddToInstrument;

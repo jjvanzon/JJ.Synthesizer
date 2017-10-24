@@ -38,10 +38,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             remove => buttonBarUserControl.NewClicked -= value;
         }
 
-        public event EventHandler OpenClicked
+        public event EventHandler ExpandClicked
         {
-            add => buttonBarUserControl.OpenClicked += value;
-            remove => buttonBarUserControl.OpenClicked -= value;
+            add => buttonBarUserControl.ExpandClicked += value;
+            remove => buttonBarUserControl.ExpandClicked -= value;
         }
 
         public event EventHandler PlayClicked
@@ -126,12 +126,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
-        public bool OpenButtonVisible
+        public bool ExpandButtonVisible
         {
-            get => buttonBarUserControl.OpenButtonVisible;
+            get => buttonBarUserControl.ExpandButtonVisible;
             set
             {
-                buttonBarUserControl.OpenButtonVisible = value;
+                buttonBarUserControl.ExpandButtonVisible = value;
                 PositionControls();
             }
         }

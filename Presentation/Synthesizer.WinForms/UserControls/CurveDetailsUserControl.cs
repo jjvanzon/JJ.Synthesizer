@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<MoveNodeEventArgs> NodeMoved;
         public event EventHandler<NodeEventArgs> SelectNodeRequested;
         public event EventHandler<EventArgs<int>> ShowNodePropertiesRequested;
+        public event EventHandler<EventArgs<int>> ExpandCurveRequested;
 
         /// <summary> Only create after SetCurveManager is called. </summary>
         private CurveDetailsViewModelToDiagramConverter _converter;
@@ -61,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converter.Result.SelectNodeGesture.SelectNodeRequested += SelectNodeGesture_NodeSelected;
             _converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
             _converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
-            //_converter.Result.DoubleClickBackgroundGesture.DoubleClick += ...;
+            _converter.Result.DoubleClickBackgroundGesture.DoubleClick += DoubleClickBackgroundGesture_DoubleClick;
             _converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
             _converter.Result.ShowNodePropertiesMouseGesture.ShowNodePropertiesRequested += ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested;
             _converter.Result.ShowNodePropertiesKeyboardGesture.ShowNodePropertiesRequested += ShowNodePropertiesKeyboardGesture_ShowNodePropertiesRequested;
@@ -128,6 +129,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         }
 
+        // ReSharper disable once RedundantNameQualifier
         private void Diagram_KeyDown(object sender, JJ.Framework.Presentation.VectorGraphics.EventArg.KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -149,7 +151,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int nodeID = (int)e.Element.Tag;
 
-            SelectNodeRequested?.Invoke(this, new NodeEventArgs(ViewModel.Curve.ID, nodeID));
+            // ReSharper disable once PossibleNullReferenceException
+            SelectNodeRequested(this, new NodeEventArgs(ViewModel.Curve.ID, nodeID));
 
             _converter.Result.ShowNodePropertiesKeyboardGesture.SelectedNodeID = nodeID;
         }
@@ -169,6 +172,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             var e2 = new MoveNodeEventArgs(ViewModel.Curve.ID, nodeID, x, y);
 
+            // ReSharper disable once PossibleNullReferenceException
             NodeMoving(this, e2);
 
             ApplyViewModelToControls();
@@ -195,6 +199,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             var e2 = new MoveNodeEventArgs(ViewModel.Curve.ID, nodeID, x, y);
 
+            // ReSharper disable once PossibleNullReferenceException
             NodeMoved(this, e2);
 
             ApplyViewModelToControls();
@@ -205,20 +210,30 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converter.Result.NodeToolTipGesture.SetToolTipText(nodeViewModel.Caption);
         }
 
+        private void DoubleClickBackgroundGesture_DoubleClick(object sender, EventArgs e)
+        {
+            if (ViewModel == null) return;
+            // ReSharper disable once PossibleNullReferenceException
+            ExpandCurveRequested(sender, new EventArgs<int>(ViewModel.Curve.ID));
+        }
+
         private void ChangeNodeTypeGesture_ChangeNodeTypeRequested(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
-            ChangeSelectedNodeTypeRequested?.Invoke(this, new EventArgs<int>(ViewModel.Curve.ID));
+            // ReSharper disable once PossibleNullReferenceException
+            ChangeSelectedNodeTypeRequested(this, new EventArgs<int>(ViewModel.Curve.ID));
         }
 
         private void ShowNodePropertiesMouseGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
         {
-            ShowNodePropertiesRequested?.Invoke(this, new EventArgs<int>(e.ID));
+            // ReSharper disable once PossibleNullReferenceException
+            ShowNodePropertiesRequested(this, new EventArgs<int>(e.ID));
         }
 
         private void ShowNodePropertiesKeyboardGesture_ShowNodePropertiesRequested(object sender, IDEventArgs e)
         {
-            ShowNodePropertiesRequested?.Invoke(this, new EventArgs<int>(e.ID));
+            // ReSharper disable once PossibleNullReferenceException
+            ShowNodePropertiesRequested(this, new EventArgs<int>(e.ID));
         }
 
         // TODO: This logic should be in the presenter.
@@ -236,7 +251,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void CreateNode()
         {
             if (ViewModel == null) return;
-            CreateNodeRequested?.Invoke(this, new EventArgs<int>(ViewModel.Curve.ID));
+            // ReSharper disable once PossibleNullReferenceException
+            CreateNodeRequested(this, new EventArgs<int>(ViewModel.Curve.ID));
         }
 
         private void AssertConverter()

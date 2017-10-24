@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.AddButtonVisible = ViewModel.CanAdd;
             titleBarUserControl.AddToInstrumentButtonVisible = ViewModel.CanAddToInstrument;
             titleBarUserControl.NewButtonVisible = ViewModel.CanCreateNew;
-            titleBarUserControl.OpenButtonVisible = ViewModel.CanOpenExternally;
+            titleBarUserControl.ExpandButtonVisible = ViewModel.CanOpenExternally;
             titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
             titleBarUserControl.RemoveButtonVisible = ViewModel.CanRemove;
 

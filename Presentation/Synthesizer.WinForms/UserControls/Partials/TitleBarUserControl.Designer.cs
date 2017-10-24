@@ -52,7 +52,7 @@
             this.buttonBarUserControl.Location = new System.Drawing.Point(313, 0);
             this.buttonBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.buttonBarUserControl.Name = "buttonBarUserControl";
-            this.buttonBarUserControl.OpenButtonVisible = false;
+            this.buttonBarUserControl.ExpandButtonVisible = false;
             this.buttonBarUserControl.PlayButtonVisible = false;
             this.buttonBarUserControl.RefreshButtonVisible = false;
             this.buttonBarUserControl.RemoveButtonVisible = false;

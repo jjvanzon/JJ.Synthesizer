@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
             this.titleBarUserControl.NewButtonVisible = true;
-            this.titleBarUserControl.OpenButtonVisible = false;
+            this.titleBarUserControl.ExpandButtonVisible = false;
             this.titleBarUserControl.PlayButtonVisible = true;
             this.titleBarUserControl.RefreshButtonVisible = true;
             this.titleBarUserControl.RemoveButtonVisible = false;
@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.titleBarUserControl_AddToInstrumentClicked);
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             this.titleBarUserControl.NewClicked += new System.EventHandler(this.titleBarUserControl_NewClicked);
-            this.titleBarUserControl.OpenClicked += new System.EventHandler(this.titleBarUserControl_OpenClicked);
+            this.titleBarUserControl.ExpandClicked += new System.EventHandler(this.titleBarUserControl_OpenClicked);
             this.titleBarUserControl.PlayClicked += new System.EventHandler(this.titleBarUserControl_PlayClicked);
             this.titleBarUserControl.RefreshClicked += new System.EventHandler(this.titleBarUserControl_RefreshClicked);
             this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);

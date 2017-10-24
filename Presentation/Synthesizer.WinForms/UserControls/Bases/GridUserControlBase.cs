@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
             titleBarUserControl.AddClicked += _titleBarUserControl_AddClicked;
             titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
-            titleBarUserControl.OpenClicked += _titleBarUserControl_OpenClicked;
+            titleBarUserControl.ExpandClicked += _titleBarUserControl_OpenClicked;
             titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
             titleBarUserControl.RemoveClicked += _titleBarUserControl_RemoveClicked;
 
@@ -147,8 +147,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         protected bool OpenItemExternallyButtonVisible
         {
-            get => _titleBarUserControl.OpenButtonVisible;
-            set => _titleBarUserControl.OpenButtonVisible = value;
+            get => _titleBarUserControl.ExpandButtonVisible;
+            set => _titleBarUserControl.ExpandButtonVisible = value;
         }
 
         protected bool PlayButtonVisible

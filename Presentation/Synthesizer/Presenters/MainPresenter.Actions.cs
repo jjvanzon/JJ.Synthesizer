@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
@@ -19,7 +20,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Helpers;
 // ReSharper disable InvertIf
 // ReSharper disable RedundantCaseLabel
 
@@ -593,6 +593,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteWriteAction(userInput, () => _curveDetailsPresenter.LoseFocus(userInput));
         }
 
+        public void CurveDetailsExpand(int curveID)
+        {
+            // Redirect
+            CurveShow(curveID);
+        }
+
         // Document Grid
 
         public void DocumentCannotDeleteOK()
@@ -1055,9 +1061,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AddToInstrument(patchID);
         }
 
-        public void DocumentTreeClose() => NonPersistedDocumentTreeActionTemplate(_documentTreePresenter.Close);
+        public void DocumentTreeClose() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Close);
 
-        public void DocumentTreeHoverPatch(int id) => NonPersistedDocumentTreeActionTemplate(x => _documentTreePresenter.HoverPatch(x, id));
+        public void DocumentTreeHoverPatch(int id)
+        {
+            // GetViewModel
+            DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
+
+            // TemplateMethod
+            ExecuteReadAction(viewModel, () => _documentTreePresenter.HoverPatch(viewModel, id));
+        }
 
         public void DocumentTreeNew()
         {
@@ -1290,47 +1303,50 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void DocumentTreeSelectAudioFileOutputs() => NonPersistedDocumentTreeActionTemplate(_documentTreePresenter.SelectAudioFileOutputs);
+        public void DocumentTreeSelectAudioFileOutputs() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioFileOutputs);
 
-        public void DocumentTreeSelectAudioOutput() => NonPersistedDocumentTreeActionTemplate(_documentTreePresenter.SelectAudioOutput);
+        public void DocumentTreeSelectAudioOutput() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioOutput);
 
-        public void DocumentTreeSelectLibraries() => NonPersistedDocumentTreeActionTemplate(_documentTreePresenter.SelectLibraries);
+        public void DocumentTreeSelectLibraries() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectLibraries);
 
-        public void DocumentTreeSelectLibrary(int id) => NonPersistedDocumentTreeActionTemplate(x => _documentTreePresenter.SelectLibrary(x, id));
+        public void DocumentTreeSelectLibrary(int id) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibrary(x, id));
 
         public void DocumentTreeSelectLibraryPatch(int id)
         {
-            NonPersistedDocumentTreeActionTemplate(x => _documentTreePresenter.SelectLibraryPatch(x, id));
+            ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatch(x, id));
         }
 
         public void DocumentTreeSelectLibraryPatchGroup(int lowerDocumentReferenceID, string patchGroup)
         {
-            NonPersistedDocumentTreeActionTemplate(x => _documentTreePresenter.SelectLibraryPatchGroup(x, lowerDocumentReferenceID, patchGroup));
+            ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatchGroup(x, lowerDocumentReferenceID, patchGroup));
         }
 
-        public void DocumentTreeSelectScales() => NonPersistedDocumentTreeActionTemplate(_documentTreePresenter.SelectScales);
+        public void DocumentTreeSelectScales() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectScales);
 
-        public void DocumentTreeSelectPatch(int id) => NonPersistedDocumentTreeActionTemplate(x => _documentTreePresenter.SelectPatch(x, id));
+        public void DocumentTreeSelectPatch(int id) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatch(x, id));
 
         public void DocumentTreeSelectPatchGroup(string group)
         {
-            NonPersistedDocumentTreeActionTemplate(x => _documentTreePresenter.SelectPatchGroup(x, group));
+            ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatchGroup(x, group));
         }
 
-        public void DocumentTreeShow() => NonPersistedDocumentTreeActionTemplate(_documentTreePresenter.Show);
+        public void DocumentTreeShow() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Show);
 
         /// <summary>
-        /// On top of the regular ReadOnlyActionTemplateMethod,
-        /// will set CanCreateNew, which cannot be determined by entities or DocumentTreewieWModel alone.
+        /// On top of the regular ExecuteNonPersistedAction,
+        /// will set CanCreateNew, which cannot be determined by entities or DocumentTreeViewModel alone.
         /// </summary>
-        private void NonPersistedDocumentTreeActionTemplate(Action<DocumentTreeViewModel> partialAction)
+        private void ExecuteNonPersistedDocumentTreeAction(Action<DocumentTreeViewModel> partialAction)
         {
             // GetViewModel
             DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
 
-            // Template Method
+            // Action
+            ExecuteNonPersistedAction(viewModel, () =>
+            {
                 partialAction(viewModel);
                 SetCanCreateNew(viewModel);
+            });
         }
 
         private void SetCanCreateNew(DocumentTreeViewModel viewModel)
@@ -1951,6 +1967,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void OperatorPropertiesExpand(int id)
+        {
+            // Redirect
+            OperatorExpand(id);
+        }
+
         public void OperatorPropertiesLoseFocus(int id)
         {
             // GetViewModel
@@ -2216,7 +2238,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteReadAction(userInput, () => _patchDetailsPresenter.SelectOperator(userInput, operatorID));
         }
 
-        public void OperatorExpand(int patchID, int operatorID)
+        public void OperatorExpand(int operatorID)
         {
             ExecuteReadAction(null, () =>
             {
@@ -2231,7 +2253,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
                 else
                 {
+                    int patchID = op.Patch.ID;
                     OperatorPropertiesShow(operatorID);
+                    PatchDetailsShow(patchID);
+                    OperatorSelect(patchID, operatorID);
                 }
             });
         }

@@ -4,8 +4,6 @@ using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
@@ -222,19 +220,6 @@ namespace JJ.Business.Synthesizer
                 new HashSet<object>());
 
             return warningsValidator.ToResult();
-        }
-
-        public IList<UsedInDto<Patch>> GetUsedIn(IList<Patch> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<UsedInDto<Patch>> dtos = entities.Select(x => new UsedInDto<Patch>
-                                                   {
-                                                       Entity = x,
-                                                       UsedInIDAndNames = GetUsedIn(x)
-                                                   })
-                                                   .ToArray();
-            return dtos;
         }
 
         public IList<IDAndName> GetUsedIn(Patch patch)

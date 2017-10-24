@@ -28,6 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             Name = GetType().Name;
 
             PlayButtonVisible = true;
+            ExpandButtonVisible = true;
 
             _labelUnderlyingPatch = CreateLabelUnderlyingPatch();
             _comboBoxUnderlyingPatch = CreateComboBoxUnderlyingPatch();

@@ -203,7 +203,6 @@
             this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.patchDetailsUserControl.Name = "patchDetailsUserControl";
-            this.patchDetailsUserControl.OpenExternallyButtonVisible = false;
             this.patchDetailsUserControl.PlayButtonVisible = true;
             this.patchDetailsUserControl.RefreshButtonVisible = false;
             this.patchDetailsUserControl.RemoveButtonVisible = true;
@@ -226,7 +225,7 @@
             this.libraryPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.libraryPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.libraryPropertiesUserControl.Name = "libraryPropertiesUserControl";
-            this.libraryPropertiesUserControl.OpenExternallyButtonVisible = true;
+            this.libraryPropertiesUserControl.ExpandButtonVisible = true;
             this.libraryPropertiesUserControl.PlayButtonVisible = true;
             this.libraryPropertiesUserControl.RefreshButtonVisible = false;
             this.libraryPropertiesUserControl.RemoveButtonVisible = true;
@@ -249,7 +248,6 @@
             this.operatorPropertiesUserControl_ForNumber.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForNumber.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
-            this.operatorPropertiesUserControl_ForNumber.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForNumber.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForNumber.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl_ForNumber.RemoveButtonVisible = true;
@@ -272,7 +270,6 @@
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_WithCollectionRecalculation.Name = "operatorPropertiesUserControl_WithCollectionRecalculation";
-            this.operatorPropertiesUserControl_WithCollectionRecalculation.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl_WithCollectionRecalculation.RemoveButtonVisible = true;
@@ -295,7 +292,6 @@
             this.operatorPropertiesUserControl_ForInletsToDimension.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForInletsToDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_ForInletsToDimension.Name = "operatorPropertiesUserControl_ForInletsToDimension";
-            this.operatorPropertiesUserControl_ForInletsToDimension.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForInletsToDimension.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForInletsToDimension.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl_ForInletsToDimension.RemoveButtonVisible = true;
@@ -317,7 +313,6 @@
             this.audioOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
-            this.audioOutputPropertiesUserControl.OpenExternallyButtonVisible = false;
             this.audioOutputPropertiesUserControl.PlayButtonVisible = true;
             this.audioOutputPropertiesUserControl.RefreshButtonVisible = false;
             this.audioOutputPropertiesUserControl.RemoveButtonVisible = false;
@@ -340,7 +335,6 @@
             this.operatorPropertiesUserControl_ForCache.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCache.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl_ForCache.Name = "operatorPropertiesUserControl_ForCache";
-            this.operatorPropertiesUserControl_ForCache.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForCache.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForCache.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl_ForCache.RemoveButtonVisible = true;
@@ -363,7 +357,6 @@
             this.operatorPropertiesUserControl_WithInterpolation.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_WithInterpolation.Margin = new System.Windows.Forms.Padding(4);
             this.operatorPropertiesUserControl_WithInterpolation.Name = "operatorPropertiesUserControl_WithInterpolation";
-            this.operatorPropertiesUserControl_WithInterpolation.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_WithInterpolation.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_WithInterpolation.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl_WithInterpolation.RemoveButtonVisible = true;
@@ -386,7 +379,6 @@
             this.nodePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.nodePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
-            this.nodePropertiesUserControl.OpenExternallyButtonVisible = false;
             this.nodePropertiesUserControl.PlayButtonVisible = false;
             this.nodePropertiesUserControl.RefreshButtonVisible = false;
             this.nodePropertiesUserControl.RemoveButtonVisible = true;
@@ -409,7 +401,6 @@
             this.operatorPropertiesUserControl_ForCurve.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCurve.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
-            this.operatorPropertiesUserControl_ForCurve.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForCurve.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForCurve.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl_ForCurve.RemoveButtonVisible = true;
@@ -432,7 +423,6 @@
             this.scalePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.scalePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
-            this.scalePropertiesUserControl.OpenExternallyButtonVisible = false;
             this.scalePropertiesUserControl.PlayButtonVisible = false;
             this.scalePropertiesUserControl.RefreshButtonVisible = false;
             this.scalePropertiesUserControl.RemoveButtonVisible = true;
@@ -455,7 +445,6 @@
             this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
-            this.operatorPropertiesUserControl_ForPatchInlet.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchInlet.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchInlet.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchInlet.RemoveButtonVisible = true;
@@ -478,7 +467,6 @@
             this.documentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
-            this.documentPropertiesUserControl.OpenExternallyButtonVisible = false;
             this.documentPropertiesUserControl.PlayButtonVisible = true;
             this.documentPropertiesUserControl.RefreshButtonVisible = false;
             this.documentPropertiesUserControl.RemoveButtonVisible = false;
@@ -501,7 +489,6 @@
             this.operatorPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.operatorPropertiesUserControl.Name = "operatorPropertiesUserControl";
-            this.operatorPropertiesUserControl.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl.PlayButtonVisible = true;
             this.operatorPropertiesUserControl.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl.RemoveButtonVisible = true;
@@ -524,7 +511,6 @@
             this.patchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
             this.patchPropertiesUserControl.Name = "patchPropertiesUserControl";
-            this.patchPropertiesUserControl.OpenExternallyButtonVisible = false;
             this.patchPropertiesUserControl.PlayButtonVisible = true;
             this.patchPropertiesUserControl.RefreshButtonVisible = false;
             this.patchPropertiesUserControl.RemoveButtonVisible = true;
@@ -547,7 +533,6 @@
             this.audioFileOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioFileOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
-            this.audioFileOutputPropertiesUserControl.OpenExternallyButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.PlayButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.RefreshButtonVisible = false;
             this.audioFileOutputPropertiesUserControl.RemoveButtonVisible = true;
@@ -570,7 +555,6 @@
             this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
-            this.operatorPropertiesUserControl_ForSample.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForSample.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForSample.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl_ForSample.RemoveButtonVisible = true;
@@ -593,7 +577,6 @@
             this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(5);
             this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
-            this.operatorPropertiesUserControl_ForPatchOutlet.OpenExternallyButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchOutlet.PlayButtonVisible = true;
             this.operatorPropertiesUserControl_ForPatchOutlet.RefreshButtonVisible = false;
             this.operatorPropertiesUserControl_ForPatchOutlet.RemoveButtonVisible = true;

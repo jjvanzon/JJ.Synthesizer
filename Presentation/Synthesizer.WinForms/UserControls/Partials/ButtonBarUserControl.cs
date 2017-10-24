@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler AddToInstrumentClicked;
         public event EventHandler CloseClicked;
         public event EventHandler NewClicked;
-        public event EventHandler OpenClicked;
+        public event EventHandler ExpandClicked;
         public event EventHandler PlayClicked;
         public event EventHandler RefreshClicked;
         public event EventHandler RemoveClicked;
@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             buttonAddToInstrument.Visible = _addToInstrumentButtonVisible;
             buttonClose.Visible = _closeButtonVisible;
             buttonNew.Visible = _newButtonVisible;
-            buttonOpen.Visible = _openButtonVisible;
+            buttonExpand.Visible = _expandButtonVisible;
             buttonPlay.Visible = _playButtonVisible;
             buttonRefresh.Visible = _refreshButtonVisible;
             buttonRemove.Visible = _removeButtonVisible;
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             toolTip.SetToolTip(buttonAddToInstrument, ResourceFormatter.AddToInstrument);
             toolTip.SetToolTip(buttonClose, CommonResourceFormatter.Close);
             toolTip.SetToolTip(buttonNew, CommonResourceFormatter.New);
-            toolTip.SetToolTip(buttonOpen, CommonResourceFormatter.Open);
+            toolTip.SetToolTip(buttonExpand, CommonResourceFormatter.Open);
             toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
             toolTip.SetToolTip(buttonRefresh, CommonResourceFormatter.Refresh);
             toolTip.SetToolTip(buttonRemove, CommonResourceFormatter.Remove);
@@ -106,14 +106,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         }
 
         /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
-        private bool _openButtonVisible;
-        public bool OpenButtonVisible
+        private bool _expandButtonVisible;
+        public bool ExpandButtonVisible
         {
-            get => _openButtonVisible;
+            get => _expandButtonVisible;
             set
             {
-                _openButtonVisible = value;
-                buttonOpen.Visible = _openButtonVisible;
+                _expandButtonVisible = value;
+                buttonExpand.Visible = _expandButtonVisible;
                 PositionControls();
             }
         }
@@ -193,7 +193,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 (buttonRemove, RemoveButtonVisible),
                 (buttonAdd, AddButtonVisible),
                 (buttonNew, NewButtonVisible),
-                (buttonOpen, OpenButtonVisible),
+                (buttonExpand, ExpandButtonVisible),
                 (buttonRefresh, RefreshButtonVisible),
                 (buttonSave, SaveButtonVisible),
                 (buttonAddToInstrument, AddToInstrumentButtonVisible),
@@ -220,7 +220,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         private void buttonAddToInstrument_Click(object sender, EventArgs e) => AddToInstrumentClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonClose_Click(object sender, EventArgs e) => CloseClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonNew_Click(object sender, EventArgs e) => NewClicked?.Invoke(sender, EventArgs.Empty);
-        private void buttonOpen_Click(object sender, EventArgs e) => OpenClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonOpen_Click(object sender, EventArgs e) => ExpandClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonPlay_Click(object sender, EventArgs e) => PlayClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonRefresh_Click(object sender, EventArgs e) => RefreshClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonRemove_Click(object sender, EventArgs e) => RemoveClicked?.Invoke(sender, EventArgs.Empty);
@@ -235,7 +235,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             if (_addToInstrumentButtonVisible) count++;
             if (_closeButtonVisible) count++;
             if (_newButtonVisible) count++;
-            if (_openButtonVisible) count++;
+            if (_expandButtonVisible) count++;
             if (_playButtonVisible) count++;
             if (_refreshButtonVisible) count++;
             if (_removeButtonVisible) count++;

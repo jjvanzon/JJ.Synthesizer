@@ -29,7 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
             curveDetailsListUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsListUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
-            curveDetailsListUserControl.DeleteRequested += curveDetailsUserControl_DeleteSelectedNodeRequested;
+            curveDetailsListUserControl.DeleteSelectedNodeRequested += curveDetailsUserControl_DeleteSelectedNodeRequested;
+            curveDetailsListUserControl.ExpandCurveRequested += curveDetailsListUserControl_ExpandCurveRequested;
             curveDetailsListUserControl.LoseFocusRequested += curveDetailsUserControl_LoseFocusRequested;
             curveDetailsListUserControl.NodeMoving += curveDetailsUserControl_NodeMoving;
             curveDetailsListUserControl.NodeMoved += curveDetailsUserControl_NodeMoved;
@@ -73,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
-            libraryPropertiesUserControl.OpenExternallyRequested += libraryPropertiesUserControl_OpenExternallyRequested;
+            libraryPropertiesUserControl.ExpandRequested += libraryPropertiesUserControl_ExpandRequested;
             libraryPropertiesUserControl.RemoveRequested += libraryPropertiesUserControl_RemoveRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.ShowCurrentInstrumentRequested += menuUserControl_ShowCurrentInstrumentRequested;
@@ -84,42 +85,52 @@ namespace JJ.Presentation.Synthesizer.WinForms
             nodePropertiesUserControl.LoseFocusRequested += nodePropertiesUserControl_LoseFocusRequested;
             nodePropertiesUserControl.RemoveRequested += nodePropertiesUserControl_RemoveRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
+            operatorPropertiesUserControl.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
             operatorPropertiesUserControl.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_ForCache.CloseRequested += operatorPropertiesUserControl_ForCache_CloseRequested;
+            operatorPropertiesUserControl_ForCache.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl_ForCache.LoseFocusRequested += operatorPropertiesUserControl_ForCache_LoseFocusRequested;
             operatorPropertiesUserControl_ForCache.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_ForCache.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_ForCurve.CloseRequested += operatorPropertiesUserControl_ForCurve_CloseRequested;
+            operatorPropertiesUserControl_ForCurve.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl_ForCurve.LoseFocusRequested += operatorPropertiesUserControl_ForCurve_LoseFocusRequested;
             operatorPropertiesUserControl_ForCurve.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_ForCurve.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_ForInletsToDimension.CloseRequested += operatorPropertiesUserControl_ForInletsToDimension_CloseRequested;
+            operatorPropertiesUserControl_ForInletsToDimension.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl_ForInletsToDimension.LoseFocusRequested += operatorPropertiesUserControl_ForInletsToDimension_LoseFocusRequested;
             operatorPropertiesUserControl_ForInletsToDimension.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_ForInletsToDimension.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_ForNumber.CloseRequested += operatorPropertiesUserControl_ForNumber_CloseRequested;
+            operatorPropertiesUserControl_ForNumber.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl_ForNumber.LoseFocusRequested += operatorPropertiesUserControl_ForNumber_LoseFocusRequested;
             operatorPropertiesUserControl_ForNumber.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_ForNumber.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_ForPatchInlet.CloseRequested += operatorPropertiesUserControl_ForPatchInlet_CloseRequested;
+            operatorPropertiesUserControl_ForPatchInlet.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl_ForPatchInlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForPatchInlet.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_ForPatchInlet.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_ForPatchOutlet.CloseRequested += operatorPropertiesUserControl_ForPatchOutlet_CloseRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForPatchOutlet.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_ForPatchOutlet.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
+            operatorPropertiesUserControl_ForSample.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
             operatorPropertiesUserControl_ForSample.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_ForSample.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_WithInterpolation.CloseRequested += operatorPropertiesUserControl_WithInterpolation_CloseRequested;
+            operatorPropertiesUserControl_WithInterpolation.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl_WithInterpolation.LoseFocusRequested += operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested;
             operatorPropertiesUserControl_WithInterpolation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_WithInterpolation.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.CloseRequested += operatorPropertiesUserControl_WithCollectionRecalculation_CloseRequested;
+            operatorPropertiesUserControl_WithCollectionRecalculation.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.LoseFocusRequested += operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.RemoveRequested += operatorPropertiesUserControlBase_RemoveRequested;
@@ -344,6 +355,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     _presenter.NodeDeleteSelected(e.Value);
                     RecreatePatchCalculatorIfSuccessful();
                 });
+        }
+
+
+        private void curveDetailsListUserControl_ExpandCurveRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.CurveDetailsExpand(e.Value));
         }
 
         private void curveDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -589,7 +606,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void libraryPropertiesUserControl_OpenExternallyRequested(object sender, EventArgs<int> e)
+        private void libraryPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(
                 () =>
@@ -703,6 +720,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     _presenter.OperatorPropertiesDelete(e.Value);
                     RecreatePatchCalculatorIfSuccessful();
                 });
+        }
+
+        private void operatorPropertiesUserControlBase_ExpandRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.OperatorPropertiesExpand(e.Value));
         }
 
         private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
@@ -976,9 +998,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _presenter.OperatorSelect(e.PatchID, e.OperatorID));
         }
 
-        private void patchDetailsUserControl_ExpandOperatorRequested(object sender, PatchAndOperatorEventArgs e)
+        private void patchDetailsUserControl_ExpandOperatorRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.OperatorExpand(e.PatchID, e.OperatorID));
+            TemplateActionHandler(() => _presenter.OperatorExpand(e.Value));
         }
 
         private void patchDetailsUserControl_ShowPatchPropertiesRequested(object sender, EventArgs<int> e)
