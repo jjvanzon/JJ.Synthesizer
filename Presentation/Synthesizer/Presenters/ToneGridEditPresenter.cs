@@ -1,14 +1,14 @@
-﻿using System;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Validation;
-using JJ.Presentation.Synthesizer.Validators;
+﻿using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.Validators;
+using JJ.Presentation.Synthesizer.ViewModels;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -23,10 +23,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _scaleManager = scaleManager ?? throw new ArgumentNullException(nameof(scaleManager));
         }
 
-        public void Show(ToneGridEditViewModel viewModel)
-        {
-            ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
-        }
+        public void Show(ToneGridEditViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
         public ToneGridEditViewModel Refresh(ToneGridEditViewModel userInput)
         {
@@ -65,19 +62,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public ToneGridEditViewModel LoseFocus(ToneGridEditViewModel userInput)
-        {
-            ToneGridEditViewModel viewModel = Update(userInput);
-            return viewModel;
-        }
+        public ToneGridEditViewModel LoseFocus(ToneGridEditViewModel userInput) => Update(userInput);
 
-        public ToneGridEditViewModel Edit(ToneGridEditViewModel userInput)
-        {
-            // Refreshing upon edit is required to update the Frequency values.
-            ToneGridEditViewModel viewModel = Refresh(userInput);
-
-            return viewModel;
-        }
+        // Refreshing upon edit is required to update the Frequency values.
+        public ToneGridEditViewModel Edit(ToneGridEditViewModel userInput) => Refresh(userInput);
 
         private ToneGridEditViewModel Update(ToneGridEditViewModel userInput)
         {

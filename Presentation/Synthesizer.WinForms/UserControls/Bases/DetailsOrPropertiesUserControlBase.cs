@@ -1,11 +1,11 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-using JJ.Framework.Presentation.WinForms.Extensions;
+﻿using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
@@ -143,6 +143,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             set => _titleBarUserControl.TitleLabelVisible = value;
         }
 
+        public int TitleBarHeight => _titleBarUserControl.Height;
+
         protected virtual void PositionControls()
         {
             if (TitleLabelVisible)
@@ -161,7 +163,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         // Binding
 
         /// <summary> does nothing </summary>
-        protected virtual int GetID() => default(int);
+        protected virtual int GetID() => default;
 
         /// <summary> does nothing </summary>
         protected virtual void ApplyControlsToViewModel()

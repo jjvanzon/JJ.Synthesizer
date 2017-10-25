@@ -1,19 +1,19 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Forms;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Configuration;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -40,6 +40,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         // Gui
 
         protected override void SetTitles() => TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Patch);
+
+        protected override void PositionControls()
+        {
+            base.PositionControls();
+
+            diagramControl.Left = 0;
+            diagramControl.Top = TitleBarHeight + 1;
+            diagramControl.Width = Width;
+            diagramControl.Height = Height - TitleBarHeight;
+        }
 
         // Binding
 
@@ -72,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             BindVectorGraphicsEvents();
 
-            diagramControl1.Diagram = _converterResult.Diagram;
+            diagramControl.Diagram = _converterResult.Diagram;
         }
 
         private void BindVectorGraphicsEvents()
