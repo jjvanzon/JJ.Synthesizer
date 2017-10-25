@@ -13,7 +13,8 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurrentInstrumentPresenter : DetailsOrPropertiesPresenterBase<(Document document, IList<Patch> patches), CurrentInstrumentViewModel>
+    internal class CurrentInstrumentPresenter 
+        : EntityReadPresenterBase<(Document document, IList<Patch> patches), CurrentInstrumentViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly IPatchRepository _patchRepository;

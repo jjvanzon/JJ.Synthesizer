@@ -1,15 +1,15 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchPropertiesPresenter : DetailsOrPropertiesPresenterBase<Patch, PatchPropertiesViewModel>
+    internal class PatchPropertiesPresenter : EntityWritePresenterBase<Patch, PatchPropertiesViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly PatchManager _patchManager;

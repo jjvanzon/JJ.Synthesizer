@@ -1,15 +1,15 @@
-﻿using System;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ScalePropertiesPresenter : DetailsOrPropertiesPresenterBase<Scale, ScalePropertiesViewModel>
+    internal class ScalePropertiesPresenter : EntityWritePresenterBase<Scale, ScalePropertiesViewModel>
     {
         private readonly IScaleRepository _scaleRepository;
         private readonly ScaleManager _scaleManager;

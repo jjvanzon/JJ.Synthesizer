@@ -6,39 +6,16 @@ using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
-    internal abstract class DetailsOrPropertiesPresenterBase<TEntity, TViewModel> : PresenterBase<TViewModel>
+    internal abstract class EntityPresenterBase<TEntity, TViewModel> : PresenterBase<TViewModel>
         where TViewModel : ViewModelBase
     {
         protected abstract TEntity GetEntity(TViewModel userInput);
 
         protected abstract TViewModel ToViewModel(TEntity entity);
 
-        /// <summary> Base does nothing. Not mandatory to override for read-only views. </summary>
-        protected virtual IResult Save(TEntity entity) => null;
-        
-        /// <summary> Base delegates to Save, whose base method does nothing. </summary>
-        protected virtual IResult SaveWithUserInput(TEntity entity, TViewModel userInput) => Save(entity);
-
         public void Show(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
-        public TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput);
-
-        public TViewModel LoseFocus(TViewModel userInput)
-        {
-            return ExecuteAction(userInput, entity => SaveWithUserInput(entity, userInput));
-        }
-
-        public TViewModel Close(TViewModel userInput)
-        {
-            return ExecuteAction(
-                userInput,
-                entity => SaveWithUserInput(entity, userInput),
-                viewModel =>
-                {
-                    if (viewModel.Successful) viewModel.Visible = false;
-                }
-            );
-        }
+        public TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput, x => { });
 
         /// <summary>
         /// Manages the RefreshCounter, basics around the Successful flag,

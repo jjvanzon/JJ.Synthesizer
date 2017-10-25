@@ -1,16 +1,16 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class AudioOutputPropertiesPresenter 
-        : DetailsOrPropertiesPresenterBase<AudioOutput, AudioOutputPropertiesViewModel>
+        : EntityWritePresenterBase<AudioOutput, AudioOutputPropertiesViewModel>
     {
         private readonly IAudioOutputRepository _audioOutputRepository;
         private readonly AudioOutputManager _audioOutputManager;

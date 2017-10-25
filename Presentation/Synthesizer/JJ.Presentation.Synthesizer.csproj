@@ -52,9 +52,10 @@
     <Compile Include="Helpers\ToPatchWithRelatedEntitiesResult.cs" />
     <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />
     <Compile Include="Presenters\AudioOutputPropertiesPresenter.cs" />
+    <Compile Include="Presenters\Bases\EntityPresenterBase.cs" />
     <Compile Include="Presenters\CurrentInstrumentPresenter.cs" />
     <Compile Include="Presenters\DocumentOrPatchNotFoundPopupPresenter.cs" />
-    <Compile Include="Presenters\Bases\GridPresenterBase.cs" />
+    <Compile Include="Presenters\Bases\EntityReadPresenterBase.cs" />
     <Compile Include="Presenters\Bases\IOperatorPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibraryPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibrarySelectionPopupPresenter.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
     <Compile Include="Presenters\NodePropertiesPresenter.cs" />
     <Compile Include="Presenters\Bases\PresenterBase.cs" />
-    <Compile Include="Presenters\Bases\DetailsOrPropertiesPresenterBase.cs" />
+    <Compile Include="Presenters\Bases\EntityWritePresenterBase.cs" />
     <Compile Include="Presenters\SampleFileBrowserPresenter.cs" />
     <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\Partials\TitleBarPresenter.cs" />

@@ -1,16 +1,16 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToViewModel;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class NodePropertiesPresenter : DetailsOrPropertiesPresenterBase<Node, NodePropertiesViewModel>
+    internal class NodePropertiesPresenter : EntityWritePresenterBase<Node, NodePropertiesViewModel>
     {
         private readonly INodeRepository _nodeRepository;
         private readonly CurveManager _curveManager;

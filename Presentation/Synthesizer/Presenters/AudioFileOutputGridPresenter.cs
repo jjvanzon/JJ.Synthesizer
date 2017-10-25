@@ -8,7 +8,7 @@ using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class AudioFileOutputGridPresenter : GridPresenterBase<Document, AudioFileOutputGridViewModel>
+    internal class AudioFileOutputGridPresenter : EntityReadPresenterBase<Document, AudioFileOutputGridViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly AudioFileOutputManager _audioFileOutputManager;
