@@ -499,7 +499,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            ExecuteNonPersistedAction(userInput, () => _currentInstrumentPresenter.Close(userInput));
+            ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Close(userInput));
         }
 
         public void CurrentInstrumentMovePatch(int patchID, int newPosition)
@@ -517,7 +517,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Show(userInput));
+            ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Load(userInput));
         }
 
         public void CurrentInstrumentPlay()

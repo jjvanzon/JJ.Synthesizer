@@ -1,9 +1,9 @@
 ﻿using JJ.Business.Synthesizer;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurrentInstrumentPresenter : PresenterBase<CurrentInstrumentViewModel>
+    internal class CurrentInstrumentPresenter : DetailsOrPropertiesPresenterBase<(Document document, IList<Patch> patches), CurrentInstrumentViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly IPatchRepository _patchRepository;
@@ -26,190 +26,71 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchRepository = patchRepository ?? throw new ArgumentNullException(nameof(patchRepository));
         }
 
-        public CurrentInstrumentViewModel Show(CurrentInstrumentViewModel userInput)
+        protected override (Document document, IList<Patch> patches) GetEntity(CurrentInstrumentViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntities
             Document document = _documentRepository.Get(userInput.DocumentID);
-            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
 
-            // ToViewModel
-            CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
+            IList<Patch> patches = userInput.List
+                                            .Select(x => x.ID)
+                                            .Select(x => _patchRepository.Get(x))
+                                            .ToList();
 
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return (document, patches);
         }
 
-        public void Close(CurrentInstrumentViewModel viewModel)
+        protected override CurrentInstrumentViewModel ToViewModel((Document document, IList<Patch> patches) x)
         {
-            ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
+            return ToViewModelHelper.CreateCurrentInstrumentViewModel(x.patches, x.document);
         }
+
+        public CurrentInstrumentViewModel Load(CurrentInstrumentViewModel userInput) => ExecuteAction(userInput, x => x.Visible = true);
 
         public CurrentInstrumentViewModel Add(CurrentInstrumentViewModel userInput, int patchID)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntities
-            Document document = _documentRepository.Get(userInput.DocumentID);
-            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
-
-            // Business
-            Patch entity = _patchRepository.Get(patchID);
-            entities.Add(entity);
-
-            // ToViewModel
-            CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return ExecuteAction(
+                userInput,
+                viewModel =>
+                {
+                    Patch entity = _patchRepository.Get(patchID);
+                    viewModel.List.Add(entity.ToIDAndName());
+                });
         }
 
         public CurrentInstrumentViewModel Remove(CurrentInstrumentViewModel userInput, int patchID)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntities
-            Document document = _documentRepository.Get(userInput.DocumentID);
-            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
-
-            // Business
-            entities.RemoveFirst(x => x.ID == patchID);
-
-            // ToViewModel
-            CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return ExecuteAction(userInput, viewModel => viewModel.List.RemoveFirst(x => x.ID == patchID));
         }
 
         public CurrentInstrumentViewModel Move(CurrentInstrumentViewModel userInput, int patchID, int newPosition)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntities
-            Document document = _documentRepository.Get(userInput.DocumentID);
-            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entities = ids.Select(x => _patchRepository.Get(x)).ToList();
-
-            // Business
-            int currentPosition = entities.IndexOf(x => x.ID == patchID);
-            Patch entity = entities[currentPosition];
-            entities.RemoveAt(currentPosition);
-            entities.Insert(newPosition, entity);
-
-            // ToViewModel
-            CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        /// <summary> No new view model is created. Just the child view models are replaced. </summary>
-        public CurrentInstrumentViewModel Refresh(CurrentInstrumentViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntities
-            Document document = _documentRepository.Get(userInput.DocumentID);
-            IEnumerable<int> ids = userInput.List.Select(x => x.ID);
-            IList<Patch> entites = ids.Select(x => _patchRepository.Get(x)).ToList();
-
-            // ToViewModel
-            CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entites, document);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return ExecuteAction(userInput, viewModel =>
+            {
+                int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
+                IDAndName item = viewModel.List[currentPosition];
+                viewModel.List.RemoveAt(currentPosition);
+                viewModel.List.Insert(newPosition, item);
+            });
         }
 
         public CurrentInstrumentViewModel Play(CurrentInstrumentViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            Outlet outlet = null;
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
+            return ExecuteAction(
+                userInput,
+                entities =>
+                {
+                    Patch autoPatch = _autoPatcher.AutoPatch(entities.patches);
+                    _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
+                    Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
+                    outlet = result.Data;
+                    return result;
+                },
+                viewModel =>
+                {
+                    viewModel.OutletIDToPlay = outlet?.ID;
+                });
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntities
-            Document document = _documentRepository.Get(userInput.DocumentID);
-            IList<Patch> entities = userInput.List.Select(x => _patchRepository.Get(x.ID)).ToArray();
-
-            // Business
-            Patch autoPatch = _autoPatcher.AutoPatch(entities);
-            _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
-            Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
-            Outlet outlet = result.Data;
-
-            // ToViewModel
-            CurrentInstrumentViewModel viewModel = ToViewModelHelper.CreateCurrentInstrumentViewModel(entities, document);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-            viewModel.OutletIDToPlay = outlet?.ID;
-
-            // Successful
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
         }
     }
 }
