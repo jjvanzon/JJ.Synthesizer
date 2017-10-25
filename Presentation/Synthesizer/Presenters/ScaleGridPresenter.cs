@@ -1,14 +1,14 @@
-﻿using System;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ScaleGridPresenter : GridPresenterBase<ScaleGridViewModel>
+    internal class ScaleGridPresenter : GridPresenterBase<Document, ScaleGridViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly ScaleManager _scaleManager;
@@ -19,16 +19,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _scaleManager = scaleManager ?? throw new ArgumentNullException(nameof(scaleManager));
         }
 
-        protected override ScaleGridViewModel CreateViewModel(ScaleGridViewModel userInput)
-        {
-            // GetEntity
-            Document document = _documentRepository.Get(userInput.DocumentID);
+        protected override Document GetEntity(ScaleGridViewModel userInput) => _documentRepository.Get(userInput.DocumentID);
 
-            // ToViewModel
-            ScaleGridViewModel viewModel = document.Scales.ToGridViewModel(userInput.DocumentID);
-
-            return viewModel;
-        }
+        protected override ScaleGridViewModel ToViewModel(Document entity) => entity.Scales.ToGridViewModel(entity.ID);
 
         public ScaleGridViewModel Delete(ScaleGridViewModel userInput, int id)
         {
@@ -36,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput,
                 viewModel =>
                 {
-                    // Business
                     _scaleManager.DeleteWithRelatedEntities(id);
                 });
         }

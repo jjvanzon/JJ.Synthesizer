@@ -1,12 +1,16 @@
-﻿using System;
-using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
-    internal abstract class GridPresenterBase<TViewModel> : PresenterBase<TViewModel>
+    internal abstract class GridPresenterBase<TEntity, TViewModel> : PresenterBase<TViewModel>
         where TViewModel : ViewModelBase
     {
+        protected abstract TEntity GetEntity(TViewModel userInput);
+
+        protected abstract TViewModel ToViewModel(TEntity entity);
+
         public void Show(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
         public TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput, x => { });
@@ -23,8 +27,11 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
             // Set !Successful
             userInput.Successful = false;
 
-            // CreateViewModel
-            TViewModel viewModel = CreateViewModel(userInput);
+            // ToEntity
+            TEntity entity = GetEntity(userInput);
+
+            // ToViewModel
+            TViewModel viewModel = ToViewModel(entity);
 
             // Non-Persisted
             CopyNonPersistedProperties(userInput, viewModel);
@@ -37,7 +44,5 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 
             return viewModel;
         }
-
-        protected abstract TViewModel CreateViewModel(TViewModel userInput);
     }
 }

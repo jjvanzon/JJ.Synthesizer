@@ -10,6 +10,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
         where TViewModel : ViewModelBase
     {
         protected abstract TEntity GetEntity(TViewModel userInput);
+
         protected abstract TViewModel ToViewModel(TEntity entity);
 
         /// <summary> Base does nothing. Not mandatory to override for read-only views. </summary>

@@ -1,14 +1,14 @@
-﻿using System;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class AudioFileOutputGridPresenter : GridPresenterBase<AudioFileOutputGridViewModel>
+    internal class AudioFileOutputGridPresenter : GridPresenterBase<Document, AudioFileOutputGridViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly AudioFileOutputManager _audioFileOutputManager;
@@ -19,15 +19,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
         }
 
-        protected override AudioFileOutputGridViewModel CreateViewModel(AudioFileOutputGridViewModel userInput)
+        protected override Document GetEntity(AudioFileOutputGridViewModel userInput)
         {
-            // GetEntity
-            Document document = _documentRepository.Get(userInput.DocumentID);
+            return _documentRepository.Get(userInput.DocumentID);
+        }
 
-            // ToViewModel
-            AudioFileOutputGridViewModel viewModel = document.ToAudioFileOutputGridViewModel();
-
-            return viewModel;
+        protected override AudioFileOutputGridViewModel ToViewModel(Document entity)
+        {
+            return entity.ToAudioFileOutputGridViewModel();
         }
 
         public AudioFileOutputGridViewModel Delete(AudioFileOutputGridViewModel userInput, int id)

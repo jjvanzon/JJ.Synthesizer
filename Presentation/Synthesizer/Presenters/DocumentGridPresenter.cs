@@ -1,17 +1,17 @@
-﻿using System;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using System.Collections.Generic;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
+using System;
+using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentGridPresenter : GridPresenterBase<DocumentGridViewModel>
+    internal class DocumentGridPresenter : GridPresenterBase<IList<Document>, DocumentGridViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly AutoPatcher _autoPatcher;
@@ -22,25 +22,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _autoPatcher = new AutoPatcher(_repositories);
         }
 
-        public DocumentGridViewModel Load(DocumentGridViewModel viewModel)
-        {
-            return ExecuteAction(viewModel, x => x.Visible = true);
-        }
+        public DocumentGridViewModel Load(DocumentGridViewModel viewModel) => ExecuteAction(viewModel, x => x.Visible = true);
 
-        protected override DocumentGridViewModel CreateViewModel(DocumentGridViewModel userInput)
-        {
-            // Known bug, not easily solvable and also not a large problem: 
-            // A renamed, uncommitted document will not end up in a new place in the list,
-            // because the sorting done by the data store, which is not ware of the new name.
+        /// <summary>
+        /// Known bug, not easily solvable and also not a large problem: 
+        /// A renamed, uncommitted document will not end up in a new place in the list,
+        /// because the sorting done by the data store, which is not ware of the new name.
+        /// </summary>
+        protected override IList<Document> GetEntity(DocumentGridViewModel userInput) => _repositories.DocumentRepository.OrderByName();
 
-            // GetEntities
-            IList<Document> documents = _repositories.DocumentRepository.OrderByName();
-
-            // ToViewModel
-            DocumentGridViewModel viewModel = documents.ToGridViewModel();
-
-            return viewModel;
-        }
+        protected override DocumentGridViewModel ToViewModel(IList<Document> entities) => entities.ToGridViewModel();
 
         public DocumentGridViewModel Play(DocumentGridViewModel userInput, int id)
         {
