@@ -1,17 +1,16 @@
-﻿using System;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Collections;
-using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurveDetailsPresenter : PresenterBase<CurveDetailsViewModel>
+    internal class CurveDetailsPresenter : PresenterBaseWithSave<Curve, CurveDetailsViewModel>
     {
         private readonly CurveRepositories _repositories;
         private readonly CurveManager _curveManager;
@@ -22,45 +21,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _curveManager = new CurveManager(_repositories);
         }
 
-        public void Show(CurveDetailsViewModel viewModel)
+        protected override Curve GetEntity(CurveDetailsViewModel userInput)
         {
-            ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
+            return _repositories.CurveRepository.Get(userInput.Curve.ID);
         }
 
-        public CurveDetailsViewModel Refresh(CurveDetailsViewModel userInput) => ExecuteAction(userInput, x => { });
-
-        public CurveDetailsViewModel Close(CurveDetailsViewModel userInput)
+        protected override IResult Save(Curve entity)
         {
-            CurveDetailsViewModel viewModel = Validate(userInput);
-
-            if (viewModel.Successful)
-            {
-                viewModel.Visible = false;
-            }
-
-            return viewModel;
+            return _curveManager.SaveCurveWithRelatedEntities(entity);
         }
 
-        public CurveDetailsViewModel LoseFocus(CurveDetailsViewModel userInput) => Validate(userInput);
-
-        private CurveDetailsViewModel Validate(CurveDetailsViewModel userInput)
+        protected override CurveDetailsViewModel ToViewModel(Curve entity)
         {
-            return ExecuteAction(
-                userInput,
-                viewModel =>
-                {
-                    // GetEntity
-                    Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
-
-                    // Business
-                    VoidResult result = _curveManager.SaveCurveWithRelatedEntities(entity);
-
-                    // Non-Persisted
-                    viewModel.ValidationMessages.AddRange(result.Messages);
-
-                    // Successful?
-                    viewModel.Successful = result.Successful;
-                });
+            return entity.ToDetailsViewModel();
         }
 
         public void SelectNode(CurveDetailsViewModel viewModel, int nodeID)
@@ -82,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             return ExecuteAction(
                 userInput,
-                viewModel =>
+                entity =>
                 {
                     // ToEntity
                     Node node = _repositories.NodeRepository.Get(nodeID);
@@ -90,37 +63,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Business
                     node.X = x;
                     node.Y = y;
+
+                    return ResultHelper.Successful;
                 });
-        }
-
-        // Helpers
-
-        private CurveDetailsViewModel ExecuteAction(CurveDetailsViewModel userInput, Action<CurveDetailsViewModel> action)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Curve entity = _repositories.CurveRepository.Get(userInput.Curve.ID);
-
-            // ToViewModel
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            // Action
-            action(viewModel);
-
-            return viewModel;
         }
 
         public override void CopyNonPersistedProperties(CurveDetailsViewModel sourceViewModel, CurveDetailsViewModel destViewModel)
