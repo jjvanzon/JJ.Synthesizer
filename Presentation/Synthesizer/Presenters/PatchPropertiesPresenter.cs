@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchPropertiesPresenter : EntityWritePresenterBase<Patch, PatchPropertiesViewModel>
+    internal class PatchPropertiesPresenter : PresenterBaseWithSave<Patch, PatchPropertiesViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly PatchManager _patchManager;

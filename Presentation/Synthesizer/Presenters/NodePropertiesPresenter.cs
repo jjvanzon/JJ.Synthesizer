@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class NodePropertiesPresenter : EntityWritePresenterBase<Node, NodePropertiesViewModel>
+    internal class NodePropertiesPresenter : PresenterBaseWithSave<Node, NodePropertiesViewModel>
     {
         private readonly INodeRepository _nodeRepository;
         private readonly CurveManager _curveManager;

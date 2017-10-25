@@ -14,7 +14,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchDetailsPresenter : EntityWritePresenterBase<Patch, PatchDetailsViewModel>
+    internal class PatchDetailsPresenter : PresenterBaseWithSave<Patch, PatchDetailsViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly EntityPositionManager _entityPositionManager;

@@ -9,7 +9,7 @@ using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ScalePropertiesPresenter : EntityWritePresenterBase<Scale, ScalePropertiesViewModel>
+    internal class ScalePropertiesPresenter : PresenterBaseWithSave<Scale, ScalePropertiesViewModel>
     {
         private readonly IScaleRepository _scaleRepository;
         private readonly ScaleManager _scaleManager;

@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class LibraryPropertiesPresenter 
-        : EntityWritePresenterBase<DocumentReference, LibraryPropertiesViewModel>
+        : PresenterBaseWithSave<DocumentReference, LibraryPropertiesViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;

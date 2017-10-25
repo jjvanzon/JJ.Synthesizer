@@ -8,7 +8,7 @@ using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ScaleGridPresenter : EntityReadPresenterBase<Document, ScaleGridViewModel>
+    internal class ScaleGridPresenter : PresenterBaseWithoutSave<Document, ScaleGridViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly ScaleManager _scaleManager;

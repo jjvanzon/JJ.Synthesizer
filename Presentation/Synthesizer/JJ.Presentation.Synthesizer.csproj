@@ -55,7 +55,7 @@
     <Compile Include="Presenters\Bases\EntityPresenterBase.cs" />
     <Compile Include="Presenters\CurrentInstrumentPresenter.cs" />
     <Compile Include="Presenters\DocumentOrPatchNotFoundPopupPresenter.cs" />
-    <Compile Include="Presenters\Bases\EntityReadPresenterBase.cs" />
+    <Compile Include="Presenters\Bases\PresenterBaseWithoutSave.cs" />
     <Compile Include="Presenters\Bases\IOperatorPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibraryPropertiesPresenter.cs" />
     <Compile Include="Presenters\LibrarySelectionPopupPresenter.cs" />
@@ -74,7 +74,7 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
     <Compile Include="Presenters\NodePropertiesPresenter.cs" />
     <Compile Include="Presenters\Bases\PresenterBase.cs" />
-    <Compile Include="Presenters\Bases\EntityWritePresenterBase.cs" />
+    <Compile Include="Presenters\Bases\PresenterBaseWithSave.cs" />
     <Compile Include="Presenters\SampleFileBrowserPresenter.cs" />
     <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\Partials\TitleBarPresenter.cs" />
