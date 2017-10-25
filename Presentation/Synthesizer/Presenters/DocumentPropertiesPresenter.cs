@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentPropertiesPresenter : PropertiesPresenterBase<Document, DocumentPropertiesViewModel>
+    internal class DocumentPropertiesPresenter : DetailsOrPropertiesPresenterBase<Document, DocumentPropertiesViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;

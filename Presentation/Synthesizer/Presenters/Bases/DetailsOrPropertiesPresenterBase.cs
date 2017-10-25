@@ -1,12 +1,12 @@
-﻿using System;
-using JJ.Framework.Business;
+﻿using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
-    internal abstract class PropertiesPresenterBase<TEntity, TViewModel> : PresenterBase<TViewModel>
+    internal abstract class DetailsOrPropertiesPresenterBase<TEntity, TViewModel> : PresenterBase<TViewModel>
         where TViewModel : ViewModelBase
     {
         protected abstract TEntity GetEntity(TViewModel userInput);
@@ -44,9 +44,9 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
         /// Creating a new view model and copying basic non-persisted properties to it.
         /// You can extend this with more logic.
         /// </summary>
-        protected TViewModel ExecuteAction(TViewModel userInput, Action<TViewModel> nonPersisted)
+        protected TViewModel ExecuteAction(TViewModel userInput, Action<TViewModel> nonPersistedDelegate)
         {
-            return ExecuteAction(userInput, null, nonPersisted);
+            return ExecuteAction(userInput, null, nonPersistedDelegate);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer;
+﻿using JJ.Business.Canonical;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
@@ -13,7 +14,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchDetailsPresenter : PresenterBase<PatchDetailsViewModel>
+    internal class PatchDetailsPresenter : DetailsOrPropertiesPresenterBase<Patch, PatchDetailsViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly EntityPositionManager _entityPositionManager;
@@ -28,52 +29,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _autoPatcher = new AutoPatcher(_repositories);
         }
 
-        public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
+        protected override Patch GetEntity(PatchDetailsViewModel userInput) => _repositories.PatchRepository.Get(userInput.Entity.ID);
+
+        protected override PatchDetailsViewModel ToViewModel(Patch patch)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntities
-            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
-
-            Inlet inlet = _repositories.InletRepository.Get(inletID);
-            Outlet inputOutlet = _repositories.OutletRepository.Get(inputOutletID);
-
-            // Business
-            inlet.LinkTo(inputOutlet);
-
-            // ToViewModel
-            PatchDetailsViewModel viewModel = CreateViewModel(patch);
-
-            // Non-Persited
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return patch.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionManager);
         }
 
-        public PatchDetailsViewModel Close(PatchDetailsViewModel userInput)
+        protected override IResult Save(Patch entity) => _patchManager.SavePatch(entity);
+
+        public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            PatchDetailsViewModel viewModel = Update(userInput);
-
-            if (viewModel.Successful)
+            return ExecuteAction(userInput, x =>
             {
-                viewModel.Visible = false;
-            }
+                // GetEntities
+                Inlet inlet = _repositories.InletRepository.Get(inletID);
+                Outlet inputOutlet = _repositories.OutletRepository.Get(inputOutletID);
 
-            return viewModel;
+                // Business
+                inlet.LinkTo(inputOutlet);
+
+                return ResultHelper.Successful;
+            });
         }
 
         /// <summary>
+        /// NOTE: Has view model validation, which the base class's template method does not support.
         /// Deletes the selected operator.
         /// Produces a validation message if no operator is selected.
         /// </summary>
@@ -105,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _patchManager.DeleteOperatorWithRelatedEntities(userInput.SelectedOperator.ID);
 
                 // ToViewModel
-                PatchDetailsViewModel viewModel = CreateViewModel(entity);
+                PatchDetailsViewModel viewModel = ToViewModel(entity);
 
                 // Non-Persisted
                 CopyNonPersistedProperties(userInput, viewModel);
@@ -118,44 +99,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public PatchDetailsViewModel LoseFocus(PatchDetailsViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            PatchDetailsViewModel viewModel = Update(userInput);
-
-            return viewModel;
-        }
-
         public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorID, float centerX, float centerY)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            return ExecuteAction(userInput, x =>
+            {
+                // GetEntity
+                Operator op = _repositories.OperatorRepository.Get(operatorID);
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
+                // Business
+                _entityPositionManager.MoveOperator(op, centerX, centerY);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
-            Operator op = _repositories.OperatorRepository.Get(operatorID);
-
-            // Business
-            _entityPositionManager.MoveOperator(op, centerX, centerY);
-
-            // ToViewModel
-            PatchDetailsViewModel viewModel = CreateViewModel(patch);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+                return ResultHelper.Successful;
+            });
         }
 
+        /// <summary>
+        /// NOTE: Cannot use base class's ExecuteAction method,
+        /// because there is a hack. See the implementation.
+        /// </summary>
         public PatchDetailsViewModel Play(PatchDetailsViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
@@ -182,7 +143,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // HACK: AutoPatch can generate PatchOutlets and adders on the fly, that we do not even want to see.
             // That is not nice of it, but I mitigate the problem here a little.
 
-            //PatchDetailsViewModel viewModel = CreateViewModel(patch);
+            //PatchDetailsViewModel viewModel = ToViewModel(patch);
             PatchDetailsViewModel viewModel = userInput;
 
             // Non-Persisted
@@ -196,65 +157,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel;
         }
 
-        public PatchDetailsViewModel Refresh(PatchDetailsViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
-
-            // ToViewModel
-            PatchDetailsViewModel viewModel = CreateViewModel(entity);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
         public void SelectOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
             ExecuteNonPersistedAction(viewModel, () => SetSelectedOperator(viewModel, operatorID));
-        }
-
-        public void Show(PatchDetailsViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
-
-        private PatchDetailsViewModel Update(PatchDetailsViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
-
-            // Business
-            VoidResult result = _patchManager.SavePatch(entity);
-
-            // ToViewModel
-            PatchDetailsViewModel viewModel = CreateViewModel(entity);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-
-            // Successful?
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
         }
 
         // Helpers
@@ -281,11 +186,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             viewModel.SelectedOperator = selectedOperatorViewModel;
-        }
-
-        private PatchDetailsViewModel CreateViewModel(Patch patch)
-        {
-            return patch.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionManager);
         }
 
         public override void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)

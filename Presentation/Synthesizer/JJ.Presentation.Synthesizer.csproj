@@ -73,7 +73,7 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
     <Compile Include="Presenters\NodePropertiesPresenter.cs" />
     <Compile Include="Presenters\Bases\PresenterBase.cs" />
-    <Compile Include="Presenters\Bases\PropertiesPresenterBase.cs" />
+    <Compile Include="Presenters\Bases\DetailsOrPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\SampleFileBrowserPresenter.cs" />
     <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\Partials\TitleBarPresenter.cs" />
