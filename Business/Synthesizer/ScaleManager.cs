@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using JJ.Business.Canonical;
+﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -13,6 +12,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer
 {
@@ -27,19 +27,11 @@ namespace JJ.Business.Synthesizer
 
         // Create
 
-        public Scale Create(Document document, bool mustSetDefaults)
-        {
-            return Create(document, default(ScaleTypeEnum), mustSetDefaults);
-        }
-
-        public Scale Create(
-            Document document,
-            ScaleTypeEnum scaleTypeEnum = ScaleTypeEnum.Undefined, 
-            bool mustSetDefaults = false)
+        public Scale Create(Document document, ScaleTypeEnum scaleTypeEnum = default)
         {
             if (document == null) throw new NullException(() => document);
 
-            Scale scale = Create(scaleTypeEnum, mustSetDefaults);
+            Scale scale = Create(scaleTypeEnum);
             scale.LinkTo(document);
 
             new Scale_SideEffect_GenerateName(scale).Execute();
@@ -47,17 +39,13 @@ namespace JJ.Business.Synthesizer
             return scale;
         }
 
-        public Scale Create(ScaleTypeEnum scaleTypeEnum, bool mustSetDefaults = false)
+        public Scale Create(ScaleTypeEnum scaleTypeEnum)
         {
             var scale = new Scale { ID = _repositories.IDRepository.GetID() };
             scale.SetScaleTypeEnum(scaleTypeEnum, _repositories.ScaleTypeRepository);
             _repositories.ScaleRepository.Insert(scale);
 
-            // ReSharper disable once InvertIf
-            if (mustSetDefaults)
-            {
-                new Scale_SideEffect_SetDefaults(scale, _repositories.ScaleTypeRepository).Execute();
-            }
+            new Scale_SideEffect_SetDefaults(scale, _repositories.ScaleTypeRepository).Execute();
 
             return scale;
         }

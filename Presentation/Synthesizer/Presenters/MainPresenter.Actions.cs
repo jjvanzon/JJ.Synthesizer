@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
@@ -1489,45 +1488,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ViewModel Validation
-            if (!userInput.SelectedNodeID.HasValue)
-            {
-                return;
-            }
-            int nodeID = userInput.SelectedNodeID.Value;
-
             // Template Method
-            CurveDetailsViewModel viewModel = ExecuteWriteAction(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    Node node = _repositories.NodeRepository.Get(nodeID);
-
-                    // Business
-                    _curveManager.RotateNodeType(node);
-
-                    // Successful
-                    userInput.Successful = true;
-
-                    return userInput;
-                });
+            CurveDetailsViewModel viewModel = ExecuteWriteAction(userInput, () => _curveDetailsPresenter.ChangeSelectedNodeType(userInput));
 
             // Refresh
-            if (viewModel.Successful)
+            if (viewModel.Successful && userInput.SelectedNodeID.HasValue)
             {
+                int nodeID = userInput.SelectedNodeID.Value;
+
                 CurveDetailsNodeRefresh(curveID, nodeID);
                 NodePropertiesRefresh(nodeID);
             }
@@ -1539,41 +1507,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
             // Template Method
-            CurveDetailsViewModel viewModel = ExecuteWriteAction(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    Curve curve = _repositories.CurveRepository.Get(userInput.Curve.ID);
-
-                    // Business
-                    // TODO: This kind of stuff belongs in the business layer.
-                    Node afterNode;
-                    if (userInput.SelectedNodeID.HasValue)
-                    {
-                        afterNode = _repositories.NodeRepository.Get(userInput.SelectedNodeID.Value);
-                    }
-                    else
-                    {
-                        // Insert after last node if none selected.
-                        afterNode = curve.Nodes.OrderBy(x => x.X).Last();
-                    }
-
-                    // Business
-                    // ReSharper disable once UnusedVariable
-                    Node node = _curveManager.CreateNode(curve, afterNode);
-
-                    // Successful
-                    userInput.Successful = true;
-
-                    return userInput;
-                });
+            CurveDetailsViewModel viewModel = ExecuteWriteAction(userInput, () => _curveDetailsPresenter.CreateNode(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -1587,46 +1521,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ViewModel Validation
-            if (!userInput.SelectedNodeID.HasValue)
-            {
-                MainViewModel.ValidationMessages.Add(ResourceFormatter.SelectANodeFirst);
-                return;
-            }
-
             // Template Method
-            CurveDetailsViewModel viewModel = ExecuteWriteAction(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    int nodeID = userInput.SelectedNodeID.Value;
-                    Node node = _repositories.NodeRepository.Get(nodeID);
-
-                    // Business
-                    IResult result = _curveManager.DeleteNode(node);
-
-                    // Non-Persisted
-                    userInput.ValidationMessages = result.Messages;
-                    userInput.SelectedNodeID = null;
-
-                    // Successful?
-                    userInput.Successful = result.Successful;
-
-                    return userInput;
-                });
+            CurveDetailsViewModel viewModel = ExecuteWriteAction(userInput, () => _curveDetailsPresenter.DeleteSelectedNode(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -2436,34 +2332,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteNonPersistedAction(userInput, () => _scaleGridPresenter.Close(userInput));
         }
 
-        public void ScaleCreate()
+        public void ScaleGridCreate()
         {
             // GetViewModel
             ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
 
             // Template Method
-            ScaleGridViewModel viewModel = ExecuteWriteAction(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    Document document = _repositories.DocumentRepository.Get(userInput.DocumentID);
-
-                    // Business
-                    // ReSharper disable once UnusedVariable
-                    Scale scale = _scaleManager.Create(document, mustSetDefaults: true);
-
-                    // Successful
-                    userInput.Successful = true;
-
-                    return userInput;
-                });
+            ScaleGridViewModel viewModel = ExecuteWriteAction(userInput, () => _scaleGridPresenter.Create(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -2558,52 +2433,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ViewModelValidator
-            IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
-            if (!viewModelValidator.IsValid)
-            {
-                userInput.ValidationMessages = viewModelValidator.Messages;
-                DispatchViewModel(userInput);
-                return;
-            }
-
             // TemplateMethod
-            Tone tone = null;
-            ToneGridEditViewModel viewModel = ExecuteWriteAction(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // Get Entity
-                    Scale scale = _repositories.ScaleRepository.Get(scaleID);
-
-                    // Business
-                    tone = _scaleManager.CreateTone(scale);
-
-                    // Successful
-                    userInput.Successful = true;
-
-                    return userInput;
-                });
-
-            if (viewModel.Successful)
-            {
-                // ToViewModel
-                ToneViewModel toneViewModel = tone.ToViewModel();
-                userInput.Tones.Add(toneViewModel);
-                // Do not sort grid, so that the new item appears at the bottom.
-            }
+            ExecuteWriteAction(userInput, () => _toneGridEditPresenter.CreateTone(userInput));
         }
 
         public void ToneDelete(int scaleID, int toneID)
@@ -2611,50 +2442,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // GetViewModel
             ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // ViewModelValidator
-            IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
-            if (!viewModelValidator.IsValid)
-            {
-                userInput.ValidationMessages = viewModelValidator.Messages;
-                DispatchViewModel(userInput);
-                return;
-            }
-
             // Template Method
-            ExecuteWriteAction(
-                userInput,
-                () =>
-                {
-                    // RefreshCounter
-                    userInput.RefreshCounter++;
-
-                    // Set !Successful
-                    userInput.Successful = false;
-
-                    // GetEntity
-                    Tone tone = _repositories.ToneRepository.Get(toneID);
-                    Scale scale = tone.Scale;
-
-                    // Business
-                    _scaleManager.DeleteTone(tone);
-
-                    // ToViewModel
-                    ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
-
-                    // Non-Persisted
-                    viewModel.Visible = userInput.Visible;
-
-                    // Successful
-                    viewModel.Successful = true;
-
-                    return viewModel;
-                });
+            ExecuteWriteAction(userInput, () => _toneGridEditPresenter.DeleteTone(userInput, toneID));
         }
 
         public void ToneGridEditClose(int scaleID)

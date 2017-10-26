@@ -1,11 +1,14 @@
 ﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -38,6 +41,77 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void SelectNode(CurveDetailsViewModel viewModel, int nodeID)
         {
             ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeID = nodeID);
+        }
+
+        public CurveDetailsViewModel CreateNode(CurveDetailsViewModel userInput)
+        {
+            return ExecuteAction(
+                userInput,
+                curve =>
+                {
+                    Node afterNode;
+                    if (userInput.SelectedNodeID.HasValue)
+                    {
+                        afterNode = _repositories.NodeRepository.Get(userInput.SelectedNodeID.Value);
+                    }
+                    else
+                    {
+                        // Insert after last node if none selected.
+                        afterNode = curve.Nodes.OrderBy(x => x.X).Last();
+                    }
+
+                    _curveManager.CreateNode(curve, afterNode);
+                });
+        }
+
+        public CurveDetailsViewModel ChangeSelectedNodeType(CurveDetailsViewModel userInput)
+        {
+            return ExecuteAction(
+                userInput,
+                _ =>
+                {
+                    // ViewModel Validation
+                    if (!userInput.SelectedNodeID.HasValue)
+                    {
+                        return;
+                    }
+
+                    // GetEntity
+                    int nodeID = userInput.SelectedNodeID.Value;
+                    Node node = _repositories.NodeRepository.Get(nodeID);
+
+                    // Business
+                    _curveManager.RotateNodeType(node);
+                });
+        }
+
+        public CurveDetailsViewModel DeleteSelectedNode(CurveDetailsViewModel userInput)
+        {
+            return ExecuteAction(
+                userInput,
+                entity =>
+                {
+                    // ViewModel Validation
+                    if (!userInput.SelectedNodeID.HasValue)
+                    {
+                        return new VoidResult
+                        {
+                            Messages = new List<string> { ResourceFormatter.SelectANodeFirst }
+                        };
+                    }
+
+                    // GetEntity
+                    int nodeID = userInput.SelectedNodeID.Value;
+                    Node node = _repositories.NodeRepository.Get(nodeID);
+
+                    // Business
+                    IResult result = _curveManager.DeleteNode(node);
+                    return result;
+                },
+                viewModel =>
+                {
+                    viewModel.SelectedNodeID = null;
+                });
         }
 
         public CurveDetailsViewModel NodeMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y)

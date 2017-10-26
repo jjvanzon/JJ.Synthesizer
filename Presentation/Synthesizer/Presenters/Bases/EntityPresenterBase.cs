@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
         /// <summary>
         /// Manages the RefreshCounter, basics around the Successful flag,
         /// Creating a new view model and copying basic non-persisted properties to it.
-        /// You can extend this with more logic.
+        /// You can extend this with more logic using the delegates over overrides.
         /// </summary>
         /// <param name="businessDelegate">Can return null.</param>
         protected TViewModel ExecuteAction(

@@ -1,18 +1,19 @@
-﻿using JJ.Business.Synthesizer;
+﻿using JJ.Business.Canonical;
+using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ToneGridEditPresenter : PresenterBase<ToneGridEditViewModel>
+    internal class ToneGridEditPresenter : EntityPresenterBaseWithSave<Scale, ToneGridEditViewModel>
     {
         private readonly IScaleRepository _scaleRepository;
         private readonly ScaleManager _scaleManager;
@@ -23,85 +24,72 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _scaleManager = scaleManager ?? throw new ArgumentNullException(nameof(scaleManager));
         }
 
-        public void Show(ToneGridEditViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
+        protected override Scale GetEntity(ToneGridEditViewModel userInput) => _scaleRepository.Get(userInput.ScaleID);
 
-        public ToneGridEditViewModel Refresh(ToneGridEditViewModel userInput)
+        protected override ToneGridEditViewModel ToViewModel(Scale entity) => entity.ToToneGridEditViewModel();
+
+        protected override IResult SaveWithUserInput(Scale scale, ToneGridEditViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntity
-            Scale scale = _scaleRepository.Get(userInput.ScaleID);
-
-            // ToViewModel
-            ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        public ToneGridEditViewModel Close(ToneGridEditViewModel userInput)
-        {
-            ToneGridEditViewModel viewModel = Update(userInput);
-
-            if (viewModel.Successful)
-            {
-                viewModel.Visible = false;
-            }
-
-            return viewModel;
-        }
-
-        public ToneGridEditViewModel LoseFocus(ToneGridEditViewModel userInput) => Update(userInput);
-
-        // Refreshing upon edit is required to update the Frequency values.
-        public ToneGridEditViewModel Edit(ToneGridEditViewModel userInput) => Refresh(userInput);
-
-        private ToneGridEditViewModel Update(ToneGridEditViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
             // ViewModel Validator
             IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
             if (!viewModelValidator.IsValid)
             {
-                userInput.ValidationMessages = viewModelValidator.Messages;
-                return userInput;
+                return viewModelValidator.ToResult();
             }
-
-            // GetEntity
-            Scale scale = _scaleRepository.Get(userInput.ScaleID);
 
             // Business
             VoidResult result = _scaleManager.Save(scale);
-
-            // ToViewModel
-            ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
-            viewModel.ValidationMessages = result.Messages;
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
+            return result;
         }
+
+        public ToneGridEditViewModel CreateTone(ToneGridEditViewModel userInput)
+        {
+            Tone tone = null;
+
+            return ExecuteAction(
+                userInput,
+                scale =>
+                {
+                    // ViewModelValidator
+                    IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+                    if (!viewModelValidator.IsValid)
+                    {
+                        return viewModelValidator.ToResult();
+                    }
+
+                    // Business
+                    tone = _scaleManager.CreateTone(scale);
+                    return ResultHelper.Successful;
+                },
+                viewModel =>
+                {
+                    // ToVieWModel
+                    ToneViewModel toneViewModel = tone.ToViewModel();
+                    userInput.Tones.Add(toneViewModel);
+                    // Do not sort grid, so that the new item appears at the bottom.
+                });
+        }
+
+        public ToneGridEditViewModel DeleteTone(ToneGridEditViewModel userInput, int toneID)
+        {
+            return ExecuteAction(
+                userInput,
+                scale =>
+                {
+                    // ViewModelValidator
+                    IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+                    if (!viewModelValidator.IsValid)
+                    {
+                        return viewModelValidator.ToResult();
+                    }
+
+                    // Business
+                    _scaleManager.DeleteTone(toneID);
+                    return ResultHelper.Successful;
+                });
+        }
+
+        // Refreshing upon edit is required to update the Frequency values.
+        public ToneGridEditViewModel Edit(ToneGridEditViewModel userInput) => Refresh(userInput);
     }
 }

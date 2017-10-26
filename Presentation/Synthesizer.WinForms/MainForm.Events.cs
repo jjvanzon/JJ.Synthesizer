@@ -1045,7 +1045,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Scale
 
-        private void scaleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.ScaleCreate);
+        private void scaleGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.ScaleGridCreate);
 
         private void scaleGridUserControl_RemoveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _presenter.ScaleGridDelete(e.Value));
 

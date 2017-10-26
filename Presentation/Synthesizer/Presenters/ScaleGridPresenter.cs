@@ -27,5 +27,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             return ExecuteAction(userInput, x => _scaleManager.DeleteWithRelatedEntities(id));
         }
+
+        public ScaleGridViewModel Create(ScaleGridViewModel userInput)
+        {
+            return ExecuteAction(userInput, x => _scaleManager.Create(x));
+        }
     }
 }

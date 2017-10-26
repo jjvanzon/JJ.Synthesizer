@@ -1,14 +1,14 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Collections;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.Presenters.Partials;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
