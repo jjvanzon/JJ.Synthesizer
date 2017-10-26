@@ -10,7 +10,7 @@ using System;
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class AudioFileOutputPropertiesPresenter 
-        : EntityPresenterBaseWithSave<AudioFileOutput, AudioFileOutputPropertiesViewModel>
+        : EntityPresenterWithSaveBase<AudioFileOutput, AudioFileOutputPropertiesViewModel>
     {
         private readonly AudioFileOutputManager _audioFileOutputManager;
         private readonly IAudioFileOutputRepository _audioFileOutputRepository;

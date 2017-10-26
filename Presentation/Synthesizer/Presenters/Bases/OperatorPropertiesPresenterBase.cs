@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
     internal abstract class OperatorPropertiesPresenterBase<TViewModel> 
-        : EntityPresenterBaseWithSave<Operator, TViewModel>, 
+        : EntityPresenterWithSaveBase<Operator, TViewModel>, 
           IOperatorPropertiesPresenter
         where TViewModel : OperatorPropertiesViewModelBase
     {

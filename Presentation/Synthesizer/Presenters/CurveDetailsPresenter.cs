@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class CurveDetailsPresenter : EntityPresenterBaseWithSave<Curve, CurveDetailsViewModel>
+    internal class CurveDetailsPresenter : EntityPresenterWithSaveBase<Curve, CurveDetailsViewModel>
     {
         private readonly CurveRepositories _repositories;
         private readonly CurveManager _curveManager;

@@ -13,7 +13,7 @@ using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ToneGridEditPresenter : EntityPresenterBaseWithSave<Scale, ToneGridEditViewModel>
+    internal class ToneGridEditPresenter : EntityPresenterWithSaveBase<Scale, ToneGridEditViewModel>
     {
         private readonly IScaleRepository _scaleRepository;
         private readonly ScaleManager _scaleManager;

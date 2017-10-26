@@ -1,5 +1,4 @@
-﻿using JJ.Business.Canonical;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
@@ -14,7 +13,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchDetailsPresenter : EntityPresenterBaseWithSave<Patch, PatchDetailsViewModel>
+    internal class PatchDetailsPresenter : EntityPresenterWithSaveBase<Patch, PatchDetailsViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly EntityPositionManager _entityPositionManager;

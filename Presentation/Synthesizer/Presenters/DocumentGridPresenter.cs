@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentGridPresenter : EntityPresenterBaseWithoutSave<IList<Document>, DocumentGridViewModel>
+    internal class DocumentGridPresenter : EntityPresenterWithoutSaveBase<IList<Document>, DocumentGridViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly AutoPatcher _autoPatcher;

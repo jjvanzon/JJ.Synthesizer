@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class AudioOutputPropertiesPresenter 
-        : EntityPresenterBaseWithSave<AudioOutput, AudioOutputPropertiesViewModel>
+        : EntityPresenterWithSaveBase<AudioOutput, AudioOutputPropertiesViewModel>
     {
         private readonly IAudioOutputRepository _audioOutputRepository;
         private readonly AudioOutputManager _audioOutputManager;
