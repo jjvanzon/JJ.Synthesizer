@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
-using JJ.Framework.Collections;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -22,7 +21,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _autoPatcher = new AutoPatcher(_repositories);
         }
 
-        public DocumentGridViewModel Load(DocumentGridViewModel viewModel) => ExecuteAction(viewModel, x => x.Visible = true);
+        public DocumentGridViewModel Load(DocumentGridViewModel viewModel)
+        {
+            return ExecuteAction(viewModel, x => { }, x => x.Visible = true);
+        }
 
         /// <summary>
         /// Known bug, not easily solvable and also not a large problem: 
@@ -35,24 +37,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentGridViewModel Play(DocumentGridViewModel userInput, int id)
         {
+            Outlet outlet = null;
+
             return ExecuteAction(
                 userInput,
-                viewModel =>
+                entity =>
                 {
                     // GetEntity
                     Document document = _repositories.DocumentRepository.Get(id);
 
                     // Business
                     Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(document, mustIncludeHidden: false);
-                    Outlet outlet = result.Data;
+                    outlet = result.Data;
                     if (outlet != null)
                     {
                         _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
                     }
 
+                    return result;
+                },
+                viewModel =>
+                {
                     // Non-Persisted
-                    viewModel.Successful = result.Successful;
-                    viewModel.ValidationMessages.AddRange(result.Messages);
                     viewModel.OutletIDToPlay = outlet?.ID;
                 });
         }

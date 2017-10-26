@@ -48,8 +48,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 inlet.LinkTo(inputOutlet);
-
-                return ResultHelper.Successful;
             });
         }
 
@@ -108,8 +106,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 _entityPositionManager.MoveOperator(op, centerX, centerY);
-
-                return ResultHelper.Successful;
             });
         }
 

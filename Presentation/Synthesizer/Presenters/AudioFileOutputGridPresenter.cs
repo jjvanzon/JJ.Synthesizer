@@ -31,12 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public AudioFileOutputGridViewModel Delete(AudioFileOutputGridViewModel userInput, int id)
         {
-            return ExecuteAction(
-                userInput,
-                viewModel =>
-                {
-                    _audioFileOutputManager.Delete(id);
-                });
+            return ExecuteAction(userInput, _ => _audioFileOutputManager.Delete(id));
         }
     }
 }

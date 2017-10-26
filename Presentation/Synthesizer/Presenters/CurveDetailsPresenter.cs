@@ -1,5 +1,4 @@
-﻿using JJ.Business.Canonical;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
@@ -63,8 +62,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Business
                     node.X = x;
                     node.Y = y;
-
-                    return ResultHelper.Successful;
                 });
         }
 

@@ -38,14 +38,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _documentManager.SaveDocumentReference(entity);
         }
 
-        public void OpenExternally(LibraryPropertiesViewModel viewModel)
+        public void OpenExternally(LibraryPropertiesViewModel userInput)
         {
+            Document lowerDocument = null;
+
             ExecuteAction(
-                viewModel,
-                _ =>
-                {
-                    viewModel.DocumentToOpenExternally = GetEntity(viewModel).LowerDocument.ToIDAndName();
-                });
+                userInput,
+                entity => lowerDocument = entity.LowerDocument,
+                viewModel => viewModel.DocumentToOpenExternally = lowerDocument.ToIDAndName());
         }
 
         public LibraryPropertiesViewModel Play(LibraryPropertiesViewModel userInput)

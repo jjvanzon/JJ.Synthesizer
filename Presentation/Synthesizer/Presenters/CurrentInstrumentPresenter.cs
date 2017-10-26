@@ -44,27 +44,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ToViewModelHelper.CreateCurrentInstrumentViewModel(x.patches, x.document);
         }
 
-        public CurrentInstrumentViewModel Load(CurrentInstrumentViewModel userInput) => ExecuteAction(userInput, x => x.Visible = true);
+        public CurrentInstrumentViewModel Load(CurrentInstrumentViewModel userInput)
+        {
+            return ExecuteAction(userInput, x => { }, x => x.Visible = true);
+        }
 
         public CurrentInstrumentViewModel Add(CurrentInstrumentViewModel userInput, int patchID)
         {
+            Patch patch = null;
+
             return ExecuteAction(
                 userInput,
-                viewModel =>
-                {
-                    Patch entity = _patchRepository.Get(patchID);
-                    viewModel.List.Add(entity.ToIDAndName());
-                });
+                entities => patch = _patchRepository.Get(patchID),
+                viewModel => viewModel.List.Add(patch.ToIDAndName()));
         }
 
-        public CurrentInstrumentViewModel Remove(CurrentInstrumentViewModel userInput, int patchID)
+        public void Remove(CurrentInstrumentViewModel viewModel, int patchID)
         {
-            return ExecuteAction(userInput, viewModel => viewModel.List.RemoveFirst(x => x.ID == patchID));
+            ExecuteNonPersistedAction(viewModel, () => viewModel.List.RemoveFirst(x => x.ID == patchID));
         }
 
-        public CurrentInstrumentViewModel Move(CurrentInstrumentViewModel userInput, int patchID, int newPosition)
+        public void Move(CurrentInstrumentViewModel viewModel, int patchID, int newPosition)
         {
-            return ExecuteAction(userInput, viewModel =>
+            ExecuteNonPersistedAction(viewModel, () =>
             {
                 int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
                 IDAndName item = viewModel.List[currentPosition];

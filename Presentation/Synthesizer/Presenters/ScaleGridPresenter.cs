@@ -25,12 +25,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public ScaleGridViewModel Delete(ScaleGridViewModel userInput, int id)
         {
-            return ExecuteAction(
-                userInput,
-                viewModel =>
-                {
-                    _scaleManager.DeleteWithRelatedEntities(id);
-                });
+            return ExecuteAction(userInput, x => _scaleManager.DeleteWithRelatedEntities(id));
         }
     }
 }

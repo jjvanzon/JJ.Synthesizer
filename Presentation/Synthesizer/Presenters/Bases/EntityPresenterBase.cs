@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Business;
+﻿using JJ.Business.Canonical;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -15,16 +16,19 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 
         public void Show(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
-        public TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput, x => { });
+        public TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput, _ => { });
 
-        /// <summary>
-        /// Manages the RefreshCounter, basics around the Successful flag,
-        /// Creating a new view model and copying basic non-persisted properties to it.
-        /// You can extend this with more logic.
-        /// </summary>
-        protected TViewModel ExecuteAction(TViewModel userInput, Action<TViewModel> nonPersistedDelegate)
+        /// <see cref="ExecuteAction(TViewModel,Func{TEntity, IResult},Action{TViewModel})"/>
+        protected TViewModel ExecuteAction(
+            TViewModel userInput, 
+            Action<TEntity> businessDelegate = null,
+            Action<TViewModel> nonPersistedDelegate = null)
         {
-            return ExecuteAction(userInput, null, nonPersistedDelegate);
+            return ExecuteAction(userInput, x =>
+            {
+                businessDelegate?.Invoke(x);
+                return ResultHelper.Successful;
+            }, nonPersistedDelegate);
         }
 
         /// <summary>
