@@ -465,7 +465,7 @@ namespace JJ.Business.Synthesizer
                                     .Where(x => x != null)
                                     .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Number);
 
-            foreach (Operator numberOperator in inputNumberOperators)
+            foreach (Operator numberOperator in inputNumberOperators.ToArray())
             {
                 Outlet numberOutlet = numberOperator.Outlets.Single();
                 bool isOwned = numberOutlet.ConnectedInlets.Count == 1;

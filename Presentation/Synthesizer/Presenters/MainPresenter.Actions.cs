@@ -2031,8 +2031,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             OperatorPropertiesViewModel_ForInletsToDimension viewModel = ExecuteWriteAction(
-                userInput,
-                () => _operatorPropertiesPresenter_ForInletsToDimension.LoseFocus(userInput));
+                userInput, () => _operatorPropertiesPresenter_ForInletsToDimension.LoseFocus(userInput));
 
             // Refresh
             if (viewModel.Successful)
@@ -2529,9 +2528,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Template Method
             ScalePropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _scalePropertiesPresenter.Delete(userInput));
 
+            // Refresh
             if (viewModel.Successful)
             {
-                // Refresh
                 DocumentViewModelRefresh();
             }
         }

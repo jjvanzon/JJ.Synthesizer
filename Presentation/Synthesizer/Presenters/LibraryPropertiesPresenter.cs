@@ -72,9 +72,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public LibraryPropertiesViewModel Remove(LibraryPropertiesViewModel userInput)
         {
-            return ExecuteAction(
-                userInput,
-                entity => _documentManager.DeleteDocumentReference(entity));
+            return ExecuteAction(userInput, x => _documentManager.DeleteDocumentReference(x));
         }
     }
 }
