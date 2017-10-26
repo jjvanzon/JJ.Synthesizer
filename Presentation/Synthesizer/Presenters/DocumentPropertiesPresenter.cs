@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentPropertiesPresenter : PresenterBaseWithSave<Document, DocumentPropertiesViewModel>
+    internal class DocumentPropertiesPresenter : EntityPresenterBaseWithSave<Document, DocumentPropertiesViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;

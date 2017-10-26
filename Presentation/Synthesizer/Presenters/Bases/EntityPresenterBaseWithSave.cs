@@ -3,7 +3,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
-    internal abstract class PresenterBaseWithSave<TEntity, TViewModel> 
+    internal abstract class EntityPresenterBaseWithSave<TEntity, TViewModel> 
         : EntityPresenterBase<TEntity, TViewModel>
         where TViewModel : ViewModelBase
     {

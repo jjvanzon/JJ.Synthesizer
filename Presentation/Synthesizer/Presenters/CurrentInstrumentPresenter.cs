@@ -14,7 +14,7 @@ using System.Linq;
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurrentInstrumentPresenter 
-        : PresenterBaseWithoutSave<(Document document, IList<Patch> patches), CurrentInstrumentViewModel>
+        : EntityPresenterBaseWithoutSave<(Document document, IList<Patch> patches), CurrentInstrumentViewModel>
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly IPatchRepository _patchRepository;
