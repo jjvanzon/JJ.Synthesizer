@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -8,8 +6,9 @@ using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
-using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+using System;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -22,48 +21,37 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
         }
 
-        public DocumentOrPatchNotFoundPopupViewModel Show(DocumentOrPatchNotFoundPopupViewModel userInput, string documentName, string patchName = null)
+        /// <see cref="PresenterBase{}.ExecuteNonPersistedAction"/>
+        public void Show(DocumentOrPatchNotFoundPopupViewModel userInput, string documentName, string patchName = null)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            ExecuteNonPersistedAction(
+                userInput,
+                () =>
+                {
+                    // GetEntities
+                    Document document = _documentRepository.TryGetByName(documentName);
+                    string canonicalPatchName = NameHelper.ToCanonical(patchName);
+                    Patch patch = document?.Patches
+                                          .Where(x => string.Equals(NameHelper.ToCanonical(x.Name), canonicalPatchName))
+                                          .SingleWithClearException(new { canonicalPatchName });
+                    // ToViewModel
+                    string message;
+                    if (document == null)
+                    {
+                        message = CommonResourceFormatter.NotFound_WithType_AndName(ResourceFormatter.Document, documentName);
+                    }
+                    else if (patch == null)
+                    {
+                        message = CommonResourceFormatter.NotFound_WithType_AndName(ResourceFormatter.Patch, patchName);
+                    }
+                    else
+                    {
+                        throw new Exception($"Either {nameof(document)} or {nameof(patch)} should have been null.");
+                    }
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // GetEntities
-            Document document = _documentRepository.TryGetByName(documentName);
-            string canonicalPatchName = NameHelper.ToCanonical(patchName);
-            Patch patch = document?.Patches
-                .Where(x => string.Equals(NameHelper.ToCanonical(x.Name), canonicalPatchName))
-                .SingleWithClearException(new { canonicalPatchName });
-
-            // ToViewModel
-            string message;
-            if (document == null)
-            {
-                message = CommonResourceFormatter.NotFound_WithType_AndName(ResourceFormatter.Document, documentName);
-            }
-            else if (patch == null)
-            {
-                message = CommonResourceFormatter.NotFound_WithType_AndName(ResourceFormatter.Patch, patchName);
-            }
-            else
-            {
-                throw new Exception($"Either {nameof(document)} or {nameof(patch)} should have been null.");
-            }
-
-            DocumentOrPatchNotFoundPopupViewModel viewModel = ToViewModelHelper.CreateDocumentOrPatchNotFoundPopupViewModel(message);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+                    userInput.NotFoundMessage = message;
+                    userInput.Visible = true;
+                });
         }
 
         public void OK(DocumentOrPatchNotFoundPopupViewModel userInput)

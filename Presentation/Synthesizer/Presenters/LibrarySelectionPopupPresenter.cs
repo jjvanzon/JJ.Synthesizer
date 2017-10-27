@@ -95,11 +95,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 });
         }
 
+        /// <see cref="PresenterBase{}.ExecuteNonPersistedAction"/>
         public void OpenItemExternally(LibrarySelectionPopupViewModel viewModel, int lowerDocumentID)
         {
-            // NOTE: Because the data used is never edited in this context,
-            // we can pretend it is a NonPersistedAction (which is more efficient).
-
             ExecuteNonPersistedAction(
                 viewModel,
                 () =>

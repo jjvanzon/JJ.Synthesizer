@@ -759,7 +759,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
 
             // Partial Action
-            ExecuteNonPersistedAction(viewModel, () => _documentGridPresenter.Load(viewModel));
+            ExecuteReadAction(viewModel, () => _documentGridPresenter.Load(viewModel));
         }
 
         // Document

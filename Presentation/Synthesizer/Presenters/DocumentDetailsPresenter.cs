@@ -1,13 +1,13 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
+using JJ.Presentation.Synthesizer.ToEntity;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -31,8 +31,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
 
             // Non-Persisted
-            viewModel.IDVisible = false;
-            viewModel.CanDelete = false;
             viewModel.Visible = true;
 
             // Successful
