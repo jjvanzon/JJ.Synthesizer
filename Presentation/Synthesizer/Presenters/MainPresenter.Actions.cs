@@ -759,7 +759,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
 
             // Partial Action
-            ExecuteNonPersistedAction(viewModel, () => _documentGridPresenter.Show(viewModel));
+            ExecuteNonPersistedAction(viewModel, () => _documentGridPresenter.Load(viewModel));
         }
 
         // Document
@@ -999,7 +999,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
             // Template Method
-            ExecuteWriteAction(userInput, () => _librarySelectionPopupPresenter.Show(userInput));
+            ExecuteWriteAction(userInput, () => _librarySelectionPopupPresenter.Load(userInput));
         }
 
         /// <param name="group">nullable</param>
@@ -1435,6 +1435,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteNonPersistedAction(viewModel, () => _libraryPropertiesPresenter.Show(viewModel));
         }
 
+        /// <see cref="LibrarySelectionPopupPresenter.Cancel"/>
         public void LibrarySelectionPopupCancel()
         {
             // GetViewModel
@@ -1442,6 +1443,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Template Method
             ExecuteNonPersistedAction(userInput, () => _librarySelectionPopupPresenter.Cancel(userInput));
+        }
+
+        /// <see cref="LibrarySelectionPopupPresenter.Close"/>
+        public void LibrarySelectionPopupClose()
+        {
+            // GetViewModel
+            LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
+
+            // Template Method
+            ExecuteNonPersistedAction(userInput, () => _librarySelectionPopupPresenter.Close(userInput));
         }
 
         public void LibrarySelectionPopupOK(int? lowerDocumentID)

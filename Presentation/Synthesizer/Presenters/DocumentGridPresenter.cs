@@ -7,6 +7,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using System;
 using System.Collections.Generic;
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -21,11 +22,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _autoPatcher = new AutoPatcher(_repositories);
         }
 
-        public DocumentGridViewModel Load(DocumentGridViewModel viewModel)
-        {
-            return ExecuteAction(viewModel, x => { }, x => x.Visible = true);
-        }
-
         /// <summary>
         /// Known bug, not easily solvable and also not a large problem: 
         /// A renamed, uncommitted document will not end up in a new place in the list,
@@ -34,6 +30,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         protected override IList<Document> GetEntity(DocumentGridViewModel userInput) => _repositories.DocumentRepository.OrderByName();
 
         protected override DocumentGridViewModel ToViewModel(IList<Document> entities) => entities.ToGridViewModel();
+
+        public DocumentGridViewModel Load(DocumentGridViewModel viewModel)
+        {
+            return ExecuteAction(viewModel, x => { }, x => x.Visible = true);
+        }
 
         public DocumentGridViewModel Play(DocumentGridViewModel userInput, int id)
         {
@@ -61,6 +62,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Non-Persisted
                     viewModel.OutletIDToPlay = outlet?.ID;
                 });
+        }
+
+        [Obsolete("Use Load instead.", true)]
+        public override void Show(DocumentGridViewModel viewModel)
+        {
+            throw new NotSupportedException("Call Load instead.");
         }
     }
 }

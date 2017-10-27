@@ -10,6 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -44,11 +45,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ToViewModelHelper.CreateCurrentInstrumentViewModel(x.patches, x.document);
         }
 
-        public CurrentInstrumentViewModel Load(CurrentInstrumentViewModel userInput)
-        {
-            return ExecuteAction(userInput, x => { }, x => x.Visible = true);
-        }
-
         public CurrentInstrumentViewModel Add(CurrentInstrumentViewModel userInput, int patchID)
         {
             Patch patch = null;
@@ -62,6 +58,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void Remove(CurrentInstrumentViewModel viewModel, int patchID)
         {
             ExecuteNonPersistedAction(viewModel, () => viewModel.List.RemoveFirst(x => x.ID == patchID));
+        }
+
+        public CurrentInstrumentViewModel Load(CurrentInstrumentViewModel userInput)
+        {
+            return ExecuteAction(userInput, x => { }, x => x.Visible = true);
         }
 
         public void Move(CurrentInstrumentViewModel viewModel, int patchID, int newPosition)
@@ -94,6 +95,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     viewModel.OutletIDToPlay = outlet?.ID;
                 });
 
+        }
+
+        [Obsolete("Use Load instead.", true)]
+        public override void Show(CurrentInstrumentViewModel viewModel)
+        {
+            throw new NotSupportedException("Call Load instead.");
         }
     }
 }

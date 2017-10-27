@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GeneratedCSharp;
+﻿using GeneratedCSharp;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
@@ -24,6 +21,9 @@ using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer
 {
@@ -191,10 +191,7 @@ namespace JJ.Business.Synthesizer
             patch.UnlinkRelatedEntities();
             _repositories.PatchRepository.Delete(patch);
 
-            return new VoidResult
-            {
-                Successful = true
-            };
+            return new VoidResult { Successful = true };
         }
 
         /// <summary>

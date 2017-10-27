@@ -14,9 +14,9 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 
         protected abstract TViewModel ToViewModel(TEntity entity);
 
-        public void Show(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
+        public virtual void Show(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
-        public TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput, _ => { });
+        public virtual TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput, _ => { });
 
         /// <see cref="ExecuteAction(TViewModel,Func{TEntity, IResult},Action{TViewModel})"/>
         protected TViewModel ExecuteAction(

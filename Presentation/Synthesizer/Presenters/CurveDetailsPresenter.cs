@@ -7,7 +7,6 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -94,10 +93,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // ViewModel Validation
                     if (!userInput.SelectedNodeID.HasValue)
                     {
-                        return new VoidResult
-                        {
-                            Messages = new List<string> { ResourceFormatter.SelectANodeFirst }
-                        };
+                        return new VoidResult(ResourceFormatter.SelectANodeFirst);
                     }
 
                     // GetEntity

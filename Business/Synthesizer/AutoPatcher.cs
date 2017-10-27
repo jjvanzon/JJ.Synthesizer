@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JJ.Framework.Exceptions;
+﻿using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Framework.Business;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Mathematics;
+using System.Collections.Generic;
+using System.Linq;
 // ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer
@@ -298,11 +298,7 @@ namespace JJ.Business.Synthesizer
 
             if (soundOutlets.Count == 0)
             {
-                return new Result<Outlet>
-                {
-                    Successful = false,
-                    Messages = new[] { ResourceFormatter.PatchHasNoOutlets }
-                };
+                return new Result<Outlet>(ResourceFormatter.PatchHasNoOutlets);
             }
             else
             {
@@ -369,11 +365,7 @@ namespace JJ.Business.Synthesizer
 
             if (soundOutlet == null)
             {
-                return new Result<Outlet>
-                {
-                    Successful = false,
-                    Messages = new[] { ResourceFormatter.NoSoundFound }
-                };
+                return new Result<Outlet>(ResourceFormatter.NoSoundFound);
             }
             else
             {
@@ -396,11 +388,7 @@ namespace JJ.Business.Synthesizer
 
             if (soundOutlet == null)
             {
-                return new Result<Outlet>
-                {
-                    Successful = false,
-                    Messages = new[] { ResourceFormatter.NoSoundFound }
-                };
+                return new Result<Outlet>(ResourceFormatter.NoSoundFound);
             }
             else
             {
@@ -422,11 +410,7 @@ namespace JJ.Business.Synthesizer
 
             if (soundOutlet == null)
             {
-                return new Result<Outlet>
-                {
-                    Successful = false,
-                    Messages = new[] { ResourceFormatter.NoSoundFound }
-                };
+                return new Result<Outlet>(ResourceFormatter.NoSoundFound);
             }
             else
             {

@@ -1,14 +1,15 @@
-﻿using System;
-using System.Windows.Forms;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using System;
+using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     internal partial class LibrarySelectionPopupForm : Form
     {
         public event EventHandler CancelRequested;
+        public event EventHandler CloseRequested;
 
         public event EventHandler<EventArgs<int?>> OKRequested
         {
@@ -46,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         {
             e.Cancel = true;
 
-            CancelRequested(this, EventArgs.Empty);
+            CloseRequested(this, EventArgs.Empty);
         }
 
         private void librarySelectionPopupUserControl_CancelRequested(object sender, EventArgs e)

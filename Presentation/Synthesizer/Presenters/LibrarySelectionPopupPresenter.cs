@@ -4,16 +4,17 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
-using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+using System;
 using System.Collections.Generic;
+#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class LibrarySelectionPopupPresenter : PresenterBase<LibrarySelectionPopupViewModel>
+    internal class LibrarySelectionPopupPresenter : EntityPresenterWithoutSaveBase<Document, LibrarySelectionPopupViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly DocumentManager _documentManager;
@@ -27,7 +28,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _autoPatcher = new AutoPatcher(_repositories);
         }
 
-        public void Cancel(LibrarySelectionPopupViewModel userInput)
+        protected override Document GetEntity(LibrarySelectionPopupViewModel userInput) => _repositories.DocumentRepository.Get(userInput.HigherDocumentID);
+
+        protected override LibrarySelectionPopupViewModel ToViewModel(Document higherDocument)
+        {
+            // Business
+            IList<Document> potentialLowerDocuments = _documentManager.GetLowerDocumentCandidates(higherDocument);
+
+            // ToViewModel
+            LibrarySelectionPopupViewModel viewModel = higherDocument.ToLibrarySelectionPopupViewModel(potentialLowerDocuments);
+
+            return viewModel;
+        }
+
+        /// <summary>
+        /// Just to be clear there is both a Cancel button and a Close button in the window border,
+        /// we have two actions, but really they do the same.
+        /// </summary>
+        public void Cancel(LibrarySelectionPopupViewModel userInput) => Close(userInput);
+
+        /// <summary>
+        /// Just to be clear there is both a Cancel button and a Close button in the window border,
+        /// we have two actions, but really they do the same.
+        /// </summary>
+        public override void Close(LibrarySelectionPopupViewModel userInput)
         {
             ExecuteNonPersistedAction(userInput, () =>
             {
@@ -36,188 +60,102 @@ namespace JJ.Presentation.Synthesizer.Presenters
             });
         }
 
+        public LibrarySelectionPopupViewModel Load(LibrarySelectionPopupViewModel userInput)
+        {
+            return ExecuteAction(userInput, x => { }, x => x.Visible = true);
+        }
+
         public LibrarySelectionPopupViewModel OK(LibrarySelectionPopupViewModel userInput, int? lowerDocumentID)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            LibrarySelectionPopupViewModel viewModel;
-
-            // UserInput Validation
-            if (!lowerDocumentID.HasValue)
-            {
-                // CreateViewModel
-                viewModel = CreateViewModel(userInput);
-
-                // Non-Persisted
-                CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.Add(ResourceFormatter.SelectALibraryFirst);
-            }
-            else
-            {
-                // GetEntities
-                Document higherDocument = _repositories.DocumentRepository.Get(userInput.HigherDocumentID);
-                Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID.Value);
-
-                // Business
-                Result<DocumentReference> result = _documentManager.CreateDocumentReference(higherDocument, lowerDocument);
-
-                if (result.Successful)
+            return ExecuteAction(
+                userInput,
+                entity =>
                 {
-                    // ToViewModel
-                    viewModel = CreateEmptyViewModel(userInput);
-                }
-                else
+                    // Validation
+                    if (!lowerDocumentID.HasValue)
+                    {
+                        return new VoidResult(ResourceFormatter.SelectALibraryFirst);
+                    }
+
+                    // GetEntity
+                    Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID.Value);
+
+                    // Business
+                    IResult result = _documentManager.CreateDocumentReference(entity, lowerDocument);
+
+                    return result;
+                },
+                viewModel =>
                 {
-                    // CreateViewModel
-                    viewModel = CreateViewModel(userInput);
-                }
-
-                // Non-Persisted
-                CopyNonPersistedProperties(userInput, viewModel);
-                viewModel.ValidationMessages.AddRange(result.Messages);
-
-                // Successful?
-                viewModel.Successful = result.Successful;
-            }
-
-            if (viewModel.Successful)
-            {
-                viewModel.Visible = false;
-            }
-
-            return viewModel;
+                    if (viewModel.Successful)
+                    {
+                        viewModel.List = new List<IDAndName>();
+                        viewModel.Visible = false;
+                    }
+                });
         }
 
         public void OpenItemExternally(LibrarySelectionPopupViewModel viewModel, int lowerDocumentID)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            // NOTE: Because the data used is never edited in this context,
+            // we can pretend it is a NonPersistedAction (which is more efficient).
 
-            // RefreshCounter
-            viewModel.RefreshCounter++;
+            ExecuteNonPersistedAction(
+                viewModel,
+                () =>
+                {
+                    // Business
+                    Document potentialLowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID);
 
-            // Business
-            Document document = _repositories.DocumentRepository.Get(lowerDocumentID);
-
-            // CreateViewModel
-            viewModel.DocumentToOpenExternally = document.ToIDAndName();
+                    // ToViewModel
+                    viewModel.DocumentToOpenExternally = potentialLowerDocument.ToIDAndName();
+                });
         }
 
         public LibrarySelectionPopupViewModel Play(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            Outlet outlet = null;
 
-            // RefreshCounter
-            userInput.RefreshCounter++;
+            return ExecuteAction(
+                userInput,
+                entity =>
+                {
+                    // GetEntity
+                    Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID);
 
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            LibrarySelectionPopupViewModel viewModel = CreateViewModel(userInput);
-
-            // GetEntity
-            Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID);
-
-            // Business
-            Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(lowerDocument, mustIncludeHidden: false);
-            Outlet outlet = result.Data;
-            if (outlet != null)
-            {
-                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
-            }
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.ValidationMessages.AddRange(result.Messages);
-            viewModel.OutletIDToPlay = outlet?.ID;
-
-            // Successful?
-            viewModel.Successful = result.Successful;
-
-            return viewModel;
+                    // Business
+                    Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(lowerDocument, mustIncludeHidden: false);
+                    outlet = result.Data;
+                    if (outlet != null)
+                    {
+                        _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+                    }
+                },
+                viewModel =>
+                {
+                    // Non-Persisted
+                    viewModel.OutletIDToPlay = outlet?.ID;
+                });
         }
 
-        public LibrarySelectionPopupViewModel Refresh(LibrarySelectionPopupViewModel userInput)
+        public override LibrarySelectionPopupViewModel Refresh(LibrarySelectionPopupViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            LibrarySelectionPopupViewModel viewModel;
-            if (!userInput.Visible)
-            {
-                // ToViewModel
-                viewModel = CreateEmptyViewModel(userInput);
-            }
-            else
-            {
-                // CreateViewModel
-                viewModel = CreateViewModel(userInput);
-            }
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
+            return ExecuteAction(
+                userInput,
+                entity => { },
+                viewModel =>
+                {
+                    if (viewModel.Successful)
+                    {
+                        viewModel.List = new List<IDAndName>();
+                    }
+                });
         }
 
-        public LibrarySelectionPopupViewModel Show(LibrarySelectionPopupViewModel userInput)
+        [Obsolete("Use Load instead.", true)]
+        public override void Show(LibrarySelectionPopupViewModel viewModel)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            // RefreshCounter
-            userInput.RefreshCounter++;
-
-            // Set !Successful
-            userInput.Successful = false;
-
-            // CreateViewModel
-            LibrarySelectionPopupViewModel viewModel = CreateViewModel(userInput);
-
-            // Non-Persisted
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = true;
-
-            // Successful
-            viewModel.Successful = true;
-
-            return viewModel;
-        }
-
-        private LibrarySelectionPopupViewModel CreateEmptyViewModel(LibrarySelectionPopupViewModel userInput)
-        {
-            // GetEntity
-            Document higherDocument = _repositories.DocumentRepository.Get(userInput.HigherDocumentID);
-
-            // ToViewModel
-            LibrarySelectionPopupViewModel viewModel = higherDocument.ToEmptyLibrarySelectionPopupViewModel();
-            return viewModel;
-        }
-
-        private LibrarySelectionPopupViewModel CreateViewModel(LibrarySelectionPopupViewModel userInput)
-        {
-            // GetEntity
-            Document higherDocument = _repositories.DocumentRepository.Get(userInput.HigherDocumentID);
-
-            // Business
-            IList<Document> potentialLowerDocuments = _documentManager.GetLowerDocumentCandidates(higherDocument);
-
-            // ToViewModel
-            LibrarySelectionPopupViewModel viewModel = higherDocument.ToLibrarySelectionPopupViewModel(potentialLowerDocuments);
-            return viewModel;
+            throw new NotSupportedException("Call Load instead.");
         }
     }
 }

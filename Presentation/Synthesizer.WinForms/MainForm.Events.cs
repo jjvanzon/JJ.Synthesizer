@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using System;
+using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -172,6 +172,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _autoPatchPopupForm.patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
             _autoPatchPopupForm.patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             _librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
+            _librarySelectionPopupForm.CloseRequested += _librarySelectionPopupForm_CloseRequested;
             _librarySelectionPopupForm.OKRequested += _librarySelectionPopupForm_OKRequested;
             _librarySelectionPopupForm.OpenItemExternallyRequested += _librarySelectionPopupForm_OpenItemExternallyRequested;
             _librarySelectionPopupForm.PlayRequested += _librarySelectionPopupForm_PlayRequested;
@@ -622,6 +623,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibrarySelectionPopupCancel);
+
+        private void _librarySelectionPopupForm_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.LibrarySelectionPopupClose);
 
         private void _librarySelectionPopupForm_OKRequested(object sender, EventArgs<int?> e)
         {
