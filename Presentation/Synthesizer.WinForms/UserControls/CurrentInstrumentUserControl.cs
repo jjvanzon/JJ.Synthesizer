@@ -1,13 +1,13 @@
-﻿using System;
+﻿using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -16,7 +16,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private readonly IList<CurrentInstrumentItemUserControl> _itemControls = new List<CurrentInstrumentItemUserControl>();
 
         public event EventHandler<EventArgs<int>> RemoveRequested;
-        public event EventHandler CloseRequested;
         public event EventHandler ShowAutoPatchRequested;
         public event EventHandler PlayRequested;
 
@@ -75,14 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             x -= StyleHelper.IconButtonSize;
 
-            buttonClose.Top = 0;
-            buttonClose.Left = x;
-            buttonClose.Width = StyleHelper.IconButtonSize;
-            buttonClose.Height = StyleHelper.IconButtonSize;
-
-            x -= StyleHelper.DefaultSpacing;
-            x -= StyleHelper.IconButtonSize;
-
             buttonShowAutoPatch.Top = 0;
             buttonShowAutoPatch.Left = x;
             buttonShowAutoPatch.Width = StyleHelper.IconButtonSize;
@@ -110,7 +101,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Base_SizeChanged(object sender, EventArgs e) => PositionControls();
         private void ItemControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested?.Invoke(sender, e);
-        private void buttonClose_Click(object sender, EventArgs e) => CloseRequested?.Invoke(sender, EventArgs.Empty);
         private void buttonShowAutoPatch_Click(object sender, EventArgs e) => ShowAutoPatchRequested?.Invoke(sender, EventArgs.Empty);
         private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested?.Invoke(sender, EventArgs.Empty);
     }

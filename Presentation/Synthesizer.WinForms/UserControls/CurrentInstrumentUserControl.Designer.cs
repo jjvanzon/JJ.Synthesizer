@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.buttonShowAutoPatch = new System.Windows.Forms.Button();
-            this.buttonClose = new System.Windows.Forms.Button();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -45,19 +44,6 @@
             this.buttonShowAutoPatch.TabIndex = 3;
             this.buttonShowAutoPatch.UseVisualStyleBackColor = true;
             this.buttonShowAutoPatch.Click += new System.EventHandler(this.buttonShowAutoPatch_Click);
-            // 
-            // buttonClose
-            // 
-            this.buttonClose.FlatAppearance.BorderSize = 0;
-            this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClose.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.CloseIcon;
-            this.buttonClose.Location = new System.Drawing.Point(294, 4);
-            this.buttonClose.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(32, 30);
-            this.buttonClose.TabIndex = 2;
-            this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonPlay
             // 
@@ -78,7 +64,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonPlay);
             this.Controls.Add(this.buttonShowAutoPatch);
-            this.Controls.Add(this.buttonClose);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CurrentInstrumentUserControl";
             this.Size = new System.Drawing.Size(523, 220);
@@ -88,7 +73,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button buttonClose;
         private System.Windows.Forms.Button buttonShowAutoPatch;
         private System.Windows.Forms.Button buttonPlay;
     }

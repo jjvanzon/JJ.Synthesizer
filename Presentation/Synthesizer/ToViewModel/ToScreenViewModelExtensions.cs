@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -11,6 +8,9 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -73,6 +73,62 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
                 ValidationMessages = new List<string>()
             };
+
+            return viewModel;
+        }
+
+        // CurrentInstrument
+
+        public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(this Document higherDocument)
+        {
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            var viewModel = new CurrentInstrumentViewModel
+            {
+                DocumentID = higherDocument.ID,
+                List = new List<IDAndName>(),
+                ValidationMessages = new List<string>(),
+                Visible = true
+            };
+
+            return viewModel;
+        }
+
+        public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(this Document higherDocument, IList<Patch> patches)
+        {
+            if (patches == null) throw new NullException(() => patches);
+            if (higherDocument == null) throw new NullException(() => higherDocument);
+
+            CurrentInstrumentViewModel viewModel = higherDocument.ToCurrentInstrumentViewModel();
+
+            // Lookup for Aliases (of DocumentReference by Document).
+            Dictionary<int, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences
+                                                                                           .ToDictionary(x => x.LowerDocument.ID);
+            viewModel.List = patches.Select(toIDAndName).ToList();
+
+            IDAndName toIDAndName(Patch patch)
+            {
+                Document lowerDocument = patch.Document;
+
+                // Not using Document Name or Alias
+                bool mustHideDocumentAliasOrName = lowerDocument.ID == higherDocument.ID ||
+                                                   lowerDocument.IsSystemDocument();
+                if (mustHideDocumentAliasOrName)
+                {
+                    return patch.ToIDAndName();
+                }
+
+                // Using Document Name or Alias
+                DocumentReference documentReference = documentReferenceDictionary[lowerDocument.ID];
+
+                var idAndName = new IDAndName
+                {
+                    ID = patch.ID,
+                    Name = $"{documentReference.GetAliasOrName()} | {patch.Name}"
+                };
+
+                return idAndName;
+            }
 
             return viewModel;
         }
@@ -220,7 +276,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
-            var viewModel = ToViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
+            LibrarySelectionPopupViewModel viewModel = ToViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
             viewModel.HigherDocumentID = higherDocument.ID;
 
             return viewModel;

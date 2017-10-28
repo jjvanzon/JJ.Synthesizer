@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Collections.Generic;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesDictionary = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 AutoPatchPopup = ToViewModelHelper.CreateEmptyAutoPatchViewModel(),
-                CurrentInstrument = ToViewModelHelper.CreateCurrentInstrumentViewModelWithEmptyList(document),
+                CurrentInstrument = document.ToCurrentInstrumentViewModel(),
                 CurveDetailsDictionary = document.GetCurves().Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.Curve.ID),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),

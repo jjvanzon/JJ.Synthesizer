@@ -1,9 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using System;
+using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -12,7 +12,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler ShowDocumentGridRequested;
         public event EventHandler ShowDocumentTreeRequested;
         public event EventHandler DocumentCloseRequested;
-        public event EventHandler ShowCurrentInstrumentRequested;
         public event EventHandler ShowDocumentPropertiesRequested;
 
         public MenuUserControl() => InitializeComponent();
@@ -78,14 +77,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
 
-            // CurrentInstrument
-            if (viewModel.CurrentInstrument.Visible)
-            {
-                toolStripMenuItem = CreateCurrentInstrumentToolStripMenuItem();
-                toolStripMenuItem.Click += currentInstrumentToolStripMenuItem_Click;
-                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
-            }
-
             // DocumentClose
             // ReSharper disable once InvertIf
             if (viewModel.DocumentClose.Visible)
@@ -115,18 +106,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 Name = "documentTreeToolStripMenuItem",
                 // ReSharper disable once LocalizableElement
                 Text = "&" + ResourceFormatter.DocumentTree
-            };
-
-            return toolStripMenuItem;
-        }
-
-        private ToolStripMenuItem CreateCurrentInstrumentToolStripMenuItem()
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "currentInstrumentToolStripMenuItem",
-                // ReSharper disable once LocalizableElement
-                Text = "&" + ResourceFormatter.CurrentInstrument
             };
 
             return toolStripMenuItem;
@@ -171,7 +150,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         // Events
 
         private void documentTreeToolStripMenuItem_Click(object sender, EventArgs e) => ShowDocumentTreeRequested?.Invoke(sender, EventArgs.Empty);
-        private void currentInstrumentToolStripMenuItem_Click(object sender, EventArgs e) => ShowCurrentInstrumentRequested?.Invoke(sender, EventArgs.Empty);
         private void documentCloseToolStripMenuItem_Click(object sender, EventArgs e) => DocumentCloseRequested?.Invoke(sender, EventArgs.Empty);
         private void documentListToolStripMenuItem_Click(object sender, EventArgs e) => ShowDocumentGridRequested?.Invoke(sender, EventArgs.Empty);
         private void documentPropertiesToolStripMenuItem_Click(object sender, EventArgs e) => ShowDocumentPropertiesRequested?.Invoke(sender, EventArgs.Empty);

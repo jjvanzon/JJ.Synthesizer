@@ -1,11 +1,10 @@
 ﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Dto;
-using JJ.Data.Canonical;
-using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

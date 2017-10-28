@@ -492,15 +492,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Add(userInput, patchID));
         }
 
-        public void CurrentInstrumentClose()
-        {
-            // GetViewModel
-            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-            // TemplateMethod
-            ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Close(userInput));
-        }
-
         public void CurrentInstrumentMovePatch(int patchID, int newPosition)
         {
             // GetViewModel
@@ -508,15 +499,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Move(userInput, patchID, newPosition));
-        }
-
-        public void CurrentInstrumentShow()
-        {
-            // GetViewModel
-            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-            // TemplateMethod
-            ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Load(userInput));
         }
 
         public void CurrentInstrumentPlay()
@@ -858,7 +840,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Redirections
             MainViewModel.DocumentGrid.Visible = false;
-            CurrentInstrumentShow();
             if (document.Patches.Count == 1)
             {
                 PatchDetailsShow(document.Patches[0].ID);
@@ -1048,7 +1029,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentTreeAddToInstrument()
         {
-            // Inolves both DocumentTree and CurrentInstrument view,
+            // Involves both DocumentTree and CurrentInstrument view,
             // so cannot be handled by a single sub-presenter.
 
             if (!MainViewModel.Document.DocumentTree.SelectedItemID.HasValue)

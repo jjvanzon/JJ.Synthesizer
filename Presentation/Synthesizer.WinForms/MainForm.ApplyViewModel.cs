@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -22,7 +22,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleAudioFileOutputProperties;
             audioOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
             currentInstrumentUserControl.ViewModel = _presenter.MainViewModel.Document.CurrentInstrument;
-            currentInstrumentUserControl.Visible = currentInstrumentUserControl.ViewModel.Visible;
             curveDetailsListUserControl.ViewModels = _presenter.MainViewModel.Document.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
             documentDetailsUserControl.ViewModel = _presenter.MainViewModel.DocumentDetails;
             documentGridUserControl.ViewModel = _presenter.MainViewModel.DocumentGrid;

@@ -1,21 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Dto;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Framework.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -62,58 +59,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                       .Except(OperatorTypeEnums_WithSpecializedPropertiesViews)
                       .ToHashSet();
 
-        // CurrentInstrument
-
-        public static CurrentInstrumentViewModel CreateCurrentInstrumentViewModel(IList<Patch> patches, Document higherDocument)
-        {
-            if (patches == null) throw new NullException(() => patches);
-            if (higherDocument == null) throw new NullException(() => higherDocument);
-
-            Dictionary<int?, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences.ToDictionary(x => x.LowerDocument?.ID);
-
-            var viewModel = new CurrentInstrumentViewModel
-            {
-                DocumentID = higherDocument.ID,
-                List = patches.Select(x => toIDAndName(x)).ToList(),
-                ValidationMessages = new List<string>()
-            };
-
-            IDAndName toIDAndName(Patch entity)
-            {
-                if (entity.Document?.ID == higherDocument.ID)
-                {
-                    return entity.ToIDAndName();
-                }
-
-                int? lowerDocumentID = entity.Document?.ID;
-                DocumentReference documentReference = documentReferenceDictionary[lowerDocumentID];
-
-                var idAndName = new IDAndName
-                {
-                    ID = entity.ID,
-                    Name = $"{documentReference.GetAliasOrName()} | {entity.Name}"
-                };
-
-                return idAndName;
-            }
-
-            return viewModel;
-        }
-
-        public static CurrentInstrumentViewModel CreateCurrentInstrumentViewModelWithEmptyList(Document higherDocument)
-        {
-            if (higherDocument == null) throw new NullException(() => higherDocument);
-
-            var viewModel = new CurrentInstrumentViewModel
-            {
-                DocumentID = higherDocument.ID,
-                List = new List<IDAndName>(),
-                ValidationMessages = new List<string>()
-            };
-
-            return viewModel;
-        }
-
         // Document
 
         public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
@@ -144,7 +89,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentList = new MenuItemViewModel { Visible = true },
                 DocumentTree = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
-                CurrentInstrument = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
                 ValidationMessages = new List<string>(),
                 Successful = true

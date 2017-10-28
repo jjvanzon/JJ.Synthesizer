@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override CurrentInstrumentViewModel ToViewModel((Document document, IList<Patch> patches) x)
         {
-            return ToViewModelHelper.CreateCurrentInstrumentViewModel(x.patches, x.document);
+            return x.document.ToCurrentInstrumentViewModel(x.patches);
         }
 
         public CurrentInstrumentViewModel Add(CurrentInstrumentViewModel userInput, int patchID)
@@ -58,11 +58,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void Remove(CurrentInstrumentViewModel viewModel, int patchID)
         {
             ExecuteNonPersistedAction(viewModel, () => viewModel.List.RemoveFirst(x => x.ID == patchID));
-        }
-
-        public CurrentInstrumentViewModel Load(CurrentInstrumentViewModel userInput)
-        {
-            return ExecuteAction(userInput, x => { }, x => x.Visible = true);
         }
 
         public void Move(CurrentInstrumentViewModel viewModel, int patchID, int newPosition)

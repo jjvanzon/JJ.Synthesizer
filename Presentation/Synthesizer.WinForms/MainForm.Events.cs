@@ -22,7 +22,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioOutputPropertiesUserControl.CloseRequested += audioOutputPropertiesUserControl_CloseRequested;
             audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
             audioOutputPropertiesUserControl.PlayRequested += audioOutputPropertiesUserControl_PlayRequested;
-            currentInstrumentUserControl.CloseRequested += currentInstrumentUserControl_CloseRequested;
             currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
             currentInstrumentUserControl.RemoveRequested += currentInstrumentUserControl_RemoveRequested;
             currentInstrumentUserControl.ShowAutoPatchRequested += currentInstrumentUserControl_ShowAutoPatchRequested;
@@ -77,7 +76,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             libraryPropertiesUserControl.ExpandRequested += libraryPropertiesUserControl_ExpandRequested;
             libraryPropertiesUserControl.RemoveRequested += libraryPropertiesUserControl_RemoveRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
-            menuUserControl.ShowCurrentInstrumentRequested += menuUserControl_ShowCurrentInstrumentRequested;
             menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
             menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
             menuUserControl.ShowDocumentPropertiesRequested += MenuUserControl_ShowDocumentPropertiesRequested;
@@ -301,8 +299,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
         }
-
-        private void currentInstrumentUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurrentInstrumentClose);
 
         private void currentInstrumentUserControl_PlayRequested(object sender, EventArgs e)
         {
@@ -666,8 +662,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     _presenter.DocumentClose();
                 });
         }
-
-        private void menuUserControl_ShowCurrentInstrumentRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurrentInstrumentShow);
 
         private void MenuUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.DocumentPropertiesShow);
 
