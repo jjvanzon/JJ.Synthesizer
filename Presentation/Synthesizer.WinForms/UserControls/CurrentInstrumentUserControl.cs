@@ -1,4 +1,6 @@
-﻿using JJ.Data.Canonical;
+﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
+using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
@@ -19,14 +21,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ShowAutoPatchRequested;
         public event EventHandler PlayRequested;
 
-        public CurrentInstrumentUserControl() => InitializeComponent();
+        public CurrentInstrumentUserControl()
+        {
+            InitializeComponent();
+        }
 
-        // Binding
+        private void CurrentInstrumentUserControl_Load(object sender, EventArgs e)
+        {
+            SetTitles();
+        }
 
         public new CurrentInstrumentViewModel ViewModel
         {
             get => (CurrentInstrumentViewModel)base.ViewModel;
             set => base.ViewModel = value;
+        }
+
+        private void SetTitles()
+        {
+            toolTip.SetToolTip(buttonShowAutoPatch, CommonResourceFormatter.Open);
+            toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
         }
 
         protected override void ApplyViewModelToControls()

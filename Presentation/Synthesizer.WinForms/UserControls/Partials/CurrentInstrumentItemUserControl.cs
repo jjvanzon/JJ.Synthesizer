@@ -1,8 +1,9 @@
-﻿using System;
+﻿using JJ.Data.Canonical;
+using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -14,7 +15,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public CurrentInstrumentItemUserControl() => InitializeComponent();
 
-        private void CurrentInstrumentItemUserControl_Load(object sender, EventArgs e) => PositionControls();
+        private void CurrentInstrumentItemUserControl_Load(object sender, EventArgs e)
+        {
+            SetTitles();
+            PositionControls();
+        }
 
         private IDAndName _viewModel;
 
@@ -28,6 +33,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 _viewModel = value;
                 ApplyViewModel();
             }
+        }
+
+
+        private void SetTitles()
+        {
+            toolTip.SetToolTip(buttonRemove, CommonResourceFormatter.Remove);
         }
 
         private void ApplyViewModel()
