@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioOutputPropertiesUserControl.PlayRequested += audioOutputPropertiesUserControl_PlayRequested;
             currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
             currentInstrumentUserControl.RemoveRequested += currentInstrumentUserControl_RemoveRequested;
-            currentInstrumentUserControl.ShowAutoPatchRequested += currentInstrumentUserControl_ShowAutoPatchRequested;
+            currentInstrumentUserControl.ExpandRequested += currentInstrumentUserControl_ExpandRequested;
             curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
             curveDetailsListUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsListUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
@@ -321,7 +321,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void currentInstrumentUserControl_ShowAutoPatchRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AutoPatchPopupShow);
+        private void currentInstrumentUserControl_ExpandRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurrentInstrumentExpand);
 
         private void _autoPatchPopupForm_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AutoPatchPopupClose);
 

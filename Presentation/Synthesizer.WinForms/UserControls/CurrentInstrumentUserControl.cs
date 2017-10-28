@@ -18,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private readonly IList<CurrentInstrumentItemUserControl> _itemControls = new List<CurrentInstrumentItemUserControl>();
 
         public event EventHandler<EventArgs<int>> RemoveRequested;
-        public event EventHandler ShowAutoPatchRequested;
+        public event EventHandler ExpandRequested;
         public event EventHandler PlayRequested;
 
         public CurrentInstrumentUserControl()
@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            toolTip.SetToolTip(buttonShowAutoPatch, CommonResourceFormatter.Open);
+            toolTip.SetToolTip(buttonExpand, CommonResourceFormatter.Open);
             toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
         }
 
@@ -88,10 +88,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             x -= StyleHelper.IconButtonSize;
 
-            buttonShowAutoPatch.Top = 0;
-            buttonShowAutoPatch.Left = x;
-            buttonShowAutoPatch.Width = StyleHelper.IconButtonSize;
-            buttonShowAutoPatch.Height = StyleHelper.IconButtonSize;
+            buttonExpand.Top = 0;
+            buttonExpand.Left = x;
+            buttonExpand.Width = StyleHelper.IconButtonSize;
+            buttonExpand.Height = StyleHelper.IconButtonSize;
 
             x -= StyleHelper.DefaultSpacing;
             x -= StyleHelper.IconButtonSize;
@@ -115,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Base_SizeChanged(object sender, EventArgs e) => PositionControls();
         private void ItemControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested?.Invoke(sender, e);
-        private void buttonShowAutoPatch_Click(object sender, EventArgs e) => ShowAutoPatchRequested?.Invoke(sender, EventArgs.Empty);
+        private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested?.Invoke(sender, EventArgs.Empty);
         private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested?.Invoke(sender, EventArgs.Empty);
     }
 }

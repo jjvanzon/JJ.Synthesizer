@@ -29,23 +29,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.buttonShowAutoPatch = new System.Windows.Forms.Button();
+            this.buttonExpand = new System.Windows.Forms.Button();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
-            // buttonShowAutoPatch
+            // buttonExpand
             // 
-            this.buttonShowAutoPatch.FlatAppearance.BorderSize = 0;
-            this.buttonShowAutoPatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonShowAutoPatch.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIcon;
-            this.buttonShowAutoPatch.Location = new System.Drawing.Point(286, 9);
-            this.buttonShowAutoPatch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonShowAutoPatch.Name = "buttonShowAutoPatch";
-            this.buttonShowAutoPatch.Size = new System.Drawing.Size(36, 38);
-            this.buttonShowAutoPatch.TabIndex = 3;
-            this.buttonShowAutoPatch.UseVisualStyleBackColor = true;
-            this.buttonShowAutoPatch.Click += new System.EventHandler(this.buttonShowAutoPatch_Click);
+            this.buttonExpand.FlatAppearance.BorderSize = 0;
+            this.buttonExpand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonExpand.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIcon;
+            this.buttonExpand.Location = new System.Drawing.Point(286, 9);
+            this.buttonExpand.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonExpand.Name = "buttonExpand";
+            this.buttonExpand.Size = new System.Drawing.Size(36, 38);
+            this.buttonExpand.TabIndex = 3;
+            this.buttonExpand.UseVisualStyleBackColor = true;
+            this.buttonExpand.Click += new System.EventHandler(this.buttonExpand_Click);
             // 
             // buttonPlay
             // 
@@ -74,7 +74,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.buttonPlay);
-            this.Controls.Add(this.buttonShowAutoPatch);
+            this.Controls.Add(this.buttonExpand);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "CurrentInstrumentUserControl";
             this.Size = new System.Drawing.Size(588, 275);
@@ -85,7 +85,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button buttonShowAutoPatch;
+        private System.Windows.Forms.Button buttonExpand;
         private System.Windows.Forms.Button buttonPlay;
         private System.Windows.Forms.ToolTip toolTip;
     }
