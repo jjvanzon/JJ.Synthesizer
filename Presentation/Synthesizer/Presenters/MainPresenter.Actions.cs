@@ -492,13 +492,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(autoPatchPopupViewModel);
         }
 
-        public void CurrentInstrumentMovePatch(int patchID, int newPosition)
+        public void CurrentInstrumentMove(int patchID, int newPosition)
         {
             // GetViewModel
-            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
+            CurrentInstrumentViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
             // TemplateMethod
-            ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Move(userInput, patchID, newPosition));
+            ExecuteReadAction(viewModel, () => _currentInstrumentPresenter.Move(viewModel, patchID, newPosition));
+        }
+
+        public void CurrentInstrumentMoveBackward(int patchID)
+        {
+            // GetViewModel
+            CurrentInstrumentViewModel viewModel = MainViewModel.Document.CurrentInstrument;
+
+            // TemplateMethod
+            ExecuteReadAction(viewModel, () => _currentInstrumentPresenter.MoveBackward(viewModel, patchID));
+        }
+
+        public void CurrentInstrumentMoveForward(int patchID)
+        {
+            // GetViewModel
+            CurrentInstrumentViewModel viewModel = MainViewModel.Document.CurrentInstrument;
+
+            // TemplateMethod
+            ExecuteReadAction(viewModel, () => _currentInstrumentPresenter.MoveForward(viewModel, patchID));
         }
 
         public void CurrentInstrumentPlay()

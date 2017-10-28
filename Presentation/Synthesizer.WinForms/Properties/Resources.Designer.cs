@@ -83,6 +83,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap GreaterThanIcon {
+            get {
+                object obj = ResourceManager.GetObject("GreaterThanIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LessThanIcon {
+            get {
+                object obj = ResourceManager.GetObject("LessThanIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap NewIcon {
             get {
                 object obj = ResourceManager.GetObject("NewIcon", resourceCulture);

@@ -606,6 +606,8 @@
     <None Include="Resources\PianoIconLighter.png" />
     <None Include="Resources\PianoIconUniform.png" />
     <None Include="Resources\PianoIconUniformLongerKeys.png" />
+    <None Include="Resources\GreaterThanIcon.png" />
+    <None Include="Resources\LessThanIcon.png" />
     <Content Include="Resources\RefreshIcon.png" />
   </ItemGroup>
   <ItemGroup />

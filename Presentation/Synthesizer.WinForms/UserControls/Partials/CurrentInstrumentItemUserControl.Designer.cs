@@ -32,6 +32,8 @@
             this.labelName = new System.Windows.Forms.Label();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonMoveBackward = new System.Windows.Forms.Button();
+            this.buttonMoveForward = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelName
@@ -50,7 +52,7 @@
             this.buttonRemove.FlatAppearance.BorderSize = 0;
             this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
-            this.buttonRemove.Location = new System.Drawing.Point(99, 0);
+            this.buttonRemove.Location = new System.Drawing.Point(258, 12);
             this.buttonRemove.Margin = new System.Windows.Forms.Padding(0);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(24, 25);
@@ -67,15 +69,43 @@
             this.toolTip.UseAnimation = false;
             this.toolTip.UseFading = false;
             // 
+            // buttonMoveBackward
+            // 
+            this.buttonMoveBackward.FlatAppearance.BorderSize = 0;
+            this.buttonMoveBackward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonMoveBackward.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.LessThanIcon;
+            this.buttonMoveBackward.Location = new System.Drawing.Point(200, 12);
+            this.buttonMoveBackward.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonMoveBackward.Name = "buttonMoveBackward";
+            this.buttonMoveBackward.Size = new System.Drawing.Size(24, 25);
+            this.buttonMoveBackward.TabIndex = 2;
+            this.buttonMoveBackward.UseVisualStyleBackColor = true;
+            this.buttonMoveBackward.Click += new System.EventHandler(this.buttonMoveBackward_Click);
+            // 
+            // buttonMoveForward
+            // 
+            this.buttonMoveForward.FlatAppearance.BorderSize = 0;
+            this.buttonMoveForward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonMoveForward.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.GreaterThanIcon;
+            this.buttonMoveForward.Location = new System.Drawing.Point(224, 12);
+            this.buttonMoveForward.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonMoveForward.Name = "buttonMoveForward";
+            this.buttonMoveForward.Size = new System.Drawing.Size(24, 25);
+            this.buttonMoveForward.TabIndex = 3;
+            this.buttonMoveForward.UseVisualStyleBackColor = true;
+            this.buttonMoveForward.Click += new System.EventHandler(this.buttonMoveForward_Click);
+            // 
             // CurrentInstrumentItemUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonMoveForward);
+            this.Controls.Add(this.buttonMoveBackward);
             this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.labelName);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "CurrentInstrumentItemUserControl";
-            this.Size = new System.Drawing.Size(146, 40);
+            this.Size = new System.Drawing.Size(315, 127);
             this.Load += new System.EventHandler(this.CurrentInstrumentItemUserControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -87,5 +117,7 @@
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Button buttonRemove;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button buttonMoveBackward;
+        private System.Windows.Forms.Button buttonMoveForward;
     }
 }

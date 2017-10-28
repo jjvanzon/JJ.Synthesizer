@@ -55,16 +55,37 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 viewModel => viewModel.List.Add(patch.ToIDAndName()));
         }
 
-        public void Remove(CurrentInstrumentViewModel viewModel, int patchID)
-        {
-            ExecuteNonPersistedAction(viewModel, () => viewModel.List.RemoveFirst(x => x.ID == patchID));
-        }
-
         public void Move(CurrentInstrumentViewModel viewModel, int patchID, int newPosition)
         {
             ExecuteNonPersistedAction(viewModel, () =>
             {
                 int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
+                IDAndName item = viewModel.List[currentPosition];
+                viewModel.List.RemoveAt(currentPosition);
+                viewModel.List.Insert(newPosition, item);
+            });
+        }
+
+        public void MoveBackward(CurrentInstrumentViewModel viewModel, int patchID)
+        {
+            ExecuteNonPersistedAction(viewModel, () =>
+            {
+                int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
+                int newPosition = currentPosition - 1;
+                if (newPosition < 0) newPosition = 0;
+                IDAndName item = viewModel.List[currentPosition];
+                viewModel.List.RemoveAt(currentPosition);
+                viewModel.List.Insert(newPosition, item);
+            });
+        }
+
+        public void MoveForward(CurrentInstrumentViewModel viewModel, int patchID)
+        {
+            ExecuteNonPersistedAction(viewModel, () =>
+            {
+                int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
+                int newPosition = currentPosition + 1;
+                if (newPosition > viewModel.List.Count - 1) newPosition = viewModel.List.Count - 1;
                 IDAndName item = viewModel.List[currentPosition];
                 viewModel.List.RemoveAt(currentPosition);
                 viewModel.List.Insert(newPosition, item);
@@ -90,6 +111,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     viewModel.OutletIDToPlay = outlet?.ID;
                 });
 
+        }
+
+        public void Remove(CurrentInstrumentViewModel viewModel, int patchID)
+        {
+            ExecuteNonPersistedAction(viewModel, () => viewModel.List.RemoveFirst(x => x.ID == patchID));
         }
 
         [Obsolete("Use Load instead.", true)]

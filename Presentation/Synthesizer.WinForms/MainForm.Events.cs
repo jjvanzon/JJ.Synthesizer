@@ -3,6 +3,7 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using System;
 using System.Windows.Forms;
+#pragma warning disable IDE1006 // Naming Styles
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -22,9 +23,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioOutputPropertiesUserControl.CloseRequested += audioOutputPropertiesUserControl_CloseRequested;
             audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
             audioOutputPropertiesUserControl.PlayRequested += audioOutputPropertiesUserControl_PlayRequested;
+            currentInstrumentUserControl.ExpandRequested += currentInstrumentUserControl_ExpandRequested;
+            currentInstrumentUserControl.MoveBackwardRequested += currentInstrumentUserControl_MoveBackwardRequested;
+            currentInstrumentUserControl.MoveForwardRequested += currentInstrumentUserControl_MoveForwardRequested;
             currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
             currentInstrumentUserControl.RemoveRequested += currentInstrumentUserControl_RemoveRequested;
-            currentInstrumentUserControl.ExpandRequested += currentInstrumentUserControl_ExpandRequested;
             curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
             curveDetailsListUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsListUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
@@ -300,6 +303,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
+        private void currentInstrumentUserControl_ExpandRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurrentInstrumentExpand);
+
+        private void currentInstrumentUserControl_MoveBackwardRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() =>
+            {
+                _presenter.CurrentInstrumentMoveBackward(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
+        }
+
+        private void currentInstrumentUserControl_MoveForwardRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() =>
+            {
+                _presenter.CurrentInstrumentMoveForward(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
+        }
+
         private void currentInstrumentUserControl_PlayRequested(object sender, EventArgs e)
         {
             TemplateActionHandler(
@@ -320,8 +343,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
         }
-
-        private void currentInstrumentUserControl_ExpandRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.CurrentInstrumentExpand);
 
         private void _autoPatchPopupForm_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AutoPatchPopupClose);
 
