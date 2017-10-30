@@ -527,6 +527,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteWriteAction(userInput, () => _currentInstrumentPresenter.Play(userInput));
         }
 
+        public void CurrentInstrumentPlayItem(int patchID)
+        {
+            // GetViewModel
+            CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
+
+            // TemplateMethod
+            ExecuteWriteAction(userInput, () => _currentInstrumentPresenter.PlayItem(userInput, patchID));
+        }
+
         public void RemoveFromInstrument(int patchID)
         {
             // GetViewModel

@@ -104,6 +104,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         }
 
+        public CurrentInstrumentViewModel PlayItem(CurrentInstrumentViewModel userInput, int patchID)
+        {
+            Outlet outlet = null;
+
+            return ExecuteAction(
+                userInput,
+                entities =>
+                {
+                    Patch patch = entities.patches.Where(x => x.ID == patchID).SingleOrDefaultWithClearException(new { ID = patchID });
+                    Patch autoPatch = _autoPatcher.AutoPatch(patch); // Use AutoPatch to hack in creating a new patch, not changing the old one.
+                    _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
+                    Result<Outlet> result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
+                    outlet = result.Data;
+                    return result;
+                },
+                viewModel =>
+                {
+                    viewModel.OutletIDToPlay = outlet?.ID;
+                });
+
+        }
+
+
         public CurrentInstrumentViewModel Remove(CurrentInstrumentViewModel viewModel, int patchID)
         {
             return ExecuteAction(viewModel, entities => entities.patches.RemoveFirst(x => x.ID == patchID));

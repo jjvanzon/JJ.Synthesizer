@@ -24,6 +24,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<EventArgs<int>> MoveBackwardRequested;
         public event EventHandler<EventArgs<int>> MoveForwardRequested;
         public event EventHandler PlayRequested;
+        public event EventHandler<EventArgs<int>> PlayItemRequested;
         public event EventHandler<EventArgs<int>> RemoveRequested;
 
         public CurrentInstrumentUserControl()
@@ -73,6 +74,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 };
                 itemControl.MoveBackwardRequested += ItemControl_MoveBackwardRequested;
                 itemControl.MoveForwardRequested += ItemControl_MoveForwardRequested;
+                itemControl.PlayRequested += ItemControl_PlayRequested;
                 itemControl.RemoveRequested += ItemControl_RemoveRequested;
 
                 _itemControls.Add(itemControl);
@@ -85,6 +87,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 CurrentInstrumentItemUserControl itemControl = _itemControls[i];
                 itemControl.MoveBackwardRequested -= ItemControl_MoveBackwardRequested;
                 itemControl.MoveForwardRequested -= ItemControl_MoveForwardRequested;
+                itemControl.PlayRequested -= ItemControl_PlayRequested;
                 itemControl.RemoveRequested -= ItemControl_RemoveRequested;
 
                 _itemControls.RemoveAt(i);
@@ -128,6 +131,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void Base_SizeChanged(object sender, EventArgs e) => PositionControls();
         private void ItemControl_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
         private void ItemControl_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
+        private void ItemControl_PlayRequested(object sender, EventArgs<int> e) => PlayItemRequested(sender, e);
         private void ItemControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested(sender, e);
         private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
         private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);

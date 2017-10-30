@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Presentation.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using System;
@@ -17,6 +18,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         public event EventHandler<EventArgs<int>> MoveBackwardRequested;
         public event EventHandler<EventArgs<int>> MoveForwardRequested;
+        public event EventHandler<EventArgs<int>> PlayRequested;
         public event EventHandler<EventArgs<int>> RemoveRequested;
 
         public CurrentInstrumentItemUserControl() => InitializeComponent();
@@ -46,6 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             toolTip.SetToolTip(buttonMoveBackward, CommonResourceFormatter.Move);
             toolTip.SetToolTip(buttonMoveForward, CommonResourceFormatter.Move);
+            toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
             toolTip.SetToolTip(buttonRemove, CommonResourceFormatter.Remove);
         }
 
@@ -83,6 +86,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 x += buttonWidth + SPACING;
             }
 
+            buttonPlay.Location = new Point(x, y);
+            x += buttonWidth + SPACING;
+
             buttonRemove.Location = new Point(x, y);
             x += buttonWidth + SPACING;
 
@@ -93,6 +99,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void buttonMoveBackward_Click(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.ID));
         private void buttonMoveForward_Click(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.ID));
+        private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.ID));
         private void buttonRemove_Click(object sender, EventArgs e) => RemoveRequested(this, new EventArgs<int>(_viewModel.ID));
     }
 }

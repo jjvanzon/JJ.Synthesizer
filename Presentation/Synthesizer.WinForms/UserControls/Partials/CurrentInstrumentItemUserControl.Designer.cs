@@ -34,6 +34,7 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.buttonMoveBackward = new System.Windows.Forms.Button();
             this.buttonMoveForward = new System.Windows.Forms.Button();
+            this.buttonPlay = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelName
@@ -52,7 +53,7 @@
             this.buttonRemove.FlatAppearance.BorderSize = 0;
             this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
-            this.buttonRemove.Location = new System.Drawing.Point(258, 12);
+            this.buttonRemove.Location = new System.Drawing.Point(278, 12);
             this.buttonRemove.Margin = new System.Windows.Forms.Padding(0);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(24, 25);
@@ -95,10 +96,24 @@
             this.buttonMoveForward.UseVisualStyleBackColor = true;
             this.buttonMoveForward.Click += new System.EventHandler(this.buttonMoveForward_Click);
             // 
+            // buttonPlay
+            // 
+            this.buttonPlay.FlatAppearance.BorderSize = 0;
+            this.buttonPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPlay.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.PlayIcon;
+            this.buttonPlay.Location = new System.Drawing.Point(248, 12);
+            this.buttonPlay.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonPlay.Name = "buttonPlay";
+            this.buttonPlay.Size = new System.Drawing.Size(24, 25);
+            this.buttonPlay.TabIndex = 4;
+            this.buttonPlay.UseVisualStyleBackColor = true;
+            this.buttonPlay.Click += new System.EventHandler(this.buttonPlay_Click);
+            // 
             // CurrentInstrumentItemUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonPlay);
             this.Controls.Add(this.buttonMoveForward);
             this.Controls.Add(this.buttonMoveBackward);
             this.Controls.Add(this.buttonRemove);
@@ -119,5 +134,6 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button buttonMoveBackward;
         private System.Windows.Forms.Button buttonMoveForward;
+        private System.Windows.Forms.Button buttonPlay;
     }
 }

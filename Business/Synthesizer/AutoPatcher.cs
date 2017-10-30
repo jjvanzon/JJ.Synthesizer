@@ -26,6 +26,8 @@ namespace JJ.Business.Synthesizer
             _patchManager = new PatchManager(_repositories);
         }
 
+        public Patch AutoPatch(params Patch[] sourceUnderlyingPatches) => AutoPatch((IList<Patch>)sourceUnderlyingPatches);
+
         /// <summary>
         /// Do a rollback after calling this method to prevent saving the new patch.
         /// Tries to produce a new patch by tying together existing patches,

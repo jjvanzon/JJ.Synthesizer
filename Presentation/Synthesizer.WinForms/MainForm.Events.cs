@@ -27,6 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             currentInstrumentUserControl.MoveBackwardRequested += currentInstrumentUserControl_MoveBackwardRequested;
             currentInstrumentUserControl.MoveForwardRequested += currentInstrumentUserControl_MoveForwardRequested;
             currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
+            currentInstrumentUserControl.PlayItemRequested += CurrentInstrumentUserControl_PlayItemRequested;
             currentInstrumentUserControl.RemoveRequested += currentInstrumentUserControl_RemoveRequested;
             curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
             curveDetailsListUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
@@ -329,6 +330,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 () =>
                 {
                     _presenter.CurrentInstrumentPlay();
+
+                    PlayOutletIfNeeded();
+                });
+        }
+
+        private void CurrentInstrumentUserControl_PlayItemRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _presenter.CurrentInstrumentPlayItem(e.Value);
 
                     PlayOutletIfNeeded();
                 });
