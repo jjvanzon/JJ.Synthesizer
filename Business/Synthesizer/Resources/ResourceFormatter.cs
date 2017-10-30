@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Resources;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
+using System;
+using System.Linq.Expressions;
+using System.Resources;
 
 namespace JJ.Business.Synthesizer.Resources
 {
@@ -451,6 +451,9 @@ namespace JJ.Business.Synthesizer.Resources
 
         // Patch
 
+        /// <summary>
+        /// Will use a resource string in case of system patches, otherwise just returns the Patch.Name.
+        /// </summary>
         public static string GetDisplayName(Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);

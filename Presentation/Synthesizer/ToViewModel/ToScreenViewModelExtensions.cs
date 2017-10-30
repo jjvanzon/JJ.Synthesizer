@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -100,6 +101,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (higherDocument == null) throw new NullException(() => higherDocument);
 
             CurrentInstrumentViewModel viewModel = higherDocument.ToCurrentInstrumentViewModel();
+            bool hasPatches = patches.Count != 0;
+            viewModel.CanPlay = hasPatches;
+            viewModel.CanExpand = hasPatches;
 
             // Lookup for Aliases (of DocumentReference by Document).
             Dictionary<int, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences
@@ -123,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                    lowerDocument.IsSystemDocument();
                 if (mustHideDocumentAliasOrName)
                 {
-                    return patch.Name;
+                    return ResourceFormatter.GetDisplayName(patch);
                 }
 
                 // Using Document Name or Alias

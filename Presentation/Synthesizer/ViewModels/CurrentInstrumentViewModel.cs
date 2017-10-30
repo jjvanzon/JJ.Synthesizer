@@ -7,6 +7,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public int DocumentID { get; set; }
         public IList<CurrentInstrumentItemViewModel> List { get; set; }
+        public bool CanPlay { get; set; }
+        public bool CanExpand { get; set; }
         internal int? OutletIDToPlay { get; set; }
     }
 }

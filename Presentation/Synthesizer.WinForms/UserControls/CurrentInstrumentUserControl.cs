@@ -50,6 +50,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override void ApplyViewModelToControls()
         {
+            buttonPlay.Visible = ViewModel.CanPlay;
+            buttonExpand.Visible = ViewModel.CanExpand;
+
             // Update
             int minCount = Math.Min(_itemControls.Count, ViewModel.List.Count);
             for (int i = 0; i < minCount; i++)
