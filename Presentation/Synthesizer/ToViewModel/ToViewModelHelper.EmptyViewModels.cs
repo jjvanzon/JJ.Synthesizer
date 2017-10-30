@@ -73,7 +73,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 List = new List<CurrentInstrumentItemViewModel>(),
                 ValidationMessages = new List<string>(),
-                Successful = true
+                Successful = true,
+                Visible = true
             };
 
             return viewModel;
