@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurrentInstrumentViewModel
             {
                 DocumentID = higherDocument.ID,
-                List = new List<IDAndName>(),
+                List = new List<CurrentInstrumentItemViewModel>(),
                 ValidationMessages = new List<string>(),
                 Visible = true
             };
@@ -104,9 +104,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Lookup for Aliases (of DocumentReference by Document).
             Dictionary<int, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences
                                                                                            .ToDictionary(x => x.LowerDocument.ID);
-            viewModel.List = patches.Select(toIDAndName).ToList();
+            int lastIndex = patches.Count - 1;
 
-            IDAndName toIDAndName(Patch patch)
+            viewModel.List = patches.Select((x, i) => new CurrentInstrumentItemViewModel
+            {
+                ID = x.ID,
+                Name = getName(x),
+                CanGoBackward = i != 0,
+                CanGoForward = i != lastIndex
+            }).ToList();
+
+            string getName(Patch patch)
             {
                 Document lowerDocument = patch.Document;
 
@@ -115,19 +123,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                    lowerDocument.IsSystemDocument();
                 if (mustHideDocumentAliasOrName)
                 {
-                    return patch.ToIDAndName();
+                    return patch.Name;
                 }
 
                 // Using Document Name or Alias
                 DocumentReference documentReference = documentReferenceDictionary[lowerDocument.ID];
-
-                var idAndName = new IDAndName
-                {
-                    ID = patch.ID,
-                    Name = $"{documentReference.GetAliasOrName()} | {patch.Name}"
-                };
-
-                return idAndName;
+                return $"{documentReference.GetAliasOrName()} | {patch.Name}";
             }
 
             return viewModel;

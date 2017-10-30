@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Canonical;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+
 #pragma warning disable IDE1006 // Naming Styles
 // ReSharper disable PossibleNullReferenceException
 
@@ -53,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int minCount = Math.Min(_itemControls.Count, ViewModel.List.Count);
             for (int i = 0; i < minCount; i++)
             {
-                IDAndName itemViewModel = ViewModel.List[i];
+                CurrentInstrumentItemViewModel itemViewModel = ViewModel.List[i];
                 CurrentInstrumentItemUserControl itemUserControl = _itemControls[i];
                 itemUserControl.ViewModel = itemViewModel;
             }
@@ -61,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Insert
             for (int i = _itemControls.Count; i < ViewModel.List.Count; i++)
             {
-                IDAndName itemViewModel = ViewModel.List[i];
+                CurrentInstrumentItemViewModel itemViewModel = ViewModel.List[i];
                 var itemControl = new CurrentInstrumentItemUserControl
                 {
                     Margin = new Padding(0),

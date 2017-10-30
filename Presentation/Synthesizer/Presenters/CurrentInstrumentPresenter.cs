@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
@@ -10,6 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -47,49 +47,40 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public CurrentInstrumentViewModel Add(CurrentInstrumentViewModel userInput, int patchID)
         {
-            Patch patch = null;
-
             return ExecuteAction(
                 userInput,
-                entities => patch = _patchRepository.Get(patchID),
-                viewModel => viewModel.List.Add(patch.ToIDAndName()));
+                entities =>
+                {
+                    Patch patch = _patchRepository.Get(patchID);
+                    entities.patches.Add(patch);
+                });
         }
 
-        public void Move(CurrentInstrumentViewModel viewModel, int patchID, int newPosition)
+        public CurrentInstrumentViewModel Move(CurrentInstrumentViewModel viewModel, int patchID, int newPosition)
         {
-            ExecuteNonPersistedAction(viewModel, () =>
+            return ExecuteAction(viewModel, entities =>
             {
-                int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
-                IDAndName item = viewModel.List[currentPosition];
-                viewModel.List.RemoveAt(currentPosition);
-                viewModel.List.Insert(newPosition, item);
-            });
-        }
-
-        public void MoveBackward(CurrentInstrumentViewModel viewModel, int patchID)
-        {
-            ExecuteNonPersistedAction(viewModel, () =>
-            {
-                int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
-                int newPosition = currentPosition - 1;
                 if (newPosition < 0) newPosition = 0;
-                IDAndName item = viewModel.List[currentPosition];
-                viewModel.List.RemoveAt(currentPosition);
-                viewModel.List.Insert(newPosition, item);
+                if (newPosition > entities.patches.Count - 1) newPosition = entities.patches.Count - 1;
+
+                Patch patch = _patchRepository.Get(patchID);
+                entities.patches.Remove(patch);
+                entities.patches.Insert(newPosition, patch);
             });
         }
 
-        public void MoveForward(CurrentInstrumentViewModel viewModel, int patchID)
+        public CurrentInstrumentViewModel MoveBackward(CurrentInstrumentViewModel viewModel, int patchID)
         {
-            ExecuteNonPersistedAction(viewModel, () =>
-            {
-                int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
-                int newPosition = currentPosition + 1;
-                if (newPosition > viewModel.List.Count - 1) newPosition = viewModel.List.Count - 1;
-                IDAndName item = viewModel.List[currentPosition];
-                viewModel.List.RemoveAt(currentPosition);
-                viewModel.List.Insert(newPosition, item);
-            });
+            int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
+
+            return Move(viewModel, patchID, currentPosition - 1);
+        }
+
+        public CurrentInstrumentViewModel MoveForward(CurrentInstrumentViewModel viewModel, int patchID)
+        {
+            int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
+
+            return Move(viewModel, patchID, currentPosition + 1);
         }
 
         public CurrentInstrumentViewModel Play(CurrentInstrumentViewModel userInput)
@@ -113,9 +104,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         }
 
-        public void Remove(CurrentInstrumentViewModel viewModel, int patchID)
+        public CurrentInstrumentViewModel Remove(CurrentInstrumentViewModel viewModel, int patchID)
         {
-            ExecuteNonPersistedAction(viewModel, () => viewModel.List.RemoveFirst(x => x.ID == patchID));
+            return ExecuteAction(viewModel, entities => entities.patches.RemoveFirst(x => x.ID == patchID));
         }
 
         [Obsolete("Use Load instead.", true)]

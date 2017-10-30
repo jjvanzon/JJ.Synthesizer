@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
@@ -2515,7 +2514,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Tone tone = _repositories.ToneRepository.Get(toneID);
 
                     var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentInstrument.List.Count);
-                    foreach (IDAndName itemViewModel in MainViewModel.Document.CurrentInstrument.List)
+                    foreach (CurrentInstrumentItemViewModel itemViewModel in MainViewModel.Document.CurrentInstrument.List)
                     {
                         Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.ID);
                         underlyingPatches.Add(underlyingPatch);
