@@ -187,6 +187,8 @@ namespace JJ.Business.Synthesizer
 
             InletOutletCloner.Clone(intermediateInlet, destInlet);
 
+            destInlet.RepetitionPosition = null;
+
             return destPatchInletWrapper;
         }
 
@@ -220,6 +222,8 @@ namespace JJ.Business.Synthesizer
             Outlet destOutlet = destPatchOutletWrapper.Outlet;
 
             InletOutletCloner.Clone(intermediateOutlet, destOutlet);
+
+            destOutlet.RepetitionPosition = null;
 
             return destPatchOutletWrapper;
         }
