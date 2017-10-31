@@ -67,29 +67,29 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
 
             int buttonWidth = buttonMoveBackward.Width;
+            const int labelY = 3;
 
             int x = SPACING;
-            int y = SPACING;
-
-            labelName.Location = new Point(x, y);
-            x += labelName.Width;
 
             if (_viewModel.CanGoBackward)
             {
-                buttonMoveBackward.Location = new Point(x, y);
+                buttonMoveBackward.Location = new Point(x, SPACING);
                 x += buttonWidth + SPACING;
             }
+
+            labelName.Location = new Point(x, labelY);
+            x += labelName.Width;
 
             if (_viewModel.CanGoForward)
             {
-                buttonMoveForward.Location = new Point(x, y);
+                buttonMoveForward.Location = new Point(x, SPACING);
                 x += buttonWidth + SPACING;
             }
 
-            buttonPlay.Location = new Point(x, y);
+            buttonPlay.Location = new Point(x, SPACING);
             x += buttonWidth + SPACING;
 
-            buttonRemove.Location = new Point(x, y);
+            buttonRemove.Location = new Point(x, SPACING);
             x += buttonWidth + SPACING;
 
             x += SPACING;
