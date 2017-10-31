@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Canonical;
+﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Cascading;
@@ -11,11 +9,12 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer
 {

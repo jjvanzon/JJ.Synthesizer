@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Average over Inlets.
+        ///   Looks up a localized string similar to Average over Inputs.
         /// </summary>
         internal static string AverageOverInlets {
             get {
@@ -376,7 +376,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot change the amount of inlets, because inlet {0} is still filled in..
+        ///   Looks up a localized string similar to Cannot change the amount of inputs, because input {0} is still filled in..
         /// </summary>
         internal static string CannotChangeInletCountBecauseOneIsStillFilledIn {
             get {
@@ -385,7 +385,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot change the amount of outlets, because outlet {0} is still in use..
+        ///   Looks up a localized string similar to Cannot change the amount of outputs, because outlet {0} is still in use..
         /// </summary>
         internal static string CannotChangeOutletCountBecauseOneIsStillFilledIn {
             get {
@@ -403,7 +403,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot change inlet count if there are no repeating inlets..
+        ///   Looks up a localized string similar to Cannot change input count if there are no repeating inputs..
         /// </summary>
         internal static string CannotSetInletCountWithoutRepeatingInlets {
             get {
@@ -412,7 +412,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot change outlet count if there are no repeating outlets..
+        ///   Looks up a localized string similar to Cannot change output count if there are no repeating outputs..
         /// </summary>
         internal static string CannotSetOutletCountWithoutRepeatingOutlets {
             get {
@@ -520,7 +520,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Closest over Inlets.
+        ///   Looks up a localized string similar to Closest over Inputs.
         /// </summary>
         internal static string ClosestOverInlets {
             get {
@@ -763,7 +763,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dimension to Outlets.
+        ///   Looks up a localized string similar to Dimension to Outputs.
         /// </summary>
         internal static string DimensionToOutlets {
             get {
@@ -1141,7 +1141,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inlet.
+        ///   Looks up a localized string similar to Input.
         /// </summary>
         internal static string Inlet {
             get {
@@ -1150,7 +1150,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inlets.
+        ///   Looks up a localized string similar to Inputs.
         /// </summary>
         internal static string Inlets {
             get {
@@ -1474,7 +1474,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Max over Inlets.
+        ///   Looks up a localized string similar to Max over Inputs.
         /// </summary>
         internal static string MaxOverInlets {
             get {
@@ -1519,7 +1519,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Min over Inlets.
+        ///   Looks up a localized string similar to Min over Inputs.
         /// </summary>
         internal static string MinOverInlets {
             get {
@@ -1807,7 +1807,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Outlet.
+        ///   Looks up a localized string similar to Output.
         /// </summary>
         internal static string Outlet {
             get {
@@ -1816,20 +1816,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Outlets.
+        ///   Looks up a localized string similar to Outputs.
         /// </summary>
         internal static string Outlets {
             get {
                 return ResourceManager.GetString("Outlets", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Outlet Type.
-        /// </summary>
-        internal static string OutletType {
-            get {
-                return ResourceManager.GetString("OutletType", resourceCulture);
             }
         }
         
@@ -1879,7 +1870,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Patch has more than one repeating inlet..
+        ///   Looks up a localized string similar to Patch has more than one repeating input..
         /// </summary>
         internal static string PatchHasMoreThanOneRepeatingInlet {
             get {
@@ -1888,7 +1879,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Patch has more than one repeating outlet..
+        ///   Looks up a localized string similar to Patch has more than one repeating output..
         /// </summary>
         internal static string PatchHasMoreThanOneRepeatingOutlet {
             get {
@@ -1897,7 +1888,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Patch has no outlets..
+        ///   Looks up a localized string similar to Patch has no outputs..
         /// </summary>
         internal static string PatchHasNoOutlets {
             get {
@@ -1906,7 +1897,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inlet.
+        ///   Looks up a localized string similar to Input.
         /// </summary>
         internal static string PatchInlet {
             get {
@@ -1915,7 +1906,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Outlet.
+        ///   Looks up a localized string similar to Output.
         /// </summary>
         internal static string PatchOutlet {
             get {
@@ -2050,7 +2041,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Range over Outlets.
+        ///   Looks up a localized string similar to Range over Outputs.
         /// </summary>
         internal static string RangeOverOutlets {
             get {
@@ -2302,7 +2293,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected operator has no outlets..
+        ///   Looks up a localized string similar to Selected operator has no outputs..
         /// </summary>
         internal static string SelectedOperatorHasNoOutlets {
             get {
@@ -2428,7 +2419,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort over Inlets.
+        ///   Looks up a localized string similar to Sort over Inputs.
         /// </summary>
         internal static string SortOverInlets {
             get {

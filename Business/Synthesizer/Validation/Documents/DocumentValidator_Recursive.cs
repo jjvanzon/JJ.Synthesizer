@@ -1,12 +1,11 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation.DocumentReferences;
+using JJ.Business.Synthesizer.Validation.Patches;
+using JJ.Business.Synthesizer.Validation.Scales;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Validation.Scales;
-using JJ.Business.Synthesizer.Validation.Curves;
-using JJ.Business.Synthesizer.Validation.DocumentReferences;
-using JJ.Business.Synthesizer.Validation.Patches;
-using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {

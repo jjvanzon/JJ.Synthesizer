@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+﻿using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation.Curves;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation
 {

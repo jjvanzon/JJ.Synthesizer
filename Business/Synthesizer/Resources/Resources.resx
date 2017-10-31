@@ -143,11 +143,11 @@
     <value>Positions</value>
   </data>
   <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
-    <value>Cannot change the amount of inlets, because inlet {0} is still filled in.</value>
+    <value>Cannot change the amount of inputs, because input {0} is still filled in.</value>
     <comment>{0} = number</comment>
   </data>
   <data name="CannotChangeOutletCountBecauseOneIsStillFilledIn" xml:space="preserve">
-    <value>Cannot change the amount of outlets, because outlet {0} is still in use.</value>
+    <value>Cannot change the amount of outputs, because outlet {0} is still in use.</value>
     <comment>{0} = number</comment>
   </data>
   <data name="MustBePowerOf2" xml:space="preserve">
@@ -201,7 +201,7 @@
     <value>Average over Dimension</value>
   </data>
   <data name="AverageOverInlets" xml:space="preserve">
-    <value>Average over Inlets</value>
+    <value>Average over Inputs</value>
   </data>
   <data name="B" xml:space="preserve">
     <value>B</value>
@@ -268,7 +268,7 @@
     <comment>'Exp' is an abbrevation of 'exponential'.</comment>
   </data>
   <data name="ClosestOverInlets" xml:space="preserve">
-    <value>Closest over Inlets</value>
+    <value>Closest over Inputs</value>
   </data>
   <data name="ClosestOverInletsExp" xml:space="preserve">
     <value>Closest over Inlets Exp</value>
@@ -332,7 +332,7 @@
     <value>Dimension</value>
   </data>
   <data name="DimensionToOutlets" xml:space="preserve">
-    <value>Dimension to Outlets</value>
+    <value>Dimension to Outputs</value>
   </data>
   <data name="Divide" xml:space="preserve">
     <value>÷</value>
@@ -419,10 +419,10 @@
     <value>If</value>
   </data>
   <data name="Inlet" xml:space="preserve">
-    <value>Inlet</value>
+    <value>Input</value>
   </data>
   <data name="Inlets" xml:space="preserve">
-    <value>Inlets</value>
+    <value>Inputs</value>
   </data>
   <data name="InletsToDimension" xml:space="preserve">
     <value>Inlets to Dimension</value>
@@ -513,7 +513,7 @@
     <value>Max over Dimension</value>
   </data>
   <data name="MaxOverInlets" xml:space="preserve">
-    <value>Max over Inlets</value>
+    <value>Max over Inputs</value>
   </data>
   <data name="MinFollower" xml:space="preserve">
     <value>Min Follower</value>
@@ -525,7 +525,7 @@
     <value>Min over Dimension</value>
   </data>
   <data name="MinOverInlets" xml:space="preserve">
-    <value>Min over Inlets</value>
+    <value>Min over Inputs</value>
   </data>
   <data name="Mono" xml:space="preserve">
     <value>Mono</value>
@@ -594,13 +594,10 @@
     <value>Original Location</value>
   </data>
   <data name="Outlet" xml:space="preserve">
-    <value>Outlet</value>
+    <value>Output</value>
   </data>
   <data name="Outlets" xml:space="preserve">
-    <value>Outlets</value>
-  </data>
-  <data name="OutletType" xml:space="preserve">
-    <value>Outlet Type</value>
+    <value>Outputs</value>
   </data>
   <data name="PassThrough" xml:space="preserve">
     <value>Passthrough</value>
@@ -612,10 +609,10 @@
     <value>Patches</value>
   </data>
   <data name="PatchInlet" xml:space="preserve">
-    <value>Inlet</value>
+    <value>Input</value>
   </data>
   <data name="PatchOutlet" xml:space="preserve">
-    <value>Outlet</value>
+    <value>Output</value>
   </data>
   <data name="PeakingEQFilter" xml:space="preserve">
     <value>Peaking EQ Filter</value>
@@ -639,7 +636,7 @@
     <value>Range over Dimension</value>
   </data>
   <data name="RangeOverOutlets" xml:space="preserve">
-    <value>Range over Outlets</value>
+    <value>Range over Outputs</value>
   </data>
   <data name="Rate" xml:space="preserve">
     <value>Rate</value>
@@ -738,7 +735,7 @@
     <value>Sort over Dimension</value>
   </data>
   <data name="SortOverInlets" xml:space="preserve">
-    <value>Sort over Inlets</value>
+    <value>Sort over Inputs</value>
   </data>
   <data name="SourceValueA" xml:space="preserve">
     <value>Source Value A</value>
@@ -975,10 +972,10 @@
     <value>Auto-Patch</value>
   </data>
   <data name="PatchHasNoOutlets" xml:space="preserve">
-    <value>Patch has no outlets.</value>
+    <value>Patch has no outputs.</value>
   </data>
   <data name="SelectedOperatorHasNoOutlets" xml:space="preserve">
-    <value>Selected operator has no outlets.</value>
+    <value>Selected operator has no outputs.</value>
   </data>
   <data name="NoSoundFoundInLibrary" xml:space="preserve">
     <value>No sound found.</value>
@@ -1056,17 +1053,17 @@
     <value>Repetition position</value>
   </data>
   <data name="PatchHasMoreThanOneRepeatingInlet" xml:space="preserve">
-    <value>Patch has more than one repeating inlet.</value>
+    <value>Patch has more than one repeating input.</value>
   </data>
   <data name="PatchHasMoreThanOneRepeatingOutlet" xml:space="preserve">
-    <value>Patch has more than one repeating outlet.</value>
+    <value>Patch has more than one repeating output.</value>
   </data>
   <data name="CannotSetInletCountWithoutRepeatingInlets" xml:space="preserve">
-    <value>Cannot change inlet count if there are no repeating inlets.</value>
+    <value>Cannot change input count if there are no repeating inputs.</value>
     <comment>{0} = name</comment>
   </data>
   <data name="CannotSetOutletCountWithoutRepeatingOutlets" xml:space="preserve">
-    <value>Cannot change outlet count if there are no repeating outlets.</value>
+    <value>Cannot change output count if there are no repeating outputs.</value>
   </data>
   <data name="RepetitionPositionsNotConsecutive" xml:space="preserve">
     <value>Repetition positions ({0}) are not consecutive.</value>

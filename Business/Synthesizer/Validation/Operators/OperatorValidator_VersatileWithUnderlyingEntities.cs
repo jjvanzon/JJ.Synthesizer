@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation.Curves;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

@@ -203,7 +203,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string OriginalLocation => Resources.OriginalLocation;
         public static string Outlet => Resources.Outlet;
         public static string Outlets => Resources.Outlets;
-        public static string OutletType => Resources.OutletType;
         public static string Output => Resources.Output;
         public static string PassThrough => Resources.PassThrough;
         public static string Patch => Resources.Patch;

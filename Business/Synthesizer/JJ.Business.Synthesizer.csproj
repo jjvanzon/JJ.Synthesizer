@@ -531,7 +531,7 @@
     <Compile Include="SideEffects\Operator_SideEffect_UpdateDerivedOperators.cs" />
     <Compile Include="SideEffects\SideEffectHelper.cs" />
     <Compile Include="Validation\AudioOutputValidator.cs" />
-    <Compile Include="Validation\Curves\CurveValidator_Nodes.cs" />
+    <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DataProperty\CollectionRecalculation_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\ResampleInterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
@@ -585,7 +585,7 @@
     <Compile Include="Helpers\WavHeaderStruct.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_SetDefaults.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
-    <Compile Include="Validation\Curves\CurveValidator_WithoutNodes.cs" />
+    <Compile Include="Validation\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
     <Compile Include="Validation\Operators\Interpolate_OperatorValidator.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Delete.cs" />
@@ -719,7 +719,9 @@
     <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Validation\Curves\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,8 +1,8 @@
-﻿using JJ.Framework.Validation;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Validation.Curves
+namespace JJ.Business.Synthesizer.Validation
 {
     internal class CurveValidator_WithoutNodes : VersatileValidator
     {
