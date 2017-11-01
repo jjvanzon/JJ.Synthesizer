@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using JJ.Framework.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -30,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler SaveRequested;
 
         public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
-        public event EventHandler<EventArgs<int>> ShowLibraryPropertiesRequested;
+        public event EventHandler<EventArgs<int>> ShowLibraryRequested;
         public event EventHandler ShowAudioOutputRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
@@ -696,7 +697,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_libraryTreeNodes.Contains(node))
             {
                 int id = (int)node.Tag;
-                ShowLibraryPropertiesRequested(this, new EventArgs<int>(id));
+                ShowLibraryRequested(this, new EventArgs<int>(id));
             }
         }
 

@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ScalesNodeSelected += documentTreeUserControl_ScalesNodeSelected;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
-            documentTreeUserControl.ShowLibraryPropertiesRequested += documentTreeUserControl_ShowLibraryPropertiesRequested;
+            documentTreeUserControl.ShowLibraryRequested += documentTreeUserControl_ShowLibraryRequested;
             documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
@@ -434,7 +434,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void curveDetailsUserControl_ShowNodePropertiesRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _presenter.NodePropertiesShow(e.Value));
+            TemplateActionHandler(() => _presenter.NodeShow(e.Value));
         }
 
         // Document Grid
@@ -580,15 +580,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AudioFileOutputGridShow);
 
-        private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e) => TemplateActionHandler(_presenter.AudioOutputPropertiesShow);
-
-        private void documentTreeUserControl_ShowLibraryPropertiesRequested(object sender, EventArgs<int> e)
+        private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e)
         {
-            TemplateActionHandler(
-                () =>
-                {
-                    _presenter.LibraryPropertiesShow(e.Value);
-                });
+            TemplateActionHandler(_presenter.DocumentTreeShowAudioOutput);
+        }
+
+        private void documentTreeUserControl_ShowLibraryRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _presenter.DocumentTreeShowLibrary(e.Value));
         }
 
         private void documentTreeUserControl_ShowPatchDetailsRequested(object sender, EventArgs<int> e)

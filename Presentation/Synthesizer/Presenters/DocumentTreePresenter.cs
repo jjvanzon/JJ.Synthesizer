@@ -1,17 +1,17 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToViewModel;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
+using JJ.Framework.Collections;
+using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Presenters.Bases;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer;
-using JJ.Data.Canonical;
-using JJ.Framework.Business;
-using JJ.Framework.Collections;
-using JJ.Presentation.Synthesizer.Presenters.Bases;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -135,13 +135,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Libraries);
         }
 
-        public void SelectLibrary(DocumentTreeViewModel viewModel, int id)
+        public void SelectLibrary(DocumentTreeViewModel viewModel, int documentReferenceID)
         {
             ExecuteNonPersistedAction(
                 viewModel,
                 () =>
                 {
-                    viewModel.SelectedItemID = id;
+                    viewModel.SelectedItemID = documentReferenceID;
                     viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Library;
                 });
         }
