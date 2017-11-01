@@ -147,6 +147,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
             patchDetailsUserControl.ExpandOperatorRequested += patchDetailsUserControl_ExpandOperatorRequested;
             patchDetailsUserControl.ExpandPatchRequested += patchDetailsUserControl_ExpandPatchRequested;
+            patchDetailsUserControl.SelectPatchRequested += patchDetailsUserControl_SelectPatchRequested;
             patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
             patchPropertiesUserControl.HasDimensionChanged += patchPropertiesUserControl_HasDimensionChanged;
@@ -1035,6 +1036,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void patchDetailsUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _mainPresenter.PatchDetailsExpand(e.Value));
+        }
+
+        private void patchDetailsUserControl_SelectPatchRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _mainPresenter.PatchDetailsSelect(e.Value));
         }
 
         private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)

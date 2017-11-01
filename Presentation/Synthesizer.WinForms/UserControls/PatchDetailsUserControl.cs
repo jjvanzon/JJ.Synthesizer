@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 // ReSharper disable PossibleNullReferenceException
+#pragma warning disable IDE0022 // Use expression body for methods
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -30,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<PatchAndOperatorEventArgs> SelectOperatorRequested;
         public event EventHandler<EventArgs<int>> ExpandOperatorRequested;
         public event EventHandler<EventArgs<int>> ExpandPatchRequested;
+        public event EventHandler<EventArgs<int>> SelectPatchRequested;
 
         private PatchViewModelToDiagramConverter _converter;
         private PatchViewModelToDiagramConverterResult _converterResult;
@@ -98,11 +100,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converterResult.ExpandPatchGesture.DoubleClick += ExpandPatchGesture_DoubleClick;
             _converterResult.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
             _converterResult.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
-        }
-
-        private void ExpandPatchGesture_DoubleClick(object sender, EventArgs e)
-        {
-            ExpandPatchRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
+            _converterResult.SelectPatchGesture.Click += SelectPatchGesture_Click;
         }
 
         private void UnbindVectorGraphicsEvents()
@@ -120,6 +118,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _converterResult.ExpandPatchGesture.DoubleClick -= ExpandPatchGesture_DoubleClick;
                 _converterResult.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
                 _converterResult.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
+                _converterResult.SelectPatchGesture.Click -= SelectPatchGesture_Click;
             }
         }
 
@@ -204,6 +203,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
         }
 
+        private void ExpandPatchGesture_DoubleClick(object sender, EventArgs e)
+        {
+            ExpandPatchRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
+        }
+
         // TODO: Lower priority: You might want to use the presenter for the the following 3 things.
 
         private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
@@ -227,6 +231,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             OutletViewModel outletViewModel = ViewModel.Entity.OperatorDictionary.Values.SelectMany(x => x.Outlets)
                                                                                         .Single(x => x.ID == id);
             e.ToolTipText = outletViewModel.Caption;
+        }
+
+        private void SelectPatchGesture_Click(object sender, ElementEventArgs e)
+        {
+            if (ViewModel == null) return;
+            SelectPatchRequested(sender, new EventArgs<int>(ViewModel.Entity.ID));
         }
 
         // Helpers

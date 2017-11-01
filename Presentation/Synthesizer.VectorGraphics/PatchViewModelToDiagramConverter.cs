@@ -113,6 +113,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 _result.Diagram.Background.Gestures.Add(_result.ExpandPatchGesture);
             }
 
+            if (!_result.Diagram.Background.Gestures.Contains(_result.SelectPatchGesture))
+            {
+                _result.Diagram.Background.Gestures.Add(_result.SelectPatchGesture);
+            }
+
             foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.OperatorDictionary.Values)
             {
                 ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, _result.Diagram);

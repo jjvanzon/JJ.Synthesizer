@@ -9,31 +9,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
     {
         public Diagram Diagram { get; }
         public MoveGesture MoveGesture { get; }
+        public DeleteOperatorGesture DeleteOperatorGesture { get; }
         public DragLineGesture DragLineGesture { get; }
         public DropLineGesture DropLineGesture { get; }
-        public SelectOperatorGesture SelectOperatorGesture { get; }
-        public DeleteOperatorGesture DeleteOperatorGesture { get; }
-        public ToolTipGesture InletToolTipGesture { get; }
-        public ToolTipGesture OutletToolTipGesture { get; }
         public ExpandOperatorKeyboardGesture ExpandOperatorKeyboardGesture { get; }
         public ExpandOperatorMouseGesture ExpandOperatorMouseGesture { get; }
         public DoubleClickGesture ExpandPatchGesture { get; }
+        public ToolTipGesture InletToolTipGesture { get; }
+        public ToolTipGesture OutletToolTipGesture { get; }
+        public SelectOperatorGesture SelectOperatorGesture { get; }
+        public ClickGesture SelectPatchGesture { get; }
 
         public PatchViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
             Diagram = new Diagram();
-            MoveGesture = new MoveGesture();
-            SelectOperatorGesture = new SelectOperatorGesture();
             DeleteOperatorGesture = new DeleteOperatorGesture();
-            ExpandOperatorKeyboardGesture = new ExpandOperatorKeyboardGesture();
-
-            ExpandOperatorMouseGesture = new ExpandOperatorMouseGesture(
-                doubleClickSpeedInMilliseconds,
-                doubleClickDeltaInPixels);
-
-            ExpandPatchGesture = new DoubleClickGesture(
-                doubleClickSpeedInMilliseconds,
-                doubleClickDeltaInPixels);
 
             DragLineGesture = new DragLineGesture(
                 Diagram,
@@ -46,12 +36,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 StyleHelper.LineStyleDashed,
                 StyleHelper.DRAG_DROP_LINE_ZINDEX);
 
+            ExpandOperatorKeyboardGesture = new ExpandOperatorKeyboardGesture();
+
+            ExpandOperatorMouseGesture = new ExpandOperatorMouseGesture(
+                doubleClickSpeedInMilliseconds,
+                doubleClickDeltaInPixels);
+
+            ExpandPatchGesture = new DoubleClickGesture(
+                doubleClickSpeedInMilliseconds,
+                doubleClickDeltaInPixels);
+
             InletToolTipGesture = new ToolTipGesture(
                 Diagram,
                 StyleHelper.ToolTipBackStyle,
                 StyleHelper.ToolTipLineStyle,
                 StyleHelper.ToolTipTextStyle,
                 zIndex: 2);
+
+            MoveGesture = new MoveGesture();
 
             OutletToolTipGesture = new ToolTipGesture(
                 Diagram,
@@ -60,6 +62,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 StyleHelper.ToolTipTextStyle,
                 preferShowOnBottom: true,
                 zIndex: 2);
+
+            SelectOperatorGesture = new SelectOperatorGesture();
+            SelectPatchGesture = new ClickGesture();
         }
     }
 }

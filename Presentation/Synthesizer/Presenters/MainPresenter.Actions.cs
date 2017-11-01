@@ -2309,6 +2309,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchExpand(id);
         }
 
+        public void PatchDetailsSelect(int id)
+        {
+            // Redirect
+            PatchPropertiesSwitch(id);
+            DocumentTreeSelectPatch(id);
+        }
+
         private void PatchExpand(int id)
         {
             // Redirect
