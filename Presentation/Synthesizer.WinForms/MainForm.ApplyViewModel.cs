@@ -13,48 +13,48 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             // NOTE: Actually making controls visible is postponed till last, to do it in a way that does not flash as much.
 
-            Text = _presenter.MainViewModel.TitleBar;
+            Text = _mainPresenter.MainViewModel.TitleBar;
 
-            menuUserControl.Show(_presenter.MainViewModel.Menu);
+            menuUserControl.Show(_mainPresenter.MainViewModel.Menu);
 
-            _autoPatchPopupForm.ViewModel = _presenter.MainViewModel.Document.AutoPatchPopup;
-            audioFileOutputGridUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputGrid;
-            audioFileOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleAudioFileOutputProperties;
-            audioOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
-            currentInstrumentUserControl.ViewModel = _presenter.MainViewModel.Document.CurrentInstrument;
-            curveDetailsListUserControl.ViewModels = _presenter.MainViewModel.Document.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
-            documentDetailsUserControl.ViewModel = _presenter.MainViewModel.DocumentDetails;
-            documentGridUserControl.ViewModel = _presenter.MainViewModel.DocumentGrid;
-            documentPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentProperties;
-            documentTreeUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentTree;
-            libraryPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleLibraryProperties;
-            _librarySelectionPopupForm.ViewModel = _presenter.MainViewModel.Document.LibrarySelectionPopup;
-            nodePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleNodeProperties;
-            operatorPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties;
-            operatorPropertiesUserControl.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForCache.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;
-            operatorPropertiesUserControl_ForCache.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForCurve.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForCurve;
-            operatorPropertiesUserControl_ForCurve.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForInletsToDimension.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension;
-            operatorPropertiesUserControl_ForInletsToDimension.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForNumber.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForNumber;
-            operatorPropertiesUserControl_ForNumber.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForPatchInlet.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet;
-            operatorPropertiesUserControl_ForPatchInlet.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForPatchOutlet.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet;
-            operatorPropertiesUserControl_ForPatchOutlet.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForSample.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_ForSample.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_ForSample;
-            operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation;
-            operatorPropertiesUserControl_WithCollectionRecalculation.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            operatorPropertiesUserControl_WithInterpolation.ViewModel = _presenter.MainViewModel.Document.VisibleOperatorProperties_WithInterpolation;
-            operatorPropertiesUserControl_WithInterpolation.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
-            patchDetailsUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchDetails;
-            patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisiblePatchProperties;
-            scaleGridUserControl.ViewModel = _presenter.MainViewModel.Document.ScaleGrid;
-            scalePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleScaleProperties;
-            toneGridEditUserControl.ViewModel = _presenter.MainViewModel.Document.VisibleToneGridEdit;
+            _autoPatchPopupForm.ViewModel = _mainPresenter.MainViewModel.Document.AutoPatchPopup;
+            audioFileOutputGridUserControl.ViewModel = _mainPresenter.MainViewModel.Document.AudioFileOutputGrid;
+            audioFileOutputPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleAudioFileOutputProperties;
+            audioOutputPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.AudioOutputProperties;
+            currentInstrumentUserControl.ViewModel = _mainPresenter.MainViewModel.Document.CurrentInstrument;
+            curveDetailsListUserControl.ViewModels = _mainPresenter.MainViewModel.Document.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
+            documentDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.DocumentDetails;
+            documentGridUserControl.ViewModel = _mainPresenter.MainViewModel.DocumentGrid;
+            documentPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.DocumentProperties;
+            documentTreeUserControl.ViewModel = _mainPresenter.MainViewModel.Document.DocumentTree;
+            libraryPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleLibraryProperties;
+            _librarySelectionPopupForm.ViewModel = _mainPresenter.MainViewModel.Document.LibrarySelectionPopup;
+            nodePropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleNodeProperties;
+            operatorPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties;
+            operatorPropertiesUserControl.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            operatorPropertiesUserControl_ForCache.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;
+            operatorPropertiesUserControl_ForCache.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            operatorPropertiesUserControl_ForCurve.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForCurve;
+            operatorPropertiesUserControl_ForCurve.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            operatorPropertiesUserControl_ForInletsToDimension.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension;
+            operatorPropertiesUserControl_ForInletsToDimension.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            operatorPropertiesUserControl_ForNumber.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForNumber;
+            operatorPropertiesUserControl_ForNumber.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            operatorPropertiesUserControl_ForPatchInlet.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet;
+            operatorPropertiesUserControl_ForPatchInlet.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            operatorPropertiesUserControl_ForPatchOutlet.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet;
+            operatorPropertiesUserControl_ForPatchOutlet.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            operatorPropertiesUserControl_ForSample.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            operatorPropertiesUserControl_ForSample.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForSample;
+            operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation;
+            operatorPropertiesUserControl_WithCollectionRecalculation.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            operatorPropertiesUserControl_WithInterpolation.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_WithInterpolation;
+            operatorPropertiesUserControl_WithInterpolation.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+            patchDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisiblePatchDetails;
+            patchPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisiblePatchProperties;
+            scaleGridUserControl.ViewModel = _mainPresenter.MainViewModel.Document.ScaleGrid;
+            scalePropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleScaleProperties;
+            toneGridEditUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleToneGridEdit;
 
             // Applying Visible = true first and then Visible = false prevents flickering.
             foreach (UserControlBase userControl in _userControls)
@@ -73,30 +73,30 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
             }
 
-            _autoPatchPopupForm.Visible = _presenter.MainViewModel.Document.AutoPatchPopup.Visible;
+            _autoPatchPopupForm.Visible = _mainPresenter.MainViewModel.Document.AutoPatchPopup.Visible;
 
             // Panel Visibility
-            SetTreePanelVisible(_presenter.MainViewModel.Document.DocumentTree.Visible);
-            SetPropertiesPanelVisible(_presenter.MainViewModel.Document.PropertiesPanelVisible);
-            SetCurveDetailsPanelVisible(_presenter.MainViewModel.Document.CurveDetailsPanelVisible);
+            SetTreePanelVisible(_mainPresenter.MainViewModel.Document.DocumentTree.Visible);
+            SetPropertiesPanelVisible(_mainPresenter.MainViewModel.PropertiesPanelVisible);
+            SetCurveDetailsPanelVisible(_mainPresenter.MainViewModel.CurveDetailsPanelVisible);
 
             // Modal Windows
-            if (_presenter.MainViewModel.DocumentDelete.Visible)
+            if (_mainPresenter.MainViewModel.DocumentDelete.Visible)
             {
-                ModalPopupHelper.ShowDocumentConfirmDelete(this, _presenter.MainViewModel.DocumentDelete);
+                ModalPopupHelper.ShowDocumentConfirmDelete(this, _mainPresenter.MainViewModel.DocumentDelete);
             }
 
-            if (_presenter.MainViewModel.DocumentDeleted.Visible)
+            if (_mainPresenter.MainViewModel.DocumentDeleted.Visible)
             {
                 ModalPopupHelper.ShowDocumentIsDeleted(this);
             }
 
-            if (_presenter.MainViewModel.DocumentCannotDelete.Visible)
+            if (_mainPresenter.MainViewModel.DocumentCannotDelete.Visible)
             {
-                _documentCannotDeleteForm.ShowDialog(_presenter.MainViewModel.DocumentCannotDelete);
+                _documentCannotDeleteForm.ShowDialog(_mainPresenter.MainViewModel.DocumentCannotDelete);
             }
 
-            if (_presenter.MainViewModel.Document.LibrarySelectionPopup.Visible)
+            if (_mainPresenter.MainViewModel.Document.LibrarySelectionPopup.Visible)
             {
                 if (!_librarySelectionPopupForm.Visible)
                 {
@@ -108,42 +108,42 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _librarySelectionPopupForm.Visible = false;
             }
 
-            if (_presenter.MainViewModel.Document.SampleFileBrowser.Visible)
+            if (_mainPresenter.MainViewModel.Document.SampleFileBrowser.Visible)
             {
-                ModalPopupHelper.ShowSampleFileBrowser(this, _presenter.MainViewModel.Document.SampleFileBrowser);
+                ModalPopupHelper.ShowSampleFileBrowser(this, _mainPresenter.MainViewModel.Document.SampleFileBrowser);
             }
 
-            if (_presenter.MainViewModel.ValidationMessages.Count != 0)
+            if (_mainPresenter.MainViewModel.ValidationMessages.Count != 0)
             {
                 // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-                ModalPopupHelper.ShowMessageBox(this, string.Join(Environment.NewLine, _presenter.MainViewModel.ValidationMessages));
+                ModalPopupHelper.ShowMessageBox(this, string.Join(Environment.NewLine, _mainPresenter.MainViewModel.ValidationMessages));
 
                 // Clear them so the next time the message box is not shown (message box is a temporary solution).
-                _presenter.MainViewModel.ValidationMessages.Clear();
+                _mainPresenter.MainViewModel.ValidationMessages.Clear();
             }
 
-            if (_presenter.MainViewModel.PopupMessages.Count != 0)
+            if (_mainPresenter.MainViewModel.PopupMessages.Count != 0)
             {
-                IList<string> messages = _presenter.MainViewModel.PopupMessages;
-                _presenter.MainViewModel.PopupMessages = new List<string>();
+                IList<string> messages = _mainPresenter.MainViewModel.PopupMessages;
+                _mainPresenter.MainViewModel.PopupMessages = new List<string>();
 
                 ModalPopupHelper.ShowPopupMessages(this, messages);
             }
 
-            if (_presenter.MainViewModel.WarningMessages.Count != 0)
+            if (_mainPresenter.MainViewModel.WarningMessages.Count != 0)
             {
                 // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-                IList<string> messages = _presenter.MainViewModel.WarningMessages;
-                _presenter.MainViewModel.WarningMessages = new List<string>();
+                IList<string> messages = _mainPresenter.MainViewModel.WarningMessages;
+                _mainPresenter.MainViewModel.WarningMessages = new List<string>();
                 ModalPopupHelper.ShowMessageBox(
                     this,
                     ResourceFormatter.Warnings + ":" + Environment.NewLine + 
                     string.Join(Environment.NewLine, messages));
             }
 
-            if (_presenter.MainViewModel.DocumentOrPatchNotFound.Visible)
+            if (_mainPresenter.MainViewModel.DocumentOrPatchNotFound.Visible)
             {
-                ModalPopupHelper.ShowDocumentOrPatchNotFoundPopup(this, _presenter.MainViewModel.DocumentOrPatchNotFound);
+                ModalPopupHelper.ShowDocumentOrPatchNotFoundPopup(this, _mainPresenter.MainViewModel.DocumentOrPatchNotFound);
             }
 
             // Focus control if not valid.
@@ -166,7 +166,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             // Close MainForm if needed.
-            if (_presenter.MainViewModel.DocumentOrPatchNotFound.MustCloseMainView)
+            if (_mainPresenter.MainViewModel.DocumentOrPatchNotFound.MustCloseMainView)
             {
                 Close();
             }

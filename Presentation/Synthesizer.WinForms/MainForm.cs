@@ -1,31 +1,31 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using JJ.Framework.Data;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Presenters;
-using JJ.Presentation.Synthesizer.WinForms.Forms;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
+﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Enums;
-using System.Collections.Generic;
-using System.Media;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
+using JJ.Framework.Data;
 using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.WinForms.Extensions;
-using JJ.Presentation.Synthesizer.WinForms.Configuration;
-using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Presentation.Synthesizer.NAudio;
+using JJ.Presentation.Synthesizer.Presenters;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.WinForms.Configuration;
+using JJ.Presentation.Synthesizer.WinForms.Forms;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Media;
+using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private readonly IContext _context;
         private readonly RepositoryWrapper _repositories;
-        private readonly MainPresenter _presenter;
+        private readonly MainPresenter _mainPresenter;
         private readonly InfrastructureFacade _infrastructureFacade;
         private readonly AutoPatcher _autoPatcher;
 
@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             _context = PersistenceHelper.CreateContext();
             _repositories = PersistenceHelper.CreateRepositoryWrapper(_context);
-            _presenter = new MainPresenter(_repositories);
+            _mainPresenter = new MainPresenter(_repositories);
 
             _infrastructureFacade = new InfrastructureFacade(_repositories);
             _autoPatcher = new AutoPatcher(_repositories);
@@ -89,12 +89,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(
                 () =>
                 {
-                    _presenter.Show(documentName, patchName);
+                    _mainPresenter.Show(documentName, patchName);
                     RecreatePatchCalculatorIfSuccessful();
                 });
         }
 
-        public void DocumentOpen(string name) => TemplateActionHandler(() => _presenter.DocumentOpen(name));
+        public void DocumentOpen(string name) => TemplateActionHandler(() => _mainPresenter.DocumentOpen(name));
 
         public void PatchShow(string patchName)
         {
@@ -102,9 +102,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(
                 () =>
                 {
-                    Document document = _repositories.DocumentRepository.Get(_presenter.MainViewModel.Document.ID);
+                    Document document = _repositories.DocumentRepository.Get(_mainPresenter.MainViewModel.Document.ID);
                     Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleWithClearException(new { patchName });
-                    _presenter.PatchDetailsShow(patch.ID);
+                    _mainPresenter.PatchDetailsShow(patch.ID);
                 });
         }
 
@@ -155,12 +155,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void SetAudioOutputIfNeeded()
         {
-            if (!_presenter.MainViewModel.Successful)
+            if (!_mainPresenter.MainViewModel.Successful)
             {
                 return;
             }
 
-            AudioOutputPropertiesViewModel viewModel = _presenter.MainViewModel.Document.AudioOutputProperties;
+            AudioOutputPropertiesViewModel viewModel = _mainPresenter.MainViewModel.Document.AudioOutputProperties;
 
             // ReSharper disable once InvertIf
             if (viewModel.Successful)
@@ -174,7 +174,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void RecreatePatchCalculatorIfSuccessful()
         {
-            if (!_presenter.MainViewModel.Successful)
+            if (!_mainPresenter.MainViewModel.Successful)
             {
                 return;
             }
@@ -186,7 +186,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private Patch GetCurrentInstrumentPatch()
         {
-            IList<Patch> patches = _presenter.MainViewModel.Document.CurrentInstrument.List
+            IList<Patch> patches = _mainPresenter.MainViewModel.Document.CurrentInstrument.List
                                              .Select(x => _repositories.PatchRepository.Get(x.ID))
                                              .ToArray();
             if (patches.Count == 0)
@@ -233,12 +233,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void PlayOutletIfNeeded()
         {
-            if (!_presenter.MainViewModel.Successful)
+            if (!_mainPresenter.MainViewModel.Successful)
             {
                 return;
             }
 
-            int? outletIDToPlay = _presenter.MainViewModel.Document.OutletIDToPlay;
+            int? outletIDToPlay = _mainPresenter.MainViewModel.Document.OutletIDToPlay;
             if (!outletIDToPlay.HasValue)
             {
                 return;
@@ -249,10 +249,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // Determine AudioOutput
             Document document;
-            if (_presenter.MainViewModel.Document.IsOpen)
+            if (_mainPresenter.MainViewModel.Document.IsOpen)
             {
                 // Get AudioOutput from open document.
-                document = _repositories.DocumentRepository.TryGet(_presenter.MainViewModel.Document.ID);
+                document = _repositories.DocumentRepository.TryGet(_mainPresenter.MainViewModel.Document.ID);
             }
             else
             {
@@ -293,13 +293,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var soundPlayer = new SoundPlayer(_patchPlayOutputFilePath);
             soundPlayer.Play();
 
-            _presenter.MainViewModel.Document.OutletIDToPlay = null;
+            _mainPresenter.MainViewModel.Document.OutletIDToPlay = null;
         }
 
         private void OpenDocumentExternallyAndOptionallyPatchIfNeeded()
         {
-            IDAndName documentToOpenExternally = _presenter.MainViewModel.Document.DocumentToOpenExternally;
-            IDAndName patchToOpenExternally = _presenter.MainViewModel.Document.PatchToOpenExternally;
+            IDAndName documentToOpenExternally = _mainPresenter.MainViewModel.Document.DocumentToOpenExternally;
+            IDAndName patchToOpenExternally = _mainPresenter.MainViewModel.Document.PatchToOpenExternally;
 
             // Infrastructure
             string documentName = documentToOpenExternally?.Name;
@@ -321,8 +321,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 //Process.Start(Assembly.GetExecutingAssembly().Location, arguments);
 
                 // ToViewModel
-                _presenter.MainViewModel.Document.DocumentToOpenExternally = null;
-                _presenter.MainViewModel.Document.PatchToOpenExternally = null;
+                _mainPresenter.MainViewModel.Document.DocumentToOpenExternally = null;
+                _mainPresenter.MainViewModel.Document.PatchToOpenExternally = null;
             }
         }
     }

@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<PatchAndOperatorEventArgs> SelectOperatorRequested;
         public event EventHandler<EventArgs<int>> ExpandOperatorRequested;
-        public event EventHandler<EventArgs<int>> ShowPatchPropertiesRequested;
+        public event EventHandler<EventArgs<int>> ExpandPatchRequested;
 
         private PatchViewModelToDiagramConverter _converter;
         private PatchViewModelToDiagramConverterResult _converterResult;
@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void ShowPatchPropertiesGesture_ShowPatchPropertiesRequested(object sender, EventArgs e)
         {
             // ReSharper disable once PossibleNullReferenceException
-            ShowPatchPropertiesRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
+            ExpandPatchRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
         }
 
         private void UnbindVectorGraphicsEvents()

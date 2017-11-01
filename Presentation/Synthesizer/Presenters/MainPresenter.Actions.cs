@@ -282,6 +282,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteNonPersistedAction(viewModel, () => _audioOutputPropertiesPresenter.Show(viewModel));
         }
 
+        private void AudioOutputPropertiesSwitch()
+        {
+            if (MainViewModel.PropertiesPanelVisible)
+            {
+                AudioOutputPropertiesShow();
+            }
+        }
+
         public void AudioOutputPropertiesClose()
         {
             // GetViewModel
@@ -547,7 +555,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Curve
 
-        private void CurveShow(int curveID)
+        private void CurveExpand(int id)
         {
             // Get operator ID using view model, because you cannot reliably use the entity model to get an Operator by CurveID.
             // (Long explanation:
@@ -555,7 +563,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             //  And you require an ORM query, because it Operator.Curve does not have an inverse property Curve.Operator.
             //  And the inverse property is not there, because inverse properties are hacky for 1-to-1 relationships with ORM.
             //  And an intermediate flush would not work, if the there are integrity problems, that cannot be persisted to the database.)
-            OperatorPropertiesViewModel_ForCurve propertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByCurveID(MainViewModel.Document, curveID);
+            OperatorPropertiesViewModel_ForCurve propertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByCurveID(MainViewModel.Document, id);
 
             ExecuteReadAction(propertiesViewModel, () =>
             {
@@ -567,7 +575,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 
                 // Redirect
                 OperatorPropertiesShow(operatorID);
-                CurveDetailsShow(curveID);
+                CurveDetailsShow(id);
                 PatchDetailsShow(patchID);
                 OperatorSelect(patchID, operatorID);
             });
@@ -594,7 +602,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void CurveDetailsExpand(int curveID)
         {
             // Redirect
-            CurveShow(curveID);
+            CurveExpand(curveID);
         }
 
         public void CurveDetailsLoseFocus(int id)
@@ -1325,7 +1333,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioOutput);
 
             // Redirect
-            AudioOutputPropertiesShow();
+            AudioOutputPropertiesSwitch();
         }
 
         public void DocumentTreeSelectLibraries() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectLibraries);
@@ -1335,7 +1343,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibrary(x, documentReferenceID));
 
             // Redirect
-            LibraryPropertiesShow(documentReferenceID);
+            LibraryPropertiesSwitch(documentReferenceID);
         }
 
         public void DocumentTreeSelectLibraryPatch(int id)
@@ -1355,7 +1363,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatch(x, id));
 
             // Redirect
-            PatchPropertiesShow(id);
+            PatchPropertiesSwitch(id);
         }
 
         public void DocumentTreeSelectPatchGroup(string group)
@@ -1474,6 +1482,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Template Method
             ExecuteNonPersistedAction(viewModel, () => _libraryPropertiesPresenter.Show(viewModel));
+        }
+
+        private void LibraryPropertiesSwitch(int documentReferenceID)
+        {
+            if (MainViewModel.PropertiesPanelVisible)
+            {
+                LibraryPropertiesShow(documentReferenceID);
+            }
         }
 
         /// <see cref="LibrarySelectionPopupPresenter.Cancel"/>
@@ -1635,6 +1651,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteNonPersistedAction(viewModel, () => _nodePropertiesPresenter.Show(viewModel));
         }
 
+        private void NodePropertiesSwitch(int id)
+        {
+            if (MainViewModel.PropertiesPanelVisible)
+            {
+                NodePropertiesShow(id);
+            }
+        }
+
         public void NodePropertiesClose(int id)
         {
             // GetViewModel
@@ -1688,7 +1712,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             // Redirect
             CurveDetailsSelectNode(curveID, nodeID);
-            NodePropertiesShow(nodeID);
+            NodePropertiesSwitch(nodeID);
         }
 
         public void NodeShow(int id)
@@ -2185,11 +2209,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             throw new NotFoundException<OperatorPropertiesViewModelBase>(new { OperatorID = id });
         }
 
+        private void OperatorPropertiesSwitch(int id)
+        {
+            if (MainViewModel.PropertiesPanelVisible)
+            {
+                OperatorPropertiesShow(id);
+            }
+        }
+
         public void OperatorSelect(int patchID, int operatorID)
         {
             // Redirect
             PatchDetailsSelectOperator(patchID, operatorID);
-            OperatorPropertiesShow(operatorID);
+            OperatorPropertiesSwitch(operatorID);
         }
 
         public void OperatorExpand(int operatorID)
@@ -2203,7 +2235,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Redirect
                 if (curve != null)
                 {
-                    CurveShow(curve.ID);
+                    CurveExpand(curve.ID);
                 }
                 else
                 {
@@ -2269,6 +2301,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             ExecuteNonPersistedAction(userInput, () => _patchDetailsPresenter.Show(userInput));
+        }
+
+        public void PatchDetailsExpand(int id)
+        {
+            // Redirect
+            PatchExpand(id);
+        }
+
+        private void PatchExpand(int id)
+        {
+            // Redirect
+            PatchPropertiesShow(id);
+            PatchDetailsShow(id);
+            DocumentTreeSelectPatch(id);
         }
 
         public void PatchPropertiesAddToInstrument(int id)
@@ -2341,13 +2387,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteWriteAction(userInput, () => _patchPropertiesPresenter.Play(userInput));
         }
 
-        public void PatchPropertiesShow(int id)
+        private void PatchPropertiesShow(int id)
         {
             // GetViewModel
             PatchPropertiesViewModel viewModel = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
             // Template Method
             ExecuteNonPersistedAction(viewModel, () => _patchPropertiesPresenter.Show(viewModel));
+        }
+
+        private void PatchPropertiesSwitch(int id)
+        {
+            if (MainViewModel.PropertiesPanelVisible)
+            {
+                PatchPropertiesShow(id);
+            }
         }
 
         // Sample

@@ -694,7 +694,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
             MainViewModel.Successful = castedViewModel.Successful;
 
-            MainViewModel.Document.PropertiesPanelVisible =
+            MainViewModel.PropertiesPanelVisible =
                 MainViewModel.Document.VisibleAudioFileOutputProperties != null |
                 MainViewModel.Document.AudioOutputProperties.Visible ||
                 MainViewModel.Document.DocumentProperties.Visible ||
@@ -713,7 +713,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MainViewModel.Document.VisiblePatchProperties != null ||
                 MainViewModel.Document.VisibleScaleProperties != null;
 
-            MainViewModel.Document.CurveDetailsPanelVisible = MainViewModel.Document.CurveDetailsDictionary.Any(x => x.Value.Visible);
+            MainViewModel.CurveDetailsPanelVisible = MainViewModel.Document.CurveDetailsDictionary.Any(x => x.Value.Visible);
         }
     }
 }

@@ -7,8 +7,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
     {
         public bool IsOpen { get; set; }
         public int ID { get; set; }
-        public bool PropertiesPanelVisible { get; set; }
-        public bool CurveDetailsPanelVisible { get; set; }
 
         public int? OutletIDToPlay { get; set; }
         public IDAndName DocumentToOpenExternally { get; set; }
