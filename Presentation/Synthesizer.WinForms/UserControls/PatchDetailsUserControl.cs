@@ -94,12 +94,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converterResult.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
             _converterResult.ShowOperatorPropertiesMouseGesture.ShowOperatorPropertiesRequested += ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested;
             _converterResult.ShowOperatorPropertiesKeyboardGesture.ShowOperatorPropertiesRequested += ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested;
-            _converterResult.ShowPatchPropertiesGesture.ShowPatchPropertiesRequested += ShowPatchPropertiesGesture_ShowPatchPropertiesRequested;
+            _converterResult.ExpandPatchGesture.DoubleClick += ExpandPatchGesture_DoubleClick;
             _converterResult.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
             _converterResult.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
         }
 
-        private void ShowPatchPropertiesGesture_ShowPatchPropertiesRequested(object sender, EventArgs e)
+        private void ExpandPatchGesture_DoubleClick(object sender, EventArgs e)
         {
             // ReSharper disable once PossibleNullReferenceException
             ExpandPatchRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
@@ -117,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _converterResult.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
                 _converterResult.ShowOperatorPropertiesMouseGesture.ShowOperatorPropertiesRequested -= ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested;
                 _converterResult.ShowOperatorPropertiesKeyboardGesture.ShowOperatorPropertiesRequested -= ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested;
-                _converterResult.ShowPatchPropertiesGesture.ShowPatchPropertiesRequested -= ShowPatchPropertiesGesture_ShowPatchPropertiesRequested;
+                _converterResult.ExpandPatchGesture.DoubleClick -= ExpandPatchGesture_DoubleClick;
                 _converterResult.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
                 _converterResult.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
             }

@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public ToolTipGesture OutletToolTipGesture { get; }
         public ShowOperatorPropertiesKeyboardGesture ShowOperatorPropertiesKeyboardGesture { get; }
         public ShowOperatorPropertiesMouseGesture ShowOperatorPropertiesMouseGesture { get; }
-        public ShowPatchPropertiesGesture ShowPatchPropertiesGesture { get; }
+        public DoubleClickGesture ExpandPatchGesture { get; }
 
         public PatchViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 doubleClickSpeedInMilliseconds,
                 doubleClickDeltaInPixels);
 
-            ShowPatchPropertiesGesture = new ShowPatchPropertiesGesture(
+            ExpandPatchGesture = new DoubleClickGesture(
                 doubleClickSpeedInMilliseconds,
                 doubleClickDeltaInPixels);
 

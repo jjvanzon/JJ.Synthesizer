@@ -108,9 +108,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 _result.Diagram.Background.Gestures.Add(_result.ShowOperatorPropertiesKeyboardGesture);
             }
 
-            if (!_result.Diagram.Background.Gestures.Contains(_result.ShowPatchPropertiesGesture))
+            if (!_result.Diagram.Background.Gestures.Contains(_result.ExpandPatchGesture))
             {
-                _result.Diagram.Background.Gestures.Add(_result.ShowPatchPropertiesGesture);
+                _result.Diagram.Background.Gestures.Add(_result.ExpandPatchGesture);
             }
 
             foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.OperatorDictionary.Values)
