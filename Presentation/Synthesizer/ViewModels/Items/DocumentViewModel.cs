@@ -7,6 +7,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
     {
         public bool IsOpen { get; set; }
         public int ID { get; set; }
+        public bool PropertiesPanelVisible { get; set; }
+        public bool CurveDetailsPanelVisible { get; set; }
+
         public int? OutletIDToPlay { get; set; }
         public IDAndName DocumentToOpenExternally { get; set; }
         public IDAndName PatchToOpenExternally { get; set; }
@@ -58,14 +61,16 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public Dictionary<int, PatchDetailsViewModel> PatchDetailsDictionary { get; set; }
         public PatchPropertiesViewModel VisiblePatchProperties { get; set; }
         public Dictionary<int, PatchPropertiesViewModel> PatchPropertiesDictionary { get; set; }
+        public SampleFileBrowserViewModel SampleFileBrowser { get; set; }
         public ScaleGridViewModel ScaleGrid { get; set; }
         public ScalePropertiesViewModel VisibleScaleProperties { get; set; }
         public Dictionary<int, ScalePropertiesViewModel> ScalePropertiesDictionary { get; set; }
         public ToneGridEditViewModel VisibleToneGridEdit { get; set; }
+
         /// <summary> Key is Scale ID. </summary>
         public Dictionary<int, ToneGridEditViewModel> ToneGridEditDictionary { get; set; }
-        /// <summary> This lookup is used by OperatorProperties_ForCustomOperators. </summary>
+
+        /// <summary> This lookup is used by OperatorProperties views. </summary>
         public IList<IDAndName> UnderlyingPatchLookup { get; set; }
-        public SampleFileBrowserViewModel SampleFileBrowser { get; set; }
     }
 }

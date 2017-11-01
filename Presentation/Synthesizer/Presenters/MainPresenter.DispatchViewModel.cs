@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Framework.Collections;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -692,6 +693,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
             MainViewModel.Successful = castedViewModel.Successful;
+
+            MainViewModel.Document.PropertiesPanelVisible =
+                MainViewModel.Document.VisibleAudioFileOutputProperties != null |
+                MainViewModel.Document.AudioOutputProperties.Visible ||
+                MainViewModel.Document.DocumentProperties.Visible ||
+                MainViewModel.Document.VisibleLibraryProperties != null ||
+                MainViewModel.Document.VisibleNodeProperties != null ||
+                MainViewModel.Document.VisibleOperatorProperties != null ||
+                MainViewModel.Document.VisibleOperatorProperties_ForCache != null ||
+                MainViewModel.Document.VisibleOperatorProperties_ForCurve != null ||
+                MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension != null ||
+                MainViewModel.Document.VisibleOperatorProperties_ForNumber != null ||
+                MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet != null ||
+                MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet != null ||
+                MainViewModel.Document.VisibleOperatorProperties_ForSample != null ||
+                MainViewModel.Document.VisibleOperatorProperties_WithInterpolation != null ||
+                MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation != null ||
+                MainViewModel.Document.VisiblePatchProperties != null ||
+                MainViewModel.Document.VisibleScaleProperties != null;
+
+            MainViewModel.Document.CurveDetailsPanelVisible = MainViewModel.Document.CurveDetailsDictionary.Any(x => x.Value.Visible);
         }
     }
 }

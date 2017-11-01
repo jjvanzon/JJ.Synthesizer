@@ -557,7 +557,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             //  And an intermediate flush would not work, if the there are integrity problems, that cannot be persisted to the database.)
             OperatorPropertiesViewModel_ForCurve propertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByCurveID(MainViewModel.Document, curveID);
 
-            ExecuteNonPersistedAction(propertiesViewModel, () =>
+            ExecuteReadAction(propertiesViewModel, () =>
             {
                 int operatorID = propertiesViewModel.ID;
 

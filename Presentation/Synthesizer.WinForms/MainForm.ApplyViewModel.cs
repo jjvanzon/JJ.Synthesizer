@@ -76,14 +76,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _autoPatchPopupForm.Visible = _presenter.MainViewModel.Document.AutoPatchPopup.Visible;
 
             // Panel Visibility
-            bool treePanelMustBeVisible = MustBecomeVisible(documentTreeUserControl);
-            SetTreePanelVisible(treePanelMustBeVisible);
-
-            bool propertiesPanelMustBeVisible = _userControls.Where(x => MustBecomeVisible(x) && x is PropertiesUserControlBase).Any();
-            SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
-
-            bool curveDetailsPanelMustBeVisible = _presenter.MainViewModel.Document.CurveDetailsDictionary.Values.Any(x => x.Visible);
-            SetCurveDetailsPanelVisible(curveDetailsPanelMustBeVisible);
+            SetTreePanelVisible(_presenter.MainViewModel.Document.DocumentTree.Visible);
+            SetPropertiesPanelVisible(_presenter.MainViewModel.Document.PropertiesPanelVisible);
+            SetCurveDetailsPanelVisible(_presenter.MainViewModel.Document.CurveDetailsPanelVisible);
 
             // Modal Windows
             if (_presenter.MainViewModel.DocumentDelete.Visible)
@@ -177,10 +172,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
         }
 
-        private bool MustBecomeVisible(UserControlBase userControl)
-        {
-            return userControl.ViewModel != null &&
-                   userControl.ViewModel.Visible;
-        }
+        private bool MustBecomeVisible(UserControlBase userControl) => userControl.ViewModel?.Visible ?? false;
     }
 }
