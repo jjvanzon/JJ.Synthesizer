@@ -14,6 +14,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -92,8 +93,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converterResult.MoveGesture.Moved += MoveGesture_Moved;
             _converterResult.DropLineGesture.Dropped += DropLineGesture_Dropped;
             _converterResult.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
-            _converterResult.ShowOperatorPropertiesMouseGesture.ShowOperatorPropertiesRequested += ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested;
-            _converterResult.ShowOperatorPropertiesKeyboardGesture.ShowOperatorPropertiesRequested += ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested;
+            _converterResult.ExpandOperatorMouseGesture.ExpandOperatorRequested += ExpandOperatorMouseGesture_ExpandOperatorRequested;
+            _converterResult.ExpandOperatorKeyboardGesture.ExpandOperatorRequested += ExpandOperatorKeyboardGesture_ExpandOperatorRequested;
             _converterResult.ExpandPatchGesture.DoubleClick += ExpandPatchGesture_DoubleClick;
             _converterResult.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
             _converterResult.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
@@ -101,7 +102,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ExpandPatchGesture_DoubleClick(object sender, EventArgs e)
         {
-            // ReSharper disable once PossibleNullReferenceException
             ExpandPatchRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
         }
 
@@ -115,8 +115,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _converterResult.MoveGesture.Moved -= MoveGesture_Moved;
                 _converterResult.DropLineGesture.Dropped -= DropLineGesture_Dropped;
                 _converterResult.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
-                _converterResult.ShowOperatorPropertiesMouseGesture.ShowOperatorPropertiesRequested -= ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested;
-                _converterResult.ShowOperatorPropertiesKeyboardGesture.ShowOperatorPropertiesRequested -= ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested;
+                _converterResult.ExpandOperatorMouseGesture.ExpandOperatorRequested -= ExpandOperatorMouseGesture_ExpandOperatorRequested;
+                _converterResult.ExpandOperatorKeyboardGesture.ExpandOperatorRequested -= ExpandOperatorKeyboardGesture_ExpandOperatorRequested;
                 _converterResult.ExpandPatchGesture.DoubleClick -= ExpandPatchGesture_DoubleClick;
                 _converterResult.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
                 _converterResult.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
@@ -132,7 +132,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             int inletID =  VectorGraphicsTagHelper.GetInletID(e.DroppedOnElement.Tag);
             int outletID = VectorGraphicsTagHelper.GetOutletID(e.DraggedElement.Tag);
 
-            // ReSharper disable once PossibleNullReferenceException
             ChangeInputOutletRequested(this, new ChangeInputOutletEventArgs(
                 ViewModel.Entity.ID,
                 inletID,
@@ -169,7 +168,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ViewModel == null) return;
 
-            // ReSharper disable once PossibleNullReferenceException
             MoveOperatorRequested(this, new MoveOperatorEventArgs(
                 ViewModel.Entity.ID,
                 operatorID,
@@ -183,30 +181,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
-            // ReSharper disable once PossibleNullReferenceException
             SelectOperatorRequested(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, operatorID));
 
-            _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
+            _converterResult.ExpandOperatorKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
         }
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
             if (ViewModel == null) return;
-            // ReSharper disable once PossibleNullReferenceException
             DeleteOperatorRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
 
-            _converterResult.ShowOperatorPropertiesKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
+            _converterResult.ExpandOperatorKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
         }
 
-        private void ShowOperatorPropertiesMouseGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
+        private void ExpandOperatorMouseGesture_ExpandOperatorRequested(object sender, IDEventArgs e)
         {
-            // ReSharper disable once PossibleNullReferenceException
             ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
         }
 
-        private void ShowOperatorPropertiesKeyboardGesture_ShowOperatorPropertiesRequested(object sender, IDEventArgs e)
+        private void ExpandOperatorKeyboardGesture_ExpandOperatorRequested(object sender, IDEventArgs e)
         {
-            // ReSharper disable once PossibleNullReferenceException
             ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
         }
 

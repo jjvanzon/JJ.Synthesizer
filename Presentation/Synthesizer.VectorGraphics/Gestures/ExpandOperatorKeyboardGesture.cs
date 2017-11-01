@@ -1,8 +1,8 @@
-﻿using System;
-using JJ.Framework.Presentation.VectorGraphics.Enums;
+﻿using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
@@ -11,9 +11,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     /// because keyword gesture is tied to the whole diagram,
     /// while mouse gesture is tied to a specific element.
     /// </summary>
-    public class ShowOperatorPropertiesKeyboardGesture : GestureBase
+    public class ExpandOperatorKeyboardGesture : GestureBase
     {
-        public event EventHandler<IDEventArgs> ShowOperatorPropertiesRequested;
+        public event EventHandler<IDEventArgs> ExpandOperatorRequested;
 
         public int? SelectedOperatorID { get; set; }
 
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
             if (e.KeyCode == KeyCodeEnum.Enter)
             {
-                ShowOperatorPropertiesRequested?.Invoke(sender, new IDEventArgs(SelectedOperatorID.Value));
+                ExpandOperatorRequested?.Invoke(sender, new IDEventArgs(SelectedOperatorID.Value));
             }
         }
     }

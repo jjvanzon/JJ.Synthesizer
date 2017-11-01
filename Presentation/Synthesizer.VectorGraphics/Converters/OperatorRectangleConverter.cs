@@ -1,12 +1,12 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.Gestures;
+﻿using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
@@ -18,13 +18,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         private readonly Diagram _diagram;
         private readonly MoveGesture _moveGesture;
         private readonly SelectOperatorGesture _selectOperatorGesture;
-        private readonly ShowOperatorPropertiesMouseGesture _showOperatorPropertiesMouseGesture;
+        private readonly ExpandOperatorMouseGesture _showOperatorPropertiesMouseGesture;
 
         public OperatorRectangleConverter(
             Diagram diagram,
             MoveGesture moveGesture,
             SelectOperatorGesture selectOperatorGesture,
-            ShowOperatorPropertiesMouseGesture showOperatorPropertiesMouseGesture)
+            ExpandOperatorMouseGesture showOperatorPropertiesMouseGesture)
         {
             _diagram = diagram ?? throw new NullException(() => diagram);
             _moveGesture = moveGesture ?? throw new NullException(() => moveGesture);

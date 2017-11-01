@@ -15,8 +15,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public DeleteOperatorGesture DeleteOperatorGesture { get; }
         public ToolTipGesture InletToolTipGesture { get; }
         public ToolTipGesture OutletToolTipGesture { get; }
-        public ShowOperatorPropertiesKeyboardGesture ShowOperatorPropertiesKeyboardGesture { get; }
-        public ShowOperatorPropertiesMouseGesture ShowOperatorPropertiesMouseGesture { get; }
+        public ExpandOperatorKeyboardGesture ExpandOperatorKeyboardGesture { get; }
+        public ExpandOperatorMouseGesture ExpandOperatorMouseGesture { get; }
         public DoubleClickGesture ExpandPatchGesture { get; }
 
         public PatchViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
@@ -25,9 +25,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             MoveGesture = new MoveGesture();
             SelectOperatorGesture = new SelectOperatorGesture();
             DeleteOperatorGesture = new DeleteOperatorGesture();
-            ShowOperatorPropertiesKeyboardGesture = new ShowOperatorPropertiesKeyboardGesture();
+            ExpandOperatorKeyboardGesture = new ExpandOperatorKeyboardGesture();
 
-            ShowOperatorPropertiesMouseGesture = new ShowOperatorPropertiesMouseGesture(
+            ExpandOperatorMouseGesture = new ExpandOperatorMouseGesture(
                 doubleClickSpeedInMilliseconds,
                 doubleClickDeltaInPixels);
 

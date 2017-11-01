@@ -1,8 +1,8 @@
-﻿using System;
-using JJ.Framework.Presentation.VectorGraphics.EventArg;
+﻿using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
@@ -10,19 +10,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     /// What this class adds to the implementation of double click
     /// is having an event that includes the ID of the entity.
     /// </summary>
-    public class ShowOperatorPropertiesMouseGesture : GestureBase
+    public class ExpandOperatorMouseGesture : GestureBase
     {
-        public event EventHandler<IDEventArgs> ShowOperatorPropertiesRequested;
+        public event EventHandler<IDEventArgs> ExpandOperatorRequested;
 
         private readonly DoubleClickGesture _doubleClickGesture;
 
-        internal ShowOperatorPropertiesMouseGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+        internal ExpandOperatorMouseGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
             _doubleClickGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
             _doubleClickGesture.DoubleClick += _doubleClickGesture_DoubleClick;
         }
 
-        ~ShowOperatorPropertiesMouseGesture()
+        ~ExpandOperatorMouseGesture()
         {
             if (_doubleClickGesture != null)
             {
@@ -48,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
         {
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
-            ShowOperatorPropertiesRequested?.Invoke(this, new IDEventArgs(operatorID));
+            ExpandOperatorRequested?.Invoke(this, new IDEventArgs(operatorID));
         }
     }
 }

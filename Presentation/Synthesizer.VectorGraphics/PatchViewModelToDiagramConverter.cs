@@ -82,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     _result.Diagram,
                     _result.MoveGesture,
                     _result.SelectOperatorGesture,
-                    _result.ShowOperatorPropertiesMouseGesture);
+                    _result.ExpandOperatorMouseGesture);
                 _operatorLabelConverter = new OperatorLabelConverter();
                 _operatorDimensionLabelConverter = new OperatorDimensionLabelConverter();
                 _inletRectangleConverter = new InletRectangleConverter(_result.DropLineGesture, _result.InletToolTipGesture);
@@ -103,9 +103,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 _result.Diagram.Background.Gestures.Add(_result.DeleteOperatorGesture);
             }
 
-            if (!_result.Diagram.Background.Gestures.Contains(_result.ShowOperatorPropertiesKeyboardGesture))
+            if (!_result.Diagram.Background.Gestures.Contains(_result.ExpandOperatorKeyboardGesture))
             {
-                _result.Diagram.Background.Gestures.Add(_result.ShowOperatorPropertiesKeyboardGesture);
+                _result.Diagram.Background.Gestures.Add(_result.ExpandOperatorKeyboardGesture);
             }
 
             if (!_result.Diagram.Background.Gestures.Contains(_result.ExpandPatchGesture))
