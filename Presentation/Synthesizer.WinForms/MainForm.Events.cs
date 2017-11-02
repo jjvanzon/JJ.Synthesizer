@@ -24,6 +24,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
             audioOutputPropertiesUserControl.PlayRequested += audioOutputPropertiesUserControl_PlayRequested;
             currentInstrumentUserControl.ExpandRequested += currentInstrumentUserControl_ExpandRequested;
+            currentInstrumentUserControl.ExpandItemRequested += currentInstrumentUserControl_ExpandItemRequested;
             currentInstrumentUserControl.MoveBackwardRequested += currentInstrumentUserControl_MoveBackwardRequested;
             currentInstrumentUserControl.MoveForwardRequested += currentInstrumentUserControl_MoveForwardRequested;
             currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
@@ -309,7 +310,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void currentInstrumentUserControl_ExpandRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.CurrentInstrumentExpand);
+        private void currentInstrumentUserControl_ExpandRequested(object sender, EventArgs e)
+        {
+            TemplateActionHandler(_mainPresenter.CurrentInstrumentExpand);
+        }
+        private void currentInstrumentUserControl_ExpandItemRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _mainPresenter.CurrentInstrumentExpandItem(e.Value));
+        }
 
         private void currentInstrumentUserControl_MoveBackwardRequested(object sender, EventArgs<int> e)
         {

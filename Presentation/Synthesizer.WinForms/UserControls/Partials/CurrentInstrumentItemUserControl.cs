@@ -16,6 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         private const int SPACING = 1;
 
+        public event EventHandler<EventArgs<int>> ExpandRequested;
         public event EventHandler<EventArgs<int>> MoveBackwardRequested;
         public event EventHandler<EventArgs<int>> MoveForwardRequested;
         public event EventHandler<EventArgs<int>> PlayRequested;
@@ -46,6 +47,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void SetTitles()
         {
+            toolTip.SetToolTip(buttonExpand, CommonResourceFormatter.Open);
             toolTip.SetToolTip(buttonMoveBackward, CommonResourceFormatter.Move);
             toolTip.SetToolTip(buttonMoveForward, CommonResourceFormatter.Move);
             toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
@@ -89,6 +91,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             buttonPlay.Location = new Point(x, SPACING);
             x += buttonWidth + SPACING;
 
+            buttonExpand.Location = new Point(x, SPACING);
+            x += buttonWidth + SPACING;
+
             buttonRemove.Location = new Point(x, SPACING);
             x += buttonWidth + SPACING;
 
@@ -97,6 +102,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             Width = x;
         }
 
+        private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(this, new EventArgs<int>(_viewModel.ID));
         private void buttonMoveBackward_Click(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.ID));
         private void buttonMoveForward_Click(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.ID));
         private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.ID));

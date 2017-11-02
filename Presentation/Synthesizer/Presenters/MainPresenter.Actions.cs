@@ -499,6 +499,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(autoPatchPopupViewModel);
         }
 
+        public void CurrentInstrumentExpandItem(int patchID)
+        {
+            // Redirect
+            PatchDetailsShow(patchID);
+            DocumentTreeSelectPatch(patchID);
+        }
+
         public void CurrentInstrumentMove(int patchID, int newPosition)
         {
             // GetViewModel

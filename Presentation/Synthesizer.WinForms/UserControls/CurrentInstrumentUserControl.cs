@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private readonly IList<CurrentInstrumentItemUserControl> _itemControls = new List<CurrentInstrumentItemUserControl>();
 
         public event EventHandler ExpandRequested;
+        public event EventHandler<EventArgs<int>> ExpandItemRequested;
         public event EventHandler<EventArgs<int>> MoveBackwardRequested;
         public event EventHandler<EventArgs<int>> MoveForwardRequested;
         public event EventHandler PlayRequested;
@@ -72,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     Margin = new Padding(0),
                     ViewModel = itemViewModel
                 };
+                itemControl.ExpandRequested += ItemControl_ExpandRequested;
                 itemControl.MoveBackwardRequested += ItemControl_MoveBackwardRequested;
                 itemControl.MoveForwardRequested += ItemControl_MoveForwardRequested;
                 itemControl.PlayRequested += ItemControl_PlayRequested;
@@ -85,6 +87,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             for (int i = _itemControls.Count - 1; i >= ViewModel.List.Count; i--)
             {
                 CurrentInstrumentItemUserControl itemControl = _itemControls[i];
+                itemControl.ExpandRequested -= ItemControl_ExpandRequested;
                 itemControl.MoveBackwardRequested -= ItemControl_MoveBackwardRequested;
                 itemControl.MoveForwardRequested -= ItemControl_MoveForwardRequested;
                 itemControl.PlayRequested -= ItemControl_PlayRequested;
@@ -129,6 +132,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         private void Base_SizeChanged(object sender, EventArgs e) => PositionControls();
+        private void ItemControl_ExpandRequested(object sender, EventArgs<int> e) => ExpandItemRequested(sender, e);
         private void ItemControl_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
         private void ItemControl_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
         private void ItemControl_PlayRequested(object sender, EventArgs<int> e) => PlayItemRequested(sender, e);
