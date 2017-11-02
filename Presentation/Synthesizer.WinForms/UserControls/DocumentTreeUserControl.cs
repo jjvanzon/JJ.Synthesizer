@@ -22,6 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler AddRequested;
         public event EventHandler AddToInstrumentRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler<EventArgs<int>> CreateOperatorRequested;
         public event EventHandler NewRequested;
         public event EventHandler OpenItemExternallyRequested;
         public event EventHandler<EventArgs<int>> PatchHovered;
@@ -30,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler RemoveRequested;
         public event EventHandler SaveRequested;
 
-        public event EventHandler<EventArgs<int>> ShowPatchDetailsRequested;
+        public event EventHandler<EventArgs<int>> ShowPatchRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryRequested;
         public event EventHandler ShowAudioOutputRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
@@ -686,7 +687,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_patchTreeNodes.Contains(node))
             {
                 int id = (int)node.Tag;
-                ShowPatchDetailsRequested(this, new EventArgs<int>(id));
+                ShowPatchRequested(this, new EventArgs<int>(id));
             }
 
             if (node == _scalesTreeNode)
@@ -698,6 +699,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 int id = (int)node.Tag;
                 ShowLibraryRequested(this, new EventArgs<int>(id));
+            }
+
+            if (_libraryPatchTreeNodes.Contains(node))
+            {
+                int underlyingPatchID = (int)node.Tag;
+                CreateOperatorRequested(this, new EventArgs<int>(underlyingPatchID));
             }
         }
 

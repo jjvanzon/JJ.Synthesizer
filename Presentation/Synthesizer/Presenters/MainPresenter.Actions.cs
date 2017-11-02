@@ -1045,6 +1045,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteWriteAction(userInput, () => _librarySelectionPopupPresenter.Load(userInput));
         }
 
+        public void DocumentTreeCreateOperator(int underlyingPatchID)
+        {
+            if (MainViewModel.Document.VisiblePatchDetails != null)
+            {
+                // Redirect
+                DocumentTreeNew();
+            }
+        }
+
         /// <param name="group">nullable</param>
         private void DocumentTreeCreatePatch(string group)
         {
@@ -1392,16 +1401,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentTreeShow() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Show);
 
+        public void DocumentTreeShowAudioOutput()
+        {
+            // Redirect
+            AudioOutputPropertiesShow();
+        }
+
         public void DocumentTreeShowLibrary(int documentReferenceID)
         {
             // Redirect
             LibraryPropertiesShow(documentReferenceID);
         }
 
-        public void DocumentTreeShowAudioOutput()
+        public void DocumentTreeShowPatch(int id)
         {
             // Redirect
-            AudioOutputPropertiesShow();
+            PatchDetailsShow(id);
         }
 
         /// <summary>

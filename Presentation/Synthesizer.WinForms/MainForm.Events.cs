@@ -57,6 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.AudioFileOutputsNodeSelected += documentTreeUserControl_AudioFileOutputsNodeSelected;
             documentTreeUserControl.AudioOutputNodeSelected += documentTreeUserControl_AudioOutputNodeSelected;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
+            documentTreeUserControl.CreateOperatorRequested += documentTreeUserControl_CreateOperatorRequested;
             documentTreeUserControl.LibrariesNodeSelected += documentTreeUserControl_LibrariesNodeSelected;
             documentTreeUserControl.LibraryNodeSelected += documentTreeUserControl_LibraryNodeSelected;
             documentTreeUserControl.LibraryPatchNodeSelected += documentTreeUserControl_LibraryPatchNodeSelected;
@@ -74,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
             documentTreeUserControl.ShowLibraryRequested += documentTreeUserControl_ShowLibraryRequested;
-            documentTreeUserControl.ShowPatchDetailsRequested += documentTreeUserControl_ShowPatchDetailsRequested;
+            documentTreeUserControl.ShowPatchRequested += documentTreeUserControl_ShowPatchRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
@@ -522,6 +523,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTreeClose);
 
+        private void documentTreeUserControl_CreateOperatorRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _mainPresenter.DocumentTreeCreateOperator(e.Value));
+        }
+
         private void documentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTreeSelectLibraries);
 
         private void documentTreeUserControl_LibraryNodeSelected(object sender, EventArgs<int> e)
@@ -607,9 +613,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _mainPresenter.DocumentTreeShowLibrary(e.Value));
         }
 
-        private void documentTreeUserControl_ShowPatchDetailsRequested(object sender, EventArgs<int> e)
+        private void documentTreeUserControl_ShowPatchRequested(object sender, EventArgs<int> e)
         {
-            TemplateActionHandler(() => _mainPresenter.PatchDetailsShow(e.Value));
+            TemplateActionHandler(() => _mainPresenter.DocumentTreeShowPatch(e.Value));
         }
 
         private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.ScaleGridShow);

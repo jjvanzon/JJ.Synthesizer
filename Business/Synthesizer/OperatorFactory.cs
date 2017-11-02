@@ -770,11 +770,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public OperatorWrapper Not(Outlet number = null)
+        public OperatorWrapper Not(Outlet yesNo = null)
         {
             OperatorWrapper wrapper = NewBase();
 
-            wrapper.Inputs[DimensionEnum.Number] = number;
+            wrapper.Inputs[DimensionEnum.YesNo] = yesNo;
 
             return wrapper;
         }
