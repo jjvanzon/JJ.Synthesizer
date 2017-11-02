@@ -29,16 +29,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
             currentInstrumentUserControl.PlayItemRequested += CurrentInstrumentUserControl_PlayItemRequested;
             currentInstrumentUserControl.RemoveRequested += currentInstrumentUserControl_RemoveRequested;
-            curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsUserControl_ChangeSelectedNodeTypeRequested;
-            curveDetailsListUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
-            curveDetailsListUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
-            curveDetailsListUserControl.DeleteSelectedNodeRequested += curveDetailsUserControl_DeleteSelectedNodeRequested;
+            curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsListUserControl_ChangeSelectedNodeTypeRequested;
+            curveDetailsListUserControl.CloseRequested += curveDetailsListUserControl_CloseRequested;
+            curveDetailsListUserControl.CreateNodeRequested += curveDetailsListUserControl_CreateNodeRequested;
+            curveDetailsListUserControl.DeleteSelectedNodeRequested += curveDetailsListUserControl_DeleteSelectedNodeRequested;
             curveDetailsListUserControl.ExpandCurveRequested += curveDetailsListUserControl_ExpandCurveRequested;
-            curveDetailsListUserControl.LoseFocusRequested += curveDetailsUserControl_LoseFocusRequested;
-            curveDetailsListUserControl.NodeMoving += curveDetailsUserControl_NodeMoving;
-            curveDetailsListUserControl.NodeMoved += curveDetailsUserControl_NodeMoved;
-            curveDetailsListUserControl.SelectNodeRequested += curveDetailsUserControl_SelectNodeRequested;
-            curveDetailsListUserControl.ShowNodePropertiesRequested += curveDetailsUserControl_ShowNodePropertiesRequested;
+            curveDetailsListUserControl.LoseFocusRequested += curveDetailsListUserControl_LoseFocusRequested;
+            curveDetailsListUserControl.NodeMoving += curveDetailsListUserControl_NodeMoving;
+            curveDetailsListUserControl.NodeMoved += curveDetailsListUserControl_NodeMoved;
+            curveDetailsListUserControl.SelectCurveRequested += curveDetailsListUserControl_SelectCurveRequested;
+            curveDetailsListUserControl.SelectNodeRequested += curveDetailsListUserControl_SelectNodeRequested;
+            curveDetailsListUserControl.ExpandNodeRequested += curveDetailsListUserControl_ExpandNodeRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
             documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
@@ -84,6 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
             menuUserControl.ShowDocumentPropertiesRequested += MenuUserControl_ShowDocumentPropertiesRequested;
             nodePropertiesUserControl.CloseRequested += nodePropertiesUserControl_CloseRequested;
+            nodePropertiesUserControl.ExpandRequested += nodePropertiesUserControl_ExpandRequested;
             nodePropertiesUserControl.LoseFocusRequested += nodePropertiesUserControl_LoseFocusRequested;
             nodePropertiesUserControl.RemoveRequested += nodePropertiesUserControl_RemoveRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
@@ -363,62 +365,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve
 
-        private void curveDetailsUserControl_SelectNodeRequested(object sender, NodeEventArgs e)
-        {
-            TemplateActionHandler(() => _mainPresenter.NodeSelect(e.CurveID, e.NodeID));
-        }
-
-        private void curveDetailsUserControl_CreateNodeRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.NodeCreate(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void curveDetailsUserControl_DeleteSelectedNodeRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.NodeDeleteSelected(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-
-        private void curveDetailsListUserControl_ExpandCurveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.CurveDetailsExpand(e.Value));
-        }
-
-        private void curveDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.CurveDetailsClose(e.Value));
-        }
-
-        private void curveDetailsUserControl_NodeMoving(object sender, MoveNodeEventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.NodeMoving(e.CurveID, e.NodeID, e.X, e.Y);
-                });
-        }
-
-        private void curveDetailsUserControl_NodeMoved(object sender, MoveNodeEventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.NodeMoved(e.CurveID, e.NodeID, e.X, e.Y);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
-
-        private void curveDetailsUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e)
+        private void curveDetailsListUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(
                 () =>
@@ -428,14 +375,73 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void curveDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void curveDetailsListUserControl_CloseRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _mainPresenter.CurveDetailsClose(e.Value));
+        }
+
+        private void curveDetailsListUserControl_CreateNodeRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _mainPresenter.NodeCreate(e.Value);
+                    RecreatePatchCalculatorIfSuccessful();
+                });
+        }
+
+        private void curveDetailsListUserControl_DeleteSelectedNodeRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _mainPresenter.NodeDeleteSelected(e.Value);
+                    RecreatePatchCalculatorIfSuccessful();
+                });
+        }
+
+        private void curveDetailsListUserControl_ExpandCurveRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _mainPresenter.CurveDetailsExpand(e.Value));
+        }
+
+        private void curveDetailsListUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _mainPresenter.CurveDetailsLoseFocus(e.Value));
         }
 
-        private void curveDetailsUserControl_ShowNodePropertiesRequested(object sender, EventArgs<int> e)
+        private void curveDetailsListUserControl_NodeMoving(object sender, MoveNodeEventArgs e)
         {
-            TemplateActionHandler(() => _mainPresenter.NodeShow(e.Value));
+            TemplateActionHandler(
+                () =>
+                {
+                    _mainPresenter.NodeMoving(e.CurveID, e.NodeID, e.X, e.Y);
+                });
+        }
+
+        private void curveDetailsListUserControl_NodeMoved(object sender, MoveNodeEventArgs e)
+        {
+            TemplateActionHandler(
+                () =>
+                {
+                    _mainPresenter.NodeMoved(e.CurveID, e.NodeID, e.X, e.Y);
+                    RecreatePatchCalculatorIfSuccessful();
+                });
+        }
+
+        private void curveDetailsListUserControl_SelectCurveRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _mainPresenter.CurveSelect(e.Value));
+        }
+
+        private void curveDetailsListUserControl_SelectNodeRequested(object sender, NodeEventArgs e)
+        {
+            TemplateActionHandler(() => _mainPresenter.NodeSelect(e.CurveID, e.NodeID));
+        }
+
+        private void curveDetailsListUserControl_ExpandNodeRequested(object sender, NodeEventArgs e)
+        {
+            TemplateActionHandler(() => _mainPresenter.CurveDetailsExpandNode(e.CurveID, e.NodeID));
         }
 
         // Document Grid
@@ -708,6 +714,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     _mainPresenter.NodePropertiesClose(e.Value);
                     RecreatePatchCalculatorIfSuccessful();
                 });
+        }
+
+
+        private void nodePropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _mainPresenter.NodePropertiesExpand(e.Value));
         }
 
         private void nodePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)

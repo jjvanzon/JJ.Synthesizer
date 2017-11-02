@@ -1,7 +1,7 @@
-﻿using System;
-using JJ.Framework.Presentation.VectorGraphics.EventArg;
+﻿using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
@@ -9,19 +9,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     /// What this class adds to the implementation of double click
     /// is having an event that includes the ID of the entity.
     /// </summary>
-    public class ShowNodePropertiesMouseGesture : GestureBase
+    public class ExpandNodeMouseGesture : GestureBase
     {
-        public event EventHandler<IDEventArgs> ShowNodePropertiesRequested;
+        public event EventHandler<IDEventArgs> ExpandNodeRequested;
 
         private readonly DoubleClickGesture _doubleClickGesture;
 
-        internal ShowNodePropertiesMouseGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+        internal ExpandNodeMouseGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
             _doubleClickGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
             _doubleClickGesture.DoubleClick += _doubleClickGesture_DoubleClick;
         }
 
-        ~ShowNodePropertiesMouseGesture()
+        ~ExpandNodeMouseGesture()
         {
             if (_doubleClickGesture != null)
             {
@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
         {
-            ShowNodePropertiesRequested?.Invoke(this, new IDEventArgs((int)e.Element.Tag));
+            ExpandNodeRequested?.Invoke(this, new IDEventArgs((int)e.Element.Tag));
         }
     }
 }

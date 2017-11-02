@@ -557,22 +557,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void CurveExpand(int id)
         {
-            // Get operator ID using view model, because you cannot reliably use the entity model to get an Operator by CurveID.
-            // (Long explanation:
-            //  It would require an ORM query, which only works for flushed entities.
-            //  And you require an ORM query, because it Operator.Curve does not have an inverse property Curve.Operator.
-            //  And the inverse property is not there, because inverse properties are hacky for 1-to-1 relationships with ORM.
-            //  And an intermediate flush would not work, if the there are integrity problems, that cannot be persisted to the database.)
-            OperatorPropertiesViewModel_ForCurve propertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByCurveID(MainViewModel.Document, id);
-
-            ExecuteReadAction(propertiesViewModel, () =>
+            ExecuteReadAction(null, () =>
             {
-                int operatorID = propertiesViewModel.ID;
-
                 // GetEntity
+                int operatorID = GetOperatorIDByCurveID(id);
                 Operator op = _repositories.OperatorRepository.Get(operatorID);
                 int patchID = op.Patch.ID;
-                
+
                 // Redirect
                 OperatorPropertiesShow(operatorID);
                 CurveDetailsShow(id);
@@ -605,6 +596,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveExpand(curveID);
         }
 
+        public void CurveDetailsExpandNode(int curveID, int nodeID)
+        {
+            // Redirect
+            NodeExpand(curveID, nodeID);
+        }
+
         public void CurveDetailsLoseFocus(int id)
         {
             // GetViewModel
@@ -621,6 +618,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TemplateMethod
             ExecuteNonPersistedAction(userInput, () => _curveDetailsPresenter.SelectNode(userInput, nodeID));
+        }
+
+        public void CurveSelect(int id)
+        {
+            ExecuteReadAction(null, () =>
+            {
+                // GetEntity
+                int operatorID = GetOperatorIDByCurveID(id);
+                Operator op = _repositories.OperatorRepository.Get(operatorID);
+                int patchID = op.Patch.ID;
+
+                // Redirect
+                OperatorPropertiesSwitch(operatorID);
+                PatchDetailsSelectOperator(patchID, operatorID);
+            });
         }
 
         // Document Grid
@@ -1642,23 +1654,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void NodePropertiesShow(int id)
-        {
-            // GetViewModel
-            NodePropertiesViewModel viewModel = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
-
-            // Template Method
-            ExecuteNonPersistedAction(viewModel, () => _nodePropertiesPresenter.Show(viewModel));
-        }
-
-        private void NodePropertiesSwitch(int id)
-        {
-            if (MainViewModel.PropertiesPanelVisible)
-            {
-                NodePropertiesShow(id);
-            }
-        }
-
         public void NodePropertiesClose(int id)
         {
             // GetViewModel
@@ -1692,6 +1687,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void NodePropertiesExpand(int id)
+        {
+            NodePropertiesViewModel viewModel = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
+
+            // Redirect
+            NodeExpand(viewModel.CurveID, id);
+        }
+
         public void NodePropertiesLoseFocus(int id)
         {
             // GetViewModel
@@ -1708,6 +1711,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void NodePropertiesShow(int id)
+        {
+            // GetViewModel
+            NodePropertiesViewModel viewModel = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            ExecuteNonPersistedAction(viewModel, () => _nodePropertiesPresenter.Show(viewModel));
+        }
+
+        private void NodePropertiesSwitch(int id)
+        {
+            if (MainViewModel.PropertiesPanelVisible)
+            {
+                NodePropertiesShow(id);
+            }
+        }
+
         public void NodeSelect(int curveID, int nodeID)
         {
             // Redirect
@@ -1715,10 +1735,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             NodePropertiesSwitch(nodeID);
         }
 
-        public void NodeShow(int id)
+        private void NodeExpand(int curveID, int nodeID)
         {
-            // Redirect
-            NodePropertiesShow(id);
+            ExecuteReadAction(null, () =>
+            {
+                // GetEntity
+                int operatorID = GetOperatorIDByCurveID(curveID);
+                Operator op = _repositories.OperatorRepository.Get(operatorID);
+                int patchID = op.Patch.ID;
+
+                // Redirect
+                NodePropertiesShow(nodeID);
+                CurveDetailsShow(curveID);
+                CurveDetailsSelectNode(curveID, nodeID);
+                PatchDetailsShow(patchID);
+                PatchDetailsSelectOperator(patchID, operatorID);
+            });
         }
 
         // Operator

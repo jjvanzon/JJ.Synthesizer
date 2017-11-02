@@ -8,7 +8,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
     public class PatchViewModelToDiagramConverterResult
     {
         public Diagram Diagram { get; }
-        public MoveGesture MoveGesture { get; }
         public DeleteOperatorGesture DeleteOperatorGesture { get; }
         public DragLineGesture DragLineGesture { get; }
         public DropLineGesture DropLineGesture { get; }
@@ -16,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public ExpandOperatorMouseGesture ExpandOperatorMouseGesture { get; }
         public DoubleClickGesture ExpandPatchGesture { get; }
         public ToolTipGesture InletToolTipGesture { get; }
+        public MoveGesture MoveGesture { get; }
         public ToolTipGesture OutletToolTipGesture { get; }
         public SelectOperatorGesture SelectOperatorGesture { get; }
         public ClickGesture SelectPatchGesture { get; }

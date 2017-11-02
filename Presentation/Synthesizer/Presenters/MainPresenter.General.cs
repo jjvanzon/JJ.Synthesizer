@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.Presenters.Partials;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -79,11 +80,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private readonly AutoPatcher _autoPatcher;
         private readonly AudioFileOutputManager _audioFileOutputManager;
-        private readonly CurveManager _curveManager;
         private readonly DocumentManager _documentManager;
         private readonly EntityPositionManager _entityPositionManager;
         private readonly PatchManager _patchManager;
-        private readonly ScaleManager _scaleManager;
 
         public MainViewModel MainViewModel { get; private set; }
         
@@ -98,13 +97,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Create Managers
             _autoPatcher = new AutoPatcher(_repositories);
             _audioFileOutputManager = new AudioFileOutputManager(audioFileOutputRepositories);
-            _curveManager = new CurveManager(_curveRepositories);
             _documentManager = new DocumentManager(_repositories);
             _entityPositionManager = new EntityPositionManager(
                 _repositories.EntityPositionRepository, 
                 _repositories.IDRepository);
             _patchManager = new PatchManager(_repositories);
-            _scaleManager = new ScaleManager(scaleRepositories);
+            var scaleManager = new ScaleManager(scaleRepositories);
 
             // Create Presenters
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_audioFileOutputManager, _repositories.DocumentRepository);
@@ -140,9 +138,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionManager);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
             _sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _entityPositionManager, _repositories);
-            _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, _scaleManager);
-            _scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, _scaleManager);
-            _toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, _scaleManager);
+            _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, scaleManager);
+            _scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, scaleManager);
+            _toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, scaleManager);
             _titleBarPresenter = new TitleBarPresenter();
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
@@ -261,6 +259,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 
             return DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT;
+        }
+
+        private int GetOperatorIDByCurveID(int curveID)
+        {
+            // Get operator ID using view model, because you cannot reliably use the entity model to get an Operator by CurveID.
+            // (Long explanation:
+            //  It would require an ORM query, which only works for flushed entities.
+            //  And you require an ORM query, because it Operator.Curve does not have an inverse property Curve.Operator.
+            //  And the inverse property is not there, because inverse properties are hacky for 1-to-1 relationships with ORM.
+            //  And an intermediate flush would not work, if the there are integrity problems, that cannot be persisted to the database.)
+            OperatorPropertiesViewModel_ForCurve propertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByCurveID(MainViewModel.Document, curveID);
+            int operatorID = propertiesViewModel.ID;
+            return operatorID;
         }
     }
 }

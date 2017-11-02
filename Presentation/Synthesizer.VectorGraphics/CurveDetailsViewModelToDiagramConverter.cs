@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
+using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
@@ -14,8 +12,10 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Curve = JJ.Data.Synthesizer.Entities.Curve;
-using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -184,14 +184,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 float y = Result.Diagram.Background.Position.AbsoluteToRelativeY((float)nodeViewModel.Y);
 
                 // Convert Rectangle
-                Rectangle rectangle;
-                if (!_rectangleDictionary.TryGetValue(nodeViewModel.ID, out rectangle))
+                if (!_rectangleDictionary.TryGetValue(nodeViewModel.ID, out Rectangle rectangle))
                 {
                     rectangle = new Rectangle
                     {
                         Diagram = Result.Diagram,
                         Parent = Result.Diagram.Background,
-                        Tag = nodeViewModel.ID
+                        Tag = nodeViewModel.ID,
+                        MustBubble = false
                     };
                     rectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
                     rectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
@@ -199,7 +199,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     rectangle.Gestures.Add(
                         Result.MoveNodeGesture,
                         Result.SelectNodeGesture,
-                        Result.ShowNodePropertiesMouseGesture,
+                        Result.ExpandNodeMouseGesture,
                         Result.NodeToolTipGesture);
 
                     _rectangleDictionary.Add(nodeViewModel.ID, rectangle);
@@ -210,8 +210,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 rectangle.Position.Height = scaledNodeRectangleHeight;
 
                 // Convert Point
-                Point point;
-                if (!_pointDictionary.TryGetValue(nodeViewModel.ID, out point))
+                if (!_pointDictionary.TryGetValue(nodeViewModel.ID, out Point point))
                 {
                     point = new Point
                     {

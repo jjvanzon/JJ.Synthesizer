@@ -1,8 +1,8 @@
-﻿using System;
-using JJ.Framework.Presentation.VectorGraphics.Enums;
+﻿using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
@@ -11,9 +11,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     /// because keyword gesture is tied to the whole diagram,
     /// while mouse gesture is tied to a specific element.
     /// </summary>
-    public class ShowNodePropertiesKeyboardGesture : GestureBase
+    public class ExpandNodeKeyboardGesture : GestureBase
     {
-        public event EventHandler<IDEventArgs> ShowNodePropertiesRequested;
+        public event EventHandler<IDEventArgs> ExpandNodeRequested;
 
         public int SelectedNodeID { get; set; }
 
@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         {
             if (e.KeyCode == KeyCodeEnum.Enter)
             {
-                ShowNodePropertiesRequested?.Invoke(this, new IDEventArgs(SelectedNodeID));
+                ExpandNodeRequested?.Invoke(this, new IDEventArgs(SelectedNodeID));
             }
         }
     }

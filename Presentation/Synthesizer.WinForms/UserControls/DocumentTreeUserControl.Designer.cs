@@ -61,11 +61,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
             this.titleBarUserControl.CloseButtonVisible = true;
             this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.titleBarUserControl.ExpandButtonVisible = false;
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
             this.titleBarUserControl.NewButtonVisible = true;
-            this.titleBarUserControl.ExpandButtonVisible = false;
             this.titleBarUserControl.PlayButtonVisible = true;
             this.titleBarUserControl.RefreshButtonVisible = true;
             this.titleBarUserControl.RemoveButtonVisible = false;
@@ -88,6 +88,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.treeView.BackColor = System.Drawing.SystemColors.Control;
             this.treeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView.HideSelection = false;
             this.treeView.Location = new System.Drawing.Point(0, 26);
             this.treeView.Margin = new System.Windows.Forms.Padding(0);
             this.treeView.Name = "treeView";
