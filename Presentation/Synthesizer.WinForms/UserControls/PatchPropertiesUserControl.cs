@@ -1,10 +1,10 @@
-﻿using System;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Presentation.Resources;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
+using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using System;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
 
             AddToInstrumentButtonVisible = true;
+            ExpandButtonVisible = true;
         }
 
         // Gui

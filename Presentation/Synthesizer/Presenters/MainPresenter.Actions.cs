@@ -2361,6 +2361,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AddToInstrument(id);
         }
 
+        public void PatchPropertiesChangeHasDimension(int id)
+        {
+            // GetViewModel
+            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+
+            // Template Method
+            ExecuteWriteAction(userInput, () => _patchPropertiesPresenter.ChangeHasDimension(userInput));
+        }
+
         public void PatchPropertiesClose(int id)
         {
             // GetViewModel
@@ -2393,13 +2402,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchPropertiesChangeHasDimension(int id)
-        {         
-            // GetViewModel
-            PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
-
-            // Template Method
-            ExecuteWriteAction(userInput, () => _patchPropertiesPresenter.ChangeHasDimension(userInput));
+        public void PatchPropertiesExpand(int id)
+        {
+            // Redirect
+            PatchExpand(id);
         }
 
         public void PatchPropertiesLoseFocus(int id)
