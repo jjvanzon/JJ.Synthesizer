@@ -38,7 +38,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Constructors
 
-        public PatchDetailsUserControl() => InitializeComponent();
+        public PatchDetailsUserControl()
+        {
+            InitializeComponent();
+
+            ExpandButtonVisible = true;
+        }
 
         // Gui
 

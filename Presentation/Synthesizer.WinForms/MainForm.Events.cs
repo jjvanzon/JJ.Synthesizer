@@ -149,6 +149,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
             patchDetailsUserControl.ExpandOperatorRequested += patchDetailsUserControl_ExpandOperatorRequested;
             patchDetailsUserControl.ExpandPatchRequested += patchDetailsUserControl_ExpandPatchRequested;
+            patchDetailsUserControl.ExpandRequested += patchDetailsUserControl_ExpandRequested;
             patchDetailsUserControl.SelectPatchRequested += patchDetailsUserControl_SelectPatchRequested;
             patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
@@ -1046,7 +1047,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(() => _mainPresenter.OperatorExpand(e.Value));
         }
 
+        /// <summary> This is for the background double click. </summary>
         private void patchDetailsUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
+        {
+            TemplateActionHandler(() => _mainPresenter.PatchDetailsExpand(e.Value));
+        }
+
+        /// <summary> This is for the tool bar button click. </summary>
+        private void patchDetailsUserControl_ExpandRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _mainPresenter.PatchDetailsExpand(e.Value));
         }
