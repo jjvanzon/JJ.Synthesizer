@@ -30,11 +30,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 
-        public DocumentTreeViewModel OpenItemExternally(DocumentTreeViewModel viewModel)
+        public DocumentTreeViewModel OpenItemExternally(DocumentTreeViewModel userInput)
         {
             return ExecuteAction(
-                viewModel,
-                _ =>
+                userInput,
+                viewModel =>
                 {
                     if (!viewModel.SelectedItemID.HasValue)
                     {
