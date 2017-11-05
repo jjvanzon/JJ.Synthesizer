@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using System;
 using System.Drawing;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
@@ -62,6 +62,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
         protected virtual void AddProperties()
         { }
 
+        /// <param name="nameControl">nullable</param>
+        /// <param name="valueControl">nullable</param>
         protected void AddProperty(Control nameControl, Control valueControl)
         {
             if (nameControl == null && valueControl == null) throw new Exception($"{nameof(nameControl)} and {nameof(valueControl)} cannot both be null.");

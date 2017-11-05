@@ -962,10 +962,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.Amplifier = viewModel.Amplifier;
             entity.TimeMultiplier = viewModel.TimeMultiplier;
-            entity.IsActive = viewModel.IsActive;
             entity.SamplingRate = viewModel.SamplingRate;
             entity.BytesToSkip = viewModel.BytesToSkip;
-            entity.OriginalLocation = viewModel.OriginalLocation;
 
             var audioFileFormatEnum = (AudioFileFormatEnum)(viewModel.AudioFileFormat?.ID ?? 0);
             entity.SetAudioFileFormatEnum(audioFileFormatEnum, repositories.AudioFileFormatRepository);

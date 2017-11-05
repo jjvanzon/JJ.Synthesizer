@@ -522,6 +522,8 @@
     <Content Include="2017-10-19 020 SynthesizerDB IX_Curve_DocumentID drop index.sql" />
     <Content Include="2017-10-19 030 SynthesizerDB FK_Curve_Document drop constraint.sql" />
     <Content Include="2017-10-19 040 SynthesizerDB Curve.DocumentID drop column.sql" />
+    <Content Include="2017-11-05 010 SynthesizerDB Sample.IsActive drop column.sql" />
+    <Content Include="2017-11-05 020 SynthesizerDB Sample.OriginalLocation drop column.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

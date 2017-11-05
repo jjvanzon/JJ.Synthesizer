@@ -13,10 +13,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.Name);
             Map(x => x.Amplifier);
             Map(x => x.TimeMultiplier);
-            Map(x => x.IsActive);
             Map(x => x.SamplingRate);
             Map(x => x.BytesToSkip);
-            Map(x => x.OriginalLocation);
 
             References(x => x.SampleDataType, ColumnNames.SampleDataTypeID);
             References(x => x.SpeakerSetup, ColumnNames.SpeakerSetupID);

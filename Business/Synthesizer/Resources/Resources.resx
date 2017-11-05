@@ -131,10 +131,6 @@
     <value>Sample '{0}' has no data.</value>
     <comment>{0} = sample name</comment>
   </data>
-  <data name="NotActive" xml:space="preserve">
-    <value>Not active</value>
-    <comment>{0} = Sample name.</comment>
-  </data>
   <data name="NotLoaded" xml:space="preserve">
     <value>Not loaded</value>
     <comment>{0} = sample name</comment>
@@ -451,9 +447,6 @@
   <data name="InterpolationType" xml:space="preserve">
     <value>Interpolation Type</value>
   </data>
-  <data name="IsActive" xml:space="preserve">
-    <value>Active</value>
-  </data>
   <data name="IsObsolete" xml:space="preserve">
     <value>Obsolete</value>
   </data>
@@ -589,9 +582,6 @@
   </data>
   <data name="Origin" xml:space="preserve">
     <value>Origin</value>
-  </data>
-  <data name="OriginalLocation" xml:space="preserve">
-    <value>Original Location</value>
   </data>
   <data name="Outlet" xml:space="preserve">
     <value>Output</value>

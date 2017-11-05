@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using JJ.Business.Synthesizer;
-using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
+﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -265,10 +265,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name,
                 Amplifier = entity.Amplifier,
                 TimeMultiplier = entity.TimeMultiplier,
-                IsActive = entity.IsActive,
                 SamplingRate = entity.SamplingRate,
                 BytesToSkip = entity.BytesToSkip,
-                OriginalLocation = entity.OriginalLocation,
                 Bytes = bytes,
                 Duration = entity.GetDuration(bytes)
             };

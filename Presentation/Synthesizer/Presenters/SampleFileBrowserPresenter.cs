@@ -54,7 +54,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             string fileName = Path.GetFileName(userInput.FilePath);
             op.Name = fileName;
             op.Sample.Name = fileName;
-            op.Sample.OriginalLocation = userInput.FilePath;
 
             _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 

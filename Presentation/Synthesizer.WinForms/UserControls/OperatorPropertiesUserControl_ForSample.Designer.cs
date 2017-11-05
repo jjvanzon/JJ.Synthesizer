@@ -1,5 +1,4 @@
-﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     partial class OperatorPropertiesUserControl_ForSample
     {
@@ -29,7 +28,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelOriginalLocation = new System.Windows.Forms.Label();
             this.comboBoxInterpolationType = new System.Windows.Forms.ComboBox();
             this.labelInterpolationType = new System.Windows.Forms.Label();
             this.numericUpDownBytesToSkip = new System.Windows.Forms.NumericUpDown();
@@ -46,9 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.numericUpDownAmplifier = new System.Windows.Forms.NumericUpDown();
             this.labelTimeMultiplier = new System.Windows.Forms.Label();
             this.numericUpDownTimeMultiplier = new System.Windows.Forms.NumericUpDown();
-            this.labelIsActive = new System.Windows.Forms.Label();
-            this.checkBoxIsActive = new System.Windows.Forms.CheckBox();
-            this.filePathControlOriginalLocation = new JJ.Framework.Presentation.WinForms.Controls.FilePathControl();
+            this.filePathControl = new JJ.Framework.Presentation.WinForms.Controls.FilePathControl();
             this.labelDurationTitle = new System.Windows.Forms.Label();
             this.labelDurationValue = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBytesToSkip)).BeginInit();
@@ -56,17 +52,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownAmplifier)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeMultiplier)).BeginInit();
             this.SuspendLayout();
-            // 
-            // labelOriginalLocation
-            // 
-            this.labelOriginalLocation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelOriginalLocation.Location = new System.Drawing.Point(0, 0);
-            this.labelOriginalLocation.Margin = new System.Windows.Forms.Padding(0);
-            this.labelOriginalLocation.Name = "labelOriginalLocation";
-            this.labelOriginalLocation.Size = new System.Drawing.Size(10, 10);
-            this.labelOriginalLocation.TabIndex = 6;
-            this.labelOriginalLocation.Text = "labelOriginalLocation";
-            this.labelOriginalLocation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxInterpolationType
             // 
@@ -286,43 +271,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.numericUpDownTimeMultiplier.Size = new System.Drawing.Size(10, 22);
             this.numericUpDownTimeMultiplier.TabIndex = 20;
             // 
-            // labelIsActive
+            // filePathControl
             // 
-            this.labelIsActive.Cursor = System.Windows.Forms.Cursors.Default;
-            this.labelIsActive.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelIsActive.Location = new System.Drawing.Point(0, 0);
-            this.labelIsActive.Margin = new System.Windows.Forms.Padding(0);
-            this.labelIsActive.Name = "labelIsActive";
-            this.labelIsActive.Size = new System.Drawing.Size(10, 10);
-            this.labelIsActive.TabIndex = 21;
-            this.labelIsActive.Text = "labelIsActive";
-            this.labelIsActive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // checkBoxIsActive
-            // 
-            this.checkBoxIsActive.AutoSize = true;
-            this.checkBoxIsActive.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkBoxIsActive.Location = new System.Drawing.Point(0, 0);
-            this.checkBoxIsActive.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBoxIsActive.Name = "checkBoxIsActive";
-            this.checkBoxIsActive.Size = new System.Drawing.Size(10, 10);
-            this.checkBoxIsActive.TabIndex = 22;
-            this.checkBoxIsActive.UseVisualStyleBackColor = true;
-            // 
-            // filePathControlOriginalLocation
-            // 
-            this.filePathControlOriginalLocation.BrowseMode = JJ.Framework.Presentation.WinForms.Helpers.FileBrowseModeEnum.Open;
-            this.filePathControlOriginalLocation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.filePathControlOriginalLocation.FilePath = "";
-            this.filePathControlOriginalLocation.LabelText = "";
-            this.filePathControlOriginalLocation.Location = new System.Drawing.Point(0, 0);
-            this.filePathControlOriginalLocation.Margin = new System.Windows.Forms.Padding(0);
-            this.filePathControlOriginalLocation.Name = "filePathControlOriginalLocation";
-            this.filePathControlOriginalLocation.Size = new System.Drawing.Size(10, 10);
-            this.filePathControlOriginalLocation.Spacing = 0;
-            this.filePathControlOriginalLocation.TabIndex = 27;
-            this.filePathControlOriginalLocation.TextBoxEnabled = false;
-            this.filePathControlOriginalLocation.Browsed += new System.EventHandler<JJ.Framework.Presentation.WinForms.EventArg.FilePathEventArgs>(this.filePathControlOriginalLocation_Browsed);
+            this.filePathControl.BrowseMode = JJ.Framework.Presentation.WinForms.Helpers.FileBrowseModeEnum.Open;
+            this.filePathControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filePathControl.FilePath = "";
+            this.filePathControl.LabelText = "";
+            this.filePathControl.Location = new System.Drawing.Point(0, 0);
+            this.filePathControl.Margin = new System.Windows.Forms.Padding(0);
+            this.filePathControl.Name = "filePathControl";
+            this.filePathControl.Size = new System.Drawing.Size(10, 10);
+            this.filePathControl.Spacing = 0;
+            this.filePathControl.TabIndex = 27;
+            this.filePathControl.TextBoxEnabled = false;
+            this.filePathControl.TextBoxVisible = false;
+            this.filePathControl.Browsed += new System.EventHandler<JJ.Framework.Presentation.WinForms.EventArg.FilePathEventArgs>(this.filePathControl_Browsed);
             // 
             // labelDurationTitle
             // 
@@ -380,7 +343,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Controls.Add(this.labelOriginalLocation);
             this.Controls.Add(this.comboBoxInterpolationType);
             this.Controls.Add(this.labelInterpolationType);
             this.Controls.Add(this.numericUpDownBytesToSkip);
@@ -397,9 +359,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.Add(this.numericUpDownAmplifier);
             this.Controls.Add(this.labelTimeMultiplier);
             this.Controls.Add(this.numericUpDownTimeMultiplier);
-            this.Controls.Add(this.labelIsActive);
-            this.Controls.Add(this.checkBoxIsActive);
-            this.Controls.Add(this.filePathControlOriginalLocation);
+            this.Controls.Add(this.filePathControl);
             this.Controls.Add(this.labelDurationTitle);
             this.Controls.Add(this.labelDurationValue);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -409,9 +369,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.TitleBarText = "Operator Properties";
             this.Controls.SetChildIndex(this.labelDurationValue, 0);
             this.Controls.SetChildIndex(this.labelDurationTitle, 0);
-            this.Controls.SetChildIndex(this.filePathControlOriginalLocation, 0);
-            this.Controls.SetChildIndex(this.checkBoxIsActive, 0);
-            this.Controls.SetChildIndex(this.labelIsActive, 0);
+            this.Controls.SetChildIndex(this.filePathControl, 0);
             this.Controls.SetChildIndex(this.numericUpDownTimeMultiplier, 0);
             this.Controls.SetChildIndex(this.labelTimeMultiplier, 0);
             this.Controls.SetChildIndex(this.numericUpDownAmplifier, 0);
@@ -428,7 +386,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this.numericUpDownBytesToSkip, 0);
             this.Controls.SetChildIndex(this.labelInterpolationType, 0);
             this.Controls.SetChildIndex(this.comboBoxInterpolationType, 0);
-            this.Controls.SetChildIndex(this.labelOriginalLocation, 0);
             this.Controls.SetChildIndex(this._textBoxName, 0);
             this.Controls.SetChildIndex(this._labelName, 0);
             this.Controls.SetChildIndex(this._textBoxCustomDimensionName, 0);
@@ -446,7 +403,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         #endregion
 
-        private System.Windows.Forms.Label labelOriginalLocation;
         private System.Windows.Forms.ComboBox comboBoxInterpolationType;
         private System.Windows.Forms.Label labelInterpolationType;
         private System.Windows.Forms.NumericUpDown numericUpDownBytesToSkip;
@@ -463,9 +419,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.NumericUpDown numericUpDownAmplifier;
         private System.Windows.Forms.Label labelTimeMultiplier;
         private System.Windows.Forms.NumericUpDown numericUpDownTimeMultiplier;
-        private System.Windows.Forms.Label labelIsActive;
-        private System.Windows.Forms.CheckBox checkBoxIsActive;
-        private JJ.Framework.Presentation.WinForms.Controls.FilePathControl filePathControlOriginalLocation;
+        private JJ.Framework.Presentation.WinForms.Controls.FilePathControl filePathControl;
         private System.Windows.Forms.Label labelDurationTitle;
         private System.Windows.Forms.Label labelDurationValue;
     }

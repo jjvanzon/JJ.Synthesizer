@@ -1240,15 +1240,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Active.
-        /// </summary>
-        internal static string IsActive {
-            get {
-                return ResourceManager.GetString("IsActive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Obsolete.
         /// </summary>
         internal static string IsObsolete {
@@ -1645,15 +1636,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not active.
-        /// </summary>
-        internal static string NotActive {
-            get {
-                return ResourceManager.GetString("NotActive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Notch Filter.
         /// </summary>
         internal static string NotchFilter {
@@ -1794,15 +1776,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Origin {
             get {
                 return ResourceManager.GetString("Origin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Original Location.
-        /// </summary>
-        internal static string OriginalLocation {
-            get {
-                return ResourceManager.GetString("OriginalLocation", resourceCulture);
             }
         }
         

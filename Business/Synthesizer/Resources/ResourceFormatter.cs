@@ -140,7 +140,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string Interpolate => Resources.Interpolate;
         public static string Interpolation => Resources.Interpolation;
         public static string InterpolationType => Resources.InterpolationType;
-        public static string IsActive => Resources.IsActive;
         public static string IsObsolete => Resources.IsObsolete;
         public static string IsRepeating => Resources.IsRepeating;
         public static string ItemList => Resources.ItemList;
@@ -183,7 +182,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string NodeType => Resources.NodeType;
         public static string Noise => Resources.Noise;
         public static string Not => Resources.Not;
-        public static string NotActive => Resources.NotActive;
         public static string NotchFilter => Resources.NotchFilter;
         public static string NoteDuration => Resources.NoteDuration;
         public static string NotEqual => Resources.NotEqual;
@@ -200,7 +198,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string OperatorIsInGraphButNotInList => Resources.OperatorIsInGraphButNotInList;
         public static string Or => Resources.Or;
         public static string Origin => Resources.Origin;
-        public static string OriginalLocation => Resources.OriginalLocation;
         public static string Outlet => Resources.Outlet;
         public static string Outlets => Resources.Outlets;
         public static string Output => Resources.Output;
@@ -365,7 +362,7 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (entity == null) throw new NullException(() => entity);
 
-            DimensionEnum dimensionEnum = (DimensionEnum)entity.ID;
+            var dimensionEnum = (DimensionEnum)entity.ID;
 
             return GetDisplayName(dimensionEnum);
         }
@@ -400,7 +397,7 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (entity == null) throw new NullException(() => entity);
 
-            InterpolationTypeEnum dimensionEnum = (InterpolationTypeEnum)entity.ID;
+            var dimensionEnum = (InterpolationTypeEnum)entity.ID;
 
             return GetDisplayName(dimensionEnum);
         }
@@ -495,7 +492,7 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (entity == null) throw new NullException(() => entity);
 
-            ScaleTypeEnum enumValue = (ScaleTypeEnum)entity.ID;
+            var enumValue = (ScaleTypeEnum)entity.ID;
 
             return GetDisplayNameSingular(enumValue);
         }
@@ -524,7 +521,7 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (entity == null) throw new NullException(() => entity);
 
-            ScaleTypeEnum enumValue = (ScaleTypeEnum)entity.ID;
+            var enumValue = (ScaleTypeEnum)entity.ID;
 
             return GetDisplayNamePlural(enumValue);
         }
@@ -562,7 +559,7 @@ namespace JJ.Business.Synthesizer.Resources
         // TODO: Perhaps remove this overload
         internal static string GetScaleTypeDisplayNamePlural(string scaleTypeName)
         {
-            ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
+            var scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
             return GetDisplayNamePlural(scaleTypeEnum);
         }
 
@@ -572,7 +569,7 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (entity == null) throw new NullException(() => entity);
 
-            SpeakerSetupEnum dimensionEnum = (SpeakerSetupEnum)entity.ID;
+            var dimensionEnum = (SpeakerSetupEnum)entity.ID;
 
             return GetDisplayName(dimensionEnum);
         }

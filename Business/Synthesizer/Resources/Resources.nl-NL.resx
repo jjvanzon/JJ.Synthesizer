@@ -132,9 +132,6 @@
   <data name="SampleCount0" xml:space="preserve">
     <value>Geluidsfragment '{0}' heeft geen data.</value>
   </data>
-  <data name="NotActive" xml:space="preserve">
-    <value>Niet actief</value>
-  </data>
   <data name="NotLoaded" xml:space="preserve">
     <value>Niet ingeladen</value>
   </data>
@@ -447,9 +444,6 @@
   <data name="InterpolationType" xml:space="preserve">
     <value>Interpolatie soort</value>
   </data>
-  <data name="IsActive" xml:space="preserve">
-    <value>Actief</value>
-  </data>
   <data name="IsObsolete" xml:space="preserve">
     <value>Verouderd</value>
   </data>
@@ -584,9 +578,6 @@
   </data>
   <data name="Origin" xml:space="preserve">
     <value>Oorsprong</value>
-  </data>
-  <data name="OriginalLocation" xml:space="preserve">
-    <value>Oorspronkelijke locatie</value>
   </data>
   <data name="Outlet" xml:space="preserve">
     <value>Uitgang</value>

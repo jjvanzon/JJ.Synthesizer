@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using JJ.Business.Synthesizer.EntityWrappers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -12,6 +10,8 @@ using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation.Resources;
+using System.Collections.Generic;
+using System.Text;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -263,11 +263,6 @@ namespace JJ.Business.Synthesizer.Validation
             if (!string.IsNullOrWhiteSpace(entity.Name))
             {
                 return $"'{entity.Name}'";
-            }
-
-            if (!string.IsNullOrWhiteSpace(entity.OriginalLocation))
-            {
-                return $"'{entity.OriginalLocation}'";
             }
 
             // Message prefix would become something like: 

@@ -1,9 +1,9 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Business;
-using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
@@ -22,7 +22,6 @@ namespace JJ.Business.Synthesizer.SideEffects
         {
             _entity.Amplifier = 1;
             _entity.TimeMultiplier = 1;
-            _entity.IsActive = true;
             _entity.SamplingRate = 44100;
             _entity.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _repositories.AudioFileFormatRepository);
             _entity.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _repositories.SampleDataTypeRepository);

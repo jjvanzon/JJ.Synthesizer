@@ -1,11 +1,11 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Validation;
-using System.Collections.Generic;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Validation;
 using JJ.Framework.Validation.Resources;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -17,18 +17,13 @@ namespace JJ.Business.Synthesizer.Warnings
             if (sample == null) throw new NullException(() => sample);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
-            if (alreadyDone.Contains(sample))
+            if (!alreadyDone.Add(sample))
             {
                 return;
             }
-            alreadyDone.Add(sample);
 
             For(sample.Amplifier, ResourceFormatter.Amplifier).NotZero();
 
-            if (!sample.IsActive)
-            {
-                Messages.Add(ResourceFormatter.NotActive);
-            }
 
             if (bytes?.Length == 0)
             {

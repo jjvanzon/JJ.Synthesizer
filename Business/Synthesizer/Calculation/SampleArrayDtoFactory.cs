@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Dto;
+﻿using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
+using System.Collections.Generic;
+using System.Linq;
 // ReSharper disable CoVariantArrayConversion
 
 namespace JJ.Business.Synthesizer.Calculation
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
             double[][] samples;
 
-            if (bytes.Length == 0 || !sample.IsActive)
+            if (bytes.Length == 0)
             {
                 samples = new double[0][];
             }

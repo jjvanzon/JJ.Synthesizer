@@ -1,12 +1,12 @@
-﻿using System.IO;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
 using JJ.Framework.Presentation.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+using System.IO;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -29,23 +29,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelSpeakerSetup, comboBoxSpeakerSetup);
             AddProperty(labelAmplifier, numericUpDownAmplifier);
             AddProperty(labelTimeMultiplier, numericUpDownTimeMultiplier);
-            AddProperty(labelIsActive, checkBoxIsActive);
             AddProperty(labelBytesToSkip, numericUpDownBytesToSkip);
             AddProperty(labelInterpolationType, comboBoxInterpolationType);
-            AddProperty(labelOriginalLocation, filePathControlOriginalLocation);
             AddProperty(labelDurationTitle, labelDurationValue);
+            AddProperty(filePathControl, null);
         }
 
         protected override void SetTitles()
         {
             base.SetTitles();
 
+            labelSamplingRate.Text = ResourceFormatter.SamplingRate;
+            labelAudioFileFormat.Text = ResourceFormatter.AudioFileFormat;
+            labelSampleDataType.Text = ResourceFormatter.SampleDataType;
+            labelSpeakerSetup.Text = ResourceFormatter.SpeakerSetup;
             labelAmplifier.Text = ResourceFormatter.Amplifier;
             labelTimeMultiplier.Text = ResourceFormatter.TimeMultiplier;
-            labelIsActive.Text = ResourceFormatter.IsActive;
             labelBytesToSkip.Text = ResourceFormatter.BytesToSkip;
             labelInterpolationType.Text = ResourceFormatter.InterpolationType;
-            labelOriginalLocation.Text = ResourceFormatter.OriginalLocation;
             // ReSharper disable once LocalizableElement
             labelDurationTitle.Text = ResourceFormatter.Duration + ":";
         }
@@ -54,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             base.ApplyStyling();
 
-            filePathControlOriginalLocation.Spacing = StyleHelper.DefaultSpacing;
+            filePathControl.Spacing = StyleHelper.DefaultSpacing;
         }
 
         // Binding
@@ -99,7 +100,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             numericUpDownAmplifier.Value = (decimal)ViewModel.Sample.Amplifier;
             numericUpDownTimeMultiplier.Value = (decimal)ViewModel.Sample.TimeMultiplier;
-            checkBoxIsActive.Checked = ViewModel.Sample.IsActive;
             numericUpDownBytesToSkip.Value = ViewModel.Sample.BytesToSkip;
 
             if (comboBoxInterpolationType.DataSource == null)
@@ -110,7 +110,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
             comboBoxInterpolationType.SelectedValue = ViewModel.Sample.InterpolationType.ID;
 
-            filePathControlOriginalLocation.Text = ViewModel.Sample.OriginalLocation;
             labelDurationValue.Text = ViewModel.Sample.Duration.ToString("0.###");
         }
 
@@ -126,15 +125,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Sample.SpeakerSetup.ID = (int)comboBoxSpeakerSetup.SelectedValue;
             ViewModel.Sample.Amplifier = (double)numericUpDownAmplifier.Value;
             ViewModel.Sample.TimeMultiplier = (double)numericUpDownTimeMultiplier.Value;
-            ViewModel.Sample.IsActive = checkBoxIsActive.Checked;
             ViewModel.Sample.BytesToSkip = (int)numericUpDownBytesToSkip.Value;
             ViewModel.Sample.InterpolationType.ID = (int)comboBoxInterpolationType.SelectedValue;
-            ViewModel.Sample.OriginalLocation = filePathControlOriginalLocation.Text;
         }
 
         // Events
 
-        private void filePathControlOriginalLocation_Browsed(object sender, FilePathEventArgs e)
+        private void filePathControl_Browsed(object sender, FilePathEventArgs e)
         {
             if (ViewModel == null) throw new NullException(() => ViewModel);
 
