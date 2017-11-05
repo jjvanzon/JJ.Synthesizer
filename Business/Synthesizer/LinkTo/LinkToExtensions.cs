@@ -1,7 +1,7 @@
-﻿using System;
-using JJ.Framework.Exceptions;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
+using JJ.Framework.Exceptions;
+using System;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable InvertIf
 
@@ -403,7 +403,7 @@ namespace JJ.Business.Synthesizer.LinkTo
         {
             if (patch == null) throw new NullException(() => patch);
 
-            patch.DefaultStandardDimension = dimension;
+            patch.StandardDimension = dimension;
 
             // No inverse property.
         }

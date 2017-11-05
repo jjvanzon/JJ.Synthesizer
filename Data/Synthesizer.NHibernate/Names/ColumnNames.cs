@@ -8,7 +8,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Names
         public const string AudioOutputID = nameof(AudioOutputID);
         public const string ChannelID = nameof(ChannelID);
         public const string CurveID = nameof(CurveID);
-        public const string DefaultStandardDimensionID = nameof(DefaultStandardDimensionID);
         public const string DimensionID = nameof(DimensionID);
         public const string DocumentID = nameof(DocumentID);
         public const string HigherDocumentID = nameof(HigherDocumentID);

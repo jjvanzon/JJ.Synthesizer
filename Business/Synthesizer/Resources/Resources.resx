@@ -1027,12 +1027,6 @@
   <data name="HasDimension" xml:space="preserve">
     <value>Has a Dimension</value>
   </data>
-  <data name="DefaultCustomDimension" xml:space="preserve">
-    <value>Default Custom Dimension</value>
-  </data>
-  <data name="DefaultStandardDimension" xml:space="preserve">
-    <value>Default Standard Dimension</value>
-  </data>
   <data name="YesNo" xml:space="preserve">
     <value>Yes/No</value>
   </data>

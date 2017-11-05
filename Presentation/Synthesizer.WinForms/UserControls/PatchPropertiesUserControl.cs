@@ -30,8 +30,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             AddProperty(labelGroup, textBoxGroup);
             AddProperty(labelHidden, checkBoxHidden);
             AddProperty(labelHasDimension, checkBoxHasDimension);
-            AddProperty(labelDefaultStandardDimension, comboBoxDefaultStandardDimension);
-            AddProperty(labelDefaultCustomDimensionName, textBoxDefaultCustomDimensionName);
+            AddProperty(labelStandardDimension, comboBoxStandardDimension);
+            AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
         }
 
         protected override void SetTitles()
@@ -40,8 +40,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelName.Text = CommonResourceFormatter.Name;
             labelGroup.Text = ResourceFormatter.Group;
             labelHasDimension.Text = ResourceFormatter.HasDimension;
-            labelDefaultStandardDimension.Text = ResourceFormatter.DefaultStandardDimension;
-            labelDefaultCustomDimensionName.Text = ResourceFormatter.DefaultCustomDimension;
+            labelStandardDimension.Text = ResourceFormatter.StandardDimension;
+            labelCustomDimensionName.Text = ResourceFormatter.CustomDimension;
             labelHidden.Text = ResourceFormatter.Hidden;
             checkBoxHasDimension.Text = null;
             checkBoxHidden.Text = null;
@@ -65,20 +65,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 textBoxName.Text = ViewModel.Name;
                 textBoxGroup.Text = ViewModel.Group;
                 checkBoxHasDimension.Checked = ViewModel.HasDimension;
-                textBoxDefaultCustomDimensionName.Text = ViewModel.DefaultCustomDimensionName;
-                textBoxDefaultCustomDimensionName.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
-                labelDefaultCustomDimensionName.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
+                textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
+                textBoxCustomDimensionName.Enabled = ViewModel.CustomDimensionNameEnabled;
+                labelCustomDimensionName.Enabled = ViewModel.CustomDimensionNameEnabled;
                 checkBoxHidden.Checked = ViewModel.Hidden;
 
-                if (comboBoxDefaultStandardDimension.DataSource == null)
+                if (comboBoxStandardDimension.DataSource == null)
                 {
-                    comboBoxDefaultStandardDimension.ValueMember = nameof(IDAndName.ID);
-                    comboBoxDefaultStandardDimension.DisplayMember = nameof(IDAndName.Name);
-                    comboBoxDefaultStandardDimension.DataSource = ViewModel.DefaultStandardDimensionLookup;
+                    comboBoxStandardDimension.ValueMember = nameof(IDAndName.ID);
+                    comboBoxStandardDimension.DisplayMember = nameof(IDAndName.Name);
+                    comboBoxStandardDimension.DataSource = ViewModel.StandardDimensionLookup;
                 }
-                comboBoxDefaultStandardDimension.SelectedValue = ViewModel.DefaultStandardDimension?.ID ?? 0;
-                comboBoxDefaultStandardDimension.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
-                labelDefaultStandardDimension.Enabled = ViewModel.DefaultCustomDimensionNameEnabled;
+                comboBoxStandardDimension.SelectedValue = ViewModel.StandardDimension?.ID ?? 0;
+                comboBoxStandardDimension.Enabled = ViewModel.CustomDimensionNameEnabled;
+                labelStandardDimension.Enabled = ViewModel.CustomDimensionNameEnabled;
             }
             finally
             {
@@ -91,8 +91,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ViewModel.Name = textBoxName.Text;
             ViewModel.Group = textBoxGroup.Text;
             ViewModel.HasDimension = checkBoxHasDimension.Checked;
-            ViewModel.DefaultStandardDimension = (IDAndName)comboBoxDefaultStandardDimension.SelectedItem;
-            ViewModel.DefaultCustomDimensionName = textBoxDefaultCustomDimensionName.Text;
+            ViewModel.StandardDimension = (IDAndName)comboBoxStandardDimension.SelectedItem;
+            ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
             ViewModel.Hidden = checkBoxHidden.Checked;
         }
 

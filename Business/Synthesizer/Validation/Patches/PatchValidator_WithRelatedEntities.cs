@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
             ExecuteValidator(new PatchValidator_ZeroOrOneRepeatingPatchInlet(patch));
             ExecuteValidator(new PatchValidator_ZeroOrOneRepeatingPatchOutlet(patch));
             ExecuteValidator(new NameValidator(patch.GroupName, ResourceFormatter.GroupName, required: false));
-            ExecuteValidator(new DimensionInfoValidator(patch.HasDimension, patch.DefaultStandardDimension, patch.DefaultCustomDimensionName));
+            ExecuteValidator(new DimensionInfoValidator(patch.HasDimension, patch.StandardDimension, patch.CustomDimensionName));
 
             foreach (Operator op in patch.Operators)
             {

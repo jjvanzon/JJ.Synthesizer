@@ -1,5 +1,4 @@
-﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
-namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     partial class PatchPropertiesUserControl
     {
@@ -37,10 +36,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.checkBoxHidden = new System.Windows.Forms.CheckBox();
             this.checkBoxHasDimension = new System.Windows.Forms.CheckBox();
             this.labelHasDimension = new System.Windows.Forms.Label();
-            this.labelDefaultCustomDimensionName = new System.Windows.Forms.Label();
-            this.textBoxDefaultCustomDimensionName = new System.Windows.Forms.TextBox();
-            this.comboBoxDefaultStandardDimension = new System.Windows.Forms.ComboBox();
-            this.labelDefaultStandardDimension = new System.Windows.Forms.Label();
+            this.labelCustomDimensionName = new System.Windows.Forms.Label();
+            this.textBoxCustomDimensionName = new System.Windows.Forms.TextBox();
+            this.comboBoxStandardDimension = new System.Windows.Forms.ComboBox();
+            this.labelStandardDimension = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelGroup
@@ -120,43 +119,43 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelHasDimension.Text = "labelHasDimension";
             this.labelHasDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // labelDefaultCustomDimensionName
+            // labelCustomDimensionName
             // 
-            this.labelDefaultCustomDimensionName.Location = new System.Drawing.Point(99, 199);
-            this.labelDefaultCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
-            this.labelDefaultCustomDimensionName.Name = "labelDefaultCustomDimensionName";
-            this.labelDefaultCustomDimensionName.Size = new System.Drawing.Size(98, 22);
-            this.labelDefaultCustomDimensionName.TabIndex = 18;
-            this.labelDefaultCustomDimensionName.Text = "labelDefaultCustomDimensionName";
-            this.labelDefaultCustomDimensionName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelCustomDimensionName.Location = new System.Drawing.Point(99, 199);
+            this.labelCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
+            this.labelCustomDimensionName.Name = "labelCustomDimensionName";
+            this.labelCustomDimensionName.Size = new System.Drawing.Size(98, 22);
+            this.labelCustomDimensionName.TabIndex = 18;
+            this.labelCustomDimensionName.Text = "labelCustomDimensionName";
+            this.labelCustomDimensionName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // textBoxDefaultCustomDimensionName
+            // textBoxCustomDimensionName
             // 
-            this.textBoxDefaultCustomDimensionName.Location = new System.Drawing.Point(205, 202);
-            this.textBoxDefaultCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
-            this.textBoxDefaultCustomDimensionName.Name = "textBoxDefaultCustomDimensionName";
-            this.textBoxDefaultCustomDimensionName.Size = new System.Drawing.Size(105, 22);
-            this.textBoxDefaultCustomDimensionName.TabIndex = 19;
+            this.textBoxCustomDimensionName.Location = new System.Drawing.Point(205, 202);
+            this.textBoxCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
+            this.textBoxCustomDimensionName.Name = "textBoxCustomDimensionName";
+            this.textBoxCustomDimensionName.Size = new System.Drawing.Size(105, 22);
+            this.textBoxCustomDimensionName.TabIndex = 19;
             // 
-            // comboBoxDefaultStandardDimension
+            // comboBoxStandardDimension
             // 
-            this.comboBoxDefaultStandardDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxDefaultStandardDimension.FormattingEnabled = true;
-            this.comboBoxDefaultStandardDimension.Location = new System.Drawing.Point(210, 166);
-            this.comboBoxDefaultStandardDimension.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxDefaultStandardDimension.Name = "comboBoxDefaultStandardDimension";
-            this.comboBoxDefaultStandardDimension.Size = new System.Drawing.Size(130, 24);
-            this.comboBoxDefaultStandardDimension.TabIndex = 20;
+            this.comboBoxStandardDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxStandardDimension.FormattingEnabled = true;
+            this.comboBoxStandardDimension.Location = new System.Drawing.Point(210, 166);
+            this.comboBoxStandardDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxStandardDimension.Name = "comboBoxStandardDimension";
+            this.comboBoxStandardDimension.Size = new System.Drawing.Size(130, 24);
+            this.comboBoxStandardDimension.TabIndex = 20;
             // 
-            // labelDefaultStandardDimension
+            // labelStandardDimension
             // 
-            this.labelDefaultStandardDimension.Location = new System.Drawing.Point(96, 163);
-            this.labelDefaultStandardDimension.Margin = new System.Windows.Forms.Padding(0);
-            this.labelDefaultStandardDimension.Name = "labelDefaultStandardDimension";
-            this.labelDefaultStandardDimension.Size = new System.Drawing.Size(98, 22);
-            this.labelDefaultStandardDimension.TabIndex = 21;
-            this.labelDefaultStandardDimension.Text = "labelDefaultStandardDimension";
-            this.labelDefaultStandardDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelStandardDimension.Location = new System.Drawing.Point(96, 163);
+            this.labelStandardDimension.Margin = new System.Windows.Forms.Padding(0);
+            this.labelStandardDimension.Name = "labelStandardDimension";
+            this.labelStandardDimension.Size = new System.Drawing.Size(98, 22);
+            this.labelStandardDimension.TabIndex = 21;
+            this.labelStandardDimension.Text = "labelStandardDimension";
+            this.labelStandardDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PatchPropertiesUserControl
             // 
@@ -164,10 +163,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Controls.Add(this.labelDefaultStandardDimension);
-            this.Controls.Add(this.comboBoxDefaultStandardDimension);
-            this.Controls.Add(this.labelDefaultCustomDimensionName);
-            this.Controls.Add(this.textBoxDefaultCustomDimensionName);
+            this.Controls.Add(this.labelStandardDimension);
+            this.Controls.Add(this.comboBoxStandardDimension);
+            this.Controls.Add(this.labelCustomDimensionName);
+            this.Controls.Add(this.textBoxCustomDimensionName);
             this.Controls.Add(this.checkBoxHasDimension);
             this.Controls.Add(this.labelHasDimension);
             this.Controls.Add(this.checkBoxHidden);
@@ -189,10 +188,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Controls.SetChildIndex(this.checkBoxHidden, 0);
             this.Controls.SetChildIndex(this.labelHasDimension, 0);
             this.Controls.SetChildIndex(this.checkBoxHasDimension, 0);
-            this.Controls.SetChildIndex(this.textBoxDefaultCustomDimensionName, 0);
-            this.Controls.SetChildIndex(this.labelDefaultCustomDimensionName, 0);
-            this.Controls.SetChildIndex(this.comboBoxDefaultStandardDimension, 0);
-            this.Controls.SetChildIndex(this.labelDefaultStandardDimension, 0);
+            this.Controls.SetChildIndex(this.textBoxCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this.labelCustomDimensionName, 0);
+            this.Controls.SetChildIndex(this.comboBoxStandardDimension, 0);
+            this.Controls.SetChildIndex(this.labelStandardDimension, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -208,9 +207,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.CheckBox checkBoxHidden;
         private System.Windows.Forms.CheckBox checkBoxHasDimension;
         private System.Windows.Forms.Label labelHasDimension;
-        private System.Windows.Forms.Label labelDefaultCustomDimensionName;
-        private System.Windows.Forms.TextBox textBoxDefaultCustomDimensionName;
-        private System.Windows.Forms.ComboBox comboBoxDefaultStandardDimension;
-        private System.Windows.Forms.Label labelDefaultStandardDimension;
+        private System.Windows.Forms.Label labelCustomDimensionName;
+        private System.Windows.Forms.TextBox textBoxCustomDimensionName;
+        private System.Windows.Forms.ComboBox comboBoxStandardDimension;
+        private System.Windows.Forms.Label labelStandardDimension;
     }
 }

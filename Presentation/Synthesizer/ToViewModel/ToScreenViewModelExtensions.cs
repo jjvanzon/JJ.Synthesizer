@@ -658,20 +658,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Group = patch.GroupName,
                 Hidden = patch.Hidden,
                 HasDimension = patch.HasDimension,
-                DefaultCustomDimensionNameEnabled = patch.HasDimension,
-                DefaultCustomDimensionName = patch.DefaultCustomDimensionName,
-                DefaultStandardDimensionEnabled = patch.HasDimension,
-                DefaultStandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel(),
+                CustomDimensionNameEnabled = patch.HasDimension,
+                CustomDimensionName = patch.CustomDimensionName,
+                StandardDimensionEnabled = patch.HasDimension,
+                StandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel(),
                 ValidationMessages = new List<string>()
             };
 
-            if (patch.DefaultStandardDimension != null)
+            if (patch.StandardDimension != null)
             {
-                viewModel.DefaultStandardDimension = patch.DefaultStandardDimension.ToIDAndDisplayName();
+                viewModel.StandardDimension = patch.StandardDimension.ToIDAndDisplayName();
             }
             else
             {
-                viewModel.DefaultStandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
+                viewModel.StandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
             }
 
             return viewModel;

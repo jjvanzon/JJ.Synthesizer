@@ -1,10 +1,10 @@
-﻿using System;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
+using System;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -230,22 +230,22 @@ namespace JJ.Business.Synthesizer.Extensions
         
         // Patch
 
-        public static DimensionEnum GetDefaultStandardDimensionEnum(this Patch entity)
+        public static DimensionEnum GetStandardDimensionEnum(this Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            if (entity.DefaultStandardDimension == null) return DimensionEnum.Undefined;
+            if (entity.StandardDimension == null) return DimensionEnum.Undefined;
 
-            return entity.DefaultStandardDimension.ToEnum();
+            return entity.StandardDimension.ToEnum();
         }
 
-        public static void SetDefaultStandardDimensionEnum(this Patch entity, DimensionEnum enumValue, IDimensionRepository repository)
+        public static void SetStandardDimensionEnum(this Patch entity, DimensionEnum enumValue, IDimensionRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
             if (enumValue == DimensionEnum.Undefined)
             {
-                entity.UnlinkDefaultStandardDimension();
+                entity.UnlinkStandardDimension();
             }
             else
             {

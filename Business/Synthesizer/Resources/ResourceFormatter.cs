@@ -85,8 +85,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string DataKeys => Resources.DataKeys;
         public static string DBGain => Resources.DBGain;
         public static string DecayDuration => Resources.DecayDuration;
-        public static string DefaultCustomDimension => Resources.DefaultCustomDimension;
-        public static string DefaultStandardDimension => Resources.DefaultStandardDimension;
         public static string DefaultValue => Resources.DefaultValue;
         public static string DesiredBufferDuration => Resources.DesiredBufferDuration;
         public static string Difference => Resources.Difference;

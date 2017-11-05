@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.LinkTo
             op.LinkTo((Dimension)null);
         }
 
-        public static void UnlinkDefaultStandardDimension(this Patch patch)
+        public static void UnlinkStandardDimension(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Cascading;
+﻿using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -8,6 +6,8 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer
 {
@@ -66,8 +66,8 @@ namespace JJ.Business.Synthesizer
                                                destOperator.StandardDimension != null;
                 if (!destDimensionIsFilledIn)
                 {
-                    destOperator.CustomDimensionName = sourcePatch.DefaultCustomDimensionName;
-                    destOperator.LinkTo(sourcePatch.DefaultStandardDimension);
+                    destOperator.CustomDimensionName = sourcePatch.CustomDimensionName;
+                    destOperator.LinkTo(sourcePatch.StandardDimension);
                 }
             }
         }

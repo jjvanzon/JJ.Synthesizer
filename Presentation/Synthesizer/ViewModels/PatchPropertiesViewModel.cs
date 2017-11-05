@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using JJ.Data.Canonical;
+﻿using JJ.Data.Canonical;
+using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
@@ -11,11 +11,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public string Group { get; set; }
         public bool Hidden { get; set; }
         public bool HasDimension { get; set; }
-        public bool DefaultStandardDimensionEnabled { get; set; }
-        public IDAndName DefaultStandardDimension { get; set; }
-        public IList<IDAndName> DefaultStandardDimensionLookup { get; set; }
-        public bool DefaultCustomDimensionNameEnabled { get; set; }
-        public string DefaultCustomDimensionName { get; set; }
+        public bool StandardDimensionEnabled { get; set; }
+        public IDAndName StandardDimension { get; set; }
+        public IList<IDAndName> StandardDimensionLookup { get; set; }
+        public bool CustomDimensionNameEnabled { get; set; }
+        public string CustomDimensionName { get; set; }
 
         internal int? OutletIDToPlay { get; set; }
     }

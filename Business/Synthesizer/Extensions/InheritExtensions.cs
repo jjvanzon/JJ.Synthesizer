@@ -1,7 +1,7 @@
-﻿using System;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
+using System;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (op.GetStandardDimensionEnum() == DimensionEnum.Inherit)
             {
-                return op.Patch.DefaultCustomDimensionName;
+                return op.Patch.CustomDimensionName;
             }
 
             return op.CustomDimensionName;
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
             if (op.GetStandardDimensionEnum() == DimensionEnum.Inherit)
             {
-                return op.Patch.DefaultStandardDimension;
+                return op.Patch.StandardDimension;
             }
 
             return op.StandardDimension;
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Extensions
                     if (inletOrOutlet.GetDimensionEnum() == DimensionEnum.Inherit)
                     {
                         // PatchInlet Inlets and Outlets inherit their dimension from the patch, not operator.
-                        return inletOrOutlet.Operator.Patch.DefaultCustomDimensionName;
+                        return inletOrOutlet.Operator.Patch.CustomDimensionName;
                     }
                     break;
                 }
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Extensions
                     if (inletOrOutlet.GetDimensionEnum() == DimensionEnum.Inherit)
                     {
                         // PatchInlet Inlets and Outlets inherit their dimension from the patch, not operator.
-                        return inletOrOutlet.Operator.Patch.DefaultStandardDimension;
+                        return inletOrOutlet.Operator.Patch.StandardDimension;
                     }
                     break;
                 }

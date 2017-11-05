@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using JJ.Business.Synthesizer.LinkTo;
+﻿using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Cascading
 {
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Cascading
             if (patch == null) throw new NullException(() => patch);
 
             patch.UnlinkDocument();
-            patch.UnlinkDefaultStandardDimension();
+            patch.UnlinkStandardDimension();
         }
 
         public static void UnlinkRelatedEntities(this Sample sample)

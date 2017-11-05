@@ -1020,12 +1020,6 @@
   <data name="HasDimension" xml:space="preserve">
     <value>Heeft een dimensie</value>
   </data>
-  <data name="DefaultCustomDimension" xml:space="preserve">
-    <value>Beginwaarde zelfgedefiniëerde dimensie</value>
-  </data>
-  <data name="DefaultStandardDimension" xml:space="preserve">
-    <value>Beginwaarde standaard dimensie</value>
-  </data>
   <data name="YesNo" xml:space="preserve">
     <value>Ja/nee</value>
   </data>

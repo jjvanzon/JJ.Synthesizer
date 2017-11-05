@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using JJ.Data.Synthesizer.Helpers;
+using System.Collections.Generic;
 using System.Diagnostics;
-using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer.Entities
 {
@@ -12,8 +12,8 @@ namespace JJ.Data.Synthesizer.Entities
         public virtual string GroupName { get; set; }
         public virtual bool Hidden { get; set; }
         public virtual bool HasDimension { get; set; }
-        public virtual Dimension DefaultStandardDimension { get; set; }
-        public virtual string DefaultCustomDimensionName { get; set; }
+        public virtual Dimension StandardDimension { get; set; }
+        public virtual string CustomDimensionName { get; set; }
         public virtual IList<Operator> Operators { get; set; } = new List<Operator>();
         public virtual IList<Operator> DerivedOperators { get; set; } = new List<Operator>();
 

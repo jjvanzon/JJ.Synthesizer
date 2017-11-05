@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Canonical;
+﻿using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -17,6 +14,9 @@ using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -921,9 +921,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             patch.GroupName = viewModel.Group;
             patch.Hidden = viewModel.Hidden;
             patch.HasDimension = viewModel.HasDimension;
-            patch.DefaultCustomDimensionName = viewModel.DefaultCustomDimensionName;
+            patch.CustomDimensionName = viewModel.CustomDimensionName;
 
-            Dimension dimension = dimensionRepository.TryGet(viewModel.DefaultStandardDimension?.ID ?? 0);
+            Dimension dimension = dimensionRepository.TryGet(viewModel.StandardDimension?.ID ?? 0);
             patch.LinkTo(dimension);
 
             return patch;
