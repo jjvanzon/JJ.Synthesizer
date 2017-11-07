@@ -817,6 +817,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (MainViewModel.Document.IsOpen)
             {
+                if (MainViewModel.Document.IsDirty)
+                {
+                    // TODO: Program proper application navigation
+                    //throw new NotImplementedException("There were unsaved changes. Handling of that is not implemented yet.");
+                }
+
                 // Partial Actions
                 string titleBar = _titleBarPresenter.Show();
                 MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
@@ -1024,10 +1030,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             switch (documentTreeNodeTypeEnum)
             {
                 case DocumentTreeNodeTypeEnum.Libraries:
+                    // Redirect
                     DocumentTreeAddLibrary();
                     break;
 
                 case DocumentTreeNodeTypeEnum.PatchGroup:
+                    // Redirect
                     DocumentTreeCreatePatch(MainViewModel.Document.DocumentTree.SelectedCanonicalPatchGroup);
                     break;
 
@@ -1109,6 +1117,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             int patchID = MainViewModel.Document.DocumentTree.SelectedItemID.Value;
 
+            // Redirect
             AddToInstrument(patchID);
         }
 
@@ -2773,9 +2782,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Set !Successful
             viewModel.Successful = false;
 
-            // Business
             if (MainViewModel.Document.IsOpen)
             {
+                // Business
                 IResult validationResult = _documentManager.Save(document);
                 if (!validationResult.Successful)
                 {
@@ -2786,6 +2795,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     DispatchViewModel(viewModel);
                     return viewModel;
                 }
+
+                // Dirty Flag
+                MainViewModel.Document.IsDirty = true;
             }
 
             // Successful

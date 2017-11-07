@@ -6,6 +6,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
     public sealed class DocumentViewModel
     {
         public bool IsOpen { get; set; }
+        public bool IsDirty { get; set; }
         public int ID { get; set; }
 
         public int? OutletIDToPlay { get; set; }
