@@ -1,10 +1,10 @@
-﻿using System;
+﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.WinForms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.WinForms;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -75,6 +75,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!string.IsNullOrEmpty(key))
                 {
                     _documentNameToMainWindowDictionary.Remove(key);
+                }
+            }
+        }
+
+        public static int MainWindowCount
+        {
+            get
+            {
+                lock (_documentNameToMainWindowDictionaryLock)
+                {
+                    return _documentNameToMainWindowDictionary.Count;
                 }
             }
         }

@@ -310,7 +310,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 Program.ShowMainWindow(documentName, patchName);
 
-
                 //string arguments = $@"""{documentName}""";
 
                 //if (!string.IsNullOrEmpty(patchName))

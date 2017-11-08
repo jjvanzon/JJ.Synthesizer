@@ -200,7 +200,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Program.RemoveMainWindow(this);
+            // TODO: This is too much logic for the WinForms layer.
+            TemplateActionHandler(
+                () =>
+                {
+                    if (_mainPresenter.MainViewModel.Document.IsOpen)
+                    {
+                        _mainPresenter.DocumentClose();
+                        if (_mainPresenter.MainViewModel.Document.SaveChangesPopup.Visible)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
+
+                    Program.RemoveMainWindow(this);
+                });
         }
 
         /// <summary>
