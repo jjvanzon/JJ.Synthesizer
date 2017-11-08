@@ -188,11 +188,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             ModalPopupHelper.DocumentDeleteConfirmed += ModalPopupHelper_DocumentDeleteConfirmed;
             ModalPopupHelper.DocumentDeleteCanceled += ModalPopupHelper_DocumentDeleteCanceled;
-            ModalPopupHelper.DocumentDeletedOK += ModalPopupHelper_DocumentDeletedOK;
-            ModalPopupHelper.DocumentOrPatchNotFoundOK += ModalPopupHelper_DocumentOrPatchNotFoundOK;
-            ModalPopupHelper.PopupMessagesOK += ModalPopupHelper_PopupMessagesOK;
-            ModalPopupHelper.SampleFileBrowserCancel += ModalPopupHelper_SampleFileBrowserCancel;
-            ModalPopupHelper.SampleFileBrowserOK += ModalPopupHelper_SampleFileBrowserOK;
+            ModalPopupHelper.DocumentDeletedOKRequested += ModalPopupHelper_DocumentDeletedOKRequested;
+            ModalPopupHelper.DocumentOrPatchNotFoundOKRequested += ModalPopupHelper_DocumentOrPatchNotFoundOKRequested;
+            ModalPopupHelper.PopupMessagesOKRequested += ModalPopupHelper_PopupMessagesOKRequested;
+            ModalPopupHelper.SampleFileBrowserCanceled += ModalPopupHelper_SampleFileBrowserCanceled;
+            ModalPopupHelper.SampleFileBrowserOKRequested += ModalPopupHelper_SampleFileBrowserOKRequested;
+            ModalPopupHelper.SaveChangesPopupCanceled += ModalPopupHelper_SaveChangesPopupCanceled;
+            ModalPopupHelper.SaveChangesPopupNoRequested += ModalPopupHelper_SaveChangesPopupNoRequested;
+            ModalPopupHelper.SaveChangesPopupYesRequested += ModalPopupHelper_SaveChangesPopupYesRequested;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1214,11 +1217,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             TemplateActionHandler(_mainPresenter.DocumentDeleteConfirm);
         }
 
-        private void ModalPopupHelper_DocumentDeletedOK(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentDeletedOK);
-        private void ModalPopupHelper_DocumentOrPatchNotFoundOK(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentOrPatchNotFoundOK);
-        private void ModalPopupHelper_PopupMessagesOK(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.PopupMessagesOK);
-        private void ModalPopupHelper_SampleFileBrowserCancel(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SampleFileBrowserCancel);
-        private void ModalPopupHelper_SampleFileBrowserOK(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SampleFileBrowserOK);
+        private void ModalPopupHelper_DocumentDeletedOKRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentDeletedOK);
+        private void ModalPopupHelper_DocumentOrPatchNotFoundOKRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentOrPatchNotFoundOK);
+        private void ModalPopupHelper_PopupMessagesOKRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.PopupMessagesOK);
+        private void ModalPopupHelper_SampleFileBrowserCanceled(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SampleFileBrowserCancel);
+        private void ModalPopupHelper_SampleFileBrowserOKRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SampleFileBrowserOK);
+        private void ModalPopupHelper_SaveChangesPopupYesRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SaveChangesPopupYes);
+        private void ModalPopupHelper_SaveChangesPopupNoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SaveChangesPopupNo);
+        private void ModalPopupHelper_SaveChangesPopupCanceled(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SaveChangesPopupCancel);
 
         // DocumentCannotDeleteForm
 

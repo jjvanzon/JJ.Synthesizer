@@ -108,6 +108,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchDetailsDictionary = new Dictionary<int, PatchDetailsViewModel>(),
                 PatchPropertiesDictionary = new Dictionary<int, PatchPropertiesViewModel>(),
                 SampleFileBrowser = CreateEmptySampleFileBrowserViewModel(),
+                SaveChangesPopup = CreateEmptySaveChangesPopupViewModel(),
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesDictionary = new Dictionary<int, ScalePropertiesViewModel>(),
                 ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
@@ -197,6 +198,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static IDAndName CreateEmptyIDAndName()
+        {
+            var idAndName = new IDAndName();
+            return idAndName;
         }
 
         public static LibrarySelectionPopupViewModel CreateEmptyLibrarySelectionPopupViewModel()
@@ -292,10 +299,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IDAndName CreateEmptyIDAndName()
+        public static SaveChangesPopupViewModel CreateEmptySaveChangesPopupViewModel()
         {
-            var idAndName = new IDAndName();
-            return idAndName;
+            return new SaveChangesPopupViewModel
+            {
+                ValidationMessages = new List<string>()
+            };
         }
     }
 }

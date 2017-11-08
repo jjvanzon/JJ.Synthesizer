@@ -1,4 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using System;
@@ -91,9 +93,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 ModalPopupHelper.ShowDocumentIsDeleted(this);
             }
 
-            if (_mainPresenter.MainViewModel.DocumentCannotDelete.Visible)
+            DocumentCannotDeleteViewModel documentCannotDeleteViewModel = _mainPresenter.MainViewModel.DocumentCannotDelete;
+            if (documentCannotDeleteViewModel.Visible)
             {
-                _documentCannotDeleteForm.ShowDialog(_mainPresenter.MainViewModel.DocumentCannotDelete);
+                _documentCannotDeleteForm.ShowDialog(documentCannotDeleteViewModel);
             }
 
             if (_mainPresenter.MainViewModel.Document.LibrarySelectionPopup.Visible)
@@ -108,9 +111,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _librarySelectionPopupForm.Visible = false;
             }
 
-            if (_mainPresenter.MainViewModel.Document.SampleFileBrowser.Visible)
+            SampleFileBrowserViewModel sampleFileBrowserViewModel = _mainPresenter.MainViewModel.Document.SampleFileBrowser;
+            if (sampleFileBrowserViewModel.Visible)
             {
-                ModalPopupHelper.ShowSampleFileBrowser(this, _mainPresenter.MainViewModel.Document.SampleFileBrowser);
+                ModalPopupHelper.ShowSampleFileBrowser(this, sampleFileBrowserViewModel);
+            }
+
+            SaveChangesPopupViewModel saveChangesPopupViewModel = _mainPresenter.MainViewModel.Document.SaveChangesPopup;
+            if (saveChangesPopupViewModel.Visible)
+            {
+                ModalPopupHelper.ShowSaveChangesPopup(this, saveChangesPopupViewModel);
             }
 
             if (_mainPresenter.MainViewModel.ValidationMessages.Count != 0)
@@ -141,9 +151,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     string.Join(Environment.NewLine, messages));
             }
 
-            if (_mainPresenter.MainViewModel.DocumentOrPatchNotFound.Visible)
+            DocumentOrPatchNotFoundPopupViewModel documentOrPatchNotFoundPopupViewModel = _mainPresenter.MainViewModel.DocumentOrPatchNotFound;
+            if (documentOrPatchNotFoundPopupViewModel.Visible)
             {
-                ModalPopupHelper.ShowDocumentOrPatchNotFoundPopup(this, _mainPresenter.MainViewModel.DocumentOrPatchNotFound);
+                ModalPopupHelper.ShowDocumentOrPatchNotFoundPopup(this, documentOrPatchNotFoundPopupViewModel);
             }
 
             // Focus control if not valid.

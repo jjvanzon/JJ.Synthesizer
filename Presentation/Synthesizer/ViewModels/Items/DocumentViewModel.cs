@@ -61,6 +61,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         public PatchPropertiesViewModel VisiblePatchProperties { get; set; }
         public Dictionary<int, PatchPropertiesViewModel> PatchPropertiesDictionary { get; set; }
         public SampleFileBrowserViewModel SampleFileBrowser { get; set; }
+        public SaveChangesPopupViewModel SaveChangesPopup { get; set; }
         public ScaleGridViewModel ScaleGrid { get; set; }
         public ScalePropertiesViewModel VisibleScaleProperties { get; set; }
         public Dictionary<int, ScalePropertiesViewModel> ScalePropertiesDictionary { get; set; }

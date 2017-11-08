@@ -49,9 +49,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchPropertiesViewModel), DispatchPatchPropertiesViewModel },
                 { typeof(SampleFileBrowserViewModel), DispatchSampleFileBrowserViewModel },
+                { typeof(SaveChangesPopupViewModel), DispatchSaveChangesPopupViewModel },
                 { typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
                 { typeof(ScalePropertiesViewModel), DispatchScalePropertiesViewModel },
-                { typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel },
+                { typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel }
             };
 
             return dictionary;
@@ -631,6 +632,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModelBase(viewModel);
         }
 
+        private void DispatchSaveChangesPopupViewModel(ViewModelBase viewModel)
+        {
+            var castedViewModel = (SaveChangesPopupViewModel)viewModel;
+
+            MainViewModel.Document.SaveChangesPopup = castedViewModel;
+
+            DispatchViewModelBase(castedViewModel);
+        }
+
         private void DispatchScaleGridViewModel(ViewModelBase viewModel)
         {
             var castedViewModel = (ScaleGridViewModel)viewModel;
@@ -688,6 +698,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModelBase(castedViewModel);
         }
 
+        /// <summary>
+        /// Note that this does not assign the view model to the right MainViewModel property.
+        /// You have to do that yourself.
+        /// </summary>
         private void DispatchViewModelBase(ViewModelBase castedViewModel)
         {
             MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);

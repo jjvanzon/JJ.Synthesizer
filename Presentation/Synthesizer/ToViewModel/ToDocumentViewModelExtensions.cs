@@ -46,6 +46,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchDetailsDictionary = document.Patches.Select(x => x.ToDetailsViewModel(repositories.CurveRepository, entityPositionManager)).ToDictionary(x => x.Entity.ID),
                 PatchPropertiesDictionary = document.Patches.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
                 SampleFileBrowser = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel(),
+                SaveChangesPopup = ToViewModelHelper.CreateEmptySaveChangesPopupViewModel(),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesDictionary = document.Scales.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID)

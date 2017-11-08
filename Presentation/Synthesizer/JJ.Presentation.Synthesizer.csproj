@@ -76,6 +76,7 @@
     <Compile Include="Presenters\Bases\PresenterBase.cs" />
     <Compile Include="Presenters\Bases\EntityPresenterWithSaveBase.cs" />
     <Compile Include="Presenters\SampleFileBrowserPresenter.cs" />
+    <Compile Include="Presenters\SaveChangesPopupPresenter.cs" />
     <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\Partials\TitleBarPresenter.cs" />
     <Compile Include="Presenters\ToneGridEditPresenter.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="ViewModels\Partials\LibrariesTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\NodePropertiesViewModel.cs" />
+    <Compile Include="ViewModels\SaveChangesPopupViewModel.cs" />
     <Compile Include="ViewModels\ToneGridEditViewModel.cs" />
     <Compile Include="ViewModels\ScaleGridViewModel.cs" />
     <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />

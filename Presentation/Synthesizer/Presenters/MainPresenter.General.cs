@@ -73,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
         private readonly PatchPropertiesPresenter _patchPropertiesPresenter;
         private readonly SampleFileBrowserPresenter _sampleFileBrowserPresenter;
+        private readonly SaveChangesPopupPresenter _saveChangesPopupPresenter;
         private readonly ScaleGridPresenter _scaleGridPresenter;
         private readonly ScalePropertiesPresenter _scalePropertiesPresenter;
         private readonly ToneGridEditPresenter _toneGridEditPresenter;
@@ -138,6 +139,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionManager);
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
             _sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _entityPositionManager, _repositories);
+            _saveChangesPopupPresenter = new SaveChangesPopupPresenter();
             _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, scaleManager);
             _scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, scaleManager);
             _toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, scaleManager);

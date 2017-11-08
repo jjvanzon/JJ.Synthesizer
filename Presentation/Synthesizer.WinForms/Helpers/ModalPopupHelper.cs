@@ -1,14 +1,15 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Exceptions;
+using JJ.Framework.IO;
+using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using JJ.Framework.IO;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
@@ -26,11 +27,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
         public static event EventHandler<EventArgs<int>> DocumentDeleteConfirmed;
         public static event EventHandler DocumentDeleteCanceled;
-        public static event EventHandler DocumentDeletedOK;
-        public static event EventHandler PopupMessagesOK;
-        public static event EventHandler DocumentOrPatchNotFoundOK;
-        public static event EventHandler SampleFileBrowserOK;
-        public static event EventHandler SampleFileBrowserCancel;
+        public static event EventHandler DocumentDeletedOKRequested;
+        public static event EventHandler DocumentOrPatchNotFoundOKRequested;
+        public static event EventHandler PopupMessagesOKRequested;
+        public static event EventHandler SampleFileBrowserOKRequested;
+        public static event EventHandler SampleFileBrowserCanceled;
+        public static event EventHandler SaveChangesPopupCanceled;
+        public static event EventHandler SaveChangesPopupNoRequested;
+        public static event EventHandler SaveChangesPopupYesRequested;
 
         public static void ShowDocumentConfirmDelete(Form parentForm, DocumentDeleteViewModel viewModel)
         {
@@ -56,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
                             case DialogResult.No:
 
-                                DocumentDeleteCanceled?.Invoke(_dummySender, EventArgs.Empty);
+                                DocumentDeleteCanceled(_dummySender, EventArgs.Empty);
                                 break;
 
                             default:
@@ -75,22 +79,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     {
                         MessageBox.Show(CommonResourceFormatter.IsDeleted_WithName(ResourceFormatter.Document));
 
-                        DocumentDeletedOK?.Invoke(_dummySender, EventArgs.Empty);
+                        DocumentDeletedOKRequested(_dummySender, EventArgs.Empty);
                     }));
         }
 
-        public static void ShowPopupMessages(Form parentForm, IList<string> popupMessages)
+        public static void ShowDocumentOrPatchNotFoundPopup(Form parentForm, DocumentOrPatchNotFoundPopupViewModel viewModel)
         {
             if (parentForm == null) throw new NullException(() => parentForm);
-            if (popupMessages == null) throw new NullException(() => popupMessages);
+            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
             parentForm.BeginInvoke(
                 new Action(
                     () =>
                     {
-                        MessageBox.Show(string.Join(Environment.NewLine, popupMessages));
+                        MessageBox.Show(string.Join(Environment.NewLine, viewModel.NotFoundMessage));
 
-                        PopupMessagesOK?.Invoke(_dummySender, EventArgs.Empty);
+                        DocumentOrPatchNotFoundOKRequested(_dummySender, EventArgs.Empty);
                     }));
         }
 
@@ -106,18 +110,52 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     }));
         }
 
-        public static void ShowDocumentOrPatchNotFoundPopup(Form parentForm, DocumentOrPatchNotFoundPopupViewModel viewModel)
+        public static void ShowPopupMessages(Form parentForm, IList<string> popupMessages)
         {
             if (parentForm == null) throw new NullException(() => parentForm);
-            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+            if (popupMessages == null) throw new NullException(() => popupMessages);
 
             parentForm.BeginInvoke(
                 new Action(
                     () =>
                     {
-                        MessageBox.Show(string.Join(Environment.NewLine, viewModel.NotFoundMessage));
+                        MessageBox.Show(string.Join(Environment.NewLine, popupMessages));
 
-                        DocumentOrPatchNotFoundOK(_dummySender, EventArgs.Empty);
+                        PopupMessagesOKRequested(_dummySender, EventArgs.Empty);
+                    }));
+        }
+
+        public static void ShowSaveChangesPopup(Form parentForm, SaveChangesPopupViewModel viewModel)
+        {
+            if (parentForm == null) throw new NullException(() => parentForm);
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            parentForm.BeginInvoke(
+                new Action(
+                    () =>
+                    {
+                        DialogResult dialogResult = MessageBox.Show(
+                            CommonResourceFormatter.WantToSaveChanges,
+                            ResourceFormatter.ApplicationName,
+                            MessageBoxButtons.YesNoCancel);
+
+                        switch (dialogResult)
+                        {
+                            case DialogResult.Yes:
+                                SaveChangesPopupYesRequested(_dummySender, EventArgs.Empty);
+                                break;
+
+                            case DialogResult.No:
+                                SaveChangesPopupNoRequested(_dummySender, EventArgs.Empty);
+                                break;
+
+                            case DialogResult.Cancel:
+                                SaveChangesPopupCanceled(_dummySender, EventArgs.Empty);
+                                break;
+
+                            default:
+                                throw new ValueNotSupportedException(dialogResult);
+                        }
                     }));
         }
 
@@ -137,11 +175,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                                 viewModel.FilePath = _openFileDialog.FileName;
                             }
 
-                            SampleFileBrowserOK(_dummySender, EventArgs.Empty);
+                            SampleFileBrowserOKRequested(_dummySender, EventArgs.Empty);
                         }
                         else
                         {
-                            SampleFileBrowserCancel(_dummySender, EventArgs.Empty);
+                            SampleFileBrowserCanceled(_dummySender, EventArgs.Empty);
                         }
                     }));
         }
