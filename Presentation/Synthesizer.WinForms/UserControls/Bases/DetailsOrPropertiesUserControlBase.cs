@@ -202,7 +202,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
         // Events
 
-
         private void _titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
         private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
         private void _titleBarUserControl_ExpandClicked(object sender, EventArgs e) => ExpandRequested?.Invoke(sender, new EventArgs<int>(GetID()));

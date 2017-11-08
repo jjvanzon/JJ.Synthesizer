@@ -10,6 +10,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteNonPersistedAction(viewModel, () =>
             {
                 viewModel.DocumentIDToOpenAfterConfirmation = null;
+                viewModel.MustGoToDocumentCreateAfterConfirmation = false;
                 viewModel.Visible = false;
             });
         }
@@ -22,11 +23,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             });
         }
 
-        public void Show(SaveChangesPopupViewModel viewModel, int? documentIDToOpenAfterConfirmation)
+        public void Show(SaveChangesPopupViewModel viewModel, int? documentIDToOpenAfterConfirmation, bool mustGoToDocumentCreateAfterConfirmation)
         {
             ExecuteNonPersistedAction(viewModel, () =>
             {
                 viewModel.DocumentIDToOpenAfterConfirmation = documentIDToOpenAfterConfirmation;
+                viewModel.MustGoToDocumentCreateAfterConfirmation = mustGoToDocumentCreateAfterConfirmation;
                 viewModel.Visible = true;
             });
         }

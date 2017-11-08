@@ -18,6 +18,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public bool Successful { get; set; }
         public bool PropertiesPanelVisible { get; set; }
         public bool CurveDetailsPanelVisible { get; set; }
+        public bool MustClose { get; set; }
 
         // The Document List
 

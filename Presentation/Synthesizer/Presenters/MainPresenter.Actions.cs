@@ -27,6 +27,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         // General Actions
 
+        public void Close()
+        {
+            if (MainViewModel.Document.IsOpen)
+            {
+                DocumentClose();
+
+                if (MainViewModel.Document.SaveChangesPopup.Visible)
+                {
+                    return;
+                }
+            }
+
+            MainViewModel.MustClose = true;
+        }
+
+        public void PopupMessagesOK() => MainViewModel.PopupMessages = new List<string>();
+
         /// <param name="documentName">nullable</param>
         /// <param name="patchName">nullable</param>
         public void Show(string documentName, string patchName)
@@ -116,8 +133,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchDetailsShow(patch.ID);
             }
         }
-
-        public void PopupMessagesOK() => MainViewModel.PopupMessages = new List<string>();
 
         // AudioFileOutput
 
@@ -700,8 +715,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel);
         }
 
-        public void DocumentDetailsCreate()
+        public void DocumentCreate()
         {
+            // Dirty Check
+            if (MainViewModel.Document.IsDirty)
+            {
+                SaveChangesPopupShow(mustGoToDocumentCreateAfterConfirmation: true);
+                return;
+            }
+
             // GetViewModel
             DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
 
@@ -2430,11 +2452,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // SaveChanges
 
-        private void SaveChangesPopupShow(int? documentIDToOpenAfterConfirmation = null)
+        private void SaveChangesPopupShow(int? documentIDToOpenAfterConfirmation = null, bool mustGoToDocumentCreateAfterConfirmation = false)
         {
             SaveChangesPopupViewModel viewModel = MainViewModel.Document.SaveChangesPopup;
 
-            ExecuteNonPersistedAction(viewModel, () => _saveChangesPopupPresenter.Show(viewModel, documentIDToOpenAfterConfirmation));
+            ExecuteNonPersistedAction(viewModel, () => _saveChangesPopupPresenter.Show(viewModel, documentIDToOpenAfterConfirmation, mustGoToDocumentCreateAfterConfirmation));
         }
 
         public void SaveChangesPopupCancel()
@@ -2457,14 +2479,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             });
 
             // Redirect
-            DocumentClose();
-
-            if (viewModel.DocumentIDToOpenAfterConfirmation.HasValue)
-            {
-                DocumentOpen(viewModel.DocumentIDToOpenAfterConfirmation.Value);
-
-                viewModel.DocumentIDToOpenAfterConfirmation = null;
-            }
+            RedirectAfterSaveChangesPopup(viewModel);
         }
 
         public void SaveChangesPopupYes()
@@ -2477,14 +2492,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Redirect
             DocumentSave();
+            RedirectAfterSaveChangesPopup(viewModel);
+        }
+
+        private void RedirectAfterSaveChangesPopup(SaveChangesPopupViewModel viewModel)
+        {
             DocumentClose();
 
             if (viewModel.DocumentIDToOpenAfterConfirmation.HasValue)
             {
                 DocumentOpen(viewModel.DocumentIDToOpenAfterConfirmation.Value);
-
-                viewModel.DocumentIDToOpenAfterConfirmation = null;
             }
+            else if (viewModel.MustGoToDocumentCreateAfterConfirmation)
+            {
+                DocumentCreate();
+            }
+
+            viewModel.DocumentIDToOpenAfterConfirmation = null;
+            viewModel.MustGoToDocumentCreateAfterConfirmation = false;
         }
 
         // Scale

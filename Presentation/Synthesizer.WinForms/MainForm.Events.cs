@@ -200,21 +200,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // TODO: This is too much logic for the WinForms layer.
             TemplateActionHandler(
                 () =>
                 {
-                    if (_mainPresenter.MainViewModel.Document.IsOpen)
-                    {
-                        _mainPresenter.DocumentClose();
-                        if (_mainPresenter.MainViewModel.Document.SaveChangesPopup.Visible)
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
-                    }
+                    _mainPresenter.Close();
 
-                    Program.RemoveMainWindow(this);
+                    if (_mainPresenter.MainViewModel.MustClose)
+                    {
+                        Program.RemoveMainWindow(this);
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                    }
                 });
         }
 
@@ -475,7 +473,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document Grid
 
-        private void documentGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentDetailsCreate);
+        private void documentGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentCreate);
 
         private void documentGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentGridClose);
 

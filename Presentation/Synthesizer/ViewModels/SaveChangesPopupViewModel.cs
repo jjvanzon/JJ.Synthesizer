@@ -2,6 +2,7 @@
 {
     public sealed class SaveChangesPopupViewModel : ViewModelBase
     {
-        public int? DocumentIDToOpenAfterConfirmation { get; set; }
+        internal int? DocumentIDToOpenAfterConfirmation { get; set; }
+        internal bool MustGoToDocumentCreateAfterConfirmation { get; set; }
     }
 }
