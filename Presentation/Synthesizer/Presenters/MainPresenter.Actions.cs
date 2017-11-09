@@ -325,7 +325,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
 
             // TemplateMethod
-            ExecuteWriteAction(
+            ExecuteReadAction(
                 userInput,
                 () =>
                 {
@@ -536,14 +536,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-            ExecuteWriteAction(userInput, () => _currentInstrumentPresenter.Play(userInput));
+            ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Play(userInput));
         }
 
         public void CurrentInstrumentPlayItem(int patchID)
         {
             CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-            ExecuteWriteAction(userInput, () => _currentInstrumentPresenter.PlayItem(userInput, patchID));
+            ExecuteReadAction(userInput, () => _currentInstrumentPresenter.PlayItem(userInput, patchID));
         }
 
         public void RemoveFromInstrument(int patchID)
@@ -782,7 +782,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
 
-            ExecuteWriteAction(userInput, () => _documentGridPresenter.Play(userInput, id));
+            ExecuteReadAction(userInput, () => _documentGridPresenter.Play(userInput, id));
         }
 
         public void DocumentGridShow()
@@ -950,7 +950,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
 
-            ExecuteWriteAction(userInput, () => _documentPropertiesPresenter.Play(userInput));
+            ExecuteReadAction(userInput, () => _documentPropertiesPresenter.Play(userInput));
         }
 
         /// <summary>
@@ -1206,7 +1206,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
 
             // TemplateMethod
-            ExecuteWriteAction(viewModel, func);
+            ExecuteReadAction(viewModel, func);
 
             DocumentTreeViewModel func()
             {
@@ -1481,7 +1481,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
-            ExecuteWriteAction(userInput, () => _libraryPropertiesPresenter.Play(userInput));
+            ExecuteReadAction(userInput, () => _libraryPropertiesPresenter.Play(userInput));
         }
 
         public void LibraryPropertiesRemove(int documentReferenceID)
@@ -1556,7 +1556,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
-            ExecuteWriteAction(userInput, () => _librarySelectionPopupPresenter.Play(userInput, lowerDocumentID));
+            ExecuteReadAction(userInput, () => _librarySelectionPopupPresenter.Play(userInput, lowerDocumentID));
         }
 
         // Node
@@ -2145,7 +2145,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesViewModelBase userInput = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
 
-            ExecuteWriteAction(userInput, () => GetOperatorPropertiesPresenter(id).Play(userInput));
+            ExecuteReadAction(userInput, () => GetOperatorPropertiesPresenter(id).Play(userInput));
         }
 
         private void OperatorPropertiesShow(int id)
@@ -2301,7 +2301,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
-            ExecuteWriteAction(userInput, () => _patchDetailsPresenter.Play(userInput));
+            ExecuteReadAction(userInput, () => _patchDetailsPresenter.Play(userInput));
         }
 
         private void PatchDetailsSelectOperator(int patchID, int operatorID)
@@ -2408,7 +2408,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
-            ExecuteWriteAction(userInput, () => _patchPropertiesPresenter.Play(userInput));
+            ExecuteReadAction(userInput, () => _patchPropertiesPresenter.Play(userInput));
         }
 
         private void PatchPropertiesShow(int id)
@@ -2674,7 +2674,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
             // Template Method
-            ExecuteWriteAction(
+            ExecuteReadAction(
                 userInput,
                 () =>
                 {
@@ -2734,7 +2734,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         /// <summary>
         /// A template method for a MainPresenter action method,
-        /// that will write to the entity model.
+        /// that will write to the document entity.
         /// 
         /// Works for most write actions. Less suitable for specialized cases:
         /// In particular the ones that are not about the open document.
@@ -2805,7 +2805,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         /// <summary>
         /// A template method for a MainPresenter action method,
-        /// that will read from the entity model, but not write to it.
+        /// that will read the document model, but not write to it.
         ///
         /// This version omits the full document validation and successful flags.
         /// 
@@ -2839,7 +2839,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         /// <summary>
         /// A template method for a MainPresenter action method,
-        /// that will read from the entity model, but not write to it.
+        /// that will read the document model, but not write to it.
         ///
         /// This version omits the full document validation and successful flags
         /// but allows the partial action to return a new view model.
