@@ -13,7 +13,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class PatchDetailsPresenter : EntityPresenterWithSaveBase<Patch, PatchDetailsViewModel>
+    internal class PatchDetailsPresenter : EntityPresenterWithoutSaveBase<Patch, PatchDetailsViewModel>
     {
         private readonly RepositoryWrapper _repositories;
         private readonly EntityPositionManager _entityPositionManager;
@@ -34,8 +34,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             return patch.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionManager);
         }
-
-        protected override IResult Save(Patch entity) => _patchManager.SavePatch(entity);
 
         public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
         {

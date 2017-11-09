@@ -2282,19 +2282,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
-            PatchDetailsViewModel viewModel = ExecuteWriteAction(userInput, () => _patchDetailsPresenter.Close(userInput));
+            ExecuteNonPersistedAction(userInput, () => _patchDetailsPresenter.Close(userInput));
 
-            if (viewModel.Successful)
-            {
-                MainViewModel.Document.VisiblePatchDetails = null;
-            }
-        }
-
-        public void PatchDetailsLoseFocus(int id)
-        {
-            PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
-
-            ExecuteWriteAction(userInput, () => _patchDetailsPresenter.LoseFocus(userInput));
+            MainViewModel.Document.VisiblePatchDetails = null;
         }
 
         public void PatchDetailsPlay(int id)
