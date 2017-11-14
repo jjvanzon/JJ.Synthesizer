@@ -29,7 +29,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler PlayRequested;
         public event EventHandler RefreshRequested;
         public event EventHandler RemoveRequested;
+        public event EventHandler RedoRequested;
         public event EventHandler SaveRequested;
+        public event EventHandler UndoRequested;
 
         public event EventHandler<EventArgs<int>> ShowPatchRequested;
         public event EventHandler<EventArgs<int>> ShowLibraryRequested;
@@ -570,8 +572,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested(sender, EventArgs.Empty);
         private void titleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
         private void titleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested(sender, EventArgs.Empty);
+        private void titleBarUserControl_RedoClicked(object sender, EventArgs e) => RedoRequested(sender, EventArgs.Empty);
         private void titleBarUserControl_RemoveClicked(object sender, EventArgs e) => RemoveRequested(this, EventArgs.Empty);
         private void titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested(sender, EventArgs.Empty);
+        private void titleBarUserControl_UndoClicked(object sender, EventArgs e) => UndoRequested(sender, EventArgs.Empty);
 
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);
 

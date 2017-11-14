@@ -112,7 +112,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesDictionary = new Dictionary<int, ScalePropertiesViewModel>(),
                 ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
-                UnderlyingPatchLookup = new List<IDAndName>()
+                UnderlyingPatchLookup = new List<IDAndName>(),
+                UndoHistory = new Stack<ViewModelBase>(),
+                RedoFuture = new Stack<ViewModelBase>()
             };
 
             return viewModel;

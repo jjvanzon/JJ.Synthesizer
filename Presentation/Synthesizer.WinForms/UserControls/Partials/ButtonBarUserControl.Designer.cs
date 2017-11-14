@@ -39,6 +39,8 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonRemove = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
+            this.buttonRedo = new System.Windows.Forms.Button();
+            this.buttonUndo = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // toolTip
@@ -167,9 +169,37 @@
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
+            // buttonRedo
+            // 
+            this.buttonRedo.FlatAppearance.BorderSize = 0;
+            this.buttonRedo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRedo.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RedoIcon;
+            this.buttonRedo.Location = new System.Drawing.Point(47, 10);
+            this.buttonRedo.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonRedo.Name = "buttonRedo";
+            this.buttonRedo.Size = new System.Drawing.Size(21, 23);
+            this.buttonRedo.TabIndex = 22;
+            this.buttonRedo.UseVisualStyleBackColor = true;
+            this.buttonRedo.Click += new System.EventHandler(this.buttonRedo_Click);
+            // 
+            // buttonUndo
+            // 
+            this.buttonUndo.FlatAppearance.BorderSize = 0;
+            this.buttonUndo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonUndo.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.UndoIcon;
+            this.buttonUndo.Location = new System.Drawing.Point(19, 9);
+            this.buttonUndo.Margin = new System.Windows.Forms.Padding(0);
+            this.buttonUndo.Name = "buttonUndo";
+            this.buttonUndo.Size = new System.Drawing.Size(21, 23);
+            this.buttonUndo.TabIndex = 23;
+            this.buttonUndo.UseVisualStyleBackColor = true;
+            this.buttonUndo.Click += new System.EventHandler(this.buttonUndo_Click);
+            // 
             // ButtonBarUserControl
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.buttonUndo);
+            this.Controls.Add(this.buttonRedo);
             this.Controls.Add(this.buttonAddToInstrument);
             this.Controls.Add(this.buttonNew);
             this.Controls.Add(this.buttonExpand);
@@ -199,5 +229,7 @@
         private System.Windows.Forms.Button buttonNew;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button buttonAddToInstrument;
+        private System.Windows.Forms.Button buttonRedo;
+        private System.Windows.Forms.Button buttonUndo;
     }
 }

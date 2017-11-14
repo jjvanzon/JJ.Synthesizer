@@ -1,10 +1,10 @@
-﻿using System;
+﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -16,9 +16,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler NewClicked;
         public event EventHandler ExpandClicked;
         public event EventHandler PlayClicked;
+        public event EventHandler RedoClicked;
         public event EventHandler RefreshClicked;
         public event EventHandler RemoveClicked;
         public event EventHandler SaveClicked;
+        public event EventHandler UndoClicked;
 
         public ButtonBarUserControl() => InitializeComponent();
 
@@ -30,9 +32,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             buttonNew.Visible = _newButtonVisible;
             buttonExpand.Visible = _expandButtonVisible;
             buttonPlay.Visible = _playButtonVisible;
+            buttonRedo.Visible = _redoButtonVisible;
             buttonRefresh.Visible = _refreshButtonVisible;
             buttonRemove.Visible = _removeButtonVisible;
             buttonSave.Visible = _saveButtonVisible;
+            buttonUndo.Visible = _undoButtonVisible;
 
             SetTitles();
             PositionControls();
@@ -46,9 +50,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             toolTip.SetToolTip(buttonNew, CommonResourceFormatter.New);
             toolTip.SetToolTip(buttonExpand, CommonResourceFormatter.Open);
             toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
+            toolTip.SetToolTip(buttonRedo, CommonResourceFormatter.Redo);
             toolTip.SetToolTip(buttonRefresh, CommonResourceFormatter.Refresh);
             toolTip.SetToolTip(buttonRemove, CommonResourceFormatter.Remove);
             toolTip.SetToolTip(buttonSave, CommonResourceFormatter.Save);
+            toolTip.SetToolTip(buttonUndo, CommonResourceFormatter.Undo);
         }
 
         /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
@@ -132,6 +138,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         }
 
         /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
+        private bool _redoButtonVisible;
+        [DefaultValue(false)]
+        public bool RedoButtonVisible
+        {
+            get => _redoButtonVisible;
+            set
+            {
+                _redoButtonVisible = value;
+                buttonRedo.Visible = _redoButtonVisible;
+                PositionControls();
+            }
+        }
+
+        /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
         private bool _refreshButtonVisible;
         public bool RefreshButtonVisible
         {
@@ -170,6 +190,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
+        /// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
+        private bool _undoButtonVisible;
+        [DefaultValue(false)]
+        public bool UndoButtonVisible
+        {
+            get => _undoButtonVisible;
+            set
+            {
+                _undoButtonVisible = value;
+                buttonUndo.Visible = _undoButtonVisible;
+                PositionControls();
+            }
+        }
+
         // Positioning
 
         private readonly int _height = StyleHelper.DefaultSpacing + StyleHelper.IconButtonSize + StyleHelper.DefaultSpacing;
@@ -197,7 +231,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 (buttonRefresh, RefreshButtonVisible),
                 (buttonSave, SaveButtonVisible),
                 (buttonAddToInstrument, AddToInstrumentButtonVisible),
-                (buttonPlay, PlayButtonVisible)
+                (buttonPlay, PlayButtonVisible),
+                (buttonRedo, RedoButtonVisible),
+                (buttonUndo, UndoButtonVisible)
             };
 
             foreach ((Control Control, bool Visible) buttonTuple in buttonTuplesInReverseOrder)
@@ -222,9 +258,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         private void buttonNew_Click(object sender, EventArgs e) => NewClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonOpen_Click(object sender, EventArgs e) => ExpandClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonPlay_Click(object sender, EventArgs e) => PlayClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonRedo_Click(object sender, EventArgs e) => RedoClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonRefresh_Click(object sender, EventArgs e) => RefreshClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonRemove_Click(object sender, EventArgs e) => RemoveClicked?.Invoke(sender, EventArgs.Empty);
         private void buttonSave_Click(object sender, EventArgs e) => SaveClicked?.Invoke(sender, EventArgs.Empty);
+        private void buttonUndo_Click(object sender, EventArgs e) => UndoClicked?.Invoke(sender, EventArgs.Empty);
 
         // Helpers
 
@@ -237,9 +275,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             if (_newButtonVisible) count++;
             if (_expandButtonVisible) count++;
             if (_playButtonVisible) count++;
+            if (_redoButtonVisible) count++;
             if (_refreshButtonVisible) count++;
             if (_removeButtonVisible) count++;
             if (_saveButtonVisible) count++;
+            if (_undoButtonVisible) count++;
             return count;
         }
     }

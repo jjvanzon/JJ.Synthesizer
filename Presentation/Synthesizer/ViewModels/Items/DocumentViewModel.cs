@@ -72,5 +72,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 
         /// <summary> This lookup is used by OperatorProperties views. </summary>
         public IList<IDAndName> UnderlyingPatchLookup { get; set; }
+
+        internal Stack<ViewModelBase> UndoHistory { get; set; }
+        internal Stack<ViewModelBase> RedoFuture { get; set; }
     }
 }

@@ -50,6 +50,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             remove => buttonBarUserControl.PlayClicked -= value;
         }
 
+        public event EventHandler RedoClicked
+        {
+            add => buttonBarUserControl.RedoClicked += value;
+            remove => buttonBarUserControl.RedoClicked -= value;
+        }
+
         public event EventHandler RefreshClicked
         {
             add => buttonBarUserControl.RefreshClicked += value;
@@ -66,6 +72,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             add => buttonBarUserControl.SaveClicked += value;
             remove => buttonBarUserControl.SaveClicked -= value;
+        }
+
+        public event EventHandler UndoClicked
+        {
+            add => buttonBarUserControl.UndoClicked += value;
+            remove => buttonBarUserControl.UndoClicked -= value;
         }
 
         public override string Text
@@ -115,6 +127,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
+        public bool ExpandButtonVisible
+        {
+            get => buttonBarUserControl.ExpandButtonVisible;
+            set
+            {
+                buttonBarUserControl.ExpandButtonVisible = value;
+                PositionControls();
+            }
+        }
+
         [DefaultValue(false)]
         public bool NewButtonVisible
         {
@@ -126,22 +148,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
-        public bool ExpandButtonVisible
-        {
-            get => buttonBarUserControl.ExpandButtonVisible;
-            set
-            {
-                buttonBarUserControl.ExpandButtonVisible = value;
-                PositionControls();
-            }
-        }
-
         public bool PlayButtonVisible
         {
             get => buttonBarUserControl.PlayButtonVisible;
             set
             {
                 buttonBarUserControl.PlayButtonVisible = value;
+                PositionControls();
+            }
+        }
+
+        public bool RedoButtonVisible
+        {
+            get => buttonBarUserControl.RedoButtonVisible;
+            set
+            {
+                buttonBarUserControl.RedoButtonVisible = value;
                 PositionControls();
             }
         }
@@ -172,6 +194,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             set
             {
                 buttonBarUserControl.SaveButtonVisible = value;
+                PositionControls();
+            }
+        }
+
+        public bool UndoButtonVisible
+        {
+            get => buttonBarUserControl.UndoButtonVisible;
+            set
+            {
+                buttonBarUserControl.UndoButtonVisible = value;
                 PositionControls();
             }
         }

@@ -599,6 +599,7 @@
     <None Include="Resources\PlayIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\UndoIcon.png" />
     <None Include="Resources\OpenWindowIconThinner.png" />
     <None Include="Resources\PlayIconThinner.png" />
     <None Include="Resources\NewIcon.png" />
@@ -608,6 +609,7 @@
     <None Include="Resources\PianoIconUniformLongerKeys.png" />
     <None Include="Resources\GreaterThanIcon.png" />
     <None Include="Resources\LessThanIcon.png" />
+    <None Include="Resources\RedoIcon.png" />
     <Content Include="Resources\RefreshIcon.png" />
   </ItemGroup>
   <ItemGroup />

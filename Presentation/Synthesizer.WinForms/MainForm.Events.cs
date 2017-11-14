@@ -68,6 +68,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.PatchNodeSelected += documentTreeUserControl_PatchNodeSelected;
             documentTreeUserControl.PlayRequested += documentTreeUserControl_PlayRequested;
             documentTreeUserControl.OpenItemExternallyRequested += documentTreeUserControl_OpenItemExternallyRequested;
+            documentTreeUserControl.RedoRequested += documentTreeUserControl_RedoRequested;
             documentTreeUserControl.RefreshRequested += documentTreeUserControl_RefreshRequested;
             documentTreeUserControl.RemoveRequested += documentTreeUserControl_RemoveRequested;
             documentTreeUserControl.SaveRequested += documentTreeUserControl_SaveRequested;
@@ -77,6 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowLibraryRequested += documentTreeUserControl_ShowLibraryRequested;
             documentTreeUserControl.ShowPatchRequested += documentTreeUserControl_ShowPatchRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
+            documentTreeUserControl.UndoRequested += documentTreeUserControl_UndoRequested;
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
@@ -330,6 +332,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             TemplateActionHandler(_mainPresenter.CurrentInstrumentExpand);
         }
+
         private void currentInstrumentUserControl_ExpandItemRequested(object sender, EventArgs<int> e)
         {
             TemplateActionHandler(() => _mainPresenter.CurrentInstrumentExpandItem(e.Value));
@@ -610,6 +613,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
+        private void documentTreeUserControl_RedoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Redo);
+
         private void documentTreeUserControl_RemoveRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTreeRemove);
 
         private void documentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTreeSelectScales);
@@ -635,6 +640,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.ScaleGridShow);
 
+        private void documentTreeUserControl_UndoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Undo);
+        
         // Document Properties
 
         private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentPropertiesClose);
@@ -733,7 +740,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 });
         }
 
-        private void MenuUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentPropertiesShow);
+
+        private void MenuUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e)
+        {
+            TemplateActionHandler(_mainPresenter.DocumentPropertiesShow);
+        }
 
         // Node
 

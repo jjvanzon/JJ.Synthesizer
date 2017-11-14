@@ -956,7 +956,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Will do a a ViewModel to Entity conversion.
         /// (The private Refresh methods do not.)
-        /// Will also ApplyExternalUnderlyingPatches.
+        /// Will also apply (external) UnderlyingPatches.
         /// </summary>
         public void DocumentRefresh()
         {
@@ -2720,6 +2720,43 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 });
         }
 
+        // Undo
+
+        public void Undo()
+        {
+            ViewModelBase viewModel = MainViewModel.Document.UndoHistory.PopOrDefault();
+
+            if (viewModel == null)
+            {
+                return;
+            }
+
+            MainViewModel.Document.RedoFuture.Push(viewModel);
+
+            // View model transactionality makes all previous versions of the view model Succesful = false.
+            viewModel.Successful = true;
+
+            DispatchViewModel(viewModel);
+
+            DocumentRefresh();
+        }
+
+        public void Redo()
+        {
+            ViewModelBase viewModel = MainViewModel.Document.RedoFuture.PopOrDefault();
+
+            if (viewModel == null)
+            {
+                return;
+            }
+
+            MainViewModel.Document.UndoHistory.Push(viewModel);
+
+            DispatchViewModel(viewModel);
+
+            DocumentRefresh();
+        }
+
         // Helpers
 
         /// <summary>
@@ -2760,6 +2797,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // DispatchViewModel
                 DispatchViewModel(viewModel);
+
                 return viewModel;
             }
 
@@ -2777,8 +2815,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // DispatchViewModel
                     DispatchViewModel(viewModel);
+
                     return viewModel;
                 }
+
+                // Undo History
+                MainViewModel.Document.UndoHistory.Push(userInput);
+                MainViewModel.Document.RedoFuture.Clear();
 
                 // Dirty Flag
                 MainViewModel.Document.IsDirty = true;

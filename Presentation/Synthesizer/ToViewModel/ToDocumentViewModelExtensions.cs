@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SaveChangesPopup = ToViewModelHelper.CreateEmptySaveChangesPopupViewModel(),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesDictionary = document.Scales.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
-                ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID)
+                ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID),
+                UnderlyingPatchLookup = ToViewModelHelper.CreateUnderlyingPatchLookupViewModel(document),
+                UndoHistory = new Stack<ViewModelBase>(),
+                RedoFuture = new Stack<ViewModelBase>()
             };
 
             var converter = new RecursiveDocumentTreeViewModelFactory();
@@ -63,8 +67,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.AudioOutputProperties = ToViewModelHelper.CreateEmptyAudioOutputPropertiesViewModel();
             }
-
-            viewModel.UnderlyingPatchLookup = ToViewModelHelper.CreateUnderlyingPatchLookupViewModel(document);
 
             return viewModel;
         }

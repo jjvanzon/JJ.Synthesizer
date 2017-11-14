@@ -67,21 +67,25 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Name = "titleBarUserControl";
             this.titleBarUserControl.NewButtonVisible = true;
             this.titleBarUserControl.PlayButtonVisible = true;
+            this.titleBarUserControl.RedoButtonVisible = true;
             this.titleBarUserControl.RefreshButtonVisible = true;
             this.titleBarUserControl.RemoveButtonVisible = false;
             this.titleBarUserControl.SaveButtonVisible = true;
             this.titleBarUserControl.Size = new System.Drawing.Size(269, 32);
             this.titleBarUserControl.TabIndex = 3;
             this.titleBarUserControl.TitleLabelVisible = false;
+            this.titleBarUserControl.UndoButtonVisible = true;
             this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
             this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.titleBarUserControl_AddToInstrumentClicked);
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             this.titleBarUserControl.NewClicked += new System.EventHandler(this.titleBarUserControl_NewClicked);
             this.titleBarUserControl.ExpandClicked += new System.EventHandler(this.titleBarUserControl_OpenClicked);
             this.titleBarUserControl.PlayClicked += new System.EventHandler(this.titleBarUserControl_PlayClicked);
+            this.titleBarUserControl.RedoClicked += new System.EventHandler(this.titleBarUserControl_RedoClicked);
             this.titleBarUserControl.RefreshClicked += new System.EventHandler(this.titleBarUserControl_RefreshClicked);
             this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
             this.titleBarUserControl.SaveClicked += new System.EventHandler(this.titleBarUserControl_SaveClicked);
+            this.titleBarUserControl.UndoClicked += new System.EventHandler(this.titleBarUserControl_UndoClicked);
             // 
             // treeView
             // 
