@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

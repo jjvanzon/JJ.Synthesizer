@@ -1,4 +1,7 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -15,9 +18,6 @@ using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 // ReSharper disable InvertIf
 // ReSharper disable RedundantCaseLabel
 
@@ -2724,19 +2724,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Undo()
         {
-            ViewModelBase viewModel = MainViewModel.Document.UndoHistory.PopOrDefault();
+            ViewModelBase originalState = MainViewModel.Document.UndoHistory.PopOrDefault();
 
-            if (viewModel == null)
+            if (originalState == null)
             {
                 return;
             }
 
-            MainViewModel.Document.RedoFuture.Push(viewModel);
+            MainViewModel.Document.RedoFuture.Push(originalState);
 
             // View model transactionality makes all previous versions of the view model Succesful = false.
-            viewModel.Successful = true;
+            originalState.Successful = true;
 
-            DispatchViewModel(viewModel);
+            DispatchViewModel(originalState);
 
             DocumentRefresh();
         }
@@ -2820,7 +2820,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 // Undo History
-                MainViewModel.Document.UndoHistory.Push(userInput);
+                MainViewModel.Document.UndoHistory.Push(userInput.OriginalState);
                 MainViewModel.Document.RedoFuture.Clear();
 
                 // Dirty Flag

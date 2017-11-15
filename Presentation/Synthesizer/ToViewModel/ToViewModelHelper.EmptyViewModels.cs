@@ -1,8 +1,8 @@
-﻿using JJ.Data.Canonical;
+﻿using System.Collections.Generic;
+using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -22,18 +22,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static AudioOutputPropertiesViewModel CreateEmptyAudioOutputPropertiesViewModel()
         {
-            var viewModel = new AudioOutputPropertiesViewModel
-            {
-                Entity = CreateEmptyAudioOutputViewModel(),
-                ValidationMessages = new List<string>(),
-                SpeakerSetupLookup = GetSpeakerSetupLookupViewModel(),
-                Successful = true
-            };
-
-            return viewModel;
+	        AudioOutputPropertiesViewModel viewModel = CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState();
+	        viewModel.OriginalState = CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState();
+			return viewModel;
         }
 
-        public static AudioOutputViewModel CreateEmptyAudioOutputViewModel()
+        private static AudioOutputPropertiesViewModel CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState()
+	    {
+		    return new AudioOutputPropertiesViewModel
+		    {
+			    Entity = CreateEmptyAudioOutputViewModel(),
+			    ValidationMessages = new List<string>(),
+			    SpeakerSetupLookup = GetSpeakerSetupLookupViewModel(),
+			    Successful = true
+		    };
+	    }
+
+	    public static AudioOutputViewModel CreateEmptyAudioOutputViewModel()
         {
             var viewModel = new AudioOutputViewModel
             {
@@ -192,14 +197,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static DocumentPropertiesViewModel CreateEmptyDocumentPropertiesViewModel()
         {
-            var viewModel = new DocumentPropertiesViewModel
+            DocumentPropertiesViewModel viewModel = CreateEmptyDocumentPropertiesViewModel_WithoutOriginalState();
+            viewModel.OriginalState = CreateEmptyDocumentPropertiesViewModel_WithoutOriginalState();
+            return viewModel;
+        }
+
+        private static DocumentPropertiesViewModel CreateEmptyDocumentPropertiesViewModel_WithoutOriginalState()
+        {
+            return new DocumentPropertiesViewModel
             {
                 Entity = new IDAndName(),
                 ValidationMessages = new List<string>(),
                 Successful = true
             };
-
-            return viewModel;
         }
 
         public static IDAndName CreateEmptyIDAndName()
@@ -259,25 +269,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel()
         {
-            var viewModel = new PatchDetailsViewModel
-            {
-                Entity = CreateEmptyPatchViewModel(),
-                ValidationMessages = new List<string>(),
-                Successful = true
-            };
-
+            PatchDetailsViewModel viewModel = CreateEmptyPatchDetailsViewModel_WithoutOriginalState();
+            viewModel.OriginalState = CreateEmptyPatchDetailsViewModel_WithoutOriginalState();
             return viewModel;
         }
 
+        private static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel_WithoutOriginalState() => new PatchDetailsViewModel
+        {
+            Entity = CreateEmptyPatchViewModel(),
+            ValidationMessages = new List<string>(),
+            Successful = true
+        };
+
         public static PatchPropertiesViewModel CreateEmptyPatchPropertiesViewModel()
         {
-            var viewModel = new PatchPropertiesViewModel
+            PatchPropertiesViewModel viewModel = CreateEmptyPatchPropertiesViewModel_WithoutOriginalState();
+            viewModel.OriginalState = CreateEmptyPatchPropertiesViewModel_WithoutOriginalState();
+            return viewModel;
+        }
+
+        private static PatchPropertiesViewModel CreateEmptyPatchPropertiesViewModel_WithoutOriginalState()
+        {
+            return new PatchPropertiesViewModel
             {
                 ValidationMessages = new List<string>(),
                 Successful = true
             };
-
-            return viewModel;
         }
 
         public static PatchViewModel CreateEmptyPatchViewModel()

@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ConfigurationSection.cs" />
-    <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\StyleGradeEnum.cs" />
     <Compile Include="Helpers\ToPatchWithRelatedEntitiesResult.cs" />
     <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />
@@ -208,6 +208,10 @@
     <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Logging\JJ.Framework.Logging.csproj">
+      <Project>{CEEB755D-DE12-4E70-816E-546C429B44B7}</Project>
+      <Name>JJ.Framework.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Mathematics\JJ.Framework.Mathematics.csproj">
       <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>

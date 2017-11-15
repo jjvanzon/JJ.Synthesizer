@@ -1,9 +1,12 @@
-﻿using JJ.Data.Canonical;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
     /// <summary> Leading for saving when it comes to the simple properties. </summary>
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
     public sealed class PatchPropertiesViewModel : ViewModelBase
     {
         public int ID { get; internal set; }
@@ -18,5 +21,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public string CustomDimensionName { get; set; }
 
         internal int? OutletIDToPlay { get; set; }
+
+        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
     }
 }
