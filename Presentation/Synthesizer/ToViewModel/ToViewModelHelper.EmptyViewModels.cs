@@ -22,23 +22,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static AudioOutputPropertiesViewModel CreateEmptyAudioOutputPropertiesViewModel()
         {
-	        AudioOutputPropertiesViewModel viewModel = CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState();
-	        viewModel.OriginalState = CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState();
-			return viewModel;
+            AudioOutputPropertiesViewModel viewModel = CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState();
+            viewModel.OriginalState = CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState();
+            return viewModel;
         }
 
         private static AudioOutputPropertiesViewModel CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState()
-	    {
-		    return new AudioOutputPropertiesViewModel
-		    {
-			    Entity = CreateEmptyAudioOutputViewModel(),
-			    ValidationMessages = new List<string>(),
-			    SpeakerSetupLookup = GetSpeakerSetupLookupViewModel(),
-			    Successful = true
-		    };
-	    }
+        {
+            return new AudioOutputPropertiesViewModel
+            {
+                Entity = CreateEmptyAudioOutputViewModel(),
+                ValidationMessages = new List<string>(),
+                SpeakerSetupLookup = GetSpeakerSetupLookupViewModel(),
+                Successful = true
+            };
+        }
 
-	    public static AudioOutputViewModel CreateEmptyAudioOutputViewModel()
+        public static AudioOutputViewModel CreateEmptyAudioOutputViewModel()
         {
             var viewModel = new AudioOutputViewModel
             {
@@ -118,8 +118,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScalePropertiesDictionary = new Dictionary<int, ScalePropertiesViewModel>(),
                 ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
                 UnderlyingPatchLookup = new List<IDAndName>(),
-                UndoHistory = new Stack<ViewModelBase>(),
-                RedoFuture = new Stack<ViewModelBase>()
+                UndoHistory = new Stack<UndoItemViewModel>(),
+                RedoFuture = new Stack<UndoItemViewModel>()
             };
 
             return viewModel;

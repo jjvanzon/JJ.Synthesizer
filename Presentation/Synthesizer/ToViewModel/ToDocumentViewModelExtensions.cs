@@ -52,8 +52,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScalePropertiesDictionary = document.Scales.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID),
                 UnderlyingPatchLookup = ToViewModelHelper.CreateUnderlyingPatchLookupViewModel(document),
-                UndoHistory = new Stack<ViewModelBase>(),
-                RedoFuture = new Stack<ViewModelBase>()
+                UndoHistory = new Stack<UndoItemViewModel>(),
+                RedoFuture = new Stack<UndoItemViewModel>()
             };
 
             var converter = new RecursiveDocumentTreeViewModelFactory();

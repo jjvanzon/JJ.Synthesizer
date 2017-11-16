@@ -2724,34 +2724,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Undo()
         {
-            ViewModelBase originalState = MainViewModel.Document.UndoHistory.PopOrDefault();
+            UndoItemViewModel undoItemViewModel = MainViewModel.Document.UndoHistory.PopOrDefault();
 
-            if (originalState == null)
+            if (undoItemViewModel == null)
             {
                 return;
             }
 
-            MainViewModel.Document.RedoFuture.Push(originalState);
+            MainViewModel.Document.RedoFuture.Push(undoItemViewModel);
 
-            originalState.Successful = true;
-            originalState.Visible = true;
-            originalState.RefreshID = RefreshIDProvider.GetRefreshID();
+            ViewModelBase viewModel = undoItemViewModel.OriginalState;
 
-            DispatchViewModel(originalState);
+            viewModel.Successful = true;
+            viewModel.Visible = true;
+            viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+
+            DispatchViewModel(viewModel);
 
             DocumentRefresh();
         }
 
         public void Redo()
         {
-            ViewModelBase viewModel = MainViewModel.Document.RedoFuture.PopOrDefault();
+            UndoItemViewModel undoItemViewModel = MainViewModel.Document.RedoFuture.PopOrDefault();
 
-            if (viewModel == null)
+            if (undoItemViewModel == null)
             {
                 return;
             }
 
-            MainViewModel.Document.UndoHistory.Push(viewModel);
+            MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
+
+            ViewModelBase viewModel = undoItemViewModel.NewState;
 
             viewModel.Successful = true;
             viewModel.Visible = true;
@@ -2825,7 +2829,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 // Undo History
-                MainViewModel.Document.UndoHistory.Push(userInput.OriginalState);
+                var undoItemViewModel = new UndoItemViewModel
+                {
+                    OriginalState = userInput.OriginalState,
+                    NewState = userInput
+                };
+                MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
+
                 MainViewModel.Document.RedoFuture.Clear();
 
                 // Dirty Flag

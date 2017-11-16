@@ -110,6 +110,7 @@
     <Compile Include="ViewModels\Items\CurrentInstrumentItemViewModel.cs" />
     <Compile Include="ViewModels\Items\DocumentTreeNodeTypeEnum.cs" />
     <Compile Include="ViewModels\Items\AutoPatchPopupViewModel.cs" />
+    <Compile Include="ViewModels\Items\UndoItemViewModel.cs" />
     <Compile Include="ViewModels\SampleFileBrowserViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
