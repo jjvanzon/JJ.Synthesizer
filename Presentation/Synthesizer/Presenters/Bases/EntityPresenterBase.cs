@@ -1,9 +1,10 @@
-﻿using JJ.Business.Canonical;
+﻿using System;
+using JJ.Business.Canonical;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
@@ -45,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
             if (userInput == null) throw new NullException(() => userInput);
 
             // RefreshCounter
-            userInput.RefreshCounter++;
+            userInput.RefreshID = RefreshIDProvider.GetRefreshID();
 
             // Set !Successful
             userInput.Successful = false;

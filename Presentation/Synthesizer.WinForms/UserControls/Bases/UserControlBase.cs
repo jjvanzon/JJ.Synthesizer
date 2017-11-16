@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
             {
                 bool mustApplyViewModel = value != null &&
                                           (value != _viewModel ||
-                                           value.RefreshCounter != _refreshCounter);
+                                           value.RefreshID != _refreshCounter);
                 _viewModel = value;
 
                 if (_viewModel == null)
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
                     return;
                 }
 
-                _refreshCounter = _viewModel.RefreshCounter;
+                _refreshCounter = _viewModel.RefreshID;
 
                 if (mustApplyViewModel)
                 {

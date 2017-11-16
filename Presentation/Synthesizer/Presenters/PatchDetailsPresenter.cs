@@ -6,6 +6,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -58,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput == null) throw new NullException(() => userInput);
 
             // RefreshCounter
-            userInput.RefreshCounter++;
+            userInput.RefreshID = RefreshIDProvider.GetRefreshID();
 
             // Set !Successful
             userInput.Successful = false;
@@ -115,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput == null) throw new NullException(() => userInput);
 
             // RefreshCounter
-            userInput.RefreshCounter++;
+            userInput.RefreshID = RefreshIDProvider.GetRefreshID();
 
             // Set !Successful
             userInput.Successful = false;

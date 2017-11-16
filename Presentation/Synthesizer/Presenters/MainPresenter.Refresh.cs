@@ -1,12 +1,12 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -140,7 +140,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             NodeViewModel nodeViewModel = node.ToViewModel();
             detailsViewModel.Nodes[nodeID] = nodeViewModel;
 
-            detailsViewModel.RefreshCounter++;
+            detailsViewModel.RefreshID = RefreshIDProvider.GetRefreshID();
         }
 
         private void CurveDetailsRefresh(CurveDetailsViewModel userInput)
@@ -793,7 +793,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TODO: Replace this with moving RefreshOperator to the PatchDetail presenter?
             PatchDetailsViewModel detailsViewModel = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
-            detailsViewModel.RefreshCounter++;
+            detailsViewModel.RefreshID = RefreshIDProvider.GetRefreshID();
         }
 
         private void PatchDetails_RefreshOperator(Operator entity, OperatorViewModel operatorViewModel)

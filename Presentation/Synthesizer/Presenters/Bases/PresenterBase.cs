@@ -1,7 +1,8 @@
-﻿using JJ.Framework.Collections;
+﻿using System;
+using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
@@ -18,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 
             action();
 
-            viewModel.RefreshCounter++;
+            viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
             viewModel.Successful = true;
         }
 
@@ -30,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
             destViewModel.ValidationMessages.AddRange(sourceViewModel.ValidationMessages);
             destViewModel.Visible = sourceViewModel.Visible;
             destViewModel.Successful = sourceViewModel.Successful;
-            destViewModel.RefreshCounter = sourceViewModel.RefreshCounter;
+            destViewModel.RefreshID = sourceViewModel.RefreshID;
         }
     }
 }

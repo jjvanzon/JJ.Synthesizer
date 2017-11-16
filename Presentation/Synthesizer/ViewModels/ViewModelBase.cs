@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public bool Successful { get; set; }
         public IList<string> ValidationMessages { get; set; }
         public bool Visible { get; set; }
-        public int RefreshCounter { get; set; }
+        public int RefreshID { get; set; }
 
         internal ViewModelBase OriginalState { get; set; }
     }

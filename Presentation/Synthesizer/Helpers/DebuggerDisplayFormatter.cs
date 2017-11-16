@@ -79,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 {
                     entityViewModel.ID,
                     entityViewModel.SamplingRate,
-                    entityViewModel.SpeakerSetup,
+                    SpeakerSetup = entityViewModel.SpeakerSetup.Name,
                     entityViewModel.MaxConcurrentNotes,
                     entityViewModel.DesiredBufferDuration
                 };

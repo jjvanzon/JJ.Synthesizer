@@ -1,11 +1,12 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System;
+using System.IO;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System;
-using System.IO;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -39,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput == null) throw new ArgumentNullException(nameof(userInput));
 
             // RefreshCounter
-            userInput.RefreshCounter++;
+            userInput.RefreshID = RefreshIDProvider.GetRefreshID();
 
             // Set !Successful
             userInput.Successful = false;

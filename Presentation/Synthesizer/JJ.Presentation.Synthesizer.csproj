@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
+    <Compile Include="Helpers\RefreshIDProvider.cs" />
     <Compile Include="Helpers\StyleGradeEnum.cs" />
     <Compile Include="Helpers\ToPatchWithRelatedEntitiesResult.cs" />
     <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />

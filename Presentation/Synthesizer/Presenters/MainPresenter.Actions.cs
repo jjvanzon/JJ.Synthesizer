@@ -190,7 +190,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 () =>
                 {
                     // RefreshCounter
-                    userInput.RefreshCounter++;
+                    userInput.RefreshID = RefreshIDProvider.GetRefreshID();
 
                     // Set !Successful
                     userInput.Successful = false;
@@ -363,15 +363,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 () =>
                 {
                     // RefreshCounter
-                    userInput.RefreshCounter++;
-                    userInput.PatchDetails.RefreshCounter++;
+                    userInput.RefreshID = RefreshIDProvider.GetRefreshID();
+                    userInput.PatchDetails.RefreshID = RefreshIDProvider.GetRefreshID();
 
                     // Action
                     AutoPatchPopupViewModel viewModel = ToViewModelHelper.CreateEmptyAutoPatchViewModel();
 
                     // Non-Persisted
-                    viewModel.RefreshCounter = userInput.RefreshCounter;
-                    viewModel.PatchDetails.RefreshCounter = userInput.PatchDetails.RefreshCounter;
+                    viewModel.RefreshID = userInput.RefreshID;
+                    viewModel.PatchDetails.RefreshID = userInput.PatchDetails.RefreshID;
 
                     return viewModel;
                 });
@@ -386,8 +386,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 () =>
                 {
                     // RefreshCounter
-                    userInput.RefreshCounter++;
-                    userInput.PatchDetails.RefreshCounter++;
+                    userInput.RefreshID = RefreshIDProvider.GetRefreshID();
+                    userInput.PatchDetails.RefreshID = RefreshIDProvider.GetRefreshID();
 
                     // Set !Successful
                     userInput.Successful = false;
@@ -422,8 +422,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Non-Persisted
                     viewModel2.ValidationMessages.AddRange(result.Messages);
-                    viewModel2.RefreshCounter = userInput.RefreshCounter;
-                    viewModel2.PatchDetails.RefreshCounter = userInput.PatchDetails.RefreshCounter;
+                    viewModel2.RefreshID = userInput.RefreshID;
+                    viewModel2.PatchDetails.RefreshID = userInput.PatchDetails.RefreshID;
 
                     // Successful?
                     viewModel2.Successful = result.Successful;
@@ -455,9 +455,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AutoPatchPopupViewModel autoPatchPopupUserInput = MainViewModel.Document.AutoPatchPopup;
 
             // RefreshCounter
-            currentInstrumentUserInput.RefreshCounter++;
-            autoPatchPopupUserInput.RefreshCounter++;
-            autoPatchPopupUserInput.PatchDetails.RefreshCounter++;
+            currentInstrumentUserInput.RefreshID = RefreshIDProvider.GetRefreshID();
+            autoPatchPopupUserInput.RefreshID = RefreshIDProvider.GetRefreshID();
+            autoPatchPopupUserInput.PatchDetails.RefreshID = RefreshIDProvider.GetRefreshID();
 
             // Set !Successful
             currentInstrumentUserInput.Successful = false;
@@ -493,8 +493,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Non-Persisted
             autoPatchPopupViewModel.Visible = true;
-            autoPatchPopupViewModel.RefreshCounter = autoPatchPopupUserInput.RefreshCounter;
-            autoPatchPopupViewModel.PatchDetails.RefreshCounter = autoPatchPopupUserInput.PatchDetails.RefreshCounter;
+            autoPatchPopupViewModel.RefreshID = autoPatchPopupUserInput.RefreshID;
+            autoPatchPopupViewModel.PatchDetails.RefreshID = autoPatchPopupUserInput.PatchDetails.RefreshID;
 
             // Successful
             currentInstrumentUserInput.Successful = true;
@@ -656,7 +656,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModelBase viewModel2 = _documentDeletePresenter.Confirm(viewModel);
 
             // RefreshCounter
-            viewModel.RefreshCounter++;
+            viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 
             // Set !Successful
             viewModel.Successful = false;
@@ -688,7 +688,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
 
             // RefreshCounter
-            gridViewModel.RefreshCounter++;
+            gridViewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 
             // Set !Successful
             gridViewModel.Successful = false;
@@ -728,7 +728,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
 
             // RefreshCounter
-            gridViewModel.RefreshCounter++;
+            gridViewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 
             // Set !Successful
             gridViewModel.Successful = false;
@@ -1067,7 +1067,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 () =>
                 {
                     // RefreshCounter
-                    userInput.RefreshCounter++;
+                    userInput.RefreshID = RefreshIDProvider.GetRefreshID();
 
                     // Set !Successful
                     userInput.Successful = false;
@@ -1131,7 +1131,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentTreeViewModel viewModel = ExecuteWriteAction(userInput, () =>
             {
                 // RefreshCounter
-                userInput.RefreshCounter++;
+                userInput.RefreshID = RefreshIDProvider.GetRefreshID();
 
                 // Set !Successful
                 userInput.Successful = false;
@@ -1211,7 +1211,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentTreeViewModel func()
             {
                 // RefreshCounter
-                viewModel.RefreshCounter++;
+                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 
                 // Set !Successful
                 viewModel.Successful = false;
@@ -2733,8 +2733,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.RedoFuture.Push(originalState);
 
-            // View model transactionality makes all previous versions of the view model Succesful = false.
             originalState.Successful = true;
+            originalState.Visible = true;
+            originalState.RefreshID = RefreshIDProvider.GetRefreshID();
 
             DispatchViewModel(originalState);
 
@@ -2751,6 +2752,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             MainViewModel.Document.UndoHistory.Push(viewModel);
+
+            viewModel.Successful = true;
+            viewModel.Visible = true;
+            viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 
             DispatchViewModel(viewModel);
 
