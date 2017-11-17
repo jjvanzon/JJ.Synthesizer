@@ -2724,7 +2724,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Undo()
         {
-            UndoItemViewModel undoItemViewModel = MainViewModel.Document.UndoHistory.PopOrDefault();
+            UndoItemViewModelBase undoItemViewModel = MainViewModel.Document.UndoHistory.PopOrDefault();
 
             if (undoItemViewModel == null)
             {
@@ -2733,33 +2733,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.RedoFuture.Push(undoItemViewModel);
 
-            if (IsInsert(undoItemViewModel))
+            switch (undoItemViewModel)
             {
-                // TODO: How to dispatch a deletion?
-            }
-            else if (IsUpdate(undoItemViewModel))
-            {
-                ViewModelBase viewModel = undoItemViewModel.OriginalState;
+                case UndoInsertViewModel undoInsertViewModel:
+                {
+                    // TODO: Dispatch a deletion.
+                    break;
+                }
 
-                viewModel.Successful = true;
-                viewModel.Visible = true;
-                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+                case UndoUpdateViewModel undoUpdateViewModel:
+                    RestoreUndoState(undoUpdateViewModel.OriginalState);
+                    break;
 
-                DispatchViewModel(viewModel);
-            }
-            else if (IsDelete(undoItemViewModel))
-            {
-                ViewModelBase viewModel = undoItemViewModel.NewState;
+                case UndoDeleteViewModel undoDeleteViewModel:
+                    foreach (ViewModelBase viewModel in undoDeleteViewModel.DeletedStates)
+                    {
+                        RestoreUndoState(viewModel);
+                    }
+                    break;
 
-                viewModel.Successful = true;
-                viewModel.Visible = true;
-                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
-
-                DispatchViewModel(viewModel);
-            }
-            else
-            {
-                throw new Exception("Error determining whether operation was an insert, update or delete.");
+                default:
+                    throw new UnexpectedTypeException(() => undoItemViewModel);
             }
 
             DocumentRefresh();
@@ -2767,7 +2761,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Redo()
         {
-            UndoItemViewModel undoItemViewModel = MainViewModel.Document.RedoFuture.PopOrDefault();
+            UndoItemViewModelBase undoItemViewModel = MainViewModel.Document.RedoFuture.PopOrDefault();
 
             if (undoItemViewModel == null)
             {
@@ -2776,54 +2770,37 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
 
-            if (IsInsert(undoItemViewModel))
+            switch (undoItemViewModel)
             {
-                // TODO: How to dispatch a deletion?
-            }
-            else if (IsUpdate(undoItemViewModel))
-            {
-                ViewModelBase viewModel = undoItemViewModel.NewState;
+                case UndoInsertViewModel undoInsertViewModel:
+                    foreach (ViewModelBase viewModel in undoInsertViewModel.CreatedStates)
+                    {
+                        RestoreUndoState(viewModel);
+                    }
+                    break;
 
-                viewModel.Successful = true;
-                viewModel.Visible = true;
-                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+                case UndoUpdateViewModel undoUpdateViewModel:
+                    RestoreUndoState(undoUpdateViewModel.NewState);
+                    break;
 
-                DispatchViewModel(viewModel);
-            }
-            else if (IsDelete(undoItemViewModel))
-            {
-                ViewModelBase viewModel = undoItemViewModel.OriginalState;
+                case UndoDeleteViewModel undoDeleteViewModel:
+                    // TODO: Dispatch a deletion.
+                    break;
 
-                viewModel.Successful = true;
-                viewModel.Visible = true;
-                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
-
-                DispatchViewModel(viewModel);
-            }
-            else
-            {
-                throw new Exception("Error determining whether operation was an insert, update or delete.");
+                default:
+                    throw new UnexpectedTypeException(() => undoItemViewModel);
             }
 
             DocumentRefresh();
         }
 
-        private static bool IsDelete(UndoItemViewModel undoItemViewModel)
+        private void RestoreUndoState(ViewModelBase viewModel)
         {
-            return undoItemViewModel.OriginalState != null &&
-                   undoItemViewModel.NewState == null;
-        }
+            viewModel.Successful = true;
+            viewModel.Visible = true;
+            viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 
-        private static bool IsInsert(UndoItemViewModel undoItemViewModel)
-        {
-            return undoItemViewModel.OriginalState == null &&
-                   undoItemViewModel.NewState != null;
-        }
-
-        private static bool IsUpdate(UndoItemViewModel undoItemViewModel)
-        {
-            return undoItemViewModel.OriginalState != null &&
-                   undoItemViewModel.NewState != null;
+            DispatchViewModel(viewModel);
         }
 
         // Helpers
@@ -2889,7 +2866,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 // Undo History
-                var undoItemViewModel = new UndoItemViewModel
+                var undoItemViewModel = new UndoUpdateViewModel
                 {
                     OriginalState = userInput.OriginalState,
                     NewState = userInput

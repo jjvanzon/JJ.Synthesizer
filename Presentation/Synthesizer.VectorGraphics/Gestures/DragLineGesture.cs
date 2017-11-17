@@ -1,11 +1,11 @@
 ﻿using System;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
-using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             var rectangle = element as Rectangle;
             if (rectangle == null)
             {
-                throw new InvalidTypeException<Rectangle>(() => element);
+                throw new IsNotTypeException<Rectangle>(() => element);
             }
 
             Geometry.GetCenter_ByWidthAndHeight(

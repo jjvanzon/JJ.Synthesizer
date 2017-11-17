@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 var asIList = value as IList;
                 if (asIList == null)
                 {
-                    throw new InvalidTypeException<IList>(() => value);
+                    throw new IsNotTypeException<IList>(() => value);
                 }
 
                 int? rowIndex = base.CurrentCell?.RowIndex;

@@ -1,5 +1,5 @@
-﻿using JJ.Data.Canonical;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
         /// <summary> This lookup is used by OperatorProperties views. </summary>
         public IList<IDAndName> UnderlyingPatchLookup { get; set; }
 
-        internal Stack<UndoItemViewModel> UndoHistory { get; set; }
-        internal Stack<UndoItemViewModel> RedoFuture { get; set; }
+        internal Stack<UndoItemViewModelBase> UndoHistory { get; set; }
+        internal Stack<UndoItemViewModelBase> RedoFuture { get; set; }
     }
 }

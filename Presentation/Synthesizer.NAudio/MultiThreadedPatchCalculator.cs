@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Calculation;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -186,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator;
             if (castedSourceCalculator == null)
             {
-                throw new InvalidTypeException<MultiThreadedPatchCalculator>(() => castedSourceCalculator);
+                throw new IsNotTypeException<MultiThreadedPatchCalculator>(() => castedSourceCalculator);
             }
 
             // base.CloneValues may have yielded over all values to all patch calculators,

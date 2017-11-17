@@ -111,10 +111,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             if (sourcePatchCalculator == null) throw new NullException(() => sourcePatchCalculator);
 
-            var castedSource = sourcePatchCalculator as PatchCalculatorBase;
-            if (castedSource == null)
+            if (!(sourcePatchCalculator is PatchCalculatorBase castedSource))
             {
-                throw new InvalidTypeException<PatchCalculatorBase>(() => sourcePatchCalculator);
+                throw new IsNotTypeException<PatchCalculatorBase>(() => sourcePatchCalculator);
             }
 
             foreach (var entry in castedSource._position_To_Value_Dictionary)

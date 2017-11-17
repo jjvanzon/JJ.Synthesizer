@@ -1,14 +1,13 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -52,8 +51,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScalePropertiesDictionary = document.Scales.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
                 ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID),
                 UnderlyingPatchLookup = ToViewModelHelper.CreateUnderlyingPatchLookupViewModel(document),
-                UndoHistory = new Stack<UndoItemViewModel>(),
-                RedoFuture = new Stack<UndoItemViewModel>()
+                UndoHistory = new Stack<UndoItemViewModelBase>(),
+                RedoFuture = new Stack<UndoItemViewModelBase>()
             };
 
             var converter = new RecursiveDocumentTreeViewModelFactory();

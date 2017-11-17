@@ -94,13 +94,13 @@ namespace JJ.Business.Synthesizer.Visitors
             OperatorCalculatorBase positionCalculator = _stack.Pop();
             if (!(positionCalculator is VariableInput_OperatorCalculator castedPositionCalculator))
             {
-                throw new UnexpectedTypeException(() => positionCalculator);
+                throw new IsNotTypeException<VariableInput_OperatorCalculator>(() => positionCalculator);
             }
 
             OperatorCalculatorBase channelCalculator = _stack.Pop();
             if (!(channelCalculator is VariableInput_OperatorCalculator castedChannelCalculator))
             {
-                throw new UnexpectedTypeException(() => channelCalculator);
+                throw new IsNotTypeException<VariableInput_OperatorCalculator>(() => channelCalculator);
             }
 
             double start = startCalculator.Calculate();
