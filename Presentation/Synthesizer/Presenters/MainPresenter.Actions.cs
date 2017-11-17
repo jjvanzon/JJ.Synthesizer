@@ -2733,13 +2733,34 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.RedoFuture.Push(undoItemViewModel);
 
-            ViewModelBase viewModel = undoItemViewModel.OriginalState;
+            if (IsInsert(undoItemViewModel))
+            {
+                // TODO: How to dispatch a deletion?
+            }
+            else if (IsUpdate(undoItemViewModel))
+            {
+                ViewModelBase viewModel = undoItemViewModel.OriginalState;
 
-            viewModel.Successful = true;
-            viewModel.Visible = true;
-            viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+                viewModel.Successful = true;
+                viewModel.Visible = true;
+                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 
-            DispatchViewModel(viewModel);
+                DispatchViewModel(viewModel);
+            }
+            else if (IsDelete(undoItemViewModel))
+            {
+                ViewModelBase viewModel = undoItemViewModel.NewState;
+
+                viewModel.Successful = true;
+                viewModel.Visible = true;
+                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+
+                DispatchViewModel(viewModel);
+            }
+            else
+            {
+                throw new Exception("Error determining whether operation was an insert, update or delete.");
+            }
 
             DocumentRefresh();
         }
@@ -2755,15 +2776,54 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
 
-            ViewModelBase viewModel = undoItemViewModel.NewState;
+            if (IsInsert(undoItemViewModel))
+            {
+                // TODO: How to dispatch a deletion?
+            }
+            else if (IsUpdate(undoItemViewModel))
+            {
+                ViewModelBase viewModel = undoItemViewModel.NewState;
 
-            viewModel.Successful = true;
-            viewModel.Visible = true;
-            viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+                viewModel.Successful = true;
+                viewModel.Visible = true;
+                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 
-            DispatchViewModel(viewModel);
+                DispatchViewModel(viewModel);
+            }
+            else if (IsDelete(undoItemViewModel))
+            {
+                ViewModelBase viewModel = undoItemViewModel.OriginalState;
+
+                viewModel.Successful = true;
+                viewModel.Visible = true;
+                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+
+                DispatchViewModel(viewModel);
+            }
+            else
+            {
+                throw new Exception("Error determining whether operation was an insert, update or delete.");
+            }
 
             DocumentRefresh();
+        }
+
+        private static bool IsDelete(UndoItemViewModel undoItemViewModel)
+        {
+            return undoItemViewModel.OriginalState != null &&
+                   undoItemViewModel.NewState == null;
+        }
+
+        private static bool IsInsert(UndoItemViewModel undoItemViewModel)
+        {
+            return undoItemViewModel.OriginalState == null &&
+                   undoItemViewModel.NewState != null;
+        }
+
+        private static bool IsUpdate(UndoItemViewModel undoItemViewModel)
+        {
+            return undoItemViewModel.OriginalState != null &&
+                   undoItemViewModel.NewState != null;
         }
 
         // Helpers
