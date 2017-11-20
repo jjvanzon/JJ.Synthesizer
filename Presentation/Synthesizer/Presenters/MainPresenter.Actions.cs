@@ -2737,16 +2737,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 case UndoInsertViewModel undoInsertViewModel:
                 {
-                    // TODO: Dispatch a deletion.
+                    foreach (ViewModelBase viewModel in undoInsertViewModel.NewStates)
+                    {
+                        DeleteUndoState(viewModel);
+                    }
                     break;
                 }
 
                 case UndoUpdateViewModel undoUpdateViewModel:
-                    RestoreUndoState(undoUpdateViewModel.OriginalState);
+                    RestoreUndoState(undoUpdateViewModel.OldState);
                     break;
 
                 case UndoDeleteViewModel undoDeleteViewModel:
-                    foreach (ViewModelBase viewModel in undoDeleteViewModel.DeletedStates)
+                    foreach (ViewModelBase viewModel in undoDeleteViewModel.OldStates)
                     {
                         RestoreUndoState(viewModel);
                     }
@@ -2773,7 +2776,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             switch (undoItemViewModel)
             {
                 case UndoInsertViewModel undoInsertViewModel:
-                    foreach (ViewModelBase viewModel in undoInsertViewModel.CreatedStates)
+                    foreach (ViewModelBase viewModel in undoInsertViewModel.NewStates)
                     {
                         RestoreUndoState(viewModel);
                     }
@@ -2784,7 +2787,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     break;
 
                 case UndoDeleteViewModel undoDeleteViewModel:
-                    // TODO: Dispatch a deletion.
+                    foreach (ViewModelBase viewModel in undoDeleteViewModel.OldStates)
+                    {
+                        DeleteUndoState(viewModel);
+                    }
                     break;
 
                 default:
@@ -2801,6 +2807,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 
             DispatchViewModel(viewModel);
+        }
+
+        private void DeleteUndoState(ViewModelBase viewModel)
+        {
+            switch (viewModel)
+            {
+                case PatchDetailsViewModel castedViewModel:
+                    MainViewModel.Document.PatchDetailsDictionary.Remove(castedViewModel.Entity.ID);
+                    break;
+
+                case PatchPropertiesViewModel castedViewModel:
+                    MainViewModel.Document.PatchPropertiesDictionary.Remove(castedViewModel.ID);
+                    break;
+
+                case CurveDetailsViewModel castedViewModel:
+                    MainViewModel.Document.CurveDetailsDictionary.Remove(castedViewModel.Curve.ID);
+                    break;
+
+                case OperatorPropertiesViewModel castedViewModel:
+                    MainViewModel.Document.OperatorPropertiesDictionary.Remove(castedViewModel.ID);
+                    break;
+
+                // TODO: Dispatch more view model deletions
+                // TODO: Handling each and every view model you could delete might be harder than doing ToEntity
+                // and deleting the entity throught the business layer.
+                // because there are so much less delete actions,
+                // than there are view models that can be removed.
+                // Also, you run into trouble with NodeDelete resulting in a changed CurveDetails view model.
+            }
         }
 
         // Helpers
@@ -2868,7 +2903,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Undo History
                 var undoItemViewModel = new UndoUpdateViewModel
                 {
-                    OriginalState = userInput.OriginalState,
+                    OldState = userInput.OriginalState,
                     NewState = userInput
                 };
                 MainViewModel.Document.UndoHistory.Push(undoItemViewModel);

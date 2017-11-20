@@ -4,6 +4,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     internal class UndoInsertViewModel : UndoItemViewModelBase
     {
-        public IList<ViewModelBase> CreatedStates { get; set; }
+        public IList<ViewModelBase> NewStates { get; set; }
     }
 }
