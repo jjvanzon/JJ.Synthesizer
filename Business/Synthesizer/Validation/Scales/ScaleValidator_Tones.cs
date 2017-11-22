@@ -4,17 +4,17 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class ScaleValidator_Tones : VersatileValidator
-    {
-        public ScaleValidator_Tones(Scale obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
+	internal class ScaleValidator_Tones : VersatileValidator
+	{
+		public ScaleValidator_Tones(Scale obj)
+		{
+			if (obj == null) throw new NullException(() => obj);
 
-            foreach (Tone tone in obj.Tones)
-            {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(tone);
-                ExecuteValidator(new ToneValidator(tone), messagePrefix);
-            }
-        }
-    }
+			foreach (Tone tone in obj.Tones)
+			{
+				string messagePrefix = ValidationHelper.GetMessagePrefix(tone);
+				ExecuteValidator(new ToneValidator(tone), messagePrefix);
+			}
+		}
+	}
 }

@@ -8,103 +8,103 @@ using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class InfrastructureFacade
-    {
-        private static readonly bool _midiInputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().MidiInputEnabled;
-        private static readonly bool _audioOutputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().AudioOutputEnabled;
+	public class InfrastructureFacade
+	{
+		private static readonly bool _midiInputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().MidiInputEnabled;
+		private static readonly bool _audioOutputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().AudioOutputEnabled;
 
-        private readonly TimeProvider _timeProvider;
-        private readonly NoteRecycler _noteRecycler;
-        private readonly AudioOutputProcessor _audioOutputProcessor;
-        private readonly IPatchCalculatorContainer _patchCalculatorContainer;
+		private readonly TimeProvider _timeProvider;
+		private readonly NoteRecycler _noteRecycler;
+		private readonly AudioOutputProcessor _audioOutputProcessor;
+		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
 
-        private AudioOutput _audioOutput;
+		private AudioOutput _audioOutput;
 
-        // ReSharper disable once NotAccessedField.Local
-        private Thread _audioOutputThread;
+		// ReSharper disable once NotAccessedField.Local
+		private Thread _audioOutputThread;
 
-        // ReSharper disable once NotAccessedField.Local
-        private Thread _midiInputThread;
+		// ReSharper disable once NotAccessedField.Local
+		private Thread _midiInputThread;
 
-        public InfrastructureFacade(RepositoryWrapper repositories)
-        {
-            var audioOutputManager = new AudioOutputManager(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
-            _audioOutput = audioOutputManager.CreateWithDefaults();
-            _timeProvider = new TimeProvider();
-            _noteRecycler = new NoteRecycler(_audioOutput.MaxConcurrentNotes);
+		public InfrastructureFacade(RepositoryWrapper repositories)
+		{
+			var audioOutputManager = new AudioOutputManager(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
+			_audioOutput = audioOutputManager.CreateWithDefaults();
+			_timeProvider = new TimeProvider();
+			_noteRecycler = new NoteRecycler(_audioOutput.MaxConcurrentNotes);
 
-            bool mustCreateEmptyPatchCalculatorContainer = !_audioOutputEnabled;
-            if (mustCreateEmptyPatchCalculatorContainer)
-            {
-                _patchCalculatorContainer = new EmptyPatchCalculatorContainer();
-            }
-            else
-            {
-                _patchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(_noteRecycler, repositories);
-            }
+			bool mustCreateEmptyPatchCalculatorContainer = !_audioOutputEnabled;
+			if (mustCreateEmptyPatchCalculatorContainer)
+			{
+				_patchCalculatorContainer = new EmptyPatchCalculatorContainer();
+			}
+			else
+			{
+				_patchCalculatorContainer = new MultiThreadedPatchCalculatorContainer(_noteRecycler, repositories);
+			}
 
-            if (_audioOutputEnabled)
-            {
-                _audioOutputProcessor = new AudioOutputProcessor(
-                    _patchCalculatorContainer,
-                    _timeProvider,
-                    _audioOutput.SamplingRate,
-                    _audioOutput.GetChannelCount(),
-                    _audioOutput.DesiredBufferDuration);
+			if (_audioOutputEnabled)
+			{
+				_audioOutputProcessor = new AudioOutputProcessor(
+					_patchCalculatorContainer,
+					_timeProvider,
+					_audioOutput.SamplingRate,
+					_audioOutput.GetChannelCount(),
+					_audioOutput.DesiredBufferDuration);
 
-                _audioOutputThread = _audioOutputProcessor.StartThread();
-            }
+				_audioOutputThread = _audioOutputProcessor.StartThread();
+			}
 
-            // ReSharper disable once InvertIf
-            if (_midiInputEnabled)
-            {
-                MidiInputProcessor.Stop();
-                MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler);
-                _midiInputThread = MidiInputProcessor.StartThread();
-            }
-        }
+			// ReSharper disable once InvertIf
+			if (_midiInputEnabled)
+			{
+				MidiInputProcessor.Stop();
+				MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler);
+				_midiInputThread = MidiInputProcessor.StartThread();
+			}
+		}
 
-        public void Dispose()
-        {
-            _audioOutputProcessor?.Stop();
-            MidiInputProcessor.Stop();
-        }
+		public void Dispose()
+		{
+			_audioOutputProcessor?.Stop();
+			MidiInputProcessor.Stop();
+		}
 
-        public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch)
-        {
-            _audioOutput = audioOutput ?? throw new NullException(() => audioOutput);
+		public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch)
+		{
+			_audioOutput = audioOutput ?? throw new NullException(() => audioOutput);
 
-            int samplingRate = _audioOutput.SamplingRate;
-            int channelCount = _audioOutput.GetChannelCount();
-            int maxConcurrentNotes = _audioOutput.MaxConcurrentNotes;
-            double desiredBufferDuration = audioOutput.DesiredBufferDuration;
+			int samplingRate = _audioOutput.SamplingRate;
+			int channelCount = _audioOutput.GetChannelCount();
+			int maxConcurrentNotes = _audioOutput.MaxConcurrentNotes;
+			double desiredBufferDuration = audioOutput.DesiredBufferDuration;
 
-            _audioOutputProcessor?.Stop();
-            MidiInputProcessor.Stop();
+			_audioOutputProcessor?.Stop();
+			MidiInputProcessor.Stop();
 
-            _noteRecycler.SetMaxConcurrentNotes(maxConcurrentNotes);
-            _patchCalculatorContainer.RecreateCalculator(patch, samplingRate, channelCount, maxConcurrentNotes);
+			_noteRecycler.SetMaxConcurrentNotes(maxConcurrentNotes);
+			_patchCalculatorContainer.RecreateCalculator(patch, samplingRate, channelCount, maxConcurrentNotes);
 
-            if (_audioOutputProcessor != null)
-            {
-                _audioOutputProcessor.UpdateAudioProperties(samplingRate, channelCount, desiredBufferDuration);
-                _audioOutputThread = _audioOutputProcessor.StartThread();
-            }
+			if (_audioOutputProcessor != null)
+			{
+				_audioOutputProcessor.UpdateAudioProperties(samplingRate, channelCount, desiredBufferDuration);
+				_audioOutputThread = _audioOutputProcessor.StartThread();
+			}
 
-            // ReSharper disable once InvertIf
-            MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler);
-            _midiInputThread = MidiInputProcessor.StartThread();
-        }
+			// ReSharper disable once InvertIf
+			MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler);
+			_midiInputThread = MidiInputProcessor.StartThread();
+		}
 
-        public void RecreatePatchCalculator(Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
+		public void RecreatePatchCalculator(Patch patch)
+		{
+			if (patch == null) throw new NullException(() => patch);
 
-            _patchCalculatorContainer.RecreateCalculator(
-                patch,
-                _audioOutput.SamplingRate,
-                _audioOutput.GetChannelCount(),
-                _audioOutput.MaxConcurrentNotes);
-        }
-    }
+			_patchCalculatorContainer.RecreateCalculator(
+				patch,
+				_audioOutput.SamplingRate,
+				_audioOutput.GetChannelCount(),
+				_audioOutput.MaxConcurrentNotes);
+		}
+	}
 }

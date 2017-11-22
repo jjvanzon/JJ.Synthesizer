@@ -2,125 +2,125 @@
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-    internal class OperatorDtoVisitor_InfrastructureVariables : OperatorDtoVisitorBase
-    {
-        private readonly int _targetSamplingRate;
-        private readonly double _nyquistFrequency;
-        private readonly int _targetChannelCount;
+	internal class OperatorDtoVisitor_InfrastructureVariables : OperatorDtoVisitorBase
+	{
+		private readonly int _targetSamplingRate;
+		private readonly double _nyquistFrequency;
+		private readonly int _targetChannelCount;
 
-        public OperatorDtoVisitor_InfrastructureVariables(int targetSamplingRate, int targetChannelCount)
-        {
-            _targetSamplingRate = targetSamplingRate;
-            _targetChannelCount = targetChannelCount;
-            _nyquistFrequency = targetSamplingRate / 2.0;
-        }
+		public OperatorDtoVisitor_InfrastructureVariables(int targetSamplingRate, int targetChannelCount)
+		{
+			_targetSamplingRate = targetSamplingRate;
+			_targetChannelCount = targetChannelCount;
+			_nyquistFrequency = targetSamplingRate / 2.0;
+		}
 
-        public void Execute(IOperatorDto dto)
-        {
-            Visit_OperatorDto_Polymorphic(dto);
-        }
+		public void Execute(IOperatorDto dto)
+		{
+			Visit_OperatorDto_Polymorphic(dto);
+		}
 
-        protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
-        {
-            return WithAlreadyProcessedCheck(dto, () => base.Visit_OperatorDto_Polymorphic(dto));
-        }
+		protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
+		{
+			return WithAlreadyProcessedCheck(dto, () => base.Visit_OperatorDto_Polymorphic(dto));
+		}
 
-        // GetPosition
+		// GetPosition
 
-        protected override IOperatorDto Visit_GetPosition_OperatorDto(GetPosition_OperatorDto dto)
-        {
-            dto.SamplingRate = _targetSamplingRate;
+		protected override IOperatorDto Visit_GetPosition_OperatorDto(GetPosition_OperatorDto dto)
+		{
+			dto.SamplingRate = _targetSamplingRate;
 
-            return base.Visit_GetPosition_OperatorDto(dto);
-        }
+			return base.Visit_GetPosition_OperatorDto(dto);
+		}
 
-        // Filters
+		// Filters
 
-        protected override IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto)
-        {
-            return Process_Filter_OperatorDto_VarSound(dto);
-        }
+		protected override IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto)
+		{
+			return Process_Filter_OperatorDto_VarSound(dto);
+		}
 
-        protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
-        {
-            return Process_Filter_OperatorDto_VarSound(dto);
-        }
+		protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto(BandPassFilterConstantPeakGain_OperatorDto dto)
+		{
+			return Process_Filter_OperatorDto_VarSound(dto);
+		}
 
-        protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto(BandPassFilterConstantTransitionGain_OperatorDto dto)
-        {
-            return Process_Filter_OperatorDto_VarSound(dto);
-        }
+		protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto(BandPassFilterConstantTransitionGain_OperatorDto dto)
+		{
+			return Process_Filter_OperatorDto_VarSound(dto);
+		}
 
-        protected override IOperatorDto Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto)
-        {
-            return Process_Filter_OperatorDto_VarSound(dto);
-        }
+		protected override IOperatorDto Visit_HighPassFilter_OperatorDto(HighPassFilter_OperatorDto dto)
+		{
+			return Process_Filter_OperatorDto_VarSound(dto);
+		}
 
-        protected override IOperatorDto Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto)
-        {
-            return Process_Filter_OperatorDto_VarSound(dto);
-        }
+		protected override IOperatorDto Visit_HighShelfFilter_OperatorDto(HighShelfFilter_OperatorDto dto)
+		{
+			return Process_Filter_OperatorDto_VarSound(dto);
+		}
 
-        protected override IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto)
-        {
-            return Process_Filter_OperatorDto_VarSound(dto);
-        }
+		protected override IOperatorDto Visit_LowPassFilter_OperatorDto(LowPassFilter_OperatorDto dto)
+		{
+			return Process_Filter_OperatorDto_VarSound(dto);
+		}
 
-        protected override IOperatorDto Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto)
-        {
-            return Process_Filter_OperatorDto_VarSound(dto);
-        }
+		protected override IOperatorDto Visit_LowShelfFilter_OperatorDto(LowShelfFilter_OperatorDto dto)
+		{
+			return Process_Filter_OperatorDto_VarSound(dto);
+		}
 
-        protected override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)
-        {
-            return Process_Filter_OperatorDto_VarSound(dto);
-        }
+		protected override IOperatorDto Visit_NotchFilter_OperatorDto(NotchFilter_OperatorDto dto)
+		{
+			return Process_Filter_OperatorDto_VarSound(dto);
+		}
 
-        protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto)
-        {
-            return Process_Filter_OperatorDto_VarSound(dto);
-        }
+		protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto(PeakingEQFilter_OperatorDto dto)
+		{
+			return Process_Filter_OperatorDto_VarSound(dto);
+		}
 
-        private IOperatorDto Process_Filter_OperatorDto_VarSound(OperatorDtoBase_Filter_VarSound dto)
-        {
-            dto.TargetSamplingRate = _targetSamplingRate;
-            dto.NyquistFrequency = _nyquistFrequency;
+		private IOperatorDto Process_Filter_OperatorDto_VarSound(OperatorDtoBase_Filter_VarSound dto)
+		{
+			dto.TargetSamplingRate = _targetSamplingRate;
+			dto.NyquistFrequency = _nyquistFrequency;
 
-            return base.Visit_OperatorDto_Base(dto);
-        }
+			return base.Visit_OperatorDto_Base(dto);
+		}
 
-        // Samples
+		// Samples
 
-        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto(SampleWithRate1_OperatorDto dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
+		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto(SampleWithRate1_OperatorDto dto)
+		{
+			return Process_OperatorDto_WithTargetChannelCount(dto);
+		}
 
-        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
+		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto)
+		{
+			return Process_OperatorDto_WithTargetChannelCount(dto);
+		}
 
-        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
+		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto)
+		{
+			return Process_OperatorDto_WithTargetChannelCount(dto);
+		}
 
-        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
+		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto)
+		{
+			return Process_OperatorDto_WithTargetChannelCount(dto);
+		}
 
-        protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto)
-        {
-            return Process_OperatorDto_WithTargetChannelCount(dto);
-        }
+		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto)
+		{
+			return Process_OperatorDto_WithTargetChannelCount(dto);
+		}
 
-        private IOperatorDto Process_OperatorDto_WithTargetChannelCount(IOperatorDto_WithTargetChannelCount dto)
-        {
-            dto.TargetChannelCount = _targetChannelCount;
+		private IOperatorDto Process_OperatorDto_WithTargetChannelCount(IOperatorDto_WithTargetChannelCount dto)
+		{
+			dto.TargetChannelCount = _targetChannelCount;
 
-            return dto;
-        }
-    }
+			return dto;
+		}
+	}
 }

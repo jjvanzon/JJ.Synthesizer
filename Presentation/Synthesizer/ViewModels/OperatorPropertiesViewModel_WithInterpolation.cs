@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class OperatorPropertiesViewModel_WithInterpolation : OperatorPropertiesViewModelBase
-    {
-        public IDAndName Interpolation { get; set; }
-        public IList<IDAndName> InterpolationLookup { get; set; }
-    }
+	public sealed class OperatorPropertiesViewModel_WithInterpolation : OperatorPropertiesViewModelBase
+	{
+		public IDAndName Interpolation { get; set; }
+		public IList<IDAndName> InterpolationLookup { get; set; }
+	}
 }

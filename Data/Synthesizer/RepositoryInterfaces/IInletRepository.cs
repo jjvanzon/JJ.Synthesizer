@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface IInletRepository : IRepository<Inlet, int>
-    { }
+	public interface IInletRepository : IRepository<Inlet, int>
+	{ }
 }

@@ -5,16 +5,16 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 {
-    internal class DocumentReferenceValidator_Basic : VersatileValidator
-    {
-        public DocumentReferenceValidator_Basic(DocumentReference documentReference) 
-        {
-            if (documentReference == null) throw new NullException(() => documentReference);
+	internal class DocumentReferenceValidator_Basic : VersatileValidator
+	{
+		public DocumentReferenceValidator_Basic(DocumentReference documentReference) 
+		{
+			if (documentReference == null) throw new NullException(() => documentReference);
 
-            ExecuteValidator(new NameValidator(documentReference.Alias, ResourceFormatter.Alias, required: false));
+			ExecuteValidator(new NameValidator(documentReference.Alias, ResourceFormatter.Alias, required: false));
 
-            For(documentReference.HigherDocument, ResourceFormatter.HigherDocument).NotNull();
-            For(documentReference.LowerDocument, ResourceFormatter.Library).NotNull();
-        }
-    }
+			For(documentReference.HigherDocument, ResourceFormatter.HigherDocument).NotNull();
+			For(documentReference.LowerDocument, ResourceFormatter.Library).NotNull();
+		}
+	}
 }

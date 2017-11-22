@@ -4,10 +4,10 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-    public class PatchRepository : RepositoryBase<Patch, int>, IPatchRepository
-    {
-        public PatchRepository(IContext context)
-            : base(context)
-        { }
-    }
+	public class PatchRepository : RepositoryBase<Patch, int>, IPatchRepository
+	{
+		public PatchRepository(IContext context)
+			: base(context)
+		{ }
+	}
 }

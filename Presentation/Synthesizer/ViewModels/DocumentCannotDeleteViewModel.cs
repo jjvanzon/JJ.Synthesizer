@@ -2,8 +2,8 @@
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public class DocumentCannotDeleteViewModel : ViewModelBase
-    {
-        public IDAndName Document { get; set; }
-    }
+	public class DocumentCannotDeleteViewModel : ViewModelBase
+	{
+		public IDAndName Document { get; set; }
+	}
 }

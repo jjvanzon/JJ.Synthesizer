@@ -2,8 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class GreaterThanOrEqual_OperatorDto : OperatorDtoBase_WithAAndB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.GreaterThanOrEqual;
-    }
+	internal class GreaterThanOrEqual_OperatorDto : OperatorDtoBase_WithAAndB
+	{
+		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.GreaterThanOrEqual;
+	}
 }

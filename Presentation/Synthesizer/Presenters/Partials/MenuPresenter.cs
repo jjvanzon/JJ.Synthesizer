@@ -3,12 +3,12 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.Presenters.Partials
 {
-    internal class MenuPresenter
-    {
-        public MenuViewModel Show(bool documentIsOpen)
-        {
-            MenuViewModel viewModel = ToViewModelHelper.CreateMenuViewModel(documentIsOpen);
-            return viewModel;
-        }
-    }
+	internal class MenuPresenter
+	{
+		public MenuViewModel Show(bool documentIsOpen)
+		{
+			MenuViewModel viewModel = ToViewModelHelper.CreateMenuViewModel(documentIsOpen);
+			return viewModel;
+		}
+	}
 }

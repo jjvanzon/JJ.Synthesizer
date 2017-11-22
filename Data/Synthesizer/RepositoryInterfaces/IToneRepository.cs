@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface IToneRepository : IRepository<Tone, int>
-    { }
+	public interface IToneRepository : IRepository<Tone, int>
+	{ }
 }

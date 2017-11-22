@@ -5,24 +5,24 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
-    internal class Int16AudioFileOutputCalculator : AudioFileOutputCalculatorBase
-    {
-        public Int16AudioFileOutputCalculator(IList<IPatchCalculator> patchCalculators)
-            : base(patchCalculators)
-        { }
+	internal class Int16AudioFileOutputCalculator : AudioFileOutputCalculatorBase
+	{
+		public Int16AudioFileOutputCalculator(IList<IPatchCalculator> patchCalculators)
+			: base(patchCalculators)
+		{ }
 
-        protected override void WriteValue(BinaryWriter binaryWriter, double value)
-        {
-            if (value < short.MinValue) value = short.MinValue;
-            if (value > short.MaxValue) value = short.MaxValue;
+		protected override void WriteValue(BinaryWriter binaryWriter, double value)
+		{
+			if (value < short.MinValue) value = short.MinValue;
+			if (value > short.MaxValue) value = short.MaxValue;
 
-            short convertedValue = (short)value;
-            binaryWriter.Write(convertedValue);
-        }
+			short convertedValue = (short)value;
+			binaryWriter.Write(convertedValue);
+		}
 
-        protected override double GetAmplifierAdjustedToSampleDataType(AudioFileOutput audioFileOutput)
-        {
-            return audioFileOutput.Amplifier * short.MaxValue;
-        }
-    }
+		protected override double GetAmplifierAdjustedToSampleDataType(AudioFileOutput audioFileOutput)
+		{
+			return audioFileOutput.Amplifier * short.MaxValue;
+		}
+	}
 }

@@ -8,215 +8,215 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public static partial class ValidationHelper
-    {
-        // AudioFileOutput
+	public static partial class ValidationHelper
+	{
+		// AudioFileOutput
 
-        public static bool AudioFileOutputNameIsUnique(AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+		public static bool AudioFileOutputNameIsUnique(AudioFileOutput audioFileOutput)
+		{
+			if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
-            bool isUnique = AudioFileOutputNameIsUnique(audioFileOutput.Document, audioFileOutput.Name);
-            return isUnique;
-        }
+			bool isUnique = AudioFileOutputNameIsUnique(audioFileOutput.Document, audioFileOutput.Name);
+			return isUnique;
+		}
 
-        public static bool AudioFileOutputNameIsUnique(Document document, string name)
-        {
-            if (document == null) throw new NullException(() => document);
+		public static bool AudioFileOutputNameIsUnique(Document document, string name)
+		{
+			if (document == null) throw new NullException(() => document);
 
-            bool isUnique = NameIsUnique(document.AudioFileOutputs.Select(x => x.Name), name);
+			bool isUnique = NameIsUnique(document.AudioFileOutputs.Select(x => x.Name), name);
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static IList<string> GetDuplicateAudioFileOutputNames(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
+		public static IList<string> GetDuplicateAudioFileOutputNames(Document document)
+		{
+			if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = GetDuplicateNames(document.AudioFileOutputs.Select(x => x.Name));
+			IList<string> duplicateNames = GetDuplicateNames(document.AudioFileOutputs.Select(x => x.Name));
 
-            return duplicateNames;
-        }
+			return duplicateNames;
+		}
 
-        // Document
+		// Document
 
-        public static bool DocumentNameIsUnique(Document document, IDocumentRepository documentRepository)
-        {
-            bool isUnique = DocumentNameIsUnique(document, documentRepository, document.Name);
+		public static bool DocumentNameIsUnique(Document document, IDocumentRepository documentRepository)
+		{
+			bool isUnique = DocumentNameIsUnique(document, documentRepository, document.Name);
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static bool DocumentNameIsUnique(Document document, IDocumentRepository documentRepository, string name)
-        {
-            if (document == null) throw new NullException(() => document);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+		public static bool DocumentNameIsUnique(Document document, IDocumentRepository documentRepository, string name)
+		{
+			if (document == null) throw new NullException(() => document);
+			if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            IList<Document> documents = documentRepository.GetAll();
+			IList<Document> documents = documentRepository.GetAll();
 
-            string canonicalName = NameHelper.ToCanonical(name);
+			string canonicalName = NameHelper.ToCanonical(name);
 
-            bool alreadyExists = documents.Where(x => x.ID != document.ID)
-                                          .Select(x => x.Name)
-                                          .Where(x => NameHelper.AreEqual(x, canonicalName))
-                                          .Any();
+			bool alreadyExists = documents.Where(x => x.ID != document.ID)
+										  .Select(x => x.Name)
+										  .Where(x => NameHelper.AreEqual(x, canonicalName))
+										  .Any();
 
-            bool isUnique = !alreadyExists;
+			bool isUnique = !alreadyExists;
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        // DocumentReference
+		// DocumentReference
 
-        public static bool DocumentReference_LowerDocument_IsUnique(DocumentReference documentReference)
-        {
-            if (documentReference == null) throw new NullException(() => documentReference);
+		public static bool DocumentReference_LowerDocument_IsUnique(DocumentReference documentReference)
+		{
+			if (documentReference == null) throw new NullException(() => documentReference);
 
-            if (documentReference.HigherDocument == null)
-            {
-                return true;
-            }
+			if (documentReference.HigherDocument == null)
+			{
+				return true;
+			}
 
-            bool isUnique = DocumentReference_LowerDocument_IsUnique(documentReference.HigherDocument, documentReference.LowerDocument);
+			bool isUnique = DocumentReference_LowerDocument_IsUnique(documentReference.HigherDocument, documentReference.LowerDocument);
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static bool DocumentReference_LowerDocument_IsUnique(Document higherDocument, Document lowerDocument)
-        {
-            if (higherDocument == null) throw new NullException(() => higherDocument);
+		public static bool DocumentReference_LowerDocument_IsUnique(Document higherDocument, Document lowerDocument)
+		{
+			if (higherDocument == null) throw new NullException(() => higherDocument);
 
-            int count = higherDocument.LowerDocumentReferences
-                                      .Where(x => x.LowerDocument?.ID == lowerDocument?.ID)
-                                      .Take(2)
-                                      .Count();
+			int count = higherDocument.LowerDocumentReferences
+									  .Where(x => x.LowerDocument?.ID == lowerDocument?.ID)
+									  .Take(2)
+									  .Count();
 
-            bool isUnique = count <= 1;
+			bool isUnique = count <= 1;
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static IList<DocumentReference> GetDuplicateLowerDocumentReferences(Document higherDocument)
-        {
-            if (higherDocument == null) throw new NullException(() => higherDocument);
+		public static IList<DocumentReference> GetDuplicateLowerDocumentReferences(Document higherDocument)
+		{
+			if (higherDocument == null) throw new NullException(() => higherDocument);
 
-            IList<DocumentReference> duplicates = higherDocument.LowerDocumentReferences
-                                                                .GroupBy(x => x.LowerDocument)
-                                                                .Where(x => x.Count() > 1)
-                                                                .Select(x => x.First())
-                                                                .ToArray();
-            return duplicates;
-        }
+			IList<DocumentReference> duplicates = higherDocument.LowerDocumentReferences
+																.GroupBy(x => x.LowerDocument)
+																.Where(x => x.Count() > 1)
+																.Select(x => x.First())
+																.ToArray();
+			return duplicates;
+		}
 
-        public static bool DocumentReferenceAliasIsUnique(DocumentReference documentReference)
-        {
-            if (documentReference == null) throw new NullException(() => documentReference);
+		public static bool DocumentReferenceAliasIsUnique(DocumentReference documentReference)
+		{
+			if (documentReference == null) throw new NullException(() => documentReference);
 
-            if (documentReference.HigherDocument == null)
-            {
-                return true;
-            }
+			if (documentReference.HigherDocument == null)
+			{
+				return true;
+			}
 
-            bool isUnique = DocumentReferenceAliasIsUnique(documentReference.HigherDocument, documentReference.Alias);
+			bool isUnique = DocumentReferenceAliasIsUnique(documentReference.HigherDocument, documentReference.Alias);
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static bool DocumentReferenceAliasIsUnique(Document document, string alias)
-        {
-            if (document == null) throw new NullException(() => document);
+		public static bool DocumentReferenceAliasIsUnique(Document document, string alias)
+		{
+			if (document == null) throw new NullException(() => document);
 
-            bool isUnique = NameIsUnique(document.LowerDocumentReferences.GetFilledInAliases(), alias);
+			bool isUnique = NameIsUnique(document.LowerDocumentReferences.GetFilledInAliases(), alias);
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static IList<string> GetDuplicateLowerDocumentReferenceAliases(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
+		public static IList<string> GetDuplicateLowerDocumentReferenceAliases(Document document)
+		{
+			if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateAliases = GetDuplicateNames(document.LowerDocumentReferences.GetFilledInAliases());
+			IList<string> duplicateAliases = GetDuplicateNames(document.LowerDocumentReferences.GetFilledInAliases());
 
-            return duplicateAliases;
-        }
+			return duplicateAliases;
+		}
 
-        // Patch
+		// Patch
 
-        public static bool PatchNameIsUnique(Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
+		public static bool PatchNameIsUnique(Patch patch)
+		{
+			if (patch == null) throw new NullException(() => patch);
 
-            bool isUnique = PatchNameIsUnique(patch.Document, patch.Name);
+			bool isUnique = PatchNameIsUnique(patch.Document, patch.Name);
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static bool PatchNameIsUnique(Document document, string name)
-        {
-            if (document == null) throw new NullException(() => document);
+		public static bool PatchNameIsUnique(Document document, string name)
+		{
+			if (document == null) throw new NullException(() => document);
 
-            bool isUnique = NameIsUnique(document.Patches.Select(x => x.Name), name);
+			bool isUnique = NameIsUnique(document.Patches.Select(x => x.Name), name);
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static IList<string> GetDuplicatePatchNames(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
+		public static IList<string> GetDuplicatePatchNames(Document document)
+		{
+			if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = GetDuplicateNames(document.Patches.Select(x => x.Name));
+			IList<string> duplicateNames = GetDuplicateNames(document.Patches.Select(x => x.Name));
 
-            return duplicateNames;
-        }
+			return duplicateNames;
+		}
 
-        // Scale
+		// Scale
 
-        public static bool ScaleNameIsUnique(Scale scale)
-        {
-            if (scale == null) throw new NullException(() => scale);
+		public static bool ScaleNameIsUnique(Scale scale)
+		{
+			if (scale == null) throw new NullException(() => scale);
 
-            bool isUnique = ScaleNameIsUnique(scale.Document, scale.Name);
+			bool isUnique = ScaleNameIsUnique(scale.Document, scale.Name);
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static bool ScaleNameIsUnique(Document document, string name)
-        {
-            if (document == null) throw new NullException(() => document);
+		public static bool ScaleNameIsUnique(Document document, string name)
+		{
+			if (document == null) throw new NullException(() => document);
 
-            bool isUnique = NameIsUnique(document.Scales.Select(x => x.Name), name);
+			bool isUnique = NameIsUnique(document.Scales.Select(x => x.Name), name);
 
-            return isUnique;
-        }
+			return isUnique;
+		}
 
-        public static IList<string> GetDuplicateScaleNames(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
+		public static IList<string> GetDuplicateScaleNames(Document document)
+		{
+			if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = GetDuplicateNames(document.Scales.Select(x => x.Name));
+			IList<string> duplicateNames = GetDuplicateNames(document.Scales.Select(x => x.Name));
 
-            return duplicateNames;
-        }
+			return duplicateNames;
+		}
 
-        // General
+		// General
 
-        private static IList<string> GetDuplicateNames(IEnumerable<string> nameEnumerable)
-        {
-            IList<string> duplicateNames = nameEnumerable.GroupBy(x => NameHelper.ToCanonical(x))
-                                                         .Where(x => x.Count() > 1)
-                                                         .Select(x => x.First())
-                                                         .ToArray();
-            return duplicateNames;
-        }
+		private static IList<string> GetDuplicateNames(IEnumerable<string> nameEnumerable)
+		{
+			IList<string> duplicateNames = nameEnumerable.GroupBy(x => NameHelper.ToCanonical(x))
+														 .Where(x => x.Count() > 1)
+														 .Select(x => x.First())
+														 .ToArray();
+			return duplicateNames;
+		}
 
-        private static bool NameIsUnique(IEnumerable<string> nameEnumerable, string name)
-        {
-            string canonicalName = NameHelper.ToCanonical(name);
+		private static bool NameIsUnique(IEnumerable<string> nameEnumerable, string name)
+		{
+			string canonicalName = NameHelper.ToCanonical(name);
 
-            int nameCount = nameEnumerable.Where(x => string.Equals(NameHelper.ToCanonical(x), canonicalName))
-                                          .Take(2)
-                                          .Count();
-            return nameCount <= 1;
-        }
-    }
+			int nameCount = nameEnumerable.Where(x => string.Equals(NameHelper.ToCanonical(x), canonicalName))
+										  .Take(2)
+										  .Count();
+			return nameCount <= 1;
+		}
+	}
 }

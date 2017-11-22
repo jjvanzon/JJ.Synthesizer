@@ -4,10 +4,10 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-    public class ToneRepository : RepositoryBase<Tone, int>, IToneRepository
-    {
-        public ToneRepository(IContext context)
-            : base(context)
-        { }
-    }
+	public class ToneRepository : RepositoryBase<Tone, int>, IToneRepository
+	{
+		public ToneRepository(IContext context)
+			: base(context)
+		{ }
+	}
 }

@@ -9,54 +9,54 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class DocumentPropertiesPresenter : EntityPresenterWithSaveBase<Document, DocumentPropertiesViewModel>
-    {
-        private readonly RepositoryWrapper _repositories;
-        private readonly DocumentManager _documentManager;
-        private readonly AutoPatcher _autoPatcher;
+	internal class DocumentPropertiesPresenter : EntityPresenterWithSaveBase<Document, DocumentPropertiesViewModel>
+	{
+		private readonly RepositoryWrapper _repositories;
+		private readonly DocumentManager _documentManager;
+		private readonly AutoPatcher _autoPatcher;
 
-        public DocumentPropertiesPresenter(RepositoryWrapper repositories)
-        {
-            _repositories = repositories ?? throw new NullException(() => repositories);
-            _documentManager = new DocumentManager(repositories);
-            _autoPatcher = new AutoPatcher(_repositories);
-        }
+		public DocumentPropertiesPresenter(RepositoryWrapper repositories)
+		{
+			_repositories = repositories ?? throw new NullException(() => repositories);
+			_documentManager = new DocumentManager(repositories);
+			_autoPatcher = new AutoPatcher(_repositories);
+		}
 
-        protected override Document GetEntity(DocumentPropertiesViewModel userInput)
-        {
-            return _repositories.DocumentRepository.Get(userInput.Entity.ID);
-        }
+		protected override Document GetEntity(DocumentPropertiesViewModel userInput)
+		{
+			return _repositories.DocumentRepository.Get(userInput.Entity.ID);
+		}
 
-        protected override DocumentPropertiesViewModel ToViewModel(Document entity)
-        {
-            return entity.ToPropertiesViewModel();
-        }
+		protected override DocumentPropertiesViewModel ToViewModel(Document entity)
+		{
+			return entity.ToPropertiesViewModel();
+		}
 
-        protected override IResult Save(Document entity)
-        {
-            return _documentManager.Save(entity);
-        }
+		protected override IResult Save(Document entity)
+		{
+			return _documentManager.Save(entity);
+		}
 
-        public DocumentPropertiesViewModel Play(DocumentPropertiesViewModel userInput)
-        {
-            Outlet outlet = null;
+		public DocumentPropertiesViewModel Play(DocumentPropertiesViewModel userInput)
+		{
+			Outlet outlet = null;
 
-            return ExecuteAction(
-                userInput,
-                entity =>
-                {
-                    Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(entity, mustIncludeHidden: true);
-                    outlet = result.Data;
-                    if (outlet != null)
-                    {
-                        _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
-                    }
-                    return null;
-                },
-                viewModel =>
-                {
-                    viewModel.OutletIDToPlay = outlet?.ID;
-                });
-        }
-    }
+			return ExecuteAction(
+				userInput,
+				entity =>
+				{
+					Result<Outlet> result = _autoPatcher.TryAutoPatchFromDocumentRandomly(entity, mustIncludeHidden: true);
+					outlet = result.Data;
+					if (outlet != null)
+					{
+						_autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
+					}
+					return null;
+				},
+				viewModel =>
+				{
+					viewModel.OutletIDToPlay = outlet?.ID;
+				});
+		}
+	}
 }

@@ -4,10 +4,10 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-    public class InletRepository : RepositoryBase<Inlet, int>, IInletRepository
-    {
-        public InletRepository(IContext context)
-            : base(context)
-        { }
-    }
+	public class InletRepository : RepositoryBase<Inlet, int>, IInletRepository
+	{
+		public InletRepository(IContext context)
+			: base(context)
+		{ }
+	}
 }

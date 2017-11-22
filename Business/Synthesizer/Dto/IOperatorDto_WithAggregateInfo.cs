@@ -1,7 +1,7 @@
 ﻿namespace JJ.Business.Synthesizer.Dto
 {
-    internal interface IOperatorDto_WithAggregateInfo : IOperatorDto
-    {
-        AggregateInfo GetAggregateInfo();
-    }
+	internal interface IOperatorDto_WithAggregateInfo : IOperatorDto
+	{
+		AggregateInfo GetAggregateInfo();
+	}
 }

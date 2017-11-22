@@ -8,27 +8,27 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 {
-    public class OperatorDtoToOperatorCalculatorVisitor
-    {
-        private readonly DimensionStack _dimensionStack;
+	public class OperatorDtoToOperatorCalculatorVisitor
+	{
+		private readonly DimensionStack _dimensionStack;
 
-        public OperatorDtoToOperatorCalculatorVisitor(DimensionStack dimensionStack)
-        {
-            _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
-        }
+		public OperatorDtoToOperatorCalculatorVisitor(DimensionStack dimensionStack)
+		{
+			_dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
+		}
 
-        public IOperatorCalculator Execute(IOperatorDto sourceOperatorDto)
-        {
-            var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
-            sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);
+		public IOperatorCalculator Execute(IOperatorDto sourceOperatorDto)
+		{
+			var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
+			sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);
 
-            Type destOperatorCalculatorType_ClosedGeneric = OperatorDtoToCalculatorTypeConverter.ConvertToClosedGenericType(sourceOperatorDto);
-            IOperatorCalculator destOperatorCalculator = (IOperatorCalculator)Activator.CreateInstance(destOperatorCalculatorType_ClosedGeneric);
+			Type destOperatorCalculatorType_ClosedGeneric = OperatorDtoToCalculatorTypeConverter.ConvertToClosedGenericType(sourceOperatorDto);
+			IOperatorCalculator destOperatorCalculator = (IOperatorCalculator)Activator.CreateInstance(destOperatorCalculatorType_ClosedGeneric);
 
-            var variableAssignmentVisitor = new VariableAssignment_OperatorDtoVisitor(_dimensionStack);
-            destOperatorCalculator = variableAssignmentVisitor.Execute(sourceOperatorDto, destOperatorCalculator);
+			var variableAssignmentVisitor = new VariableAssignment_OperatorDtoVisitor(_dimensionStack);
+			destOperatorCalculator = variableAssignmentVisitor.Execute(sourceOperatorDto, destOperatorCalculator);
 
-            return destOperatorCalculator;
-        }
-    }
+			return destOperatorCalculator;
+		}
+	}
 }

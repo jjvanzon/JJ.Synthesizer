@@ -10,74 +10,74 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class SampleFileBrowserPresenter : PresenterBase<SampleFileBrowserViewModel>
-    {
-        private const float ESTIMATED_OPERATOR_WIDTH = 50f;
-        private const float OPERATOR_HEIGHT = 30f;
+	internal class SampleFileBrowserPresenter : PresenterBase<SampleFileBrowserViewModel>
+	{
+		private const float ESTIMATED_OPERATOR_WIDTH = 50f;
+		private const float OPERATOR_HEIGHT = 30f;
 
-        private readonly RepositoryWrapper _repositories;
-        private readonly AutoPatcher _autoPatcher;
-        private readonly EntityPositionManager _entityPositionManager;
+		private readonly RepositoryWrapper _repositories;
+		private readonly AutoPatcher _autoPatcher;
+		private readonly EntityPositionManager _entityPositionManager;
 
-        public SampleFileBrowserPresenter(AutoPatcher autoPatcher, EntityPositionManager entityPositionManager, RepositoryWrapper repositories)
-        {
-            _autoPatcher = autoPatcher ?? throw new ArgumentNullException(nameof(autoPatcher));
-            _entityPositionManager = entityPositionManager ?? throw new ArgumentNullException(nameof(entityPositionManager));
-            _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
-        }
+		public SampleFileBrowserPresenter(AutoPatcher autoPatcher, EntityPositionManager entityPositionManager, RepositoryWrapper repositories)
+		{
+			_autoPatcher = autoPatcher ?? throw new ArgumentNullException(nameof(autoPatcher));
+			_entityPositionManager = entityPositionManager ?? throw new ArgumentNullException(nameof(entityPositionManager));
+			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
+		}
 
-        public void Cancel(SampleFileBrowserViewModel userInput)
-        {
-            ExecuteNonPersistedAction(userInput, () =>
-            {
-                userInput.Visible = false;
-                userInput.Bytes = new byte[0];
-            });
-        }
+		public void Cancel(SampleFileBrowserViewModel userInput)
+		{
+			ExecuteNonPersistedAction(userInput, () =>
+			{
+				userInput.Visible = false;
+				userInput.Bytes = new byte[0];
+			});
+		}
 
-        public SampleFileBrowserViewModel OK(SampleFileBrowserViewModel userInput)
-        {
-            if (userInput == null) throw new ArgumentNullException(nameof(userInput));
+		public SampleFileBrowserViewModel OK(SampleFileBrowserViewModel userInput)
+		{
+			if (userInput == null) throw new ArgumentNullException(nameof(userInput));
 
-            // RefreshCounter
-            userInput.RefreshID = RefreshIDProvider.GetRefreshID();
+			// RefreshCounter
+			userInput.RefreshID = RefreshIDProvider.GetRefreshID();
 
-            // Set !Successful
-            userInput.Successful = false;
+			// Set !Successful
+			userInput.Successful = false;
 
-            // GetEntities
-            Patch patch = _repositories.PatchRepository.Get(userInput.DestPatchID);
+			// GetEntities
+			Patch patch = _repositories.PatchRepository.Get(userInput.DestPatchID);
 
-            // Business
-            var operatorFactory = new OperatorFactory(patch, _repositories);
-            Operator op = operatorFactory.Sample(userInput.Bytes);
+			// Business
+			var operatorFactory = new OperatorFactory(patch, _repositories);
+			Operator op = operatorFactory.Sample(userInput.Bytes);
 
-            string fileName = Path.GetFileName(userInput.FilePath);
-            op.Name = fileName;
-            op.Sample.Name = fileName;
+			string fileName = Path.GetFileName(userInput.FilePath);
+			op.Name = fileName;
+			op.Sample.Name = fileName;
 
-            _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+			_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
-            // ToViewModel
-            SampleFileBrowserViewModel viewModel = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel();
+			// ToViewModel
+			SampleFileBrowserViewModel viewModel = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel();
 
-            // Non-Persited
-            CopyNonPersistedProperties(userInput, viewModel);
-            viewModel.Visible = false;
+			// Non-Persited
+			CopyNonPersistedProperties(userInput, viewModel);
+			viewModel.Visible = false;
 
-            // Successful
-            viewModel.Successful = true;
+			// Successful
+			viewModel.Successful = true;
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        public override void CopyNonPersistedProperties(SampleFileBrowserViewModel sourceViewModel, SampleFileBrowserViewModel destViewModel)
-        {
-            base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
+		public override void CopyNonPersistedProperties(SampleFileBrowserViewModel sourceViewModel, SampleFileBrowserViewModel destViewModel)
+		{
+			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
-            destViewModel.DestPatchID = sourceViewModel.DestPatchID;
-            destViewModel.Bytes = sourceViewModel.Bytes;
-            destViewModel.FilePath = sourceViewModel.FilePath;
-        }
-    }
+			destViewModel.DestPatchID = sourceViewModel.DestPatchID;
+			destViewModel.Bytes = sourceViewModel.Bytes;
+			destViewModel.FilePath = sourceViewModel.FilePath;
+		}
+	}
 }

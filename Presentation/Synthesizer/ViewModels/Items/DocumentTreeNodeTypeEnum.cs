@@ -1,18 +1,18 @@
 ﻿namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
-    public enum DocumentTreeNodeTypeEnum
-    {
-        Undefined,
-        AudioFileOutputList,
-        AudioOutput,
-        Libraries,
-        Library,
-        LibraryPatch,
-        LibraryPatchGroup,
-        Patch,
+	public enum DocumentTreeNodeTypeEnum
+	{
+		Undefined,
+		AudioFileOutputList,
+		AudioOutput,
+		Libraries,
+		Library,
+		LibraryPatch,
+		LibraryPatchGroup,
+		Patch,
 
-        /// <summary> Includes groupless patches, controlled through the main Patches node. </summary>
-        PatchGroup,
-        Scales,
-    }
+		/// <summary> Includes groupless patches, controlled through the main Patches node. </summary>
+		PatchGroup,
+		Scales,
+	}
 }

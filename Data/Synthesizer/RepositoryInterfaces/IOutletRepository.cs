@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface IOutletRepository : IRepository<Outlet, int>
-    { }
+	public interface IOutletRepository : IRepository<Outlet, int>
+	{ }
 }

@@ -16,268 +16,268 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
 	internal static class ToScreenViewModelExtensions
-    {
-        // AudioFileOutput
+	{
+		// AudioFileOutput
 
-        public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(this AudioFileOutput entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+		public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(this AudioFileOutput entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
-            viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
-            return viewModel;
-        }
+			AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
+			viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
+			return viewModel;
+		}
 
-        private static AudioFileOutputPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this AudioFileOutput entity)
-        {
-            var viewModel = new AudioFileOutputPropertiesViewModel
-            {
-                Entity = entity.ToViewModel(),
-                AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel(),
-                SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel(),
-                SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
-                ValidationMessages = new List<string>()
-            };
+		private static AudioFileOutputPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this AudioFileOutput entity)
+		{
+			var viewModel = new AudioFileOutputPropertiesViewModel
+			{
+				Entity = entity.ToViewModel(),
+				AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel(),
+				SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel(),
+				SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
+				ValidationMessages = new List<string>()
+			};
 
-            if (entity.Document == null) throw new NullException(() => entity.Document);
+			if (entity.Document == null) throw new NullException(() => entity.Document);
 
-            // TODO: Delegate to something in ViewModelHelper_Lookups.cs?
-            IList<Outlet> outlets = entity.Document.Patches
-                                                   .SelectMany(x => x.Operators)
-                                                   .Where(x => x.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
-                                                   .SelectMany(x => x.Outlets)
-                                                   .ToArray();
+			// TODO: Delegate to something in ViewModelHelper_Lookups.cs?
+			IList<Outlet> outlets = entity.Document.Patches
+												   .SelectMany(x => x.Operators)
+												   .Where(x => x.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
+												   .SelectMany(x => x.Outlets)
+												   .ToArray();
 
-            // TODO: This will not cut it, because you only see the operator name on screen, not the patch name.
-            viewModel.OutletLookup = outlets.Select(x => x.ToIDAndName())
-                                            .OrderBy(x => x.Name)
-                                            .ToArray();
-            return viewModel;
-        }
+			// TODO: This will not cut it, because you only see the operator name on screen, not the patch name.
+			viewModel.OutletLookup = outlets.Select(x => x.ToIDAndName())
+											.OrderBy(x => x.Name)
+											.ToArray();
+			return viewModel;
+		}
 
-        public static AudioFileOutputGridViewModel ToAudioFileOutputGridViewModel(this Document document)
-        {
-            if (document == null) throw new ArgumentNullException(nameof(document));
+		public static AudioFileOutputGridViewModel ToAudioFileOutputGridViewModel(this Document document)
+		{
+			if (document == null) throw new ArgumentNullException(nameof(document));
 
-            IList<AudioFileOutput> sortedEntities = document.AudioFileOutputs.OrderBy(x => x.Name).ToList();
+			IList<AudioFileOutput> sortedEntities = document.AudioFileOutputs.OrderBy(x => x.Name).ToList();
 
-            var viewModel = new AudioFileOutputGridViewModel
-            {
-                List = sortedEntities.ToListItemViewModels(),
-                DocumentID = document.ID,
-                ValidationMessages = new List<string>()
-            };
+			var viewModel = new AudioFileOutputGridViewModel
+			{
+				List = sortedEntities.ToListItemViewModels(),
+				DocumentID = document.ID,
+				ValidationMessages = new List<string>()
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // AudioOutput
+		// AudioOutput
 
-        public static AudioOutputPropertiesViewModel ToPropertiesViewModel(this AudioOutput entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+		public static AudioOutputPropertiesViewModel ToPropertiesViewModel(this AudioOutput entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            AudioOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
-            viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
-            return viewModel;
-        }
+			AudioOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
+			viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
+			return viewModel;
+		}
 
-        private static AudioOutputPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this AudioOutput entity)
-        {
-            return new AudioOutputPropertiesViewModel
-            {
-                Entity = entity.ToViewModel(),
-                SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
-                ValidationMessages = new List<string>()
-            };
-        }
+		private static AudioOutputPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this AudioOutput entity)
+		{
+			return new AudioOutputPropertiesViewModel
+			{
+				Entity = entity.ToViewModel(),
+				SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
+				ValidationMessages = new List<string>()
+			};
+		}
 
-        // CurrentInstrument
+		// CurrentInstrument
 
-        public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(this Document higherDocument)
-        {
-            if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
+		public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(this Document higherDocument)
+		{
+			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
 
-            var viewModel = new CurrentInstrumentViewModel
-            {
-                DocumentID = higherDocument.ID,
-                List = new List<CurrentInstrumentItemViewModel>(),
-                ValidationMessages = new List<string>(),
-                Visible = true
-            };
+			var viewModel = new CurrentInstrumentViewModel
+			{
+				DocumentID = higherDocument.ID,
+				List = new List<CurrentInstrumentItemViewModel>(),
+				ValidationMessages = new List<string>(),
+				Visible = true
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(this Document higherDocument, IList<Patch> patches)
-        {
-            if (patches == null) throw new ArgumentNullException(nameof(patches));
-            if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
+		public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(this Document higherDocument, IList<Patch> patches)
+		{
+			if (patches == null) throw new ArgumentNullException(nameof(patches));
+			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
 
-            CurrentInstrumentViewModel viewModel = higherDocument.ToCurrentInstrumentViewModel();
-            bool hasPatches = patches.Count != 0;
-            viewModel.CanPlay = hasPatches;
-            viewModel.CanExpand = hasPatches;
+			CurrentInstrumentViewModel viewModel = higherDocument.ToCurrentInstrumentViewModel();
+			bool hasPatches = patches.Count != 0;
+			viewModel.CanPlay = hasPatches;
+			viewModel.CanExpand = hasPatches;
 
-            // Lookup for Aliases (of DocumentReference by Document).
-            Dictionary<int, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences
-                                                                                           .ToDictionary(x => x.LowerDocument.ID);
-            int lastIndex = patches.Count - 1;
+			// Lookup for Aliases (of DocumentReference by Document).
+			Dictionary<int, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences
+																						   .ToDictionary(x => x.LowerDocument.ID);
+			int lastIndex = patches.Count - 1;
 
-            viewModel.List = patches.Select((x, i) => new CurrentInstrumentItemViewModel
-            {
-                ID = x.ID,
-                Name = getName(x),
-                CanGoBackward = i != 0,
-                CanGoForward = i != lastIndex
-            }).ToList();
+			viewModel.List = patches.Select((x, i) => new CurrentInstrumentItemViewModel
+			{
+				ID = x.ID,
+				Name = getName(x),
+				CanGoBackward = i != 0,
+				CanGoForward = i != lastIndex
+			}).ToList();
 
-            string getName(Patch patch)
-            {
-                Document lowerDocument = patch.Document;
+			string getName(Patch patch)
+			{
+				Document lowerDocument = patch.Document;
 
-                // Not using Document Name or Alias
-                bool mustHideDocumentAliasOrName = lowerDocument.ID == higherDocument.ID ||
-                                                   lowerDocument.IsSystemDocument();
-                if (mustHideDocumentAliasOrName)
-                {
-                    return ResourceFormatter.GetDisplayName(patch);
-                }
+				// Not using Document Name or Alias
+				bool mustHideDocumentAliasOrName = lowerDocument.ID == higherDocument.ID ||
+												   lowerDocument.IsSystemDocument();
+				if (mustHideDocumentAliasOrName)
+				{
+					return ResourceFormatter.GetDisplayName(patch);
+				}
 
-                // Using Document Name or Alias
-                DocumentReference documentReference = documentReferenceDictionary[lowerDocument.ID];
-                return $"{documentReference.GetAliasOrName()} | {patch.Name}";
-            }
+				// Using Document Name or Alias
+				DocumentReference documentReference = documentReferenceDictionary[lowerDocument.ID];
+				return $"{documentReference.GetAliasOrName()} | {patch.Name}";
+			}
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // Curve
+		// Curve
 
-        public static CurveDetailsViewModel ToDetailsViewModel(this Curve entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+		public static CurveDetailsViewModel ToDetailsViewModel(this Curve entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel_WithoutOriginalState();
-            viewModel.OriginalState = entity.ToDetailsViewModel_WithoutOriginalState();
-            return viewModel;
-        }
+			CurveDetailsViewModel viewModel = entity.ToDetailsViewModel_WithoutOriginalState();
+			viewModel.OriginalState = entity.ToDetailsViewModel_WithoutOriginalState();
+			return viewModel;
+		}
 
-        private static CurveDetailsViewModel ToDetailsViewModel_WithoutOriginalState(this Curve entity)
-        {
+		private static CurveDetailsViewModel ToDetailsViewModel_WithoutOriginalState(this Curve entity)
+		{
 
-            var viewModel = new CurveDetailsViewModel
-            {
-                Curve = entity.ToIDAndName(),
-                Nodes = entity.Nodes.ToViewModelDictionary(),
-                NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel(),
-                ValidationMessages = new List<string>()
-            };
+			var viewModel = new CurveDetailsViewModel
+			{
+				Curve = entity.ToIDAndName(),
+				Nodes = entity.Nodes.ToViewModelDictionary(),
+				NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel(),
+				ValidationMessages = new List<string>()
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        public static NodePropertiesViewModel ToPropertiesViewModel(this Node entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+		public static NodePropertiesViewModel ToPropertiesViewModel(this Node entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
-            viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
-            return viewModel;
-        }
+			NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
+			viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
+			return viewModel;
+		}
 
-        private static NodePropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Node entity)
-        {
-            return new NodePropertiesViewModel
-            {
-                CurveID = entity.Curve.ID,
-                Entity = entity.ToViewModel(),
-                ValidationMessages = new List<string>(),
-                NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel()
-            };
-        }
+		private static NodePropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Node entity)
+		{
+			return new NodePropertiesViewModel
+			{
+				CurveID = entity.Curve.ID,
+				Entity = entity.ToViewModel(),
+				ValidationMessages = new List<string>(),
+				NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel()
+			};
+		}
 
-        // Document
+		// Document
 
-        public static DocumentDetailsViewModel ToDetailsViewModel(this Document document)
-        {
-            var viewModel = new DocumentDetailsViewModel
-            {
-                Document = document.ToIDAndName(),
-                AudioOutput = document.AudioOutput.ToViewModel(),
-                SystemLibraryProperties = document.LowerDocumentReferences.Single().ToPropertiesViewModel(),
-                // Single Patch, because this is only used upon creating a new document.
-                Patch = document.Patches.Single().ToIDAndName(),
-                ValidationMessages = new List<string>()
-            };
+		public static DocumentDetailsViewModel ToDetailsViewModel(this Document document)
+		{
+			var viewModel = new DocumentDetailsViewModel
+			{
+				Document = document.ToIDAndName(),
+				AudioOutput = document.AudioOutput.ToViewModel(),
+				SystemLibraryProperties = document.LowerDocumentReferences.Single().ToPropertiesViewModel(),
+				// Single Patch, because this is only used upon creating a new document.
+				Patch = document.Patches.Single().ToIDAndName(),
+				ValidationMessages = new List<string>()
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        public static DocumentPropertiesViewModel ToPropertiesViewModel(this Document document)
-        {
-            if (document == null) throw new ArgumentNullException(nameof(document));
+		public static DocumentPropertiesViewModel ToPropertiesViewModel(this Document document)
+		{
+			if (document == null) throw new ArgumentNullException(nameof(document));
 
-            DocumentPropertiesViewModel viewModel = document.ToPropertiesViewModel_WithoutOriginalState();
-            viewModel.OriginalState = document.ToPropertiesViewModel_WithoutOriginalState();
-            return viewModel;
-        }
+			DocumentPropertiesViewModel viewModel = document.ToPropertiesViewModel_WithoutOriginalState();
+			viewModel.OriginalState = document.ToPropertiesViewModel_WithoutOriginalState();
+			return viewModel;
+		}
 
-        private static DocumentPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Document document)
-        {
-            return new DocumentPropertiesViewModel
-            {
-                Entity = document.ToIDAndName(),
-                ValidationMessages = new List<string>()
-            };
-        }
+		private static DocumentPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Document document)
+		{
+			return new DocumentPropertiesViewModel
+			{
+				Entity = document.ToIDAndName(),
+				ValidationMessages = new List<string>()
+			};
+		}
 
-        public static DocumentDeleteViewModel ToDeleteViewModel(this Document entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+		public static DocumentDeleteViewModel ToDeleteViewModel(this Document entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var viewModel = new DocumentDeleteViewModel
-            {
-                ValidationMessages = new List<string>(),
-                Document = new IDAndName
-                {
-                    ID = entity.ID,
-                    Name = entity.Name,
-                }
-            };
+			var viewModel = new DocumentDeleteViewModel
+			{
+				ValidationMessages = new List<string>(),
+				Document = new IDAndName
+				{
+					ID = entity.ID,
+					Name = entity.Name,
+				}
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        public static DocumentCannotDeleteViewModel ToCannotDeleteViewModel(this Document entity, IList<string> messages)
-        {
-            if (messages == null) throw new ArgumentNullException(nameof(messages));
+		public static DocumentCannotDeleteViewModel ToCannotDeleteViewModel(this Document entity, IList<string> messages)
+		{
+			if (messages == null) throw new ArgumentNullException(nameof(messages));
 
-            var viewModel = new DocumentCannotDeleteViewModel
-            {
-                Document = entity.ToIDAndName(),
-                ValidationMessages = messages
-            };
+			var viewModel = new DocumentCannotDeleteViewModel
+			{
+				Document = entity.ToIDAndName(),
+				ValidationMessages = messages
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        public static DocumentGridViewModel ToGridViewModel(this IList<Document> entities)
-        {
-            if (entities == null) throw new ArgumentNullException(nameof(entities));
+		public static DocumentGridViewModel ToGridViewModel(this IList<Document> entities)
+		{
+			if (entities == null) throw new ArgumentNullException(nameof(entities));
 
-            var viewModel = new DocumentGridViewModel
-            {
-                List = entities.Select(x => x.ToIDAndName()).ToList(),
-                ValidationMessages = new List<string>()
-            };
+			var viewModel = new DocumentGridViewModel
+			{
+				List = entities.Select(x => x.ToIDAndName()).ToList(),
+				ValidationMessages = new List<string>()
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // Library
+		// Library
 
-        public static LibraryPropertiesViewModel ToPropertiesViewModel(this DocumentReference documentReference)
+		public static LibraryPropertiesViewModel ToPropertiesViewModel(this DocumentReference documentReference)
 		{
 			if (documentReference == null) throw new ArgumentNullException(nameof(documentReference));
 
@@ -287,169 +287,169 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static LibraryPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this DocumentReference documentReference)
-	    {
-		    return new LibraryPropertiesViewModel
-		    {
-			    DocumentReferenceID = documentReference.ID,
-			    LowerDocumentID = documentReference.LowerDocument.ID,
-			    Name = documentReference.LowerDocument.Name,
-			    Alias = documentReference.Alias,
-			    ValidationMessages = new List<string>()
-		    };
-	    }
+		{
+			return new LibraryPropertiesViewModel
+			{
+				DocumentReferenceID = documentReference.ID,
+				LowerDocumentID = documentReference.LowerDocument.ID,
+				Name = documentReference.LowerDocument.Name,
+				Alias = documentReference.Alias,
+				ValidationMessages = new List<string>()
+			};
+		}
 
-	    public static LibrarySelectionPopupViewModel ToLibrarySelectionPopupViewModel(
-            this Document higherDocument, 
-            IList<Document> lowerDocumentCandidates)
-        {
-            if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
-            if (lowerDocumentCandidates == null) throw new ArgumentNullException(nameof(lowerDocumentCandidates));
+		public static LibrarySelectionPopupViewModel ToLibrarySelectionPopupViewModel(
+			this Document higherDocument, 
+			IList<Document> lowerDocumentCandidates)
+		{
+			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
+			if (lowerDocumentCandidates == null) throw new ArgumentNullException(nameof(lowerDocumentCandidates));
 
-            var viewModel = new LibrarySelectionPopupViewModel
-            {
-                HigherDocumentID = higherDocument.ID,
-                List = ToListItemViewModelExtensions.ToIDAndNameList(lowerDocumentCandidates),
-                ValidationMessages = new List<string>()
-            };
+			var viewModel = new LibrarySelectionPopupViewModel
+			{
+				HigherDocumentID = higherDocument.ID,
+				List = ToListItemViewModelExtensions.ToIDAndNameList(lowerDocumentCandidates),
+				ValidationMessages = new List<string>()
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        /// <summary> The list will be empty, but still the HigherDocumentID property will be filled in. </summary>
-        public static LibrarySelectionPopupViewModel ToEmptyLibrarySelectionPopupViewModel(this Document higherDocument)
-        {
-            if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
+		/// <summary> The list will be empty, but still the HigherDocumentID property will be filled in. </summary>
+		public static LibrarySelectionPopupViewModel ToEmptyLibrarySelectionPopupViewModel(this Document higherDocument)
+		{
+			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
 
-            LibrarySelectionPopupViewModel viewModel = ToViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
-            viewModel.HigherDocumentID = higherDocument.ID;
+			LibrarySelectionPopupViewModel viewModel = ToViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
+			viewModel.HigherDocumentID = higherDocument.ID;
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // Operator
+		// Operator
 
-        /// <summary> Converts to properties view models, the operators that do not have a specialized properties view. </summary>
-        public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WitStandardPropertiesView(this Patch patch)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		/// <summary> Converts to properties view models, the operators that do not have a specialized properties view. </summary>
+		public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WitStandardPropertiesView(this Patch patch)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            var viewModels = new List<OperatorPropertiesViewModel>();
+			var viewModels = new List<OperatorPropertiesViewModel>();
 
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (Operator op in patch.Operators)
-            {
-                // ReSharper disable once InvertIf
-                if (ToViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(op.GetOperatorTypeEnum()))
-                {
-                    OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
-                    viewModels.Add(viewModel);
-                }
-            }
+			// ReSharper disable once LoopCanBeConvertedToQuery
+			foreach (Operator op in patch.Operators)
+			{
+				// ReSharper disable once InvertIf
+				if (ToViewModelHelper.OperatorTypeEnums_WithStandardPropertiesView.Contains(op.GetOperatorTypeEnum()))
+				{
+					OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
+					viewModels.Add(viewModel);
+				}
+			}
 
-            return viewModels;
-        }
+			return viewModels;
+		}
 
-        public static IList<OperatorPropertiesViewModel_ForCache> ToPropertiesViewModelList_ForCaches(
-            this Patch patch,
-            IInterpolationTypeRepository interpolationTypeRepository)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		public static IList<OperatorPropertiesViewModel_ForCache> ToPropertiesViewModelList_ForCaches(
+			this Patch patch,
+			IInterpolationTypeRepository interpolationTypeRepository)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Cache)
-                        .Select(x => x.ToPropertiesViewModel_ForCache(interpolationTypeRepository))
-                        .ToList();
-        }
+			return patch.GetOperatorsOfType(OperatorTypeEnum.Cache)
+						.Select(x => x.ToPropertiesViewModel_ForCache(interpolationTypeRepository))
+						.ToList();
+		}
 
-        public static IList<OperatorPropertiesViewModel_ForCurve> ToPropertiesViewModelList_ForCurves(
-            this Patch patch,
-            ICurveRepository curveRepository)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		public static IList<OperatorPropertiesViewModel_ForCurve> ToPropertiesViewModelList_ForCurves(
+			this Patch patch,
+			ICurveRepository curveRepository)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Curve)
-                        .Select(x => x.ToPropertiesViewModel_ForCurve(curveRepository))
-                        .ToList();
-        }
+			return patch.GetOperatorsOfType(OperatorTypeEnum.Curve)
+						.Select(x => x.ToPropertiesViewModel_ForCurve(curveRepository))
+						.ToList();
+		}
 
-        public static IList<OperatorPropertiesViewModel_ForInletsToDimension> ToPropertiesViewModelList_ForInletsToDimension(this Patch patch)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		public static IList<OperatorPropertiesViewModel_ForInletsToDimension> ToPropertiesViewModelList_ForInletsToDimension(this Patch patch)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.InletsToDimension)
-                        .Select(x => x.ToPropertiesViewModel_ForInletsToDimension())
-                        .ToList();
-        }
+			return patch.GetOperatorsOfType(OperatorTypeEnum.InletsToDimension)
+						.Select(x => x.ToPropertiesViewModel_ForInletsToDimension())
+						.ToList();
+		}
 
-        public static IList<OperatorPropertiesViewModel_ForNumber> ToPropertiesViewModelList_ForNumbers(this Patch patch)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		public static IList<OperatorPropertiesViewModel_ForNumber> ToPropertiesViewModelList_ForNumbers(this Patch patch)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Number)
-                        .Select(x => x.ToPropertiesViewModel_ForNumber())
-                        .ToList();
-        }
+			return patch.GetOperatorsOfType(OperatorTypeEnum.Number)
+						.Select(x => x.ToPropertiesViewModel_ForNumber())
+						.ToList();
+		}
 
-        public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(this Patch patch)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(this Patch patch)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                        .Select(x => x.ToPropertiesViewModel_ForPatchInlet())
-                        .ToList();
-        }
+			return patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+						.Select(x => x.ToPropertiesViewModel_ForPatchInlet())
+						.ToList();
+		}
 
-        public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(this Patch patch)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(this Patch patch)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                        .Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
-                        .ToList();
-        }
+			return patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+						.Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
+						.ToList();
+		}
 
-        public static IList<OperatorPropertiesViewModel_ForSample> ToPropertiesViewModelList_ForSamples(
-            this Patch patch,
-            ISampleRepository sampleRepository,
-            IInterpolationTypeRepository interpolationTypeRepository)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		public static IList<OperatorPropertiesViewModel_ForSample> ToPropertiesViewModelList_ForSamples(
+			this Patch patch,
+			ISampleRepository sampleRepository,
+			IInterpolationTypeRepository interpolationTypeRepository)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Sample)
-                        .Select(x => x.ToPropertiesViewModel_ForSample(sampleRepository, interpolationTypeRepository))
-                        .ToList();
-        }
+			return patch.GetOperatorsOfType(OperatorTypeEnum.Sample)
+						.Select(x => x.ToPropertiesViewModel_ForSample(sampleRepository, interpolationTypeRepository))
+						.ToList();
+		}
 
-        public static IList<OperatorPropertiesViewModel_WithInterpolation> ToPropertiesViewModelList_WithInterpolation(this Patch patch)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		public static IList<OperatorPropertiesViewModel_WithInterpolation> ToPropertiesViewModelList_WithInterpolation(this Patch patch)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            return patch.Operators
-                        .Where(x => ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                        .Select(x => x.ToPropertiesViewModel_WithInterpolation())
-                        .ToList();
-        }
+			return patch.Operators
+						.Where(x => ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+						.Select(x => x.ToPropertiesViewModel_WithInterpolation())
+						.ToList();
+		}
 
-        public static IList<OperatorPropertiesViewModel_WithCollectionRecalculation> ToPropertiesViewModelList_WithCollectionRecalculation(this Patch patch)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		public static IList<OperatorPropertiesViewModel_WithCollectionRecalculation> ToPropertiesViewModelList_WithCollectionRecalculation(this Patch patch)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            return patch.Operators.Where(x => ToViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
-                        .Select(x => x.ToPropertiesViewModel_WithCollectionRecalculation())
-                        .ToList();
-        }
+			return patch.Operators.Where(x => ToViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+						.Select(x => x.ToPropertiesViewModel_WithCollectionRecalculation())
+						.ToList();
+		}
 
-        public static OperatorPropertiesViewModel ToPropertiesViewModel(this Operator entity)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+		public static OperatorPropertiesViewModel ToPropertiesViewModel(this Operator entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel>(entity);
+			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel>(entity);
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        public static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache(
-            this Operator entity,
-            IInterpolationTypeRepository interpolationTypeRepository)
+		public static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache(
+			this Operator entity,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -504,7 +504,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-	    public static OperatorPropertiesViewModel_ForInletsToDimension ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(this Operator entity)
+		public static OperatorPropertiesViewModel_ForInletsToDimension ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(this Operator entity)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForInletsToDimension>(entity);
 
@@ -527,7 +527,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-	    public static OperatorPropertiesViewModel_ForNumber ToPropertiesViewModel_ForNumber_WithoutOriginalState(this Operator entity)
+		public static OperatorPropertiesViewModel_ForNumber ToPropertiesViewModel_ForNumber_WithoutOriginalState(this Operator entity)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForNumber>(entity);
 
@@ -538,7 +538,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-	    public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet(this Operator entity)
+		public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet(this Operator entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -547,7 +547,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-	    public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet_WithoutOriginalState(this Operator entity)
+		public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet_WithoutOriginalState(this Operator entity)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForPatchInlet>(entity);
 
@@ -612,9 +612,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		public static OperatorPropertiesViewModel_ForSample ToPropertiesViewModel_ForSample(
-            this Operator op,
-            ISampleRepository sampleRepository,
-            IInterpolationTypeRepository interpolationTypeRepository)
+			this Operator op,
+			ISampleRepository sampleRepository,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (op == null) throw new ArgumentNullException(nameof(op));
 
@@ -623,27 +623,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-	    private static OperatorPropertiesViewModel_ForSample OperatorPropertiesViewModel_ForSample_WithoutOriginalState(
-		    this Operator op,
-		    ISampleRepository sampleRepository,
-		    IInterpolationTypeRepository interpolationTypeRepository)
-	    {
-		    if (sampleRepository == null) throw new ArgumentNullException(nameof(sampleRepository));
+		private static OperatorPropertiesViewModel_ForSample OperatorPropertiesViewModel_ForSample_WithoutOriginalState(
+			this Operator op,
+			ISampleRepository sampleRepository,
+			IInterpolationTypeRepository interpolationTypeRepository)
+		{
+			if (sampleRepository == null) throw new ArgumentNullException(nameof(sampleRepository));
 
-		    var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForSample>(op);
+			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForSample>(op);
 
-		    viewModel.AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel();
-		    viewModel.SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel();
-		    viewModel.SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel();
-		    viewModel.InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
+			viewModel.AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel();
+			viewModel.SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel();
+			viewModel.SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel();
+			viewModel.InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
 
-		    byte[] bytes = sampleRepository.GetBytes(op.Sample.ID);
-		    viewModel.Sample = op.Sample.ToViewModel(bytes);
+			byte[] bytes = sampleRepository.GetBytes(op.Sample.ID);
+			viewModel.Sample = op.Sample.ToViewModel(bytes);
 
-		    return viewModel;
-	    }
+			return viewModel;
+		}
 
-	    public static OperatorPropertiesViewModel_WithInterpolation ToPropertiesViewModel_WithInterpolation(this Operator entity)
+		public static OperatorPropertiesViewModel_WithInterpolation ToPropertiesViewModel_WithInterpolation(this Operator entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -665,7 +665,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		public static OperatorPropertiesViewModel_WithCollectionRecalculation ToPropertiesViewModel_WithCollectionRecalculation(
-            this Operator entity)
+			this Operator entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -687,107 +687,107 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static TViewModel CreateOperatorPropertiesViewModel_Generic<TViewModel>(Operator entity)
-            where TViewModel : OperatorPropertiesViewModelBase, new()
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+			where TViewModel : OperatorPropertiesViewModelBase, new()
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var viewModel = new TViewModel
-            {
-                ID = entity.ID,
-                PatchID = entity.Patch.ID,
-                Name = entity.Name,
-                CustomDimensionName = entity.CustomDimensionName,
-                HasDimension = entity.HasDimension,
-                InletCount = entity.Inlets.Count,
-                CanEditInletCount = entity.CanSetInletCount(),
-                OutletCount = entity.Outlets.Count,
-                CanEditOutletCount = entity.CanSetOutletCount(),
-                ValidationMessages = new List<string>()
-            };
+			var viewModel = new TViewModel
+			{
+				ID = entity.ID,
+				PatchID = entity.Patch.ID,
+				Name = entity.Name,
+				CustomDimensionName = entity.CustomDimensionName,
+				HasDimension = entity.HasDimension,
+				InletCount = entity.Inlets.Count,
+				CanEditInletCount = entity.CanSetInletCount(),
+				OutletCount = entity.Outlets.Count,
+				CanEditOutletCount = entity.CanSetOutletCount(),
+				ValidationMessages = new List<string>()
+			};
 
-            DimensionEnum dimensionEnum = entity.GetStandardDimensionEnum();
-            if (dimensionEnum != DimensionEnum.Undefined)
-            {
-                viewModel.StandardDimension = dimensionEnum.ToIDAndDisplayName();
-            }
-            else
-            {
-                viewModel.StandardDimension = new IDAndName();
-            }
+			DimensionEnum dimensionEnum = entity.GetStandardDimensionEnum();
+			if (dimensionEnum != DimensionEnum.Undefined)
+			{
+				viewModel.StandardDimension = dimensionEnum.ToIDAndDisplayName();
+			}
+			else
+			{
+				viewModel.StandardDimension = new IDAndName();
+			}
 
-            // ReSharper disable once InvertIf
-            if (entity.HasDimension)
-            {
-                viewModel.CanEditCustomDimensionName = true;
-                viewModel.CanSelectStandardDimension = true;
-                viewModel.StandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel();
-            }
+			// ReSharper disable once InvertIf
+			if (entity.HasDimension)
+			{
+				viewModel.CanEditCustomDimensionName = true;
+				viewModel.CanSelectStandardDimension = true;
+				viewModel.StandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel();
+			}
 
-            if (entity.UnderlyingPatch != null)
-            {
-                viewModel.UnderlyingPatch = entity.UnderlyingPatch.ToIDAndName();
-            }
+			if (entity.UnderlyingPatch != null)
+			{
+				viewModel.UnderlyingPatch = entity.UnderlyingPatch.ToIDAndName();
+			}
 
-            viewModel.UnderlyingPatch = viewModel.UnderlyingPatch ?? ToViewModelHelper.CreateEmptyIDAndName();
+			viewModel.UnderlyingPatch = viewModel.UnderlyingPatch ?? ToViewModelHelper.CreateEmptyIDAndName();
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // Patch
+		// Patch
 
-        public static PatchDetailsViewModel ToDetailsViewModel(
-            this Patch patch,
-            ICurveRepository curveRepository,
-            EntityPositionManager entityPositionManager)
-        {
-	        var converter = new RecursiveToPatchViewModelConverter(curveRepository, entityPositionManager);
+		public static PatchDetailsViewModel ToDetailsViewModel(
+			this Patch patch,
+			ICurveRepository curveRepository,
+			EntityPositionManager entityPositionManager)
+		{
+			var converter = new RecursiveToPatchViewModelConverter(curveRepository, entityPositionManager);
 
-	        PatchDetailsViewModel viewModel = converter.ConvertToDetailsViewModel(patch);
+			PatchDetailsViewModel viewModel = converter.ConvertToDetailsViewModel(patch);
 			viewModel.OriginalState = converter.ConvertToDetailsViewModel(patch);
 
 			return viewModel;
-        }
+		}
 
-        public static PatchPropertiesViewModel ToPropertiesViewModel(this Patch patch)
-        {
-            PatchPropertiesViewModel viewModel = patch.ToPropertiesViewModel_WithoutOriginalState();
-            viewModel.OriginalState = patch.ToPropertiesViewModel_WithoutOriginalState();
-            return viewModel;
-        }
+		public static PatchPropertiesViewModel ToPropertiesViewModel(this Patch patch)
+		{
+			PatchPropertiesViewModel viewModel = patch.ToPropertiesViewModel_WithoutOriginalState();
+			viewModel.OriginalState = patch.ToPropertiesViewModel_WithoutOriginalState();
+			return viewModel;
+		}
 
-        private static PatchPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Patch patch)
-        {
-            if (patch == null) throw new ArgumentNullException(nameof(patch));
+		private static PatchPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Patch patch)
+		{
+			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-            var viewModel = new PatchPropertiesViewModel
-            {
-                ID = patch.ID,
-                Name = patch.Name,
-                Group = patch.GroupName,
-                Hidden = patch.Hidden,
-                HasDimension = patch.HasDimension,
-                CustomDimensionNameEnabled = patch.HasDimension,
-                CustomDimensionName = patch.CustomDimensionName,
-                StandardDimensionEnabled = patch.HasDimension,
-                StandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel(),
-                ValidationMessages = new List<string>()
-            };
+			var viewModel = new PatchPropertiesViewModel
+			{
+				ID = patch.ID,
+				Name = patch.Name,
+				Group = patch.GroupName,
+				Hidden = patch.Hidden,
+				HasDimension = patch.HasDimension,
+				CustomDimensionNameEnabled = patch.HasDimension,
+				CustomDimensionName = patch.CustomDimensionName,
+				StandardDimensionEnabled = patch.HasDimension,
+				StandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel(),
+				ValidationMessages = new List<string>()
+			};
 
-            if (patch.StandardDimension != null)
-            {
-                viewModel.StandardDimension = patch.StandardDimension.ToIDAndDisplayName();
-            }
-            else
-            {
-                viewModel.StandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
-            }
+			if (patch.StandardDimension != null)
+			{
+				viewModel.StandardDimension = patch.StandardDimension.ToIDAndDisplayName();
+			}
+			else
+			{
+				viewModel.StandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
+			}
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // Scale
+		// Scale
 
-        public static ScalePropertiesViewModel ToPropertiesViewModel(this Scale entity)
+		public static ScalePropertiesViewModel ToPropertiesViewModel(this Scale entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -797,34 +797,34 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static ScalePropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Scale entity)
-	    {
-		    return new ScalePropertiesViewModel
-		    {
-			    Entity = entity.ToViewModel(),
-			    ScaleTypeLookup = ToViewModelHelper.GetScaleTypeLookupViewModel(),
-			    ValidationMessages = new List<string>()
-		    };
-	    }
+		{
+			return new ScalePropertiesViewModel
+			{
+				Entity = entity.ToViewModel(),
+				ScaleTypeLookup = ToViewModelHelper.GetScaleTypeLookupViewModel(),
+				ValidationMessages = new List<string>()
+			};
+		}
 
-	    public static ScaleGridViewModel ToGridViewModel(this IList<Scale> entities, int documentID)
-        {
-            if (entities == null) throw new ArgumentNullException(nameof(entities));
+		public static ScaleGridViewModel ToGridViewModel(this IList<Scale> entities, int documentID)
+		{
+			if (entities == null) throw new ArgumentNullException(nameof(entities));
 
-            var viewModel = new ScaleGridViewModel
-            {
-                DocumentID = documentID,
-                ValidationMessages = new List<string>(),
-                Dictionary = entities.OrderBy(x => x.Name)
-                                     .Select(x => x.ToIDAndName())
-                                     .ToDictionary(x => x.ID)
-            };
+			var viewModel = new ScaleGridViewModel
+			{
+				DocumentID = documentID,
+				ValidationMessages = new List<string>(),
+				Dictionary = entities.OrderBy(x => x.Name)
+									 .Select(x => x.ToIDAndName())
+									 .ToDictionary(x => x.ID)
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // Tone
+		// Tone
 
-        public static ToneGridEditViewModel ToToneGridEditViewModel(this Scale entity)
+		public static ToneGridEditViewModel ToToneGridEditViewModel(this Scale entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -834,26 +834,26 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static ToneGridEditViewModel ToToneGridEditViewModel_WithoutOriginalState(this Scale entity)
-	    {
-		    return new ToneGridEditViewModel
-		    {
-			    ScaleID = entity.ID,
-			    NumberTitle = ToViewModelHelper.GetToneGridEditNumberTitle(entity),
-			    Tones = entity.Tones.ToToneViewModels(),
-			    FrequencyVisible = entity.GetScaleTypeEnum() != ScaleTypeEnum.LiteralFrequency,
-			    ValidationMessages = new List<string>()
-		    };
-	    }
+		{
+			return new ToneGridEditViewModel
+			{
+				ScaleID = entity.ID,
+				NumberTitle = ToViewModelHelper.GetToneGridEditNumberTitle(entity),
+				Tones = entity.Tones.ToToneViewModels(),
+				FrequencyVisible = entity.GetScaleTypeEnum() != ScaleTypeEnum.LiteralFrequency,
+				ValidationMessages = new List<string>()
+			};
+		}
 
-	    public static IList<ToneViewModel> ToToneViewModels(this IList<Tone> entities)
-        {
-            if (entities == null) throw new ArgumentNullException(nameof(entities));
+		public static IList<ToneViewModel> ToToneViewModels(this IList<Tone> entities)
+		{
+			if (entities == null) throw new ArgumentNullException(nameof(entities));
 
-            IList<ToneViewModel> viewModels = entities.OrderBy(x => x.Octave)
-                                                      .ThenBy(x => x.Number)
-                                                      .Select(x => x.ToViewModel())
-                                                      .ToList();
-            return viewModels;
-        }
-    }
+			IList<ToneViewModel> viewModels = entities.OrderBy(x => x.Octave)
+													  .ThenBy(x => x.Number)
+													  .Select(x => x.ToViewModel())
+													  .ToList();
+			return viewModels;
+		}
+	}
 }

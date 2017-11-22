@@ -2,15 +2,15 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Number_OperatorDto : OperatorDtoBase_WithoutInputs
-    {
-        public Number_OperatorDto()
-        { }
+	internal class Number_OperatorDto : OperatorDtoBase_WithoutInputs
+	{
+		public Number_OperatorDto()
+		{ }
 
-        public Number_OperatorDto(double number) => Number = number;
+		public Number_OperatorDto(double number) => Number = number;
 
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Number;
+		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Number;
 
-        public double Number { get; set; }
-    }
+		public double Number { get; set; }
+	}
 }

@@ -9,95 +9,95 @@ using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
 
 namespace JJ.Business.SynthesizerPrototype.Tests
 {
-    [TestClass]
-    public class Synthesizer_PerformanceTests_WithStructs
-    {
-        [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithStructs_NoDto()
-        {
-            var dimensionStack = new DimensionStack();
-            dimensionStack.Push(0.0);
+	[TestClass]
+	public class Synthesizer_PerformanceTests_WithStructs
+	{
+		[TestMethod]
+		public void PerformanceTest_SynthesizerPrototype_WithStructs_NoDto()
+		{
+			var dimensionStack = new DimensionStack();
+			dimensionStack.Push(0.0);
 
-            var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
+			var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
 
-            var stopWatch = Stopwatch.StartNew();
+			var stopWatch = Stopwatch.StartNew();
 
-            for (int i = 0; i < 500000; i++)
-            {
-                calculator.Calculate();
-            }
+			for (int i = 0; i < 500000; i++)
+			{
+				calculator.Calculate();
+			}
 
-            stopWatch.Stop();
+			stopWatch.Stop();
 
-            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
+			string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
 
-            Assert.Inconclusive(message);
-        }
+			Assert.Inconclusive(message);
+		}
 
-        [TestMethod]
-        public void PerformanceTest_SynthesizerPrototype_WithStructs_WithDto()
-        {
-            var dimensionStack = new DimensionStack();
-            dimensionStack.Push(0.0);
+		[TestMethod]
+		public void PerformanceTest_SynthesizerPrototype_WithStructs_WithDto()
+		{
+			var dimensionStack = new DimensionStack();
+			dimensionStack.Push(0.0);
 
-            IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
+			IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+			IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
-            var stopWatch = Stopwatch.StartNew();
+			var stopWatch = Stopwatch.StartNew();
 
-            for (int i = 0; i < 500000; i++)
-            {
-                calculator.Calculate();
-            }
+			for (int i = 0; i < 500000; i++)
+			{
+				calculator.Calculate();
+			}
 
-            stopWatch.Stop();
+			stopWatch.Stop();
 
-            string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
+			string message = TestHelper.GetPerformanceInfoMessage(500000, stopWatch.Elapsed);
 
-            Assert.Inconclusive(message);
-        }
+			Assert.Inconclusive(message);
+		}
 
-        [TestMethod]
-        public void Debug_SynthesizerPrototype_WithStructs()
-        {
-            var dimensionStack = new DimensionStack();
-            dimensionStack.Push(0.0);
+		[TestMethod]
+		public void Debug_SynthesizerPrototype_WithStructs()
+		{
+			var dimensionStack = new DimensionStack();
+			dimensionStack.Push(0.0);
 
-            IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
-            IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
+			IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
+			IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
-            double t = 0.0;
-            const double dt = 1.0 / 500000.0;
+			double t = 0.0;
+			const double dt = 1.0 / 500000.0;
 
-            while (t <= 1.0)
-            {
-                dimensionStack.Set(t);
+			while (t <= 1.0)
+			{
+				dimensionStack.Set(t);
 
-                double value = calculator.Calculate();
+				double value = calculator.Calculate();
 
-                t += dt;
-            }
-        }
+				t += dt;
+			}
+		}
 
-        [TestMethod]
-        public void Debug_SynthesizerPrototype_RuntimeGeneric_DoesNotInline_ButEquates_CompileTimeGeneric_WhichDoesInline()
-        {
-            var dimensionStack = new DimensionStack();
+		[TestMethod]
+		public void Debug_SynthesizerPrototype_RuntimeGeneric_DoesNotInline_ButEquates_CompileTimeGeneric_WhichDoesInline()
+		{
+			var dimensionStack = new DimensionStack();
 
-            dimensionStack.Push(0.123456789);
+			dimensionStack.Push(0.123456789);
 
-            var compileTimeStruct = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
+			var compileTimeStruct = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
 
-            IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
-            var runTimeStruct = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
+			IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
+			var runTimeStruct = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
-            Type compileTimeStructType = compileTimeStruct.GetType();
-            Type runTimeStructType = runTimeStruct.GetType();
-            bool typesAreEqual = compileTimeStructType == runTimeStructType;
-            Assert.IsTrue(typesAreEqual, "designTimeStruct is not equal to runTimeStruct.");
+			Type compileTimeStructType = compileTimeStruct.GetType();
+			Type runTimeStructType = runTimeStruct.GetType();
+			bool typesAreEqual = compileTimeStructType == runTimeStructType;
+			Assert.IsTrue(typesAreEqual, "designTimeStruct is not equal to runTimeStruct.");
 
-            double compileTimeStructValue = compileTimeStruct.Calculate();
-            double runTimeStructValue = runTimeStruct.Calculate();
-        }
-    }
+			double compileTimeStructValue = compileTimeStruct.Calculate();
+			double runTimeStructValue = runTimeStruct.Calculate();
+		}
+	}
 }

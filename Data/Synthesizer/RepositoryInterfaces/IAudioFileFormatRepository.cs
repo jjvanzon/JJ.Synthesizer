@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface IAudioFileFormatRepository : IRepository<AudioFileFormat, int>
-    { }
+	public interface IAudioFileFormatRepository : IRepository<AudioFileFormat, int>
+	{ }
 }

@@ -16,128 +16,128 @@ using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurrentInstrumentUserControl : UserControlBase
-    {
-        private readonly IList<CurrentInstrumentItemUserControl> _itemControls = new List<CurrentInstrumentItemUserControl>();
+	internal partial class CurrentInstrumentUserControl : UserControlBase
+	{
+		private readonly IList<CurrentInstrumentItemUserControl> _itemControls = new List<CurrentInstrumentItemUserControl>();
 
-        public event EventHandler ExpandRequested;
-        public event EventHandler<EventArgs<int>> ExpandItemRequested;
-        public event EventHandler<EventArgs<int>> MoveBackwardRequested;
-        public event EventHandler<EventArgs<int>> MoveForwardRequested;
-        public event EventHandler PlayRequested;
-        public event EventHandler<EventArgs<int>> PlayItemRequested;
-        public event EventHandler<EventArgs<int>> RemoveRequested;
+		public event EventHandler ExpandRequested;
+		public event EventHandler<EventArgs<int>> ExpandItemRequested;
+		public event EventHandler<EventArgs<int>> MoveBackwardRequested;
+		public event EventHandler<EventArgs<int>> MoveForwardRequested;
+		public event EventHandler PlayRequested;
+		public event EventHandler<EventArgs<int>> PlayItemRequested;
+		public event EventHandler<EventArgs<int>> RemoveRequested;
 
-        public CurrentInstrumentUserControl()
-        {
-            InitializeComponent();
-        }
+		public CurrentInstrumentUserControl()
+		{
+			InitializeComponent();
+		}
 
-        private void CurrentInstrumentUserControl_Load(object sender, EventArgs e)
-        {
-            SetTitles();
-        }
+		private void CurrentInstrumentUserControl_Load(object sender, EventArgs e)
+		{
+			SetTitles();
+		}
 
-        public new CurrentInstrumentViewModel ViewModel
-        {
-            get => (CurrentInstrumentViewModel)base.ViewModel;
-            set => base.ViewModel = value;
-        }
+		public new CurrentInstrumentViewModel ViewModel
+		{
+			get => (CurrentInstrumentViewModel)base.ViewModel;
+			set => base.ViewModel = value;
+		}
 
-        private void SetTitles()
-        {
-            toolTip.SetToolTip(buttonExpand, CommonResourceFormatter.Open);
-            toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
-        }
+		private void SetTitles()
+		{
+			toolTip.SetToolTip(buttonExpand, CommonResourceFormatter.Open);
+			toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
+		}
 
-        protected override void ApplyViewModelToControls()
-        {
-            buttonPlay.Visible = ViewModel.CanPlay;
-            buttonExpand.Visible = ViewModel.CanExpand;
+		protected override void ApplyViewModelToControls()
+		{
+			buttonPlay.Visible = ViewModel.CanPlay;
+			buttonExpand.Visible = ViewModel.CanExpand;
 
-            // Update
-            int minCount = Math.Min(_itemControls.Count, ViewModel.List.Count);
-            for (int i = 0; i < minCount; i++)
-            {
-                CurrentInstrumentItemViewModel itemViewModel = ViewModel.List[i];
-                CurrentInstrumentItemUserControl itemUserControl = _itemControls[i];
-                itemUserControl.ViewModel = itemViewModel;
-            }
+			// Update
+			int minCount = Math.Min(_itemControls.Count, ViewModel.List.Count);
+			for (int i = 0; i < minCount; i++)
+			{
+				CurrentInstrumentItemViewModel itemViewModel = ViewModel.List[i];
+				CurrentInstrumentItemUserControl itemUserControl = _itemControls[i];
+				itemUserControl.ViewModel = itemViewModel;
+			}
 
-            // Insert
-            for (int i = _itemControls.Count; i < ViewModel.List.Count; i++)
-            {
-                CurrentInstrumentItemViewModel itemViewModel = ViewModel.List[i];
-                var itemControl = new CurrentInstrumentItemUserControl
-                {
-                    Margin = new Padding(0),
-                    ViewModel = itemViewModel
-                };
-                itemControl.ExpandRequested += ItemControl_ExpandRequested;
-                itemControl.MoveBackwardRequested += ItemControl_MoveBackwardRequested;
-                itemControl.MoveForwardRequested += ItemControl_MoveForwardRequested;
-                itemControl.PlayRequested += ItemControl_PlayRequested;
-                itemControl.RemoveRequested += ItemControl_RemoveRequested;
+			// Insert
+			for (int i = _itemControls.Count; i < ViewModel.List.Count; i++)
+			{
+				CurrentInstrumentItemViewModel itemViewModel = ViewModel.List[i];
+				var itemControl = new CurrentInstrumentItemUserControl
+				{
+					Margin = new Padding(0),
+					ViewModel = itemViewModel
+				};
+				itemControl.ExpandRequested += ItemControl_ExpandRequested;
+				itemControl.MoveBackwardRequested += ItemControl_MoveBackwardRequested;
+				itemControl.MoveForwardRequested += ItemControl_MoveForwardRequested;
+				itemControl.PlayRequested += ItemControl_PlayRequested;
+				itemControl.RemoveRequested += ItemControl_RemoveRequested;
 
-                _itemControls.Add(itemControl);
-                Controls.Add(itemControl);
-            }
+				_itemControls.Add(itemControl);
+				Controls.Add(itemControl);
+			}
 
-            // Delete
-            for (int i = _itemControls.Count - 1; i >= ViewModel.List.Count; i--)
-            {
-                CurrentInstrumentItemUserControl itemControl = _itemControls[i];
-                itemControl.ExpandRequested -= ItemControl_ExpandRequested;
-                itemControl.MoveBackwardRequested -= ItemControl_MoveBackwardRequested;
-                itemControl.MoveForwardRequested -= ItemControl_MoveForwardRequested;
-                itemControl.PlayRequested -= ItemControl_PlayRequested;
-                itemControl.RemoveRequested -= ItemControl_RemoveRequested;
+			// Delete
+			for (int i = _itemControls.Count - 1; i >= ViewModel.List.Count; i--)
+			{
+				CurrentInstrumentItemUserControl itemControl = _itemControls[i];
+				itemControl.ExpandRequested -= ItemControl_ExpandRequested;
+				itemControl.MoveBackwardRequested -= ItemControl_MoveBackwardRequested;
+				itemControl.MoveForwardRequested -= ItemControl_MoveForwardRequested;
+				itemControl.PlayRequested -= ItemControl_PlayRequested;
+				itemControl.RemoveRequested -= ItemControl_RemoveRequested;
 
-                _itemControls.RemoveAt(i);
-                Controls.Remove(itemControl);
-            }
+				_itemControls.RemoveAt(i);
+				Controls.Remove(itemControl);
+			}
 
-            PositionControls();
-        }
+			PositionControls();
+		}
 
-        private void PositionControls()
-        {
-            int x = Width;
+		private void PositionControls()
+		{
+			int x = Width;
 
-            x -= StyleHelper.IconButtonSize;
+			x -= StyleHelper.IconButtonSize;
 
-            buttonExpand.Top = 0;
-            buttonExpand.Left = x;
-            buttonExpand.Width = StyleHelper.IconButtonSize;
-            buttonExpand.Height = StyleHelper.IconButtonSize;
+			buttonExpand.Top = 0;
+			buttonExpand.Left = x;
+			buttonExpand.Width = StyleHelper.IconButtonSize;
+			buttonExpand.Height = StyleHelper.IconButtonSize;
 
-            x -= StyleHelper.DefaultSpacing;
-            x -= StyleHelper.IconButtonSize;
+			x -= StyleHelper.DefaultSpacing;
+			x -= StyleHelper.IconButtonSize;
 
-            buttonPlay.Top = 0;
-            buttonPlay.Left = x;
-            buttonPlay.Width = StyleHelper.IconButtonSize;
-            buttonPlay.Height = StyleHelper.IconButtonSize;
+			buttonPlay.Top = 0;
+			buttonPlay.Left = x;
+			buttonPlay.Width = StyleHelper.IconButtonSize;
+			buttonPlay.Height = StyleHelper.IconButtonSize;
 
-            foreach (CurrentInstrumentItemUserControl itemControl in _itemControls.Reverse())
-            {
-                x -= StyleHelper.DefaultSpacing;
-                x -= StyleHelper.DefaultSpacing;
-                x -= itemControl.Width;
+			foreach (CurrentInstrumentItemUserControl itemControl in _itemControls.Reverse())
+			{
+				x -= StyleHelper.DefaultSpacing;
+				x -= StyleHelper.DefaultSpacing;
+				x -= itemControl.Width;
 
-                itemControl.Top = 0;
-                itemControl.Left = x;
-                itemControl.Height = Height;
-            }
-        }
+				itemControl.Top = 0;
+				itemControl.Left = x;
+				itemControl.Height = Height;
+			}
+		}
 
-        private void Base_SizeChanged(object sender, EventArgs e) => PositionControls();
-        private void ItemControl_ExpandRequested(object sender, EventArgs<int> e) => ExpandItemRequested(sender, e);
-        private void ItemControl_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
-        private void ItemControl_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
-        private void ItemControl_PlayRequested(object sender, EventArgs<int> e) => PlayItemRequested(sender, e);
-        private void ItemControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested(sender, e);
-        private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
-        private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
-    }
+		private void Base_SizeChanged(object sender, EventArgs e) => PositionControls();
+		private void ItemControl_ExpandRequested(object sender, EventArgs<int> e) => ExpandItemRequested(sender, e);
+		private void ItemControl_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
+		private void ItemControl_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
+		private void ItemControl_PlayRequested(object sender, EventArgs<int> e) => PlayItemRequested(sender, e);
+		private void ItemControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested(sender, e);
+		private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
+		private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
+	}
 }

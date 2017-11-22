@@ -3,8 +3,8 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface ISpeakerSetupRepository : IRepository<SpeakerSetup, int>
-    {
-        SpeakerSetup GetWithRelatedEntities(int id);
-    }
+	public interface ISpeakerSetupRepository : IRepository<SpeakerSetup, int>
+	{
+		SpeakerSetup GetWithRelatedEntities(int id);
+	}
 }

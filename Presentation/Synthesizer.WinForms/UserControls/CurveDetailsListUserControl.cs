@@ -10,152 +10,152 @@ using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class CurveDetailsListUserControl : UserControl
-    {
-        public CurveDetailsListUserControl() => InitializeComponent();
+	internal partial class CurveDetailsListUserControl : UserControl
+	{
+		public CurveDetailsListUserControl() => InitializeComponent();
 
-        public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
-        public event EventHandler<EventArgs<int>> CloseRequested;
-        public event EventHandler<EventArgs<int>> CreateNodeRequested;
-        public event EventHandler<EventArgs<int>> DeleteSelectedNodeRequested;
-        public event EventHandler<EventArgs<int>> ExpandCurveRequested;
-        public event EventHandler<EventArgs<int>> LoseFocusRequested;
-        public event EventHandler<MoveNodeEventArgs> NodeMoved;
-        public event EventHandler<MoveNodeEventArgs> NodeMoving;
-        public event EventHandler<EventArgs<int>> SelectCurveRequested;
-        public event EventHandler<NodeEventArgs> SelectNodeRequested;
-        public event EventHandler<NodeEventArgs> ExpandNodeRequested;
+		public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
+		public event EventHandler<EventArgs<int>> CloseRequested;
+		public event EventHandler<EventArgs<int>> CreateNodeRequested;
+		public event EventHandler<EventArgs<int>> DeleteSelectedNodeRequested;
+		public event EventHandler<EventArgs<int>> ExpandCurveRequested;
+		public event EventHandler<EventArgs<int>> LoseFocusRequested;
+		public event EventHandler<MoveNodeEventArgs> NodeMoved;
+		public event EventHandler<MoveNodeEventArgs> NodeMoving;
+		public event EventHandler<EventArgs<int>> SelectCurveRequested;
+		public event EventHandler<NodeEventArgs> SelectNodeRequested;
+		public event EventHandler<NodeEventArgs> ExpandNodeRequested;
 
-        private readonly IList<CurveDetailsUserControl> _userControls = new List<CurveDetailsUserControl>();
-        private CurveManager _curveManager;
+		private readonly IList<CurveDetailsUserControl> _userControls = new List<CurveDetailsUserControl>();
+		private CurveManager _curveManager;
 
-        /// <see cref="CurveDetailsUserControl.SetCurveManager "/>
-        public void SetCurveManager(CurveManager curveManager)
-        {
-            _curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
-        }
+		/// <see cref="CurveDetailsUserControl.SetCurveManager "/>
+		public void SetCurveManager(CurveManager curveManager)
+		{
+			_curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
+		}
 
-        private IList<CurveDetailsViewModel> _viewModels;
-        public IList<CurveDetailsViewModel> ViewModels
-        {
-            get => _viewModels;
-            set
-            {
-                _viewModels = value;
-                ApplyViewModelsToControls();
-            }
-        }
+		private IList<CurveDetailsViewModel> _viewModels;
+		public IList<CurveDetailsViewModel> ViewModels
+		{
+			get => _viewModels;
+			set
+			{
+				_viewModels = value;
+				ApplyViewModelsToControls();
+			}
+		}
 
-        private void ApplyViewModelsToControls()
-        {
-            if (_viewModels == null) return;
+		private void ApplyViewModelsToControls()
+		{
+			if (_viewModels == null) return;
 
-            IList<CurveDetailsViewModel> visibleViewModels = _viewModels.Where(x => x.Visible).ToArray();
+			IList<CurveDetailsViewModel> visibleViewModels = _viewModels.Where(x => x.Visible).ToArray();
 
-            // Update
-            int count = Math.Min(visibleViewModels.Count, _userControls.Count);
-            for (int i = 0; i < count; i++)
-            {
-                CurveDetailsViewModel viewModel = visibleViewModels[i];
-                CurveDetailsUserControl userControl = _userControls[i];
-                userControl.ViewModel = viewModel;
-            }
+			// Update
+			int count = Math.Min(visibleViewModels.Count, _userControls.Count);
+			for (int i = 0; i < count; i++)
+			{
+				CurveDetailsViewModel viewModel = visibleViewModels[i];
+				CurveDetailsUserControl userControl = _userControls[i];
+				userControl.ViewModel = viewModel;
+			}
 
-            // Create
-            for (int i = _userControls.Count; i < visibleViewModels.Count; i++)
-            {
-                CurveDetailsViewModel viewModel = visibleViewModels[i];
-                var userControl = new CurveDetailsUserControl
-                {
-                    Name = $"{nameof(CurveDetailsUserControl)}{i}",
-                    Font = StyleHelper.DefaultFont
-                };
-                userControl.SetCurveManager(_curveManager);
-                userControl.ViewModel = viewModel;
+			// Create
+			for (int i = _userControls.Count; i < visibleViewModels.Count; i++)
+			{
+				CurveDetailsViewModel viewModel = visibleViewModels[i];
+				var userControl = new CurveDetailsUserControl
+				{
+					Name = $"{nameof(CurveDetailsUserControl)}{i}",
+					Font = StyleHelper.DefaultFont
+				};
+				userControl.SetCurveManager(_curveManager);
+				userControl.ViewModel = viewModel;
 
-                userControl.ChangeSelectedNodeTypeRequested += CurveDetailsUserControl_ChangeSelectedNodeTypeRequested;
-                userControl.CloseRequested += CurveDetailsUserControl_CloseRequested;
-                userControl.CreateNodeRequested += CurveDetailsUserControl_CreateNodeRequested;
-                userControl.ExpandCurveRequested += CurveDetailsUserControl_ExpandCurveRequested;
-                userControl.LoseFocusRequested += CurveDetailsUserControl_LoseFocusRequested;
-                userControl.NodeMoving += CurveDetailsUserControl_NodeMoving;
-                userControl.NodeMoved += CurveDetailsUserControl_NodeMoved;
-                userControl.RemoveRequested += CurveDetailsUserControl_RemoveRequested;
-                userControl.SelectCurveRequested += CurveDetailsUserControl_SelectCurveRequested;
-                userControl.SelectNodeRequested += CurveDetailsUserControl_SelectNodeRequested;
-                userControl.ExpandNodeRequested += CurveDetailsUserControl_ExpandNodeRequested;
+				userControl.ChangeSelectedNodeTypeRequested += CurveDetailsUserControl_ChangeSelectedNodeTypeRequested;
+				userControl.CloseRequested += CurveDetailsUserControl_CloseRequested;
+				userControl.CreateNodeRequested += CurveDetailsUserControl_CreateNodeRequested;
+				userControl.ExpandCurveRequested += CurveDetailsUserControl_ExpandCurveRequested;
+				userControl.LoseFocusRequested += CurveDetailsUserControl_LoseFocusRequested;
+				userControl.NodeMoving += CurveDetailsUserControl_NodeMoving;
+				userControl.NodeMoved += CurveDetailsUserControl_NodeMoved;
+				userControl.RemoveRequested += CurveDetailsUserControl_RemoveRequested;
+				userControl.SelectCurveRequested += CurveDetailsUserControl_SelectCurveRequested;
+				userControl.SelectNodeRequested += CurveDetailsUserControl_SelectNodeRequested;
+				userControl.ExpandNodeRequested += CurveDetailsUserControl_ExpandNodeRequested;
 
-                Controls.Add(userControl);
-                _userControls.Add(userControl);
-            }
+				Controls.Add(userControl);
+				_userControls.Add(userControl);
+			}
 
-            // Delete
-            for (int i = _userControls.Count - 1; i >= visibleViewModels.Count; i--)
-            {
-                CurveDetailsUserControl userControl = _userControls[i];
+			// Delete
+			for (int i = _userControls.Count - 1; i >= visibleViewModels.Count; i--)
+			{
+				CurveDetailsUserControl userControl = _userControls[i];
 
-                userControl.ChangeSelectedNodeTypeRequested -= CurveDetailsUserControl_ChangeSelectedNodeTypeRequested;
-                userControl.CloseRequested -= CurveDetailsUserControl_CloseRequested;
-                userControl.CreateNodeRequested -= CurveDetailsUserControl_CreateNodeRequested;
-                userControl.ExpandCurveRequested -= CurveDetailsUserControl_ExpandCurveRequested;
-                userControl.LoseFocusRequested -= CurveDetailsUserControl_LoseFocusRequested;
-                userControl.NodeMoving -= CurveDetailsUserControl_NodeMoving;
-                userControl.NodeMoved -= CurveDetailsUserControl_NodeMoved;
-                userControl.RemoveRequested -= CurveDetailsUserControl_RemoveRequested;
-                userControl.SelectNodeRequested -= CurveDetailsUserControl_SelectNodeRequested;
-                userControl.ExpandNodeRequested -= CurveDetailsUserControl_ExpandNodeRequested;
+				userControl.ChangeSelectedNodeTypeRequested -= CurveDetailsUserControl_ChangeSelectedNodeTypeRequested;
+				userControl.CloseRequested -= CurveDetailsUserControl_CloseRequested;
+				userControl.CreateNodeRequested -= CurveDetailsUserControl_CreateNodeRequested;
+				userControl.ExpandCurveRequested -= CurveDetailsUserControl_ExpandCurveRequested;
+				userControl.LoseFocusRequested -= CurveDetailsUserControl_LoseFocusRequested;
+				userControl.NodeMoving -= CurveDetailsUserControl_NodeMoving;
+				userControl.NodeMoved -= CurveDetailsUserControl_NodeMoved;
+				userControl.RemoveRequested -= CurveDetailsUserControl_RemoveRequested;
+				userControl.SelectNodeRequested -= CurveDetailsUserControl_SelectNodeRequested;
+				userControl.ExpandNodeRequested -= CurveDetailsUserControl_ExpandNodeRequested;
 
-                Controls.Remove(userControl);
-                _userControls.RemoveAt(i);
-            }
+				Controls.Remove(userControl);
+				_userControls.RemoveAt(i);
+			}
 
-            PositionControls();
-        }
+			PositionControls();
+		}
 
-        private void PositionControls()
-        {
-            int controlCount = _userControls.Count;
-            if (controlCount == 0)
-            {
-                return;
-            }
+		private void PositionControls()
+		{
+			int controlCount = _userControls.Count;
+			if (controlCount == 0)
+			{
+				return;
+			}
 
-            // SplitterWidth used on purpose instead of DefaultSpacing.
-            // Even though it is not a splitter, it looks better if it is the same width as a splitter.
-            int totalSpacing = StyleHelper.SplitterWidth * (controlCount - 1);
-            int controlHeight = (Height - totalSpacing) / controlCount;
-            if (controlHeight <= 0) controlHeight = 1;
+			// SplitterWidth used on purpose instead of DefaultSpacing.
+			// Even though it is not a splitter, it looks better if it is the same width as a splitter.
+			int totalSpacing = StyleHelper.SplitterWidth * (controlCount - 1);
+			int controlHeight = (Height - totalSpacing) / controlCount;
+			if (controlHeight <= 0) controlHeight = 1;
 
-            const int x = 0;
-            int y = 0;
+			const int x = 0;
+			int y = 0;
 
-            // ReSharper disable once MoreSpecificForeachVariableTypeAvailable
-            foreach (Control control in _userControls)
-            {
-                control.Left = x;
-                control.Top = y;
-                control.Width = Width;
-                control.Height = controlHeight;
+			// ReSharper disable once MoreSpecificForeachVariableTypeAvailable
+			foreach (Control control in _userControls)
+			{
+				control.Left = x;
+				control.Top = y;
+				control.Width = Width;
+				control.Height = controlHeight;
 
-                y += controlHeight;
+				y += controlHeight;
 
-                // SplitterWidth used on purpose instead of DefaultSpacing.
-                // Even though it is not a splitter, it looks better if it is the same width as a splitter.
-                y += StyleHelper.SplitterWidth;
-            }
-        }
+				// SplitterWidth used on purpose instead of DefaultSpacing.
+				// Even though it is not a splitter, it looks better if it is the same width as a splitter.
+				y += StyleHelper.SplitterWidth;
+			}
+		}
 
-        private void CurveDetailsListUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
-        private void CurveDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => CloseRequested(sender, e);
-        private void CurveDetailsUserControl_CreateNodeRequested(object sender, EventArgs<int> e) => CreateNodeRequested(sender, e);
-        private void CurveDetailsUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e) => ChangeSelectedNodeTypeRequested(sender, e);
-        private void CurveDetailsUserControl_ExpandCurveRequested(object sender, EventArgs<int> e) => ExpandCurveRequested(sender, e);
-        private void CurveDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => LoseFocusRequested(sender, e);
-        private void CurveDetailsUserControl_NodeMoving(object sender, MoveNodeEventArgs e) => NodeMoving(sender, e);
-        private void CurveDetailsUserControl_NodeMoved(object sender, MoveNodeEventArgs e) => NodeMoved(sender, e);
-        private void CurveDetailsUserControl_RemoveRequested(object sender, EventArgs<int> e) => DeleteSelectedNodeRequested(sender, e);
-        private void CurveDetailsUserControl_SelectCurveRequested(object sender, EventArgs<int> e) => SelectCurveRequested(sender, e);
-        private void CurveDetailsUserControl_SelectNodeRequested(object sender, NodeEventArgs e) => SelectNodeRequested(sender, e);
-        private void CurveDetailsUserControl_ExpandNodeRequested(object sender, NodeEventArgs e) => ExpandNodeRequested(sender, e);
-    }
+		private void CurveDetailsListUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
+		private void CurveDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => CloseRequested(sender, e);
+		private void CurveDetailsUserControl_CreateNodeRequested(object sender, EventArgs<int> e) => CreateNodeRequested(sender, e);
+		private void CurveDetailsUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e) => ChangeSelectedNodeTypeRequested(sender, e);
+		private void CurveDetailsUserControl_ExpandCurveRequested(object sender, EventArgs<int> e) => ExpandCurveRequested(sender, e);
+		private void CurveDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => LoseFocusRequested(sender, e);
+		private void CurveDetailsUserControl_NodeMoving(object sender, MoveNodeEventArgs e) => NodeMoving(sender, e);
+		private void CurveDetailsUserControl_NodeMoved(object sender, MoveNodeEventArgs e) => NodeMoved(sender, e);
+		private void CurveDetailsUserControl_RemoveRequested(object sender, EventArgs<int> e) => DeleteSelectedNodeRequested(sender, e);
+		private void CurveDetailsUserControl_SelectCurveRequested(object sender, EventArgs<int> e) => SelectCurveRequested(sender, e);
+		private void CurveDetailsUserControl_SelectNodeRequested(object sender, NodeEventArgs e) => SelectNodeRequested(sender, e);
+		private void CurveDetailsUserControl_ExpandNodeRequested(object sender, NodeEventArgs e) => ExpandNodeRequested(sender, e);
+	}
 }

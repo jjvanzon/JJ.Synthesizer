@@ -4,57 +4,57 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Random_OperatorCalculator_Block : OperatorCalculatorBase_WithChildCalculators
-    {
-        private readonly RandomCalculator_Block _randomCalculator;
-        private readonly OperatorCalculatorBase _rateCalculator;
-        private readonly OperatorCalculatorBase _positionCalculator;
+	internal class Random_OperatorCalculator_Block : OperatorCalculatorBase_WithChildCalculators
+	{
+		private readonly RandomCalculator_Block _randomCalculator;
+		private readonly OperatorCalculatorBase _rateCalculator;
+		private readonly OperatorCalculatorBase _positionCalculator;
 
-        private double _phase;
-        private double _previousPosition;
+		private double _phase;
+		private double _previousPosition;
 
-        public Random_OperatorCalculator_Block(
-            RandomCalculator_Block randomCalculator,
-            OperatorCalculatorBase rateCalculator,
-            OperatorCalculatorBase positionCalculator)
-            : base(new[] { rateCalculator, positionCalculator })
-        {
-            _randomCalculator = randomCalculator ?? throw new NullException(() => randomCalculator);
-            _rateCalculator = rateCalculator;
-            _positionCalculator = positionCalculator;
+		public Random_OperatorCalculator_Block(
+			RandomCalculator_Block randomCalculator,
+			OperatorCalculatorBase rateCalculator,
+			OperatorCalculatorBase positionCalculator)
+			: base(new[] { rateCalculator, positionCalculator })
+		{
+			_randomCalculator = randomCalculator ?? throw new NullException(() => randomCalculator);
+			_rateCalculator = rateCalculator;
+			_positionCalculator = positionCalculator;
 
-            ResetNonRecursive();
-        }
+			ResetNonRecursive();
+		}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override double Calculate()
-        {
-            double position = _positionCalculator.Calculate();
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public override double Calculate()
+		{
+			double position = _positionCalculator.Calculate();
 
-            double rate = _rateCalculator.Calculate();
+			double rate = _rateCalculator.Calculate();
 
-            double positionChange = position - _previousPosition;
-            _phase = _phase + positionChange * rate;
+			double positionChange = position - _previousPosition;
+			_phase = _phase + positionChange * rate;
 
-            double value = _randomCalculator.Calculate(_phase);
+			double value = _randomCalculator.Calculate(_phase);
 
-            _previousPosition = position;
+			_previousPosition = position;
 
-            return value;
-        }
+			return value;
+		}
 
-        public override void Reset()
-        {
-            base.Reset();
+		public override void Reset()
+		{
+			base.Reset();
 
-            ResetNonRecursive();
-        }
+			ResetNonRecursive();
+		}
 
-        private void ResetNonRecursive()
-        {
-            _previousPosition = _positionCalculator.Calculate();
+		private void ResetNonRecursive()
+		{
+			_previousPosition = _positionCalculator.Calculate();
 
-            _randomCalculator.Reseed();
-        }
-    }
+			_randomCalculator.Reseed();
+		}
+	}
 }

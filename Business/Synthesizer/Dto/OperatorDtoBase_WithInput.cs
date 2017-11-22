@@ -3,14 +3,14 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal abstract class OperatorDtoBase_WithInput : OperatorDtoBase
-    {
-        public InputDto Input { get; set; }
+	internal abstract class OperatorDtoBase_WithInput : OperatorDtoBase
+	{
+		public InputDto Input { get; set; }
 
-        public override IReadOnlyList<InputDto> Inputs
-        {
-            get => new[] { Input };
-            set => Input = value.ElementAtOrDefault(0);
-        }
-    }
+		public override IReadOnlyList<InputDto> Inputs
+		{
+			get => new[] { Input };
+			set => Input = value.ElementAtOrDefault(0);
+		}
+	}
 }

@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface ISampleDataTypeRepository : IRepository<SampleDataType, int>
-    { }
+	public interface ISampleDataTypeRepository : IRepository<SampleDataType, int>
+	{ }
 }

@@ -7,87 +7,87 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
-    internal static class DebuggerDisplayFormatter
-    {
-        public static string GetDebuggerDisplay(OperatorViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
+	internal static class DebuggerDisplayFormatter
+	{
+		public static string GetDebuggerDisplay(OperatorViewModel viewModel)
+		{
+			if (viewModel == null) throw new NullException(() => viewModel);
 
-            return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Caption);
-        }
+			return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Caption);
+		}
 
-        public static string GetDebuggerDisplay(InletViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
+		public static string GetDebuggerDisplay(InletViewModel viewModel)
+		{
+			if (viewModel == null) throw new NullException(() => viewModel);
 
-            return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Caption);
-        }
+			return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Caption);
+		}
 
-        public static string GetDebuggerDisplay(OutletViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
+		public static string GetDebuggerDisplay(OutletViewModel viewModel)
+		{
+			if (viewModel == null) throw new NullException(() => viewModel);
 
-            var sb = new StringBuilder();
+			var sb = new StringBuilder();
 
-            if (viewModel.Operator != null)
-            {
-                string operatorDebuggerDisplay = GetDebuggerDisplay(viewModel.Operator);
-                sb.Append(operatorDebuggerDisplay);
-                sb.Append(" - ");
-            }
-            else
-            {
-                sb.Append("Operator is null - ");
-            }
+			if (viewModel.Operator != null)
+			{
+				string operatorDebuggerDisplay = GetDebuggerDisplay(viewModel.Operator);
+				sb.Append(operatorDebuggerDisplay);
+				sb.Append(" - ");
+			}
+			else
+			{
+				sb.Append("Operator is null - ");
+			}
 
-            sb.Append($"{{{viewModel.GetType().Name}}} ");
+			sb.Append($"{{{viewModel.GetType().Name}}} ");
 
-            if (!string.IsNullOrEmpty(viewModel.Name))
-            {
-                sb.Append($"'{viewModel.Name}' ");
-            }
+			if (!string.IsNullOrEmpty(viewModel.Name))
+			{
+				sb.Append($"'{viewModel.Name}' ");
+			}
 
-            sb.Append($"({viewModel.ID})");
+			sb.Append($"({viewModel.ID})");
 
-            return sb.ToString();
-        }
+			return sb.ToString();
+		}
 
-        public static string GetDebuggerDisplay(PatchPropertiesViewModel viewModel)
-        {
-            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+		public static string GetDebuggerDisplay(PatchPropertiesViewModel viewModel)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-            return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Name);
-        }
+			return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Name);
+		}
 
-        public static string GetDebuggerDisplay(AudioOutputPropertiesViewModel viewModel)
-        {
-            if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+		public static string GetDebuggerDisplay(AudioOutputPropertiesViewModel viewModel)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-            var sb = new StringBuilder();
+			var sb = new StringBuilder();
 
-            sb.Append($"{{{viewModel.GetType().Name}}} ");
+			sb.Append($"{{{viewModel.GetType().Name}}} ");
 
-            AudioOutputViewModel entityViewModel = viewModel.Entity;
+			AudioOutputViewModel entityViewModel = viewModel.Entity;
 
-            if (entityViewModel == null)
-            {
-                sb.Append($"{nameof(viewModel.Entity)} is null.");
-            }
-            else
-            {
-                var identifier = new
-                {
-                    entityViewModel.ID,
-                    entityViewModel.SamplingRate,
-                    SpeakerSetup = entityViewModel.SpeakerSetup.Name,
-                    entityViewModel.MaxConcurrentNotes,
-                    entityViewModel.DesiredBufferDuration
-                };
+			if (entityViewModel == null)
+			{
+				sb.Append($"{nameof(viewModel.Entity)} is null.");
+			}
+			else
+			{
+				var identifier = new
+				{
+					entityViewModel.ID,
+					entityViewModel.SamplingRate,
+					SpeakerSetup = entityViewModel.SpeakerSetup.Name,
+					entityViewModel.MaxConcurrentNotes,
+					entityViewModel.DesiredBufferDuration
+				};
 
-                sb.Append($"{identifier}");
-            }
+				sb.Append($"{identifier}");
+			}
 
-            return sb.ToString();
-        }
-    }
+			return sb.ToString();
+		}
+	}
 }

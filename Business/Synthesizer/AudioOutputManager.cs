@@ -11,51 +11,51 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-    public class AudioOutputManager
-    {
-        private readonly IAudioOutputRepository _audioOutputRepository;
-        private readonly ISpeakerSetupRepository _speakerSetupRepository;
-        private readonly IIDRepository _idRepository;
+	public class AudioOutputManager
+	{
+		private readonly IAudioOutputRepository _audioOutputRepository;
+		private readonly ISpeakerSetupRepository _speakerSetupRepository;
+		private readonly IIDRepository _idRepository;
 
-        public AudioOutputManager(
-            IAudioOutputRepository audioOutputRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IIDRepository idRepository)
-        {
-            _audioOutputRepository = audioOutputRepository ?? throw new NullException(() => audioOutputRepository);
-            _speakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
-            _idRepository = idRepository ?? throw new NullException(() => idRepository);
-        }
+		public AudioOutputManager(
+			IAudioOutputRepository audioOutputRepository,
+			ISpeakerSetupRepository speakerSetupRepository,
+			IIDRepository idRepository)
+		{
+			_audioOutputRepository = audioOutputRepository ?? throw new NullException(() => audioOutputRepository);
+			_speakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
+			_idRepository = idRepository ?? throw new NullException(() => idRepository);
+		}
 
-        public AudioOutput CreateWithDefaults(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-            if (document.AudioOutput != null) throw new NotNullException(() => document.AudioOutput);
+		public AudioOutput CreateWithDefaults(Document document)
+		{
+			if (document == null) throw new NullException(() => document);
+			if (document.AudioOutput != null) throw new NotNullException(() => document.AudioOutput);
 
-            AudioOutput audioOutput = CreateWithDefaults();
+			AudioOutput audioOutput = CreateWithDefaults();
 
-            document.LinkTo(audioOutput);
+			document.LinkTo(audioOutput);
 
-            return audioOutput;
-        }
+			return audioOutput;
+		}
 
-        public AudioOutput CreateWithDefaults()
-        {
-            var audioOutput = new AudioOutput { ID = _idRepository.GetID() };
-            _audioOutputRepository.Insert(audioOutput);
+		public AudioOutput CreateWithDefaults()
+		{
+			var audioOutput = new AudioOutput { ID = _idRepository.GetID() };
+			_audioOutputRepository.Insert(audioOutput);
 
-            new AudioOutput_SideEffect_SetDefaults(audioOutput, _speakerSetupRepository).Execute();
+			new AudioOutput_SideEffect_SetDefaults(audioOutput, _speakerSetupRepository).Execute();
 
-            return audioOutput;
-        }
+			return audioOutput;
+		}
 
-        public VoidResult Save(AudioOutput entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
+		public VoidResult Save(AudioOutput entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
 
-            IValidator validator = new AudioOutputValidator(entity);
+			IValidator validator = new AudioOutputValidator(entity);
 
-            return validator.ToResult();
-        }
-    }
+			return validator.ToResult();
+		}
+	}
 }

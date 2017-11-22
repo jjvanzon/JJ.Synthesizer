@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface IPatchRepository : IRepository<Patch, int>
-    { }
+	public interface IPatchRepository : IRepository<Patch, int>
+	{ }
 }

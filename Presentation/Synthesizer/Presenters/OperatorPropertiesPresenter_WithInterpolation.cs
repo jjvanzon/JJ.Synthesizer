@@ -6,16 +6,16 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class OperatorPropertiesPresenter_WithInterpolation
-        : OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_WithInterpolation>
-    {
-        public OperatorPropertiesPresenter_WithInterpolation(RepositoryWrapper repositories)
-            : base(repositories)
-        { }
+	internal class OperatorPropertiesPresenter_WithInterpolation
+		: OperatorPropertiesPresenterBase<OperatorPropertiesViewModel_WithInterpolation>
+	{
+		public OperatorPropertiesPresenter_WithInterpolation(RepositoryWrapper repositories)
+			: base(repositories)
+		{ }
 
-        protected override OperatorPropertiesViewModel_WithInterpolation ToViewModel(Operator op)
-        {
-            return op.ToPropertiesViewModel_WithInterpolation();
-        }
-    }
+		protected override OperatorPropertiesViewModel_WithInterpolation ToViewModel(Operator op)
+		{
+			return op.ToPropertiesViewModel_WithInterpolation();
+		}
+	}
 }

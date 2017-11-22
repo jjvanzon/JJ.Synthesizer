@@ -9,34 +9,34 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class AudioOutputPropertiesPresenter 
-        : EntityPresenterWithSaveBase<AudioOutput, AudioOutputPropertiesViewModel>
-    {
-        private readonly IAudioOutputRepository _audioOutputRepository;
-        private readonly AudioOutputManager _audioOutputManager;
+	internal class AudioOutputPropertiesPresenter 
+		: EntityPresenterWithSaveBase<AudioOutput, AudioOutputPropertiesViewModel>
+	{
+		private readonly IAudioOutputRepository _audioOutputRepository;
+		private readonly AudioOutputManager _audioOutputManager;
 
-        public AudioOutputPropertiesPresenter(
-            IAudioOutputRepository audioOutputRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IIDRepository idRepository)
-        {
-            _audioOutputRepository = audioOutputRepository ?? throw new NullException(() => audioOutputRepository);
-            _audioOutputManager = new AudioOutputManager(_audioOutputRepository, speakerSetupRepository, idRepository);
-        }
+		public AudioOutputPropertiesPresenter(
+			IAudioOutputRepository audioOutputRepository,
+			ISpeakerSetupRepository speakerSetupRepository,
+			IIDRepository idRepository)
+		{
+			_audioOutputRepository = audioOutputRepository ?? throw new NullException(() => audioOutputRepository);
+			_audioOutputManager = new AudioOutputManager(_audioOutputRepository, speakerSetupRepository, idRepository);
+		}
 
-        protected override AudioOutput GetEntity(AudioOutputPropertiesViewModel userInput)
-        {
-            return _audioOutputRepository.Get(userInput.Entity.ID);
-        }
+		protected override AudioOutput GetEntity(AudioOutputPropertiesViewModel userInput)
+		{
+			return _audioOutputRepository.Get(userInput.Entity.ID);
+		}
 
-        protected override IResult Save(AudioOutput entity)
-        {
-            return _audioOutputManager.Save(entity);
-        }
+		protected override IResult Save(AudioOutput entity)
+		{
+			return _audioOutputManager.Save(entity);
+		}
 
-        protected override AudioOutputPropertiesViewModel ToViewModel(AudioOutput entity)
-        {
-            return entity.ToPropertiesViewModel();
-        }
-    }
+		protected override AudioOutputPropertiesViewModel ToViewModel(AudioOutput entity)
+		{
+			return entity.ToPropertiesViewModel();
+		}
+	}
 }

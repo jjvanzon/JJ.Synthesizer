@@ -4,53 +4,53 @@ using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-    /// <summary>
-    /// The property of this code file: 'Copy to Output - Copy if newer'
-    /// is so that Roslyn runtim compilation can use this code to compile right into the runtime assembly
-    /// for inlining.
-    /// 
-    /// +/- 20% faster than Math.Sin.
-    /// It also prevents multiplication by 2 PI
-    /// by having a cycle be from 0 to 1.
-    /// </summary>
-    internal static class SineCalculator
-    {
-        private const int SAMPLES_PER_CYCLE = 44100 / 8; // 100% precision at 8Hz.
-        private static readonly double[] _samples = CreateSamples();
+	/// <summary>
+	/// The property of this code file: 'Copy to Output - Copy if newer'
+	/// is so that Roslyn runtim compilation can use this code to compile right into the runtime assembly
+	/// for inlining.
+	/// 
+	/// +/- 20% faster than Math.Sin.
+	/// It also prevents multiplication by 2 PI
+	/// by having a cycle be from 0 to 1.
+	/// </summary>
+	internal static class SineCalculator
+	{
+		private const int SAMPLES_PER_CYCLE = 44100 / 8; // 100% precision at 8Hz.
+		private static readonly double[] _samples = CreateSamples();
 
-        private static double[] CreateSamples()
-        {
-            var samples = new double[SAMPLES_PER_CYCLE];
+		private static double[] CreateSamples()
+		{
+			var samples = new double[SAMPLES_PER_CYCLE];
 
-            double t = 0;
-            const double step = MathHelper.TWO_PI / SAMPLES_PER_CYCLE;
+			double t = 0;
+			const double step = MathHelper.TWO_PI / SAMPLES_PER_CYCLE;
 
-            for (int i = 0; i < SAMPLES_PER_CYCLE; i++)
-            {
-                double sample = Math.Sin(t);
-                samples[i] = sample;
+			for (int i = 0; i < SAMPLES_PER_CYCLE; i++)
+			{
+				double sample = Math.Sin(t);
+				samples[i] = sample;
 
-                t += step;
-            }
+				t += step;
+			}
 
-            return samples;
-        }
+			return samples;
+		}
 
-        /// <param name="positionInCycle">From 0 to 1 is one cycle.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Sin(double positionInCycle)
-        {
-            int i = (int)(positionInCycle * SAMPLES_PER_CYCLE);
+		/// <param name="positionInCycle">From 0 to 1 is one cycle.</param>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static double Sin(double positionInCycle)
+		{
+			int i = (int)(positionInCycle * SAMPLES_PER_CYCLE);
 
-            i = i % SAMPLES_PER_CYCLE;
+			i = i % SAMPLES_PER_CYCLE;
 
-            if (i < 0)
-            {
-                i = i + SAMPLES_PER_CYCLE;
-            }
+			if (i < 0)
+			{
+				i = i + SAMPLES_PER_CYCLE;
+			}
 
-            double value = _samples[i];
-            return value;
-        }
-    }
+			double value = _samples[i];
+			return value;
+		}
+	}
 }

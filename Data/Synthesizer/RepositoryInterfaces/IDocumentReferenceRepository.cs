@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface IDocumentReferenceRepository : IRepository<DocumentReference, int>
-    { }
+	public interface IDocumentReferenceRepository : IRepository<DocumentReference, int>
+	{ }
 }

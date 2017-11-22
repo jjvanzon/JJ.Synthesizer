@@ -6,25 +6,25 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Patch_SideEffect_GenerateName : ISideEffect
-    {
-        private readonly Patch _entity;
+	internal class Patch_SideEffect_GenerateName : ISideEffect
+	{
+		private readonly Patch _entity;
 
-        public Patch_SideEffect_GenerateName(Patch entity)
-        {
-            _entity = entity ?? throw new NullException(() => entity);
-        }
+		public Patch_SideEffect_GenerateName(Patch entity)
+		{
+			_entity = entity ?? throw new NullException(() => entity);
+		}
 
-        public void Execute()
-        {
-            bool mustExecute = _entity.Document != null;
-            // ReSharper disable once InvertIf
-            if (mustExecute)
-            {
-                IEnumerable<string> existingNames = _entity.Document.Patches.Select(x => x.Name);
+		public void Execute()
+		{
+			bool mustExecute = _entity.Document != null;
+			// ReSharper disable once InvertIf
+			if (mustExecute)
+			{
+				IEnumerable<string> existingNames = _entity.Document.Patches.Select(x => x.Name);
 
-                _entity.Name = SideEffectHelper.GenerateName<Patch>(existingNames);
-            }
-        }
-    }
+				_entity.Name = SideEffectHelper.GenerateName<Patch>(existingNames);
+			}
+		}
+	}
 }

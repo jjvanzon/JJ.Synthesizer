@@ -6,20 +6,20 @@ using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer.Entities
 {
-    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    public class Channel
-    {
-        public Channel()
-        {
-            SpeakerSetupChannels = new List<SpeakerSetupChannel>();
-        }
+	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+	public class Channel
+	{
+		public Channel()
+		{
+			SpeakerSetupChannels = new List<SpeakerSetupChannel>();
+		}
 
-        public virtual int ID { get; set; }
-        public virtual string Name { get; set; }
+		public virtual int ID { get; set; }
+		public virtual string Name { get; set; }
 
-        /// <summary> bridge entity </summary>
-        public virtual IList<SpeakerSetupChannel> SpeakerSetupChannels { get; set; }
+		/// <summary> bridge entity </summary>
+		public virtual IList<SpeakerSetupChannel> SpeakerSetupChannels { get; set; }
 
-        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
-    }
+		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+	}
 }

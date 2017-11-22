@@ -2,26 +2,26 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
-    internal class ArrayCalculator_MinPosition_Line : ArrayCalculatorBase_Line, ICalculatorWithPosition
-    {
-        public ArrayCalculator_MinPosition_Line(
-            double[] array, double rate, double minPosition, double valueBefore, double valueAfter)
-            : base(array, rate, minPosition, valueBefore, valueAfter)
-        { }
+	internal class ArrayCalculator_MinPosition_Line : ArrayCalculatorBase_Line, ICalculatorWithPosition
+	{
+		public ArrayCalculator_MinPosition_Line(
+			double[] array, double rate, double minPosition, double valueBefore, double valueAfter)
+			: base(array, rate, minPosition, valueBefore, valueAfter)
+		{ }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public new double Calculate(double position)
-        {
-            // Return if sample not in range.
-            // Execute it on the doubles, to prevent integer overflow.
-            if (position < _minPosition) return _valueBefore;
-            if (position > _maxPosition) return _valueAfter;
-            if (double.IsNaN(position)) return 0.0;
-            if (double.IsInfinity(position)) return 0.0;
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public new double Calculate(double position)
+		{
+			// Return if sample not in range.
+			// Execute it on the doubles, to prevent integer overflow.
+			if (position < _minPosition) return _valueBefore;
+			if (position > _maxPosition) return _valueAfter;
+			if (double.IsNaN(position)) return 0.0;
+			if (double.IsInfinity(position)) return 0.0;
 
-            double t = (position - _minPosition) * _rate;
+			double t = (position - _minPosition) * _rate;
 
-            return base.Calculate(t);
-        }
-    }
+			return base.Calculate(t);
+		}
+	}
 }

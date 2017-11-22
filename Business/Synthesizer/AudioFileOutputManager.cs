@@ -14,73 +14,73 @@ using JJ.Framework.Business;
 
 namespace JJ.Business.Synthesizer
 {
-    public class AudioFileOutputManager
-    {
-        private readonly AudioFileOutputRepositories _repositories;
+	public class AudioFileOutputManager
+	{
+		private readonly AudioFileOutputRepositories _repositories;
 
-        public AudioFileOutputManager(AudioFileOutputRepositories repositories)
-        {
-            _repositories = repositories ?? throw new NullException(() => repositories);
-        }
+		public AudioFileOutputManager(AudioFileOutputRepositories repositories)
+		{
+			_repositories = repositories ?? throw new NullException(() => repositories);
+		}
 
-        /// <summary> Create an AudioFileOutput and initializes it with defaults. </summary>
-        public AudioFileOutput Create(Document document = null)
-        {
-            var audioFileOutput = new AudioFileOutput { ID = _repositories.IDRepository.GetID() };
-            audioFileOutput.LinkTo(document);
-            _repositories.AudioFileOutputRepository.Insert(audioFileOutput);
+		/// <summary> Create an AudioFileOutput and initializes it with defaults. </summary>
+		public AudioFileOutput Create(Document document = null)
+		{
+			var audioFileOutput = new AudioFileOutput { ID = _repositories.IDRepository.GetID() };
+			audioFileOutput.LinkTo(document);
+			_repositories.AudioFileOutputRepository.Insert(audioFileOutput);
 
-            new AudioFileOutput_SideEffect_GenerateName(audioFileOutput).Execute();
-            new AudioFileOutput_SideEffect_SetDefaults(
-                audioFileOutput,
-                _repositories.SampleDataTypeRepository, _repositories.SpeakerSetupRepository, _repositories.AudioFileFormatRepository)
-                .Execute();
+			new AudioFileOutput_SideEffect_GenerateName(audioFileOutput).Execute();
+			new AudioFileOutput_SideEffect_SetDefaults(
+				audioFileOutput,
+				_repositories.SampleDataTypeRepository, _repositories.SpeakerSetupRepository, _repositories.AudioFileFormatRepository)
+				.Execute();
 
 
-            return audioFileOutput;
-        }
+			return audioFileOutput;
+		}
 
-        public void Delete(int id)
-        {
-            AudioFileOutput audioFileOutput = _repositories.AudioFileOutputRepository.Get(id);
-            Delete(audioFileOutput);
-        }
+		public void Delete(int id)
+		{
+			AudioFileOutput audioFileOutput = _repositories.AudioFileOutputRepository.Get(id);
+			Delete(audioFileOutput);
+		}
 
-        public void Delete(AudioFileOutput entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
+		public void Delete(AudioFileOutput entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
 
-            entity.UnlinkRelatedEntities();
-            _repositories.AudioFileOutputRepository.Delete(entity);
-        }
+			entity.UnlinkRelatedEntities();
+			_repositories.AudioFileOutputRepository.Delete(entity);
+		}
 
-        public VoidResult Save(AudioFileOutput entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
+		public VoidResult Save(AudioFileOutput entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
 
-            var validators = new List<IValidator>
-            {
-                new AudioFileOutputValidator(entity),
-                new AudioFileOutputValidator_UniqueName(entity)
-            };
+			var validators = new List<IValidator>
+			{
+				new AudioFileOutputValidator(entity),
+				new AudioFileOutputValidator_UniqueName(entity)
+			};
 
-            if (entity.Document != null)
-            {
-                validators.Add(new AudioFileOutputValidator_InDocument(entity));
-            }
+			if (entity.Document != null)
+			{
+				validators.Add(new AudioFileOutputValidator_InDocument(entity));
+			}
 
-            return validators.ToResult();
-        }
+			return validators.ToResult();
+		}
 
-        /// <summary>
-        /// This overload taking PatchCalculator can save you the overhead of re-initializing the patch calculation every time you write a file.
-        /// </summary>
-        public void WriteFile(AudioFileOutput audioFileOutput, params IPatchCalculator[] patchCalculators)
-        {
-            IAudioFileOutputCalculator audioFileOutputCalculator =
-                AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput, patchCalculators);
+		/// <summary>
+		/// This overload taking PatchCalculator can save you the overhead of re-initializing the patch calculation every time you write a file.
+		/// </summary>
+		public void WriteFile(AudioFileOutput audioFileOutput, params IPatchCalculator[] patchCalculators)
+		{
+			IAudioFileOutputCalculator audioFileOutputCalculator =
+				AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput, patchCalculators);
 
-            audioFileOutputCalculator.WriteFile(audioFileOutput);
-        }
-    }
+			audioFileOutputCalculator.WriteFile(audioFileOutput);
+		}
+	}
 }

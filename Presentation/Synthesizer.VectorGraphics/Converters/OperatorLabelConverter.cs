@@ -7,61 +7,61 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
-    internal class OperatorLabelConverter
-    {
-        private readonly Dictionary<int, Label> _destOperatorLabelDictionary = new Dictionary<int, Label>();
-        private readonly HashSet<Label> _destOperatorLabelHashSet = new HashSet<Label>();
+	internal class OperatorLabelConverter
+	{
+		private readonly Dictionary<int, Label> _destOperatorLabelDictionary = new Dictionary<int, Label>();
+		private readonly HashSet<Label> _destOperatorLabelHashSet = new HashSet<Label>();
 
-        public Label ConvertToOperatorLabel(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
-        {
-            if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
-            if (destOperatorRectangle == null) throw new NullException(() => destOperatorRectangle);
+		public Label ConvertToOperatorLabel(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
+		{
+			if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
+			if (destOperatorRectangle == null) throw new NullException(() => destOperatorRectangle);
 
-            int operatorID = sourceOperatorViewModel.ID;
+			int operatorID = sourceOperatorViewModel.ID;
 
-            Label destLabel;
-            if (!_destOperatorLabelDictionary.TryGetValue(operatorID, out destLabel))
-            {
-                destLabel = new Label
-                {
-                    Diagram = destOperatorRectangle.Diagram,
-                    Parent = destOperatorRectangle,
-                    Tag = VectorGraphicsTagHelper.GetOperatorTag(operatorID)
-                };
+			Label destLabel;
+			if (!_destOperatorLabelDictionary.TryGetValue(operatorID, out destLabel))
+			{
+				destLabel = new Label
+				{
+					Diagram = destOperatorRectangle.Diagram,
+					Parent = destOperatorRectangle,
+					Tag = VectorGraphicsTagHelper.GetOperatorTag(operatorID)
+				};
 
-                _destOperatorLabelDictionary.Add(operatorID, destLabel);
-                _destOperatorLabelHashSet.Add(destLabel);
-            }
+				_destOperatorLabelDictionary.Add(operatorID, destLabel);
+				_destOperatorLabelHashSet.Add(destLabel);
+			}
 
-            destLabel.Text = sourceOperatorViewModel.Caption;
-            destLabel.Position.Width = destOperatorRectangle.Position.Width;
-            destLabel.Position.Height = destOperatorRectangle.Position.Height;
+			destLabel.Text = sourceOperatorViewModel.Caption;
+			destLabel.Position.Width = destOperatorRectangle.Position.Width;
+			destLabel.Position.Height = destOperatorRectangle.Position.Height;
 
-            if (sourceOperatorViewModel.IsSmaller)
-            {
-                destLabel.TextStyle = StyleHelper.NumberOperatorTextStyle;
-            }
-            else
-            {
-                destLabel.TextStyle = StyleHelper.DefaultTextStyle;
-            }
+			if (sourceOperatorViewModel.IsSmaller)
+			{
+				destLabel.TextStyle = StyleHelper.NumberOperatorTextStyle;
+			}
+			else
+			{
+				destLabel.TextStyle = StyleHelper.DefaultTextStyle;
+			}
 
-            return destLabel;
-        }
+			return destLabel;
+		}
 
-        public void TryRemove(Label destElement)
-        {
-            if (_destOperatorLabelHashSet.Contains(destElement))
-            {
-                int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
+		public void TryRemove(Label destElement)
+		{
+			if (_destOperatorLabelHashSet.Contains(destElement))
+			{
+				int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
 
-                _destOperatorLabelDictionary.Remove(operatorID);
-                _destOperatorLabelHashSet.Remove(destElement);
+				_destOperatorLabelDictionary.Remove(operatorID);
+				_destOperatorLabelHashSet.Remove(destElement);
 
-                destElement.Children.Clear();
-                destElement.Parent = null;
-                destElement.Diagram = null;
-            }
-        }
-    }
+				destElement.Children.Clear();
+				destElement.Parent = null;
+				destElement.Diagram = null;
+			}
+		}
+	}
 }

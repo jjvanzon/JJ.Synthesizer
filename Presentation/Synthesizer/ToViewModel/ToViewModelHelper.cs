@@ -16,246 +16,246 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    /// <summary> Empty view models start out with Visible = false. </summary>
-    internal static partial class ToViewModelHelper
-    {
-        // OperatorTypeEnum HashSets
+	/// <summary> Empty view models start out with Visible = false. </summary>
+	internal static partial class ToViewModelHelper
+	{
+		// OperatorTypeEnum HashSets
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCollectionRecalculationPropertyViews { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.AverageOverDimension,
-                OperatorTypeEnum.ClosestOverDimension,
-                OperatorTypeEnum.ClosestOverDimensionExp,
-                OperatorTypeEnum.MaxOverDimension,
-                OperatorTypeEnum.MinOverDimension,
-                OperatorTypeEnum.SortOverDimension,
-                OperatorTypeEnum.SumOverDimension
-            };
+		public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithCollectionRecalculationPropertyViews { get; } =
+			new HashSet<OperatorTypeEnum>
+			{
+				OperatorTypeEnum.AverageOverDimension,
+				OperatorTypeEnum.ClosestOverDimension,
+				OperatorTypeEnum.ClosestOverDimensionExp,
+				OperatorTypeEnum.MaxOverDimension,
+				OperatorTypeEnum.MinOverDimension,
+				OperatorTypeEnum.SortOverDimension,
+				OperatorTypeEnum.SumOverDimension
+			};
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.Random,
-                OperatorTypeEnum.Interpolate
-            };
+		public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithInterpolationPropertyViews { get; } =
+			new HashSet<OperatorTypeEnum>
+			{
+				OperatorTypeEnum.Random,
+				OperatorTypeEnum.Interpolate
+			};
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithSpecializedPropertiesViews { get; } =
-            new HashSet<OperatorTypeEnum>
-            {
-                OperatorTypeEnum.Cache,
-                OperatorTypeEnum.Curve,
-                OperatorTypeEnum.InletsToDimension,
-                OperatorTypeEnum.Number,
-                OperatorTypeEnum.PatchInlet,
-                OperatorTypeEnum.PatchOutlet,
-                OperatorTypeEnum.Sample
-            };
+		public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithSpecializedPropertiesViews { get; } =
+			new HashSet<OperatorTypeEnum>
+			{
+				OperatorTypeEnum.Cache,
+				OperatorTypeEnum.Curve,
+				OperatorTypeEnum.InletsToDimension,
+				OperatorTypeEnum.Number,
+				OperatorTypeEnum.PatchInlet,
+				OperatorTypeEnum.PatchOutlet,
+				OperatorTypeEnum.Sample
+			};
 
-        public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView { get; } =
-            EnumHelper.GetValues<OperatorTypeEnum>()
-                      .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
-                      .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
-                      .Except(OperatorTypeEnums_WithSpecializedPropertiesViews)
-                      .ToHashSet();
+		public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView { get; } =
+			EnumHelper.GetValues<OperatorTypeEnum>()
+					  .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
+					  .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
+					  .Except(OperatorTypeEnums_WithSpecializedPropertiesViews)
+					  .ToHashSet();
 
-        // Document
+		// Document
 
-        public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
-        {
-            var viewModel = new DocumentDeletedViewModel
-            {
-                ValidationMessages = new List<string>()
-            };
+		public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
+		{
+			var viewModel = new DocumentDeletedViewModel
+			{
+				ValidationMessages = new List<string>()
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        public static DocumentOrPatchNotFoundPopupViewModel CreateDocumentOrPatchNotFoundPopupViewModel(string message = null)
-        {
-            DocumentOrPatchNotFoundPopupViewModel viewModel = CreateEmptyDocumentOrPatchNotFoundPopupViewModel();
+		public static DocumentOrPatchNotFoundPopupViewModel CreateDocumentOrPatchNotFoundPopupViewModel(string message = null)
+		{
+			DocumentOrPatchNotFoundPopupViewModel viewModel = CreateEmptyDocumentOrPatchNotFoundPopupViewModel();
 
-            viewModel.NotFoundMessage = message;
+			viewModel.NotFoundMessage = message;
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // Menu
+		// Menu
 
-        public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
-        {
-            var viewModel = new MenuViewModel
-            {
-                DocumentList = new MenuItemViewModel { Visible = true },
-                DocumentTree = new MenuItemViewModel { Visible = documentIsOpen },
-                DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
-                DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
-                ValidationMessages = new List<string>(),
-                Successful = true
-            };
+		public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
+		{
+			var viewModel = new MenuViewModel
+			{
+				DocumentList = new MenuItemViewModel { Visible = true },
+				DocumentTree = new MenuItemViewModel { Visible = documentIsOpen },
+				DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
+				DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
+				ValidationMessages = new List<string>(),
+				Successful = true
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // Patch-Related
+		// Patch-Related
 
-        /// <summary>
-        /// Is used to be able to update an existing operator view model in-place
-        /// without having to re-establish the intricate relations with other operators.
-        /// </summary>
-        public static void RefreshInletViewModels(
-            IList<Inlet> sourceInlets,
-            OperatorViewModel destOperatorViewModel,
-            ICurveRepository curveRepository,
-            EntityPositionManager entityPositionManager)
-        {
-            if (sourceInlets == null) throw new NullException(() => sourceInlets);
-            if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
+		/// <summary>
+		/// Is used to be able to update an existing operator view model in-place
+		/// without having to re-establish the intricate relations with other operators.
+		/// </summary>
+		public static void RefreshInletViewModels(
+			IList<Inlet> sourceInlets,
+			OperatorViewModel destOperatorViewModel,
+			ICurveRepository curveRepository,
+			EntityPositionManager entityPositionManager)
+		{
+			if (sourceInlets == null) throw new NullException(() => sourceInlets);
+			if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
 
-            var inletViewModelsToKeep = new List<InletViewModel>(sourceInlets.Count);
-            foreach (Inlet inlet in sourceInlets)
-            {
-                InletViewModel inletViewModel = destOperatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
-                if (inletViewModel == null)
-                {
-                    inletViewModel = new InletViewModel();
-                    destOperatorViewModel.Inlets.Add(inletViewModel);
-                }
+			var inletViewModelsToKeep = new List<InletViewModel>(sourceInlets.Count);
+			foreach (Inlet inlet in sourceInlets)
+			{
+				InletViewModel inletViewModel = destOperatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
+				if (inletViewModel == null)
+				{
+					inletViewModel = new InletViewModel();
+					destOperatorViewModel.Inlets.Add(inletViewModel);
+				}
 
-                inlet.ToViewModel(inletViewModel, curveRepository, entityPositionManager);
+				inlet.ToViewModel(inletViewModel, curveRepository, entityPositionManager);
 
-                inletViewModelsToKeep.Add(inletViewModel);
-            }
+				inletViewModelsToKeep.Add(inletViewModel);
+			}
 
-            IList<InletViewModel> existingInletViewModels = destOperatorViewModel.Inlets;
-            IList<InletViewModel> inletViewModelsToDelete = existingInletViewModels.Except(inletViewModelsToKeep).ToArray();
-            foreach (InletViewModel inletViewModelToDelete in inletViewModelsToDelete)
-            {
-                inletViewModelToDelete.InputOutlet = null;
-                destOperatorViewModel.Inlets.Remove(inletViewModelToDelete);
-            }
+			IList<InletViewModel> existingInletViewModels = destOperatorViewModel.Inlets;
+			IList<InletViewModel> inletViewModelsToDelete = existingInletViewModels.Except(inletViewModelsToKeep).ToArray();
+			foreach (InletViewModel inletViewModelToDelete in inletViewModelsToDelete)
+			{
+				inletViewModelToDelete.InputOutlet = null;
+				destOperatorViewModel.Inlets.Remove(inletViewModelToDelete);
+			}
 
-            destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.Sort(
-                x => x.Position,
-                x => x.IsRepeating,
-                x => x.RepetitionPosition,
-                x => (DimensionEnum)x.Dimension.ID,
-                x => x.Name,
-                x => x.IsObsolete).ToList();
-        }
+			destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.Sort(
+				x => x.Position,
+				x => x.IsRepeating,
+				x => x.RepetitionPosition,
+				x => (DimensionEnum)x.Dimension.ID,
+				x => x.Name,
+				x => x.IsObsolete).ToList();
+		}
 
-        /// <summary>
-        /// Is used to be able to update an existing operator view model in-place
-        /// without having to re-establish the intricate relations with other operators.
-        /// </summary>
-        public static void RefreshOutletViewModels(
-            IList<Outlet> sourceOutlets,
-            OperatorViewModel destOperatorViewModel,
-            ICurveRepository curveRepository,
-            EntityPositionManager entityPositionManager)
-        {
-            if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
-            if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
+		/// <summary>
+		/// Is used to be able to update an existing operator view model in-place
+		/// without having to re-establish the intricate relations with other operators.
+		/// </summary>
+		public static void RefreshOutletViewModels(
+			IList<Outlet> sourceOutlets,
+			OperatorViewModel destOperatorViewModel,
+			ICurveRepository curveRepository,
+			EntityPositionManager entityPositionManager)
+		{
+			if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
+			if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
 
-            var outletViewModelsToKeep = new List<OutletViewModel>(sourceOutlets.Count);
-            foreach (Outlet outlet in sourceOutlets)
-            {
-                OutletViewModel outletViewModel = destOperatorViewModel.Outlets.Where(x => x.ID == outlet.ID).FirstOrDefault();
-                if (outletViewModel == null)
-                {
-                    outletViewModel = new OutletViewModel();
-                    destOperatorViewModel.Outlets.Add(outletViewModel);
+			var outletViewModelsToKeep = new List<OutletViewModel>(sourceOutlets.Count);
+			foreach (Outlet outlet in sourceOutlets)
+			{
+				OutletViewModel outletViewModel = destOperatorViewModel.Outlets.Where(x => x.ID == outlet.ID).FirstOrDefault();
+				if (outletViewModel == null)
+				{
+					outletViewModel = new OutletViewModel();
+					destOperatorViewModel.Outlets.Add(outletViewModel);
 
-                    // The only inverse property in all the view models.
-                    outletViewModel.Operator = destOperatorViewModel;
-                }
+					// The only inverse property in all the view models.
+					outletViewModel.Operator = destOperatorViewModel;
+				}
 
-                outlet.ToViewModel(outletViewModel, curveRepository, entityPositionManager);
+				outlet.ToViewModel(outletViewModel, curveRepository, entityPositionManager);
 
-                outletViewModelsToKeep.Add(outletViewModel);
-            }
+				outletViewModelsToKeep.Add(outletViewModel);
+			}
 
-            IList<OutletViewModel> existingOutletViewModels = destOperatorViewModel.Outlets;
-            IList<OutletViewModel> outletViewModelsToDelete = existingOutletViewModels.Except(outletViewModelsToKeep).ToArray();
-            foreach (OutletViewModel outletViewModelToDelete in outletViewModelsToDelete)
-            {
-                // The only inverse property in all the view models.
-                outletViewModelToDelete.Operator = null;
+			IList<OutletViewModel> existingOutletViewModels = destOperatorViewModel.Outlets;
+			IList<OutletViewModel> outletViewModelsToDelete = existingOutletViewModels.Except(outletViewModelsToKeep).ToArray();
+			foreach (OutletViewModel outletViewModelToDelete in outletViewModelsToDelete)
+			{
+				// The only inverse property in all the view models.
+				outletViewModelToDelete.Operator = null;
 
-                destOperatorViewModel.Outlets.Remove(outletViewModelToDelete);
-            }
+				destOperatorViewModel.Outlets.Remove(outletViewModelToDelete);
+			}
 
-            destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.Sort(
-                x => x.Position,
-                x => x.IsRepeating,
-                x => x.RepetitionPosition,
-                x => (DimensionEnum)x.Dimension.ID,
-                x => x.Name,
-                x => x.IsObsolete).ToList();
-        }
+			destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.Sort(
+				x => x.Position,
+				x => x.IsRepeating,
+				x => x.RepetitionPosition,
+				x => (DimensionEnum)x.Dimension.ID,
+				x => x.Name,
+				x => x.IsObsolete).ToList();
+		}
 
-        /// <summary>
-        /// Is used to be able to update an existing operator view model in-place
-        /// without having to re-establish the intricate relations with other operators.
-        /// </summary>
-        public static void RefreshViewModel_WithInletsAndOutlets(
-            Operator entity,
-            OperatorViewModel operatorViewModel,
-            ICurveRepository curveRepository,
-            EntityPositionManager entityPositionManager)
-        {
-            RefreshViewModel(entity, operatorViewModel, curveRepository, entityPositionManager);
-            RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, entityPositionManager);
-            RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, entityPositionManager);
-        }
+		/// <summary>
+		/// Is used to be able to update an existing operator view model in-place
+		/// without having to re-establish the intricate relations with other operators.
+		/// </summary>
+		public static void RefreshViewModel_WithInletsAndOutlets(
+			Operator entity,
+			OperatorViewModel operatorViewModel,
+			ICurveRepository curveRepository,
+			EntityPositionManager entityPositionManager)
+		{
+			RefreshViewModel(entity, operatorViewModel, curveRepository, entityPositionManager);
+			RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, entityPositionManager);
+			RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, entityPositionManager);
+		}
 
-        /// <summary>
-        /// Is used to be able to update an existing operator view model in-place
-        /// without having to re-establish the intricate relations with other operators.
-        /// </summary>
-        public static void RefreshViewModel(
-            Operator entity,
-            OperatorViewModel viewModel,
-            ICurveRepository curveRepository,
-            EntityPositionManager entityPositionManager)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (viewModel == null) throw new NullException(() => viewModel);
+		/// <summary>
+		/// Is used to be able to update an existing operator view model in-place
+		/// without having to re-establish the intricate relations with other operators.
+		/// </summary>
+		public static void RefreshViewModel(
+			Operator entity,
+			OperatorViewModel viewModel,
+			ICurveRepository curveRepository,
+			EntityPositionManager entityPositionManager)
+		{
+			if (entity == null) throw new NullException(() => entity);
+			if (viewModel == null) throw new NullException(() => viewModel);
 
-            viewModel.ID = entity.ID;
-            viewModel.IsSmaller = GetOperatorIsSmaller(entity);
-            viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
-            viewModel.Caption = GetOperatorCaption(entity);
-            viewModel.IsOwned = GetOperatorIsOwned(entity);
+			viewModel.ID = entity.ID;
+			viewModel.IsSmaller = GetOperatorIsSmaller(entity);
+			viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
+			viewModel.Caption = GetOperatorCaption(entity);
+			viewModel.IsOwned = GetOperatorIsOwned(entity);
 
-            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
-            viewModel.EntityPositionID = entityPosition.ID;
-            viewModel.CenterX = entityPosition.X;
-            viewModel.CenterY = entityPosition.Y;
-            viewModel.Dimension = entity.ToDimensionViewModel();
-        }
+			EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
+			viewModel.EntityPositionID = entityPosition.ID;
+			viewModel.CenterX = entityPosition.X;
+			viewModel.CenterY = entityPosition.Y;
+			viewModel.Dimension = entity.ToDimensionViewModel();
+		}
 
-        public static DimensionViewModel ToDimensionViewModel(this Operator entity)
-        {
-            var viewModel = new DimensionViewModel
-            {
-                Key = GetDimensionKey(entity),
-                Name = TryGetDimensionName(entity),
-                Visible = MustStyleDimension(entity)
-            };
+		public static DimensionViewModel ToDimensionViewModel(this Operator entity)
+		{
+			var viewModel = new DimensionViewModel
+			{
+				Key = GetDimensionKey(entity),
+				Name = TryGetDimensionName(entity),
+				Visible = MustStyleDimension(entity)
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // UsedIn
+		// UsedIn
 
-        public static string FormatUsedInList(IList<IDAndName> idAndNames)
-        {
-            if (idAndNames == null) throw new NullException(() => idAndNames);
+		public static string FormatUsedInList(IList<IDAndName> idAndNames)
+		{
+			if (idAndNames == null) throw new NullException(() => idAndNames);
 
-            string concatinatedUsedIn = string.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
+			string concatinatedUsedIn = string.Join(", ", idAndNames.Select(x => x.Name).OrderBy(x => x));
 
-            return concatinatedUsedIn;
-        }
-    }
+			return concatinatedUsedIn;
+		}
+	}
 }

@@ -5,31 +5,31 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Document_SideEffect_AutoCreate_AudioOutput : ISideEffect
-    {
-        private readonly Document _document;
-        private readonly AudioOutputManager _audioOutputManager;
+	internal class Document_SideEffect_AutoCreate_AudioOutput : ISideEffect
+	{
+		private readonly Document _document;
+		private readonly AudioOutputManager _audioOutputManager;
 
-        public Document_SideEffect_AutoCreate_AudioOutput(
-            Document document,
-            IAudioOutputRepository audioOutputRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IIDRepository idRepository)
-        {
-            _document = document ?? throw new NullException(() => document);
+		public Document_SideEffect_AutoCreate_AudioOutput(
+			Document document,
+			IAudioOutputRepository audioOutputRepository,
+			ISpeakerSetupRepository speakerSetupRepository,
+			IIDRepository idRepository)
+		{
+			_document = document ?? throw new NullException(() => document);
 
-            _audioOutputManager = new AudioOutputManager(
-                audioOutputRepository, 
-                speakerSetupRepository, 
-                idRepository);
-        }
+			_audioOutputManager = new AudioOutputManager(
+				audioOutputRepository, 
+				speakerSetupRepository, 
+				idRepository);
+		}
 
-        public void Execute()
-        {
-            if (_document.AudioOutput == null)
-            {
-                _audioOutputManager.CreateWithDefaults(_document);
-            }
-        }
-    }
+		public void Execute()
+		{
+			if (_document.AudioOutput == null)
+			{
+				_audioOutputManager.CreateWithDefaults(_document);
+			}
+		}
+	}
 }

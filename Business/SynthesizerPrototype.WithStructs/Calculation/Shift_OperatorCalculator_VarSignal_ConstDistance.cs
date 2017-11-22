@@ -5,57 +5,57 @@ using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
-    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    public struct Shift_OperatorCalculator_VarSignal_ConstDistance<TSignalCalculator> 
-        : IShift_OperatorCalculator_VarSignal_ConstDistance
-        where TSignalCalculator : IOperatorCalculator
-    {
-        private TSignalCalculator _signalCalculator;
-        public IOperatorCalculator SignalCalculator
-        {
-            get { return _signalCalculator; }
-            set { _signalCalculator = (TSignalCalculator)value; }
-        }
+	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+	public struct Shift_OperatorCalculator_VarSignal_ConstDistance<TSignalCalculator> 
+		: IShift_OperatorCalculator_VarSignal_ConstDistance
+		where TSignalCalculator : IOperatorCalculator
+	{
+		private TSignalCalculator _signalCalculator;
+		public IOperatorCalculator SignalCalculator
+		{
+			get { return _signalCalculator; }
+			set { _signalCalculator = (TSignalCalculator)value; }
+		}
 
-        private double _distance;
-        public double Distance
-        {
-            get { return _distance; }
-            set { _distance = value; }
-        }
+		private double _distance;
+		public double Distance
+		{
+			get { return _distance; }
+			set { _distance = value; }
+		}
 
-        private DimensionStack _dimensionStack;
-        public DimensionStack DimensionStack
-        {
-            get { return _dimensionStack; }
-            set { _dimensionStack = value; }
-        }
+		private DimensionStack _dimensionStack;
+		public DimensionStack DimensionStack
+		{
+			get { return _dimensionStack; }
+			set { _dimensionStack = value; }
+		}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public double Calculate()
-        {
-            double transformedPosition = GetTransformedPosition();
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public double Calculate()
+		{
+			double transformedPosition = GetTransformedPosition();
 
-            _dimensionStack.Push(transformedPosition);
+			_dimensionStack.Push(transformedPosition);
 
-            double result = _signalCalculator.Calculate();
+			double result = _signalCalculator.Calculate();
 
-            _dimensionStack.Pop();
+			_dimensionStack.Pop();
 
-            return result;
-        }
+			return result;
+		}
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private double GetTransformedPosition()
-        {
-            double position = _dimensionStack.Get();
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private double GetTransformedPosition()
+		{
+			double position = _dimensionStack.Get();
 
-            // IMPORTANT: To shift to the right in the output, you have shift to the left in the input.
-            double transformedPosition = position - _distance;
+			// IMPORTANT: To shift to the right in the output, you have shift to the left in the input.
+			double transformedPosition = position - _distance;
 
-            return transformedPosition;
-        }
+			return transformedPosition;
+		}
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
-    }
+		private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+	}
 }

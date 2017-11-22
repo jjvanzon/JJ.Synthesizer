@@ -7,29 +7,29 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class ScaleGridUserControl : GridUserControlBase
-    {
-        public ScaleGridUserControl()
-        {
-            InitializeComponent();
+	internal partial class ScaleGridUserControl : GridUserControlBase
+	{
+		public ScaleGridUserControl()
+		{
+			InitializeComponent();
 
-            IDPropertyName = nameof(IDAndName.ID);
-            Title = ResourceFormatter.Scales;
-            ColumnTitlesVisible = false;
-        }
+			IDPropertyName = nameof(IDAndName.ID);
+			Title = ResourceFormatter.Scales;
+			ColumnTitlesVisible = false;
+		}
 
-        protected override object GetDataSource() => ViewModel.Dictionary.Values.ToArray();
+		protected override object GetDataSource() => ViewModel.Dictionary.Values.ToArray();
 
-        protected override void AddColumns()
-        {
-            AddHiddenColumn(nameof(IDAndName.ID));
-            AddAutoSizeColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name);
-        }
+		protected override void AddColumns()
+		{
+			AddHiddenColumn(nameof(IDAndName.ID));
+			AddAutoSizeColumn(nameof(IDAndName.Name), CommonResourceFormatter.Name);
+		}
 
-        public new ScaleGridViewModel ViewModel
-        {
-            get => (ScaleGridViewModel)base.ViewModel;
-            set => base.ViewModel = value;
-        }
-    }
+		public new ScaleGridViewModel ViewModel
+		{
+			get => (ScaleGridViewModel)base.ViewModel;
+			set => base.ViewModel = value;
+		}
+	}
 }

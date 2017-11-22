@@ -5,15 +5,15 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class ScaleValidator_InDocument : VersatileValidator
-    {
-        public ScaleValidator_InDocument(Scale scale)
-        {
-            if (scale == null) throw new NullException(() => scale);
+	internal class ScaleValidator_InDocument : VersatileValidator
+	{
+		public ScaleValidator_InDocument(Scale scale)
+		{
+			if (scale == null) throw new NullException(() => scale);
 
-            For(scale.Document, ResourceFormatter.Document).NotNull();
+			For(scale.Document, ResourceFormatter.Document).NotNull();
 
-            ExecuteValidator(new NameValidator(scale.Name));
-        }
-    }
+			ExecuteValidator(new NameValidator(scale.Name));
+		}
+	}
 }

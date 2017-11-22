@@ -5,22 +5,22 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
-    internal class CollectionRecalculation_DataProperty_Validator : VersatileValidator
-    {
-        public CollectionRecalculation_DataProperty_Validator(string data) 
-        { 
-            // ReSharper disable once InvertIf
-            if (DataPropertyParser.DataIsWellFormed(data))
-            {
-                const string dataKey = nameof(OperatorWrapper_WithCollectionRecalculation.CollectionRecalculation);
+	internal class CollectionRecalculation_DataProperty_Validator : VersatileValidator
+	{
+		public CollectionRecalculation_DataProperty_Validator(string data) 
+		{ 
+			// ReSharper disable once InvertIf
+			if (DataPropertyParser.DataIsWellFormed(data))
+			{
+				const string dataKey = nameof(OperatorWrapper_WithCollectionRecalculation.CollectionRecalculation);
 
-                string stringValue = DataPropertyParser.TryGetString(data, dataKey);
+				string stringValue = DataPropertyParser.TryGetString(data, dataKey);
 
-                For(stringValue, dataKey)
-                    .NotNullOrEmpty()
-                    .IsEnum<CollectionRecalculationEnum>()
-                    .IsNot(CollectionRecalculationEnum.Undefined);
-            }
-        }
-    }
+				For(stringValue, dataKey)
+					.NotNullOrEmpty()
+					.IsEnum<CollectionRecalculationEnum>()
+					.IsNot(CollectionRecalculationEnum.Undefined);
+			}
+		}
+	}
 }

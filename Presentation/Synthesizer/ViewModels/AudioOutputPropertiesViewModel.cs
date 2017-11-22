@@ -6,13 +6,13 @@ using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    public sealed class AudioOutputPropertiesViewModel : ViewModelBase
-    {
-        public AudioOutputViewModel Entity { get; set; }
-        public IList<IDAndName> SpeakerSetupLookup { get; set; }
-        internal int? OutletIDToPlay { get; set; }
+	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+	public sealed class AudioOutputPropertiesViewModel : ViewModelBase
+	{
+		public AudioOutputViewModel Entity { get; set; }
+		public IList<IDAndName> SpeakerSetupLookup { get; set; }
+		internal int? OutletIDToPlay { get; set; }
 
-        private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
-    }
+		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+	}
 }

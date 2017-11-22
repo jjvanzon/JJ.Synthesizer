@@ -12,161 +12,161 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    internal class RecursiveDocumentTreeViewModelFactory
-    {
-        public DocumentTreeViewModel CreateEmptyDocumentTreeViewModel()
-        {
-            var viewModel = new DocumentTreeViewModel
-            {
-                PatchesNode = new PatchesTreeNodeViewModel
-                {
-                    Text = GetTreeNodeText(ResourceFormatter.Patches, count: 0),
-                    PatchNodes = new List<PatchTreeNodeViewModel>(),
-                    PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>(),
-                },
-                ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, count: 0),
-                AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
-                AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, count: 0),
-                ValidationMessages = new List<string>(),
-                LibrariesNode = new LibrariesTreeNodeViewModel
-                {
-                    List = new List<LibraryTreeNodeViewModel>()
-                }
-            };
+	internal class RecursiveDocumentTreeViewModelFactory
+	{
+		public DocumentTreeViewModel CreateEmptyDocumentTreeViewModel()
+		{
+			var viewModel = new DocumentTreeViewModel
+			{
+				PatchesNode = new PatchesTreeNodeViewModel
+				{
+					Text = GetTreeNodeText(ResourceFormatter.Patches, count: 0),
+					PatchNodes = new List<PatchTreeNodeViewModel>(),
+					PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>(),
+				},
+				ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, count: 0),
+				AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
+				AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, count: 0),
+				ValidationMessages = new List<string>(),
+				LibrariesNode = new LibrariesTreeNodeViewModel
+				{
+					List = new List<LibraryTreeNodeViewModel>()
+				}
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        public DocumentTreeViewModel ToTreeViewModel(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
+		public DocumentTreeViewModel ToTreeViewModel(Document document)
+		{
+			if (document == null) throw new NullException(() => document);
 
-            // ToViewModel
-            var viewModel = new DocumentTreeViewModel
-            {
-                ID = document.ID,
-                ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
-                AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
-                AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, document.AudioFileOutputs.Count),
-                ValidationMessages = new List<string>(),
-                PatchesNode = new PatchesTreeNodeViewModel
-                {
-                    Text = GetTreeNodeText(ResourceFormatter.Patches, document.Patches.Count),
-                    PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
-                },
-                LibrariesNode = new LibrariesTreeNodeViewModel
-                {
-                    Text = GetTreeNodeText(ResourceFormatter.Libraries, document.LowerDocumentReferences.Count),
-                    List = new List<LibraryTreeNodeViewModel>()
-                }
-            };
+			// ToViewModel
+			var viewModel = new DocumentTreeViewModel
+			{
+				ID = document.ID,
+				ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
+				AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
+				AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, document.AudioFileOutputs.Count),
+				ValidationMessages = new List<string>(),
+				PatchesNode = new PatchesTreeNodeViewModel
+				{
+					Text = GetTreeNodeText(ResourceFormatter.Patches, document.Patches.Count),
+					PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
+				},
+				LibrariesNode = new LibrariesTreeNodeViewModel
+				{
+					Text = GetTreeNodeText(ResourceFormatter.Libraries, document.LowerDocumentReferences.Count),
+					List = new List<LibraryTreeNodeViewModel>()
+				}
+			};
 
-            viewModel.LibrariesNode.List = document.LowerDocumentReferences
-                                                   .Select(x => ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(x))
-                                                   .OrderBy(x => x.Caption)
-                                                   .ToList();
+			viewModel.LibrariesNode.List = document.LowerDocumentReferences
+												   .Select(x => ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(x))
+												   .OrderBy(x => x.Caption)
+												   .ToList();
 
-            // Business
-            IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
-            IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
+			// Business
+			IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
+			IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: true);
 
-            // ToViewModel
-            viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
-                                                               .Select(x => ToTreeNodeViewModel(x))
-                                                               .ToList();
+			// ToViewModel
+			viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
+															   .Select(x => ToTreeNodeViewModel(x))
+															   .ToList();
 
-            viewModel.PatchesNode.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.FriendlyGroupName)
-                                                                  .Select(x => ToTreeNodeViewModel(x))
-                                                                  .ToList();
-            return viewModel;
-        }
+			viewModel.PatchesNode.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.FriendlyGroupName)
+																  .Select(x => ToTreeNodeViewModel(x))
+																  .ToList();
+			return viewModel;
+		}
 
-        private LibraryTreeNodeViewModel ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(DocumentReference lowerDocumentReference)
-        {
-            Document document = lowerDocumentReference.LowerDocument;
+		private LibraryTreeNodeViewModel ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(DocumentReference lowerDocumentReference)
+		{
+			Document document = lowerDocumentReference.LowerDocument;
 
-            var viewModel = new LibraryTreeNodeViewModel
-            {
-                LowerDocumentReferenceID = lowerDocumentReference.ID,
-            };
+			var viewModel = new LibraryTreeNodeViewModel
+			{
+				LowerDocumentReferenceID = lowerDocumentReference.ID,
+			};
 
-            // Business
-            IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: false);
-            IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: false);
+			// Business
+			IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: false);
+			IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: false);
 
-            // ToViewModel
-            viewModel.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
-                                                   .Select(x => ToTreeNodeViewModel(x))
-                                                   .ToList();
+			// ToViewModel
+			viewModel.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
+												   .Select(x => ToTreeNodeViewModel(x))
+												   .ToList();
 
-            viewModel.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.FriendlyGroupName)
-                                                      .Select(x => ToTreeNodeViewModel(x))
-                                                      .ToList();
+			viewModel.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.FriendlyGroupName)
+													  .Select(x => ToTreeNodeViewModel(x))
+													  .ToList();
 
-            string aliasOrName = lowerDocumentReference.GetAliasOrName();
-            int visiblePatchCount = document.Patches.Where(x => !x.Hidden).Count();
-            viewModel.Caption = GetTreeNodeText(aliasOrName, visiblePatchCount);
+			string aliasOrName = lowerDocumentReference.GetAliasOrName();
+			int visiblePatchCount = document.Patches.Where(x => !x.Hidden).Count();
+			viewModel.Caption = GetTreeNodeText(aliasOrName, visiblePatchCount);
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        private TreeLeafViewModel CreateTreeLeafViewModel(string displayName)
-        {
-            var viewModel = new TreeLeafViewModel
-            {
-                Text = displayName
-            };
+		private TreeLeafViewModel CreateTreeLeafViewModel(string displayName)
+		{
+			var viewModel = new TreeLeafViewModel
+			{
+				Text = displayName
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        private TreeLeafViewModel CreateTreeLeafViewModel(string displayName, int count)
-        {
-            var viewModel = new TreeLeafViewModel
-            {
-                Text = GetTreeNodeText(displayName, count)
-            };
+		private TreeLeafViewModel CreateTreeLeafViewModel(string displayName, int count)
+		{
+			var viewModel = new TreeLeafViewModel
+			{
+				Text = GetTreeNodeText(displayName, count)
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        private PatchGroupTreeNodeViewModel ToTreeNodeViewModel(PatchGroupDto patchGroupDto)
-        {
-            var viewModel = new PatchGroupTreeNodeViewModel
-            {
-                CanonicalGroupName = patchGroupDto.CanonicalGroupName,
-                Caption = GetTreeNodeText(patchGroupDto.FriendlyGroupName, patchGroupDto.Patches.Count),
-                PatchNodes = patchGroupDto.Patches
-                                          .OrderBy(x => x.Name)
-                                          .Select(x => ToTreeNodeViewModel(x))
-                                          .ToList()
-            };
+		private PatchGroupTreeNodeViewModel ToTreeNodeViewModel(PatchGroupDto patchGroupDto)
+		{
+			var viewModel = new PatchGroupTreeNodeViewModel
+			{
+				CanonicalGroupName = patchGroupDto.CanonicalGroupName,
+				Caption = GetTreeNodeText(patchGroupDto.FriendlyGroupName, patchGroupDto.Patches.Count),
+				PatchNodes = patchGroupDto.Patches
+										  .OrderBy(x => x.Name)
+										  .Select(x => ToTreeNodeViewModel(x))
+										  .ToList()
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        private PatchTreeNodeViewModel ToTreeNodeViewModel(Patch entity)
-        {
-            var viewModel = new PatchTreeNodeViewModel
-            {
-                ID = entity.ID,
-                HasLighterStyle = entity.Hidden,
-                Name = ResourceFormatter.GetDisplayName(entity)
-            };
+		private PatchTreeNodeViewModel ToTreeNodeViewModel(Patch entity)
+		{
+			var viewModel = new PatchTreeNodeViewModel
+			{
+				ID = entity.ID,
+				HasLighterStyle = entity.Hidden,
+				Name = ResourceFormatter.GetDisplayName(entity)
+			};
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        private string GetTreeNodeText(string displayName, int count)
-        {
-            string text = displayName;
+		private string GetTreeNodeText(string displayName, int count)
+		{
+			string text = displayName;
 
-            if (count != 0)
-            {
-                text += $" ({count})";
-            }
+			if (count != 0)
+			{
+				text += $" ({count})";
+			}
 
-            return text;
-        }
-    }
+			return text;
+		}
+	}
 }

@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface INodeTypeRepository : IRepository<NodeType, int>
-    { }
+	public interface INodeTypeRepository : IRepository<NodeType, int>
+	{ }
 }

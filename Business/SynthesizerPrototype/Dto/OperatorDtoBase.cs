@@ -4,13 +4,13 @@ using JJ.Business.SynthesizerPrototype.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.Dto
 {
-    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-    public abstract class OperatorDtoBase : IOperatorDto
-    {
-        public int DimensionStackLevel { get; set; }
-        public abstract string OperatorTypeName { get; }
-        public abstract IList<IOperatorDto> InputOperatorDtos { get; set; } 
+	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+	public abstract class OperatorDtoBase : IOperatorDto
+	{
+		public int DimensionStackLevel { get; set; }
+		public abstract string OperatorTypeName { get; }
+		public abstract IList<IOperatorDto> InputOperatorDtos { get; set; } 
 
-        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
-    }
+		private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+	}
 }

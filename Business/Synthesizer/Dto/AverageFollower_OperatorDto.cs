@@ -2,8 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class AverageFollower_OperatorDto : OperatorDtoBase_AggregateFollower
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AverageFollower;
-    }
+	internal class AverageFollower_OperatorDto : OperatorDtoBase_AggregateFollower
+	{
+		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.AverageFollower;
+	}
 }

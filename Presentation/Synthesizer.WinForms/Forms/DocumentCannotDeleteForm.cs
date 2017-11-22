@@ -5,36 +5,36 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
-    internal partial class DocumentCannotDeleteForm : Form
-    {
-        public event EventHandler OKClicked;
+	internal partial class DocumentCannotDeleteForm : Form
+	{
+		public event EventHandler OKClicked;
 
-        public DocumentCannotDeleteForm()
-        {
-            InitializeComponent();
+		public DocumentCannotDeleteForm()
+		{
+			InitializeComponent();
 
-            Text = ResourceFormatter.ApplicationName;
-        }
+			Text = ResourceFormatter.ApplicationName;
+		}
 
-        public void ShowDialog(DocumentCannotDeleteViewModel viewModel)
-        {
-            documentCannotDeleteUserControl.ViewModel = viewModel;
-            documentCannotDeleteUserControl.Show();
+		public void ShowDialog(DocumentCannotDeleteViewModel viewModel)
+		{
+			documentCannotDeleteUserControl.ViewModel = viewModel;
+			documentCannotDeleteUserControl.Show();
 
-            base.ShowDialog();
-        }
+			base.ShowDialog();
+		}
 
-        private void documentCannotDeleteUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            Close();
+		private void documentCannotDeleteUserControl_CloseRequested(object sender, EventArgs e)
+		{
+			Close();
 
-            OKClicked?.Invoke(this, EventArgs.Empty);
-        }
+			OKClicked?.Invoke(this, EventArgs.Empty);
+		}
 
-        private void DocumentCannotDeleteForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = true;
-            Visible = false;
-        }
-    }
+		private void DocumentCannotDeleteForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			e.Cancel = true;
+			Visible = false;
+		}
+	}
 }

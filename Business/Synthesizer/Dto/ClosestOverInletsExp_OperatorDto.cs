@@ -2,8 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class ClosestOverInletsExp_OperatorDto : ClosestOverInlets_OperatorDto
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverInletsExp;
-    }
+	internal class ClosestOverInletsExp_OperatorDto : ClosestOverInlets_OperatorDto
+	{
+		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.ClosestOverInletsExp;
+	}
 }

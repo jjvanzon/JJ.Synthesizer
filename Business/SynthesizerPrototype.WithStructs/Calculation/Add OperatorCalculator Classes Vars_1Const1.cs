@@ -18,11 +18,11 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 				where TChildCalculator1 : IOperatorCalculator
 		{
 			private double _constValue;
-            public double ConstValue
-            {
+			public double ConstValue
+			{
 				get { return _constValue; }
-                set { _constValue = value; }
-            }
+				set { _constValue = value; }
+			}
 				private TChildCalculator1 _calculator1;
 
 			public void SetVarCalculator(int i, IOperatorCalculator varOperatorCalculator)
@@ -56,11 +56,11 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 				where TChildCalculator2 : IOperatorCalculator
 		{
 			private double _constValue;
-            public double ConstValue
-            {
+			public double ConstValue
+			{
 				get { return _constValue; }
-                set { _constValue = value; }
-            }
+				set { _constValue = value; }
+			}
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
 
@@ -102,11 +102,11 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 				where TChildCalculator3 : IOperatorCalculator
 		{
 			private double _constValue;
-            public double ConstValue
-            {
+			public double ConstValue
+			{
 				get { return _constValue; }
-                set { _constValue = value; }
-            }
+				set { _constValue = value; }
+			}
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
 				private TChildCalculator3 _calculator3;
@@ -156,11 +156,11 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 				where TChildCalculator4 : IOperatorCalculator
 		{
 			private double _constValue;
-            public double ConstValue
-            {
+			public double ConstValue
+			{
 				get { return _constValue; }
-                set { _constValue = value; }
-            }
+				set { _constValue = value; }
+			}
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
 				private TChildCalculator3 _calculator3;
@@ -218,11 +218,11 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 				where TChildCalculator5 : IOperatorCalculator
 		{
 			private double _constValue;
-            public double ConstValue
-            {
+			public double ConstValue
+			{
 				get { return _constValue; }
-                set { _constValue = value; }
-            }
+				set { _constValue = value; }
+			}
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
 				private TChildCalculator3 _calculator3;
@@ -288,11 +288,11 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 				where TChildCalculator6 : IOperatorCalculator
 		{
 			private double _constValue;
-            public double ConstValue
-            {
+			public double ConstValue
+			{
 				get { return _constValue; }
-                set { _constValue = value; }
-            }
+				set { _constValue = value; }
+			}
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
 				private TChildCalculator3 _calculator3;
@@ -366,11 +366,11 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 				where TChildCalculator7 : IOperatorCalculator
 		{
 			private double _constValue;
-            public double ConstValue
-            {
+			public double ConstValue
+			{
 				get { return _constValue; }
-                set { _constValue = value; }
-            }
+				set { _constValue = value; }
+			}
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
 				private TChildCalculator3 _calculator3;

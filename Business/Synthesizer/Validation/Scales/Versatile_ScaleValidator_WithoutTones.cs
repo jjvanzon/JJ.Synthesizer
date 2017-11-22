@@ -6,34 +6,34 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-    internal class Versatile_ScaleValidator_WithoutTones : VersatileValidator
-    {
-        public Versatile_ScaleValidator_WithoutTones(Scale obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
+	internal class Versatile_ScaleValidator_WithoutTones : VersatileValidator
+	{
+		public Versatile_ScaleValidator_WithoutTones(Scale obj)
+		{
+			if (obj == null) throw new NullException(() => obj);
 
-            ScaleTypeEnum scaleTypeEnum = obj.GetScaleTypeEnum();
+			ScaleTypeEnum scaleTypeEnum = obj.GetScaleTypeEnum();
 
-            ExecuteValidator(new Basic_ScaleValidator(obj));
+			ExecuteValidator(new Basic_ScaleValidator(obj));
 
-            switch (scaleTypeEnum)
-            {
-                case ScaleTypeEnum.LiteralFrequency:
-                    ExecuteValidator(new LiteralFrequency_ScaleValidator(obj));
-                    break;
+			switch (scaleTypeEnum)
+			{
+				case ScaleTypeEnum.LiteralFrequency:
+					ExecuteValidator(new LiteralFrequency_ScaleValidator(obj));
+					break;
 
-                case ScaleTypeEnum.Factor:
-                    ExecuteValidator(new Factor_ScaleValidator(obj));
-                    break;
+				case ScaleTypeEnum.Factor:
+					ExecuteValidator(new Factor_ScaleValidator(obj));
+					break;
 
-                case ScaleTypeEnum.Exponent:
-                    ExecuteValidator(new Exponent_ScaleValidator(obj));
-                    break;
+				case ScaleTypeEnum.Exponent:
+					ExecuteValidator(new Exponent_ScaleValidator(obj));
+					break;
 
-                case ScaleTypeEnum.SemiTone:
-                    ExecuteValidator(new SemiTone_ScaleValidator(obj));
-                    break;
-            }
-        }
-    }
+				case ScaleTypeEnum.SemiTone:
+					ExecuteValidator(new SemiTone_ScaleValidator(obj));
+					break;
+			}
+		}
+	}
 }

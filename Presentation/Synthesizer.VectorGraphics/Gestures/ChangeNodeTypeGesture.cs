@@ -5,16 +5,16 @@ using JJ.Framework.Presentation.VectorGraphics.Gestures;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
-    public class ChangeNodeTypeGesture : GestureBase
-    {
-        public event EventHandler ChangeNodeTypeRequested;
+	public class ChangeNodeTypeGesture : GestureBase
+	{
+		public event EventHandler ChangeNodeTypeRequested;
 
-        protected override void HandleKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == KeyCodeEnum.Space)
-            {
-                ChangeNodeTypeRequested?.Invoke(sender, EventArgs.Empty);
-            }
-        }
-    }
+		protected override void HandleKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == KeyCodeEnum.Space)
+			{
+				ChangeNodeTypeRequested?.Invoke(sender, EventArgs.Empty);
+			}
+		}
+	}
 }

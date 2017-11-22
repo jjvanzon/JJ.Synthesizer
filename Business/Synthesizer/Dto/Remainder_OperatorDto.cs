@@ -2,8 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto
 {
-    internal class Remainder_OperatorDto : OperatorDtoBase_WithAAndB
-    {
-        public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Remainder;
-    }
+	internal class Remainder_OperatorDto : OperatorDtoBase_WithAAndB
+	{
+		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Remainder;
+	}
 }

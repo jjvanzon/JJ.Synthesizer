@@ -4,26 +4,26 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-    public interface IDocumentRepository : IRepository<Document, int>
-    {
-        IList<Document> GetAll();
-        IList<Document> OrderByName();
+	public interface IDocumentRepository : IRepository<Document, int>
+	{
+		IList<Document> GetAll();
+		IList<Document> OrderByName();
 
-        /// <summary>
-        /// Gets the Document entity including all its descendant entities in one blow,
-        /// so not through lazy loading, so in a more efficient manner.
-        /// </summary>
-        Document TryGetComplete(int id);
+		/// <summary>
+		/// Gets the Document entity including all its descendant entities in one blow,
+		/// so not through lazy loading, so in a more efficient manner.
+		/// </summary>
+		Document TryGetComplete(int id);
 
-        /// <summary>
-        /// Gets the Document entity including all its descendant entities in one blow,
-        /// so not through lazy loading, so in a more efficient manner.
-        /// </summary>
-        Document GetComplete(int id);
+		/// <summary>
+		/// Gets the Document entity including all its descendant entities in one blow,
+		/// so not through lazy loading, so in a more efficient manner.
+		/// </summary>
+		Document GetComplete(int id);
 
-        Document TryGetByName(string name);
-        Document GetByName(string name);
+		Document TryGetByName(string name);
+		Document GetByName(string name);
 
-        Document GetByNameComplete(string name);
-    }
+		Document GetByNameComplete(string name);
+	}
 }

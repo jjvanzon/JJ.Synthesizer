@@ -2,9 +2,9 @@
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class DocumentPropertiesViewModel : ViewModelBase
-    {
-        public IDAndName Entity { get; set; }
-        internal int? OutletIDToPlay { get; set; }
-    }
+	public sealed class DocumentPropertiesViewModel : ViewModelBase
+	{
+		public IDAndName Entity { get; set; }
+		internal int? OutletIDToPlay { get; set; }
+	}
 }

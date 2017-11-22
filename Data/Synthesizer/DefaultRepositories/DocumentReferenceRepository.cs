@@ -4,10 +4,10 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-    public class DocumentReferenceRepository : RepositoryBase<DocumentReference, int>, IDocumentReferenceRepository
-    {
-        public DocumentReferenceRepository(IContext context)
-            : base(context)
-        { }
-    }
+	public class DocumentReferenceRepository : RepositoryBase<DocumentReference, int>, IDocumentReferenceRepository
+	{
+		public DocumentReferenceRepository(IContext context)
+			: base(context)
+		{ }
+	}
 }

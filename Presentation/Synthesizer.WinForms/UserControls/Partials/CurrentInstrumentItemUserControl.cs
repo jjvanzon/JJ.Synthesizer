@@ -12,100 +12,100 @@ using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
-    internal partial class CurrentInstrumentItemUserControl : UserControl
-    {
-        private const int SPACING = 1;
+	internal partial class CurrentInstrumentItemUserControl : UserControl
+	{
+		private const int SPACING = 1;
 
-        public event EventHandler<EventArgs<int>> ExpandRequested;
-        public event EventHandler<EventArgs<int>> MoveBackwardRequested;
-        public event EventHandler<EventArgs<int>> MoveForwardRequested;
-        public event EventHandler<EventArgs<int>> PlayRequested;
-        public event EventHandler<EventArgs<int>> RemoveRequested;
+		public event EventHandler<EventArgs<int>> ExpandRequested;
+		public event EventHandler<EventArgs<int>> MoveBackwardRequested;
+		public event EventHandler<EventArgs<int>> MoveForwardRequested;
+		public event EventHandler<EventArgs<int>> PlayRequested;
+		public event EventHandler<EventArgs<int>> RemoveRequested;
 
-        public CurrentInstrumentItemUserControl() => InitializeComponent();
+		public CurrentInstrumentItemUserControl() => InitializeComponent();
 
-        private void CurrentInstrumentItemUserControl_Load(object sender, EventArgs e)
-        {
-            SetTitles();
-            PositionControls();
-        }
+		private void CurrentInstrumentItemUserControl_Load(object sender, EventArgs e)
+		{
+			SetTitles();
+			PositionControls();
+		}
 
-        private CurrentInstrumentItemViewModel _viewModel;
+		private CurrentInstrumentItemViewModel _viewModel;
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public CurrentInstrumentItemViewModel ViewModel
-        {
-            get => _viewModel;
-            set
-            {
-                _viewModel = value;
-                ApplyViewModelToControls();
-                PositionControls();
-            }
-        }
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public CurrentInstrumentItemViewModel ViewModel
+		{
+			get => _viewModel;
+			set
+			{
+				_viewModel = value;
+				ApplyViewModelToControls();
+				PositionControls();
+			}
+		}
 
-        private void SetTitles()
-        {
-            toolTip.SetToolTip(buttonExpand, CommonResourceFormatter.Open);
-            toolTip.SetToolTip(buttonMoveBackward, CommonResourceFormatter.Move);
-            toolTip.SetToolTip(buttonMoveForward, CommonResourceFormatter.Move);
-            toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
-            toolTip.SetToolTip(buttonRemove, CommonResourceFormatter.Remove);
-        }
+		private void SetTitles()
+		{
+			toolTip.SetToolTip(buttonExpand, CommonResourceFormatter.Open);
+			toolTip.SetToolTip(buttonMoveBackward, CommonResourceFormatter.Move);
+			toolTip.SetToolTip(buttonMoveForward, CommonResourceFormatter.Move);
+			toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
+			toolTip.SetToolTip(buttonRemove, CommonResourceFormatter.Remove);
+		}
 
-        private void ApplyViewModelToControls()
-        {
-            labelName.Text = _viewModel.Name;
-            buttonMoveBackward.Visible = _viewModel.CanGoBackward;
-            buttonMoveForward.Visible = _viewModel.CanGoForward;
-        }
+		private void ApplyViewModelToControls()
+		{
+			labelName.Text = _viewModel.Name;
+			buttonMoveBackward.Visible = _viewModel.CanGoBackward;
+			buttonMoveForward.Visible = _viewModel.CanGoForward;
+		}
 
-        private void PositionControls()
-        {
-            if (_viewModel == null)
-            {
-                return;
-            }
+		private void PositionControls()
+		{
+			if (_viewModel == null)
+			{
+				return;
+			}
 
-            int buttonWidth = buttonMoveBackward.Width;
-            const int labelY = 3;
+			int buttonWidth = buttonMoveBackward.Width;
+			const int labelY = 3;
 
-            int x = SPACING;
+			int x = SPACING;
 
-            if (_viewModel.CanGoBackward)
-            {
-                buttonMoveBackward.Location = new Point(x, SPACING);
-                x += buttonWidth + SPACING;
-            }
+			if (_viewModel.CanGoBackward)
+			{
+				buttonMoveBackward.Location = new Point(x, SPACING);
+				x += buttonWidth + SPACING;
+			}
 
-            labelName.Location = new Point(x, labelY);
-            x += labelName.Width;
+			labelName.Location = new Point(x, labelY);
+			x += labelName.Width;
 
-            if (_viewModel.CanGoForward)
-            {
-                buttonMoveForward.Location = new Point(x, SPACING);
-                x += buttonWidth + SPACING;
-            }
+			if (_viewModel.CanGoForward)
+			{
+				buttonMoveForward.Location = new Point(x, SPACING);
+				x += buttonWidth + SPACING;
+			}
 
-            buttonPlay.Location = new Point(x, SPACING);
-            x += buttonWidth + SPACING;
+			buttonPlay.Location = new Point(x, SPACING);
+			x += buttonWidth + SPACING;
 
-            buttonExpand.Location = new Point(x, SPACING);
-            x += buttonWidth + SPACING;
+			buttonExpand.Location = new Point(x, SPACING);
+			x += buttonWidth + SPACING;
 
-            buttonRemove.Location = new Point(x, SPACING);
-            x += buttonWidth + SPACING;
+			buttonRemove.Location = new Point(x, SPACING);
+			x += buttonWidth + SPACING;
 
-            x += SPACING;
+			x += SPACING;
 
-            Width = x;
-        }
+			Width = x;
+		}
 
-        private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(this, new EventArgs<int>(_viewModel.ID));
-        private void buttonMoveBackward_Click(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.ID));
-        private void buttonMoveForward_Click(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.ID));
-        private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.ID));
-        private void buttonRemove_Click(object sender, EventArgs e) => RemoveRequested(this, new EventArgs<int>(_viewModel.ID));
-    }
+		private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(this, new EventArgs<int>(_viewModel.ID));
+		private void buttonMoveBackward_Click(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.ID));
+		private void buttonMoveForward_Click(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.ID));
+		private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.ID));
+		private void buttonRemove_Click(object sender, EventArgs e) => RemoveRequested(this, new EventArgs<int>(_viewModel.ID));
+	}
 }

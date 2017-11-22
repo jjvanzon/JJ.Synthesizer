@@ -2,9 +2,9 @@
 
 namespace JJ.Business.SynthesizerPrototype.Dto
 {
-    public class VariableInput_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
-    {
-        public double DefaultValue { get; set; }
-        public override string OperatorTypeName => nameof(OperatorTypeEnum.VariableInput);
-    }
+	public class VariableInput_OperatorDto : OperatorDtoBase_WithoutInputOperatorDtos
+	{
+		public double DefaultValue { get; set; }
+		public override string OperatorTypeName => nameof(OperatorTypeEnum.VariableInput);
+	}
 }

@@ -8,61 +8,61 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    internal static class ToListItemViewModelExtensions
-    {
-        // AudioFileOutput
+	internal static class ToListItemViewModelExtensions
+	{
+		// AudioFileOutput
 
-        public static IList<AudioFileOutputListItemViewModel> ToListItemViewModels(this IList<AudioFileOutput> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
+		public static IList<AudioFileOutputListItemViewModel> ToListItemViewModels(this IList<AudioFileOutput> entities)
+		{
+			if (entities == null) throw new NullException(() => entities);
 
-            IList<AudioFileOutputListItemViewModel> viewModels = entities.OrderBy(x => x.Name)
-                                                                         .Select(x => x.ToListItemViewModel())
-                                                                         .ToList();
-            return viewModels;
-        }
+			IList<AudioFileOutputListItemViewModel> viewModels = entities.OrderBy(x => x.Name)
+																		 .Select(x => x.ToListItemViewModel())
+																		 .ToList();
+			return viewModels;
+		}
 
-        public static AudioFileOutputListItemViewModel ToListItemViewModel(this AudioFileOutput entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
+		public static AudioFileOutputListItemViewModel ToListItemViewModel(this AudioFileOutput entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = new AudioFileOutputListItemViewModel
-            {
-                Name = entity.Name,
-                SamplingRate = entity.SamplingRate,
-                ID = entity.ID
-            };
+			var viewModel = new AudioFileOutputListItemViewModel
+			{
+				Name = entity.Name,
+				SamplingRate = entity.SamplingRate,
+				ID = entity.ID
+			};
 
-            // TODO: Do this with Enums.
-            if (entity.AudioFileFormat != null)
-            {
-                viewModel.AudioFileFormat = ResourceFormatter.GetDisplayName(entity.AudioFileFormat.Name);
-            }
+			// TODO: Do this with Enums.
+			if (entity.AudioFileFormat != null)
+			{
+				viewModel.AudioFileFormat = ResourceFormatter.GetDisplayName(entity.AudioFileFormat.Name);
+			}
 
-            if (entity.SampleDataType != null)
-            {
-                viewModel.SampleDataType = ResourceFormatter.GetDisplayName(entity.SampleDataType.Name);
-            }
+			if (entity.SampleDataType != null)
+			{
+				viewModel.SampleDataType = ResourceFormatter.GetDisplayName(entity.SampleDataType.Name);
+			}
 
-            if (entity.SpeakerSetup != null)
-            {
-                viewModel.SpeakerSetup = ResourceFormatter.GetDisplayName(entity.SpeakerSetup.Name);
-            }
+			if (entity.SpeakerSetup != null)
+			{
+				viewModel.SpeakerSetup = ResourceFormatter.GetDisplayName(entity.SpeakerSetup.Name);
+			}
 
-            return viewModel;
-        }
+			return viewModel;
+		}
 
-        // Libraries
+		// Libraries
 
-        public static IList<IDAndName> ToIDAndNameList(IList<Document> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
+		public static IList<IDAndName> ToIDAndNameList(IList<Document> entities)
+		{
+			if (entities == null) throw new NullException(() => entities);
 
-            IList<IDAndName> viewModels = entities.Select(x => x.ToIDAndName())
-                                                  .OrderBy(x => x.Name)
-                                                  .ToList();
+			IList<IDAndName> viewModels = entities.Select(x => x.ToIDAndName())
+												  .OrderBy(x => x.Name)
+												  .ToList();
 
-            return viewModels;
-        }
-    }
+			return viewModels;
+		}
+	}
 }

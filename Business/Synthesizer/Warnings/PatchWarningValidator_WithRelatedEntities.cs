@@ -8,21 +8,21 @@ using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    internal class PatchWarningValidator_WithRelatedEntities : VersatileValidator
-    {
-        public PatchWarningValidator_WithRelatedEntities(
-            Patch obj,
-            ISampleRepository sampleRepository,
-            ICurveRepository curveRepository,
-            HashSet<object> alreadyDone)
-        {
-            if (obj == null) throw new NullException(() => obj);
+	internal class PatchWarningValidator_WithRelatedEntities : VersatileValidator
+	{
+		public PatchWarningValidator_WithRelatedEntities(
+			Patch obj,
+			ISampleRepository sampleRepository,
+			ICurveRepository curveRepository,
+			HashSet<object> alreadyDone)
+		{
+			if (obj == null) throw new NullException(() => obj);
 
-            foreach (Operator op in obj.Operators)
-            {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(op, curveRepository);
-                ExecuteValidator(new OperatorWarningValidator_VersatileWithUnderlyingEntities(op, sampleRepository, alreadyDone), messagePrefix);
-            }
-        }
-    }
+			foreach (Operator op in obj.Operators)
+			{
+				string messagePrefix = ValidationHelper.GetMessagePrefix(op, curveRepository);
+				ExecuteValidator(new OperatorWarningValidator_VersatileWithUnderlyingEntities(op, sampleRepository, alreadyDone), messagePrefix);
+			}
+		}
+	}
 }
