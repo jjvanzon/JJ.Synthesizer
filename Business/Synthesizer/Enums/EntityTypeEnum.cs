@@ -8,6 +8,7 @@
 	{
 		Undefined,
 		AudioFileOutput,
+		Library,
 		Node,
 		Operator,
 		Patch,

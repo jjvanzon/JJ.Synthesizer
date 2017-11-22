@@ -59,12 +59,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					throw new UnexpectedTypeException(() => undoItemViewModel);
 			}
 
-			// ToEntity
-			if (MainViewModel.Document.IsOpen)
-			{
-				MainViewModel.ToEntityWithRelatedEntities(_repositories);
-			}
-
 			DocumentViewModelRefresh();
 		}
 
@@ -171,6 +165,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id)
 		};
+
+		private IList<ViewModelBase> GetLibraryStates(int id) => new List<ViewModelBase> { ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, id) };
 
 		private IList<ViewModelBase> GetNodeStates(int id)
 		{

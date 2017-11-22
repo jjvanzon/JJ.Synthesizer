@@ -1356,8 +1356,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
+			int id = userInput.SelectedItemID ?? 0;
+
+			UndoDeleteViewModel undoItem;
+			switch (userInput.SelectedNodeType)
+			{
+				case DocumentTreeNodeTypeEnum.Library:
+					undoItem = new UndoDeleteViewModel
+					{
+						EntityTypeEnum = EntityTypeEnum.Library,
+						EntityID = id,
+						States = GetLibraryStates(id)
+					};
+					break;
+
+				case DocumentTreeNodeTypeEnum.Patch:
+					undoItem = new UndoDeleteViewModel
+					{
+						EntityTypeEnum = EntityTypeEnum.Patch,
+						EntityID = id,
+						States = GetPatchStates(id)
+					};
+					break;
+
+				default:
+					throw new ValueNotSupportedException(userInput.SelectedNodeType);
+			}
+
 			// Template Method
-			DocumentTreeViewModel viewModel = ExecuteWriteAction(userInput, () => _documentTreePresenter.Remove(userInput));
+			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Remove(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
