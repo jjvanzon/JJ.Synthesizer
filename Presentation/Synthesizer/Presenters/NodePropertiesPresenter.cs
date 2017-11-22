@@ -1,9 +1,8 @@
-﻿using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Helpers;
+﻿using System;
+using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -15,12 +14,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly INodeRepository _nodeRepository;
         private readonly CurveManager _curveManager;
 
-        public NodePropertiesPresenter(CurveRepositories repositories)
+        public NodePropertiesPresenter(INodeRepository nodeRepository, CurveManager curveManager)
         {
-            if (repositories == null) throw new NullException(() => repositories);
-
-            _nodeRepository = repositories.NodeRepository;
-            _curveManager = new CurveManager(repositories);
+            _nodeRepository = nodeRepository ?? throw new ArgumentNullException(nameof(nodeRepository));
+            _curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
         }
 
         protected override Node GetEntity(NodePropertiesViewModel userInput)

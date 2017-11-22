@@ -82,8 +82,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly AutoPatcher _autoPatcher;
         private readonly AudioFileOutputManager _audioFileOutputManager;
         private readonly DocumentManager _documentManager;
+        private readonly CurveManager _curveManager;
         private readonly EntityPositionManager _entityPositionManager;
         private readonly PatchManager _patchManager;
+        private readonly ScaleManager _scaleManager;
 
         public MainViewModel MainViewModel { get; private set; }
         
@@ -98,12 +100,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Create Managers
             _autoPatcher = new AutoPatcher(_repositories);
             _audioFileOutputManager = new AudioFileOutputManager(audioFileOutputRepositories);
+            _curveManager = new CurveManager(_curveRepositories);
             _documentManager = new DocumentManager(_repositories);
-            _entityPositionManager = new EntityPositionManager(
-                _repositories.EntityPositionRepository, 
-                _repositories.IDRepository);
+            _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
             _patchManager = new PatchManager(_repositories);
-            var scaleManager = new ScaleManager(scaleRepositories);
+            _scaleManager = new ScaleManager(scaleRepositories);
 
             // Create Presenters
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_audioFileOutputManager, _repositories.DocumentRepository);
@@ -113,7 +114,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.SpeakerSetupRepository, 
                 _repositories.IDRepository);
             _currentInstrumentPresenter = new CurrentInstrumentPresenter(_autoPatcher, _repositories.DocumentRepository, _repositories.PatchRepository);
-            _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
+            _curveDetailsPresenter = new CurveDetailsPresenter(_repositories.CurveRepository, _repositories.NodeRepository, _curveManager);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();
             _documentDeletePresenter = new DocumentDeletePresenter(_repositories);
@@ -125,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
             _librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
             _menuPresenter = new MenuPresenter();
-            _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
+            _nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveManager);
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);
             _operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_repositories);
             _operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_repositories);
@@ -140,9 +141,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
             _sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _entityPositionManager, _repositories);
             _saveChangesPopupPresenter = new SaveChangesPopupPresenter();
-            _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, scaleManager);
-            _scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, scaleManager);
-            _toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, scaleManager);
+            _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, _scaleManager);
+            _scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, _scaleManager);
+            _toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, _scaleManager);
             _titleBarPresenter = new TitleBarPresenter();
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();

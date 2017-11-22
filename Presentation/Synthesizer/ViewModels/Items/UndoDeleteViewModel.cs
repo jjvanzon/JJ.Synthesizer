@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
     internal class UndoDeleteViewModel : UndoItemViewModelBase
     {
-        public IList<ViewModelBase> OldStates { get; set; }
+        public int EntityID { get; set; }
+        public EntityTypeEnum EntityTypeEnum { get; set; }
+        public IList<ViewModelBase> States { get; set; }
     }
 }

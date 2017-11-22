@@ -1,30 +1,32 @@
-﻿using JJ.Business.Synthesizer;
-using JJ.Business.Synthesizer.Helpers;
+﻿using System;
+using System.Linq;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurveDetailsPresenter : EntityPresenterWithSaveBase<Curve, CurveDetailsViewModel>
     {
-        private readonly CurveRepositories _repositories;
+        private readonly ICurveRepository _curveRepository;
+        private readonly INodeRepository _nodeRepository;
         private readonly CurveManager _curveManager;
 
-        public CurveDetailsPresenter(CurveRepositories repositories)
+        public CurveDetailsPresenter(ICurveRepository curveRepository, INodeRepository nodeRepository, CurveManager curveManager)
         {
-            _repositories = repositories ?? throw new NullException(() => repositories);
-            _curveManager = new CurveManager(_repositories);
+            _curveRepository = curveRepository ?? throw new ArgumentNullException(nameof(curveRepository));
+            _nodeRepository = nodeRepository ?? throw new ArgumentNullException(nameof(nodeRepository));
+            _curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
         }
 
         protected override Curve GetEntity(CurveDetailsViewModel userInput)
         {
-            return _repositories.CurveRepository.Get(userInput.Curve.ID);
+            return _curveRepository.Get(userInput.Curve.ID);
         }
 
         protected override IResult Save(Curve entity)
@@ -51,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Node afterNode;
                     if (userInput.SelectedNodeID.HasValue)
                     {
-                        afterNode = _repositories.NodeRepository.Get(userInput.SelectedNodeID.Value);
+                        afterNode = _nodeRepository.Get(userInput.SelectedNodeID.Value);
                     }
                     else
                     {
@@ -77,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // GetEntity
                     int nodeID = userInput.SelectedNodeID.Value;
-                    Node node = _repositories.NodeRepository.Get(nodeID);
+                    Node node = _nodeRepository.Get(nodeID);
 
                     // Business
                     _curveManager.RotateNodeType(node);
@@ -98,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // GetEntity
                     int nodeID = userInput.SelectedNodeID.Value;
-                    Node node = _repositories.NodeRepository.Get(nodeID);
+                    Node node = _nodeRepository.Get(nodeID);
 
                     // Business
                     IResult result = _curveManager.DeleteNode(node);
@@ -127,7 +129,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 entity =>
                 {
                     // ToEntity
-                    Node node = _repositories.NodeRepository.Get(nodeID);
+                    Node node = _nodeRepository.Get(nodeID);
 
                     // Business
                     node.X = x;

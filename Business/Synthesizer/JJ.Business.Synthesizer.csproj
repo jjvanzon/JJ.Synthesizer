@@ -190,6 +190,7 @@
     <Compile Include="Dto\OperatorDtoBase_WithInput.cs" />
     <Compile Include="Dto\OperatorDtoBase_WithSound.cs" />
     <Compile Include="Dto\Remainder_OperatorDto.cs" />
+    <Compile Include="Enums\EntityTypeEnum.cs" />
     <Compile Include="Extensions\InheritExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />

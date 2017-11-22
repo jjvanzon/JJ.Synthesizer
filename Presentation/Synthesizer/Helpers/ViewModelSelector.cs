@@ -1,14 +1,15 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 // ReSharper disable InlineOutVariableDeclaration
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
-    internal static class ViewModelSelector
+	internal static class ViewModelSelector
     {
         // AudioFileOutput
 
@@ -114,7 +115,23 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Operator
 
-        public static OperatorViewModel GetOperatorViewModel(DocumentViewModel documentViewModel, int patchID, int operatorID)
+	    public static IEnumerable<OperatorPropertiesViewModelBase> EnumerateAllOperatorPropertiesViewModels(DocumentViewModel documentViewModel)
+	    {
+		    if (documentViewModel == null) throw new ArgumentNullException(nameof(documentViewModel));
+
+		    return documentViewModel.OperatorPropertiesDictionary.Values.Cast<OperatorPropertiesViewModelBase>()
+		                            .Union(documentViewModel.OperatorPropertiesDictionary_ForCaches.Values)
+		                            .Union(documentViewModel.OperatorPropertiesDictionary_ForCurves.Values)
+		                            .Union(documentViewModel.OperatorPropertiesDictionary_ForInletsToDimension.Values)
+		                            .Union(documentViewModel.OperatorPropertiesDictionary_ForNumbers.Values)
+		                            .Union(documentViewModel.OperatorPropertiesDictionary_ForPatchInlets.Values)
+		                            .Union(documentViewModel.OperatorPropertiesDictionary_ForPatchOutlets.Values)
+		                            .Union(documentViewModel.OperatorPropertiesDictionary_ForSamples.Values)
+		                            .Union(documentViewModel.OperatorPropertiesDictionary_WithInterpolation.Values)
+		                            .Union(documentViewModel.OperatorPropertiesDictionary_WithCollectionRecalculation.Values);
+	    }
+
+		public static OperatorViewModel GetOperatorViewModel(DocumentViewModel documentViewModel, int patchID, int operatorID)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
