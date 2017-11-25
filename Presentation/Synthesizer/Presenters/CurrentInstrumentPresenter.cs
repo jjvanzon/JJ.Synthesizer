@@ -1,4 +1,7 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
@@ -6,15 +9,12 @@ using JJ.Framework.Collections;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-	internal class CurrentInstrumentPresenter 
+	internal class CurrentInstrumentPresenter
 		: EntityPresenterWithoutSaveBase<(Document document, IList<Patch> patches), CurrentInstrumentViewModel>
 	{
 		private readonly IDocumentRepository _documentRepository;
@@ -33,9 +33,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = _documentRepository.Get(userInput.DocumentID);
 
 			IList<Patch> patches = userInput.List
-											.Select(x => x.ID)
-											.Select(x => _patchRepository.Get(x))
-											.ToList();
+			                                .Select(x => x.ID)
+			                                .Select(x => _patchRepository.Get(x))
+			                                .ToList();
 
 			return (document, patches);
 		}
@@ -58,15 +58,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public CurrentInstrumentViewModel Move(CurrentInstrumentViewModel viewModel, int patchID, int newPosition)
 		{
-			return ExecuteAction(viewModel, entities =>
-			{
-				if (newPosition < 0) newPosition = 0;
-				if (newPosition > entities.patches.Count - 1) newPosition = entities.patches.Count - 1;
+			return ExecuteAction(
+				viewModel,
+				entities =>
+				{
+					if (newPosition < 0) newPosition = 0;
+					if (newPosition > entities.patches.Count - 1) newPosition = entities.patches.Count - 1;
 
-				Patch patch = _patchRepository.Get(patchID);
-				entities.patches.Remove(patch);
-				entities.patches.Insert(newPosition, patch);
-			});
+					Patch patch = _patchRepository.Get(patchID);
+					entities.patches.Remove(patch);
+					entities.patches.Insert(newPosition, patch);
+				});
 		}
 
 		public CurrentInstrumentViewModel MoveBackward(CurrentInstrumentViewModel viewModel, int patchID)
@@ -97,11 +99,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					outlet = result.Data;
 					return result;
 				},
-				viewModel =>
-				{
-					viewModel.OutletIDToPlay = outlet?.ID;
-				});
-
+				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
 		public CurrentInstrumentViewModel PlayItem(CurrentInstrumentViewModel userInput, int patchID)
@@ -119,13 +117,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					outlet = result.Data;
 					return result;
 				},
-				viewModel =>
-				{
-					viewModel.OutletIDToPlay = outlet?.ID;
-				});
-
+				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
-
 
 		public CurrentInstrumentViewModel Remove(CurrentInstrumentViewModel viewModel, int patchID)
 		{
@@ -133,9 +126,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		[Obsolete("Use Load instead.", true)]
-		public override void Show(CurrentInstrumentViewModel viewModel)
-		{
-			throw new NotSupportedException("Call Load instead.");
-		}
+		public override void Show(CurrentInstrumentViewModel viewModel) => throw new NotSupportedException("Call Load instead.");
 	}
 }

@@ -1,10 +1,10 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System;
+using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
