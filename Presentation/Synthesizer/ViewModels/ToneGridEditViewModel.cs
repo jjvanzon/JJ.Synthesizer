@@ -12,5 +12,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public string NumberTitle { get; set; }
 		public bool FrequencyVisible { get; set; }
 		internal int? OutletIDToPlay { get; set; }
+		public int CreatedToneID { get; set; }
 	}
 }

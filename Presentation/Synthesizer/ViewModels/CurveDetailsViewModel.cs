@@ -1,6 +1,6 @@
-﻿using JJ.Data.Canonical;
+﻿using System.Collections.Generic;
+using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
@@ -10,5 +10,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public Dictionary<int, NodeViewModel> Nodes { get; set; }
 		public int? SelectedNodeID { get; set; }
 		public IList<IDAndName> NodeTypeLookup { get; set; }
+		public int CreatedNodeID { get; set; }
 	}
 }

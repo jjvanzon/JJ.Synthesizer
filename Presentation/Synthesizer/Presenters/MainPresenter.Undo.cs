@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			switch (undoItemViewModel)
 			{
-				case UndoInsertViewModel undoInsertViewModel:
+				case UndoCreateViewModel undoInsertViewModel:
 					ExecuteUndoRedoDeletion(undoInsertViewModel.EntityTypeEnum, undoInsertViewModel.EntityID);
 					break;
 
@@ -81,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			switch (undoItemViewModel)
 			{
-				case UndoInsertViewModel undoInsertViewModel:
+				case UndoCreateViewModel undoInsertViewModel:
 					foreach (ViewModelBase viewModel in undoInsertViewModel.States)
 					{
 						RestoreUndoState(viewModel);
@@ -166,7 +166,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id)
 		};
 
-		private IList<ViewModelBase> GetLibraryStates(int id) => new List<ViewModelBase> { ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, id) };
+		private IList<ViewModelBase> GetLibraryStates(int documentReferenceID) => new List<ViewModelBase> { ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID) };
 
 		private IList<ViewModelBase> GetNodeStates(int id)
 		{

@@ -7,5 +7,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 	{
 		public int DocumentID { get; set; }
 		public Dictionary<int, IDAndName> Dictionary { get; set; }
+		public int CreatedScaleID { get; set; }
 	}
 }

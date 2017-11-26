@@ -65,8 +65,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					// ToVieWModel
 					ToneViewModel toneViewModel = tone.ToViewModel();
-					userInput.Tones.Add(toneViewModel);
+					viewModel.Tones.Add(toneViewModel);
 					// Do not sort grid, so that the new item appears at the bottom.
+					viewModel.CreatedToneID = tone.ID;
 				});
 		}
 

@@ -46,6 +46,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public CurveDetailsViewModel CreateNode(CurveDetailsViewModel userInput)
 		{
+			Node newNode = null;
+
 			return ExecuteAction(
 				userInput,
 				curve =>
@@ -61,8 +63,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						afterNode = curve.Nodes.OrderBy(x => x.X).Last();
 					}
 
-					_curveManager.CreateNode(curve, afterNode);
-				});
+					newNode = _curveManager.CreateNode(curve, afterNode);
+				},
+				viewModel => viewModel.CreatedNodeID = newNode.ID);
 		}
 
 		public CurveDetailsViewModel ChangeSelectedNodeType(CurveDetailsViewModel userInput)

@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System;
+using System.Collections.Generic;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
@@ -8,8 +10,6 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System;
-using System.Collections.Generic;
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -67,6 +67,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public LibrarySelectionPopupViewModel OK(LibrarySelectionPopupViewModel userInput, int? lowerDocumentID)
 		{
+			DocumentReference documentReference = null;
+
 			return ExecuteAction(
 				userInput,
 				entity =>
@@ -81,7 +83,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID.Value);
 
 					// Business
-					IResult result = _documentManager.CreateDocumentReference(entity, lowerDocument);
+					Result<DocumentReference> result = _documentManager.CreateDocumentReference(entity, lowerDocument);
+					documentReference = result.Data;
 
 					return result;
 				},
@@ -89,6 +92,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					if (viewModel.Successful)
 					{
+						// ReSharper disable once PossibleInvalidOperationException
+						viewModel.CreatedDocumentReferenceID = documentReference.ID;
 						viewModel.List = new List<IDAndName>();
 						viewModel.Visible = false;
 					}
