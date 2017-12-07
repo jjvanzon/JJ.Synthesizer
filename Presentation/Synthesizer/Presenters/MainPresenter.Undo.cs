@@ -35,37 +35,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				case UndoCreateViewModel undoInsertViewModel:
 					ExecuteUndoRedoDeletion(undoInsertViewModel.EntityTypeEnum, undoInsertViewModel.EntityID);
-
-					DocumentViewModelRefresh();
 					break;
 
 				case UndoUpdateViewModel undoUpdateViewModel:
-					RestoreUndoState(undoUpdateViewModel.OldState);
-
-					// ToEntity
-					if (MainViewModel.Document.IsOpen)
-					{
-						MainViewModel.ToEntityWithRelatedEntities(_repositories);
-					}
-
-					DocumentViewModelRefresh();
-
+					ExecuteUndoRedoInsertionOrUpdate(undoUpdateViewModel.OldState);
 					break;
 
 				case UndoDeleteViewModel undoDeleteViewModel:
-					foreach (ViewModelBase viewModel in undoDeleteViewModel.States)
-					{
-						RestoreUndoState(viewModel);
-					}
-
-					// ToEntity
-					if (MainViewModel.Document.IsOpen)
-					{
-						MainViewModel.ToEntityWithRelatedEntities(_repositories);
-					}
-
-					DocumentViewModelRefresh();
-
+					ExecuteUndoRedoInsertionOrUpdate(undoDeleteViewModel.States);
 					break;
 
 				default:
@@ -93,43 +70,40 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			switch (undoItemViewModel)
 			{
 				case UndoCreateViewModel undoInsertViewModel:
-					foreach (ViewModelBase viewModel in undoInsertViewModel.States)
-					{
-						RestoreUndoState(viewModel);
-					}
-
-					// ToEntity
-					if (MainViewModel.Document.IsOpen)
-					{
-						MainViewModel.ToEntityWithRelatedEntities(_repositories);
-					}
-
-					DocumentViewModelRefresh();
-
+					ExecuteUndoRedoInsertionOrUpdate(undoInsertViewModel.States);
 					break;
 
 				case UndoUpdateViewModel undoUpdateViewModel:
-					RestoreUndoState(undoUpdateViewModel.NewState);
-
-					// ToEntity
-					if (MainViewModel.Document.IsOpen)
-					{
-						MainViewModel.ToEntityWithRelatedEntities(_repositories);
-					}
-
-					DocumentViewModelRefresh();
-
+					ExecuteUndoRedoInsertionOrUpdate(undoUpdateViewModel.NewState);
 					break;
 
 				case UndoDeleteViewModel undoDeleteViewModel:
 					ExecuteUndoRedoDeletion(undoDeleteViewModel.EntityTypeEnum, undoDeleteViewModel.EntityID);
-
-					DocumentViewModelRefresh();
 					break;
 
 				default:
 					throw new UnexpectedTypeException(() => undoItemViewModel);
 			}
+		}
+
+		private void ExecuteUndoRedoInsertionOrUpdate(params ViewModelBase[] states)
+			=> ExecuteUndoRedoInsertionOrUpdate((IList<ViewModelBase>)states);
+
+		private void ExecuteUndoRedoInsertionOrUpdate(IList<ViewModelBase> states)
+		{
+			foreach (ViewModelBase viewModel in states)
+			{
+				RestoreUndoState(viewModel);
+			}
+
+			// ToEntity
+			if (MainViewModel.Document.IsOpen)
+			{
+				MainViewModel.ToEntityWithRelatedEntities(_repositories);
+			}
+
+			// Refresh
+			DocumentViewModelRefresh();
 		}
 
 		private void RestoreUndoState(ViewModelBase viewModel)
@@ -173,6 +147,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				default:
 					throw new ValueNotSupportedException(entityTypeEnum);
 			}
+
+			DocumentViewModelRefresh();
 		}
 
 		// TODO: Remove outcommented code.
