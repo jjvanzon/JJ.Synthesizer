@@ -190,12 +190,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 			// base.CloneValues may have yielded over all values to all patch calculators,
 			// but could not be specific about which note.
-			// By cloning the values per note here, we do accomplish setting the right values for te right notes.
+			// By cloning the values per note here, we do accomplish setting the right values for the right notes.
 
-			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
+			int maxChannelCount = Math.Min(_channelCount, castedSourceCalculator._channelCount);
+			for (int channelIndex = 0; channelIndex < maxChannelCount; channelIndex++)
 			{
 				int maxConcurrentNotes = Math.Min(_maxConcurrentNotes, castedSourceCalculator._maxConcurrentNotes);
-
 				for (int noteIndex = 0; noteIndex < maxConcurrentNotes; noteIndex++)
 				{
 					IPatchCalculator source = castedSourceCalculator._patchCalculators[channelIndex][noteIndex];

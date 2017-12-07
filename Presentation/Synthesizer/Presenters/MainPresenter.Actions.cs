@@ -1653,12 +1653,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			if (viewModel.Successful)
 			{
+				// Refresh
+				DocumentViewModelRefresh();
+
 				// Undo History
 				undoItem.EntityID = viewModel.CreatedDocumentReferenceID;
 				undoItem.States = GetLibraryStates(viewModel.CreatedDocumentReferenceID);
-
-				// Refresh
-				DocumentViewModelRefresh();
 			}
 		}
 
