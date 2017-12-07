@@ -35,10 +35,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				case UndoCreateViewModel undoInsertViewModel:
 					ExecuteUndoRedoDeletion(undoInsertViewModel.EntityTypeEnum, undoInsertViewModel.EntityID);
+
+					DocumentViewModelRefresh();
 					break;
 
 				case UndoUpdateViewModel undoUpdateViewModel:
 					RestoreUndoState(undoUpdateViewModel.OldState);
+
+					// ToEntity
+					if (MainViewModel.Document.IsOpen)
+					{
+						MainViewModel.ToEntityWithRelatedEntities(_repositories);
+					}
+
+					DocumentViewModelRefresh();
+
 					break;
 
 				case UndoDeleteViewModel undoDeleteViewModel:
@@ -53,13 +64,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						MainViewModel.ToEntityWithRelatedEntities(_repositories);
 					}
 
+					DocumentViewModelRefresh();
+
 					break;
 
 				default:
 					throw new UnexpectedTypeException(() => undoItemViewModel);
 			}
-
-			DocumentViewModelRefresh();
 		}
 
 		public void Redo()
@@ -93,21 +104,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						MainViewModel.ToEntityWithRelatedEntities(_repositories);
 					}
 
+					DocumentViewModelRefresh();
+
 					break;
 
 				case UndoUpdateViewModel undoUpdateViewModel:
 					RestoreUndoState(undoUpdateViewModel.NewState);
+
+					// ToEntity
+					if (MainViewModel.Document.IsOpen)
+					{
+						MainViewModel.ToEntityWithRelatedEntities(_repositories);
+					}
+
+					DocumentViewModelRefresh();
+
 					break;
 
 				case UndoDeleteViewModel undoDeleteViewModel:
 					ExecuteUndoRedoDeletion(undoDeleteViewModel.EntityTypeEnum, undoDeleteViewModel.EntityID);
+
+					DocumentViewModelRefresh();
 					break;
 
 				default:
 					throw new UnexpectedTypeException(() => undoItemViewModel);
 			}
-
-			DocumentViewModelRefresh();
 		}
 
 		private void RestoreUndoState(ViewModelBase viewModel)
