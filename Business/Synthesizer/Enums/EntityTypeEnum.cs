@@ -8,7 +8,7 @@
 	{
 		Undefined,
 		AudioFileOutput,
-		Library,
+		DocumentReference,
 		Node,
 		Operator,
 		Patch,

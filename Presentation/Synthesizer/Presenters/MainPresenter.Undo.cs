@@ -16,12 +16,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	{
 		public void Undo()
 		{
-			// ToEntity
-			if (MainViewModel.Document.IsOpen)
-			{
-				MainViewModel.ToEntityWithRelatedEntities(_repositories);
-			}
-
 			UndoItemViewModelBase undoItemViewModel = MainViewModel.Document.UndoHistory.PopOrDefault();
 
 			if (undoItemViewModel == null)
@@ -52,12 +46,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void Redo()
 		{
-			// ToEntity
-			if (MainViewModel.Document.IsOpen)
-			{
-				MainViewModel.ToEntityWithRelatedEntities(_repositories);
-			}
-
 			UndoItemViewModelBase undoItemViewModel = MainViewModel.Document.RedoFuture.PopOrDefault();
 
 			if (undoItemViewModel == null)
@@ -66,6 +54,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
+
+			// ToEntity
+			if (MainViewModel.Document.IsOpen)
+			{
+				MainViewModel.ToEntityWithRelatedEntities(_repositories);
+			}
 
 			switch (undoItemViewModel)
 			{
@@ -86,11 +80,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void ExecuteUndoRedoInsertionOrUpdate(params ViewModelBase[] states)
-			=> ExecuteUndoRedoInsertionOrUpdate((IList<ViewModelBase>)states);
+		private void ExecuteUndoRedoInsertionOrUpdate(params ViewModelBase[] states) => ExecuteUndoRedoInsertionOrUpdate((IList<ViewModelBase>)states);
 
 		private void ExecuteUndoRedoInsertionOrUpdate(IList<ViewModelBase> states)
 		{
+			// Action
 			foreach (ViewModelBase viewModel in states)
 			{
 				RestoreUndoState(viewModel);
@@ -117,6 +111,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private void ExecuteUndoRedoDeletion(EntityTypeEnum entityTypeEnum, int id)
 		{
+			// ToEntity
+			if (MainViewModel.Document.IsOpen)
+			{
+				MainViewModel.ToEntityWithRelatedEntities(_repositories);
+			}
+
+			// Business
 			switch (entityTypeEnum)
 			{
 				case EntityTypeEnum.AudioFileOutput:
@@ -132,9 +133,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 
 				case EntityTypeEnum.Patch:
+				{
 					IResult result = _patchManager.DeletePatchWithRelatedEntities(id);
 					result.Assert();
 					break;
+				}
 
 				case EntityTypeEnum.Scale:
 					_scaleManager.DeleteWithRelatedEntities(id);
@@ -144,10 +147,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					_scaleManager.DeleteTone(id);
 					break;
 
+				case EntityTypeEnum.DocumentReference:
+				{
+					IResult result = _documentManager.DeleteDocumentReference(id);
+					result.Assert();
+					break;
+				}
+
 				default:
 					throw new ValueNotSupportedException(entityTypeEnum);
 			}
 
+			// Refresh
 			DocumentViewModelRefresh();
 		}
 

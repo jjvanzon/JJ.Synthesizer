@@ -1414,7 +1414,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				case DocumentTreeNodeTypeEnum.Library:
 					undoItem = new UndoDeleteViewModel
 					{
-						EntityTypeEnum = EntityTypeEnum.Library,
+						EntityTypeEnum = EntityTypeEnum.DocumentReference,
 						EntityID = id,
 						States = GetLibraryStates(id)
 					};
@@ -1645,7 +1645,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Undo History
 			var undoItem = new UndoCreateViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.Library
+				EntityTypeEnum = EntityTypeEnum.DocumentReference
 			};
 
 			// Template Method
