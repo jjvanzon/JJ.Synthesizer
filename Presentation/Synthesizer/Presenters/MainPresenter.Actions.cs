@@ -237,7 +237,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			AudioFileOutputPropertiesViewModel userInput = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
 
 			// TemplateMethod
-			AudioFileOutputPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _audioFileOutputPropertiesPresenter.Close(userInput));
+			AudioFileOutputPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _audioFileOutputPropertiesPresenter.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -285,7 +285,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			AudioFileOutputPropertiesViewModel userInput = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
 
 			// TemplateMethod
-			AudioFileOutputPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _audioFileOutputPropertiesPresenter.LoseFocus(userInput));
+			AudioFileOutputPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _audioFileOutputPropertiesPresenter.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -315,14 +315,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
 
-			ExecuteWriteAction(userInput, () => _audioOutputPropertiesPresenter.Close(userInput));
+			ExecuteUpdateAction(userInput, () => _audioOutputPropertiesPresenter.Close(userInput));
 		}
 
 		public void AudioOutputPropertiesLoseFocus()
 		{
 			AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
 
-			ExecuteWriteAction(userInput, () => _audioOutputPropertiesPresenter.LoseFocus(userInput));
+			ExecuteUpdateAction(userInput, () => _audioOutputPropertiesPresenter.LoseFocus(userInput));
 		}
 
 		public void AudioOutputPropertiesPlay()
@@ -391,7 +391,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			AutoPatchPopupViewModel userInput = MainViewModel.Document.AutoPatchPopup;
 
-			AutoPatchPopupViewModel viewModel = ExecuteWriteAction(
+			AutoPatchPopupViewModel viewModel = ExecuteUpdateAction(
 				userInput,
 				() =>
 				{
@@ -595,7 +595,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
-			ExecuteWriteAction(userInput, () => _curveDetailsPresenter.Close(userInput));
+			ExecuteUpdateAction(userInput, () => _curveDetailsPresenter.Close(userInput));
 		}
 
 		public void CurveDetailsExpand(int curveID)
@@ -614,7 +614,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
-			ExecuteWriteAction(userInput, () => _curveDetailsPresenter.LoseFocus(userInput));
+			ExecuteUpdateAction(userInput, () => _curveDetailsPresenter.LoseFocus(userInput));
 		}
 
 		private void CurveDetailsSelectNode(int curveID, int nodeID)
@@ -955,7 +955,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
 
 			// Template Method
-			DocumentPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => partialAction(userInput));
+			DocumentPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => partialAction(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1061,7 +1061,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
-			ExecuteWriteAction(userInput, () => _librarySelectionPopupPresenter.Load(userInput));
+			ExecuteUpdateAction(userInput, () => _librarySelectionPopupPresenter.Load(userInput));
 		}
 
 		public void DocumentTreeCreateOperator(int underlyingPatchID)
@@ -1528,7 +1528,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
 			// Template Method
-			LibraryPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _libraryPropertiesPresenter.Close(userInput));
+			LibraryPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _libraryPropertiesPresenter.Close(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1545,7 +1545,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
 			// Template Method
-			LibraryPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _libraryPropertiesPresenter.LoseFocus(userInput));
+			LibraryPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _libraryPropertiesPresenter.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1574,7 +1574,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
 			// Template Method
-			LibraryPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _libraryPropertiesPresenter.Remove(userInput));
+			LibraryPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _libraryPropertiesPresenter.Remove(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1664,7 +1664,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
 			// Template Method
-			CurveDetailsViewModel viewModel = ExecuteWriteAction(userInput, () => _curveDetailsPresenter.ChangeSelectedNodeType(userInput));
+			CurveDetailsViewModel viewModel = ExecuteUpdateAction(userInput, () => _curveDetailsPresenter.ChangeSelectedNodeType(userInput));
 
 			// Refresh
 			if (viewModel.Successful && userInput.SelectedNodeID.HasValue)
@@ -1755,7 +1755,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
 			// TemplateMethod
-			CurveDetailsViewModel viewModel = ExecuteWriteAction(userInput, () => _curveDetailsPresenter.NodeMoved(userInput, nodeID, x, y));
+			CurveDetailsViewModel viewModel = ExecuteUpdateAction(userInput, () => _curveDetailsPresenter.NodeMoved(userInput, nodeID, x, y));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1771,7 +1771,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
 			// TemplateMethod
-			NodePropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _nodePropertiesPresenter.Close(userInput));
+			NodePropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _nodePropertiesPresenter.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -1819,7 +1819,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
 			// TemplateMethod
-			NodePropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _nodePropertiesPresenter.LoseFocus(userInput));
+			NodePropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _nodePropertiesPresenter.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1877,7 +1877,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
-			ExecuteWriteAction(userInput, () => _patchDetailsPresenter.ChangeInputOutlet(userInput, inletID, inputOutletID));
+			ExecuteUpdateAction(userInput, () => _patchDetailsPresenter.ChangeInputOutlet(userInput, inletID, inputOutletID));
 		}
 
 		public void OperatorDeleteSelected(int patchID)
@@ -1912,7 +1912,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
-			ExecuteWriteAction(userInput, () => _patchDetailsPresenter.MoveOperator(userInput, operatorID, centerX, centerY));
+			ExecuteUpdateAction(userInput, () => _patchDetailsPresenter.MoveOperator(userInput, operatorID, centerX, centerY));
 		}
 
 		public void OperatorPropertiesClose(int id)
@@ -1921,7 +1921,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel userInput = ViewModelSelector.GetOperatorPropertiesViewModel(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter.Close(userInput));
+			OperatorPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -1938,7 +1938,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForCache viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForCache.Close(userInput));
+			OperatorPropertiesViewModel_ForCache viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForCache.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -1955,7 +1955,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForCurve viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForCurve.Close(userInput));
+			OperatorPropertiesViewModel_ForCurve viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForCurve.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -1973,7 +1973,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				ViewModelSelector.GetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForInletsToDimension viewModel = ExecuteWriteAction(
+			OperatorPropertiesViewModel_ForInletsToDimension viewModel = ExecuteUpdateAction(
 				userInput,
 				() => _operatorPropertiesPresenter_ForInletsToDimension.Close(userInput));
 
@@ -1992,7 +1992,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForNumber viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForNumber.Close(userInput));
+			OperatorPropertiesViewModel_ForNumber viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForNumber.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2009,7 +2009,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForPatchInlet viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.Close(userInput));
+			OperatorPropertiesViewModel_ForPatchInlet viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2026,7 +2026,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForPatchOutlet viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.Close(userInput));
+			OperatorPropertiesViewModel_ForPatchOutlet viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2043,7 +2043,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForSample viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForSample.Close(userInput));
+			OperatorPropertiesViewModel_ForSample viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForSample.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2061,7 +2061,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// TemplateMethod
 			OperatorPropertiesViewModel_WithInterpolation viewModel =
-				ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_WithInterpolation.Close(userInput));
+				ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_WithInterpolation.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2079,7 +2079,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				ViewModelSelector.GetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = ExecuteWriteAction(
+			OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = ExecuteUpdateAction(
 				userInput,
 				() => _operatorPropertiesPresenter_WithCollectionRecalculation.Close(userInput));
 
@@ -2126,7 +2126,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel userInput = ViewModelSelector.GetOperatorPropertiesViewModel(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter.LoseFocus(userInput));
+			OperatorPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2141,7 +2141,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForCache viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForCache.LoseFocus(userInput));
+			OperatorPropertiesViewModel_ForCache viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForCache.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2156,7 +2156,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForCurve viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForCurve.LoseFocus(userInput));
+			OperatorPropertiesViewModel_ForCurve viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForCurve.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2172,7 +2172,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				ViewModelSelector.GetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForInletsToDimension viewModel = ExecuteWriteAction(
+			OperatorPropertiesViewModel_ForInletsToDimension viewModel = ExecuteUpdateAction(
 				userInput,
 				() => _operatorPropertiesPresenter_ForInletsToDimension.LoseFocus(userInput));
 
@@ -2189,7 +2189,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForNumber viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForNumber.LoseFocus(userInput));
+			OperatorPropertiesViewModel_ForNumber viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForNumber.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2205,7 +2205,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// TemplateMethod
 			OperatorPropertiesViewModel_ForPatchInlet viewModel =
-				ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.LoseFocus(userInput));
+				ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForPatchInlet.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2221,7 +2221,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// TemplateMethod
 			OperatorPropertiesViewModel_ForPatchOutlet viewModel =
-				ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.LoseFocus(userInput));
+				ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForPatchOutlet.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2236,7 +2236,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_ForSample viewModel = ExecuteWriteAction(userInput, () => _operatorPropertiesPresenter_ForSample.LoseFocus(userInput));
+			OperatorPropertiesViewModel_ForSample viewModel = ExecuteUpdateAction(userInput, () => _operatorPropertiesPresenter_ForSample.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2251,7 +2251,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_WithInterpolation userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_WithInterpolation viewModel = ExecuteWriteAction(
+			OperatorPropertiesViewModel_WithInterpolation viewModel = ExecuteUpdateAction(
 				userInput,
 				() => _operatorPropertiesPresenter_WithInterpolation.LoseFocus(userInput));
 
@@ -2269,7 +2269,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				ViewModelSelector.GetOperatorPropertiesViewModel_WithCollectionRecalculation(MainViewModel.Document, id);
 
 			// TemplateMethod
-			OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = ExecuteWriteAction(
+			OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = ExecuteUpdateAction(
 				userInput,
 				() => _operatorPropertiesPresenter_WithCollectionRecalculation.LoseFocus(userInput));
 
@@ -2481,7 +2481,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
-			ExecuteWriteAction(userInput, () => _patchPropertiesPresenter.ChangeHasDimension(userInput));
+			ExecuteUpdateAction(userInput, () => _patchPropertiesPresenter.ChangeHasDimension(userInput));
 		}
 
 		public void PatchPropertiesClose(int id)
@@ -2490,7 +2490,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
 			// Template Method
-			PatchPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _patchPropertiesPresenter.Close(userInput));
+			PatchPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _patchPropertiesPresenter.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2535,7 +2535,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
 			// Template Method
-			PatchPropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _patchPropertiesPresenter.LoseFocus(userInput));
+			PatchPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _patchPropertiesPresenter.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2581,7 +2581,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			SampleFileBrowserViewModel userInput = MainViewModel.Document.SampleFileBrowser;
 
 			// TemplateMethod
-			SampleFileBrowserViewModel viewModel = ExecuteWriteAction(userInput, () => _sampleFileBrowserPresenter.OK(userInput));
+			SampleFileBrowserViewModel viewModel = ExecuteUpdateAction(userInput, () => _sampleFileBrowserPresenter.OK(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2740,7 +2740,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ScalePropertiesViewModel userInput = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
 
 			// Template Method
-			ScalePropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _scalePropertiesPresenter.Close(userInput));
+			ScalePropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _scalePropertiesPresenter.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2780,7 +2780,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ScalePropertiesViewModel userInput = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
 
 			// Template Method
-			ScalePropertiesViewModel viewModel = ExecuteWriteAction(userInput, () => _scalePropertiesPresenter.LoseFocus(userInput));
+			ScalePropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _scalePropertiesPresenter.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2833,7 +2833,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
-			ToneGridEditViewModel viewModel = ExecuteWriteAction(userInput, () => _toneGridEditPresenter.Close(userInput));
+			ToneGridEditViewModel viewModel = ExecuteUpdateAction(userInput, () => _toneGridEditPresenter.Close(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2845,14 +2845,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
-			ExecuteWriteAction(userInput, () => _toneGridEditPresenter.LoseFocus(userInput));
+			ExecuteUpdateAction(userInput, () => _toneGridEditPresenter.LoseFocus(userInput));
 		}
 
 		public void ToneGridEditEdit(int scaleID)
 		{
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
-			ExecuteWriteAction(userInput, () => _toneGridEditPresenter.Edit(userInput));
+			ExecuteUpdateAction(userInput, () => _toneGridEditPresenter.Edit(userInput));
 		}
 
 		public void TonePlay(int scaleID, int toneID)
@@ -2923,65 +2923,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Helpers
 
-		private TViewModel ExecuteDeleteAction<TViewModel>(TViewModel userInput, UndoItemViewModelBase undoItemViewModel, Func<TViewModel> partialAction)
+		/// <summary>
+		/// A template method for a MainPresenter action method,
+		/// that will not read or write the entity model,
+		/// but works with non-entity model data only.
+		///
+		/// Most steps otherwise needed in for instance write actions are not needed.
+		/// 
+		/// Executes a sub-presenter's action and surrounds it with:
+		/// a) Dispatching the view model (for instance needed to hide other view models if a new view model is displayed over it).
+		/// 
+		/// All you need to do is provide the right sub-viewmodel,
+		/// provide a delegate to the sub-presenter's action method.
+		/// </summary>
+		private void ExecuteNonPersistedAction<TViewModel>(TViewModel viewModelToDispatch, Action partialAction)
 			where TViewModel : ViewModelBase
 		{
-			if (userInput == null) throw new NullException(() => userInput);
-
-			// Set !Successful
-			userInput.Successful = false;
-
-			// ToEntity
-			Document document = null;
-			if (MainViewModel.Document.IsOpen)
-			{
-				document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-			}
+			if (viewModelToDispatch == null) throw new ArgumentNullException(nameof(viewModelToDispatch));
 
 			// Partial Action
-			TViewModel viewModel = partialAction();
-			if (!viewModel.Successful)
-			{
-				// DispatchViewModel
-				DispatchViewModel(viewModel);
-
-				return viewModel;
-			}
-
-			// Set !Successful
-			viewModel.Successful = false;
-
-			if (MainViewModel.Document.IsOpen)
-			{
-				// Business
-				IResult validationResult = _documentManager.Save(document);
-				if (!validationResult.Successful)
-				{
-					// Non-Persisted
-					viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-					// DispatchViewModel
-					DispatchViewModel(viewModel);
-
-					return viewModel;
-				}
-
-				// Undo History
-				MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
-
-				MainViewModel.Document.RedoFuture.Clear();
-
-				// Dirty Flag
-				MainViewModel.Document.IsDirty = true;
-			}
-
-			// Successful
-			viewModel.Successful = true;
+			partialAction();
 
 			// DispatchViewModel
-			DispatchViewModel(viewModel);
-
-			return viewModel;
+			DispatchViewModel(viewModelToDispatch);
 		}
 
 		private TViewModel ExecuteCreateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
@@ -3028,89 +2992,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 
 				// Undo History
-				MainViewModel.Document.RedoFuture.Clear();
-
-				// Dirty Flag
-				MainViewModel.Document.IsDirty = true;
-			}
-
-			// Successful
-			viewModel.Successful = true;
-
-			// DispatchViewModel
-			DispatchViewModel(viewModel);
-
-			return viewModel;
-		}
-
-		/// <summary>
-		/// A template method for a MainPresenter action method,
-		/// that will write to the document entity.
-		/// 
-		/// Works for most write actions. Less suitable for specialized cases:
-		/// In particular the ones that are not about the open document.
-		///
-		/// Executes a sub-presenter's action and surrounds it with:
-		/// a) Converting the full document view model to entity.
-		/// b) Doing a full document validation.
-		/// c) Managing view model transactionality.
-		/// d) Dispatching the view model (for instance needed to hide other view models if a new view model is displayed over it).
-		/// 
-		/// All you need to do is provide the right sub-viewmodel,
-		/// provide a delegate to the sub-presenter's action method
-		/// and possibly do some refreshing of other view models afterwards.
-		/// </summary>
-		private TViewModel ExecuteWriteAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
-			where TViewModel : ViewModelBase
-		{
-			if (userInput == null) throw new NullException(() => userInput);
-
-			// Set !Successful
-			userInput.Successful = false;
-
-			// ToEntity
-			Document document = null;
-			if (MainViewModel.Document.IsOpen)
-			{
-				document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-			}
-
-			// Partial Action
-			TViewModel viewModel = partialAction();
-			if (!viewModel.Successful)
-			{
-				// DispatchViewModel
-				DispatchViewModel(viewModel);
-
-				return viewModel;
-			}
-
-			// Set !Successful
-			viewModel.Successful = false;
-
-			if (MainViewModel.Document.IsOpen)
-			{
-				// Business
-				IResult validationResult = _documentManager.Save(document);
-				if (!validationResult.Successful)
-				{
-					// Non-Persisted
-					viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-					// DispatchViewModel
-					DispatchViewModel(viewModel);
-
-					return viewModel;
-				}
-
-				// Undo History
-				var undoItemViewModel = new UndoUpdateViewModel
-				{
-					OldState = userInput.OriginalState,
-					NewState = userInput
-				};
-				MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
-
 				MainViewModel.Document.RedoFuture.Clear();
 
 				// Dirty Flag
@@ -3203,27 +3084,146 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		/// <summary>
 		/// A template method for a MainPresenter action method,
-		/// that will not read or write the entity model,
-		/// but works with non-entity model data only.
-		///
-		/// Most steps otherwise needed in for instance write actions are not needed.
+		/// that will write to the document entity.
 		/// 
+		/// Works for most write actions. Less suitable for specialized cases:
+		/// In particular the ones that are not about the open document.
+		///
 		/// Executes a sub-presenter's action and surrounds it with:
-		/// a) Dispatching the view model (for instance needed to hide other view models if a new view model is displayed over it).
+		/// a) Converting the full document view model to entity.
+		/// b) Doing a full document validation.
+		/// c) Managing view model transactionality.
+		/// d) Dispatching the view model (for instance needed to hide other view models if a new view model is displayed over it).
 		/// 
 		/// All you need to do is provide the right sub-viewmodel,
-		/// provide a delegate to the sub-presenter's action method.
+		/// provide a delegate to the sub-presenter's action method
+		/// and possibly do some refreshing of other view models afterwards.
 		/// </summary>
-		private void ExecuteNonPersistedAction<TViewModel>(TViewModel viewModelToDispatch, Action partialAction)
+		private TViewModel ExecuteUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
 			where TViewModel : ViewModelBase
 		{
-			if (viewModelToDispatch == null) throw new ArgumentNullException(nameof(viewModelToDispatch));
+			if (userInput == null) throw new NullException(() => userInput);
+
+			// Set !Successful
+			userInput.Successful = false;
+
+			// ToEntity
+			Document document = null;
+			if (MainViewModel.Document.IsOpen)
+			{
+				document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+			}
 
 			// Partial Action
-			partialAction();
+			TViewModel viewModel = partialAction();
+			if (!viewModel.Successful)
+			{
+				// DispatchViewModel
+				DispatchViewModel(viewModel);
+
+				return viewModel;
+			}
+
+			// Set !Successful
+			viewModel.Successful = false;
+
+			if (MainViewModel.Document.IsOpen)
+			{
+				// Business
+				IResult validationResult = _documentManager.Save(document);
+				if (!validationResult.Successful)
+				{
+					// Non-Persisted
+					viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+					// DispatchViewModel
+					DispatchViewModel(viewModel);
+
+					return viewModel;
+				}
+
+				// Undo History
+				var undoItemViewModel = new UndoUpdateViewModel
+				{
+					OldState = userInput.OriginalState,
+					NewState = userInput
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
+
+				MainViewModel.Document.RedoFuture.Clear();
+
+				// Dirty Flag
+				MainViewModel.Document.IsDirty = true;
+			}
+
+			// Successful
+			viewModel.Successful = true;
 
 			// DispatchViewModel
-			DispatchViewModel(viewModelToDispatch);
+			DispatchViewModel(viewModel);
+
+			return viewModel;
+		}
+
+		private TViewModel ExecuteDeleteAction<TViewModel>(TViewModel userInput, UndoItemViewModelBase undoItemViewModel, Func<TViewModel> partialAction)
+			where TViewModel : ViewModelBase
+		{
+			if (userInput == null) throw new NullException(() => userInput);
+
+			// Set !Successful
+			userInput.Successful = false;
+
+			// ToEntity
+			Document document = null;
+			if (MainViewModel.Document.IsOpen)
+			{
+				document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+			}
+
+			// Partial Action
+			TViewModel viewModel = partialAction();
+			if (!viewModel.Successful)
+			{
+				// DispatchViewModel
+				DispatchViewModel(viewModel);
+
+				return viewModel;
+			}
+
+			// Set !Successful
+			viewModel.Successful = false;
+
+			if (MainViewModel.Document.IsOpen)
+			{
+				// Business
+				IResult validationResult = _documentManager.Save(document);
+				if (!validationResult.Successful)
+				{
+					// Non-Persisted
+					viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+					// DispatchViewModel
+					DispatchViewModel(viewModel);
+
+					return viewModel;
+				}
+
+				// Undo History
+				MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
+
+				MainViewModel.Document.RedoFuture.Clear();
+
+				// Dirty Flag
+				MainViewModel.Document.IsDirty = true;
+			}
+
+			// Successful
+			viewModel.Successful = true;
+
+			// DispatchViewModel
+			DispatchViewModel(viewModel);
+
+			return viewModel;
 		}
 	}
 }
