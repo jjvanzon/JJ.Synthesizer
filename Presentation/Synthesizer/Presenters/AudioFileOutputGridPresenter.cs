@@ -5,6 +5,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+// ReSharper disable ImplicitlyCapturedClosure
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -32,6 +33,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public AudioFileOutputGridViewModel Delete(AudioFileOutputGridViewModel userInput, int id)
 		{
 			return ExecuteAction(userInput, _ => _audioFileOutputManager.Delete(id));
+		}
+
+		public AudioFileOutputGridViewModel Create(AudioFileOutputGridViewModel userInput)
+		{
+			AudioFileOutput audioFileOutput = null;
+			return ExecuteAction(
+				userInput,
+				document => audioFileOutput = _audioFileOutputManager.Create(document),
+				viewModel => viewModel.CreatedAudioFileOutputID = audioFileOutput.ID);
 		}
 	}
 }

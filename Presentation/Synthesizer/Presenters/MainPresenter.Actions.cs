@@ -172,7 +172,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			AudioFileOutputGridViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _audioFileOutputGridPresenter.Delete(userInput, id));
+			AudioFileOutputGridViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _audioFileOutputGridPresenter.Delete(userInput, id));
 
 			if (viewModel.Successful)
 			{
@@ -195,38 +195,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
 
-			var undoItem = new UndoCreateViewModel
-			{
-				EntityTypeEnum = EntityTypeEnum.AudioFileOutput
-			};
-
 			// Template Method
-			AudioFileOutput audioFileOutput = null;
-			AudioFileOutputGridViewModel gridViewModel = ExecuteCreateOrDeleteAction(
-				userInput,
-				undoItem,
-				() =>
-				{
-					// RefreshCounter
-					userInput.RefreshID = RefreshIDProvider.GetRefreshID();
-
-					// Set !Successful
-					userInput.Successful = false;
-
-					// GetEntity
-					Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-					// Business
-					audioFileOutput = _audioFileOutputManager.Create(document);
-
-					// Successful
-					userInput.Successful = true;
-
-					return userInput;
-				});
+			AudioFileOutputGridViewModel gridViewModel = ExecuteCreateAction(userInput, () => _audioFileOutputGridPresenter.Create(userInput));
 
 			if (gridViewModel.Successful)
 			{
+				// GetEntity
+				AudioFileOutput audioFileOutput = _repositories.AudioFileOutputRepository.Get(gridViewModel.CreatedAudioFileOutputID);
+
 				// ToViewModel
 				AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel();
 
@@ -234,8 +210,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				DispatchViewModel(propertiesViewModel);
 
 				// Undo
-				undoItem.EntityID = audioFileOutput.ID;
-				undoItem.States = GetAudioFileOutputStates(audioFileOutput.ID);
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypeEnum = EntityTypeEnum.AudioFileOutput,
+					EntityID = audioFileOutput.ID,
+					States = GetAudioFileOutputStates(audioFileOutput.ID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Refresh
 				DocumentTreeRefresh();
@@ -280,7 +261,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			AudioFileOutputPropertiesViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _audioFileOutputPropertiesPresenter.Delete(userInput));
+			AudioFileOutputPropertiesViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _audioFileOutputPropertiesPresenter.Delete(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -1098,18 +1079,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
-			// Undo History
-			var undoItem = new UndoCreateViewModel
-			{
-				EntityTypeEnum = EntityTypeEnum.Patch
-			};
-
 			int patchID = 0;
 
 			// Template Method
-			DocumentTreeViewModel viewModel = ExecuteCreateOrDeleteAction(
+			DocumentTreeViewModel viewModel = ExecuteCreateAction(
 				userInput,
-				undoItem,
 				() =>
 				{
 					// RefreshCounter
@@ -1138,8 +1112,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				DocumentViewModelRefresh();
 
 				// Undo History
-				undoItem.EntityID = patchID;
-				undoItem.States = GetPatchStates(patchID);
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypeEnum = EntityTypeEnum.Patch,
+					EntityID = patchID,
+					States = GetPatchStates(patchID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
 				PatchDetailsShow(patchID);
@@ -1179,17 +1158,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
-			// Undo History
-			var undoItem = new UndoCreateViewModel
-			{
-				EntityTypeEnum = EntityTypeEnum.Operator
-			};
-
 			// TemplateMethod
 			Operator op = null;
-			DocumentTreeViewModel viewModel = ExecuteCreateOrDeleteAction(
+			DocumentTreeViewModel viewModel = ExecuteCreateAction(
 				userInput,
-				undoItem,
 				() =>
 				{
 					// RefreshCounter
@@ -1248,8 +1220,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				DocumentViewModelRefresh();
 
 				// Undo History
-				undoItem.EntityID = op.ID;
-				undoItem.States = GetOperatorStates(op.ID);
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypeEnum = EntityTypeEnum.Operator,
+					EntityID = op.ID,
+					States = GetOperatorStates(op.ID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
 				if (op != null)
@@ -1434,7 +1411,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// Template Method
-			DocumentTreeViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _documentTreePresenter.Remove(userInput));
+			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Remove(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1642,14 +1619,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
-			// Undo History
-			var undoItem = new UndoCreateViewModel
-			{
-				EntityTypeEnum = EntityTypeEnum.DocumentReference
-			};
-
 			// Template Method
-			LibrarySelectionPopupViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _librarySelectionPopupPresenter.OK(userInput, lowerDocumentID));
+			LibrarySelectionPopupViewModel viewModel = ExecuteCreateAction(userInput, () => _librarySelectionPopupPresenter.OK(userInput, lowerDocumentID));
 
 			if (viewModel.Successful)
 			{
@@ -1657,8 +1628,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				DocumentViewModelRefresh();
 
 				// Undo History
-				undoItem.EntityID = viewModel.CreatedDocumentReferenceID;
-				undoItem.States = GetLibraryStates(viewModel.CreatedDocumentReferenceID);
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypeEnum = EntityTypeEnum.DocumentReference,
+					EntityID = viewModel.CreatedDocumentReferenceID,
+					States = GetLibraryStates(viewModel.CreatedDocumentReferenceID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
 			}
 		}
 
@@ -1705,23 +1681,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
-			// Undo History
-			var undoItem = new UndoCreateViewModel
-			{
-				EntityTypeEnum = EntityTypeEnum.Node
-			};
-
 			// Template Method
-			CurveDetailsViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _curveDetailsPresenter.CreateNode(userInput));
+			CurveDetailsViewModel viewModel = ExecuteCreateAction(userInput, () => _curveDetailsPresenter.CreateNode(userInput));
 
-			// Refresh
 			if (viewModel.Successful)
 			{
+				// Refresh
 				DocumentViewModelRefresh();
 
 				// Undo History
-				undoItem.EntityID = viewModel.CreatedNodeID;
-				undoItem.States = GetNodeStates(viewModel.CreatedNodeID);
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypeEnum = EntityTypeEnum.Node,
+					EntityID = viewModel.CreatedNodeID,
+					States = GetNodeStates(viewModel.CreatedNodeID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
 			}
 		}
 
@@ -1738,7 +1713,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			CurveDetailsViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _curveDetailsPresenter.DeleteSelectedNode(userInput));
+			CurveDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _curveDetailsPresenter.DeleteSelectedNode(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -1821,7 +1796,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			NodePropertiesViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _nodePropertiesPresenter.Delete(userInput));
+			NodePropertiesViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _nodePropertiesPresenter.Delete(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1924,7 +1899,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			PatchDetailsViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _patchDetailsPresenter.DeleteOperator(userInput));
+			PatchDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _patchDetailsPresenter.DeleteOperator(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2130,7 +2105,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// TemplateMethod
-			OperatorPropertiesViewModelBase viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => GetOperatorPropertiesPresenter(id).Delete(userInput));
+			OperatorPropertiesViewModelBase viewModel = ExecuteDeleteAction(userInput, undoItem, () => GetOperatorPropertiesPresenter(id).Delete(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2539,7 +2514,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			PatchPropertiesViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _patchPropertiesPresenter.Delete(userInput));
+			PatchPropertiesViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _patchPropertiesPresenter.Delete(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2702,14 +2677,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
 
-			// Undo History
-			var undoItem = new UndoCreateViewModel
-			{ 
-				EntityTypeEnum = EntityTypeEnum.Scale
-			};
-
 			// Template Method
-			ScaleGridViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _scaleGridPresenter.Create(userInput));
+			ScaleGridViewModel viewModel = ExecuteCreateAction(userInput, () => _scaleGridPresenter.Create(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -2717,8 +2686,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				DocumentViewModelRefresh();
 
 				// Undo History
-				undoItem.EntityID = viewModel.CreatedScaleID;
-				undoItem.States = GetScaleStates(viewModel.CreatedScaleID);
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypeEnum = EntityTypeEnum.Scale,
+					EntityID = viewModel.CreatedScaleID,
+					States = GetScaleStates(viewModel.CreatedScaleID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
 			}
 		}
 
@@ -2736,7 +2710,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			ScaleGridViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _scaleGridPresenter.Delete(userInput, id));
+			ScaleGridViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _scaleGridPresenter.Delete(userInput, id));
 
 			if (viewModel.Successful)
 			{
@@ -2791,7 +2765,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			ScalePropertiesViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem, () => _scalePropertiesPresenter.Delete(userInput));
+			ScalePropertiesViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _scalePropertiesPresenter.Delete(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2823,20 +2797,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
-			// Undo History
-			var undoItem = new UndoCreateViewModel
-			{
-				EntityTypeEnum = EntityTypeEnum.Tone
-			};
-
 			// TemplateMethod
-			ToneGridEditViewModel viewModel = ExecuteCreateOrDeleteAction(userInput, undoItem,() => _toneGridEditPresenter.CreateTone(userInput));
+			ToneGridEditViewModel viewModel = ExecuteCreateAction(userInput, () => _toneGridEditPresenter.CreateTone(userInput));
 
 			if (viewModel.Successful)
 			{
-				// UndoHistory
-				undoItem.EntityID = viewModel.CreatedToneID;
-				undoItem.States = GetToneStates(scaleID);
+				// Undo History
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypeEnum = EntityTypeEnum.Tone,
+					EntityID = viewModel.CreatedToneID,
+					States = GetToneStates(scaleID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
 			}
 		}
 
@@ -2853,7 +2826,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			ExecuteCreateOrDeleteAction(userInput, undoItem, () => _toneGridEditPresenter.DeleteTone(userInput, toneID));
+			ExecuteDeleteAction(userInput, undoItem, () => _toneGridEditPresenter.DeleteTone(userInput, toneID));
 		}
 
 		public void ToneGridEditClose(int scaleID)
@@ -2950,7 +2923,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Helpers
 
-		private TViewModel ExecuteCreateOrDeleteAction<TViewModel>(TViewModel userInput, UndoItemViewModelBase undoItemViewModel, Func<TViewModel> partialAction)
+		private TViewModel ExecuteDeleteAction<TViewModel>(TViewModel userInput, UndoItemViewModelBase undoItemViewModel, Func<TViewModel> partialAction)
 			where TViewModel : ViewModelBase
 		{
 			if (userInput == null) throw new NullException(() => userInput);
@@ -2996,6 +2969,65 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
 
+				MainViewModel.Document.RedoFuture.Clear();
+
+				// Dirty Flag
+				MainViewModel.Document.IsDirty = true;
+			}
+
+			// Successful
+			viewModel.Successful = true;
+
+			// DispatchViewModel
+			DispatchViewModel(viewModel);
+
+			return viewModel;
+		}
+
+		private TViewModel ExecuteCreateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
+			where TViewModel : ViewModelBase
+		{
+			if (userInput == null) throw new NullException(() => userInput);
+
+			// Set !Successful
+			userInput.Successful = false;
+
+			// ToEntity
+			Document document = null;
+			if (MainViewModel.Document.IsOpen)
+			{
+				document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+			}
+
+			// Partial Action
+			TViewModel viewModel = partialAction();
+			if (!viewModel.Successful)
+			{
+				// DispatchViewModel
+				DispatchViewModel(viewModel);
+
+				return viewModel;
+			}
+
+			// Set !Successful
+			viewModel.Successful = false;
+
+			if (MainViewModel.Document.IsOpen)
+			{
+				// Business
+				IResult validationResult = _documentManager.Save(document);
+				if (!validationResult.Successful)
+				{
+					// Non-Persisted
+					viewModel.ValidationMessages.AddRange(validationResult.Messages);
+
+					// DispatchViewModel
+					DispatchViewModel(viewModel);
+
+					return viewModel;
+				}
+
+				// Undo History
 				MainViewModel.Document.RedoFuture.Clear();
 
 				// Dirty Flag

@@ -194,7 +194,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModelBase operatorPropertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
 			PatchDetailsViewModel patchDetailsViewModel = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, operatorPropertiesViewModel.PatchID);
 
-			IList<ViewModelBase> states = new List<ViewModelBase> { patchDetailsViewModel, operatorPropertiesViewModel };
+			var states = new List<ViewModelBase> { patchDetailsViewModel, operatorPropertiesViewModel };
 
 			if (operatorPropertiesViewModel is OperatorPropertiesViewModel_ForCurve castedViewModel)
 			{
