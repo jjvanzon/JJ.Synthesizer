@@ -2,6 +2,7 @@
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
+// ReSharper disable InvertIf
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
@@ -19,7 +20,6 @@ namespace JJ.Business.Synthesizer.SideEffects
 		public void Execute()
 		{
 			bool mustCreatePatch = _entity.Patches.Count == 0;
-			// ReSharper disable once InvertIf
 			if (mustCreatePatch)
 			{
 				var patchManager = new PatchManager(_repositories);

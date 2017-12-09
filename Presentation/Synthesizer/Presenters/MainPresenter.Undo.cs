@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
@@ -215,8 +216,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			                                               .Union(patchDetailsViewModel)
 			                                               .Union(patchPropertiesViewModel)
 			                                               .ToArray();
+			// Curve and Node view models
+			Patch patch = _repositories.PatchRepository.Get(id);
+			IEnumerable<int> curveIDs = patch.Operators.Where(x => x.Curve != null).Select(x => x.Curve.ID);
+			foreach (int curveID in curveIDs)
+			{
+				CurveDetailsViewModel curveDetailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
+				states.Add(curveDetailsViewModel);
 
-			// TODO: Also need Curve view models and node properties view models, etc.
+				IEnumerable<NodePropertiesViewModel> nodePropertiesViewModels = ViewModelSelector.GetNodePropertiesViewModelDictionary_ByCurveID(MainViewModel.Document, curveID).Values;
+				states.AddRange(nodePropertiesViewModels);
+			}
 
 			return states;
 		}

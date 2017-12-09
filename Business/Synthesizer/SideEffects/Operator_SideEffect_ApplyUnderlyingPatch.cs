@@ -2,10 +2,10 @@
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
+// ReSharper disable InvertIf
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-	/// <summary> Only effective if Operator is CustomOperator. (Might change in the future.) </summary>
 	internal class Operator_SideEffect_ApplyUnderlyingPatch : ISideEffect
 	{
 		private readonly Operator _operator;
@@ -20,7 +20,6 @@ namespace JJ.Business.Synthesizer.SideEffects
 		public void Execute()
 		{
 			bool mustExecute = MustExecute();
-			// ReSharper disable once InvertIf
 			if (mustExecute)
 			{
 				var converter = new PatchToOperatorConverter(_repositories);
