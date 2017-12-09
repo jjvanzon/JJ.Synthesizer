@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Business;
-using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
@@ -24,11 +24,11 @@ namespace JJ.Business.Synthesizer.SideEffects
 
 		public void Execute()
 		{
-			IEnumerable<Operator> customOperators = _underlyingPatch.EnumerateDerivedOperators();
+			IEnumerable<Operator> derivedOperators = _underlyingPatch.EnumerateDerivedOperators();
 
-			foreach (Operator customOperator in customOperators.ToArray())
+			foreach (Operator derivedOperator in derivedOperators.ToArray())
 			{
-				_patchToOperatorConverter.Convert(_underlyingPatch, customOperator);
+				_patchToOperatorConverter.Convert(_underlyingPatch, derivedOperator);
 			}
 		}
 	}
