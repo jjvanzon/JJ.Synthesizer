@@ -2948,65 +2948,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModelToDispatch);
 		}
 
-		private TViewModel ExecuteCreateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
-			where TViewModel : ViewModelBase
-		{
-			if (userInput == null) throw new NullException(() => userInput);
-
-			// Set !Successful
-			userInput.Successful = false;
-
-			// ToEntity
-			Document document = null;
-			if (MainViewModel.Document.IsOpen)
-			{
-				document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-			}
-
-			// Partial Action
-			TViewModel viewModel = partialAction();
-			if (!viewModel.Successful)
-			{
-				// DispatchViewModel
-				DispatchViewModel(viewModel);
-
-				return viewModel;
-			}
-
-			// Set !Successful
-			viewModel.Successful = false;
-
-			if (MainViewModel.Document.IsOpen)
-			{
-				// Business
-				IResult validationResult = _documentManager.Save(document);
-				if (!validationResult.Successful)
-				{
-					// Non-Persisted
-					viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-					// DispatchViewModel
-					DispatchViewModel(viewModel);
-
-					return viewModel;
-				}
-
-				// Undo History
-				MainViewModel.Document.RedoFuture.Clear();
-
-				// Dirty Flag
-				MainViewModel.Document.IsDirty = true;
-			}
-
-			// Successful
-			viewModel.Successful = true;
-
-			// DispatchViewModel
-			DispatchViewModel(viewModel);
-
-			return viewModel;
-		}
-
 		/// <summary>
 		/// A template method for a MainPresenter action method,
 		/// that will read the document model, but not write to it.
@@ -3082,6 +3023,44 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
+		private TViewModel ExecuteCreateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
+			where TViewModel : ViewModelBase
+		{
+			return ExecuteWriteAction(userInput, partialAction, undoHistoryDelegate: () => MainViewModel.Document.RedoFuture.Clear());
+		}
+
+		private TViewModel ExecuteUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
+			where TViewModel : ViewModelBase
+		{
+			return ExecuteWriteAction(
+				userInput,
+				partialAction,
+				undoHistoryDelegate: () =>
+				{
+					var undoItemViewModel = new UndoUpdateViewModel
+					{
+						OldState = userInput.OriginalState,
+						NewState = userInput
+					};
+					MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
+
+					MainViewModel.Document.RedoFuture.Clear();
+				});
+		}
+
+		private TViewModel ExecuteDeleteAction<TViewModel>(TViewModel userInput, UndoItemViewModelBase undoItemViewModel, Func<TViewModel> partialAction)
+			where TViewModel : ViewModelBase
+		{
+			return ExecuteWriteAction(
+				userInput,
+				partialAction,
+				undoHistoryDelegate: () =>
+				{
+					MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
+					MainViewModel.Document.RedoFuture.Clear();
+				});
+		}
+
 		/// <summary>
 		/// A template method for a MainPresenter action method,
 		/// that will write to the document entity.
@@ -3094,12 +3073,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// b) Doing a full document validation.
 		/// c) Managing view model transactionality.
 		/// d) Dispatching the view model (for instance needed to hide other view models if a new view model is displayed over it).
+		/// e) Setting dirty flag
+		/// f) Undo history handling (calls the undoHistoryDelegate)
 		/// 
 		/// All you need to do is provide the right sub-viewmodel,
 		/// provide a delegate to the sub-presenter's action method
 		/// and possibly do some refreshing of other view models afterwards.
 		/// </summary>
-		private TViewModel ExecuteUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
+		private TViewModel ExecuteWriteAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction, Action undoHistoryDelegate)
 			where TViewModel : ViewModelBase
 		{
 			if (userInput == null) throw new NullException(() => userInput);
@@ -3143,75 +3124,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 
 				// Undo History
-				var undoItemViewModel = new UndoUpdateViewModel
-				{
-					OldState = userInput.OriginalState,
-					NewState = userInput
-				};
-				MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
-
-				MainViewModel.Document.RedoFuture.Clear();
-
-				// Dirty Flag
-				MainViewModel.Document.IsDirty = true;
-			}
-
-			// Successful
-			viewModel.Successful = true;
-
-			// DispatchViewModel
-			DispatchViewModel(viewModel);
-
-			return viewModel;
-		}
-
-		private TViewModel ExecuteDeleteAction<TViewModel>(TViewModel userInput, UndoItemViewModelBase undoItemViewModel, Func<TViewModel> partialAction)
-			where TViewModel : ViewModelBase
-		{
-			if (userInput == null) throw new NullException(() => userInput);
-
-			// Set !Successful
-			userInput.Successful = false;
-
-			// ToEntity
-			Document document = null;
-			if (MainViewModel.Document.IsOpen)
-			{
-				document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-			}
-
-			// Partial Action
-			TViewModel viewModel = partialAction();
-			if (!viewModel.Successful)
-			{
-				// DispatchViewModel
-				DispatchViewModel(viewModel);
-
-				return viewModel;
-			}
-
-			// Set !Successful
-			viewModel.Successful = false;
-
-			if (MainViewModel.Document.IsOpen)
-			{
-				// Business
-				IResult validationResult = _documentManager.Save(document);
-				if (!validationResult.Successful)
-				{
-					// Non-Persisted
-					viewModel.ValidationMessages.AddRange(validationResult.Messages);
-
-					// DispatchViewModel
-					DispatchViewModel(viewModel);
-
-					return viewModel;
-				}
-
-				// Undo History
-				MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
-
-				MainViewModel.Document.RedoFuture.Clear();
+				undoHistoryDelegate();
 
 				// Dirty Flag
 				MainViewModel.Document.IsDirty = true;
