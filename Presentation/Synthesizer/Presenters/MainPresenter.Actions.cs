@@ -212,8 +212,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypeEnum = EntityTypeEnum.AudioFileOutput,
-					EntityID = audioFileOutput.ID,
+					EntityTypesAndIDs = (EntityTypeEnum.AudioFileOutput, audioFileOutput.ID).ToViewModel().AsList(),
 					States = GetAudioFileOutputStates(audioFileOutput.ID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -1114,8 +1113,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypeEnum = EntityTypeEnum.Patch,
-					EntityID = patchID,
+					EntityTypesAndIDs = (EntityTypeEnum.Patch, patchID).ToViewModel().AsList(),
 					States = GetPatchStates(patchID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -1160,6 +1158,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// TemplateMethod
 			Operator op = null;
+			IList<Operator> affectedOperators = new List<Operator>();
+
 			DocumentTreeViewModel viewModel = ExecuteCreateAction(
 				userInput,
 				() =>
@@ -1176,7 +1176,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						case DocumentTreeNodeTypeEnum.LibraryPatch:
 							if (!userInput.SelectedItemID.HasValue)
 							{
-								throw new NullException(() => userInput.SelectedItemID);
+								throw new NotHasValueException(() => userInput.SelectedItemID);
 							}
 
 							if (MainViewModel.Document.VisiblePatchDetails == null)
@@ -1200,7 +1200,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 								// Business
 								var operatorFactory = new OperatorFactory(patch, _repositories);
 								op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
-								_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+								affectedOperators.Add(op);
+
+								IList<Operator> autoCreatedNumberOperators =_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+								affectedOperators.AddRange(autoCreatedNumberOperators);
+
+								// TODO: Find solution for including updating derived operators in undo mechanism.
+								//switch (op.GetOperatorTypeEnum())
+								//{
+								//	case OperatorTypeEnum.PatchInlet:
+								//	case OperatorTypeEnum.PatchOutlet:
+								//		affectedOperators.AddRange(op.Patch.DerivedOperators);
+								//		break;
+								//}
 							}
 
 							// Successful
@@ -1222,9 +1234,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypeEnum = EntityTypeEnum.Operator,
-					EntityID = op.ID,
-					States = GetOperatorStates(op.ID)
+					EntityTypesAndIDs = affectedOperators.Select(x => x.ToEntityTypeAndIDViewModel()).ToList(),
+					States = affectedOperators.SelectMany(x => GetOperatorStates(x.ID)).ToArray()
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
@@ -1630,8 +1641,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypeEnum = EntityTypeEnum.DocumentReference,
-					EntityID = viewModel.CreatedDocumentReferenceID,
+					EntityTypesAndIDs = (EntityTypeEnum.DocumentReference, viewModel.CreatedDocumentReferenceID).ToViewModel().AsList(),
 					States = GetLibraryStates(viewModel.CreatedDocumentReferenceID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -1692,8 +1702,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypeEnum = EntityTypeEnum.Node,
-					EntityID = viewModel.CreatedNodeID,
+					EntityTypesAndIDs = (EntityTypeEnum.Node, viewModel.CreatedNodeID).ToViewModel().AsList(),
 					States = GetNodeStates(viewModel.CreatedNodeID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -2688,8 +2697,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypeEnum = EntityTypeEnum.Scale,
-					EntityID = viewModel.CreatedScaleID,
+					EntityTypesAndIDs = (EntityTypeEnum.Scale, viewModel.CreatedScaleID).ToViewModel().AsList(),
 					States = GetScaleStates(viewModel.CreatedScaleID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -2805,8 +2813,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypeEnum = EntityTypeEnum.Tone,
-					EntityID = viewModel.CreatedToneID,
+					EntityTypesAndIDs = (EntityTypeEnum.Tone, viewModel.CreatedToneID).ToViewModel().AsList(),
 					States = GetToneStates(scaleID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);

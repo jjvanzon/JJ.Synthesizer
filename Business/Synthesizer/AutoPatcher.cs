@@ -1,4 +1,6 @@
-﻿using JJ.Business.Canonical;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -9,8 +11,6 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Mathematics;
-using System.Collections.Generic;
-using System.Linq;
 // ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer
@@ -447,7 +447,7 @@ namespace JJ.Business.Synthesizer
 			return patches2;
 		}
 
-		public void CreateNumbersForEmptyInletsWithDefaultValues(
+		public IList<Operator> CreateNumbersForEmptyInletsWithDefaultValues(
 			Operator op,
 			float estimatedOperatorWidth,
 			float operatorHeight,
@@ -456,7 +456,9 @@ namespace JJ.Business.Synthesizer
 			if (op == null) throw new NullException(() => op);
 			if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
-			OperatorFactory operatorFactory = new OperatorFactory(op.Patch, _repositories);
+			var list = new List<Operator>();
+
+			var operatorFactory = new OperatorFactory(op.Patch, _repositories);
 
 			EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(op.ID);
 
@@ -482,11 +484,15 @@ namespace JJ.Business.Synthesizer
 						EntityPosition numberEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
 						numberEntityPosition.X = x;
 						numberEntityPosition.Y = y;
+
+						list.Add(numberOutlet.Operator);
 					}
 				}
 
 				x += stepX;
 			}
+
+			return list;
 		}
 
 		public void SubstituteSineForUnfilledInSoundPatchInlets(Patch patch)

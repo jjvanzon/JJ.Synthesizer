@@ -1,11 +1,12 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -91,6 +92,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				viewModel.SpeakerSetup = ToViewModelHelper.CreateEmptyIDAndName();
 			}
+
+			return viewModel;
+		}
+
+
+		// EntityTypeAndID
+
+		public static EntityTypeAndIDViewModel ToViewModel(this (EntityTypeEnum, int) tuple)
+		{
+			var viewModel = new EntityTypeAndIDViewModel
+			{
+				EntityTypeEnum = tuple.Item1,
+				EntityID = tuple.Item2
+			};
 
 			return viewModel;
 		}
@@ -192,6 +207,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			return viewModel;
 		}
+
+		public static EntityTypeAndIDViewModel ToEntityTypeAndIDViewModel(this Operator entity) => (EntityTypeEnum.Operator, entity.ID).ToViewModel();
 
 		// Outlet
 

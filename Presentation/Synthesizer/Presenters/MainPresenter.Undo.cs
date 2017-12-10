@@ -29,7 +29,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			switch (undoItemViewModel)
 			{
 				case UndoCreateViewModel undoInsertViewModel:
-					ExecuteUndoRedoDeletion(undoInsertViewModel.EntityTypeEnum, undoInsertViewModel.EntityID);
+					foreach (EntityTypeAndIDViewModel entityTypeAndIDViewModel in undoInsertViewModel.EntityTypesAndIDs)
+					{
+						ExecuteUndoRedoDeletion(entityTypeAndIDViewModel.EntityTypeEnum, entityTypeAndIDViewModel.EntityID);
+					}
 					break;
 
 				case UndoUpdateViewModel undoUpdateViewModel:

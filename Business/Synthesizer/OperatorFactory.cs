@@ -1578,6 +1578,7 @@ namespace JJ.Business.Synthesizer
 					$"{nameof(Sample)} operator cannot be created with the generic {nameof(New)} method, " +
 					$"because it needs a byte array or Stream. Call the {nameof(Sample)} method instead.");
 			}
+
 			OperatorWrapper op = NewBase(underlyingPatch);
 			return op;
 		}
