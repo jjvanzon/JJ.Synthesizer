@@ -2581,12 +2581,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			SampleFileBrowserViewModel userInput = MainViewModel.Document.SampleFileBrowser;
 
 			// TemplateMethod
-			SampleFileBrowserViewModel viewModel = ExecuteUpdateAction(userInput, () => _sampleFileBrowserPresenter.OK(userInput));
+			SampleFileBrowserViewModel viewModel = ExecuteCreateAction(userInput, () => _sampleFileBrowserPresenter.OK(userInput));
 
-			// Refresh
 			if (viewModel.Successful)
 			{
+				// Refresh
 				DocumentViewModelRefresh();
+
+				// Undo History
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypesAndIDs = viewModel.CreatedOperatorIDs.Select(x => new EntityTypeAndIDViewModel { EntityTypeEnum = EntityTypeEnum.Operator, EntityID = x}).ToList(),
+					States = viewModel.CreatedOperatorIDs.SelectMany(GetOperatorStates).ToList()
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
 			}
 		}
 

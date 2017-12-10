@@ -312,6 +312,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new SampleFileBrowserViewModel
 			{
 				ValidationMessages = new List<string>(),
+				CreatedOperatorIDs = new List<int>(),
 				Successful = true
 			};
 

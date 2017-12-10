@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Collections;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -56,13 +59,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			op.Name = fileName;
 			op.Sample.Name = fileName;
 
-			_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+			IList<Operator> autoCreatedNumberOperators = _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
 			// ToViewModel
 			SampleFileBrowserViewModel viewModel = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel();
 
 			// Non-Persited
 			CopyNonPersistedProperties(userInput, viewModel);
+			viewModel.CreatedOperatorIDs = op.Union(autoCreatedNumberOperators).Select(x => x.ID).ToList();
 			viewModel.Visible = false;
 
 			// Successful
@@ -78,6 +82,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			destViewModel.DestPatchID = sourceViewModel.DestPatchID;
 			destViewModel.Bytes = sourceViewModel.Bytes;
 			destViewModel.FilePath = sourceViewModel.FilePath;
+			destViewModel.CreatedOperatorIDs = sourceViewModel.CreatedOperatorIDs;
 		}
 	}
 }
