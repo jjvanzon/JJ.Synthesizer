@@ -2591,10 +2591,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				DocumentViewModelRefresh();
 
 				// Undo History
+				// (Put main operator last so it is dispatched last upon redo and put on top.)
+				IList<int> createdOperatorIDs = viewModel.AutoCreatedNumberOperatorIDs.Union(viewModel.CreatedMainOperatorID).ToArray();
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = viewModel.CreatedOperatorIDs.Select(x => new EntityTypeAndIDViewModel { EntityTypeEnum = EntityTypeEnum.Operator, EntityID = x}).ToList(),
-					States = viewModel.CreatedOperatorIDs.SelectMany(GetOperatorStates).ToList()
+					EntityTypesAndIDs = createdOperatorIDs.Select(x => new EntityTypeAndIDViewModel { EntityTypeEnum = EntityTypeEnum.Operator, EntityID = x}).ToList(),
+					States = createdOperatorIDs.SelectMany(GetOperatorStates).ToList()
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 			}

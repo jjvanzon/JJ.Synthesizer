@@ -7,6 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public byte[] Bytes { get; set; }
 		public int DestPatchID { get; set; }
 		public string FilePath { get; set; }
-		public IList<int> CreatedOperatorIDs { get; set; }
+		internal int CreatedMainOperatorID { get; set; }
+		internal IList<int> AutoCreatedNumberOperatorIDs { get; set; }
 	}
 }

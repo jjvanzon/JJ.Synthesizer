@@ -5,7 +5,6 @@ using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Collections;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -66,8 +65,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Non-Persited
 			CopyNonPersistedProperties(userInput, viewModel);
-			// Put main operator last so it is dispatched last upon redo and put on top.
-			viewModel.CreatedOperatorIDs = autoCreatedNumberOperators.Union(op).Select(x => x.ID).ToList(); 
+			viewModel.CreatedMainOperatorID = op.ID;
+			viewModel.AutoCreatedNumberOperatorIDs = autoCreatedNumberOperators.Select(x => x.ID).ToList();
 			viewModel.Visible = false;
 
 			// Successful
@@ -83,7 +82,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			destViewModel.DestPatchID = sourceViewModel.DestPatchID;
 			destViewModel.Bytes = sourceViewModel.Bytes;
 			destViewModel.FilePath = sourceViewModel.FilePath;
-			destViewModel.CreatedOperatorIDs = sourceViewModel.CreatedOperatorIDs;
+			destViewModel.CreatedMainOperatorID = sourceViewModel.CreatedMainOperatorID;
+			destViewModel.AutoCreatedNumberOperatorIDs = sourceViewModel.AutoCreatedNumberOperatorIDs;
 		}
 	}
 }
