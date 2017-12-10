@@ -1200,10 +1200,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 								// Business
 								var operatorFactory = new OperatorFactory(patch, _repositories);
 								op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
-								createdOperators.Add(op);
 
 								IList<Operator> autoCreatedNumberOperators =_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+
 								createdOperators.AddRange(autoCreatedNumberOperators);
+								// Put main operator last so it is dispatched last upon redo and put on top.
+								createdOperators.Add(op);
 							}
 
 							// Successful

@@ -66,7 +66,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Non-Persited
 			CopyNonPersistedProperties(userInput, viewModel);
-			viewModel.CreatedOperatorIDs = op.Union(autoCreatedNumberOperators).Select(x => x.ID).ToList();
+			// Put main operator last so it is dispatched last upon redo and put on top.
+			viewModel.CreatedOperatorIDs = autoCreatedNumberOperators.Union(op).Select(x => x.ID).ToList(); 
 			viewModel.Visible = false;
 
 			// Successful

@@ -9,14 +9,53 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
 	internal static class DebuggerDisplayFormatter
 	{
-		public static string GetDebuggerDisplay(OperatorViewModel viewModel)
+		public static string GetDebuggerDisplay(AudioOutputPropertiesViewModel viewModel)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+			var sb = new StringBuilder();
+
+			sb.Append($"{{{viewModel.GetType().Name}}} ");
+
+			AudioOutputViewModel entityViewModel = viewModel.Entity;
+
+			if (entityViewModel == null)
+			{
+				sb.Append($"{nameof(viewModel.Entity)} is null.");
+			}
+			else
+			{
+				var identifier = new
+				{
+					entityViewModel.ID,
+					entityViewModel.SamplingRate,
+					SpeakerSetup = entityViewModel.SpeakerSetup.Name,
+					entityViewModel.MaxConcurrentNotes,
+					entityViewModel.DesiredBufferDuration
+				};
+
+				sb.Append($"{identifier}");
+			}
+
+			return sb.ToString();
+		}
+
+		public static string GetDebuggerDisplay(EntityTypeAndIDViewModel viewModel)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
+			string debuggerDisplay = $"{{{viewModel.GetType().Name}}} {viewModel.EntityTypeEnum} {viewModel.EntityID}";
+			return debuggerDisplay;
+		}
+
+		public static string GetDebuggerDisplay(InletViewModel viewModel)
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 
 			return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Caption);
 		}
 
-		public static string GetDebuggerDisplay(InletViewModel viewModel)
+		public static string GetDebuggerDisplay(OperatorViewModel viewModel)
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -57,37 +96,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
 			return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Name);
-		}
-
-		public static string GetDebuggerDisplay(AudioOutputPropertiesViewModel viewModel)
-		{
-			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
-
-			var sb = new StringBuilder();
-
-			sb.Append($"{{{viewModel.GetType().Name}}} ");
-
-			AudioOutputViewModel entityViewModel = viewModel.Entity;
-
-			if (entityViewModel == null)
-			{
-				sb.Append($"{nameof(viewModel.Entity)} is null.");
-			}
-			else
-			{
-				var identifier = new
-				{
-					entityViewModel.ID,
-					entityViewModel.SamplingRate,
-					SpeakerSetup = entityViewModel.SpeakerSetup.Name,
-					entityViewModel.MaxConcurrentNotes,
-					entityViewModel.DesiredBufferDuration
-				};
-
-				sb.Append($"{identifier}");
-			}
-
-			return sb.ToString();
 		}
 	}
 }
