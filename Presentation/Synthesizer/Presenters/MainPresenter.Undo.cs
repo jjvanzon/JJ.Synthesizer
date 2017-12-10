@@ -103,8 +103,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Side-Effects
 			if (MustRefreshDocument(states))
 			{
-				Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-				_documentManager.Refresh(document);
+				_documentManager.Refresh(MainViewModel.Document.ID);
 			}
 
 			// Refresh
@@ -113,12 +112,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private bool MustRefreshDocument(IList<ViewModelBase> states)
 		{
-			foreach (ViewModelBase viewModelBase in states)
+			foreach (ViewModelBase state in states)
 			{
-				switch (viewModelBase)
+				switch (state)
 				{
-					case OperatorPropertiesViewModel_ForPatchInlet x:
-					case OperatorPropertiesViewModel_ForPatchOutlet y:
+					case OperatorPropertiesViewModel_ForPatchInlet _:
+					case OperatorPropertiesViewModel_ForPatchOutlet _:
 						return true;
 				}
 			}

@@ -1158,8 +1158,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// TemplateMethod
 			Operator op = null;
-			IList<Operator> affectedOperators = new List<Operator>();
-
+			IList<Operator> createdOperators = new List<Operator>();
+			
 			DocumentTreeViewModel viewModel = ExecuteCreateAction(
 				userInput,
 				() =>
@@ -1200,10 +1200,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 								// Business
 								var operatorFactory = new OperatorFactory(patch, _repositories);
 								op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
-								affectedOperators.Add(op);
+								createdOperators.Add(op);
 
 								IList<Operator> autoCreatedNumberOperators =_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
-								affectedOperators.AddRange(autoCreatedNumberOperators);
+								createdOperators.AddRange(autoCreatedNumberOperators);
 							}
 
 							// Successful
@@ -1225,8 +1225,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = affectedOperators.Select(x => x.ToEntityTypeAndIDViewModel()).ToList(),
-					States = affectedOperators.SelectMany(x => GetOperatorStates(x.ID)).ToArray()
+					EntityTypesAndIDs = createdOperators.Select(x => x.ToEntityTypeAndIDViewModel()).ToList(),
+					States = createdOperators.SelectMany(x => GetOperatorStates(x.ID)).ToArray()
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
