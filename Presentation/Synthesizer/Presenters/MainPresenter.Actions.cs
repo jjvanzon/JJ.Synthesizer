@@ -1204,15 +1204,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 								IList<Operator> autoCreatedNumberOperators =_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 								affectedOperators.AddRange(autoCreatedNumberOperators);
-
-								// TODO: Find solution for including updating derived operators in undo mechanism.
-								//switch (op.GetOperatorTypeEnum())
-								//{
-								//	case OperatorTypeEnum.PatchInlet:
-								//	case OperatorTypeEnum.PatchOutlet:
-								//		affectedOperators.AddRange(op.Patch.DerivedOperators);
-								//		break;
-								//}
 							}
 
 							// Successful

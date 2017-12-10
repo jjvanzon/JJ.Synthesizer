@@ -100,8 +100,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.ToEntityWithRelatedEntities(_repositories);
 			}
 
+			// Side-Effects
+			if (MustRefreshDocument(states))
+			{
+				Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+				_documentManager.Refresh(document);
+			}
+
 			// Refresh
 			DocumentViewModelRefresh();
+		}
+
+		private bool MustRefreshDocument(IList<ViewModelBase> states)
+		{
+			foreach (ViewModelBase viewModelBase in states)
+			{
+				switch (viewModelBase)
+				{
+					case OperatorPropertiesViewModel_ForPatchInlet x:
+					case OperatorPropertiesViewModel_ForPatchOutlet y:
+						return true;
+				}
+			}
+
+			return false;
 		}
 
 		private void RestoreUndoState(ViewModelBase viewModel)
@@ -193,6 +215,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 		}
 
+		/// <summary>
+		/// NOTE: OperatorViewModel cannot be used with DispatchViewModel, so cannot be part of the undo state,
+		/// so instead PatchDetailsViewModel is part of the undo state.
+		/// </summary>
 		private IList<ViewModelBase> GetOperatorStates(int id)
 		{
 			OperatorPropertiesViewModelBase operatorPropertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
-using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
@@ -45,14 +44,14 @@ namespace JJ.Business.Synthesizer
 			return document;
 		}
 
-		/// <summary> Will reapply patches from external documents. </summary>
+		/// <summary> Will reapply patches (from external documents). </summary>
 		public void Refresh(int id)
 		{
 			Document document = _repositories.DocumentRepository.Get(id);
 			Refresh(document);
 		}
 
-		/// <summary> Will reapply patches from external documents. </summary>
+		/// <summary> Will reapply patches (from external documents). </summary>
 		public void Refresh(Document document)
 		{
 			new Document_SideEffect_ApplyUnderlyingPatches(document, _repositories).Execute();
