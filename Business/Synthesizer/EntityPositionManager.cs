@@ -1,11 +1,9 @@
-﻿using JJ.Framework.Mathematics;
-using JJ.Framework.Exceptions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Enums;
-using System.Linq;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer
 {
@@ -127,16 +125,7 @@ namespace JJ.Business.Synthesizer
 
 			// Move owned operators along with the owner.
 
-			// Note that the owned operator can be connected to the same owner operator twice (in two different inlets),
-			// but make sure that this does not result in applying the move twice (with the Distinct operator below).
-
-			IEnumerable<Operator> ownedOperators = op.Inlets
-													 .Where(o => o.InputOutlet != null)
-													 .Where(o => GetOperatorIsOwned(o.InputOutlet.Operator))
-													 .Select(o => o.InputOutlet.Operator)
-													 .Distinct()
-													 .ToArray();
-
+			IEnumerable<Operator> ownedOperators = op.GetOwnedOperators();
 			foreach (Operator ownedOperator in ownedOperators)
 			{
 				EntityPosition entityPosition2 = GetOrCreateOperatorPosition(ownedOperator.ID);
@@ -145,35 +134,6 @@ namespace JJ.Business.Synthesizer
 			}
 		}
 
-		/// <summary>
-		/// A Number Operator can be considered 'owned' by another operator if
-		/// it is the only operator it is connected to.
-		/// In that case it is convenient that the Number Operator moves along
-		/// with the operator it is connected to.
-		/// TODO: Remove the following line of comment, that is about to become irrelevant (2016-02-15):
-		/// In the Vector Graphics we accomplish this by making the Number Operator Rectangle a child of the owning Operator's Rectangle. 
-		/// But also in the MoveOperator action we must move the owned operators along with their owner.
-		/// </summary>
-		public static bool GetOperatorIsOwned(Operator entity)
-		{
-			if (entity == null) throw new NullException(() => entity);
-
-			// ReSharper disable once InvertIf
-			if (entity.Outlets.Count > 0)
-			{
-				bool isOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&
-							   // Make sure the connected inlets are all of the same operator.
-							   entity.Outlets[0].ConnectedInlets.Select(x => x.Operator).Distinct().Count() == 1;
-
-				return isOwned;
-			}
-
-			return false;
-		}
-
-		public int DeleteOrphans()
-		{
-			return _entityPositionRepository.DeleteOrphans();
-		}
+		public int DeleteOrphans() => _entityPositionRepository.DeleteOrphans();
 	}
 }

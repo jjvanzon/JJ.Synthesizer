@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Canonical;
@@ -11,8 +13,6 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -226,7 +226,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.IsSmaller = GetOperatorIsSmaller(entity);
 			viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
 			viewModel.Caption = GetOperatorCaption(entity);
-			viewModel.IsOwned = GetOperatorIsOwned(entity);
+			viewModel.IsOwned = entity.IsOwned();
 
 			EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
 			viewModel.EntityPositionID = entityPosition.ID;

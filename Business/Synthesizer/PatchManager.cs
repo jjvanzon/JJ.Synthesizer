@@ -1,11 +1,13 @@
-﻿using GeneratedCSharp;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GeneratedCSharp;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
@@ -21,9 +23,6 @@ using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Business.Synthesizer
 {
@@ -457,19 +456,9 @@ namespace JJ.Business.Synthesizer
 		{
 			if (ownerOperator == null) throw new NullException(() => ownerOperator);
 
-			IEnumerable<Operator> inputNumberOperators =
-				ownerOperator.Inlets.Select(x => x.InputOutlet?.Operator)
-									.Where(x => x != null)
-									.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Number);
-
-			foreach (Operator numberOperator in inputNumberOperators.ToArray())
+			foreach (Operator ownedOperator in ownerOperator.GetOwnedOperators().ToArray())
 			{
-				Outlet numberOutlet = numberOperator.Outlets.Single();
-				bool isOwned = numberOutlet.ConnectedInlets.Count == 1;
-				if (isOwned)
-				{
-					DeleteOperatorWithRelatedEntities(numberOperator);
-				}
+				DeleteOperatorWithRelatedEntities(ownedOperator);
 			}
 		}
 	}
