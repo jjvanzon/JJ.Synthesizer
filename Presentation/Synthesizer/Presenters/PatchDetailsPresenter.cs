@@ -64,11 +64,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Set !Successful
 			userInput.Successful = false;
 
-			// GetEntity
-			Patch entity = _repositories.PatchRepository.Get(userInput.Entity.ID);
-
 			// ViewModel Validation
-			if (userInput.SelectedOperator == null)
+			bool selectedOperatorIsEmpty = (userInput.SelectedOperator?.ID ?? 0) == 0;
+			if (selectedOperatorIsEmpty)
 			{
 				// Non-Persisted
 				userInput.ValidationMessages.Add(ResourceFormatter.SelectAnOperatorFirst);
@@ -77,12 +75,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 			else
 			{
+				// GetEntities
+				Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
+
 				// Business
 				_patchManager.DeleteOwnedNumberOperators(userInput.SelectedOperator.ID);
 				_patchManager.DeleteOperatorWithRelatedEntities(userInput.SelectedOperator.ID);
 
 				// ToViewModel
-				PatchDetailsViewModel viewModel = ToViewModel(entity);
+				PatchDetailsViewModel viewModel = ToViewModel(patch);
 
 				// Non-Persisted
 				CopyNonPersistedProperties(userInput, viewModel);

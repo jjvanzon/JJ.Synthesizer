@@ -76,7 +76,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 
 				case UndoDeleteViewModel undoDeleteViewModel:
-					ExecuteUndoRedoDeletion(undoDeleteViewModel.EntityTypeEnum, undoDeleteViewModel.EntityID);
+					foreach (EntityTypeAndIDViewModel entityTypeAndIDViewModel in undoDeleteViewModel.EntityTypesAndIDs)
+					{
+						ExecuteUndoRedoDeletion(entityTypeAndIDViewModel.EntityTypeEnum, entityTypeAndIDViewModel.EntityID);
+					}
 					break;
 
 				default:
@@ -227,9 +230,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			if (operatorPropertiesViewModel is OperatorPropertiesViewModel_ForCurve castedViewModel)
 			{
+				// TODO: This does not include the NodePropertiesViewModels.
 				CurveDetailsViewModel curveDetailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, castedViewModel.CurveID);
 				states.Add(curveDetailsViewModel);
 			}
+
+			// TODO: Include owned operators? Or is that too much magic? Probably won't do that.
 
 			return states;
 		}
@@ -244,7 +250,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			                                               .Union(patchDetailsViewModel)
 			                                               .Union(patchPropertiesViewModel)
 			                                               .ToArray();
+
 			// Curve and Node view models
+			// TODO: These had better come from calling GetOperatorStates.
+
 			Patch patch = _repositories.PatchRepository.Get(id);
 			IEnumerable<int> curveIDs = patch.Operators.Where(x => x.Curve != null).Select(x => x.Curve.ID);
 			foreach (int curveID in curveIDs)

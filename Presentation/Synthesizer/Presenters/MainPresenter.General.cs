@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -10,6 +12,7 @@ using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.Presenters.Partials;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -275,6 +278,34 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesViewModel_ForCurve propertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByCurveID(MainViewModel.Document, curveID);
 			int operatorID = propertiesViewModel.ID;
 			return operatorID;
+		}
+
+		private IList<int> GetOperatorIDsToDelete(int patchID, int? operatorID)
+		{
+			if (!operatorID.HasValue)
+			{
+				return new int[0];
+			}
+
+			if (operatorID == 0)
+			{
+				return new int[0];
+			}
+
+			OperatorViewModel operatorViewModel = ViewModelSelector.GetOperatorViewModel(MainViewModel.Document, patchID, operatorID.Value);
+
+			IList<int> ownedOperatorIDs = operatorViewModel.Inlets
+			                                               .Where(x => x.InputOutlet != null)
+			                                               .Select(x => x.InputOutlet.Operator)
+			                                               .Where(x => x.IsOwned)
+			                                               .Select(x => x.ID)
+			                                               .ToArray();
+
+			// Put main operator last so it is dispatched last upon undo and put on top.
+			// Yes, this is the non-written agreement anti-pattern, but whatever.
+			IList<int> operatorIDsToDelete = ownedOperatorIDs.Union(operatorID.Value).ToArray();
+
+			return operatorIDsToDelete;
 		}
 	}
 }

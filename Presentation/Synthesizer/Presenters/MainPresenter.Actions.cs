@@ -164,10 +164,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
 
+			// Undo History
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.AudioFileOutput,
-				EntityID = id,
+				EntityTypesAndIDs = (EntityTypeEnum.AudioFileOutput, id).ToViewModel().AsArray(),
 				States = GetAudioFileOutputStates(id)
 			};
 
@@ -212,7 +212,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.AudioFileOutput, audioFileOutput.ID).ToViewModel().AsList(),
+					EntityTypesAndIDs = (EntityTypeEnum.AudioFileOutput, audioFileOutput.ID).ToViewModel().AsArray(),
 					States = GetAudioFileOutputStates(audioFileOutput.ID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -252,10 +252,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			AudioFileOutputPropertiesViewModel userInput = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
 
+			// Undo History
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.AudioFileOutput,
-				EntityID = id,
+				EntityTypesAndIDs = (EntityTypeEnum.AudioFileOutput, id).ToViewModel().AsArray(),
 				States = GetAudioFileOutputStates(id)
 			};
 
@@ -1113,7 +1113,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.Patch, patchID).ToViewModel().AsList(),
+					EntityTypesAndIDs = (EntityTypeEnum.Patch, patchID).ToViewModel().AsArray(),
 					States = GetPatchStates(patchID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -1159,7 +1159,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// TemplateMethod
 			Operator op = null;
 			IList<Operator> createdOperators = new List<Operator>();
-			
+
 			DocumentTreeViewModel viewModel = ExecuteCreateAction(
 				userInput,
 				() =>
@@ -1201,7 +1201,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 								var operatorFactory = new OperatorFactory(patch, _repositories);
 								op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
 
-								IList<Operator> autoCreatedNumberOperators =_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+								IList<Operator> autoCreatedNumberOperators =
+									_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
 
 								createdOperators.AddRange(autoCreatedNumberOperators);
 								// Put main operator last so it is dispatched last upon redo and put on top.
@@ -1227,8 +1228,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = createdOperators.Select(x => x.ToEntityTypeAndIDViewModel()).ToList(),
-					States = createdOperators.SelectMany(x => GetOperatorStates(x.ID)).ToArray()
+					EntityTypesAndIDs = createdOperators.Select(x => x.ToEntityTypeAndIDViewModel()).ToArray(),
+					States = createdOperators.SelectMany(x => GetOperatorStates(x.ID)).Distinct().ToArray()
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
@@ -1387,32 +1388,34 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
-			int id = userInput.SelectedItemID ?? 0;
-
-			UndoDeleteViewModel undoItem;
+			// Redirect
 			switch (userInput.SelectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Library:
-					undoItem = new UndoDeleteViewModel
-					{
-						EntityTypeEnum = EntityTypeEnum.DocumentReference,
-						EntityID = id,
-						States = GetLibraryStates(id)
-					};
+					DocumentTreeRemoveLibrary();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Patch:
-					undoItem = new UndoDeleteViewModel
-					{
-						EntityTypeEnum = EntityTypeEnum.Patch,
-						EntityID = id,
-						States = GetPatchStates(id)
-					};
+					DocumentTreeRemovePatch();
 					break;
 
 				default:
 					throw new ValueNotSupportedException(userInput.SelectedNodeType);
 			}
+		}
+
+		private void DocumentTreeRemovePatch()
+		{
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			// Undo History
+			int id = userInput.SelectedItemID ?? 0;
+			var undoItem = new UndoDeleteViewModel
+			{
+				EntityTypesAndIDs = (EntityTypeEnum.Patch, id).ToViewModel().AsArray(),
+				States = GetPatchStates(id)
+			};
 
 			// Template Method
 			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Remove(userInput));
@@ -1420,6 +1423,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Refresh
 			if (viewModel.Successful)
 			{
+				DocumentViewModelRefresh();
+			}
+		}
+
+		private void DocumentTreeRemoveLibrary()
+		{
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			// Template Method
+			DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Remove(userInput));
+
+			if (viewModel.Successful)
+			{
+				// Undo History
+				int id = userInput.SelectedItemID ?? 0;
+				var undoItem = new UndoDeleteViewModel
+				{
+					EntityTypesAndIDs = (EntityTypeEnum.DocumentReference, id).ToViewModel().AsArray(),
+					States = GetLibraryStates(id)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
+
+				// Refresh
 				DocumentViewModelRefresh();
 			}
 		}
@@ -1634,7 +1661,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.DocumentReference, viewModel.CreatedDocumentReferenceID).ToViewModel().AsList(),
+					EntityTypesAndIDs = (EntityTypeEnum.DocumentReference, viewModel.CreatedDocumentReferenceID).ToViewModel().AsArray(),
 					States = GetLibraryStates(viewModel.CreatedDocumentReferenceID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -1695,7 +1722,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.Node, viewModel.CreatedNodeID).ToViewModel().AsList(),
+					EntityTypesAndIDs = (EntityTypeEnum.Node, viewModel.CreatedNodeID).ToViewModel().AsArray(),
 					States = GetNodeStates(viewModel.CreatedNodeID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -1707,19 +1734,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
+			// Undo History
+			int id = userInput.SelectedNodeID ?? 0;
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.Node,
-				EntityID = userInput.SelectedNodeID ?? 0,
-				States = GetNodeStates(userInput.SelectedNodeID ?? 0)
+				EntityTypesAndIDs = (EntityTypeEnum.Node, id).ToViewModel().AsArray(),
+				States = GetNodeStates(id)
 			};
 
 			// Template Method
 			CurveDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _curveDetailsPresenter.DeleteSelectedNode(userInput));
 
+			// Refresh
 			if (viewModel.Successful)
 			{
-				// Refresh
 				DocumentViewModelRefresh();
 			}
 		}
@@ -1790,10 +1818,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
+			// Undo History
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.Node,
-				EntityID = id,
+				EntityTypesAndIDs = (EntityTypeEnum.Node, id).ToViewModel().AsArray(),
 				States = GetNodeStates(id)
 			};
 
@@ -1887,25 +1915,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
-			IList<ViewModelBase> states = null;
-			if (userInput.SelectedOperator != null)
-			{
-				states = GetOperatorStates(userInput.SelectedOperator.ID);
-			}
-
+			// Undo History
+			IList<int> operatorIDsToDelete = GetOperatorIDsToDelete(patchID, userInput.SelectedOperator?.ID);
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.Operator,
-				EntityID = userInput.SelectedOperator?.ID ?? 0,
-				States = states
+				EntityTypesAndIDs = operatorIDsToDelete.Select(x => (EntityTypeEnum.Operator, x).ToViewModel()).ToArray(),
+				States = operatorIDsToDelete.SelectMany(GetOperatorStates).Distinct().ToArray()
 			};
 
 			// Template Method
 			PatchDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _patchDetailsPresenter.DeleteOperator(userInput));
 
+			// Refresh
 			if (viewModel.Successful)
 			{
-				// Refresh
 				DocumentViewModelRefresh();
 			}
 		}
@@ -2099,11 +2122,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			OperatorPropertiesViewModelBase userInput = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
 
+			// Undo History
+			IList<int> deletedOperatorIDs = GetOperatorIDsToDelete(userInput.PatchID, id);
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.Operator,
-				EntityID = id,
-				States = GetOperatorStates(id)
+				EntityTypesAndIDs = deletedOperatorIDs.Select(x => (EntityTypeEnum.Operator, x).ToViewModel()).ToArray(),
+				States = deletedOperatorIDs.SelectMany(GetOperatorStates).Distinct().ToArray()
 			};
 
 			// TemplateMethod
@@ -2508,19 +2532,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
+			// Undo History
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.Patch,
-				EntityID = id,
+				EntityTypesAndIDs = (EntityTypeEnum.Patch, id).ToViewModel().AsArray(),
 				States = GetPatchStates(id)
 			};
 
 			// Template Method
 			PatchPropertiesViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _patchPropertiesPresenter.Delete(userInput));
 
+			// Refresh
 			if (viewModel.Successful)
 			{
-				// Refresh
 				DocumentViewModelRefresh();
 			}
 		}
@@ -2595,8 +2619,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				IList<int> createdOperatorIDs = viewModel.AutoCreatedNumberOperatorIDs.Union(viewModel.CreatedMainOperatorID).ToArray();
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = createdOperatorIDs.Select(x => new EntityTypeAndIDViewModel { EntityTypeEnum = EntityTypeEnum.Operator, EntityID = x}).ToList(),
-					States = createdOperatorIDs.SelectMany(GetOperatorStates).ToList()
+					EntityTypesAndIDs = createdOperatorIDs.Select(x => (EntityTypeEnum.Operator, x).ToViewModel()).ToArray(),
+					States = createdOperatorIDs.SelectMany(GetOperatorStates).Distinct().ToArray()
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 			}
@@ -2700,7 +2724,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.Scale, viewModel.CreatedScaleID).ToViewModel().AsList(),
+					EntityTypesAndIDs = (EntityTypeEnum.Scale, viewModel.CreatedScaleID).ToViewModel().AsArray(),
 					States = GetScaleStates(viewModel.CreatedScaleID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -2715,17 +2739,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Undo History
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.Scale,
-				EntityID = id,
+				EntityTypesAndIDs = (EntityTypeEnum.Scale, id).ToViewModel().AsArray(),
 				States = GetScaleStates(id)
 			};
 
 			// Template Method
 			ScaleGridViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _scaleGridPresenter.Delete(userInput, id));
 
+			// Refresh
 			if (viewModel.Successful)
 			{
-				// Refresh
 				DocumentViewModelRefresh();
 			}
 		}
@@ -2768,10 +2791,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			ScalePropertiesViewModel userInput = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
 
+			// Undo History
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.Scale,
-				EntityID = id,
+				EntityTypesAndIDs = (EntityTypeEnum.Scale, id).ToViewModel().AsArray(),
 				States = GetScaleStates(id)
 			};
 
@@ -2816,7 +2839,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.Tone, viewModel.CreatedToneID).ToViewModel().AsList(),
+					EntityTypesAndIDs = (EntityTypeEnum.Tone, viewModel.CreatedToneID).ToViewModel().AsArray(),
 					States = GetToneStates(scaleID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
@@ -2828,10 +2851,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
+			// Undo History
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypeEnum = EntityTypeEnum.Tone,
-				EntityID = toneID,
+				EntityTypesAndIDs = (EntityTypeEnum.Tone, toneID).ToViewModel().AsArray(),
 				States = GetToneStates(scaleID)
 			};
 
@@ -3058,7 +3081,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		private TViewModel ExecuteDeleteAction<TViewModel>(TViewModel userInput, UndoItemViewModelBase undoItemViewModel, Func<TViewModel> partialAction)
+		/// <param name="undoItemViewModel">
+		/// For delete actions the undo item must be created before executing this template method,
+		/// since afterwards the state to remember is already gone.
+		/// </param>
+		private TViewModel ExecuteDeleteAction<TViewModel>(TViewModel userInput, UndoDeleteViewModel undoItemViewModel, Func<TViewModel> partialAction)
 			where TViewModel : ViewModelBase
 		{
 			return ExecuteWriteAction(
