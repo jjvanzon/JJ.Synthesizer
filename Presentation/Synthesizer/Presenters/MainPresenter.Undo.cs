@@ -2,7 +2,6 @@
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
@@ -231,41 +230,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			if (operatorPropertiesViewModel is OperatorPropertiesViewModel_ForCurve castedViewModel)
 			{
-				// TODO: This does not include the NodePropertiesViewModels.
 				CurveDetailsViewModel curveDetailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, castedViewModel.CurveID);
 				states.Add(curveDetailsViewModel);
-			}
 
-			// TODO: Include owned operators? Or is that too much magic? Probably won't do that.
+				IEnumerable<NodePropertiesViewModel> nodePropertiesViewModels = ViewModelSelector.GetNodePropertiesViewModelDictionary_ByCurveID(MainViewModel.Document, curveDetailsViewModel.Curve.ID).Values;
+				states.AddRange(nodePropertiesViewModels);
+			}
 
 			return states;
 		}
 
 		private IList<ViewModelBase> GetPatchStates(int id)
 		{
-			PatchPropertiesViewModel patchPropertiesViewModel = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+			// NOTE: 'By accident' the GetOperatorStates already includes the PatchDetailsViewModel, but to not apply the uwritter agreement anti-pattern,
+			// it is included here again. When GetOperatorStates changes, this should not break this code. Also it would look like something is wrong if it weren't included here.
 			PatchDetailsViewModel patchDetailsViewModel = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
+			PatchPropertiesViewModel patchPropertiesViewModel = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
+
 			IList<ViewModelBase> states = ViewModelSelector.EnumerateAllOperatorPropertiesViewModels(MainViewModel.Document)
-			                                               .Where(x => x.PatchID == id)
-			                                               .Cast<ViewModelBase>()
+														   .SelectMany(x => GetOperatorStates(x.ID))
 			                                               .Union(patchDetailsViewModel)
 			                                               .Union(patchPropertiesViewModel)
+														   .Distinct() // Removes duplicate entries of PatchDetailsViewModel.
 			                                               .ToArray();
-
-			// Curve and Node view models
-			// TODO: These had better come from calling GetOperatorStates.
-
-			Patch patch = _repositories.PatchRepository.Get(id);
-			IEnumerable<int> curveIDs = patch.Operators.Where(x => x.Curve != null).Select(x => x.Curve.ID);
-			foreach (int curveID in curveIDs)
-			{
-				CurveDetailsViewModel curveDetailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
-				states.Add(curveDetailsViewModel);
-
-				IEnumerable<NodePropertiesViewModel> nodePropertiesViewModels = ViewModelSelector.GetNodePropertiesViewModelDictionary_ByCurveID(MainViewModel.Document, curveID).Values;
-				states.AddRange(nodePropertiesViewModels);
-			}
-
 			return states;
 		}
 
