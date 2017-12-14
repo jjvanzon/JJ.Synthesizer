@@ -220,6 +220,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// <summary>
 		/// NOTE: OperatorViewModel cannot be used with DispatchViewModel, so cannot be part of the undo state,
 		/// so instead PatchDetailsViewModel is part of the undo state.
+		/// Also including PatchDetailsViewModel in the OperatorState will make sure the cleaning up of obsolete inlets/outlets is taken care of.
 		/// </summary>
 		private IList<ViewModelBase> GetOperatorStates(int id)
 		{
