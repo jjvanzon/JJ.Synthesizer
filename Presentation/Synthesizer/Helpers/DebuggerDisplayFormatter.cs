@@ -52,14 +52,35 @@ namespace JJ.Presentation.Synthesizer.Helpers
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 
-			return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Caption);
+			return CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Caption);
+		}
+
+		public static string GetDebuggerDisplay(NodePropertiesViewModel viewModel)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+			string debuggerDisplay = $"{{{viewModel.GetType().Name}}} {GetIdentifier(viewModel.Entity)}";
+			return debuggerDisplay;
+		}
+
+		public static string GetDebuggerDisplay(NodeViewModel viewModel)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+			string debuggerDisplay = $"{{{viewModel.GetType().Name}}} {GetIdentifier(viewModel)}";
+			return debuggerDisplay;
+		}
+
+		private static string GetIdentifier(NodeViewModel viewModel)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+			string debuggerDisplay = $"{new { viewModel.X, viewModel.Y, NodeType = viewModel.NodeType?.Name }}";
+			return debuggerDisplay;
 		}
 
 		public static string GetDebuggerDisplay(OperatorViewModel viewModel)
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 
-			return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Caption);
+			return CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Caption);
 		}
 
 		public static string GetDebuggerDisplay(OutletViewModel viewModel)
@@ -95,7 +116,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-			return CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Name);
+			return CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName(viewModel.GetType(), viewModel.ID, viewModel.Name);
 		}
+
+		public static string GetDebuggerDisplay(UndoItemViewModelBase viewModel) => CommonDebuggerDisplayFormatter.GetDebuggerDisplay(viewModel);
+
+		public static string GetDebuggerDisplay(ViewModelBase obj) => CommonDebuggerDisplayFormatter.GetDebuggerDisplay(obj);
 	}
 }

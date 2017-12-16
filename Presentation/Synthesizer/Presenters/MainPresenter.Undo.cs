@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 
 				case UndoUpdateViewModel undoUpdateViewModel:
-					ExecuteUndoRedoInsertionOrUpdate(undoUpdateViewModel.OldState);
+					ExecuteUndoRedoInsertionOrUpdate(undoUpdateViewModel.OldStates);
 					break;
 
 				case UndoDeleteViewModel undoDeleteViewModel:
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 
 				case UndoUpdateViewModel undoUpdateViewModel:
-					ExecuteUndoRedoInsertionOrUpdate(undoUpdateViewModel.NewState);
+					ExecuteUndoRedoInsertionOrUpdate(undoUpdateViewModel.NewStates);
 					break;
 
 				case UndoDeleteViewModel undoDeleteViewModel:
@@ -85,8 +85,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					throw new UnexpectedTypeException(() => undoItemViewModel);
 			}
 		}
-
-		private void ExecuteUndoRedoInsertionOrUpdate(params ViewModelBase[] states) => ExecuteUndoRedoInsertionOrUpdate((IList<ViewModelBase>)states);
 
 		private void ExecuteUndoRedoInsertionOrUpdate(IList<ViewModelBase> states)
 		{

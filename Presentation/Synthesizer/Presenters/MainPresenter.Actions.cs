@@ -209,7 +209,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// DispatchViewModel
 				DispatchViewModel(propertiesViewModel);
 
-				// Undo
+				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
 					EntityTypesAndIDs = (EntityTypeEnum.AudioFileOutput, audioFileOutput.ID).ToViewModel().AsArray(),
@@ -1693,12 +1693,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// GetViewModel
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
-			// Template Method
-			CurveDetailsViewModel viewModel = ExecuteUpdateAction(userInput, () => _curveDetailsPresenter.ChangeSelectedNodeType(userInput));
+			// Undo History
+			IList<ViewModelBase> oldStates = default;
+			if (userInput.SelectedNodeID.HasValue)
+			{
+				oldStates = GetNodeStates(userInput.SelectedNodeID.Value);
+			}
 
-			// Refresh
+			// Template Method
+			CurveDetailsViewModel viewModel = ExecuteWriteAction(
+				userInput, 
+				() => _curveDetailsPresenter.ChangeSelectedNodeType(userInput),
+				() => { });
+
 			if (viewModel.Successful && userInput.SelectedNodeID.HasValue)
 			{
+				// Undo History
+				IList<ViewModelBase> newStates = GetNodeStates(userInput.SelectedNodeID.Value);
+				var undoItem = new UndoUpdateViewModel
+				{
+					OldStates = oldStates,
+					NewStates = newStates
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
+				MainViewModel.Document.RedoFuture.Clear();
+
+				// Refresh
 				int nodeID = userInput.SelectedNodeID.Value;
 
 				CurveDetailsNodeRefresh(curveID, nodeID);
@@ -3072,8 +3092,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					var undoItemViewModel = new UndoUpdateViewModel
 					{
-						OldState = userInput.OriginalState,
-						NewState = userInput
+						OldStates = userInput.OriginalState.AsArray(),
+						NewStates = userInput.AsArray()
 					};
 					MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
 

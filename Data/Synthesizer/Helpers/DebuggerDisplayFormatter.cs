@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<AudioFileFormat>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<AudioFileFormat>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -20,7 +20,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<AudioFileOutput>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<AudioFileOutput>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -28,7 +28,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<Channel>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<Channel>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -36,7 +36,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<Curve>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<Curve>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -44,7 +44,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<Document>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<Document>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -52,7 +52,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<Dimension>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<Dimension>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -118,7 +118,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<InterpolationType>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<InterpolationType>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -146,7 +146,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<NodeType>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<NodeType>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -231,7 +231,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<Patch>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<Patch>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -239,7 +239,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<Sample>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<Sample>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -247,7 +247,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<SampleDataType>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<SampleDataType>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -255,7 +255,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<Scale>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<Scale>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -263,7 +263,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<ScaleType>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<ScaleType>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 
@@ -271,7 +271,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggDisplayWithIDAndName<SpeakerSetup>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<SpeakerSetup>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 	}
