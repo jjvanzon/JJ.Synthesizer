@@ -1701,13 +1701,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// Template Method
-			CurveDetailsViewModel viewModel = ExecuteWriteAction(
-				userInput, 
-				() => _curveDetailsPresenter.ChangeSelectedNodeType(userInput),
-				() => { });
+			CurveDetailsViewModel viewModel = ExecuteSpecialUpdateAction(userInput, () => _curveDetailsPresenter.ChangeSelectedNodeType(userInput));
 
 			if (viewModel.Successful && userInput.SelectedNodeID.HasValue)
 			{
+				// Refresh
+				int nodeID = userInput.SelectedNodeID.Value;
+				CurveDetailsNodeRefresh(curveID, nodeID);
+				NodePropertiesRefresh(nodeID);
+
 				// Undo History
 				IList<ViewModelBase> newStates = GetNodeStates(userInput.SelectedNodeID.Value);
 				var undoItem = new UndoUpdateViewModel
@@ -1716,13 +1718,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					NewStates = newStates
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
-				MainViewModel.Document.RedoFuture.Clear();
-
-				// Refresh
-				int nodeID = userInput.SelectedNodeID.Value;
-
-				CurveDetailsNodeRefresh(curveID, nodeID);
-				NodePropertiesRefresh(nodeID);
 			}
 		}
 
@@ -3082,6 +3077,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return ExecuteWriteAction(userInput, partialAction, undoHistoryDelegate: () => MainViewModel.Document.RedoFuture.Clear());
 		}
 
+		/// <summary>
+		/// Works only if userInput is the final state of the action, not if other data changes have to be applied,
+		/// before having the 'new state' of the undo action.
+		/// </summary>
 		private TViewModel ExecuteUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
 			where TViewModel : ViewModelBase
 		{
@@ -3099,6 +3098,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 					MainViewModel.Document.RedoFuture.Clear();
 				});
+		}
+
+		/// <summary>
+		/// The normal ExecuteUpdateAction will handle undo state for most update actions.
+		/// Too bad it is only suitable for when the userInput is the 'new state' for the undo history.
+		/// For instance for the ChangeSelectedNodeType action, the user input is not the final state of the action.
+		/// </summary>
+		private TViewModel ExecuteSpecialUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
+			where TViewModel : ViewModelBase
+		{
+			return ExecuteWriteAction(
+				userInput,
+				partialAction,
+				undoHistoryDelegate: () => MainViewModel.Document.RedoFuture.Clear());
 		}
 
 		/// <param name="undoItemViewModel">
