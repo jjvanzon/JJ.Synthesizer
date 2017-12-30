@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int maxConcurrentNotes,
 			NoteRecycler noteRecycler,
 			RepositoryWrapper repositories)
-			: base(samplingRate, channelCount, channelIndex: default(int))
+			: base(samplingRate, channelCount, channelIndex: default)
 		{
 			if (patch == null) throw new NullException(() => patch);
 			if (maxConcurrentNotes <= 0) throw new LessThanOrEqualException(() => maxConcurrentNotes, 0);

@@ -526,6 +526,8 @@
     <Content Include="2017-10-19 040 SynthesizerDB Curve.DocumentID drop column.sql" />
     <Content Include="2017-11-05 010 SynthesizerDB Sample.IsActive drop column.sql" />
     <Content Include="2017-11-05 020 SynthesizerDB Sample.OriginalLocation drop column.sql" />
+    <Content Include="2017-12-27 010 SynthesizerDB Document.AudioOutputID not null.sql" />
+    <Content Include="2017-12-27 020 SynthesizerDB IX_Document_AudioOutputID_Unique.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

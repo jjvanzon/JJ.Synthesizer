@@ -14,10 +14,10 @@ using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
-using JJ.Framework.Exceptions;
 // Class alias to prevent accidentally use other things from JJ.Framework.Mathematics, 
 // for which the copy from JJ.Business.Synthesizer.CopiedCode.FromFramework should be used.
 using JJ.Framework.Configuration;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Roslyn
 {
@@ -1707,7 +1707,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 			return GenerateOperatorWrapUp(dto, output);
 		}
-
+		
 		// StringBuilder Helpers
 
 		private void AppendLine(string line = null)

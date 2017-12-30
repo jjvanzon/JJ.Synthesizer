@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly ScaleManager _scaleManager;
 
 		public MainViewModel MainViewModel { get; private set; }
-		
+
 		public MainPresenter(RepositoryWrapper repositories)
 		{
 			// Create Repositories
@@ -114,7 +114,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(_audioFileOutputManager, _repositories.AudioFileOutputRepository);
 			_audioOutputPropertiesPresenter = new AudioOutputPropertiesPresenter(
 				_repositories.AudioOutputRepository,
-				_repositories.SpeakerSetupRepository, 
+				_repositories.SpeakerSetupRepository,
 				_repositories.IDRepository);
 			_currentInstrumentPresenter = new CurrentInstrumentPresenter(_autoPatcher, _repositories.DocumentRepository, _repositories.PatchRepository);
 			_curveDetailsPresenter = new CurveDetailsPresenter(_repositories.CurveRepository, _repositories.NodeRepository, _curveManager);
@@ -139,7 +139,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_repositories);
 			_operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_repositories);
 			_operatorPropertiesPresenter_WithInterpolation = new OperatorPropertiesPresenter_WithInterpolation(_repositories);
-			_operatorPropertiesPresenter_WithCollectionRecalculation= new OperatorPropertiesPresenter_WithCollectionRecalculation(_repositories);
+			_operatorPropertiesPresenter_WithCollectionRecalculation = new OperatorPropertiesPresenter_WithCollectionRecalculation(_repositories);
 			_patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionManager);
 			_patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
 			_sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _entityPositionManager, _repositories);
@@ -263,7 +263,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.MinOverInlets))) return DEFAULT_AGGREGATE_OVER_INLETS_INLET_COUNT;
 			if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.SortOverInlets))) return DEFAULT_SORT_OVER_INLETS_INLET_COUNT;
 
-
 			return DEFAULT_VARIABLE_INLET_OR_OUTLET_COUNT;
 		}
 
@@ -294,12 +293,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			OperatorViewModel operatorViewModel = ViewModelSelector.GetOperatorViewModel(MainViewModel.Document, patchID, operatorID.Value);
 
-			IList<int> ownedOperatorIDs = operatorViewModel.Inlets
-			                                               .Where(x => x.InputOutlet != null)
-			                                               .Select(x => x.InputOutlet.Operator)
-			                                               .Where(x => x.IsOwned)
-			                                               .Select(x => x.ID)
-			                                               .ToArray();
+			IEnumerable<int> ownedOperatorIDs = operatorViewModel.Inlets
+			                                                     .Where(x => x.InputOutlet != null)
+			                                                     .Select(x => x.InputOutlet.Operator)
+			                                                     .Where(x => x.IsOwned)
+			                                                     .Select(x => x.ID);
 
 			// Put main operator last so it is dispatched last upon undo and put on top.
 			// Yes, this is the non-written agreement anti-pattern, but whatever.

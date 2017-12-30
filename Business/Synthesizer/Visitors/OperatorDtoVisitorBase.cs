@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Dto;
@@ -299,6 +298,7 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ typeof(SortOverInlets_Outlet_OperatorDto), x => Visit_SortOverInlets_Outlet_OperatorDto((SortOverInlets_Outlet_OperatorDto)x) },
 				{ typeof(Spectrum_OperatorDto), x => Visit_Spectrum_OperatorDto((Spectrum_OperatorDto)x) },
 				{ typeof(Squash_OperatorDto), x => Visit_Squash_OperatorDto((Squash_OperatorDto)x) },
+				{ typeof(Squash_OperatorDto_FactorZero), x => Visit_Squash_OperatorDto_FactorZero((Squash_OperatorDto_FactorZero)x) },
 				{ typeof(Squash_OperatorDto_WithOrigin), x => Visit_Squash_OperatorDto_WithOrigin((Squash_OperatorDto_WithOrigin)x) },
 				{ typeof(Squash_OperatorDto_ZeroOrigin), x => Visit_Squash_OperatorDto_ZeroOrigin((Squash_OperatorDto_ZeroOrigin)x) },
 				{ typeof(Squash_OperatorDto_ConstFactor_WithOriginShifting), x => Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting((Squash_OperatorDto_ConstFactor_WithOriginShifting)x) },

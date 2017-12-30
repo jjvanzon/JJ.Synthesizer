@@ -141,17 +141,17 @@ namespace JJ.Business.Synthesizer
 
 		// Delete
 		
-		public VoidResultDto DeleteWithRelatedEntities(int documentID)
+		public VoidResult DeleteWithRelatedEntities(int documentID)
 		{
 			Document document = _repositories.DocumentRepository.Get(documentID);
 			return DeleteWithRelatedEntities(document);
 		}
 		
-		public VoidResultDto DeleteWithRelatedEntities(Document document)
+		public VoidResult DeleteWithRelatedEntities(Document document)
 		{
 			if (document == null) throw new NullException(() => document);
 
-			VoidResultDto result = CanDelete(document);
+			VoidResult result = CanDelete(document);
 			if (!result.Successful)
 			{
 				return result;
@@ -160,13 +160,21 @@ namespace JJ.Business.Synthesizer
 			document.DeleteRelatedEntities(_repositories);
 			_repositories.DocumentRepository.Delete(document);
 
-			return new VoidResultDto { Successful = true };
+			// You need to postpone deleting this 1-to-1 related entity till after deleting the document, 
+			// or ORM will try to update Document.AudioOutputID to null and crash.
+			if (document.AudioOutput != null)
+			{
+				document.AudioOutput.UnlinkRelatedEntities();
+				_repositories.AudioOutputRepository.Delete(document.AudioOutput);
+			}
+
+			return new VoidResult { Successful = true };
 		}
 
-		public VoidResultDto CanDelete(Document document)
+		public VoidResult CanDelete(Document document)
 		{
 			IValidator validator = new DocumentValidator_Delete(document);
-			return validator.ToCanonical();
+			return validator.ToResult();
 		}
 
 		public VoidResult DeleteDocumentReference(int documentReferenceID)

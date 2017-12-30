@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Enums;
@@ -127,6 +128,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private void RestoreUndoState(ViewModelBase viewModel)
 		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+
 			viewModel.Successful = true;
 			viewModel.Visible = true;
 			viewModel.RefreshID = RefreshIDProvider.GetRefreshID();

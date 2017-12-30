@@ -34,11 +34,9 @@ namespace JJ.Business.Synthesizer.Cascading
 				repositories.PatchRepository.Delete(patch);
 			}
 
-			if (document.AudioOutput != null)
-			{
-				document.AudioOutput.UnlinkRelatedEntities();
-				repositories.AudioOutputRepository.Delete(document.AudioOutput);
-			}
+			// AudioOutput is omitted here.
+			// You need to postpone deleting this 1-to-1 related entity till after deleting the document, 
+			// or ORM will try to update Document.AudioOutputID to null and crash.
 
 			foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs.ToArray())
 			{

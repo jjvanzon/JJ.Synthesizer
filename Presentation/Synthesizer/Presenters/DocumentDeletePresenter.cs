@@ -1,8 +1,8 @@
 ﻿using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = _documentRepository.Get(id);
 
 			// Business
-			VoidResultDto result = _documentManager.CanDelete(document);
+			VoidResult result = _documentManager.CanDelete(document);
 
 			if (!result.Successful)
 			{
@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = _documentRepository.Get(userInput.Document.ID);
 
 			// Business
-			VoidResultDto result = _documentManager.DeleteWithRelatedEntities(document);
+			VoidResult result = _documentManager.DeleteWithRelatedEntities(document);
 
 			if (!result.Successful)
 			{

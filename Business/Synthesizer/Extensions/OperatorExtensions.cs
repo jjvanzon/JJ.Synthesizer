@@ -96,7 +96,6 @@ namespace JJ.Business.Synthesizer.Extensions
 			                                                    .Where(x => x != null)
 			                                                    .Where(x => x.IsOwned())
 																.Distinct();
-
 			return ownedOperators;
 		}
 	}

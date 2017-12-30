@@ -328,6 +328,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Operator
 
+		// Lists
+
 		/// <summary> Converts to properties view models, the operators that do not have a specialized properties view. </summary>
 		public static IList<OperatorPropertiesViewModel> ToOperatorPropertiesViewModelList_WitStandardPropertiesView(this Patch patch)
 		{
@@ -438,7 +440,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 						.ToList();
 		}
 
+		// Items
+
 		public static OperatorPropertiesViewModel ToPropertiesViewModel(this Operator entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+			OperatorPropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
+			viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
+
+			return viewModel;
+		}
+
+		public static OperatorPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Operator entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -447,9 +461,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache(
-			this Operator entity,
-			IInterpolationTypeRepository interpolationTypeRepository)
+		public static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache(this Operator entity, IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 

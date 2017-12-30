@@ -1,4 +1,5 @@
-﻿using JJ.Business.Canonical;
+﻿using System.Collections.Generic;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -7,12 +8,10 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Scales;
-using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer
 {
@@ -116,13 +115,13 @@ namespace JJ.Business.Synthesizer
 			return tone;
 		}
 
-		public VoidResultDto SaveTone(Tone tone)
+		public VoidResult SaveTone(Tone tone)
 		{
 			if (tone == null) throw new NullException(() => tone);
 			if (tone.ID == 0) throw new ZeroException(() => tone.ID);
 
 			IValidator validator = new ToneValidator(tone);
-			return validator.ToCanonical();
+			return validator.ToResult();
 		}
 
 		public void DeleteTone(int id)

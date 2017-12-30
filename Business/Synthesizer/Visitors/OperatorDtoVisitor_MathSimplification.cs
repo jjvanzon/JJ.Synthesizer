@@ -302,20 +302,20 @@ namespace JJ.Business.Synthesizer.Visitors
 			switch (dto.StandardDimensionEnum)
 			{
 				case DimensionEnum.SamplingRate:
-					{
-						var dto2 = new Number_OperatorDto();
-						DtoCloner.CloneProperties(dto, dto2);
-						dto2.Number = dto.SamplingRate;
-						return dto2;
-					}
+				{
+					var dto2 = new Number_OperatorDto();
+					DtoCloner.CloneProperties(dto, dto2);
+					dto2.Number = dto.SamplingRate;
+					return dto2;
+				}
 
 				case DimensionEnum.HighestFrequency:
-					{
-						var dto2 = new Number_OperatorDto();
-						DtoCloner.CloneProperties(dto, dto2);
-						dto2.Number = dto.SamplingRate / 2.0;
-						return dto2;
-					}
+				{
+					var dto2 = new Number_OperatorDto();
+					DtoCloner.CloneProperties(dto, dto2);
+					dto2.Number = dto.SamplingRate / 2.0;
+					return dto2;
+				}
 			}
 
 			if (dto.Position.IsVar)

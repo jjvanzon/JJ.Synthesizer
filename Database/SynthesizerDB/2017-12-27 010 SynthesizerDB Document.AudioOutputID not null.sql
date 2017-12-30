@@ -1,0 +1,1 @@
+alter table Document alter column AudioOutputID int not null;

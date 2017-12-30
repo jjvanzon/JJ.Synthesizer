@@ -1,4 +1,6 @@
-﻿using JJ.Business.Canonical;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Cascading;
@@ -13,8 +15,6 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Business.Synthesizer
 {
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer
 
 		public Curve Create()
 		{
-			var curve = CreateWithoutNodes();
+			Curve curve = CreateWithoutNodes();
 
 			new Curve_SideEffect_SetDefaults_Nodes(
 				curve,
@@ -48,6 +48,8 @@ namespace JJ.Business.Synthesizer
 		{
 			var curve = new Curve { ID = _repositories.IDRepository.GetID() };
 			_repositories.CurveRepository.Insert(curve);
+
+			// TODO: Execute GenerateNames side-effect (again).
 			return curve;
 		}
 

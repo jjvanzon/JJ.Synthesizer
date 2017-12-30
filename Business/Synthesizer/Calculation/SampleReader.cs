@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Calculation
 							break;
 
 						case AudioFileFormatEnum.Wav:
-							WavHeaderStruct wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
+							var wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
 							AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
 							headerLength = WavHeaderConstants.WAV_HEADER_LENGTH;
 							dataLength = audioFileInfo.FrameCount * audioFileInfo.ChannelCount * audioFileInfo.BytesPerValue;

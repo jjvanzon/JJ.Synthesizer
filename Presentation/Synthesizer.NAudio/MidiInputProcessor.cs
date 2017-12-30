@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using NAudio.Midi;
+using System.Threading;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
-using System.Threading;
-using System.Diagnostics;
-using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Exceptions;
+using NAudio.Midi;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -34,7 +34,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private static IPatchCalculatorContainer _patchCalculatorContainer;
 		private static TimeProvider _timeProvider;
 		private static NoteRecycler _noteRecycler;
-
 		private static MidiIn _midiIn;
 
 		private static readonly object _lock = new object();
