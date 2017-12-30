@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 		{
 			if (existingNames == null) throw new NullException(() => existingNames);
 
-			HashSet<string> canonicalExistingNamesHashSet = existingNames.Select(x => NameHelper.ToCanonical(x)).ToHashSet();
+			HashSet<string> canonicalExistingNamesHashSet = existingNames.Select(NameHelper.ToCanonical).ToHashSet();
 
 			int number = 1;
 			string suggestedName;

@@ -258,6 +258,8 @@ namespace JJ.Business.Synthesizer
 			Curve curve = _curveManager.Create();
 			op.LinkTo(curve);
 
+			_curveManager.GenerateName(curve, _patch.Document);
+
 			return wrapper;
 		}
 
@@ -272,6 +274,8 @@ namespace JJ.Business.Synthesizer
 			Curve curve = _curveManager.Create(nodeInfos);
 			op.LinkTo(curve);
 
+			_curveManager.GenerateName(curve, _patch.Document);
+
 			return wrapper;
 		}
 
@@ -285,6 +289,8 @@ namespace JJ.Business.Synthesizer
 
 			Curve curve = _curveManager.Create(nodeInfos);
 			op.LinkTo(curve);
+
+			_curveManager.GenerateName(curve, _patch.Document);
 
 			return wrapper;
 		}
@@ -301,6 +307,8 @@ namespace JJ.Business.Synthesizer
 			Curve curve = _curveManager.Create(xSpan, nodeInfos);
 			op.LinkTo(curve);
 
+			_curveManager.GenerateName(curve, _patch.Document);
+
 			return wrapper;
 		}
 
@@ -315,6 +323,8 @@ namespace JJ.Business.Synthesizer
 
 			Curve curve = _curveManager.Create(xSpan, yValues);
 			op.LinkTo(curve);
+
+			_curveManager.GenerateName(curve, _patch.Document);
 
 			return wrapper;
 		}

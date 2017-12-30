@@ -275,6 +275,8 @@ namespace JJ.Business.Synthesizer
 			node.SetNodeTypeEnum(nodeTypeEnum, _repositories.NodeTypeRepository);
 		}
 
+		public void GenerateName(Curve curve, Document document) => new Curve_SideEffect_GenerateName(curve, document).Execute();
+
 		// Helpers
 
 		private double[] GetEquidistantPointsOverX(double xSpan, int pointCount)
