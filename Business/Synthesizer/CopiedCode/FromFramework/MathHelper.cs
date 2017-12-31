@@ -1,8 +1,4 @@
-﻿// 2016-06-25
-// Copied from JJ.Framework.Mathematics
-// to promote inlining and made class internal.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -58,7 +54,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 			// With help of:
 			// http://www.lomont.org/Software/Misc/FFT/LomontFFT.html
 
-			bool isPowerOf2 = (x & x - 1) == 0;
+			bool isPowerOf2 = (x & (x - 1)) == 0;
 			return isPowerOf2;
 		}
 
@@ -192,7 +188,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 		}
 
 		/// <summary> Equally spreads out a number indices over a different number of indices. </summary>
-		public static Dictionary<int, int> Spread(int sourceIndex1, int sourceIndex2, int destIndex1, int destIndex2)
+		public static Dictionary<int, int> SpreadIntegers(int sourceIndex1, int sourceIndex2, int destIndex1, int destIndex2)
 		{
 			// TODO: There seem to be a lot of repeated principles here, compared to the overload that takes 2 int's.
 			if (sourceIndex2 < sourceIndex1) throw new LessThanOrEqualException(() => sourceIndex2, () => sourceIndex1);
@@ -201,19 +197,19 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 			IList<int> sourceRange = Enumerable.Range(sourceIndex1, sourceIndex2).ToArray();
 			IList<int> destRange = Enumerable.Range(destIndex1, destIndex2).ToArray();
 
-			Dictionary<int, int> dictionary = Spread(sourceRange, destRange);
+			Dictionary<int, int> dictionary = SpreadItems(sourceRange, destRange);
 
 			return dictionary;
 		}
 
 		/// <summary> Equally spreads out items over another set of items. </summary>
-		public static Dictionary<TSource, TDest> Spread<TSource, TDest>(IList<TSource> sourceList, IList<TDest> destList)
+		public static Dictionary<TSource, TDest> SpreadItems<TSource, TDest>(IList<TSource> sourceList, IList<TDest> destList)
 		{
 			if (sourceList == null) throw new NullException(() => sourceList);
 			if (destList == null) throw new NullException(() => destList);
 
 			// TODO: This unncessarily created an intermediate dictionary, but at least it reuses code.
-			Dictionary<int, int> intDictionary = Spread(sourceList.Count, destList.Count);
+			Dictionary<int, int> intDictionary = SpreadIntegers(sourceList.Count, destList.Count);
 
 			Dictionary<TSource, TDest> destDictionary = intDictionary.ToDictionary(x => sourceList[x.Key], x => destList[x.Value]);
 
@@ -222,7 +218,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 
 		/// <summary> Equally spreads out a number indices over a different number of indices. </summary>
 		[SuppressMessage("ReSharper", "RedundantCast")]
-		public static Dictionary<int, int> Spread(int sourceCount, int destCount)
+		public static Dictionary<int, int> SpreadIntegers(int sourceCount, int destCount)
 		{
 			if (sourceCount == 0 || destCount == 0)
 			{
@@ -252,6 +248,23 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 			}
 
 			return dictionary;
+		}
+
+		public static double[] SpreadDoubles(double xSpan, int pointCount)
+		{
+			if (xSpan <= 0) throw new LessThanOrEqualException(() => xSpan, 0);
+			if (pointCount < 2) throw new LessThanException(() => pointCount, 2);
+
+			var xValues = new double[pointCount];
+			double x = 0;
+			double dx = xSpan / (pointCount - 1);
+			for (int i = 0; i < pointCount; i++)
+			{
+				xValues[i] = x;
+				x += dx;
+			}
+
+			return xValues;
 		}
 	}
 }

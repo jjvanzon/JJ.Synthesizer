@@ -81,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (dimensionKeysToStyle.Count > 0)
 			{
 				Dictionary<string, StyleGradeEnum> dimensionKey_To_StyleGrade_Dictionary =
-					MathHelper.Spread(dimensionKeysToStyle, _styleGradesNonNeutral);
+					MathHelper.SpreadItems(dimensionKeysToStyle, _styleGradesNonNeutral);
 
 				foreach (OperatorViewModel operatorViewModel in operatorViewModels)
 				{

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Cascading;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer
 
 			int count = nodeTuples.Count;
 
-			double[] xList = GetEquidistantPointsOverX(xSpan, count);
+			double[] xList = MathHelper.SpreadDoubles(xSpan, count);
 
 			Curve curve = CreateWithoutNodes();
 
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer
 
 			int count = yValues.Count;
 
-			double[] xList = GetEquidistantPointsOverX(xSpan, count);
+			double[] xList = MathHelper.SpreadDoubles(xSpan, count);
 
 			for (int i = 0; i < count; i++)
 			{
@@ -299,24 +299,6 @@ namespace JJ.Business.Synthesizer
 		}
 
 		// Helpers
-
-		[Obsolete("Use JJ.Framework.Math's Spread method or move this functionality to JJ.Framework.Math.")]
-		private double[] GetEquidistantPointsOverX(double xSpan, int pointCount)
-		{
-			if (xSpan <= 0) throw new LessThanOrEqualException(() => xSpan, 0);
-			if (pointCount < 2) throw new LessThanException(() => pointCount, 2);
-
-			var xValues = new double[pointCount];
-			double x = 0;
-			double dx = xSpan / (pointCount - 1);
-			for (int i = 0; i < pointCount; i++)
-			{
-				xValues[i] = x;
-				x += dx;
-			}
-
-			return xValues;
-		}
 
 		private double CalculateIntermediateYValue(Node beforeNode, Node afterNode)
 		{
