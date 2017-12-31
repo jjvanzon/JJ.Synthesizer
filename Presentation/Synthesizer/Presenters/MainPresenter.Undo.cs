@@ -190,14 +190,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DocumentViewModelRefresh();
 		}
 
-		// TODO: Remove outcommented code.
-		//private void AppendUndoHistory(UndoItemViewModelBase undoItemViewModel)
-		//{
-		//	MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
-
-		//	MainViewModel.Document.RedoFuture.Clear();
-		//}
-
 		private IList<ViewModelBase> GetAudioFileOutputStates(int id) => new List<ViewModelBase>
 		{
 			ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id)

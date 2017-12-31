@@ -1,6 +1,6 @@
-﻿using JJ.Data.Synthesizer.Helpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using JJ.Data.Synthesizer.Helpers;
 
 namespace JJ.Data.Synthesizer.Entities
 {
@@ -18,7 +18,6 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual IList<Operator> DerivedOperators { get; set; } = new List<Operator>();
 
 		/// <summary> nullable </summary>
-		
 		public virtual Document Document { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);

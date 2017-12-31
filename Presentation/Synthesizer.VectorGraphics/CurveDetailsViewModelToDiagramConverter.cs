@@ -1,7 +1,9 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
@@ -12,9 +14,6 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Curve = JJ.Data.Synthesizer.Entities.Curve;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
@@ -26,10 +25,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private class CurveInfo
 		{
 			public Curve MockCurve { get; set; }
-			public IList<NodeTuple> NodeTuples { get; set; }
+			public IList<NodeInfo> NodeInfos { get; set; }
 		}
 
-		private class NodeTuple
+		private class NodeInfo
 		{
 			public NodeViewModel NodeViewModel { get; set; }
 			public Node MockNode { get; set; }
@@ -262,8 +261,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				// you have a chance that state may actually be cleaned up.
 
 				// Delete point
-				Point pointToDelete;
-				if (_pointDictionary.TryGetValue(idToDelete, out pointToDelete))
+				if (_pointDictionary.TryGetValue(idToDelete, out Point pointToDelete))
 				{
 					pointToDelete.Children.Clear();
 					pointToDelete.Parent = null;
@@ -272,9 +270,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				}
 
 				// Delete rectangle
-				Rectangle rectangleToDelete;
 				// ReSharper disable once InvertIf
-				if (_rectangleDictionary.TryGetValue(idToDelete, out rectangleToDelete))
+				if (_rectangleDictionary.TryGetValue(idToDelete, out Rectangle rectangleToDelete))
 				{
 					rectangleToDelete.Children.Clear();
 					rectangleToDelete.Parent = null;
@@ -629,12 +626,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		{
 			Diagram diagram = previousPoint.Diagram;
 
-			Node mockNode0 = _currentCurveInfo.NodeTuples
+			Node mockNode0 = _currentCurveInfo.NodeInfos
 											  .Where(nt => nt.NodeViewModel.ID == (int)previousPoint.Tag)
 											  .Select(nt => nt.MockNode)
 											  .Single();
 
-			Node mockNode1 = _currentCurveInfo.NodeTuples
+			Node mockNode1 = _currentCurveInfo.NodeInfos
 											  .Where(nt => nt.NodeViewModel.ID == (int)nextPoint.Tag)
 											  .Select(nt => nt.MockNode)
 											  .Single();
@@ -688,25 +685,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private CurveInfo CreateCurveInfo(IList<NodeViewModel> nodeViewModels)
 		{
-			IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => CreateNodeInfo(x)).ToArray();
+			var nodeTuples = nodeViewModels.Select(x => (x.X, x.Y, (NodeTypeEnum)x.NodeType.ID)).ToArray();
 
-			Curve mockCurve = _curveManager.Create(nodeInfoList);
+			Curve mockCurve = _curveManager.Create(nodeTuples);
 
-			IList<NodeTuple> nodeTuples = new List<NodeTuple>();
-
-			for (int i = 0; i < nodeInfoList.Count; i++)
-			{
-				nodeTuples.Add(new NodeTuple
+			IList<NodeInfo> noteInfos = Enumerable.Zip(
+				mockCurve.Nodes,
+				nodeViewModels,
+				(e, v) => new NodeInfo
 				{
-					MockNode = mockCurve.Nodes[i],
-					NodeViewModel = nodeViewModels[i]
-				});
-			}
+					MockNode = e,
+					NodeViewModel = v
+				}).ToArray();
 
 			return new CurveInfo
 			{
 				MockCurve = mockCurve,
-				NodeTuples = nodeTuples
+				NodeInfos = noteInfos
 			};
 		}
 
@@ -731,11 +726,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
 			if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
 			return config.MustShowInvisibleElements;
-		}
-
-		private static NodeInfo CreateNodeInfo(NodeViewModel x)
-		{
-			return new NodeInfo(x.X, x.Y, (NodeTypeEnum)x.NodeType.ID);
 		}
 	}
 }

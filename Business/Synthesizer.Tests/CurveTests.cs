@@ -1,13 +1,12 @@
-﻿using JJ.Business.Synthesizer.Extensions;
+﻿using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Framework.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Framework.Testing;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Calculation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
+using JJ.Framework.Data;
+using JJ.Framework.Testing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -84,10 +83,10 @@ namespace JJ.Business.Synthesizer.Tests
 				Curve curve = curveManager.Create
 				(
 					3,
-					new NodeInfo(0.5, NodeTypeEnum.Off),
-					new NodeInfo(2.0, NodeTypeEnum.Block),
-					new NodeInfo(1.0, NodeTypeEnum.Line),
-					new NodeInfo(0.5, NodeTypeEnum.Off)
+					(0.5, NodeTypeEnum.Off),
+					(2.0, NodeTypeEnum.Block),
+					(1.0, NodeTypeEnum.Line),
+					(0.5, NodeTypeEnum.Off)
 				);
 
 				ICalculatorWithPosition calculator = curveManager.CreateInterpretedCalculator(curve);

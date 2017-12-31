@@ -516,7 +516,6 @@
     <Compile Include="Extensions\SampleExtensions.cs" />
     <Compile Include="Helpers\SampleRepositories.cs" />
     <Compile Include="Helpers\AudioFileInfo.cs" />
-    <Compile Include="Helpers\NodeInfo.cs" />
     <Compile Include="InletOutletMatcher.cs" />
     <Compile Include="LinkTo\UnlinkExtensions.cs" />
     <Compile Include="AudioFileOutputManager.cs" />

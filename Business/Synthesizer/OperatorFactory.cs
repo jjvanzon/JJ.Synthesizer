@@ -255,10 +255,8 @@ namespace JJ.Business.Synthesizer
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;
 
-			Curve curve = _curveManager.Create();
+			Curve curve = _curveManager.Create(_patch.Document);
 			op.LinkTo(curve);
-
-			_curveManager.GenerateName(curve, _patch.Document);
 
 			return wrapper;
 		}
@@ -266,31 +264,13 @@ namespace JJ.Business.Synthesizer
 		public OperatorWrapper Curve(
 			DimensionEnum? standardDimension = null,
 			string customDimension = null,
-			params NodeInfo[] nodeInfos)
+			params (double x, double y, NodeTypeEnum nodeTypeEnum)[] nodeTuples)
 		{
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;
 
-			Curve curve = _curveManager.Create(nodeInfos);
+			Curve curve = _curveManager.Create(nodeTuples);
 			op.LinkTo(curve);
-
-			_curveManager.GenerateName(curve, _patch.Document);
-
-			return wrapper;
-		}
-
-		public OperatorWrapper Curve(
-			IList<NodeInfo> nodeInfos,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
-		{
-			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
-			Operator op = wrapper.WrappedOperator;
-
-			Curve curve = _curveManager.Create(nodeInfos);
-			op.LinkTo(curve);
-
-			_curveManager.GenerateName(curve, _patch.Document);
 
 			return wrapper;
 		}
@@ -299,15 +279,13 @@ namespace JJ.Business.Synthesizer
 			double xSpan,
 			DimensionEnum? standardDimension = null,
 			string customDimension = null,
-			params NodeInfo[] nodeInfos)
+			params (double y, NodeTypeEnum nodeTypeEnum)?[] nodeTuples)
 		{
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;
 
-			Curve curve = _curveManager.Create(xSpan, nodeInfos);
+			Curve curve = _curveManager.Create(xSpan, nodeTuples);
 			op.LinkTo(curve);
-
-			_curveManager.GenerateName(curve, _patch.Document);
 
 			return wrapper;
 		}
@@ -323,8 +301,6 @@ namespace JJ.Business.Synthesizer
 
 			Curve curve = _curveManager.Create(xSpan, yValues);
 			op.LinkTo(curve);
-
-			_curveManager.GenerateName(curve, _patch.Document);
 
 			return wrapper;
 		}

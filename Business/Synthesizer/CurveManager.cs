@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
@@ -30,7 +31,15 @@ namespace JJ.Business.Synthesizer
 
 		// Create
 
-		public Curve Create()
+		// About the overloads:
+		// You would think you want to generate a Curve name any time you can.
+		// But this creates an optional dependency on Document.
+		// Combined with params, this would create an explosion of overloads.
+		// Instead the App will generally use the overload that takes Document, which generates a name.
+		// The fancy overloads with tuples will generally only be used as an API, 
+		// in case of which generating a name is not as important, saving us the dependency on Document.
+
+		public Curve Create(Document document = null)
 		{
 			Curve curve = CreateWithoutNodes();
 
@@ -41,6 +50,9 @@ namespace JJ.Business.Synthesizer
 				_repositories.IDRepository)
 				.Execute();
 
+			// Only execute this side-effect for the overload that takes Document.
+			new Curve_SideEffect_GenerateName(curve, document).Execute();
+
 			return curve;
 		}
 
@@ -49,53 +61,58 @@ namespace JJ.Business.Synthesizer
 			var curve = new Curve { ID = _repositories.IDRepository.GetID() };
 			_repositories.CurveRepository.Insert(curve);
 
-			// TODO: Execute GenerateNames side-effect (again).
 			return curve;
 		}
 
-		public Curve Create(params NodeInfo[] nodeInfos) => Create((IList<NodeInfo>)nodeInfos);
+		public Curve Create(params (double x, double y, NodeTypeEnum nodeTypeEnum)[] nodeTuples)
+				  => Create((IList<(double x, double y, NodeTypeEnum nodeTypeEnum)>)nodeTuples);
 
-		public Curve Create(IList<NodeInfo> nodeInfos)
+		public Curve Create(IList<(double x, double y, NodeTypeEnum nodeTypeEnum)> nodeTuples)
 		{
-			if (nodeInfos == null) throw new NullException(() => nodeInfos);
+			if (nodeTuples == null) throw new NullException(() => nodeTuples);
 
 			Curve curve = CreateWithoutNodes();
 
-			foreach (NodeInfo nodeInfo in nodeInfos)
+			foreach (var (x, y, nodeTypeEnum) in nodeTuples)
 			{
 				Node node = CreateNode(curve);
-				node.X = nodeInfo.X;
-				node.Y = nodeInfo.Y;
-				node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _repositories.NodeTypeRepository);
+				node.X = x;
+				node.Y = y;
+				node.SetNodeTypeEnum(nodeTypeEnum, _repositories.NodeTypeRepository);
 			}
 
 			return curve;
 		}
 
-		/// <param name="nodeInfos">When a NodeInfo is null, a node will not be created at that point in time.</param>
-		public Curve Create(double xSpan, params NodeInfo[] nodeInfos)
-		{
-			// TODO: I do not like this method signature looks in the method calls.
+		/// <param name="nodeTuples">When an item is null, a node will not be created at that point in time.</param>
+		public Curve Create(double xSpan, params (double y, NodeTypeEnum nodeTypeEnum)?[] nodeTuples) 
+			      => Create(xSpan, (IList<(double y, NodeTypeEnum nodeTypeEnum)?>)nodeTuples);
 
-			if (nodeInfos == null) throw new NullException(() => nodeInfos);
+		/// <param name="nodeTuples">When an item is null, a node will not be created at that point in time.</param>
+		public Curve Create(double xSpan, IList<(double y, NodeTypeEnum nodeTypeEnum)?> nodeTuples)
+		{
+			if (nodeTuples == null) throw new NullException(() => nodeTuples);
+
+			int count = nodeTuples.Count;
+
+			double[] xList = GetEquidistantPointsOverX(xSpan, count);
 
 			Curve curve = CreateWithoutNodes();
 
-			double[] times = GetEquidistantPointsOverX(xSpan, nodeInfos.Length);
-
-			for (int i = 0; i < nodeInfos.Length; i++)
+			for (int i = 0; i < count; i++)
 			{
-				double time = times[i];
-				NodeInfo nodeInfo = nodeInfos[i];
+				(double y, NodeTypeEnum nodeTypeEnum)? tuple = nodeTuples[i];
+				double x = xList[i];
 
-				// ReSharper disable once InvertIf
-				if (nodeInfo != null)
+				if (tuple == null)
 				{
-					Node node = CreateNode(curve);
-					node.X = time;
-					node.Y = nodeInfo.Y;
-					node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _repositories.NodeTypeRepository);
+					continue;
 				}
+
+				Node node = CreateNode(curve);
+				node.X = x;
+				node.Y = tuple.Value.y;
+				node.SetNodeTypeEnum(tuple.Value.nodeTypeEnum, _repositories.NodeTypeRepository);
 			}
 
 			return curve;
@@ -103,28 +120,34 @@ namespace JJ.Business.Synthesizer
 
 		/// <param name="yValues">When a value is null, a node will not be created at that point in time.</param>
 		public Curve Create(double xSpan, params double?[] yValues)
+				  => Create(xSpan, (IList<double?>)yValues);
+
+		/// <param name="yValues">When a value is null, a node will not be created at that point in time.</param>
+		public Curve Create(double xSpan, IList<double?> yValues)
 		{
-			if (xSpan <= 0) throw new LessThanOrEqualException(() => xSpan, 0);
 			if (yValues == null) throw new NullException(() => yValues);
-			if (yValues.Length < 2) throw new LessThanException(() => yValues.Length, 2);
 
 			Curve curve = CreateWithoutNodes();
 
-			double[] times = GetEquidistantPointsOverX(xSpan, yValues.Length);
+			int count = yValues.Count;
 
-			for (int i = 0; i < yValues.Length; i++)
+			double[] xList = GetEquidistantPointsOverX(xSpan, count);
+
+			for (int i = 0; i < count; i++)
 			{
 				double? y = yValues[i];
-				double x = times[i];
 
-				// ReSharper disable once InvertIf
-				if (y.HasValue)
+				if (!y.HasValue)
 				{
-					Node node = CreateNode(curve);
-					node.X = x;
-					node.Y = y.Value;
-					node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
+					continue;
 				}
+
+				double x = xList[i];
+
+				Node node = CreateNode(curve);
+				node.X = x;
+				node.Y = y.Value;
+				node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
 			}
 
 			return curve;
@@ -275,10 +298,9 @@ namespace JJ.Business.Synthesizer
 			node.SetNodeTypeEnum(nodeTypeEnum, _repositories.NodeTypeRepository);
 		}
 
-		public void GenerateName(Curve curve, Document document) => new Curve_SideEffect_GenerateName(curve, document).Execute();
-
 		// Helpers
 
+		[Obsolete("Use JJ.Framework.Math's Spread method or move this functionality to JJ.Framework.Math.")]
 		private double[] GetEquidistantPointsOverX(double xSpan, int pointCount)
 		{
 			if (xSpan <= 0) throw new LessThanOrEqualException(() => xSpan, 0);
