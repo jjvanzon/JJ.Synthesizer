@@ -102,10 +102,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			Width = x;
 		}
 
-		private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(this, new EventArgs<int>(_viewModel.ID));
-		private void buttonMoveBackward_Click(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.ID));
-		private void buttonMoveForward_Click(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.ID));
-		private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.ID));
-		private void buttonRemove_Click(object sender, EventArgs e) => RemoveRequested(this, new EventArgs<int>(_viewModel.ID));
+		private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(this, new EventArgs<int>(_viewModel.PatchID));
+		private void buttonMoveBackward_Click(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
+		private void buttonMoveForward_Click(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
+		private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.PatchID));
+		private void buttonRemove_Click(object sender, EventArgs e) => RemoveRequested(this, new EventArgs<int>(_viewModel.PatchID));
 	}
 }

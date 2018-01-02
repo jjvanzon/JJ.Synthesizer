@@ -340,7 +340,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					// GetEntities
 					AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(userInput.Entity.ID);
-					IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
+					IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List.Select(x => _repositories.PatchRepository.Get(x.PatchID)).ToArray();
 
 					// Business
 					Patch autoPatch = _autoPatcher.AutoPatch(entities);
@@ -475,7 +475,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
 			// Get Entities
-			IList<Patch> underlyingPatches = currentInstrumentUserInput.List.Select(x => _repositories.PatchRepository.Get(x.ID)).ToArray();
+			IList<Patch> underlyingPatches = currentInstrumentUserInput.List.Select(x => _repositories.PatchRepository.Get(x.PatchID)).ToArray();
 
 			// Business
 			Patch autoPatch = _autoPatcher.AutoPatch(underlyingPatches);
@@ -1274,7 +1274,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					{
 						// GetEntities
 						IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List
-						                                     .Select(x => _repositories.PatchRepository.Get(x.ID))
+						                                     .Select(x => _repositories.PatchRepository.Get(x.PatchID))
 						                                     .ToArray();
 						// Business
 						Patch autoPatch = _autoPatcher.AutoPatch(entities);
@@ -2932,7 +2932,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentInstrument.List.Count);
 					foreach (CurrentInstrumentItemViewModel itemViewModel in MainViewModel.Document.CurrentInstrument.List)
 					{
-						Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.ID);
+						Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.PatchID);
 						underlyingPatches.Add(underlyingPatch);
 					}
 

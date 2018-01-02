@@ -2,7 +2,7 @@
 {
 	public sealed class CurrentInstrumentItemViewModel
 	{
-		public int ID { get; set; }
+		public int PatchID { get; set; }
 		public string Name { get; set; }
 		public bool CanGoBackward { get; set; }
 		public bool CanGoForward { get; set; }

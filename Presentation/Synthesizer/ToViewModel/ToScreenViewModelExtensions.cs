@@ -126,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			viewModel.List = patches.Select((x, i) => new CurrentInstrumentItemViewModel
 			{
-				ID = x.ID,
+				PatchID = x.ID,
 				Name = getName(x),
 				CanGoBackward = i != 0,
 				CanGoForward = i != lastIndex

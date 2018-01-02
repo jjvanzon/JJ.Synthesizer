@@ -1,4 +1,9 @@
-﻿using JJ.Business.Canonical;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Media;
+using System.Windows.Forms;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
@@ -21,11 +26,6 @@ using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -187,8 +187,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private Patch GetCurrentInstrumentPatch()
 		{
 			IList<Patch> patches = _mainPresenter.MainViewModel.Document.CurrentInstrument.List
-											 .Select(x => _repositories.PatchRepository.Get(x.ID))
-											 .ToArray();
+			                                     .Select(x => _repositories.PatchRepository.Get(x.PatchID))
+			                                     .ToArray();
 			if (patches.Count == 0)
 			{
 				patches = new[] { CreateDefaultSinePatch() };

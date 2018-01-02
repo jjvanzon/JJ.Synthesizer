@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = _documentRepository.Get(userInput.DocumentID);
 
 			IList<Patch> patches = userInput.List
-			                                .Select(x => x.ID)
+			                                .Select(x => x.PatchID)
 			                                .Select(x => _patchRepository.Get(x))
 			                                .ToList();
 
@@ -73,14 +73,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public CurrentInstrumentViewModel MoveBackward(CurrentInstrumentViewModel viewModel, int patchID)
 		{
-			int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
+			int currentPosition = viewModel.List.IndexOf(x => x.PatchID == patchID);
 
 			return Move(viewModel, patchID, currentPosition - 1);
 		}
 
 		public CurrentInstrumentViewModel MoveForward(CurrentInstrumentViewModel viewModel, int patchID)
 		{
-			int currentPosition = viewModel.List.IndexOf(x => x.ID == patchID);
+			int currentPosition = viewModel.List.IndexOf(x => x.PatchID == patchID);
 
 			return Move(viewModel, patchID, currentPosition + 1);
 		}

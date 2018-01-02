@@ -18,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			public DimensionEnum DimensionEnum { get; set; }
 			public int ControllerCode { get; set; }
-			public double MinValue { get; set; } = CalculationHelper.VERY_LOW_VALUE;
+			public double DimensionMinValue { get; set; } = CalculationHelper.VERY_LOW_VALUE;
 			public double ConversionFactor { get; set; }
 			public double TempValue { get; set; }
 		}
@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 		/// <summary> 
 		/// For now will only work with the first MIDI device it finds. 
-		/// Does nothing when no MIDI devices. 
+		/// Does nothing when no MIDI devices.
 		/// </summary>
 		private static void TryStart()
 		{
@@ -185,9 +185,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				{
 					double controllerValue = controllerInfo.TempValue;
 
-					if (controllerValue < controllerInfo.MinValue)
+					if (controllerValue < controllerInfo.DimensionMinValue)
 					{
-						controllerValue = controllerInfo.MinValue;
+						controllerValue = controllerInfo.DimensionMinValue;
 					}
 
 					calculator.SetValue(controllerInfo.DimensionEnum, noteInfo.ListIndex, controllerValue);
@@ -241,7 +241,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			var controlChangeEvent = (ControlChangeEvent)midiEvent;
 
-			Debug.WriteLine("ControlChange value received: {0} = {1}", controlChangeEvent.Controller, controlChangeEvent.ControllerValue);
+			Debug.WriteLine($"ControlChange value received: {controlChangeEvent.Controller} = {controlChangeEvent.ControllerValue}");
 
 			int controllerCode = (int)controlChangeEvent.Controller;
 
@@ -273,9 +273,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 				value += delta;
 
-				if (value < controllerInfo.MinValue)
+				if (value < controllerInfo.DimensionMinValue)
 				{
-					value = controllerInfo.MinValue;
+					value = controllerInfo.DimensionMinValue;
 				}
 
 				calculator.SetValue(controllerInfo.DimensionEnum, value);
@@ -323,105 +323,105 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				{
 					DimensionEnum = DimensionEnum.AttackDuration,
 					ControllerCode = 73, // Recommended code
-					MinValue = 0.001,
+					DimensionMinValue = 0.001,
 					ConversionFactor = controllerFactorForVolumeChangeRate
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.ReleaseDuration,
 					ControllerCode = 72, // Recommended code
-					MinValue = 0.001,
+					DimensionMinValue = 0.001,
 					ConversionFactor = controllerFactorForVolumeChangeRate
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.Brightness,
 					ControllerCode = 74, // Recommended code
-					MinValue =  1.00001, // 1 shuts off the sound.
+					DimensionMinValue =  1.00001, // 1 shuts off the sound.
 					ConversionFactor = controllerFactorForFilters
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.VibratoSpeed,
 					ControllerCode = 76, // Default on Arturia MiniLab
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = controllerFactorForModulationSpeed
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.VibratoDepth,
 					ControllerCode = 77, // Default on Arturia MiniLab
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = 0.0005 / MAX_CONTROLLER_VALUE
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.TremoloDepth,
 					ControllerCode = 92, // Recommended code. However, not mapped by default on my Arturia MiniLab.
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = 4.0 / MAX_CONTROLLER_VALUE
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.TremoloSpeed,
 					ControllerCode = 16, // Right below vibrato on Arturia MiniLab
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = controllerFactorForModulationSpeed
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.TremoloDepth,
 					ControllerCode = 17, // Right below vibrato on Arturia MiniLab
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = 1.0 / MAX_CONTROLLER_VALUE
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.Intensity,
 					ControllerCode = 71, // Resonance on Arturia MiniLab. Recommended code for Timbre/Harmonic Content.
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = controllerFactorForFilters
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.DecayDuration,
 					ControllerCode = 75, // Decay on Arturia MiniLab. Recommended code for 'Sound Controller 6'
-					MinValue = 0.00001,
+					DimensionMinValue = 0.00001,
 					ConversionFactor = controllerFactorForVolumeChangeRate
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.SustainVolume,
 					ControllerCode = 79, // Decay on Arturia MiniLab. Recommended code for 'Sound Controller 10'.
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = 1.0 / MAX_CONTROLLER_VALUE
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.BrightnessModulationSpeed,
 					ControllerCode = 18, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = controllerFactorForModulationSpeed 
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.BrightnessModulationDepth,
 					ControllerCode = 19, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = controllerFactorForFilters
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.IntensityModulationSpeed,
 					ControllerCode = 93, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = controllerFactorForModulationSpeed
 				},
 				new ControllerInfo
 				{
 					DimensionEnum = DimensionEnum.IntensityModulationDepth,
 					ControllerCode = 91, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
-					MinValue = 0,
+					DimensionMinValue = 0,
 					ConversionFactor = controllerFactorForFilters
 				},
 			};
