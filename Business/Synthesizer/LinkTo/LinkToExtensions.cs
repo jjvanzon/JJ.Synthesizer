@@ -1,7 +1,7 @@
-﻿using JJ.Data.Synthesizer.Entities;
+﻿using System;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
-using System;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable InvertIf
 
@@ -55,27 +55,12 @@ namespace JJ.Business.Synthesizer.LinkTo
 			}
 		}
 
-		public static void LinkTo(this Node node, Curve curve)
+		public static void LinkTo(this Document document, AudioOutput audioOutput)
 		{
-			if (node == null) throw new NullException(() => node);
+			if (document == null) throw new NullException(() => document);
+			document.AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
 
-			if (node.Curve != null)
-			{
-				if (node.Curve.Nodes.Contains(node))
-				{
-					node.Curve.Nodes.Remove(node);
-				}
-			}
-
-			node.Curve = curve;
-
-			if (node.Curve != null)
-			{
-				if (!node.Curve.Nodes.Contains(node))
-				{
-					node.Curve.Nodes.Add(node);
-				}
-			}
+			// No inverse property.
 		}
 
 		public static void LinkToHigherDocument(this DocumentReference documentReference, Document higherDocument)
@@ -124,33 +109,71 @@ namespace JJ.Business.Synthesizer.LinkTo
 			}
 		}
 
-		public static void LinkTo(this Document document, AudioOutput audioOutput)
+		public static void LinkTo(this Inlet inlet, Operator op)
 		{
-			if (document == null) throw new NullException(() => document);
-			document.AudioOutput = audioOutput ?? throw new NullException(() => audioOutput);
+			if (inlet == null) throw new NullException(() => inlet);
 
-			// No inverse property.
-		}
-
-		public static void LinkTo(this Patch patch, Document document)
-		{
-			if (patch == null) throw new NullException(() => patch);
-
-			if (patch.Document != null)
+			if (inlet.Operator != null)
 			{
-				if (patch.Document.Patches.Contains(patch))
+				if (inlet.Operator.Inlets.Contains(inlet))
 				{
-					patch.Document.Patches.Remove(patch);
+					inlet.Operator.Inlets.Remove(inlet);
 				}
 			}
 
-			patch.Document = document;
+			inlet.Operator = op;
 
-			if (patch.Document != null)
+			if (inlet.Operator != null)
 			{
-				if (!patch.Document.Patches.Contains(patch))
+				if (!inlet.Operator.Inlets.Contains(inlet))
 				{
-					patch.Document.Patches.Add(patch);
+					inlet.Operator.Inlets.Add(inlet);
+				}
+			}
+		}
+
+		public static void LinkTo(this Inlet inlet, Outlet outlet)
+		{
+			if (inlet == null) throw new NullException(() => inlet);
+
+			if (inlet.InputOutlet != null)
+			{
+				if (inlet.InputOutlet.ConnectedInlets.Contains(inlet))
+				{
+					inlet.InputOutlet.ConnectedInlets.Remove(inlet);
+				}
+			}
+
+			inlet.InputOutlet = outlet;
+
+			if (inlet.InputOutlet != null)
+			{
+				if (!inlet.InputOutlet.ConnectedInlets.Contains(inlet))
+				{
+					inlet.InputOutlet.ConnectedInlets.Add(inlet);
+				}
+			}
+		}
+
+		public static void LinkTo(this Node node, Curve curve)
+		{
+			if (node == null) throw new NullException(() => node);
+
+			if (node.Curve != null)
+			{
+				if (node.Curve.Nodes.Contains(node))
+				{
+					node.Curve.Nodes.Remove(node);
+				}
+			}
+
+			node.Curve = curve;
+
+			if (node.Curve != null)
+			{
+				if (!node.Curve.Nodes.Contains(node))
+				{
+					node.Curve.Nodes.Add(node);
 				}
 			}
 		}
@@ -219,29 +242,6 @@ namespace JJ.Business.Synthesizer.LinkTo
 			// No inverse property.
 		}
 
-		public static void LinkTo(this Inlet inlet, Operator op)
-		{
-			if (inlet == null) throw new NullException(() => inlet);
-
-			if (inlet.Operator != null)
-			{
-				if (inlet.Operator.Inlets.Contains(inlet))
-				{
-					inlet.Operator.Inlets.Remove(inlet);
-				}
-			}
-
-			inlet.Operator = op;
-
-			if (inlet.Operator != null)
-			{
-				if (!inlet.Operator.Inlets.Contains(inlet))
-				{
-					inlet.Operator.Inlets.Add(inlet);
-				}
-			}
-		}
-
 		public static void LinkTo(this Outlet outlet, Operator op)
 		{
 			if (outlet == null) throw new NullException(() => outlet);
@@ -265,25 +265,25 @@ namespace JJ.Business.Synthesizer.LinkTo
 			}
 		}
 
-		public static void LinkTo(this Inlet inlet, Outlet outlet)
+		public static void LinkTo(this Patch patch, Document document)
 		{
-			if (inlet == null) throw new NullException(() => inlet);
+			if (patch == null) throw new NullException(() => patch);
 
-			if (inlet.InputOutlet != null)
+			if (patch.Document != null)
 			{
-				if (inlet.InputOutlet.ConnectedInlets.Contains(inlet))
+				if (patch.Document.Patches.Contains(patch))
 				{
-					inlet.InputOutlet.ConnectedInlets.Remove(inlet);
+					patch.Document.Patches.Remove(patch);
 				}
 			}
 
-			inlet.InputOutlet = outlet;
+			patch.Document = document;
 
-			if (inlet.InputOutlet != null)
+			if (patch.Document != null)
 			{
-				if (!inlet.InputOutlet.ConnectedInlets.Contains(inlet))
+				if (!patch.Document.Patches.Contains(patch))
 				{
-					inlet.InputOutlet.ConnectedInlets.Add(inlet);
+					patch.Document.Patches.Add(patch);
 				}
 			}
 		}
