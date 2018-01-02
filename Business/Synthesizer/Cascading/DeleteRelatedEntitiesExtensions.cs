@@ -10,6 +10,42 @@ namespace JJ.Business.Synthesizer.Cascading
 	/// <summary> Deletes related entities that are inherently part of the entity. </summary>
 	public static class DeleteRelatedEntitiesExtensions
 	{
+		public static void DeleteRelatedEntities(this Document document, RepositoryWrapper repositories)
+		{
+			if (document == null) throw new NullException(() => document);
+			if (repositories == null) throw new NullException(() => repositories);
+
+			foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs.ToArray())
+			{
+				audioFileOutput.UnlinkRelatedEntities();
+				repositories.AudioFileOutputRepository.Delete(audioFileOutput);
+			}
+
+			// AudioOutput is omitted here.
+			// You need to postpone deleting this 1-to-1 related entity till after deleting the document, 
+			// or ORM will try to update Document.AudioOutputID to null and crash.
+
+			foreach (DocumentReference documentReference in document.LowerDocumentReferences.ToArray())
+			{
+				documentReference.UnlinkRelatedEntities();
+				repositories.DocumentReferenceRepository.Delete(documentReference);
+			}
+
+			foreach (Patch patch in document.Patches.ToArray())
+			{
+				patch.DeleteRelatedEntities(repositories);
+				patch.UnlinkRelatedEntities();
+				repositories.PatchRepository.Delete(patch);
+			}
+
+			foreach (Scale scale in document.Scales.ToArray())
+			{
+				scale.DeleteRelatedEntities(repositories.ToneRepository);
+				scale.UnlinkRelatedEntities();
+				repositories.ScaleRepository.Delete(scale);
+			}
+		}
+
 		public static void DeleteRelatedEntities(this Curve curve, INodeRepository nodeRepository)
 		{
 			if (curve == null) throw new NullException(() => curve);
@@ -22,39 +58,40 @@ namespace JJ.Business.Synthesizer.Cascading
 			}
 		}
 
-		public static void DeleteRelatedEntities(this Document document, RepositoryWrapper repositories)
+		public static void DeleteRelatedEntities(this Operator op, RepositoryWrapper repositories)
 		{
-			if (document == null) throw new NullException(() => document);
+			if (op == null) throw new ArgumentNullException(nameof(op));
 			if (repositories == null) throw new NullException(() => repositories);
 
-			foreach (Patch patch in document.Patches.ToArray())
+			if (op.Curve != null)
 			{
-				patch.DeleteRelatedEntities(repositories);
-				patch.UnlinkRelatedEntities();
-				repositories.PatchRepository.Delete(patch);
+				op.Curve.DeleteRelatedEntities(repositories.NodeRepository);
+				repositories.CurveRepository.Delete(op.Curve);
 			}
 
-			// AudioOutput is omitted here.
-			// You need to postpone deleting this 1-to-1 related entity till after deleting the document, 
-			// or ORM will try to update Document.AudioOutputID to null and crash.
-
-			foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs.ToArray())
+			// Be null-tolerant to be able to get out of trouble if something is missing.
+			EntityPosition entityPosition = repositories.EntityPositionRepository.TryGetByEntityTypeNameAndEntityID(typeof(OperatingSystem).Name, op.ID);
+			if (entityPosition != null)
 			{
-				audioFileOutput.UnlinkRelatedEntities();
-				repositories.AudioFileOutputRepository.Delete(audioFileOutput);
+				repositories.EntityPositionRepository.Delete(entityPosition);
 			}
 
-			foreach (Scale scale in document.Scales.ToArray())
+			foreach (Inlet inlet in op.Inlets.ToArray())
 			{
-				scale.DeleteRelatedEntities(repositories.ToneRepository);
-				scale.UnlinkRelatedEntities();
-				repositories.ScaleRepository.Delete(scale);
+				inlet.UnlinkRelatedEntities();
+				repositories.InletRepository.Delete(inlet);
 			}
 
-			foreach (DocumentReference documentReference in document.LowerDocumentReferences.ToArray())
+			if (op.Sample != null)
 			{
-				documentReference.UnlinkRelatedEntities();
-				repositories.DocumentReferenceRepository.Delete(documentReference);
+				op.Sample.UnlinkRelatedEntities();
+				repositories.SampleRepository.Delete(op.Sample);
+			}
+
+			foreach (Outlet outlet in op.Outlets.ToArray())
+			{
+				outlet.UnlinkRelatedEntities();
+				repositories.OutletRepository.Delete(outlet);
 			}
 		}
 
@@ -68,43 +105,6 @@ namespace JJ.Business.Synthesizer.Cascading
 				op.DeleteRelatedEntities(repositories);
 				op.UnlinkRelatedEntities();
 				repositories.OperatorRepository.Delete(op);
-			}
-		}
-
-		public static void DeleteRelatedEntities(this Operator op, RepositoryWrapper repositories)
-		{
-			if (op == null) throw new ArgumentNullException(nameof(op));
-			if (repositories == null) throw new NullException(() => repositories);
-
-			foreach (Inlet inlet in op.Inlets.ToArray())
-			{
-				inlet.UnlinkRelatedEntities();
-				repositories.InletRepository.Delete(inlet);
-			}
-
-			foreach (Outlet outlet in op.Outlets.ToArray())
-			{
-				outlet.UnlinkRelatedEntities();
-				repositories.OutletRepository.Delete(outlet);
-			}
-
-			// Be null-tolerant to be able to get out of trouble if something is missing.
-			EntityPosition entityPosition = repositories.EntityPositionRepository.TryGetByEntityTypeNameAndEntityID(typeof(OperatingSystem).Name, op.ID);
-			if (entityPosition != null)
-			{
-				repositories.EntityPositionRepository.Delete(entityPosition);
-			}
-
-			if (op.Sample != null)
-			{
-				op.Sample.UnlinkRelatedEntities();
-				repositories.SampleRepository.Delete(op.Sample);
-			}
-
-			if (op.Curve != null)
-			{
-				op.Curve.DeleteRelatedEntities(repositories.NodeRepository);
-				repositories.CurveRepository.Delete(op.Curve);
 			}
 		}
 
