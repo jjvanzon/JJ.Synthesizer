@@ -23,32 +23,30 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
 			var repositories = new RepositoryWrapper
 			(
-				CreateRepository<IDocumentRepository>(context),
-				CreateRepository<ICurveRepository>(context),
-				CreateRepository<IPatchRepository>(context),
-				CreateRepository<ISampleRepository>(context),
+				CreateRepository<IAudioFileFormatRepository>(context),
 				CreateRepository<IAudioFileOutputRepository>(context),
 				CreateRepository<IAudioOutputRepository>(context),
-				CreateRepository<IDocumentReferenceRepository>(context),
-				CreateRepository<INodeRepository>(context),
-				CreateRepository<IOperatorRepository>(context),
-				CreateRepository<IInletRepository>(context),
-				CreateRepository<IOutletRepository>(context),
-				CreateRepository<IScaleRepository>(context),
-				CreateRepository<IToneRepository>(context),
-				CreateRepository<IEntityPositionRepository>(context),
-				CreateRepository<IMidiMappingRepository>(context),
-				CreateRepository<IMidiMappingElementRepository>(context),
-
-				CreateRepository<IAudioFileFormatRepository>(context),
-				CreateRepository<IInterpolationTypeRepository>(context),
-				CreateRepository<INodeTypeRepository>(context),
-				CreateRepository<ISampleDataTypeRepository>(context),
-				CreateRepository<ISpeakerSetupRepository>(context),
-				CreateRepository<IScaleTypeRepository>(context),
+				CreateRepository<ICurveRepository>(context),
 				CreateRepository<IDimensionRepository>(context),
-
-				CreateRepository<IIDRepository>(context)
+				CreateRepository<IDocumentReferenceRepository>(context),
+				CreateRepository<IDocumentRepository>(context),
+				CreateRepository<IEntityPositionRepository>(context),
+				CreateRepository<IIDRepository>(context),
+				CreateRepository<IInletRepository>(context),
+				CreateRepository<IInterpolationTypeRepository>(context),
+				CreateRepository<IMidiMappingElementRepository>(context),
+				CreateRepository<IMidiMappingRepository>(context),
+				CreateRepository<INodeRepository>(context),
+				CreateRepository<INodeTypeRepository>(context),
+				CreateRepository<IOperatorRepository>(context),
+				CreateRepository<IOutletRepository>(context),
+				CreateRepository<IPatchRepository>(context),
+				CreateRepository<ISampleDataTypeRepository>(context),
+				CreateRepository<ISampleRepository>(context),
+				CreateRepository<IScaleRepository>(context),
+				CreateRepository<IScaleTypeRepository>(context),
+				CreateRepository<ISpeakerSetupRepository>(context),
+				CreateRepository<IToneRepository>(context)
 			);
 
 			return repositories;

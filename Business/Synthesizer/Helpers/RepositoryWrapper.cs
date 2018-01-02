@@ -5,90 +5,81 @@ namespace JJ.Business.Synthesizer.Helpers
 {
 	public class RepositoryWrapper
 	{
-		public IDocumentRepository DocumentRepository { get; }
-		public ICurveRepository CurveRepository { get; }
-		public IPatchRepository PatchRepository { get; }
-		public ISampleRepository SampleRepository { get; }
+		public IAudioFileFormatRepository AudioFileFormatRepository { get; }
 		public IAudioFileOutputRepository AudioFileOutputRepository { get; }
 		public IAudioOutputRepository AudioOutputRepository { get; }
-		public IDocumentReferenceRepository DocumentReferenceRepository { get; }
-		public INodeRepository NodeRepository { get; }
-		public IOperatorRepository OperatorRepository { get; }
-		public IInletRepository InletRepository { get; }
-		public IOutletRepository OutletRepository { get; }
-		public IScaleRepository ScaleRepository { get; }
-		public IToneRepository ToneRepository { get; }
-		public IEntityPositionRepository EntityPositionRepository { get; }
-		public IMidiMappingRepository MidiMappingRepository { get; }
-		public IMidiMappingElementRepository MidiMappingElementRepository { get; }
-
-		// Enum-like entities
-		public IAudioFileFormatRepository AudioFileFormatRepository { get; }
-		public IInterpolationTypeRepository InterpolationTypeRepository { get; }
-		public INodeTypeRepository NodeTypeRepository { get; }
-		public ISampleDataTypeRepository SampleDataTypeRepository { get; }
-		public ISpeakerSetupRepository SpeakerSetupRepository { get; }
-		public IScaleTypeRepository ScaleTypeRepository { get; }
+		public ICurveRepository CurveRepository { get; }
 		public IDimensionRepository DimensionRepository { get; }
-
+		public IDocumentReferenceRepository DocumentReferenceRepository { get; }
+		public IDocumentRepository DocumentRepository { get; }
+		public IEntityPositionRepository EntityPositionRepository { get; }
 		public IIDRepository IDRepository { get; }
+		public IInletRepository InletRepository { get; }
+		public IInterpolationTypeRepository InterpolationTypeRepository { get; }
+		public IMidiMappingElementRepository MidiMappingElementRepository { get; }
+		public IMidiMappingRepository MidiMappingRepository { get; }
+		public INodeRepository NodeRepository { get; }
+		public INodeTypeRepository NodeTypeRepository { get; }
+		public IOperatorRepository OperatorRepository { get; }
+		public IOutletRepository OutletRepository { get; }
+		public IPatchRepository PatchRepository { get; }
+		public ISampleDataTypeRepository SampleDataTypeRepository { get; }
+		public ISampleRepository SampleRepository { get; }
+		public IScaleRepository ScaleRepository { get; }
+		public IScaleTypeRepository ScaleTypeRepository { get; }
+		public ISpeakerSetupRepository SpeakerSetupRepository { get; }
+		public IToneRepository ToneRepository { get; }
 
 		public RepositoryWrapper(
-			IDocumentRepository documentRepository,
-			ICurveRepository curveRepository,
-			IPatchRepository patchRepository,
-			ISampleRepository sampleRepository,
+			IAudioFileFormatRepository audioFileFormatRepository,
 			IAudioFileOutputRepository audioFileOutputRepository,
 			IAudioOutputRepository audioOutputRepository,
-			IDocumentReferenceRepository documentReferenceRepository,
-			INodeRepository nodeRepository,
-			IOperatorRepository operatorRepository,
-			IInletRepository inletRepository,
-			IOutletRepository outletRepository,
-			IScaleRepository scaleRepository,
-			IToneRepository toneRepository,
-			IEntityPositionRepository entityPositionRepository,
-			IMidiMappingRepository midiMappingRepository,
-			IMidiMappingElementRepository midiMappingElementRepository,
-
-			// Enum-like entities
-			IAudioFileFormatRepository audioFileFormatRepository,
-			IInterpolationTypeRepository interpolationTypeRepository,
-			INodeTypeRepository nodeTypeRepository,
-			ISampleDataTypeRepository sampleDataTypeRepository,
-			ISpeakerSetupRepository speakerSetupRepository,
-			IScaleTypeRepository scaleTypeRepository,
+			ICurveRepository curveRepository,
 			IDimensionRepository dimensionRepository,
-
-			IIDRepository idRepository)
+			IDocumentReferenceRepository documentReferenceRepository,
+			IDocumentRepository documentRepository,
+			IEntityPositionRepository entityPositionRepository,
+			IIDRepository idRepository,
+			IInletRepository inletRepository,
+			IInterpolationTypeRepository interpolationTypeRepository,
+			IMidiMappingElementRepository midiMappingElementRepository,
+			IMidiMappingRepository midiMappingRepository,
+			INodeRepository nodeRepository,
+			INodeTypeRepository nodeTypeRepository,
+			IOperatorRepository operatorRepository,
+			IOutletRepository outletRepository,
+			IPatchRepository patchRepository,
+			ISampleDataTypeRepository sampleDataTypeRepository,
+			ISampleRepository sampleRepository,
+			IScaleRepository scaleRepository,
+			IScaleTypeRepository scaleTypeRepository,
+			ISpeakerSetupRepository speakerSetupRepository,
+			IToneRepository toneRepository)
 		{
-			DocumentRepository = documentRepository ?? throw new NullException(() => documentRepository);
-			CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-			PatchRepository = patchRepository ?? throw new NullException(() => patchRepository);
-			SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+			AudioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);
 			AudioFileOutputRepository = audioFileOutputRepository ?? throw new NullException(() => audioFileOutputRepository);
 			AudioOutputRepository = audioOutputRepository ?? throw new NullException(() => audioOutputRepository);
-			DocumentReferenceRepository = documentReferenceRepository ?? throw new NullException(() => documentReferenceRepository);
-			NodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
-			OperatorRepository = operatorRepository ?? throw new NullException(() => operatorRepository);
-			InletRepository = inletRepository ?? throw new NullException(() => inletRepository);
-			OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
-			ScaleRepository = scaleRepository ?? throw new NullException(() => scaleRepository);
-			ToneRepository = toneRepository ?? throw new NullException(() => toneRepository);
-			EntityPositionRepository = entityPositionRepository ?? throw new NullException(() => entityPositionRepository);
-			MidiMappingRepository = midiMappingRepository ?? throw new NullException(() => midiMappingRepository);
-			MidiMappingElementRepository = midiMappingElementRepository ?? throw new NullException(() => midiMappingElementRepository);
-
-			// Enum-like entities
-			AudioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);
-			InterpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
-			NodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);
-			SampleDataTypeRepository = sampleDataTypeRepository ?? throw new NullException(() => sampleDataTypeRepository);
-			SpeakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
-			ScaleTypeRepository = scaleTypeRepository ?? throw new NullException(() => scaleTypeRepository);
+			CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
 			DimensionRepository = dimensionRepository ?? throw new NullException(() => dimensionRepository);
-
+			DocumentReferenceRepository = documentReferenceRepository ?? throw new NullException(() => documentReferenceRepository);
+			DocumentRepository = documentRepository ?? throw new NullException(() => documentRepository);
+			EntityPositionRepository = entityPositionRepository ?? throw new NullException(() => entityPositionRepository);
 			IDRepository = idRepository ?? throw new NullException(() => idRepository);
+			InletRepository = inletRepository ?? throw new NullException(() => inletRepository);
+			InterpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
+			MidiMappingElementRepository = midiMappingElementRepository ?? throw new NullException(() => midiMappingElementRepository);
+			MidiMappingRepository = midiMappingRepository ?? throw new NullException(() => midiMappingRepository);
+			NodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
+			NodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);
+			OperatorRepository = operatorRepository ?? throw new NullException(() => operatorRepository);
+			OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
+			PatchRepository = patchRepository ?? throw new NullException(() => patchRepository);
+			SampleDataTypeRepository = sampleDataTypeRepository ?? throw new NullException(() => sampleDataTypeRepository);
+			SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
+			ScaleRepository = scaleRepository ?? throw new NullException(() => scaleRepository);
+			ScaleTypeRepository = scaleTypeRepository ?? throw new NullException(() => scaleTypeRepository);
+			SpeakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
+			ToneRepository = toneRepository ?? throw new NullException(() => toneRepository);
 		}
 
 		public void Commit() => DocumentRepository.Commit();
