@@ -20,6 +20,7 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual ScaleType ScaleType { get; set; }
 		public virtual double? BaseFrequency { get; set; }
 		public virtual IList<Tone> Tones { get; set; }
+		public virtual IList<MidiMappingElement> MidiMappingElements { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
 	}

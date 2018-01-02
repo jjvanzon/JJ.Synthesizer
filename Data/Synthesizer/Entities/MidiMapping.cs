@@ -6,16 +6,18 @@ using JJ.Data.Synthesizer.Helpers;
 namespace JJ.Data.Synthesizer.Entities
 {
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public class Curve
+	public class MidiMapping
 	{
-		public Curve()
+		public MidiMapping()
 		{
-			Nodes = new List<Node>();
+			MidiMappingElements = new List<MidiMappingElement>();
 		}
 
 		public virtual int ID { get; set; }
 		public virtual string Name { get; set; }
-		public virtual IList<Node> Nodes { get; set; }
+		/// <summary> parent, not nullable </summary>
+		public virtual Document Document { get; set; }
+		public virtual IList<MidiMappingElement> MidiMappingElements { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
 	}

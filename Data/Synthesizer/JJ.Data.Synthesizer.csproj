@@ -57,6 +57,7 @@
     <Compile Include="DefaultRepositories\IDRepository.cs" />
     <Compile Include="DefaultRepositories\InletRepository.cs" />
     <Compile Include="DefaultRepositories\InterpolationTypeRepository.cs" />
+    <Compile Include="DefaultRepositories\MidiMappingElementRepository.cs" />
     <Compile Include="DefaultRepositories\NodeRepository.cs" />
     <Compile Include="DefaultRepositories\NodeTypeRepository.cs" />
     <Compile Include="DefaultRepositories\OperatorRepository.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="DefaultRepositories\PatchRepository.cs" />
     <Compile Include="DefaultRepositories\SampleDataTypeRepository.cs" />
     <Compile Include="DefaultRepositories\SampleRepository.cs" />
+    <Compile Include="DefaultRepositories\MidiMappingRepository.cs" />
     <Compile Include="DefaultRepositories\ScaleRepository.cs" />
     <Compile Include="DefaultRepositories\ScaleTypeRepository.cs" />
     <Compile Include="DefaultRepositories\SpeakerSetupChannelRepository.cs" />
@@ -76,6 +78,8 @@
     </Compile>
     <Compile Include="Entities\DocumentReference.cs" />
     <Compile Include="Entities\EntityPosition.cs" />
+    <Compile Include="Entities\MidiMapping.cs" />
+    <Compile Include="Entities\MidiMappingElement.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Entities\Dimension.cs" />
     <Compile Include="Entities\Scale.cs" />
@@ -105,6 +109,7 @@
     <Compile Include="RepositoryInterfaces\IIDRepository.cs" />
     <Compile Include="RepositoryInterfaces\IInletRepository.cs" />
     <Compile Include="RepositoryInterfaces\IInterpolationTypeRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMidiMappingElementRepository.cs" />
     <Compile Include="RepositoryInterfaces\INodeRepository.cs" />
     <Compile Include="RepositoryInterfaces\INodeTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\IOperatorRepository.cs" />
@@ -112,6 +117,7 @@
     <Compile Include="RepositoryInterfaces\IPatchRepository.cs" />
     <Compile Include="RepositoryInterfaces\ISampleDataTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\ISampleRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMidiMappingRepository.cs" />
     <Compile Include="RepositoryInterfaces\IScaleRepository.cs" />
     <Compile Include="RepositoryInterfaces\IScaleTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\ISpeakerSetupChannelRepository.cs" />

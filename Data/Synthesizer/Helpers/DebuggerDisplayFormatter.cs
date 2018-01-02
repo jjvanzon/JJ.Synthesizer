@@ -122,6 +122,22 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
+		public static string GetDebuggerDisplay(MidiMapping entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
+
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<MidiMapping>(entity.ID, entity.Name);
+			return debuggerDisplay;
+		}
+
+		public static string GetDebuggerDisplay(MidiMappingElement entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
+
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithID<MidiMappingElement>(entity.ID);
+			return debuggerDisplay;
+		}
+
 		public static string GetDebuggerDisplay(Node entity)
 		{
 			if (entity == null) throw new NullException(() => entity);

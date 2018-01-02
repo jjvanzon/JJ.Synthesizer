@@ -528,6 +528,16 @@
     <Content Include="2017-11-05 020 SynthesizerDB Sample.OriginalLocation drop column.sql" />
     <Content Include="2017-12-27 010 SynthesizerDB Document.AudioOutputID not null.sql" />
     <Content Include="2017-12-27 020 SynthesizerDB IX_Document_AudioOutputID_Unique.sql" />
+    <Content Include="2018-01-02 010 SynthesizerDB MidiMapping.sql" />
+    <Content Include="2018-01-02 020 SynthesizerDB FK_MidiMapping_Document.sql" />
+    <Content Include="2018-01-02 030 SynthesizerDB IX_MidiMapping_DocumentID.sql" />
+    <Content Include="2018-01-02 040 SynthesizerDB MidiMappingElement.sql" />
+    <Content Include="2018-01-02 050 SynthesizerDB FK_MidiMappingElement_Dimension.sql" />
+    <Content Include="2018-01-02 060 SynthesizerDB FK_MidiMappingElement_MidiMapping.sql" />
+    <Content Include="2018-01-02 070 SynthesizerDB FK_MidiMappingElement_Scale.sql" />
+    <Content Include="2018-01-02 080 SynthesizerDB IX_MidiMappingElement_MidiMappingID.sql" />
+    <Content Include="2018-01-02 090 SynthesizerDB IX_MidiMappingElement_ScaleID.sql" />
+    <Content Include="2018-01-02 100 SynthesizerDB IX_MidiMappingElement_StandardDimensionID.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

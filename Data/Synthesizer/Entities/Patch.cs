@@ -17,7 +17,7 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual IList<Operator> Operators { get; set; } = new List<Operator>();
 		public virtual IList<Operator> DerivedOperators { get; set; } = new List<Operator>();
 
-		/// <summary> nullable </summary>
+		/// <summary> parent, nullable </summary>
 		public virtual Document Document { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);

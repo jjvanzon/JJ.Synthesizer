@@ -4,17 +4,14 @@ using JJ.Data.Synthesizer.NHibernate.Names;
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {
-	public class ScaleMapping : ClassMap<Scale>
+	public class MidiMappingMapping : ClassMap<MidiMapping>
 	{
-		public ScaleMapping()
+		public MidiMappingMapping()
 		{
 			Id(x => x.ID).GeneratedBy.Assigned();
 			Map(x => x.Name);
-			Map(x => x.BaseFrequency);
-			References(x => x.ScaleType, ColumnNames.ScaleTypeID);
 			References(x => x.Document, ColumnNames.DocumentID);
-			HasMany(x => x.Tones).KeyColumn(ColumnNames.ScaleID).Inverse();
-			HasMany(x => x.MidiMappingElements).KeyColumn(ColumnNames.ScaleID).Inverse();
+			HasMany(x => x.MidiMappingElements).KeyColumn(ColumnNames.MidiMappingElementID).Inverse();
 		}
 	}
 }

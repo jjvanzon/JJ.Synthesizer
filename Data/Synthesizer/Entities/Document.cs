@@ -14,6 +14,7 @@ namespace JJ.Data.Synthesizer.Entities
 			AudioFileOutputs = new List<AudioFileOutput>();
 			Patches = new List<Patch>();
 			Scales = new List<Scale>();
+			MidiMappings = new List<MidiMapping>();
 			LowerDocumentReferences = new List<DocumentReference>();
 			HigherDocumentReferences = new List<DocumentReference>();
 		}
@@ -24,6 +25,7 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual IList<AudioFileOutput> AudioFileOutputs { get; set; }
 		public virtual IList<Patch> Patches { get; set; }
 		public virtual IList<Scale> Scales { get; set; }
+		public virtual IList<MidiMapping> MidiMappings { get; set; }
 		public virtual IList<DocumentReference> LowerDocumentReferences { get; set; }
 		public virtual IList<DocumentReference> HigherDocumentReferences { get; set; }
 
