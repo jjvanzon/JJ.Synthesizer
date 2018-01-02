@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.LinkTo
 			}
 		}
 
-		public static void LinkTo(this Inlet inlet, Outlet outlet)
+		public static void LinkTo(this Inlet inlet, Outlet inputOutlet)
 		{
 			if (inlet == null) throw new NullException(() => inlet);
 
@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.LinkTo
 				}
 			}
 
-			inlet.InputOutlet = outlet;
+			inlet.InputOutlet = inputOutlet;
 
 			if (inlet.InputOutlet != null)
 			{

@@ -42,18 +42,25 @@ namespace JJ.Business.Synthesizer.LinkTo
 			lowerDocumentReference.LinkToLowerDocument((Document)null);
 		}
 
+		public static void UnlinkOperator(this Inlet inlet)
+		{
+			if (inlet == null) throw new NullException(() => inlet);
+
+			inlet.LinkTo((Operator)null);
+		}
+
+		public static void UnlinkInputOutlet(this Inlet inlet)
+		{
+			if (inlet == null) throw new NullException(() => inlet);
+
+			inlet.LinkTo((Outlet)null);
+		}
+
 		public static void UnlinkCurve(this Node node)
 		{
 			if (node == null) throw new NullException(() => node);
 
 			node.LinkTo((Curve)null);
-		}
-
-		public static void UnlinkDocument(this Patch patch)
-		{
-			if (patch == null) throw new NullException(() => patch);
-
-			patch.LinkTo((Document)null);
 		}
 
 		public static void UnlinkPatch(this Operator op)
@@ -84,13 +91,6 @@ namespace JJ.Business.Synthesizer.LinkTo
 			op.LinkTo((Sample)null);
 		}
 
-		public static void UnlinkOperator(this Inlet inlet)
-		{
-			if (inlet == null) throw new NullException(() => inlet);
-
-			inlet.LinkTo((Operator)null);
-		}
-
 		public static void UnlinkOperator(this Outlet outlet)
 		{
 			if (outlet == null) throw new NullException(() => outlet);
@@ -98,11 +98,11 @@ namespace JJ.Business.Synthesizer.LinkTo
 			outlet.LinkTo((Operator)null);
 		}
 
-		public static void UnlinkInputOutlet(this Inlet inlet)
+		public static void UnlinkDocument(this Patch patch)
 		{
-			if (inlet == null) throw new NullException(() => inlet);
+			if (patch == null) throw new NullException(() => patch);
 
-			inlet.LinkTo((Outlet)null);
+			patch.LinkTo((Document)null);
 		}
 
 		public static void UnlinkDocument(this Scale scale)
