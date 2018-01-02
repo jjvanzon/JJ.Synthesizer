@@ -1,10 +1,10 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
-using System;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -166,6 +166,32 @@ namespace JJ.Business.Synthesizer.Extensions
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 			return (InterpolationTypeEnum)entity.ID;
+		}
+
+		// MidiMappingElement
+
+		public static DimensionEnum GetStandardDimensionEnum(this MidiMappingElement entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
+
+			if (entity.StandardDimension == null) return DimensionEnum.Undefined;
+
+			return entity.StandardDimension.ToEnum();
+		}
+
+		public static void SetStandardDimensionEnum(this MidiMappingElement entity, DimensionEnum enumValue, IDimensionRepository repository)
+		{
+			if (repository == null) throw new NullException(() => repository);
+
+			if (enumValue == DimensionEnum.Undefined)
+			{
+				entity.UnlinkStandardDimension();
+			}
+			else
+			{
+				Dimension enumEntity = repository.Get((int)enumValue);
+				entity.LinkTo(enumEntity);
+			}
 		}
 
 		// Node

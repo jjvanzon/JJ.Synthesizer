@@ -1071,4 +1071,10 @@
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
+  <data name="MidiMapping" xml:space="preserve">
+    <value>MIDI Mapping</value>
+  </data>
+  <data name="MidiMappingElement" xml:space="preserve">
+    <value>MIDI Mapping Element</value>
+  </data>
 </root>

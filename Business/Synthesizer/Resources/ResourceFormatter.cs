@@ -1,13 +1,13 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.Linq.Expressions;
+using System.Resources;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
-using System;
-using System.Linq.Expressions;
-using System.Resources;
 
 namespace JJ.Business.Synthesizer.Resources
 {
@@ -164,6 +164,8 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string MaxFrequency => Resources.MaxFrequency;
 		public static string MaxOverDimension => Resources.MaxOverDimension;
 		public static string MaxOverInlets => Resources.MaxOverInlets;
+		public static string MidiMapping => Resources.MidiMapping;
+		public static string MidiMappingElement => Resources.MidiMappingElement;
 		public static string Min => Resources.Min;
 		public static string MinFollower => Resources.MinFollower;
 		public static string MinFrequency => Resources.MinFrequency;

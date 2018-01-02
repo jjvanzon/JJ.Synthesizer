@@ -1062,4 +1062,10 @@
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
+  <data name="MidiMapping" xml:space="preserve">
+    <value>MIDI indeling</value>
+  </data>
+  <data name="MidiMappingElement" xml:space="preserve">
+    <value>MIDI indeling onderdeel</value>
+  </data>
 </root>
