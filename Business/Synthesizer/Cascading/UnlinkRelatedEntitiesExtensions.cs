@@ -1,7 +1,7 @@
-﻿using JJ.Business.Synthesizer.LinkTo;
+﻿using System.Linq;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
-using System.Linq;
 
 namespace JJ.Business.Synthesizer.Cascading
 {
@@ -42,6 +42,22 @@ namespace JJ.Business.Synthesizer.Cascading
 			inlet.UnlinkDimension();
 			inlet.UnlinkInputOutlet();
 			inlet.UnlinkOperator();
+		}
+
+		public static void UnlinkRelatedEntities(this MidiMapping midiMapping)
+		{
+			if (midiMapping == null) throw new NullException(() => midiMapping);
+
+			midiMapping.UnlinkDocument();
+		}
+
+		public static void UnlinkRelatedEntities(this MidiMappingElement midiMappingElement)
+		{
+			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+
+			midiMappingElement.UnlinkScale();
+			midiMappingElement.UnlinkStandardDimension();
+			midiMappingElement.UnlinkMidiMapping();
 		}
 
 		public static void UnlinkRelatedEntities(this Node node)

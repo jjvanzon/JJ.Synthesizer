@@ -19,6 +19,8 @@ namespace JJ.Business.Synthesizer.Helpers
 		public IScaleRepository ScaleRepository { get; }
 		public IToneRepository ToneRepository { get; }
 		public IEntityPositionRepository EntityPositionRepository { get; }
+		public IMidiMappingRepository MidiMappingRepository { get; }
+		public IMidiMappingElementRepository MidiMappingElementRepository { get; }
 
 		// Enum-like entities
 		public IAudioFileFormatRepository AudioFileFormatRepository { get; }
@@ -45,8 +47,9 @@ namespace JJ.Business.Synthesizer.Helpers
 			IOutletRepository outletRepository,
 			IScaleRepository scaleRepository,
 			IToneRepository toneRepository,
-
 			IEntityPositionRepository entityPositionRepository,
+			IMidiMappingRepository midiMappingRepository,
+			IMidiMappingElementRepository midiMappingElementRepository,
 
 			// Enum-like entities
 			IAudioFileFormatRepository audioFileFormatRepository,
@@ -70,9 +73,11 @@ namespace JJ.Business.Synthesizer.Helpers
 			OperatorRepository = operatorRepository ?? throw new NullException(() => operatorRepository);
 			InletRepository = inletRepository ?? throw new NullException(() => inletRepository);
 			OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
-			EntityPositionRepository = entityPositionRepository ?? throw new NullException(() => entityPositionRepository);
 			ScaleRepository = scaleRepository ?? throw new NullException(() => scaleRepository);
 			ToneRepository = toneRepository ?? throw new NullException(() => toneRepository);
+			EntityPositionRepository = entityPositionRepository ?? throw new NullException(() => entityPositionRepository);
+			MidiMappingRepository = midiMappingRepository ?? throw new NullException(() => midiMappingRepository);
+			MidiMappingElementRepository = midiMappingElementRepository ?? throw new NullException(() => midiMappingElementRepository);
 
 			// Enum-like entities
 			AudioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);

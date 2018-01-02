@@ -31,6 +31,13 @@ namespace JJ.Business.Synthesizer.Cascading
 				repositories.DocumentReferenceRepository.Delete(documentReference);
 			}
 
+			foreach (MidiMapping midiMapping in document.MidiMappings.ToArray())
+			{
+				midiMapping.DeleteRelatedEntities(repositories.MidiMappingElementRepository);
+				midiMapping.UnlinkRelatedEntities();
+				repositories.MidiMappingRepository.Delete(midiMapping);
+			}
+
 			foreach (Patch patch in document.Patches.ToArray())
 			{
 				patch.DeleteRelatedEntities(repositories);
@@ -55,6 +62,18 @@ namespace JJ.Business.Synthesizer.Cascading
 			{
 				node.UnlinkRelatedEntities();
 				nodeRepository.Delete(node);
+			}
+		}
+
+		public static void DeleteRelatedEntities(this MidiMapping midiMapping, IMidiMappingElementRepository midiMappingElementRepository)
+		{
+			if (midiMapping == null) throw new NullException(() => midiMapping);
+			if (midiMappingElementRepository == null) throw new NullException(() => midiMappingElementRepository);
+
+			foreach (MidiMappingElement midiMappingElement in midiMapping.MidiMappingElements.ToArray())
+			{
+				midiMappingElement.UnlinkRelatedEntities();
+				midiMappingElementRepository.Delete(midiMappingElement);
 			}
 		}
 

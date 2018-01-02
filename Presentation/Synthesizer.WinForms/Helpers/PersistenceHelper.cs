@@ -1,6 +1,6 @@
-﻿using JJ.Framework.Data;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Data;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
@@ -36,8 +36,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 				CreateRepository<IOutletRepository>(context),
 				CreateRepository<IScaleRepository>(context),
 				CreateRepository<IToneRepository>(context),
-
 				CreateRepository<IEntityPositionRepository>(context),
+				CreateRepository<IMidiMappingRepository>(context),
+				CreateRepository<IMidiMappingElementRepository>(context),
 
 				CreateRepository<IAudioFileFormatRepository>(context),
 				CreateRepository<IInterpolationTypeRepository>(context),
