@@ -25,8 +25,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 			Map(x => x.TillDimensionValue);
 			Map(x => x.MinDimensionValue);
 			Map(x => x.MaxDimensionValue);
-			Map(x => x.FromListIndex);
-			Map(x => x.TillListIndex);
+			Map(x => x.FromPosition);
+			Map(x => x.TillPosition);
 			References(x => x.Scale, ColumnNames.ScaleID);
 			Map(x => x.FromToneNumber);
 			Map(x => x.TillToneNumber);

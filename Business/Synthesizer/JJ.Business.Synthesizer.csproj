@@ -325,6 +325,9 @@
     <Compile Include="Validation\Documents\DocumentValidator_DoesNotReferenceItself.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_SystemDocumentReferenceMustExist.cs" />
     <Compile Include="Validation\InletOrOutletListValidator.cs" />
+    <Compile Include="Validation\MidiMappingElementValidator.cs" />
+    <Compile Include="Validation\MidiMappingValidator_Basic.cs" />
+    <Compile Include="Validation\MidiMappingValidator_WithRelatedEntities.cs" />
     <Compile Include="Validation\Operators\AggregateOverDimension_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_CurveAndSampleAreNull.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_SetInletCount.cs" />
@@ -594,7 +597,7 @@
     <Compile Include="Validation\NameValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_IsCircular.cs" />
     <Compile Include="Validation\Patches\PatchValidator_Name.cs" />
-    <Compile Include="Validation\Documents\DocumentValidator_Recursive.cs" />
+    <Compile Include="Validation\Documents\DocumentValidator_WithRelatedEntities.cs" />
     <Compile Include="Validation\Operators\Sample_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Curve_OperatorValidator.cs" />
     <Compile Include="Validation\SampleValidator.cs" />
@@ -609,7 +612,7 @@
     <Compile Include="Validation\Scales\LiteralFrequency_ScaleValidator.cs" />
     <Compile Include="Validation\Scales\Basic_ScaleValidator.cs" />
     <Compile Include="Validation\Scales\ScaleValidator_Tones.cs" />
-    <Compile Include="Validation\Scales\Versatile_ScaleValidator_WithoutTones.cs" />
+    <Compile Include="Validation\Scales\ScaleValidator_Versatile_WithoutTones.cs" />
     <Compile Include="Validation\ToneValidator.cs" />
     <Compile Include="Validation\ValidationHelper.UserFriendlyIdentifier.cs" />
     <Compile Include="Validation\ValidationHelper.MessagePrefixes.cs" />

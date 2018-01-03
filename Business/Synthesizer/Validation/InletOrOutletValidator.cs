@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
@@ -12,6 +13,10 @@ namespace JJ.Business.Synthesizer.Validation
 		public InletOrOutletValidator(IInletOrOutlet inletOrOutlet)
 		{
 			if (inletOrOutlet == null) throw new NullException(() => inletOrOutlet);
+
+			For(inletOrOutlet.ID, CommonResourceFormatter.ID).GreaterThan(0);
+
+			ExecuteValidator(new NameValidator(inletOrOutlet.Name, required: false));
 
 			OperatorTypeEnum operatorTypeEnum = inletOrOutlet.Operator.GetOperatorTypeEnum();
 

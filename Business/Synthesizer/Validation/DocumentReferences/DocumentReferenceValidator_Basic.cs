@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DocumentReferences
@@ -12,6 +13,8 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 			if (documentReference == null) throw new NullException(() => documentReference);
 
 			ExecuteValidator(new NameValidator(documentReference.Alias, ResourceFormatter.Alias, required: false));
+
+			For(documentReference.ID, CommonResourceFormatter.ID).GreaterThan(0);
 
 			For(documentReference.HigherDocument, ResourceFormatter.HigherDocument).NotNull();
 			For(documentReference.LowerDocument, ResourceFormatter.Library).NotNull();

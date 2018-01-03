@@ -1077,4 +1077,52 @@
   <data name="MidiMappingElement" xml:space="preserve">
     <value>MIDI Mapping Element</value>
   </data>
+  <data name="ControllerCode" xml:space="preserve">
+    <value>Controller Code</value>
+  </data>
+  <data name="FromControllerValue" xml:space="preserve">
+    <value>From Controller Value</value>
+  </data>
+  <data name="FromDimensionValue" xml:space="preserve">
+    <value>From Dimension Value</value>
+  </data>
+  <data name="FromNoteNumber" xml:space="preserve">
+    <value>From Note Number</value>
+  </data>
+  <data name="FromPosition" xml:space="preserve">
+    <value>From Position</value>
+  </data>
+  <data name="FromToneNumber" xml:space="preserve">
+    <value>From Tone Number</value>
+  </data>
+  <data name="FromVelocity" xml:space="preserve">
+    <value> From Velocity</value>
+  </data>
+  <data name="IsRelative" xml:space="preserve">
+    <value>Relative</value>
+  </data>
+  <data name="MaxDimensionValue" xml:space="preserve">
+    <value>Max Dimension Value</value>
+  </data>
+  <data name="MinDimensionValue" xml:space="preserve">
+    <value>Min Dimension Value</value>
+  </data>
+  <data name="TillControllerValue" xml:space="preserve">
+    <value>Till Controller Value</value>
+  </data>
+  <data name="TillDimensionValue" xml:space="preserve">
+    <value>Till Dimension Value</value>
+  </data>
+  <data name="TillNoteNumber" xml:space="preserve">
+    <value>Till Note Number</value>
+  </data>
+  <data name="TillPosition" xml:space="preserve">
+    <value>Till Position</value>
+  </data>
+  <data name="TillToneNumber" xml:space="preserve">
+    <value>Till Tone Number</value>
+  </data>
+  <data name="TillVelocity" xml:space="preserve">
+    <value>Till Velocity</value>
+  </data>
 </root>

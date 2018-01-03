@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Validation;
-using JJ.Framework.Presentation.Resources;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Validation.Resources;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Validation;
+using JJ.Framework.Validation.Resources;
 // ReSharper disable SuggestBaseTypeForParameter
 
 namespace JJ.Business.Synthesizer.Validation.Operators
@@ -24,6 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
 			expectedDataKeys = expectedDataKeys ?? new string[0];
 
+			For(op.ID, CommonResourceFormatter.ID).GreaterThan(0);
 			ExecuteValidator(new NameValidator(op.Name, required: false));
 			ExecuteValidator(new DataPropertyValidator(op.Data, expectedDataKeys));
 			ExecuteValidator(new DimensionInfoValidator(op.HasDimension, op.StandardDimension, op.CustomDimensionName));

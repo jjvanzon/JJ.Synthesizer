@@ -1068,4 +1068,52 @@
   <data name="MidiMappingElement" xml:space="preserve">
     <value>MIDI indeling onderdeel</value>
   </data>
+  <data name="ControllerCode" xml:space="preserve">
+    <value>Controller code</value>
+  </data>
+  <data name="FromControllerValue" xml:space="preserve">
+    <value>Van controller waarde</value>
+  </data>
+  <data name="FromDimensionValue" xml:space="preserve">
+    <value>Van dimensie waarde</value>
+  </data>
+  <data name="FromNoteNumber" xml:space="preserve">
+    <value>Van noot nummer</value>
+  </data>
+  <data name="FromPosition" xml:space="preserve">
+    <value>Van positie</value>
+  </data>
+  <data name="FromToneNumber" xml:space="preserve">
+    <value>Van toon nummer</value>
+  </data>
+  <data name="FromVelocity" xml:space="preserve">
+    <value>Van velocity</value>
+  </data>
+  <data name="IsRelative" xml:space="preserve">
+    <value>Relatief</value>
+  </data>
+  <data name="MaxDimensionValue" xml:space="preserve">
+    <value>Maximale dimensie waarde</value>
+  </data>
+  <data name="MinDimensionValue" xml:space="preserve">
+    <value>Minimale dimensie waarde</value>
+  </data>
+  <data name="TillControllerValue" xml:space="preserve">
+    <value>Tot controller waarde</value>
+  </data>
+  <data name="TillDimensionValue" xml:space="preserve">
+    <value>Tot dimensie waarde</value>
+  </data>
+  <data name="TillNoteNumber" xml:space="preserve">
+    <value>Tot noot nummer</value>
+  </data>
+  <data name="TillPosition" xml:space="preserve">
+    <value>Tot positie</value>
+  </data>
+  <data name="TillToneNumber" xml:space="preserve">
+    <value>Tot toon nummer</value>
+  </data>
+  <data name="TillVelocity" xml:space="preserve">
+    <value>Tot velocity</value>
+  </data>
 </root>

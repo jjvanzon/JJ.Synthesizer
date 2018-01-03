@@ -25,8 +25,8 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual double? TillDimensionValue { get; set; }
 		public virtual double? MinDimensionValue { get; set; }
 		public virtual double? MaxDimensionValue { get; set; }
-		public virtual int? FromListIndex { get; set; }
-		public virtual int? TillListIndex { get; set; }
+		public virtual int? FromPosition { get; set; }
+		public virtual int? TillPosition { get; set; }
 		/// <summary> nullable </summary>
 		public virtual Scale Scale { get; set; }
 		/// <summary> 1-based </summary>

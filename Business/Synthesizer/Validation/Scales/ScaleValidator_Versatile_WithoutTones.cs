@@ -6,9 +6,9 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
 {
-	internal class Versatile_ScaleValidator_WithoutTones : VersatileValidator
+	internal class ScaleValidator_Versatile_WithoutTones : VersatileValidator
 	{
-		public Versatile_ScaleValidator_WithoutTones(Scale obj)
+		public ScaleValidator_Versatile_WithoutTones(Scale obj)
 		{
 			if (obj == null) throw new NullException(() => obj);
 

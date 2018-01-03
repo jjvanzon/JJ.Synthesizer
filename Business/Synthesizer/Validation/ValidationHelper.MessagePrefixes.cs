@@ -14,9 +14,7 @@ namespace JJ.Business.Synthesizer.Validation
 			GetUserFriendlyIdentifier(entity));
 
 		public static string GetMessagePrefix(AudioOutput entity) => GetMessagePrefix(ResourceFormatter.AudioOutput, GetUserFriendlyIdentifier(entity));
-
 		public static string GetMessagePrefix(Curve entity) => GetMessagePrefix(ResourceFormatter.Curve, GetUserFriendlyIdentifier(entity));
-
 		public static string GetMessagePrefix(Document entity) => GetMessagePrefix(ResourceFormatter.Document, entity.Name);
 
 		public static string GetMessagePrefix_ForLowerDocumentReference(DocumentReference lowerDocumentReference)
@@ -29,8 +27,10 @@ namespace JJ.Business.Synthesizer.Validation
 			return GetMessagePrefix(ResourceFormatter.HigherDocument, GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference));
 		}
 
+		public static string GetMessagePrefix(MidiMapping midiMapping) => GetMessagePrefix(ResourceFormatter.MidiMapping, GetUserFriendlyIdentifier(midiMapping));
+		public static string GetMessagePrefix(MidiMappingElement midiMappingElement) => GetMessagePrefix(ResourceFormatter.MidiMappingElement, GetUserFriendlyIdentifier(midiMappingElement));
+
 		/// <summary> Only returns a prefix if higherPatch is actually in another document than lowerPatch. </summary>
-		
 		public static string TryGetHigherDocumentPrefix(Patch lowerPatch, Patch higherPatch)
 		{
 			if (lowerPatch.Document == higherPatch.Document)
@@ -74,7 +74,6 @@ namespace JJ.Business.Synthesizer.Validation
 		}
 
 		/// <param name="number">1-based</param>
-
 		public static string GetMessagePrefix(Node entity, int number) => GetMessagePrefix(ResourceFormatter.Node, GetUserFriendlyIdentifier(entity, number));
 
 		public static string GetMessagePrefix(Operator entity, ICurveRepository curveRepository)

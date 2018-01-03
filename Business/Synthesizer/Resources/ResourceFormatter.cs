@@ -51,7 +51,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Bytes => Resources.Bytes;
 		public static string BytesToSkip => Resources.BytesToSkip;
 		public static string Cache => Resources.Cache;
-		public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem) => string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);
 		public static string CannotSetInletCountWithoutRepeatingInlets => Resources.CannotSetInletCountWithoutRepeatingInlets;
 		public static string CannotSetOutletCountWithoutRepeatingOutlets => Resources.CannotSetOutletCountWithoutRepeatingOutlets;
 		public static string Cent => Resources.Cent;
@@ -70,6 +69,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string CollectionRecalculation => Resources.CollectionRecalculation;
 		public static string Condition => Resources.Condition;
 		public static string Continuous => Resources.Continuous;
+		public static string ControllerCode => Resources.ControllerCode;
 		public static string Cubic => Resources.Cubic;
 		public static string CubicAbruptSlope => Resources.CubicAbruptSlope;
 		public static string CubicEquidistant => Resources.CubicEquidistant;
@@ -110,6 +110,12 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Frequencies => Resources.Frequencies;
 		public static string Frequency => Resources.Frequency;
 		public static string From => Resources.From;
+		public static string FromControllerValue => Resources.FromControllerValue;
+		public static string FromDimensionValue => Resources.FromDimensionValue;
+		public static string FromNoteNumber => Resources.FromNoteNumber;
+		public static string FromPosition => Resources.FromPosition;
+		public static string FromToneNumber => Resources.FromToneNumber;
+		public static string FromVelocity => Resources.FromVelocity;
 		public static string GetPosition => Resources.GetPosition;
 		public static string GreaterThan => Resources.GreaterThan;
 		public static string GreaterThanOrEqual => Resources.GreaterThanOrEqual;
@@ -139,6 +145,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Interpolation => Resources.Interpolation;
 		public static string InterpolationType => Resources.InterpolationType;
 		public static string IsObsolete => Resources.IsObsolete;
+		public static string IsRelative => Resources.IsRelative;
 		public static string IsRepeating => Resources.IsRepeating;
 		public static string ItemList => Resources.ItemList;
 		public static string Left => Resources.Left;
@@ -146,8 +153,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string LessThanOrEqual => Resources.LessThanOrEqual;
 		public static string Libraries => Resources.Libraries;
 		public static string Library => Resources.Library;
-		public static string LibraryAlreadyAdded_WithName(string name) => string.Format(Resources.LibraryAlreadyAdded_WithName, name);
-		public static string PatchesInLibrary => Resources.PatchesInLibrary;
 		public static string Line => Resources.Line;
 		public static string LiteralFrequencies => Resources.LiteralFrequencies;
 		public static string LiteralFrequency => Resources.LiteralFrequency;
@@ -160,6 +165,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string MainVolume => Resources.MainVolume;
 		public static string Max => Resources.Max;
 		public static string MaxConcurrentNotes => Resources.MaxConcurrentNotes;
+		public static string MaxDimensionValue => Resources.MaxDimensionValue;
 		public static string MaxFollower => Resources.MaxFollower;
 		public static string MaxFrequency => Resources.MaxFrequency;
 		public static string MaxOverDimension => Resources.MaxOverDimension;
@@ -167,6 +173,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string MidiMapping => Resources.MidiMapping;
 		public static string MidiMappingElement => Resources.MidiMappingElement;
 		public static string Min => Resources.Min;
+		public static string MinDimensionValue => Resources.MinDimensionValue;
 		public static string MinFollower => Resources.MinFollower;
 		public static string MinFrequency => Resources.MinFrequency;
 		public static string MinOverDimension => Resources.MinOverDimension;
@@ -181,13 +188,13 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Nodes => Resources.Nodes;
 		public static string NodeType => Resources.NodeType;
 		public static string Noise => Resources.Noise;
+		public static string NoSoundFound => Resources.NoSoundFoundInLibrary;
 		public static string Not => Resources.Not;
 		public static string NotchFilter => Resources.NotchFilter;
 		public static string NoteDuration => Resources.NoteDuration;
 		public static string NotEqual => Resources.NotEqual;
 		public static string NoteStart => Resources.NoteStart;
 		public static string NotLoaded => Resources.NotLoaded;
-		public static string NoSoundFound => Resources.NoSoundFoundInLibrary;
 		public static string Number => Resources.Number;
 		public static string ObsoleteButStillUsed => Resources.ObsoleteButStillUsed;
 		public static string Octave => Resources.Octave;
@@ -204,14 +211,15 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string PassThrough => Resources.PassThrough;
 		public static string Patch => Resources.Patch;
 		public static string Patches => Resources.Patches;
+		public static string PatchesInLibrary => Resources.PatchesInLibrary;
+		public static string PatchHasMoreThanOneRepeatingInlet => Resources.PatchHasMoreThanOneRepeatingInlet;
+		public static string PatchHasMoreThanOneRepeatingOutlet => Resources.PatchHasMoreThanOneRepeatingOutlet;
 		public static string PatchHasNoOutlets => Resources.PatchHasNoOutlets;
 		public static string PatchInlet => Resources.PatchInlet;
 		public static string PatchOutlet => Resources.PatchOutlet;
-		public static string PatchHasMoreThanOneRepeatingInlet => Resources.PatchHasMoreThanOneRepeatingInlet;
-		public static string PatchHasMoreThanOneRepeatingOutlet => Resources.PatchHasMoreThanOneRepeatingOutlet;
 		public static string PeakingEQFilter => Resources.PeakingEQFilter;
-		public static string PitchBend => Resources.PitchBend;
 		public static string Phase => Resources.Phase;
+		public static string PitchBend => Resources.PitchBend;
 		public static string Play => Resources.Play;
 		public static string Position => Resources.Position;
 		public static string Positions => Resources.Positions;
@@ -229,7 +237,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string ReleaseDuration => Resources.ReleaseDuration;
 		public static string ReleaseEndMarker => Resources.ReleaseEndMarker;
 		public static string RepetitionPosition => Resources.RepetitionPosition;
-		public static string RepetitionPositionsNotConsecutive(string concatinatedRepetitionPositions) => string.Format(Resources.RepetitionPositionsNotConsecutive, concatinatedRepetitionPositions);
 		public static string Reset => Resources.Reset;
 		public static string Reverse => Resources.Reverse;
 		public static string Right => Resources.Right;
@@ -284,6 +291,12 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string TargetValueB => Resources.TargetValueB;
 		public static string Then => Resources.Then;
 		public static string Till => Resources.Till;
+		public static string TillControllerValue => Resources.TillControllerValue;
+		public static string TillDimensionValue => Resources.TillDimensionValue;
+		public static string TillNoteNumber => Resources.TillNoteNumber;
+		public static string TillPosition => Resources.TillPosition;
+		public static string TillToneNumber => Resources.TillToneNumber;
+		public static string TillVelocity => Resources.TillVelocity;
 		public static string Time => Resources.Time;
 		public static string TimeMultiplier => Resources.TimeMultiplier;
 		public static string TimePower => Resources.TimePower;
@@ -304,8 +317,8 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string VibratoSpeed => Resources.VibratoSpeed;
 		public static string Volume => Resources.Volume;
 		public static string Volumes => Resources.Volumes;
-		public static string Warnings => Resources.Warnings;
 		public static string WarnIfEmpty => Resources.WarnIfEmpty;
+		public static string Warnings => Resources.Warnings;
 		public static string Wav => Resources.Wav;
 		public static string Width => Resources.Width;
 		public static string X => Resources.X;
@@ -315,9 +328,12 @@ namespace JJ.Business.Synthesizer.Resources
 
 		public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
 		public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
+		public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem) => string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);
 		public static string GetPositionWithPlaceholder(string dimension) => string.Format(Resources.GetPositionWithPlaceholder, dimension);
+		public static string LibraryAlreadyAdded_WithName(string name) => string.Format(Resources.LibraryAlreadyAdded_WithName, name);
 		public static string MustBePowerOf2(string name) => string.Format(Resources.MustBePowerOf2, name);
 		public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
+		public static string RepetitionPositionsNotConsecutive(string concatinatedRepetitionPositions) => string.Format(Resources.RepetitionPositionsNotConsecutive, concatinatedRepetitionPositions);
 		public static string SetPositionWithPlaceholder(string dimension) => string.Format(Resources.SetPositionWithPlaceholder, dimension);
 
 		// Generic methods that could return several different resource text

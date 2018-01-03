@@ -1,44 +1,47 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Validation;
-using System.Collections.Generic;
-using System.Linq;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
 	internal class AudioFileOutputValidator : VersatileValidator
 	{
-		public AudioFileOutputValidator(AudioFileOutput audioFileOutput)
+		public AudioFileOutputValidator(AudioFileOutput entity)
 		{
-			if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+			if (entity == null) throw new NullException(() => entity);
 
-			For(audioFileOutput.Amplifier, ResourceFormatter.Amplifier)
+			For(entity.ID, CommonResourceFormatter.ID).GreaterThan(0);
+
+			For(entity.Amplifier, ResourceFormatter.Amplifier)
 				.NotNaN()
 				.NotInfinity();
 
-			For(audioFileOutput.StartTime, ResourceFormatter.StartTime)
+			For(entity.StartTime, ResourceFormatter.StartTime)
 				.NotNaN()
 				.NotInfinity();
 
-			For(audioFileOutput.TimeMultiplier, ResourceFormatter.TimeMultiplier)
+			For(entity.TimeMultiplier, ResourceFormatter.TimeMultiplier)
 				.NotNaN()
 				.NotInfinity()
 				.IsNot(0);
 
-			For(audioFileOutput.Duration, ResourceFormatter.Duration)
+			For(entity.Duration, ResourceFormatter.Duration)
 				.NotNaN()
 				.NotInfinity()
 				.GreaterThan(0);
 
-			For(audioFileOutput.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
-			For(audioFileOutput.AudioFileFormat, ResourceFormatter.AudioFileFormat).NotNull();
-			For(audioFileOutput.SampleDataType, ResourceFormatter.SampleDataType).NotNull();
-			For(audioFileOutput.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
+			For(entity.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
+			For(entity.AudioFileFormat, ResourceFormatter.AudioFileFormat).NotNull();
+			For(entity.SampleDataType, ResourceFormatter.SampleDataType).NotNull();
+			For(entity.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
 
-			TryValidateOutletReference(audioFileOutput);
+			TryValidateOutletReference(entity);
 		}
 
 		private void TryValidateOutletReference(AudioFileOutput audioFileOutput)

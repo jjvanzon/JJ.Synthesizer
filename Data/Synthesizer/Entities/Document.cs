@@ -21,13 +21,13 @@ namespace JJ.Data.Synthesizer.Entities
 
 		public virtual int ID { get; set; }
 		public virtual string Name { get; set; }
-		public virtual AudioOutput AudioOutput { get; set; }
 		public virtual IList<AudioFileOutput> AudioFileOutputs { get; set; }
-		public virtual IList<Patch> Patches { get; set; }
-		public virtual IList<Scale> Scales { get; set; }
-		public virtual IList<MidiMapping> MidiMappings { get; set; }
+		public virtual AudioOutput AudioOutput { get; set; }
 		public virtual IList<DocumentReference> LowerDocumentReferences { get; set; }
 		public virtual IList<DocumentReference> HigherDocumentReferences { get; set; }
+		public virtual IList<MidiMapping> MidiMappings { get; set; }
+		public virtual IList<Patch> Patches { get; set; }
+		public virtual IList<Scale> Scales { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
 	}

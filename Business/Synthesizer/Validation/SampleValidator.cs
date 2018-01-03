@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
@@ -16,6 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
 
 			For(bytes, ResourceFormatter.Bytes).NotNull();
 
+			For(sample.ID, CommonResourceFormatter.ID).GreaterThan(0);
 			For(sample.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
 			For(sample.Amplifier, ResourceFormatter.Amplifier).NotNaN().NotInfinity();
 			For(sample.TimeMultiplier, ResourceFormatter.TimeMultiplier).NotNaN().NotInfinity().IsNot(0);

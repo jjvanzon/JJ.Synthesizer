@@ -1,11 +1,12 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
-using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {
@@ -22,6 +23,7 @@ namespace JJ.Business.Synthesizer.Validation.Patches
 			if (sampleRepository == null) throw new NullException(() => sampleRepository);
 			if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
+			For(patch.ID, CommonResourceFormatter.ID).GreaterThan(0);
 			ExecuteValidator(new PatchValidator_HiddenButInUse(patch, curveRepository));
 			ExecuteValidator(new PatchValidator_IsOperatorsListComplete(patch, curveRepository));
 			ExecuteValidator(new PatchValidator_Name(patch));

@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer
 
 			var validators = new List<IValidator>
 			{
-				new Versatile_ScaleValidator_WithoutTones(scale),
+				new ScaleValidator_Versatile_WithoutTones(scale),
 				new ScaleValidator_UniqueName(scale)
 			};
 

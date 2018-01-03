@@ -1,7 +1,8 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -11,6 +12,7 @@ namespace JJ.Business.Synthesizer.Validation
 		{
 			if (node == null) throw new NullException(() => node);
 
+			For(node.ID, CommonResourceFormatter.ID).GreaterThan(0);
 			For(node.NodeType, ResourceFormatter.NodeType).NotNull();
 			For(node.X, ResourceFormatter.X).NotNaN().NotInfinity();
 			For(node.Y, ResourceFormatter.Y).NotNaN().NotInfinity();

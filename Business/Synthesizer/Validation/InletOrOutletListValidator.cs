@@ -9,22 +9,22 @@ namespace JJ.Business.Synthesizer.Validation
 {
 	internal class InletOrOutletListValidator : VersatileValidator
 	{
-		public InletOrOutletListValidator(IEnumerable<IInletOrOutlet> inletOrOutletList)
+		public InletOrOutletListValidator(IEnumerable<IInletOrOutlet> inletOrOutletEnumerable)
 		{
-			if (inletOrOutletList == null) throw new NullException(() => inletOrOutletList);
+			if (inletOrOutletEnumerable == null) throw new NullException(() => inletOrOutletEnumerable);
 
-			ValidateRepetitionPositionSequence(inletOrOutletList);
+			ValidateRepetitionPositionSequence(inletOrOutletEnumerable);
 
-			foreach (IInletOrOutlet inletOrOutlet in inletOrOutletList)
+			foreach (IInletOrOutlet inletOrOutlet in inletOrOutletEnumerable)
 			{
 				string messagePrefix = ValidationHelper.GetMessagePrefix(inletOrOutlet);
 				ExecuteValidator(new InletOrOutletValidator(inletOrOutlet), messagePrefix);
 			}
 		}
 
-		private void ValidateRepetitionPositionSequence(IEnumerable<IInletOrOutlet> inletOrOutletList)
+		private void ValidateRepetitionPositionSequence(IEnumerable<IInletOrOutlet> inletOrOutletEnumerable)
 		{
-			IList<int> actualRepetitionPositions = inletOrOutletList.Where(
+			IList<int> actualRepetitionPositions = inletOrOutletEnumerable.Where(
 																		x => x.IsRepeating &&
 																			 x.RepetitionPosition.HasValue)
 																	.Select(x => x.RepetitionPosition.Value)

@@ -1,4 +1,7 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -10,8 +13,6 @@ using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation.Resources;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -109,9 +110,27 @@ namespace JJ.Business.Synthesizer.Validation
 			return number.ToString();
 		}
 
-		public static string GetUserFriendlyIdentifier(
-			Operator entity,
-			ICurveRepository curveRepository)
+		public static string GetUserFriendlyIdentifier(MidiMapping entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
+
+			if (!string.IsNullOrWhiteSpace(entity.Name))
+			{
+				return $"'{entity.Name}'";
+			}
+
+			return GetNoNameIdentifier();
+		}
+
+		public static string GetUserFriendlyIdentifier(MidiMappingElement entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+			// TODO: Build a decent identifier.
+			return ResourceFormatter.MidiMappingElement;
+		}
+
+		public static string GetUserFriendlyIdentifier(Operator entity, ICurveRepository curveRepository)
 		{
 			if (entity == null) throw new NullException(() => entity);
 

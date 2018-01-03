@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer
 		{
 			if (document == null) throw new NullException(() => document);
 
-			IValidator validator = new DocumentValidator_Recursive(document, _repositories, new HashSet<object>());
+			IValidator validator = new DocumentValidator_WithRelatedEntities(document, _repositories, new HashSet<object>());
 
 			return validator.ToResult();
 		}

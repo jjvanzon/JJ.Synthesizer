@@ -1,17 +1,17 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.DocumentReferences;
 using JJ.Business.Synthesizer.Validation.Patches;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
-using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
 {
-	internal class DocumentValidator_Recursive : VersatileValidator
+	internal class DocumentValidator_WithRelatedEntities : VersatileValidator
 	{
-		public DocumentValidator_Recursive(
+		public DocumentValidator_WithRelatedEntities(
 			Document document,
 			RepositoryWrapper repositories,
 			HashSet<object> alreadyDone)
@@ -41,6 +41,20 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 				ExecuteValidator(new AudioOutputValidator(document.AudioOutput), ValidationHelper.GetMessagePrefix(document.AudioOutput));
 			}
 
+			// NOTE: Unique checks are already executed in DocumentValidator_Unicity.
+			foreach (DocumentReference lowerDocumentReference in document.LowerDocumentReferences)
+			{
+				string messagePrefix = ValidationHelper.GetMessagePrefix_ForLowerDocumentReference(lowerDocumentReference);
+				ExecuteValidator(new DocumentReferenceValidator_DoesNotReferenceItself(lowerDocumentReference), messagePrefix);
+				ExecuteValidator(new DocumentReferenceValidator_Basic(lowerDocumentReference), messagePrefix);
+			}
+
+			foreach (MidiMapping midiMapping in document.MidiMappings)
+			{
+				string messagePrefix = ValidationHelper.GetMessagePrefix(midiMapping);
+				ExecuteValidator(new MidiMappingValidator_WithRelatedEntities(midiMapping), messagePrefix);
+			}
+
 			foreach (Patch patch in document.Patches)
 			{
 				string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
@@ -57,14 +71,8 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 			{
 				string messagePrefix = ValidationHelper.GetMessagePrefix(scale);
 				ExecuteValidator(new ScaleValidator_InDocument(scale), messagePrefix);
-				ExecuteValidator(new Versatile_ScaleValidator_WithoutTones(scale), messagePrefix);
+				ExecuteValidator(new ScaleValidator_Versatile_WithoutTones(scale), messagePrefix);
 				ExecuteValidator(new ScaleValidator_Tones(scale), messagePrefix);
-			}
-
-			foreach (DocumentReference lowerDocumentReference in document.LowerDocumentReferences)
-			{
-				string messagePrefix = ValidationHelper.GetMessagePrefix_ForLowerDocumentReference(lowerDocumentReference);
-				ExecuteValidator(new DocumentReferenceValidator_Basic(lowerDocumentReference), messagePrefix);
 			}
 		}
 	}
