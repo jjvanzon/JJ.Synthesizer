@@ -291,6 +291,7 @@
     <Compile Include="Helpers\DocumentHelper.cs" />
     <Compile Include="Helpers\InletOrOutletTuple.cs" />
     <Compile Include="Helpers\InletOutletCloner.cs" />
+    <Compile Include="Helpers\MidiConstants.cs" />
     <Compile Include="Helpers\OutletTuple.cs" />
     <Compile Include="Helpers\InletTuple.cs" />
     <Compile Include="Helpers\SystemPatchNames.cs" />
@@ -337,6 +338,7 @@
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />
+    <Compile Include="Validation\Scales\ScaleValidator_Delete.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterDtoPreprocessing.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewriting.cs" />
@@ -566,6 +568,8 @@
     <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
+    <Compile Include="Warnings\MidiMappingElementWarningValidator.cs" />
+    <Compile Include="Warnings\MidiMappingWarningValidator_WithRelatedEntities.cs" />
     <Compile Include="Warnings\OutletWarningValidator.cs" />
     <Compile Include="Warnings\InletWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Cache_OperatorWarningValidator.cs" />

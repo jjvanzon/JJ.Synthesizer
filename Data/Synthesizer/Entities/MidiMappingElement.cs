@@ -10,11 +10,11 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual bool IsActive { get; set; }
 		/// <summary> Tells us if MIDI controller value changes are interpreted as absolute values or relative changes. </summary>
 		public virtual bool IsRelative { get; set; }
-		public virtual int? FromNoteNumber { get; set; }
-		public virtual int? TillNoteNumber { get; set; }
 		public virtual int? ControllerCode { get; set; }
 		public virtual int? FromControllerValue { get; set; }
 		public virtual int? TillControllerValue { get; set; }
+		public virtual int? FromNoteNumber { get; set; }
+		public virtual int? TillNoteNumber { get; set; }
 		public virtual int? FromVelocity { get; set; }
 		public virtual int? TillVelocity { get; set; }
 		/// <summary> nullable </summary>

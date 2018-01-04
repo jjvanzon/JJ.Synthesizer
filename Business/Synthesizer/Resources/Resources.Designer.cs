@@ -574,6 +574,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Controller Value.
+        /// </summary>
+        internal static string ControllerValue {
+            get {
+                return ResourceManager.GetString("ControllerValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cubic.
         /// </summary>
         internal static string Cubic {
@@ -759,6 +768,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string DimensionToOutlets {
             get {
                 return ResourceManager.GetString("DimensionToOutlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dimension Value.
+        /// </summary>
+        internal static string DimensionValue {
+            get {
+                return ResourceManager.GetString("DimensionValue", resourceCulture);
             }
         }
         
@@ -1078,11 +1096,38 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is a controller code, but no controller values..
+        /// </summary>
+        internal static string HasControllerCodeButNoControllerValue {
+            get {
+                return ResourceManager.GetString("HasControllerCodeButNoControllerValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are controller values, but no controller code..
+        /// </summary>
+        internal static string HasControllerValueButNoControllerCode {
+            get {
+                return ResourceManager.GetString("HasControllerValueButNoControllerCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Has a Dimension.
         /// </summary>
         internal static string HasDimension {
             get {
                 return ResourceManager.GetString("HasDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are mim or max dimension values, but no dimension from/till..
+        /// </summary>
+        internal static string HasDimensionMinMaxButNoFromOrTill {
+            get {
+                return ResourceManager.GetString("HasDimensionMinMaxButNoFromOrTill", resourceCulture);
             }
         }
         
@@ -1740,6 +1785,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string NoteDuration {
             get {
                 return ResourceManager.GetString("NoteDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note Number.
+        /// </summary>
+        internal static string NoteNumber {
+            get {
+                return ResourceManager.GetString("NoteNumber", resourceCulture);
             }
         }
         
@@ -2815,6 +2869,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tone Number.
+        /// </summary>
+        internal static string ToneNumber {
+            get {
+                return ResourceManager.GetString("ToneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tones.
         /// </summary>
         internal static string Tones {
@@ -2928,6 +2991,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Velocity.
+        /// </summary>
+        internal static string Velocity {
+            get {
+                return ResourceManager.GetString("Velocity", resourceCulture);
             }
         }
         

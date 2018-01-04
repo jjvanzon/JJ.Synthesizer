@@ -126,8 +126,91 @@ namespace JJ.Business.Synthesizer.Validation
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			// TODO: Build a decent identifier.
-			return ResourceFormatter.MidiMappingElement;
+			var sb = new StringBuilder();
+
+			if (!string.IsNullOrWhiteSpace(entity.CustomDimensionName))
+			{
+				sb.Append($"{ResourceFormatter.CustomDimensionName} '{entity.CustomDimensionName}' ");
+			}
+
+			if (entity.StandardDimension != null)
+			{
+				sb.Append($"{ResourceFormatter.StandardDimension} '{ResourceFormatter.GetDisplayName(entity.StandardDimension)}' ");
+			}
+
+			if (entity.ControllerCode.HasValue)
+			{
+				sb.Append($"{ResourceFormatter.ControllerCode} {entity.ControllerCode} ");
+			}
+
+			if (entity.Scale != null)
+			{
+				sb.Append($"{ResourceFormatter.Scale} {GetUserFriendlyIdentifier(entity.Scale)}");
+			}
+
+			string[] elements =
+			{
+				GetRangeIdentifier(ResourceFormatter.DimensionValue, entity.FromDimensionValue, entity.TillDimensionValue),
+				GetRangeIdentifier(ResourceFormatter.ControllerValue, entity.FromControllerValue, entity.TillControllerValue),
+				GetRangeIdentifier(ResourceFormatter.NoteNumber, entity.FromNoteNumber, entity.TillNoteNumber),
+				GetRangeIdentifier(ResourceFormatter.Velocity, entity.FromVelocity, entity.TillVelocity),
+				GetRangeIdentifier(ResourceFormatter.Position, entity.FromPosition, entity.TillPosition),
+				GetRangeIdentifier(ResourceFormatter.ToneNumber, entity.FromToneNumber, entity.TillToneNumber)
+			};
+
+			foreach (string element in elements)
+			{
+				if (!string.IsNullOrEmpty(element))
+				{
+					sb.Append(element);
+					sb.Append(' ');
+				}
+			}
+
+			return sb.ToString();
+		}
+
+		private static string GetRangeIdentifier(string displayName, int? from, int? till)
+		{
+			if (from.HasValue && till.HasValue)
+			{
+				return $"{displayName} [{from}-{till}]";
+			}
+
+			if (@from.HasValue)
+			{
+				return $"{displayName} {from}";
+			}
+
+			if (till.HasValue)
+			{
+				return $"{displayName} {till}";
+			}
+
+			return null;
+		}
+
+		private static string GetRangeIdentifier(string displayName, double? from, double? till)
+		{
+			// TODO: Format doubles in a user friendly way.
+			throw new  NotImplementedException();
+
+			if (from.HasValue && till.HasValue)
+			{
+				return $"{displayName} [{from}-{till}]";
+			}
+
+			if (@from.HasValue)
+			{
+				return $"{displayName} {from}";
+			}
+
+			if (till.HasValue)
+			{
+				return $"{displayName} {till}";
+			}
+
+			return null;
 		}
 
 		public static string GetUserFriendlyIdentifier(Operator entity, ICurveRepository curveRepository)

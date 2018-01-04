@@ -1116,4 +1116,28 @@
   <data name="TillVelocity" xml:space="preserve">
     <value>Tot velocity</value>
   </data>
+  <data name="ControllerValue" xml:space="preserve">
+    <value>Controller waarde</value>
+  </data>
+  <data name="DimensionValue" xml:space="preserve">
+    <value>Dimensie waarde</value>
+  </data>
+  <data name="NoteNumber" xml:space="preserve">
+    <value>Noot nummer</value>
+  </data>
+  <data name="ToneNumber" xml:space="preserve">
+    <value>Toon nummer</value>
+  </data>
+  <data name="Velocity" xml:space="preserve">
+    <value>Velocity</value>
+  </data>
+  <data name="HasControllerCodeButNoControllerValue" xml:space="preserve">
+    <value>Er is een controller code, maar geen controller waardes.</value>
+  </data>
+  <data name="HasControllerValueButNoControllerCode" xml:space="preserve">
+    <value>Er zijn controller waardes, maar geen controller code.</value>
+  </data>
+  <data name="HasDimensionMinMaxButNoFromOrTill" xml:space="preserve">
+    <value>Er is een mininum of maximum dimensie waarde maar geen dimensie van/tot.</value>
+  </data>
 </root>

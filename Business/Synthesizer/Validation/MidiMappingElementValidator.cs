@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Presentation.Resources;
@@ -8,9 +9,6 @@ namespace JJ.Business.Synthesizer.Validation
 {
 	internal class MidiMappingElementValidator : VersatileValidator
 	{
-		private const int MIDI_MIN_VALUE = 0;
-		private const int MIDI_MAX_VALUE = 127;
-
 		public MidiMappingElementValidator(MidiMappingElement entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -18,12 +16,11 @@ namespace JJ.Business.Synthesizer.Validation
 			ExecuteValidator(new NameValidator(entity.CustomDimensionName, ResourceFormatter.CustomDimensionName));
 
 			For(entity.ID, CommonResourceFormatter.ID).GreaterThan(0);
-			For(entity.FromNoteNumber, ResourceFormatter.FromNoteNumber).GreaterThanOrEqual(MIDI_MIN_VALUE).LessThanOrEqual(MIDI_MAX_VALUE);
-			For(entity.TillNoteNumber, ResourceFormatter.TillNoteNumber).GreaterThanOrEqual(MIDI_MIN_VALUE).LessThanOrEqual(MIDI_MAX_VALUE);
-			For(entity.ControllerCode, ResourceFormatter.FromControllerValue).GreaterThanOrEqual(MIDI_MIN_VALUE).LessThanOrEqual(MIDI_MAX_VALUE);
-			For(entity.ControllerCode, ResourceFormatter.TillControllerValue).GreaterThanOrEqual(MIDI_MIN_VALUE).LessThanOrEqual(MIDI_MAX_VALUE);
-			For(entity.FromVelocity, ResourceFormatter.FromVelocity).GreaterThanOrEqual(MIDI_MIN_VALUE).LessThanOrEqual(MIDI_MAX_VALUE);
-			For(entity.TillVelocity, ResourceFormatter.TillVelocity).GreaterThanOrEqual(MIDI_MIN_VALUE).LessThanOrEqual(MIDI_MAX_VALUE);
+			For(entity.FromNoteNumber, ResourceFormatter.FromNoteNumber).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+			For(entity.TillNoteNumber, ResourceFormatter.TillNoteNumber).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+			For(entity.ControllerCode, ResourceFormatter.ControllerCode).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+			For(entity.FromVelocity, ResourceFormatter.FromVelocity).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+			For(entity.TillVelocity, ResourceFormatter.TillVelocity).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 			For(entity.FromDimensionValue, ResourceFormatter.FromDimensionValue).NotNaN().NotInfinity();
 			For(entity.TillDimensionValue, ResourceFormatter.TillDimensionValue).NotNaN().NotInfinity();
 			For(entity.MinDimensionValue, ResourceFormatter.MinDimensionValue).NotNaN().NotInfinity();
@@ -32,7 +29,33 @@ namespace JJ.Business.Synthesizer.Validation
 			For(entity.TillToneNumber, ResourceFormatter.TillToneNumber).GreaterThan(0);
 			For(entity.MidiMapping, ResourceFormatter.MidiMapping).NotNull();
 
-			// FromPosition and TillPosition bounds are not very important to be strict about.
+			bool hasControllerCodeButNoValue = entity.ControllerCode.HasValue && !entity.FromControllerValue.HasValue && !entity.TillControllerValue.HasValue;
+			if (hasControllerCodeButNoValue)
+			{
+				Messages.Add(ResourceFormatter.HasControllerCodeButNoControllerValue);
+			}
+
+			bool hasControllerValueButNoCode = (entity.FromControllerValue.HasValue || entity.TillControllerValue.HasValue) && !entity.ControllerCode.HasValue;
+			if (hasControllerValueButNoCode)
+			{
+				Messages.Add(ResourceFormatter.HasControllerValueButNoControllerCode);
+			}
+
+			bool dimensionHasMinOrMaxButNoFromnOrTill = (entity.MinDimensionValue.HasValue || entity.MaxDimensionValue.HasValue) &&
+			                                            !(entity.FromDimensionValue.HasValue || entity.TillDimensionValue.HasValue);
+			if (dimensionHasMinOrMaxButNoFromnOrTill)
+			{
+				Messages.Add(ResourceFormatter.HasDimensionMinMaxButNoFromOrTill);
+			}
+
+			// Do not validate inconsistently filled in Scale and FromToneNumber/TillToneNumber,
+			// because the plan is to fall back to a default.
+
+			// The ranges of these are validated in warning validators.
+			// - FromControllerValue
+			// - TillControllerValue
+			// - FromPosition
+			// - TillPosition 
 		}
 	}
 }

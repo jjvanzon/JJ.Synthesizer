@@ -1125,4 +1125,28 @@
   <data name="TillVelocity" xml:space="preserve">
     <value>Till Velocity</value>
   </data>
+  <data name="ControllerValue" xml:space="preserve">
+    <value>Controller Value</value>
+  </data>
+  <data name="DimensionValue" xml:space="preserve">
+    <value>Dimension Value</value>
+  </data>
+  <data name="NoteNumber" xml:space="preserve">
+    <value>Note Number</value>
+  </data>
+  <data name="ToneNumber" xml:space="preserve">
+    <value>Tone Number</value>
+  </data>
+  <data name="Velocity" xml:space="preserve">
+    <value>Velocity</value>
+  </data>
+  <data name="HasControllerCodeButNoControllerValue" xml:space="preserve">
+    <value>There is a controller code, but no controller values.</value>
+  </data>
+  <data name="HasControllerValueButNoControllerCode" xml:space="preserve">
+    <value>There are controller values, but no controller code.</value>
+  </data>
+  <data name="HasDimensionMinMaxButNoFromOrTill" xml:space="preserve">
+    <value>There are mim or max dimension values, but no dimension from/till.</value>
+  </data>
 </root>

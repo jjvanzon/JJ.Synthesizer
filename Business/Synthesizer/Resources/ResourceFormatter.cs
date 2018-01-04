@@ -70,6 +70,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Condition => Resources.Condition;
 		public static string Continuous => Resources.Continuous;
 		public static string ControllerCode => Resources.ControllerCode;
+		public static string ControllerValue => Resources.ControllerValue;
 		public static string Cubic => Resources.Cubic;
 		public static string CubicAbruptSlope => Resources.CubicAbruptSlope;
 		public static string CubicEquidistant => Resources.CubicEquidistant;
@@ -90,6 +91,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Difference => Resources.Difference;
 		public static string Dimension => Resources.Dimension;
 		public static string DimensionToOutlets => Resources.DimensionToOutlets;
+		public static string DimensionValue => Resources.DimensionValue;
 		public static string Divide => Resources.Divide;
 		public static string Document => Resources.Document;
 		public static string DocumentCannotReferenceItself => Resources.DocumentCannotReferenceItself;
@@ -122,7 +124,10 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Group => Resources.Group;
 		public static string GroupName => Resources.GroupName;
 		public static string Harmonic => Resources.Harmonic;
+		public static string HasControllerCodeButNoControllerValue => Resources.HasControllerCodeButNoControllerValue;
+		public static string HasControllerValueButNoControllerCode => Resources.HasControllerValueButNoControllerCode;
 		public static string HasDimension => Resources.HasDimension;
+		public static string HasDimensionMinMaxButNoFromOrTill => Resources.HasDimensionMinMaxButNoFromOrTill;
 		public static string Hermite => Resources.Hermite;
 		public static string Hidden => Resources.Hidden;
 		public static string High => Resources.High;
@@ -192,6 +197,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Not => Resources.Not;
 		public static string NotchFilter => Resources.NotchFilter;
 		public static string NoteDuration => Resources.NoteDuration;
+		public static string NoteNumber => Resources.NoteNumber;
 		public static string NotEqual => Resources.NotEqual;
 		public static string NoteStart => Resources.NoteStart;
 		public static string NotLoaded => Resources.NotLoaded;
@@ -302,6 +308,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string TimePower => Resources.TimePower;
 		public static string ToggleTrigger => Resources.ToggleTrigger;
 		public static string Tone => Resources.Tone;
+		public static string ToneNumber => Resources.ToneNumber;
 		public static string Tones => Resources.Tones;
 		public static string TransitionFrequency => Resources.TransitionFrequency;
 		public static string TransitionSlope => Resources.TransitionSlope;
@@ -313,6 +320,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string UponReset => Resources.UponReset;
 		public static string UsedIn => Resources.UsedIn;
 		public static string Value => Resources.Value;
+		public static string Velocity => Resources.Velocity;
 		public static string VibratoDepth => Resources.VibratoDepth;
 		public static string VibratoSpeed => Resources.VibratoSpeed;
 		public static string Volume => Resources.Volume;

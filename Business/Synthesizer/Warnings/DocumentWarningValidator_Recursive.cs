@@ -21,11 +21,10 @@ namespace JJ.Business.Synthesizer.Warnings
 			if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 			if (curveRepository == null) throw new NullException(() => curveRepository);
 
-			if (alreadyDone.Contains(document))
+			if (!alreadyDone.Add(document))
 			{
 				return;
 			}
-			alreadyDone.Add(document);
 
 			foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
 			{
@@ -40,6 +39,12 @@ namespace JJ.Business.Synthesizer.Warnings
 
 			// There are no Curve warnings.
 
+			foreach (MidiMapping midiMapping in document.MidiMappings)
+			{
+				string messagePrefix = ValidationHelper.GetMessagePrefix(midiMapping);
+				ExecuteValidator(new MidiMappingWarningValidator_WithRelatedEntities(midiMapping), messagePrefix);
+			}
+
 			foreach (Patch patch in document.Patches)
 			{
 				string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
@@ -47,14 +52,6 @@ namespace JJ.Business.Synthesizer.Warnings
 					new PatchWarningValidator_WithRelatedEntities(patch, sampleRepository, curveRepository, alreadyDone),
 					messagePrefix);
 			}
-
-			// TODO:
-
-			// DocumentWarningValidator_Basic?
-			// DependentOnDocuments
-			// DependentDocuments
-
-			// TODO: Compare to validation in Circle code base.
 		}
 	}
 }
