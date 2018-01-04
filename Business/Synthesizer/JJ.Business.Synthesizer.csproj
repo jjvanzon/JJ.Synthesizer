@@ -313,9 +313,13 @@
     <Compile Include="Roslyn\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
+    <Compile Include="MidiMappingManager.cs" />
+    <Compile Include="SideEffects\MidiMapping_SideEffect_AutoCreate_MidiMapingElement.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
     <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Document_SideEffect_ApplyUnderlyingPatches.cs" />
+    <Compile Include="SideEffects\MidiMappingElement_SideEffect_SetDefaults.cs" />
+    <Compile Include="SideEffects\MidiMapping_SideEffect_GenerateName.cs" />
     <Compile Include="Validation\DataProperty\Position_DataProperty_Validator.cs" />
     <Compile Include="Validation\DimensionInfoValidator.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />

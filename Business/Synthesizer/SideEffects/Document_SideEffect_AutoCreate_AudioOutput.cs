@@ -18,10 +18,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 		{
 			_document = document ?? throw new NullException(() => document);
 
-			_audioOutputManager = new AudioOutputManager(
-				audioOutputRepository, 
-				speakerSetupRepository, 
-				idRepository);
+			_audioOutputManager = new AudioOutputManager(audioOutputRepository, speakerSetupRepository, idRepository);
 		}
 
 		public void Execute()
