@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		public static bool GetCanAdd(DocumentTreeNodeTypeEnum selectedNodeType)
+		public static bool GetCanCreate(DocumentTreeNodeTypeEnum selectedNodeType, bool patchDetailsVisible)
 		{
 			switch (selectedNodeType)
 			{
@@ -124,37 +124,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				case DocumentTreeNodeTypeEnum.PatchGroup:
 					return true;
 
+				case DocumentTreeNodeTypeEnum.LibraryPatch:
+				case DocumentTreeNodeTypeEnum.Patch:
+					return patchDetailsVisible;
+
 				case DocumentTreeNodeTypeEnum.AudioOutput:
 				case DocumentTreeNodeTypeEnum.AudioFileOutputList:
 				case DocumentTreeNodeTypeEnum.Library:
-				case DocumentTreeNodeTypeEnum.LibraryPatch:
 				case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
-				case DocumentTreeNodeTypeEnum.Patch:
-				case DocumentTreeNodeTypeEnum.Scales:
-				default:
-					return false;
-			}
-		}
-
-		public static bool GetCanCreateNew(DocumentTreeNodeTypeEnum selectedNodeType, bool patchDetailsVisible)
-		{
-			if (!patchDetailsVisible)
-			{
-				return false;
-			}
-
-			switch (selectedNodeType)
-			{
-				case DocumentTreeNodeTypeEnum.LibraryPatch:
-				case DocumentTreeNodeTypeEnum.Patch:
-					return true;
-
-				case DocumentTreeNodeTypeEnum.AudioOutput:
-				case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-				case DocumentTreeNodeTypeEnum.Libraries:
-				case DocumentTreeNodeTypeEnum.Library:
-				case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
-				case DocumentTreeNodeTypeEnum.PatchGroup:
 				case DocumentTreeNodeTypeEnum.Scales:
 				default:
 					return false;

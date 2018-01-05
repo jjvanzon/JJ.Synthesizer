@@ -1032,18 +1032,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.WarningMessages = warningsResult.Messages;
 		}
 
-		public void DocumentTreeAdd()
+		public void DocumentTreeCreate()
 		{
-			// Involves both DocumentTree and LibrarySelectionPopup,
-			// so cannot be handled by a single sub-presenter.
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
-			DocumentTreeNodeTypeEnum documentTreeNodeTypeEnum = MainViewModel.Document.DocumentTree.SelectedNodeType;
-
-			switch (documentTreeNodeTypeEnum)
+			switch (userInput.SelectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Libraries:
 					// Redirect
-					DocumentTreeAddLibrary();
+					DocumentTreeCreateLibrary();
 					break;
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
@@ -1051,24 +1049,103 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					DocumentTreeCreatePatch(MainViewModel.Document.DocumentTree.SelectedCanonicalPatchGroup);
 					break;
 
+				case DocumentTreeNodeTypeEnum.Patch:
+				case DocumentTreeNodeTypeEnum.LibraryPatch:
+					// Redirect
+					DocumentTreeCreateOperator();
+					break;
+
 				default:
-					throw new ValueNotSupportedException(documentTreeNodeTypeEnum);
+					throw new ValueNotSupportedException(userInput.SelectedNodeType);
 			}
 		}
-
-		private void DocumentTreeAddLibrary()
+		
+		private void DocumentTreeCreateLibrary()
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
 			ExecuteUpdateAction(userInput, () => _librarySelectionPopupPresenter.Load(userInput));
 		}
 
-		public void DocumentTreeCreateOperator(int underlyingPatchID)
+		private void DocumentTreeCreateOperator()
 		{
-			if (MainViewModel.Document.VisiblePatchDetails != null)
+			if (MainViewModel.Document.VisiblePatchDetails == null)
 			{
+				throw new NullException(() => MainViewModel.Document.VisiblePatchDetails);
+			}
+
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			if (!userInput.SelectedItemID.HasValue)
+			{
+				throw new NotHasValueException(() => MainViewModel.Document.DocumentTree.SelectedItemID);
+			}
+
+			// TemplateMethod
+			Operator op = null;
+			IList<Operator> createdOperators = new List<Operator>();
+
+			DocumentTreeViewModel viewModel = ExecuteCreateAction(
+				userInput,
+				() =>
+				{
+					// RefreshCounter
+					userInput.RefreshID = RefreshIDProvider.GetRefreshID();
+
+					// Set !Successful
+					userInput.Successful = false;
+
+					// GetEntities
+					Patch underlyingPatch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
+					Patch patch = _repositories.PatchRepository.Get(MainViewModel.Document.VisiblePatchDetails.Entity.ID);
+
+					bool isSamplePatch = underlyingPatch.IsSamplePatch();
+					if (isSamplePatch)
+					{
+						// ToViewModel
+						MainViewModel.Document.SampleFileBrowser.Visible = true;
+						MainViewModel.Document.SampleFileBrowser.DestPatchID = patch.ID;
+					}
+					else
+					{
+						// Business
+						var operatorFactory = new OperatorFactory(patch, _repositories);
+						op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
+
+						IList<Operator> autoCreatedNumberOperators =
+							_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionFacade);
+
+						createdOperators.AddRange(autoCreatedNumberOperators);
+						// Put main operator last so it is dispatched last upon redo and put on top.
+						createdOperators.Add(op);
+					}
+
+					// Successful
+					userInput.Successful = true;
+
+					// Do not do bother with ToViewModel. We will do a full Refresh later.
+					return userInput;
+				});
+
+			if (viewModel.Successful)
+			{
+				// Refresh
+				DocumentViewModelRefresh();
+
+				// Undo History
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypesAndIDs = createdOperators.Select(x => x.ToEntityTypeAndIDViewModel()).ToArray(),
+					States = createdOperators.SelectMany(x => GetOperatorStates(x.ID)).Distinct().ToArray()
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
+
 				// Redirect
-				DocumentTreeNew();
+				if (op != null)
+				{
+					OperatorExpand(op.ID);
+				}
 			}
 		}
 
@@ -1133,6 +1210,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				throw new NotHasValueException(() => MainViewModel.Document.DocumentTree.SelectedItemID);
 			}
+
 			int patchID = MainViewModel.Document.DocumentTree.SelectedItemID.Value;
 
 			// Redirect
@@ -1149,96 +1227,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
 
 			ExecuteReadAction(viewModel, () => _documentTreePresenter.HoverPatch(viewModel, id));
-		}
-
-		public void DocumentTreeNew()
-		{
-			// GetViewModel
-			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-			// TemplateMethod
-			Operator op = null;
-			IList<Operator> createdOperators = new List<Operator>();
-
-			DocumentTreeViewModel viewModel = ExecuteCreateAction(
-				userInput,
-				() =>
-				{
-					// RefreshCounter
-					userInput.RefreshID = RefreshIDProvider.GetRefreshID();
-
-					// Set !Successful
-					userInput.Successful = false;
-
-					switch (userInput.SelectedNodeType)
-					{
-						case DocumentTreeNodeTypeEnum.Patch:
-						case DocumentTreeNodeTypeEnum.LibraryPatch:
-							if (!userInput.SelectedItemID.HasValue)
-							{
-								throw new NotHasValueException(() => userInput.SelectedItemID);
-							}
-
-							if (MainViewModel.Document.VisiblePatchDetails == null)
-							{
-								throw new NullException(() => MainViewModel.Document.VisiblePatchDetails);
-							}
-
-							// GetEntities
-							Patch underlyingPatch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
-							Patch patch = _repositories.PatchRepository.Get(MainViewModel.Document.VisiblePatchDetails.Entity.ID);
-
-							bool isSamplePatch = underlyingPatch.IsSamplePatch();
-							if (isSamplePatch)
-							{
-								// ToViewModel
-								MainViewModel.Document.SampleFileBrowser.Visible = true;
-								MainViewModel.Document.SampleFileBrowser.DestPatchID = patch.ID;
-							}
-							else
-							{
-								// Business
-								var operatorFactory = new OperatorFactory(patch, _repositories);
-								op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
-
-								IList<Operator> autoCreatedNumberOperators =
-									_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionFacade);
-
-								createdOperators.AddRange(autoCreatedNumberOperators);
-								// Put main operator last so it is dispatched last upon redo and put on top.
-								createdOperators.Add(op);
-							}
-
-							// Successful
-							userInput.Successful = true;
-
-							// Do not do bother with ToViewModel. We will do a full Refresh later.
-							return userInput;
-
-						default:
-							throw new ValueNotSupportedException(userInput.SelectedNodeType);
-					}
-				});
-
-			if (viewModel.Successful)
-			{
-				// Refresh
-				DocumentViewModelRefresh();
-
-				// Undo History
-				var undoItem = new UndoCreateViewModel
-				{
-					EntityTypesAndIDs = createdOperators.Select(x => x.ToEntityTypeAndIDViewModel()).ToArray(),
-					States = createdOperators.SelectMany(x => GetOperatorStates(x.ID)).Distinct().ToArray()
-				};
-				MainViewModel.Document.UndoHistory.Push(undoItem);
-
-				// Redirect
-				if (op != null)
-				{
-					OperatorExpand(op.ID);
-				}
-			}
 		}
 
 		public void DocumentTreeOpenItemExternally()
@@ -1530,7 +1518,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		/// <summary>
 		/// On top of the regular ExecuteNonPersistedAction,
-		/// will set CanCreateNew, which cannot be determined by entities or DocumentTreeViewModel alone.
+		/// will set CanCreate, which cannot be determined by entities or DocumentTreeViewModel alone.
 		/// </summary>
 		private void ExecuteNonPersistedDocumentTreeAction(Action<DocumentTreeViewModel> partialAction)
 		{
@@ -1548,7 +1536,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private void SetCanCreateNew(DocumentTreeViewModel viewModel)
 		{
 			bool patchDetailsVisible = MainViewModel.Document.VisiblePatchDetails != null;
-			viewModel.CanCreateNew = ToViewModelHelper.GetCanCreateNew(viewModel.SelectedNodeType, patchDetailsVisible);
+			viewModel.CanCreate = ToViewModelHelper.GetCanCreate(viewModel.SelectedNodeType, patchDetailsVisible);
 		}
 
 		// Library

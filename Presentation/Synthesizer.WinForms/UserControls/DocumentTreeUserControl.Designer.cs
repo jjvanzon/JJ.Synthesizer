@@ -75,7 +75,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.titleBarUserControl.TabIndex = 3;
 			this.titleBarUserControl.TitleLabelVisible = false;
 			this.titleBarUserControl.UndoButtonVisible = true;
-			this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
 			this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.titleBarUserControl_AddToInstrumentClicked);
 			this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
 			this.titleBarUserControl.NewClicked += new System.EventHandler(this.titleBarUserControl_NewClicked);

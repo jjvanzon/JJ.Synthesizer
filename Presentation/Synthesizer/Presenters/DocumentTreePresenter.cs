@@ -265,7 +265,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			viewModel.SelectedNodeType = nodeType;
 
-			viewModel.CanAdd = ToViewModelHelper.GetCanAdd(nodeType);
 			viewModel.CanAddToInstrument = ToViewModelHelper.GetCanAddToInstrument(nodeType);
 			viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(nodeType);
 			viewModel.CanPlay = ToViewModelHelper.GetCanPlay(nodeType);
@@ -276,9 +275,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
-			destViewModel.CanAdd = sourceViewModel.CanAdd;
 			destViewModel.CanAddToInstrument = sourceViewModel.CanAddToInstrument;
-			destViewModel.CanCreateNew = sourceViewModel.CanCreateNew;
 			destViewModel.CanOpenExternally = sourceViewModel.CanOpenExternally;
 			destViewModel.CanPlay = sourceViewModel.CanPlay;
 			destViewModel.CanRemove = sourceViewModel.CanRemove;

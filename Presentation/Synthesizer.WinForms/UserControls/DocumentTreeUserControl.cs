@@ -20,10 +20,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 	{
 		private static readonly string _separator = Guid.NewGuid().ToString();
 
-		public event EventHandler AddRequested;
 		public event EventHandler AddToInstrumentRequested;
 		public event EventHandler CloseRequested;
-		public event EventHandler<EventArgs<int>> CreateOperatorRequested;
 		public event EventHandler NewRequested;
 		public event EventHandler OpenItemExternallyRequested;
 		public event EventHandler<EventArgs<int>> PatchHovered;
@@ -88,9 +86,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void ApplyViewModelToControls()
 		{
-			titleBarUserControl.AddButtonVisible = ViewModel.CanAdd;
 			titleBarUserControl.AddToInstrumentButtonVisible = ViewModel.CanAddToInstrument;
-			titleBarUserControl.NewButtonVisible = ViewModel.CanCreateNew;
+			titleBarUserControl.NewButtonVisible = ViewModel.CanCreate;
 			titleBarUserControl.ExpandButtonVisible = ViewModel.CanOpenExternally;
 			titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
 			titleBarUserControl.RemoveButtonVisible = ViewModel.CanRemove;
@@ -631,7 +628,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Events
 
-		private void titleBarUserControl_AddClicked(object sender, EventArgs e) => AddRequested(this, EventArgs.Empty);
 		private void titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested(this, EventArgs.Empty);
 		private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
 		private void titleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested(sender, EventArgs.Empty);
@@ -773,8 +769,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_libraryPatchTreeNodes.Contains(node))
 			{
-				int underlyingPatchID = (int)node.Tag;
-				CreateOperatorRequested(this, new EventArgs<int>(underlyingPatchID));
+				NewRequested(this, EventArgs.Empty);
 			}
 		}
 
