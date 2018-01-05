@@ -116,6 +116,7 @@
     <Compile Include="ViewModels\Items\UndoDeleteViewModel.cs" />
     <Compile Include="ViewModels\Items\UndoUpdateViewModel.cs" />
     <Compile Include="ViewModels\Items\UndoItemViewModelBase.cs" />
+    <Compile Include="ViewModels\Partials\MidiMappingsTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\SampleFileBrowserViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />

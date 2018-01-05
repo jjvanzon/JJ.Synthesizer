@@ -1,6 +1,6 @@
 ﻿using JJ.Data.Canonical;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
@@ -8,6 +8,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 	{
 		public int ID { get; set; }
 		public PatchesTreeNodeViewModel PatchesNode { get; set; }
+		public MidiMappingsTreeNodeViewModel MidiMappingsNode { get; set; }
 		public TreeLeafViewModel ScalesNode { get; set; }
 		public TreeLeafViewModel AudioOutputNode { get; set; }
 		public TreeLeafViewModel AudioFileOutputListNode { get; set; }

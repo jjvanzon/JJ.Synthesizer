@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Canonical;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -54,6 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private HashSet<TreeNode> _libraryTreeNodes;
 		private HashSet<TreeNode> _libraryPatchTreeNodes;
 		private HashSet<TreeNode> _libraryPatchGroupTreeNodes;
+		private TreeNode _midiMappingsTreeNode;
 		private TreeNode _scalesTreeNode;
 		private TreeNode _audioOutputNode;
 		private TreeNode _audioFileOutputListTreeNode;
@@ -134,6 +136,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			treeView.Nodes.Add(_patchesTreeNode);
 			_patchesTreeNode.Expand();
 
+			_midiMappingsTreeNode = new TreeNode();
+			treeView.Nodes.Add(_midiMappingsTreeNode);
+			_midiMappingsTreeNode.Expand();
+
 			_scalesTreeNode = new TreeNode();
 			treeView.Nodes.Add(_scalesTreeNode);
 
@@ -150,6 +156,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void ConvertNodes(DocumentTreeViewModel viewModel)
 		{
+			// References comparisons of strings is faster.
+			// False negatives are rare and not a problem here.
+
+			if (_patchesTreeNode.Text != viewModel.PatchesNode.Text)
+			{
+				_patchesTreeNode.Text = viewModel.PatchesNode.Text;
+			}
+			ConvertPatchesDescendants(viewModel.PatchesNode, _patchesTreeNode);
+
+			if (_midiMappingsTreeNode.Text != viewModel.MidiMappingsNode.Text)
+			{
+				_midiMappingsTreeNode.Text = viewModel.MidiMappingsNode.Text;
+			}
+			ConvertMidiMappingsChildren(viewModel.MidiMappingsNode.List, _midiMappingsTreeNode.Nodes);
+
 			if (_scalesTreeNode.Text != viewModel.ScalesNode.Text)
 			{
 				_scalesTreeNode.Text = viewModel.ScalesNode.Text;
@@ -164,12 +185,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				_audioFileOutputListTreeNode.Text = viewModel.AudioFileOutputListNode.Text;
 			}
-
-			if (_patchesTreeNode.Text != viewModel.PatchesNode.Text)
-			{
-				_patchesTreeNode.Text = viewModel.PatchesNode.Text;
-			}
-			ConvertPatchesDescendants(viewModel.PatchesNode, _patchesTreeNode);
 
 			if (_librariesTreeNode.Text != viewModel.LibrariesNode.Text)
 			{
@@ -261,6 +276,58 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				SortTreeNodes(treeNodes);
 			}
+		}
+
+		private void ConvertMidiMappingsChildren(IList<IDAndName> viewModels, TreeNodeCollection treeNodes)
+		{
+			var treeNodesToKeep = new HashSet<TreeNode>();
+
+			bool mustSort = false;
+
+			foreach (IDAndName viewModel in viewModels)
+			{
+				TreeNode treeNode = ConvertMidiMappingNode(viewModel, treeNodes, out bool isNewOrIsDirtyName);
+				treeNodesToKeep.Add(treeNode);
+
+				_libraryPatchTreeNodes.Add(treeNode);
+
+				mustSort |= isNewOrIsDirtyName;
+			}
+
+			IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
+			IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
+			foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
+			{
+				treeNodes.Remove(treeNodeToDelete);
+			}
+
+			// Sort
+			// ReSharper disable once InvertIf
+			if (mustSort)
+			{
+				SortTreeNodes(treeNodes);
+			}
+		}
+
+		private TreeNode ConvertMidiMappingNode(IDAndName viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
+		{
+			TreeNode treeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, viewModel.ID));
+
+			isNewOrIsDirtyName = false;
+			if (treeNode == null)
+			{
+				isNewOrIsDirtyName = true;
+				treeNode = new TreeNode { Tag = viewModel.ID };
+				treeNodes.Add(treeNode);
+			}
+
+			if (treeNode.Text != viewModel.Name)
+			{
+				isNewOrIsDirtyName = true;
+				treeNode.Text = viewModel.Name;
+			}
+
+			return treeNode;
 		}
 
 		private void ConvertLibrariesDescendants(IList<LibraryTreeNodeViewModel> viewModels, TreeNodeCollection treeNodes)
@@ -458,9 +525,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private TreeNode ConvertPatchGroup(PatchGroupTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
 		{
 			TreeNode treeNode = treeNodes.Cast<TreeNode>()
-										 .Where(x => x.Tag is string)
-										 .Where(x => NameHelper.AreEqual((string)x.Tag, viewModel.CanonicalGroupName))
-										 .SingleOrDefault();
+			                             .Where(x => x.Tag is string)
+			                             .SingleOrDefault(x => NameHelper.AreEqual((string)x.Tag, viewModel.CanonicalGroupName));
 			isNewOrIsDirtyName = false;
 			if (treeNode == null)
 			{
@@ -482,7 +548,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private TreeNode ConvertPatchNode(PatchTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
 		{
-			TreeNode treeNode = treeNodes.Cast<TreeNode>().Where(x => Equals(x.Tag, viewModel.ID)).SingleOrDefault();
+			TreeNode treeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, viewModel.ID));
 
 			isNewOrIsDirtyName = false;
 			if (treeNode == null)

@@ -177,6 +177,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string MaxOverInlets => Resources.MaxOverInlets;
 		public static string MidiMapping => Resources.MidiMapping;
 		public static string MidiMappingElement => Resources.MidiMappingElement;
+		public static string MidiMappings => Resources.MidiMappings;
 		public static string Min => Resources.Min;
 		public static string MinDimensionValue => Resources.MinDimensionValue;
 		public static string MinFollower => Resources.MinFollower;

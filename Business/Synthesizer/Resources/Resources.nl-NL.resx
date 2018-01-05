@@ -1140,4 +1140,7 @@
   <data name="HasDimensionMinMaxButNoFromOrTill" xml:space="preserve">
     <value>Er is een mininum of maximum dimensie waarde maar geen dimensie van/tot.</value>
   </data>
+  <data name="MidiMappings" xml:space="preserve">
+    <value>MIDI indelingen</value>
+  </data>
 </root>

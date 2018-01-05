@@ -1600,6 +1600,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MIDI Mappings.
+        /// </summary>
+        internal static string MidiMappings {
+            get {
+                return ResourceManager.GetString("MidiMappings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Min.
         /// </summary>
         internal static string Min {
