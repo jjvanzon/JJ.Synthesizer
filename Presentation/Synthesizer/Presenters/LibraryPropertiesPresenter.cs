@@ -13,13 +13,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		: EntityPresenterWithSaveBase<DocumentReference, LibraryPropertiesViewModel>
 	{
 		private readonly RepositoryWrapper _repositories;
-		private readonly DocumentManager _documentManager;
+		private readonly DocumentFacade _documentFacade;
 		private readonly AutoPatcher _autoPatcher;
 
 		public LibraryPropertiesPresenter(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_documentManager = new DocumentManager(repositories);
+			_documentFacade = new DocumentFacade(repositories);
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
 
@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override IResult Save(DocumentReference entity)
 		{
-			return _documentManager.SaveDocumentReference(entity);
+			return _documentFacade.SaveDocumentReference(entity);
 		}
 
 		public void OpenExternally(LibraryPropertiesViewModel userInput)
@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public LibraryPropertiesViewModel Remove(LibraryPropertiesViewModel userInput)
 		{
-			return ExecuteAction(userInput, x => _documentManager.DeleteDocumentReference(x));
+			return ExecuteAction(userInput, x => _documentFacade.DeleteDocumentReference(x));
 		}
 	}
 }

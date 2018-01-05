@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			IList<Inlet> sourceInlets,
 			OperatorViewModel destOperatorViewModel,
 			ICurveRepository curveRepository,
-			EntityPositionManager entityPositionManager)
+			EntityPositionFacade entityPositionFacade)
 		{
 			if (sourceInlets == null) throw new NullException(() => sourceInlets);
 			if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -122,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					destOperatorViewModel.Inlets.Add(inletViewModel);
 				}
 
-				inlet.ToViewModel(inletViewModel, curveRepository, entityPositionManager);
+				inlet.ToViewModel(inletViewModel, curveRepository, entityPositionFacade);
 
 				inletViewModelsToKeep.Add(inletViewModel);
 			}
@@ -152,7 +152,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			IList<Outlet> sourceOutlets,
 			OperatorViewModel destOperatorViewModel,
 			ICurveRepository curveRepository,
-			EntityPositionManager entityPositionManager)
+			EntityPositionFacade entityPositionFacade)
 		{
 			if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
 			if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -170,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					outletViewModel.Operator = destOperatorViewModel;
 				}
 
-				outlet.ToViewModel(outletViewModel, curveRepository, entityPositionManager);
+				outlet.ToViewModel(outletViewModel, curveRepository, entityPositionFacade);
 
 				outletViewModelsToKeep.Add(outletViewModel);
 			}
@@ -202,11 +202,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			Operator entity,
 			OperatorViewModel operatorViewModel,
 			ICurveRepository curveRepository,
-			EntityPositionManager entityPositionManager)
+			EntityPositionFacade entityPositionFacade)
 		{
-			RefreshViewModel(entity, operatorViewModel, curveRepository, entityPositionManager);
-			RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, entityPositionManager);
-			RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, entityPositionManager);
+			RefreshViewModel(entity, operatorViewModel, curveRepository, entityPositionFacade);
+			RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, entityPositionFacade);
+			RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, entityPositionFacade);
 		}
 
 		/// <summary>
@@ -217,7 +217,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			Operator entity,
 			OperatorViewModel viewModel,
 			ICurveRepository curveRepository,
-			EntityPositionManager entityPositionManager)
+			EntityPositionFacade entityPositionFacade)
 		{
 			if (entity == null) throw new NullException(() => entity);
 			if (viewModel == null) throw new NullException(() => viewModel);
@@ -228,7 +228,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.Caption = GetOperatorCaption(entity);
 			viewModel.IsOwned = entity.IsOwned();
 
-			EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
+			EntityPosition entityPosition = entityPositionFacade.GetOrCreateOperatorPosition(entity.ID);
 			viewModel.EntityPositionID = entityPosition.ID;
 			viewModel.CenterX = entityPosition.X;
 			viewModel.CenterY = entityPosition.Y;

@@ -19,12 +19,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private readonly RepositoryWrapper _repositories;
 		private readonly AutoPatcher _autoPatcher;
-		private readonly EntityPositionManager _entityPositionManager;
+		private readonly EntityPositionFacade _entityPositionFacade;
 
-		public SampleFileBrowserPresenter(AutoPatcher autoPatcher, EntityPositionManager entityPositionManager, RepositoryWrapper repositories)
+		public SampleFileBrowserPresenter(AutoPatcher autoPatcher, EntityPositionFacade entityPositionFacade, RepositoryWrapper repositories)
 		{
 			_autoPatcher = autoPatcher ?? throw new ArgumentNullException(nameof(autoPatcher));
-			_entityPositionManager = entityPositionManager ?? throw new ArgumentNullException(nameof(entityPositionManager));
+			_entityPositionFacade = entityPositionFacade ?? throw new ArgumentNullException(nameof(entityPositionFacade));
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 		}
 
@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			op.Name = fileName;
 			op.Sample.Name = fileName;
 
-			IList<Operator> autoCreatedNumberOperators = _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+			IList<Operator> autoCreatedNumberOperators = _autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionFacade);
 
 			// ToViewModel
 			SampleFileBrowserViewModel viewModel = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel();

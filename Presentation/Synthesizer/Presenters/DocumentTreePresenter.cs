@@ -19,13 +19,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class DocumentTreePresenter : PresenterBase<DocumentTreeViewModel>
 	{
 		private readonly RepositoryWrapper _repositories;
-		private readonly DocumentManager _documentManager;
-		private readonly PatchManager _patchManager;
+		private readonly DocumentFacade _documentFacade;
+		private readonly PatchFacade _patchFacade;
 
-		public DocumentTreePresenter(DocumentManager documentManager, PatchManager patchManager, RepositoryWrapper repositories)
+		public DocumentTreePresenter(DocumentFacade documentFacade, PatchFacade patchFacade, RepositoryWrapper repositories)
 		{
-			_documentManager = documentManager ?? throw new ArgumentNullException(nameof(documentManager));
-			_patchManager = patchManager ?? throw new ArgumentNullException(nameof(patchManager));
+			_documentFacade = documentFacade ?? throw new ArgumentNullException(nameof(documentFacade));
+			_patchFacade = patchFacade ?? throw new ArgumentNullException(nameof(patchFacade));
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 		}
 
@@ -87,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
 					// Business
-					VoidResult result = _documentManager.DeleteDocumentReference(userInput.SelectedItemID.Value);
+					VoidResult result = _documentFacade.DeleteDocumentReference(userInput.SelectedItemID.Value);
 
 					// Non-Persisted
 					viewModel.ValidationMessages = result.Messages;
@@ -109,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
 
 					// Businesss
-					IResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
+					IResult result = _patchFacade.DeletePatchWithRelatedEntities(patch);
 
 					// Non-Persisted
 					viewModel.ValidationMessages.AddRange(result.Messages);
@@ -207,7 +207,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					Patch patch = _repositories.PatchRepository.Get(id);
 
 					// Business
-					IList<IDAndName> usedInDtos = _documentManager.GetUsedIn(patch);
+					IList<IDAndName> usedInDtos = _documentFacade.GetUsedIn(patch);
 
 					// ToViewModel
 					viewModel.PatchToolTipText = ToViewModelHelper.GetPatchNodeToolTipText(patch, usedInDtos);

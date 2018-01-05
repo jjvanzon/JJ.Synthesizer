@@ -19,12 +19,12 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				var repositories = PersistenceHelper.CreateCurveRepositories(context);
-				var curveManager = new CurveManager(repositories);
+				var curveFacade = new CurveFacade(repositories);
 
-				Curve curve = CreateTestCurve(curveManager);
+				Curve curve = CreateTestCurve(curveFacade);
 				curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Off, repositories.NodeTypeRepository));
 
-				ICalculatorWithPosition calculator = curveManager.CreateInterpretedCalculator(curve);
+				ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
 				AssertHelper.AreEqual(0, () => calculator.Calculate(0.0));
 				AssertHelper.AreEqual(0, () => calculator.Calculate(0.5));
 				AssertHelper.AreEqual(0, () => calculator.Calculate(1.0));
@@ -39,12 +39,12 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				var repositories = PersistenceHelper.CreateCurveRepositories(context);
-				var curveManager = new CurveManager(repositories);
+				var curveFacade = new CurveFacade(repositories);
 
-				Curve curve = CreateTestCurve(curveManager);
+				Curve curve = CreateTestCurve(curveFacade);
 				curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Block, repositories.NodeTypeRepository));
 
-				ICalculatorWithPosition calculator = curveManager.CreateInterpretedCalculator(curve);
+				ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
 				AssertHelper.AreEqual(1, () => calculator.Calculate(0.0));
 				AssertHelper.AreEqual(1, () => calculator.Calculate(0.5));
 				AssertHelper.AreEqual(2, () => calculator.Calculate(1.0));
@@ -59,12 +59,12 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				var repositories = PersistenceHelper.CreateCurveRepositories(context);
-				var curveManager = new CurveManager(repositories);
+				var curveFacade = new CurveFacade(repositories);
 
-				Curve curve = CreateTestCurve(curveManager);
+				Curve curve = CreateTestCurve(curveFacade);
 				curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Line, repositories.NodeTypeRepository));
 
-				ICalculatorWithPosition calculator = curveManager.CreateInterpretedCalculator(curve);
+				ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
 				AssertHelper.AreEqual(1.0, () => calculator.Calculate(0.0));
 				AssertHelper.AreEqual(1.5, () => calculator.Calculate(0.5));
 				AssertHelper.AreEqual(2.0, () => calculator.Calculate(1.0));
@@ -79,8 +79,8 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				var repositories = PersistenceHelper.CreateCurveRepositories(context);
-				var curveManager = new CurveManager(repositories);
-				Curve curve = curveManager.Create
+				var curveFacade = new CurveFacade(repositories);
+				Curve curve = curveFacade.Create
 				(
 					3,
 					(0.5, NodeTypeEnum.Off),
@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Tests
 					(0.5, NodeTypeEnum.Off)
 				);
 
-				ICalculatorWithPosition calculator = curveManager.CreateInterpretedCalculator(curve);
+				ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
 
 				// Off
 				AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.0));
@@ -110,9 +110,9 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Helpers
 
-		public static Curve CreateTestCurve(CurveManager curveManager)
+		public static Curve CreateTestCurve(CurveFacade curveFacade)
 		{
-			Curve curve = curveManager.Create(2, 1, 2, 0);
+			Curve curve = curveFacade.Create(2, 1, 2, 0);
 			curve.Name = "Curve";
 			return curve;
 		}

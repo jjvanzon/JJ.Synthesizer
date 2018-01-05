@@ -28,14 +28,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		private static readonly IList<StyleGradeEnum> _styleGradesNonNeutral = GetStyleGradesNonNeutral();
 
 		private readonly ICurveRepository _curveRepository;
-		private readonly EntityPositionManager _entityPositionManager;
+		private readonly EntityPositionFacade _entityPositionFacade;
 
 		private Dictionary<Operator, OperatorViewModel> _dictionary;
 
-		public RecursiveToPatchViewModelConverter(ICurveRepository curveRepository, EntityPositionManager entityPositionManager)
+		public RecursiveToPatchViewModelConverter(ICurveRepository curveRepository, EntityPositionFacade entityPositionFacade)
 		{
 			_curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-			_entityPositionManager = entityPositionManager ?? throw new NullException(() => entityPositionManager);
+			_entityPositionFacade = entityPositionFacade ?? throw new NullException(() => entityPositionFacade);
 		}
 
 		public PatchDetailsViewModel ConvertToDetailsViewModel(Patch patch)
@@ -144,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				return viewModel;
 			}
 
-			viewModel = op.ToViewModel(_curveRepository, _entityPositionManager);
+			viewModel = op.ToViewModel(_curveRepository, _entityPositionFacade);
 
 			_dictionary.Add(op, viewModel);
 
@@ -166,7 +166,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			InletViewModel viewModel = inlet.ToViewModel(
 				_curveRepository,
-				_entityPositionManager);
+				_entityPositionFacade);
 
 			if (inlet.InputOutlet != null)
 			{
@@ -186,7 +186,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		private OutletViewModel ConvertToViewModelRecursive(Outlet outlet)
 		{
-			OutletViewModel viewModel = outlet.ToViewModel(_curveRepository, _entityPositionManager);
+			OutletViewModel viewModel = outlet.ToViewModel(_curveRepository, _entityPositionFacade);
 
 			// Recursive call
 			viewModel.Operator = ConvertToViewModelRecursive(outlet.Operator);
@@ -196,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		private void SetViewModelPosition(OperatorViewModel operatorViewModel)
 		{
-			EntityPosition entityPosition = _entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.ID);
+			EntityPosition entityPosition = _entityPositionFacade.GetOrCreateOperatorPosition(operatorViewModel.ID);
 			operatorViewModel.EntityPositionID = entityPosition.ID;
 			operatorViewModel.CenterX = entityPosition.X;
 			operatorViewModel.CenterY = entityPosition.Y;

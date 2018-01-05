@@ -22,20 +22,20 @@ namespace JJ.Business.Synthesizer
 	{
 		private readonly Patch _patch;
 		private readonly RepositoryWrapper _repositories;
-		private readonly DocumentManager _documentManager;
-		private readonly PatchManager _patchManager;
-		private readonly SampleManager _sampleManager;
-		private readonly CurveManager _curveManager;
+		private readonly DocumentFacade _documentFacade;
+		private readonly PatchFacade _patchFacade;
+		private readonly SampleFacade _sampleFacade;
+		private readonly CurveFacade _curveFacade;
 
 		public OperatorFactory(Patch patch, RepositoryWrapper repositories)
 		{
 			_patch = patch ?? throw new NullException(() => patch);
 			_repositories = repositories ?? throw new NullException(() => repositories);
 
-			_documentManager = new DocumentManager(_repositories);
-			_patchManager = new PatchManager(_repositories);
-			_sampleManager = new SampleManager(new SampleRepositories(repositories));
-			_curveManager = new CurveManager(new CurveRepositories(repositories));
+			_documentFacade = new DocumentFacade(_repositories);
+			_patchFacade = new PatchFacade(_repositories);
+			_sampleFacade = new SampleFacade(new SampleRepositories(repositories));
+			_curveFacade = new CurveFacade(new CurveRepositories(repositories));
 		}
 
 		public OperatorWrapper Absolute(Outlet number = null)
@@ -255,7 +255,7 @@ namespace JJ.Business.Synthesizer
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;
 
-			Curve curve = _curveManager.Create(_patch.Document);
+			Curve curve = _curveFacade.Create(_patch.Document);
 			op.LinkTo(curve);
 
 			return wrapper;
@@ -269,7 +269,7 @@ namespace JJ.Business.Synthesizer
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;
 
-			Curve curve = _curveManager.Create(nodeTuples);
+			Curve curve = _curveFacade.Create(nodeTuples);
 			op.LinkTo(curve);
 
 			return wrapper;
@@ -284,7 +284,7 @@ namespace JJ.Business.Synthesizer
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;
 
-			Curve curve = _curveManager.Create(xSpan, nodeTuples);
+			Curve curve = _curveFacade.Create(xSpan, nodeTuples);
 			op.LinkTo(curve);
 
 			return wrapper;
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;
 
-			Curve curve = _curveManager.Create(xSpan, yValues);
+			Curve curve = _curveFacade.Create(xSpan, yValues);
 			op.LinkTo(curve);
 
 			return wrapper;
@@ -363,7 +363,7 @@ namespace JJ.Business.Synthesizer
 			Operator op = wrapper.WrappedOperator;
 
 			// OutletCount
-			VoidResult setOutletCountResult = _patchManager.SetOperatorOutletCount(op, outletCount ?? 1);
+			VoidResult setOutletCountResult = _patchFacade.SetOperatorOutletCount(op, outletCount ?? 1);
 			setOutletCountResult.Assert();
 
 			wrapper.Inputs[DimensionEnum.Signal] = signal;
@@ -824,7 +824,7 @@ namespace JJ.Business.Synthesizer
 			new Operator_SideEffect_GeneratePatchInletPosition(op).Execute();
 
 			// Call save to execute side-effects and robust validation.
-			_patchManager.SaveOperator(op).Assert();
+			_patchFacade.SaveOperator(op).Assert();
 
 			return new PatchInletOrOutlet_OperatorWrapper(op);
 		}
@@ -875,7 +875,7 @@ namespace JJ.Business.Synthesizer
 			new Operator_SideEffect_GeneratePatchOutletPosition(op).Execute();
 
 			// Call save to execute side-effects and robust validation.
-			_patchManager.SaveOperator(op).Assert();
+			_patchFacade.SaveOperator(op).Assert();
 
 			return wrapper;
 		}
@@ -988,7 +988,7 @@ namespace JJ.Business.Synthesizer
 
 			if (outletCount.HasValue)
 			{
-				VoidResult setOutletCountResult = _patchManager.SetOperatorOutletCount(op, outletCount.Value);
+				VoidResult setOutletCountResult = _patchFacade.SetOperatorOutletCount(op, outletCount.Value);
 				setOutletCountResult.Assert();
 			}
 
@@ -1058,7 +1058,7 @@ namespace JJ.Business.Synthesizer
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;
 
-			SampleInfo sampleInfo = _sampleManager.CreateSample(bytes, audioFileFormatEnum);
+			SampleInfo sampleInfo = _sampleFacade.CreateSample(bytes, audioFileFormatEnum);
 			Sample sample = sampleInfo.Sample;
 			op.LinkTo(sample);
 
@@ -1339,7 +1339,7 @@ namespace JJ.Business.Synthesizer
 
 			Operator op = NewBase(systemPatchName);
 
-			VoidResult setInletCountResult = _patchManager.SetOperatorInletCount(op, items.Count);
+			VoidResult setInletCountResult = _patchFacade.SetOperatorInletCount(op, items.Count);
 			setInletCountResult.Assert();
 
 			var wrapper = new OperatorWrapper(op);
@@ -1358,7 +1358,7 @@ namespace JJ.Business.Synthesizer
 
 			Operator op = NewBase(systemPatchName);
 
-			VoidResult setInletCountResult = _patchManager.SetOperatorInletCount(op, items.Count + 1);
+			VoidResult setInletCountResult = _patchFacade.SetOperatorInletCount(op, items.Count + 1);
 			setInletCountResult.Assert();
 
 			var wrapper = new OperatorWrapper(op);
@@ -1438,7 +1438,7 @@ namespace JJ.Business.Synthesizer
 
 		public OperatorWrapper New(string systemPatchName, int variableInletOrOutletCount = 16)
 		{
-			Patch patch = _documentManager.GetSystemPatch(systemPatchName);
+			Patch patch = _documentFacade.GetSystemPatch(systemPatchName);
 			return New(patch, variableInletOrOutletCount);
 		}
 
@@ -1572,7 +1572,7 @@ namespace JJ.Business.Synthesizer
 		/// <param name="systemPatchName">If not provided, falls back to the method name of the caller.</param>
 		private OperatorWrapper NewBase([CallerMemberName] string systemPatchName = null)
 		{
-			Patch patch = _documentManager.GetSystemPatch(systemPatchName);
+			Patch patch = _documentFacade.GetSystemPatch(systemPatchName);
 
 			return NewBase(patch);
 		}

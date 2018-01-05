@@ -12,13 +12,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class AudioFileOutputPropertiesPresenter 
 		: EntityPresenterWithSaveBase<AudioFileOutput, AudioFileOutputPropertiesViewModel>
 	{
-		private readonly AudioFileOutputManager _audioFileOutputManager;
+		private readonly AudioFileOutputFacade _audioFileOutputFacade;
 		private readonly IAudioFileOutputRepository _audioFileOutputRepository;
 
-		public AudioFileOutputPropertiesPresenter(AudioFileOutputManager audioFileOutputManager, IAudioFileOutputRepository audioFileOutputRepository)
+		public AudioFileOutputPropertiesPresenter(AudioFileOutputFacade audioFileOutputFacade, IAudioFileOutputRepository audioFileOutputRepository)
 		{
 			_audioFileOutputRepository = audioFileOutputRepository ?? throw new ArgumentNullException(nameof(audioFileOutputRepository));
-			_audioFileOutputManager = audioFileOutputManager ?? throw new ArgumentNullException(nameof(audioFileOutputManager));
+			_audioFileOutputFacade = audioFileOutputFacade ?? throw new ArgumentNullException(nameof(audioFileOutputFacade));
 		}
 
 		protected override AudioFileOutput GetEntity(AudioFileOutputPropertiesViewModel userInput)
@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override IResult Save(AudioFileOutput entity)
 		{
-			return _audioFileOutputManager.Save(entity);
+			return _audioFileOutputFacade.Save(entity);
 		}
 
 		protected override AudioFileOutputPropertiesViewModel ToViewModel(AudioFileOutput entity)
@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				userInput,
 				entity =>
 				{
-					_audioFileOutputManager.Delete(entity.ID);
+					_audioFileOutputFacade.Delete(entity.ID);
 					return null;
 				});
 		}

@@ -16,12 +16,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class ToneGridEditPresenter : EntityPresenterWithSaveBase<Scale, ToneGridEditViewModel>
 	{
 		private readonly IScaleRepository _scaleRepository;
-		private readonly ScaleManager _scaleManager;
+		private readonly ScaleFacade _scaleFacade;
 
-		public ToneGridEditPresenter(IScaleRepository scaleRepository, ScaleManager scaleManager)
+		public ToneGridEditPresenter(IScaleRepository scaleRepository, ScaleFacade scaleFacade)
 		{
 			_scaleRepository = scaleRepository ?? throw new ArgumentNullException(nameof(scaleRepository));
-			_scaleManager = scaleManager ?? throw new ArgumentNullException(nameof(scaleManager));
+			_scaleFacade = scaleFacade ?? throw new ArgumentNullException(nameof(scaleFacade));
 		}
 
 		protected override Scale GetEntity(ToneGridEditViewModel userInput) => _scaleRepository.Get(userInput.ScaleID);
@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// Business
-			VoidResult result = _scaleManager.Save(scale);
+			VoidResult result = _scaleFacade.Save(scale);
 			return result;
 		}
 
@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					}
 
 					// Business
-					tone = _scaleManager.CreateTone(scale);
+					tone = _scaleFacade.CreateTone(scale);
 					return ResultHelper.Successful;
 				},
 				viewModel =>
@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					}
 
 					// Business
-					_scaleManager.DeleteTone(toneID);
+					_scaleFacade.DeleteTone(toneID);
 					return ResultHelper.Successful;
 				});
 		}

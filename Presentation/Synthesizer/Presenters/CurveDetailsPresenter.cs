@@ -15,13 +15,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	{
 		private readonly ICurveRepository _curveRepository;
 		private readonly INodeRepository _nodeRepository;
-		private readonly CurveManager _curveManager;
+		private readonly CurveFacade _curveFacade;
 
-		public CurveDetailsPresenter(ICurveRepository curveRepository, INodeRepository nodeRepository, CurveManager curveManager)
+		public CurveDetailsPresenter(ICurveRepository curveRepository, INodeRepository nodeRepository, CurveFacade curveFacade)
 		{
 			_curveRepository = curveRepository ?? throw new ArgumentNullException(nameof(curveRepository));
 			_nodeRepository = nodeRepository ?? throw new ArgumentNullException(nameof(nodeRepository));
-			_curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
+			_curveFacade = curveFacade ?? throw new ArgumentNullException(nameof(curveFacade));
 		}
 
 		protected override Curve GetEntity(CurveDetailsViewModel userInput)
@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override IResult Save(Curve entity)
 		{
-			return _curveManager.SaveCurveWithRelatedEntities(entity);
+			return _curveFacade.SaveCurveWithRelatedEntities(entity);
 		}
 
 		protected override CurveDetailsViewModel ToViewModel(Curve entity)
@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						afterNode = curve.Nodes.OrderBy(x => x.X).Last();
 					}
 
-					newNode = _curveManager.CreateNode(curve, afterNode);
+					newNode = _curveFacade.CreateNode(curve, afterNode);
 				},
 				viewModel => viewModel.CreatedNodeID = newNode.ID);
 		}
@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					Node node = _nodeRepository.Get(nodeID);
 
 					// Business
-					_curveManager.RotateNodeType(node);
+					_curveFacade.RotateNodeType(node);
 				});
 		}
 
@@ -106,7 +106,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					Node node = _nodeRepository.Get(nodeID);
 
 					// Business
-					IResult result = _curveManager.DeleteNode(node);
+					IResult result = _curveFacade.DeleteNode(node);
 					return result;
 				},
 				viewModel =>

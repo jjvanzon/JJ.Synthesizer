@@ -18,12 +18,12 @@ namespace JJ.Business.Synthesizer
 	public class AutoPatcher
 	{
 		private readonly RepositoryWrapper _repositories;
-		private readonly PatchManager _patchManager;
+		private readonly PatchFacade _patchFacade;
 
 		public AutoPatcher(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_patchManager = new PatchManager(_repositories);
+			_patchFacade = new PatchFacade(_repositories);
 		}
 
 		public Patch AutoPatch(params Patch[] sourceUnderlyingPatches) => AutoPatch((IList<Patch>)sourceUnderlyingPatches);
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer
 		{
 			if (sourceUnderlyingPatches == null) throw new NullException(() => sourceUnderlyingPatches);
 
-			Patch patch = _patchManager.CreatePatch();
+			Patch patch = _patchFacade.CreatePatch();
 
 			var operatorFactory = new OperatorFactory(patch, _repositories);
 
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer
 			}
 
 			// This is sensitive, error prone code, so verify its result with the validators.
-			IResult result = _patchManager.SavePatch(patch);
+			IResult result = _patchFacade.SavePatch(patch);
 			result.Assert();
 
 			return patch;
@@ -237,7 +237,7 @@ namespace JJ.Business.Synthesizer
 			// Create a new patch out of the other patches.
 			Patch autoPatch = AutoPatch(sourceUnderlyingPatches);
 
-			Patch patch = _patchManager.CreatePatch();
+			Patch patch = _patchFacade.CreatePatch();
 
 			var operatorFactory = new OperatorFactory(patch, _repositories);
 
@@ -294,7 +294,7 @@ namespace JJ.Business.Synthesizer
 				}
 			}
 
-			Patch destPatch = _patchManager.CreatePatch();
+			Patch destPatch = _patchFacade.CreatePatch();
 			destPatch.Name = "Auto-Generated Patch";
 
 			var operatorFactory = new OperatorFactory(destPatch, _repositories);
@@ -451,16 +451,16 @@ namespace JJ.Business.Synthesizer
 			Operator op,
 			float estimatedOperatorWidth,
 			float operatorHeight,
-			EntityPositionManager entityPositionManager)
+			EntityPositionFacade entityPositionFacade)
 		{
 			if (op == null) throw new NullException(() => op);
-			if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
+			if (entityPositionFacade == null) throw new NullException(() => entityPositionFacade);
 
 			var list = new List<Operator>();
 
 			var operatorFactory = new OperatorFactory(op.Patch, _repositories);
 
-			EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(op.ID);
+			EntityPosition entityPosition = entityPositionFacade.GetOrCreateOperatorPosition(op.ID);
 
 			int inletCount = op.Inlets.Count;
 			float spacingX = operatorHeight / 2f;
@@ -481,7 +481,7 @@ namespace JJ.Business.Synthesizer
 						Outlet numberOutlet = number.Outlets[DimensionEnum.Number];
 						inlet.LinkTo(numberOutlet);
 
-						EntityPosition numberEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
+						EntityPosition numberEntityPosition = entityPositionFacade.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
 						numberEntityPosition.X = x;
 						numberEntityPosition.Y = y;
 

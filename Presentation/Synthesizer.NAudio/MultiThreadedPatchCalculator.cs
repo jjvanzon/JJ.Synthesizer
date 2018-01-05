@@ -54,11 +54,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 
 			// Create PatchCalculators
-			var patchManager = new PatchManager(repositories);
+			var patchFacade = new PatchFacade(repositories);
 			_patchCalculators = new IPatchCalculator[_channelCount][];
 			for (int channelIndex = 0; channelIndex < _channelCount; channelIndex++)
 			{
-				_patchCalculators[channelIndex] = patchManager.CreateCalculators(
+				_patchCalculators[channelIndex] = patchFacade.CreateCalculators(
 					_maxConcurrentNotes,
 					soundOutlet,
 					samplingRate,

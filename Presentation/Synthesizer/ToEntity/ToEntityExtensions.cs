@@ -1,4 +1,7 @@
-﻿using JJ.Business.Canonical;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -14,9 +17,6 @@ using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -95,13 +95,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				}
 			}
 
-			var audioFileOutputManager = new AudioFileOutputManager(repositories);
+			var audioFileOutputFacade = new AudioFileOutputFacade(repositories);
 
 			IList<int> existingIDs = destDocument.AudioFileOutputs.Select(x => x.ID).ToArray();
 			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 			foreach (int idToDelete in idsToDelete)
 			{
-				audioFileOutputManager.Delete(idToDelete);
+				audioFileOutputFacade.Delete(idToDelete);
 			}
 		}
 
@@ -497,13 +497,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				}
 			}
 
-			var documentManager = new DocumentManager(repositories);
+			var documentFacade = new DocumentFacade(repositories);
 
 			IList<int> existingIDs = destDocument.LowerDocumentReferences.Select(x => x.ID).ToArray();
 			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 			foreach (int idToDelete in idsToDelete)
 			{
-				IResult result = documentManager.DeleteDocumentReference(idToDelete);
+				IResult result = documentFacade.DeleteDocumentReference(idToDelete);
 				result.Assert();
 			}
 		}
@@ -556,13 +556,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				}
 			}
 
-			var curveManager = new CurveManager(repositories);
+			var curveFacade = new CurveFacade(repositories);
 
 			IList<int> existingIDs = destCurve.Nodes.Select(x => x.ID).ToArray();
 			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 			foreach (int idToDelete in idsToDelete)
 			{
-				curveManager.DeleteNode(idToDelete);
+				curveFacade.DeleteNode(idToDelete);
 			}
 		}
 
@@ -741,11 +741,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			op.Name = null;
 
 			// Delete excessive inlets.
-			var patchManager = new PatchManager(repositories);
+			var patchFacade = new PatchFacade(repositories);
 			IList<Inlet> inletsToDelete = op.Inlets.Except(inlet).ToArray();
 			foreach (Inlet inletToDelete in inletsToDelete)
 			{
-				patchManager.DeleteInlet(inletToDelete);
+				patchFacade.DeleteInlet(inletToDelete);
 			}
 
 			return op;
@@ -779,11 +779,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			op.Name = null;
 
 			// Delete excessive outlets.
-			var patchManager = new PatchManager(repositories);
+			var patchFacade = new PatchFacade(repositories);
 			IList<Outlet> outletsToDelete = op.Outlets.Except(outlet).ToArray();
 			foreach (Outlet outletToDelete in outletsToDelete)
 			{
-				patchManager.DeleteOutlet(outletToDelete);
+				patchFacade.DeleteOutlet(outletToDelete);
 			}
 
 			return op;
@@ -1014,13 +1014,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				}
 			}
 
-			var sampleManager = new ScaleManager(repositories);
+			var scaleFacade = new ScaleFacade(repositories);
 
 			IList<int> existingIDs = destDocument.Scales.Select(x => x.ID).ToArray();
 			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 			foreach (int idToDelete in idsToDelete)
 			{
-				sampleManager.DeleteWithRelatedEntities(idToDelete);
+				scaleFacade.DeleteWithRelatedEntities(idToDelete);
 			}
 		}
 
@@ -1077,13 +1077,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				}
 			}
 
-			var scaleManager = new ScaleManager(repositories);
+			var scaleFacade = new ScaleFacade(repositories);
 
 			IList<int> existingIDs = destScale.Tones.Select(x => x.ID).ToArray();
 			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 			foreach (int idToDelete in idsToDelete)
 			{
-				scaleManager.DeleteTone(idToDelete);
+				scaleFacade.DeleteTone(idToDelete);
 			}
 		}
 

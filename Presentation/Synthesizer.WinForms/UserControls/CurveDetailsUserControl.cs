@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<NodeEventArgs> SelectNodeRequested;
 		public event EventHandler<NodeEventArgs> ExpandNodeRequested;
 
-		/// <summary> Only create after SetCurveManager is called. </summary>
+		/// <summary> Only create after SetCurveFacade is called. </summary>
 		private CurveDetailsViewModelToDiagramConverter _converter;
 
 		public CurveDetailsUserControl()
@@ -53,12 +53,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		/// but the Curve editors use the calculation of the business layer,
 		/// in order to plot the curve exactly as used in the sound calculations.
 		/// </summary>
-		public void SetCurveManager(CurveManager curveManager)
+		public void SetCurveFacade(CurveFacade curveFacade)
 		{
 			_converter = new CurveDetailsViewModelToDiagramConverter(
 				SystemInformation.DoubleClickTime,
 				SystemInformation.DoubleClickSize.Width,
-				curveManager);
+				curveFacade);
 
 			_converter.Result.BackgroundClickGesture.Click += BackgroundClickGesture_Click;
 			_converter.Result.BackgroundDoubleClickGesture.DoubleClick += BackgroundDoubleClickGesture_DoubleClick;
@@ -262,7 +262,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (_converter == null)
 			{
-				throw new Exception($"{nameof(_converter)} is null. Call {nameof(SetCurveManager)} first.");
+				throw new Exception($"{nameof(_converter)} is null. Call {nameof(SetCurveFacade)} first.");
 			}
 		}
 	}

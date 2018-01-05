@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.SideEffects
 			bool mustCreatePatch = _entity.Patches.Count == 0;
 			if (mustCreatePatch)
 			{
-				var patchManager = new PatchManager(_repositories);
-				patchManager.CreatePatch(_entity);
+				var patchFacade = new PatchFacade(_repositories);
+				patchFacade.CreatePatch(_entity);
 			}
 		}
 	}

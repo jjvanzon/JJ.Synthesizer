@@ -19,11 +19,11 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-	public class DocumentManager
+	public class DocumentFacade
 	{
 		private readonly RepositoryWrapper _repositories;
 
-		public DocumentManager(RepositoryWrapper repositories)
+		public DocumentFacade(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
 		}

@@ -2,22 +2,21 @@
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
-using Canonicals = JJ.Data.Canonical;
-using JJ.Framework.Business;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-	public class AudioOutputManager
+	public class AudioOutputFacade
 	{
 		private readonly IAudioOutputRepository _audioOutputRepository;
 		private readonly ISpeakerSetupRepository _speakerSetupRepository;
 		private readonly IIDRepository _idRepository;
 
-		public AudioOutputManager(
+		public AudioOutputFacade(
 			IAudioOutputRepository audioOutputRepository,
 			ISpeakerSetupRepository speakerSetupRepository,
 			IIDRepository idRepository)

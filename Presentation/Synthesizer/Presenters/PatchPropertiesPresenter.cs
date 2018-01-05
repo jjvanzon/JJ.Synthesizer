@@ -12,13 +12,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class PatchPropertiesPresenter : EntityPresenterWithSaveBase<Patch, PatchPropertiesViewModel>
 	{
 		private readonly RepositoryWrapper _repositories;
-		private readonly PatchManager _patchManager;
+		private readonly PatchFacade _patchFacade;
 		private readonly AutoPatcher _autoPatcher;
 
 		public PatchPropertiesPresenter(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_patchManager = new PatchManager(repositories);
+			_patchFacade = new PatchFacade(repositories);
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
 
@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override IResult Save(Patch entity)
 		{
-			return _patchManager.SavePatch(entity);
+			return _patchFacade.SavePatch(entity);
 		}
 
 		public PatchPropertiesViewModel Play(PatchPropertiesViewModel userInput)
@@ -60,14 +60,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			return ExecuteAction(
 				userInput,
-				entity => _patchManager.DeletePatchWithRelatedEntities(entity));
+				entity => _patchFacade.DeletePatchWithRelatedEntities(entity));
 		}
 
 		public PatchPropertiesViewModel ChangeHasDimension(PatchPropertiesViewModel userInput)
 		{
 			return ExecuteAction(
 				userInput,
-				entity => _patchManager.SavePatch(entity));
+				entity => _patchFacade.SavePatch(entity));
 		}
 	}
 }

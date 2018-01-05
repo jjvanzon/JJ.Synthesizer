@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			_infrastructureFacade = new InfrastructureFacade(_repositories);
 			_autoPatcher = new AutoPatcher(_repositories);
 
-			curveDetailsListUserControl.SetCurveManager(new CurveManager(new CurveRepositories(_repositories)));
+			curveDetailsListUserControl.SetCurveFacade(new CurveFacade(new CurveRepositories(_repositories)));
 
 			BindEvents();
 			ApplyStyling();
@@ -201,8 +201,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private Patch CreateDefaultSinePatch()
 		{
-			var patchManager = new PatchManager(_repositories);
-			Patch patch = patchManager.CreatePatch();
+			var patchFacade = new PatchFacade(_repositories);
+			Patch patch = patchFacade.CreatePatch();
 
 			var x = new OperatorFactory(patch, _repositories);
 
@@ -220,7 +220,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			);
 
 			// This makes side-effects go off.
-			VoidResult result = patchManager.SavePatch(patch);
+			VoidResult result = patchFacade.SavePatch(patch);
 			// ReSharper disable once InvertIf
 			if (!result.Successful)
 			{
@@ -265,13 +265,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			AudioOutput audioOutput = document.AudioOutput;
 
 			// Calculate
-			var patchManager = new PatchManager(_repositories);
+			var patchFacade = new PatchFacade(_repositories);
 			var calculatorCache = new CalculatorCache();
 			int channelCount = audioOutput.GetChannelCount();
 			var patchCalculators = new IPatchCalculator[channelCount];
 			for (int i = 0; i < channelCount; i++)
 			{
-				patchCalculators[i] = patchManager.CreateCalculator(
+				patchCalculators[i] = patchFacade.CreateCalculator(
 					outlet,
 					audioOutput.SamplingRate,
 					channelCount,
@@ -280,8 +280,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			}
 
 			// Write Output File
-			var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(_repositories));
-			AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
+			var audioFileOutputFacade = new AudioFileOutputFacade(new AudioFileOutputRepositories(_repositories));
+			AudioFileOutput audioFileOutput = audioFileOutputFacade.Create();
 			audioFileOutput.LinkTo(audioOutput.SpeakerSetup);
 			audioFileOutput.SamplingRate = audioOutput.SamplingRate;
 			audioFileOutput.FilePath = _patchPlayOutputFilePath;
@@ -289,7 +289,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			audioFileOutput.LinkTo(outlet);
 
 			// Infrastructure
-			audioFileOutputManager.WriteFile(audioFileOutput, patchCalculators);
+			audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculators);
 			var soundPlayer = new SoundPlayer(_patchPlayOutputFilePath);
 			soundPlayer.Play();
 

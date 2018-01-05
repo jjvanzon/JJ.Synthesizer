@@ -15,18 +15,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class DocumentDetailsPresenter : PresenterBase<DocumentDetailsViewModel>
 	{
 		private readonly RepositoryWrapper _repositories;
-		private readonly DocumentManager _documentManager;
+		private readonly DocumentFacade _documentFacade;
 
 		public DocumentDetailsPresenter(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_documentManager = new DocumentManager(repositories);
+			_documentFacade = new DocumentFacade(repositories);
 		}
 
 		public DocumentDetailsViewModel Create()
 		{
 			// Business
-			Document document = _documentManager.CreateWithPatch();
+			Document document = _documentFacade.CreateWithPatch();
 
 			// ToViewModel
 			DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				_repositories.SpeakerSetupRepository);
 
 			// Business
-			IResult result = _documentManager.Save(document);
+			IResult result = _documentFacade.Save(document);
 			if (!result.Successful)
 			{
 				// ToViewModel

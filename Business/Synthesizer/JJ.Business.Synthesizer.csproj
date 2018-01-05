@@ -63,7 +63,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioOutputManager.cs" />
+    <Compile Include="AudioOutputFacade.cs" />
     <Compile Include="Calculation\AggregateCalculator.cs" />
     <Compile Include="Calculation\Arrays\ArrayCalculatorBase.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -313,7 +313,7 @@
     <Compile Include="Roslyn\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
-    <Compile Include="MidiMappingManager.cs" />
+    <Compile Include="MidiMappingFacade.cs" />
     <Compile Include="SideEffects\MidiMapping_SideEffect_AutoCreate_MidiMapingElement.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
     <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
@@ -527,10 +527,10 @@
     <Compile Include="Helpers\AudioFileInfo.cs" />
     <Compile Include="InletOutletMatcher.cs" />
     <Compile Include="LinkTo\UnlinkExtensions.cs" />
-    <Compile Include="AudioFileOutputManager.cs" />
-    <Compile Include="CurveManager.cs" />
-    <Compile Include="DocumentManager.cs" />
-    <Compile Include="EntityPositionManager.cs" />
+    <Compile Include="AudioFileOutputFacade.cs" />
+    <Compile Include="CurveFacade.cs" />
+    <Compile Include="DocumentFacade.cs" />
+    <Compile Include="EntityPositionFacade.cs" />
     <Compile Include="CopiedCode\FromNAudio\Complex.cs" />
     <Compile Include="CopiedCode\FromNAudio\FastFourierTransform.cs" />
     <Compile Include="AutoPatcher.cs" />
@@ -556,9 +556,9 @@
     <Compile Include="Validation\Patches\PatchValidator_UniqueName.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Unicity.cs" />
     <Compile Include="OperatorFactory.cs" />
-    <Compile Include="PatchManager.cs" />
-    <Compile Include="SampleManager.cs" />
-    <Compile Include="ScaleManager.cs" />
+    <Compile Include="PatchFacade.cs" />
+    <Compile Include="SampleFacade.cs" />
+    <Compile Include="ScaleFacade.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_ClassSpecializationBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MachineOptimization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitor_MathSimplification.cs" />

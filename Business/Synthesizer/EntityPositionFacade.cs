@@ -7,7 +7,7 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer
 {
-	public class EntityPositionManager
+	public class EntityPositionFacade
 	{
 		private const int MIN_RANDOM_X = 50;
 		private const int MAX_RANDOM_X = 300;
@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer
 
 		private readonly Dictionary<int, EntityPosition> _operatorPositionDictionary = new Dictionary<int, EntityPosition>();
 
-		public EntityPositionManager(IEntityPositionRepository entityPositionRepository, IIDRepository idRepository)
+		public EntityPositionFacade(IEntityPositionRepository entityPositionRepository, IIDRepository idRepository)
 		{
 			_entityPositionRepository = entityPositionRepository ?? throw new NullException(() => entityPositionRepository);
 			_idRepository = idRepository ?? throw new NullException(() => idRepository);

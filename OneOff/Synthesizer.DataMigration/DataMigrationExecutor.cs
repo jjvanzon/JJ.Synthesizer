@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using JJ.Framework.Data;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
 using JJ.Business.Canonical;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Framework.Data;
+using JJ.Framework.Exceptions;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -48,14 +44,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-				var documentManager = new DocumentManager(repositories);
+				var documentFacade = new DocumentFacade(repositories);
 
 				IResult totalResult = new VoidResult { Successful = true };
 
 				IList<Document> documents = repositories.DocumentRepository.GetAll();
 				foreach (Document document in documents)
 				{
-					IResult result = documentManager.GetWarningsRecursive(document);
+					IResult result = documentFacade.GetWarningsRecursive(document);
 					string messagePrefix = ValidationHelper.GetMessagePrefix(document);
 
 					totalResult.Combine(result, messagePrefix);
@@ -94,8 +90,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-				var entityPositionManager = new EntityPositionManager(repositories.EntityPositionRepository, repositories.IDRepository);
-				int rowsAffected = entityPositionManager.DeleteOrphans();
+				var entityPositionFacade = new EntityPositionFacade(repositories.EntityPositionRepository, repositories.IDRepository);
+				int rowsAffected = entityPositionFacade.DeleteOrphans();
 
 				AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
 
@@ -121,7 +117,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 			Action<string> progressCallback,
 			bool mustAssertWarningIncrease = true)
 		{
-			var documentManager = new DocumentManager(repositories);
+			var documentFacade = new DocumentFacade(repositories);
 
 			IResult totalResult = new VoidResult { Successful = true };
 			for (int i = 0; i < rootDocuments.Count; i++)
@@ -135,7 +131,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 				IResult warningResultBefore = null;
 				if (mustAssertWarningIncrease)
 				{
-					warningResultBefore = documentManager.GetWarningsRecursive(document);
+					warningResultBefore = documentFacade.GetWarningsRecursive(document);
 				}
 
 				// Reapply UnderlyingPatches
@@ -149,10 +145,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 				// However if you just asser the documents,
 				// it will just complain about mismatches all over the place.
 
-				documentManager.Get(document.ID);
+				documentFacade.Get(document.ID);
 
 				// Validate
-				IResult saveResult = documentManager.Save(document);
+				IResult saveResult = documentFacade.Save(document);
 
 				// Collect Results
 				totalResult.Combine(saveResult, ValidationHelper.GetMessagePrefix(document));
@@ -160,7 +156,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 				if (mustAssertWarningIncrease)
 				{
 					// Warnings After
-					IResult warningResultAfter = documentManager.GetWarningsRecursive(document);
+					IResult warningResultAfter = documentFacade.GetWarningsRecursive(document);
 
 					// Compare Warnings
 					IList<string> additionalWarningTexts = warningResultAfter.Messages
@@ -213,10 +209,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	using (IContext context = PersistenceHelper.CreateContext())
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-		//		var documentManager = new DocumentManager(repositories);
-		//		var sampleManager = new SampleManager(new SampleRepositories(repositories));
+		//		var documentFacade = new DocumentFacade(repositories);
+		//		var sampleFacade = new SampleFacade(new SampleRepositories(repositories));
 
-		//		Patch systemPatch = documentManager.GetSystemPatch(nameof(SystemPatchNames.Sample));
+		//		Patch systemPatch = documentFacade.GetSystemPatch(nameof(SystemPatchNames.Sample));
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(systemPatch.ID);
 
 		//		// Loop through Sample Operators
@@ -246,7 +242,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				{
 		//					// Operator is sample-less
 		//					// Create a new sample.
-		//					Sample newSample = sampleManager.CreateSample(op.Patch.Document);
+		//					Sample newSample = sampleFacade.CreateSample(op.Patch.Document);
 
 		//					// Set bytes
 		//					repositories.SampleRepository.SetBytes(newSample.ID, new byte[0]);
@@ -275,7 +271,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				bool isUsed = sample.Operator != null;
 		//				if (!isUsed)
 		//				{
-		//					VoidResult result = sampleManager.Delete(sample);
+		//					VoidResult result = sampleFacade.Delete(sample);
 		//					result.Assert();
 		//				}
 
@@ -336,10 +332,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	using (IContext context = PersistenceHelper.CreateContext())
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-		//		var documentManager = new DocumentManager(repositories);
-		//		var curveManager = new CurveManager(new CurveRepositories(repositories));
+		//		var documentFacade = new DocumentFacade(repositories);
+		//		var curveFacade = new CurveFacade(new CurveRepositories(repositories));
 
-		//		Patch systemPatch = documentManager.GetSystemPatch(nameof(SystemPatchNames.Curve));
+		//		Patch systemPatch = documentFacade.GetSystemPatch(nameof(SystemPatchNames.Curve));
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(systemPatch.ID);
 
 		//		// Loop through Operators
@@ -363,7 +359,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				{
 		//					// Operator is curve-less
 		//					// Create a new curve.
-		//					newCurve = curveManager.Create(op.Patch.Document, 1, 0, 0);
+		//					newCurve = curveFacade.Create(op.Patch.Document, 1, 0, 0);
 		//				}
 
 		//				// Link new Curve to Operator.
@@ -392,7 +388,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				bool isUsed = usedCurveIDs.Contains(curve.ID);
 		//				if (!isUsed)
 		//				{
-		//					VoidResult result = curveManager.DeleteWithRelatedEntities(curve);
+		//					VoidResult result = curveFacade.DeleteWithRelatedEntities(curve);
 		//					result.Assert();
 		//				}
 

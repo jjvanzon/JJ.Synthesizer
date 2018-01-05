@@ -12,13 +12,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class DocumentPropertiesPresenter : EntityPresenterWithSaveBase<Document, DocumentPropertiesViewModel>
 	{
 		private readonly RepositoryWrapper _repositories;
-		private readonly DocumentManager _documentManager;
+		private readonly DocumentFacade _documentFacade;
 		private readonly AutoPatcher _autoPatcher;
 
 		public DocumentPropertiesPresenter(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_documentManager = new DocumentManager(repositories);
+			_documentFacade = new DocumentFacade(repositories);
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
 
@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override IResult Save(Document entity)
 		{
-			return _documentManager.Save(entity);
+			return _documentFacade.Save(entity);
 		}
 
 		public DocumentPropertiesViewModel Play(DocumentPropertiesViewModel userInput)

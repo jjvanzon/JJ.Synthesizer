@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
 	public class CurveDetailsViewModelToDiagramConverter
 	{
-		private readonly CurveManager _curveManager;
+		private readonly CurveFacade _curveFacade;
 
 		private class CurveInfo
 		{
@@ -75,9 +75,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public CurveDetailsViewModelToDiagramConverter(
 			int doubleClickSpeedInMilliseconds,
 			int doubleClickDeltaInPixels,
-			CurveManager curveManager)
+			CurveFacade curveFacade)
 		{
-			_curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
+			_curveFacade = curveFacade ?? throw new ArgumentNullException(nameof(curveFacade));
 
 			Result = new CurveDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 
@@ -101,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			if (curveDetailsViewModel.Nodes.Count < MINIMUM_NODE_COUNT) throw new LessThanException(() => curveDetailsViewModel.Nodes.Count, MINIMUM_NODE_COUNT);
 
 			_currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Nodes.Values.ToArray());
-			_currentCurveCalculator = _curveManager.CreateInterpretedCalculator(_currentCurveInfo.MockCurve);
+			_currentCurveCalculator = _curveFacade.CreateInterpretedCalculator(_currentCurveInfo.MockCurve);
 
 			// Delete All Lines
 			IList<Element> elementsToDelete = Result.Diagram.Elements
@@ -687,7 +687,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		{
 			var nodeTuples = nodeViewModels.Select(x => (x.X, x.Y, (NodeTypeEnum)x.NodeType.ID)).ToArray();
 
-			Curve mockCurve = _curveManager.Create(nodeTuples);
+			Curve mockCurve = _curveFacade.Create(nodeTuples);
 
 			IList<NodeInfo> noteInfos = Enumerable.Zip(
 				mockCurve.Nodes,

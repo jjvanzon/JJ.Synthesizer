@@ -15,11 +15,11 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-	public class ScaleManager
+	public class ScaleFacade
 	{
 		private readonly ScaleRepositories _repositories;
 
-		public ScaleManager(ScaleRepositories repositories)
+		public ScaleFacade(ScaleRepositories repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
 		}

@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Side-Effects
 			if (MustRefreshDocument(states))
 			{
-				_documentManager.Refresh(MainViewModel.Document.ID);
+				_documentFacade.Refresh(MainViewModel.Document.ID);
 			}
 
 			// Refresh
@@ -149,35 +149,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			switch (entityTypeEnum)
 			{
 				case EntityTypeEnum.AudioFileOutput:
-					_audioFileOutputManager.Delete(id);
+					_audioFileOutputFacade.Delete(id);
 					break;
 
 				case EntityTypeEnum.Node:
-					_curveManager.DeleteNode(id);
+					_curveFacade.DeleteNode(id);
 					break;
 
 				case EntityTypeEnum.Operator:
-					_patchManager.DeleteOperatorWithRelatedEntities(id);
+					_patchFacade.DeleteOperatorWithRelatedEntities(id);
 					break;
 
 				case EntityTypeEnum.Patch:
 				{
-					IResult result = _patchManager.DeletePatchWithRelatedEntities(id);
+					IResult result = _patchFacade.DeletePatchWithRelatedEntities(id);
 					result.Assert();
 					break;
 				}
 
 				case EntityTypeEnum.Scale:
-					_scaleManager.DeleteWithRelatedEntities(id);
+					_scaleFacade.DeleteWithRelatedEntities(id);
 					break;
 
 				case EntityTypeEnum.Tone:
-					_scaleManager.DeleteTone(id);
+					_scaleFacade.DeleteTone(id);
 					break;
 
 				case EntityTypeEnum.DocumentReference:
 				{
-					IResult result = _documentManager.DeleteDocumentReference(id);
+					IResult result = _documentFacade.DeleteDocumentReference(id);
 					result.Assert();
 					break;
 				}

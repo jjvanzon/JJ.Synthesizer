@@ -17,15 +17,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class PatchDetailsPresenter : EntityPresenterWithoutSaveBase<Patch, PatchDetailsViewModel>
 	{
 		private readonly RepositoryWrapper _repositories;
-		private readonly EntityPositionManager _entityPositionManager;
-		private readonly PatchManager _patchManager;
+		private readonly EntityPositionFacade _entityPositionFacade;
+		private readonly PatchFacade _patchFacade;
 		private readonly AutoPatcher _autoPatcher;
 
-		public PatchDetailsPresenter(RepositoryWrapper repositories, EntityPositionManager entityPositionManager)
+		public PatchDetailsPresenter(RepositoryWrapper repositories, EntityPositionFacade entityPositionFacade)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_entityPositionManager = entityPositionManager ?? throw new NullException(() => entityPositionManager);
-			_patchManager = new PatchManager(repositories);
+			_entityPositionFacade = entityPositionFacade ?? throw new NullException(() => entityPositionFacade);
+			_patchFacade = new PatchFacade(repositories);
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
 
@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override PatchDetailsViewModel ToViewModel(Patch patch)
 		{
-			return patch.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionManager);
+			return patch.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionFacade);
 		}
 
 		public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
@@ -79,8 +79,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
 				// Business
-				_patchManager.DeleteOwnedNumberOperators(userInput.SelectedOperator.ID);
-				_patchManager.DeleteOperatorWithRelatedEntities(userInput.SelectedOperator.ID);
+				_patchFacade.DeleteOwnedNumberOperators(userInput.SelectedOperator.ID);
+				_patchFacade.DeleteOperatorWithRelatedEntities(userInput.SelectedOperator.ID);
 
 				// ToViewModel
 				PatchDetailsViewModel viewModel = ToViewModel(patch);
@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				Operator op = _repositories.OperatorRepository.Get(operatorID);
 
 				// Business
-				_entityPositionManager.MoveOperator(op, centerX, centerY);
+				_entityPositionFacade.MoveOperator(op, centerX, centerY);
 			});
 		}
 

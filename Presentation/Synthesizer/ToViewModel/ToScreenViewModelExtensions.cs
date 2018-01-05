@@ -750,9 +750,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		public static PatchDetailsViewModel ToDetailsViewModel(
 			this Patch patch,
 			ICurveRepository curveRepository,
-			EntityPositionManager entityPositionManager)
+			EntityPositionFacade entityPositionFacade)
 		{
-			var converter = new RecursiveToPatchViewModelConverter(curveRepository, entityPositionManager);
+			var converter = new RecursiveToPatchViewModelConverter(curveRepository, entityPositionFacade);
 
 			PatchDetailsViewModel viewModel = converter.ConvertToDetailsViewModel(patch);
 			viewModel.OriginalState = converter.ConvertToDetailsViewModel(patch);

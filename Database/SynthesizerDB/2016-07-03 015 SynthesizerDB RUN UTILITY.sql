@@ -16,7 +16,7 @@ run Migrate_Operator_SlowDown_ToStretch.
 --    {
 --        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
---        var patchManager = new PatchManager(new PatchRepositories(repositories));
+--        var patchFacade = new PatchManager(new PatchRepositories(repositories));
 
 --        IList<Operator> operators = repositories.OperatorRepository
 --                                                .GetAll()
@@ -29,11 +29,11 @@ run Migrate_Operator_SlowDown_ToStretch.
 
 --            op.SetOperatorTypeEnum(OperatorTypeEnum.Narrower, repositories.OperatorTypeRepository);
 
---            Inlet originInlet = patchManager.CreateInlet(op);
+--            Inlet originInlet = patchFacade.CreateInlet(op);
 --            originInlet.ListIndex = 2;
 
---            patchManager.Patch = op.Patch;
---            VoidResult result = patchManager.SaveOperator(op);
+--            patchFacade.Patch = op.Patch;
+--            VoidResult result = patchFacade.SaveOperator(op);
 --            ResultHelper.Assert(result);
 
 --            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -59,7 +59,7 @@ run Migrate_Operator_SlowDown_ToStretch.
 --    {
 --        RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
---        var patchManager = new PatchManager(new PatchRepositories(repositories));
+--        var patchFacade = new PatchManager(new PatchRepositories(repositories));
 
 --        IList<Operator> operators = repositories.OperatorRepository
 --                                                .GetAll()
@@ -72,11 +72,11 @@ run Migrate_Operator_SlowDown_ToStretch.
 
 --            op.SetOperatorTypeEnum(OperatorTypeEnum.Stretch, repositories.OperatorTypeRepository);
 
---            Inlet originInlet = patchManager.CreateInlet(op);
+--            Inlet originInlet = patchFacade.CreateInlet(op);
 --            originInlet.ListIndex = 2;
 
---            patchManager.Patch = op.Patch;
---            VoidResult result = patchManager.SaveOperator(op);
+--            patchFacade.Patch = op.Patch;
+--            VoidResult result = patchFacade.SaveOperator(op);
 --            ResultHelper.Assert(result);
 
 --            string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);

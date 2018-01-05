@@ -24,12 +24,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 		private readonly RepositoryWrapper _repositories;
 		private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
 		private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
-		private readonly PatchManager _patchManager;
+		private readonly PatchFacade _patchFacade;
 
 		public RecursiveToEntityConverter(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_patchManager = new PatchManager(repositories);
+			_patchFacade = new PatchFacade(repositories);
 		}
 
 		public void ConvertToEntitiesWithRelatedEntities(
@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 			foreach (int idToDelete in idsToDelete)
 			{
-				IResult result = _patchManager.DeletePatchWithRelatedEntities(idToDelete);
+				IResult result = _patchFacade.DeletePatchWithRelatedEntities(idToDelete);
 				result.Assert();
 			}
 		}
@@ -88,11 +88,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			// converted first.
 			// TODO: How does converting PatchProperties instead of PatchInlet and PatchOutlet properties help with that?
 
-			//var patchManager = new PatchManager(patch, _repositories);
+			//var patchFacade = new PatchFacade(patch, _repositories);
 
 			foreach (Operator op in operatorsToDelete)
 			{
-				//patchManager.DeleteOperatorWithRelatedEntities(op);
+				//patchFacade.DeleteOperatorWithRelatedEntities(op);
 
 				// HACK: Do cascading here, without causing delete constraints or side-effects to go off.
 				// In practice these were already executed before.
@@ -175,7 +175,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			foreach (int idToDelete in idsToDelete)
 			{
-				_patchManager.DeleteInlet(idToDelete);
+				_patchFacade.DeleteInlet(idToDelete);
 			}
 		}
 
@@ -196,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			foreach (int idToDelete in idsToDelete)
 			{
-				_patchManager.DeleteOutlet(idToDelete);
+				_patchFacade.DeleteOutlet(idToDelete);
 			}
 		}
 

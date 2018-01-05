@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer
 	/// You can supply a patch, Create a new one using the CreatePatch method
 	/// or omit the Patch to only call methods that do not require it.
 	/// </summary>
-	public class PatchManager
+	public class PatchFacade
 	{
 		private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer
 
 		// Constructors
 
-		public PatchManager(RepositoryWrapper repositories)
+		public PatchFacade(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
 		}

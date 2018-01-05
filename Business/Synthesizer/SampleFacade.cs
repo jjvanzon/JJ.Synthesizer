@@ -20,11 +20,11 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-	internal class SampleManager
+	internal class SampleFacade
 	{
 		private readonly SampleRepositories _repositories;
 
-		public SampleManager(SampleRepositories repositories)
+		public SampleFacade(SampleRepositories repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
 		}

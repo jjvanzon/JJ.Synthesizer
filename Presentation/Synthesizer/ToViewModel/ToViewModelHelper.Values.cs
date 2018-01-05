@@ -301,7 +301,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return sb.ToString();
 		}
 
-		public static float? TryGetConnectionDistance(Inlet entity, EntityPositionManager entityPositionManager)
+		public static float? TryGetConnectionDistance(Inlet entity, EntityPositionFacade entityPositionFacade)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -313,8 +313,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			Operator operator1 = entity.Operator;
 			Operator operator2 = entity.InputOutlet.Operator;
 
-			EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
-			EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
+			EntityPosition entityPosition1 = entityPositionFacade.GetOrCreateOperatorPosition(operator1.ID);
+			EntityPosition entityPosition2 = entityPositionFacade.GetOrCreateOperatorPosition(operator2.ID);
 
 			float distance = Geometry.AbsoluteDistance(
 				entityPosition1.X,
@@ -732,7 +732,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return sb.ToString();
 		}
 
-		public static float? TryGetAverageConnectionDistance(Outlet entity, EntityPositionManager entityPositionManager)
+		public static float? TryGetAverageConnectionDistance(Outlet entity, EntityPositionFacade entityPositionFacade)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -751,8 +751,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				Operator operator2 = connectedInlet.Operator;
 
-				EntityPosition entityPosition1 = entityPositionManager.GetOrCreateOperatorPosition(operator1.ID);
-				EntityPosition entityPosition2 = entityPositionManager.GetOrCreateOperatorPosition(operator2.ID);
+				EntityPosition entityPosition1 = entityPositionFacade.GetOrCreateOperatorPosition(operator1.ID);
+				EntityPosition entityPosition2 = entityPositionFacade.GetOrCreateOperatorPosition(operator2.ID);
 
 				float distance = Geometry.AbsoluteDistance(
 					entityPosition1.X,

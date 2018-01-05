@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 	internal class Document_SideEffect_AutoCreate_AudioOutput : ISideEffect
 	{
 		private readonly Document _document;
-		private readonly AudioOutputManager _audioOutputManager;
+		private readonly AudioOutputFacade _audioOutputFacade;
 
 		public Document_SideEffect_AutoCreate_AudioOutput(
 			Document document,
@@ -18,14 +18,14 @@ namespace JJ.Business.Synthesizer.SideEffects
 		{
 			_document = document ?? throw new NullException(() => document);
 
-			_audioOutputManager = new AudioOutputManager(audioOutputRepository, speakerSetupRepository, idRepository);
+			_audioOutputFacade = new AudioOutputFacade(audioOutputRepository, speakerSetupRepository, idRepository);
 		}
 
 		public void Execute()
 		{
 			if (_document.AudioOutput == null)
 			{
-				_audioOutputManager.CreateWithDefaults(_document);
+				_audioOutputFacade.CreateWithDefaults(_document);
 			}
 		}
 	}

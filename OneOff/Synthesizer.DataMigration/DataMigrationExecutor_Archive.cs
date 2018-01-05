@@ -1,19 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using JJ.Framework.Data;
-using JJ.Framework.Exceptions;
-using JJ.Data.Canonical;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
-using JJ.Business.Canonical;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Collections;
-
-namespace JJ.OneOff.Synthesizer.DataMigration
+﻿namespace JJ.OneOff.Synthesizer.DataMigration
 {
 	internal class DataMigrationExecutor_Archive
 	{
@@ -48,7 +33,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> sineOperators = repositories.OperatorRepository
 		//													.GetAll()
@@ -58,13 +43,13 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//		{
 		//			Operator sineOperator = sineOperators[i];
 
-		//			patchManager.Patch = sineOperator.Patch;
+		//			patchFacade.Patch = sineOperator.Patch;
 
 		//			var sine = new Sine_OperatorWrapper(sineOperator);
 		//			throw new Exception("Process cannot be run anymore, since the data has been migrated so that there are no more volumes anymore.");
 		//			//if (sine.Volume != null)
 		//			{
-		//				var multiply = patchManager.Multiply();
+		//				var multiply = patchFacade.Multiply();
 
 		//				foreach (Inlet inlet in sine.Result.ConnectedInlets.ToArray())
 		//				{
@@ -76,7 +61,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
 		//				//sine.Volume = null;
 
-		//				VoidResult result = patchManager.SavePatch();
+		//				VoidResult result = patchFacade.SavePatch();
 		//				ResultHelper.Assert(result);
 		//			}
 
@@ -100,7 +85,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> sampleOperators = repositories.OperatorRepository
 		//													  .GetAll()
@@ -111,19 +96,19 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//		{
 		//			Operator sampleOperator = sampleOperators[i];
 
-		//			patchManager.Patch = sampleOperator.Patch;
+		//			patchFacade.Patch = sampleOperator.Patch;
 
 		//			var sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, repositories.SampleRepository);
 
 		//			if (sampleOperator.Inlets.Count == 0)
 		//			{
-		//				Inlet inlet = patchManager.CreateInlet(sampleOperator);
+		//				Inlet inlet = patchFacade.CreateInlet(sampleOperator);
 
-		//				var numberWrapper = patchManager.Number(DEFAULT_FREQUENCY);
+		//				var numberWrapper = patchFacade.Number(DEFAULT_FREQUENCY);
 
 		//				sampleOperatorWrapper.Frequency = numberWrapper;
 
-		//				VoidResult result = patchManager.SavePatch();
+		//				VoidResult result = patchFacade.SavePatch();
 		//				ResultHelper.Assert(result);
 		//			}
 
@@ -209,7 +194,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var documentManager = new DocumentManager(repositories);
+		//		var documentFacade = new DocumentFacade(repositories);
 
 		//		IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
 		//		for (int i = 0; i < rootDocuments.Count; i++)
@@ -249,7 +234,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			}
 
 		//			// Validate
-		//			VoidResult result = documentManager.ValidateRecursive(rootDocument);
+		//			VoidResult result = documentFacade.ValidateRecursive(rootDocument);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated document {0}/{1}.", i + 1, rootDocuments.Count);
@@ -277,8 +262,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var documentManager = new DocumentManager(repositories);
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var documentFacade = new DocumentFacade(repositories);
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
 		//		for (int i = 0; i < rootDocuments.Count; i++)
@@ -288,8 +273,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			// Move patches to their own child document.
 		//			foreach (Patch patch in rootDocument.Patches.ToArray())
 		//			{
-		//				//Document newChildDocument = documentManager.CreateChildDocument(rootDocument, ChildDocumentTypeEnum.Instrument);
-		//				Document newChildDocument = documentManager.CreateChildDocument(rootDocument);
+		//				//Document newChildDocument = documentFacade.CreateChildDocument(rootDocument, ChildDocumentTypeEnum.Instrument);
+		//				Document newChildDocument = documentFacade.CreateChildDocument(rootDocument);
 		//				patch.LinkTo(newChildDocument);
 		//			}
 
@@ -298,8 +283,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			{
 		//				if (childDocument.Patches.Count == 0)
 		//				{
-		//					patchManager.CreatePatch(childDocument);
-		//					Patch newPatch = patchManager.Patch;
+		//					patchFacade.CreatePatch(childDocument);
+		//					Patch newPatch = patchFacade.Patch;
 		//				}
 		//			}
 
@@ -313,7 +298,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			}
 
 		//			// Validate
-		//			VoidResult result = documentManager.ValidateRecursive(rootDocument);
+		//			VoidResult result = documentFacade.ValidateRecursive(rootDocument);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated document {0}/{1}.", i + 1, rootDocuments.Count);
@@ -412,7 +397,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> customOperators = repositories.OperatorRepository
 		//													  .GetAll()
@@ -422,9 +407,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//		for (int i = 0; i < customOperators.Count; i++)
 		//		{
 		//			Operator customOperator = customOperators[i];
-		//			patchManager.Patch = customOperator.Patch;
+		//			patchFacade.Patch = customOperator.Patch;
 
-		//			VoidResult result = patchManager.SaveOperator(customOperator);
+		//			VoidResult result = patchFacade.SaveOperator(customOperator);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated custom operator {0}/{1}.", i + 1, customOperators.Count);
@@ -449,7 +434,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> patchInlets = repositories.OperatorRepository
 		//														  .GetAll()
@@ -459,9 +444,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//		for (int i = 0; i < patchInlets.Count; i++)
 		//		{
 		//			Operator patchInlet = patchInlets[i];
-		//			patchManager.Patch = patchInlet.Patch;
+		//			patchFacade.Patch = patchInlet.Patch;
 
-		//			VoidResult result = patchManager.SaveOperator(patchInlet);
+		//			VoidResult result = patchFacade.SaveOperator(patchInlet);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated PatchInlet Operator {0}/{1}.", i + 1, patchInlets.Count);
@@ -486,7 +471,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> patchInlets = repositories.OperatorRepository
 		//														  .GetAll()
@@ -521,7 +506,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> patchOutlets = repositories.OperatorRepository
 		//														  .GetAll()
@@ -541,8 +526,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			wrapper.Result.SetDimensionEnum(dimensionEnum, repositories.DimensionRepository);
 
 		//			// Make side-effects go off.
-		//			patchManager.Patch = patchOutlet.Patch;
-		//			VoidResult result = patchManager.SaveOperator(patchOutlet);
+		//			patchFacade.Patch = patchOutlet.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(patchOutlet);
 		//			try
 		//			{
 		//				ResultHelper.Assert(result);
@@ -573,7 +558,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -583,12 +568,12 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//		for (int i = 0; i < operators.Count; i++)
 		//		{
 		//			Operator op = operators[i];
-		//			patchManager.Patch = op.Patch;
+		//			patchFacade.Patch = op.Patch;
 
 		//			var wrapper = new Resample_OperatorWrapper(op);
 		//			wrapper.InterpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope;
 
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			VoidResult result = patchFacade.SaveOperator(op);
 
 		//			ResultHelper.Assert(result);
 
@@ -614,7 +599,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> averageOperators = repositories.OperatorRepository
 		//													   .GetAll()
@@ -630,13 +615,13 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				throw new Exception("Operator already migrated!");
 		//			}
 
-		//			patchManager.Patch = op.Patch;
+		//			patchFacade.Patch = op.Patch;
 
 		//			// Create extra inlets.
 		//			int newInletCount = 3;
 		//			for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
 		//			{
-		//				Inlet inlet = patchManager.CreateInlet(op);
+		//				Inlet inlet = patchFacade.CreateInlet(op);
 		//				inlet.ListIndex = inletIndex;
 		//			}
 
@@ -644,14 +629,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			var averageWrapper = new Average_OperatorWrapper(op);
 
 		//			double timeSliceDurationValue = DataPropertyParser.GetDouble(op, PropertyNames.TimeSliceDuration);
-		//			var timeSliceDurationNumberWrapper = patchManager.Number(timeSliceDurationValue);
+		//			var timeSliceDurationNumberWrapper = patchFacade.Number(timeSliceDurationValue);
 		//			averageWrapper.TimeSliceDuration = timeSliceDurationNumberWrapper;
 
 		//			int sampleCountValue = DataPropertyParser.GetInt32(op, PropertyNames.SampleCount);
-		//			var sampleCountNumberWrapper = patchManager.Number(sampleCountValue);
+		//			var sampleCountNumberWrapper = patchFacade.Number(sampleCountValue);
 		//			averageWrapper.SampleCount = sampleCountNumberWrapper;
 
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			VoidResult result = patchFacade.SaveOperator(op);
 
 		//			ResultHelper.Assert(result);
 
@@ -673,13 +658,13 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				throw new Exception("Operator already migrated!");
 		//			}
 
-		//			patchManager.Patch = op.Patch;
+		//			patchFacade.Patch = op.Patch;
 
 		//			// Create extra inlets.
 		//			int newInletCount = 3;
 		//			for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
 		//			{
-		//				Inlet inlet = patchManager.CreateInlet(op);
+		//				Inlet inlet = patchFacade.CreateInlet(op);
 		//				inlet.ListIndex = inletIndex;
 		//			}
 
@@ -687,14 +672,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			var minimumWrapper = new Minimum_OperatorWrapper(op);
 
 		//			double timeSliceDurationValue = DataPropertyParser.GetDouble(op, PropertyNames.TimeSliceDuration);
-		//			var timeSliceDurationNumberWrapper = patchManager.Number(timeSliceDurationValue);
+		//			var timeSliceDurationNumberWrapper = patchFacade.Number(timeSliceDurationValue);
 		//			minimumWrapper.TimeSliceDuration = timeSliceDurationNumberWrapper;
 
 		//			int sampleCountValue = DataPropertyParser.GetInt32(op, PropertyNames.SampleCount);
-		//			var sampleCountNumberWrapper = patchManager.Number(sampleCountValue);
+		//			var sampleCountNumberWrapper = patchFacade.Number(sampleCountValue);
 		//			minimumWrapper.SampleCount = sampleCountNumberWrapper;
 
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			VoidResult result = patchFacade.SaveOperator(op);
 
 		//			ResultHelper.Assert(result);
 
@@ -716,13 +701,13 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				throw new Exception("Operator already migrated!");
 		//			}
 
-		//			patchManager.Patch = op.Patch;
+		//			patchFacade.Patch = op.Patch;
 
 		//			// Create extra inlets.
 		//			int newInletCount = 3;
 		//			for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
 		//			{
-		//				Inlet inlet = patchManager.CreateInlet(op);
+		//				Inlet inlet = patchFacade.CreateInlet(op);
 		//				inlet.ListIndex = inletIndex;
 		//			}
 
@@ -730,14 +715,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			var maximumWrapper = new Maximum_OperatorWrapper(op);
 
 		//			double timeSliceDurationValue = DataPropertyParser.GetDouble(op, PropertyNames.TimeSliceDuration);
-		//			var timeSliceDurationNumberWrapper = patchManager.Number(timeSliceDurationValue);
+		//			var timeSliceDurationNumberWrapper = patchFacade.Number(timeSliceDurationValue);
 		//			maximumWrapper.TimeSliceDuration = timeSliceDurationNumberWrapper;
 
 		//			int sampleCountValue = DataPropertyParser.GetInt32(op, PropertyNames.SampleCount);
-		//			var sampleCountNumberWrapper = patchManager.Number(sampleCountValue);
+		//			var sampleCountNumberWrapper = patchFacade.Number(sampleCountValue);
 		//			maximumWrapper.SampleCount = sampleCountNumberWrapper;
 
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			VoidResult result = patchFacade.SaveOperator(op);
 
 		//			ResultHelper.Assert(result);
 
@@ -763,7 +748,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//													   .GetAll()
@@ -779,13 +764,13 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				throw new Exception("Operator already migrated!");
 		//			}
 
-		//			patchManager.Patch = op.Patch;
+		//			patchFacade.Patch = op.Patch;
 
 		//			// Create extra inlets.
 		//			int newInletCount = 4;
 		//			for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
 		//			{
-		//				Inlet inlet = patchManager.CreateInlet(op);
+		//				Inlet inlet = patchFacade.CreateInlet(op);
 		//				inlet.ListIndex = inletIndex;
 		//			}
 
@@ -793,22 +778,22 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			var wrapper = new Cache_OperatorWrapper(op);
 
 		//			double startTimeValue = DataPropertyParser.GetDouble(op, PropertyNames.StartTime);
-		//			var startTimeNumberWrapper = patchManager.Number(startTimeValue);
+		//			var startTimeNumberWrapper = patchFacade.Number(startTimeValue);
 		//			wrapper.StartTime = startTimeNumberWrapper;
 
 		//			double endTimeValue = DataPropertyParser.GetDouble(op, PropertyNames.EndTime);
-		//			var endTimeNumberWrapper = patchManager.Number(endTimeValue);
+		//			var endTimeNumberWrapper = patchFacade.Number(endTimeValue);
 		//			wrapper.EndTime = endTimeNumberWrapper;
 
 		//			double samplingRateValue = DataPropertyParser.GetDouble(op, PropertyNames.SamplingRate);
-		//			var samplingRateNumberWrapper = patchManager.Number(samplingRateValue);
+		//			var samplingRateNumberWrapper = patchFacade.Number(samplingRateValue);
 		//			wrapper.SamplingRate = samplingRateNumberWrapper;
 
 		//			DataPropertyParser.RemoveKey(op, PropertyNames.StartTime);
 		//			DataPropertyParser.RemoveKey(op, PropertyNames.EndTime);
 		//			DataPropertyParser.RemoveKey(op, PropertyNames.SamplingRate);
 
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -833,7 +818,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -854,8 +839,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			var wrapper = new Number_OperatorWrapper(op);
 		//			wrapper.Number = number;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -880,7 +865,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		{
 		//			IList<Operator> curveOperators = repositories.OperatorRepository
@@ -902,8 +887,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				var wrapper = new Curve_OperatorWrapper(op, repositories.CurveRepository);
 		//				wrapper.CurveID = curveID;
 
-		//				patchManager.Patch = op.Patch;
-		//				VoidResult result = patchManager.SaveOperator(op);
+		//				patchFacade.Patch = op.Patch;
+		//				VoidResult result = patchFacade.SaveOperator(op);
 		//				ResultHelper.Assert(result);
 
 		//				string progressMessage = String.Format("Step 1: Migrated Curve Operator {0}/{1}.", i + 1, curveOperators.Count);
@@ -931,8 +916,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				var wrapper = new Sample_OperatorWrapper(op, repositories.SampleRepository);
 		//				wrapper.SampleID = sampleID;
 
-		//				patchManager.Patch = op.Patch;
-		//				VoidResult result = patchManager.SaveOperator(op);
+		//				patchFacade.Patch = op.Patch;
+		//				VoidResult result = patchFacade.SaveOperator(op);
 		//				ResultHelper.Assert(result);
 
 		//				string progressMessage = String.Format("Step 2: Migrated Sample Operator {0}/{1}.", i + 1, sampleOperators.Count);
@@ -960,8 +945,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				var wrapper = new CustomOperator_OperatorWrapper(op, repositories.PatchRepository);
 		//				wrapper.UnderlyingPatchID = underlyingPatchID;
 
-		//				patchManager.Patch = op.Patch;
-		//				VoidResult result = patchManager.SaveOperator(op);
+		//				patchFacade.Patch = op.Patch;
+		//				VoidResult result = patchFacade.SaveOperator(op);
 		//				ResultHelper.Assert(result);
 
 		//				string progressMessage = String.Format("Step 3: Migrated Custom Operator {0}/{1}.", i + 1, customOperators.Count);
@@ -987,7 +972,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -1005,12 +990,12 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				throw new Exception("op.Inlets.Count == 4. Operator already migrated?");
 		//			}
 
-		//			patchManager.Patch = op.Patch;
+		//			patchFacade.Patch = op.Patch;
 
 		//			// Create extra inlets.
 		//			for (int inletIndex = 1; inletIndex < newInletCount; inletIndex++)
 		//			{
-		//				Inlet inlet = patchManager.CreateInlet(op);
+		//				Inlet inlet = patchFacade.CreateInlet(op);
 		//				inlet.ListIndex = inletIndex;
 		//			}
 
@@ -1018,22 +1003,22 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			var wrapper = new Spectrum_OperatorWrapper(op);
 
 		//			double startTimeValue = DataPropertyParser.GetDouble(op, PropertyNames.StartTime);
-		//			var startTimeNumberWrapper = patchManager.Number(startTimeValue);
+		//			var startTimeNumberWrapper = patchFacade.Number(startTimeValue);
 		//			wrapper.StartTime = startTimeNumberWrapper;
 
 		//			double endTimeValue = DataPropertyParser.GetDouble(op, PropertyNames.EndTime);
-		//			var endTimeNumberWrapper = patchManager.Number(endTimeValue);
+		//			var endTimeNumberWrapper = patchFacade.Number(endTimeValue);
 		//			wrapper.EndTime = endTimeNumberWrapper;
 
 		//			double frequencyCountValue = DataPropertyParser.GetDouble(op, PropertyNames.FrequencyCount);
-		//			var frequencyCountNumberWrapper = patchManager.Number(frequencyCountValue);
+		//			var frequencyCountNumberWrapper = patchFacade.Number(frequencyCountValue);
 		//			wrapper.FrequencyCount = frequencyCountNumberWrapper;
 
 		//			DataPropertyParser.RemoveKey(op, PropertyNames.StartTime);
 		//			DataPropertyParser.RemoveKey(op, PropertyNames.EndTime);
 		//			DataPropertyParser.RemoveKey(op, PropertyNames.FrequencyCount);
 
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1059,7 +1044,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -1076,8 +1061,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			}
 		//			wrapper.Dimension = DimensionEnum.Time;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1102,7 +1087,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -1119,8 +1104,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			}
 		//			wrapper.Dimension = DimensionEnum.Time;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1146,7 +1131,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -1163,8 +1148,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			}
 		//			wrapper.Dimension = DimensionEnum.Time;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1217,7 +1202,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll().ToArray();
@@ -1239,8 +1224,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			}
 		//			wrapper.Dimension = DimensionEnum.Time;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1265,7 +1250,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	using (IContext context = PersistenceHelper.CreateContext())
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-		//		var audioOutputManager = new AudioOutputManager(
+		//		var audioOutputFacade = new AudioOutputFacade(
 		//			repositories.AudioOutputRepository,
 		//			repositories.SpeakerSetupRepository,
 		//			repositories.IDRepository);
@@ -1275,7 +1260,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//		{
 		//			Document rootDocument = rootDocuments[i];
 
-		//			AudioOutput audioOutput = audioOutputManager.Create(rootDocument);
+		//			AudioOutput audioOutput = audioOutputFacade.Create(rootDocument);
 
 		//			string progressMessage = String.Format("Migrated Document {0}/{1}.", i + 1, rootDocuments.Count);
 		//			progressCallback(progressMessage);
@@ -1300,7 +1285,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -1331,8 +1316,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				wrapper.Dimension = DimensionEnum.Undefined;
 		//			}
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1366,7 +1351,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll().ToArray();
@@ -1388,8 +1373,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			}
 		//			wrapper.CollectionRecalculation = CollectionRecalculationEnum.Continuous;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1422,7 +1407,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll().ToArray();
@@ -1443,8 +1428,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				DataPropertyParser.SetValue(op, PropertyNames.Recalculation, PropertyNames.Continuous);
 		//			}
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1478,7 +1463,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll().ToArray();
@@ -1497,8 +1482,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			DataPropertyParser.SetValue(op, PropertyNames.CollectionRecalculation, value);
 		//			DataPropertyParser.RemoveKey(op, PropertyNames.Recalculation);
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1525,7 +1510,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -1548,10 +1533,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//								  .OrderBy(x => x.ListIndex)
 		//								  .ElementAt(2);
 
-		//			patchManager.DeleteInlet(originInlet);
+		//			patchFacade.DeleteInlet(originInlet);
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1576,7 +1561,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Reset);
 
@@ -1593,8 +1578,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			// Adds data key if it is not present yet.
 		//			wrapper.ListIndex = null;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1620,7 +1605,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators1 = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.HighPassFilter);
 		//		IList<Operator> operators2 = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.LowPassFilter);
@@ -1642,12 +1627,12 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//					throw new EqualException(() => op.Inlets.Count, op.Inlets.Count);
 		//			}
 
-		//			Inlet bandWidthInlet = patchManager.CreateInlet(op);
+		//			Inlet bandWidthInlet = patchFacade.CreateInlet(op);
 		//			bandWidthInlet.ListIndex = 2;
 		//			bandWidthInlet.DefaultValue = 1.0;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1672,7 +1657,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -1685,11 +1670,11 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
 		//			op.SetOperatorTypeEnum(OperatorTypeEnum.Squash, repositories.OperatorTypeRepository);
 
-		//			Inlet originInlet = patchManager.CreateInlet(op);
+		//			Inlet originInlet = patchFacade.CreateInlet(op);
 		//			originInlet.ListIndex = 2;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1715,7 +1700,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository
 		//												.GetAll()
@@ -1728,11 +1713,11 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
 		//			op.SetOperatorTypeEnum(OperatorTypeEnum.Stretch, repositories.OperatorTypeRepository);
 
-		//			Inlet originInlet = patchManager.CreateInlet(op);
+		//			Inlet originInlet = patchFacade.CreateInlet(op);
 		//			originInlet.ListIndex = 2;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1758,7 +1743,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var x = new PatchManager(new PatchRepositories(repositories));
+		//		var x = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Earlier);
 
@@ -1810,7 +1795,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Delay);
 
@@ -1820,8 +1805,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
 		//			op.SetOperatorTypeEnum(OperatorTypeEnum.Shift, repositories.OperatorTypeRepository);
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SavePatch();
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SavePatch();
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1847,7 +1832,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Spectrum);
 
@@ -1863,8 +1848,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			var wrapper = new Spectrum_OperatorWrapper(op);
 		//			wrapper.Dimension = DimensionEnum.Time;
 
-		//			patchManager.Patch = op.Patch;
-		//			VoidResult result = patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			VoidResult result = patchFacade.SaveOperator(op);
 		//			ResultHelper.Assert(result);
 
 		//			string progressMessage = String.Format("Migrated Operator {0}/{1}.", i + 1, operators.Count);
@@ -1890,7 +1875,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetAll();
 
@@ -1931,7 +1916,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetAll();
 
@@ -2080,7 +2065,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetAll();
 
@@ -2137,7 +2122,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetAll();
 
@@ -2157,14 +2142,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				case OperatorTypeEnum.Triangle:
 		//					{
 		//						Inlet inlet = op.Inlets.Single(x => x.ListIndex == 1);
-		//						patchManager.DeleteInlet(inlet);
+		//						patchFacade.DeleteInlet(inlet);
 		//						break;
 		//					}
 
 		//				case OperatorTypeEnum.Pulse:
 		//					{
 		//						Inlet inlet = op.Inlets.Single(x => x.ListIndex == 2);
-		//						patchManager.DeleteInlet(inlet);
+		//						patchFacade.DeleteInlet(inlet);
 		//						break;
 		//					}
 		//			}
@@ -2196,7 +2181,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.CustomOperator);
 
@@ -2204,8 +2189,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//		{
 		//			Operator op = operators[i];
 
-		//			patchManager.Patch = op.Patch;
-		//			patchManager.SaveOperator(op);
+		//			patchFacade.Patch = op.Patch;
+		//			patchFacade.SaveOperator(op);
 
 		//			// Cannot validate the operator, because it will do a recursive validation,
 		//			// validating not yet migrated operators.
@@ -2239,7 +2224,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//		{
 		//			Document rootDocument = rootDocuments[i];
 
-		//			var documentManager = new DocumentManager(repositories);
+		//			var documentFacade = new DocumentFacade(repositories);
 
 		//			HashSet<string> existingSampleNamesLowerCase = rootDocument.Samples
 		//																	   .Select(x => x.Name.ToLower())
@@ -2272,7 +2257,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
 		//				//repositories.DocumentRepository.Delete(childDocument);
 
-		//				VoidResult result = documentManager.DeleteWithRelatedEntities(childDocument);
+		//				VoidResult result = documentFacade.DeleteWithRelatedEntities(childDocument);
 		//				result.Assert();
 		//			}
 
@@ -2304,7 +2289,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetAll();
 
@@ -2342,7 +2327,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetAll();
 
@@ -2380,8 +2365,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
-		//		var entityPositionManager = new EntityPositionManager(repositories.EntityPositionRepository, repositories.IDRepository);
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
+		//		var entityPositionFacade = new EntityPositionFacade(repositories.EntityPositionRepository, repositories.IDRepository);
 
 		//		{
 		//			IList<Operator> source_Bundle_Operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Bundle);
@@ -2391,9 +2376,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				Operator source_Bundle_Operator = source_Bundle_Operators[i];
 		//				var source_Bundle_Wrapper = new Bundle_OperatorWrapper(source_Bundle_Operator);
 
-		//				patchManager.Patch = source_Bundle_Operator.Patch;
+		//				patchFacade.Patch = source_Bundle_Operator.Patch;
 
-		//				InletsToDimension_OperatorWrapper dest_InletsToDimension_Wrapper = patchManager.InletsToDimension(source_Bundle_Wrapper.Operands);
+		//				InletsToDimension_OperatorWrapper dest_InletsToDimension_Wrapper = patchFacade.InletsToDimension(source_Bundle_Wrapper.Operands);
 		//				dest_InletsToDimension_Wrapper.InterpolationType = ResampleInterpolationTypeEnum.Stripe;
 
 		//				Operator dest_InletsToDimension_Operator = dest_InletsToDimension_Wrapper;
@@ -2409,12 +2394,12 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//					connectedInlet.LinkTo(destOutlet);
 		//				}
 
-		//				EntityPosition sourceEntityPosition = entityPositionManager.GetOperatorPosition(source_Bundle_Operator.ID);
-		//				EntityPosition destEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(dest_InletsToDimension_Operator.ID);
+		//				EntityPosition sourceEntityPosition = entityPositionFacade.GetOperatorPosition(source_Bundle_Operator.ID);
+		//				EntityPosition destEntityPosition = entityPositionFacade.GetOrCreateOperatorPosition(dest_InletsToDimension_Operator.ID);
 		//				destEntityPosition.X = sourceEntityPosition.X;
 		//				destEntityPosition.Y = sourceEntityPosition.Y;
 
-		//				patchManager.DeleteOperatorWithRelatedEntities(source_Bundle_Operator);
+		//				patchFacade.DeleteOperatorWithRelatedEntities(source_Bundle_Operator);
 
 		//				string progressMessage = String.Format("Migrated Bundle Operator {0}/{1}.", i + 1, source_Bundle_Operators.Count);
 		//				progressCallback(progressMessage);
@@ -2429,11 +2414,11 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				Operator source_Unbundle_Operator = source_Unbundle_Operators[sourceOperatorIndex];
 		//				var source_Unbundle_Wrapper = new Unbundle_OperatorWrapper(source_Unbundle_Operator);
 
-		//				patchManager.Patch = source_Unbundle_Operator.Patch;
+		//				patchFacade.Patch = source_Unbundle_Operator.Patch;
 
 		//				int outletCount = source_Unbundle_Operator.Outlets.Count;
 
-		//				DimensionToOutlets_OperatorWrapper dest_DimensionToOutlets_Wrapper = patchManager.DimensionToOutlets(
+		//				DimensionToOutlets_OperatorWrapper dest_DimensionToOutlets_Wrapper = patchFacade.DimensionToOutlets(
 		//					source_Unbundle_Wrapper.Operand,
 		//					source_Unbundle_Operator.GetStandardDimensionEnum(),
 		//					source_Unbundle_Operator.CustomDimensionName,
@@ -2454,12 +2439,12 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//					}
 		//				}
 
-		//				EntityPosition sourceEntityPosition = entityPositionManager.GetOperatorPosition(source_Unbundle_Operator.ID);
-		//				EntityPosition destEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(dest_DimensionToOutlets_Operator.ID);
+		//				EntityPosition sourceEntityPosition = entityPositionFacade.GetOperatorPosition(source_Unbundle_Operator.ID);
+		//				EntityPosition destEntityPosition = entityPositionFacade.GetOrCreateOperatorPosition(dest_DimensionToOutlets_Operator.ID);
 		//				destEntityPosition.X = sourceEntityPosition.X;
 		//				destEntityPosition.Y = sourceEntityPosition.Y;
 
-		//				patchManager.DeleteOperatorWithRelatedEntities(source_Unbundle_Operator);
+		//				patchFacade.DeleteOperatorWithRelatedEntities(source_Unbundle_Operator);
 
 		//				string progressMessage = String.Format("Migrated Unbundle Operator {0}/{1}.", sourceOperatorIndex + 1, source_Unbundle_Operators.Count);
 		//				progressCallback(progressMessage);
@@ -2476,7 +2461,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//}
 
 		/// <summary>
-		/// Back when default values for inlets were added to the PatchManager.CreateOperator methods,
+		/// Back when default values for inlets were added to the PatchFacade.CreateOperator methods,
 		/// The choice was made to NOT initialize them for already existing data,
 		/// so that existing data would still behave the same, under the null-coalescing built into the visitor.
 		/// But now the not-initialized default values of existing inlets are standing in my way.
@@ -2526,7 +2511,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	using (IContext context = PersistenceHelper.CreateContext())
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
 		//		int counter = 1;
 
 		//		{
@@ -3032,8 +3017,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		var patchManager = new PatchManager(new PatchRepositories(repositories));
-		//		var entityPositionManager = new EntityPositionManager(repositories.EntityPositionRepository, repositories.IDRepository);
+		//		var patchFacade = new PatchFacade(new PatchRepositories(repositories));
+		//		var entityPositionFacade = new EntityPositionFacade(repositories.EntityPositionRepository, repositories.IDRepository);
 
 		//			IList<Operator> source_Select_Operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Select);
 
@@ -3042,9 +3027,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//			Operator source_Select_Operator = source_Select_Operators[i];
 		//			var source_Select_Wrapper = new Select_OperatorWrapper(source_Select_Operator);
 
-		//			patchManager.Patch = source_Select_Operator.Patch;
+		//			patchFacade.Patch = source_Select_Operator.Patch;
 
-		//			SetDimension_OperatorWrapper dest_SetDimension_Wrapper = patchManager.SetDimension(
+		//			SetDimension_OperatorWrapper dest_SetDimension_Wrapper = patchFacade.SetDimension(
 		//				source_Select_Wrapper.Signal,
 		//				source_Select_Wrapper.Position,
 		//				source_Select_Operator.GetStandardDimensionEnum(),
@@ -3060,12 +3045,12 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				connectedInlet.LinkTo(destOutlet);
 		//			}
 
-		//			EntityPosition sourceEntityPosition = entityPositionManager.GetOperatorPosition(source_Select_Operator.ID);
-		//			EntityPosition destEntityPosition = entityPositionManager.GetOrCreateOperatorPosition(dest_SetDimension_Wrapper.WrappedOperator.ID);
+		//			EntityPosition sourceEntityPosition = entityPositionFacade.GetOperatorPosition(source_Select_Operator.ID);
+		//			EntityPosition destEntityPosition = entityPositionFacade.GetOrCreateOperatorPosition(dest_SetDimension_Wrapper.WrappedOperator.ID);
 		//			destEntityPosition.X = sourceEntityPosition.X;
 		//			destEntityPosition.Y = sourceEntityPosition.Y;
 
-		//			patchManager.DeleteOperatorWithRelatedEntities(source_Select_Operator);
+		//			patchFacade.DeleteOperatorWithRelatedEntities(source_Select_Operator);
 
 		//			string progressMessage = String.Format("Migrated {0} Operator {1}/{2}.", nameof(OperatorTypeEnum.Select), i + 1, source_Select_Operators.Count);
 		//			progressCallback(progressMessage);
@@ -3099,8 +3084,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//		progressCallback(progressMessage);
 
 		//		// Validate
-		//		var documentManager = new DocumentManager(repositories);
-		//		VoidResultDto result = documentManager.Save(rootDocument);
+		//		var documentFacade = new DocumentFacade(repositories);
+		//		VoidResultDto result = documentFacade.Save(rootDocument);
 		//		totalResult.Combine(result);
 		//	}
 
@@ -3543,9 +3528,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	using (IContext context = PersistenceHelper.CreateContext())
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-		//		var documentManager = new DocumentManager(repositories);
+		//		var documentFacade = new DocumentFacade(repositories);
 
-		//		Patch underlyingPatch = documentManager.GetSystemPatch(OperatorTypeEnum.Absolute);
+		//		Patch underlyingPatch = documentFacade.GetSystemPatch(OperatorTypeEnum.Absolute);
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Absolute);
 
 		//		for (int i = 0; i < operators.Count; i++)
@@ -3623,9 +3608,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
-		//		DocumentManager documentManager = new DocumentManager(repositories);
+		//		DocumentFacade documentFacade = new DocumentFacade(repositories);
 
-		//		Document systemDocument = documentManager.GetSystemDocument();
+		//		Document systemDocument = documentFacade.GetSystemDocument();
 		//		IList<Document> documents = repositories.DocumentRepository.GetAll();
 
 		//		for (int i = 0; i < documents.Count; i++)
@@ -3645,7 +3630,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//				continue;
 		//			}
 
-		//			documentManager.CreateDocumentReference(document, systemDocument);
+		//			documentFacade.CreateDocumentReference(document, systemDocument);
 
 		//			string progressMessage = $"Migrated {nameof(Document)} {i + 1}/{documents.Count}.";
 		//			progressCallback(progressMessage);
@@ -3871,8 +3856,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	using (IContext context = PersistenceHelper.CreateContext())
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-		//		DocumentManager documentManager = new DocumentManager(repositories);
-		//		Patch systemPatch = documentManager.GetSystemPatch(OperatorTypeEnum.And);
+		//		DocumentFacade documentFacade = new DocumentFacade(repositories);
+		//		Patch systemPatch = documentFacade.GetSystemPatch(OperatorTypeEnum.And);
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.And);
 
@@ -3910,10 +3895,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	using (IContext context = PersistenceHelper.CreateContext())
 		//	{
 		//		RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-		//		DocumentManager documentManager = new DocumentManager(repositories);
+		//		DocumentFacade documentFacade = new DocumentFacade(repositories);
 
 		//		const OperatorTypeEnum operatorTypeEnum = OperatorTypeEnum.Sine;
-		//		Patch systemPatch = documentManager.GetSystemPatch(operatorTypeEnum);
+		//		Patch systemPatch = documentFacade.GetSystemPatch(operatorTypeEnum);
 
 		//		IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
 
@@ -4407,9 +4392,9 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 		//	RepositoryWrapper repositories,
 		//	Action<string> progressCallback)
 		//{
-		//	var documentManager = new DocumentManager(repositories);
-		//	documentManager.RefreshSystemDocumentIfNeeded(documentManager.GetSystemDocument());
-		//	Patch systemPatch = documentManager.GetSystemPatch(operatorTypeEnum);
+		//	var documentFacade = new DocumentFacade(repositories);
+		//	documentFacade.RefreshSystemDocumentIfNeeded(documentFacade.GetSystemDocument());
+		//	Patch systemPatch = documentFacade.GetSystemPatch(operatorTypeEnum);
 		//	IList<Operator> operators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)operatorTypeEnum);
 
 		//	for (int i = 0; i < operators.Count; i++)

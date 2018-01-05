@@ -12,12 +12,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class ScalePropertiesPresenter : EntityPresenterWithSaveBase<Scale, ScalePropertiesViewModel>
 	{
 		private readonly IScaleRepository _scaleRepository;
-		private readonly ScaleManager _scaleManager;
+		private readonly ScaleFacade _scaleFacade;
 
-		public ScalePropertiesPresenter(IScaleRepository scaleRepository, ScaleManager scaleManager)
+		public ScalePropertiesPresenter(IScaleRepository scaleRepository, ScaleFacade scaleFacade)
 		{
 			_scaleRepository = scaleRepository ?? throw new ArgumentNullException(nameof(scaleRepository));
-			_scaleManager = scaleManager ?? throw new ArgumentNullException(nameof(scaleManager));
+			_scaleFacade = scaleFacade ?? throw new ArgumentNullException(nameof(scaleFacade));
 		}
 
 		protected override Scale GetEntity(ScalePropertiesViewModel userInput)
@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override IResult Save(Scale entity)
 		{
-			return _scaleManager.SaveWithoutTones(entity);
+			return _scaleFacade.SaveWithoutTones(entity);
 		}
 
 		public ScalePropertiesViewModel Delete(ScalePropertiesViewModel userInput)
@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				userInput,
 				entity =>
 				{
-					_scaleManager.DeleteWithRelatedEntities(entity);
+					_scaleFacade.DeleteWithRelatedEntities(entity);
 					return null;
 				});
 		}

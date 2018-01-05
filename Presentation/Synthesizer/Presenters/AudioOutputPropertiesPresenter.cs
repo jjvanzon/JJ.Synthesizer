@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		: EntityPresenterWithSaveBase<AudioOutput, AudioOutputPropertiesViewModel>
 	{
 		private readonly IAudioOutputRepository _audioOutputRepository;
-		private readonly AudioOutputManager _audioOutputManager;
+		private readonly AudioOutputFacade _audioOutputFacade;
 
 		public AudioOutputPropertiesPresenter(
 			IAudioOutputRepository audioOutputRepository,
@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			IIDRepository idRepository)
 		{
 			_audioOutputRepository = audioOutputRepository ?? throw new NullException(() => audioOutputRepository);
-			_audioOutputManager = new AudioOutputManager(_audioOutputRepository, speakerSetupRepository, idRepository);
+			_audioOutputFacade = new AudioOutputFacade(_audioOutputRepository, speakerSetupRepository, idRepository);
 		}
 
 		protected override AudioOutput GetEntity(AudioOutputPropertiesViewModel userInput)
@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override IResult Save(AudioOutput entity)
 		{
-			return _audioOutputManager.Save(entity);
+			return _audioOutputFacade.Save(entity);
 		}
 
 		protected override AudioOutputPropertiesViewModel ToViewModel(AudioOutput entity)

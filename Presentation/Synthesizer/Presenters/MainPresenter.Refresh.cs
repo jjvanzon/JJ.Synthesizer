@@ -802,7 +802,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				entity,
 				operatorViewModel,
 				_repositories.CurveRepository,
-				_entityPositionManager);
+				_entityPositionFacade);
 		}
 
 		private void PatchDetailsDictionaryRefresh()
@@ -818,7 +818,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				PatchDetailsViewModel viewModel = ViewModelSelector.TryGetPatchDetailsViewModel(MainViewModel.Document, entity.ID);
 				if (viewModel == null)
 				{
-					viewModel = entity.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionManager);
+					viewModel = entity.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionFacade);
 
 					viewModel.Successful = true;
 					viewModelDictionary[entity.ID] = viewModel;

@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 		{
 			if (document == null) throw new NullException(() => document);
 
-			var documentManager = new DocumentManager(repositories);
+			var documentFacade = new DocumentFacade(repositories);
 
 			if (document.IsSystemDocument())
 			{
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 			bool hasSystemDocumentReference = document.LowerDocumentReferences.Any(x => x.LowerDocument.IsSystemDocument());
 			if (!hasSystemDocumentReference)
 			{
-				string systemDocumentIdentifier = ValidationHelper.GetUserFriendlyIdentifier(documentManager.GetSystemDocument());
+				string systemDocumentIdentifier = ValidationHelper.GetUserFriendlyIdentifier(documentFacade.GetSystemDocument());
 
 				Messages.AddNotContainsMessage(ResourceFormatter.Libraries, systemDocumentIdentifier);
 

@@ -83,12 +83,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly TitleBarPresenter _titleBarPresenter;
 
 		private readonly AutoPatcher _autoPatcher;
-		private readonly AudioFileOutputManager _audioFileOutputManager;
-		private readonly DocumentManager _documentManager;
-		private readonly CurveManager _curveManager;
-		private readonly EntityPositionManager _entityPositionManager;
-		private readonly PatchManager _patchManager;
-		private readonly ScaleManager _scaleManager;
+		private readonly AudioFileOutputFacade _audioFileOutputFacade;
+		private readonly DocumentFacade _documentFacade;
+		private readonly CurveFacade _curveFacade;
+		private readonly EntityPositionFacade _entityPositionFacade;
+		private readonly PatchFacade _patchFacade;
+		private readonly ScaleFacade _scaleFacade;
 
 		public MainViewModel MainViewModel { get; private set; }
 
@@ -102,22 +102,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Create Managers
 			_autoPatcher = new AutoPatcher(_repositories);
-			_audioFileOutputManager = new AudioFileOutputManager(audioFileOutputRepositories);
-			_curveManager = new CurveManager(_curveRepositories);
-			_documentManager = new DocumentManager(_repositories);
-			_entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
-			_patchManager = new PatchManager(_repositories);
-			_scaleManager = new ScaleManager(scaleRepositories);
+			_audioFileOutputFacade = new AudioFileOutputFacade(audioFileOutputRepositories);
+			_curveFacade = new CurveFacade(_curveRepositories);
+			_documentFacade = new DocumentFacade(_repositories);
+			_entityPositionFacade = new EntityPositionFacade(_repositories.EntityPositionRepository, _repositories.IDRepository);
+			_patchFacade = new PatchFacade(_repositories);
+			_scaleFacade = new ScaleFacade(scaleRepositories);
 
 			// Create Presenters
-			_audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_audioFileOutputManager, _repositories.DocumentRepository);
-			_audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(_audioFileOutputManager, _repositories.AudioFileOutputRepository);
+			_audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_audioFileOutputFacade, _repositories.DocumentRepository);
+			_audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(_audioFileOutputFacade, _repositories.AudioFileOutputRepository);
 			_audioOutputPropertiesPresenter = new AudioOutputPropertiesPresenter(
 				_repositories.AudioOutputRepository,
 				_repositories.SpeakerSetupRepository,
 				_repositories.IDRepository);
 			_currentInstrumentPresenter = new CurrentInstrumentPresenter(_autoPatcher, _repositories.DocumentRepository, _repositories.PatchRepository);
-			_curveDetailsPresenter = new CurveDetailsPresenter(_repositories.CurveRepository, _repositories.NodeRepository, _curveManager);
+			_curveDetailsPresenter = new CurveDetailsPresenter(_repositories.CurveRepository, _repositories.NodeRepository, _curveFacade);
 			_documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
 			_documentDeletedPresenter = new DocumentDeletedPresenter();
 			_documentDeletePresenter = new DocumentDeletePresenter(_repositories);
@@ -125,11 +125,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_documentGridPresenter = new DocumentGridPresenter(_repositories);
 			_documentOrPatchNotFoundPresenter = new DocumentOrPatchNotFoundPopupPresenter(_repositories.DocumentRepository);
 			_documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
-			_documentTreePresenter = new DocumentTreePresenter(_documentManager, _patchManager, _repositories);
+			_documentTreePresenter = new DocumentTreePresenter(_documentFacade, _patchFacade, _repositories);
 			_libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
 			_menuPresenter = new MenuPresenter();
-			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveManager);
+			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveFacade);
 			_operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);
 			_operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_repositories);
 			_operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_repositories);
@@ -140,13 +140,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_repositories);
 			_operatorPropertiesPresenter_WithInterpolation = new OperatorPropertiesPresenter_WithInterpolation(_repositories);
 			_operatorPropertiesPresenter_WithCollectionRecalculation = new OperatorPropertiesPresenter_WithCollectionRecalculation(_repositories);
-			_patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionManager);
+			_patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionFacade);
 			_patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
-			_sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _entityPositionManager, _repositories);
+			_sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _entityPositionFacade, _repositories);
 			_saveChangesPopupPresenter = new SaveChangesPopupPresenter();
-			_scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, _scaleManager);
-			_scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, _scaleManager);
-			_toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, _scaleManager);
+			_scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, _scaleFacade);
+			_scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, _scaleFacade);
+			_toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, _scaleFacade);
 			_titleBarPresenter = new TitleBarPresenter();
 
 			_dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
@@ -251,7 +251,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.Add))) return DEFAULT_ADD_INLET_COUNT;
 
-			// Temporarily changed (2017-07-09), because of bug in InletOutletMatcher / assumption in PatchManager.SetOperatorInletCount,
+			// Temporarily changed (2017-07-09), because of bug in InletOutletMatcher / assumption in PatchFacade.SetOperatorInletCount,
 			// which results in the message that inlets and inputs do not have the same count.
 			//if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.ClosestOverInlets))) return DEFAULT_CLOSEST_OVER_INLETS_ITEM_COUNT;
 			//if (NameHelper.AreEqual(patch.Name, nameof(SystemPatchNames.ClosestOverInletsExp))) return DEFAULT_CLOSEST_OVER_INLETS_ITEM_COUNT;

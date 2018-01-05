@@ -8,19 +8,19 @@ namespace JJ.Business.Synthesizer.SideEffects
 	internal class Document_SideEffect_AutoCreate_SystemDocumentReference : ISideEffect
 	{
 		private readonly Document _document;
-		private readonly DocumentManager _documentManager;
+		private readonly DocumentFacade _documentFacade;
 
 		public Document_SideEffect_AutoCreate_SystemDocumentReference(Document document, RepositoryWrapper repositories)
 		{
 			_document = document ?? throw new NullException(() => document);
-			_documentManager = new DocumentManager(repositories);
+			_documentFacade = new DocumentFacade(repositories);
 		}
 
 		public void Execute()
 		{
-			Document systemDocument = _documentManager.GetSystemDocument();
+			Document systemDocument = _documentFacade.GetSystemDocument();
 
-			_documentManager.CreateDocumentReference(_document, systemDocument);
+			_documentFacade.CreateDocumentReference(_document, systemDocument);
 		}
 	}
 }

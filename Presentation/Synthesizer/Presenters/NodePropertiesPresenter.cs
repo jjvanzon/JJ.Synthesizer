@@ -12,12 +12,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class NodePropertiesPresenter : EntityPresenterWithSaveBase<Node, NodePropertiesViewModel>
 	{
 		private readonly INodeRepository _nodeRepository;
-		private readonly CurveManager _curveManager;
+		private readonly CurveFacade _curveFacade;
 
-		public NodePropertiesPresenter(INodeRepository nodeRepository, CurveManager curveManager)
+		public NodePropertiesPresenter(INodeRepository nodeRepository, CurveFacade curveFacade)
 		{
 			_nodeRepository = nodeRepository ?? throw new ArgumentNullException(nameof(nodeRepository));
-			_curveManager = curveManager ?? throw new ArgumentNullException(nameof(curveManager));
+			_curveFacade = curveFacade ?? throw new ArgumentNullException(nameof(curveFacade));
 		}
 
 		protected override Node GetEntity(NodePropertiesViewModel userInput)
@@ -32,12 +32,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override IResult Save(Node entity)
 		{
-			return _curveManager.SaveNode(entity);
+			return _curveFacade.SaveNode(entity);
 		}
 
 		public NodePropertiesViewModel Delete(NodePropertiesViewModel userInput)
 		{
-			return ExecuteAction(userInput, entity => _curveManager.DeleteNode(entity));
+			return ExecuteAction(userInput, entity => _curveFacade.DeleteNode(entity));
 		}
 	}
 }

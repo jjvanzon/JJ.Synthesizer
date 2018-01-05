@@ -20,11 +20,11 @@ using JJ.Framework.Validation;
 namespace JJ.Business.Synthesizer
 {
 	/// <summary> Public for instance to validate in the CurveDetails view. </summary>
-	public class CurveManager
+	public class CurveFacade
 	{
 		private readonly CurveRepositories _repositories;
 
-		public CurveManager(CurveRepositories repositories)
+		public CurveFacade(CurveRepositories repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
 		}

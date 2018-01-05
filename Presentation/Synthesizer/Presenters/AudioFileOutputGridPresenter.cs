@@ -12,11 +12,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class AudioFileOutputGridPresenter : EntityPresenterWithoutSaveBase<Document, AudioFileOutputGridViewModel>
 	{
 		private readonly IDocumentRepository _documentRepository;
-		private readonly AudioFileOutputManager _audioFileOutputManager;
+		private readonly AudioFileOutputFacade _audioFileOutputFacade;
 
-		public AudioFileOutputGridPresenter(AudioFileOutputManager audioFileOutputManager, IDocumentRepository documentRepository)
+		public AudioFileOutputGridPresenter(AudioFileOutputFacade audioFileOutputFacade, IDocumentRepository documentRepository)
 		{
-			_audioFileOutputManager = audioFileOutputManager ?? throw new ArgumentNullException(nameof(audioFileOutputManager));
+			_audioFileOutputFacade = audioFileOutputFacade ?? throw new ArgumentNullException(nameof(audioFileOutputFacade));
 			_documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
 		}
 
@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public AudioFileOutputGridViewModel Delete(AudioFileOutputGridViewModel userInput, int id)
 		{
-			return ExecuteAction(userInput, _ => _audioFileOutputManager.Delete(id));
+			return ExecuteAction(userInput, _ => _audioFileOutputFacade.Delete(id));
 		}
 
 		public AudioFileOutputGridViewModel Create(AudioFileOutputGridViewModel userInput)
@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			AudioFileOutput audioFileOutput = null;
 			return ExecuteAction(
 				userInput,
-				document => audioFileOutput = _audioFileOutputManager.Create(document),
+				document => audioFileOutput = _audioFileOutputFacade.Create(document),
 				viewModel => viewModel.CreatedAudioFileOutputID = audioFileOutput.ID);
 		}
 	}

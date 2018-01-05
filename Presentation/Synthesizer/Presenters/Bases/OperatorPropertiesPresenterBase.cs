@@ -14,13 +14,13 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 		where TViewModel : OperatorPropertiesViewModelBase
 	{
 		protected readonly RepositoryWrapper _repositories;
-		protected readonly PatchManager _patchManager;
+		protected readonly PatchFacade _patchFacade;
 		private readonly AutoPatcher _autoPatcher;
 
 		public OperatorPropertiesPresenterBase(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_patchManager = new PatchManager(_repositories);
+			_patchFacade = new PatchFacade(_repositories);
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
 
@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 		{
 			if (entity.CanSetInletCount())
 			{
-				VoidResult result = _patchManager.SetOperatorInletCount(entity, userInput.InletCount);
+				VoidResult result = _patchFacade.SetOperatorInletCount(entity, userInput.InletCount);
 				if (!result.Successful)
 				{
 					return result;
@@ -40,14 +40,14 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 			// ReSharper disable once InvertIf
 			if (entity.CanSetOutletCount())
 			{
-				VoidResult result = _patchManager.SetOperatorOutletCount(entity, userInput.OutletCount);
+				VoidResult result = _patchFacade.SetOperatorOutletCount(entity, userInput.OutletCount);
 				if (!result.Successful)
 				{
 					return result;
 				}
 			}
 
-			return _patchManager.SaveOperator(entity);
+			return _patchFacade.SaveOperator(entity);
 		}
 
 		public TViewModel Play(TViewModel userInput)
@@ -78,8 +78,8 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 				userInput,
 				entity =>
 				{
-					_patchManager.DeleteOwnedNumberOperators(entity.ID);
-					_patchManager.DeleteOperatorWithRelatedEntities(entity.ID);
+					_patchFacade.DeleteOwnedNumberOperators(entity.ID);
+					_patchFacade.DeleteOperatorWithRelatedEntities(entity.ID);
 					return null;
 				});
 		}

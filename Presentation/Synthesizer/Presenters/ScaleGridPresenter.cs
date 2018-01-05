@@ -11,12 +11,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class ScaleGridPresenter : EntityPresenterWithoutSaveBase<Document, ScaleGridViewModel>
 	{
 		private readonly IDocumentRepository _documentRepository;
-		private readonly ScaleManager _scaleManager;
+		private readonly ScaleFacade _scaleFacade;
 
-		public ScaleGridPresenter(IDocumentRepository documentRepository, ScaleManager scaleManager)
+		public ScaleGridPresenter(IDocumentRepository documentRepository, ScaleFacade scaleFacade)
 		{
 			_documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
-			_scaleManager = scaleManager ?? throw new ArgumentNullException(nameof(scaleManager));
+			_scaleFacade = scaleFacade ?? throw new ArgumentNullException(nameof(scaleFacade));
 		}
 
 		protected override Document GetEntity(ScaleGridViewModel userInput) => _documentRepository.Get(userInput.DocumentID);
@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public ScaleGridViewModel Delete(ScaleGridViewModel userInput, int id)
 		{
-			return ExecuteAction(userInput, x => _scaleManager.DeleteWithRelatedEntities(id));
+			return ExecuteAction(userInput, x => _scaleFacade.DeleteWithRelatedEntities(id));
 		}
 
 		public ScaleGridViewModel Create(ScaleGridViewModel userInput)
@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Scale scale = null;
 			return ExecuteAction(
 				userInput,
-				document => scale = _scaleManager.Create(document),
+				document => scale = _scaleFacade.Create(document),
 				viewModel => viewModel.CreatedScaleID = scale.ID);
 		}
 	}

@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Framework.Common;
-using JJ.Framework.Data;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Framework.Common;
+using JJ.Framework.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -32,14 +32,14 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				var add = x.Add(x.Number(2), x.Number(3));
 				var subtract = x.Subtract(add, x.Number(1));
 
-				IPatchCalculator calculator1 = patchManager.CreateCalculator(
+				IPatchCalculator calculator1 = patchFacade.CreateCalculator(
 					add,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Tests
 				double value = TestHelper.CalculateOneValue(calculator1);
 				Assert.AreEqual(5, value, 0.0001);
 
-				IPatchCalculator calculator2 = patchManager.CreateCalculator(
+				IPatchCalculator calculator2 = patchFacade.CreateCalculator(
 					subtract,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -106,8 +106,8 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 
 				var x = new OperatorFactory(patch, repositories);
 
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Tests
 				//IValidator validator = new OperatorValidator_Adder(adder.Operator);
 				//validator.Verify();
 
-				IPatchCalculator calculator = patchManager.CreateCalculator(
+				IPatchCalculator calculator = patchFacade.CreateCalculator(
 					add,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -140,8 +140,8 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				var subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
@@ -163,8 +163,8 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				var outlet = x.MultiplyWithOrigin(x.Curve(1, DimensionEnum.Time, "",  0, 1, 0.8, null, null, 0.8, 0), x.Sine(x.Number(440)));
@@ -178,14 +178,14 @@ namespace JJ.Business.Synthesizer.Tests
 				//};
 				//validators.ForEach(y => y.Verify());
 
-				VoidResult result = patchManager.SavePatch(patch);
+				VoidResult result = patchFacade.SavePatch(patch);
 				if (!result.Successful)
 				{
 					string messages = string.Join(", ", result.Messages);
 					throw new Exception(messages);
 				}
 
-				var calculator = patchManager.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+				var calculator = patchFacade.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
 
 				var times = new[]
 				{
@@ -228,12 +228,12 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				Outlet outlet = x.Add(x.Number(1), x.Number(2));
-				IPatchCalculator calculator = patchManager.CreateCalculator(
+				IPatchCalculator calculator = patchFacade.CreateCalculator(
 					outlet,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -251,12 +251,12 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				Outlet outlet = x.Add(null, x.Number(2));
-				IPatchCalculator calculator = patchManager.CreateCalculator(
+				IPatchCalculator calculator = patchFacade.CreateCalculator(
 					outlet,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -274,12 +274,12 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				Outlet outlet = x.Add(x.Number(1), x.Add(x.Number(2), null));
-				IPatchCalculator calculator = patchManager.CreateCalculator(
+				IPatchCalculator calculator = patchFacade.CreateCalculator(
 					outlet,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -297,12 +297,12 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				Outlet outlet = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
-				IPatchCalculator calculator = patchManager.CreateCalculator(
+				IPatchCalculator calculator = patchFacade.CreateCalculator(
 					outlet,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -320,37 +320,37 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				var repositories = PersistenceHelper.CreateRepositories(context);
 
-				var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var audioFileOutputFacade = new AudioFileOutputFacade(new AudioFileOutputRepositories(repositories));
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				Outlet outlet = x.MultiplyWithOrigin(x.Noise(), x.Number(short.MaxValue));
 
-				IPatchCalculator patchCalculator = patchManager.CreateCalculator(
+				IPatchCalculator patchCalculator = patchFacade.CreateCalculator(
 					outlet,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
 					DEFAULT_CHANNEL_INDEX,
 					new CalculatorCache());
 
-				AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
+				AudioFileOutput audioFileOutput = audioFileOutputFacade.Create();
 				audioFileOutput.FilePath = "Test_Synthesizer_NoiseOperator.wav";
 				audioFileOutput.Duration = 20;
 				audioFileOutput.LinkTo(outlet);
 
 				// Execute once to fill cache(s).
-				audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 
 				Stopwatch sw = Stopwatch.StartNew();
-				audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 				sw.Stop();
 
 				double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
 				string message = $"Ratio: {ratio * 100:0.00}%, {sw.ElapsedMilliseconds}ms.";
 
 				// Also test interpreted calculator
-				IPatchCalculator calculator = patchManager.CreateCalculator(
+				IPatchCalculator calculator = patchFacade.CreateCalculator(
 					outlet,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -381,9 +381,9 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var audioFileOutputFacade = new AudioFileOutputFacade(new AudioFileOutputRepositories(repositories));
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				Outlet noise = x.MultiplyWithOrigin(x.Noise(), x.Number(amplification));
@@ -391,25 +391,25 @@ namespace JJ.Business.Synthesizer.Tests
 
 				IPatchCalculator patchCalculator;
 
-				AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
+				AudioFileOutput audioFileOutput = audioFileOutputFacade.Create();
 				audioFileOutput.Duration = duration;
 
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise_Input.wav";
 				audioFileOutput.SamplingRate = outputSamplingRate;
 				audioFileOutput.LinkTo(noise);
-				patchCalculator = patchManager.CreateCalculator(noise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
-				audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+				patchCalculator = patchFacade.CreateCalculator(noise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise_WithLowerSamplingRate.wav";
 				audioFileOutput.SamplingRate = alternativeSamplingRate;
 				audioFileOutput.LinkTo(noise);
-				patchCalculator = patchManager.CreateCalculator(noise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
-				audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+				patchCalculator = patchFacade.CreateCalculator(noise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise_WithInterpolateOperator.wav";
 				audioFileOutput.SamplingRate = outputSamplingRate;
 				audioFileOutput.LinkTo(interpolatedNoise);
-				patchCalculator = patchManager.CreateCalculator(
+				patchCalculator = patchFacade.CreateCalculator(
 					interpolatedNoise,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -419,17 +419,17 @@ namespace JJ.Business.Synthesizer.Tests
 				// Only test performance here and not in the other tests.
 
 				// Execute once to fill cache(s).
-				audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 
 				Stopwatch sw = Stopwatch.StartNew();
-				audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 				sw.Stop();
 
 				double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
 				string message = $"Ratio: {ratio * 100:0.00}%, {sw.ElapsedMilliseconds}ms.";
 
 				//// Also test interpreted calculator
-				//IPatchCalculator calculator = patchManager.CreateCalculator(false, outlet);
+				//IPatchCalculator calculator = patchFacade.CreateCalculator(false, outlet);
 				//double value = calculator.Calculate(0.2);
 				//value = calculator.Calculate(0.2);
 				//value = calculator.Calculate(0.3);
@@ -446,10 +446,10 @@ namespace JJ.Business.Synthesizer.Tests
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-				AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
+				var audioFileOutputFacade = new AudioFileOutputFacade(new AudioFileOutputRepositories(repositories));
 
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				const double volume = 1;
@@ -461,24 +461,24 @@ namespace JJ.Business.Synthesizer.Tests
 
 				IPatchCalculator patchCalculator;
 
-				AudioFileOutput audioFileOutput = audioFileOutputManager.Create();
+				AudioFileOutput audioFileOutput = audioFileOutputFacade.Create();
 				audioFileOutput.Duration = 2;
 				audioFileOutput.SamplingRate = 44100;
 
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_Sine_Input.wav";
 				audioFileOutput.LinkTo(sine);
-				patchCalculator = patchManager.CreateCalculator(sine, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
-				audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+				patchCalculator = patchFacade.CreateCalculator(sine, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_Sine_Interpolated.wav";
 				audioFileOutput.LinkTo(interpolated);
-				patchCalculator = patchManager.CreateCalculator(
+				patchCalculator = patchFacade.CreateCalculator(
 					interpolated,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
 					DEFAULT_CHANNEL_INDEX,
 					new CalculatorCache());
-				audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 			}
 		}
 
@@ -488,13 +488,13 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
 				var saw = x.SawUp(x.Number(0.5));
 
-				IPatchCalculator patchCalculator = patchManager.CreateCalculator(
+				IPatchCalculator patchCalculator = patchFacade.CreateCalculator(
 					saw,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -530,12 +530,12 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-				var patchManager = new PatchManager(repositories);
-				Patch patch = patchManager.CreatePatch();
+				var patchFacade = new PatchFacade(repositories);
+				Patch patch = patchFacade.CreatePatch();
 				var operatorFactory = new OperatorFactory(patch, repositories);
 				var outlet = operatorFactory.Triangle(operatorFactory.Number(1));
 
-				IPatchCalculator patchCalculator = patchManager.CreateCalculator(
+				IPatchCalculator patchCalculator = patchFacade.CreateCalculator(
 					outlet,
 					DEFAULT_SAMPLING_RATE,
 					DEFAULT_CHANNEL_COUNT,
@@ -578,14 +578,14 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				var repositories = PersistenceHelper.CreateRepositories(context);
-				var documentManager = new DocumentManager(repositories);
+				var documentFacade = new DocumentFacade(repositories);
 
 				IList<string> messages = new List<string>();
 
 				IEnumerable<Document> rootDocuments = repositories.DocumentRepository.GetAll();
 				foreach (Document rootDocument in rootDocuments)
 				{
-					IResult result = documentManager.Save(rootDocument);
+					IResult result = documentFacade.Save(rootDocument);
 					messages.AddRange(result.Messages);
 				}
 
@@ -603,9 +603,9 @@ namespace JJ.Business.Synthesizer.Tests
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
 				var repositories = PersistenceHelper.CreateRepositories(context);
-				var patchManager = new PatchManager(repositories);
+				var patchFacade = new PatchFacade(repositories);
 
-				Patch patch = patchManager.CreatePatch();
+				Patch patch = patchFacade.CreatePatch();
 
 				var x = new OperatorFactory(patch, repositories);
 				x.New("DivideWithOrigin");

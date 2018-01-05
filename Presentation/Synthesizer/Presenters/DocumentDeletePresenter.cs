@@ -14,14 +14,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class DocumentDeletePresenter : PresenterBase<DocumentDeleteViewModel>
 	{
 		private readonly IDocumentRepository _documentRepository;
-		private readonly DocumentManager _documentManager;
+		private readonly DocumentFacade _documentFacade;
 
 		public DocumentDeletePresenter(RepositoryWrapper repositoryWrapper)
 		{
 			if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
 			_documentRepository = repositoryWrapper.DocumentRepository;
-			_documentManager = new DocumentManager(repositoryWrapper);
+			_documentFacade = new DocumentFacade(repositoryWrapper);
 		}
 
 		/// <summary> return DocumentDeleteViewModel or DocumentCannotDeleteViewModel. </summary>
@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = _documentRepository.Get(id);
 
 			// Business
-			VoidResult result = _documentManager.CanDelete(document);
+			VoidResult result = _documentFacade.CanDelete(document);
 
 			if (!result.Successful)
 			{
@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = _documentRepository.Get(userInput.Document.ID);
 
 			// Business
-			VoidResult result = _documentManager.DeleteWithRelatedEntities(document);
+			VoidResult result = _documentFacade.DeleteWithRelatedEntities(document);
 
 			if (!result.Successful)
 			{

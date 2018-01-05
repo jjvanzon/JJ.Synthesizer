@@ -409,7 +409,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 					// Business
 					patch.LinkTo(document);
-					IResult result = _patchManager.SavePatch(patch);
+					IResult result = _patchFacade.SavePatch(patch);
 
 					AutoPatchPopupViewModel viewModel2;
 					if (result.Successful)
@@ -424,7 +424,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 							_repositories.SampleRepository,
 							_repositories.CurveRepository,
 							_repositories.InterpolationTypeRepository,
-							_entityPositionManager);
+							_entityPositionFacade);
 
 						viewModel2.Visible = userInput.Visible;
 					}
@@ -481,7 +481,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Patch autoPatch = _autoPatcher.AutoPatch(underlyingPatches);
 
 			// Business
-			IResult validationResult = _documentManager.Save(document);
+			IResult validationResult = _documentFacade.Save(document);
 			if (!validationResult.Successful)
 			{
 				// Non-Persisted
@@ -498,7 +498,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				_repositories.SampleRepository,
 				_repositories.CurveRepository,
 				_repositories.InterpolationTypeRepository,
-				_entityPositionManager);
+				_entityPositionFacade);
 
 			// Non-Persisted
 			autoPatchPopupViewModel.Visible = true;
@@ -843,14 +843,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void DocumentOpen(string name)
 		{
-			Document document = _documentManager.Get(name);
+			Document document = _documentFacade.Get(name);
 
 			DocumentOpen(document);
 		}
 
 		public void DocumentOpen(int id)
 		{
-			Document document = _documentManager.Get(id);
+			Document document = _documentFacade.Get(id);
 
 			DocumentOpen(document);
 		}
@@ -865,7 +865,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// ToViewModel
-			DocumentViewModel viewModel = document.ToViewModel(_repositories, _entityPositionManager);
+			DocumentViewModel viewModel = document.ToViewModel(_repositories, _entityPositionFacade);
 
 			// Non-Persisted
 			viewModel.DocumentTree.Visible = true;
@@ -985,7 +985,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
 				// Business
-				_documentManager.Refresh(MainViewModel.Document.ID);
+				_documentFacade.Refresh(MainViewModel.Document.ID);
 
 				// ToViewModel
 				DocumentViewModelRefresh();
@@ -1015,14 +1015,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// Business
-			IResult validationResult = _documentManager.Save(document);
-			IResult warningsResult = _documentManager.GetWarningsRecursive(document);
+			IResult validationResult = _documentFacade.Save(document);
+			IResult warningsResult = _documentFacade.GetWarningsRecursive(document);
 
 			// Commit
 			if (validationResult.Successful)
 			{
 				_repositories.Commit();
-				_documentManager.RefreshSystemDocumentIfNeeded(document);
+				_documentFacade.RefreshSystemDocumentIfNeeded(document);
 
 				MainViewModel.Document.IsDirty = false;
 			}
@@ -1095,7 +1095,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 
 					// Business
-					Patch patch = _patchManager.CreatePatch(document);
+					Patch patch = _patchFacade.CreatePatch(document);
 					patch.GroupName = group;
 					patchID = patch.ID;
 
@@ -1202,7 +1202,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 								op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
 
 								IList<Operator> autoCreatedNumberOperators =
-									_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionManager);
+									_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionFacade);
 
 								createdOperators.AddRange(autoCreatedNumberOperators);
 								// Put main operator last so it is dispatched last upon redo and put on top.
@@ -2950,7 +2950,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 					if (outlet == null) // Fallback to Sine
 					{
-						Patch patch = _patchManager.CreatePatch();
+						Patch patch = _patchFacade.CreatePatch();
 
 						var operatorFactory = new OperatorFactory(patch, _repositories);
 						double frequency = tone.GetFrequency();
@@ -3181,7 +3181,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			if (MainViewModel.Document.IsOpen)
 			{
 				// Business
-				IResult validationResult = _documentManager.Save(document);
+				IResult validationResult = _documentFacade.Save(document);
 				if (!validationResult.Successful)
 				{
 					// Non-Persisted
