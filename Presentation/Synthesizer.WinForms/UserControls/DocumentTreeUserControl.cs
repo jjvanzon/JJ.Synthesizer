@@ -165,11 +165,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 			ConvertPatchesDescendants(viewModel.PatchesNode, _patchesTreeNode);
 
-			if (_midiMappingsTreeNode.Text != viewModel.MidiMappingsNode.Text)
+			if (_midiMappingsTreeNode.Text != viewModel.MidiNode.Text)
 			{
-				_midiMappingsTreeNode.Text = viewModel.MidiMappingsNode.Text;
+				_midiMappingsTreeNode.Text = viewModel.MidiNode.Text;
 			}
-			ConvertMidiMappingsChildren(viewModel.MidiMappingsNode.List, _midiMappingsTreeNode.Nodes);
+			ConvertMidiMappingsChildren(viewModel.MidiNode.List, _midiMappingsTreeNode.Nodes);
 
 			if (_scalesTreeNode.Text != viewModel.ScalesNode.Text)
 			{

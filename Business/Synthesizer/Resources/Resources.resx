@@ -1149,7 +1149,7 @@
   <data name="HasDimensionMinMaxButNoFromOrTill" xml:space="preserve">
     <value>There are mim or max dimension values, but no dimension from/till.</value>
   </data>
-  <data name="MidiMappings" xml:space="preserve">
-    <value>MIDI Mappings</value>
+  <data name="Midi" xml:space="preserve">
+    <value>MIDI</value>
   </data>
 </root>

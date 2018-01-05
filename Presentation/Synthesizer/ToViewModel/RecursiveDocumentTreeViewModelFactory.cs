@@ -25,9 +25,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					PatchNodes = new List<PatchTreeNodeViewModel>(),
 					PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
 				},
-				MidiMappingsNode = new MidiMappingsTreeNodeViewModel
+				MidiNode = new MidiTreeNodeViewModel
 				{
-					Text = GetTreeNodeText(ResourceFormatter.MidiMappings, count: 0),
+					Text = GetTreeNodeText(ResourceFormatter.Midi, count: 0),
 					List = new List<IDAndName>()
 				},
 				ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, count: 0),
@@ -55,9 +55,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				{
 					Text = GetTreeNodeText(ResourceFormatter.Patches, document.Patches.Count)
 				},
-				MidiMappingsNode = new MidiMappingsTreeNodeViewModel
+				MidiNode = new MidiTreeNodeViewModel
 				{
-					Text = GetTreeNodeText(ResourceFormatter.MidiMappings, document.MidiMappings.Count)
+					Text = GetTreeNodeText(ResourceFormatter.Midi, document.MidiMappings.Count)
 				},
 				ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
 				AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			                                       .OrderBy(x => x.Caption)
 			                                       .ToList();
 
-			viewModel.MidiMappingsNode.List = document.MidiMappings.
+			viewModel.MidiNode.List = document.MidiMappings.
 			                                           OrderBy(x => x.Name)
 			                                          .Select(x => ConvertToTreeViewModel(x))
 			                                          .ToList();
