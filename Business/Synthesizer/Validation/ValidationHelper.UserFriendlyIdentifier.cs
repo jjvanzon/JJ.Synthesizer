@@ -193,7 +193,6 @@ namespace JJ.Business.Synthesizer.Validation
 		private static string GetRangeIdentifier(string displayName, double? from, double? till)
 		{
 			// TODO: Format doubles in a user friendly way.
-			throw new  NotImplementedException();
 
 			if (from.HasValue && till.HasValue)
 			{

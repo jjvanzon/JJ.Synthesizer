@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			ExecuteValidator(new NameValidator(entity.CustomDimensionName, ResourceFormatter.CustomDimensionName));
+			ExecuteValidator(new NameValidator(entity.CustomDimensionName, ResourceFormatter.CustomDimensionName, required: false));
 
 			For(entity.ID, CommonResourceFormatter.ID).GreaterThan(0);
 			For(entity.FromNoteNumber, ResourceFormatter.FromNoteNumber).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);

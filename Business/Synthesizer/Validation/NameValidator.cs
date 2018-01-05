@@ -12,23 +12,14 @@ namespace JJ.Business.Synthesizer.Validation
 	/// </summary>
 	internal class NameValidator : VersatileValidator
 	{
-		private const bool DEFAULT_REQUIRED = true;
 		private static readonly string _defaultPropertyDisplayName = CommonResourceFormatter.Name;
 		private static readonly int? _nameMaxLength = CustomConfigurationManager.GetSection<ConfigurationSection>().NameMaxLength;
 
-		public NameValidator(string name)
-			: this(name, DEFAULT_REQUIRED)
-		{ }
-
-		public NameValidator(string name, bool required)
+		public NameValidator(string name, bool required = true)
 			: this(name, _defaultPropertyDisplayName, required)
 		{ }
 
-		public NameValidator(string name, string propertyDisplayName)
-			: this(name, propertyDisplayName, DEFAULT_REQUIRED)
-		{ }
-
-		public NameValidator(string name, string propertyDisplayName, bool required)
+		public NameValidator(string name, string propertyDisplayName, bool required = true) 
 		{
 			if (required)
 			{

@@ -21,20 +21,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly RepositoryWrapper _repositories;
 		private readonly DocumentFacade _documentFacade;
 		private readonly PatchFacade _patchFacade;
+		private readonly MidiMappingFacade _midiMappingFacade;
 
-		public DocumentTreePresenter(DocumentFacade documentFacade, PatchFacade patchFacade, RepositoryWrapper repositories)
+		public DocumentTreePresenter(
+			DocumentFacade documentFacade,
+			PatchFacade patchFacade,
+			MidiMappingFacade midiMappingFacade,
+			RepositoryWrapper repositories)
 		{
 			_documentFacade = documentFacade ?? throw new ArgumentNullException(nameof(documentFacade));
 			_patchFacade = patchFacade ?? throw new ArgumentNullException(nameof(patchFacade));
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
+			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
-		public void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
+		public void Close(DocumentTreeViewModel viewModel)
+		{
+			ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
+		}
 
 		public DocumentTreeViewModel Create(DocumentTreeViewModel userInput)
 		{
 			switch (userInput.SelectedNodeType)
 			{
+				case DocumentTreeNodeTypeEnum.Midi:
+					return CreateMidiMapping(userInput);
+
 				case DocumentTreeNodeTypeEnum.PatchGroup:
 					return CreatePatch(userInput);
 
@@ -45,7 +57,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private DocumentTreeViewModel CreatePatch(DocumentTreeViewModel userInput)
 		{
-			return ExecuteAction(userInput,
+			return ExecuteAction(
+				userInput,
 				viewModel =>
 				{
 					// GetEntity
@@ -57,6 +70,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 					// Non-Persisted
 					viewModel.CreatedEntityID = patch.ID;
+				});
+		}
+
+		private DocumentTreeViewModel CreateMidiMapping(DocumentTreeViewModel userInput)
+		{
+			return ExecuteAction(
+				userInput,
+				viewModel =>
+				{
+					// GetEntity
+					Document document = _repositories.DocumentRepository.Get(userInput.ID);
+
+					// Business
+					MidiMapping midiMapping = _midiMappingFacade.CreateMidiMappingWithDefaults(document);
+
+					// Non-Persisted
+					viewModel.CreatedEntityID = midiMapping.ID;
 				});
 		}
 
@@ -163,9 +193,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => ExecuteAction(userInput, x => { });
+		public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput)
+		{
+			return ExecuteAction(userInput, x => { });
+		}
 
-		public void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
+		public void Show(DocumentTreeViewModel viewModel)
+		{
+			ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
+		}
 
 		public void SelectAudioFileOutputs(DocumentTreeViewModel viewModel)
 		{
@@ -340,6 +376,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					{
 						ClearSelection(viewModel);
 					}
+
 					break;
 				}
 
@@ -350,6 +387,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					{
 						ClearSelection(viewModel);
 					}
+
 					break;
 				}
 
@@ -357,15 +395,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					// ReSharper disable once SimplifyLinqExpression
 					bool nodeExists = viewModel.LibrariesNode.List
-											   .SelectMany(x => x.PatchGroupNodes)
-											   .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
-											   .Any();
+					                           .SelectMany(x => x.PatchGroupNodes)
+					                           .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
+					                           .Any();
 					if (!nodeExists)
 					{
-
-
 						ClearSelection(viewModel);
 					}
+
 					break;
 				}
 
@@ -376,15 +413,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					{
 						ClearSelection(viewModel);
 					}
+
 					break;
 				}
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
 				{
 					bool nodeExists1 = viewModel.PatchesNode
-												.PatchGroupNodes
-												.Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
-												.Any();
+					                            .PatchGroupNodes
+					                            .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
+					                            .Any();
 
 					bool nodeExists2 = NameHelper.AreEqual(viewModel.SelectedCanonicalPatchGroup, NameHelper.ToCanonical(null));
 
@@ -394,6 +432,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					{
 						ClearSelection(viewModel);
 					}
+
 					break;
 				}
 			}

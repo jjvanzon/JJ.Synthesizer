@@ -1045,6 +1045,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 
 				case DocumentTreeNodeTypeEnum.Midi:
+					// Redirect
 					DocumentTreeCreateMidiMapping();
 					break;
 
@@ -1073,7 +1074,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private void DocumentTreeCreateMidiMapping()
 		{
-			throw new NotImplementedException();
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			// Template Method
+			DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Create(userInput));
+
+			if (viewModel.Successful)
+			{
+				// Refresh
+				DocumentViewModelRefresh();
+
+				// Undo History
+				//var undoItem = new UndoCreateViewModel
+				//{
+				//	EntityTypesAndIDs = (EntityTypeEnum.MidiMapping, viewModel.CreatedEntityID).ToViewModel().AsArray(),
+				//	States = GetMidiMappingStates(viewModel.CreatedEntityID)
+				//};
+				//MainViewModel.Document.UndoHistory.Push(undoItem);
+
+				// TODO: Redirect to MidiMappingDetail (after it has been programmed).
+			}
 		}
 
 		private void DocumentTreeCreateOperator()
