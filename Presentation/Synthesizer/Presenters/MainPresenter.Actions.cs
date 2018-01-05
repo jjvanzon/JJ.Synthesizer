@@ -1475,6 +1475,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatchGroup(x, lowerDocumentReferenceID, patchGroup));
 		}
 
+		public void DocumentTreeSelectMidi() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectMidi);
+
 		public void DocumentTreeSelectScales()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectScales);

@@ -60,6 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.LibraryNodeSelected += documentTreeUserControl_LibraryNodeSelected;
 			documentTreeUserControl.LibraryPatchNodeSelected += documentTreeUserControl_LibraryPatchNodeSelected;
 			documentTreeUserControl.LibraryPatchGroupNodeSelected += documentTreeUserControl_LibraryPatchGroupNodeSelected;
+			documentTreeUserControl.MidiNodeSelected += documentTreeUserControl_MidiNodeSelected;
 			documentTreeUserControl.NewRequested += documentTreeUserControl_NewRequested;
 			documentTreeUserControl.PatchGroupNodeSelected += documentTreeUserControl_PatchGroupNodeSelected;
 			documentTreeUserControl.PatchHovered += documentTreeUserControl_PatchHovered;
@@ -552,6 +553,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private void documentTreeUserControl_LibraryPatchGroupNodeSelected(object sender, LibraryPatchGroupEventArgs e)
 		{
 			TemplateActionHandler(() => _mainPresenter.DocumentTreeSelectLibraryPatchGroup(e.LowerDocumentReferenceID, e.PatchGroup));
+		}
+
+		private void documentTreeUserControl_MidiNodeSelected(object sender, EventArgs e)
+		{
+			TemplateActionHandler(() => _mainPresenter.DocumentTreeSelectMidi());
 		}
 
 		private void documentTreeUserControl_NewRequested(object sender, EventArgs e)

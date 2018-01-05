@@ -71,13 +71,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			};
 
 			viewModel.LibrariesNode.List = document.LowerDocumentReferences
-			                                       .Select(x => ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(x))
+			                                       .Select(ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities)
 			                                       .OrderBy(x => x.Caption)
 			                                       .ToList();
 
 			viewModel.MidiNode.List = document.MidiMappings.
 			                                           OrderBy(x => x.Name)
-			                                          .Select(x => ConvertToTreeViewModel(x))
+			                                          .Select(ConvertToTreeViewModel)
 			                                          .ToList();
 
 			// Business
@@ -86,11 +86,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			// ToViewModel
 			viewModel.PatchesNode.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
-			                                                   .Select(x => ConvertToTreeNodeViewModel(x))
+			                                                   .Select(ConvertToTreeNodeViewModel)
 			                                                   .ToList();
 
 			viewModel.PatchesNode.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.FriendlyGroupName)
-			                                                      .Select(x => ConvertToTreeNodeViewModel(x))
+			                                                      .Select(ConvertToTreeNodeViewModel)
 			                                                      .ToList();
 			return viewModel;
 		}
@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			// ToViewModel
 			viewModel.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
-			                                       .Select(x => ConvertToTreeNodeViewModel(x))
+			                                       .Select(ConvertToTreeNodeViewModel)
 			                                       .ToList();
 
 			viewModel.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.FriendlyGroupName)

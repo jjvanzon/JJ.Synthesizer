@@ -40,20 +40,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public event EventHandler<EventArgs<string>> PatchGroupNodeSelected;
 		public event EventHandler<EventArgs<int>> PatchNodeSelected;
-		public event EventHandler<EventArgs<int>> LibraryNodeSelected;
-		public event EventHandler<LibraryPatchGroupEventArgs> LibraryPatchGroupNodeSelected;
-		public event EventHandler<EventArgs<int>> LibraryPatchNodeSelected;
+		public event EventHandler MidiNodeSelected;
 		public event EventHandler AudioOutputNodeSelected;
 		public event EventHandler AudioFileOutputsNodeSelected;
 		public event EventHandler ScalesNodeSelected;
 		public event EventHandler LibrariesNodeSelected;
+		public event EventHandler<EventArgs<int>> LibraryNodeSelected;
+		public event EventHandler<LibraryPatchGroupEventArgs> LibraryPatchGroupNodeSelected;
+		public event EventHandler<EventArgs<int>> LibraryPatchNodeSelected;
 
 		private HashSet<TreeNode> _patchGroupTreeNodes;
 		private HashSet<TreeNode> _patchTreeNodes;
 		private HashSet<TreeNode> _libraryTreeNodes;
 		private HashSet<TreeNode> _libraryPatchTreeNodes;
 		private HashSet<TreeNode> _libraryPatchGroupTreeNodes;
-		private TreeNode _midiMappingsTreeNode;
+		private TreeNode _midiTreeNode;
 		private TreeNode _scalesTreeNode;
 		private TreeNode _audioOutputNode;
 		private TreeNode _audioFileOutputListTreeNode;
@@ -133,9 +134,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			treeView.Nodes.Add(_patchesTreeNode);
 			_patchesTreeNode.Expand();
 
-			_midiMappingsTreeNode = new TreeNode();
-			treeView.Nodes.Add(_midiMappingsTreeNode);
-			_midiMappingsTreeNode.Expand();
+			_midiTreeNode = new TreeNode();
+			treeView.Nodes.Add(_midiTreeNode);
+			_midiTreeNode.Expand();
 
 			_scalesTreeNode = new TreeNode();
 			treeView.Nodes.Add(_scalesTreeNode);
@@ -162,11 +163,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 			ConvertPatchesDescendants(viewModel.PatchesNode, _patchesTreeNode);
 
-			if (_midiMappingsTreeNode.Text != viewModel.MidiNode.Text)
+			if (_midiTreeNode.Text != viewModel.MidiNode.Text)
 			{
-				_midiMappingsTreeNode.Text = viewModel.MidiNode.Text;
+				_midiTreeNode.Text = viewModel.MidiNode.Text;
 			}
-			ConvertMidiMappingsChildren(viewModel.MidiNode.List, _midiMappingsTreeNode.Nodes);
+			ConvertMidiChildren(viewModel.MidiNode.List, _midiTreeNode.Nodes);
 
 			if (_scalesTreeNode.Text != viewModel.ScalesNode.Text)
 			{
@@ -275,7 +276,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private void ConvertMidiMappingsChildren(IList<IDAndName> viewModels, TreeNodeCollection treeNodes)
+		private void ConvertMidiChildren(IList<IDAndName> viewModels, TreeNodeCollection treeNodes)
 		{
 			var treeNodesToKeep = new HashSet<TreeNode>();
 
@@ -687,22 +688,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				LibrariesNodeSelected(this, EventArgs.Empty);
 			}
 
-			if (_patchGroupTreeNodes.Contains(node))
-			{
-				PatchGroupNodeSelected(this, new EventArgs<string>((string)node.Tag));
-			}
-
-			if (_patchTreeNodes.Contains(node))
-			{
-				int id = (int)node.Tag;
-				PatchNodeSelected(this, new EventArgs<int>(id));
-			}
-
-			if (node == _scalesTreeNode)
-			{
-				ScalesNodeSelected(this, EventArgs.Empty);
-			}
-
 			if (_libraryTreeNodes.Contains(node))
 			{
 				int id = (int)node.Tag;
@@ -715,11 +700,31 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				LibraryPatchNodeSelected(this, new EventArgs<int>(id));
 			}
 
-			// ReSharper disable once InvertIf
 			if (_libraryPatchGroupTreeNodes.Contains(node))
 			{
 				var e2 = ParseLibraryPatchGroupTag(node.Tag);
 				LibraryPatchGroupNodeSelected(this, e2);
+			}
+
+			if (node == _midiTreeNode)
+			{
+				MidiNodeSelected(this, EventArgs.Empty);
+			}
+
+			if (node == _scalesTreeNode)
+			{
+				ScalesNodeSelected(this, EventArgs.Empty);
+			}
+
+			if (_patchGroupTreeNodes.Contains(node))
+			{
+				PatchGroupNodeSelected(this, new EventArgs<string>((string)node.Tag));
+			}
+
+			if (_patchTreeNodes.Contains(node))
+			{
+				int id = (int)node.Tag;
+				PatchNodeSelected(this, new EventArgs<int>(id));
 			}
 		}
 

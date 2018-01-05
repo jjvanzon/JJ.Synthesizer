@@ -9,6 +9,7 @@
 		Library,
 		LibraryPatch,
 		LibraryPatchGroup,
+		Midi,
 		Patch,
 
 		/// <summary> Includes groupless patches, controlled through the main Patches node. </summary>

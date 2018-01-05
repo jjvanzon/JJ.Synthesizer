@@ -170,9 +170,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public void SelectScales(DocumentTreeViewModel viewModel)
+		public void SelectMidi(DocumentTreeViewModel viewModel)
 		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales);
+			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Midi);
 		}
 
 		public void SelectPatch(DocumentTreeViewModel viewModel, int id)
@@ -195,6 +195,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(group);
 					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
 				});
+		}
+
+		public void SelectScales(DocumentTreeViewModel viewModel)
+		{
+			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales);
 		}
 
 		public DocumentTreeViewModel HoverPatch(DocumentTreeViewModel userInput, int id)
