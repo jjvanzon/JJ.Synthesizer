@@ -168,8 +168,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 
 				case EntityTypeEnum.Scale:
-					_scaleFacade.DeleteWithRelatedEntities(id);
+				{
+					IResult result = _scaleFacade.DeleteWithRelatedEntities(id);
+					result.Assert();
 					break;
+				}
 
 				case EntityTypeEnum.Tone:
 					_scaleFacade.DeleteTone(id);

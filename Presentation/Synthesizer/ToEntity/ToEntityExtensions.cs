@@ -1020,7 +1020,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 			foreach (int idToDelete in idsToDelete)
 			{
-				scaleFacade.DeleteWithRelatedEntities(idToDelete);
+				IResult result = scaleFacade.DeleteWithRelatedEntities(idToDelete);
+				result.Assert();
 			}
 		}
 

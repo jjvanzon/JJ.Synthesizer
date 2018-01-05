@@ -86,21 +86,27 @@ namespace JJ.Business.Synthesizer
 
 		// Delete
 
-		public void DeleteWithRelatedEntities(int id)
+		public VoidResult DeleteWithRelatedEntities(int id)
 		{
 			Scale scale = _repositories.ScaleRepository.Get(id);
-			DeleteWithRelatedEntities(scale);
+			return DeleteWithRelatedEntities(scale);
 		}		
 
-		public void DeleteWithRelatedEntities(Scale scale)
+		public VoidResult DeleteWithRelatedEntities(Scale scale)
 		{
 			if (scale == null) throw new NullException(() => scale);
 
-			// No delete constraints yet, but they might come in the future.
+			IValidator validator = new ScaleValidator_Delete(scale);
+			if (!validator.IsValid)
+			{
+				return validator.ToResult();
+			}
 
 			scale.DeleteRelatedEntities(_repositories.ToneRepository);
 			scale.UnlinkRelatedEntities();
 			_repositories.ScaleRepository.Delete(scale);
+
+			return ResultHelper.Successful;
 		}
 
 		// Tone Actions

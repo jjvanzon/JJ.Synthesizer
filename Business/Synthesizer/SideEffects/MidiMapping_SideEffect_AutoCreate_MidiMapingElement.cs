@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 			bool mustExecute = _midiMapping.MidiMappingElements.Count == 0;
 			if (mustExecute)
 			{
-				_midiMappingFacade.CreateMidiMappingElement(_midiMapping);
+				_midiMappingFacade.CreateMidiMappingElementWithDefaults(_midiMapping);
 			}
 		}
 	}
