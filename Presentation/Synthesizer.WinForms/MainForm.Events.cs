@@ -612,7 +612,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void documentTreeUserControl_RedoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Redo);
 
-		private void documentTreeUserControl_RemoveRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTreeRemove);
+		private void documentTreeUserControl_RemoveRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTreeDelete);
 
 		private void documentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTreeSelectScales);
 

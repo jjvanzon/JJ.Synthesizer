@@ -31,44 +31,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 
-		public DocumentTreeViewModel OpenItemExternally(DocumentTreeViewModel userInput)
+		public DocumentTreeViewModel Create(DocumentTreeViewModel userInput)
 		{
-			return ExecuteAction(
-				userInput,
+			switch (userInput.SelectedNodeType)
+			{
+				case DocumentTreeNodeTypeEnum.PatchGroup:
+					return CreatePatch(userInput);
+
+				default:
+					throw new ValueNotSupportedException(userInput.SelectedNodeType);
+			}
+		}
+
+		private DocumentTreeViewModel CreatePatch(DocumentTreeViewModel userInput)
+		{
+			return ExecuteAction(userInput,
 				viewModel =>
 				{
-					if (!viewModel.SelectedItemID.HasValue)
-					{
-						throw new NullException(() => viewModel.SelectedItemID);
-					}
+					// GetEntity
+					Document document = _repositories.DocumentRepository.Get(userInput.ID);
 
-					switch (viewModel.SelectedNodeType)
-					{
-						case DocumentTreeNodeTypeEnum.Library:
-							DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedItemID.Value);
-							viewModel.DocumentToOpenExternally = documentReference.LowerDocument.ToIDAndName();
-							break;
+					// Business
+					Patch patch = _patchFacade.CreatePatch(document);
+					patch.GroupName = userInput.SelectedPatchGroup;
 
-						case DocumentTreeNodeTypeEnum.LibraryPatch:
-							Patch patch = _repositories.PatchRepository.Get(viewModel.SelectedItemID.Value);
-							viewModel.DocumentToOpenExternally = patch.Document.ToIDAndName();
-							viewModel.PatchToOpenExternally = patch.ToIDAndName();
-							break;
-
-						default:
-							throw new ValueNotSupportedException(viewModel.SelectedNodeType);
-					}
+					// Non-Persisted
+					viewModel.CreatedEntityID = patch.ID;
 				});
 		}
 
-		public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => ExecuteAction(userInput, x => { });
-
-		public DocumentTreeViewModel Remove(DocumentTreeViewModel userInput)
+		public DocumentTreeViewModel Delete(DocumentTreeViewModel userInput)
 		{
 			switch (userInput.SelectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Library:
-					return RemoveLibrary(userInput);
+					return DeleteLibrary(userInput);
 
 				case DocumentTreeNodeTypeEnum.Patch:
 					return DeletePatch(userInput);
@@ -78,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private DocumentTreeViewModel RemoveLibrary(DocumentTreeViewModel userInput)
+		private DocumentTreeViewModel DeleteLibrary(DocumentTreeViewModel userInput)
 		{
 			return ExecuteAction(
 				userInput,
@@ -118,6 +115,55 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					viewModel.Successful = result.Successful;
 				});
 		}
+
+		public DocumentTreeViewModel HoverPatch(DocumentTreeViewModel userInput, int id)
+		{
+			return ExecuteAction(
+				userInput,
+				viewModel =>
+				{
+					// GetEntity
+					Patch patch = _repositories.PatchRepository.Get(id);
+
+					// Business
+					IList<IDAndName> usedInDtos = _documentFacade.GetUsedIn(patch);
+
+					// ToViewModel
+					viewModel.PatchToolTipText = ToViewModelHelper.GetPatchNodeToolTipText(patch, usedInDtos);
+				});
+		}
+
+		public DocumentTreeViewModel OpenItemExternally(DocumentTreeViewModel userInput)
+		{
+			return ExecuteAction(
+				userInput,
+				viewModel =>
+				{
+					if (!viewModel.SelectedItemID.HasValue)
+					{
+						throw new NullException(() => viewModel.SelectedItemID);
+					}
+
+					switch (viewModel.SelectedNodeType)
+					{
+						case DocumentTreeNodeTypeEnum.Library:
+							DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedItemID.Value);
+							viewModel.DocumentToOpenExternally = documentReference.LowerDocument.ToIDAndName();
+							break;
+
+						case DocumentTreeNodeTypeEnum.LibraryPatch:
+							Patch patch = _repositories.PatchRepository.Get(viewModel.SelectedItemID.Value);
+							viewModel.DocumentToOpenExternally = patch.Document.ToIDAndName();
+							viewModel.PatchToOpenExternally = patch.ToIDAndName();
+							break;
+
+						default:
+							throw new ValueNotSupportedException(viewModel.SelectedNodeType);
+					}
+				});
+		}
+
+		public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => ExecuteAction(userInput, x => { });
 
 		public void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
@@ -165,6 +211,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				() =>
 				{
 					viewModel.SelectedPatchGroupLowerDocumentReferenceID = lowerDocumentReferenceID;
+					viewModel.SelectedPatchGroup = patchGroup;
 					viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(patchGroup);
 					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatchGroup;
 				});
@@ -192,6 +239,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel,
 				() =>
 				{
+					viewModel.SelectedPatchGroup = group;
 					viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(group);
 					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
 				});
@@ -200,23 +248,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void SelectScales(DocumentTreeViewModel viewModel)
 		{
 			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales);
-		}
-
-		public DocumentTreeViewModel HoverPatch(DocumentTreeViewModel userInput, int id)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					// GetEntity
-					Patch patch = _repositories.PatchRepository.Get(id);
-
-					// Business
-					IList<IDAndName> usedInDtos = _documentFacade.GetUsedIn(patch);
-
-					// ToViewModel
-					viewModel.PatchToolTipText = ToViewModelHelper.GetPatchNodeToolTipText(patch, usedInDtos);
-				});
 		}
 
 		// Helpers
@@ -285,6 +316,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			destViewModel.CanPlay = sourceViewModel.CanPlay;
 			destViewModel.CanRemove = sourceViewModel.CanRemove;
 			destViewModel.OutletIDToPlay = sourceViewModel.OutletIDToPlay;
+			destViewModel.SelectedPatchGroup = sourceViewModel.SelectedPatchGroup;
 			destViewModel.SelectedCanonicalPatchGroup = sourceViewModel.SelectedCanonicalPatchGroup;
 			destViewModel.SelectedItemID = sourceViewModel.SelectedItemID;
 			destViewModel.SelectedNodeType = sourceViewModel.SelectedNodeType;
@@ -354,7 +386,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 												.Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
 												.Any();
 
-					bool nodeExists2 = NameHelper.AreEqual(viewModel.SelectedCanonicalPatchGroup, "");
+					bool nodeExists2 = NameHelper.AreEqual(viewModel.SelectedCanonicalPatchGroup, NameHelper.ToCanonical(null));
 
 					bool nodeExists = nodeExists1 || nodeExists2;
 

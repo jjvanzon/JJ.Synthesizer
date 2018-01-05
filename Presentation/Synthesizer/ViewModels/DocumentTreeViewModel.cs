@@ -23,6 +23,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public DocumentTreeNodeTypeEnum SelectedNodeType { get; set; }
 		public int? SelectedItemID { get; set; }
 		public int? SelectedPatchGroupLowerDocumentReferenceID { get; set; }
+		/// <summary> For a default for new patches. </summary>
+		public string SelectedPatchGroup { get; set; }
+		/// <summary> For use as a key for grouping. </summary>
 		public string SelectedCanonicalPatchGroup { get; set; }
 
 		public string PatchToolTipText { get; set; }
@@ -30,5 +33,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		internal int? OutletIDToPlay { get; set; }
 		internal IDAndName DocumentToOpenExternally { get; set; }
 		internal IDAndName PatchToOpenExternally { get; set; }
+		internal int CreatedEntityID { get; set; }
 	}
 }

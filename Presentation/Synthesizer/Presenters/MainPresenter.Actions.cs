@@ -1044,9 +1044,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					DocumentTreeCreateLibrary();
 					break;
 
+				case DocumentTreeNodeTypeEnum.Midi:
+					DocumentTreeCreateMidiMapping();
+					break;
+
 				case DocumentTreeNodeTypeEnum.PatchGroup:
 					// Redirect
-					DocumentTreeCreatePatch(MainViewModel.Document.DocumentTree.SelectedCanonicalPatchGroup);
+					DocumentTreeCreatePatch();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Patch:
@@ -1059,12 +1063,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					throw new ValueNotSupportedException(userInput.SelectedNodeType);
 			}
 		}
-		
+
 		private void DocumentTreeCreateLibrary()
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
 			ExecuteUpdateAction(userInput, () => _librarySelectionPopupPresenter.Load(userInput));
+		}
+
+		private void DocumentTreeCreateMidiMapping()
+		{
+			throw new NotImplementedException();
 		}
 
 		private void DocumentTreeCreateOperator()
@@ -1150,37 +1159,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <param name="group">nullable</param>
-		private void DocumentTreeCreatePatch(string group)
+		private void DocumentTreeCreatePatch()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
-			int patchID = 0;
-
 			// Template Method
-			DocumentTreeViewModel viewModel = ExecuteCreateAction(
-				userInput,
-				() =>
-				{
-					// RefreshCounter
-					userInput.RefreshID = RefreshIDProvider.GetRefreshID();
-
-					// Set !Successful
-					userInput.Successful = false;
-
-					// GetEntity
-					Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-
-					// Business
-					Patch patch = _patchFacade.CreatePatch(document);
-					patch.GroupName = group;
-					patchID = patch.ID;
-
-					// Successful
-					userInput.Successful = true;
-
-					return userInput;
-				});
+			DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Create(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -1190,14 +1175,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.Patch, patchID).ToViewModel().AsArray(),
-					States = GetPatchStates(patchID)
+					EntityTypesAndIDs = (EntityTypeEnum.Patch, viewModel.CreatedEntityID).ToViewModel().AsArray(),
+					States = GetPatchStates(viewModel.CreatedEntityID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
-				PatchDetailsShow(patchID);
-				PatchPropertiesShow(patchID);
+				PatchDetailsShow(viewModel.CreatedEntityID);
+				PatchPropertiesShow(viewModel.CreatedEntityID);
 			}
 		}
 
@@ -1371,7 +1356,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentTreeRemove()
+		public void DocumentTreeDelete()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1380,11 +1365,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			switch (userInput.SelectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Library:
-					DocumentTreeRemoveLibrary();
+					DocumentTreeDeleteLibrary();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Patch:
-					DocumentTreeRemovePatch();
+					DocumentTreeDeletePatch();
 					break;
 
 				default:
@@ -1392,7 +1377,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void DocumentTreeRemovePatch()
+		private void DocumentTreeDeletePatch()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1406,7 +1391,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			};
 
 			// Template Method
-			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Remove(userInput));
+			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Delete(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1415,13 +1400,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void DocumentTreeRemoveLibrary()
+		private void DocumentTreeDeleteLibrary()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
 			// Template Method
-			DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Remove(userInput));
+			DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Delete(userInput));
 
 			if (viewModel.Successful)
 			{
