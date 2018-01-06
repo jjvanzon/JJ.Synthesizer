@@ -200,6 +200,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private IList<ViewModelBase> GetLibraryStates(int documentReferenceID) => new List<ViewModelBase> { ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID) };
 
+		private IList<ViewModelBase> GetMidiMappingStates(int id)
+		{
+			// TODO: Add MidiMappingDetail view models (after they are programmed).
+			return new List<ViewModelBase>();
+		}
+
 		private IList<ViewModelBase> GetNodeStates(int id)
 		{
 			NodePropertiesViewModel nodePropertiesViewModel = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);

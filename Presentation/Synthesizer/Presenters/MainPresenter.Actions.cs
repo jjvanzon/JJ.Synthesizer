@@ -1032,6 +1032,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.WarningMessages = warningsResult.Messages;
 		}
 
+		public void DocumentTreeAddToInstrument()
+		{
+			// Involves both DocumentTree and CurrentInstrument view,
+			// so cannot be handled by a single sub-presenter.
+
+			if (!MainViewModel.Document.DocumentTree.SelectedItemID.HasValue)
+			{
+				throw new NotHasValueException(() => MainViewModel.Document.DocumentTree.SelectedItemID);
+			}
+
+			int patchID = MainViewModel.Document.DocumentTree.SelectedItemID.Value;
+
+			// Redirect
+			AddToInstrument(patchID);
+		}
+
 		public void DocumentTreeCreate()
 		{
 			// GetViewModel
@@ -1086,12 +1102,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				DocumentViewModelRefresh();
 
 				// Undo History
-				//var undoItem = new UndoCreateViewModel
-				//{
-				//	EntityTypesAndIDs = (EntityTypeEnum.MidiMapping, viewModel.CreatedEntityID).ToViewModel().AsArray(),
-				//	States = GetMidiMappingStates(viewModel.CreatedEntityID)
-				//};
-				//MainViewModel.Document.UndoHistory.Push(undoItem);
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypesAndIDs = (EntityTypeEnum.MidiMapping, viewModel.CreatedEntityID).ToViewModel().AsArray(),
+					States = GetMidiMappingStates(viewModel.CreatedEntityID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// TODO: Redirect to MidiMappingDetail (after it has been programmed).
 			}
@@ -1207,25 +1223,77 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentTreeAddToInstrument()
-		{
-			// Involves both DocumentTree and CurrentInstrument view,
-			// so cannot be handled by a single sub-presenter.
-
-			if (!MainViewModel.Document.DocumentTree.SelectedItemID.HasValue)
-			{
-				throw new NotHasValueException(() => MainViewModel.Document.DocumentTree.SelectedItemID);
-			}
-
-			int patchID = MainViewModel.Document.DocumentTree.SelectedItemID.Value;
-
-			// Redirect
-			AddToInstrument(patchID);
-		}
-
 		public void DocumentTreeClose()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Close);
+		}
+
+		public void DocumentTreeDelete()
+		{
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			// Redirect
+			switch (userInput.SelectedNodeType)
+			{
+				case DocumentTreeNodeTypeEnum.Library:
+					DocumentTreeDeleteLibrary();
+					break;
+
+				case DocumentTreeNodeTypeEnum.Patch:
+					DocumentTreeDeletePatch();
+					break;
+
+				default:
+					throw new ValueNotSupportedException(userInput.SelectedNodeType);
+			}
+		}
+
+		private void DocumentTreeDeleteLibrary()
+		{
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			// Template Method
+			DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Delete(userInput));
+
+			if (viewModel.Successful)
+			{
+				// Undo History
+				int id = userInput.SelectedItemID ?? 0;
+				var undoItem = new UndoDeleteViewModel
+				{
+					EntityTypesAndIDs = (EntityTypeEnum.DocumentReference, id).ToViewModel().AsArray(),
+					States = GetLibraryStates(id)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
+
+				// Refresh
+				DocumentViewModelRefresh();
+			}
+		}
+
+		private void DocumentTreeDeletePatch()
+		{
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			// Undo History
+			int id = userInput.SelectedItemID ?? 0;
+			var undoItem = new UndoDeleteViewModel
+			{
+				EntityTypesAndIDs = (EntityTypeEnum.Patch, id).ToViewModel().AsArray(),
+				States = GetPatchStates(id)
+			};
+
+			// Template Method
+			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Delete(userInput));
+
+			// Refresh
+			if (viewModel.Successful)
+			{
+				DocumentViewModelRefresh();
+			}
 		}
 
 		public void DocumentTreeHoverPatch(int id)
@@ -1374,74 +1442,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel.ValidationMessages.AddRange(result.Messages);
 
 				return viewModel;
-			}
-		}
-
-		public void DocumentTreeDelete()
-		{
-			// GetViewModel
-			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-			// Redirect
-			switch (userInput.SelectedNodeType)
-			{
-				case DocumentTreeNodeTypeEnum.Library:
-					DocumentTreeDeleteLibrary();
-					break;
-
-				case DocumentTreeNodeTypeEnum.Patch:
-					DocumentTreeDeletePatch();
-					break;
-
-				default:
-					throw new ValueNotSupportedException(userInput.SelectedNodeType);
-			}
-		}
-
-		private void DocumentTreeDeletePatch()
-		{
-			// GetViewModel
-			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-			// Undo History
-			int id = userInput.SelectedItemID ?? 0;
-			var undoItem = new UndoDeleteViewModel
-			{
-				EntityTypesAndIDs = (EntityTypeEnum.Patch, id).ToViewModel().AsArray(),
-				States = GetPatchStates(id)
-			};
-
-			// Template Method
-			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Delete(userInput));
-
-			// Refresh
-			if (viewModel.Successful)
-			{
-				DocumentViewModelRefresh();
-			}
-		}
-
-		private void DocumentTreeDeleteLibrary()
-		{
-			// GetViewModel
-			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-			// Template Method
-			DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Delete(userInput));
-
-			if (viewModel.Successful)
-			{
-				// Undo History
-				int id = userInput.SelectedItemID ?? 0;
-				var undoItem = new UndoDeleteViewModel
-				{
-					EntityTypesAndIDs = (EntityTypeEnum.DocumentReference, id).ToViewModel().AsArray(),
-					States = GetLibraryStates(id)
-				};
-				MainViewModel.Document.UndoHistory.Push(undoItem);
-
-				// Refresh
-				DocumentViewModelRefresh();
 			}
 		}
 
