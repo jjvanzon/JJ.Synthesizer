@@ -104,13 +104,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				case DocumentTreeNodeTypeEnum.Patch:
 					return true;
 
-				case DocumentTreeNodeTypeEnum.AudioOutput:
-				case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-				case DocumentTreeNodeTypeEnum.Libraries:
-				case DocumentTreeNodeTypeEnum.Library:
-				case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
-				case DocumentTreeNodeTypeEnum.PatchGroup:
-				case DocumentTreeNodeTypeEnum.Scales:
 				default:
 					return false;
 			}
@@ -162,13 +155,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
 					return true;
 
-				case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-				case DocumentTreeNodeTypeEnum.AudioOutput:
-				case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
-				case DocumentTreeNodeTypeEnum.Libraries:
-				case DocumentTreeNodeTypeEnum.Patch:
-				case DocumentTreeNodeTypeEnum.PatchGroup:
-				case DocumentTreeNodeTypeEnum.Scales:
 				default:
 					return false;
 			}
@@ -182,13 +168,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				case DocumentTreeNodeTypeEnum.Patch:
 					return true;
 
-				case DocumentTreeNodeTypeEnum.AudioOutput:
-				case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-				case DocumentTreeNodeTypeEnum.Libraries:
-				case DocumentTreeNodeTypeEnum.LibraryPatch:
-				case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
-				case DocumentTreeNodeTypeEnum.PatchGroup:
-				case DocumentTreeNodeTypeEnum.Scales:
 				default:
 					return false;
 			}

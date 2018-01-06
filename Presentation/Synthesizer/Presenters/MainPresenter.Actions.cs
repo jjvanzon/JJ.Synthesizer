@@ -1483,6 +1483,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void DocumentTreeSelectMidi() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectMidi);
 
+		public void DocumentTreeSelectMidiMapping(int id)
+		{
+			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectMidiMapping(x, id));
+
+			// TODO: Redirect to MidiMappingDetailsSwitch (once MidiMappingDetail is programmed).
+		}
+
 		public void DocumentTreeSelectScales()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectScales);

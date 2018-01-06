@@ -20,6 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 	{
 		private static readonly string _separator = Guid.NewGuid().ToString();
 
+		// Button Events
 		public event EventHandler AddToInstrumentRequested;
 		public event EventHandler CloseRequested;
 		public event EventHandler NewRequested;
@@ -32,35 +33,40 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler SaveRequested;
 		public event EventHandler UndoRequested;
 
-		public event EventHandler<EventArgs<int>> ShowPatchRequested;
-		public event EventHandler<EventArgs<int>> ShowLibraryRequested;
+		// Show Events
 		public event EventHandler ShowAudioOutputRequested;
 		public event EventHandler ShowAudioFileOutputsRequested;
+		public event EventHandler<EventArgs<int>> ShowLibraryRequested;
+		public event EventHandler<EventArgs<int>> ShowPatchRequested;
 		public event EventHandler ShowScalesRequested;
 
-		public event EventHandler<EventArgs<string>> PatchGroupNodeSelected;
-		public event EventHandler<EventArgs<int>> PatchNodeSelected;
-		public event EventHandler MidiNodeSelected;
+		// Selected Events
 		public event EventHandler AudioOutputNodeSelected;
 		public event EventHandler AudioFileOutputsNodeSelected;
-		public event EventHandler ScalesNodeSelected;
+		public event EventHandler MidiNodeSelected;
+		public event EventHandler<EventArgs<int>> MidiMappingNodeSelected;
 		public event EventHandler LibrariesNodeSelected;
 		public event EventHandler<EventArgs<int>> LibraryNodeSelected;
 		public event EventHandler<LibraryPatchGroupEventArgs> LibraryPatchGroupNodeSelected;
 		public event EventHandler<EventArgs<int>> LibraryPatchNodeSelected;
+		public event EventHandler<EventArgs<string>> PatchGroupNodeSelected;
+		public event EventHandler<EventArgs<int>> PatchNodeSelected;
+		public event EventHandler ScalesNodeSelected;
 
+		// TreeNodes
+		private TreeNode _audioFileOutputListTreeNode;
+		private TreeNode _audioOutputNode;
+		private TreeNode _librariesTreeNode;
+		private HashSet<TreeNode> _libraryPatchGroupTreeNodes;
+		private HashSet<TreeNode> _libraryPatchTreeNodes;
+		private HashSet<TreeNode> _libraryTreeNodes;
+		private TreeNode _midiTreeNode;
+		private HashSet<TreeNode> _midiMappingTreeNodes;
+		private TreeNode _mouseHoverNode;
+		private TreeNode _patchesTreeNode;
 		private HashSet<TreeNode> _patchGroupTreeNodes;
 		private HashSet<TreeNode> _patchTreeNodes;
-		private HashSet<TreeNode> _libraryTreeNodes;
-		private HashSet<TreeNode> _libraryPatchTreeNodes;
-		private HashSet<TreeNode> _libraryPatchGroupTreeNodes;
-		private TreeNode _midiTreeNode;
 		private TreeNode _scalesTreeNode;
-		private TreeNode _audioOutputNode;
-		private TreeNode _audioFileOutputListTreeNode;
-		private TreeNode _librariesTreeNode;
-		private TreeNode _patchesTreeNode;
-		private TreeNode _mouseHoverNode;
 
 		public DocumentTreeUserControl()
 		{
@@ -93,11 +99,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
 			titleBarUserControl.RemoveButtonVisible = ViewModel.CanRemove;
 
-			_patchGroupTreeNodes = new HashSet<TreeNode> { _patchesTreeNode };
-			_patchTreeNodes = new HashSet<TreeNode>();
-			_libraryTreeNodes = new HashSet<TreeNode>();
 			_libraryPatchTreeNodes = new HashSet<TreeNode>();
 			_libraryPatchGroupTreeNodes = new HashSet<TreeNode>();
+			_libraryTreeNodes = new HashSet<TreeNode>();
+			_midiMappingTreeNodes = new HashSet<TreeNode>();
+			_patchGroupTreeNodes = new HashSet<TreeNode> { _patchesTreeNode };
+			_patchTreeNodes = new HashSet<TreeNode>();
 
 			if (ViewModel == null)
 			{
@@ -111,8 +118,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// You really would not want to know this information, but it does explain the code.
 			// - Whether or not the TreeView.ShowNodeToolTips is set,
 			//   TreeView control will show the node's text as a tool tip if it the text does not fit on screen.
-			//   (the TreeView.ShowNodeToolTips only controls whether the TreNode.ToolTipText is used.
-			//	I know: This makes ShowNodeToolTips a really bad property name.)
+			//   (the TreeView.ShowNodeToolTips only controls whether the TreeNode.ToolTipText is used.
+			//	  I know: This makes ShowNodeToolTips a really bad property name.)
 			// - We use a ToolTip component for better control over the timers around showing the tooltip.
 			//   TreeView does not offer that control. For instance we want to keep the ToolTip not to auto-hide after x amount of time.
 			// - But then we still need to let TreeView and ToolTip play along toghether,
@@ -287,7 +294,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				TreeNode treeNode = ConvertMidiMappingNode(viewModel, treeNodes, out bool isNewOrIsDirtyName);
 				treeNodesToKeep.Add(treeNode);
 
-				_libraryPatchTreeNodes.Add(treeNode);
+				_midiMappingTreeNodes.Add(treeNode);
 
 				mustSort |= isNewOrIsDirtyName;
 			}
@@ -642,7 +649,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);
 
-		protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
 			// Use ProcessCmdKey,because OnKeyDown produces an annoying Ding sound.
 			// every time you hit enter.
@@ -702,7 +709,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_libraryPatchGroupTreeNodes.Contains(node))
 			{
-				var e2 = ParseLibraryPatchGroupTag(node.Tag);
+				LibraryPatchGroupEventArgs e2 = ParseLibraryPatchGroupTag(node.Tag);
 				LibraryPatchGroupNodeSelected(this, e2);
 			}
 
@@ -711,9 +718,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				MidiNodeSelected(this, EventArgs.Empty);
 			}
 
-			if (node == _scalesTreeNode)
+			if (_midiMappingTreeNodes.Contains(node))
 			{
-				ScalesNodeSelected(this, EventArgs.Empty);
+				int id = (int)node.Tag;
+				MidiMappingNodeSelected(this, new EventArgs<int>(id));
 			}
 
 			if (_patchGroupTreeNodes.Contains(node))
@@ -725,6 +733,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				int id = (int)node.Tag;
 				PatchNodeSelected(this, new EventArgs<int>(id));
+			}
+
+			if (node == _scalesTreeNode)
+			{
+				ScalesNodeSelected(this, EventArgs.Empty);
 			}
 		}
 
@@ -755,17 +768,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				ShowAudioOutputRequested(this, EventArgs.Empty);
 			}
 
-			if (_patchTreeNodes.Contains(node))
-			{
-				int id = (int)node.Tag;
-				ShowPatchRequested(this, new EventArgs<int>(id));
-			}
-
-			if (node == _scalesTreeNode)
-			{
-				ShowScalesRequested(this, EventArgs.Empty);
-			}
-
 			if (_libraryTreeNodes.Contains(node))
 			{
 				int id = (int)node.Tag;
@@ -775,6 +777,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			if (_libraryPatchTreeNodes.Contains(node))
 			{
 				NewRequested(this, EventArgs.Empty);
+			}
+
+			if (_patchTreeNodes.Contains(node))
+			{
+				int id = (int)node.Tag;
+				ShowPatchRequested(this, new EventArgs<int>(id));
+			}
+
+			if (node == _scalesTreeNode)
+			{
+				ShowScalesRequested(this, EventArgs.Empty);
 			}
 		}
 

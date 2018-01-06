@@ -258,6 +258,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Midi);
 		}
 
+		public void SelectMidiMapping(DocumentTreeViewModel viewModel, int id)
+		{
+			ExecuteNonPersistedAction(
+				viewModel,
+				() =>
+				{
+					viewModel.SelectedItemID = id;
+					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.MidiMapping;
+				});
+		}
+
 		public void SelectPatch(DocumentTreeViewModel viewModel, int id)
 		{
 			ExecuteNonPersistedAction(
@@ -341,6 +352,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(nodeType);
 			viewModel.CanPlay = ToViewModelHelper.GetCanPlay(nodeType);
 			viewModel.CanRemove = ToViewModelHelper.GetCanRemove(nodeType);
+			// NOTE: CanCreate is set in the MainPresenter instead, because it depends on another view's visibility (PatchDetails).
 		}
 
 		public override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
@@ -348,6 +360,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
 			destViewModel.CanAddToInstrument = sourceViewModel.CanAddToInstrument;
+			destViewModel.CanCreate = sourceViewModel.CanCreate;
 			destViewModel.CanOpenExternally = sourceViewModel.CanOpenExternally;
 			destViewModel.CanPlay = sourceViewModel.CanPlay;
 			destViewModel.CanRemove = sourceViewModel.CanRemove;
