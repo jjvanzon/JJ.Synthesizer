@@ -65,6 +65,12 @@ namespace JJ.Business.Synthesizer
 			return validator.ToResult();
 		}
 
+		public void DeleteMidiMapping(int id)
+		{
+			MidiMapping entity = _midiMappingRepository.Get(id);
+			DeleteMidiMapping(entity);
+		}
+
 		public void DeleteMidiMapping(MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -73,6 +79,12 @@ namespace JJ.Business.Synthesizer
 			entity.UnlinkRelatedEntities();
 
 			_midiMappingRepository.Delete(entity);
+		}
+
+		public void DeleteMidiMappingElement(int id)
+		{
+			MidiMappingElement entity = _midiMappingElementRepository.Get(id);
+			DeleteMidiMappingElement(entity);
 		}
 
 		public void DeleteMidiMappingElement(MidiMappingElement entity)

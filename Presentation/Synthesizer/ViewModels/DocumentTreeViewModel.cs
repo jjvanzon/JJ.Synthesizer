@@ -18,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public bool CanCreate { get; set; }
 		public bool CanOpenExternally { get; set; }
 		public bool CanPlay { get; set; }
-		public bool CanRemove { get; set; }
+		public bool CanDelete { get; set; }
 
 		public DocumentTreeNodeTypeEnum SelectedNodeType { get; set; }
 		public int? SelectedItemID { get; set; }

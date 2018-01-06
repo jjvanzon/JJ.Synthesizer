@@ -1236,6 +1236,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Redirect
 			switch (userInput.SelectedNodeType)
 			{
+				case DocumentTreeNodeTypeEnum.MidiMapping:
+					DocumentTreeDeleteMidiMapping();
+					break;
+
 				case DocumentTreeNodeTypeEnum.Library:
 					DocumentTreeDeleteLibrary();
 					break;
@@ -1249,26 +1253,48 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
+		private void DocumentTreeDeleteMidiMapping()
+		{
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			// Undo History
+			int id = userInput.SelectedItemID ?? 0;
+			var undoItem = new UndoDeleteViewModel
+			{
+				EntityTypesAndIDs = (EntityTypeEnum.MidiMapping, id).ToViewModel().AsArray(),
+				States = GetMidiMappingStates(id)
+			};
+
+			// Template Method
+			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Delete(userInput));
+
+			// Refresh
+			if (viewModel.Successful)
+			{
+				DocumentViewModelRefresh();
+			}
+		}
+
 		private void DocumentTreeDeleteLibrary()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
-			// Template Method
-			DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Delete(userInput));
+			// Undo History
+			int id = userInput.SelectedItemID ?? 0;
+			var undoItem = new UndoDeleteViewModel
+			{
+				EntityTypesAndIDs = (EntityTypeEnum.DocumentReference, id).ToViewModel().AsArray(),
+				States = GetLibraryStates(id)
+			};
 
+			// Template Method
+			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Delete(userInput));
+
+			// Refresh
 			if (viewModel.Successful)
 			{
-				// Undo History
-				int id = userInput.SelectedItemID ?? 0;
-				var undoItem = new UndoDeleteViewModel
-				{
-					EntityTypesAndIDs = (EntityTypeEnum.DocumentReference, id).ToViewModel().AsArray(),
-					States = GetLibraryStates(id)
-				};
-				MainViewModel.Document.UndoHistory.Push(undoItem);
-
-				// Refresh
 				DocumentViewModelRefresh();
 			}
 		}

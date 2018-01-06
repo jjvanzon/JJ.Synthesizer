@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
@@ -97,12 +98,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				case DocumentTreeNodeTypeEnum.Library:
 					return DeleteLibrary(userInput);
 
+				case DocumentTreeNodeTypeEnum.MidiMapping:
+					return DeleteMidiMapping(userInput);
+
 				case DocumentTreeNodeTypeEnum.Patch:
 					return DeletePatch(userInput);
 
 				default:
 					throw new ValueNotSupportedException(userInput.SelectedNodeType);
 			}
+		}
+
+		private DocumentTreeViewModel DeleteMidiMapping(DocumentTreeViewModel userInput)
+		{
+			return ExecuteAction(
+				userInput,
+				viewModel =>
+				{
+					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
+
+					_midiMappingFacade.DeleteMidiMapping(userInput.SelectedItemID.Value);
+				});
 		}
 
 		private DocumentTreeViewModel DeleteLibrary(DocumentTreeViewModel userInput)
@@ -113,14 +129,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
-					// Business
-					VoidResult result = _documentFacade.DeleteDocumentReference(userInput.SelectedItemID.Value);
-
-					// Non-Persisted
-					viewModel.ValidationMessages = result.Messages;
-
-					// Successful?
-					viewModel.Successful = result.Successful;
+					return _documentFacade.DeleteDocumentReference(userInput.SelectedItemID.Value);
 				});
 		}
 
@@ -132,17 +141,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
-					// GetEntity
-					Patch patch = _repositories.PatchRepository.Get(userInput.SelectedItemID.Value);
-
-					// Businesss
-					IResult result = _patchFacade.DeletePatchWithRelatedEntities(patch);
-
-					// Non-Persisted
-					viewModel.ValidationMessages.AddRange(result.Messages);
-
-					// Successful?
-					viewModel.Successful = result.Successful;
+					return _patchFacade.DeletePatchWithRelatedEntities(userInput.SelectedItemID.Value);
 				});
 		}
 
@@ -301,6 +300,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private DocumentTreeViewModel ExecuteAction(DocumentTreeViewModel userInput, Action<DocumentTreeViewModel> action)
 		{
+			return ExecuteAction(
+				userInput,
+				x =>
+				{
+					action(x);
+					return ResultHelper.Successful;
+				});
+		}
+
+		private DocumentTreeViewModel ExecuteAction(DocumentTreeViewModel userInput, Func<DocumentTreeViewModel, IResult> action)
+		{
 			if (userInput == null) throw new NullException(() => userInput);
 
 			// RefreshCounter
@@ -324,14 +334,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			CopyNonPersistedProperties(userInput, viewModel);
 			ClearSelectedItemIfDeleted(viewModel);
 
-			// Action
-			action(viewModel);
+			// Business
+			IResult result = action(viewModel);
 
 			// Non-Persisted
+			viewModel.ValidationMessages.AddRange(result.Messages);
 			SetSelectedNodeType(viewModel, viewModel.SelectedNodeType);
 
-			// Successful
-			viewModel.Successful = true;
+			// Successful?
+			viewModel.Successful = result.Successful;
 
 			return viewModel;
 		}
@@ -351,7 +362,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.CanAddToInstrument = ToViewModelHelper.GetCanAddToInstrument(nodeType);
 			viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(nodeType);
 			viewModel.CanPlay = ToViewModelHelper.GetCanPlay(nodeType);
-			viewModel.CanRemove = ToViewModelHelper.GetCanRemove(nodeType);
+			viewModel.CanDelete = ToViewModelHelper.GetCanDelete(nodeType);
 			// NOTE: CanCreate is set in the MainPresenter instead, because it depends on another view's visibility (PatchDetails).
 		}
 
@@ -363,7 +374,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			destViewModel.CanCreate = sourceViewModel.CanCreate;
 			destViewModel.CanOpenExternally = sourceViewModel.CanOpenExternally;
 			destViewModel.CanPlay = sourceViewModel.CanPlay;
-			destViewModel.CanRemove = sourceViewModel.CanRemove;
+			destViewModel.CanDelete = sourceViewModel.CanDelete;
 			destViewModel.OutletIDToPlay = sourceViewModel.OutletIDToPlay;
 			destViewModel.SelectedPatchGroup = sourceViewModel.SelectedPatchGroup;
 			destViewModel.SelectedCanonicalPatchGroup = sourceViewModel.SelectedCanonicalPatchGroup;

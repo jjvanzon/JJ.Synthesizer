@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			titleBarUserControl.NewButtonVisible = ViewModel.CanCreate;
 			titleBarUserControl.ExpandButtonVisible = ViewModel.CanOpenExternally;
 			titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
-			titleBarUserControl.RemoveButtonVisible = ViewModel.CanRemove;
+			titleBarUserControl.RemoveButtonVisible = ViewModel.CanDelete;
 
 			_libraryPatchTreeNodes = new HashSet<TreeNode>();
 			_libraryPatchGroupTreeNodes = new HashSet<TreeNode>();

@@ -160,10 +160,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		public static bool GetCanRemove(DocumentTreeNodeTypeEnum selectedNodeType)
+		public static bool GetCanDelete(DocumentTreeNodeTypeEnum selectedNodeType)
 		{
 			switch (selectedNodeType)
 			{
+				case DocumentTreeNodeTypeEnum.MidiMapping:
 				case DocumentTreeNodeTypeEnum.Library:
 				case DocumentTreeNodeTypeEnum.Patch:
 					return true;
