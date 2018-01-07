@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 
 		protected override Operator GetEntity(TViewModel userInput) => _repositories.OperatorRepository.Get(userInput.ID);
 
-		protected override IResult SaveWithUserInput(Operator entity, TViewModel userInput)
+		protected override IResult Save(Operator entity, TViewModel userInput)
 		{
 			if (entity.CanSetInletCount())
 			{

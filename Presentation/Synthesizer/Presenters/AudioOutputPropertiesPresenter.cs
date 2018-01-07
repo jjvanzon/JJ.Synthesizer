@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return _audioOutputRepository.Get(userInput.Entity.ID);
 		}
 
-		protected override IResult Save(AudioOutput entity)
+		protected override IResult Save(AudioOutput entity, AudioOutputPropertiesViewModel userInput)
 		{
 			return _audioOutputFacade.Save(entity);
 		}

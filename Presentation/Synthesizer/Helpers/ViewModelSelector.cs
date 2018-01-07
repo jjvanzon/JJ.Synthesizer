@@ -69,11 +69,55 @@ namespace JJ.Presentation.Synthesizer.Helpers
 			return propertiesViewModel;
 		}
 
-		public static LibraryPropertiesViewModel TryGetLibraryPropertiesViewModel(DocumentViewModel documentViewModel, int libraryID)
+		public static LibraryPropertiesViewModel TryGetLibraryPropertiesViewModel(DocumentViewModel documentViewModel, int documentReferenceID)
 		{
 			if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-			documentViewModel.LibraryPropertiesDictionary.TryGetValue(libraryID, out LibraryPropertiesViewModel viewModel);
+			documentViewModel.LibraryPropertiesDictionary.TryGetValue(documentReferenceID, out LibraryPropertiesViewModel viewModel);
+
+			return viewModel;
+		}
+
+		// MidiMapping
+
+		public static MidiMappingDetailsViewModel GetMidiMappingDetailsViewModel(DocumentViewModel documentViewModel, int id)
+		{
+			MidiMappingDetailsViewModel viewModel = TryGetMidiMappingDetailsViewModel(documentViewModel, id);
+
+			if (viewModel == null)
+			{
+				throw new NotFoundException<MidiMappingDetailsViewModel>(id);
+			}
+
+			return viewModel;
+		}
+
+		public static MidiMappingDetailsViewModel TryGetMidiMappingDetailsViewModel(DocumentViewModel documentViewModel, int id)
+		{
+			if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+			documentViewModel.MidiMappingDetailsDictionary.TryGetValue(id, out MidiMappingDetailsViewModel viewModel);
+
+			return viewModel;
+		}
+
+		public static MidiMappingElementPropertiesViewModel GetMidiMappingElementPropertiesViewModel(DocumentViewModel documentViewModel, int id)
+		{
+			MidiMappingElementPropertiesViewModel viewModel = TryGetMidiMappingElementPropertiesViewModel(documentViewModel, id);
+
+			if (viewModel == null)
+			{
+				throw new NotFoundException<MidiMappingElementPropertiesViewModel>(id);
+			}
+
+			return viewModel;
+		}
+
+		public static MidiMappingElementPropertiesViewModel TryGetMidiMappingElementPropertiesViewModel(DocumentViewModel documentViewModel, int id)
+		{
+			if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+			documentViewModel.MidiMappingElementPropertiesDictionary.TryGetValue(id, out MidiMappingElementPropertiesViewModel viewModel);
 
 			return viewModel;
 		}

@@ -7,6 +7,7 @@
 		AudioFileOutput,
 		DocumentReference,
 		MidiMapping,
+		MidiMappingElement,
 		Node,
 		Operator,
 		Patch,

@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return entity.ToPropertiesViewModel();
 		}
 
-		protected override IResult Save(DocumentReference entity)
+		protected override IResult Save(DocumentReference entity, LibraryPropertiesViewModel userInput)
 		{
 			return _documentFacade.SaveDocumentReference(entity);
 		}

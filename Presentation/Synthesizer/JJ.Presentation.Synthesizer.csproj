@@ -62,6 +62,8 @@
     <Compile Include="Presenters\LibrarySelectionPopupPresenter.cs" />
     <Compile Include="Presenters\Bases\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\MainPresenter.Undo.cs" />
+    <Compile Include="Presenters\MidiMappingDetailsPresenter.cs" />
+    <Compile Include="Presenters\MidiMappingElementPropertiesPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithCollectionRecalculation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForInletsToDimension.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithInterpolation.cs" />

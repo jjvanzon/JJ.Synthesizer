@@ -578,7 +578,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			MidiMapping midiMapping = viewModel.MidiMapping.ToEntity(repositories.MidiMappingRepository);
 
-			viewModel.MidiMappingElements.ToEntitiesWithRelatedEntities(midiMapping, repositories);
+			viewModel.Elements.Values.ToEntitiesWithRelatedEntities(midiMapping, repositories);
 
 			return midiMapping;
 		}
@@ -601,7 +601,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 		}
 
 		public static void ToEntitiesWithRelatedEntities(
-			this IList<MidiMappingElementItemViewModel> viewModelList,
+			this IEnumerable<MidiMappingElementItemViewModel> viewModelList,
 			MidiMapping destMidiMapping,
 			MidiMappingRepositories repositories)
 		{

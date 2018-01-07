@@ -346,7 +346,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new MidiMappingDetailsViewModel
 			{
 				MidiMapping = entity.ToIDAndName(),
-				MidiMappingElements = entity.MidiMappingElements.Select(x => x.ToItemViewModel(entityPositionFacade)).ToArray(),
+				Elements = entity.MidiMappingElements.Select(x => x.ToItemViewModel(entityPositionFacade)).ToDictionary(x => x.ID),
 				ValidationMessages = new List<string>()
 			};
 

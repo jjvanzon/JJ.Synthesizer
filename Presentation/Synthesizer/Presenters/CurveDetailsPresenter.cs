@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return _curveRepository.Get(userInput.Curve.ID);
 		}
 
-		protected override IResult Save(Curve entity)
+		protected override IResult Save(Curve entity, CurveDetailsViewModel userInput)
 		{
 			return _curveFacade.SaveCurveWithRelatedEntities(entity);
 		}

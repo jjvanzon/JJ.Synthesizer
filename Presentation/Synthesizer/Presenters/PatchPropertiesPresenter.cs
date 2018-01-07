@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return entity.ToPropertiesViewModel();
 		}
 
-		protected override IResult Save(Patch entity)
+		protected override IResult Save(Patch entity, PatchPropertiesViewModel userInput)
 		{
 			return _patchFacade.SavePatch(entity);
 		}

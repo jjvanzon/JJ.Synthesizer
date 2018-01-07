@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			                                       .ToList();
 
 			viewModel.PatchGroupNodes = patchGroupDtos.OrderBy(x => x.FriendlyGroupName)
-			                                          .Select(x => ConvertToTreeNodeViewModel(x))
+			                                          .Select(ConvertToTreeNodeViewModel)
 			                                          .ToList();
 
 			string aliasOrName = lowerDocumentReference.GetAliasOrName();
@@ -146,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				Caption = GetTreeNodeText(patchGroupDto.FriendlyGroupName, patchGroupDto.Patches.Count),
 				PatchNodes = patchGroupDto.Patches
 				                          .OrderBy(x => x.Name)
-				                          .Select(x => ConvertToTreeNodeViewModel(x))
+				                          .Select(ConvertToTreeNodeViewModel)
 				                          .ToList()
 			};
 

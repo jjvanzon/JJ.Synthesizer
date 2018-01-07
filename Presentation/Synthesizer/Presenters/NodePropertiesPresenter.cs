@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return entity.ToPropertiesViewModel();
 		}
 
-		protected override IResult Save(Node entity)
+		protected override IResult Save(Node entity, NodePropertiesViewModel userInput)
 		{
 			return _curveFacade.SaveNode(entity);
 		}

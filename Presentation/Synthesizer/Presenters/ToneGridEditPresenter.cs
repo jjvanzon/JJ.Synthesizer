@@ -1,4 +1,5 @@
-﻿using JJ.Business.Canonical;
+﻿using System;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -9,7 +10,6 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override ToneGridEditViewModel ToViewModel(Scale entity) => entity.ToToneGridEditViewModel();
 
-		protected override IResult SaveWithUserInput(Scale scale, ToneGridEditViewModel userInput)
+		protected override IResult Save(Scale scale, ToneGridEditViewModel userInput)
 		{
 			// ViewModel Validator
 			IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);

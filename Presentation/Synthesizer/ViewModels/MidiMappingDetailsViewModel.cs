@@ -7,6 +7,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 	public sealed class MidiMappingDetailsViewModel : ViewModelBase
 	{
 		public IDAndName MidiMapping { get; set; }
-		public IList<MidiMappingElementItemViewModel> MidiMappingElements { get; set; }
+		public Dictionary<int, MidiMappingElementItemViewModel> Elements { get; set; }
+		public MidiMappingElementItemViewModel SelectedElement { get; set; }
+		public int CreatedElementID { get; set; }
 	}
 }

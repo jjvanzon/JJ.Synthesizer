@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return entity.ToPropertiesViewModel();
 		}
 
-		protected override IResult Save(Scale entity)
+		protected override IResult Save(Scale entity, ScalePropertiesViewModel userInput)
 		{
 			return _scaleFacade.SaveWithoutTones(entity);
 		}

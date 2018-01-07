@@ -243,10 +243,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		}
 
 		// AudioFileOutput
-
+		
 		private void audioFileOutputGridUserControl_AddRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.AudioFileOutputCreate);
+			TemplateActionHandler(_mainPresenter.AudioFileOutputGridCreate);
 		}
 
 		private void audioFileOutputGridUserControl_RemoveRequested(object sender, EventArgs<int> e)
@@ -1043,7 +1043,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorDeleteSelected(e.Value);
+					_mainPresenter.PatchDetailsDeleteSelectedOperator(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1070,7 +1070,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorDeleteSelected(e.Value);
+					_mainPresenter.PatchDetailsDeleteSelectedOperator(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}

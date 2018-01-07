@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return op.ToPropertiesViewModel_ForPatchInlet();
 		}
 
-		protected override IResult SaveWithUserInput(Operator entity, OperatorPropertiesViewModel_ForPatchInlet userInput)
+		protected override IResult Save(Operator entity, OperatorPropertiesViewModel_ForPatchInlet userInput)
 		{
 			IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(userInput);
 			if (!validator.IsValid)
@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				return validator.ToResult();
 			}
 			
-			return base.SaveWithUserInput(entity, userInput);
+			return base.Save(entity, userInput);
 		}
 	}
 }

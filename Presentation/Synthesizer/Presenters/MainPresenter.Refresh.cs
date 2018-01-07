@@ -195,6 +195,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibraryPropertiesDictionaryRefresh();
 			LibrarySelectionPopupRefresh();
 			NodePropertiesDictionaryRefresh();
+			MidiMappingDetailsDictionaryRefresh();
+			MidiMappingElementPropertiesDictionaryRefresh();
 			OperatorPropertiesDictionary_ForCaches_Refresh();
 			OperatorPropertiesDictionary_ForCurves_Refresh();
 			OperatorPropertiesDictionary_ForInletsToDimension_Refresh();
@@ -313,6 +315,89 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
 		{
 			NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Refresh(userInput);
+			DispatchViewModel(viewModel);
+		}
+
+		private void MidiMappingDetailsDictionaryRefresh()
+		{
+			// ReSharper disable once SuggestVarOrType_Elsewhere
+			var viewModelDictionary = MainViewModel.Document.MidiMappingDetailsDictionary;
+
+			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+			IList<MidiMapping> entities = document.MidiMappings;
+
+			foreach (MidiMapping entity in entities)
+			{
+				MidiMappingDetailsViewModel viewModel = ViewModelSelector.TryGetMidiMappingDetailsViewModel(MainViewModel.Document, entity.ID);
+				if (viewModel == null)
+				{
+					viewModel = entity.ToDetailsViewModel(_entityPositionFacade);
+					viewModel.Successful = true;
+					viewModelDictionary[entity.ID] = viewModel;
+				}
+				else
+				{
+					MidiMappingDetailsRefresh(viewModel);
+				}
+			}
+
+			IEnumerable<int> existingIDs = viewModelDictionary.Keys;
+			IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+			IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+			foreach (int idToDelete in idsToDelete.ToArray())
+			{
+				viewModelDictionary.Remove(idToDelete);
+			}
+		}
+
+		private void MidiMappingDetailsRefresh(MidiMappingDetailsViewModel userInput)
+		{
+			MidiMappingDetailsViewModel viewModel = _midiMappingDetailsPresenter.Refresh(userInput);
+			DispatchViewModel(viewModel);
+		}
+
+		private void MidiMappingElementPropertiesDictionaryRefresh()
+		{
+			// ReSharper disable once SuggestVarOrType_Elsewhere
+			var viewModelDictionary = MainViewModel.Document.MidiMappingElementPropertiesDictionary;
+
+			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+			IList<MidiMappingElement> entities = document.MidiMappings.SelectMany(x => x.MidiMappingElements).ToArray();
+
+			foreach (MidiMappingElement entity in entities)
+			{
+				MidiMappingElementPropertiesViewModel viewModel = ViewModelSelector.TryGetMidiMappingElementPropertiesViewModel(MainViewModel.Document, entity.ID);
+				if (viewModel == null)
+				{
+					viewModel = entity.ToPropertiesViewModel();
+					viewModel.Successful = true;
+					viewModelDictionary[entity.ID] = viewModel;
+				}
+				else
+				{
+					MidiMappingElementPropertiesRefresh(viewModel);
+				}
+			}
+
+			IEnumerable<int> existingIDs = viewModelDictionary.Keys;
+			IEnumerable<int> idsToKeep = entities.Select(x => x.ID);
+			IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep);
+
+			foreach (int idToDelete in idsToDelete.ToArray())
+			{
+				viewModelDictionary.Remove(idToDelete);
+
+				if (MainViewModel.Document.VisibleMidiMappingElementProperties?.ID == idToDelete)
+				{
+					MainViewModel.Document.VisibleMidiMappingElementProperties = null;
+				}
+			}
+		}
+
+		private void MidiMappingElementPropertiesRefresh(MidiMappingElementPropertiesViewModel userInput)
+		{
+			MidiMappingElementPropertiesViewModel viewModel = _midiMappingElementPropertiesPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
 		}
 

@@ -260,6 +260,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string ScaleType => Resources.ScaleType;
 		public static string SelectALibraryFirst => Resources.SelectALibraryFirst;
 		public static string SelectANodeFirst => Resources.SelectANodeFirst;
+		public static string SelectAnElementFirst => Resources.SelectAnElementFirst;
 		public static string SelectAnOperatorFirst => Resources.SelectAnOperatorFirst;
 		public static string SelectedOperatorHasNoOutlets => Resources.SelectedOperatorHasNoOutlets;
 		public static string SemiTone => Resources.SemiTone;

@@ -62,6 +62,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly LibraryPropertiesPresenter _libraryPropertiesPresenter;
 		private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
 		private readonly MenuPresenter _menuPresenter;
+		private readonly MidiMappingDetailsPresenter _midiMappingDetailsPresenter;
+		private readonly MidiMappingElementPropertiesPresenter _midiMappingElementPropertiesPresenter;
 		private readonly NodePropertiesPresenter _nodePropertiesPresenter;
 		private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
 		private readonly OperatorPropertiesPresenter_ForCache _operatorPropertiesPresenter_ForCache;
@@ -132,6 +134,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
 			_menuPresenter = new MenuPresenter();
+			_midiMappingDetailsPresenter = new MidiMappingDetailsPresenter(_repositories.MidiMappingRepository, _entityPositionFacade, midiMappingFacade);
+			_midiMappingElementPropertiesPresenter = new MidiMappingElementPropertiesPresenter(midiMappingRepositories, midiMappingFacade);
 			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveFacade);
 			_operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);
 			_operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_repositories);
@@ -157,18 +161,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Helpers
 
-		private void HideAllGridAndDetailViewModels()
+		private void HideAllGridAndDetailsViewModels()
 		{
-			MainViewModel.DocumentDetails.Visible = false;
-			MainViewModel.DocumentGrid.Visible = false;
-
 			MainViewModel.Document.AudioFileOutputGrid.Visible = false;
-			MainViewModel.Document.ScaleGrid.Visible = false;
-
+			MainViewModel.Document.VisibleMidiMappingDetails = null;
+			MainViewModel.Document.MidiMappingDetailsDictionary.Values.ForEach(x => x.Visible = false);
 			MainViewModel.Document.VisiblePatchDetails = null;
 			MainViewModel.Document.PatchDetailsDictionary.Values.ForEach(x => x.Visible = false);
+			MainViewModel.Document.ScaleGrid.Visible = false;
 			MainViewModel.Document.VisibleToneGridEdit = null;
 			MainViewModel.Document.ToneGridEditDictionary.Values.ForEach(x => x.Visible = false);
+			MainViewModel.DocumentDetails.Visible = false;
+			MainViewModel.DocumentGrid.Visible = false;
 		}
 
 		private void HideAllPropertiesViewModels()
@@ -182,6 +186,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.Document.NodePropertiesDictionary.Values.ForEach(x => x.Visible = false);
 			MainViewModel.Document.VisibleLibraryProperties = null;
 			MainViewModel.Document.LibraryPropertiesDictionary.Values.ForEach(x => x.Visible = false);
+			MainViewModel.Document.VisibleMidiMappingElementProperties = null;
+			MainViewModel.Document.MidiMappingElementPropertiesDictionary.Values.ForEach(x => x.Visible = false);
 			MainViewModel.Document.VisibleOperatorProperties = null;
 			MainViewModel.Document.OperatorPropertiesDictionary.Values.ForEach(x => x.Visible = false);
 			MainViewModel.Document.VisibleOperatorProperties_ForCache = null;
@@ -282,6 +288,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return operatorID;
 		}
 
+		/// <summary> Includes the owned operators' IDs. </summary>
 		private IList<int> GetOperatorIDsToDelete(int patchID, int? operatorID)
 		{
 			if (!operatorID.HasValue)

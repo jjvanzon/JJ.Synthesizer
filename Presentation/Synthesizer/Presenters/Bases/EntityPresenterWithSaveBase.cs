@@ -7,22 +7,22 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 		: EntityPresenterBase<TEntity, TViewModel>
 		where TViewModel : ViewModelBase
 	{
-		/// <summary> Base does nothing. Not mandatory to override for read-only views. </summary>
-		protected virtual IResult Save(TEntity entity) => null;
-		
-		/// <summary> Base delegates to Save, whose base method does nothing. </summary>
-		protected virtual IResult SaveWithUserInput(TEntity entity, TViewModel userInput) => Save(entity);
+		/// <param name="userInput">
+		/// Only used sometimes, typically in case validations must be executed on the view model.
+		/// Typically, validations are executed on the entity instead.
+		/// </param>
+		protected abstract IResult Save(TEntity entity, TViewModel userInput);
 
 		public TViewModel LoseFocus(TViewModel userInput)
 		{
-			return ExecuteAction(userInput, entity => SaveWithUserInput(entity, userInput));
+			return ExecuteAction(userInput, entity => Save(entity, userInput));
 		}
 
 		public TViewModel Close(TViewModel userInput)
 		{
 			return ExecuteAction(
 				userInput,
-				entity => SaveWithUserInput(entity, userInput),
+				entity => Save(entity, userInput),
 				viewModel =>
 				{
 					if (viewModel.Successful) viewModel.Visible = false;

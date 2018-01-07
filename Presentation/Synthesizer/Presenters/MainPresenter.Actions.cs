@@ -141,15 +141,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// AudioFileOutput
 
-		public void AudioFileOutputGridShow()
-		{
-			// GetViewModel
-			AudioFileOutputGridViewModel viewModel = MainViewModel.Document.AudioFileOutputGrid;
-
-			// TemplateMethod
-			ExecuteNonPersistedAction(viewModel, () => _audioFileOutputGridPresenter.Show(viewModel));
-		}
-
 		public void AudioFileOutputGridClose()
 		{
 			// GetViewModel
@@ -157,6 +148,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// TemplateMethod
 			ExecuteNonPersistedAction(viewModel, () => _audioFileOutputGridPresenter.Close(viewModel));
+		}
+
+		public void AudioFileOutputGridCreate()
+		{
+			// GetViewModel
+			AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
+
+			// Template Method
+			AudioFileOutputGridViewModel gridViewModel = ExecuteCreateAction(userInput, () => _audioFileOutputGridPresenter.Create(userInput));
+
+			if (gridViewModel.Successful)
+			{
+				// GetEntity
+				AudioFileOutput audioFileOutput = _repositories.AudioFileOutputRepository.Get(gridViewModel.CreatedAudioFileOutputID);
+
+				// ToViewModel
+				AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel();
+
+				// DispatchViewModel
+				DispatchViewModel(propertiesViewModel);
+
+				// Undo History
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypesAndIDs = (EntityTypeEnum.AudioFileOutput, audioFileOutput.ID).ToViewModel().AsArray(),
+					States = GetAudioFileOutputStates(audioFileOutput.ID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
+
+				// Refresh
+				DocumentTreeRefresh();
+				AudioFileOutputGridRefresh();
+			}
 		}
 
 		public void AudioFileOutputGridDelete(int id)
@@ -190,37 +214,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void AudioFileOutputCreate()
+		public void AudioFileOutputGridShow()
 		{
 			// GetViewModel
-			AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
+			AudioFileOutputGridViewModel viewModel = MainViewModel.Document.AudioFileOutputGrid;
 
-			// Template Method
-			AudioFileOutputGridViewModel gridViewModel = ExecuteCreateAction(userInput, () => _audioFileOutputGridPresenter.Create(userInput));
-
-			if (gridViewModel.Successful)
-			{
-				// GetEntity
-				AudioFileOutput audioFileOutput = _repositories.AudioFileOutputRepository.Get(gridViewModel.CreatedAudioFileOutputID);
-
-				// ToViewModel
-				AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel();
-
-				// DispatchViewModel
-				DispatchViewModel(propertiesViewModel);
-
-				// Undo History
-				var undoItem = new UndoCreateViewModel
-				{
-					EntityTypesAndIDs = (EntityTypeEnum.AudioFileOutput, audioFileOutput.ID).ToViewModel().AsArray(),
-					States = GetAudioFileOutputStates(audioFileOutput.ID)
-				};
-				MainViewModel.Document.UndoHistory.Push(undoItem);
-
-				// Refresh
-				DocumentTreeRefresh();
-				AudioFileOutputGridRefresh();
-			}
+			// TemplateMethod
+			ExecuteNonPersistedAction(viewModel, () => _audioFileOutputGridPresenter.Show(viewModel));
 		}
 
 		public void AudioFileOutputPropertiesShow(int id)
@@ -1551,6 +1551,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibraryPropertiesShow(documentReferenceID);
 		}
 
+		public void DocumentTreeShowMidiMapping(int id)
+		{
+			// Redirect
+			MidiMappingDetailsShow(id);
+		}
+
 		public void DocumentTreeShowPatch(int id)
 		{
 			// Redirect
@@ -1709,6 +1715,177 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
 			ExecuteReadAction(userInput, () => _librarySelectionPopupPresenter.Play(userInput, lowerDocumentID));
+		}
+
+		// MidiMapping
+
+		private void MidiMappingDetailsShow(int id)
+		{
+			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
+
+			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.Show(userInput));
+		}
+
+		public void MidiMappingDetailsClose(int id)
+		{
+			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
+
+			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.Close(userInput));
+
+			MainViewModel.Document.VisibleMidiMappingDetails = null;
+		}
+
+		public void MidiMappingDetailsCreateElement(int midiMappingID)
+		{
+			// GetViewModel
+			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
+
+			// Template Method
+			MidiMappingDetailsViewModel viewModel = ExecuteCreateAction(userInput, () => _midiMappingDetailsPresenter.CreateElement(userInput));
+
+			if (viewModel.Successful)
+			{
+				// Refresh
+				DocumentViewModelRefresh();
+
+				// Undo History
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypesAndIDs = (EntityTypeEnum.MidiMappingElement, viewModel.CreatedElementID).ToViewModel().AsArray(),
+					States = GetMidiMappingElementStates(viewModel.CreatedElementID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
+			}
+		}
+
+		public void MidiMappingDetailsDeleteSelectedElement(int midiMappingID)
+		{
+			// GetViewModel
+			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
+
+			// Undo History
+			int id = userInput.SelectedElement?.ID ?? 0;
+			var undoItem = new UndoDeleteViewModel
+			{
+				EntityTypesAndIDs = (EntityTypeEnum.MidiMappingElement, id).ToViewModel().AsArray(),
+				States = GetMidiMappingElementStates(id)
+			};
+
+			// Template Method
+			MidiMappingDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _midiMappingDetailsPresenter.DeleteSelectedElement(userInput));
+
+			// Refresh
+			if (viewModel.Successful)
+			{
+				DocumentViewModelRefresh();
+			}
+		}
+
+		/// <summary> Only selecting the element, not e.g. switching properties. </summary>
+		private void MidiMappingDetailsSelectElement(int midiMappingID, int midiMappingElementID)
+		{
+			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
+
+			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.SelectElement(userInput, midiMappingElementID));
+		}
+
+		public void MidiMappingDetailsExpandElement(int midiMappingID, int midiMappingElementID)
+		{
+			// Redirect
+			MidiMappingElementPropertiesShow(midiMappingElementID);
+		}
+
+		/// <summary> Affects multiple partials. </summary>
+		private void MidiMappingElementExpand(int midiMappingID, int midiMappingElementID)
+		{
+			// Redirect
+			MidiMappingElementPropertiesShow(midiMappingElementID);
+			MidiMappingDetailsShow(midiMappingID);
+			MidiMappingDetailsSelectElement(midiMappingID, midiMappingElementID);
+		}
+
+		/// <summary> Affects multiple partials. </summary>
+		public void MidiMappingElementSelect(int midiMappingID, int midiMappingElementID)
+		{
+			// Redirect
+			MidiMappingDetailsSelectElement(midiMappingID, midiMappingElementID);
+			MidiMappingElementPropertiesSwitch(midiMappingElementID);
+		}
+
+		public void MidiMappingElementPropertiesClose(int id)
+		{
+			// GetViewModel
+			MidiMappingElementPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+
+			// TemplateMethod
+			MidiMappingElementPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _midiMappingElementPropertiesPresenter.Close(userInput));
+
+			if (viewModel.Successful)
+			{
+				MainViewModel.Document.VisibleMidiMappingElementProperties = null;
+
+				// Refresh
+				DocumentViewModelRefresh();
+			}
+		}
+
+		public void MidiMappingElementPropertiesDelete(int id)
+		{
+			// GetViewModel
+			MidiMappingElementPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+
+			// Undo History
+			var undoItem = new UndoDeleteViewModel
+			{
+				EntityTypesAndIDs = (EntityTypeEnum.MidiMappingElement, id).ToViewModel().AsArray(),
+				States = GetMidiMappingElementStates(id)
+			};
+
+			// Template Method
+			MidiMappingElementPropertiesViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _midiMappingElementPropertiesPresenter.Delete(userInput));
+
+			// Refresh
+			if (viewModel.Successful)
+			{
+				DocumentViewModelRefresh();
+			}
+		}
+
+		public void MidiMappingElementPropertiesExpand(int midiMappingID, int midiMappingElementID)
+		{
+			// Redirect
+			MidiMappingElementExpand(midiMappingID, midiMappingElementID);
+		}
+
+		public void MidiMappingElementPropertiesLoseFocus(int id)
+		{
+			// GetViewModel
+			MidiMappingElementPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+
+			// TemplateMethod
+			MidiMappingElementPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _midiMappingElementPropertiesPresenter.LoseFocus(userInput));
+
+			// Refresh
+			if (viewModel.Successful)
+			{
+				DocumentViewModelRefresh();
+			}
+		}
+
+		private void MidiMappingElementPropertiesShow(int id)
+		{
+			MidiMappingElementPropertiesViewModel viewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+
+			ExecuteNonPersistedAction(viewModel, () => _midiMappingElementPropertiesPresenter.Show(viewModel));
+		}
+
+		private void MidiMappingElementPropertiesSwitch(int id)
+		{
+			if (MainViewModel.PropertiesPanelVisible)
+			{
+				// Redirect
+				MidiMappingElementPropertiesShow(id);
+			}
 		}
 
 		// Node
@@ -1952,29 +2129,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
 			ExecuteUpdateAction(userInput, () => _patchDetailsPresenter.ChangeInputOutlet(userInput, inletID, inputOutletID));
-		}
-
-		public void OperatorDeleteSelected(int patchID)
-		{
-			// GetViewModel
-			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
-
-			// Undo History
-			IList<int> operatorIDsToDelete = GetOperatorIDsToDelete(patchID, userInput.SelectedOperator?.ID);
-			var undoItem = new UndoDeleteViewModel
-			{
-				EntityTypesAndIDs = operatorIDsToDelete.Select(x => (EntityTypeEnum.Operator, x).ToViewModel()).ToArray(),
-				States = operatorIDsToDelete.SelectMany(GetOperatorStates).Distinct().ToArray()
-			};
-
-			// Template Method
-			PatchDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _patchDetailsPresenter.DeleteOperator(userInput));
-
-			// Refresh
-			if (viewModel.Successful)
-			{
-				DocumentViewModelRefresh();
-			}
 		}
 
 		public void OperatorMove(int patchID, int operatorID, float centerX, float centerY)
@@ -2498,6 +2652,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(userInput, () => _patchDetailsPresenter.Close(userInput));
 
 			MainViewModel.Document.VisiblePatchDetails = null;
+		}
+
+		public void PatchDetailsDeleteSelectedOperator(int patchID)
+		{
+			// GetViewModel
+			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
+
+			// Undo History
+			IList<int> operatorIDsToDelete = GetOperatorIDsToDelete(patchID, userInput.SelectedOperator?.ID);
+			var undoItem = new UndoDeleteViewModel
+			{
+				EntityTypesAndIDs = operatorIDsToDelete.Select(x => (EntityTypeEnum.Operator, x).ToViewModel()).ToArray(),
+				States = operatorIDsToDelete.SelectMany(GetOperatorStates).Distinct().ToArray()
+			};
+
+			// Template Method
+			PatchDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _patchDetailsPresenter.DeleteOperator(userInput));
+
+			// Refresh
+			if (viewModel.Successful)
+			{
+				DocumentViewModelRefresh();
+			}
 		}
 
 		public void PatchDetailsPlay(int id)

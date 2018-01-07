@@ -2401,6 +2401,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select an element first..
+        /// </summary>
+        internal static string SelectAnElementFirst {
+            get {
+                return ResourceManager.GetString("SelectAnElementFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select a node first..
         /// </summary>
         internal static string SelectANodeFirst {

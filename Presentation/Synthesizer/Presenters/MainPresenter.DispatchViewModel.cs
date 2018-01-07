@@ -1,12 +1,12 @@
-﻿using JJ.Framework.Collections;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -35,6 +35,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(LibraryPropertiesViewModel), DispatchLibraryPropertiesViewModel },
 				{ typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
 				{ typeof(MenuViewModel), DispatchMenuViewModel },
+				{ typeof(MidiMappingDetailsViewModel), DispatchMidiMappingDetailsViewModel },
+				{ typeof(MidiMappingElementPropertiesViewModel), DispatchMidiMappingElementPropertiesViewModel },
 				{ typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
 				{ typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
 				{ typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
@@ -88,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			if (castedViewModel.Visible)
 			{
-				HideAllGridAndDetailViewModels();
+				HideAllGridAndDetailsViewModels();
 				castedViewModel.Visible = true;
 			}
 
@@ -214,7 +216,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			if (documentDetailsViewModel.Visible)
 			{
-				HideAllGridAndDetailViewModels();
+				HideAllGridAndDetailsViewModels();
 				documentDetailsViewModel.Visible = true;
 			}
 
@@ -229,7 +231,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			if (castedViewModel.Visible)
 			{
-				HideAllGridAndDetailViewModels();
+				HideAllGridAndDetailsViewModels();
 				castedViewModel.Visible = true;
 			}
 
@@ -353,6 +355,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (MenuViewModel)viewModel;
 			MainViewModel.Menu = castedViewModel;
+
+			DispatchViewModelBase(castedViewModel);
+		}
+
+		private void DispatchMidiMappingElementPropertiesViewModel(ViewModelBase viewModel)
+		{
+			var castedViewModel = (MidiMappingElementPropertiesViewModel)viewModel;
+
+			var dictionary = MainViewModel.Document.MidiMappingElementPropertiesDictionary;
+			dictionary[castedViewModel.MidiMappingID] = castedViewModel;
+
+			if (castedViewModel.Visible)
+			{
+				HideAllPropertiesViewModels();
+				castedViewModel.Visible = true;
+			}
+
+			DispatchViewModelBase(castedViewModel);
+		}
+
+		private void DispatchMidiMappingDetailsViewModel(ViewModelBase viewModel)
+		{
+			var castedViewModel = (MidiMappingDetailsViewModel)viewModel;
+
+			var dictionary = MainViewModel.Document.MidiMappingDetailsDictionary;
+			dictionary[castedViewModel.MidiMapping.ID] = castedViewModel;
+
+			if (castedViewModel.Visible)
+			{
+				HideAllGridAndDetailsViewModels();
+				castedViewModel.Visible = true;
+			}
 
 			DispatchViewModelBase(castedViewModel);
 		}
@@ -584,7 +618,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				if (castedViewModel.Visible)
 				{
-					HideAllGridAndDetailViewModels();
+					HideAllGridAndDetailsViewModels();
 					castedViewModel.Visible = true;
 					MainViewModel.Document.VisiblePatchDetails = castedViewModel;
 				}
@@ -649,7 +683,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			if (castedViewModel.Visible)
 			{
-				HideAllGridAndDetailViewModels();
+				HideAllGridAndDetailsViewModels();
 				castedViewModel.Visible = true;
 			}
 
@@ -684,7 +718,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			if (castedViewModel.Visible)
 			{
-				HideAllGridAndDetailViewModels();
+				HideAllGridAndDetailsViewModels();
 				castedViewModel.Visible = true;
 				MainViewModel.Document.VisibleToneGridEdit = castedViewModel;
 			}

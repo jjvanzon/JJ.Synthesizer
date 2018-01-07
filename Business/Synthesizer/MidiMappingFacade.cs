@@ -55,6 +55,13 @@ namespace JJ.Business.Synthesizer
 			return validator.ToResult();
 		}
 
+		public VoidResult SaveMidiMappingElement(MidiMappingElement entity)
+		{
+			IValidator validator = new MidiMappingElementValidator(entity);
+
+			return validator.ToResult();
+		}
+
 		public void DeleteMidiMapping(int id)
 		{
 			MidiMapping entity = _repositories.MidiMappingRepository.Get(id);
