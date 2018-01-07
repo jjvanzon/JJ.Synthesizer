@@ -97,6 +97,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
+		// EntityPosotion
+
+		public static PositionViewModel ToViewModel(this EntityPosition entityPosition)
+		{
+			if (entityPosition == null) throw new ArgumentNullException(nameof(entityPosition));
+
+			var viewModel = new PositionViewModel
+			{
+				EntityPositionID = entityPosition.ID,
+				EntityTypeName = entityPosition.EntityTypeName,
+				EntityID = entityPosition.EntityID,
+				CenterX = entityPosition.X,
+				CenterY = entityPosition.Y
+			};
+
+			return viewModel;
+		}
+
 		// EntityTypeAndID
 
 		public static EntityTypeAndIDViewModel ToViewModel(this (EntityTypeEnum, int) tuple)
@@ -176,22 +194,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				ID = entity.ID,
 				Position = entityPosition.ToViewModel(),
 				Caption = ToViewModelHelper.GetCaption(entity)
-			};
-
-			return viewModel;
-		}
-
-		public static PositionViewModel ToViewModel(this EntityPosition entityPosition)
-		{
-			if (entityPosition == null) throw new ArgumentNullException(nameof(entityPosition));
-
-			var viewModel = new PositionViewModel
-			{
-				EntityPositionID = entityPosition.ID,
-				EntityTypeName = entityPosition.EntityTypeName,
-				EntityID = entityPosition.EntityID,
-				CenterX = entityPosition.X,
-				CenterY = entityPosition.Y
 			};
 
 			return viewModel;
