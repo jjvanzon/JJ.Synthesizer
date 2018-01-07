@@ -1,12 +1,12 @@
-﻿using JJ.Framework.Exceptions;
+﻿using System;
+using System.Collections.Generic;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System;
-using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
@@ -54,8 +54,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			destOperatorRectangle.Position.Width = GetOperatorWidth(sourceOperatorViewModel);
 			destOperatorRectangle.Position.Height = GetOperatorHeight(sourceOperatorViewModel);
-			destOperatorRectangle.Position.X = sourceOperatorViewModel.CenterX - destOperatorRectangle.Position.Width / 2f;
-			destOperatorRectangle.Position.Y = sourceOperatorViewModel.CenterY - destOperatorRectangle.Position.Height / 2f;
+			destOperatorRectangle.Position.X = sourceOperatorViewModel.Position.CenterX - destOperatorRectangle.Position.Width / 2f;
+			destOperatorRectangle.Position.Y = sourceOperatorViewModel.Position.CenterY - destOperatorRectangle.Position.Height / 2f;
 
 			if (sourceOperatorViewModel.IsSelected)
 			{

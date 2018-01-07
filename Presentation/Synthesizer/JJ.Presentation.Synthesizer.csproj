@@ -111,6 +111,7 @@
     <Compile Include="ViewModels\Items\CurrentInstrumentItemViewModel.cs" />
     <Compile Include="ViewModels\Items\DocumentTreeNodeTypeEnum.cs" />
     <Compile Include="ViewModels\Items\AutoPatchPopupViewModel.cs" />
+    <Compile Include="ViewModels\Items\PositionViewModel.cs" />
     <Compile Include="ViewModels\Items\EntityTypeAndIDViewModel.cs" />
     <Compile Include="ViewModels\Items\UndoCreateViewModel.cs" />
     <Compile Include="ViewModels\Items\UndoDeleteViewModel.cs" />

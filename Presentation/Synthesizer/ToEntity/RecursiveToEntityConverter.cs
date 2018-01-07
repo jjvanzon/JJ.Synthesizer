@@ -150,7 +150,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			_operatorDictionary.Add(op.ID, op);
 
-			viewModel.ToEntityPosition(_repositories.EntityPositionRepository);
+			viewModel.Position.ToEntity(_repositories.EntityPositionRepository);
 
 			ConvertToInletsRecursive(viewModel.Inlets, op);
 			ConvertToOutletsRecursive(viewModel.Outlets, op);

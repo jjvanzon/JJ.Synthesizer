@@ -50,11 +50,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				ValidationMessages = new List<string>(),
 			};
 
-			foreach (OperatorViewModel operatorViewModel in viewModel.Entity.OperatorDictionary.Values)
-			{
-				SetViewModelPosition(operatorViewModel);
-			}
-
 			return viewModel;
 		}
 
@@ -148,6 +143,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			_dictionary.Add(op, viewModel);
 
+			EntityPosition entityPosition = _entityPositionFacade.GetOrCreateOperatorPosition(op.ID);
+			viewModel.Position = entityPosition.ToViewModel();
 			viewModel.Inlets = ConvertToViewModelsRecursive(op.Inlets);
 			viewModel.Outlets = ConvertToViewModelsRecursive(op.Outlets);
 
@@ -192,14 +189,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.Operator = ConvertToViewModelRecursive(outlet.Operator);
 
 			return viewModel;
-		}
-
-		private void SetViewModelPosition(OperatorViewModel operatorViewModel)
-		{
-			EntityPosition entityPosition = _entityPositionFacade.GetOrCreateOperatorPosition(operatorViewModel.ID);
-			operatorViewModel.EntityPositionID = entityPosition.ID;
-			operatorViewModel.CenterX = entityPosition.X;
-			operatorViewModel.CenterY = entityPosition.Y;
 		}
 
 		// Helpers

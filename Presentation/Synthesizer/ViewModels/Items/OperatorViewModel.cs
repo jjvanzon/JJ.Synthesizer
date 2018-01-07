@@ -12,11 +12,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 	public sealed class OperatorViewModel
 	{
 		public int ID { get; set; }
-		public int EntityPositionID { get; set; }
 
 		public string Caption { get; set; }
-		public float CenterX { get; set; }
-		public float CenterY { get; set; }
 		public bool IsSelected { get; set; }
 
 		/// <summary> not editable </summary>
@@ -33,6 +30,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 		/// Operator.Outlets &lt;=&gt; OutletViewModel.Operator
 		/// </summary>
 		public IList<OutletViewModel> Outlets { get; set; }
+
+		public PositionViewModel Position { get; set; }
 
 		public bool IsOwned { get; set; }
 

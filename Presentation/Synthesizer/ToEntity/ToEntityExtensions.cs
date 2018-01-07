@@ -436,7 +436,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 		// EntityPosition
 
-		public static EntityPosition ToEntityPosition(this OperatorViewModel viewModel, IEntityPositionRepository entityPositionRepository)
+		public static EntityPosition ToEntity(this PositionViewModel viewModel, IEntityPositionRepository entityPositionRepository)
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 			if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
@@ -450,30 +450,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			entityPosition.X = viewModel.CenterX;
 			entityPosition.Y = viewModel.CenterY;
-			entityPosition.EntityTypeName = typeof(Operator).Name;
-			entityPosition.EntityID = viewModel.ID;
-
-			return entityPosition;
-		}
-
-		public static EntityPosition ToEntityPosition(
-			this MidiMappingElementItemViewModel viewModel,
-			IEntityPositionRepository entityPositionRepository)
-		{
-			if (viewModel == null) throw new NullException(() => viewModel);
-			if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
-
-			EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.EntityPositionID);
-			if (entityPosition == null)
-			{
-				entityPosition = new EntityPosition { ID = viewModel.EntityPositionID };
-				entityPositionRepository.Insert(entityPosition);
-			}
-
-			entityPosition.X = viewModel.CenterX;
-			entityPosition.Y = viewModel.CenterY;
-			entityPosition.EntityTypeName = typeof(MidiMapping).Name;
-			entityPosition.EntityID = viewModel.ID;
+			entityPosition.EntityTypeName = viewModel.EntityTypeName;
+			entityPosition.EntityID = viewModel.EntityPositionID;
 
 			return entityPosition;
 		}
@@ -598,14 +576,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
 
-			MidiMapping midiMapping = viewModel.MidiMapping.ToMidiMapping(repositories.MidiMappingRepository);
+			MidiMapping midiMapping = viewModel.MidiMapping.ToEntity(repositories.MidiMappingRepository);
 
-			viewModel.MidiMappingElements.ToEntities(midiMapping, repositories);
+			viewModel.MidiMappingElements.ToEntitiesWithRelatedEntities(midiMapping, repositories);
 
 			return midiMapping;
 		}
 
-		public static MidiMapping ToMidiMapping(this IDAndName idAndName, IMidiMappingRepository midiMappingRepository)
+		public static MidiMapping ToEntity(this IDAndName idAndName, IMidiMappingRepository midiMappingRepository)
 		{
 			if (idAndName == null) throw new ArgumentNullException(nameof(idAndName));
 			if (midiMappingRepository == null) throw new ArgumentNullException(nameof(midiMappingRepository));
@@ -622,7 +600,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			return entity;
 		}
 
-		public static void ToEntities(
+		public static void ToEntitiesWithRelatedEntities(
 			this IList<MidiMappingElementItemViewModel> viewModelList,
 			MidiMapping destMidiMapping,
 			MidiMappingRepositories repositories)
@@ -635,7 +613,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			foreach (MidiMappingElementItemViewModel viewModel in viewModelList)
 			{
-				MidiMappingElement entity = viewModel.ToEntity(repositories.MidiMappingElementRepository, repositories.EntityPositionRepository);
+				MidiMappingElement entity = viewModel.ToEntityWithRelatedEntities(repositories.MidiMappingElementRepository, repositories.EntityPositionRepository);
 				entity.LinkTo(destMidiMapping);
 
 				idsToKeep.Add(entity.ID);
@@ -651,13 +629,23 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			}
 		}
 
-		public static MidiMappingElement ToEntity(
+		public static MidiMappingElement ToEntityWithRelatedEntities(
 			this MidiMappingElementItemViewModel viewModel,
 			IMidiMappingElementRepository midiMappingElementRepository,
 			IEntityPositionRepository entityPositionRepository)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
-			if (midiMappingElementRepository == null) throw new ArgumentNullException(nameof(midiMappingElementRepository));
+
+			MidiMappingElement entity = viewModel.ToEntity(midiMappingElementRepository);
+
+			viewModel.Position.ToEntity(entityPositionRepository);
+
+			return entity;
+		}
+
+		public static MidiMappingElement ToEntity(this MidiMappingElementItemViewModel viewModel, IMidiMappingElementRepository midiMappingElementRepository)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
 			MidiMappingElement entity = midiMappingElementRepository.TryGet(viewModel.ID);
 			if (entity == null)
@@ -665,8 +653,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				entity = new MidiMappingElement { ID = viewModel.ID };
 				midiMappingElementRepository.Insert(entity);
 			}
-
-			viewModel.ToEntityPosition(entityPositionRepository);
 
 			return entity;
 		}

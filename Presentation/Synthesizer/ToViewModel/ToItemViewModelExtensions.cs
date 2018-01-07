@@ -174,10 +174,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new MidiMappingElementItemViewModel()
 			{
 				ID = entity.ID,
-				EntityPositionID = entityPosition.ID,
-				CenterX = entityPosition.X,
-				CenterY = entityPosition.Y,
+				Position = entityPosition.ToViewModel(),
 				Caption = ToViewModelHelper.GetCaption(entity)
+			};
+
+			return viewModel;
+		}
+
+		public static PositionViewModel ToViewModel(this EntityPosition entityPosition)
+		{
+			if (entityPosition == null) throw new ArgumentNullException(nameof(entityPosition));
+
+			var viewModel = new PositionViewModel
+			{
+				EntityPositionID = entityPosition.ID,
+				EntityTypeName = entityPosition.EntityTypeName,
+				EntityID = entityPosition.EntityID,
+				CenterX = entityPosition.X,
+				CenterY = entityPosition.Y
 			};
 
 			return viewModel;

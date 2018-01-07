@@ -227,12 +227,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
 			viewModel.Caption = GetCaption(entity);
 			viewModel.IsOwned = entity.IsOwned();
+			viewModel.Dimension = entity.ToDimensionViewModel();
 
 			EntityPosition entityPosition = entityPositionFacade.GetOrCreateOperatorPosition(entity.ID);
-			viewModel.EntityPositionID = entityPosition.ID;
-			viewModel.CenterX = entityPosition.X;
-			viewModel.CenterY = entityPosition.Y;
-			viewModel.Dimension = entity.ToDimensionViewModel();
+			viewModel.Position = entityPosition.ToViewModel();
 		}
 
 		public static DimensionViewModel ToDimensionViewModel(this Operator entity)
