@@ -1,7 +1,7 @@
-﻿using JJ.Data.Canonical;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 
@@ -89,6 +89,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				ID = (int)enumValue,
 				Name = displayName
+			};
+		}
+
+		public static IDAndName ToIDAndName(this MidiMapping entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
+
+			return new IDAndName
+			{
+				ID = entity.ID,
+				Name = entity.Name
 			};
 		}
 

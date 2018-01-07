@@ -292,6 +292,7 @@
     <Compile Include="Helpers\InletOrOutletTuple.cs" />
     <Compile Include="Helpers\InletOutletCloner.cs" />
     <Compile Include="Helpers\MidiConstants.cs" />
+    <Compile Include="Helpers\MidiMappingRepositories.cs" />
     <Compile Include="Helpers\OutletTuple.cs" />
     <Compile Include="Helpers\InletTuple.cs" />
     <Compile Include="Helpers\SystemPatchNames.cs" />

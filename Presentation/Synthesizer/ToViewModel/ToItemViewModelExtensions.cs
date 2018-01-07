@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
@@ -96,7 +97,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-
 		// EntityTypeAndID
 
 		public static EntityTypeAndIDViewModel ToViewModel(this (EntityTypeEnum, int) tuple)
@@ -160,6 +160,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
+		// MidiMapping
+
+		public static MidiMappingElementItemViewModel ToItemViewModel(this MidiMappingElement entity, EntityPositionFacade entityPositionFacade)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+			if (entityPositionFacade == null) throw new ArgumentNullException(nameof(entityPositionFacade));
+
+			EntityPosition entityPosition = null;
+			//entityPosition = entityPositionFacade.GetOrCreateMidiMappingElementPosition()
+			throw new NotImplementedException();
+
+			var viewModel = new MidiMappingElementItemViewModel()
+			{
+				ID = entity.ID,
+				EntityPositionID = entityPosition.ID,
+				CenterX = entityPosition.X,
+				CenterY = entityPosition.Y,
+				Caption = ToViewModelHelper.GetCaption(entity)
+			};
+
+			return viewModel;
+		}
+
 		// Node
 
 		public static Dictionary<int, NodeViewModel> ToViewModelDictionary(this IList<Node> entities)
@@ -181,7 +204,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				Y = entity.Y,
 				NodeType = entity.NodeType.ToIDAndDisplayName(),
 				ID = entity.ID,
-				Caption = ToViewModelHelper.GetNodeCaption(entity)
+				Caption = ToViewModelHelper.GetCaption(entity)
 			};
 
 			return viewModel;
@@ -243,7 +266,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.IsRepeating = entity.IsRepeating;
 			viewModel.RepetitionPosition = entity.RepetitionPosition;
 			viewModel.Visible = ToViewModelHelper.GetOutletVisible(entity);
-			viewModel.Caption = ToViewModelHelper.GetOutletCaption(entity, curveRepository);
+			viewModel.Caption = ToViewModelHelper.GetCaption(entity, curveRepository);
 			viewModel.AverageConnectionDistance = ToViewModelHelper.TryGetAverageConnectionDistance(entity, entityPositionFacade);
 
 			if (entity.Dimension != null)

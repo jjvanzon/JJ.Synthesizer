@@ -99,6 +99,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				DocumentTree = new RecursiveDocumentTreeViewModelFactory().CreateEmptyDocumentTreeViewModel(),
 				LibraryPropertiesDictionary = new Dictionary<int, LibraryPropertiesViewModel>(),
 				LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
+				MidiMappingDetailsDictionary = new Dictionary<int, MidiMappingDetailsViewModel>(),
+				MidiMappingElementPropertiesDictionary = new Dictionary<int, MidiMappingElementPropertiesViewModel>(),
 				NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
 				OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),
 				OperatorPropertiesDictionary_ForCaches = new Dictionary<int, OperatorPropertiesViewModel_ForCache>(),

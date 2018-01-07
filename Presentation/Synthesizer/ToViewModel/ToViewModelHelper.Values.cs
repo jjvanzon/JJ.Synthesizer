@@ -278,9 +278,46 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return distance;
 		}
 
+		// MidiMapping
+
+		public static string GetCaption(MidiMappingElement entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+			var sb = new StringBuilder();
+
+			// Use StandardDimension
+			if (entity.StandardDimension != null )
+			{
+				sb.Append(ResourceFormatter.GetDisplayName(entity.StandardDimension));
+			}
+
+			// Use CustomDimensionName
+			else if (!string.IsNullOrWhiteSpace(entity.CustomDimensionName))
+			{
+				sb.Append(entity.CustomDimensionName);
+			}
+
+			// Use ControllerCode
+			else if (entity.ControllerCode.HasValue)
+			{
+				sb.Append(entity.ControllerCode);
+			}
+
+			// TODO: Low priority: try using other things to identify the MidiMappingElement.
+
+			// ID
+			if (_idsVisible)
+			{
+				sb.Append($" ({entity.ID})");
+			}
+
+			return sb.ToString();
+		}
+
 		// Node
 
-		public static string GetNodeCaption(Node entity)
+		public static string GetCaption(Node entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -291,7 +328,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		public static bool GetOperatorIsSmaller(Operator entity) => entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number;
 
-		public static string GetOperatorCaption(Operator op)
+		public static string GetCaption(Operator op)
 		{
 			if (op == null) throw new NullException(() => op);
 
@@ -601,7 +638,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return outletVisible;
 		}
 
-		public static string GetOutletCaption(Outlet outlet, ICurveRepository curveRepository)
+		public static string GetCaption(Outlet outlet, ICurveRepository curveRepository)
 		{
 			if (outlet == null) throw new NullException(() => outlet);
 

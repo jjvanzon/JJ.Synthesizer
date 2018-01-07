@@ -30,10 +30,14 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 		public Dictionary<int, CurveDetailsViewModel> CurveDetailsDictionary { get; set; }
 
 		public DocumentPropertiesViewModel DocumentProperties { get; set; }
+		public DocumentTreeViewModel DocumentTree { get; set; }
 		public LibrarySelectionPopupViewModel LibrarySelectionPopup { get; set; }
 		public Dictionary<int, LibraryPropertiesViewModel> LibraryPropertiesDictionary { get; set; }
 		public LibraryPropertiesViewModel VisibleLibraryProperties { get; set; }
-		public DocumentTreeViewModel DocumentTree { get; set; }
+		public MidiMappingDetailsViewModel VisibleMidiMappingDetails { get; set; }
+		public Dictionary<int, MidiMappingDetailsViewModel> MidiMappingDetailsDictionary { get; set; }
+		public MidiMappingElementPropertiesViewModel VisibleMidiMappingElementProperties { get; set; }
+		public Dictionary<int, MidiMappingElementPropertiesViewModel> MidiMappingElementPropertiesDictionary { get; set; }
 		public NodePropertiesViewModel VisibleNodeProperties { get; set; }
 		public Dictionary<int, NodePropertiesViewModel> NodePropertiesDictionary { get; set; }
 		public OperatorPropertiesViewModel VisibleOperatorProperties { get; set; }

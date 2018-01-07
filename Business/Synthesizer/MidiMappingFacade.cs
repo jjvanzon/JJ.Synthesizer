@@ -1,11 +1,11 @@
 ﻿using System;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Framework.Validation;
 
@@ -13,30 +13,20 @@ namespace JJ.Business.Synthesizer
 {
 	public class MidiMappingFacade
 	{
-		private readonly IMidiMappingRepository _midiMappingRepository;
-		private readonly IIDRepository _idRepository;
-		private readonly IDimensionRepository _dimensionRepository;
-		private readonly IMidiMappingElementRepository _midiMappingElementRepository;
+		private readonly MidiMappingRepositories _repositories;
 
-		public MidiMappingFacade(
-			IMidiMappingRepository midiMappingRepository,
-			IMidiMappingElementRepository midiMappingElementRepository,
-			IDimensionRepository dimensionRepository,
-			IIDRepository idRepository)
+		public MidiMappingFacade(MidiMappingRepositories repositories)
 		{
-			_midiMappingRepository = midiMappingRepository ?? throw new ArgumentNullException(nameof(midiMappingRepository));
-			_idRepository = idRepository ?? throw new ArgumentNullException(nameof(idRepository));
-			_dimensionRepository = dimensionRepository ?? throw new ArgumentNullException(nameof(dimensionRepository));
-			_midiMappingElementRepository = midiMappingElementRepository ?? throw new ArgumentNullException(nameof(midiMappingElementRepository));
+			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 		}
 
 		public MidiMapping CreateMidiMappingWithDefaults(Document document)
 		{
 			if (document == null) throw new ArgumentNullException(nameof(document));
 
-			var entity = new MidiMapping { ID = _idRepository.GetID() };
+			var entity = new MidiMapping { ID = _repositories.IDRepository.GetID() };
 			entity.LinkTo(document);
-			_midiMappingRepository.Insert(entity);
+			_repositories.MidiMappingRepository.Insert(entity);
 
 			new MidiMapping_SideEffect_GenerateName(entity).Execute();
 			new MidiMapping_SideEffect_AutoCreate_MidiMapingElement(entity, this).Execute();
@@ -48,12 +38,12 @@ namespace JJ.Business.Synthesizer
 		{
 			if (midiMapping == null) throw new ArgumentNullException(nameof(midiMapping));
 
-			var entity = new MidiMappingElement { ID = _idRepository.GetID() };
-			_midiMappingElementRepository.Insert(entity);
+			var entity = new MidiMappingElement { ID = _repositories.IDRepository.GetID() };
+			_repositories.MidiMappingElementRepository.Insert(entity);
 
 			entity.LinkTo(midiMapping);
 
-			new MidiMappingElement_SideEffect_SetDefaults(entity, _dimensionRepository).Execute();
+			new MidiMappingElement_SideEffect_SetDefaults(entity, _repositories.DimensionRepository).Execute();
 
 			return entity;
 		}
@@ -67,7 +57,7 @@ namespace JJ.Business.Synthesizer
 
 		public void DeleteMidiMapping(int id)
 		{
-			MidiMapping entity = _midiMappingRepository.Get(id);
+			MidiMapping entity = _repositories.MidiMappingRepository.Get(id);
 			DeleteMidiMapping(entity);
 		}
 
@@ -75,15 +65,15 @@ namespace JJ.Business.Synthesizer
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			entity.DeleteRelatedEntities(_midiMappingElementRepository);
+			entity.DeleteRelatedEntities(_repositories.MidiMappingElementRepository);
 			entity.UnlinkRelatedEntities();
 
-			_midiMappingRepository.Delete(entity);
+			_repositories.MidiMappingRepository.Delete(entity);
 		}
 
 		public void DeleteMidiMappingElement(int id)
 		{
-			MidiMappingElement entity = _midiMappingElementRepository.Get(id);
+			MidiMappingElement entity = _repositories.MidiMappingElementRepository.Get(id);
 			DeleteMidiMappingElement(entity);
 		}
 
@@ -93,7 +83,7 @@ namespace JJ.Business.Synthesizer
 
 			entity.UnlinkRelatedEntities();
 
-			_midiMappingElementRepository.Delete(entity);
+			_repositories.MidiMappingElementRepository.Delete(entity);
 		}
 	}
 }

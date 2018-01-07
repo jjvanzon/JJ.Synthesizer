@@ -28,26 +28,6 @@ namespace JJ.Business.Synthesizer.Helpers
 			IDRepository = repositoryWrapper.IDRepository;
 		}
 
-		public AudioFileOutputRepositories(
-			IAudioFileOutputRepository audioFileOutputRepository,
-			IAudioFileFormatRepository audioFileFormatRepository,
-			ISampleDataTypeRepository sampleDataTypeRepository,
-			ISpeakerSetupRepository speakerSetupRepository,
-			IOutletRepository outletRepository,
-			ICurveRepository curveRepository,
-			ISampleRepository sampleRepository,
-			IIDRepository idRepository)
-		{
-			AudioFileOutputRepository = audioFileOutputRepository ?? throw new NullException(() => audioFileOutputRepository);
-			AudioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);
-			SampleDataTypeRepository = sampleDataTypeRepository ?? throw new NullException(() => sampleDataTypeRepository);
-			SpeakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
-			OutletRepository = outletRepository ?? throw new NullException(() => outletRepository);
-			CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-			SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-			IDRepository = idRepository ?? throw new NullException(() => idRepository);
-		}
-
 		public void Commit() => AudioFileOutputRepository.Commit();
 		public void Rollback() => AudioFileOutputRepository.Rollback();
 		public void Flush() => AudioFileOutputRepository.Flush();

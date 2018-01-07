@@ -18,13 +18,17 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
+// ReSharper disable ObjectCreationAsStatement
+
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
 	internal static class ToEntityExtensions
 	{
 		// AudioFileOutput
 
-		public static AudioFileOutput ToEntity(this AudioFileOutputPropertiesViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
+		public static AudioFileOutput ToEntity(
+			this AudioFileOutputPropertiesViewModel viewModel,
+			AudioFileOutputRepositories audioFileOutputRepositories)
 		{
 			return viewModel.Entity.ToEntity(audioFileOutputRepositories);
 		}
@@ -42,6 +46,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				entity = new AudioFileOutput { ID = viewModel.ID };
 				repositories.AudioFileOutputRepository.Insert(entity);
 			}
+
 			entity.Name = viewModel.Name;
 			entity.Amplifier = viewModel.Amplifier;
 			entity.TimeMultiplier = viewModel.TimeMultiplier;
@@ -89,10 +94,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				AudioFileOutput entity = viewModel.ToEntity(repositories);
 				entity.LinkTo(destDocument);
 
-				if (!idsToKeep.Contains(entity.ID))
-				{
-					idsToKeep.Add(entity.ID);
-				}
+				idsToKeep.Add(entity.ID);
 			}
 
 			var audioFileOutputFacade = new AudioFileOutputFacade(repositories);
@@ -120,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 		}
 
 		public static AudioOutput ToEntity(
-			this AudioOutputViewModel viewModel, 
+			this AudioOutputViewModel viewModel,
 			IAudioOutputRepository audioOutputRepository,
 			ISpeakerSetupRepository speakerSetupRepository)
 		{
@@ -174,7 +176,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				propertiesViewModel.ToEntity(repositories);
 			}
 
-			foreach (OperatorPropertiesViewModel_ForInletsToDimension propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForInletsToDimension.Values)
+			foreach (OperatorPropertiesViewModel_ForInletsToDimension propertiesViewModel in viewModel
+				                                                                                 .OperatorPropertiesDictionary_ForInletsToDimension
+				                                                                                 .Values)
 			{
 				propertiesViewModel.ToEntity(repositories);
 			}
@@ -199,13 +203,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				propertiesViewModel.ToEntity(repositories);
 			}
 
-			foreach (OperatorPropertiesViewModel_WithInterpolation propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithInterpolation.Values)
+			foreach (OperatorPropertiesViewModel_WithInterpolation propertiesViewModel in viewModel
+				                                                                              .OperatorPropertiesDictionary_WithInterpolation.Values)
 			{
 				propertiesViewModel.ToEntity(repositories);
 			}
 
 			foreach (OperatorPropertiesViewModel_WithCollectionRecalculation propertiesViewModel in viewModel
-				.OperatorPropertiesDictionary_WithCollectionRecalculation.Values)
+				                                                                                        .OperatorPropertiesDictionary_WithCollectionRecalculation
+				                                                                                        .Values)
 			{
 				propertiesViewModel.ToEntity(repositories);
 			}
@@ -216,8 +222,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 		// Curve
 
 		public static void ToEntitiesWithNodes(
-			this IEnumerable<CurveDetailsViewModel> viewModelList, 
-			IList<Curve> existingEntities, 
+			this IEnumerable<CurveDetailsViewModel> viewModelList,
+			IList<Curve> existingEntities,
 			CurveRepositories repositories)
 		{
 			if (viewModelList == null) throw new NullException(() => viewModelList);
@@ -275,14 +281,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			var curveRepositories = new CurveRepositories(repositories);
 			var scaleRepositories = new ScaleRepositories(repositories);
+			var midiMappingRepositories = new MidiMappingRepositories(repositories);
 
-			// ReSharper disable once RedundantAssignment
-			Document destDocument = repositories.DocumentRepository.TryGetComplete(viewModel.ID); // Eager loading
-			destDocument = viewModel.ToEntity(repositories.DocumentRepository);
+			repositories.DocumentRepository.TryGetComplete(viewModel.ID); // Eager loading
+			Document destDocument = viewModel.ToEntity(repositories.DocumentRepository);
 			viewModel.DocumentProperties.ToEntity(repositories.DocumentRepository);
 
 			var converter = new RecursiveToEntityConverter(repositories);
-
 			converter.ConvertToEntitiesWithRelatedEntities(
 				viewModel.PatchDetailsDictionary.Values,
 				viewModel.PatchPropertiesDictionary.Values,
@@ -343,18 +348,19 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			viewModel.AudioFileOutputPropertiesDictionary.Values.ToEntities(destDocument, new AudioFileOutputRepositories(repositories));
 			viewModel.AudioOutputProperties.ToEntity(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository);
-			// Order-Dependence: OperatorPropertiesViewModel_ForCurve should be converted before CurveDetails.
-			// (Because that links it to the parent, which is needed for determining which to delete.)
-			viewModel.CurveDetailsDictionary.Values.ToEntitiesWithNodes(destDocument.GetCurves(), curveRepositories);
-			// Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
-			// TODO: Low priority: It is not tidy to not have a plural variation that also does the delete operations,
-			// even though the CurveDetailsList ToEntity already covers deletion.
-			viewModel.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
 			viewModel.LibraryPropertiesDictionary.Values.ToEntities(destDocument, repositories);
 			viewModel.ScalePropertiesDictionary.Values.ToEntities(scaleRepositories, destDocument);
 			viewModel.ToneGridEditDictionary.Values.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
-
 			viewModel.AutoPatchPopup?.ToEntityWithRelatedEntities(repositories);
+
+			// Order-Dependence: OperatorPropertiesViewModel_ForCurve should be converted before CurveDetails.
+			viewModel.CurveDetailsDictionary.Values.ToEntitiesWithNodes(destDocument.GetCurves(), curveRepositories);
+			// Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
+			viewModel.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
+
+			viewModel.MidiMappingDetailsDictionary.Values.ToEntitiesWithRelatedEntities(destDocument, midiMappingRepositories);
+			// Order-Dependence: MidiMappingElementProperties are leading over MidiMappingDetails items.
+			viewModel.MidiMappingElementPropertiesDictionary.Values.ForEach(x => x.ToEntity(midiMappingRepositories));
 
 			return destDocument;
 		}
@@ -370,6 +376,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				document = new Document { ID = viewModel.ID };
 				documentRepository.Insert(document);
 			}
+
 			document.Name = viewModel.DocumentProperties.Entity.Name;
 
 			return document;
@@ -385,7 +392,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 		}
 
 		public static Document ToEntityWithAudioOutput(
-			this DocumentDetailsViewModel viewModel, 
+			this DocumentDetailsViewModel viewModel,
 			IDocumentRepository documentRepository,
 			IDocumentReferenceRepository documentReferenceRepository,
 			IAudioOutputRepository audioOutputRepository,
@@ -440,9 +447,32 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				entityPosition = new EntityPosition { ID = viewModel.EntityPositionID };
 				entityPositionRepository.Insert(entityPosition);
 			}
+
 			entityPosition.X = viewModel.CenterX;
 			entityPosition.Y = viewModel.CenterY;
 			entityPosition.EntityTypeName = typeof(Operator).Name;
+			entityPosition.EntityID = viewModel.ID;
+
+			return entityPosition;
+		}
+
+		public static EntityPosition ToEntityPosition(
+			this MidiMappingElementItemViewModel viewModel,
+			IEntityPositionRepository entityPositionRepository)
+		{
+			if (viewModel == null) throw new NullException(() => viewModel);
+			if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
+
+			EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.EntityPositionID);
+			if (entityPosition == null)
+			{
+				entityPosition = new EntityPosition { ID = viewModel.EntityPositionID };
+				entityPositionRepository.Insert(entityPosition);
+			}
+
+			entityPosition.X = viewModel.CenterX;
+			entityPosition.Y = viewModel.CenterY;
+			entityPosition.EntityTypeName = typeof(MidiMapping).Name;
 			entityPosition.EntityID = viewModel.ID;
 
 			return entityPosition;
@@ -462,6 +492,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				inlet = new Inlet { ID = viewModel.ID };
 				inletRepository.Insert(inlet);
 			}
+
 			inlet.Position = viewModel.Position;
 			inlet.Name = viewModel.Name;
 			inlet.DefaultValue = viewModel.DefaultValue;
@@ -479,7 +510,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 		// Library
 
-		public static void ToEntities(this IEnumerable<LibraryPropertiesViewModel> viewModels, Document destDocument, RepositoryWrapper repositories)
+		public static void ToEntities(
+			this IEnumerable<LibraryPropertiesViewModel> viewModels,
+			Document destDocument,
+			RepositoryWrapper repositories)
 		{
 			if (viewModels == null) throw new NullException(() => viewModels);
 			if (destDocument == null) throw new NullException(() => destDocument);
@@ -491,10 +525,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				DocumentReference entity = viewModel.ToEntity(repositories.DocumentReferenceRepository, repositories.DocumentRepository);
 				entity.LinkToHigherDocument(destDocument);
 
-				if (!idsToKeep.Contains(entity.ID))
-				{
-					idsToKeep.Add(entity.ID);
-				}
+				idsToKeep.Add(entity.ID);
 			}
 
 			var documentFacade = new DocumentFacade(repositories);
@@ -532,11 +563,176 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			return entity;
 		}
 
+		// MidiMapping
+
+		public static void ToEntitiesWithRelatedEntities(
+			this IEnumerable<MidiMappingDetailsViewModel> viewModelList,
+			Document destDocument,
+			MidiMappingRepositories repositories)
+		{
+			if (viewModelList == null) throw new ArgumentNullException(nameof(viewModelList));
+			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
+
+			var idsToKeep = new HashSet<int>();
+
+			foreach (MidiMappingDetailsViewModel viewModel in viewModelList)
+			{
+				MidiMapping entity = viewModel.ToEntityWithRelatedEntities(repositories);
+				entity.LinkTo(destDocument);
+
+				idsToKeep.Add(entity.ID);
+			}
+
+			var midiMappingFacade = new MidiMappingFacade(repositories);
+
+			IList<int> existingIDs = destDocument.MidiMappings.Select(x => x.ID).ToArray();
+			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+			foreach (int idToDelete in idsToDelete)
+			{
+				midiMappingFacade.DeleteMidiMapping(idToDelete);
+			}
+		}
+
+		public static MidiMapping ToEntityWithRelatedEntities(this MidiMappingDetailsViewModel viewModel, MidiMappingRepositories repositories)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
+
+			MidiMapping midiMapping = viewModel.MidiMapping.ToMidiMapping(repositories.MidiMappingRepository);
+
+			viewModel.MidiMappingElements.ToEntities(midiMapping, repositories);
+
+			return midiMapping;
+		}
+
+		public static MidiMapping ToMidiMapping(this IDAndName idAndName, IMidiMappingRepository midiMappingRepository)
+		{
+			if (idAndName == null) throw new ArgumentNullException(nameof(idAndName));
+			if (midiMappingRepository == null) throw new ArgumentNullException(nameof(midiMappingRepository));
+
+			MidiMapping entity = midiMappingRepository.TryGet(idAndName.ID);
+			if (entity == null)
+			{
+				entity = new MidiMapping { ID = idAndName.ID };
+				midiMappingRepository.Insert(entity);
+			}
+
+			entity.Name = idAndName.Name;
+
+			return entity;
+		}
+
+		public static void ToEntities(
+			this IList<MidiMappingElementItemViewModel> viewModelList,
+			MidiMapping destMidiMapping,
+			MidiMappingRepositories repositories)
+		{
+			if (viewModelList == null) throw new ArgumentNullException(nameof(viewModelList));
+			if (destMidiMapping == null) throw new ArgumentNullException(nameof(destMidiMapping));
+			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
+
+			var idsToKeep = new HashSet<int>();
+
+			foreach (MidiMappingElementItemViewModel viewModel in viewModelList)
+			{
+				MidiMappingElement entity = viewModel.ToEntity(repositories.MidiMappingElementRepository, repositories.EntityPositionRepository);
+				entity.LinkTo(destMidiMapping);
+
+				idsToKeep.Add(entity.ID);
+			}
+
+			var midiMappingFacade = new MidiMappingFacade(repositories);
+
+			IList<int> existingIDs = destMidiMapping.MidiMappingElements.Select(x => x.ID).ToArray();
+			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+			foreach (int idToDelete in idsToDelete)
+			{
+				midiMappingFacade.DeleteMidiMappingElement(idToDelete);
+			}
+		}
+
+		public static MidiMappingElement ToEntity(
+			this MidiMappingElementItemViewModel viewModel,
+			IMidiMappingElementRepository midiMappingElementRepository,
+			IEntityPositionRepository entityPositionRepository)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+			if (midiMappingElementRepository == null) throw new ArgumentNullException(nameof(midiMappingElementRepository));
+
+			MidiMappingElement entity = midiMappingElementRepository.TryGet(viewModel.ID);
+			if (entity == null)
+			{
+				entity = new MidiMappingElement { ID = viewModel.ID };
+				midiMappingElementRepository.Insert(entity);
+			}
+
+			viewModel.ToEntityPosition(entityPositionRepository);
+
+			return entity;
+		}
+
+		public static MidiMappingElement ToEntity(this MidiMappingElementPropertiesViewModel viewModel, MidiMappingRepositories repositories)
+		{
+			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
+			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
+
+			MidiMappingElement entity = repositories.MidiMappingElementRepository.TryGet(viewModel.ID);
+			if (entity == null)
+			{
+				entity = new MidiMappingElement { ID = viewModel.ID };
+				repositories.MidiMappingElementRepository.Insert(entity);
+			}
+
+			entity.IsActive = viewModel.IsActive;
+			entity.IsRelative = viewModel.IsRelative;
+			entity.ControllerCode = viewModel.ControllerCode;
+			entity.FromControllerValue = viewModel.FromControllerValue;
+			entity.TillControllerValue = viewModel.TillControllerValue;
+			entity.FromNoteNumber = viewModel.FromNoteNumber;
+			entity.TillNoteNumber = viewModel.TillNoteNumber;
+			entity.FromVelocity = viewModel.FromVelocity;
+			entity.TillVelocity = viewModel.TillVelocity;
+			entity.CustomDimensionName = viewModel.CustomDimensionName;
+			entity.FromDimensionValue = viewModel.FromDimensionValue;
+			entity.TillDimensionValue = viewModel.TillDimensionValue;
+			entity.MinDimensionValue = viewModel.MinDimensionValue;
+			entity.MaxDimensionValue = viewModel.MaxDimensionValue;
+			entity.FromPosition = viewModel.FromPosition;
+			entity.TillPosition = viewModel.TillPosition;
+			entity.FromToneNumber = viewModel.FromToneNumber;
+			entity.TillToneNumber = viewModel.TillToneNumber;
+			entity.MidiMapping = repositories.MidiMappingRepository.Get(viewModel.MidiMappingID);
+
+			bool standardDimensionIsFilledIn = viewModel.StandardDimension != null && viewModel.StandardDimension.ID != 0;
+			if (standardDimensionIsFilledIn)
+			{
+				Dimension dimension = repositories.DimensionRepository.Get(viewModel.StandardDimension.ID);
+				entity.LinkTo(dimension);
+			}
+			else
+			{
+				entity.UnlinkStandardDimension();
+			}
+
+			bool scaleIsFilledIn = viewModel.Scale != null && viewModel.Scale.ID != 0;
+			if (scaleIsFilledIn)
+			{
+				Scale scale = repositories.ScaleRepository.Get(viewModel.Scale.ID);
+				entity.LinkTo(scale);
+			}
+			else
+			{
+				entity.UnlinkScale();
+			}
+
+			return entity;
+		}
+
 		// Node
 
 		public static void ToEntities(
-			this IEnumerable<NodeViewModel> viewModelList, 
-			Curve destCurve, 
+			this IEnumerable<NodeViewModel> viewModelList,
+			Curve destCurve,
 			CurveRepositories repositories)
 		{
 			if (viewModelList == null) throw new NullException(() => viewModelList);
@@ -550,10 +746,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				Node entity = viewModel.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository);
 				entity.LinkTo(destCurve);
 
-				if (!idsToKeep.Contains(entity.ID))
-				{
-					idsToKeep.Add(entity.ID);
-				}
+				idsToKeep.Add(entity.ID);
 			}
 
 			var curveFacade = new CurveFacade(repositories);
@@ -578,6 +771,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				entity = new Node { ID = viewModel.ID };
 				nodeRepository.Insert(entity);
 			}
+
 			entity.X = viewModel.X;
 			entity.Y = viewModel.Y;
 
@@ -630,8 +824,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			new Cache_OperatorWrapper(entity)
 			{
-				InterpolationType = (InterpolationTypeEnum) (viewModel.Interpolation?.ID ?? 0),
-				SpeakerSetup = (SpeakerSetupEnum) (viewModel.SpeakerSetup?.ID ?? 0)
+				InterpolationType = (InterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0),
+				SpeakerSetup = (SpeakerSetupEnum)(viewModel.SpeakerSetup?.ID ?? 0)
 			};
 
 			return entity;
@@ -840,6 +1034,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				entity = new Operator { ID = viewModel.ID };
 				repositories.OperatorRepository.Insert(entity);
 			}
+
 			entity.Name = viewModel.Name;
 			entity.CustomDimensionName = viewModel.CustomDimensionName;
 			entity.HasDimension = viewModel.HasDimension;
@@ -875,6 +1070,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				outlet = new Outlet { ID = viewModel.ID };
 				outletRepository.Insert(outlet);
 			}
+
 			outlet.Position = viewModel.Position;
 			outlet.Name = viewModel.Name;
 			outlet.IsObsolete = viewModel.IsObsolete;
@@ -906,7 +1102,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			return entity;
 		}
 
-		public static Patch ToEntity(this PatchPropertiesViewModel viewModel, IPatchRepository patchRepository, IDimensionRepository dimensionRepository)
+		public static Patch ToEntity(
+			this PatchPropertiesViewModel viewModel,
+			IPatchRepository patchRepository,
+			IDimensionRepository dimensionRepository)
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 			if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -917,6 +1116,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				patch = new Patch { ID = viewModel.ID };
 				patchRepository.Insert(patch);
 			}
+
 			patch.Name = viewModel.Name;
 			patch.GroupName = viewModel.Group;
 			patch.Hidden = viewModel.Hidden;
@@ -959,6 +1159,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				entity = new Sample { ID = viewModel.ID };
 				repositories.SampleRepository.Insert(entity);
 			}
+
 			entity.Name = viewModel.Name;
 			entity.Amplifier = viewModel.Amplifier;
 			entity.TimeMultiplier = viewModel.TimeMultiplier;
@@ -1008,10 +1209,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				Scale entity = viewModel.ToEntity(repositories.ScaleRepository, repositories.ScaleTypeRepository);
 				entity.LinkTo(destDocument);
 
-				if (!idsToKeep.Contains(entity.ID))
-				{
-					idsToKeep.Add(entity.ID);
-				}
+				idsToKeep.Add(entity.ID);
 			}
 
 			var scaleFacade = new ScaleFacade(repositories);
@@ -1025,7 +1223,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			}
 		}
 
-		public static Scale ToEntity(this ScalePropertiesViewModel viewModel, IScaleRepository scaleRepository, IScaleTypeRepository scaleTypeRepository)
+		public static Scale ToEntity(
+			this ScalePropertiesViewModel viewModel,
+			IScaleRepository scaleRepository,
+			IScaleTypeRepository scaleTypeRepository)
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 			if (scaleRepository == null) throw new NullException(() => scaleRepository);
@@ -1072,10 +1273,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				Tone entity = viewModel.ToEntity(repositories.ToneRepository);
 				entity.LinkTo(destScale);
 
-				if (!idsToKeep.Contains(entity.ID))
-				{
-					idsToKeep.Add(entity.ID);
-				}
+				idsToKeep.Add(entity.ID);
 			}
 
 			var scaleFacade = new ScaleFacade(repositories);

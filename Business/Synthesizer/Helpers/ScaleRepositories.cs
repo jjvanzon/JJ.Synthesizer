@@ -20,18 +20,6 @@ namespace JJ.Business.Synthesizer.Helpers
 			IDRepository = repositoryWrapper.IDRepository;
 		}
 
-		public ScaleRepositories(
-			IScaleRepository scaleRepository, 
-			IToneRepository toneRepository, 
-			IScaleTypeRepository scaleTypeRepository,
-			IIDRepository idRepository)
-		{
-			ScaleRepository = scaleRepository ?? throw new NullException(() => scaleRepository);
-			ToneRepository = toneRepository ?? throw new NullException(() => toneRepository);
-			ScaleTypeRepository = scaleTypeRepository ?? throw new NullException(() => scaleTypeRepository);
-			IDRepository = idRepository ?? throw new NullException(() => idRepository);
-		}
-
 		public void Commit() => ScaleRepository.Commit();
 		public void Rollback() => ScaleRepository.Rollback();
 		public void Flush() => ScaleRepository.Flush();

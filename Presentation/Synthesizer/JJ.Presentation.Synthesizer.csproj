@@ -116,6 +116,9 @@
     <Compile Include="ViewModels\Items\UndoDeleteViewModel.cs" />
     <Compile Include="ViewModels\Items\UndoUpdateViewModel.cs" />
     <Compile Include="ViewModels\Items\UndoItemViewModelBase.cs" />
+    <Compile Include="ViewModels\MidiMappingDetailsViewModel.cs" />
+    <Compile Include="ViewModels\MidiMappingElementPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Items\MidiMappingElementItemViewModel.cs" />
     <Compile Include="ViewModels\Partials\MidiTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\SampleFileBrowserViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />

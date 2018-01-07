@@ -26,24 +26,6 @@ namespace JJ.Business.Synthesizer.Helpers
 			IDRepository = repositoryWrapper.IDRepository;
 		}
 
-		public SampleRepositories(
-			IDocumentRepository documentRepository,
-			ISampleRepository sampleRepository,
-			IAudioFileFormatRepository audioFileFormatRepository,
-			ISampleDataTypeRepository sampleDataTypeRepository,
-			ISpeakerSetupRepository speakerSetupRepository,
-			IInterpolationTypeRepository interpolationTypeRepository,
-			IIDRepository idRepository)
-		{
-			DocumentRepository = documentRepository ?? throw new NullException(() => documentRepository);
-			SampleRepository = sampleRepository ?? throw new NullException(() => sampleRepository);
-			AudioFileFormatRepository = audioFileFormatRepository ?? throw new NullException(() => audioFileFormatRepository);
-			SampleDataTypeRepository = sampleDataTypeRepository ?? throw new NullException(() => sampleDataTypeRepository);
-			SpeakerSetupRepository = speakerSetupRepository ?? throw new NullException(() => speakerSetupRepository);
-			InterpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
-			IDRepository = idRepository ?? throw new NullException(() => idRepository);
-		}
-
 		public void Commit() => DocumentRepository.Commit();
 		public void Rollback() => DocumentRepository.Rollback();
 		public void Flush() => DocumentRepository.Flush();

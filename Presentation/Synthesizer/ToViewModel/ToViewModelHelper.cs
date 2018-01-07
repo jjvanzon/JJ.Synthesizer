@@ -225,7 +225,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.ID = entity.ID;
 			viewModel.IsSmaller = GetOperatorIsSmaller(entity);
 			viewModel.StyleGrade = StyleGradeEnum.StyleGradeNeutral;
-			viewModel.Caption = GetOperatorCaption(entity);
+			viewModel.Caption = GetCaption(entity);
 			viewModel.IsOwned = entity.IsOwned();
 
 			EntityPosition entityPosition = entityPositionFacade.GetOrCreateOperatorPosition(entity.ID);

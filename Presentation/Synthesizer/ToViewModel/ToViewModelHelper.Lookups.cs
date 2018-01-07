@@ -1,15 +1,14 @@
-﻿using JJ.Data.Canonical;
-using JJ.Framework.Exceptions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Common;
-using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Common;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel

@@ -108,9 +108,7 @@ namespace JJ.Business.Synthesizer
 			return entityPosition;
 		}
 
-		/// <summary>
-		/// Moves the operator, and along with it, the operators it 'owns'.
-		/// </summary>
+		/// <summary> Moves the operator, and along with it, the operators it 'owns'. </summary>
 		public void MoveOperator(Operator op, float x, float y)
 		{
 			if (op == null) throw new NullException(() => op);

@@ -160,6 +160,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			CurveDetailsViewModel viewModel = entity.ToDetailsViewModel_WithoutOriginalState();
 			viewModel.OriginalState = entity.ToDetailsViewModel_WithoutOriginalState();
+
 			return viewModel;
 		}
 
@@ -322,6 +323,92 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			LibrarySelectionPopupViewModel viewModel = ToViewModelHelper.CreateEmptyLibrarySelectionPopupViewModel();
 			viewModel.HigherDocumentID = higherDocument.ID;
+
+			return viewModel;
+		}
+
+		// MidiMapping
+
+		public static MidiMappingDetailsViewModel ToDetailsViewModel(this MidiMapping entity, EntityPositionFacade entityPositionFacade)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+			MidiMappingDetailsViewModel viewModel = entity.ToDetailsViewModel_WithoutOriginalState(entityPositionFacade);
+			viewModel.OriginalState = entity.ToDetailsViewModel_WithoutOriginalState(entityPositionFacade);
+			return viewModel;
+		}
+
+		private static MidiMappingDetailsViewModel ToDetailsViewModel_WithoutOriginalState(this MidiMapping entity, EntityPositionFacade entityPositionFacade)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+			if (entityPositionFacade == null) throw new ArgumentNullException(nameof(entityPositionFacade));
+
+			var viewModel = new MidiMappingDetailsViewModel
+			{
+				MidiMapping = entity.ToIDAndName(),
+				MidiMappingElements = entity.MidiMappingElements.Select(x => x.ToItemViewModel(entityPositionFacade)).ToArray(),
+				ValidationMessages = new List<string>()
+			};
+
+			return viewModel;
+		}
+
+		public static MidiMappingElementPropertiesViewModel ToPropertiesViewModel(this MidiMappingElement entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+			MidiMappingElementPropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
+			viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
+
+			return viewModel;
+		}
+
+		private static MidiMappingElementPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this MidiMappingElement entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+			var viewModel = new MidiMappingElementPropertiesViewModel
+			{
+				ID = entity.ID,
+				MidiMappingID = entity.MidiMapping.ID,
+				IsActive = entity.IsActive,
+				IsRelative = entity.IsRelative,
+				ControllerCode = entity.ControllerCode,
+				FromControllerValue = entity.FromControllerValue,
+				TillControllerValue = entity.TillControllerValue,
+				FromNoteNumber = entity.FromNoteNumber,
+				TillNoteNumber = entity.TillNoteNumber,
+				FromVelocity = entity.FromVelocity,
+				TillVelocity = entity.TillVelocity,
+				CustomDimensionName = entity.CustomDimensionName,
+				FromDimensionValue = entity.FromDimensionValue,
+				TillDimensionValue = entity.TillDimensionValue,
+				MinDimensionValue = entity.MinDimensionValue,
+				MaxDimensionValue = entity.MaxDimensionValue,
+				FromPosition = entity.FromPosition,
+				TillPosition = entity.TillPosition,
+				FromToneNumber = entity.FromToneNumber,
+				TillToneNumber = entity.TillToneNumber,
+				ValidationMessages = new List<string>()
+			};
+
+			if (entity.StandardDimension != null)
+			{
+				viewModel.StandardDimension = entity.StandardDimension.ToIDAndDisplayName();
+			}
+			else
+			{
+				viewModel.StandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
+			}
+
+			if (entity.Scale != null)
+			{
+				viewModel.Scale = entity.Scale.ToIDAndName();
+			}
+			else
+			{
+				viewModel.StandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
+			}
 
 			return viewModel;
 		}

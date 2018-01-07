@@ -87,7 +87,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly CurveFacade _curveFacade;
 		private readonly DocumentFacade _documentFacade;
 		private readonly EntityPositionFacade _entityPositionFacade;
-		private readonly MidiMappingFacade _midiMappingFacade;
 		private readonly PatchFacade _patchFacade;
 		private readonly ScaleFacade _scaleFacade;
 
@@ -97,9 +96,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			// Create Repositories
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_curveRepositories = new CurveRepositories(_repositories);
-			var scaleRepositories = new ScaleRepositories(_repositories);
 			var audioFileOutputRepositories = new AudioFileOutputRepositories(_repositories);
+			_curveRepositories = new CurveRepositories(_repositories);
+			var midiMappingRepositories = new MidiMappingRepositories(_repositories);
+			var scaleRepositories = new ScaleRepositories(_repositories);
 
 			// Create Managers
 			_autoPatcher = new AutoPatcher(_repositories);
@@ -107,11 +107,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_curveFacade = new CurveFacade(_curveRepositories);
 			_documentFacade = new DocumentFacade(_repositories);
 			_entityPositionFacade = new EntityPositionFacade(_repositories.EntityPositionRepository, _repositories.IDRepository);
-			_midiMappingFacade = new MidiMappingFacade(
-				_repositories.MidiMappingRepository,
-				_repositories.MidiMappingElementRepository,
-				_repositories.DimensionRepository,
-				_repositories.IDRepository);
+			var midiMappingFacade = new MidiMappingFacade(midiMappingRepositories);
 
 			_patchFacade = new PatchFacade(_repositories);
 			_scaleFacade = new ScaleFacade(scaleRepositories);
@@ -132,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_documentGridPresenter = new DocumentGridPresenter(_repositories);
 			_documentOrPatchNotFoundPresenter = new DocumentOrPatchNotFoundPopupPresenter(_repositories.DocumentRepository);
 			_documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
-			_documentTreePresenter = new DocumentTreePresenter(_documentFacade, _patchFacade, _midiMappingFacade, _repositories);
+			_documentTreePresenter = new DocumentTreePresenter(_documentFacade, _patchFacade, midiMappingFacade, _repositories);
 			_libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
 			_menuPresenter = new MenuPresenter();
