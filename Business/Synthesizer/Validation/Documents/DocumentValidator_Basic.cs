@@ -1,7 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Documents
@@ -12,10 +11,10 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			For(entity.ID, CommonResourceFormatter.ID).GreaterThan(0);
-			For(entity.AudioOutput, ResourceFormatter.AudioOutput).NotNull();
-
+			ExecuteValidator(new IDValidator(entity.ID));
 			ExecuteValidator(new NameValidator(entity.Name), ValidationHelper.GetMessagePrefix(entity));
+
+			For(entity.AudioOutput, ResourceFormatter.AudioOutput).NotNull();
 		}
 	}
 }

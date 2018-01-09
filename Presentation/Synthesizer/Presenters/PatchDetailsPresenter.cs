@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
@@ -17,14 +18,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class PatchDetailsPresenter : EntityPresenterWithoutSaveBase<Patch, PatchDetailsViewModel>
 	{
 		private readonly RepositoryWrapper _repositories;
-		private readonly EntityPositionFacade _entityPositionFacade;
 		private readonly PatchFacade _patchFacade;
 		private readonly AutoPatcher _autoPatcher;
 
-		public PatchDetailsPresenter(RepositoryWrapper repositories, EntityPositionFacade entityPositionFacade)
+		public PatchDetailsPresenter(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_entityPositionFacade = entityPositionFacade ?? throw new NullException(() => entityPositionFacade);
 			_patchFacade = new PatchFacade(repositories);
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
@@ -33,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override PatchDetailsViewModel ToViewModel(Patch patch)
 		{
-			return patch.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionFacade);
+			return patch.ToDetailsViewModel(_repositories.CurveRepository);
 		}
 
 		public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
@@ -104,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				Operator op = _repositories.OperatorRepository.Get(operatorID);
 
 				// Business
-				_entityPositionFacade.MoveOperator(op, centerX, centerY);
+				op.Move(centerX, centerY);
 			});
 		}
 

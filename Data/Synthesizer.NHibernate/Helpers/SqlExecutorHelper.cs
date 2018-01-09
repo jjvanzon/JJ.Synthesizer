@@ -15,16 +15,16 @@ namespace JJ.Data.Synthesizer.NHibernate.Helpers
 		/// </summary>
 		public static SynthesizerSqlExecutor CreateSynthesizerSqlExecutor(IContext context)
 		{
-			NHibernateContext nHibernateContext = (NHibernateContext)context;
+			var nHibernateContext = (NHibernateContext)context;
 			ISqlExecutor sqlExecutor = new NHibernateSqlExecutor(nHibernateContext.Session);
-			SynthesizerSqlExecutor synthesizerSqlExecutor = new SynthesizerSqlExecutor(sqlExecutor);
+			var synthesizerSqlExecutor = new SynthesizerSqlExecutor(sqlExecutor);
 			return synthesizerSqlExecutor;
 		}
 
 		public static SynthesizerSqlExecutor CreateSynthesizerSqlExecutor_InSeparateConnection(string connectionString)
 		{
 			ISqlExecutor sqlExecutor = SqlExecutorFactory.CreateSqlExecutor(connectionString);
-			SynthesizerSqlExecutor synthesizerSqlExecutor = new SynthesizerSqlExecutor(sqlExecutor);
+			var synthesizerSqlExecutor = new SynthesizerSqlExecutor(sqlExecutor);
 			return synthesizerSqlExecutor;
 		}
 	}

@@ -80,28 +80,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 			progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
 		}
 
-		public static void DeleteOrphanedEntityPositions(Action<string> progressCallback)
-		{
-			if (progressCallback == null) throw new NullException(() => progressCallback);
-
-			progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
-
-			using (IContext context = PersistenceHelper.CreateContext())
-			{
-				RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
-
-				var entityPositionFacade = new EntityPositionFacade(repositories.EntityPositionRepository, repositories.IDRepository);
-				int rowsAffected = entityPositionFacade.DeleteOrphans();
-
-				AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
-
-				context.Commit();
-
-				progressCallback($"{MethodBase.GetCurrentMethod().Name} finished. {rowsAffected} rows affected.");
-			}
-
-		}
-
 		private static void AssertDocuments_AndReapplyUnderlyingPatches(
 			RepositoryWrapper repositories,
 			Action<string> progressCallback)

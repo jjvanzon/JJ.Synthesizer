@@ -30,6 +30,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 			References(x => x.Scale, ColumnNames.ScaleID);
 			Map(x => x.FromToneNumber);
 			Map(x => x.TillToneNumber);
+			References(x => x.EntityPosition, ColumnNames.EntityPositionID);
 
 			References(x => x.MidiMapping, ColumnNames.MidiMappingElementID);
 		}

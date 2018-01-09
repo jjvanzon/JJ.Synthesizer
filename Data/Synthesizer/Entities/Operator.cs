@@ -40,6 +40,8 @@ namespace JJ.Data.Synthesizer.Entities
 		/// <summary> curve </summary>
 		public virtual Curve Curve { get; set; }
 
+		public virtual EntityPosition EntityPosition { get; set; }
+
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
 	}
 }

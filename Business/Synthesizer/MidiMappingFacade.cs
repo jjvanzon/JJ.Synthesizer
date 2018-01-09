@@ -43,6 +43,7 @@ namespace JJ.Business.Synthesizer
 
 			entity.LinkTo(midiMapping);
 
+			new MidiMappingElement_SideEffect_AutoCreateEntityPosition(entity, _repositories.EntityPositionRepository, _repositories.IDRepository).Execute();
 			new MidiMappingElement_SideEffect_SetDefaults(entity, _repositories.DimensionRepository).Execute();
 
 			return entity;
@@ -72,7 +73,7 @@ namespace JJ.Business.Synthesizer
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			entity.DeleteRelatedEntities(_repositories.MidiMappingElementRepository);
+			entity.DeleteRelatedEntities(_repositories.MidiMappingElementRepository, _repositories.EntityPositionRepository);
 			entity.UnlinkRelatedEntities();
 
 			_repositories.MidiMappingRepository.Delete(entity);
@@ -91,6 +92,14 @@ namespace JJ.Business.Synthesizer
 			entity.UnlinkRelatedEntities();
 
 			_repositories.MidiMappingElementRepository.Delete(entity);
+
+			// Order-Dependence:
+			// You need to postpone deleting this 1-to-1 related entity till after deleting the MidiMappingElement, 
+			// or ORM will try to update MidiMappingElement.EntityPositionID to null and crash.
+			if (entity.EntityPosition != null)
+			{
+				_repositories.EntityPositionRepository.Delete(entity.EntityPosition);
+			}
 		}
 	}
 }

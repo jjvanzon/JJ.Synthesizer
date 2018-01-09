@@ -10,6 +10,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Names
 		public const string CurveID = nameof(CurveID);
 		public const string DimensionID = nameof(DimensionID);
 		public const string DocumentID = nameof(DocumentID);
+		public const string EntityPositionID = nameof(EntityPositionID);
 		public const string HigherDocumentID = nameof(HigherDocumentID);
 		public const string InputOutletID = nameof(InputOutletID);
 		public const string InterpolationTypeID = nameof(InterpolationTypeID);

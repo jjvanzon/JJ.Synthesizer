@@ -86,20 +86,21 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			// because deleting an operator has the side-effect of updating the dependent CustomOperators,
 			// which requires data from the PatchInlet and PatchOutlet PropertiesViewModels to be
 			// converted first.
-			// TODO: How does converting PatchProperties instead of PatchInlet and PatchOutlet properties help with that?
-
-			//var patchFacade = new PatchFacade(patch, _repositories);
 
 			foreach (Operator op in operatorsToDelete)
 			{
-				//patchFacade.DeleteOperatorWithRelatedEntities(op);
-
 				// HACK: Do cascading here, without causing delete constraints or side-effects to go off.
-				// In practice these were already executed before.
 				op.UnlinkRelatedEntities();
 				op.DeleteRelatedEntities(_repositories);
 				_repositories.OperatorRepository.Delete(op);
 
+				// Order-Dependence:
+				// You need to postpone deleting this 1-to-1 related entity till after deleting the MidiMappingElement, 
+				// or ORM will try to update Operator.EntityPositionID to null and crash.
+				if (op.EntityPosition != null)
+				{
+					_repositories.EntityPositionRepository.Delete(op.EntityPosition);
+				}
 			}
 
 			return patch;
@@ -146,11 +147,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				return op;
 			}
 
+			// Order-Dependence: EntityPosition must be created first and then Operator, or you get a null constraint violation.
+			EntityPosition entityPosition = viewModel.Position.ToEntity(_repositories.EntityPositionRepository);
+
 			op = viewModel.ToEntity(_repositories.OperatorRepository);
+			op.LinkTo(entityPosition);
 
 			_operatorDictionary.Add(op.ID, op);
-
-			viewModel.Position.ToEntity(_repositories.EntityPositionRepository);
 
 			ConvertToInletsRecursive(viewModel.Inlets, op);
 			ConvertToOutletsRecursive(viewModel.Outlets, op);

@@ -1155,4 +1155,7 @@
   <data name="SelectAnElementFirst" xml:space="preserve">
     <value>Select an element first.</value>
   </data>
+  <data name="EntityPosition" xml:space="preserve">
+    <value>Object Position</value>
+  </data>
 </root>

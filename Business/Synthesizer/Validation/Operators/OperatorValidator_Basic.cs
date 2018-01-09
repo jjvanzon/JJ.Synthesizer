@@ -24,7 +24,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
 			expectedDataKeys = expectedDataKeys ?? new string[0];
 
-			For(op.ID, CommonResourceFormatter.ID).GreaterThan(0);
+			For(op.EntityPosition, ResourceFormatter.EntityPosition).NotNull();
+			if (op.EntityPosition != null)
+			{
+				ExecuteValidator(new EntityPositionValidator(op.EntityPosition), ValidationHelper.GetMessagePrefix(op.EntityPosition));
+			}
+
+			ExecuteValidator(new IDValidator(op.ID));
 			ExecuteValidator(new NameValidator(op.Name, required: false));
 			ExecuteValidator(new DataPropertyValidator(op.Data, expectedDataKeys));
 			ExecuteValidator(new DimensionInfoValidator(op.HasDimension, op.StandardDimension, op.CustomDimensionName));

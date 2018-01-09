@@ -321,6 +321,8 @@
     <Compile Include="SideEffects\Document_SideEffect_ApplyUnderlyingPatches.cs" />
     <Compile Include="SideEffects\MidiMappingElement_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\MidiMapping_SideEffect_GenerateName.cs" />
+    <Compile Include="SideEffects\MidiMappingElement_SideEffect_AutoCreateEntityPosition.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_AutoCreateEntityPosition.cs" />
     <Compile Include="Validation\DataProperty\Position_DataProperty_Validator.cs" />
     <Compile Include="Validation\DimensionInfoValidator.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />
@@ -330,6 +332,8 @@
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_UniqueLowerDocument.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_DoesNotReferenceItself.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_SystemDocumentReferenceMustExist.cs" />
+    <Compile Include="Validation\EntityPositionValidator.cs" />
+    <Compile Include="Validation\IDValidator.cs" />
     <Compile Include="Validation\InletOrOutletListValidator.cs" />
     <Compile Include="Validation\MidiMappingElementValidator.cs" />
     <Compile Include="Validation\MidiMappingValidator_Basic.cs" />
@@ -531,7 +535,6 @@
     <Compile Include="AudioFileOutputFacade.cs" />
     <Compile Include="CurveFacade.cs" />
     <Compile Include="DocumentFacade.cs" />
-    <Compile Include="EntityPositionFacade.cs" />
     <Compile Include="CopiedCode\FromNAudio\Complex.cs" />
     <Compile Include="CopiedCode\FromNAudio\FastFourierTransform.cs" />
     <Compile Include="AutoPatcher.cs" />

@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
@@ -13,7 +12,8 @@ namespace JJ.Business.Synthesizer.Validation
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			For(entity.ID, CommonResourceFormatter.ID).GreaterThan(0);
+			ExecuteValidator(new IDValidator(entity.ID));
+
 			For(entity.SpeakerSetup, ResourceFormatter.SpeakerSetup).NotNull();
 			For(entity.SamplingRate, ResourceFormatter.SamplingRate).GreaterThan(0);
 			For(entity.MaxConcurrentNotes, ResourceFormatter.MaxConcurrentNotes).GreaterThan(0);

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Canonical;
@@ -54,10 +53,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithStandardPropertiesView { get; } =
 			EnumHelper.GetValues<OperatorTypeEnum>()
-					  .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
-					  .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
-					  .Except(OperatorTypeEnums_WithSpecializedPropertiesViews)
-					  .ToHashSet();
+			          .Except(OperatorTypeEnums_WithCollectionRecalculationPropertyViews)
+			          .Except(OperatorTypeEnums_WithInterpolationPropertyViews)
+			          .Except(OperatorTypeEnums_WithSpecializedPropertiesViews)
+			          .ToHashSet();
 
 		// Document
 
@@ -106,8 +105,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		public static void RefreshInletViewModels(
 			IList<Inlet> sourceInlets,
 			OperatorViewModel destOperatorViewModel,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+			ICurveRepository curveRepository)
 		{
 			if (sourceInlets == null) throw new NullException(() => sourceInlets);
 			if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -122,7 +120,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					destOperatorViewModel.Inlets.Add(inletViewModel);
 				}
 
-				inlet.ToViewModel(inletViewModel, curveRepository, entityPositionFacade);
+				inlet.ToViewModel(inletViewModel, curveRepository);
 
 				inletViewModelsToKeep.Add(inletViewModel);
 			}
@@ -136,12 +134,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 
 			destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.Sort(
-				x => x.Position,
-				x => x.IsRepeating,
-				x => x.RepetitionPosition,
-				x => (DimensionEnum)x.Dimension.ID,
-				x => x.Name,
-				x => x.IsObsolete).ToList();
+				                                                    x => x.Position,
+				                                                    x => x.IsRepeating,
+				                                                    x => x.RepetitionPosition,
+				                                                    x => (DimensionEnum)x.Dimension.ID,
+				                                                    x => x.Name,
+				                                                    x => x.IsObsolete)
+			                                                    .ToList();
 		}
 
 		/// <summary>
@@ -151,8 +150,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		public static void RefreshOutletViewModels(
 			IList<Outlet> sourceOutlets,
 			OperatorViewModel destOperatorViewModel,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+			ICurveRepository curveRepository)
 		{
 			if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
 			if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -170,7 +168,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					outletViewModel.Operator = destOperatorViewModel;
 				}
 
-				outlet.ToViewModel(outletViewModel, curveRepository, entityPositionFacade);
+				outlet.ToViewModel(outletViewModel, curveRepository);
 
 				outletViewModelsToKeep.Add(outletViewModel);
 			}
@@ -186,12 +184,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 
 			destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.Sort(
-				x => x.Position,
-				x => x.IsRepeating,
-				x => x.RepetitionPosition,
-				x => (DimensionEnum)x.Dimension.ID,
-				x => x.Name,
-				x => x.IsObsolete).ToList();
+				                                                     x => x.Position,
+				                                                     x => x.IsRepeating,
+				                                                     x => x.RepetitionPosition,
+				                                                     x => (DimensionEnum)x.Dimension.ID,
+				                                                     x => x.Name,
+				                                                     x => x.IsObsolete)
+			                                                     .ToList();
 		}
 
 		/// <summary>
@@ -201,23 +200,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		public static void RefreshViewModel_WithInletsAndOutlets(
 			Operator entity,
 			OperatorViewModel operatorViewModel,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+			ICurveRepository curveRepository)
 		{
-			RefreshViewModel(entity, operatorViewModel, curveRepository, entityPositionFacade);
-			RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository, entityPositionFacade);
-			RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository, entityPositionFacade);
+			RefreshViewModel(entity, operatorViewModel, curveRepository);
+			RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository);
+			RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository);
 		}
 
 		/// <summary>
 		/// Is used to be able to update an existing operator view model in-place
 		/// without having to re-establish the intricate relations with other operators.
 		/// </summary>
-		public static void RefreshViewModel(
-			Operator entity,
-			OperatorViewModel viewModel,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+		public static void RefreshViewModel(Operator entity, OperatorViewModel viewModel, ICurveRepository curveRepository)
 		{
 			if (entity == null) throw new NullException(() => entity);
 			if (viewModel == null) throw new NullException(() => viewModel);
@@ -229,7 +223,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.IsOwned = entity.IsOwned();
 			viewModel.Dimension = entity.ToDimensionViewModel();
 
-			EntityPosition entityPosition = entityPositionFacade.GetOrCreateOperatorPosition(entity.ID);
+			EntityPosition entityPosition = entity.EntityPosition;
 			viewModel.Position = entityPosition.ToViewModel();
 		}
 

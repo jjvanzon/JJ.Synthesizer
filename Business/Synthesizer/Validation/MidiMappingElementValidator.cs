@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
@@ -13,9 +12,15 @@ namespace JJ.Business.Synthesizer.Validation
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+			ExecuteValidator(new IDValidator(entity.ID));
 			ExecuteValidator(new NameValidator(entity.CustomDimensionName, ResourceFormatter.CustomDimensionName, required: false));
 
-			For(entity.ID, CommonResourceFormatter.ID).GreaterThan(0);
+			For(entity.EntityPosition, ResourceFormatter.EntityPosition).NotNull();
+			if (entity.EntityPosition != null)
+			{
+				ExecuteValidator(new EntityPositionValidator(entity.EntityPosition), ValidationHelper.GetMessagePrefix(entity.EntityPosition));
+			}
+
 			For(entity.FromNoteNumber, ResourceFormatter.FromNoteNumber).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 			For(entity.TillNoteNumber, ResourceFormatter.TillNoteNumber).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 			For(entity.ControllerCode, ResourceFormatter.ControllerCode).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);

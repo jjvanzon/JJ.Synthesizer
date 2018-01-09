@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -254,7 +253,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return sb.ToString();
 		}
 
-		public static float? TryGetConnectionDistance(Inlet entity, EntityPositionFacade entityPositionFacade)
+		public static float? TryGetConnectionDistance(Inlet entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -266,8 +265,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			Operator operator1 = entity.Operator;
 			Operator operator2 = entity.InputOutlet.Operator;
 
-			EntityPosition entityPosition1 = entityPositionFacade.GetOrCreateOperatorPosition(operator1.ID);
-			EntityPosition entityPosition2 = entityPositionFacade.GetOrCreateOperatorPosition(operator2.ID);
+			EntityPosition entityPosition1 = operator1.EntityPosition;
+			EntityPosition entityPosition2 = operator2.EntityPosition;
 
 			float distance = Geometry.AbsoluteDistance(
 				entityPosition1.X,
@@ -722,7 +721,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return sb.ToString();
 		}
 
-		public static float? TryGetAverageConnectionDistance(Outlet entity, EntityPositionFacade entityPositionFacade)
+		public static float? TryGetAverageConnectionDistance(Outlet entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -741,8 +740,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				Operator operator2 = connectedInlet.Operator;
 
-				EntityPosition entityPosition1 = entityPositionFacade.GetOrCreateOperatorPosition(operator1.ID);
-				EntityPosition entityPosition2 = entityPositionFacade.GetOrCreateOperatorPosition(operator2.ID);
+				EntityPosition entityPosition1 = operator1.EntityPosition;
+				EntityPosition entityPosition2 = operator2.EntityPosition;
 
 				float distance = Geometry.AbsoluteDistance(
 					entityPosition1.X,

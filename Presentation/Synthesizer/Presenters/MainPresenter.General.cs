@@ -88,7 +88,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly AudioFileOutputFacade _audioFileOutputFacade;
 		private readonly CurveFacade _curveFacade;
 		private readonly DocumentFacade _documentFacade;
-		private readonly EntityPositionFacade _entityPositionFacade;
 		private readonly PatchFacade _patchFacade;
 		private readonly ScaleFacade _scaleFacade;
 
@@ -108,7 +107,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_audioFileOutputFacade = new AudioFileOutputFacade(audioFileOutputRepositories);
 			_curveFacade = new CurveFacade(_curveRepositories);
 			_documentFacade = new DocumentFacade(_repositories);
-			_entityPositionFacade = new EntityPositionFacade(_repositories.EntityPositionRepository, _repositories.IDRepository);
 			var midiMappingFacade = new MidiMappingFacade(midiMappingRepositories);
 
 			_patchFacade = new PatchFacade(_repositories);
@@ -134,7 +132,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
 			_menuPresenter = new MenuPresenter();
-			_midiMappingDetailsPresenter = new MidiMappingDetailsPresenter(_repositories.MidiMappingRepository, _entityPositionFacade, midiMappingFacade);
+			_midiMappingDetailsPresenter = new MidiMappingDetailsPresenter(_repositories.MidiMappingRepository, midiMappingFacade);
 			_midiMappingElementPropertiesPresenter = new MidiMappingElementPropertiesPresenter(midiMappingRepositories, midiMappingFacade);
 			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveFacade);
 			_operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);
@@ -147,9 +145,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_repositories);
 			_operatorPropertiesPresenter_WithInterpolation = new OperatorPropertiesPresenter_WithInterpolation(_repositories);
 			_operatorPropertiesPresenter_WithCollectionRecalculation = new OperatorPropertiesPresenter_WithCollectionRecalculation(_repositories);
-			_patchDetailsPresenter = new PatchDetailsPresenter(_repositories, _entityPositionFacade);
+			_patchDetailsPresenter = new PatchDetailsPresenter(_repositories);
 			_patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
-			_sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _entityPositionFacade, _repositories);
+			_sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _repositories);
 			_saveChangesPopupPresenter = new SaveChangesPopupPresenter();
 			_scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, _scaleFacade);
 			_scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, _scaleFacade);

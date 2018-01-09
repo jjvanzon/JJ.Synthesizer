@@ -1,6 +1,6 @@
-﻿using JJ.Framework.Data.SqlClient;
+﻿using System;
+using JJ.Framework.Data.SqlClient;
 using JJ.Framework.Exceptions;
-using System;
 
 namespace JJ.Data.Synthesizer.SqlClient
 {
@@ -11,11 +11,6 @@ namespace JJ.Data.Synthesizer.SqlClient
 		public SynthesizerSqlExecutor(ISqlExecutor sqlExecutor)
 		{
 			_sqlExecutor = sqlExecutor ?? throw new NullException(() => sqlExecutor);
-		}
-
-		public int EntityPosition_DeleteOrphans()
-		{
-			return (int)_sqlExecutor.ExecuteScalar(SqlEnum.EntityPosition_DeleteOrphans);
 		}
 
 		public int GetID()

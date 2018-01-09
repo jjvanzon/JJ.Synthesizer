@@ -224,6 +224,14 @@ namespace JJ.Business.Synthesizer
 			op.DeleteRelatedEntities(_repositories);
 			_repositories.OperatorRepository.Delete(op);
 
+			// Order-Dependence:
+			// You need to postpone deleting this 1-to-1 related entity till after deleting the Operator, 
+			// or ORM will try to update Operator.EntityPositionID to null and crash.
+			if (op.EntityPosition != null)
+			{
+				_repositories.EntityPositionRepository.Delete(op.EntityPosition);
+			}
+
 			new Patch_SideEffect_UpdateDerivedOperators(patch, _repositories).Execute();
 
 			// Clean up obsolete inlets and outlets when the last connection to it is gone.

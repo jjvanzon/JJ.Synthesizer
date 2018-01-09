@@ -102,6 +102,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Duration => Resources.Duration;
 		public static string Else => Resources.Else;
 		public static string End => Resources.End;
+		public static string EntityPosition => Resources.EntityPosition;
 		public static string Equal => Resources.Equal;
 		public static string Exponent => Resources.Exponent;
 		public static string Exponents => Resources.Exponents;

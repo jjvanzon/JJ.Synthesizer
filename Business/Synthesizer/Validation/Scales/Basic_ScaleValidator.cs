@@ -1,7 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Scales
@@ -12,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			For(entity.ID, CommonResourceFormatter.ID).GreaterThan(0);
+			ExecuteValidator(new IDValidator(entity.ID));
 
 			if (entity.BaseFrequency.HasValue)
 			{

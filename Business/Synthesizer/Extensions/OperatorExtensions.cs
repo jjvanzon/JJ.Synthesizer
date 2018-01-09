@@ -95,8 +95,33 @@ namespace JJ.Business.Synthesizer.Extensions
 			                                                    .Select(x => x.InputOutlet?.Operator)
 			                                                    .Where(x => x != null)
 			                                                    .Where(x => x.IsOwned())
-																.Distinct();
+			                                                    .Distinct();
 			return ownedOperators;
+		}
+
+		/// <summary> Moves owned operators along with the owner. </summary>
+		public static void Move(this Operator op, float x, float y)
+		{
+			if (op == null) throw new NullException(() => op);
+			if (op.EntityPosition == null) throw new NullException(() => op.EntityPosition);
+
+			EntityPosition entityPosition = op.EntityPosition;
+
+			float deltaX = x - entityPosition.X;
+			float deltaY = y - entityPosition.Y;
+
+			entityPosition.X += deltaX;
+			entityPosition.Y += deltaY;
+
+			// Move owned operators along with the owner.
+
+			IEnumerable<Operator> ownedOperators = op.GetOwnedOperators();
+			foreach (Operator ownedOperator in ownedOperators)
+			{
+				EntityPosition entityPosition2 = ownedOperator.EntityPosition;
+				entityPosition2.X += deltaX;
+				entityPosition2.Y += deltaY;
+			}
 		}
 	}
 }

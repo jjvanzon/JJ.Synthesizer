@@ -27,6 +27,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return GetMessagePrefix(ResourceFormatter.HigherDocument, GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference));
 		}
 
+		public static string GetMessagePrefix(EntityPosition entityPosition) => ResourceFormatter.EntityPosition;
 		public static string GetMessagePrefix(MidiMapping midiMapping) => GetMessagePrefix(ResourceFormatter.MidiMapping, GetUserFriendlyIdentifier(midiMapping));
 		public static string GetMessagePrefix(MidiMappingElement midiMappingElement) => GetMessagePrefix(ResourceFormatter.MidiMappingElement, GetUserFriendlyIdentifier(midiMappingElement));
 

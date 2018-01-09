@@ -15,13 +15,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class MidiMappingDetailsPresenter : EntityPresenterWithSaveBase<MidiMapping, MidiMappingDetailsViewModel>
 	{
 		private readonly IMidiMappingRepository _midiMappingRepository;
-		private readonly EntityPositionFacade _entityPositionFacade;
 		private readonly MidiMappingFacade _midiMappingFacade;
 
-		public MidiMappingDetailsPresenter(IMidiMappingRepository midiMappingRepository, EntityPositionFacade entityPositionFacade, MidiMappingFacade midiMappingFacade)
+		public MidiMappingDetailsPresenter(IMidiMappingRepository midiMappingRepository, MidiMappingFacade midiMappingFacade)
 		{
 			_midiMappingRepository = midiMappingRepository ?? throw new ArgumentNullException(nameof(midiMappingRepository));
-			_entityPositionFacade = entityPositionFacade ?? throw new ArgumentNullException(nameof(entityPositionFacade));
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
@@ -32,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override MidiMappingDetailsViewModel ToViewModel(MidiMapping entity)
 		{
-			return entity.ToDetailsViewModel(_entityPositionFacade);
+			return entity.ToDetailsViewModel();
 		}
 
 		protected override IResult Save(MidiMapping entity, MidiMappingDetailsViewModel userInput)

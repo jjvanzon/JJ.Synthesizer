@@ -1585,6 +1585,7 @@ namespace JJ.Business.Synthesizer
 
 			op.UnderlyingPatch = underlyingPatch;
 
+			new Operator_SideEffect_AutoCreateEntityPosition(op, _repositories.EntityPositionRepository, _repositories.IDRepository).Execute();
 			new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
 
 			new OperatorValidator_Basic(op).Assert();

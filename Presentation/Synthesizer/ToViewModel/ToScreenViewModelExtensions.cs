@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -329,24 +328,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// MidiMapping
 
-		public static MidiMappingDetailsViewModel ToDetailsViewModel(this MidiMapping entity, EntityPositionFacade entityPositionFacade)
+		public static MidiMappingDetailsViewModel ToDetailsViewModel(this MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			MidiMappingDetailsViewModel viewModel = entity.ToDetailsViewModel_WithoutOriginalState(entityPositionFacade);
-			viewModel.OriginalState = entity.ToDetailsViewModel_WithoutOriginalState(entityPositionFacade);
+			MidiMappingDetailsViewModel viewModel = entity.ToDetailsViewModel_WithoutOriginalState();
+			viewModel.OriginalState = entity.ToDetailsViewModel_WithoutOriginalState();
 			return viewModel;
 		}
 
-		private static MidiMappingDetailsViewModel ToDetailsViewModel_WithoutOriginalState(this MidiMapping entity, EntityPositionFacade entityPositionFacade)
+		private static MidiMappingDetailsViewModel ToDetailsViewModel_WithoutOriginalState(this MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
-			if (entityPositionFacade == null) throw new ArgumentNullException(nameof(entityPositionFacade));
 
 			var viewModel = new MidiMappingDetailsViewModel
 			{
 				MidiMapping = entity.ToIDAndName(),
-				Elements = entity.MidiMappingElements.Select(x => x.ToItemViewModel(entityPositionFacade)).ToDictionary(x => x.ID),
+				Elements = entity.MidiMappingElements.Select(x => x.ToItemViewModel()).ToDictionary(x => x.ID),
 				ValidationMessages = new List<string>()
 			};
 
@@ -834,12 +832,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Patch
 
-		public static PatchDetailsViewModel ToDetailsViewModel(
-			this Patch patch,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+		public static PatchDetailsViewModel ToDetailsViewModel(this Patch patch, ICurveRepository curveRepository)
 		{
-			var converter = new RecursiveToPatchViewModelConverter(curveRepository, entityPositionFacade);
+			var converter = new RecursiveToPatchViewModelConverter(curveRepository);
 
 			PatchDetailsViewModel viewModel = converter.ConvertToDetailsViewModel(patch);
 			viewModel.OriginalState = converter.ConvertToDetailsViewModel(patch);

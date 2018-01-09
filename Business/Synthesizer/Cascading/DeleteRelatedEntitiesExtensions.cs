@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Cascading
 				repositories.AudioFileOutputRepository.Delete(audioFileOutput);
 			}
 
+			// Order-Dependence:
 			// AudioOutput is omitted here.
 			// You need to postpone deleting this 1-to-1 related entity till after deleting the document, 
 			// or ORM will try to update Document.AudioOutputID to null and crash.
@@ -33,7 +34,7 @@ namespace JJ.Business.Synthesizer.Cascading
 
 			foreach (MidiMapping midiMapping in document.MidiMappings.ToArray())
 			{
-				midiMapping.DeleteRelatedEntities(repositories.MidiMappingElementRepository);
+				midiMapping.DeleteRelatedEntities(repositories.MidiMappingElementRepository, repositories.EntityPositionRepository);
 				midiMapping.UnlinkRelatedEntities();
 				repositories.MidiMappingRepository.Delete(midiMapping);
 			}
@@ -65,7 +66,10 @@ namespace JJ.Business.Synthesizer.Cascading
 			}
 		}
 
-		public static void DeleteRelatedEntities(this MidiMapping midiMapping, IMidiMappingElementRepository midiMappingElementRepository)
+		public static void DeleteRelatedEntities(
+			this MidiMapping midiMapping,
+			IMidiMappingElementRepository midiMappingElementRepository,
+			IEntityPositionRepository entityPositionRepository)
 		{
 			if (midiMapping == null) throw new NullException(() => midiMapping);
 			if (midiMappingElementRepository == null) throw new NullException(() => midiMappingElementRepository);
@@ -74,6 +78,14 @@ namespace JJ.Business.Synthesizer.Cascading
 			{
 				midiMappingElement.UnlinkRelatedEntities();
 				midiMappingElementRepository.Delete(midiMappingElement);
+
+				// Order-Dependence:
+				// You need to postpone deleting this 1-to-1 related entity till after deleting the MidiMappingElement, 
+				// or ORM will try to update MidiMappingElement.EntityPositionID to null and crash.
+				if (midiMappingElement.EntityPosition != null)
+				{
+					entityPositionRepository.Delete(midiMappingElement.EntityPosition);
+				}
 			}
 		}
 
@@ -88,12 +100,10 @@ namespace JJ.Business.Synthesizer.Cascading
 				repositories.CurveRepository.Delete(op.Curve);
 			}
 
-			// Be null-tolerant to be able to get out of trouble if something is missing.
-			EntityPosition entityPosition = repositories.EntityPositionRepository.TryGetByEntityTypeNameAndEntityID(typeof(OperatingSystem).Name, op.ID);
-			if (entityPosition != null)
-			{
-				repositories.EntityPositionRepository.Delete(entityPosition);
-			}
+			// Order-Dependence:
+			// EntityPosition is omitted here.
+			// You need to postpone deleting this 1-to-1 related entity till after deleting the Operator, 
+			// or ORM will try to update Operator.EntityPositionID to null and crash.
 
 			foreach (Inlet inlet in op.Inlets.ToArray())
 			{
@@ -124,6 +134,14 @@ namespace JJ.Business.Synthesizer.Cascading
 				op.DeleteRelatedEntities(repositories);
 				op.UnlinkRelatedEntities();
 				repositories.OperatorRepository.Delete(op);
+
+				// Order-Dependence:
+				// You need to postpone deleting this 1-to-1 related entity till after deleting the Operator, 
+				// or ORM will try to update Operator.EntityPositionID to null and crash.
+				if (op.EntityPosition != null)
+				{
+					repositories.EntityPositionRepository.Delete(op.EntityPosition);
+				}
 			}
 		}
 

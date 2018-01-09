@@ -539,6 +539,21 @@
     <Content Include="2018-01-02 090 SynthesizerDB IX_MidiMappingElement_ScaleID.sql" />
     <Content Include="2018-01-02 100 SynthesizerDB IX_MidiMappingElement_StandardDimensionID.sql" />
     <Content Include="2018-01-03 010 SynthesizerDB MidiMappingElement rename columns.sql" />
+    <Content Include="2018-01-09 010 SynthesizerDB Operator.EntityPositionID.sql" />
+    <Content Include="2018-01-09 020 SynthesizerDB MidiMappingElement.EntityPositionID.sql" />
+    <Content Include="2018-01-09 030 SynthesizerDB FK_Operator_EntityPosition.sql" />
+    <Content Include="2018-01-09 040 SynthesizerDB FK_MidiMappingElement_EntityPosition.sql" />
+    <Content Include="2018-01-09 050 SynthesizerDB migrate EntityPosition.EntityID to Operator.EntityPositionID.sql" />
+    <Content Include="2018-01-09 060 SynthesizerDB IX_EntityPosition_Unique drop index.sql" />
+    <Content Include="2018-01-09 070 SynthesizerDB EntityPosition.EntityTypeName drop column.sql" />
+    <Content Include="2018-01-09 080 SynthesizerDB EntityPosition.EntityID drop column.sql" />
+    <Content Include="2018-01-09 090 SynthesizerDB insert missing Operator EntityPositions.sql" />
+    <Content Include="2018-01-09 100 SynthesizerDB insert missing MidiMappingElement EntityPositions.sql" />
+    <Content Include="2018-01-09 110 SynthesizerDB delete orphaned EntityPositions.sql" />
+    <Content Include="2018-01-09 120 SynthesizerDB Operator.EntityPositionID not null.sql" />
+    <Content Include="2018-01-09 130 SynthesizerDB MidiMappingElement.EntityPositionID not null.sql" />
+    <Content Include="2018-01-09 140 SynthesizerDB IX_Operator_EntityPositionID_Unique.sql" />
+    <Content Include="2018-01-09 150 SynthesizerDB IX_MidiMappingElement_EntityPositionID_Unique.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

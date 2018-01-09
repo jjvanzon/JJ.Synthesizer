@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
@@ -9,9 +8,9 @@ namespace JJ.Business.Synthesizer.Validation
 	{
 		public MidiMappingValidator_Basic(MidiMapping entity)
 		{
-			ExecuteValidator(new NameValidator(entity.Name, required: true));
+			ExecuteValidator(new IDValidator(entity.ID));
+			ExecuteValidator(new NameValidator(entity.Name));
 
-			For(entity.ID, CommonResourceFormatter.ID).GreaterThan(0);
 			For(entity.Document, ResourceFormatter.Document).NotNull();
 		}
 	}

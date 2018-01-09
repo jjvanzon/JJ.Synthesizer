@@ -63,6 +63,13 @@ namespace JJ.Business.Synthesizer.LinkTo
 			midiMapping.LinkTo((Document)null);
 		}
 
+		public static void UnlinkEntityPosition(this MidiMappingElement midiMappingElement)
+		{
+			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+
+			midiMappingElement.LinkTo((EntityPosition)null);
+		}
+
 		public static void UnlinkMidiMapping(this MidiMappingElement midiMappingElement)
 		{
 			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
@@ -103,6 +110,13 @@ namespace JJ.Business.Synthesizer.LinkTo
 			if (op == null) throw new NullException(() => op);
 
 			op.LinkTo((Curve)null);
+		}
+
+		public static void UnlinkEntityPosition(this Operator op)
+		{
+			if (op == null) throw new NullException(() => op);
+
+			op.LinkTo((EntityPosition)null);
 		}
 
 		public static void UnlinkSample(this Operator op)

@@ -1,0 +1,1 @@
+alter table Operator add EntityPositionID int null;

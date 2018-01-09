@@ -423,8 +423,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						viewModel2 = patch.ToAutoPatchViewModel(
 							_repositories.SampleRepository,
 							_repositories.CurveRepository,
-							_repositories.InterpolationTypeRepository,
-							_entityPositionFacade);
+							_repositories.InterpolationTypeRepository);
 
 						viewModel2.Visible = userInput.Visible;
 					}
@@ -497,8 +496,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			AutoPatchPopupViewModel autoPatchPopupViewModel = autoPatch.ToAutoPatchViewModel(
 				_repositories.SampleRepository,
 				_repositories.CurveRepository,
-				_repositories.InterpolationTypeRepository,
-				_entityPositionFacade);
+				_repositories.InterpolationTypeRepository);
 
 			// Non-Persisted
 			autoPatchPopupViewModel.Visible = true;
@@ -865,7 +863,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// ToViewModel
-			DocumentViewModel viewModel = document.ToViewModel(_repositories, _entityPositionFacade);
+			DocumentViewModel viewModel = document.ToViewModel(_repositories);
 
 			// Non-Persisted
 			viewModel.DocumentTree.Visible = true;
@@ -1160,7 +1158,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						op = operatorFactory.New(underlyingPatch, GetVariableInletOrOutletCount(underlyingPatch));
 
 						IList<Operator> autoCreatedNumberOperators =
-							_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT, _entityPositionFacade);
+							_autoPatcher.CreateNumbersForEmptyInletsWithDefaultValues(op, ESTIMATED_OPERATOR_WIDTH, OPERATOR_HEIGHT);
 
 						createdOperators.AddRange(autoCreatedNumberOperators);
 						// Put main operator last so it is dispatched last upon redo and put on top.

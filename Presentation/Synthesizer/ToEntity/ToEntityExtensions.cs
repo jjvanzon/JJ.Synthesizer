@@ -17,7 +17,6 @@ using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-
 // ReSharper disable ObjectCreationAsStatement
 
 namespace JJ.Presentation.Synthesizer.ToEntity
@@ -401,7 +400,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 
-			// NOTE: AudioOutput must be created first and then Document, or you get a FK constraint violation.
+			// Order-Dependence: AudioOutput must be created first and then Document, or you get a null constraint violation.
 
 			AudioOutput audioOutput = viewModel.AudioOutput.ToEntity(audioOutputRepository, speakerSetupRepository);
 
@@ -441,17 +440,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			if (viewModel == null) throw new NullException(() => viewModel);
 			if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
-			EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.EntityPositionID);
+			EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.ID);
 			if (entityPosition == null)
 			{
-				entityPosition = new EntityPosition { ID = viewModel.EntityPositionID };
+				entityPosition = new EntityPosition { ID = viewModel.ID };
 				entityPositionRepository.Insert(entityPosition);
 			}
 
 			entityPosition.X = viewModel.CenterX;
 			entityPosition.Y = viewModel.CenterY;
-			entityPosition.EntityTypeName = viewModel.EntityTypeName;
-			entityPosition.EntityID = viewModel.EntityPositionID;
 
 			return entityPosition;
 		}
@@ -636,9 +633,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-			MidiMappingElement entity = viewModel.ToEntity(midiMappingElementRepository);
+			// Order-Dependenc2: EntityPosition must be created first and then Operator, or you get a null constraint violation.
+			EntityPosition entityPosition = viewModel.Position.ToEntity(entityPositionRepository);
 
-			viewModel.Position.ToEntity(entityPositionRepository);
+			MidiMappingElement entity = viewModel.ToEntity(midiMappingElementRepository);
+			entity.LinkTo(entityPosition);
 
 			return entity;
 		}

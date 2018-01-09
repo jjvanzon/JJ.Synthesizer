@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -28,14 +27,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		private static readonly IList<StyleGradeEnum> _styleGradesNonNeutral = GetStyleGradesNonNeutral();
 
 		private readonly ICurveRepository _curveRepository;
-		private readonly EntityPositionFacade _entityPositionFacade;
 
 		private Dictionary<Operator, OperatorViewModel> _dictionary;
 
-		public RecursiveToPatchViewModelConverter(ICurveRepository curveRepository, EntityPositionFacade entityPositionFacade)
+		public RecursiveToPatchViewModelConverter(ICurveRepository curveRepository)
 		{
 			_curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-			_entityPositionFacade = entityPositionFacade ?? throw new NullException(() => entityPositionFacade);
 		}
 
 		public PatchDetailsViewModel ConvertToDetailsViewModel(Patch patch)
@@ -64,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		private Dictionary<int, OperatorViewModel> ConvertToViewModelDictionaryRecursive(IList<Operator> operators)
 		{
-			IList<OperatorViewModel> operatorViewModels = operators.Select(x => ConvertToViewModelRecursive(x)).ToArray();
+			IList<OperatorViewModel> operatorViewModels = operators.Select(ConvertToViewModelRecursive).ToArray();
 
 			// Style the different dimensions.
 			IList<string> dimensionKeysToStyle = operatorViewModels.Select(x => x.Dimension)
@@ -139,11 +136,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				return viewModel;
 			}
 
-			viewModel = op.ToViewModel(_curveRepository, _entityPositionFacade);
+			viewModel = op.ToViewModel(_curveRepository);
 
 			_dictionary.Add(op, viewModel);
 
-			EntityPosition entityPosition = _entityPositionFacade.GetOrCreateOperatorPosition(op.ID);
+			EntityPosition entityPosition = op.EntityPosition;
 			viewModel.Position = entityPosition.ToViewModel();
 			viewModel.Inlets = ConvertToViewModelsRecursive(op.Inlets);
 			viewModel.Outlets = ConvertToViewModelsRecursive(op.Outlets);
@@ -154,16 +151,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		private IList<InletViewModel> ConvertToViewModelsRecursive(IList<Inlet> entities)
 		{
 			IList<InletViewModel> viewModels = entities.Sort()
-													   .Select(x => ConvertToViewModelRecursive(x))
+													   .Select(ConvertToViewModelRecursive)
 													   .ToList();
 			return viewModels;
 		}
 
 		private InletViewModel ConvertToViewModelRecursive(Inlet inlet)
 		{
-			InletViewModel viewModel = inlet.ToViewModel(
-				_curveRepository,
-				_entityPositionFacade);
+			InletViewModel viewModel = inlet.ToViewModel(_curveRepository);
 
 			if (inlet.InputOutlet != null)
 			{
@@ -176,14 +171,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		private IList<OutletViewModel> ConvertToViewModelsRecursive(IList<Outlet> entities)
 		{
 			IList<OutletViewModel> viewModels = entities.Sort()
-														.Select(x => ConvertToViewModelRecursive(x))
+														.Select(ConvertToViewModelRecursive)
 														.ToList();
 			return viewModels;
 		}
 
 		private OutletViewModel ConvertToViewModelRecursive(Outlet outlet)
 		{
-			OutletViewModel viewModel = outlet.ToViewModel(_curveRepository, _entityPositionFacade);
+			OutletViewModel viewModel = outlet.ToViewModel(_curveRepository);
 
 			// Recursive call
 			viewModel.Operator = ConvertToViewModelRecursive(outlet.Operator);

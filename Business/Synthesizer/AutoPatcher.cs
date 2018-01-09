@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer
 
 			var operatorFactory = new OperatorFactory(patch, _repositories);
 
-			var derivedOperator = operatorFactory.New(autoPatch);
+			OperatorWrapper derivedOperator = operatorFactory.New(autoPatch);
 			Outlet frequencyOutlet = operatorFactory.Number(tone.GetFrequency());
 
 			IList<Inlet> derivedOperatorFrequencyInlets = derivedOperator.Inlets.GetMany(DimensionEnum.Frequency);
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer
 					return soundOutlets[0];
 
 				default:
-					var add = operatorFactory.Add(soundOutlets);
+					OperatorWrapper add = operatorFactory.Add(soundOutlets);
 					return add;
 			}
 		}
@@ -450,17 +450,15 @@ namespace JJ.Business.Synthesizer
 		public IList<Operator> CreateNumbersForEmptyInletsWithDefaultValues(
 			Operator op,
 			float estimatedOperatorWidth,
-			float operatorHeight,
-			EntityPositionFacade entityPositionFacade)
+			float operatorHeight)
 		{
 			if (op == null) throw new NullException(() => op);
-			if (entityPositionFacade == null) throw new NullException(() => entityPositionFacade);
 
 			var list = new List<Operator>();
 
 			var operatorFactory = new OperatorFactory(op.Patch, _repositories);
 
-			EntityPosition entityPosition = entityPositionFacade.GetOrCreateOperatorPosition(op.ID);
+			EntityPosition entityPosition = op.EntityPosition;
 
 			int inletCount = op.Inlets.Count;
 			float spacingX = operatorHeight / 2f;
@@ -477,11 +475,11 @@ namespace JJ.Business.Synthesizer
 				{
 					if (inlet.DefaultValue.HasValue)
 					{
-						var number = operatorFactory.Number(inlet.DefaultValue.Value);
+						Number_OperatorWrapper number = operatorFactory.Number(inlet.DefaultValue.Value);
 						Outlet numberOutlet = number.Outlets[DimensionEnum.Number];
 						inlet.LinkTo(numberOutlet);
 
-						EntityPosition numberEntityPosition = entityPositionFacade.GetOrCreateOperatorPosition(number.WrappedOperator.ID);
+						EntityPosition numberEntityPosition = number.WrappedOperator.EntityPosition;
 						numberEntityPosition.X = x;
 						numberEntityPosition.Y = y;
 
@@ -499,7 +497,7 @@ namespace JJ.Business.Synthesizer
 		{
 			if (patch == null) throw new NullException(() => patch);
 
-			OperatorFactory operatorFactory = new OperatorFactory(patch, _repositories);
+			var operatorFactory = new OperatorFactory(patch, _repositories);
 
 			IList<PatchInletOrOutlet_OperatorWrapper> patchInletWrappers =
 				patch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)

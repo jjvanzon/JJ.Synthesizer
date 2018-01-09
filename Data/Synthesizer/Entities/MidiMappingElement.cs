@@ -35,6 +35,7 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual int? TillToneNumber { get; set; }
 		/// <summary> parent, not nullable </summary>
 		public virtual MidiMapping MidiMapping { get; set; }
+		public virtual EntityPosition EntityPosition { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
 	}

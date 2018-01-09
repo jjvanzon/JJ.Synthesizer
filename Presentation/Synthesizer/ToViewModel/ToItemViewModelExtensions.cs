@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
@@ -105,9 +104,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			var viewModel = new PositionViewModel
 			{
-				EntityPositionID = entityPosition.ID,
-				EntityTypeName = entityPosition.EntityTypeName,
-				EntityID = entityPosition.EntityID,
+				ID = entityPosition.ID,
 				CenterX = entityPosition.X,
 				CenterY = entityPosition.Y
 			};
@@ -130,26 +127,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Inlet
 
-		public static InletViewModel ToViewModel(
-			this Inlet entity,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+		public static InletViewModel ToViewModel(this Inlet entity, ICurveRepository curveRepository)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
 			var viewModel = new InletViewModel();
 
-			entity.ToViewModel(viewModel, curveRepository, entityPositionFacade);
+			entity.ToViewModel(viewModel, curveRepository);
 
 			return viewModel;
 		}
 
 		/// <summary> Overload for in-place refreshing of a view model </summary>
-		public static void ToViewModel(
-			this Inlet entity,
-			InletViewModel viewModel,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+		public static void ToViewModel(this Inlet entity, InletViewModel viewModel, ICurveRepository curveRepository)
 		{
 			if (entity == null) throw new NullException(() => entity);
 			if (viewModel == null) throw new NullException(() => viewModel);
@@ -166,7 +156,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.RepetitionPosition = entity.RepetitionPosition;
 			viewModel.Visible = ToViewModelHelper.GetInletVisible(entity);
 			viewModel.Caption = ToViewModelHelper.GetInletCaption(entity, curveRepository);
-			viewModel.ConnectionDistance = ToViewModelHelper.TryGetConnectionDistance(entity, entityPositionFacade);
+			viewModel.ConnectionDistance = ToViewModelHelper.TryGetConnectionDistance(entity);
 
 			if (entity.Dimension != null)
 			{
@@ -180,19 +170,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// MidiMapping
 
-		public static MidiMappingElementItemViewModel ToItemViewModel(this MidiMappingElement entity, EntityPositionFacade entityPositionFacade)
+		public static MidiMappingElementItemViewModel ToItemViewModel(this MidiMappingElement entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
-			if (entityPositionFacade == null) throw new ArgumentNullException(nameof(entityPositionFacade));
 
-			EntityPosition entityPosition = null;
-			//entityPosition = entityPositionFacade.GetOrCreateMidiMappingElementPosition()
-			throw new NotImplementedException();
-
-			var viewModel = new MidiMappingElementItemViewModel()
+			var viewModel = new MidiMappingElementItemViewModel
 			{
 				ID = entity.ID,
-				Position = entityPosition.ToViewModel(),
+				Position = entity.EntityPosition.ToViewModel(),
 				Caption = ToViewModelHelper.GetCaption(entity)
 			};
 
@@ -228,47 +213,35 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Operator
 
-		public static OperatorViewModel ToViewModel(
-			this Operator entity,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+		public static OperatorViewModel ToViewModel(this Operator entity, ICurveRepository curveRepository)
 		{
 			if (entity == null) throw new NullException(() => entity);
-			if (entityPositionFacade == null) throw new NullException(() => entityPositionFacade);
 
 			var viewModel = new OperatorViewModel();
 
-			ToViewModelHelper.RefreshViewModel(
-				entity,
-				viewModel,
-				curveRepository,
-				entityPositionFacade);
+			ToViewModelHelper.RefreshViewModel(entity, viewModel, curveRepository);
 
 			return viewModel;
 		}
 
-		public static EntityTypeAndIDViewModel ToEntityTypeAndIDViewModel(this Operator entity) => (EntityTypeEnum.Operator, entity.ID).ToViewModel();
+		public static EntityTypeAndIDViewModel ToEntityTypeAndIDViewModel(this Operator entity)
+		{
+			return (EntityTypeEnum.Operator, entity.ID).ToViewModel();
+		}
 
 		// Outlet
 
-		public static OutletViewModel ToViewModel(
-			this Outlet entity,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+		public static OutletViewModel ToViewModel(this Outlet entity, ICurveRepository curveRepository)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
 			var viewModel = new OutletViewModel();
-			entity.ToViewModel(viewModel, curveRepository, entityPositionFacade);
+			entity.ToViewModel(viewModel, curveRepository);
 			return viewModel;
 		}
 
 		/// <summary> Overload for in-place refreshing of a view model. </summary>
-		public static void ToViewModel(
-			this Outlet entity,
-			OutletViewModel viewModel,
-			ICurveRepository curveRepository,
-			EntityPositionFacade entityPositionFacade)
+		public static void ToViewModel(this Outlet entity, OutletViewModel viewModel, ICurveRepository curveRepository)
 		{
 			if (entity == null) throw new NullException(() => entity);
 			if (viewModel == null) throw new NullException(() => viewModel);
@@ -283,7 +256,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.RepetitionPosition = entity.RepetitionPosition;
 			viewModel.Visible = ToViewModelHelper.GetOutletVisible(entity);
 			viewModel.Caption = ToViewModelHelper.GetCaption(entity, curveRepository);
-			viewModel.AverageConnectionDistance = ToViewModelHelper.TryGetAverageConnectionDistance(entity, entityPositionFacade);
+			viewModel.AverageConnectionDistance = ToViewModelHelper.TryGetAverageConnectionDistance(entity);
 
 			if (entity.Dimension != null)
 			{
@@ -376,7 +349,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				ID = entity.ID,
 				Name = entity.Name,
-				BaseFrequency = entity.BaseFrequency,
+				BaseFrequency = entity.BaseFrequency
 			};
 
 			if (entity.ScaleType != null)

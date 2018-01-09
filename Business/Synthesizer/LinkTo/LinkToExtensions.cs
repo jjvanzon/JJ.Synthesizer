@@ -178,6 +178,15 @@ namespace JJ.Business.Synthesizer.LinkTo
 			}
 		}
 
+		public static void LinkTo(this MidiMappingElement midiMappingElement, EntityPosition entityPosition)
+		{
+			if (midiMappingElement == null) throw new ArgumentNullException(nameof(midiMappingElement));
+
+			midiMappingElement.EntityPosition = entityPosition;
+
+			// No inverse property.
+		}
+
 		public static void LinkTo(this MidiMappingElement midiMappingElement, MidiMapping midiMapping)
 		{
 			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
@@ -298,6 +307,15 @@ namespace JJ.Business.Synthesizer.LinkTo
 			if (op == null) throw new ArgumentNullException(nameof(op));
 
 			op.Curve = curve;
+
+			// No inverse property.
+		}
+
+		public static void LinkTo(this Operator op, EntityPosition entityPosition)
+		{
+			if (op == null) throw new ArgumentNullException(nameof(op));
+
+			op.EntityPosition = entityPosition;
 
 			// No inverse property.
 		}

@@ -1,0 +1,1 @@
+alter table MidiMappingElement alter column EntityPositionID int not null;

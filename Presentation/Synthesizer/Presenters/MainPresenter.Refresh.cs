@@ -331,7 +331,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MidiMappingDetailsViewModel viewModel = ViewModelSelector.TryGetMidiMappingDetailsViewModel(MainViewModel.Document, entity.ID);
 				if (viewModel == null)
 				{
-					viewModel = entity.ToDetailsViewModel(_entityPositionFacade);
+					viewModel = entity.ToDetailsViewModel();
 					viewModel.Successful = true;
 					viewModelDictionary[entity.ID] = viewModel;
 				}
@@ -886,8 +886,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ToViewModelHelper.RefreshViewModel_WithInletsAndOutlets(
 				entity,
 				operatorViewModel,
-				_repositories.CurveRepository,
-				_entityPositionFacade);
+				_repositories.CurveRepository);
 		}
 
 		private void PatchDetailsDictionaryRefresh()
@@ -903,7 +902,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				PatchDetailsViewModel viewModel = ViewModelSelector.TryGetPatchDetailsViewModel(MainViewModel.Document, entity.ID);
 				if (viewModel == null)
 				{
-					viewModel = entity.ToDetailsViewModel(_repositories.CurveRepository, _entityPositionFacade);
+					viewModel = entity.ToDetailsViewModel(_repositories.CurveRepository);
 
 					viewModel.Successful = true;
 					viewModelDictionary[entity.ID] = viewModel;
