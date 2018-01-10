@@ -185,6 +185,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 				}
 
+				case EntityTypeEnum.MidiMapping:
+					_midiMappingFacade.DeleteMidiMapping(id);
+					break;
+
+				case EntityTypeEnum.MidiMappingElement:
+					_midiMappingFacade.DeleteMidiMappingElement(id);
+					break;
+
 				default:
 					throw new ValueNotSupportedException(entityTypeEnum);
 			}
@@ -211,16 +219,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return states;
 		}
 
-		private IList<ViewModelBase> GetMidiMappingStates(int id)
+		private IList<ViewModelBase> GetMidiMappingStates(int midiMappingID)
 		{
-			MidiMappingElementPropertiesViewModel midiMappingElementPropertiesViewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
-			MidiMappingDetailsViewModel midiMappingDetailsViewModel = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingElementPropertiesViewModel.MidiMappingID);
-
-			return new List<ViewModelBase>
-			{
-				midiMappingElementPropertiesViewModel,
-				midiMappingDetailsViewModel,
-			};
+			return ViewModelSelector.EnumerateMidiMappingElementPropertiesViewModel_ByMidiMappingID(MainViewModel.Document, midiMappingID)
+			                        .Union<ViewModelBase>(ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID))
+			                        .ToArray();
 		}
 
 		private IList<ViewModelBase> GetNodeStates(int id)

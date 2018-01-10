@@ -1107,7 +1107,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
-				// TODO: Redirect to MidiMappingDetail (after it has been programmed).
+				// Redirect
+				MidiMappingDetailsShow(viewModel.CreatedEntityID);
 			}
 		}
 
@@ -1193,7 +1194,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		/// <param name="group">nullable</param>
 		private void DocumentTreeCreatePatch()
 		{
 			// GetViewModel
@@ -1510,8 +1510,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void DocumentTreeSelectMidiMapping(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectMidiMapping(x, id));
-
-			// TODO: Redirect to MidiMappingDetailsSwitch (once MidiMappingDetail is programmed).
 		}
 
 		public void DocumentTreeSelectScales()

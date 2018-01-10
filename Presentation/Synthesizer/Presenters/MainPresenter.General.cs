@@ -88,6 +88,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly AudioFileOutputFacade _audioFileOutputFacade;
 		private readonly CurveFacade _curveFacade;
 		private readonly DocumentFacade _documentFacade;
+		private readonly MidiMappingFacade _midiMappingFacade;
 		private readonly PatchFacade _patchFacade;
 		private readonly ScaleFacade _scaleFacade;
 
@@ -107,7 +108,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_audioFileOutputFacade = new AudioFileOutputFacade(audioFileOutputRepositories);
 			_curveFacade = new CurveFacade(_curveRepositories);
 			_documentFacade = new DocumentFacade(_repositories);
-			var midiMappingFacade = new MidiMappingFacade(midiMappingRepositories);
+			_midiMappingFacade = new MidiMappingFacade(midiMappingRepositories);
 
 			_patchFacade = new PatchFacade(_repositories);
 			_scaleFacade = new ScaleFacade(scaleRepositories);
@@ -128,12 +129,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_documentGridPresenter = new DocumentGridPresenter(_repositories);
 			_documentOrPatchNotFoundPresenter = new DocumentOrPatchNotFoundPopupPresenter(_repositories.DocumentRepository);
 			_documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
-			_documentTreePresenter = new DocumentTreePresenter(_documentFacade, _patchFacade, midiMappingFacade, _repositories);
+			_documentTreePresenter = new DocumentTreePresenter(_documentFacade, _patchFacade, _midiMappingFacade, _repositories);
 			_libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
 			_menuPresenter = new MenuPresenter();
-			_midiMappingDetailsPresenter = new MidiMappingDetailsPresenter(_repositories.MidiMappingRepository, midiMappingFacade);
-			_midiMappingElementPropertiesPresenter = new MidiMappingElementPropertiesPresenter(midiMappingRepositories, midiMappingFacade);
+			_midiMappingDetailsPresenter = new MidiMappingDetailsPresenter(_repositories.MidiMappingRepository, _midiMappingFacade);
+			_midiMappingElementPropertiesPresenter = new MidiMappingElementPropertiesPresenter(midiMappingRepositories, _midiMappingFacade);
 			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveFacade);
 			_operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);
 			_operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_repositories);

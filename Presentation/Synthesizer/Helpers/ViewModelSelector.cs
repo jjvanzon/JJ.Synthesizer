@@ -122,6 +122,17 @@ namespace JJ.Presentation.Synthesizer.Helpers
 			return viewModel;
 		}
 
+		public static IEnumerable<MidiMappingElementPropertiesViewModel> EnumerateMidiMappingElementPropertiesViewModel_ByMidiMappingID(DocumentViewModel document, int midiMappingID)
+		{
+			foreach (MidiMappingElementPropertiesViewModel mappingElementPropertiesViewModel in document.MidiMappingElementPropertiesDictionary.Values)
+			{
+				if (mappingElementPropertiesViewModel.MidiMappingID == midiMappingID)
+				{
+					yield return mappingElementPropertiesViewModel;
+				}
+			}
+		}
+
 		// Node
 
 		public static NodePropertiesViewModel GetNodePropertiesViewModel(DocumentViewModel documentViewModel, int nodeID)
