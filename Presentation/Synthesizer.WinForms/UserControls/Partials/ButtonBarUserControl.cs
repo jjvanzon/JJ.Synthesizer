@@ -1,10 +1,10 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -212,13 +212,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		{
 			int visibleButtonCount = GetVisibleButtonCount();
 
-			Width = visibleButtonCount * StyleHelper.IconButtonSize +
-					(visibleButtonCount - 1) * StyleHelper.DefaultSpacing;
+			Width = visibleButtonCount * (StyleHelper.IconButtonSize + StyleHelper.DefaultSpacing);
 
 			Height = _height;
 
 			int x = Width;
 
+			x -= StyleHelper.DefaultSpacing;
 			x -= StyleHelper.IconButtonSize;
 
 			var buttonTuplesInReverseOrder = new (Control Control, bool Visible)[]

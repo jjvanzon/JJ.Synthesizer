@@ -1,11 +1,10 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -31,6 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.ViewModel = _mainPresenter.MainViewModel.Document.DocumentTree;
 			libraryPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleLibraryProperties;
 			_librarySelectionPopupForm.ViewModel = _mainPresenter.MainViewModel.Document.LibrarySelectionPopup;
+			midiMappingDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingDetails;
 			nodePropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleNodeProperties;
 			operatorPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties;
 			operatorPropertiesUserControl.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);

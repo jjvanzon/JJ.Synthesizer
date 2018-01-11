@@ -386,6 +386,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				HideAllGridAndDetailsViewModels();
 				castedViewModel.Visible = true;
+				MainViewModel.Document.VisibleMidiMappingDetails = castedViewModel;
 			}
 
 			DispatchViewModelBase(castedViewModel);

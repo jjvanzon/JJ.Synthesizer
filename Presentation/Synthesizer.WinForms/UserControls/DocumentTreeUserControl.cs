@@ -38,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler ShowAudioFileOutputsRequested;
 		public event EventHandler<EventArgs<int>> ShowLibraryRequested;
 		public event EventHandler<EventArgs<int>> ShowPatchRequested;
+		public event EventHandler<EventArgs<int>> ShowMidiMappingRequested;
 		public event EventHandler ShowScalesRequested;
 
 		// Selected Events
@@ -783,6 +784,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				int id = (int)node.Tag;
 				ShowPatchRequested(this, new EventArgs<int>(id));
+			}
+
+			if (_midiMappingTreeNodes.Contains(node))
+			{
+				int id = (int)node.Tag;
+				ShowMidiMappingRequested(this, new EventArgs<int>(id));
 			}
 
 			if (node == _scalesTreeNode)

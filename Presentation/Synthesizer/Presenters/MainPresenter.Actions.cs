@@ -1720,6 +1720,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.Show(userInput));
+
+
 		}
 
 		public void MidiMappingDetailsClose(int id)

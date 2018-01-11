@@ -476,6 +476,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				ZIndex = -1,
 				TextStyle = StyleHelper.WaterMarkTextStyle
 			};
+			label.Position.Y = 0;
 #if DEBUG
 			label.Tag = "Title Label";
 #endif
@@ -488,7 +489,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			// 44 pixels magin from the left is to accomodate a reasonable amount of digits
 			// in the left-bound coordinate label without overlapping the title label.
 			_waterMarkTitleLabel.Position.X = _waterMarkTitleLabel.Diagram.Background.Position.PixelsToRelativeX(44);
-			_waterMarkTitleLabel.Position.Y = 0;
 			_waterMarkTitleLabel.Position.Width = _waterMarkTitleLabel.Diagram.Position.ScaledWidth - _waterMarkTitleLabel.Position.X;
 			_waterMarkTitleLabel.Position.Height = _waterMarkTitleLabel.Diagram.Position.ScaledHeight;
 		}

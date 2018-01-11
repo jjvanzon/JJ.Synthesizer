@@ -224,6 +224,12 @@
     <Compile Include="UserControls\Partials\ButtonBarUserControl.Designer.cs">
       <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MidiMappingDetailsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\MidiMappingDetailsUserControl.Designer.cs">
+      <DependentUpon>MidiMappingDetailsUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ToneGridEditUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -402,6 +408,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Partials\ButtonBarUserControl.resx">
       <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\MidiMappingDetailsUserControl.resx">
+      <DependentUpon>MidiMappingDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ToneGridEditUserControl.resx">
       <DependentUpon>ToneGridEditUserControl.cs</DependentUpon>

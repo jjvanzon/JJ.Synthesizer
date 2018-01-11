@@ -18,6 +18,7 @@
 			this.splitContainerTreeAndRightSide = new System.Windows.Forms.SplitContainer();
 			this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
 			this.splitContainerCenterAndProperties = new System.Windows.Forms.SplitContainer();
+			this.midiMappingDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingDetailsUserControl();
 			this.toneGridEditUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ToneGridEditUserControl();
 			this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
 			this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
@@ -100,6 +101,7 @@
 			// 
 			// splitContainerCenterAndProperties.Panel1
 			// 
+			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.midiMappingDetailsUserControl);
 			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
 			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.scaleGridUserControl);
 			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.audioFileOutputGridUserControl);
@@ -131,6 +133,29 @@
 			this.splitContainerCenterAndProperties.SplitterWidth = 5;
 			this.splitContainerCenterAndProperties.TabIndex = 2;
 			// 
+			// midiMappingDetailsUserControl
+			// 
+			this.midiMappingDetailsUserControl.AddButtonVisible = false;
+			this.midiMappingDetailsUserControl.AddToInstrumentButtonVisible = true;
+			this.midiMappingDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.midiMappingDetailsUserControl.CloseButtonVisible = true;
+			this.midiMappingDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.midiMappingDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+			this.midiMappingDetailsUserControl.Location = new System.Drawing.Point(0, 0);
+			this.midiMappingDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
+			this.midiMappingDetailsUserControl.Name = "midiMappingDetailsUserControl";
+			this.midiMappingDetailsUserControl.PlayButtonVisible = true;
+			this.midiMappingDetailsUserControl.RefreshButtonVisible = false;
+			this.midiMappingDetailsUserControl.RemoveButtonVisible = true;
+			this.midiMappingDetailsUserControl.SaveButtonVisible = false;
+			this.midiMappingDetailsUserControl.Size = new System.Drawing.Size(851, 532);
+			this.midiMappingDetailsUserControl.TabIndex = 1;
+			this.midiMappingDetailsUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
+			this.midiMappingDetailsUserControl.TitleBarText = "";
+			this.midiMappingDetailsUserControl.TitleLabelVisible = true;
+			this.midiMappingDetailsUserControl.ViewModel = null;
+			this.midiMappingDetailsUserControl.Visible = false;
+			// 
 			// toneGridEditUserControl
 			// 
 			this.toneGridEditUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -142,6 +167,7 @@
 			this.toneGridEditUserControl.Size = new System.Drawing.Size(851, 532);
 			this.toneGridEditUserControl.TabIndex = 1;
 			this.toneGridEditUserControl.ViewModel = null;
+			this.toneGridEditUserControl.Visible = false;
 			// 
 			// scaleGridUserControl
 			// 
@@ -196,9 +222,11 @@
 			// patchDetailsUserControl
 			// 
 			this.patchDetailsUserControl.AddButtonVisible = false;
+			this.patchDetailsUserControl.AddToInstrumentButtonVisible = true;
 			this.patchDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.patchDetailsUserControl.CloseButtonVisible = true;
 			this.patchDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.patchDetailsUserControl.ExpandButtonVisible = true;
 			this.patchDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
 			this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(5);
@@ -218,14 +246,15 @@
 			// libraryPropertiesUserControl
 			// 
 			this.libraryPropertiesUserControl.AddButtonVisible = false;
+			this.libraryPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.libraryPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.libraryPropertiesUserControl.CloseButtonVisible = true;
 			this.libraryPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.libraryPropertiesUserControl.ExpandButtonVisible = true;
 			this.libraryPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.libraryPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
-			this.libraryPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4);
+			this.libraryPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.libraryPropertiesUserControl.Name = "libraryPropertiesUserControl";
-			this.libraryPropertiesUserControl.ExpandButtonVisible = true;
 			this.libraryPropertiesUserControl.PlayButtonVisible = true;
 			this.libraryPropertiesUserControl.RefreshButtonVisible = false;
 			this.libraryPropertiesUserControl.RemoveButtonVisible = true;
@@ -240,10 +269,12 @@
 			// operatorPropertiesUserControl_ForNumber
 			// 
 			this.operatorPropertiesUserControl_ForNumber.AddButtonVisible = false;
+			this.operatorPropertiesUserControl_ForNumber.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForNumber.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl_ForNumber.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl_ForNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl_ForNumber.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForNumber.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForNumber.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForNumber.Margin = new System.Windows.Forms.Padding(5);
@@ -262,10 +293,12 @@
 			// operatorPropertiesUserControl_WithCollectionRecalculation
 			// 
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.AddButtonVisible = false;
+			this.operatorPropertiesUserControl_WithCollectionRecalculation.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl_WithCollectionRecalculation.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
@@ -284,10 +317,12 @@
 			// operatorPropertiesUserControl_ForInletsToDimension
 			// 
 			this.operatorPropertiesUserControl_ForInletsToDimension.AddButtonVisible = false;
+			this.operatorPropertiesUserControl_ForInletsToDimension.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForInletsToDimension.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForInletsToDimension.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl_ForInletsToDimension.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl_ForInletsToDimension.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl_ForInletsToDimension.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForInletsToDimension.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForInletsToDimension.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForInletsToDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
@@ -306,6 +341,7 @@
 			// audioOutputPropertiesUserControl
 			// 
 			this.audioOutputPropertiesUserControl.AddButtonVisible = false;
+			this.audioOutputPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.audioOutputPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.audioOutputPropertiesUserControl.CloseButtonVisible = true;
 			this.audioOutputPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -327,10 +363,12 @@
 			// operatorPropertiesUserControl_ForCache
 			// 
 			this.operatorPropertiesUserControl_ForCache.AddButtonVisible = false;
+			this.operatorPropertiesUserControl_ForCache.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForCache.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForCache.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl_ForCache.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCache.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl_ForCache.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCache.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForCache.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForCache.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
@@ -349,10 +387,12 @@
 			// operatorPropertiesUserControl_WithInterpolation
 			// 
 			this.operatorPropertiesUserControl_WithInterpolation.AddButtonVisible = false;
+			this.operatorPropertiesUserControl_WithInterpolation.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_WithInterpolation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_WithInterpolation.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl_WithInterpolation.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl_WithInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl_WithInterpolation.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_WithInterpolation.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_WithInterpolation.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_WithInterpolation.Margin = new System.Windows.Forms.Padding(4);
@@ -371,10 +411,12 @@
 			// nodePropertiesUserControl
 			// 
 			this.nodePropertiesUserControl.AddButtonVisible = false;
+			this.nodePropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.nodePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.nodePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.nodePropertiesUserControl.CloseButtonVisible = true;
 			this.nodePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.nodePropertiesUserControl.ExpandButtonVisible = true;
 			this.nodePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.nodePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.nodePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
@@ -393,10 +435,12 @@
 			// operatorPropertiesUserControl_ForCurve
 			// 
 			this.operatorPropertiesUserControl_ForCurve.AddButtonVisible = false;
+			this.operatorPropertiesUserControl_ForCurve.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForCurve.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForCurve.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl_ForCurve.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCurve.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl_ForCurve.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCurve.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForCurve.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForCurve.Margin = new System.Windows.Forms.Padding(5);
@@ -415,6 +459,7 @@
 			// scalePropertiesUserControl
 			// 
 			this.scalePropertiesUserControl.AddButtonVisible = false;
+			this.scalePropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.scalePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.scalePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.scalePropertiesUserControl.CloseButtonVisible = true;
@@ -437,10 +482,12 @@
 			// operatorPropertiesUserControl_ForPatchInlet
 			// 
 			this.operatorPropertiesUserControl_ForPatchInlet.AddButtonVisible = false;
+			this.operatorPropertiesUserControl_ForPatchInlet.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForPatchInlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForPatchInlet.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl_ForPatchInlet.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchInlet.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl_ForPatchInlet.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchInlet.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(5);
@@ -459,6 +506,7 @@
 			// documentPropertiesUserControl
 			// 
 			this.documentPropertiesUserControl.AddButtonVisible = false;
+			this.documentPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.documentPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.documentPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.documentPropertiesUserControl.CloseButtonVisible = true;
@@ -481,10 +529,12 @@
 			// operatorPropertiesUserControl
 			// 
 			this.operatorPropertiesUserControl.AddButtonVisible = false;
+			this.operatorPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
@@ -503,10 +553,12 @@
 			// patchPropertiesUserControl
 			// 
 			this.patchPropertiesUserControl.AddButtonVisible = false;
+			this.patchPropertiesUserControl.AddToInstrumentButtonVisible = true;
 			this.patchPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.patchPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.patchPropertiesUserControl.CloseButtonVisible = true;
 			this.patchPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.patchPropertiesUserControl.ExpandButtonVisible = true;
 			this.patchPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.patchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.patchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
@@ -525,6 +577,7 @@
 			// audioFileOutputPropertiesUserControl
 			// 
 			this.audioFileOutputPropertiesUserControl.AddButtonVisible = false;
+			this.audioFileOutputPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.audioFileOutputPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.audioFileOutputPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.audioFileOutputPropertiesUserControl.CloseButtonVisible = true;
@@ -547,10 +600,12 @@
 			// operatorPropertiesUserControl_ForSample
 			// 
 			this.operatorPropertiesUserControl_ForSample.AddButtonVisible = false;
+			this.operatorPropertiesUserControl_ForSample.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForSample.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForSample.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl_ForSample.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl_ForSample.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl_ForSample.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForSample.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(5);
@@ -569,10 +624,12 @@
 			// operatorPropertiesUserControl_ForPatchOutlet
 			// 
 			this.operatorPropertiesUserControl_ForPatchOutlet.AddButtonVisible = false;
+			this.operatorPropertiesUserControl_ForPatchOutlet.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForPatchOutlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForPatchOutlet.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.operatorPropertiesUserControl_ForPatchOutlet.CloseButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchOutlet.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.operatorPropertiesUserControl_ForPatchOutlet.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchOutlet.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(5);
@@ -600,7 +657,7 @@
 			// currentInstrumentUserControl
 			// 
 			this.currentInstrumentUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-			| System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.currentInstrumentUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.currentInstrumentUserControl.Location = new System.Drawing.Point(271, 0);
 			this.currentInstrumentUserControl.Margin = new System.Windows.Forms.Padding(0);
@@ -698,5 +755,6 @@
 		private UserControls.LibraryPropertiesUserControl libraryPropertiesUserControl;
 		private System.Windows.Forms.SplitContainer splitContainerCurvesAndTopSide;
 		private UserControls.CurveDetailsListUserControl curveDetailsListUserControl;
+		private UserControls.MidiMappingDetailsUserControl midiMappingDetailsUserControl;
 	}
 }

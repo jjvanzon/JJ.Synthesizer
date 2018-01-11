@@ -76,6 +76,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
 			documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
 			documentTreeUserControl.ShowLibraryRequested += documentTreeUserControl_ShowLibraryRequested;
+			documentTreeUserControl.ShowMidiMappingRequested += DocumentTreeUserControl_ShowMidiMappingRequested;
 			documentTreeUserControl.ShowPatchRequested += documentTreeUserControl_ShowPatchRequested;
 			documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
 			documentTreeUserControl.UndoRequested += documentTreeUserControl_UndoRequested;
@@ -634,6 +635,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private void documentTreeUserControl_ShowLibraryRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.DocumentTreeShowLibrary(e.Value));
+		}
+
+		private void DocumentTreeUserControl_ShowMidiMappingRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.DocumentTreeShowMidiMapping(e.Value));
 		}
 
 		private void documentTreeUserControl_ShowPatchRequested(object sender, EventArgs<int> e)
