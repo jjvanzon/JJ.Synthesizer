@@ -1,4 +1,7 @@
-﻿using JJ.Framework.Collections;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
@@ -6,9 +9,6 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -139,25 +139,25 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 					continue;
 				}
 
-				if (elementToDelete is Rectangle rectangleToDelete)
+				switch (elementToDelete)
 				{
-					_inletRectangleConverter.TryRemove(rectangleToDelete);
-					_outletRectangleConverter.TryRemove(rectangleToDelete);
-					_operatorRectangleConverter.TryRemove(rectangleToDelete);
-				}
+					case Rectangle rectangleToDelete:
+						_inletRectangleConverter.TryRemove(rectangleToDelete);
+						_outletRectangleConverter.TryRemove(rectangleToDelete);
+						_operatorRectangleConverter.TryRemove(rectangleToDelete);
+						break;
 
-				if (elementToDelete is Point pointToDelete)
-				{
-					_inletPointConverter.TryRemove(pointToDelete);
-					_inletControlPointConverter.TryRemove(pointToDelete);
-					_outletPointConverter.TryRemove(pointToDelete);
-					_outletControlPointConverter.TryRemove(pointToDelete);
-				}
+					case Point pointToDelete:
+						_inletPointConverter.TryRemove(pointToDelete);
+						_inletControlPointConverter.TryRemove(pointToDelete);
+						_outletPointConverter.TryRemove(pointToDelete);
+						_outletControlPointConverter.TryRemove(pointToDelete);
+						break;
 
-				if (elementToDelete is Label labelToDelete)
-				{
-					_operatorLabelConverter.TryRemove(labelToDelete);
-					_operatorDimensionLabelConverter.TryRemove(labelToDelete);
+					case Label labelToDelete:
+						_operatorLabelConverter.TryRemove(labelToDelete);
+						_operatorDimensionLabelConverter.TryRemove(labelToDelete);
+						break;
 				}
 
 				elementToDelete.Children.Clear();

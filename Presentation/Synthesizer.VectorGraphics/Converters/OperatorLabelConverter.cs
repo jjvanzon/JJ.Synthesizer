@@ -1,9 +1,8 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+﻿using System.Collections.Generic;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Business.Synthesizer.Enums;
-using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
@@ -19,8 +18,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			int operatorID = sourceOperatorViewModel.ID;
 
-			Label destLabel;
-			if (!_destOperatorLabelDictionary.TryGetValue(operatorID, out destLabel))
+			if (!_destOperatorLabelDictionary.TryGetValue(operatorID, out Label destLabel))
 			{
 				destLabel = new Label
 				{

@@ -405,7 +405,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 			else
 			{
-				viewModel.StandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
+				viewModel.Scale = ToViewModelHelper.CreateEmptyIDAndName();
 			}
 
 			return viewModel;

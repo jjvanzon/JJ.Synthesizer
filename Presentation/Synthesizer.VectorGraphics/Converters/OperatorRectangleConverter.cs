@@ -38,8 +38,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			int operatorID = sourceOperatorViewModel.ID;
 
-			Rectangle destOperatorRectangle;
-			if (!_destOperatorRectangleDictionary.TryGetValue(operatorID, out destOperatorRectangle))
+			if (!_destOperatorRectangleDictionary.TryGetValue(operatorID, out Rectangle destOperatorRectangle))
 			{
 				destOperatorRectangle = new Rectangle
 				{

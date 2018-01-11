@@ -37,7 +37,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		public static TextStyle NumberOperatorTextStyle { get; }
 		public static TextStyle DimensionTextStyle { get; }
 		public static TextStyle WaterMarkTextStyle { get; set; }
-		public static BackStyle BackStyle { get; }
 		public static BackStyle BackStyleSelected { get; }
 		public static BackStyle BackStyleInvisible { get; }
 		public static LineStyle BorderStyle { get; }
@@ -63,104 +62,99 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		public static float Spacing { get; }
 		public static float SpacingTimes2 { get; }
 
+		public static int AlmostBlack { get; } = ColorHelper.GetColor(20, 20, 20);
+		public static int MediumGrey { get; } = ColorHelper.GetColor(120, 120, 120);
+		public static int LightGrey { get; } = ColorHelper.GetColor(220, 220, 220);
+		public static int LessLightGrey { get; } = ColorHelper.GetColor(200, 200, 200);
+		public static int TransparentGrey { get; } = ColorHelper.GetColor(128, 45, 45, 45);
+		public static int Blue { get; } = ColorHelper.GetColor(122, 189, 254);
+		public static int DarkerBlue { get; } = ColorHelper.SetBrightness(Blue, 0.8);
+		public static int Orange { get; } = ColorHelper.GetColor(0xFFDB8E00);
+
 		static StyleHelper()
 		{
 			Spacing = 8;
 
 			SpacingTimes2 = Spacing + Spacing;
 
-			int almostBlack = ColorHelper.GetColor(20, 20, 20);
-			int mediumGrey = ColorHelper.GetColor(120, 120, 120);
-			int lightGrey = ColorHelper.GetColor(220, 220, 220);
-			int lessLightGrey = ColorHelper.GetColor(200, 200, 200);
-			int transparentGrey = ColorHelper.GetColor(128, 45, 45, 45);
-			int blue = ColorHelper.GetColor(122, 189, 254);
-			int darkerBlue = ColorHelper.SetBrightness(blue, 0.8);
-			int orange = ColorHelper.GetColor(0xFFDB8E00);
-
 			PointStyle = new PointStyle
 			{
-				Color = mediumGrey,
+				Color = MediumGrey,
 				Width = 5
 			};
 
 			PointStyleThick = new PointStyle
 			{
-				Color = mediumGrey,
+				Color = MediumGrey,
 				Width = 8
 			};
 
 			PointStyleThickSelected = new PointStyle
 			{
-				Color = darkerBlue,
+				Color = DarkerBlue,
 				Width = 8
 			};
 
 			PointStyleWarning = PointStyle.Clone();
-			PointStyleWarning.Color = orange;
-
-			BackStyle = new BackStyle
-			{
-				Color = lightGrey
-			};
+			PointStyleWarning.Color = Orange;
 
 			BackStyleSelected = new BackStyle
 			{
-				Color = blue
+				Color = Blue
 			};
 
 			BorderStyle = new LineStyle
 			{
 				Width = 1,
-				Color = lessLightGrey
+				Color = LessLightGrey
 			};
 
 			BorderStyleSelected = new LineStyle
 			{
 				Width = 1,
-				Color = lessLightGrey
+				Color = LessLightGrey
 			};
 
 			LineStyle = new LineStyle
 			{
 				Width = 1,
-				Color = mediumGrey
+				Color = MediumGrey
 			};
 
 			LineStyleWarning = new LineStyle
 			{
 				Width = 1,
-				Color = orange
+				Color = Orange
 			};
 
 			LineStyleWarningThick = new LineStyle
 			{
 				Width = 2,
-				Color = orange
+				Color = Orange
 			};
 
 			LineStyleTransparent = new LineStyle
 			{
 				Width = 1,
-				Color = transparentGrey
+				Color = TransparentGrey
 			};
 
 			LineStyleThick = new LineStyle
 			{
 				Width = 2,
-				Color = mediumGrey
+				Color = MediumGrey
 			};
 
 			LineStyleThickDark = new LineStyle
 			{
 				Width = 2,
-				Color = almostBlack
+				Color = AlmostBlack
 			};
 
 			LineStyleDashed = new LineStyle
 			{
 				Width = 2,
-				Color = transparentGrey,
+				Color = TransparentGrey,
 				DashStyleEnum = DashStyleEnum.Dotted
 			};
 
@@ -194,7 +188,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 				HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
 				VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
 				Font = DefaultFont,
-				Color = almostBlack
+				Color = AlmostBlack
 			};
 
 			NumberOperatorTextStyle = new TextStyle
@@ -202,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 				HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
 				VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
 				Font = NumberOperatorFont,
-				Color = almostBlack
+				Color = AlmostBlack
 			};
 
 			DimensionTextStyle = new TextStyle
@@ -210,7 +204,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 				HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
 				VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
 				Font = DimensionFont,
-				Color = almostBlack
+				Color = AlmostBlack
 			};
 
 			WaterMarkTextStyle = new TextStyle
@@ -218,7 +212,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 				HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
 				VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
 				Font = WaterMarkFont,
-				Color = lightGrey
+				Color = LightGrey
 			};
 
 			PointStyleInvisible = new PointStyle
@@ -310,7 +304,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 				double ratio = (double)i / (gradeCount - 1);
 				double grade = minBrightness + ratio * deltaBrightness;
 
-				int gradedColor = ColorHelper.SetBrightness(BackStyle.Color, grade);
+				int gradedColor = ColorHelper.SetBrightness(LightGrey, grade);
 				var gradedBackStyle = new BackStyle { Color = gradedColor };
 
 				StyleGradeEnum styleGradeEnum = (StyleGradeEnum)i + 1;
@@ -325,5 +319,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		{
 			return _styleGradeEnum_BackStyle_Dictionary[styleGradeEnum];
 		}
+
+		public static BackStyle GetNeutralBackStyle() => GetGradedBackStyle(StyleGradeEnum.StyleGradeNeutral);
 	}
 }
