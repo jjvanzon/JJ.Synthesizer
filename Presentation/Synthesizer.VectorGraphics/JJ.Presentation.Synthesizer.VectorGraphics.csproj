@@ -76,7 +76,6 @@
     <Compile Include="PatchViewModelToDiagramConverter.cs" />
     <Compile Include="EventArg\ToolTipTextEventArgs.cs" />
     <Compile Include="Gestures\DeleteOperatorGesture.cs" />
-    <Compile Include="Gestures\2018-01-12 Backup of SelectOperatorGesture.cs" />
     <Compile Include="Gestures\ToolTipGesture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PatchViewModelToDiagramConverterResult.cs" />
