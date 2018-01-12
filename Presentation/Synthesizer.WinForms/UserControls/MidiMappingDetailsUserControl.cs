@@ -34,6 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			AddToInstrumentButtonVisible = false;
 			PlayButtonVisible = false;
+			NewButtonVisible = true;
 
 			diagramControl.Left = 0;
 			diagramControl.Top = 0;
