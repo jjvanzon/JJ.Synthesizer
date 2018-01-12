@@ -9,9 +9,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 	/// in case you want to switch between mouse down or mouse up,
 	/// or other ways of selecting it.
 	/// </summary>
-	public class SelectNodeGesture : GestureBase
+	public class SelectGesture : GestureBase
 	{
-		public event EventHandler<ElementEventArgs> SelectNodeRequested;
+		public event EventHandler<ElementEventArgs> SelectRequested;
 
 		// Do note that MouseDown might not work,
 		// because in WinForms the MouseDown event of one control goes off
@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 		// the move gesture does not work, because it tries to move the already disappeared element.
 		protected override void HandleMouseUp(object sender, MouseEventArgs e)
 		{
-			SelectNodeRequested?.Invoke(sender, new ElementEventArgs(e.Element));
+			SelectRequested?.Invoke(sender, new ElementEventArgs(e.Element));
 		}
 	}
 }

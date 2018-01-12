@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public KeyDownGesture KeyDownGesture { get; }
 		public MoveGesture MoveNodeGesture { get; }
 		public ToolTipGesture NodeToolTipGesture { get; }
-		public SelectNodeGesture SelectNodeGesture { get; }
+		public SelectGesture SelectNodeGesture { get; }
 		public ClickGesture SelectPatchGesture { get; }
 		public ExpandNodeKeyboardGesture ExpandNodeKeyboardGesture { get; }
 		public ExpandNodeMouseGesture ExpandNodeMouseGesture { get; }
@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				StyleHelper.ToolTipBackStyle,
 				StyleHelper.ToolTipLineStyle,
 				StyleHelper.ToolTipTextStyle);
-			SelectNodeGesture = new SelectNodeGesture();
+			SelectNodeGesture = new SelectGesture();
 			ExpandNodeKeyboardGesture = new ExpandNodeKeyboardGesture();
 			ExpandNodeMouseGesture = new ExpandNodeMouseGesture(
 				doubleClickSpeedInMilliseconds,

@@ -17,13 +17,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 		private readonly Diagram _diagram;
 		private readonly MoveGesture _moveGesture;
-		private readonly SelectOperatorGesture _selectOperatorGesture;
+		private readonly SelectGesture _selectOperatorGesture;
 		private readonly ExpandOperatorMouseGesture _showOperatorPropertiesMouseGesture;
 
 		public OperatorRectangleConverter(
 			Diagram diagram,
 			MoveGesture moveGesture,
-			SelectOperatorGesture selectOperatorGesture,
+			SelectGesture selectOperatorGesture,
 			ExpandOperatorMouseGesture showOperatorPropertiesMouseGesture)
 		{
 			_diagram = diagram ?? throw new NullException(() => diagram);

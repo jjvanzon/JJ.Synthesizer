@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public ToolTipGesture InletToolTipGesture { get; }
 		public MoveGesture MoveGesture { get; }
 		public ToolTipGesture OutletToolTipGesture { get; }
-		public SelectOperatorGesture SelectOperatorGesture { get; }
+		public SelectGesture SelectOperatorGesture { get; }
 		public ClickGesture SelectPatchGesture { get; }
 
 		public PatchViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				preferShowOnBottom: true,
 				zIndex: 2);
 
-			SelectOperatorGesture = new SelectOperatorGesture();
+			SelectOperatorGesture = new SelectGesture();
 			SelectPatchGesture = new ClickGesture();
 		}
 	}

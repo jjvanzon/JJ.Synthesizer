@@ -98,12 +98,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				circle.Style.LineStyle = StyleHelper.CircleLineStyle;
 
 				circle.Gestures.Add(Result.MoveGesture);
+				circle.Gestures.Add(Result.SelectElementGesture);
 
 				_circleDictionary[viewModel.ID] = circle;
 			}
 
 			circle.Position.X = viewModel.Position.CenterX - HALF_DEFAULT_OBJECT_SIZE;
 			circle.Position.Y = viewModel.Position.CenterY - HALF_DEFAULT_OBJECT_SIZE;
+
+			if (viewModel.IsSelected)
+			{
+				circle.Style.BackStyle = StyleHelper.BackStyleSelected;
+			}
+			else
+			{
+				circle.Style.BackStyle = StyleHelper.CircleBackStyle;
+				circle.Style.LineStyle = StyleHelper.CircleLineStyle;
+			}
 
 			return circle;
 		}

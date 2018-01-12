@@ -1,4 +1,8 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Forms;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Configuration;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
@@ -10,10 +14,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Forms;
 // ReSharper disable PossibleNullReferenceException
 #pragma warning disable IDE0022 // Use expression body for methods
 
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void BindVectorGraphicsEvents()
 		{
-			_converterResult.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
+			_converterResult.SelectOperatorGesture.SelectRequested += SelectOperatorGesture_SelectRequested;
 			_converterResult.MoveGesture.Moving += MoveGesture_Moving;
 			_converterResult.MoveGesture.Moved += MoveGesture_Moved;
 			_converterResult.DropLineGesture.Dropped += DropLineGesture_Dropped;
@@ -113,7 +113,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// ReSharper disable once InvertIf
 			if (_converterResult != null)
 			{
-				_converterResult.SelectOperatorGesture.OperatorSelected -= SelectOperatorGesture_OperatorSelected;
+				_converterResult.SelectOperatorGesture.SelectRequested -= SelectOperatorGesture_SelectRequested;
 				_converterResult.MoveGesture.Moving -= MoveGesture_Moving;
 				_converterResult.MoveGesture.Moved -= MoveGesture_Moved;
 				_converterResult.DropLineGesture.Dropped -= DropLineGesture_Dropped;
@@ -179,7 +179,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				centerY));
 		}
 
-		private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
+		private void SelectOperatorGesture_SelectRequested(object sender, ElementEventArgs e)
 		{
 			if (ViewModel == null) return;
 

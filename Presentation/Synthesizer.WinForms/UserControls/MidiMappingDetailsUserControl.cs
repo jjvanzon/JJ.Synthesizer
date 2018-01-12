@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			_converter = new MidiMappingDetailsViewModelToDiagramConverter(SystemInformation.DoubleClickTime, SystemInformation.DoubleClickSize.Width);
 			_converter.Result.MoveGesture.Moved += MoveGesture_Moved;
+			_converter.Result.SelectElementGesture.SelectRequested += SelectElementGesture_SelectRequested;
 		}
 
 		private void MidiMappingDetailsUserControl_Load(object sender, EventArgs e)
@@ -103,15 +104,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			MoveElementRequested(this, new EventArgs<(int, int, float, float)>((ViewModel.MidiMapping.ID, midiMappingElementID, centerX, centerY)));
 		}
 
-		//private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
-		//{
-		//	if (ViewModel == null) return;
+		private void SelectElementGesture_SelectRequested(object sender, ElementEventArgs e)
+		{
+			if (ViewModel == null) return;
 
-		//	int midiMappingElementID = VectorGraphicsTagHelper.GetMidiMappingElementID(e.Element.Tag);
+			int midiMappingElementID = (int)e.Element.Tag;
 
-		//	SelectElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMapping.ID, midiMappingElementID)));
+			SelectElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMapping.ID, midiMappingElementID)));
 
-		//	//_converterResult.ExpandElementeyboardGesture.SelectedOperatorID = ViewModel.SelectedElement?.ID;
-		//}
+			//_converterResult.ExpandElementeyboardGesture.SelectedOperatorID = ViewModel.SelectedElement?.ID;
+		}
 	}
 }

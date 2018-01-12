@@ -1,4 +1,7 @@
-﻿using JJ.Business.Synthesizer;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
@@ -10,9 +13,6 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using Rectangle = JJ.Framework.Presentation.VectorGraphics.Models.Elements.Rectangle;
 // ReSharper disable PossibleNullReferenceException
 
@@ -67,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
 			_converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
 			_converter.Result.NodeToolTipGesture.ToolTipTextRequested += NodeToolTipGesture_ToolTipTextRequested;
-			_converter.Result.SelectNodeGesture.SelectNodeRequested += SelectNodeGesture_NodeSelected;
+			_converter.Result.SelectNodeGesture.SelectRequested += SelectGesture_Selected;
 			_converter.Result.ExpandNodeKeyboardGesture.ExpandNodeRequested += ExpandNodeKeyboardGesture_ExpandNodeRequested;
 			_converter.Result.ExpandNodeMouseGesture.ExpandNodeRequested += ExpandNodeMouseGesture_ExpandNodeRequested;
 		}
@@ -147,7 +147,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private void SelectNodeGesture_NodeSelected(object sender, ElementEventArgs e)
+		private void SelectGesture_Selected(object sender, ElementEventArgs e)
 		{
 			if (ViewModel == null) return;
 			AssertConverter();

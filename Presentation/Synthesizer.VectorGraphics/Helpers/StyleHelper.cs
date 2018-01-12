@@ -40,10 +40,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		public static int MediumLightGray { get; } = ColorHelper.GetColor(160, 160, 160);
 		public static int LightGray { get; } = ColorHelper.GetColor(200, 200, 200);
 		public static int LighterGray { get; } = ColorHelper.GetColor(220, 220, 220);
-
 		public static int TransparentGray { get; } = ColorHelper.GetColor(128, 45, 45, 45);
-
-		//public static int Blue { get; } = ColorHelper.GetColor(122, 189, 254);
 		public static int Blue { get; } = ColorHelper.GetColor(0xFF99C9F7);
 		public static int DarkerBlue { get; } = ColorHelper.SetBrightness(Blue, 0.8);
 		public static int Orange { get; } = ColorHelper.GetColor(0xFFDB8E00);
