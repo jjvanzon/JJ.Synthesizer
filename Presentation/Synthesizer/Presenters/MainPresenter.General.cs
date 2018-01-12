@@ -133,7 +133,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
 			_menuPresenter = new MenuPresenter();
-			_midiMappingDetailsPresenter = new MidiMappingDetailsPresenter(_repositories.MidiMappingRepository, _midiMappingFacade);
+			_midiMappingDetailsPresenter = new MidiMappingDetailsPresenter(midiMappingRepositories, _midiMappingFacade);
 			_midiMappingElementPropertiesPresenter = new MidiMappingElementPropertiesPresenter(midiMappingRepositories, _midiMappingFacade);
 			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveFacade);
 			_operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);

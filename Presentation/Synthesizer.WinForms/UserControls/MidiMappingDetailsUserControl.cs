@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
@@ -12,9 +13,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 	internal partial class MidiMappingDetailsUserControl : DetailsOrPropertiesUserControlBase
 	{
 		public event EventHandler<EventArgs<(int midiMappingID, int midiMappingElementID)>> SelectElementRequested;
+		public event EventHandler<EventArgs<(int midiMappingID, int midiMappingElementID, float x, float y)>> MoveElementRequested;
 
 		private readonly MidiMappingDetailsViewModelToDiagramConverter _converter;
-		private readonly MidiMappingDetailsViewModelToDiagramConverterResult _converterResult;
 
 		// Constructors
 
@@ -23,15 +24,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			InitializeComponent();
 
 			_converter = new MidiMappingDetailsViewModelToDiagramConverter(SystemInformation.DoubleClickTime, SystemInformation.DoubleClickSize.Width);
-			_converterResult = _converter.Result;
-
-			BindVectorGraphicsEvents();
+			_converter.Result.MoveGesture.Moved += MoveGesture_Moved;
 		}
 
 		private void MidiMappingDetailsUserControl_Load(object sender, EventArgs e)
 		{
 			TitleBarBackColor = SystemColors.Window;
 			TitleLabelVisible = false;
+
+			AddToInstrumentButtonVisible = false;
+			PlayButtonVisible = false;
 
 			diagramControl.Left = 0;
 			diagramControl.Top = 0;
@@ -68,11 +70,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			diagramControl.Refresh();
 		}
 
-		private void BindVectorGraphicsEvents()
-		{
-		//	_converterResult.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
-		}
-
 		// Events
 
 		private void MidiMappingDetailsUserControl_Resize(object sender, EventArgs e)
@@ -89,6 +86,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				ApplyViewModelToControls();
 			}
+		}
+
+		private void MoveGesture_Moved(object sender, ElementEventArgs e)
+		{
+			if (ViewModel == null) return;
+
+			int midiMappingElementID = (int)e.Element.Tag;
+
+			// TODO: Looks complicated for no apparent reason. Maybe put helper methods in the vector graphics API?
+
+			float centerX = e.Element.Position.AbsoluteX + e.Element.Position.Width / 2f;
+			float centerY = e.Element.Position.AbsoluteY + e.Element.Position.Height / 2f;
+
+			MoveElementRequested(this, new EventArgs<(int, int, float, float)>((ViewModel.MidiMapping.ID, midiMappingElementID, centerX, centerY)));
 		}
 
 		//private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)

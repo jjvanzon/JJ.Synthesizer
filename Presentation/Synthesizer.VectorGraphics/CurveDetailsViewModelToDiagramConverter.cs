@@ -9,6 +9,7 @@ using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
+using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
@@ -379,7 +380,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				Parent = diagram.Background,
 			};
 			label.Position.X = 0;
-			label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
+			label.TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone();
 			label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
 			label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
 #if DEBUG
@@ -403,7 +404,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				Parent = diagram.Background,
 			};
 
-			label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
+			label.TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone();
 			label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
 			label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Right;
 #if DEBUG
@@ -427,7 +428,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				Parent = diagram.Background,
 			};
 			label.Position.Y = 0;
-			label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
+			label.TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone();
 			label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Top;
 			label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
 #if DEBUG
@@ -448,7 +449,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			{
 				Diagram = diagram,
 				Parent = diagram.Background,
-				TextStyle = StyleHelper.CreateTextStyleSmallerTransparent(),
+				TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone(),
 			};
 
 			label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Bottom;
@@ -474,7 +475,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				Diagram = diagram,
 				Parent = diagram.Background,
 				ZIndex = -1,
-				TextStyle = StyleHelper.WaterMarkTextStyle
+				TextStyle = StyleHelper.CenterWaterMarkTextStyle
 			};
 			label.Position.Y = 0;
 #if DEBUG

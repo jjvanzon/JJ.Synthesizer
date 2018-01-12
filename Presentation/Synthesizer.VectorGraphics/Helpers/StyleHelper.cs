@@ -10,267 +10,261 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {
 	internal static class StyleHelper
 	{
-		private const float TOOL_TIP_FONT_SIZE = 8f;
-		private const float OPERATOR_FONT_SIZE = 10.5f;
-		private const float NUMBER_OPERATOR_FONT_SIZE = 9f;
-		private const float DIMENSION_FONT_SIZE = 9f;
+		private const string DEFAULT_FONT_NAME = "Verdana";
 
-		public const float OPERATOR_HEIGHT = 40f;
-		public const float OPERATOR_MINIMUM_WIDTH = 40f;
-		public const float SMALLER_OPERATOR_HEIGHT = 30f;
-		public const float SMALLER_OPERATOR_MINIMUM_WIDTH = 30f;
+		public const float DEFAULT_FONT_SIZE = 10.5f;
+		private const float SMALLER_FONT_SIZE = 9f;
+		private const float TOOL_TIP_FONT_SIZE = 8f;
+
+		public const float DEFAULT_TEXT_HEIGHT_ESTIMATION = DEFAULT_FONT_SIZE * 1.8f;
+
+		public const float SPACING = 8;
+		public const float SPACING_TIMES_2 = SPACING * 2;
+		public const float SMALL_SPACING = 4f;
+
+		public const float DEFAULT_OBJECT_SIZE = 40f;
+		public const float SMALLER_OBJECT_SIZE = 30f;
 		public const int DRAG_DROP_LINE_ZINDEX = 100;
-		public const float DEFAULT_SPACING = 4f;
 
 		/// <summary>
 		/// Tells us how much an inlet or outlet's clickable rectangle
 		/// should overflow the operator rectangle's boundaries.
 		/// </summary>
 		public const float INLET_OUTLET_RECTANGLE_HEIGHT_OVERFLOW_IN_PIXELS = 10;
+
 		public const float MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS = 12;
 
-		public static Font DefaultFont { get; }
-		public static Font NumberOperatorFont { get; }
-		public static Font DimensionFont { get; }
-		public static Font WaterMarkFont { get; }
-		public static TextStyle DefaultTextStyle { get; }
-		public static TextStyle NumberOperatorTextStyle { get; }
-		public static TextStyle DimensionTextStyle { get; }
-		public static TextStyle WaterMarkTextStyle { get; set; }
-		public static BackStyle BackStyleSelected { get; }
-		public static BackStyle BackStyleInvisible { get; }
-		public static LineStyle BorderStyle { get; }
-		public static LineStyle BorderStyleSelected { get; }
-		public static LineStyle BorderStyleInvisible { get; }
-		public static LineStyle LineStyleDashed { get; }
-		public static LineStyle LineStyle { get; }
-		public static LineStyle LineStyleWarning { get; }
-		public static LineStyle LineStyleWarningThick { get; }
-		public static LineStyle LineStyleTransparent { get; }
-		public static LineStyle LineStyleThick { get; }
-		public static LineStyle LineStyleThickDark { get; }
-		public static PointStyle PointStyle { get; }
-		public static PointStyle PointStyleWarning { get; }
-		public static PointStyle PointStyleThick { get; }
-		public static PointStyle PointStyleThickSelected { get; }
-		public static PointStyle PointStyleInvisible { get; }
-
-		public static BackStyle ToolTipBackStyle { get; }
-		public static LineStyle ToolTipLineStyle { get; }
-		public static TextStyle ToolTipTextStyle { get; }
-
-		public static float Spacing { get; }
-		public static float SpacingTimes2 { get; }
-
 		public static int AlmostBlack { get; } = ColorHelper.GetColor(20, 20, 20);
-		public static int MediumGrey { get; } = ColorHelper.GetColor(120, 120, 120);
-		public static int LightGrey { get; } = ColorHelper.GetColor(220, 220, 220);
-		public static int LessLightGrey { get; } = ColorHelper.GetColor(200, 200, 200);
-		public static int TransparentGrey { get; } = ColorHelper.GetColor(128, 45, 45, 45);
-		public static int Blue { get; } = ColorHelper.GetColor(122, 189, 254);
+		public static int DarkGray { get; } = ColorHelper.GetColor(80, 80, 80);
+		public static int MediumGray { get; } = ColorHelper.GetColor(120, 120, 120);
+		public static int MediumLightGray { get; } = ColorHelper.GetColor(160, 160, 160);
+		public static int LightGray { get; } = ColorHelper.GetColor(200, 200, 200);
+		public static int LighterGray { get; } = ColorHelper.GetColor(220, 220, 220);
+
+		public static int TransparentGray { get; } = ColorHelper.GetColor(128, 45, 45, 45);
+
+		//public static int Blue { get; } = ColorHelper.GetColor(122, 189, 254);
+		public static int Blue { get; } = ColorHelper.GetColor(0xFF99C9F7);
 		public static int DarkerBlue { get; } = ColorHelper.SetBrightness(Blue, 0.8);
 		public static int Orange { get; } = ColorHelper.GetColor(0xFFDB8E00);
 
-		static StyleHelper()
+		public static Font DefaultFont { get; } = new Font
 		{
-			Spacing = 8;
+			Name = DEFAULT_FONT_NAME,
+			Size = DEFAULT_FONT_SIZE
+		};
 
-			SpacingTimes2 = Spacing + Spacing;
-
-			PointStyle = new PointStyle
-			{
-				Color = MediumGrey,
-				Width = 5
-			};
-
-			PointStyleThick = new PointStyle
-			{
-				Color = MediumGrey,
-				Width = 8
-			};
-
-			PointStyleThickSelected = new PointStyle
-			{
-				Color = DarkerBlue,
-				Width = 8
-			};
-
-			PointStyleWarning = PointStyle.Clone();
-			PointStyleWarning.Color = Orange;
-
-			BackStyleSelected = new BackStyle
-			{
-				Color = Blue
-			};
-
-			BorderStyle = new LineStyle
-			{
-				Width = 1,
-				Color = LessLightGrey
-			};
-
-			BorderStyleSelected = new LineStyle
-			{
-				Width = 1,
-				Color = LessLightGrey
-			};
-
-			LineStyle = new LineStyle
-			{
-				Width = 1,
-				Color = MediumGrey
-			};
-
-			LineStyleWarning = new LineStyle
-			{
-				Width = 1,
-				Color = Orange
-			};
-
-			LineStyleWarningThick = new LineStyle
-			{
-				Width = 2,
-				Color = Orange
-			};
-
-			LineStyleTransparent = new LineStyle
-			{
-				Width = 1,
-				Color = TransparentGrey
-			};
-
-			LineStyleThick = new LineStyle
-			{
-				Width = 2,
-				Color = MediumGrey
-			};
-
-			LineStyleThickDark = new LineStyle
-			{
-				Width = 2,
-				Color = AlmostBlack
-			};
-
-			LineStyleDashed = new LineStyle
-			{
-				Width = 2,
-				Color = TransparentGrey,
-				DashStyleEnum = DashStyleEnum.Dotted
-			};
-
-			DefaultFont = new Font
-			{
-				Name = "Verdana",
-				Size = OPERATOR_FONT_SIZE
-			};
-
-			NumberOperatorFont = new Font
-			{
-				Name = "Verdana",
-				Size = NUMBER_OPERATOR_FONT_SIZE
-			};
-
-			DimensionFont = new Font
-			{
-				Name = "Verdana",
-				Size = DIMENSION_FONT_SIZE
-			};
-
-			WaterMarkFont = new Font
-			{
-				Name = "Verdana",
-				Size = 20,
-				Bold = true
-			};
-
-			DefaultTextStyle = new TextStyle
-			{
-				HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
-				VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
-				Font = DefaultFont,
-				Color = AlmostBlack
-			};
-
-			NumberOperatorTextStyle = new TextStyle
-			{
-				HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
-				VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
-				Font = NumberOperatorFont,
-				Color = AlmostBlack
-			};
-
-			DimensionTextStyle = new TextStyle
-			{
-				HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
-				VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
-				Font = DimensionFont,
-				Color = AlmostBlack
-			};
-
-			WaterMarkTextStyle = new TextStyle
-			{
-				HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
-				VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
-				Font = WaterMarkFont,
-				Color = LightGrey
-			};
-
-			PointStyleInvisible = new PointStyle
-			{
-				Visible = false
-			};
-
-			BackStyleInvisible = new BackStyle
-			{
-				Visible = false
-			};
-
-			BorderStyleInvisible = new LineStyle
-			{
-				Visible = false
-			};
-
-			// Tool Tip
-
-			ToolTipBackStyle = new BackStyle
-			{
-				Color = ColorHelper.GetColor(0xDDFEFEFE)
-			};
-
-			ToolTipTextStyle = new TextStyle
-			{
-				Color = ColorHelper.GetColor(0xFF575757),
-				Font = new Font
-				{
-					Name = "Verdana", //"Microsoft Sans Serif",
-					Size = TOOL_TIP_FONT_SIZE,
-				},
-				HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
-				VerticalAlignmentEnum = VerticalAlignmentEnum.Center
-			};
-
-			ToolTipLineStyle = new LineStyle
-			{
-				Color = ColorHelper.GetColor(0xFF575757)
-			};
-
-			_styleGradeEnum_BackStyle_Dictionary = Create_StyleGradeEnum_BackStyle_Dictionary();
-		}
-
-		public static TextStyle CreateTextStyleSmallerTransparent()
+		public static Font NumberOperatorFont { get; } = new Font
 		{
-			var textStyle = new TextStyle
-			{
-				Color = ColorHelper.GetColor(128, 0, 0, 0),
-				Font = new Font
-				{
-					Name = DefaultFont.Name,
-					Size = DefaultFont.Size / 1.2f
-				}
-			};
+			Name = DEFAULT_FONT_NAME,
+			Size = SMALLER_FONT_SIZE
+		};
 
-			return textStyle;
-		}
+		public static Font DimensionFont { get; } = new Font
+		{
+			Name = DEFAULT_FONT_NAME,
+			Size = SMALLER_FONT_SIZE
+		};
+
+		public static Font WaterMarkFont { get; } = new Font
+		{
+			Name = DEFAULT_FONT_NAME,
+			Size = 20,
+			Bold = true
+		};
+
+		public static TextStyle DefaultTextStyle { get; } = new TextStyle
+		{
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+			VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
+			Font = DefaultFont,
+			Color = AlmostBlack
+		};
+
+		public static TextStyle NumberOperatorTextStyle { get; } = new TextStyle
+		{
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+			VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
+			Font = NumberOperatorFont,
+			Color = AlmostBlack
+		};
+
+		public static TextStyle DimensionTextStyle { get; } = new TextStyle
+		{
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
+			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
+			Font = DimensionFont,
+			Color = DarkGray
+		};
+
+		public static TextStyle CenterWaterMarkTextStyle { get; set; } = new TextStyle
+		{
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
+			VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
+			Font = WaterMarkFont,
+			Color = LighterGray
+		};
+
+		public static TextStyle TopWaterMarkTextStyle { get; set; } = new TextStyle
+		{
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
+			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
+			Font = WaterMarkFont,
+			Color = LighterGray
+		};
+
+		public static TextStyle TextStyleSmallerTransparent { get; } = new TextStyle
+		{
+			Color = ColorHelper.GetColor(128, 0, 0, 0),
+			Font = new Font
+			{
+				Name = DefaultFont.Name,
+				Size = DefaultFont.Size / 1.2f
+			}
+		};
+
+		public static TextStyle MidiMappingTextStyle { get; } = new TextStyle
+		{
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
+			Font = DimensionFont,
+			Color = DarkGray
+		};
+
+		public static BackStyle BackStyleSelected { get; } = new BackStyle
+		{
+			Color = Blue
+		};
+
+		public static BackStyle BackStyleInvisible { get; } = new BackStyle
+		{
+			Visible = false
+		};
+
+		public static LineStyle BorderStyle { get; } = new LineStyle
+		{
+			Width = 1,
+			Color = LightGray
+		};
+
+		public static LineStyle BorderStyleSelected { get; } = new LineStyle
+		{
+			Width = 1,
+			Color = LightGray
+		};
+
+		public static LineStyle BorderStyleInvisible { get; } = new LineStyle
+		{
+			Visible = false
+		};
+
+		public static LineStyle LineStyleDashed { get; } = new LineStyle
+		{
+			Width = 2,
+			Color = TransparentGray,
+			DashStyleEnum = DashStyleEnum.Dotted
+		};
+
+		public static LineStyle LineStyle { get; } = new LineStyle
+		{
+			Width = 1,
+			Color = MediumGray
+		};
+
+		public static LineStyle LineStyleWarning { get; } = new LineStyle
+		{
+			Width = 1,
+			Color = Orange
+		};
+
+		public static LineStyle LineStyleWarningThick { get; } = new LineStyle
+		{
+			Width = 2,
+			Color = Orange
+		};
+
+		public static LineStyle LineStyleTransparent { get; } = new LineStyle
+		{
+			Width = 1,
+			Color = TransparentGray
+		};
+
+		public static LineStyle LineStyleThick { get; } = new LineStyle
+		{
+			Width = 2,
+			Color = MediumGray
+		};
+
+		public static LineStyle LineStyleThickDark { get; } = new LineStyle
+		{
+			Width = 2,
+			Color = AlmostBlack
+		};
+
+		public static LineStyle CircleLineStyle { get; } = new LineStyle
+		{
+			Width = 2,
+			Color = MediumLightGray
+		};
+
+		public static PointStyle PointStyle { get; } = new PointStyle
+		{
+			Color = MediumGray,
+			Width = 5
+		};
+
+		public static PointStyle PointStyleThick { get; } = new PointStyle
+		{
+			Color = MediumGray,
+			Width = 8
+		};
+
+		public static PointStyle PointStyleThickSelected { get; } = new PointStyle
+		{
+			Color = DarkerBlue,
+			Width = 8
+		};
+
+		public static PointStyle PointStyleWarning { get; } = new PointStyle
+		{
+			Color = Orange,
+			Width = 5
+		};
+
+		public static PointStyle PointStyleInvisible { get; } = new PointStyle
+		{
+			Visible = false
+		};
+
+		public static PointStyle DentPointStyle { get; } = new PointStyle
+		{
+			Color = MediumLightGray,
+			Width = 5
+		};
+
+		// ToolTip
+
+		public static BackStyle ToolTipBackStyle { get; } = new BackStyle
+		{
+			Color = ColorHelper.GetColor(0xDDFEFEFE)
+		};
+
+		public static LineStyle ToolTipLineStyle { get; } = new LineStyle
+		{
+			Color = ColorHelper.GetColor(0xFF575757)
+		};
+
+		public static TextStyle ToolTipTextStyle { get; } = new TextStyle
+		{
+			Color = ColorHelper.GetColor(0xFF575757),
+			Font = new Font
+			{
+				Name = DEFAULT_FONT_NAME,
+				Size = TOOL_TIP_FONT_SIZE
+			},
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+			VerticalAlignmentEnum = VerticalAlignmentEnum.Center
+		};
 
 		public static void MakeHiddenStylesVisible()
 		{
@@ -287,7 +281,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			BorderStyleInvisible.DashStyleEnum = DashStyleEnum.Dotted;
 		}
 
-		private static readonly Dictionary<StyleGradeEnum, BackStyle> _styleGradeEnum_BackStyle_Dictionary;
+		private static readonly Dictionary<StyleGradeEnum, BackStyle> _gradedBackStyleDictionary = Create_StyleGradeEnum_BackStyle_Dictionary();
 
 		private static Dictionary<StyleGradeEnum, BackStyle> Create_StyleGradeEnum_BackStyle_Dictionary()
 		{
@@ -304,7 +298,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 				double ratio = (double)i / (gradeCount - 1);
 				double grade = minBrightness + ratio * deltaBrightness;
 
-				int gradedColor = ColorHelper.SetBrightness(LightGrey, grade);
+				int gradedColor = ColorHelper.SetBrightness(LighterGray, grade);
 				var gradedBackStyle = new BackStyle { Color = gradedColor };
 
 				StyleGradeEnum styleGradeEnum = (StyleGradeEnum)i + 1;
@@ -317,9 +311,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
 		public static BackStyle GetGradedBackStyle(StyleGradeEnum styleGradeEnum)
 		{
-			return _styleGradeEnum_BackStyle_Dictionary[styleGradeEnum];
+			return _gradedBackStyleDictionary[styleGradeEnum];
 		}
 
-		public static BackStyle GetNeutralBackStyle() => GetGradedBackStyle(StyleGradeEnum.StyleGradeNeutral);
+		// Order-Dependence: Do after _gradedBackStyleDictionary declaration
+		public static BackStyle NeutralBackStyle { get; } = GetGradedBackStyle(StyleGradeEnum.StyleGradeNeutral);
+		public static BackStyle CircleBackStyle { get; } = NeutralBackStyle;
 	}
 }

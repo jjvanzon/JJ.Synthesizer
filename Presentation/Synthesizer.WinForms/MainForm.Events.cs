@@ -85,6 +85,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
 			libraryPropertiesUserControl.ExpandRequested += libraryPropertiesUserControl_ExpandRequested;
 			libraryPropertiesUserControl.RemoveRequested += libraryPropertiesUserControl_RemoveRequested;
+			midiMappingDetailsUserControl.CloseRequested += midiMappingDetailsUserControl_CloseRequested		;
+			midiMappingDetailsUserControl.MoveElementRequested += midiMappingDetailsUserControl_MoveElementRequested			;
 			menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
 			menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
 			menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
@@ -702,6 +704,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private void libraryPropertiesUserControl_RemoveRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.LibraryPropertiesRemove(e.Value));
+		}
+
+		private void midiMappingDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsClose(e.Value));
+		}
+
+
+		private void midiMappingDetailsUserControl_MoveElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID, float x, float y)> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsMoveElement(e.Value.midiMappingID, e.Value.midiMappingElementID, e.Value.x, e.Value.y));
 		}
 
 		private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.LibrarySelectionPopupCancel);

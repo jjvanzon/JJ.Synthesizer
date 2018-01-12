@@ -81,11 +81,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (sourceOperatorViewModel.IsSmaller)
 			{
-				return StyleHelper.SMALLER_OPERATOR_HEIGHT;
+				return StyleHelper.SMALLER_OBJECT_SIZE;
 			}
 			else
 			{
-				return StyleHelper.OPERATOR_HEIGHT;
+				return StyleHelper.DEFAULT_OBJECT_SIZE;
 			}
 		}
 
@@ -106,7 +106,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			float textWidth = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont);
 			float minimumWidth = GetOtherOperatorMinimumWidth(sourceOperatorViewModel);
 
-			float width = textWidth + StyleHelper.SpacingTimes2;
+			float width = textWidth + StyleHelper.SPACING_TIMES_2;
 
 			if (width < minimumWidth)
 			{
@@ -123,9 +123,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			float minimumWidth = inletOrOutletCount * StyleHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
 
 			// Apply minimum operator width
-			if (minimumWidth < StyleHelper.OPERATOR_MINIMUM_WIDTH)
+			if (minimumWidth < StyleHelper.DEFAULT_OBJECT_SIZE)
 			{
-				minimumWidth = StyleHelper.OPERATOR_MINIMUM_WIDTH;
+				minimumWidth = StyleHelper.DEFAULT_OBJECT_SIZE;
 			}
 
 			return minimumWidth;
@@ -133,7 +133,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 		private static float GetNumberOperatorWidth(OperatorViewModel sourceOperatorViewModel)
 		{
-			float spacing = StyleHelper.Spacing;
+			float spacing = StyleHelper.SPACING;
 			spacing *= 0.8f; // Use a smaller spacing for numbers.
 
 			float textWidth = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.NumberOperatorFont);
@@ -143,9 +143,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			width = width + spacing + spacing;
 
 			// Apply minimum operator width
-			if (width < StyleHelper.SMALLER_OPERATOR_MINIMUM_WIDTH)
+			if (width < StyleHelper.SMALLER_OBJECT_SIZE)
 			{
-				width = StyleHelper.SMALLER_OPERATOR_MINIMUM_WIDTH;
+				width = StyleHelper.SMALLER_OBJECT_SIZE;
 			}
 
 			return width;

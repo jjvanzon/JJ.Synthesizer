@@ -1,8 +1,8 @@
 ﻿using System;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
@@ -14,18 +14,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
 	internal class MidiMappingDetailsPresenter : EntityPresenterWithSaveBase<MidiMapping, MidiMappingDetailsViewModel>
 	{
-		private readonly IMidiMappingRepository _midiMappingRepository;
+		private readonly MidiMappingRepositories _repositories;
 		private readonly MidiMappingFacade _midiMappingFacade;
 
-		public MidiMappingDetailsPresenter(IMidiMappingRepository midiMappingRepository, MidiMappingFacade midiMappingFacade)
+		public MidiMappingDetailsPresenter(MidiMappingRepositories repositories, MidiMappingFacade midiMappingFacade)
 		{
-			_midiMappingRepository = midiMappingRepository ?? throw new ArgumentNullException(nameof(midiMappingRepository));
+			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
 		protected override MidiMapping GetEntity(MidiMappingDetailsViewModel userInput)
 		{
-			return _midiMappingRepository.Get(userInput.MidiMapping.ID);
+			return _repositories.MidiMappingRepository.Get(userInput.MidiMapping.ID);
 		}
 
 		protected override MidiMappingDetailsViewModel ToViewModel(MidiMapping entity)
@@ -38,9 +38,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return _midiMappingFacade.SaveMidiMapping(entity);
 		}
 
-		public void SelectElement(MidiMappingDetailsViewModel viewModel, int operatorID)
+		public MidiMappingDetailsViewModel CreateElement(MidiMappingDetailsViewModel userInput)
 		{
-			ExecuteNonPersistedAction(viewModel, () => SetSelectedElement(viewModel, operatorID));
+			MidiMappingElement newMidiMappingElement = null;
+
+			return ExecuteAction(
+				userInput,
+				entity => { newMidiMappingElement = _midiMappingFacade.CreateMidiMappingElementWithDefaults(entity); },
+				viewModel => viewModel.CreatedElementID = newMidiMappingElement.ID);
 		}
 
 		/// <summary>
@@ -67,40 +72,49 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				return userInput;
 			}
-			else
-			{
-				// GetEntities
-				MidiMapping midiMapping = _midiMappingRepository.Get(userInput.MidiMapping.ID);
 
-				// Business
-				// ReSharper disable once PossibleNullReferenceException
-				_midiMappingFacade.DeleteMidiMappingElement(userInput.SelectedElement.ID);
+			// GetEntities
+			MidiMapping midiMapping = _repositories.MidiMappingRepository.Get(userInput.MidiMapping.ID);
 
-				// ToViewModel
-				MidiMappingDetailsViewModel viewModel = ToViewModel(midiMapping);
+			// Business
+			// ReSharper disable once PossibleNullReferenceException
+			_midiMappingFacade.DeleteMidiMappingElement(userInput.SelectedElement.ID);
 
-				// Non-Persisted
-				CopyNonPersistedProperties(userInput, viewModel);
-				viewModel.SelectedElement = null;
+			// ToViewModel
+			MidiMappingDetailsViewModel viewModel = ToViewModel(midiMapping);
 
-				// Successful
-				viewModel.Successful = true;
+			// Non-Persisted
+			CopyNonPersistedProperties(userInput, viewModel);
+			viewModel.SelectedElement = null;
 
-				return viewModel;
-			}
+			// Successful
+			viewModel.Successful = true;
+
+			return viewModel;
 		}
 
-		public MidiMappingDetailsViewModel CreateElement(MidiMappingDetailsViewModel userInput)
+		public MidiMappingDetailsViewModel MoveElement(
+			MidiMappingDetailsViewModel userInput,
+			int midiMappingElementID,
+			float centerX,
+			float centerY)
 		{
-			MidiMappingElement newMidiMappingElement = null;
-
 			return ExecuteAction(
 				userInput,
-				entity =>
+				x =>
 				{
-					newMidiMappingElement = _midiMappingFacade.CreateMidiMappingElementWithDefaults(entity);
-				},
-				viewModel => viewModel.CreatedElementID = newMidiMappingElement.ID);
+					// GetEntity
+					MidiMappingElement midiMappingElement = _repositories.MidiMappingElementRepository.Get(midiMappingElementID);
+
+					// Business
+					midiMappingElement.EntityPosition.X = centerX;
+					midiMappingElement.EntityPosition.Y = centerY;
+				});
+		}
+
+		public void SelectElement(MidiMappingDetailsViewModel viewModel, int operatorID)
+		{
+			ExecuteNonPersistedAction(viewModel, () => SetSelectedElement(viewModel, operatorID));
 		}
 
 		// Helpers

@@ -35,8 +35,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			}
 
 			destOperatorDimensionLabel.Text = "→ " + sourceOperatorViewModel.Dimension.Name;
-			destOperatorDimensionLabel.Position.X = destOperatorRectangle.Position.Width / 2f + StyleHelper.DEFAULT_SPACING;
-			destOperatorDimensionLabel.Position.Y = destOperatorRectangle.Position.Height + StyleHelper.DEFAULT_SPACING;
+			destOperatorDimensionLabel.Position.X = destOperatorRectangle.Position.Width / 2f + StyleHelper.SMALL_SPACING;
+			destOperatorDimensionLabel.Position.Y = destOperatorRectangle.Position.Height + StyleHelper.SMALL_SPACING;
 
 			return destOperatorDimensionLabel;
 		}

@@ -1779,18 +1779,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
+		public void MidiMappingDetailsExpandElement(int midiMappingID, int midiMappingElementID)
+		{
+			// Redirect
+			MidiMappingElementPropertiesShow(midiMappingElementID);
+		}
+
+		public void MidiMappingDetailsMoveElement(int midiMappingID, int midiMappingElementID, float centerX, float centerY)
+		{
+			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
+
+			ExecuteUpdateAction(userInput, () => _midiMappingDetailsPresenter.MoveElement(userInput, midiMappingElementID, centerX, centerY));
+
+		}
+
 		/// <summary> Only selecting the element, not e.g. switching properties. </summary>
 		private void MidiMappingDetailsSelectElement(int midiMappingID, int midiMappingElementID)
 		{
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
 
 			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.SelectElement(userInput, midiMappingElementID));
-		}
-
-		public void MidiMappingDetailsExpandElement(int midiMappingID, int midiMappingElementID)
-		{
-			// Redirect
-			MidiMappingElementPropertiesShow(midiMappingElementID);
 		}
 
 		/// <summary> Affects multiple partials. </summary>

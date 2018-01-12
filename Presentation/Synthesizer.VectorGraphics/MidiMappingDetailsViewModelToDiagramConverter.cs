@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
-using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -13,17 +11,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
 	public class MidiMappingDetailsViewModelToDiagramConverter
 	{
-		private const float CIRCLE_SIZE = StyleHelper.OPERATOR_HEIGHT; // TODO: Rename this constant.
-		private const float HALF_CIRCLE_SIZE = CIRCLE_SIZE / 2f; // TODO: Rename this constant.
-		private const float LABEL_Y = CIRCLE_SIZE + StyleHelper.DEFAULT_SPACING;
-
-		private static readonly TextStyle _textStyle = CreateTextStyle();
-		private static readonly BackStyle _circleBackStyle = GetCircleBackStyle();
-		private static readonly LineStyle _circleLineStyle = CreateCircleLineStyle();
+		private const float LABEL_Y = StyleHelper.DEFAULT_OBJECT_SIZE + StyleHelper.SMALL_SPACING;
+		private const float DENT_POINT_Y = 8f;
+		private const float HALF_DEFAULT_OBJECT_SIZE = StyleHelper.DEFAULT_OBJECT_SIZE / 2f;
 
 		private readonly Label _waterMarkTitleLabel;
 		private readonly Dictionary<int, Ellipse> _circleDictionary;
 		private readonly Dictionary<int, Label> _labelDictionary;
+		private readonly Dictionary<int, Point> _dentPointDictionary;
 
 		public MidiMappingDetailsViewModelToDiagramConverterResult Result { get; }
 
@@ -33,6 +28,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			_circleDictionary = new Dictionary<int, Ellipse>();
 			_labelDictionary = new Dictionary<int, Label>();
+			_dentPointDictionary = new Dictionary<int, Point>();
 
 			_waterMarkTitleLabel = CreateWaterMarkTitleLabel(Result.Diagram);
 		}
@@ -45,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			foreach (MidiMappingElementItemViewModel midiMappingElementViewModel in viewModel.Elements.Values)
 			{
-				ConvertMidiMappingElement(midiMappingElementViewModel);
+				ConvertToVectorGraphics(midiMappingElementViewModel);
 			}
 
 			IEnumerable<int> idsToKeep = viewModel.Elements.Keys;
@@ -68,13 +64,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 					_labelDictionary.Remove(idToDelete);
 				}
+
+				if (_dentPointDictionary.TryGetValue(idToDelete, out Point dentPointToDelete))
+				{
+					dentPointToDelete.Parent = null;
+					Result.Diagram.Elements.Remove(dentPointToDelete);
+
+					_dentPointDictionary.Remove(idToDelete);
+				}
 			}
 		}
 
-		private void ConvertMidiMappingElement(MidiMappingElementItemViewModel viewModel)
+		private void ConvertToVectorGraphics(MidiMappingElementItemViewModel viewModel)
 		{
 			Ellipse circle = ConvertToCircle(viewModel);
 			ConvertToLabel(viewModel, circle);
+			ConvertToDentPoint(viewModel, circle);
 		}
 
 		private Ellipse ConvertToCircle(MidiMappingElementItemViewModel viewModel)
@@ -85,17 +90,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				{
 					Diagram = Result.Diagram,
 					Parent = Result.Diagram.Background,
-				};
-				circle.Position.Width = CIRCLE_SIZE;
-				circle.Position.Height = CIRCLE_SIZE;
-				circle.Style.BackStyle = _circleBackStyle;
-				circle.Style.LineStyle = _circleLineStyle;
+					Tag = viewModel.ID
+				};;
+				circle.Position.Width = StyleHelper.DEFAULT_OBJECT_SIZE;
+				circle.Position.Height = StyleHelper.DEFAULT_OBJECT_SIZE;
+				circle.Style.BackStyle = StyleHelper.CircleBackStyle;
+				circle.Style.LineStyle = StyleHelper.CircleLineStyle;
+
+				circle.Gestures.Add(Result.MoveGesture);
 
 				_circleDictionary[viewModel.ID] = circle;
 			}
 
-			circle.Position.X = viewModel.Position.CenterX;
-			circle.Position.Y = viewModel.Position.CenterY;
+			circle.Position.X = viewModel.Position.CenterX - HALF_DEFAULT_OBJECT_SIZE;
+			circle.Position.Y = viewModel.Position.CenterY - HALF_DEFAULT_OBJECT_SIZE;
 
 			return circle;
 		}
@@ -108,18 +116,38 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				{
 					Diagram = Result.Diagram,
 					Parent = parent,
-					TextStyle = _textStyle
+					TextStyle = StyleHelper.MidiMappingTextStyle,
 				};
-
-				label.Position.X = HALF_CIRCLE_SIZE;
 				label.Position.Y = LABEL_Y;
-				
+				label.Position.Height = StyleHelper.DEFAULT_TEXT_HEIGHT_ESTIMATION;
+
 				_labelDictionary[viewModel.ID] = label;
 			}
 
 			label.Text = viewModel.Caption;
+			label.Position.Width = TextHelper.ApproximateTextWidth(label.Text, label.TextStyle.Font);
+			label.Position.X = StyleHelper.DEFAULT_OBJECT_SIZE / 2f - label.Position.Width / 2f;
 
 			return label;
+		}
+
+		private Point ConvertToDentPoint(MidiMappingElementItemViewModel viewModel, Element parent)
+		{
+			if (!_dentPointDictionary.TryGetValue(viewModel.ID, out Point point))
+			{
+				point = new Point
+				{
+					Diagram = Result.Diagram,
+					Parent = parent,
+					PointStyle = StyleHelper.DentPointStyle
+				};
+				point.Position.X = StyleHelper.DEFAULT_OBJECT_SIZE / 2f;
+				point.Position.Y = DENT_POINT_Y;
+
+				_dentPointDictionary[viewModel.ID] = point;
+			}
+
+			return point;
 		}
 
 		private Label CreateWaterMarkTitleLabel(Diagram diagram)
@@ -129,10 +157,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				Diagram = diagram,
 				Parent = diagram.Background,
 				ZIndex = -1,
-				TextStyle = StyleHelper.WaterMarkTextStyle.Clone()
+				TextStyle = StyleHelper.TopWaterMarkTextStyle
 			};
-
-			label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Top;
+			label.Position.X = StyleHelper.SMALL_SPACING;
+			label.Position.Y = StyleHelper.SMALL_SPACING;
 #if DEBUG
 			label.Tag = "Title Label";
 #endif
@@ -142,27 +170,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private void UpdateWaterMarkTitleLabel(string text)
 		{
 			_waterMarkTitleLabel.Text = text;
-			_waterMarkTitleLabel.Position.X = _waterMarkTitleLabel.Diagram.Position.PixelsToX(StyleHelper.DEFAULT_SPACING);
-			_waterMarkTitleLabel.Position.Y = _waterMarkTitleLabel.Diagram.Position.PixelsToY(StyleHelper.DEFAULT_SPACING);
 			_waterMarkTitleLabel.Position.Width = _waterMarkTitleLabel.Diagram.Position.ScaledWidth - _waterMarkTitleLabel.Position.X;
 			_waterMarkTitleLabel.Position.Height = _waterMarkTitleLabel.Diagram.Position.ScaledHeight;
-		}
-
-		private static TextStyle CreateTextStyle()
-		{
-			TextStyle textStyle = StyleHelper.DefaultTextStyle.Clone();
-			textStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
-			textStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Top;
-			return textStyle;
-		}
-
-		private static BackStyle GetCircleBackStyle() => StyleHelper.GetNeutralBackStyle();
-
-		private static LineStyle CreateCircleLineStyle()
-		{
-			LineStyle lineStyle = StyleHelper.BorderStyle.Clone();
-			lineStyle.Width *= 2;
-			return lineStyle;
 		}
 	}
 }
