@@ -138,13 +138,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Visible = false
 		};
 
-		public static LineStyle BorderStyle { get; } = new LineStyle
+		public static LineStyle OperatorBorderStyle { get; } = new LineStyle
 		{
 			Width = 1,
 			Color = LightGray
 		};
 
-		public static LineStyle BorderStyleSelected { get; } = new LineStyle
+		public static LineStyle OperatorBorderStyleSelected { get; } = new LineStyle
 		{
 			Width = 1,
 			Color = LightGray
@@ -204,6 +204,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Color = MediumLightGray
 		};
 
+		public static LineStyle CircleLineStyleSelected { get; } = new LineStyle
+		{
+			Width = 2,
+			Color = MediumGray
+		};
+
 		public static PointStyle PointStyle { get; } = new PointStyle
 		{
 			Color = MediumGray,
@@ -237,6 +243,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		{
 			Color = MediumLightGray,
 			Width = 5
+		};
+
+		public static PointStyle DentPointStyleSelected { get; } = new PointStyle
+		{
+			Width = 5,
+			Color = MediumGray
 		};
 
 		// ToolTip

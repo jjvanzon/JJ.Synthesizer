@@ -92,7 +92,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 					Diagram = Result.Diagram,
 					Parent = Result.Diagram.Background,
 					Tag = viewModel.ID
-				};;
+				};
+
 				circle.Position.Width = StyleHelper.DEFAULT_OBJECT_SIZE;
 				circle.Position.Height = StyleHelper.DEFAULT_OBJECT_SIZE;
 				circle.Style.BackStyle = StyleHelper.CircleBackStyle;
@@ -110,6 +111,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			if (viewModel.IsSelected)
 			{
 				circle.Style.BackStyle = StyleHelper.BackStyleSelected;
+				circle.Style.LineStyle = StyleHelper.CircleLineStyleSelected;
 			}
 			else
 			{
@@ -128,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				{
 					Diagram = Result.Diagram,
 					Parent = parent,
-					TextStyle = StyleHelper.MidiMappingTextStyle,
+					TextStyle = StyleHelper.MidiMappingTextStyle
 				};
 				label.Position.Y = LABEL_Y;
 				label.Position.Height = StyleHelper.DEFAULT_TEXT_HEIGHT_ESTIMATION;
@@ -150,13 +152,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				point = new Point
 				{
 					Diagram = Result.Diagram,
-					Parent = parent,
-					PointStyle = StyleHelper.DentPointStyle
+					Parent = parent
 				};
 				point.Position.X = StyleHelper.DEFAULT_OBJECT_SIZE / 2f;
 				point.Position.Y = DENT_POINT_Y;
 
 				_dentPointDictionary[viewModel.ID] = point;
+			}
+
+			if (viewModel.IsSelected)
+			{
+				point.PointStyle = StyleHelper.DentPointStyleSelected;
+			}
+			else
+			{
+				point.PointStyle = StyleHelper.DentPointStyle;
 			}
 
 			return point;

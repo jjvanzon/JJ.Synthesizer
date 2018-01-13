@@ -59,11 +59,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			if (sourceOperatorViewModel.IsSelected)
 			{
 				destOperatorRectangle.Style.BackStyle = StyleHelper.BackStyleSelected;
-				destOperatorRectangle.Style.LineStyle = StyleHelper.BorderStyleSelected;
+				destOperatorRectangle.Style.LineStyle = StyleHelper.OperatorBorderStyleSelected;
 			}
 			else
 			{
-				destOperatorRectangle.Style.LineStyle = StyleHelper.BorderStyle;
+				destOperatorRectangle.Style.LineStyle = StyleHelper.OperatorBorderStyle;
 				destOperatorRectangle.Style.BackStyle = StyleHelper.GetGradedBackStyle(sourceOperatorViewModel.StyleGrade);
 			}
 
