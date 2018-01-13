@@ -46,7 +46,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.diagramControl);
 			this.Name = "CurveDetailsUserControl";
-			this.RemoveButtonVisible = true;
+			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(672, 393);
 			this.AddRequested += new System.EventHandler(this.CurveDetailsUserControl_AddClicked);
 			this.Load += new System.EventHandler(this.CurveDetailsUserControl_Load);

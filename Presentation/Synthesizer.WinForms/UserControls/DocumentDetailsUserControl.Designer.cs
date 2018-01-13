@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
 			this.titleBarUserControl.Name = "titleBarUserControl";
 			this.titleBarUserControl.PlayButtonVisible = false;
-			this.titleBarUserControl.RemoveButtonVisible = false;
+			this.titleBarUserControl.DeleteButtonVisible = false;
 			this.titleBarUserControl.SaveButtonVisible = false;
 			this.titleBarUserControl.Size = new System.Drawing.Size(573, 26);
 			this.titleBarUserControl.TabIndex = 7;

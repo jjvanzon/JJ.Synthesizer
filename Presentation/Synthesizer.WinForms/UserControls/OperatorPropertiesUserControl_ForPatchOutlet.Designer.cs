@@ -195,7 +195,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.Add(this.numericUpDownPosition);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "OperatorPropertiesUserControl_ForPatchOutlet";
-			this.RemoveButtonVisible = true;
+			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(669, 414);
 			this.TitleBarText = "Operator Properties";
 			this.Controls.SetChildIndex(this._comboBoxUnderlyingPatch, 0);

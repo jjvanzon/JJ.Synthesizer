@@ -25,7 +25,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private static readonly bool _mustExecuteOperatorMoveActionWhileDragging = GetMustExecuteOperatorMoveActionWhileDragging();
 
-		public event EventHandler<EventArgs<int>> DeleteOperatorRequested;
 		public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
 		public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
 		public event EventHandler<PatchAndOperatorEventArgs> SelectOperatorRequested;
@@ -99,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_converterResult.MoveGesture.Moving += MoveGesture_Moving;
 			_converterResult.MoveGesture.Moved += MoveGesture_Moved;
 			_converterResult.DropLineGesture.Dropped += DropLineGesture_Dropped;
-			_converterResult.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
+			_converterResult.DeleteOperatorGesture.DeleteSelectionRequested += DeleteOperatorGesture_DeleteSelectionRequested;
 			_converterResult.ExpandOperatorMouseGesture.ExpandOperatorRequested += ExpandOperatorMouseGesture_ExpandOperatorRequested;
 			_converterResult.ExpandOperatorKeyboardGesture.ExpandOperatorRequested += ExpandOperatorKeyboardGesture_ExpandOperatorRequested;
 			_converterResult.ExpandPatchGesture.DoubleClick += ExpandPatchGesture_DoubleClick;
@@ -117,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				_converterResult.MoveGesture.Moving -= MoveGesture_Moving;
 				_converterResult.MoveGesture.Moved -= MoveGesture_Moved;
 				_converterResult.DropLineGesture.Dropped -= DropLineGesture_Dropped;
-				_converterResult.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
+				_converterResult.DeleteOperatorGesture.DeleteSelectionRequested -= DeleteOperatorGesture_DeleteSelectionRequested;
 				_converterResult.ExpandOperatorMouseGesture.ExpandOperatorRequested -= ExpandOperatorMouseGesture_ExpandOperatorRequested;
 				_converterResult.ExpandOperatorKeyboardGesture.ExpandOperatorRequested -= ExpandOperatorKeyboardGesture_ExpandOperatorRequested;
 				_converterResult.ExpandPatchGesture.DoubleClick -= ExpandPatchGesture_DoubleClick;
@@ -190,13 +189,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_converterResult.ExpandOperatorKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
 		}
 
-		private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
-		{
-			if (ViewModel == null) return;
-			DeleteOperatorRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
-
-			_converterResult.ExpandOperatorKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
-		}
+		private void DeleteOperatorGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
 
 		private void ExpandOperatorMouseGesture_ExpandOperatorRequested(object sender, IDEventArgs e)
 		{

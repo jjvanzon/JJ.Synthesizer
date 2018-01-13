@@ -18,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		public event EventHandler PlayClicked;
 		public event EventHandler RedoClicked;
 		public event EventHandler RefreshClicked;
-		public event EventHandler RemoveClicked;
+		public event EventHandler DeleteClicked;
 		public event EventHandler SaveClicked;
 		public event EventHandler UndoClicked;
 
@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			buttonPlay.Visible = _playButtonVisible;
 			buttonRedo.Visible = _redoButtonVisible;
 			buttonRefresh.Visible = _refreshButtonVisible;
-			buttonRemove.Visible = _removeButtonVisible;
+			buttonDelete.Visible = _deleteButtonVisible;
 			buttonSave.Visible = _saveButtonVisible;
 			buttonUndo.Visible = _undoButtonVisible;
 
@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
 			toolTip.SetToolTip(buttonRedo, CommonResourceFormatter.Redo);
 			toolTip.SetToolTip(buttonRefresh, CommonResourceFormatter.Refresh);
-			toolTip.SetToolTip(buttonRemove, CommonResourceFormatter.Remove);
+			toolTip.SetToolTip(buttonDelete, CommonResourceFormatter.Delete);
 			toolTip.SetToolTip(buttonSave, CommonResourceFormatter.Save);
 			toolTip.SetToolTip(buttonUndo, CommonResourceFormatter.Undo);
 		}
@@ -165,14 +165,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		}
 
 		/// <summary> Keep this field. WinForms will not make Button.Visible immediately take on the value you just assigned! </summary>
-		private bool _removeButtonVisible;
-		public bool RemoveButtonVisible
+		private bool _deleteButtonVisible;
+		public bool DeleteButtonVisible
 		{
-			get => _removeButtonVisible;
+			get => _deleteButtonVisible;
 			set
 			{
-				_removeButtonVisible = value;
-				buttonRemove.Visible = _removeButtonVisible;
+				_deleteButtonVisible = value;
+				buttonDelete.Visible = _deleteButtonVisible;
 				PositionControls();
 			}
 		}
@@ -224,7 +224,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			var buttonTuplesInReverseOrder = new (Control Control, bool Visible)[]
 			{
 				(buttonClose, CloseButtonVisible),
-				(buttonRemove, RemoveButtonVisible),
+				(buttonDelete, DeleteButtonVisible),
 				(buttonAdd, AddButtonVisible),
 				(buttonNew, NewButtonVisible),
 				(buttonExpand, ExpandButtonVisible),
@@ -260,7 +260,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		private void buttonPlay_Click(object sender, EventArgs e) => PlayClicked?.Invoke(sender, EventArgs.Empty);
 		private void buttonRedo_Click(object sender, EventArgs e) => RedoClicked?.Invoke(sender, EventArgs.Empty);
 		private void buttonRefresh_Click(object sender, EventArgs e) => RefreshClicked?.Invoke(sender, EventArgs.Empty);
-		private void buttonRemove_Click(object sender, EventArgs e) => RemoveClicked?.Invoke(sender, EventArgs.Empty);
+		private void buttonDelete_Click(object sender, EventArgs e) => DeleteClicked?.Invoke(sender, EventArgs.Empty);
 		private void buttonSave_Click(object sender, EventArgs e) => SaveClicked?.Invoke(sender, EventArgs.Empty);
 		private void buttonUndo_Click(object sender, EventArgs e) => UndoClicked?.Invoke(sender, EventArgs.Empty);
 
@@ -277,7 +277,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			if (_playButtonVisible) count++;
 			if (_redoButtonVisible) count++;
 			if (_refreshButtonVisible) count++;
-			if (_removeButtonVisible) count++;
+			if (_deleteButtonVisible) count++;
 			if (_saveButtonVisible) count++;
 			if (_undoButtonVisible) count++;
 			return count;

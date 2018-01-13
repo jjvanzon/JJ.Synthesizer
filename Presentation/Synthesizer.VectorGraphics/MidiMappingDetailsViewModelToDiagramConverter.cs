@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public MidiMappingDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
 			Result = new MidiMappingDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+			Result.Diagram.Gestures.Add(Result.DeleteElementGesture);
 
 			_circleDictionary = new Dictionary<int, Ellipse>();
 			_labelDictionary = new Dictionary<int, Label>();

@@ -55,7 +55,7 @@
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "PatchDetailsUserControl";
 			this.PlayButtonVisible = true;
-			this.RemoveButtonVisible = true;
+			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(713, 325);
 			this.Controls.SetChildIndex(this.diagramControl, 0);
 			this.ResumeLayout(false);

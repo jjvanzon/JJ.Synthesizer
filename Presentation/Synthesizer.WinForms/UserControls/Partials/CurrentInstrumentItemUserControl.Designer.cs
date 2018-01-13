@@ -30,7 +30,7 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.labelName = new System.Windows.Forms.Label();
-			this.buttonRemove = new System.Windows.Forms.Button();
+			this.buttonDelete = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.buttonMoveBackward = new System.Windows.Forms.Button();
 			this.buttonMoveForward = new System.Windows.Forms.Button();
@@ -51,16 +51,16 @@
 			// 
 			// buttonRemove
 			// 
-			this.buttonRemove.FlatAppearance.BorderSize = 0;
-			this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
-			this.buttonRemove.Location = new System.Drawing.Point(254, 12);
-			this.buttonRemove.Margin = new System.Windows.Forms.Padding(0);
-			this.buttonRemove.Name = "buttonRemove";
-			this.buttonRemove.Size = new System.Drawing.Size(24, 25);
-			this.buttonRemove.TabIndex = 1;
-			this.buttonRemove.UseVisualStyleBackColor = true;
-			this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
+			this.buttonDelete.FlatAppearance.BorderSize = 0;
+			this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonDelete.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
+			this.buttonDelete.Location = new System.Drawing.Point(254, 12);
+			this.buttonDelete.Margin = new System.Windows.Forms.Padding(0);
+			this.buttonDelete.Name = "buttonDelete";
+			this.buttonDelete.Size = new System.Drawing.Size(24, 25);
+			this.buttonDelete.TabIndex = 1;
+			this.buttonDelete.UseVisualStyleBackColor = true;
+			this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
 			// 
 			// toolTip
 			// 
@@ -131,7 +131,7 @@
 			this.Controls.Add(this.buttonPlay);
 			this.Controls.Add(this.buttonMoveForward);
 			this.Controls.Add(this.buttonMoveBackward);
-			this.Controls.Add(this.buttonRemove);
+			this.Controls.Add(this.buttonDelete);
 			this.Controls.Add(this.labelName);
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.Name = "CurrentInstrumentItemUserControl";
@@ -145,7 +145,7 @@
 		#endregion
 
 		private System.Windows.Forms.Label labelName;
-		private System.Windows.Forms.Button buttonRemove;
+		private System.Windows.Forms.Button buttonDelete;
 		private System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.Button buttonMoveBackward;
 		private System.Windows.Forms.Button buttonMoveForward;

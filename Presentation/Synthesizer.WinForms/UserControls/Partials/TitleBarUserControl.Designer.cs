@@ -55,7 +55,7 @@
 			this.buttonBarUserControl.ExpandButtonVisible = false;
 			this.buttonBarUserControl.PlayButtonVisible = false;
 			this.buttonBarUserControl.RefreshButtonVisible = false;
-			this.buttonBarUserControl.RemoveButtonVisible = false;
+			this.buttonBarUserControl.DeleteButtonVisible = false;
 			this.buttonBarUserControl.SaveButtonVisible = false;
 			this.buttonBarUserControl.Size = new System.Drawing.Size(24, 32);
 			this.buttonBarUserControl.TabIndex = 20;

@@ -146,7 +146,7 @@
 			this.midiMappingDetailsUserControl.Name = "midiMappingDetailsUserControl";
 			this.midiMappingDetailsUserControl.PlayButtonVisible = true;
 			this.midiMappingDetailsUserControl.RefreshButtonVisible = false;
-			this.midiMappingDetailsUserControl.RemoveButtonVisible = true;
+			this.midiMappingDetailsUserControl.DeleteButtonVisible = true;
 			this.midiMappingDetailsUserControl.SaveButtonVisible = false;
 			this.midiMappingDetailsUserControl.Size = new System.Drawing.Size(851, 532);
 			this.midiMappingDetailsUserControl.TabIndex = 1;
@@ -233,7 +233,7 @@
 			this.patchDetailsUserControl.Name = "patchDetailsUserControl";
 			this.patchDetailsUserControl.PlayButtonVisible = true;
 			this.patchDetailsUserControl.RefreshButtonVisible = false;
-			this.patchDetailsUserControl.RemoveButtonVisible = true;
+			this.patchDetailsUserControl.DeleteButtonVisible = true;
 			this.patchDetailsUserControl.SaveButtonVisible = false;
 			this.patchDetailsUserControl.Size = new System.Drawing.Size(851, 532);
 			this.patchDetailsUserControl.TabIndex = 1;
@@ -257,7 +257,7 @@
 			this.libraryPropertiesUserControl.Name = "libraryPropertiesUserControl";
 			this.libraryPropertiesUserControl.PlayButtonVisible = true;
 			this.libraryPropertiesUserControl.RefreshButtonVisible = false;
-			this.libraryPropertiesUserControl.RemoveButtonVisible = true;
+			this.libraryPropertiesUserControl.DeleteButtonVisible = true;
 			this.libraryPropertiesUserControl.SaveButtonVisible = false;
 			this.libraryPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.libraryPropertiesUserControl.TabIndex = 1;
@@ -281,7 +281,7 @@
 			this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
 			this.operatorPropertiesUserControl_ForNumber.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl_ForNumber.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForNumber.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl_ForNumber.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForNumber.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
@@ -305,7 +305,7 @@
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Name = "operatorPropertiesUserControl_WithCollectionRecalculation";
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl_WithCollectionRecalculation.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.TabIndex = 1;
@@ -329,7 +329,7 @@
 			this.operatorPropertiesUserControl_ForInletsToDimension.Name = "operatorPropertiesUserControl_ForInletsToDimension";
 			this.operatorPropertiesUserControl_ForInletsToDimension.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl_ForInletsToDimension.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForInletsToDimension.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl_ForInletsToDimension.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForInletsToDimension.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForInletsToDimension.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForInletsToDimension.TabIndex = 1;
@@ -351,7 +351,7 @@
 			this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
 			this.audioOutputPropertiesUserControl.PlayButtonVisible = true;
 			this.audioOutputPropertiesUserControl.RefreshButtonVisible = false;
-			this.audioOutputPropertiesUserControl.RemoveButtonVisible = false;
+			this.audioOutputPropertiesUserControl.DeleteButtonVisible = false;
 			this.audioOutputPropertiesUserControl.SaveButtonVisible = false;
 			this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.audioOutputPropertiesUserControl.TabIndex = 1;
@@ -375,7 +375,7 @@
 			this.operatorPropertiesUserControl_ForCache.Name = "operatorPropertiesUserControl_ForCache";
 			this.operatorPropertiesUserControl_ForCache.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCache.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForCache.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl_ForCache.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCache.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
@@ -399,7 +399,7 @@
 			this.operatorPropertiesUserControl_WithInterpolation.Name = "operatorPropertiesUserControl_WithInterpolation";
 			this.operatorPropertiesUserControl_WithInterpolation.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl_WithInterpolation.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_WithInterpolation.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl_WithInterpolation.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_WithInterpolation.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_WithInterpolation.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_WithInterpolation.TabIndex = 1;
@@ -423,7 +423,7 @@
 			this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
 			this.nodePropertiesUserControl.PlayButtonVisible = false;
 			this.nodePropertiesUserControl.RefreshButtonVisible = false;
-			this.nodePropertiesUserControl.RemoveButtonVisible = true;
+			this.nodePropertiesUserControl.DeleteButtonVisible = true;
 			this.nodePropertiesUserControl.SaveButtonVisible = false;
 			this.nodePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.nodePropertiesUserControl.TabIndex = 1;
@@ -447,7 +447,7 @@
 			this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
 			this.operatorPropertiesUserControl_ForCurve.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCurve.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForCurve.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl_ForCurve.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCurve.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
@@ -470,7 +470,7 @@
 			this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
 			this.scalePropertiesUserControl.PlayButtonVisible = false;
 			this.scalePropertiesUserControl.RefreshButtonVisible = false;
-			this.scalePropertiesUserControl.RemoveButtonVisible = true;
+			this.scalePropertiesUserControl.DeleteButtonVisible = true;
 			this.scalePropertiesUserControl.SaveButtonVisible = false;
 			this.scalePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.scalePropertiesUserControl.TabIndex = 1;
@@ -494,7 +494,7 @@
 			this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
 			this.operatorPropertiesUserControl_ForPatchInlet.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchInlet.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForPatchInlet.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl_ForPatchInlet.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchInlet.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
@@ -517,7 +517,7 @@
 			this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
 			this.documentPropertiesUserControl.PlayButtonVisible = true;
 			this.documentPropertiesUserControl.RefreshButtonVisible = false;
-			this.documentPropertiesUserControl.RemoveButtonVisible = false;
+			this.documentPropertiesUserControl.DeleteButtonVisible = false;
 			this.documentPropertiesUserControl.SaveButtonVisible = false;
 			this.documentPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.documentPropertiesUserControl.TabIndex = 1;
@@ -541,7 +541,7 @@
 			this.operatorPropertiesUserControl.Name = "operatorPropertiesUserControl";
 			this.operatorPropertiesUserControl.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl.TabIndex = 1;
@@ -565,7 +565,7 @@
 			this.patchPropertiesUserControl.Name = "patchPropertiesUserControl";
 			this.patchPropertiesUserControl.PlayButtonVisible = true;
 			this.patchPropertiesUserControl.RefreshButtonVisible = false;
-			this.patchPropertiesUserControl.RemoveButtonVisible = true;
+			this.patchPropertiesUserControl.DeleteButtonVisible = true;
 			this.patchPropertiesUserControl.SaveButtonVisible = false;
 			this.patchPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.patchPropertiesUserControl.TabIndex = 1;
@@ -588,7 +588,7 @@
 			this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
 			this.audioFileOutputPropertiesUserControl.PlayButtonVisible = false;
 			this.audioFileOutputPropertiesUserControl.RefreshButtonVisible = false;
-			this.audioFileOutputPropertiesUserControl.RemoveButtonVisible = true;
+			this.audioFileOutputPropertiesUserControl.DeleteButtonVisible = true;
 			this.audioFileOutputPropertiesUserControl.SaveButtonVisible = false;
 			this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.audioFileOutputPropertiesUserControl.TabIndex = 1;
@@ -612,7 +612,7 @@
 			this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
 			this.operatorPropertiesUserControl_ForSample.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl_ForSample.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForSample.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl_ForSample.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForSample.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
@@ -636,7 +636,7 @@
 			this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
 			this.operatorPropertiesUserControl_ForPatchOutlet.PlayButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchOutlet.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForPatchOutlet.RemoveButtonVisible = true;
+			this.operatorPropertiesUserControl_ForPatchOutlet.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchOutlet.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;

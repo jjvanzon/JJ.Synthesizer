@@ -129,7 +129,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.Add(this.numericUpDownBaseFrequency);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "ScalePropertiesUserControl";
-			this.RemoveButtonVisible = true;
+			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(505, 375);
 			this.Controls.SetChildIndex(this.numericUpDownBaseFrequency, 0);
 			this.Controls.SetChildIndex(this.labelBaseFrequency, 0);

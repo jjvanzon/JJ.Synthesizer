@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		public event EventHandler<EventArgs<int>> LoseFocusRequested;
 		public event EventHandler<EventArgs<int>> SaveRequested;
 		public event EventHandler<EventArgs<int>> PlayRequested;
-		public event EventHandler<EventArgs<int>> RemoveRequested;
+		public event EventHandler<EventArgs<int>> DeleteRequested;
 
 		public event EventHandler AddRequested
 		{
@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			_titleBarUserControl.NewClicked += _titleBarUserControl_NewClicked;
 			_titleBarUserControl.SaveClicked += _titleBarUserControl_SaveClicked;
 			_titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
-			_titleBarUserControl.RemoveClicked += _titleBarUserControl_RemoveClicked;
+			_titleBarUserControl.DeleteClicked += TitleBarUserControl_DeleteClicked;
 		}
 
 		~DetailsOrPropertiesUserControlBase()
@@ -56,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 				_titleBarUserControl.NewClicked -= _titleBarUserControl_NewClicked;
 				_titleBarUserControl.SaveClicked -= _titleBarUserControl_SaveClicked;
 				_titleBarUserControl.PlayClicked -= _titleBarUserControl_PlayClicked;
-				_titleBarUserControl.RemoveClicked -= _titleBarUserControl_RemoveClicked;
+				_titleBarUserControl.DeleteClicked -= TitleBarUserControl_DeleteClicked;
 			}
 		}
 
@@ -126,10 +126,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			set => _titleBarUserControl.PlayButtonVisible = value;
 		}
 
-		public bool RemoveButtonVisible
+		public bool DeleteButtonVisible
 		{
-			get => _titleBarUserControl.RemoveButtonVisible;
-			set => _titleBarUserControl.RemoveButtonVisible = value;
+			get => _titleBarUserControl.DeleteButtonVisible;
+			set => _titleBarUserControl.DeleteButtonVisible = value;
 		}
 
 		public bool RefreshButtonVisible
@@ -216,47 +216,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			PlayRequested?.Invoke(this, new EventArgs<int>(GetID()));
 		}
 
-		protected void Delete()
+		protected virtual void Delete()
 		{
-			RemoveRequested?.Invoke(this, new EventArgs<int>(GetID()));
+			DeleteRequested?.Invoke(this, new EventArgs<int>(GetID()));
 		}
 
 		// Events
 
-		private void _titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e)
-		{
-			AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
-		}
-
-		private void _titleBarUserControl_CloseClicked(object sender, EventArgs e)
-		{
-			Close();
-		}
-
-		private void _titleBarUserControl_ExpandClicked(object sender, EventArgs e)
-		{
-			ExpandRequested?.Invoke(sender, new EventArgs<int>(GetID()));
-		}
-
-		private void _titleBarUserControl_PlayClicked(object sender, EventArgs e)
-		{
-			Play();
-		}
-
-		private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e)
-		{
-			Delete();
-		}
-
-		private void _titleBarUserControl_NewClicked(object sender, EventArgs e)
-		{
-			NewRequested?.Invoke(sender, new EventArgs<int>(GetID()));
-		}
-
-		private void _titleBarUserControl_SaveClicked(object sender, EventArgs e)
-		{
-			SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
-		}
+		private void _titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+		private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
+		private void _titleBarUserControl_ExpandClicked(object sender, EventArgs e) => ExpandRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+		private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
+		private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => Delete();
+		private void _titleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested?.Invoke(sender, new EventArgs<int>(GetID()));
+		private void _titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 
 		// This event does not go off, if not clicked on a control that according to WinForms can get focus.
 		private void Base_Leave(object sender, EventArgs e)
@@ -279,7 +252,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 				Name = nameof(_titleBarUserControl),
 				BackColor = SystemColors.Control,
 				CloseButtonVisible = true,
-				RemoveButtonVisible = false,
+				DeleteButtonVisible = false,
 				AddButtonVisible = false,
 				PlayButtonVisible = false,
 				SaveButtonVisible = false,

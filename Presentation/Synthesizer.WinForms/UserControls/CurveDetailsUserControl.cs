@@ -64,6 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_converter.Result.BackgroundDoubleClickGesture.DoubleClick += BackgroundDoubleClickGesture_DoubleClick;
 			_converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
 			_converter.Result.KeyDownGesture.KeyDown += Diagram_KeyDown;
+			_converter.Result.DeleteGesture.DeleteSelectionRequested += DeleteGesture_DeleteSelectionRequested;
 			_converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
 			_converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
 			_converter.Result.NodeToolTipGesture.ToolTipTextRequested += NodeToolTipGesture_ToolTipTextRequested;
@@ -132,6 +133,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		}
 
+		private void DeleteGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
+
 		// ReSharper disable once RedundantNameQualifier
 		private void Diagram_KeyDown(object sender, JJ.Framework.Presentation.VectorGraphics.EventArg.KeyEventArgs e)
 		{
@@ -141,9 +144,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					CreateNode();
 					break;
 
-				case KeyCodeEnum.Delete:
-					Delete();
-					break;
+				// NOTE: Delete action handled by DeleteGesture_DeleteSelectionRequested.
 			}
 		}
 

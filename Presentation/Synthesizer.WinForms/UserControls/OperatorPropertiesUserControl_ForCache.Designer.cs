@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.Add(this.comboBoxSpeakerSetup);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "OperatorPropertiesUserControl_ForCache";
-			this.RemoveButtonVisible = true;
+			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(638, 443);
 			this.TitleBarText = "Operator Properties";
 			this.Controls.SetChildIndex(this._textBoxName, 0);

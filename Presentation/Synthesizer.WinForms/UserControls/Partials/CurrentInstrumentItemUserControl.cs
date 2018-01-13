@@ -1,11 +1,11 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 #pragma warning disable IDE1006 // Naming Styles
 // ReSharper disable PossibleNullReferenceException
@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		public event EventHandler<EventArgs<int>> MoveBackwardRequested;
 		public event EventHandler<EventArgs<int>> MoveForwardRequested;
 		public event EventHandler<EventArgs<int>> PlayRequested;
-		public event EventHandler<EventArgs<int>> RemoveRequested;
+		public event EventHandler<EventArgs<int>> DeleteRequested;
 
 		public CurrentInstrumentItemUserControl() => InitializeComponent();
 
@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			toolTip.SetToolTip(buttonMoveBackward, CommonResourceFormatter.Move);
 			toolTip.SetToolTip(buttonMoveForward, CommonResourceFormatter.Move);
 			toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
-			toolTip.SetToolTip(buttonRemove, CommonResourceFormatter.Remove);
+			toolTip.SetToolTip(buttonDelete, CommonResourceFormatter.Remove);
 		}
 
 		private void ApplyViewModelToControls()
@@ -94,7 +94,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			buttonExpand.Location = new Point(x, SPACING);
 			x += buttonWidth + SPACING;
 
-			buttonRemove.Location = new Point(x, SPACING);
+			buttonDelete.Location = new Point(x, SPACING);
 			x += buttonWidth + SPACING;
 
 			x += SPACING;
@@ -106,6 +106,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		private void buttonMoveBackward_Click(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
 		private void buttonMoveForward_Click(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
 		private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.PatchID));
-		private void buttonRemove_Click(object sender, EventArgs e) => RemoveRequested(this, new EventArgs<int>(_viewModel.PatchID));
+		private void buttonDelete_Click(object sender, EventArgs e) => DeleteRequested(this, new EventArgs<int>(_viewModel.PatchID));
 	}
 }

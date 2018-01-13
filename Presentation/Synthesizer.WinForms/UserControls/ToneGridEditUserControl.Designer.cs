@@ -73,12 +73,12 @@
 			this.titleBarUserControl.ExpandButtonVisible = false;
 			this.titleBarUserControl.PlayButtonVisible = false;
 			this.titleBarUserControl.RefreshButtonVisible = false;
-			this.titleBarUserControl.RemoveButtonVisible = true;
+			this.titleBarUserControl.DeleteButtonVisible = true;
 			this.titleBarUserControl.SaveButtonVisible = false;
 			this.titleBarUserControl.Size = new System.Drawing.Size(623, 26);
 			this.titleBarUserControl.TabIndex = 8;
 			this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
-			this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
+			this.titleBarUserControl.DeleteClicked += new System.EventHandler(this.titleBarUserControl_DeleteClicked);
 			this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
 			// 
 			// specializedDataGridView

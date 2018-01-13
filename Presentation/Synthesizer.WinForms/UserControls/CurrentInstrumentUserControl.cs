@@ -1,4 +1,8 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -6,10 +10,6 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 
 #pragma warning disable IDE1006 // Naming Styles
 // ReSharper disable PossibleNullReferenceException
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<int>> MoveForwardRequested;
 		public event EventHandler PlayRequested;
 		public event EventHandler<EventArgs<int>> PlayItemRequested;
-		public event EventHandler<EventArgs<int>> RemoveRequested;
+		public event EventHandler<EventArgs<int>> DeleteRequested;
 
 		public CurrentInstrumentUserControl()
 		{
@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				itemControl.MoveBackwardRequested += ItemControl_MoveBackwardRequested;
 				itemControl.MoveForwardRequested += ItemControl_MoveForwardRequested;
 				itemControl.PlayRequested += ItemControl_PlayRequested;
-				itemControl.RemoveRequested += ItemControl_RemoveRequested;
+				itemControl.DeleteRequested += ItemControl_DeleteRequested;
 
 				_itemControls.Add(itemControl);
 				Controls.Add(itemControl);
@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				itemControl.MoveBackwardRequested -= ItemControl_MoveBackwardRequested;
 				itemControl.MoveForwardRequested -= ItemControl_MoveForwardRequested;
 				itemControl.PlayRequested -= ItemControl_PlayRequested;
-				itemControl.RemoveRequested -= ItemControl_RemoveRequested;
+				itemControl.DeleteRequested -= ItemControl_DeleteRequested;
 
 				_itemControls.RemoveAt(i);
 				Controls.Remove(itemControl);
@@ -136,7 +136,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private void ItemControl_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
 		private void ItemControl_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
 		private void ItemControl_PlayRequested(object sender, EventArgs<int> e) => PlayItemRequested(sender, e);
-		private void ItemControl_RemoveRequested(object sender, EventArgs<int> e) => RemoveRequested(sender, e);
+		private void ItemControl_DeleteRequested(object sender, EventArgs<int> e) => DeleteRequested(sender, e);
 		private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
 		private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
 	}

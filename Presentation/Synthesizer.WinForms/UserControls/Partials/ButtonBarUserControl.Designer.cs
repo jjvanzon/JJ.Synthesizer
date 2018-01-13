@@ -37,7 +37,7 @@
 			this.buttonPlay = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.buttonAdd = new System.Windows.Forms.Button();
-			this.buttonRemove = new System.Windows.Forms.Button();
+			this.buttonDelete = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.buttonRedo = new System.Windows.Forms.Button();
 			this.buttonUndo = new System.Windows.Forms.Button();
@@ -145,16 +145,16 @@
 			// 
 			// buttonRemove
 			// 
-			this.buttonRemove.FlatAppearance.BorderSize = 0;
-			this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.buttonRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
-			this.buttonRemove.Location = new System.Drawing.Point(289, 8);
-			this.buttonRemove.Margin = new System.Windows.Forms.Padding(0);
-			this.buttonRemove.Name = "buttonRemove";
-			this.buttonRemove.Size = new System.Drawing.Size(21, 23);
-			this.buttonRemove.TabIndex = 14;
-			this.buttonRemove.UseVisualStyleBackColor = true;
-			this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
+			this.buttonDelete.FlatAppearance.BorderSize = 0;
+			this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.buttonDelete.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
+			this.buttonDelete.Location = new System.Drawing.Point(289, 8);
+			this.buttonDelete.Margin = new System.Windows.Forms.Padding(0);
+			this.buttonDelete.Name = "buttonDelete";
+			this.buttonDelete.Size = new System.Drawing.Size(21, 23);
+			this.buttonDelete.TabIndex = 14;
+			this.buttonDelete.UseVisualStyleBackColor = true;
+			this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
 			// 
 			// buttonClose
 			// 
@@ -207,7 +207,7 @@
 			this.Controls.Add(this.buttonPlay);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.buttonAdd);
-			this.Controls.Add(this.buttonRemove);
+			this.Controls.Add(this.buttonDelete);
 			this.Controls.Add(this.buttonClose);
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "ButtonBarUserControl";
@@ -220,7 +220,7 @@
 
 		#endregion
 		private System.Windows.Forms.Button buttonClose;
-		private System.Windows.Forms.Button buttonRemove;
+		private System.Windows.Forms.Button buttonDelete;
 		private System.Windows.Forms.Button buttonAdd;
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.Button buttonPlay;

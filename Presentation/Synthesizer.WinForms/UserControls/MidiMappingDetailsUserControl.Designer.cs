@@ -50,7 +50,7 @@
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.Controls.Add(this.diagramControl);
 			this.Name = "CurveDetailsUserControl";
-			this.RemoveButtonVisible = true;
+			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(672, 393);
 			this.Load += new System.EventHandler(this.MidiMappingDetailsUserControl_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.MidiMappingDetailsUserControl_Paint);

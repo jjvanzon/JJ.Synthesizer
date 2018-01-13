@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			IDPropertyName = nameof(IDAndName.ID);
 			ColumnTitlesVisible = true;
 			AddButtonVisible = false;
-			RemoveButtonVisible = false;
+			DeleteButtonVisible = false;
 			CloseButtonVisible = false;
 			PlayButtonVisible = true;
 			ColumnTitlesVisible = false;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
@@ -96,7 +96,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			CreateTone();
 		}
 
-		private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
+		private void titleBarUserControl_DeleteClicked(object sender, EventArgs e)
 		{
 			DeleteTone();
 		}

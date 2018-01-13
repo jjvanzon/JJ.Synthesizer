@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			_converter = new MidiMappingDetailsViewModelToDiagramConverter(SystemInformation.DoubleClickTime, SystemInformation.DoubleClickSize.Width);
 			_converter.Result.MoveGesture.Moved += MoveGesture_Moved;
+			_converter.Result.DeleteElementGesture.DeleteSelectionRequested += DeleteElementGesture_DeleteSelectionRequested;
 			_converter.Result.SelectElementGesture.SelectRequested += SelectElementGesture_SelectRequested;
 		}
 
@@ -104,6 +105,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			MoveElementRequested(this, new EventArgs<(int, int, float, float)>((ViewModel.MidiMapping.ID, midiMappingElementID, centerX, centerY)));
 		}
 
+		private void DeleteElementGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
+
 		private void SelectElementGesture_SelectRequested(object sender, ElementEventArgs e)
 		{
 			if (ViewModel == null) return;
@@ -111,8 +114,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			int midiMappingElementID = (int)e.Element.Tag;
 
 			SelectElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMapping.ID, midiMappingElementID)));
-
-			//_converterResult.ExpandElementeyboardGesture.SelectedOperatorID = ViewModel.SelectedElement?.ID;
 		}
 	}
 }

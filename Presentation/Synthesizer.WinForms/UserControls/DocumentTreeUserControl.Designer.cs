@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.titleBarUserControl.PlayButtonVisible = true;
 			this.titleBarUserControl.RedoButtonVisible = true;
 			this.titleBarUserControl.RefreshButtonVisible = true;
-			this.titleBarUserControl.RemoveButtonVisible = false;
+			this.titleBarUserControl.DeleteButtonVisible = false;
 			this.titleBarUserControl.SaveButtonVisible = true;
 			this.titleBarUserControl.Size = new System.Drawing.Size(269, 32);
 			this.titleBarUserControl.TabIndex = 3;
@@ -82,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.titleBarUserControl.PlayClicked += new System.EventHandler(this.titleBarUserControl_PlayClicked);
 			this.titleBarUserControl.RedoClicked += new System.EventHandler(this.titleBarUserControl_RedoClicked);
 			this.titleBarUserControl.RefreshClicked += new System.EventHandler(this.titleBarUserControl_RefreshClicked);
-			this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
+			this.titleBarUserControl.DeleteClicked += new System.EventHandler(this.titleBarUserControl_DeleteClicked);
 			this.titleBarUserControl.SaveClicked += new System.EventHandler(this.titleBarUserControl_SaveClicked);
 			this.titleBarUserControl.UndoClicked += new System.EventHandler(this.titleBarUserControl_UndoClicked);
 			// 

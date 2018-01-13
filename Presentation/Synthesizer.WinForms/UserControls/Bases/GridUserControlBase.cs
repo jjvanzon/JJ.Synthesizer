@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		// Events
 
 		public event EventHandler AddRequested;
-		public event EventHandler<EventArgs<int>> RemoveRequested;
+		public event EventHandler<EventArgs<int>> DeleteRequested;
 		public event EventHandler CloseRequested;
 		public event EventHandler<EventArgs<int>> OpenItemExternallyRequested;
 		public event EventHandler<EventArgs<int>> PlayRequested;
@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			{
 				AddButtonVisible = true,
 				CloseButtonVisible = true,
-				RemoveButtonVisible = true,
+				DeleteButtonVisible = true,
 				SaveButtonVisible = false,
 				PlayButtonVisible = false,
 				Dock = DockStyle.Fill,
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			titleBarUserControl.CloseClicked += _titleBarUserControl_CloseClicked;
 			titleBarUserControl.ExpandClicked += _titleBarUserControl_OpenClicked;
 			titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
-			titleBarUserControl.RemoveClicked += _titleBarUserControl_RemoveClicked;
+			titleBarUserControl.DeleteClicked += TitleBarUserControl_DeleteClicked;
 
 			return titleBarUserControl;
 		}
@@ -158,10 +158,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		}
 
 		[DefaultValue(true)]
-		protected bool RemoveButtonVisible
+		protected bool DeleteButtonVisible
 		{
-			get => _titleBarUserControl.RemoveButtonVisible;
-			set => _titleBarUserControl.RemoveButtonVisible = value;
+			get => _titleBarUserControl.DeleteButtonVisible;
+			set => _titleBarUserControl.DeleteButtonVisible = value;
 		}
 
 		protected bool FullRowSelect
@@ -259,7 +259,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
 		private void _titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternally();
 		private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
-		private void _titleBarUserControl_RemoveClicked(object sender, EventArgs e) => Remove();
+		private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => Delete();
 		private void _specializedDataGridView_DoubleClick(object sender, EventArgs e) => ShowItem();
 
 		private void _specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -269,7 +269,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			switch (e.KeyCode)
 			{
 				case Keys.Delete:
-					Remove();
+					Delete();
 					break;
 
 				case Keys.Enter:
@@ -320,14 +320,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			}
 		}
 
-		private void Remove()
+		private void Delete()
 		{
 			if (ViewModel == null) return;
 
 			int? id = TryGetSelectedID();
 			if (id.HasValue)
 			{
-				RemoveRequested?.Invoke(this, new EventArgs<int>(id.Value));
+				DeleteRequested?.Invoke(this, new EventArgs<int>(id.Value));
 			}
 		}
 

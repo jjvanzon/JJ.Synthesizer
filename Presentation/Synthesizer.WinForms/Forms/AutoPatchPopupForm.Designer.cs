@@ -41,7 +41,7 @@
 			this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
 			this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
 			this.patchDetailsUserControl.Name = "patchDetailsUserControl";
-			this.patchDetailsUserControl.RemoveButtonVisible = false;
+			this.patchDetailsUserControl.DeleteButtonVisible = false;
 			this.patchDetailsUserControl.SaveButtonVisible = false;
 			this.patchDetailsUserControl.Size = new System.Drawing.Size(1403, 751);
 			this.patchDetailsUserControl.TabIndex = 1;

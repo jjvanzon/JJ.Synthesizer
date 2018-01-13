@@ -1763,11 +1763,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Undo History
 			int id = userInput.SelectedElement?.ID ?? 0;
-			var undoItem = new UndoDeleteViewModel
+			UndoDeleteViewModel undoItem = null;
+			if (id != 0)
 			{
-				EntityTypesAndIDs = (EntityTypeEnum.MidiMappingElement, id).ToViewModel().AsArray(),
-				States = GetMidiMappingElementStates(id)
-			};
+				undoItem = new UndoDeleteViewModel
+				{
+					EntityTypesAndIDs = (EntityTypeEnum.MidiMappingElement, id).ToViewModel().AsArray(),
+					States = GetMidiMappingElementStates(id)
+				};
+			}
 
 			// Template Method
 			MidiMappingDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _midiMappingDetailsPresenter.DeleteSelectedElement(userInput));
@@ -1963,11 +1967,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Undo History
 			int id = userInput.SelectedNodeID ?? 0;
-			var undoItem = new UndoDeleteViewModel
+			UndoDeleteViewModel undoItem = null;
+			if (id != 0)
 			{
-				EntityTypesAndIDs = (EntityTypeEnum.Node, id).ToViewModel().AsArray(),
-				States = GetNodeStates(id)
-			};
+				undoItem = new UndoDeleteViewModel
+				{
+					EntityTypesAndIDs = (EntityTypeEnum.Node, id).ToViewModel().AsArray(),
+					States = GetNodeStates(id)
+				};
+			}
 
 			// Template Method
 			CurveDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _curveDetailsPresenter.DeleteSelectedNode(userInput));

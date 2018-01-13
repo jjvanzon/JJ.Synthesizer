@@ -364,7 +364,7 @@
 			this.Controls.Add(this.labelDurationValue);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "OperatorPropertiesUserControl_ForSample";
-			this.RemoveButtonVisible = true;
+			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(10, 10);
 			this.TitleBarText = "Operator Properties";
 			this.Controls.SetChildIndex(this.labelDurationValue, 0);

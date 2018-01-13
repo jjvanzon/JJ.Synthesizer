@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<int>> PatchHovered;
 		public event EventHandler PlayRequested;
 		public event EventHandler RefreshRequested;
-		public event EventHandler RemoveRequested;
+		public event EventHandler DeleteRequested;
 		public event EventHandler RedoRequested;
 		public event EventHandler SaveRequested;
 		public event EventHandler UndoRequested;
@@ -98,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			titleBarUserControl.NewButtonVisible = ViewModel.CanCreate;
 			titleBarUserControl.ExpandButtonVisible = ViewModel.CanOpenExternally;
 			titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
-			titleBarUserControl.RemoveButtonVisible = ViewModel.CanDelete;
+			titleBarUserControl.DeleteButtonVisible = ViewModel.CanDelete;
 
 			_libraryPatchTreeNodes = new HashSet<TreeNode>();
 			_libraryPatchGroupTreeNodes = new HashSet<TreeNode>();
@@ -644,7 +644,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private void titleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
 		private void titleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested(sender, EventArgs.Empty);
 		private void titleBarUserControl_RedoClicked(object sender, EventArgs e) => RedoRequested(sender, EventArgs.Empty);
-		private void titleBarUserControl_RemoveClicked(object sender, EventArgs e) => RemoveRequested(this, EventArgs.Empty);
+		private void titleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteRequested(this, EventArgs.Empty);
 		private void titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested(sender, EventArgs.Empty);
 		private void titleBarUserControl_UndoClicked(object sender, EventArgs e) => UndoRequested(sender, EventArgs.Empty);
 

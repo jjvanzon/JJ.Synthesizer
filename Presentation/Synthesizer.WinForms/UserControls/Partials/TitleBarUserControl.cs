@@ -62,10 +62,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			remove => buttonBarUserControl.RefreshClicked -= value;
 		}
 
-		public event EventHandler RemoveClicked
+		public event EventHandler DeleteClicked
 		{
-			add => buttonBarUserControl.RemoveClicked += value;
-			remove => buttonBarUserControl.RemoveClicked -= value;
+			add => buttonBarUserControl.DeleteClicked += value;
+			remove => buttonBarUserControl.DeleteClicked -= value;
 		}
 
 		public event EventHandler SaveClicked
@@ -178,12 +178,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			}
 		}
 
-		public bool RemoveButtonVisible
+		public bool DeleteButtonVisible
 		{
-			get => buttonBarUserControl.RemoveButtonVisible;
+			get => buttonBarUserControl.DeleteButtonVisible;
 			set
 			{
-				buttonBarUserControl.RemoveButtonVisible = value;
+				buttonBarUserControl.DeleteButtonVisible = value;
 				PositionControls();
 			}
 		}

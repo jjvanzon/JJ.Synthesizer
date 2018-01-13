@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 	public class PatchViewModelToDiagramConverterResult
 	{
 		public Diagram Diagram { get; }
-		public DeleteOperatorGesture DeleteOperatorGesture { get; }
+		public DeleteGesture DeleteOperatorGesture { get; }
 		public DragLineGesture DragLineGesture { get; }
 		public DropLineGesture DropLineGesture { get; }
 		public ExpandOperatorKeyboardGesture ExpandOperatorKeyboardGesture { get; }
@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public PatchViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
 			Diagram = new Diagram();
-			DeleteOperatorGesture = new DeleteOperatorGesture();
+			DeleteOperatorGesture = new DeleteGesture();
 
 			DragLineGesture = new DragLineGesture(
 				Diagram,
