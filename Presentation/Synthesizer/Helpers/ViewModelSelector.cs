@@ -122,9 +122,11 @@ namespace JJ.Presentation.Synthesizer.Helpers
 			return viewModel;
 		}
 
-		public static IEnumerable<MidiMappingElementPropertiesViewModel> EnumerateMidiMappingElementPropertiesViewModel_ByMidiMappingID(DocumentViewModel document, int midiMappingID)
+		public static IEnumerable<MidiMappingElementPropertiesViewModel> EnumerateMidiMappingElementPropertiesViewModel_ByMidiMappingID(DocumentViewModel documentViewModel, int midiMappingID)
 		{
-			foreach (MidiMappingElementPropertiesViewModel mappingElementPropertiesViewModel in document.MidiMappingElementPropertiesDictionary.Values)
+			if (documentViewModel == null) throw new ArgumentNullException(nameof(documentViewModel));
+
+			foreach (MidiMappingElementPropertiesViewModel mappingElementPropertiesViewModel in documentViewModel.MidiMappingElementPropertiesDictionary.Values)
 			{
 				if (mappingElementPropertiesViewModel.MidiMappingID == midiMappingID)
 				{

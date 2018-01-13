@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			viewModel.MidiNode.List = document.MidiMappings.
 			                                           OrderBy(x => x.Name)
-			                                          .Select(ConvertToTreeViewModel)
+			                                          .Select(ConvertToTreeNodeViewModel)
 			                                          .ToList();
 
 			// Business
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		private IDAndName ConvertToTreeViewModel(MidiMapping midiMapping) => new IDAndName { ID = midiMapping.ID, Name = midiMapping.Name };
+		private IDAndName ConvertToTreeNodeViewModel(MidiMapping midiMapping) => new IDAndName { ID = midiMapping.ID, Name = midiMapping.Name };
 
 		private LibraryTreeNodeViewModel ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(DocumentReference lowerDocumentReference)
 		{

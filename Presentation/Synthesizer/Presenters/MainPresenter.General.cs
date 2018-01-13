@@ -103,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			var midiMappingRepositories = new MidiMappingRepositories(_repositories);
 			var scaleRepositories = new ScaleRepositories(_repositories);
 
-			// Create Managers
+			// Create Facades
 			_autoPatcher = new AutoPatcher(_repositories);
 			_audioFileOutputFacade = new AudioFileOutputFacade(audioFileOutputRepositories);
 			_curveFacade = new CurveFacade(_curveRepositories);
