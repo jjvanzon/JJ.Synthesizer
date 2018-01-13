@@ -210,7 +210,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 					{
 						SegmentCount = _lineSegmentCount,
 						ZIndex = -1,
-						Tag = VectorGraphicsTagHelper.GetInletTag(inletID),
+						Tag = inletID,
 						Diagram = destDiagram,
 						Parent = destDiagram.Background
 					};
@@ -248,7 +248,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				destCurve.PointA = operatorVectorGraphicsElements1.InletPoints[i];
 				destCurve.ControlPointA = operatorVectorGraphicsElements1.InletControlPoints[i];
 
-				int? outletIndex = operatorVectorGraphicsElements2.OutletPoints.TryGetIndexOf(x => VectorGraphicsTagHelper.GetOutletID(x.Tag) == inletViewModel.InputOutlet.ID);
+				int? outletIndex = operatorVectorGraphicsElements2.OutletPoints.TryGetIndexOf(x => (int)x.Tag == inletViewModel.InputOutlet.ID);
 				// ReSharper disable once InvertIf
 				if (outletIndex.HasValue)
 				{
@@ -296,7 +296,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			curve = _result.Diagram.Background.Children
 											  .OfType<Curve>()
-											  .Where(x => VectorGraphicsTagHelper.TryGetInletID(x.Tag) == id)
+											  .Where(x => (int)x.Tag == id)
 											  .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 			if (curve != null)
 			{

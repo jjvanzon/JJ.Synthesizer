@@ -1,7 +1,7 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+﻿using System.Collections.Generic;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
-using System.Collections.Generic;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
@@ -43,10 +43,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			if (sourceOutletPoint == null) throw new NullException(() => sourceOutletPoint);
 			if (sourceOutletViewModel == null) throw new NullException(() => sourceOutletViewModel);
 
-			int outletID = VectorGraphicsTagHelper.GetOutletID(sourceOutletPoint.Tag);
+			int outletID = (int)sourceOutletPoint.Tag;
 
-			Point destOutletControlPoint;
-			if (!_destOutletControlPointDictionary.TryGetValue(outletID, out destOutletControlPoint))
+			if (!_destOutletControlPointDictionary.TryGetValue(outletID, out Point destOutletControlPoint))
 			{
 				destOutletControlPoint = new Point
 				{
@@ -85,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				return;
 			}
 
-			int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
+			int outletID = (int)destElement.Tag;
 
 			_destOutletControlPointDictionary.Remove(outletID);
 			_destOutletControlPointHashSet.Remove(destElement);

@@ -8,7 +8,6 @@ using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
-using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
@@ -246,7 +245,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int nodeID = VectorGraphicsTagHelper.GetNodeID(e.Element.Tag);
+			int nodeID = (int)e.Element.Tag;
 
 			NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
 

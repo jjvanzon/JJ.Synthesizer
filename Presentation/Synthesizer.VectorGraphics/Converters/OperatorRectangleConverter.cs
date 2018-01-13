@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				{
 					Diagram = _diagram,
 					Parent = _diagram.Background,
-					Tag = VectorGraphicsTagHelper.GetOperatorTag(operatorID)
+					Tag = operatorID
 				};
 
 				_destOperatorRectangleDictionary.Add(operatorID, destOperatorRectangle);
@@ -158,7 +158,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				return;
 			}
 
-			int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
+			int operatorID = (int)destElement.Tag;
 
 			_destOperatorRectangleDictionary.Remove(operatorID);
 			_destOperatorRectangleHashSet.Remove(destElement);

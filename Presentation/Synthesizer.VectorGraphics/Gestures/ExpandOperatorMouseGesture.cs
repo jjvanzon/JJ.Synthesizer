@@ -1,8 +1,7 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.EventArg;
+﻿using System;
+using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
-using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
-using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
@@ -47,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
 		{
-			int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
+			int operatorID = (int)e.Element.Tag;
 			ExpandOperatorRequested?.Invoke(this, new IDEventArgs(operatorID));
 		}
 	}

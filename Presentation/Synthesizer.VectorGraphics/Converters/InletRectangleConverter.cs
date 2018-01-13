@@ -1,11 +1,11 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.Gestures;
-using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.VectorGraphics.Gestures;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
@@ -70,14 +70,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			int inletID = sourceInletViewModel.ID;
 
-			Rectangle destInletRectangle;
-			if (!_destInletRectangleDictionary.TryGetValue(inletID, out destInletRectangle))
+			if (!_destInletRectangleDictionary.TryGetValue(inletID, out Rectangle destInletRectangle))
 			{
 				destInletRectangle = new Rectangle
 				{
 					Diagram = destOperatorRectangle.Diagram,
 					Parent = destOperatorRectangle,
-					Tag = VectorGraphicsTagHelper.GetInletTag(inletID)
+					Tag = (int)inletID
 				};
 
 				destInletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
@@ -98,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (_destInletRectangleHashSet.Contains(destElement))
 			{
-				int inletID = VectorGraphicsTagHelper.GetInletID(destElement.Tag);
+				int inletID = (int)destElement.Tag;
 
 				_destInletRectangleDictionary.Remove(inletID);
 				_destInletRectangleHashSet.Remove(destElement);

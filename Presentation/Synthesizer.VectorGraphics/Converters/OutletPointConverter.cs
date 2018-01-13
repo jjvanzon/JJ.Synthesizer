@@ -1,9 +1,9 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
@@ -52,14 +52,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			int outletID = sourceOutletViewModel.ID;
 
-			Point destOutletPoint;
-			if (!_destOutletPointDictionary.TryGetValue(outletID, out destOutletPoint))
+			if (!_destOutletPointDictionary.TryGetValue(outletID, out Point destOutletPoint))
 			{
 				destOutletPoint = new Point
 				{
 					Diagram = destOperatorRectangle.Diagram,
 					Parent = destOperatorRectangle,
-					Tag = VectorGraphicsTagHelper.GetOutletTag(outletID)
+					Tag = outletID
 				};
 
 				_destOutletPointDictionary.Add(outletID, destOutletPoint);
@@ -85,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				return;
 			}
 
-			int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
+			int outletID = (int)destElement.Tag;
 
 			_destOutletPointDictionary.Remove(outletID);
 			_destOutletPointHashSet.Add(destElement);

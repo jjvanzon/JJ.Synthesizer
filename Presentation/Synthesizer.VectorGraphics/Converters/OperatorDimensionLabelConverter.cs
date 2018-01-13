@@ -19,14 +19,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			int operatorID = sourceOperatorViewModel.ID;
 
-			Label destOperatorDimensionLabel;
-			if (!_destOperatorDimensionLabelDictionary.TryGetValue(operatorID, out destOperatorDimensionLabel))
+			if (!_destOperatorDimensionLabelDictionary.TryGetValue(operatorID, out Label destOperatorDimensionLabel))
 			{
 				destOperatorDimensionLabel = new Label
 				{
 					Diagram = destOperatorRectangle.Diagram,
 					Parent = destOperatorRectangle,
-					Tag = VectorGraphicsTagHelper.GetOperatorTag(operatorID),
+					Tag = operatorID,
 					TextStyle = StyleHelper.DimensionTextStyle
 				};
 
@@ -45,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (_destOperatorDimensionLabelHashSet.Contains(destElement))
 			{
-				int operatorID = VectorGraphicsTagHelper.GetOperatorID(destElement.Tag);
+				int operatorID = (int)destElement.Tag;
 
 				_destOperatorDimensionLabelDictionary.Remove(operatorID);
 				_destOperatorDimensionLabelHashSet.Remove(destElement);

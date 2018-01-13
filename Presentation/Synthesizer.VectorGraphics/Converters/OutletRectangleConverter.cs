@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Exceptions;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
-using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -67,14 +67,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			int outletID = sourceOutletViewModel.ID;
 
-			Rectangle destOutletRectangle;
-			if (!_destOutletRectangleDictionary.TryGetValue(outletID, out destOutletRectangle))
+			if (!_destOutletRectangleDictionary.TryGetValue(outletID, out Rectangle destOutletRectangle))
 			{
 				destOutletRectangle = new Rectangle
 				{
 					Diagram = destOperatorRectangle.Diagram,
 					Parent = destOperatorRectangle,
-					Tag = VectorGraphicsTagHelper.GetOutletTag(outletID)
+					Tag = outletID
 				};
 
 				destOutletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
@@ -99,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				return;
 			}
 
-			int outletID = VectorGraphicsTagHelper.GetOutletID(destElement.Tag);
+			int outletID = (int)destElement.Tag;
 
 			_destOutletRectangleDictionary.Remove(outletID);
 			_destOutletRectangleHashSet.Remove(destElement);

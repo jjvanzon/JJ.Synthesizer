@@ -8,7 +8,6 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
-using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
@@ -132,8 +131,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int inletID =  VectorGraphicsTagHelper.GetInletID(e.DroppedOnElement.Tag);
-			int outletID = VectorGraphicsTagHelper.GetOutletID(e.DraggedElement.Tag);
+			int inletID =  (int)e.DroppedOnElement.Tag;
+			int outletID = (int)e.DraggedElement.Tag;
 
 			ChangeInputOutletRequested(this, new ChangeInputOutletEventArgs(
 				ViewModel.Entity.ID,
@@ -159,7 +158,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void DoMoveOperator(ElementEventArgs e)
 		{
-			int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
+			int operatorID = (int)e.Element.Tag;
 
 			float centerX = e.Element.Position.AbsoluteX + e.Element.Position.Width / 2f;
 			float centerY = e.Element.Position.AbsoluteY + e.Element.Position.Height / 2f;
@@ -182,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
+			int operatorID = (int)e.Element.Tag;
 
 			SelectOperatorRequested(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, operatorID));
 
@@ -212,7 +211,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int inletID = VectorGraphicsTagHelper.GetInletID(e.Element.Tag);
+			int inletID = (int)e.Element.Tag;
 
 			InletViewModel inletViewModel = ViewModel.Entity.OperatorDictionary.Values
 																			   .SelectMany(x => x.Inlets)
@@ -224,7 +223,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int id = VectorGraphicsTagHelper.GetOutletID(e.Element.Tag);
+			int id = (int)e.Element.Tag;
 
 			OutletViewModel outletViewModel = ViewModel.Entity.OperatorDictionary.Values.SelectMany(x => x.Outlets)
 																						.Single(x => x.ID == id);

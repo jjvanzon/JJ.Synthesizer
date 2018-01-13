@@ -1,9 +1,9 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
@@ -50,14 +50,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			int inletID = sourceInletViewModel.ID;
 
-			Point destInletPoint;
-			if (!_destInletPointDictionary.TryGetValue(inletID, out destInletPoint))
+			if (!_destInletPointDictionary.TryGetValue(inletID, out Point destInletPoint))
 			{
 				destInletPoint = new Point
 				{
 					Diagram = destOperatorRectangle.Diagram,
 					Parent = destOperatorRectangle,
-					Tag = VectorGraphicsTagHelper.GetInletTag(inletID)
+					Tag = inletID
 				};
 
 				_destInletPointDictionary.Add(inletID, destInletPoint);
@@ -80,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (_destInletPointHashSet.Contains(destElement))
 			{
-				int inletID = VectorGraphicsTagHelper.GetInletID(destElement.Tag);
+				int inletID = (int)destElement.Tag;
 
 				_destInletPointDictionary.Remove(inletID);
 				_destInletPointHashSet.Remove(destElement);
