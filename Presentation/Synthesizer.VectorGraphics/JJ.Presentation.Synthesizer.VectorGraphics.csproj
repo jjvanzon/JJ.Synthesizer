@@ -62,10 +62,8 @@
     <Compile Include="CurveDetailsViewModelToDiagramConverter.cs" />
     <Compile Include="Gestures\DropLineGesture.cs" />
     <Compile Include="Gestures\DragLineGesture.cs" />
-    <Compile Include="Gestures\ExpandOperatorMouseGesture.cs" />
-    <Compile Include="Gestures\ExpandOperatorKeyboardGesture.cs" />
-    <Compile Include="Gestures\ExpandNodeKeyboardGesture.cs" />
-    <Compile Include="Gestures\ExpandNodeMouseGesture.cs" />
+    <Compile Include="Gestures\ExpandMouseGesture.cs" />
+    <Compile Include="Gestures\ExpandKeyboardGesture.cs" />
     <Compile Include="Helpers\LineGestureHelper.cs" />
     <Compile Include="Helpers\PositionHelper.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />

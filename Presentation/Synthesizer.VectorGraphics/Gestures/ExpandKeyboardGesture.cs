@@ -11,22 +11,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 	/// because keyboard gesture is tied to the whole diagram,
 	/// while mouse gesture is tied to a specific element.
 	/// </summary>
-	public class ExpandOperatorKeyboardGesture : GestureBase
+	public class ExpandKeyboardGesture : GestureBase
 	{
-		public event EventHandler<IDEventArgs> ExpandOperatorRequested;
+		public event EventHandler<IDEventArgs> ExpandRequested;
 
-		public int? SelectedOperatorID { get; set; }
+		public int? SelectedEntityID { get; set; }
 
 		protected override void HandleKeyDown(object sender, KeyEventArgs e)
 		{
-			if (!SelectedOperatorID.HasValue)
+			if (!SelectedEntityID.HasValue)
 			{
 				return;
 			}
 
 			if (e.KeyCode == KeyCodeEnum.Enter)
 			{
-				ExpandOperatorRequested?.Invoke(sender, new IDEventArgs(SelectedOperatorID.Value));
+				ExpandRequested?.Invoke(sender, new IDEventArgs(SelectedEntityID.Value));
 			}
 		}
 	}

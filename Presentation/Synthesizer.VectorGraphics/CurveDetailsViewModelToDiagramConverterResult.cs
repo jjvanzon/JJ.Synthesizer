@@ -12,8 +12,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public DoubleClickGesture BackgroundDoubleClickGesture { get; }
 		public ChangeNodeTypeGesture ChangeNodeTypeGesture { get; }
 		public DeleteGesture DeleteGesture { get; }
-		public ExpandNodeKeyboardGesture ExpandNodeKeyboardGesture { get; }
-		public ExpandNodeMouseGesture ExpandNodeMouseGesture { get; }
+		public ExpandKeyboardGesture ExpandNodeKeyboardGesture { get; }
+		public ExpandMouseGesture ExpandNodeMouseGesture { get; }
 		public KeyDownGesture KeyDownGesture { get; }
 		public MoveGesture MoveNodeGesture { get; }
 		public ToolTipGesture NodeToolTipGesture { get; }
@@ -27,8 +27,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			BackgroundDoubleClickGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			ChangeNodeTypeGesture = new ChangeNodeTypeGesture();
 			DeleteGesture = new DeleteGesture();
-			ExpandNodeKeyboardGesture = new ExpandNodeKeyboardGesture();
-			ExpandNodeMouseGesture = new ExpandNodeMouseGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+			ExpandNodeKeyboardGesture = new ExpandKeyboardGesture();
+			ExpandNodeMouseGesture = new ExpandMouseGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			KeyDownGesture = new KeyDownGesture();
 			MoveNodeGesture = new MoveGesture();
 			NodeToolTipGesture = new ToolTipGesture(

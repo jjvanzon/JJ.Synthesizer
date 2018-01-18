@@ -9,19 +9,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 	/// What this class adds to the implementation of double click
 	/// is having an event that includes the ID of the entity.
 	/// </summary>
-	public class ExpandOperatorMouseGesture : GestureBase
+	public class ExpandMouseGesture : GestureBase
 	{
-		public event EventHandler<IDEventArgs> ExpandOperatorRequested;
+		public event EventHandler<IDEventArgs> ExpandRequested;
 
 		private readonly DoubleClickGesture _doubleClickGesture;
 
-		internal ExpandOperatorMouseGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+		internal ExpandMouseGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
 			_doubleClickGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			_doubleClickGesture.DoubleClick += _doubleClickGesture_DoubleClick;
 		}
 
-		~ExpandOperatorMouseGesture()
+		~ExpandMouseGesture()
 		{
 			if (_doubleClickGesture != null)
 			{
@@ -46,8 +46,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
 		{
-			int operatorID = (int)e.Element.Tag;
-			ExpandOperatorRequested?.Invoke(this, new IDEventArgs(operatorID));
+			int id = (int)e.Element.Tag;
+			ExpandRequested?.Invoke(this, new IDEventArgs(id));
 		}
 	}
 }

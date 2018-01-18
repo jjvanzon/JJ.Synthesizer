@@ -98,8 +98,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_converterResult.MoveGesture.Moved += MoveGesture_Moved;
 			_converterResult.DropLineGesture.Dropped += DropLineGesture_Dropped;
 			_converterResult.DeleteOperatorGesture.DeleteSelectionRequested += DeleteOperatorGesture_DeleteSelectionRequested;
-			_converterResult.ExpandOperatorMouseGesture.ExpandOperatorRequested += ExpandOperatorMouseGesture_ExpandOperatorRequested;
-			_converterResult.ExpandOperatorKeyboardGesture.ExpandOperatorRequested += ExpandOperatorKeyboardGesture_ExpandOperatorRequested;
+			_converterResult.ExpandOperatorMouseGesture.ExpandRequested += ExpandMouseGesture_ExpandRequested;
+			_converterResult.ExpandOperatorKeyboardGesture.ExpandRequested += ExpandKeyboardGesture_ExpandRequested;
 			_converterResult.ExpandPatchGesture.DoubleClick += ExpandPatchGesture_DoubleClick;
 			_converterResult.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
 			_converterResult.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
@@ -116,8 +116,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				_converterResult.MoveGesture.Moved -= MoveGesture_Moved;
 				_converterResult.DropLineGesture.Dropped -= DropLineGesture_Dropped;
 				_converterResult.DeleteOperatorGesture.DeleteSelectionRequested -= DeleteOperatorGesture_DeleteSelectionRequested;
-				_converterResult.ExpandOperatorMouseGesture.ExpandOperatorRequested -= ExpandOperatorMouseGesture_ExpandOperatorRequested;
-				_converterResult.ExpandOperatorKeyboardGesture.ExpandOperatorRequested -= ExpandOperatorKeyboardGesture_ExpandOperatorRequested;
+				_converterResult.ExpandOperatorMouseGesture.ExpandRequested -= ExpandMouseGesture_ExpandRequested;
+				_converterResult.ExpandOperatorKeyboardGesture.ExpandRequested -= ExpandKeyboardGesture_ExpandRequested;
 				_converterResult.ExpandPatchGesture.DoubleClick -= ExpandPatchGesture_DoubleClick;
 				_converterResult.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
 				_converterResult.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
@@ -185,17 +185,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			SelectOperatorRequested(this, new PatchAndOperatorEventArgs(ViewModel.Entity.ID, operatorID));
 
-			_converterResult.ExpandOperatorKeyboardGesture.SelectedOperatorID = ViewModel.SelectedOperator?.ID;
+			_converterResult.ExpandOperatorKeyboardGesture.SelectedEntityID = ViewModel.SelectedOperator?.ID;
 		}
 
 		private void DeleteOperatorGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
 
-		private void ExpandOperatorMouseGesture_ExpandOperatorRequested(object sender, IDEventArgs e)
+		private void ExpandMouseGesture_ExpandRequested(object sender, IDEventArgs e)
 		{
 			ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
 		}
 
-		private void ExpandOperatorKeyboardGesture_ExpandOperatorRequested(object sender, IDEventArgs e)
+		private void ExpandKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)
 		{
 			ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
 		}

@@ -68,8 +68,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
 			_converter.Result.NodeToolTipGesture.ToolTipTextRequested += NodeToolTipGesture_ToolTipTextRequested;
 			_converter.Result.SelectNodeGesture.SelectRequested += SelectGesture_Selected;
-			_converter.Result.ExpandNodeKeyboardGesture.ExpandNodeRequested += ExpandNodeKeyboardGesture_ExpandNodeRequested;
-			_converter.Result.ExpandNodeMouseGesture.ExpandNodeRequested += ExpandNodeMouseGesture_ExpandNodeRequested;
+			_converter.Result.ExpandNodeKeyboardGesture.ExpandRequested += ExpandNodeKeyboardGesture_ExpandRequested;
+			_converter.Result.ExpandNodeMouseGesture.ExpandRequested += ExpandNodeMouseGesture_ExpandRequested;
 		}
 
 		// Gui
@@ -156,7 +156,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			SelectNodeRequested(this, new NodeEventArgs(ViewModel.Curve.ID, nodeID));
 
-			_converter.Result.ExpandNodeKeyboardGesture.SelectedNodeID = nodeID;
+			_converter.Result.ExpandNodeKeyboardGesture.SelectedEntityID = nodeID;
 		}
 
 		private void MoveNodeGesture_Moving(object sender, ElementEventArgs e)
@@ -228,13 +228,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			ChangeSelectedNodeTypeRequested(this, new EventArgs<int>(ViewModel.Curve.ID));
 		}
 
-		private void ExpandNodeMouseGesture_ExpandNodeRequested(object sender, IDEventArgs e)
+		private void ExpandNodeKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)
 		{
 			if (ViewModel == null) return;
 			ExpandNodeRequested(this, new NodeEventArgs(ViewModel.Curve.ID, e.ID));
 		}
 
-		private void ExpandNodeKeyboardGesture_ExpandNodeRequested(object sender, IDEventArgs e)
+		private void ExpandNodeMouseGesture_ExpandRequested(object sender, IDEventArgs e)
 		{
 			if (ViewModel == null) return;
 			ExpandNodeRequested(this, new NodeEventArgs(ViewModel.Curve.ID, e.ID));

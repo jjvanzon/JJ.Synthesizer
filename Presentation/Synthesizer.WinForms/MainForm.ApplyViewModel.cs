@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			libraryPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleLibraryProperties;
 			_librarySelectionPopupForm.ViewModel = _mainPresenter.MainViewModel.Document.LibrarySelectionPopup;
 			midiMappingDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingDetails;
+			midiMappingElementPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingElementProperties;
 			nodePropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleNodeProperties;
 			operatorPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties;
 			operatorPropertiesUserControl.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
+using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
@@ -14,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 	{
 		public event EventHandler<EventArgs<(int midiMappingID, int midiMappingElementID)>> SelectElementRequested;
 		public event EventHandler<EventArgs<(int midiMappingID, int midiMappingElementID, float x, float y)>> MoveElementRequested;
+		public event EventHandler<EventArgs<(int midiMappingID, int midiMappingElementID)>> ExpandElementRequested;
 
 		private readonly MidiMappingDetailsViewModelToDiagramConverter _converter;
 
@@ -24,9 +26,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			InitializeComponent();
 
 			_converter = new MidiMappingDetailsViewModelToDiagramConverter(SystemInformation.DoubleClickTime, SystemInformation.DoubleClickSize.Width);
-			_converter.Result.MoveGesture.Moved += MoveGesture_Moved;
 			_converter.Result.DeleteElementGesture.DeleteSelectionRequested += DeleteElementGesture_DeleteSelectionRequested;
+			_converter.Result.ExpandElementKeyboardGesture.ExpandRequested += ExpandElementKeyboardGesture_ExpandRequested;
+			_converter.Result.ExpandElementMouseGesture.ExpandRequested += ExpandElementMouseGesture_ExpandRequested;
 			_converter.Result.SelectElementGesture.SelectRequested += SelectElementGesture_SelectRequested;
+			_converter.Result.MoveGesture.Moved += MoveGesture_Moved;
 		}
 
 		private void MidiMappingDetailsUserControl_Load(object sender, EventArgs e)
@@ -91,6 +95,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
+		private void DeleteElementGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
+
+		private void ExpandElementKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)
+		{
+			if (ViewModel == null) return;
+			ExpandElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMapping.ID, e.ID)));
+		}
+
+		private void ExpandElementMouseGesture_ExpandRequested(object sender, IDEventArgs e)
+		{
+			if (ViewModel == null) return;
+			ExpandElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMapping.ID, e.ID)));
+		}
+
 		private void MoveGesture_Moved(object sender, ElementEventArgs e)
 		{
 			if (ViewModel == null) return;
@@ -104,8 +122,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			MoveElementRequested(this, new EventArgs<(int, int, float, float)>((ViewModel.MidiMapping.ID, midiMappingElementID, centerX, centerY)));
 		}
-
-		private void DeleteElementGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
 
 		private void SelectElementGesture_SelectRequested(object sender, ElementEventArgs e)
 		{

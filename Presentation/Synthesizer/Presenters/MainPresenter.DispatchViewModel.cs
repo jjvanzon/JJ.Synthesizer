@@ -370,6 +370,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				HideAllPropertiesViewModels();
 				castedViewModel.Visible = true;
+				MainViewModel.Document.VisibleMidiMappingElementProperties = castedViewModel;
 			}
 
 			DispatchViewModelBase(castedViewModel);
@@ -749,6 +750,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.DocumentProperties.Visible ||
 				MainViewModel.Document.VisibleLibraryProperties != null ||
 				MainViewModel.Document.VisibleNodeProperties != null ||
+				MainViewModel.Document.VisibleMidiMappingElementProperties != null ||
 				MainViewModel.Document.VisibleOperatorProperties != null ||
 				MainViewModel.Document.VisibleOperatorProperties_ForCache != null ||
 				MainViewModel.Document.VisibleOperatorProperties_ForCurve != null ||

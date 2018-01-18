@@ -11,8 +11,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public DeleteGesture DeleteOperatorGesture { get; }
 		public DragLineGesture DragLineGesture { get; }
 		public DropLineGesture DropLineGesture { get; }
-		public ExpandOperatorKeyboardGesture ExpandOperatorKeyboardGesture { get; }
-		public ExpandOperatorMouseGesture ExpandOperatorMouseGesture { get; }
+		public ExpandKeyboardGesture ExpandOperatorKeyboardGesture { get; }
+		public ExpandMouseGesture ExpandOperatorMouseGesture { get; }
 		public DoubleClickGesture ExpandPatchGesture { get; }
 		public ToolTipGesture InletToolTipGesture { get; }
 		public MoveGesture MoveGesture { get; }
@@ -36,9 +36,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				StyleHelper.LineStyleDashed,
 				StyleHelper.DRAG_DROP_LINE_ZINDEX);
 
-			ExpandOperatorKeyboardGesture = new ExpandOperatorKeyboardGesture();
+			ExpandOperatorKeyboardGesture = new ExpandKeyboardGesture();
 
-			ExpandOperatorMouseGesture = new ExpandOperatorMouseGesture(
+			ExpandOperatorMouseGesture = new ExpandMouseGesture(
 				doubleClickSpeedInMilliseconds,
 				doubleClickDeltaInPixels);
 

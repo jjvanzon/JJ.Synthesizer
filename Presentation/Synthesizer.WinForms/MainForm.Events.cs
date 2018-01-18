@@ -87,10 +87,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			libraryPropertiesUserControl.ExpandRequested += libraryPropertiesUserControl_ExpandRequested;
 			libraryPropertiesUserControl.DeleteRequested += LibraryPropertiesUserControl_DeleteRequested;
 			midiMappingDetailsUserControl.CloseRequested += midiMappingDetailsUserControl_CloseRequested;
+			midiMappingDetailsUserControl.DeleteRequested += midiMappingDetailsUserControl_DeleteRequested;
+			midiMappingDetailsUserControl.ExpandElementRequested += midiMappingDetailsUserControl_ExpandRequested;
 			midiMappingDetailsUserControl.MoveElementRequested += midiMappingDetailsUserControl_MoveElementRequested;
 			midiMappingDetailsUserControl.NewRequested += midiMappingDetailsUserControl_NewRequested;
 			midiMappingDetailsUserControl.SelectElementRequested += midiMappingDetailsUserControl_SelectElementRequested;
-			midiMappingDetailsUserControl.DeleteRequested += MidiMappingDetailsUserControl_DeleteRequested;
 			menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
 			menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
 			menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
@@ -258,14 +259,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(_mainPresenter.AudioFileOutputGridCreate);
 		}
 
-		private void AudioFileOutputGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.AudioFileOutputGridDelete(e.Value));
-		}
-
 		private void audioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.AudioFileOutputGridClose);
+		}
+
+		private void AudioFileOutputGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.AudioFileOutputGridDelete(e.Value));
 		}
 
 		private void audioFileOutputGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
@@ -765,34 +766,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.LibraryPropertiesRemove(e.Value));
 		}
 
-		private void midiMappingDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsClose(e.Value));
-		}
-
-		private void midiMappingDetailsUserControl_MoveElementRequested(
-			object sender,
-			EventArgs<(int midiMappingID, int midiMappingElementID, float x, float y)> e)
-		{
-			TemplateActionHandler(
-				() => _mainPresenter.MidiMappingDetailsMoveElement(e.Value.midiMappingID, e.Value.midiMappingElementID, e.Value.x, e.Value.y));
-		}
-
-		private void midiMappingDetailsUserControl_NewRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsCreateElement(e.Value));
-		}
-
-		private void midiMappingDetailsUserControl_SelectElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingElementSelect(e.Value.midiMappingID, e.Value.midiMappingElementID));
-		}
-
-		private void MidiMappingDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsDeleteSelectedElement(e.Value));
-		}
-
 		private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.LibrarySelectionPopupCancel);
@@ -826,6 +799,41 @@ namespace JJ.Presentation.Synthesizer.WinForms
 					_mainPresenter.LibrarySelectionPopupPlay(e.Value);
 					PlayOutletIfNeeded();
 				});
+		}
+
+		// MidiMapping
+
+		private void midiMappingDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsClose(e.Value));
+		}
+
+		private void midiMappingDetailsUserControl_MoveElementRequested(
+			object sender,
+			EventArgs<(int midiMappingID, int midiMappingElementID, float x, float y)> e)
+		{
+			TemplateActionHandler(
+				() => _mainPresenter.MidiMappingDetailsMoveElement(e.Value.midiMappingID, e.Value.midiMappingElementID, e.Value.x, e.Value.y));
+		}
+
+		private void midiMappingDetailsUserControl_NewRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsCreateElement(e.Value));
+		}
+
+		private void midiMappingDetailsUserControl_SelectElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElementSelect(e.Value.midiMappingID, e.Value.midiMappingElementID));
+		}
+
+		private void midiMappingDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsDeleteSelectedElement(e.Value));
+		}
+
+		private void midiMappingDetailsUserControl_ExpandRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsExpandElement(e.Value.midiMappingID, e.Value.midiMappingElementID));
 		}
 
 		// Menu

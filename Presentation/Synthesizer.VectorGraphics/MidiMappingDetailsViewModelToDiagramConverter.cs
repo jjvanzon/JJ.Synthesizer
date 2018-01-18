@@ -26,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		{
 			Result = new MidiMappingDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			Result.Diagram.Gestures.Add(Result.DeleteElementGesture);
+			Result.Diagram.Gestures.Add(Result.ExpandElementKeyboardGesture);
 
 			_circleDictionary = new Dictionary<int, Ellipse>();
 			_labelDictionary = new Dictionary<int, Label>();
@@ -101,6 +102,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 				circle.Gestures.Add(Result.MoveGesture);
 				circle.Gestures.Add(Result.SelectElementGesture);
+				circle.Gestures.Add(Result.ExpandElementMouseGesture);
 
 				_circleDictionary[viewModel.ID] = circle;
 			}
