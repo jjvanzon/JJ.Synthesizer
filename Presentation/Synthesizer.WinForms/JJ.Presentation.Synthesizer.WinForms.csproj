@@ -161,6 +161,12 @@
     <Compile Include="UserControls\LibrarySelectionPopupUserControl.Designer.cs">
       <DependentUpon>LibrarySelectionPopupUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MidiMappingElementPropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\MidiMappingElementPropertiesUserControl.Designer.cs">
+      <DependentUpon>MidiMappingElementPropertiesUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -378,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LibrarySelectionPopupUserControl.resx">
       <DependentUpon>LibrarySelectionPopupUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\MidiMappingElementPropertiesUserControl.resx">
+      <DependentUpon>MidiMappingElementPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithCollectionRecalculation.cs</DependentUpon>

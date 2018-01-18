@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
 	/// <summary>
 	/// Keyboard gesture must be separated from the mouse gesture,
-	/// because keyword gesture is tied to the whole diagram,
+	/// because keyboard gesture is tied to the whole diagram,
 	/// while mouse gesture is tied to a specific element.
 	/// </summary>
 	public class ExpandNodeKeyboardGesture : GestureBase

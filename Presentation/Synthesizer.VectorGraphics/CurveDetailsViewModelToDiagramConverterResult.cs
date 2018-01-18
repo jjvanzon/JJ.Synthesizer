@@ -11,24 +11,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public ClickGesture BackgroundClickGesture { get; set; }
 		public DoubleClickGesture BackgroundDoubleClickGesture { get; }
 		public ChangeNodeTypeGesture ChangeNodeTypeGesture { get; }
-		public KeyDownGesture KeyDownGesture { get; }
 		public DeleteGesture DeleteGesture { get; }
+		public ExpandNodeKeyboardGesture ExpandNodeKeyboardGesture { get; }
+		public ExpandNodeMouseGesture ExpandNodeMouseGesture { get; }
+		public KeyDownGesture KeyDownGesture { get; }
 		public MoveGesture MoveNodeGesture { get; }
 		public ToolTipGesture NodeToolTipGesture { get; }
 		public SelectGesture SelectNodeGesture { get; }
-		public ExpandNodeKeyboardGesture ExpandNodeKeyboardGesture { get; }
-		public ExpandNodeMouseGesture ExpandNodeMouseGesture { get; }
 
 		public CurveDetailsViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
 			Diagram = new Diagram();
 
 			BackgroundClickGesture = new ClickGesture();
-			BackgroundDoubleClickGesture = new DoubleClickGesture(
-				doubleClickSpeedInMilliseconds,
-				doubleClickDeltaInPixels);
+			BackgroundDoubleClickGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			ChangeNodeTypeGesture = new ChangeNodeTypeGesture();
 			DeleteGesture = new DeleteGesture();
+			ExpandNodeKeyboardGesture = new ExpandNodeKeyboardGesture();
+			ExpandNodeMouseGesture = new ExpandNodeMouseGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			KeyDownGesture = new KeyDownGesture();
 			MoveNodeGesture = new MoveGesture();
 			NodeToolTipGesture = new ToolTipGesture(
@@ -37,10 +37,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				StyleHelper.ToolTipLineStyle,
 				StyleHelper.ToolTipTextStyle);
 			SelectNodeGesture = new SelectGesture();
-			ExpandNodeKeyboardGesture = new ExpandNodeKeyboardGesture();
-			ExpandNodeMouseGesture = new ExpandNodeMouseGesture(
-				doubleClickSpeedInMilliseconds,
-				doubleClickDeltaInPixels);
 
 			Diagram.Gestures.Add(DeleteGesture);
 			Diagram.Gestures.Add(KeyDownGesture);

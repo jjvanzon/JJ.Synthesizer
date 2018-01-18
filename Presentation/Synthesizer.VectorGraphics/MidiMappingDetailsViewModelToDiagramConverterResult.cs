@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public MoveGesture MoveGesture { get; }
 		public SelectGesture SelectElementGesture { get; }
 		public DeleteGesture DeleteElementGesture { get; }
+		public DoubleClickGesture ExpandElementGesture { get; }
+
 
 		public MidiMappingDetailsViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
@@ -17,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			MoveGesture = new MoveGesture();
 			SelectElementGesture = new SelectGesture();
 			DeleteElementGesture = new DeleteGesture();
+			ExpandElementGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 		}
 	}
 }

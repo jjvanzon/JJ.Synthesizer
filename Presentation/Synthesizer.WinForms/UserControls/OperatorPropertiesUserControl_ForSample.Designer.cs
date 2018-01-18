@@ -47,15 +47,61 @@
 			this.filePathControl = new JJ.Framework.Presentation.WinForms.Controls.FilePathControl();
 			this.labelDurationTitle = new System.Windows.Forms.Label();
 			this.labelDurationValue = new System.Windows.Forms.Label();
+			((System.ComponentModel.ISupportInitialize)(this._numericUpDownInletCount)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._numericUpDownOutletCount)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownBytesToSkip)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownAmplifier)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeMultiplier)).BeginInit();
 			this.SuspendLayout();
 			// 
+			// _labelName
+			// 
+			this._labelName.TabIndex = 9;
+			this._labelName.Text = "Name";
+			// 
+			// _textBoxName
+			// 
+			this._textBoxName.TabIndex = 10;
+			// 
+			// _labelUnderlyingPatch
+			// 
+			this._labelUnderlyingPatch.TabIndex = 3;
+			this._labelUnderlyingPatch.Text = "Type";
+			// 
+			// _comboBoxUnderlyingPatch
+			// 
+			this._comboBoxUnderlyingPatch.TabIndex = 4;
+			// 
+			// _labelStandardDimension
+			// 
+			this._labelStandardDimension.TabIndex = 5;
+			this._labelStandardDimension.Text = "Standard Dimension";
+			// 
+			// _comboBoxStandardDimension
+			// 
+			this._comboBoxStandardDimension.Location = new System.Drawing.Point(90, 37);
+			this._comboBoxStandardDimension.TabIndex = 6;
+			// 
+			// _labelCustomDimensionName
+			// 
+			this._labelCustomDimensionName.TabIndex = 7;
+			this._labelCustomDimensionName.Text = "Custom Dimension";
+			// 
+			// _textBoxCustomDimensionName
+			// 
+			this._textBoxCustomDimensionName.TabIndex = 8;
+			// 
+			// _labelInletCount
+			// 
+			this._labelInletCount.Text = "Number of Inputs";
+			// 
+			// _labelOutletCount
+			// 
+			this._labelOutletCount.Text = "Number of Outputs";
+			// 
 			// comboBoxInterpolationType
 			// 
-			this.comboBoxInterpolationType.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comboBoxInterpolationType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxInterpolationType.FormattingEnabled = true;
 			this.comboBoxInterpolationType.Location = new System.Drawing.Point(0, 0);
@@ -67,7 +113,6 @@
 			// labelInterpolationType
 			// 
 			this.labelInterpolationType.Cursor = System.Windows.Forms.Cursors.Default;
-			this.labelInterpolationType.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelInterpolationType.Location = new System.Drawing.Point(0, 0);
 			this.labelInterpolationType.Margin = new System.Windows.Forms.Padding(0);
 			this.labelInterpolationType.Name = "labelInterpolationType";
@@ -78,14 +123,13 @@
 			// 
 			// numericUpDownBytesToSkip
 			// 
-			this.numericUpDownBytesToSkip.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.numericUpDownBytesToSkip.Location = new System.Drawing.Point(0, 0);
 			this.numericUpDownBytesToSkip.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownBytesToSkip.Maximum = new decimal(new int[] {
-			1000000000,
-			0,
-			0,
-			0});
+            1000000000,
+            0,
+            0,
+            0});
 			this.numericUpDownBytesToSkip.Name = "numericUpDownBytesToSkip";
 			this.numericUpDownBytesToSkip.Size = new System.Drawing.Size(10, 22);
 			this.numericUpDownBytesToSkip.TabIndex = 24;
@@ -93,7 +137,6 @@
 			// labelBytesToSkip
 			// 
 			this.labelBytesToSkip.Cursor = System.Windows.Forms.Cursors.Default;
-			this.labelBytesToSkip.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelBytesToSkip.Location = new System.Drawing.Point(0, 0);
 			this.labelBytesToSkip.Margin = new System.Windows.Forms.Padding(0);
 			this.labelBytesToSkip.Name = "labelBytesToSkip";
@@ -105,7 +148,6 @@
 			// labelSamplingRate
 			// 
 			this.labelSamplingRate.Cursor = System.Windows.Forms.Cursors.Default;
-			this.labelSamplingRate.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelSamplingRate.Location = new System.Drawing.Point(0, 0);
 			this.labelSamplingRate.Margin = new System.Windows.Forms.Padding(0);
 			this.labelSamplingRate.Name = "labelSamplingRate";
@@ -117,7 +159,6 @@
 			// labelAudioFileFormat
 			// 
 			this.labelAudioFileFormat.Cursor = System.Windows.Forms.Cursors.Default;
-			this.labelAudioFileFormat.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelAudioFileFormat.Location = new System.Drawing.Point(0, 0);
 			this.labelAudioFileFormat.Margin = new System.Windows.Forms.Padding(0);
 			this.labelAudioFileFormat.Name = "labelAudioFileFormat";
@@ -129,7 +170,6 @@
 			// labelSampleDataType
 			// 
 			this.labelSampleDataType.Cursor = System.Windows.Forms.Cursors.Default;
-			this.labelSampleDataType.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelSampleDataType.Location = new System.Drawing.Point(0, 0);
 			this.labelSampleDataType.Margin = new System.Windows.Forms.Padding(0);
 			this.labelSampleDataType.Name = "labelSampleDataType";
@@ -141,7 +181,6 @@
 			// labelSpeakerSetup
 			// 
 			this.labelSpeakerSetup.Cursor = System.Windows.Forms.Cursors.Default;
-			this.labelSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelSpeakerSetup.Location = new System.Drawing.Point(0, 0);
 			this.labelSpeakerSetup.Margin = new System.Windows.Forms.Padding(0);
 			this.labelSpeakerSetup.Name = "labelSpeakerSetup";
@@ -152,7 +191,6 @@
 			// 
 			// comboBoxAudioFileFormat
 			// 
-			this.comboBoxAudioFileFormat.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comboBoxAudioFileFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxAudioFileFormat.FormattingEnabled = true;
 			this.comboBoxAudioFileFormat.Location = new System.Drawing.Point(0, 0);
@@ -163,7 +201,6 @@
 			// 
 			// comboBoxSampleDataType
 			// 
-			this.comboBoxSampleDataType.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comboBoxSampleDataType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxSampleDataType.FormattingEnabled = true;
 			this.comboBoxSampleDataType.Location = new System.Drawing.Point(0, 0);
@@ -174,7 +211,6 @@
 			// 
 			// comboBoxSpeakerSetup
 			// 
-			this.comboBoxSpeakerSetup.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.comboBoxSpeakerSetup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxSpeakerSetup.FormattingEnabled = true;
 			this.comboBoxSpeakerSetup.Location = new System.Drawing.Point(0, 0);
@@ -185,19 +221,18 @@
 			// 
 			// numericUpDownSamplingRate
 			// 
-			this.numericUpDownSamplingRate.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.numericUpDownSamplingRate.Increment = new decimal(new int[] {
-			100,
-			0,
-			0,
-			0});
+            100,
+            0,
+            0,
+            0});
 			this.numericUpDownSamplingRate.Location = new System.Drawing.Point(0, 0);
 			this.numericUpDownSamplingRate.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownSamplingRate.Maximum = new decimal(new int[] {
-			1000000000,
-			0,
-			0,
-			0});
+            1000000000,
+            0,
+            0,
+            0});
 			this.numericUpDownSamplingRate.Name = "numericUpDownSamplingRate";
 			this.numericUpDownSamplingRate.Size = new System.Drawing.Size(10, 22);
 			this.numericUpDownSamplingRate.TabIndex = 17;
@@ -205,7 +240,6 @@
 			// labelAmplifier
 			// 
 			this.labelAmplifier.Cursor = System.Windows.Forms.Cursors.Default;
-			this.labelAmplifier.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelAmplifier.Location = new System.Drawing.Point(0, 0);
 			this.labelAmplifier.Margin = new System.Windows.Forms.Padding(0);
 			this.labelAmplifier.Name = "labelAmplifier";
@@ -217,19 +251,18 @@
 			// numericUpDownAmplifier
 			// 
 			this.numericUpDownAmplifier.DecimalPlaces = 3;
-			this.numericUpDownAmplifier.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.numericUpDownAmplifier.Increment = new decimal(new int[] {
-			1,
-			0,
-			0,
-			65536});
+            1,
+            0,
+            0,
+            65536});
 			this.numericUpDownAmplifier.Location = new System.Drawing.Point(0, 0);
 			this.numericUpDownAmplifier.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownAmplifier.Maximum = new decimal(new int[] {
-			1000000000,
-			0,
-			0,
-			0});
+            1000000000,
+            0,
+            0,
+            0});
 			this.numericUpDownAmplifier.Name = "numericUpDownAmplifier";
 			this.numericUpDownAmplifier.Size = new System.Drawing.Size(10, 22);
 			this.numericUpDownAmplifier.TabIndex = 19;
@@ -237,7 +270,6 @@
 			// labelTimeMultiplier
 			// 
 			this.labelTimeMultiplier.Cursor = System.Windows.Forms.Cursors.Default;
-			this.labelTimeMultiplier.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelTimeMultiplier.Location = new System.Drawing.Point(0, 0);
 			this.labelTimeMultiplier.Margin = new System.Windows.Forms.Padding(0);
 			this.labelTimeMultiplier.Name = "labelTimeMultiplier";
@@ -249,24 +281,23 @@
 			// numericUpDownTimeMultiplier
 			// 
 			this.numericUpDownTimeMultiplier.DecimalPlaces = 6;
-			this.numericUpDownTimeMultiplier.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.numericUpDownTimeMultiplier.Increment = new decimal(new int[] {
-			1,
-			0,
-			0,
-			65536});
+            1,
+            0,
+            0,
+            65536});
 			this.numericUpDownTimeMultiplier.Location = new System.Drawing.Point(0, 0);
 			this.numericUpDownTimeMultiplier.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownTimeMultiplier.Maximum = new decimal(new int[] {
-			1000000000,
-			0,
-			0,
-			0});
+            1000000000,
+            0,
+            0,
+            0});
 			this.numericUpDownTimeMultiplier.Minimum = new decimal(new int[] {
-			1000000000,
-			0,
-			0,
-			-2147483648});
+            1000000000,
+            0,
+            0,
+            -2147483648});
 			this.numericUpDownTimeMultiplier.Name = "numericUpDownTimeMultiplier";
 			this.numericUpDownTimeMultiplier.Size = new System.Drawing.Size(10, 22);
 			this.numericUpDownTimeMultiplier.TabIndex = 20;
@@ -274,7 +305,6 @@
 			// filePathControl
 			// 
 			this.filePathControl.BrowseMode = JJ.Framework.Presentation.WinForms.Helpers.FileBrowseModeEnum.Open;
-			this.filePathControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.filePathControl.FilePath = "";
 			this.filePathControl.LabelText = "";
 			this.filePathControl.Location = new System.Drawing.Point(0, 0);
@@ -289,7 +319,6 @@
 			// 
 			// labelDurationTitle
 			// 
-			this.labelDurationTitle.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelDurationTitle.Location = new System.Drawing.Point(0, 0);
 			this.labelDurationTitle.Margin = new System.Windows.Forms.Padding(0);
 			this.labelDurationTitle.Name = "labelDurationTitle";
@@ -300,7 +329,6 @@
 			// 
 			// labelDurationValue
 			// 
-			this.labelDurationValue.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelDurationValue.Location = new System.Drawing.Point(0, 0);
 			this.labelDurationValue.Margin = new System.Windows.Forms.Padding(0);
 			this.labelDurationValue.Name = "labelDurationValue";
@@ -308,34 +336,6 @@
 			this.labelDurationValue.TabIndex = 29;
 			this.labelDurationValue.Text = "labelDurationValue";
 			this.labelDurationValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// _labelName
-			// 
-			this._labelName.TabIndex = 9;
-			this._labelName.Text = "Name";
-			// 
-			// _textBoxName
-			// 
-			this._textBoxName.TabIndex = 10;
-			// 
-			// _labelStandardDimension
-			// 
-			this._labelStandardDimension.TabIndex = 5;
-			this._labelStandardDimension.Text = "Standard Dimension";
-			// 
-			// _comboBoxStandardDimension
-			// 
-			this._comboBoxStandardDimension.Size = new System.Drawing.Size(121, 24);
-			this._comboBoxStandardDimension.TabIndex = 6;
-			// 
-			// _textBoxCustomDimensionName
-			// 
-			this._textBoxCustomDimensionName.TabIndex = 8;
-			// 
-			// _labelCustomDimensionName
-			// 
-			this._labelCustomDimensionName.TabIndex = 7;
-			this._labelCustomDimensionName.Text = "Custom Dimension";
 			// 
 			// OperatorPropertiesUserControl_ForSample
 			// 
@@ -362,11 +362,13 @@
 			this.Controls.Add(this.filePathControl);
 			this.Controls.Add(this.labelDurationTitle);
 			this.Controls.Add(this.labelDurationValue);
+			this.DeleteButtonVisible = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "OperatorPropertiesUserControl_ForSample";
-			this.DeleteButtonVisible = true;
-			this.Size = new System.Drawing.Size(10, 10);
+			this.Size = new System.Drawing.Size(813, 414);
 			this.TitleBarText = "Operator Properties";
+			this.Controls.SetChildIndex(this._comboBoxUnderlyingPatch, 0);
+			this.Controls.SetChildIndex(this._labelUnderlyingPatch, 0);
 			this.Controls.SetChildIndex(this.labelDurationValue, 0);
 			this.Controls.SetChildIndex(this.labelDurationTitle, 0);
 			this.Controls.SetChildIndex(this.filePathControl, 0);
@@ -392,6 +394,8 @@
 			this.Controls.SetChildIndex(this._labelCustomDimensionName, 0);
 			this.Controls.SetChildIndex(this._comboBoxStandardDimension, 0);
 			this.Controls.SetChildIndex(this._labelStandardDimension, 0);
+			((System.ComponentModel.ISupportInitialize)(this._numericUpDownInletCount)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._numericUpDownOutletCount)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownBytesToSkip)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSamplingRate)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownAmplifier)).EndInit();
