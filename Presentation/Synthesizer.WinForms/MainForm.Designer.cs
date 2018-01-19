@@ -182,6 +182,7 @@
 			this.scaleGridUserControl.Size = new System.Drawing.Size(851, 532);
 			this.scaleGridUserControl.TabIndex = 11;
 			this.scaleGridUserControl.ViewModel = null;
+			this.scaleGridUserControl.Visible = false;
 			// 
 			// audioFileOutputGridUserControl
 			// 
@@ -268,6 +269,7 @@
 			this.libraryPropertiesUserControl.TitleBarText = "Library Properties";
 			this.libraryPropertiesUserControl.TitleLabelVisible = true;
 			this.libraryPropertiesUserControl.ViewModel = null;
+			this.libraryPropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForNumber
 			// 
@@ -292,6 +294,7 @@
 			this.operatorPropertiesUserControl_ForNumber.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl_ForNumber.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForNumber.ViewModel = null;
+			this.operatorPropertiesUserControl_ForNumber.Visible = false;
 			// 
 			// operatorPropertiesUserControl_WithCollectionRecalculation
 			// 
@@ -316,6 +319,7 @@
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = null;
+			this.operatorPropertiesUserControl_WithCollectionRecalculation.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForInletsToDimension
 			// 
@@ -340,6 +344,7 @@
 			this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl_ForInletsToDimension.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForInletsToDimension.ViewModel = null;
+			this.operatorPropertiesUserControl_ForInletsToDimension.Visible = false;
 			// 
 			// audioOutputPropertiesUserControl
 			// 
@@ -362,6 +367,7 @@
 			this.audioOutputPropertiesUserControl.TitleBarText = "Audio Output Properties";
 			this.audioOutputPropertiesUserControl.TitleLabelVisible = true;
 			this.audioOutputPropertiesUserControl.ViewModel = null;
+			this.audioOutputPropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForCache
 			// 
@@ -386,6 +392,7 @@
 			this.operatorPropertiesUserControl_ForCache.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl_ForCache.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForCache.ViewModel = null;
+			this.operatorPropertiesUserControl_ForCache.Visible = false;
 			// 
 			// operatorPropertiesUserControl_WithInterpolation
 			// 
@@ -410,6 +417,7 @@
 			this.operatorPropertiesUserControl_WithInterpolation.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl_WithInterpolation.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_WithInterpolation.ViewModel = null;
+			this.operatorPropertiesUserControl_WithInterpolation.Visible = false;
 			// 
 			// nodePropertiesUserControl
 			// 
@@ -434,6 +442,7 @@
 			this.nodePropertiesUserControl.TitleBarText = "Node Properties";
 			this.nodePropertiesUserControl.TitleLabelVisible = true;
 			this.nodePropertiesUserControl.ViewModel = null;
+			this.nodePropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForCurve
 			// 
@@ -458,6 +467,7 @@
 			this.operatorPropertiesUserControl_ForCurve.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl_ForCurve.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForCurve.ViewModel = null;
+			this.operatorPropertiesUserControl_ForCurve.Visible = false;
 			// 
 			// scalePropertiesUserControl
 			// 
@@ -481,6 +491,7 @@
 			this.scalePropertiesUserControl.TitleBarText = "Scale Properties";
 			this.scalePropertiesUserControl.TitleLabelVisible = true;
 			this.scalePropertiesUserControl.ViewModel = null;
+			this.scalePropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForPatchInlet
 			// 
@@ -505,6 +516,7 @@
 			this.operatorPropertiesUserControl_ForPatchInlet.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl_ForPatchInlet.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForPatchInlet.ViewModel = null;
+			this.operatorPropertiesUserControl_ForPatchInlet.Visible = false;
 			// 
 			// documentPropertiesUserControl
 			// 
@@ -528,6 +540,7 @@
 			this.documentPropertiesUserControl.TitleBarText = "Document Properties";
 			this.documentPropertiesUserControl.TitleLabelVisible = true;
 			this.documentPropertiesUserControl.ViewModel = null;
+			this.documentPropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl
 			// 
@@ -552,6 +565,7 @@
 			this.operatorPropertiesUserControl.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl.ViewModel = null;
+			this.operatorPropertiesUserControl.Visible = false;
 			// 
 			// patchPropertiesUserControl
 			// 
@@ -576,6 +590,7 @@
 			this.patchPropertiesUserControl.TitleBarText = "Patch Properties";
 			this.patchPropertiesUserControl.TitleLabelVisible = true;
 			this.patchPropertiesUserControl.ViewModel = null;
+			this.patchPropertiesUserControl.Visible = false;
 			// 
 			// audioFileOutputPropertiesUserControl
 			// 
@@ -599,6 +614,7 @@
 			this.audioFileOutputPropertiesUserControl.TitleBarText = "Title";
 			this.audioFileOutputPropertiesUserControl.TitleLabelVisible = true;
 			this.audioFileOutputPropertiesUserControl.ViewModel = null;
+			this.audioFileOutputPropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForSample
 			// 
@@ -623,6 +639,7 @@
 			this.operatorPropertiesUserControl_ForSample.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl_ForSample.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForSample.ViewModel = null;
+			this.operatorPropertiesUserControl_ForSample.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForPatchOutlet
 			// 
@@ -647,6 +664,7 @@
 			this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarText = "Operator Properties";
 			this.operatorPropertiesUserControl_ForPatchOutlet.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForPatchOutlet.ViewModel = null;
+			this.operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
 			// 
 			// menuUserControl
 			// 
@@ -696,7 +714,7 @@
 			this.curveDetailsListUserControl.TabIndex = 0;
 			this.curveDetailsListUserControl.ViewModels = null;
 			// 
-			// midiMappingElementPropertiesUserControl1
+			// midiMappingElementPropertiesUserControl
 			// 
 			this.midiMappingElementPropertiesUserControl.AddButtonVisible = false;
 			this.midiMappingElementPropertiesUserControl.AddToInstrumentButtonVisible = false;
@@ -718,6 +736,7 @@
 			this.midiMappingElementPropertiesUserControl.TitleBarText = "MIDI Mapping Element Properties";
 			this.midiMappingElementPropertiesUserControl.TitleLabelVisible = true;
 			this.midiMappingElementPropertiesUserControl.ViewModel = null;
+			this.midiMappingElementPropertiesUserControl.Visible = false;
 			// 
 			// MainForm
 			// 

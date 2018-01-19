@@ -1,4 +1,5 @@
-﻿using JJ.Data.Canonical;
+﻿using System.Collections.Generic;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
@@ -6,8 +7,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 	{
 		public int ID { get; set; }
 		public int MidiMappingID { get; set; }
-		public bool IsActive { get; set; }
-		public bool IsRelative { get; set; }
 		public int? ControllerCode { get; set; }
 		public int? FromControllerValue { get; set; }
 		public int? TillControllerValue { get; set; }
@@ -26,5 +25,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public IDAndName Scale { get; set; }
 		public int? FromToneNumber { get; set; }
 		public int? TillToneNumber { get; set; }
+		public bool IsRelative { get; set; }
+		public bool IsActive { get; set; }
+		public IList<IDAndName> StandardDimensionLookup { get; set; }
+		public IList<IDAndName> ScaleLookup { get; set; }
 	}
 }

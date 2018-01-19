@@ -88,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			libraryPropertiesUserControl.DeleteRequested += LibraryPropertiesUserControl_DeleteRequested;
 			midiMappingDetailsUserControl.CloseRequested += midiMappingDetailsUserControl_CloseRequested;
 			midiMappingDetailsUserControl.DeleteRequested += midiMappingDetailsUserControl_DeleteRequested;
-			midiMappingDetailsUserControl.ExpandElementRequested += midiMappingDetailsUserControl_ExpandRequested;
+			midiMappingDetailsUserControl.ExpandElementRequested += midiMappingDetailsUserControl_ExpandElementRequested;
 			midiMappingDetailsUserControl.MoveElementRequested += midiMappingDetailsUserControl_MoveElementRequested;
 			midiMappingDetailsUserControl.NewRequested += midiMappingDetailsUserControl_NewRequested;
 			midiMappingDetailsUserControl.SelectElementRequested += midiMappingDetailsUserControl_SelectElementRequested;
@@ -831,7 +831,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsDeleteSelectedElement(e.Value));
 		}
 
-		private void midiMappingDetailsUserControl_ExpandRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
+		private void midiMappingDetailsUserControl_ExpandElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsExpandElement(e.Value.midiMappingID, e.Value.midiMappingElementID));
 		}

@@ -668,8 +668,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				repositories.MidiMappingElementRepository.Insert(entity);
 			}
 
-			entity.IsActive = viewModel.IsActive;
-			entity.IsRelative = viewModel.IsRelative;
 			entity.ControllerCode = viewModel.ControllerCode;
 			entity.FromControllerValue = viewModel.FromControllerValue;
 			entity.TillControllerValue = viewModel.TillControllerValue;
@@ -686,6 +684,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			entity.TillPosition = viewModel.TillPosition;
 			entity.FromToneNumber = viewModel.FromToneNumber;
 			entity.TillToneNumber = viewModel.TillToneNumber;
+			entity.IsActive = viewModel.IsActive;
+			entity.IsRelative = viewModel.IsRelative;
 			entity.MidiMapping = repositories.MidiMappingRepository.Get(viewModel.MidiMappingID);
 
 			bool standardDimensionIsFilledIn = viewModel.StandardDimension != null && viewModel.StandardDimension.ID != 0;

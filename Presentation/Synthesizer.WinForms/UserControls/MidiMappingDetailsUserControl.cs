@@ -130,6 +130,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			int midiMappingElementID = (int)e.Element.Tag;
 
 			SelectElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMapping.ID, midiMappingElementID)));
+
+			_converter.Result.ExpandElementKeyboardGesture.SelectedEntityID = midiMappingElementID;
 		}
 	}
 }

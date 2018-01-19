@@ -369,8 +369,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				ID = entity.ID,
 				MidiMappingID = entity.MidiMapping.ID,
-				IsActive = entity.IsActive,
-				IsRelative = entity.IsRelative,
 				ControllerCode = entity.ControllerCode,
 				FromControllerValue = entity.FromControllerValue,
 				TillControllerValue = entity.TillControllerValue,
@@ -387,7 +385,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				TillPosition = entity.TillPosition,
 				FromToneNumber = entity.FromToneNumber,
 				TillToneNumber = entity.TillToneNumber,
-				ValidationMessages = new List<string>()
+				IsActive = entity.IsActive,
+				IsRelative = entity.IsRelative,
+				ValidationMessages = new List<string>(),
+				ScaleLookup = new List<IDAndName>(),
+				StandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel()
 			};
 
 			if (entity.StandardDimension != null)
