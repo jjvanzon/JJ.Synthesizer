@@ -60,6 +60,10 @@
 			this.labelFromToneNumber = new System.Windows.Forms.Label();
 			this.maskedTextBoxTillToneNumber = new System.Windows.Forms.MaskedTextBox();
 			this.labelTillToneNumber = new System.Windows.Forms.Label();
+			this.labelMinDimensionValue = new System.Windows.Forms.Label();
+			this.textBoxMinDimensionValue = new System.Windows.Forms.TextBox();
+			this.labelMaxDimensionValue = new System.Windows.Forms.Label();
+			this.textBoxMaxDimensionValue = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// checkBoxIsActive
@@ -104,7 +108,7 @@
 			// 
 			// labelControllerCode
 			// 
-			this.labelControllerCode.Location = new System.Drawing.Point(25, 104);
+			this.labelControllerCode.Location = new System.Drawing.Point(25, 42);
 			this.labelControllerCode.Margin = new System.Windows.Forms.Padding(0);
 			this.labelControllerCode.Name = "labelControllerCode";
 			this.labelControllerCode.Size = new System.Drawing.Size(183, 22);
@@ -114,7 +118,7 @@
 			// 
 			// maskedTextBoxControllerCode
 			// 
-			this.maskedTextBoxControllerCode.Location = new System.Drawing.Point(211, 105);
+			this.maskedTextBoxControllerCode.Location = new System.Drawing.Point(211, 43);
 			this.maskedTextBoxControllerCode.Mask = "###";
 			this.maskedTextBoxControllerCode.Name = "maskedTextBoxControllerCode";
 			this.maskedTextBoxControllerCode.PromptChar = ' ';
@@ -124,7 +128,7 @@
 			// 
 			// maskedTextBoxFromControllerValue
 			// 
-			this.maskedTextBoxFromControllerValue.Location = new System.Drawing.Point(210, 131);
+			this.maskedTextBoxFromControllerValue.Location = new System.Drawing.Point(210, 69);
 			this.maskedTextBoxFromControllerValue.Mask = "###";
 			this.maskedTextBoxFromControllerValue.Name = "maskedTextBoxFromControllerValue";
 			this.maskedTextBoxFromControllerValue.PromptChar = ' ';
@@ -134,7 +138,7 @@
 			// 
 			// labelFromControllerValue
 			// 
-			this.labelFromControllerValue.Location = new System.Drawing.Point(24, 130);
+			this.labelFromControllerValue.Location = new System.Drawing.Point(24, 68);
 			this.labelFromControllerValue.Margin = new System.Windows.Forms.Padding(0);
 			this.labelFromControllerValue.Name = "labelFromControllerValue";
 			this.labelFromControllerValue.Size = new System.Drawing.Size(183, 22);
@@ -144,7 +148,7 @@
 			// 
 			// maskedTextBoxTillControllerValue
 			// 
-			this.maskedTextBoxTillControllerValue.Location = new System.Drawing.Point(212, 157);
+			this.maskedTextBoxTillControllerValue.Location = new System.Drawing.Point(212, 95);
 			this.maskedTextBoxTillControllerValue.Mask = "###";
 			this.maskedTextBoxTillControllerValue.Name = "maskedTextBoxTillControllerValue";
 			this.maskedTextBoxTillControllerValue.PromptChar = ' ';
@@ -154,7 +158,7 @@
 			// 
 			// labelTillControllerValue
 			// 
-			this.labelTillControllerValue.Location = new System.Drawing.Point(26, 156);
+			this.labelTillControllerValue.Location = new System.Drawing.Point(26, 94);
 			this.labelTillControllerValue.Margin = new System.Windows.Forms.Padding(0);
 			this.labelTillControllerValue.Name = "labelTillControllerValue";
 			this.labelTillControllerValue.Size = new System.Drawing.Size(183, 22);
@@ -164,7 +168,7 @@
 			// 
 			// maskedTextBoxFromNoteNumber
 			// 
-			this.maskedTextBoxFromNoteNumber.Location = new System.Drawing.Point(209, 177);
+			this.maskedTextBoxFromNoteNumber.Location = new System.Drawing.Point(209, 115);
 			this.maskedTextBoxFromNoteNumber.Mask = "###";
 			this.maskedTextBoxFromNoteNumber.Name = "maskedTextBoxFromNoteNumber";
 			this.maskedTextBoxFromNoteNumber.PromptChar = ' ';
@@ -174,7 +178,7 @@
 			// 
 			// labelFromNoteNumber
 			// 
-			this.labelFromNoteNumber.Location = new System.Drawing.Point(23, 176);
+			this.labelFromNoteNumber.Location = new System.Drawing.Point(23, 114);
 			this.labelFromNoteNumber.Margin = new System.Windows.Forms.Padding(0);
 			this.labelFromNoteNumber.Name = "labelFromNoteNumber";
 			this.labelFromNoteNumber.Size = new System.Drawing.Size(183, 22);
@@ -184,7 +188,7 @@
 			// 
 			// maskedTextBoxTillNoteNumber
 			// 
-			this.maskedTextBoxTillNoteNumber.Location = new System.Drawing.Point(208, 200);
+			this.maskedTextBoxTillNoteNumber.Location = new System.Drawing.Point(208, 138);
 			this.maskedTextBoxTillNoteNumber.Mask = "###";
 			this.maskedTextBoxTillNoteNumber.Name = "maskedTextBoxTillNoteNumber";
 			this.maskedTextBoxTillNoteNumber.PromptChar = ' ';
@@ -194,7 +198,7 @@
 			// 
 			// labelTillNoteNumber
 			// 
-			this.labelTillNoteNumber.Location = new System.Drawing.Point(22, 199);
+			this.labelTillNoteNumber.Location = new System.Drawing.Point(22, 137);
 			this.labelTillNoteNumber.Margin = new System.Windows.Forms.Padding(0);
 			this.labelTillNoteNumber.Name = "labelTillNoteNumber";
 			this.labelTillNoteNumber.Size = new System.Drawing.Size(183, 22);
@@ -204,7 +208,7 @@
 			// 
 			// labelStandardDimension
 			// 
-			this.labelStandardDimension.Location = new System.Drawing.Point(25, 219);
+			this.labelStandardDimension.Location = new System.Drawing.Point(25, 157);
 			this.labelStandardDimension.Margin = new System.Windows.Forms.Padding(0);
 			this.labelStandardDimension.Name = "labelStandardDimension";
 			this.labelStandardDimension.Size = new System.Drawing.Size(168, 22);
@@ -216,7 +220,7 @@
 			// 
 			this.comboBoxStandardDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxStandardDimension.FormattingEnabled = true;
-			this.comboBoxStandardDimension.Location = new System.Drawing.Point(209, 222);
+			this.comboBoxStandardDimension.Location = new System.Drawing.Point(209, 160);
 			this.comboBoxStandardDimension.Margin = new System.Windows.Forms.Padding(0);
 			this.comboBoxStandardDimension.Name = "comboBoxStandardDimension";
 			this.comboBoxStandardDimension.Size = new System.Drawing.Size(130, 24);
@@ -224,7 +228,7 @@
 			// 
 			// labelCustomDimensionName
 			// 
-			this.labelCustomDimensionName.Location = new System.Drawing.Point(14, 248);
+			this.labelCustomDimensionName.Location = new System.Drawing.Point(14, 186);
 			this.labelCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
 			this.labelCustomDimensionName.Name = "labelCustomDimensionName";
 			this.labelCustomDimensionName.Size = new System.Drawing.Size(203, 22);
@@ -234,7 +238,7 @@
 			// 
 			// textBoxCustomDimensionName
 			// 
-			this.textBoxCustomDimensionName.Location = new System.Drawing.Point(222, 249);
+			this.textBoxCustomDimensionName.Location = new System.Drawing.Point(222, 187);
 			this.textBoxCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
 			this.textBoxCustomDimensionName.Name = "textBoxCustomDimensionName";
 			this.textBoxCustomDimensionName.Size = new System.Drawing.Size(105, 22);
@@ -242,7 +246,7 @@
 			// 
 			// labelFromDimensionValue
 			// 
-			this.labelFromDimensionValue.Location = new System.Drawing.Point(30, 276);
+			this.labelFromDimensionValue.Location = new System.Drawing.Point(30, 214);
 			this.labelFromDimensionValue.Margin = new System.Windows.Forms.Padding(0);
 			this.labelFromDimensionValue.Name = "labelFromDimensionValue";
 			this.labelFromDimensionValue.Size = new System.Drawing.Size(180, 22);
@@ -252,7 +256,7 @@
 			// 
 			// textBoxFromDimensionValue
 			// 
-			this.textBoxFromDimensionValue.Location = new System.Drawing.Point(223, 274);
+			this.textBoxFromDimensionValue.Location = new System.Drawing.Point(223, 212);
 			this.textBoxFromDimensionValue.Margin = new System.Windows.Forms.Padding(0);
 			this.textBoxFromDimensionValue.Name = "textBoxFromDimensionValue";
 			this.textBoxFromDimensionValue.Size = new System.Drawing.Size(105, 22);
@@ -260,7 +264,7 @@
 			// 
 			// labelTillDimensionValue
 			// 
-			this.labelTillDimensionValue.Location = new System.Drawing.Point(34, 300);
+			this.labelTillDimensionValue.Location = new System.Drawing.Point(34, 238);
 			this.labelTillDimensionValue.Margin = new System.Windows.Forms.Padding(0);
 			this.labelTillDimensionValue.Name = "labelTillDimensionValue";
 			this.labelTillDimensionValue.Size = new System.Drawing.Size(180, 22);
@@ -270,7 +274,7 @@
 			// 
 			// textBoxTillDimensionValue
 			// 
-			this.textBoxTillDimensionValue.Location = new System.Drawing.Point(227, 298);
+			this.textBoxTillDimensionValue.Location = new System.Drawing.Point(227, 236);
 			this.textBoxTillDimensionValue.Margin = new System.Windows.Forms.Padding(0);
 			this.textBoxTillDimensionValue.Name = "textBoxTillDimensionValue";
 			this.textBoxTillDimensionValue.Size = new System.Drawing.Size(105, 22);
@@ -372,12 +376,52 @@
 			this.labelTillToneNumber.Text = "labelTillToneNumber";
 			this.labelTillToneNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
+			// labelMinDimensionValue
+			// 
+			this.labelMinDimensionValue.Location = new System.Drawing.Point(34, 265);
+			this.labelMinDimensionValue.Margin = new System.Windows.Forms.Padding(0);
+			this.labelMinDimensionValue.Name = "labelMinDimensionValue";
+			this.labelMinDimensionValue.Size = new System.Drawing.Size(180, 22);
+			this.labelMinDimensionValue.TabIndex = 48;
+			this.labelMinDimensionValue.Text = "labelMinDimensionValue";
+			this.labelMinDimensionValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// textBoxMinDimensionValue
+			// 
+			this.textBoxMinDimensionValue.Location = new System.Drawing.Point(227, 263);
+			this.textBoxMinDimensionValue.Margin = new System.Windows.Forms.Padding(0);
+			this.textBoxMinDimensionValue.Name = "textBoxMinDimensionValue";
+			this.textBoxMinDimensionValue.Size = new System.Drawing.Size(105, 22);
+			this.textBoxMinDimensionValue.TabIndex = 49;
+			// 
+			// labelMaxDimensionValue
+			// 
+			this.labelMaxDimensionValue.Location = new System.Drawing.Point(32, 292);
+			this.labelMaxDimensionValue.Margin = new System.Windows.Forms.Padding(0);
+			this.labelMaxDimensionValue.Name = "labelMaxDimensionValue";
+			this.labelMaxDimensionValue.Size = new System.Drawing.Size(180, 22);
+			this.labelMaxDimensionValue.TabIndex = 50;
+			this.labelMaxDimensionValue.Text = "labelMaxDimensionValue";
+			this.labelMaxDimensionValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// textBoxMaxDimensionValue
+			// 
+			this.textBoxMaxDimensionValue.Location = new System.Drawing.Point(225, 290);
+			this.textBoxMaxDimensionValue.Margin = new System.Windows.Forms.Padding(0);
+			this.textBoxMaxDimensionValue.Name = "textBoxMaxDimensionValue";
+			this.textBoxMaxDimensionValue.Size = new System.Drawing.Size(105, 22);
+			this.textBoxMaxDimensionValue.TabIndex = 51;
+			// 
 			// MidiMappingElementPropertiesUserControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.Controls.Add(this.labelMaxDimensionValue);
+			this.Controls.Add(this.textBoxMaxDimensionValue);
+			this.Controls.Add(this.labelMinDimensionValue);
+			this.Controls.Add(this.textBoxMinDimensionValue);
 			this.Controls.Add(this.maskedTextBoxTillToneNumber);
 			this.Controls.Add(this.labelTillToneNumber);
 			this.Controls.Add(this.maskedTextBoxFromToneNumber);
@@ -447,6 +491,10 @@
 			this.Controls.SetChildIndex(this.maskedTextBoxFromToneNumber, 0);
 			this.Controls.SetChildIndex(this.labelTillToneNumber, 0);
 			this.Controls.SetChildIndex(this.maskedTextBoxTillToneNumber, 0);
+			this.Controls.SetChildIndex(this.textBoxMinDimensionValue, 0);
+			this.Controls.SetChildIndex(this.labelMinDimensionValue, 0);
+			this.Controls.SetChildIndex(this.textBoxMaxDimensionValue, 0);
+			this.Controls.SetChildIndex(this.labelMaxDimensionValue, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -486,5 +534,9 @@
 		private System.Windows.Forms.Label labelFromToneNumber;
 		private System.Windows.Forms.MaskedTextBox maskedTextBoxTillToneNumber;
 		private System.Windows.Forms.Label labelTillToneNumber;
+		private System.Windows.Forms.Label labelMinDimensionValue;
+		private System.Windows.Forms.TextBox textBoxMinDimensionValue;
+		private System.Windows.Forms.Label labelMaxDimensionValue;
+		private System.Windows.Forms.TextBox textBoxMaxDimensionValue;
 	}
 }

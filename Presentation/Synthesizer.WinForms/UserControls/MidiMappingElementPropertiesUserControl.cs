@@ -30,6 +30,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
 			AddProperty(labelFromDimensionValue, textBoxFromDimensionValue);
 			AddProperty(labelTillDimensionValue, textBoxTillDimensionValue);
+			AddProperty(labelMinDimensionValue, textBoxMinDimensionValue);
+			AddProperty(labelMaxDimensionValue, textBoxMaxDimensionValue);
 			AddProperty(labelFromPosition, textBoxFromPosition);
 			AddProperty(labelTillPosition, textBoxTillPosition);
 			AddProperty(labelScale, comboBoxScale);
@@ -51,6 +53,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			labelCustomDimensionName.Text = ResourceFormatter.CustomDimensionName;
 			labelFromDimensionValue.Text = ResourceFormatter.FromDimensionValue;
 			labelTillDimensionValue.Text = ResourceFormatter.TillDimensionValue;
+			labelMinDimensionValue.Text = ResourceFormatter.MinDimensionValue;
+			labelMaxDimensionValue.Text = ResourceFormatter.MaxDimensionValue;
 			labelFromPosition.Text = ResourceFormatter.FromPosition;
 			labelTillPosition.Text = ResourceFormatter.TillPosition;
 			labelScale.Text = ResourceFormatter.Scale;
@@ -90,6 +94,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 			textBoxFromDimensionValue.Text = $"{ViewModel.FromDimensionValue}";
 			textBoxTillDimensionValue.Text = $"{ViewModel.TillDimensionValue}";
+			textBoxMinDimensionValue.Text = $"{ViewModel.MinDimensionValue}";
+			textBoxMaxDimensionValue.Text = $"{ViewModel.MaxDimensionValue}";
 			textBoxFromPosition.Text = $"{ViewModel.FromPosition}";
 			textBoxTillPosition.Text = $"{ViewModel.TillPosition}";
 
@@ -115,6 +121,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
 			ViewModel.FromDimensionValue = GetNullableDoubleFromTextBox(textBoxFromDimensionValue);
 			ViewModel.TillDimensionValue = GetNullableDoubleFromTextBox(textBoxTillDimensionValue);
+			ViewModel.MinDimensionValue = GetNullableDoubleFromTextBox(textBoxMinDimensionValue);
+			ViewModel.MaxDimensionValue = GetNullableDoubleFromTextBox(textBoxMaxDimensionValue);
 			ViewModel.FromPosition = GetNullableInt32FromTextBox(textBoxFromPosition);
 			ViewModel.TillPosition = GetNullableInt32FromTextBox(textBoxTillPosition);
 			ViewModel.Scale = (IDAndName)comboBoxScale.SelectedItem;
