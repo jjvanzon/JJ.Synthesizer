@@ -1859,10 +1859,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void MidiMappingElementPropertiesExpand(int midiMappingID, int midiMappingElementID)
+		public void MidiMappingElementPropertiesExpand(int id)
 		{
+			MidiMappingElementPropertiesViewModel viewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+
 			// Redirect
-			MidiMappingElementExpand(midiMappingID, midiMappingElementID);
+			MidiMappingElementExpand(viewModel.MidiMappingID, id);
 		}
 
 		public void MidiMappingElementPropertiesLoseFocus(int id)

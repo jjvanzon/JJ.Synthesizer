@@ -852,8 +852,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void midiMappingElementPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
 		{
-			throw new NotImplementedException();
-			//TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesExpand(e.Value));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesExpand(e.Value));
 		}
 
 		private void midiMappingElementPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
