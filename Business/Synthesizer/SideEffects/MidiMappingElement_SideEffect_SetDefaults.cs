@@ -26,8 +26,8 @@ namespace JJ.Business.Synthesizer.SideEffects
 			_entity.FromControllerValue = 0;
 			_entity.TillControllerValue = 127;
 			_entity.SetStandardDimensionEnum(DimensionEnum.VibratoDepth, _dimensionRepository);
-			_entity.TillDimensionValue = 0;
-			_entity.FromDimensionValue = 0.0005;
+			_entity.FromDimensionValue = 0;
+			_entity.TillDimensionValue = 0.0005;
 			_entity.MinDimensionValue = 0;
 		}
 	}

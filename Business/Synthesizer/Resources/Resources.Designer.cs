@@ -1132,7 +1132,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are mim or max dimension values, but no dimension from/till..
+        ///   Looks up a localized string similar to There are min or max dimension values, but no dimension from/till..
         /// </summary>
         internal static string HasDimensionMinMaxButNoFromOrTill {
             get {

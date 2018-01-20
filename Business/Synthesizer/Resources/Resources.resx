@@ -1147,7 +1147,7 @@
     <value>There are controller values, but no controller code.</value>
   </data>
   <data name="HasDimensionMinMaxButNoFromOrTill" xml:space="preserve">
-    <value>There are mim or max dimension values, but no dimension from/till.</value>
+    <value>There are min or max dimension values, but no dimension from/till.</value>
   </data>
   <data name="Midi" xml:space="preserve">
     <value>MIDI</value>
