@@ -117,6 +117,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				SampleFileBrowser = CreateEmptySampleFileBrowserViewModel(),
 				SaveChangesPopup = CreateEmptySaveChangesPopupViewModel(),
 				ScaleGrid = CreateEmptyScaleGridViewModel(),
+				ScaleLookup = new List<IDAndName>(),
 				ScalePropertiesDictionary = new Dictionary<int, ScalePropertiesViewModel>(),
 				ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
 				UnderlyingPatchLookup = new List<IDAndName>(),
@@ -276,12 +277,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		private static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel_WithoutOriginalState() => new PatchDetailsViewModel
+		private static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel_WithoutOriginalState()
 		{
-			Entity = CreateEmptyPatchViewModel(),
-			ValidationMessages = new List<string>(),
-			Successful = true
-		};
+			return new PatchDetailsViewModel
+			{
+				Entity = CreateEmptyPatchViewModel(),
+				ValidationMessages = new List<string>(),
+				Successful = true
+			};
+		}
 
 		public static PatchPropertiesViewModel CreateEmptyPatchPropertiesViewModel()
 		{

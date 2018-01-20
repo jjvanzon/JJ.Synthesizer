@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Framework.Presentation.Resources;
@@ -98,11 +99,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			textBoxFromPosition.Text = $"{ViewModel.FromPosition}";
 			textBoxTillPosition.Text = $"{ViewModel.TillPosition}";
 
-			comboBoxScale.ValueMember = nameof(IDAndName.ID);
-			comboBoxScale.DisplayMember = nameof(IDAndName.Name);
-			comboBoxScale.DataSource = ViewModel.ScaleLookup;
-			comboBoxScale.SelectedValue = ViewModel.Scale?.ID ?? 0;
-
 			maskedTextBoxFromToneNumber.Text = $"{ViewModel.FromToneNumber}";
 			maskedTextBoxTillToneNumber.Text = $"{ViewModel.TillToneNumber}";
 			checkBoxIsRelative.Checked = ViewModel.IsRelative;
@@ -159,6 +155,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				return value;
 			}
 			return null;
+		}
+
+		public void SetScaleLookup(IList<IDAndName> underlyingPatchLookup)
+		{
+			if (ViewModel == null) return;
+
+			comboBoxScale.DataSource = null; // Do this or WinForms will not refresh the list.
+			comboBoxScale.ValueMember = nameof(IDAndName.ID);
+			comboBoxScale.DisplayMember = nameof(IDAndName.Name);
+			comboBoxScale.DataSource = underlyingPatchLookup;
+			comboBoxScale.SelectedValue = ViewModel.Scale?.ID ?? 0;
 		}
 	}
 }

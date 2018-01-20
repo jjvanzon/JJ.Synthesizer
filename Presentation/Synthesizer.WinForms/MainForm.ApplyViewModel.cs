@@ -31,28 +31,40 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			libraryPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleLibraryProperties;
 			_librarySelectionPopupForm.ViewModel = _mainPresenter.MainViewModel.Document.LibrarySelectionPopup;
 			midiMappingDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingDetails;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			midiMappingElementPropertiesUserControl.SetScaleLookup(_mainPresenter.MainViewModel.Document.ScaleLookup);
 			midiMappingElementPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingElementProperties;
 			nodePropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleNodeProperties;
-			operatorPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForCache.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;
+			operatorPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForCache.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForCurve.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForCurve;
+			operatorPropertiesUserControl_ForCache.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForCurve.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForInletsToDimension.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension;
+			operatorPropertiesUserControl_ForCurve.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForCurve;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForInletsToDimension.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForNumber.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForNumber;
+			operatorPropertiesUserControl_ForInletsToDimension.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForNumber.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForPatchInlet.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet;
+			operatorPropertiesUserControl_ForNumber.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForNumber;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForPatchInlet.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForPatchOutlet.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet;
+			operatorPropertiesUserControl_ForPatchInlet.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForPatchOutlet.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_ForPatchOutlet.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForSample.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_ForSample.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForSample;
-			operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_WithCollectionRecalculation.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_WithInterpolation.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_WithInterpolation;
+			operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation;
+			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_WithInterpolation.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_WithInterpolation.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_WithInterpolation;
 			patchDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisiblePatchDetails;
 			patchPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisiblePatchProperties;
 			scaleGridUserControl.ViewModel = _mainPresenter.MainViewModel.Document.ScaleGrid;

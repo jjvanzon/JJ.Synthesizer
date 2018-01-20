@@ -388,7 +388,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				IsActive = entity.IsActive,
 				IsRelative = entity.IsRelative,
 				ValidationMessages = new List<string>(),
-				ScaleLookup = new List<IDAndName>(),
 				StandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel()
 			};
 

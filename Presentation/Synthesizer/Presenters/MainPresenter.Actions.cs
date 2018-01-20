@@ -3016,6 +3016,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Refresh
 				ToneGridEditRefresh(userInput.Entity.ID);
 				ScaleGridRefresh();
+				ScaleLookupRefresh();
 			}
 		}
 
@@ -3054,6 +3055,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				ToneGridEditRefresh(userInput.Entity.ID);
 				ScaleGridRefresh();
+				ScaleLookupRefresh();
 			}
 		}
 

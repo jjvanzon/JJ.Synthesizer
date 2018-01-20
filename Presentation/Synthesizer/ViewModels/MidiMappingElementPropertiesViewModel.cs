@@ -28,6 +28,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public bool IsRelative { get; set; }
 		public bool IsActive { get; set; }
 		public IList<IDAndName> StandardDimensionLookup { get; set; }
-		public IList<IDAndName> ScaleLookup { get; set; }
 	}
 }

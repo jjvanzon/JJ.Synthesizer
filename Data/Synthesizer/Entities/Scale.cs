@@ -12,6 +12,7 @@ namespace JJ.Data.Synthesizer.Entities
 		public Scale()
 		{
 			Tones = new List<Tone>();
+			MidiMappingElements = new List<MidiMappingElement>();
 		}
 
 		public virtual int ID { get; set; }

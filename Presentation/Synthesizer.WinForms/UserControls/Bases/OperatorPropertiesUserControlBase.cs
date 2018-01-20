@@ -123,8 +123,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		public void SetUnderlyingPatchLookup(IList<IDAndName> underlyingPatchLookup)
 		{
-			// Always refill the document lookup, so changes to the document collection are reflected.
-
 			int? selectedID = TryGetSelectedUnderlyingPatchID();
 			_comboBoxUnderlyingPatch.DataSource = null; // Do this or WinForms will not refresh the list.
 			_comboBoxUnderlyingPatch.ValueMember = nameof(IDAndName.ID);

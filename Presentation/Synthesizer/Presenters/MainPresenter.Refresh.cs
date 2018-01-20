@@ -210,6 +210,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchDetailsDictionaryRefresh();
 			PatchPropertiesDictionaryRefresh();
 			ScaleGridRefresh();
+			ScaleLookupRefresh();
 			ScalePropertiesDictionaryRefresh();
 			ToneGridEditDictionaryRefresh();
 			UnderylingPatchLookupRefresh();
@@ -989,6 +990,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// DispatchViewModel
 			DispatchViewModel(viewModel);
+		}
+
+		private void ScaleLookupRefresh()
+		{
+			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+			MainViewModel.Document.ScaleLookup = document.Scales.Select(x => x.ToIDAndName()).ToList();
 		}
 
 		private void ScalePropertiesDictionaryRefresh()
