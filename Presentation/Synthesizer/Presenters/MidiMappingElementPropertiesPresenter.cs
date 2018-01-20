@@ -1,11 +1,14 @@
 ﻿using System;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
+using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -34,6 +37,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override IResult Save(MidiMappingElement entity, MidiMappingElementPropertiesViewModel userInput)
 		{
+			IValidator validator = new MidiMappingElementPropertiesViewModel_Validator(userInput);
+			if (!validator.IsValid)
+			{
+				return validator.ToResult();
+			}
+
 			return _midiMappingFacade.SaveMidiMappingElement(entity);
 		}
 

@@ -92,12 +92,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			comboBoxStandardDimension.SelectedValue = ViewModel.StandardDimension?.ID ?? 0;
 
 			textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
-			textBoxFromDimensionValue.Text = $"{ViewModel.FromDimensionValue}";
-			textBoxTillDimensionValue.Text = $"{ViewModel.TillDimensionValue}";
-			textBoxMinDimensionValue.Text = $"{ViewModel.MinDimensionValue}";
-			textBoxMaxDimensionValue.Text = $"{ViewModel.MaxDimensionValue}";
-			textBoxFromPosition.Text = $"{ViewModel.FromPosition}";
-			textBoxTillPosition.Text = $"{ViewModel.TillPosition}";
+			textBoxFromDimensionValue.Text = ViewModel.FromDimensionValue;
+			textBoxTillDimensionValue.Text = ViewModel.TillDimensionValue;
+			textBoxMinDimensionValue.Text = ViewModel.MinDimensionValue;
+			textBoxMaxDimensionValue.Text = ViewModel.MaxDimensionValue;
+			textBoxFromPosition.Text = ViewModel.FromPosition;
+			textBoxTillPosition.Text = ViewModel.TillPosition;
 
 			maskedTextBoxFromToneNumber.Text = $"{ViewModel.FromToneNumber}";
 			maskedTextBoxTillToneNumber.Text = $"{ViewModel.TillToneNumber}";
@@ -114,12 +114,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			ViewModel.TillNoteNumber = GetNullableInt32FromMaskedTextBox(maskedTextBoxTillNoteNumber);
 			ViewModel.StandardDimension = (IDAndName)comboBoxStandardDimension.SelectedItem;
 			ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
-			ViewModel.FromDimensionValue = GetNullableDoubleFromTextBox(textBoxFromDimensionValue);
-			ViewModel.TillDimensionValue = GetNullableDoubleFromTextBox(textBoxTillDimensionValue);
-			ViewModel.MinDimensionValue = GetNullableDoubleFromTextBox(textBoxMinDimensionValue);
-			ViewModel.MaxDimensionValue = GetNullableDoubleFromTextBox(textBoxMaxDimensionValue);
-			ViewModel.FromPosition = GetNullableInt32FromTextBox(textBoxFromPosition);
-			ViewModel.TillPosition = GetNullableInt32FromTextBox(textBoxTillPosition);
+			ViewModel.FromDimensionValue = textBoxFromDimensionValue.Text;
+			ViewModel.TillDimensionValue = textBoxTillDimensionValue.Text;
+			ViewModel.MinDimensionValue = textBoxMinDimensionValue.Text;
+			ViewModel.MaxDimensionValue = textBoxMaxDimensionValue.Text;
+			ViewModel.FromPosition = textBoxFromPosition.Text;
+			ViewModel.TillPosition = textBoxTillPosition.Text;
 			ViewModel.Scale = (IDAndName)comboBoxScale.SelectedItem;
 			ViewModel.FromToneNumber = GetNullableInt32FromMaskedTextBox(maskedTextBoxFromToneNumber);
 			ViewModel.TillToneNumber = GetNullableInt32FromMaskedTextBox(maskedTextBoxTillToneNumber);
@@ -135,26 +135,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				return null;
 			}
 			return int.Parse(text);
-		}
-
-		private double? GetNullableDoubleFromTextBox(TextBox textBox)
-		{
-			string text = textBox.Text;
-			if (double.TryParse(text, out double value))
-			{
-				return value;
-			}
-			return null;
-		}
-
-		private int? GetNullableInt32FromTextBox(TextBox textBox)
-		{
-			string text = textBox.Text;
-			if (int.TryParse(text, out int value))
-			{
-				return value;
-			}
-			return null;
 		}
 
 		public void SetScaleLookup(IList<IDAndName> underlyingPatchLookup)

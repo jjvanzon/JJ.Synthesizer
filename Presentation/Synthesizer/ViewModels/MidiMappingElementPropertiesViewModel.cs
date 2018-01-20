@@ -16,12 +16,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public int? TillVelocity { get; set; }
 		public IDAndName StandardDimension { get; set; }
 		public string CustomDimensionName { get; set; }
-		public double? FromDimensionValue { get; set; }
-		public double? TillDimensionValue { get; set; }
-		public double? MinDimensionValue { get; set; }
-		public double? MaxDimensionValue { get; set; }
-		public int? FromPosition { get; set; }
-		public int? TillPosition { get; set; }
+		public string FromDimensionValue { get; set; }
+		public string TillDimensionValue { get; set; }
+		public string MinDimensionValue { get; set; }
+		public string MaxDimensionValue { get; set; }
+		public string FromPosition { get; set; }
+		public string TillPosition { get; set; }
 		public IDAndName Scale { get; set; }
 		public int? FromToneNumber { get; set; }
 		public int? TillToneNumber { get; set; }

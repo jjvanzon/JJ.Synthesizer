@@ -14,9 +14,11 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
+using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+
 // ReSharper disable ObjectCreationAsStatement
 
 namespace JJ.Presentation.Synthesizer.ToEntity
@@ -310,7 +312,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				propertiesViewModel.ToEntity(repositories);
 			}
 
-			foreach (OperatorPropertiesViewModel_ForInletsToDimension propertiesViewModel in viewModel.OperatorPropertiesDictionary_ForInletsToDimension.Values)
+			foreach (OperatorPropertiesViewModel_ForInletsToDimension propertiesViewModel in viewModel
+				                                                                                 .OperatorPropertiesDictionary_ForInletsToDimension
+				                                                                                 .Values)
 			{
 				propertiesViewModel.ToEntity(repositories);
 			}
@@ -335,12 +339,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				propertiesViewModel.ToEntity(repositories);
 			}
 
-			foreach (OperatorPropertiesViewModel_WithInterpolation propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithInterpolation.Values)
+			foreach (OperatorPropertiesViewModel_WithInterpolation propertiesViewModel in viewModel
+				                                                                              .OperatorPropertiesDictionary_WithInterpolation.Values)
 			{
 				propertiesViewModel.ToEntity(repositories);
 			}
 
-			foreach (OperatorPropertiesViewModel_WithCollectionRecalculation propertiesViewModel in viewModel.OperatorPropertiesDictionary_WithCollectionRecalculation.Values)
+			foreach (OperatorPropertiesViewModel_WithCollectionRecalculation propertiesViewModel in viewModel
+				                                                                                        .OperatorPropertiesDictionary_WithCollectionRecalculation
+				                                                                                        .Values)
 			{
 				propertiesViewModel.ToEntity(repositories);
 			}
@@ -610,7 +617,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			foreach (MidiMappingElementItemViewModel viewModel in viewModelList)
 			{
-				MidiMappingElement entity = viewModel.ToEntityWithRelatedEntities(repositories.MidiMappingElementRepository, repositories.EntityPositionRepository);
+				MidiMappingElement entity = viewModel.ToEntityWithRelatedEntities(
+					repositories.MidiMappingElementRepository,
+					repositories.EntityPositionRepository);
+
 				entity.LinkTo(destMidiMapping);
 
 				idsToKeep.Add(entity.ID);
@@ -642,7 +652,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			return entity;
 		}
 
-		public static MidiMappingElement ToEntity(this MidiMappingElementItemViewModel viewModel, IMidiMappingElementRepository midiMappingElementRepository)
+		public static MidiMappingElement ToEntity(
+			this MidiMappingElementItemViewModel viewModel,
+			IMidiMappingElementRepository midiMappingElementRepository)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
@@ -676,17 +688,41 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			entity.FromVelocity = viewModel.FromVelocity;
 			entity.TillVelocity = viewModel.TillVelocity;
 			entity.CustomDimensionName = viewModel.CustomDimensionName;
-			entity.FromDimensionValue = viewModel.FromDimensionValue;
-			entity.TillDimensionValue = viewModel.TillDimensionValue;
-			entity.MinDimensionValue = viewModel.MinDimensionValue;
-			entity.MaxDimensionValue = viewModel.MaxDimensionValue;
-			entity.FromPosition = viewModel.FromPosition;
-			entity.TillPosition = viewModel.TillPosition;
 			entity.FromToneNumber = viewModel.FromToneNumber;
 			entity.TillToneNumber = viewModel.TillToneNumber;
 			entity.IsActive = viewModel.IsActive;
 			entity.IsRelative = viewModel.IsRelative;
 			entity.MidiMapping = repositories.MidiMappingRepository.Get(viewModel.MidiMappingID);
+
+			if (DoubleHelper.TryParse(viewModel.FromDimensionValue, out double? fromDimensionValue))
+			{
+				entity.FromDimensionValue = fromDimensionValue;
+			}
+
+			if (DoubleHelper.TryParse(viewModel.TillDimensionValue, out double? tillDimensionValue))
+			{
+				entity.TillDimensionValue = tillDimensionValue;
+			}
+
+			if (DoubleHelper.TryParse(viewModel.MinDimensionValue, out double? minDimensionValue))
+			{
+				entity.MinDimensionValue = minDimensionValue;
+			}
+
+			if (DoubleHelper.TryParse(viewModel.MaxDimensionValue, out double? maxDimensionValue))
+			{
+				entity.MaxDimensionValue = maxDimensionValue;
+			}
+
+			if (Int32Helper.TryParse(viewModel.FromPosition, out int? fromPosition))
+			{
+				entity.FromPosition = fromPosition;
+			}
+
+			if (Int32Helper.TryParse(viewModel.TillPosition, out int? tillPosition))
+			{
+				entity.TillPosition = tillPosition;
+			}
 
 			bool standardDimensionIsFilledIn = viewModel.StandardDimension != null && viewModel.StandardDimension.ID != 0;
 			if (standardDimensionIsFilledIn)
