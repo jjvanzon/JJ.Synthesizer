@@ -50,5 +50,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			return ExecuteAction(userInput, entity => _midiMappingFacade.DeleteMidiMappingElement(entity));
 		}
+
+		public override void CopyNonPersistedProperties(MidiMappingElementPropertiesViewModel sourceViewModel, MidiMappingElementPropertiesViewModel destViewModel)
+		{
+			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
+
+			destViewModel.FromDimensionValue = sourceViewModel.FromDimensionValue;
+			destViewModel.TillDimensionValue = sourceViewModel.TillDimensionValue;
+			destViewModel.MinDimensionValue = sourceViewModel.MinDimensionValue;
+			destViewModel.MaxDimensionValue = sourceViewModel.MaxDimensionValue;
+			destViewModel.FromPosition = sourceViewModel.FromPosition;
+			destViewModel.TillPosition = sourceViewModel.TillPosition;
+		}
 	}
 }
