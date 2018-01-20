@@ -21,11 +21,37 @@ namespace JJ.Business.Synthesizer.Validation
 				ExecuteValidator(new EntityPositionValidator(entity.EntityPosition), ValidationHelper.GetMessagePrefix(entity.EntityPosition));
 			}
 
-			For(entity.FromNoteNumber, ResourceFormatter.FromNoteNumber).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
-			For(entity.TillNoteNumber, ResourceFormatter.TillNoteNumber).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
-			For(entity.ControllerCode, ResourceFormatter.ControllerCode).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
-			For(entity.FromVelocity, ResourceFormatter.FromVelocity).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
-			For(entity.TillVelocity, ResourceFormatter.TillVelocity).GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE).LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+			if (entity.IsRelative)
+			{
+				For(entity.FromControllerValue, ResourceFormatter.FromControllerValue)
+					.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+					.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+
+				For(entity.TillControllerValue, ResourceFormatter.TillControllerValue)
+					.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+					.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+			}
+
+			For(entity.FromNoteNumber, ResourceFormatter.FromNoteNumber)
+				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+
+			For(entity.TillNoteNumber, ResourceFormatter.TillNoteNumber)
+				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+
+			For(entity.ControllerCode, ResourceFormatter.ControllerCode)
+				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+
+			For(entity.FromVelocity, ResourceFormatter.FromVelocity)
+				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+
+			For(entity.TillVelocity, ResourceFormatter.TillVelocity)
+				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+
 			For(entity.FromDimensionValue, ResourceFormatter.FromDimensionValue).NotNaN().NotInfinity();
 			For(entity.TillDimensionValue, ResourceFormatter.TillDimensionValue).NotNaN().NotInfinity();
 			For(entity.MinDimensionValue, ResourceFormatter.MinDimensionValue).NotNaN().NotInfinity();
@@ -34,13 +60,17 @@ namespace JJ.Business.Synthesizer.Validation
 			For(entity.TillToneNumber, ResourceFormatter.TillToneNumber).GreaterThan(0);
 			For(entity.MidiMapping, ResourceFormatter.MidiMapping).NotNull();
 
-			bool hasControllerCodeButNoValue = entity.ControllerCode.HasValue && !entity.FromControllerValue.HasValue && !entity.TillControllerValue.HasValue;
+			bool hasControllerCodeButNoValue =
+				entity.ControllerCode.HasValue && !entity.FromControllerValue.HasValue && !entity.TillControllerValue.HasValue;
+
 			if (hasControllerCodeButNoValue)
 			{
 				Messages.Add(ResourceFormatter.HasControllerCodeButNoControllerValue);
 			}
 
-			bool hasControllerValueButNoCode = (entity.FromControllerValue.HasValue || entity.TillControllerValue.HasValue) && !entity.ControllerCode.HasValue;
+			bool hasControllerValueButNoCode =
+				(entity.FromControllerValue.HasValue || entity.TillControllerValue.HasValue) && !entity.ControllerCode.HasValue;
+
 			if (hasControllerValueButNoCode)
 			{
 				Messages.Add(ResourceFormatter.HasControllerValueButNoControllerCode);
@@ -48,6 +78,7 @@ namespace JJ.Business.Synthesizer.Validation
 
 			bool dimensionHasMinOrMaxButNoFromnOrTill = (entity.MinDimensionValue.HasValue || entity.MaxDimensionValue.HasValue) &&
 			                                            !(entity.FromDimensionValue.HasValue || entity.TillDimensionValue.HasValue);
+
 			if (dimensionHasMinOrMaxButNoFromnOrTill)
 			{
 				Messages.Add(ResourceFormatter.HasDimensionMinMaxButNoFromOrTill);

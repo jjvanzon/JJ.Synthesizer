@@ -364,7 +364,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			var castedViewModel = (MidiMappingElementPropertiesViewModel)viewModel;
 
 			var dictionary = MainViewModel.Document.MidiMappingElementPropertiesDictionary;
-			dictionary[castedViewModel.MidiMappingID] = castedViewModel;
+			dictionary[castedViewModel.ID] = castedViewModel;
 
 			if (castedViewModel.Visible)
 			{
