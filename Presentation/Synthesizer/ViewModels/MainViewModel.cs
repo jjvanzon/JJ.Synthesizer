@@ -1,6 +1,6 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels.Items;
+﻿using System.Collections.Generic;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
@@ -17,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public DocumentOrPatchNotFoundPopupViewModel DocumentOrPatchNotFound { get; set; }
 		public bool Successful { get; set; }
 		public bool PropertiesPanelVisible { get; set; }
+		public bool DetailsOrGridPanelVisible { get; set; }
 		public bool CurveDetailsPanelVisible { get; set; }
 		public bool MustClose { get; set; }
 

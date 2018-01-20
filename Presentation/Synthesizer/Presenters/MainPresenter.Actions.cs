@@ -1510,6 +1510,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void DocumentTreeSelectMidiMapping(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectMidiMapping(x, id));
+
+			// Redirect
+			MidiMappingDetailsSwitch(id);
 		}
 
 		public void DocumentTreeSelectScales()
@@ -1720,6 +1723,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.Show(userInput));
+		}
+
+		private void MidiMappingDetailsSwitch(int id)
+		{
+			if (MainViewModel.DetailsOrGridPanelVisible)
+			{
+				MidiMappingDetailsShow(id);
+			}
 		}
 
 		public void MidiMappingDetailsClose(int id)

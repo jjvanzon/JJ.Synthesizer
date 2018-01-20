@@ -764,6 +764,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.VisiblePatchProperties != null ||
 				MainViewModel.Document.VisibleScaleProperties != null;
 
+			MainViewModel.DetailsOrGridPanelVisible =
+				MainViewModel.Document.VisibleMidiMappingDetails != null ||
+				MainViewModel.Document.VisiblePatchDetails != null ||
+				MainViewModel.Document.VisibleToneGridEdit != null ||
+				MainViewModel.Document.AudioFileOutputGrid.Visible ||
+				MainViewModel.Document.ScaleGrid.Visible;
+
 			MainViewModel.CurveDetailsPanelVisible = MainViewModel.Document.CurveDetailsDictionary.Any(x => x.Value.Visible);
 		}
 	}
