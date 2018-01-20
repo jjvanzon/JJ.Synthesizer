@@ -455,6 +455,7 @@
 			this.Controls.Add(this.checkBoxIsActive);
 			this.Controls.Add(this.labelIsActive);
 			this.DeleteButtonVisible = true;
+			this.ExpandButtonVisible = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "MidiMappingElementPropertiesUserControl";
 			this.Size = new System.Drawing.Size(467, 518);

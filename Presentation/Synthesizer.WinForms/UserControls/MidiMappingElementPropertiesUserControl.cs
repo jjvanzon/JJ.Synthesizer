@@ -12,10 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 	internal partial class MidiMappingElementPropertiesUserControl
 		: PropertiesUserControlBase
 	{
-		public MidiMappingElementPropertiesUserControl()
-		{
-			InitializeComponent();
-		}
+		public MidiMappingElementPropertiesUserControl() => InitializeComponent();
 
 		// Gui
 
@@ -73,6 +70,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			get => (MidiMappingElementPropertiesViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}
+
+		protected override int GetID() => ViewModel?.ID ?? default;
 
 		protected override void ApplyViewModelToControls()
 		{

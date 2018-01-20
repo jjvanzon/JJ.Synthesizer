@@ -86,16 +86,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
 			libraryPropertiesUserControl.ExpandRequested += libraryPropertiesUserControl_ExpandRequested;
 			libraryPropertiesUserControl.DeleteRequested += LibraryPropertiesUserControl_DeleteRequested;
+			menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
+			menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
+			menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
+			menuUserControl.ShowDocumentPropertiesRequested += MenuUserControl_ShowDocumentPropertiesRequested;
 			midiMappingDetailsUserControl.CloseRequested += midiMappingDetailsUserControl_CloseRequested;
 			midiMappingDetailsUserControl.DeleteRequested += midiMappingDetailsUserControl_DeleteRequested;
 			midiMappingDetailsUserControl.ExpandElementRequested += midiMappingDetailsUserControl_ExpandElementRequested;
 			midiMappingDetailsUserControl.MoveElementRequested += midiMappingDetailsUserControl_MoveElementRequested;
 			midiMappingDetailsUserControl.NewRequested += midiMappingDetailsUserControl_NewRequested;
 			midiMappingDetailsUserControl.SelectElementRequested += midiMappingDetailsUserControl_SelectElementRequested;
-			menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
-			menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
-			menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
-			menuUserControl.ShowDocumentPropertiesRequested += MenuUserControl_ShowDocumentPropertiesRequested;
+			midiMappingElementPropertiesUserControl.CloseRequested += midiMappingElementPropertiesUserControl_CloseRequested;
+			midiMappingElementPropertiesUserControl.DeleteRequested += midiMappingElementPropertiesUserControl_DeleteRequested;
+			midiMappingElementPropertiesUserControl.ExpandRequested += midiMappingElementPropertiesUserControl_ExpandRequested;
+			midiMappingElementPropertiesUserControl.LoseFocusRequested += midiMappingElementPropertiesUserControl_LoseFocusRequested;
 			nodePropertiesUserControl.CloseRequested += nodePropertiesUserControl_CloseRequested;
 			nodePropertiesUserControl.ExpandRequested += nodePropertiesUserControl_ExpandRequested;
 			nodePropertiesUserControl.LoseFocusRequested += nodePropertiesUserControl_LoseFocusRequested;
@@ -834,6 +838,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private void midiMappingDetailsUserControl_ExpandElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsExpandElement(e.Value.midiMappingID, e.Value.midiMappingElementID));
+		}
+
+		private void midiMappingElementPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesClose(e.Value));
+		}
+
+		private void midiMappingElementPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesDelete(e.Value));
+		}
+
+		private void midiMappingElementPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
+		{
+			throw new NotImplementedException();
+			//TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesExpand(e.Value));
+		}
+
+		private void midiMappingElementPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesLoseFocus(e.Value));
 		}
 
 		// Menu

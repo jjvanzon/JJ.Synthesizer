@@ -190,7 +190,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			return new NodePropertiesViewModel
 			{
-				CurveID = entity.Curve.ID,
+				CurveID = entity.Curve?.ID ?? default, // Null after delete action.
 				Entity = entity.ToViewModel(),
 				ValidationMessages = new List<string>(),
 				NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel()
@@ -291,7 +291,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return new LibraryPropertiesViewModel
 			{
 				DocumentReferenceID = documentReference.ID,
-				LowerDocumentID = documentReference.LowerDocument.ID,
+				LowerDocumentID = documentReference.LowerDocument?.ID ?? default, // Null after delete action.
 				Name = documentReference.LowerDocument.Name,
 				Alias = documentReference.Alias,
 				ValidationMessages = new List<string>()
@@ -368,7 +368,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new MidiMappingElementPropertiesViewModel
 			{
 				ID = entity.ID,
-				MidiMappingID = entity.MidiMapping.ID,
+				MidiMappingID = entity.MidiMapping?.ID ?? default, // Null after delete action. 
 				ControllerCode = entity.ControllerCode,
 				FromControllerValue = entity.FromControllerValue,
 				TillControllerValue = entity.TillControllerValue,
@@ -793,7 +793,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new TViewModel
 			{
 				ID = entity.ID,
-				PatchID = entity.Patch.ID,
+				PatchID = entity.Patch?.ID ?? default, // Null after delete action.
 				Name = entity.Name,
 				CustomDimensionName = entity.CustomDimensionName,
 				HasDimension = entity.HasDimension,
