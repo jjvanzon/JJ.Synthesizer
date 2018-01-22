@@ -5,9 +5,10 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
+
 // ReSharper disable PossibleInvalidOperationException
 
-namespace JJ.Business.Synthesizer
+namespace JJ.Business.Synthesizer.Calculation
 {
 	public class MidiMappingCalculator
 	{
@@ -45,6 +46,36 @@ namespace JJ.Business.Synthesizer
 			_midiMappingElements.ForEach(x => new MidiMappingElementValidator(x).Assert());
 		}
 
+		public int ToAbsoluteControllerValue(int controllerCode, int inputControllerValue, int previousAbsoluteControllerValue)
+		{
+			int absoluteControllerValue = inputControllerValue;
+
+			foreach (MidiMappingElement midiMappingElement in _midiMappingElements)
+			{
+				if (!midiMappingElement.IsActive)
+				{
+					continue;
+				}
+
+				if (!midiMappingElement.IsRelative)
+				{
+					continue;
+				}
+
+				if (!MustScaleByController(midiMappingElement, controllerCode, inputControllerValue))
+				{
+					continue;
+				}
+
+				int delta = inputControllerValue - 64;
+
+				// Overriding mechanism: last applicable mapping wins.
+				absoluteControllerValue = previousAbsoluteControllerValue + delta;
+			}
+
+			return absoluteControllerValue;
+		}
+
 		public IList<Result> Calculate(int? controllerCode, int? controllerValue, int? noteNumber, int? velocity)
 		{
 			var list = new List<Result>();
@@ -56,28 +87,31 @@ namespace JJ.Business.Synthesizer
 					continue;
 				}
 
-				double controllerRatio = 1.0;
+				double ratio = 1.0;
+
 				if (MustScaleByController(midiMappingElement, controllerCode, controllerValue))
 				{
-					controllerRatio = (controllerValue.Value - midiMappingElement.FromControllerValue.Value) /
-					                  (double)(midiMappingElement.TillControllerValue.Value - midiMappingElement.FromControllerValue.Value);
+					double controllerRatio = (controllerValue.Value - midiMappingElement.FromControllerValue.Value) /
+					                         (double)(midiMappingElement.TillControllerValue.Value - midiMappingElement.FromControllerValue.Value);
+
+					ratio *= controllerRatio;
 				}
 
-				double noteNumberRatio = 1.0;
 				if (MustScaleByNoteNumber(midiMappingElement, noteNumber))
 				{
-					noteNumberRatio = (noteNumber.Value - midiMappingElement.FromNoteNumber.Value) /
-					                  (double)(midiMappingElement.TillNoteNumber.Value - midiMappingElement.FromNoteNumber.Value);
+					double noteNumberRatio = (noteNumber.Value - midiMappingElement.FromNoteNumber.Value) /
+					                         (double)(midiMappingElement.TillNoteNumber.Value - midiMappingElement.FromNoteNumber.Value);
+
+					ratio *= noteNumberRatio;
 				}
 
-				double velocityRatio = 1.0;
 				if (MustScaleByVelocity(midiMappingElement, velocity))
 				{
-					velocityRatio = (velocity.Value - midiMappingElement.FromVelocity.Value) /
-					                (double)(midiMappingElement.TillVelocity.Value - midiMappingElement.FromVelocity.Value);
-				}
+					double velocityRatio = (velocity.Value - midiMappingElement.FromVelocity.Value) /
+					                       (double)(midiMappingElement.TillVelocity.Value - midiMappingElement.FromVelocity.Value);
 
-				double ratio = controllerRatio * noteNumberRatio * velocityRatio;
+					ratio *= velocityRatio;
+				}
 
 				double? destDimensionValue = null;
 				if (MustScaleDimension(midiMappingElement))
