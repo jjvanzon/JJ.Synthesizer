@@ -21,15 +21,22 @@ namespace JJ.Business.Synthesizer.Validation
 				ExecuteValidator(new EntityPositionValidator(entity.EntityPosition), ValidationHelper.GetMessagePrefix(entity.EntityPosition));
 			}
 
-			if (entity.IsRelative)
-			{
-				For(entity.FromControllerValue, ResourceFormatter.FromControllerValue)
-					.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
-					.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+			For(entity.ControllerCode, ResourceFormatter.ControllerCode)
+				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
-				For(entity.TillControllerValue, ResourceFormatter.TillControllerValue)
-					.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
-					.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+			For(entity.FromControllerValue, ResourceFormatter.FromControllerValue)
+				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+
+			For(entity.TillControllerValue, ResourceFormatter.TillControllerValue)
+				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
+				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
+
+			if (entity.ControllerCode.HasValue)
+			{
+				For(entity.FromControllerValue, ResourceFormatter.FromControllerValue).NotNull();
+				For(entity.TillControllerValue, ResourceFormatter.TillControllerValue).NotNull();
 			}
 
 			For(entity.FromNoteNumber, ResourceFormatter.FromNoteNumber)
@@ -37,10 +44,6 @@ namespace JJ.Business.Synthesizer.Validation
 				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
 			For(entity.TillNoteNumber, ResourceFormatter.TillNoteNumber)
-				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
-				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
-
-			For(entity.ControllerCode, ResourceFormatter.ControllerCode)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
 				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
@@ -88,8 +91,6 @@ namespace JJ.Business.Synthesizer.Validation
 			// because the plan is to fall back to a default.
 
 			// The ranges of these are validated in warning validators.
-			// - FromControllerValue
-			// - TillControllerValue
 			// - FromPosition
 			// - TillPosition 
 		}
