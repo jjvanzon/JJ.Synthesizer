@@ -93,7 +93,6 @@ namespace JJ.Business.Synthesizer.Calculation
 				{
 					double controllerRatio = (controllerValue.Value - midiMappingElement.FromControllerValue.Value) /
 					                         (double)(midiMappingElement.TillControllerValue.Value - midiMappingElement.FromControllerValue.Value);
-
 					ratio *= controllerRatio;
 				}
 
@@ -101,7 +100,6 @@ namespace JJ.Business.Synthesizer.Calculation
 				{
 					double noteNumberRatio = (noteNumber.Value - midiMappingElement.FromNoteNumber.Value) /
 					                         (double)(midiMappingElement.TillNoteNumber.Value - midiMappingElement.FromNoteNumber.Value);
-
 					ratio *= noteNumberRatio;
 				}
 
@@ -109,7 +107,6 @@ namespace JJ.Business.Synthesizer.Calculation
 				{
 					double velocityRatio = (velocity.Value - midiMappingElement.FromVelocity.Value) /
 					                       (double)(midiMappingElement.TillVelocity.Value - midiMappingElement.FromVelocity.Value);
-
 					ratio *= velocityRatio;
 				}
 

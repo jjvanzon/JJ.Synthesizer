@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 			ExecuteValidator(new DocumentValidator_Basic(document));
 			ExecuteValidator(new DocumentValidator_Unicity(document, repositories.DocumentRepository));
 			ExecuteValidator(new DocumentValidator_DoesNotReferenceItself(document));
-			ExecuteValidator(new DocumentValidator_SystemDocumentReferenceMustExist(document, repositories));
+			ExecuteValidator(new DocumentValidator_SystemDocumentReferenceMustExist(document, repositories.DocumentRepository));
 
 			foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
 			{

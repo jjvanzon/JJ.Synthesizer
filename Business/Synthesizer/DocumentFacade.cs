@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
@@ -273,81 +272,6 @@ namespace JJ.Business.Synthesizer
 			}
 
 			return idAndNames;
-		}
-
-		// System Document
-
-		private static Document _systemDocument;
-		private static readonly object _systemDocumentLock = new object();
-
-		private static Dictionary<string, Patch> _systemPatchDictionary;
-		private static readonly object _systemPatchDictionaryLock = new object();
-
-		public Document GetSystemDocument()
-		{
-			lock (_systemDocumentLock)
-			{
-				// ReSharper disable once ConvertIfStatementToNullCoalescingExpression
-				if (_systemDocument == null)
-				{
-					_systemDocument = _repositories.DocumentRepository.GetByNameComplete(DocumentHelper.SYSTEM_DOCUMENT_NAME);
-				}
-				return _systemDocument;
-			}
-		}
-
-		private Dictionary<string, Patch> GetSystemPatchDictionary()
-		{
-			lock (_systemPatchDictionaryLock)
-			{
-				// ReSharper disable once ConvertIfStatementToNullCoalescingExpression
-				if (_systemPatchDictionary == null)
-				{
-					_systemDocument = GetSystemDocument();
-					_systemPatchDictionary = _systemDocument.Patches.Where(x => !x.Hidden).ToDictionary(x => x.Name);
-				}
-				return _systemPatchDictionary;
-			}
-		}
-
-		public void RefreshSystemDocumentIfNeeded(Document document)
-		{
-			// ReSharper disable once InvertIf
-			if (document.IsSystemDocument())
-			{
-				lock (_systemDocumentLock)
-				{
-					_systemDocument = null;
-					_systemPatchDictionary = null;
-				}
-			}
-		}
-
-		public Patch GetSystemPatch(string name)
-		{
-			Patch patch = TryGetSystemPatch(name);
-
-			if (patch == null)
-			{
-				throw new NotFoundException<Patch>(new { name, hidden = false });
-			}
-
-			return patch;
-		}
-
-		private Patch TryGetSystemPatch(string name)
-		{
-			GetSystemPatchDictionary().TryGetValue(name, out Patch patch);
-
-			if (patch == null)
-			{
-				return null;
-			}
-
-			// Get from current context, instead of cached context.
-			Patch patch2 = _repositories.PatchRepository.Get(patch.ID);
-
-			return patch2;
 		}
 	}
 }

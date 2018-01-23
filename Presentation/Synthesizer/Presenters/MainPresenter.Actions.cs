@@ -1020,7 +1020,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			if (validationResult.Successful)
 			{
 				_repositories.Commit();
-				_documentFacade.RefreshSystemDocumentIfNeeded(document);
+				_systemFacade.RefreshSystemDocumentIfNeeded(document);
 
 				MainViewModel.Document.IsDirty = false;
 			}

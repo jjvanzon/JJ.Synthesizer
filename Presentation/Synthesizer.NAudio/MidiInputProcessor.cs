@@ -6,6 +6,7 @@ using System.Threading;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
 using NAudio.Midi;
 
@@ -309,6 +310,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			double frequency = LOWEST_FREQUENCY * Math.Pow(2.0, noteNumber / 12.0);
 			return frequency;
+		}
+
+		private static IList<MidiMappingElement> CreateMockMidiMappingElements()
+		{
+			// TODO: Instead of fiddling around here creating mocks, wouldn't it be easier to just
+			// edit the MidiMappings in the System document and load it here?
+			throw new NotImplementedException();
 		}
 
 		private static Dictionary<int, ControllerInfo> Create_ControllerCode_To_ControllerInfo_Dictionary()

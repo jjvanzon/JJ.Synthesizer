@@ -283,23 +283,9 @@ namespace JJ.Business.Synthesizer.LinkTo
 		{
 			if (derivedOperator == null) throw new NullException(() => derivedOperator);
 
-			if (derivedOperator.UnderlyingPatch != null)
-			{
-				if (derivedOperator.UnderlyingPatch.DerivedOperators.Contains(derivedOperator))
-				{
-					derivedOperator.UnderlyingPatch.DerivedOperators.Remove(derivedOperator);
-				}
-			}
-
 			derivedOperator.UnderlyingPatch = underlyingPatch;
-
-			if (derivedOperator.UnderlyingPatch != null)
-			{
-				if (!derivedOperator.UnderlyingPatch.DerivedOperators.Contains(derivedOperator))
-				{
-					derivedOperator.UnderlyingPatch.DerivedOperators.Add(derivedOperator);
-				}
-			}
+			
+			// No inverse property
 		}
 
 		public static void LinkTo(this Operator op, Curve curve)

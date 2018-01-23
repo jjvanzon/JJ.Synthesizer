@@ -15,7 +15,6 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual Dimension StandardDimension { get; set; }
 		public virtual string CustomDimensionName { get; set; }
 		public virtual IList<Operator> Operators { get; set; } = new List<Operator>();
-		public virtual IList<Operator> DerivedOperators { get; set; } = new List<Operator>();
 
 		/// <summary> parent, nullable </summary>
 		public virtual Document Document { get; set; }

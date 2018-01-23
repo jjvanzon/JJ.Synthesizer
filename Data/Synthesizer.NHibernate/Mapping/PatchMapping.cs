@@ -15,7 +15,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 			Map(x => x.HasDimension);
 			Map(x => x.CustomDimensionName);
 			HasMany(x => x.Operators).KeyColumn(ColumnNames.PatchID).Inverse();
-			HasMany(x => x.DerivedOperators).KeyColumn(ColumnNames.UnderlyingPatchID).Inverse();
 			References(x => x.Document, ColumnNames.DocumentID);
 			References(x => x.StandardDimension, ColumnNames.StandardDimensionID);
 		}

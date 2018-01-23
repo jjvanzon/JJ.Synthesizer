@@ -324,6 +324,7 @@
     <Compile Include="SideEffects\MidiMapping_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\MidiMappingElement_SideEffect_AutoCreateEntityPosition.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_AutoCreateEntityPosition.cs" />
+    <Compile Include="SystemFacade.cs" />
     <Compile Include="Validation\DataProperty\Position_DataProperty_Validator.cs" />
     <Compile Include="Validation\DimensionInfoValidator.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />

@@ -91,6 +91,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly MidiMappingFacade _midiMappingFacade;
 		private readonly PatchFacade _patchFacade;
 		private readonly ScaleFacade _scaleFacade;
+		private readonly SystemFacade _systemFacade;
 
 		public MainViewModel MainViewModel { get; private set; }
 
@@ -109,9 +110,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_curveFacade = new CurveFacade(_curveRepositories);
 			_documentFacade = new DocumentFacade(_repositories);
 			_midiMappingFacade = new MidiMappingFacade(midiMappingRepositories);
-
 			_patchFacade = new PatchFacade(_repositories);
 			_scaleFacade = new ScaleFacade(scaleRepositories);
+			_systemFacade = new SystemFacade(_repositories.DocumentRepository);
 
 			// Create Presenters
 			_audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_audioFileOutputFacade, _repositories.DocumentRepository);
