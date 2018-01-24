@@ -334,6 +334,12 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Width => Resources.Width;
 		public static string X => Resources.X;
 		public static string Y => Resources.Y;
+		public static string ControllerValues => Resources.ControllerValues;
+		public static string DimensionValues => Resources.DimensionValues;
+		public static string NoteNumbers => Resources.NoteNumbers;
+		public static string ToneNumbers => Resources.ToneNumbers;
+		public static string MinMaxDimensionValues => Resources.MinMaxDimensionValues;
+		public static string Velocities => Resources.Velocities;
 
 		// Resource texts with placeholders
 

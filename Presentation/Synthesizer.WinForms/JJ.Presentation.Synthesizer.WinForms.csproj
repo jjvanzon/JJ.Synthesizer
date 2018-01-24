@@ -221,6 +221,12 @@
     <Compile Include="UserControls\AudioOutputPropertiesUserControl.Designer.cs">
       <DependentUpon>AudioOutputPropertiesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Partials\FromTillUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Partials\FromTillUserControl.Designer.cs">
+      <DependentUpon>FromTillUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Partials\LibrarySelectionGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -420,6 +426,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MidiMappingDetailsUserControl.resx">
       <DependentUpon>MidiMappingDetailsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Partials\FromTillUserControl.resx">
+      <DependentUpon>FromTillUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ToneGridEditUserControl.resx">
       <DependentUpon>ToneGridEditUserControl.cs</DependentUpon>

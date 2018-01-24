@@ -1,7 +1,7 @@
-﻿using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
@@ -44,8 +44,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			{
 				_tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, ROW_HEIGHT));
 			}
+
 			// LastRow always is empty space at the end.
-			_tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize)); 
+			_tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
 			StyleHelper.SetPropertyLabelColumnSize(_tableLayoutPanel);
 		}
@@ -54,19 +55,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		{
 			base.PositionControls();
 
-			_tableLayoutPanel.Width = Width - StyleHelper.DefaultSpacing; // Arbitraily take off spacing, because otherwise it is stuck at the left side.
+			_tableLayoutPanel.Width =
+				Width - StyleHelper.DefaultSpacing; // Arbitraily take off spacing, because otherwise it is stuck at the left side.
+
 			_tableLayoutPanel.Height = Height - StyleHelper.TitleBarHeight;
 		}
 
 		/// <summary> does nothing </summary>
-		protected virtual void AddProperties()
-		{ }
+		protected virtual void AddProperties() { }
 
-		/// <param name="nameControl">nullable</param>
-		/// <param name="valueControl">nullable</param>
+		/// <summary> Call from AddProperties. </summary>
+		/// <param name="nameControl">nameControl and valueControl cannot both be null.</param>
+		/// <param name="valueControl">nameControl and valueControl cannot both be null.</param>
 		protected void AddProperty(Control nameControl, Control valueControl)
 		{
-			if (nameControl == null && valueControl == null) throw new Exception($"{nameof(nameControl)} and {nameof(valueControl)} cannot both be null.");
+			if (nameControl == null && valueControl == null)
+				throw new Exception($"{nameof(nameControl)} and {nameof(valueControl)} cannot both be null.");
 
 			int rowIndex = _tableLayoutPanel.RowCount++;
 
@@ -85,6 +89,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 				Controls.Remove(valueControl);
 			}
 		}
+
+		/// <summary> Call from AddProperties. Adds spacing in between properties. </summary>
+		protected void AddSpacing() => AddProperty(new Label(), null);
 
 		// Create Controls
 

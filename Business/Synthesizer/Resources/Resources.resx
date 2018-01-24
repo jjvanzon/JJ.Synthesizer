@@ -1158,4 +1158,22 @@
   <data name="EntityPosition" xml:space="preserve">
     <value>Object Position</value>
   </data>
+  <data name="ControllerValues" xml:space="preserve">
+    <value>Controller Values</value>
+  </data>
+  <data name="DimensionValues" xml:space="preserve">
+    <value>Dimension Values</value>
+  </data>
+  <data name="MinMaxDimensionValues" xml:space="preserve">
+    <value>Min/Max Dimension Values</value>
+  </data>
+  <data name="NoteNumbers" xml:space="preserve">
+    <value>Note Numbers</value>
+  </data>
+  <data name="ToneNumbers" xml:space="preserve">
+    <value>Tone Numbers</value>
+  </data>
+  <data name="Velocities" xml:space="preserve">
+    <value>Velocities</value>
+  </data>
 </root>

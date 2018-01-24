@@ -34,36 +34,26 @@
 			this.labelIsRelative = new System.Windows.Forms.Label();
 			this.labelControllerCode = new System.Windows.Forms.Label();
 			this.maskedTextBoxControllerCode = new System.Windows.Forms.MaskedTextBox();
-			this.maskedTextBoxFromControllerValue = new System.Windows.Forms.MaskedTextBox();
-			this.labelFromControllerValue = new System.Windows.Forms.Label();
-			this.maskedTextBoxTillControllerValue = new System.Windows.Forms.MaskedTextBox();
-			this.labelTillControllerValue = new System.Windows.Forms.Label();
-			this.maskedTextBoxFromNoteNumber = new System.Windows.Forms.MaskedTextBox();
-			this.labelFromNoteNumber = new System.Windows.Forms.Label();
-			this.maskedTextBoxTillNoteNumber = new System.Windows.Forms.MaskedTextBox();
-			this.labelTillNoteNumber = new System.Windows.Forms.Label();
 			this.labelStandardDimension = new System.Windows.Forms.Label();
 			this.comboBoxStandardDimension = new System.Windows.Forms.ComboBox();
 			this.labelCustomDimensionName = new System.Windows.Forms.Label();
 			this.textBoxCustomDimensionName = new System.Windows.Forms.TextBox();
-			this.labelFromDimensionValue = new System.Windows.Forms.Label();
-			this.textBoxFromDimensionValue = new System.Windows.Forms.TextBox();
-			this.labelTillDimensionValue = new System.Windows.Forms.Label();
-			this.textBoxTillDimensionValue = new System.Windows.Forms.TextBox();
-			this.labelFromPosition = new System.Windows.Forms.Label();
-			this.textBoxFromPosition = new System.Windows.Forms.TextBox();
-			this.labelTillPosition = new System.Windows.Forms.Label();
-			this.textBoxTillPosition = new System.Windows.Forms.TextBox();
 			this.labelScale = new System.Windows.Forms.Label();
 			this.comboBoxScale = new System.Windows.Forms.ComboBox();
-			this.maskedTextBoxFromToneNumber = new System.Windows.Forms.MaskedTextBox();
-			this.labelFromToneNumber = new System.Windows.Forms.Label();
-			this.maskedTextBoxTillToneNumber = new System.Windows.Forms.MaskedTextBox();
-			this.labelTillToneNumber = new System.Windows.Forms.Label();
-			this.labelMinDimensionValue = new System.Windows.Forms.Label();
-			this.textBoxMinDimensionValue = new System.Windows.Forms.TextBox();
-			this.labelMaxDimensionValue = new System.Windows.Forms.Label();
-			this.textBoxMaxDimensionValue = new System.Windows.Forms.TextBox();
+			this.fromTillUserControlDimensionValues = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.fromTillUserControlControllerValues = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.labelDimensionValues = new System.Windows.Forms.Label();
+			this.labelControllerValues = new System.Windows.Forms.Label();
+			this.labelVelocities = new System.Windows.Forms.Label();
+			this.fromTillUserControlVelocities = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.labelPositions = new System.Windows.Forms.Label();
+			this.fromTillUserControlPositions = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.labelNoteNumbers = new System.Windows.Forms.Label();
+			this.fromTillUserControlNoteNumbers = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.labelToneNumbers = new System.Windows.Forms.Label();
+			this.fromTillUserControlToneNumbers = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.labelMinMaxDimensionValues = new System.Windows.Forms.Label();
+			this.fromTillUserControlMinMaxDimensionValues = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
 			this.SuspendLayout();
 			// 
 			// checkBoxIsActive
@@ -126,86 +116,6 @@
 			this.maskedTextBoxControllerCode.TabIndex = 21;
 			this.maskedTextBoxControllerCode.ValidatingType = typeof(int);
 			// 
-			// maskedTextBoxFromControllerValue
-			// 
-			this.maskedTextBoxFromControllerValue.Location = new System.Drawing.Point(210, 69);
-			this.maskedTextBoxFromControllerValue.Mask = "###";
-			this.maskedTextBoxFromControllerValue.Name = "maskedTextBoxFromControllerValue";
-			this.maskedTextBoxFromControllerValue.PromptChar = ' ';
-			this.maskedTextBoxFromControllerValue.Size = new System.Drawing.Size(100, 22);
-			this.maskedTextBoxFromControllerValue.TabIndex = 23;
-			this.maskedTextBoxFromControllerValue.ValidatingType = typeof(int);
-			// 
-			// labelFromControllerValue
-			// 
-			this.labelFromControllerValue.Location = new System.Drawing.Point(24, 68);
-			this.labelFromControllerValue.Margin = new System.Windows.Forms.Padding(0);
-			this.labelFromControllerValue.Name = "labelFromControllerValue";
-			this.labelFromControllerValue.Size = new System.Drawing.Size(183, 22);
-			this.labelFromControllerValue.TabIndex = 22;
-			this.labelFromControllerValue.Text = "labelFromControllerValue";
-			this.labelFromControllerValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// maskedTextBoxTillControllerValue
-			// 
-			this.maskedTextBoxTillControllerValue.Location = new System.Drawing.Point(212, 95);
-			this.maskedTextBoxTillControllerValue.Mask = "###";
-			this.maskedTextBoxTillControllerValue.Name = "maskedTextBoxTillControllerValue";
-			this.maskedTextBoxTillControllerValue.PromptChar = ' ';
-			this.maskedTextBoxTillControllerValue.Size = new System.Drawing.Size(100, 22);
-			this.maskedTextBoxTillControllerValue.TabIndex = 25;
-			this.maskedTextBoxTillControllerValue.ValidatingType = typeof(int);
-			// 
-			// labelTillControllerValue
-			// 
-			this.labelTillControllerValue.Location = new System.Drawing.Point(26, 94);
-			this.labelTillControllerValue.Margin = new System.Windows.Forms.Padding(0);
-			this.labelTillControllerValue.Name = "labelTillControllerValue";
-			this.labelTillControllerValue.Size = new System.Drawing.Size(183, 22);
-			this.labelTillControllerValue.TabIndex = 24;
-			this.labelTillControllerValue.Text = "labelTillControllerValue";
-			this.labelTillControllerValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// maskedTextBoxFromNoteNumber
-			// 
-			this.maskedTextBoxFromNoteNumber.Location = new System.Drawing.Point(209, 115);
-			this.maskedTextBoxFromNoteNumber.Mask = "###";
-			this.maskedTextBoxFromNoteNumber.Name = "maskedTextBoxFromNoteNumber";
-			this.maskedTextBoxFromNoteNumber.PromptChar = ' ';
-			this.maskedTextBoxFromNoteNumber.Size = new System.Drawing.Size(100, 22);
-			this.maskedTextBoxFromNoteNumber.TabIndex = 27;
-			this.maskedTextBoxFromNoteNumber.ValidatingType = typeof(int);
-			// 
-			// labelFromNoteNumber
-			// 
-			this.labelFromNoteNumber.Location = new System.Drawing.Point(23, 114);
-			this.labelFromNoteNumber.Margin = new System.Windows.Forms.Padding(0);
-			this.labelFromNoteNumber.Name = "labelFromNoteNumber";
-			this.labelFromNoteNumber.Size = new System.Drawing.Size(183, 22);
-			this.labelFromNoteNumber.TabIndex = 26;
-			this.labelFromNoteNumber.Text = "labelFromNoteNumber";
-			this.labelFromNoteNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// maskedTextBoxTillNoteNumber
-			// 
-			this.maskedTextBoxTillNoteNumber.Location = new System.Drawing.Point(208, 138);
-			this.maskedTextBoxTillNoteNumber.Mask = "###";
-			this.maskedTextBoxTillNoteNumber.Name = "maskedTextBoxTillNoteNumber";
-			this.maskedTextBoxTillNoteNumber.PromptChar = ' ';
-			this.maskedTextBoxTillNoteNumber.Size = new System.Drawing.Size(100, 22);
-			this.maskedTextBoxTillNoteNumber.TabIndex = 29;
-			this.maskedTextBoxTillNoteNumber.ValidatingType = typeof(int);
-			// 
-			// labelTillNoteNumber
-			// 
-			this.labelTillNoteNumber.Location = new System.Drawing.Point(22, 137);
-			this.labelTillNoteNumber.Margin = new System.Windows.Forms.Padding(0);
-			this.labelTillNoteNumber.Name = "labelTillNoteNumber";
-			this.labelTillNoteNumber.Size = new System.Drawing.Size(183, 22);
-			this.labelTillNoteNumber.TabIndex = 28;
-			this.labelTillNoteNumber.Text = "labelTillNoteNumber";
-			this.labelTillNoteNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
 			// labelStandardDimension
 			// 
 			this.labelStandardDimension.Location = new System.Drawing.Point(25, 157);
@@ -244,78 +154,6 @@
 			this.textBoxCustomDimensionName.Size = new System.Drawing.Size(105, 22);
 			this.textBoxCustomDimensionName.TabIndex = 31;
 			// 
-			// labelFromDimensionValue
-			// 
-			this.labelFromDimensionValue.Location = new System.Drawing.Point(30, 214);
-			this.labelFromDimensionValue.Margin = new System.Windows.Forms.Padding(0);
-			this.labelFromDimensionValue.Name = "labelFromDimensionValue";
-			this.labelFromDimensionValue.Size = new System.Drawing.Size(180, 22);
-			this.labelFromDimensionValue.TabIndex = 34;
-			this.labelFromDimensionValue.Text = "labelFromDimensionValue";
-			this.labelFromDimensionValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// textBoxFromDimensionValue
-			// 
-			this.textBoxFromDimensionValue.Location = new System.Drawing.Point(223, 212);
-			this.textBoxFromDimensionValue.Margin = new System.Windows.Forms.Padding(0);
-			this.textBoxFromDimensionValue.Name = "textBoxFromDimensionValue";
-			this.textBoxFromDimensionValue.Size = new System.Drawing.Size(105, 22);
-			this.textBoxFromDimensionValue.TabIndex = 35;
-			// 
-			// labelTillDimensionValue
-			// 
-			this.labelTillDimensionValue.Location = new System.Drawing.Point(34, 238);
-			this.labelTillDimensionValue.Margin = new System.Windows.Forms.Padding(0);
-			this.labelTillDimensionValue.Name = "labelTillDimensionValue";
-			this.labelTillDimensionValue.Size = new System.Drawing.Size(180, 22);
-			this.labelTillDimensionValue.TabIndex = 36;
-			this.labelTillDimensionValue.Text = "labelTillDimensionValue";
-			this.labelTillDimensionValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// textBoxTillDimensionValue
-			// 
-			this.textBoxTillDimensionValue.Location = new System.Drawing.Point(227, 236);
-			this.textBoxTillDimensionValue.Margin = new System.Windows.Forms.Padding(0);
-			this.textBoxTillDimensionValue.Name = "textBoxTillDimensionValue";
-			this.textBoxTillDimensionValue.Size = new System.Drawing.Size(105, 22);
-			this.textBoxTillDimensionValue.TabIndex = 37;
-			// 
-			// labelFromPosition
-			// 
-			this.labelFromPosition.Location = new System.Drawing.Point(34, 327);
-			this.labelFromPosition.Margin = new System.Windows.Forms.Padding(0);
-			this.labelFromPosition.Name = "labelFromPosition";
-			this.labelFromPosition.Size = new System.Drawing.Size(180, 22);
-			this.labelFromPosition.TabIndex = 38;
-			this.labelFromPosition.Text = "labelFromPosition";
-			this.labelFromPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// textBoxFromPosition
-			// 
-			this.textBoxFromPosition.Location = new System.Drawing.Point(227, 325);
-			this.textBoxFromPosition.Margin = new System.Windows.Forms.Padding(0);
-			this.textBoxFromPosition.Name = "textBoxFromPosition";
-			this.textBoxFromPosition.Size = new System.Drawing.Size(105, 22);
-			this.textBoxFromPosition.TabIndex = 39;
-			// 
-			// labelTillPosition
-			// 
-			this.labelTillPosition.Location = new System.Drawing.Point(32, 353);
-			this.labelTillPosition.Margin = new System.Windows.Forms.Padding(0);
-			this.labelTillPosition.Name = "labelTillPosition";
-			this.labelTillPosition.Size = new System.Drawing.Size(180, 22);
-			this.labelTillPosition.TabIndex = 40;
-			this.labelTillPosition.Text = "labelTillPosition";
-			this.labelTillPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// textBoxTillPosition
-			// 
-			this.textBoxTillPosition.Location = new System.Drawing.Point(225, 351);
-			this.textBoxTillPosition.Margin = new System.Windows.Forms.Padding(0);
-			this.textBoxTillPosition.Name = "textBoxTillPosition";
-			this.textBoxTillPosition.Size = new System.Drawing.Size(105, 22);
-			this.textBoxTillPosition.TabIndex = 41;
-			// 
 			// labelScale
 			// 
 			this.labelScale.Location = new System.Drawing.Point(42, 372);
@@ -336,81 +174,152 @@
 			this.comboBoxScale.Size = new System.Drawing.Size(130, 24);
 			this.comboBoxScale.TabIndex = 42;
 			// 
-			// maskedTextBoxFromToneNumber
+			// fromTillUserControlDimensionValues
 			// 
-			this.maskedTextBoxFromToneNumber.Location = new System.Drawing.Point(230, 398);
-			this.maskedTextBoxFromToneNumber.Mask = "####";
-			this.maskedTextBoxFromToneNumber.Name = "maskedTextBoxFromToneNumber";
-			this.maskedTextBoxFromToneNumber.PromptChar = ' ';
-			this.maskedTextBoxFromToneNumber.Size = new System.Drawing.Size(100, 22);
-			this.maskedTextBoxFromToneNumber.TabIndex = 45;
-			this.maskedTextBoxFromToneNumber.ValidatingType = typeof(int);
+			this.fromTillUserControlDimensionValues.From = "";
+			this.fromTillUserControlDimensionValues.Location = new System.Drawing.Point(221, 548);
+			this.fromTillUserControlDimensionValues.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillUserControlDimensionValues.Mask = "";
+			this.fromTillUserControlDimensionValues.Name = "fromTillUserControlDimensionValues";
+			this.fromTillUserControlDimensionValues.Size = new System.Drawing.Size(133, 22);
+			this.fromTillUserControlDimensionValues.TabIndex = 56;
+			this.fromTillUserControlDimensionValues.Till = "";
 			// 
-			// labelFromToneNumber
+			// fromTillUserControlControllerValues
 			// 
-			this.labelFromToneNumber.Location = new System.Drawing.Point(44, 397);
-			this.labelFromToneNumber.Margin = new System.Windows.Forms.Padding(0);
-			this.labelFromToneNumber.Name = "labelFromToneNumber";
-			this.labelFromToneNumber.Size = new System.Drawing.Size(183, 22);
-			this.labelFromToneNumber.TabIndex = 44;
-			this.labelFromToneNumber.Text = "labelFromToneNumber";
-			this.labelFromToneNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.fromTillUserControlControllerValues.From = "";
+			this.fromTillUserControlControllerValues.Location = new System.Drawing.Point(215, 573);
+			this.fromTillUserControlControllerValues.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillUserControlControllerValues.Mask = "###";
+			this.fromTillUserControlControllerValues.Name = "fromTillUserControlControllerValues";
+			this.fromTillUserControlControllerValues.Size = new System.Drawing.Size(133, 22);
+			this.fromTillUserControlControllerValues.TabIndex = 57;
+			this.fromTillUserControlControllerValues.Till = "";
 			// 
-			// maskedTextBoxTillToneNumber
+			// labelDimensionValues
 			// 
-			this.maskedTextBoxTillToneNumber.Location = new System.Drawing.Point(229, 424);
-			this.maskedTextBoxTillToneNumber.Mask = "####";
-			this.maskedTextBoxTillToneNumber.Name = "maskedTextBoxTillToneNumber";
-			this.maskedTextBoxTillToneNumber.PromptChar = ' ';
-			this.maskedTextBoxTillToneNumber.Size = new System.Drawing.Size(100, 22);
-			this.maskedTextBoxTillToneNumber.TabIndex = 47;
-			this.maskedTextBoxTillToneNumber.ValidatingType = typeof(int);
+			this.labelDimensionValues.Location = new System.Drawing.Point(32, 549);
+			this.labelDimensionValues.Margin = new System.Windows.Forms.Padding(0);
+			this.labelDimensionValues.Name = "labelDimensionValues";
+			this.labelDimensionValues.Size = new System.Drawing.Size(180, 22);
+			this.labelDimensionValues.TabIndex = 58;
+			this.labelDimensionValues.Text = "labelDimensionValues";
+			this.labelDimensionValues.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// labelTillToneNumber
+			// labelControllerValues
 			// 
-			this.labelTillToneNumber.Location = new System.Drawing.Point(43, 423);
-			this.labelTillToneNumber.Margin = new System.Windows.Forms.Padding(0);
-			this.labelTillToneNumber.Name = "labelTillToneNumber";
-			this.labelTillToneNumber.Size = new System.Drawing.Size(183, 22);
-			this.labelTillToneNumber.TabIndex = 46;
-			this.labelTillToneNumber.Text = "labelTillToneNumber";
-			this.labelTillToneNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelControllerValues.Location = new System.Drawing.Point(33, 573);
+			this.labelControllerValues.Margin = new System.Windows.Forms.Padding(0);
+			this.labelControllerValues.Name = "labelControllerValues";
+			this.labelControllerValues.Size = new System.Drawing.Size(180, 22);
+			this.labelControllerValues.TabIndex = 59;
+			this.labelControllerValues.Text = "labelControllerValues";
+			this.labelControllerValues.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// labelMinDimensionValue
+			// labelVelocities
 			// 
-			this.labelMinDimensionValue.Location = new System.Drawing.Point(34, 265);
-			this.labelMinDimensionValue.Margin = new System.Windows.Forms.Padding(0);
-			this.labelMinDimensionValue.Name = "labelMinDimensionValue";
-			this.labelMinDimensionValue.Size = new System.Drawing.Size(180, 22);
-			this.labelMinDimensionValue.TabIndex = 48;
-			this.labelMinDimensionValue.Text = "labelMinDimensionValue";
-			this.labelMinDimensionValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelVelocities.Location = new System.Drawing.Point(34, 598);
+			this.labelVelocities.Margin = new System.Windows.Forms.Padding(0);
+			this.labelVelocities.Name = "labelVelocities";
+			this.labelVelocities.Size = new System.Drawing.Size(180, 22);
+			this.labelVelocities.TabIndex = 61;
+			this.labelVelocities.Text = "labelVelocities";
+			this.labelVelocities.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// textBoxMinDimensionValue
+			// fromTillUserControlVelocities
 			// 
-			this.textBoxMinDimensionValue.Location = new System.Drawing.Point(227, 263);
-			this.textBoxMinDimensionValue.Margin = new System.Windows.Forms.Padding(0);
-			this.textBoxMinDimensionValue.Name = "textBoxMinDimensionValue";
-			this.textBoxMinDimensionValue.Size = new System.Drawing.Size(105, 22);
-			this.textBoxMinDimensionValue.TabIndex = 49;
+			this.fromTillUserControlVelocities.From = "";
+			this.fromTillUserControlVelocities.Location = new System.Drawing.Point(216, 598);
+			this.fromTillUserControlVelocities.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillUserControlVelocities.Mask = "###";
+			this.fromTillUserControlVelocities.Name = "fromTillUserControlVelocities";
+			this.fromTillUserControlVelocities.Size = new System.Drawing.Size(133, 22);
+			this.fromTillUserControlVelocities.TabIndex = 60;
+			this.fromTillUserControlVelocities.Till = "";
 			// 
-			// labelMaxDimensionValue
+			// labelPositions
 			// 
-			this.labelMaxDimensionValue.Location = new System.Drawing.Point(32, 292);
-			this.labelMaxDimensionValue.Margin = new System.Windows.Forms.Padding(0);
-			this.labelMaxDimensionValue.Name = "labelMaxDimensionValue";
-			this.labelMaxDimensionValue.Size = new System.Drawing.Size(180, 22);
-			this.labelMaxDimensionValue.TabIndex = 50;
-			this.labelMaxDimensionValue.Text = "labelMaxDimensionValue";
-			this.labelMaxDimensionValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelPositions.Location = new System.Drawing.Point(34, 625);
+			this.labelPositions.Margin = new System.Windows.Forms.Padding(0);
+			this.labelPositions.Name = "labelPositions";
+			this.labelPositions.Size = new System.Drawing.Size(180, 22);
+			this.labelPositions.TabIndex = 63;
+			this.labelPositions.Text = "labelPositions";
+			this.labelPositions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// textBoxMaxDimensionValue
+			// fromTillUserControlPositions
 			// 
-			this.textBoxMaxDimensionValue.Location = new System.Drawing.Point(225, 290);
-			this.textBoxMaxDimensionValue.Margin = new System.Windows.Forms.Padding(0);
-			this.textBoxMaxDimensionValue.Name = "textBoxMaxDimensionValue";
-			this.textBoxMaxDimensionValue.Size = new System.Drawing.Size(105, 22);
-			this.textBoxMaxDimensionValue.TabIndex = 51;
+			this.fromTillUserControlPositions.From = "";
+			this.fromTillUserControlPositions.Location = new System.Drawing.Point(216, 625);
+			this.fromTillUserControlPositions.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillUserControlPositions.Mask = "";
+			this.fromTillUserControlPositions.Name = "fromTillUserControlPositions";
+			this.fromTillUserControlPositions.Size = new System.Drawing.Size(133, 22);
+			this.fromTillUserControlPositions.TabIndex = 62;
+			this.fromTillUserControlPositions.Till = "";
+			// 
+			// labelNoteNumbers
+			// 
+			this.labelNoteNumbers.Location = new System.Drawing.Point(30, 651);
+			this.labelNoteNumbers.Margin = new System.Windows.Forms.Padding(0);
+			this.labelNoteNumbers.Name = "labelNoteNumbers";
+			this.labelNoteNumbers.Size = new System.Drawing.Size(180, 22);
+			this.labelNoteNumbers.TabIndex = 65;
+			this.labelNoteNumbers.Text = "labelNoteNumbers";
+			this.labelNoteNumbers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// fromTillUserControlNoteNumbers
+			// 
+			this.fromTillUserControlNoteNumbers.From = "";
+			this.fromTillUserControlNoteNumbers.Location = new System.Drawing.Point(212, 651);
+			this.fromTillUserControlNoteNumbers.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillUserControlNoteNumbers.Mask = "###";
+			this.fromTillUserControlNoteNumbers.Name = "fromTillUserControlNoteNumbers";
+			this.fromTillUserControlNoteNumbers.Size = new System.Drawing.Size(133, 22);
+			this.fromTillUserControlNoteNumbers.TabIndex = 64;
+			this.fromTillUserControlNoteNumbers.Till = "";
+			// 
+			// labelToneNumbers
+			// 
+			this.labelToneNumbers.Location = new System.Drawing.Point(31, 677);
+			this.labelToneNumbers.Margin = new System.Windows.Forms.Padding(0);
+			this.labelToneNumbers.Name = "labelToneNumbers";
+			this.labelToneNumbers.Size = new System.Drawing.Size(180, 22);
+			this.labelToneNumbers.TabIndex = 67;
+			this.labelToneNumbers.Text = "labelToneNumbers";
+			this.labelToneNumbers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// fromTillUserControlToneNumbers
+			// 
+			this.fromTillUserControlToneNumbers.From = "";
+			this.fromTillUserControlToneNumbers.Location = new System.Drawing.Point(213, 677);
+			this.fromTillUserControlToneNumbers.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillUserControlToneNumbers.Mask = "###";
+			this.fromTillUserControlToneNumbers.Name = "fromTillUserControlToneNumbers";
+			this.fromTillUserControlToneNumbers.Size = new System.Drawing.Size(133, 22);
+			this.fromTillUserControlToneNumbers.TabIndex = 66;
+			this.fromTillUserControlToneNumbers.Till = "";
+			// 
+			// labelMinMaxDimensionValues
+			// 
+			this.labelMinMaxDimensionValues.Location = new System.Drawing.Point(24, 702);
+			this.labelMinMaxDimensionValues.Margin = new System.Windows.Forms.Padding(0);
+			this.labelMinMaxDimensionValues.Name = "labelMinMaxDimensionValues";
+			this.labelMinMaxDimensionValues.Size = new System.Drawing.Size(180, 22);
+			this.labelMinMaxDimensionValues.TabIndex = 69;
+			this.labelMinMaxDimensionValues.Text = "labelMinMaxDimensionValues";
+			this.labelMinMaxDimensionValues.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// fromTillUserControlMinMaxDimensionValues
+			// 
+			this.fromTillUserControlMinMaxDimensionValues.From = "";
+			this.fromTillUserControlMinMaxDimensionValues.Location = new System.Drawing.Point(213, 701);
+			this.fromTillUserControlMinMaxDimensionValues.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillUserControlMinMaxDimensionValues.Mask = "";
+			this.fromTillUserControlMinMaxDimensionValues.Name = "fromTillUserControlMinMaxDimensionValues";
+			this.fromTillUserControlMinMaxDimensionValues.Size = new System.Drawing.Size(133, 22);
+			this.fromTillUserControlMinMaxDimensionValues.TabIndex = 68;
+			this.fromTillUserControlMinMaxDimensionValues.Till = "";
 			// 
 			// MidiMappingElementPropertiesUserControl
 			// 
@@ -418,36 +327,26 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.Controls.Add(this.labelMaxDimensionValue);
-			this.Controls.Add(this.textBoxMaxDimensionValue);
-			this.Controls.Add(this.labelMinDimensionValue);
-			this.Controls.Add(this.textBoxMinDimensionValue);
-			this.Controls.Add(this.maskedTextBoxTillToneNumber);
-			this.Controls.Add(this.labelTillToneNumber);
-			this.Controls.Add(this.maskedTextBoxFromToneNumber);
-			this.Controls.Add(this.labelFromToneNumber);
+			this.Controls.Add(this.labelMinMaxDimensionValues);
+			this.Controls.Add(this.fromTillUserControlMinMaxDimensionValues);
+			this.Controls.Add(this.labelToneNumbers);
+			this.Controls.Add(this.fromTillUserControlToneNumbers);
+			this.Controls.Add(this.labelNoteNumbers);
+			this.Controls.Add(this.fromTillUserControlNoteNumbers);
+			this.Controls.Add(this.labelPositions);
+			this.Controls.Add(this.fromTillUserControlPositions);
+			this.Controls.Add(this.labelVelocities);
+			this.Controls.Add(this.fromTillUserControlVelocities);
+			this.Controls.Add(this.labelControllerValues);
+			this.Controls.Add(this.labelDimensionValues);
+			this.Controls.Add(this.fromTillUserControlControllerValues);
+			this.Controls.Add(this.fromTillUserControlDimensionValues);
 			this.Controls.Add(this.labelScale);
 			this.Controls.Add(this.comboBoxScale);
-			this.Controls.Add(this.labelTillPosition);
-			this.Controls.Add(this.textBoxTillPosition);
-			this.Controls.Add(this.labelFromPosition);
-			this.Controls.Add(this.textBoxFromPosition);
-			this.Controls.Add(this.labelTillDimensionValue);
-			this.Controls.Add(this.textBoxTillDimensionValue);
-			this.Controls.Add(this.labelFromDimensionValue);
-			this.Controls.Add(this.textBoxFromDimensionValue);
 			this.Controls.Add(this.labelStandardDimension);
 			this.Controls.Add(this.comboBoxStandardDimension);
 			this.Controls.Add(this.labelCustomDimensionName);
 			this.Controls.Add(this.textBoxCustomDimensionName);
-			this.Controls.Add(this.maskedTextBoxTillNoteNumber);
-			this.Controls.Add(this.labelTillNoteNumber);
-			this.Controls.Add(this.maskedTextBoxFromNoteNumber);
-			this.Controls.Add(this.labelFromNoteNumber);
-			this.Controls.Add(this.maskedTextBoxTillControllerValue);
-			this.Controls.Add(this.labelTillControllerValue);
-			this.Controls.Add(this.maskedTextBoxFromControllerValue);
-			this.Controls.Add(this.labelFromControllerValue);
 			this.Controls.Add(this.maskedTextBoxControllerCode);
 			this.Controls.Add(this.labelControllerCode);
 			this.Controls.Add(this.checkBoxIsRelative);
@@ -458,7 +357,7 @@
 			this.ExpandButtonVisible = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "MidiMappingElementPropertiesUserControl";
-			this.Size = new System.Drawing.Size(467, 518);
+			this.Size = new System.Drawing.Size(467, 746);
 			this.TitleBarText = "";
 			this.Controls.SetChildIndex(this.labelIsActive, 0);
 			this.Controls.SetChildIndex(this.checkBoxIsActive, 0);
@@ -466,36 +365,26 @@
 			this.Controls.SetChildIndex(this.checkBoxIsRelative, 0);
 			this.Controls.SetChildIndex(this.labelControllerCode, 0);
 			this.Controls.SetChildIndex(this.maskedTextBoxControllerCode, 0);
-			this.Controls.SetChildIndex(this.labelFromControllerValue, 0);
-			this.Controls.SetChildIndex(this.maskedTextBoxFromControllerValue, 0);
-			this.Controls.SetChildIndex(this.labelTillControllerValue, 0);
-			this.Controls.SetChildIndex(this.maskedTextBoxTillControllerValue, 0);
-			this.Controls.SetChildIndex(this.labelFromNoteNumber, 0);
-			this.Controls.SetChildIndex(this.maskedTextBoxFromNoteNumber, 0);
-			this.Controls.SetChildIndex(this.labelTillNoteNumber, 0);
-			this.Controls.SetChildIndex(this.maskedTextBoxTillNoteNumber, 0);
 			this.Controls.SetChildIndex(this.textBoxCustomDimensionName, 0);
 			this.Controls.SetChildIndex(this.labelCustomDimensionName, 0);
 			this.Controls.SetChildIndex(this.comboBoxStandardDimension, 0);
 			this.Controls.SetChildIndex(this.labelStandardDimension, 0);
-			this.Controls.SetChildIndex(this.textBoxFromDimensionValue, 0);
-			this.Controls.SetChildIndex(this.labelFromDimensionValue, 0);
-			this.Controls.SetChildIndex(this.textBoxTillDimensionValue, 0);
-			this.Controls.SetChildIndex(this.labelTillDimensionValue, 0);
-			this.Controls.SetChildIndex(this.textBoxFromPosition, 0);
-			this.Controls.SetChildIndex(this.labelFromPosition, 0);
-			this.Controls.SetChildIndex(this.textBoxTillPosition, 0);
-			this.Controls.SetChildIndex(this.labelTillPosition, 0);
 			this.Controls.SetChildIndex(this.comboBoxScale, 0);
 			this.Controls.SetChildIndex(this.labelScale, 0);
-			this.Controls.SetChildIndex(this.labelFromToneNumber, 0);
-			this.Controls.SetChildIndex(this.maskedTextBoxFromToneNumber, 0);
-			this.Controls.SetChildIndex(this.labelTillToneNumber, 0);
-			this.Controls.SetChildIndex(this.maskedTextBoxTillToneNumber, 0);
-			this.Controls.SetChildIndex(this.textBoxMinDimensionValue, 0);
-			this.Controls.SetChildIndex(this.labelMinDimensionValue, 0);
-			this.Controls.SetChildIndex(this.textBoxMaxDimensionValue, 0);
-			this.Controls.SetChildIndex(this.labelMaxDimensionValue, 0);
+			this.Controls.SetChildIndex(this.fromTillUserControlDimensionValues, 0);
+			this.Controls.SetChildIndex(this.fromTillUserControlControllerValues, 0);
+			this.Controls.SetChildIndex(this.labelDimensionValues, 0);
+			this.Controls.SetChildIndex(this.labelControllerValues, 0);
+			this.Controls.SetChildIndex(this.fromTillUserControlVelocities, 0);
+			this.Controls.SetChildIndex(this.labelVelocities, 0);
+			this.Controls.SetChildIndex(this.fromTillUserControlPositions, 0);
+			this.Controls.SetChildIndex(this.labelPositions, 0);
+			this.Controls.SetChildIndex(this.fromTillUserControlNoteNumbers, 0);
+			this.Controls.SetChildIndex(this.labelNoteNumbers, 0);
+			this.Controls.SetChildIndex(this.fromTillUserControlToneNumbers, 0);
+			this.Controls.SetChildIndex(this.labelToneNumbers, 0);
+			this.Controls.SetChildIndex(this.fromTillUserControlMinMaxDimensionValues, 0);
+			this.Controls.SetChildIndex(this.labelMinMaxDimensionValues, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -509,35 +398,25 @@
 		private System.Windows.Forms.Label labelIsRelative;
 		private System.Windows.Forms.Label labelControllerCode;
 		private System.Windows.Forms.MaskedTextBox maskedTextBoxControllerCode;
-		private System.Windows.Forms.MaskedTextBox maskedTextBoxFromControllerValue;
-		private System.Windows.Forms.Label labelFromControllerValue;
-		private System.Windows.Forms.MaskedTextBox maskedTextBoxTillControllerValue;
-		private System.Windows.Forms.Label labelTillControllerValue;
-		private System.Windows.Forms.MaskedTextBox maskedTextBoxFromNoteNumber;
-		private System.Windows.Forms.Label labelFromNoteNumber;
-		private System.Windows.Forms.MaskedTextBox maskedTextBoxTillNoteNumber;
-		private System.Windows.Forms.Label labelTillNoteNumber;
 		private System.Windows.Forms.Label labelStandardDimension;
 		private System.Windows.Forms.ComboBox comboBoxStandardDimension;
 		private System.Windows.Forms.Label labelCustomDimensionName;
 		private System.Windows.Forms.TextBox textBoxCustomDimensionName;
-		private System.Windows.Forms.Label labelFromDimensionValue;
-		private System.Windows.Forms.TextBox textBoxFromDimensionValue;
-		private System.Windows.Forms.Label labelTillDimensionValue;
-		private System.Windows.Forms.TextBox textBoxTillDimensionValue;
-		private System.Windows.Forms.Label labelFromPosition;
-		private System.Windows.Forms.TextBox textBoxFromPosition;
-		private System.Windows.Forms.Label labelTillPosition;
-		private System.Windows.Forms.TextBox textBoxTillPosition;
 		private System.Windows.Forms.Label labelScale;
 		private System.Windows.Forms.ComboBox comboBoxScale;
-		private System.Windows.Forms.MaskedTextBox maskedTextBoxFromToneNumber;
-		private System.Windows.Forms.Label labelFromToneNumber;
-		private System.Windows.Forms.MaskedTextBox maskedTextBoxTillToneNumber;
-		private System.Windows.Forms.Label labelTillToneNumber;
-		private System.Windows.Forms.Label labelMinDimensionValue;
-		private System.Windows.Forms.TextBox textBoxMinDimensionValue;
-		private System.Windows.Forms.Label labelMaxDimensionValue;
-		private System.Windows.Forms.TextBox textBoxMaxDimensionValue;
+		private Partials.FromTillUserControl fromTillUserControlDimensionValues;
+		private Partials.FromTillUserControl fromTillUserControlControllerValues;
+		private System.Windows.Forms.Label labelDimensionValues;
+		private System.Windows.Forms.Label labelControllerValues;
+		private System.Windows.Forms.Label labelVelocities;
+		private Partials.FromTillUserControl fromTillUserControlVelocities;
+		private System.Windows.Forms.Label labelPositions;
+		private Partials.FromTillUserControl fromTillUserControlPositions;
+		private System.Windows.Forms.Label labelNoteNumbers;
+		private Partials.FromTillUserControl fromTillUserControlNoteNumbers;
+		private System.Windows.Forms.Label labelToneNumbers;
+		private Partials.FromTillUserControl fromTillUserControlToneNumbers;
+		private System.Windows.Forms.Label labelMinMaxDimensionValues;
+		private Partials.FromTillUserControl fromTillUserControlMinMaxDimensionValues;
 	}
 }

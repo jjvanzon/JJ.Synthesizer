@@ -583,6 +583,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Controller Values.
+        /// </summary>
+        internal static string ControllerValues {
+            get {
+                return ResourceManager.GetString("ControllerValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cubic.
         /// </summary>
         internal static string Cubic {
@@ -777,6 +786,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string DimensionValue {
             get {
                 return ResourceManager.GetString("DimensionValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dimension Values.
+        /// </summary>
+        internal static string DimensionValues {
+            get {
+                return ResourceManager.GetString("DimensionValues", resourceCulture);
             }
         }
         
@@ -1654,6 +1672,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Min/Max Dimension Values.
+        /// </summary>
+        internal static string MinMaxDimensionValues {
+            get {
+                return ResourceManager.GetString("MinMaxDimensionValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Min over Dimension.
         /// </summary>
         internal static string MinOverDimension {
@@ -1812,6 +1839,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string NoteNumber {
             get {
                 return ResourceManager.GetString("NoteNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note Numbers.
+        /// </summary>
+        internal static string NoteNumbers {
+            get {
+                return ResourceManager.GetString("NoteNumbers", resourceCulture);
             }
         }
         
@@ -2905,6 +2941,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tone Numbers.
+        /// </summary>
+        internal static string ToneNumbers {
+            get {
+                return ResourceManager.GetString("ToneNumbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tones.
         /// </summary>
         internal static string Tones {
@@ -3018,6 +3063,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Velocities.
+        /// </summary>
+        internal static string Velocities {
+            get {
+                return ResourceManager.GetString("Velocities", resourceCulture);
             }
         }
         
