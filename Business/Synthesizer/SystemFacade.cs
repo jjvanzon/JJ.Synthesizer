@@ -14,14 +14,15 @@ namespace JJ.Business.Synthesizer
 	/// a default set of synthesizer objects, 
 	/// that are put in the system document,
 	/// such as the configurations of standard operators.
+	/// Also caches them.
 	/// </summary>
 	public class SystemFacade
 	{
-		private static Document _systemDocument;
-		private static readonly object _systemDocumentLock = new object();
+		private static readonly object _lock = new object();
 
+		private static Document _systemDocument;
 		private static Dictionary<string, Patch> _systemPatchDictionary;
-		private static readonly object _systemPatchDictionaryLock = new object();
+		private static IList<MidiMappingElement> _systemMidiMappingElements;
 
 		private readonly IDocumentRepository _documentRepository;
 
@@ -30,66 +31,59 @@ namespace JJ.Business.Synthesizer
 			_documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
 		}
 
-		public Document GetSystemDocument()
+		private void EnsureCache()
 		{
-			lock (_systemDocumentLock)
+			lock (_lock)
 			{
-				if (_systemDocument == null)
+				if (_systemDocument != null)
 				{
-					_systemDocument = _documentRepository.GetByNameComplete(DocumentHelper.SYSTEM_DOCUMENT_NAME);
+					return;
 				}
 
-				return _systemDocument;
-			}
-		}
-
-		private Dictionary<string, Patch> GetSystemPatchDictionary()
-		{
-			lock (_systemPatchDictionaryLock)
-			{
-				if (_systemPatchDictionary == null)
-				{
-					_systemDocument = GetSystemDocument();
-					_systemPatchDictionary = _systemDocument.Patches.Where(x => !x.Hidden).ToDictionary(x => x.Name);
-				}
-
-				return _systemPatchDictionary;
+				_systemDocument = _documentRepository.GetByNameComplete(DocumentHelper.SYSTEM_DOCUMENT_NAME);
+				_systemPatchDictionary = _systemDocument.Patches.Where(x => !x.Hidden).ToDictionary(x => x.Name);
+				_systemMidiMappingElements = _systemDocument.MidiMappings.SelectMany(x => x.MidiMappingElements).ToArray();
 			}
 		}
 
 		public void RefreshSystemDocumentIfNeeded(Document document)
 		{
-			if (document.IsSystemDocument())
+			if (!document.IsSystemDocument())
 			{
-				lock (_systemDocumentLock)
-				{
-					_systemDocument = null;
-					_systemPatchDictionary = null;
-				}
+				return;
 			}
+
+			lock (_lock)
+			{
+				_systemDocument = null;
+				_systemPatchDictionary = null;
+				_systemMidiMappingElements = null;
+			}
+		}
+
+		public Document GetSystemDocument()
+		{
+			EnsureCache();
+			return _systemDocument;
+		}
+
+		public IList<MidiMappingElement> GetDefaultMidiMappingElements()
+		{
+			EnsureCache();
+			return _systemMidiMappingElements;
+
 		}
 
 		public Patch GetSystemPatch(string name)
 		{
-			Patch patch = TryGetSystemPatch(name);
+			EnsureCache();
 
-			if (patch == null)
+			if (!_systemPatchDictionary.TryGetValue(name, out Patch patch))
 			{
 				throw new NotFoundException<Patch>(new { name, hidden = false });
 			}
 
 			return patch;
-		}
-
-		private Patch TryGetSystemPatch(string name)
-		{
-			GetSystemPatchDictionary().TryGetValue(name, out Patch patch);
-			return patch;
-		}
-
-		public IList<MidiMappingElement> GetDefaultMidiMappingElements()
-		{
-			return GetSystemDocument().MidiMappings.SelectMany(x => x.MidiMappingElements).ToArray();
 		}
 	}
 }

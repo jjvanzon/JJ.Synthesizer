@@ -1575,11 +1575,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				() =>
 				{
 					partialAction(viewModel);
-					SetCanCreateNew(viewModel);
+					SetCanCreate(viewModel);
 				});
 		}
 
-		private void SetCanCreateNew(DocumentTreeViewModel viewModel)
+		private void SetCanCreate(DocumentTreeViewModel viewModel)
 		{
 			bool patchDetailsVisible = MainViewModel.Document.VisiblePatchDetails != null;
 			viewModel.CanCreate = ToViewModelHelper.GetCanCreate(viewModel.SelectedNodeType, patchDetailsVisible);

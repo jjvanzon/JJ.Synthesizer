@@ -176,7 +176,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DocumentTreeViewModel viewModel = _documentTreePresenter.Refresh(MainViewModel.Document.DocumentTree);
 
 			// Non-Persisted
-			SetCanCreateNew(viewModel);
+			SetCanCreate(viewModel);
 
 			// DispatchViewModel
 			DispatchViewModel(viewModel);

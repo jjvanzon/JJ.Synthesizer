@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 using NAudio.Midi;
 
@@ -36,14 +38,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private static TimeProvider _timeProvider;
 		private static NoteRecycler _noteRecycler;
 		private static MidiIn _midiIn;
+		private static MidiMappingCalculator _midiMappingCalculator;
 
 		private static readonly object _lock = new object();
 
 		/// <summary> Can be called more than once. </summary>
 		public static void Initialize(
-			IPatchCalculatorContainer patchCalculatorContainer, 
-			TimeProvider timeProvider, 
-			NoteRecycler noteRecycler)
+			IPatchCalculatorContainer patchCalculatorContainer,
+			TimeProvider timeProvider,
+			NoteRecycler noteRecycler,
+			IDocumentRepository documentRepository)
 		{
 			lock (_lock)
 			{
@@ -56,6 +60,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				_patchCalculatorContainer = patchCalculatorContainer;
 				_timeProvider = timeProvider;
 				_noteRecycler = noteRecycler;
+
+				var systemFacade = new SystemFacade(documentRepository);
+				_midiMappingCalculator = new MidiMappingCalculator(systemFacade.GetDefaultMidiMappingElements());
 			}
 		}
 
@@ -246,6 +253,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 			int controllerCode = (int)controlChangeEvent.Controller;
 
+
 			if (!_controllerCode_To_ControllerInfo_Dictionary.TryGetValue(controllerCode, out ControllerInfo controllerInfo))
 			{
 				return;
@@ -310,13 +318,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			double frequency = LOWEST_FREQUENCY * Math.Pow(2.0, noteNumber / 12.0);
 			return frequency;
-		}
-
-		private static IList<MidiMappingElement> CreateMockMidiMappingElements()
-		{
-			// TODO: Instead of fiddling around here creating mocks, wouldn't it be easier to just
-			// edit the MidiMappings in the System document and load it here?
-			throw new NotImplementedException();
 		}
 
 		private static Dictionary<int, ControllerInfo> Create_ControllerCode_To_ControllerInfo_Dictionary()

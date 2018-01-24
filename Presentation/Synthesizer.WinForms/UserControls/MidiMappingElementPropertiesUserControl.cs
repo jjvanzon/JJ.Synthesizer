@@ -19,22 +19,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void AddProperties()
 		{
-			AddProperty(labelControllerCode, maskedTextBoxControllerCode);
-			AddProperty(labelFromControllerValue, maskedTextBoxFromControllerValue);
-			AddProperty(labelTillControllerValue, maskedTextBoxTillControllerValue);
-			AddProperty(labelFromNoteNumber, maskedTextBoxFromNoteNumber);
-			AddProperty(labelTillNoteNumber, maskedTextBoxTillNoteNumber);
 			AddProperty(labelStandardDimension, comboBoxStandardDimension);
 			AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
+			AddProperty(labelControllerCode, maskedTextBoxControllerCode);
+			AddProperty(new Label(), null);
 			AddProperty(labelFromDimensionValue, textBoxFromDimensionValue);
 			AddProperty(labelTillDimensionValue, textBoxTillDimensionValue);
 			AddProperty(labelMinDimensionValue, textBoxMinDimensionValue);
 			AddProperty(labelMaxDimensionValue, textBoxMaxDimensionValue);
+			AddProperty(new Label(), null);
+			AddProperty(labelFromControllerValue, maskedTextBoxFromControllerValue);
+			AddProperty(labelTillControllerValue, maskedTextBoxTillControllerValue);
+			AddProperty(new Label(), null);
 			AddProperty(labelFromPosition, textBoxFromPosition);
 			AddProperty(labelTillPosition, textBoxTillPosition);
+			AddProperty(new Label(), null);
 			AddProperty(labelScale, comboBoxScale);
+			AddProperty(labelFromNoteNumber, maskedTextBoxFromNoteNumber);
+			AddProperty(labelTillNoteNumber, maskedTextBoxTillNoteNumber);
 			AddProperty(labelFromToneNumber, maskedTextBoxFromToneNumber);
 			AddProperty(labelTillToneNumber, maskedTextBoxTillToneNumber);
+			AddProperty(new Label(), null);
 			AddProperty(labelIsRelative, checkBoxIsRelative);
 			AddProperty(labelIsActive, checkBoxIsActive);
 		}

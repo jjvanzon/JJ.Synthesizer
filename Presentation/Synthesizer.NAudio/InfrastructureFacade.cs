@@ -1,8 +1,10 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 
@@ -25,9 +27,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 		// ReSharper disable once NotAccessedField.Local
 		private Thread _midiInputThread;
+		private readonly IDocumentRepository _documentRepository;
 
 		public InfrastructureFacade(RepositoryWrapper repositories)
 		{
+			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
+
+			_documentRepository = repositories.DocumentRepository;
+
 			var audioOutputFacade = new AudioOutputFacade(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
 			_audioOutput = audioOutputFacade.CreateWithDefaults();
 			_timeProvider = new TimeProvider();
@@ -59,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			if (_midiInputEnabled)
 			{
 				MidiInputProcessor.Stop();
-				MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler);
+				MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler, _documentRepository);
 				_midiInputThread = MidiInputProcessor.StartThread();
 			}
 		}
@@ -92,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 
 			// ReSharper disable once InvertIf
-			MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler);
+			MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler, _documentRepository);
 			_midiInputThread = MidiInputProcessor.StartThread();
 		}
 
