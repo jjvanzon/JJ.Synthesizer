@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public DeleteGesture DeleteElementGesture { get; }
 		public ExpandKeyboardGesture ExpandElementKeyboardGesture { get; }
 		public ExpandMouseGesture ExpandElementMouseGesture { get; }
-		public GridSnapGesture GridSnapGesture { get; set; }
+		public GridSnapGesture GridSnapGesture { get; }
 		public MoveGesture MoveGesture { get; }
 		public SelectGesture SelectElementGesture { get; }
 

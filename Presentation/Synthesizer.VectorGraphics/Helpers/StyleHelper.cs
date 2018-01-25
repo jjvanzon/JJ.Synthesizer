@@ -125,7 +125,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
 			Font = DimensionFont,
-			Color = DarkGray
+			Color = DarkGray,
+			Wrap = true 
 		};
 
 		public static BackStyle BackStyleSelected { get; } = new BackStyle

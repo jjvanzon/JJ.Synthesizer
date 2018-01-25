@@ -15,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private const float DENT_POINT_Y = 8f;
 		private const float HALF_DEFAULT_OBJECT_SIZE = StyleHelper.DEFAULT_OBJECT_SIZE / 2f;
 		private const float DEFAULT_GRID_SNAP = 8f;
+		private const float MAX_LABEL_WIDTH = 100f;
 
 		private readonly Label _waterMarkTitleLabel;
 		private readonly Dictionary<int, Ellipse> _circleDictionary;
@@ -144,6 +145,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			label.Text = viewModel.Caption;
 			label.Position.Width = TextHelper.ApproximateTextWidth(label.Text, label.TextStyle.Font);
+			if (label.Position.Width > MAX_LABEL_WIDTH)
+			{
+				label.Position.Width = MAX_LABEL_WIDTH;
+			}
+
 			label.Position.X = StyleHelper.DEFAULT_OBJECT_SIZE / 2f - label.Position.Width / 2f;
 
 			return label;
