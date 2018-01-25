@@ -14,6 +14,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private const float LABEL_Y = StyleHelper.DEFAULT_OBJECT_SIZE + StyleHelper.SMALL_SPACING;
 		private const float DENT_POINT_Y = 8f;
 		private const float HALF_DEFAULT_OBJECT_SIZE = StyleHelper.DEFAULT_OBJECT_SIZE / 2f;
+		private const float DEFAULT_GRID_SNAP = 8f;
 
 		private readonly Label _waterMarkTitleLabel;
 		private readonly Dictionary<int, Ellipse> _circleDictionary;
@@ -25,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public MidiMappingDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
 			Result = new MidiMappingDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+			Result.GridSnapGesture.Snap = DEFAULT_GRID_SNAP;
 			Result.Diagram.Gestures.Add(Result.DeleteElementGesture);
 			Result.Diagram.Gestures.Add(Result.ExpandElementKeyboardGesture);
 
