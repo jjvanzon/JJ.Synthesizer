@@ -76,11 +76,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public CurveDetailsViewModelToDiagramConverter(
 			int doubleClickSpeedInMilliseconds,
 			int doubleClickDeltaInPixels,
+			ITextMeasurer textMeasurer,
 			CurveFacade curveFacade)
 		{
 			_curveFacade = curveFacade ?? throw new ArgumentNullException(nameof(curveFacade));
 
-			Result = new CurveDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+			Result = new CurveDetailsViewModelToDiagramConverterResult(textMeasurer, doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 
 			_xAxis = CreateXAxis(Result.Diagram);
 			_yAxis = CreateYAxis(Result.Diagram);

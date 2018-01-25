@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 		private readonly BackStyle _backStyle;
 		private readonly LineStyle _lineStyle;
 		private readonly TextStyle _textStyle;
+		private readonly ITextMeasurer _textMeasurer;
 		private readonly int _zIndex;
 		private readonly bool _preferShowOnBottom;
 		private readonly MouseLeaveGesture _mouseLeaveGesture;
@@ -36,6 +37,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			BackStyle backStyle,
 			LineStyle lineStyle,
 			TextStyle textStyle,
+			ITextMeasurer textMeasurer,
 			bool preferShowOnBottom = false,
 			int zIndex = int.MaxValue / 2)
 		{
@@ -43,6 +45,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			_backStyle = backStyle;
 			_lineStyle = lineStyle;
 			_textStyle = textStyle;
+			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 			_preferShowOnBottom = preferShowOnBottom;
 			_zIndex = zIndex;
 
@@ -148,7 +151,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			_toolTipLabel.Text = text;
 
 			// Set text width
-			float textWidthInPixels = TextHelper.ApproximateTextWidth(text, _toolTipLabel.TextStyle.Font);
+			WidthAndHeight widthAndHeight = _textMeasurer.GetTextSize(text, _toolTipLabel.TextStyle.Font);
+			float textWidthInPixels = widthAndHeight.Width;
 			float widthInPixels = TEXT_MARGIN_IN_PIXELS * 2f + textWidthInPixels;
 			float scaledWidth = _diagram.Position.PixelsToWidth(widthInPixels);
 			_toolTipRectangle.Position.Width = scaledWidth;

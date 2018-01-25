@@ -1,4 +1,5 @@
 ﻿using JJ.Framework.VectorGraphics.Gestures;
+using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
@@ -19,7 +20,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public ToolTipGesture NodeToolTipGesture { get; }
 		public SelectGesture SelectNodeGesture { get; }
 
-		public CurveDetailsViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+		public CurveDetailsViewModelToDiagramConverterResult(
+			ITextMeasurer textMeasurer,
+			int doubleClickSpeedInMilliseconds,
+			int doubleClickDeltaInPixels)
 		{
 			Diagram = new Diagram();
 
@@ -35,7 +39,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				Diagram,
 				StyleHelper.ToolTipBackStyle,
 				StyleHelper.ToolTipLineStyle,
-				StyleHelper.ToolTipTextStyle);
+				StyleHelper.ToolTipTextStyle,
+				textMeasurer);
 			SelectNodeGesture = new SelectGesture();
 
 			Diagram.Gestures.Add(DeleteGesture);

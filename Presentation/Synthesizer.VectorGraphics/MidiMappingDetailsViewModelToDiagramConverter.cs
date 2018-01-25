@@ -21,11 +21,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private readonly Dictionary<int, Ellipse> _circleDictionary;
 		private readonly Dictionary<int, Label> _labelDictionary;
 		private readonly Dictionary<int, Point> _dentPointDictionary;
+		private readonly ITextMeasurer _textMeasurer;
 
 		public MidiMappingDetailsViewModelToDiagramConverterResult Result { get; }
 
-		public MidiMappingDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+		public MidiMappingDetailsViewModelToDiagramConverter(ITextMeasurer textMeasurer, int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
+			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
+
 			Result = new MidiMappingDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			Result.GridSnapGesture.Snap = DEFAULT_GRID_SNAP;
 			Result.Diagram.Gestures.Add(Result.DeleteElementGesture);
@@ -127,6 +130,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			return circle;
 		}
 
+		// ReSharper disable once UnusedMethodReturnValue.Local
 		private Label ConvertToLabel(MidiMappingElementItemViewModel viewModel, Element parent)
 		{
 			if (!_labelDictionary.TryGetValue(viewModel.ID, out Label label))
@@ -138,13 +142,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 					TextStyle = StyleHelper.MidiMappingTextStyle
 				};
 				label.Position.Y = LABEL_Y;
-				label.Position.Height = StyleHelper.DEFAULT_TEXT_HEIGHT_ESTIMATION;
 
 				_labelDictionary[viewModel.ID] = label;
 			}
 
 			label.Text = viewModel.Caption;
-			label.Position.Width = TextHelper.ApproximateTextWidth(label.Text, label.TextStyle.Font);
+
+			WidthAndHeight widthAndHeight = _textMeasurer.GetTextSize(label.Text, label.TextStyle.Font);
+			label.Position.Width = widthAndHeight.Width;
+			label.Position.Height = widthAndHeight.Height;
+
 			if (label.Position.Width > MAX_LABEL_WIDTH)
 			{
 				label.Position.Width = MAX_LABEL_WIDTH;
@@ -155,6 +162,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			return label;
 		}
 
+		// ReSharper disable once UnusedMethodReturnValue.Local
 		private Point ConvertToDentPoint(MidiMappingElementItemViewModel viewModel, Element parent)
 		{
 			if (!_dentPointDictionary.TryGetValue(viewModel.ID, out Point point))

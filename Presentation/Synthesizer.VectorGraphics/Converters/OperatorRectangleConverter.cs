@@ -19,17 +19,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		private readonly MoveGesture _moveGesture;
 		private readonly SelectGesture _selectOperatorGesture;
 		private readonly ExpandMouseGesture _showOperatorPropertiesMouseGesture;
+		private readonly ITextMeasurer _textMeasurer;
 
 		public OperatorRectangleConverter(
 			Diagram diagram,
 			MoveGesture moveGesture,
 			SelectGesture selectOperatorGesture,
-			ExpandMouseGesture showOperatorPropertiesMouseGesture)
+			ExpandMouseGesture showOperatorPropertiesMouseGesture,
+			ITextMeasurer textMeasurer)
 		{
 			_diagram = diagram ?? throw new NullException(() => diagram);
 			_moveGesture = moveGesture ?? throw new NullException(() => moveGesture);
 			_selectOperatorGesture = selectOperatorGesture ?? throw new NullException(() => selectOperatorGesture);
 			_showOperatorPropertiesMouseGesture = showOperatorPropertiesMouseGesture ?? throw new NullException(() => showOperatorPropertiesMouseGesture);
+			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 		}
 
 		public Rectangle ConvertToOperatorRectangle(OperatorViewModel sourceOperatorViewModel)
@@ -89,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			}
 		}
 
-		private static float GetOperatorWidth(OperatorViewModel sourceOperatorViewModel)
+		private float GetOperatorWidth(OperatorViewModel sourceOperatorViewModel)
 		{
 			if (sourceOperatorViewModel.IsSmaller)
 			{
@@ -101,9 +104,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			}
 		}
 
-		private static float GetOtherOperatorWidth(OperatorViewModel sourceOperatorViewModel)
+		private float GetOtherOperatorWidth(OperatorViewModel sourceOperatorViewModel)
 		{
-			float textWidth = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont);
+			WidthAndHeight widthAndHeight = _textMeasurer.GetTextSize(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont);
+			float textWidth = widthAndHeight.Width;
 			float minimumWidth = GetOtherOperatorMinimumWidth(sourceOperatorViewModel);
 
 			float width = textWidth + StyleHelper.SPACING_TIMES_2;
@@ -131,16 +135,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			return minimumWidth;
 		}
 
-		private static float GetNumberOperatorWidth(OperatorViewModel sourceOperatorViewModel)
+		private float GetNumberOperatorWidth(OperatorViewModel sourceOperatorViewModel)
 		{
 			float spacing = StyleHelper.SPACING;
 			spacing *= 0.8f; // Use a smaller spacing for numbers.
 
-			float textWidth = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.NumberOperatorFont);
+
+			WidthAndHeight widthAndHeight = _textMeasurer.GetTextSize(sourceOperatorViewModel.Caption, StyleHelper.NumberOperatorFont);
+			float textWidth = widthAndHeight.Width;
 			float width = textWidth + spacing + spacing;
 
-			// Compensate for the fact that numbers are averagely wider than letters.
-			width = width + spacing + spacing;
 
 			// Apply minimum operator width
 			if (width < StyleHelper.SMALLER_OBJECT_SIZE)

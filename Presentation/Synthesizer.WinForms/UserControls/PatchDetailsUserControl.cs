@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Configuration;
+using JJ.Framework.Drawing;
 using JJ.Framework.Resources;
 using JJ.Framework.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
@@ -31,6 +32,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<int>> ExpandPatchRequested;
 		public event EventHandler<EventArgs<int>> SelectPatchRequested;
 
+		private readonly TextMeasurer _textMeasurer;
+
 		private PatchViewModelToDiagramConverter _converter;
 		private PatchViewModelToDiagramConverterResult _converterResult;
 
@@ -41,6 +44,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			InitializeComponent();
 
 			ExpandButtonVisible = true;
+
+			_textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 		}
 
 		// Gui
@@ -76,6 +81,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			if (_converterResult == null)
 			{
 				_converter = new PatchViewModelToDiagramConverter(
+					_textMeasurer,
 					SystemInformation.DoubleClickTime,
 					SystemInformation.DoubleClickSize.Width);
 

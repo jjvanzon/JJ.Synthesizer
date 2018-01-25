@@ -1,4 +1,5 @@
 ﻿using JJ.Framework.VectorGraphics.Gestures;
+using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
@@ -20,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public SelectGesture SelectOperatorGesture { get; }
 		public ClickGesture SelectPatchGesture { get; }
 
-		public PatchViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+		public PatchViewModelToDiagramConverterResult(ITextMeasurer textMeasurer, int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
 			Diagram = new Diagram();
 			DeleteOperatorGesture = new DeleteGesture();
@@ -51,6 +52,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				StyleHelper.ToolTipBackStyle,
 				StyleHelper.ToolTipLineStyle,
 				StyleHelper.ToolTipTextStyle,
+				textMeasurer,
 				zIndex: 2);
 
 			MoveGesture = new MoveGesture();
@@ -60,6 +62,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				StyleHelper.ToolTipBackStyle,
 				StyleHelper.ToolTipLineStyle,
 				StyleHelper.ToolTipTextStyle,
+				textMeasurer,
 				preferShowOnBottom: true,
 				zIndex: 2);
 

@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
+using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
@@ -29,6 +30,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private static readonly int _lineSegmentCount = GetLineSegmentCount();
 		private static readonly bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
+		private readonly ITextMeasurer _textMeasurer;
 		private readonly int _doubleClickSpeedInMilliseconds;
 		private readonly int _doubleClickDeltaInPixels;
 
@@ -51,8 +53,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private int _currentPatchID;
 
-		public PatchViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+		public PatchViewModelToDiagramConverter(ITextMeasurer textMeasurer, int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
+			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 			_doubleClickSpeedInMilliseconds = doubleClickSpeedInMilliseconds;
 			_doubleClickDeltaInPixels = doubleClickDeltaInPixels;
 
@@ -76,13 +79,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			{
 				_currentPatchID = sourcePatchViewModel.ID;
 
-				_result = new PatchViewModelToDiagramConverterResult(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
+				_result = new PatchViewModelToDiagramConverterResult(_textMeasurer, _doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
 
 				_operatorRectangleConverter = new OperatorRectangleConverter(
 					_result.Diagram,
 					_result.MoveGesture,
 					_result.SelectOperatorGesture,
-					_result.ExpandOperatorMouseGesture);
+					_result.ExpandOperatorMouseGesture,
+					_textMeasurer);
 				_operatorLabelConverter = new OperatorLabelConverter();
 				_operatorDimensionLabelConverter = new OperatorDimensionLabelConverter();
 				_inletRectangleConverter = new InletRectangleConverter(_result.DropLineGesture, _result.InletToolTipGesture);

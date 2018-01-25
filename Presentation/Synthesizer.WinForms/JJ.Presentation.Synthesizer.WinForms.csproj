@@ -530,6 +530,10 @@
       <Project>{5D06A212-5459-47F3-8109-E012C5FC9E3A}</Project>
       <Name>JJ.Framework.Collections</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Drawing\JJ.Framework.Drawing.csproj">
+      <Project>{21802A52-F4F7-4366-B61D-06E1FB337B86}</Project>
+      <Name>JJ.Framework.Drawing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>

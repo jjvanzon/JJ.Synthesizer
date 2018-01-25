@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Framework.Drawing;
 using JJ.Framework.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
@@ -25,7 +26,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			InitializeComponent();
 
-			_converter = new MidiMappingDetailsViewModelToDiagramConverter(SystemInformation.DoubleClickTime, SystemInformation.DoubleClickSize.Width);
+			var textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
+
+			_converter = new MidiMappingDetailsViewModelToDiagramConverter(textMeasurer, SystemInformation.DoubleClickTime, SystemInformation.DoubleClickSize.Width);
 			_converter.Result.DeleteElementGesture.DeleteSelectionRequested += DeleteElementGesture_DeleteSelectionRequested;
 			_converter.Result.ExpandElementKeyboardGesture.ExpandRequested += ExpandElementKeyboardGesture_ExpandRequested;
 			_converter.Result.ExpandElementMouseGesture.ExpandRequested += ExpandElementMouseGesture_ExpandRequested;

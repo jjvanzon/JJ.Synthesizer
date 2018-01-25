@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Drawing;
 using JJ.Framework.Resources;
 using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.EventArg;
@@ -32,6 +33,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		/// <summary> Only create after SetCurveFacade is called. </summary>
 		private CurveDetailsViewModelToDiagramConverter _converter;
 
+		private readonly TextMeasurer _textMeasurer;
+
 		public CurveDetailsUserControl()
 		{
 			InitializeComponent();
@@ -41,6 +44,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			// Make sure the base's button bar is in front of the diagramControl.
 			diagramControl.SendToBack();
+
+			_textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 		}
 
 		private void CurveDetailsUserControl_Load(object sender, EventArgs e)
@@ -58,6 +63,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_converter = new CurveDetailsViewModelToDiagramConverter(
 				SystemInformation.DoubleClickTime,
 				SystemInformation.DoubleClickSize.Width,
+				_textMeasurer,
 				curveFacade);
 
 			_converter.Result.BackgroundClickGesture.Click += BackgroundClickGesture_Click;
