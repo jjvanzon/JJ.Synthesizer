@@ -140,9 +140,9 @@
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Presentation.WinForms\JJ.Framework.Presentation.WinForms.csproj">
+    <ProjectReference Include="..\..\Framework\Presentation.WinForms\JJ.Framework.WinForms.csproj">
       <Project>{84a66716-c686-4b8e-a092-cfe38ca7dde0}</Project>
-      <Name>JJ.Framework.Presentation.WinForms</Name>
+      <Name>JJ.Framework.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>

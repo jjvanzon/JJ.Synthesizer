@@ -4,10 +4,10 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using JJ.Framework.Presentation.WinForms.Extensions;
-using JJ.Framework.Presentation.WinForms.Forms;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Reflection;
+using JJ.Framework.WinForms.Extensions;
+using JJ.Framework.WinForms.Forms;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {

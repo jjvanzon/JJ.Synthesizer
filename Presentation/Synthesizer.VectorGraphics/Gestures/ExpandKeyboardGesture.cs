@@ -1,7 +1,7 @@
 ﻿using System;
-using JJ.Framework.Presentation.VectorGraphics.Enums;
-using JJ.Framework.Presentation.VectorGraphics.EventArg;
-using JJ.Framework.Presentation.VectorGraphics.Gestures;
+using JJ.Framework.VectorGraphics.Enums;
+using JJ.Framework.VectorGraphics.EventArg;
+using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures

@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 

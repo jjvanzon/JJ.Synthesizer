@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Windows.Forms;

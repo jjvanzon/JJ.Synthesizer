@@ -1,10 +1,10 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Presentation.WinForms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Exceptions;
+using JJ.Framework.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {

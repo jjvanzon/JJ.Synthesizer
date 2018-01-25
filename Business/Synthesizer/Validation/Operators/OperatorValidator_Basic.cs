@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation.DataProperty;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Resources;
 using JJ.Framework.Validation;
 using JJ.Framework.Validation.Resources;
 // ReSharper disable SuggestBaseTypeForParameter

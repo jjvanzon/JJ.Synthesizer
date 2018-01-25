@@ -1,6 +1,6 @@
 ﻿using System;
-using JJ.Framework.Presentation.VectorGraphics.EventArg;
-using JJ.Framework.Presentation.VectorGraphics.Gestures;
+using JJ.Framework.VectorGraphics.EventArg;
+using JJ.Framework.VectorGraphics.Gestures;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {

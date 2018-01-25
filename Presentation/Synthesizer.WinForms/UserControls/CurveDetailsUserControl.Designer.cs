@@ -1,4 +1,6 @@
-﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+﻿using JJ.Framework.WinForms.Controls;
+
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	partial class CurveDetailsUserControl
 	{
@@ -28,7 +30,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.diagramControl = new JJ.Framework.Presentation.WinForms.Controls.DiagramControl();
+			this.diagramControl = new DiagramControl();
 			this.SuspendLayout();
 			// 
 			// diagramControl
@@ -59,6 +61,6 @@
 
 		#endregion
 
-		private Framework.Presentation.WinForms.Controls.DiagramControl diagramControl;
+		private DiagramControl diagramControl;
 	}
 }

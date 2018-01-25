@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
-using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 using JJ.Framework.Exceptions;
+using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Framework.VectorGraphics.Models.Styling;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {

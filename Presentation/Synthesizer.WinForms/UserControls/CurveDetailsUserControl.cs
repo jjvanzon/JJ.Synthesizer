@@ -3,16 +3,17 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
-using JJ.Framework.Presentation.VectorGraphics.Enums;
-using JJ.Framework.Presentation.VectorGraphics.EventArg;
+using JJ.Framework.Resources;
+using JJ.Framework.VectorGraphics.Enums;
+using JJ.Framework.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using Rectangle = JJ.Framework.Presentation.VectorGraphics.Models.Elements.Rectangle;
+using KeyEventArgs = JJ.Framework.VectorGraphics.EventArg.KeyEventArgs;
+using Rectangle = JJ.Framework.VectorGraphics.Models.Elements.Rectangle;
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -135,7 +136,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private void DeleteGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
 
 		// ReSharper disable once RedundantNameQualifier
-		private void Diagram_KeyDown(object sender, JJ.Framework.Presentation.VectorGraphics.EventArg.KeyEventArgs e)
+		private void Diagram_KeyDown(object sender, KeyEventArgs e)
 		{
 			switch (e.KeyCode)
 			{

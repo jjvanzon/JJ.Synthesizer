@@ -1,6 +1,6 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+﻿using System;
 using JJ.Framework.Exceptions;
-using System;
+using JJ.Framework.VectorGraphics.Models.Elements;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.EventArg
 {

@@ -1,12 +1,12 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System.IO;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
-using JJ.Framework.Presentation.WinForms.EventArg;
+using JJ.Framework.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-using System.IO;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {

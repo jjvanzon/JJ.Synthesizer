@@ -1,4 +1,8 @@
-﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
+﻿using JJ.Framework.WinForms.Controls;
+using JJ.Framework.WinForms.EventArg;
+using JJ.Framework.WinForms.Helpers;
+
+namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	partial class OperatorPropertiesUserControl_ForSample
 	{
@@ -44,7 +48,7 @@
 			this.numericUpDownAmplifier = new System.Windows.Forms.NumericUpDown();
 			this.labelTimeMultiplier = new System.Windows.Forms.Label();
 			this.numericUpDownTimeMultiplier = new System.Windows.Forms.NumericUpDown();
-			this.filePathControl = new JJ.Framework.Presentation.WinForms.Controls.FilePathControl();
+			this.filePathControl = new FilePathControl();
 			this.labelDurationTitle = new System.Windows.Forms.Label();
 			this.labelDurationValue = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this._numericUpDownInletCount)).BeginInit();
@@ -304,7 +308,7 @@
 			// 
 			// filePathControl
 			// 
-			this.filePathControl.BrowseMode = JJ.Framework.Presentation.WinForms.Helpers.FileBrowseModeEnum.Open;
+			this.filePathControl.BrowseMode = FileBrowseModeEnum.Open;
 			this.filePathControl.FilePath = "";
 			this.filePathControl.LabelText = "";
 			this.filePathControl.Location = new System.Drawing.Point(0, 0);
@@ -315,7 +319,7 @@
 			this.filePathControl.TabIndex = 27;
 			this.filePathControl.TextBoxEnabled = false;
 			this.filePathControl.TextBoxVisible = false;
-			this.filePathControl.Browsed += new System.EventHandler<JJ.Framework.Presentation.WinForms.EventArg.FilePathEventArgs>(this.filePathControl_Browsed);
+			this.filePathControl.Browsed += new System.EventHandler<FilePathEventArgs>(this.filePathControl_Browsed);
 			// 
 			// labelDurationTitle
 			// 
@@ -423,7 +427,7 @@
 		private System.Windows.Forms.NumericUpDown numericUpDownAmplifier;
 		private System.Windows.Forms.Label labelTimeMultiplier;
 		private System.Windows.Forms.NumericUpDown numericUpDownTimeMultiplier;
-		private JJ.Framework.Presentation.WinForms.Controls.FilePathControl filePathControl;
+		private FilePathControl filePathControl;
 		private System.Windows.Forms.Label labelDurationTitle;
 		private System.Windows.Forms.Label labelDurationValue;
 	}

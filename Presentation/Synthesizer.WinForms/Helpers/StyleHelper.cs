@@ -1,10 +1,10 @@
-﻿using JJ.Framework.Exceptions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Framework.Presentation.WinForms.Helpers;
-using System.ComponentModel;
+using JJ.Framework.Exceptions;
+using JJ.Framework.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {

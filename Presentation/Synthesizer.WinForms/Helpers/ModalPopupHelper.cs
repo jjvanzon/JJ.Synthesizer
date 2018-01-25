@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
-using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
