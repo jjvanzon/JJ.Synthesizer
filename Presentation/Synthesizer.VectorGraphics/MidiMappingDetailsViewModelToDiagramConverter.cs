@@ -119,9 +119,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			circle.Position.X = viewModel.Position.CenterX - HALF_DEFAULT_OBJECT_SIZE;
 			circle.Position.Y = viewModel.Position.CenterY - HALF_DEFAULT_OBJECT_SIZE;
 
-			if (viewModel.IsSelected)
+			if (viewModel.IsSelected && viewModel.HasInactiveStyle)
 			{
-				circle.Style.BackStyle = StyleHelper.BackStyleSelected;
+				circle.Style.BackStyle = StyleHelper.CircleBackStyleSelectedInactive;
+				circle.Style.LineStyle = StyleHelper.CircleLineStyleSelectedInactive;
+			}
+			else if (viewModel.IsSelected)
+			{
+				circle.Style.BackStyle = StyleHelper.CircleBackStyleSelected;
 				circle.Style.LineStyle = StyleHelper.CircleLineStyleSelected;
 			}
 			else if (viewModel.HasInactiveStyle)
@@ -191,7 +196,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				_dentPointDictionary[viewModel.ID] = point;
 			}
 
-			if (viewModel.IsSelected)
+			if (viewModel.IsSelected && viewModel.HasInactiveStyle)
+			{
+				point.PointStyle = StyleHelper.DentPointStyleSelectedInactive;
+			}
+			else if (viewModel.IsSelected)
 			{
 				point.PointStyle = StyleHelper.DentPointStyleSelected;
 			}

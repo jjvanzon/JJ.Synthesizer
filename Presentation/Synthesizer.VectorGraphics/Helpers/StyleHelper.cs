@@ -126,19 +126,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
 			Font = DimensionFont,
 			Color = DarkGray,
-			Wrap = true 
+			Wrap = true
 		};
 
-		public static TextStyle MidiMappingTextStyleInactive { get; } = new TextStyle
-		{
-			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
-			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
-			Font = DimensionFont,
-			Color = MediumLightGray,
-			Wrap = true 
-		};
+		public static TextStyle MidiMappingTextStyleInactive { get; } = HalfenOpacity(MidiMappingTextStyle);
 
 		public static BackStyle BackStyleSelected { get; } = new BackStyle
+		{
+			Color = Blue
+		};
+
+		public static BackStyle CircleBackStyleSelected { get; } = new BackStyle
 		{
 			Color = Blue
 		};
@@ -220,11 +218,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Color = MediumGray
 		};
 
-		public static LineStyle CircleLineStyleInactive { get; } = new LineStyle
-		{
-			Width = 2,
-			Color = LightGray
-		};
+		public static LineStyle CircleLineStyleInactive { get; } = HalfenOpacity(CircleLineStyle);
+
+		public static LineStyle CircleLineStyleSelectedInactive { get; } = HalfenOpacity(CircleLineStyleSelected);
 
 		public static PointStyle PointStyle { get; } = new PointStyle
 		{
@@ -267,11 +263,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Color = MediumGray
 		};
 
-		public static PointStyle DentPointStyleInactive { get; } = new PointStyle
-		{
-			Width = 5,
-			Color = LightGray
-		};
+		public static PointStyle DentPointStyleInactive { get; } = HalfenOpacity(DentPointStyle);
+
+		public static PointStyle DentPointStyleSelectedInactive { get; } = HalfenOpacity(DentPointStyleSelected);
 
 		// ToolTip
 
@@ -347,7 +341,40 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
 		// Order-Dependence: Do after _gradedBackStyleDictionary declaration
 		public static BackStyle NeutralBackStyle { get; } = GetGradedBackStyle(StyleGradeEnum.StyleGradeNeutral);
+
 		public static BackStyle CircleBackStyle { get; } = NeutralBackStyle;
-		public static BackStyle CircleBackStyleInactive { get; } = new BackStyle { Color = LighterGray };
+
+		public static BackStyle CircleBackStyleInactive { get; } = HalfenOpacity(CircleBackStyle);
+
+		public static BackStyle CircleBackStyleSelectedInactive { get; } = HalfenOpacity(CircleBackStyleSelected);
+
+		private static PointStyle HalfenOpacity(PointStyle sourceStyle)
+		{
+			var destStyle = sourceStyle.Clone();
+			destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
+			return destStyle;
+		}
+
+		private static LineStyle HalfenOpacity(LineStyle sourceStyle)
+		{
+			var destStyle = sourceStyle.Clone();
+			destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
+			return destStyle;
+		}
+
+		private static TextStyle HalfenOpacity(TextStyle sourceStyle)
+		{
+			var destStyle = sourceStyle.Clone();
+			destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
+			return destStyle;
+		}
+
+		private static BackStyle HalfenOpacity(BackStyle sourceStyle)
+		{
+			var destStyle = sourceStyle.Clone();
+			destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
+			return destStyle;
+
+		}
 	}
 }
