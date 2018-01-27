@@ -148,16 +148,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			label.Text = viewModel.Caption;
 
-			WidthAndHeight widthAndHeight = _textMeasurer.GetTextSize(label.Text, label.TextStyle.Font);
+			WidthAndHeight widthAndHeight = _textMeasurer.GetTextSize(label.Text, label.TextStyle.Font, MAX_LABEL_WIDTH);
 			label.Position.Width = widthAndHeight.Width;
 			label.Position.Height = widthAndHeight.Height;
 
-			if (label.Position.Width > MAX_LABEL_WIDTH)
-			{
-				label.Position.Width = MAX_LABEL_WIDTH;
-			}
-
 			label.Position.X = StyleHelper.DEFAULT_OBJECT_SIZE / 2f - label.Position.Width / 2f;
+
+			// Uncomment for making label bounds visible temporarily:
+			//var rectangle = new Rectangle
+			//{
+			//	Diagram = Result.Diagram,
+			//	Parent = label
+			//};
+			//rectangle.Position.Width = label.Position.Width;
+			//rectangle.Position.Height = label.Position.Height;
+			//rectangle.Style.BackStyle.Visible = false;
 
 			return label;
 		}
