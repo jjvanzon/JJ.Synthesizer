@@ -1764,7 +1764,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
-				MidiMappingElementPropertiesShow(viewModel.CreatedElementID);
+				MidiMappingElementExpand(midiMappingID, viewModel.CreatedElementID);
 			}
 		}
 
