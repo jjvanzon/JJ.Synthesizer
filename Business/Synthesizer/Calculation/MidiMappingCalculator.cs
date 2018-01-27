@@ -46,9 +46,9 @@ namespace JJ.Business.Synthesizer.Calculation
 			_midiMappingElements.ForEach(x => new MidiMappingElementValidator(x).Assert());
 		}
 
-		public int ToAbsoluteControllerValue(int controllerCode, int inputControllerValue, int previousAbsoluteControllerValue)
+		public int ToAbsoluteControllerValue(int midiControllerCode, int inputMidiControllerValue, int previousAbsoluteMidiControllerValue)
 		{
-			int absoluteControllerValue = inputControllerValue;
+			int absoluteMidiControllerValue = inputMidiControllerValue;
 
 			foreach (MidiMappingElement midiMappingElement in _midiMappingElements)
 			{
@@ -62,21 +62,21 @@ namespace JJ.Business.Synthesizer.Calculation
 					continue;
 				}
 
-				if (!MustScaleByController(midiMappingElement, controllerCode, inputControllerValue))
+				if (!MustScaleByMidiController(midiMappingElement, midiControllerCode, inputMidiControllerValue))
 				{
 					continue;
 				}
 
-				int delta = inputControllerValue - 64;
+				int delta = inputMidiControllerValue - 64;
 
 				// Overriding mechanism: last applicable mapping wins.
-				absoluteControllerValue = previousAbsoluteControllerValue + delta;
+				absoluteMidiControllerValue = previousAbsoluteMidiControllerValue + delta;
 			}
 
-			return absoluteControllerValue;
+			return absoluteMidiControllerValue;
 		}
 
-		public IList<Result> Calculate(int? controllerCode, int? controllerValue, int? noteNumber, int? velocity)
+		public IList<Result> Calculate(int? midiControllerCode, int? midiControllerValue, int? midiNoteNumber, int? midiVelocity)
 		{
 			var list = new List<Result>();
 
@@ -89,25 +89,29 @@ namespace JJ.Business.Synthesizer.Calculation
 
 				double ratio = 1.0;
 
-				if (MustScaleByController(midiMappingElement, controllerCode, controllerValue))
+				if (MustScaleByMidiController(midiMappingElement, midiControllerCode, midiControllerValue))
 				{
-					double controllerRatio = (controllerValue.Value - midiMappingElement.FromControllerValue.Value) /
-					                         (double)(midiMappingElement.TillControllerValue.Value - midiMappingElement.FromControllerValue.Value);
-					ratio *= controllerRatio;
+					double midiControllerRatio = (midiControllerValue.Value - midiMappingElement.FromMidiControllerValue.Value) /
+					                             (double)(midiMappingElement.TillMidiControllerValue.Value -
+					                                      midiMappingElement.FromMidiControllerValue.Value);
+
+					ratio *= midiControllerRatio;
 				}
 
-				if (MustScaleByNoteNumber(midiMappingElement, noteNumber))
+				if (MustScaleByMidiNoteNumber(midiMappingElement, midiNoteNumber))
 				{
-					double noteNumberRatio = (noteNumber.Value - midiMappingElement.FromNoteNumber.Value) /
-					                         (double)(midiMappingElement.TillNoteNumber.Value - midiMappingElement.FromNoteNumber.Value);
-					ratio *= noteNumberRatio;
+					double midiNoteNumberRatio = (midiNoteNumber.Value - midiMappingElement.FromMidiNoteNumber.Value) /
+					                             (double)(midiMappingElement.TillMidiNoteNumber.Value - midiMappingElement.FromMidiNoteNumber.Value);
+
+					ratio *= midiNoteNumberRatio;
 				}
 
-				if (MustScaleByVelocity(midiMappingElement, velocity))
+				if (MustScaleByMidiVelocity(midiMappingElement, midiVelocity))
 				{
-					double velocityRatio = (velocity.Value - midiMappingElement.FromVelocity.Value) /
-					                       (double)(midiMappingElement.TillVelocity.Value - midiMappingElement.FromVelocity.Value);
-					ratio *= velocityRatio;
+					double midiVelocityRatio = (midiVelocity.Value - midiMappingElement.FromMidiVelocity.Value) /
+					                           (double)(midiMappingElement.TillMidiVelocity.Value - midiMappingElement.FromMidiVelocity.Value);
+
+					ratio *= midiVelocityRatio;
 				}
 
 				double? destDimensionValue = null;
@@ -141,25 +145,25 @@ namespace JJ.Business.Synthesizer.Calculation
 			return list;
 		}
 
-		private bool MustScaleByController(MidiMappingElement midiMappingElement, int? controllerCode, int? controllerValue)
+		private bool MustScaleByMidiController(MidiMappingElement midiMappingElement, int? midiControllerCode, int? midiControllerValue)
 		{
-			if (!controllerCode.HasValue)
+			if (!midiControllerCode.HasValue)
 			{
 				return false;
 			}
 
-			if (!controllerValue.HasValue)
+			if (!midiControllerValue.HasValue)
 			{
 				return false;
 			}
 
-			if (midiMappingElement.ControllerCode != controllerCode)
+			if (midiMappingElement.MidiControllerCode != midiControllerCode)
 			{
 				return false;
 			}
 
-			if (!midiMappingElement.FromControllerValue.HasValue ||
-			    !midiMappingElement.TillControllerValue.HasValue)
+			if (!midiMappingElement.FromMidiControllerValue.HasValue ||
+			    !midiMappingElement.TillMidiControllerValue.HasValue)
 			{
 				return false;
 			}
@@ -167,19 +171,23 @@ namespace JJ.Business.Synthesizer.Calculation
 			return true;
 		}
 
-		private bool MustScaleByNoteNumber(MidiMappingElement midiMappingElement, int? noteNumber)
+		private bool MustScaleByMidiNoteNumber(MidiMappingElement midiMappingElement, int? midiNoteNumber)
 		{
-			return midiMappingElement.Scale != null &&
-			       midiMappingElement.FromNoteNumber.HasValue &&
-			       midiMappingElement.TillNoteNumber.HasValue &&
-			       noteNumber.HasValue;
+			bool mustScaleByMidiNoteNumber = midiMappingElement.Scale != null &&
+			                                 midiMappingElement.FromMidiNoteNumber.HasValue &&
+			                                 midiMappingElement.TillMidiNoteNumber.HasValue &&
+			                                 midiNoteNumber.HasValue;
+
+			return mustScaleByMidiNoteNumber;
 		}
 
-		private bool MustScaleByVelocity(MidiMappingElement midiMappingElement, int? velocity)
+		private bool MustScaleByMidiVelocity(MidiMappingElement midiMappingElement, int? midiVelocity)
 		{
-			return midiMappingElement.FromVelocity.HasValue &&
-			       midiMappingElement.TillVelocity.HasValue &&
-			       velocity.HasValue;
+			bool mustScaleByMidiVelocity = midiMappingElement.FromMidiVelocity.HasValue &&
+			                               midiMappingElement.TillMidiVelocity.HasValue &&
+			                               midiVelocity.HasValue;
+
+			return mustScaleByMidiVelocity;
 		}
 
 		private bool MustScalePosition(MidiMappingElement midiMappingElement)
@@ -214,8 +222,6 @@ namespace JJ.Business.Synthesizer.Calculation
 
 			double destValue = ratio * destRange + midiMappingElement.TillDimensionValue.Value;
 
-			// TODO: Work with relative deltas too.
-
 			if (destValue < midiMappingElement.MinDimensionValue)
 			{
 				destValue = midiMappingElement.MinDimensionValue.Value;
@@ -236,8 +242,6 @@ namespace JJ.Business.Synthesizer.Calculation
 
 			double destValueDouble = ratio * destRange + midiMappingElement.TillPosition.Value;
 
-			// TODO: Work with relative deltas too.
-
 			int destValue = (int)Math.Round(destValueDouble, MidpointRounding.AwayFromZero);
 
 			return destValue;
@@ -249,8 +253,6 @@ namespace JJ.Business.Synthesizer.Calculation
 			                   midiMappingElement.FromToneNumber.Value;
 
 			double destValueDouble = ratio * destRange + midiMappingElement.TillPosition.Value;
-
-			// TODO: Work with relative deltas too.
 
 			if (destValueDouble < 1)
 			{

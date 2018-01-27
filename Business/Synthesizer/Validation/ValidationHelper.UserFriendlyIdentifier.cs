@@ -138,9 +138,9 @@ namespace JJ.Business.Synthesizer.Validation
 				sb.Append($"{ResourceFormatter.StandardDimension} '{ResourceFormatter.GetDisplayName(entity.StandardDimension)}' ");
 			}
 
-			if (entity.ControllerCode.HasValue)
+			if (entity.MidiControllerCode.HasValue)
 			{
-				sb.Append($"{ResourceFormatter.ControllerCode} {entity.ControllerCode} ");
+				sb.Append($"{ResourceFormatter.MidiControllerCode} {entity.MidiControllerCode} ");
 			}
 
 			if (entity.Scale != null)
@@ -151,9 +151,9 @@ namespace JJ.Business.Synthesizer.Validation
 			string[] elements =
 			{
 				GetRangeIdentifier(ResourceFormatter.DimensionValue, entity.FromDimensionValue, entity.TillDimensionValue),
-				GetRangeIdentifier(ResourceFormatter.ControllerValue, entity.FromControllerValue, entity.TillControllerValue),
-				GetRangeIdentifier(ResourceFormatter.NoteNumber, entity.FromNoteNumber, entity.TillNoteNumber),
-				GetRangeIdentifier(ResourceFormatter.Velocity, entity.FromVelocity, entity.TillVelocity),
+				GetRangeIdentifier(ResourceFormatter.MidiControllerValue, entity.FromMidiControllerValue, entity.TillMidiControllerValue),
+				GetRangeIdentifier(ResourceFormatter.MidiNoteNumber, entity.FromMidiNoteNumber, entity.TillMidiNoteNumber),
+				GetRangeIdentifier(ResourceFormatter.MidiVelocity, entity.FromMidiVelocity, entity.TillMidiVelocity),
 				GetRangeIdentifier(ResourceFormatter.Position, entity.FromPosition, entity.TillPosition),
 				GetRangeIdentifier(ResourceFormatter.ToneNumber, entity.FromToneNumber, entity.TillToneNumber)
 			};

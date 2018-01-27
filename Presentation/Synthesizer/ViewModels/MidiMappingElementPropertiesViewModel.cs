@@ -7,13 +7,13 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 	{
 		public int ID { get; set; }
 		public int MidiMappingID { get; set; }
-		public int? ControllerCode { get; set; }
-		public int? FromControllerValue { get; set; }
-		public int? TillControllerValue { get; set; }
-		public int? FromNoteNumber { get; set; }
-		public int? TillNoteNumber { get; set; }
-		public int? FromVelocity { get; set; }
-		public int? TillVelocity { get; set; }
+		public int? MidiControllerCode { get; set; }
+		public int? FromMidiControllerValue { get; set; }
+		public int? TillMidiControllerValue { get; set; }
+		public int? FromMidiNoteNumber { get; set; }
+		public int? TillMidiNoteNumber { get; set; }
+		public int? FromMidiVelocity { get; set; }
+		public int? TillMidiVelocity { get; set; }
 		public IDAndName StandardDimension { get; set; }
 		public string CustomDimensionName { get; set; }
 		public string FromDimensionValue { get; set; }

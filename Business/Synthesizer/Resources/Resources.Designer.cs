@@ -565,33 +565,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Controller Code.
-        /// </summary>
-        internal static string ControllerCode {
-            get {
-                return ResourceManager.GetString("ControllerCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Controller Value.
-        /// </summary>
-        internal static string ControllerValue {
-            get {
-                return ResourceManager.GetString("ControllerValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Controller Values.
-        /// </summary>
-        internal static string ControllerValues {
-            get {
-                return ResourceManager.GetString("ControllerValues", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cubic.
         /// </summary>
         internal static string Cubic {
@@ -1006,15 +979,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From Controller Value.
-        /// </summary>
-        internal static string FromControllerValue {
-            get {
-                return ResourceManager.GetString("FromControllerValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to From Dimension Value.
         /// </summary>
         internal static string FromDimensionValue {
@@ -1024,11 +988,29 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From Note Number.
+        ///   Looks up a localized string similar to From MIDI Controller Value.
         /// </summary>
-        internal static string FromNoteNumber {
+        internal static string FromMidiControllerValue {
             get {
-                return ResourceManager.GetString("FromNoteNumber", resourceCulture);
+                return ResourceManager.GetString("FromMidiControllerValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From MIDI Note Number.
+        /// </summary>
+        internal static string FromMidiNoteNumber {
+            get {
+                return ResourceManager.GetString("FromMidiNoteNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  From MIDI Velocity.
+        /// </summary>
+        internal static string FromMidiVelocity {
+            get {
+                return ResourceManager.GetString("FromMidiVelocity", resourceCulture);
             }
         }
         
@@ -1047,15 +1029,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string FromToneNumber {
             get {
                 return ResourceManager.GetString("FromToneNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to  From Velocity.
-        /// </summary>
-        internal static string FromVelocity {
-            get {
-                return ResourceManager.GetString("FromVelocity", resourceCulture);
             }
         }
         
@@ -1123,24 +1096,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is a controller code, but no controller values..
-        /// </summary>
-        internal static string HasControllerCodeButNoControllerValue {
-            get {
-                return ResourceManager.GetString("HasControllerCodeButNoControllerValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are controller values, but no controller code..
-        /// </summary>
-        internal static string HasControllerValueButNoControllerCode {
-            get {
-                return ResourceManager.GetString("HasControllerValueButNoControllerCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Has a Dimension.
         /// </summary>
         internal static string HasDimension {
@@ -1155,6 +1110,24 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string HasDimensionMinMaxButNoFromOrTill {
             get {
                 return ResourceManager.GetString("HasDimensionMinMaxButNoFromOrTill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a MIDI controller code, but no MIDI controller values..
+        /// </summary>
+        internal static string HasMidiControllerCodeButNoMidiControllerValue {
+            get {
+                return ResourceManager.GetString("HasMidiControllerCodeButNoMidiControllerValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are MIDI controller values, but no MIDI controller code..
+        /// </summary>
+        internal static string HasMidiControllerValueButNoMidiControllerCode {
+            get {
+                return ResourceManager.GetString("HasMidiControllerValueButNoMidiControllerCode", resourceCulture);
             }
         }
         
@@ -1618,6 +1591,33 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MIDI Controller Code.
+        /// </summary>
+        internal static string MidiControllerCode {
+            get {
+                return ResourceManager.GetString("MidiControllerCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIDI Controller Value.
+        /// </summary>
+        internal static string MidiControllerValue {
+            get {
+                return ResourceManager.GetString("MidiControllerValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIDI Controller Values.
+        /// </summary>
+        internal static string MidiControllerValues {
+            get {
+                return ResourceManager.GetString("MidiControllerValues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MIDI Mapping.
         /// </summary>
         internal static string MidiMapping {
@@ -1632,6 +1632,42 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string MidiMappingElement {
             get {
                 return ResourceManager.GetString("MidiMappingElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIDI Note Number.
+        /// </summary>
+        internal static string MidiNoteNumber {
+            get {
+                return ResourceManager.GetString("MidiNoteNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIDI Note Numbers.
+        /// </summary>
+        internal static string MidiNoteNumbers {
+            get {
+                return ResourceManager.GetString("MidiNoteNumbers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIDI Velocities.
+        /// </summary>
+        internal static string MidiVelocities {
+            get {
+                return ResourceManager.GetString("MidiVelocities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIDI Velocity.
+        /// </summary>
+        internal static string MidiVelocity {
+            get {
+                return ResourceManager.GetString("MidiVelocity", resourceCulture);
             }
         }
         
@@ -1830,24 +1866,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string NoteDuration {
             get {
                 return ResourceManager.GetString("NoteDuration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Note Number.
-        /// </summary>
-        internal static string NoteNumber {
-            get {
-                return ResourceManager.GetString("NoteNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Note Numbers.
-        /// </summary>
-        internal static string NoteNumbers {
-            get {
-                return ResourceManager.GetString("NoteNumbers", resourceCulture);
             }
         }
         
@@ -2824,15 +2842,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Till Controller Value.
-        /// </summary>
-        internal static string TillControllerValue {
-            get {
-                return ResourceManager.GetString("TillControllerValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Till Dimension Value.
         /// </summary>
         internal static string TillDimensionValue {
@@ -2842,11 +2851,29 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Till Note Number.
+        ///   Looks up a localized string similar to Till MIDI Controller Value.
         /// </summary>
-        internal static string TillNoteNumber {
+        internal static string TillMidiControllerValue {
             get {
-                return ResourceManager.GetString("TillNoteNumber", resourceCulture);
+                return ResourceManager.GetString("TillMidiControllerValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Till MIDI Note Number.
+        /// </summary>
+        internal static string TillMidiNoteNumber {
+            get {
+                return ResourceManager.GetString("TillMidiNoteNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Till MIDI Velocity.
+        /// </summary>
+        internal static string TillMidiVelocity {
+            get {
+                return ResourceManager.GetString("TillMidiVelocity", resourceCulture);
             }
         }
         
@@ -2865,15 +2892,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string TillToneNumber {
             get {
                 return ResourceManager.GetString("TillToneNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Till Velocity.
-        /// </summary>
-        internal static string TillVelocity {
-            get {
-                return ResourceManager.GetString("TillVelocity", resourceCulture);
             }
         }
         
@@ -3063,24 +3081,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Velocities.
-        /// </summary>
-        internal static string Velocities {
-            get {
-                return ResourceManager.GetString("Velocities", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Velocity.
-        /// </summary>
-        internal static string Velocity {
-            get {
-                return ResourceManager.GetString("Velocity", resourceCulture);
             }
         }
         

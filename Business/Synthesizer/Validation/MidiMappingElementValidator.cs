@@ -21,37 +21,37 @@ namespace JJ.Business.Synthesizer.Validation
 				ExecuteValidator(new EntityPositionValidator(entity.EntityPosition), ValidationHelper.GetMessagePrefix(entity.EntityPosition));
 			}
 
-			For(entity.ControllerCode, ResourceFormatter.ControllerCode)
+			For(entity.MidiControllerCode, ResourceFormatter.MidiControllerCode)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
 				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
-			For(entity.FromControllerValue, ResourceFormatter.FromControllerValue)
+			For(entity.FromMidiControllerValue, ResourceFormatter.FromMidiControllerValue)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
 				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
-			For(entity.TillControllerValue, ResourceFormatter.TillControllerValue)
+			For(entity.TillMidiControllerValue, ResourceFormatter.TillMidiControllerValue)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
 				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
-			if (entity.ControllerCode.HasValue)
+			if (entity.MidiControllerCode.HasValue)
 			{
-				For(entity.FromControllerValue, ResourceFormatter.FromControllerValue).NotNull();
-				For(entity.TillControllerValue, ResourceFormatter.TillControllerValue).NotNull();
+				For(entity.FromMidiControllerValue, ResourceFormatter.FromMidiControllerValue).NotNull();
+				For(entity.TillMidiControllerValue, ResourceFormatter.TillMidiControllerValue).NotNull();
 			}
 
-			For(entity.FromNoteNumber, ResourceFormatter.FromNoteNumber)
+			For(entity.FromMidiNoteNumber, ResourceFormatter.FromMidiNoteNumber)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
 				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
-			For(entity.TillNoteNumber, ResourceFormatter.TillNoteNumber)
+			For(entity.TillMidiNoteNumber, ResourceFormatter.TillMidiNoteNumber)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
 				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
-			For(entity.FromVelocity, ResourceFormatter.FromVelocity)
+			For(entity.FromMidiVelocity, ResourceFormatter.FromMidiVelocity)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
 				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
-			For(entity.TillVelocity, ResourceFormatter.TillVelocity)
+			For(entity.TillMidiVelocity, ResourceFormatter.TillMidiVelocity)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
 				.LessThanOrEqual(MidiConstants.MIDI_MAX_VALUE);
 
@@ -64,19 +64,19 @@ namespace JJ.Business.Synthesizer.Validation
 			For(entity.MidiMapping, ResourceFormatter.MidiMapping).NotNull();
 
 			bool hasControllerCodeButNoValue =
-				entity.ControllerCode.HasValue && !entity.FromControllerValue.HasValue && !entity.TillControllerValue.HasValue;
+				entity.MidiControllerCode.HasValue && !entity.FromMidiControllerValue.HasValue && !entity.TillMidiControllerValue.HasValue;
 
 			if (hasControllerCodeButNoValue)
 			{
-				Messages.Add(ResourceFormatter.HasControllerCodeButNoControllerValue);
+				Messages.Add(ResourceFormatter.HasMidiControllerCodeButNoMidiControllerValue);
 			}
 
 			bool hasControllerValueButNoCode =
-				(entity.FromControllerValue.HasValue || entity.TillControllerValue.HasValue) && !entity.ControllerCode.HasValue;
+				(entity.FromMidiControllerValue.HasValue || entity.TillMidiControllerValue.HasValue) && !entity.MidiControllerCode.HasValue;
 
 			if (hasControllerValueButNoCode)
 			{
-				Messages.Add(ResourceFormatter.HasControllerValueButNoControllerCode);
+				Messages.Add(ResourceFormatter.HasMidiControllerValueButNoMidiControllerCode);
 			}
 
 			bool dimensionHasMinOrMaxButNoFromnOrTill = (entity.MinDimensionValue.HasValue || entity.MaxDimensionValue.HasValue) &&

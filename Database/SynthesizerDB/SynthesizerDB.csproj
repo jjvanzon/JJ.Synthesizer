@@ -538,6 +538,7 @@
     <Content Include="2018-01-02 080 SynthesizerDB IX_MidiMappingElement_MidiMappingID.sql" />
     <Content Include="2018-01-02 090 SynthesizerDB IX_MidiMappingElement_ScaleID.sql" />
     <Content Include="2018-01-02 100 SynthesizerDB IX_MidiMappingElement_StandardDimensionID.sql" />
+    <Content Include="2018-01-27 010 SynthesizerDB MidiMappingElement rename columns.sql" />
     <Content Include="2018-01-03 010 SynthesizerDB MidiMappingElement rename columns.sql" />
     <Content Include="2018-01-09 010 SynthesizerDB Operator.EntityPositionID.sql" />
     <Content Include="2018-01-09 020 SynthesizerDB MidiMappingElement.EntityPositionID.sql" />

@@ -24,16 +24,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			AddProperty(labelStandardDimension, comboBoxStandardDimension);
 			AddProperty(labelCustomDimensionName, textBoxCustomDimensionName);
-			AddProperty(labelControllerCode, maskedTextBoxControllerCode);
+			AddProperty(labelMidiControllerCode, maskedTextBoxMidiControllerCode);
 			AddSpacing();
 			AddProperty(labelDimensionValues, fromTillUserControlDimensionValues);
 			AddProperty(labelMinMaxDimensionValues, fromTillUserControlMinMaxDimensionValues);
 			AddSpacing();
-			AddProperty(labelControllerValues, fromTillUserControlControllerValues);
-			AddProperty(labelVelocities, fromTillUserControlVelocities);
+			AddProperty(labelMidiControllerValues, fromTillUserControlMidiControllerValues);
+			AddProperty(labelMidiVelocities, fromTillUserControlMidiVelocities);
 			AddProperty(labelPositions, fromTillUserControlPositions);
 			AddProperty(labelScale, comboBoxScale);
-			AddProperty(labelNoteNumbers, fromTillUserControlNoteNumbers);
+			AddProperty(labelMidiNoteNumbers, fromTillUserControlMidiNoteNumbers);
 			AddProperty(labelToneNumbers, fromTillUserControlToneNumbers);
 			AddSpacing();
 			AddProperty(labelIsRelative, checkBoxIsRelative);
@@ -43,14 +43,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		protected override void SetTitles()
 		{
 			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.MidiMappingElement);
-			labelControllerCode.Text = ResourceFormatter.ControllerCode;
+			labelMidiControllerCode.Text = ResourceFormatter.MidiControllerCode;
 			labelCustomDimensionName.Text = ResourceFormatter.CustomDimension;
-			labelControllerValues.Text = ResourceFormatter.ControllerValues;
+			labelMidiControllerValues.Text = ResourceFormatter.MidiControllerValues;
 			labelDimensionValues.Text = ResourceFormatter.DimensionValues;
-			labelNoteNumbers.Text = ResourceFormatter.NoteNumbers;
+			labelMidiNoteNumbers.Text = ResourceFormatter.MidiNoteNumbers;
 			labelPositions.Text = ResourceFormatter.Positions;
 			labelToneNumbers.Text = ResourceFormatter.ToneNumbers;
-			labelVelocities.Text = ResourceFormatter.Velocities;
+			labelMidiVelocities.Text = ResourceFormatter.MidiVelocities;
 			labelIsActive.Text = CommonResourceFormatter.IsActive;
 			labelIsRelative.Text = ResourceFormatter.IsRelative;
 			labelMinMaxDimensionValues.Text = ResourceFormatter.MinMaxDimensionValues;
@@ -77,25 +77,25 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			checkBoxIsActive.Checked = ViewModel.IsActive;
 			checkBoxIsRelative.Checked = ViewModel.IsRelative;
-			fromTillUserControlControllerValues.From = $"{ViewModel.FromControllerValue}";
-			fromTillUserControlControllerValues.From = $"{ViewModel.FromControllerValue}";
-			fromTillUserControlControllerValues.Till = $"{ViewModel.TillControllerValue}";
-			fromTillUserControlControllerValues.Till = $"{ViewModel.TillControllerValue}m";
+			fromTillUserControlMidiControllerValues.From = $"{ViewModel.FromMidiControllerValue}";
+			fromTillUserControlMidiControllerValues.From = $"{ViewModel.FromMidiControllerValue}";
+			fromTillUserControlMidiControllerValues.Till = $"{ViewModel.TillMidiControllerValue}";
+			fromTillUserControlMidiControllerValues.Till = $"{ViewModel.TillMidiControllerValue}m";
 			fromTillUserControlDimensionValues.From = ViewModel.FromDimensionValue;
 			fromTillUserControlDimensionValues.From = ViewModel.FromDimensionValue;
 			fromTillUserControlDimensionValues.Till = ViewModel.TillDimensionValue;
 			fromTillUserControlDimensionValues.Till = ViewModel.TillDimensionValue;
 			fromTillUserControlMinMaxDimensionValues.From = ViewModel.MinDimensionValue;
 			fromTillUserControlMinMaxDimensionValues.Till = ViewModel.MaxDimensionValue;
-			fromTillUserControlNoteNumbers.From = $"{ViewModel.FromNoteNumber}";
-			fromTillUserControlNoteNumbers.Till = $"{ViewModel.TillNoteNumber}";
+			fromTillUserControlMidiNoteNumbers.From = $"{ViewModel.FromMidiNoteNumber}";
+			fromTillUserControlMidiNoteNumbers.Till = $"{ViewModel.TillMidiNoteNumber}";
 			fromTillUserControlPositions.From = ViewModel.FromPosition;
 			fromTillUserControlPositions.Till = ViewModel.TillPosition;
 			fromTillUserControlToneNumbers.From = $"{ViewModel.FromToneNumber}";
 			fromTillUserControlToneNumbers.Till = $"{ViewModel.TillToneNumber}";
-			fromTillUserControlVelocities.From = $"{ViewModel.FromVelocity}";
-			fromTillUserControlVelocities.Till = $"{ViewModel.TillVelocity}";
-			maskedTextBoxControllerCode.Text = $"{ViewModel.ControllerCode}";
+			fromTillUserControlMidiVelocities.From = $"{ViewModel.FromMidiVelocity}";
+			fromTillUserControlMidiVelocities.Till = $"{ViewModel.TillMidiVelocity}";
+			maskedTextBoxMidiControllerCode.Text = $"{ViewModel.MidiControllerCode}";
 			textBoxCustomDimensionName.Text = ViewModel.CustomDimensionName;
 
 			if (comboBoxStandardDimension.DataSource == null)
@@ -110,26 +110,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void ApplyControlsToViewModel()
 		{
-			ViewModel.ControllerCode = Int32Helper.ParseNullable(maskedTextBoxControllerCode.Text);
+			ViewModel.MidiControllerCode = Int32Helper.ParseNullable(maskedTextBoxMidiControllerCode.Text);
 			ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
-			ViewModel.FromControllerValue = Int32Helper.ParseNullable(fromTillUserControlControllerValues.From);
+			ViewModel.FromMidiControllerValue = Int32Helper.ParseNullable(fromTillUserControlMidiControllerValues.From);
 			ViewModel.FromDimensionValue = fromTillUserControlDimensionValues.From;
-			ViewModel.FromNoteNumber = Int32Helper.ParseNullable(fromTillUserControlNoteNumbers.From);
+			ViewModel.FromMidiNoteNumber = Int32Helper.ParseNullable(fromTillUserControlMidiNoteNumbers.From);
 			ViewModel.FromPosition =  fromTillUserControlPositions.From;
 			ViewModel.FromToneNumber = Int32Helper.ParseNullable(fromTillUserControlToneNumbers.From);
-			ViewModel.FromVelocity = Int32Helper.ParseNullable(fromTillUserControlVelocities.From);
+			ViewModel.FromMidiVelocity = Int32Helper.ParseNullable(fromTillUserControlMidiVelocities.From);
 			ViewModel.IsActive = checkBoxIsActive.Checked;
 			ViewModel.IsRelative = checkBoxIsRelative.Checked;
 			ViewModel.MaxDimensionValue = fromTillUserControlMinMaxDimensionValues.Till;
 			ViewModel.MinDimensionValue = fromTillUserControlMinMaxDimensionValues.From;
 			ViewModel.Scale = (IDAndName)comboBoxScale.SelectedItem;
 			ViewModel.StandardDimension = (IDAndName)comboBoxStandardDimension.SelectedItem;
-			ViewModel.TillControllerValue = Int32Helper.ParseNullable(fromTillUserControlControllerValues.Till);
+			ViewModel.TillMidiControllerValue = Int32Helper.ParseNullable(fromTillUserControlMidiControllerValues.Till);
 			ViewModel.TillDimensionValue = fromTillUserControlDimensionValues.Till;
-			ViewModel.TillNoteNumber = Int32Helper.ParseNullable(fromTillUserControlNoteNumbers.Till);
+			ViewModel.TillMidiNoteNumber = Int32Helper.ParseNullable(fromTillUserControlMidiNoteNumbers.Till);
 			ViewModel.TillPosition = fromTillUserControlPositions.Till;
 			ViewModel.TillToneNumber = Int32Helper.ParseNullable(fromTillUserControlToneNumbers.Till);
-			ViewModel.TillVelocity = Int32Helper.ParseNullable(fromTillUserControlVelocities.Till);
+			ViewModel.TillMidiVelocity = Int32Helper.ParseNullable(fromTillUserControlMidiVelocities.Till);
 		}
 
 		public void SetScaleLookup(IList<IDAndName> underlyingPatchLookup)

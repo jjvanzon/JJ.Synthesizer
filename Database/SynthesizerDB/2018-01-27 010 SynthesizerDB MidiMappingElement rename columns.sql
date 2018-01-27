@@ -1,0 +1,7 @@
+exec sp_rename 'MidiMappingElement.ControllerCode', 'MidiControllerCode', 'COLUMN'
+exec sp_rename 'MidiMappingElement.FromNoteNumber', 'FromMidiNoteNumber', 'COLUMN'
+exec sp_rename 'MidiMappingElement.TillNoteNumber', 'TillMidiNoteNumber', 'COLUMN'
+exec sp_rename 'MidiMappingElement.FromControllerValue', 'FromMidiControllerValue', 'COLUMN'
+exec sp_rename 'MidiMappingElement.TillControllerValue', 'TillMidiControllerValue', 'COLUMN'
+exec sp_rename 'MidiMappingElement.FromVelocity', 'FromMidiVelocity', 'COLUMN'
+exec sp_rename 'MidiMappingElement.TillVelocity', 'TillMidiVelocity', 'COLUMN'

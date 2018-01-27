@@ -22,9 +22,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 		{
 			_entity.IsActive = true;
 			_entity.IsRelative = true;
-			_entity.ControllerCode = 1; // Modulation wheel
-			_entity.FromControllerValue = 0;
-			_entity.TillControllerValue = 127;
+			_entity.MidiControllerCode = 1; // Modulation wheel
+			_entity.FromMidiControllerValue = 0;
+			_entity.TillMidiControllerValue = 127;
 			_entity.SetStandardDimensionEnum(DimensionEnum.VibratoDepth, _dimensionRepository);
 			_entity.FromDimensionValue = 0;
 			_entity.TillDimensionValue = 0.0005;

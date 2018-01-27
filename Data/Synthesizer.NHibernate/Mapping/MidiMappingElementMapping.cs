@@ -12,13 +12,13 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 
 			Map(x => x.IsActive);
 			Map(x => x.IsRelative);
-			Map(x => x.FromNoteNumber);
-			Map(x => x.TillNoteNumber);
-			Map(x => x.ControllerCode);
-			Map(x => x.FromControllerValue);
-			Map(x => x.TillControllerValue);
-			Map(x => x.FromVelocity);
-			Map(x => x.TillVelocity);
+			Map(x => x.FromMidiNoteNumber);
+			Map(x => x.TillMidiNoteNumber);
+			Map(x => x.MidiControllerCode);
+			Map(x => x.FromMidiControllerValue);
+			Map(x => x.TillMidiControllerValue);
+			Map(x => x.FromMidiVelocity);
+			Map(x => x.TillMidiVelocity);
 			References(x => x.StandardDimension, ColumnNames.StandardDimensionID);
 			Map(x => x.CustomDimensionName);
 			Map(x => x.FromDimensionValue);

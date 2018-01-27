@@ -680,13 +680,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				repositories.MidiMappingElementRepository.Insert(entity);
 			}
 
-			entity.ControllerCode = viewModel.ControllerCode;
-			entity.FromControllerValue = viewModel.FromControllerValue;
-			entity.TillControllerValue = viewModel.TillControllerValue;
-			entity.FromNoteNumber = viewModel.FromNoteNumber;
-			entity.TillNoteNumber = viewModel.TillNoteNumber;
-			entity.FromVelocity = viewModel.FromVelocity;
-			entity.TillVelocity = viewModel.TillVelocity;
+			entity.MidiControllerCode = viewModel.MidiControllerCode;
+			entity.FromMidiControllerValue = viewModel.FromMidiControllerValue;
+			entity.TillMidiControllerValue = viewModel.TillMidiControllerValue;
+			entity.FromMidiNoteNumber = viewModel.FromMidiNoteNumber;
+			entity.TillMidiNoteNumber = viewModel.TillMidiNoteNumber;
+			entity.FromMidiVelocity = viewModel.FromMidiVelocity;
+			entity.TillMidiVelocity = viewModel.TillMidiVelocity;
 			entity.CustomDimensionName = viewModel.CustomDimensionName;
 			entity.FromToneNumber = viewModel.FromToneNumber;
 			entity.TillToneNumber = viewModel.TillToneNumber;

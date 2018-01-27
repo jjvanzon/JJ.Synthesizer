@@ -298,9 +298,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 
 			// Use ControllerCode
-			else if (entity.ControllerCode.HasValue)
+			else if (entity.MidiControllerCode.HasValue)
 			{
-				sb.Append(entity.ControllerCode);
+				sb.Append(entity.MidiControllerCode);
 			}
 
 			// TODO: Low priority: try using other things to identify the MidiMappingElement.

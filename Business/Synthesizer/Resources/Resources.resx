@@ -1077,17 +1077,17 @@
   <data name="MidiMappingElement" xml:space="preserve">
     <value>MIDI Mapping Element</value>
   </data>
-  <data name="ControllerCode" xml:space="preserve">
-    <value>Controller Code</value>
+  <data name="MidiControllerCode" xml:space="preserve">
+    <value>MIDI Controller Code</value>
   </data>
-  <data name="FromControllerValue" xml:space="preserve">
-    <value>From Controller Value</value>
+  <data name="FromMidiControllerValue" xml:space="preserve">
+    <value>From MIDI Controller Value</value>
   </data>
   <data name="FromDimensionValue" xml:space="preserve">
     <value>From Dimension Value</value>
   </data>
-  <data name="FromNoteNumber" xml:space="preserve">
-    <value>From Note Number</value>
+  <data name="FromMidiNoteNumber" xml:space="preserve">
+    <value>From MIDI Note Number</value>
   </data>
   <data name="FromPosition" xml:space="preserve">
     <value>From Position</value>
@@ -1095,8 +1095,8 @@
   <data name="FromToneNumber" xml:space="preserve">
     <value>From Tone Number</value>
   </data>
-  <data name="FromVelocity" xml:space="preserve">
-    <value> From Velocity</value>
+  <data name="FromMidiVelocity" xml:space="preserve">
+    <value> From MIDI Velocity</value>
   </data>
   <data name="IsRelative" xml:space="preserve">
     <value>Relative</value>
@@ -1107,14 +1107,14 @@
   <data name="MinDimensionValue" xml:space="preserve">
     <value>Min Dimension Value</value>
   </data>
-  <data name="TillControllerValue" xml:space="preserve">
-    <value>Till Controller Value</value>
+  <data name="TillMidiControllerValue" xml:space="preserve">
+    <value>Till MIDI Controller Value</value>
   </data>
   <data name="TillDimensionValue" xml:space="preserve">
     <value>Till Dimension Value</value>
   </data>
-  <data name="TillNoteNumber" xml:space="preserve">
-    <value>Till Note Number</value>
+  <data name="TillMidiNoteNumber" xml:space="preserve">
+    <value>Till MIDI Note Number</value>
   </data>
   <data name="TillPosition" xml:space="preserve">
     <value>Till Position</value>
@@ -1122,29 +1122,29 @@
   <data name="TillToneNumber" xml:space="preserve">
     <value>Till Tone Number</value>
   </data>
-  <data name="TillVelocity" xml:space="preserve">
-    <value>Till Velocity</value>
+  <data name="TillMidiVelocity" xml:space="preserve">
+    <value>Till MIDI Velocity</value>
   </data>
-  <data name="ControllerValue" xml:space="preserve">
-    <value>Controller Value</value>
+  <data name="MidiControllerValue" xml:space="preserve">
+    <value>MIDI Controller Value</value>
   </data>
   <data name="DimensionValue" xml:space="preserve">
     <value>Dimension Value</value>
   </data>
-  <data name="NoteNumber" xml:space="preserve">
-    <value>Note Number</value>
+  <data name="MidiNoteNumber" xml:space="preserve">
+    <value>MIDI Note Number</value>
   </data>
   <data name="ToneNumber" xml:space="preserve">
     <value>Tone Number</value>
   </data>
-  <data name="Velocity" xml:space="preserve">
-    <value>Velocity</value>
+  <data name="MidiVelocity" xml:space="preserve">
+    <value>MIDI Velocity</value>
   </data>
-  <data name="HasControllerCodeButNoControllerValue" xml:space="preserve">
-    <value>There is a controller code, but no controller values.</value>
+  <data name="HasMidiControllerCodeButNoMidiControllerValue" xml:space="preserve">
+    <value>There is a MIDI controller code, but no MIDI controller values.</value>
   </data>
-  <data name="HasControllerValueButNoControllerCode" xml:space="preserve">
-    <value>There are controller values, but no controller code.</value>
+  <data name="HasMidiControllerValueButNoMidiControllerCode" xml:space="preserve">
+    <value>There are MIDI controller values, but no MIDI controller code.</value>
   </data>
   <data name="HasDimensionMinMaxButNoFromOrTill" xml:space="preserve">
     <value>There are min or max dimension values, but no dimension from/till.</value>
@@ -1158,8 +1158,8 @@
   <data name="EntityPosition" xml:space="preserve">
     <value>Object Position</value>
   </data>
-  <data name="ControllerValues" xml:space="preserve">
-    <value>Controller Values</value>
+  <data name="MidiControllerValues" xml:space="preserve">
+    <value>MIDI Controller Values</value>
   </data>
   <data name="DimensionValues" xml:space="preserve">
     <value>Dimension Values</value>
@@ -1167,13 +1167,13 @@
   <data name="MinMaxDimensionValues" xml:space="preserve">
     <value>Min/Max Dimension Values</value>
   </data>
-  <data name="NoteNumbers" xml:space="preserve">
-    <value>Note Numbers</value>
+  <data name="MidiNoteNumbers" xml:space="preserve">
+    <value>MIDI Note Numbers</value>
   </data>
   <data name="ToneNumbers" xml:space="preserve">
     <value>Tone Numbers</value>
   </data>
-  <data name="Velocities" xml:space="preserve">
-    <value>Velocities</value>
+  <data name="MidiVelocities" xml:space="preserve">
+    <value>MIDI Velocities</value>
   </data>
 </root>
