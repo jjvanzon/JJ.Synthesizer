@@ -8,6 +8,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -28,7 +29,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			var textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 
-			_converter = new MidiMappingDetailsViewModelToDiagramConverter(textMeasurer, SystemInformation.DoubleClickTime, SystemInformation.DoubleClickSize.Width);
+			_converter = new MidiMappingDetailsViewModelToDiagramConverter(
+				textMeasurer,
+				SystemInformation.DoubleClickTime,
+				SystemInformation.DoubleClickSize.Width);
+
 			_converter.Result.DeleteElementGesture.DeleteSelectionRequested += DeleteElementGesture_DeleteSelectionRequested;
 			_converter.Result.ExpandElementKeyboardGesture.ExpandRequested += ExpandElementKeyboardGesture_ExpandRequested;
 			_converter.Result.ExpandElementMouseGesture.ExpandRequested += ExpandElementMouseGesture_ExpandRequested;
@@ -118,12 +123,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			int midiMappingElementID = (int)e.Element.Tag;
 
-			// TODO: Looks complicated for no apparent reason. Maybe put helper methods in the vector graphics API?
-
-			float centerX = e.Element.Position.AbsoluteX + e.Element.Position.Width / 2f;
-			float centerY = e.Element.Position.AbsoluteY + e.Element.Position.Height / 2f;
-
-			MoveElementRequested(this, new EventArgs<(int, int, float, float)>((ViewModel.MidiMapping.ID, midiMappingElementID, centerX, centerY)));
+			MoveElementRequested(
+				this,
+				new EventArgs<(int, int, float, float)>(
+					(
+					ViewModel.MidiMapping.ID,
+					midiMappingElementID,
+					e.Element.Position.AbsoluteCenterX,
+					e.Element.Position.AbsoluteCenterY)));
 		}
 
 		private void SelectElementGesture_SelectRequested(object sender, ElementEventArgs e)
