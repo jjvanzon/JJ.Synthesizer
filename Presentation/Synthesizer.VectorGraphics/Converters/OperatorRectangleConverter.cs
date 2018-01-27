@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			if (sourceOperatorViewModel.IsSelected)
 			{
-				destOperatorRectangle.Style.BackStyle = StyleHelper.BackStyleSelected;
+				destOperatorRectangle.Style.BackStyle = StyleHelper.OperatorBackStyleSelected;
 				destOperatorRectangle.Style.LineStyle = StyleHelper.OperatorBorderStyleSelected;
 			}
 			else

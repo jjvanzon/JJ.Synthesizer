@@ -29,8 +29,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			if (destOperatorRectangle == null) throw new NullException(() => destOperatorRectangle);
 
 			IList<InletViewModel> sourceInletViewModelsToConvert = sourceOperatorViewModel.Inlets
-																						  .Where(inlet => inlet.Visible)
-																						  .ToArray();
+			                                                                              .Where(inlet => inlet.Visible)
+			                                                                              .ToArray();
+
 			if (sourceInletViewModelsToConvert.Count == 0)
 			{
 				return new Rectangle[0];
@@ -76,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				{
 					Diagram = destOperatorRectangle.Diagram,
 					Parent = destOperatorRectangle,
-					Tag = (int)inletID
+					Tag = inletID
 				};
 
 				destInletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;

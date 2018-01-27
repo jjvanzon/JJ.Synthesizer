@@ -131,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
 		public static TextStyle MidiMappingTextStyleInactive { get; } = HalfenOpacity(MidiMappingTextStyle);
 
-		public static BackStyle BackStyleSelected { get; } = new BackStyle
+		public static BackStyle OperatorBackStyleSelected { get; } = new BackStyle
 		{
 			Color = Blue
 		};
