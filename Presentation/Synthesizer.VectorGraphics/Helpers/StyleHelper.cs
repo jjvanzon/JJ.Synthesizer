@@ -129,6 +129,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Wrap = true 
 		};
 
+		public static TextStyle MidiMappingTextStyleInactive { get; } = new TextStyle
+		{
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
+			Font = DimensionFont,
+			Color = MediumLightGray,
+			Wrap = true 
+		};
+
 		public static BackStyle BackStyleSelected { get; } = new BackStyle
 		{
 			Color = Blue
@@ -211,6 +220,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Color = MediumGray
 		};
 
+		public static LineStyle CircleLineStyleInactive { get; } = new LineStyle
+		{
+			Width = 2,
+			Color = LightGray
+		};
+
 		public static PointStyle PointStyle { get; } = new PointStyle
 		{
 			Color = MediumGray,
@@ -250,6 +265,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		{
 			Width = 5,
 			Color = MediumGray
+		};
+
+		public static PointStyle DentPointStyleInactive { get; } = new PointStyle
+		{
+			Width = 5,
+			Color = LightGray
 		};
 
 		// ToolTip
@@ -327,5 +348,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		// Order-Dependence: Do after _gradedBackStyleDictionary declaration
 		public static BackStyle NeutralBackStyle { get; } = GetGradedBackStyle(StyleGradeEnum.StyleGradeNeutral);
 		public static BackStyle CircleBackStyle { get; } = NeutralBackStyle;
+		public static BackStyle CircleBackStyleInactive { get; } = new BackStyle { Color = LighterGray };
 	}
 }

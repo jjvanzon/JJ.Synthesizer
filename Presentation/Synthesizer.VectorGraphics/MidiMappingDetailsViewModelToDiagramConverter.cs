@@ -25,7 +25,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		public MidiMappingDetailsViewModelToDiagramConverterResult Result { get; }
 
-		public MidiMappingDetailsViewModelToDiagramConverter(ITextMeasurer textMeasurer, int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+		public MidiMappingDetailsViewModelToDiagramConverter(
+			ITextMeasurer textMeasurer,
+			int doubleClickSpeedInMilliseconds,
+			int doubleClickDeltaInPixels)
 		{
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 
@@ -121,6 +124,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				circle.Style.BackStyle = StyleHelper.BackStyleSelected;
 				circle.Style.LineStyle = StyleHelper.CircleLineStyleSelected;
 			}
+			else if (viewModel.HasInactiveStyle)
+			{
+				circle.Style.BackStyle = StyleHelper.CircleBackStyleInactive;
+				circle.Style.LineStyle = StyleHelper.CircleLineStyleInactive;
+			}
 			else
 			{
 				circle.Style.BackStyle = StyleHelper.CircleBackStyle;
@@ -138,12 +146,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				label = new Label
 				{
 					Diagram = Result.Diagram,
-					Parent = parent,
-					TextStyle = StyleHelper.MidiMappingTextStyle
+					Parent = parent
 				};
+
 				label.Position.Y = LABEL_Y;
 
 				_labelDictionary[viewModel.ID] = label;
+			}
+
+			if (viewModel.HasInactiveStyle)
+			{
+				label.TextStyle = StyleHelper.MidiMappingTextStyleInactive;
+			}
+			else
+			{
+				label.TextStyle = StyleHelper.MidiMappingTextStyle;
 			}
 
 			label.Text = viewModel.Caption;
@@ -153,16 +170,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			label.Position.Height = widthAndHeight.Height;
 
 			label.Position.X = StyleHelper.DEFAULT_OBJECT_SIZE / 2f - label.Position.Width / 2f;
-
-			// Uncomment for making label bounds visible temporarily:
-			//var rectangle = new Rectangle
-			//{
-			//	Diagram = Result.Diagram,
-			//	Parent = label
-			//};
-			//rectangle.Position.Width = label.Position.Width;
-			//rectangle.Position.Height = label.Position.Height;
-			//rectangle.Style.BackStyle.Visible = false;
 
 			return label;
 		}
@@ -177,6 +184,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 					Diagram = Result.Diagram,
 					Parent = parent
 				};
+
 				point.Position.X = StyleHelper.DEFAULT_OBJECT_SIZE / 2f;
 				point.Position.Y = DENT_POINT_Y;
 
@@ -186,6 +194,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			if (viewModel.IsSelected)
 			{
 				point.PointStyle = StyleHelper.DentPointStyleSelected;
+			}
+			else if (viewModel.HasInactiveStyle)
+			{
+				point.PointStyle = StyleHelper.DentPointStyleInactive;
 			}
 			else
 			{
@@ -204,6 +216,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				ZIndex = -1,
 				TextStyle = StyleHelper.TopWaterMarkTextStyle
 			};
+
 			label.Position.X = StyleHelper.SMALL_SPACING;
 			label.Position.Y = StyleHelper.SMALL_SPACING;
 #if DEBUG

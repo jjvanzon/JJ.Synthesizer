@@ -236,10 +236,6 @@
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Resources\JJ.Framework.Resources.csproj">
-      <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
-      <Name>JJ.Framework.Resources</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Presentation\JJ.Framework.Presentation.csproj">
       <Project>{79b0eac3-5159-4fc8-b3d8-53315b205444}</Project>
       <Name>JJ.Framework.Presentation</Name>
@@ -247,6 +243,10 @@
     <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Resources\JJ.Framework.Resources.csproj">
+      <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
+      <Name>JJ.Framework.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Validation\JJ.Framework.Validation.csproj">
       <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>

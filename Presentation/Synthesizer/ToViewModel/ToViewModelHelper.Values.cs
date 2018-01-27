@@ -289,18 +289,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (entity.StandardDimension != null )
 			{
 				sb.Append(ResourceFormatter.GetDisplayName(entity.StandardDimension));
+				sb.Append(' ');
 			}
 
 			// Use CustomDimensionName
 			else if (!string.IsNullOrWhiteSpace(entity.CustomDimensionName))
 			{
 				sb.Append(entity.CustomDimensionName);
+				sb.Append(' ');
 			}
 
 			// Use ControllerCode
 			else if (entity.MidiControllerCode.HasValue)
 			{
 				sb.Append(entity.MidiControllerCode);
+				sb.Append(' ');
 			}
 
 			// TODO: Low priority: try using other things to identify the MidiMappingElement.
@@ -308,10 +311,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			// ID
 			if (_idsVisible)
 			{
-				sb.Append($" ({entity.ID})");
+				sb.Append($"({entity.ID})");
 			}
 
-			return sb.ToString();
+			return sb.ToString().TrimEnd();
 		}
 
 		// Node

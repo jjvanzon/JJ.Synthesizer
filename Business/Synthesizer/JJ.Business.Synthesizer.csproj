@@ -659,6 +659,10 @@
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Resources\JJ.Framework.Resources.csproj">
+      <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
+      <Name>JJ.Framework.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Third Party\Lomont\Lomont.csproj">
       <Project>{cda729cd-cd5e-4700-8308-b4b916c8eab9}</Project>
       <Name>Lomont</Name>
@@ -686,10 +690,6 @@
     <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Resources\JJ.Framework.Resources.csproj">
-      <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
-      <Name>JJ.Framework.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>

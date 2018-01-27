@@ -178,6 +178,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				ID = entity.ID,
 				Position = entity.EntityPosition.ToViewModel(),
+				HasInactiveStyle = !entity.IsActive,
 				Caption = ToViewModelHelper.GetCaption(entity)
 			};
 
