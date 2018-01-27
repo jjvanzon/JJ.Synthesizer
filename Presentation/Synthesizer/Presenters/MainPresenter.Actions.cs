@@ -1762,6 +1762,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					States = GetMidiMappingElementStates(viewModel.CreatedElementID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
+
+				// Redirect
+				MidiMappingElementPropertiesShow(viewModel.CreatedElementID);
 			}
 		}
 

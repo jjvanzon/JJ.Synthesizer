@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
 			Font = WaterMarkFont,
-			Color = LighterGray
+			Color = MediumLightGray
 		};
 
 		public static TextStyle TextStyleSmallerTransparent { get; } = new TextStyle

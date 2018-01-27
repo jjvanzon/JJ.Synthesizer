@@ -28,8 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			AddSpacing();
 			AddProperty(labelDimensionValues, fromTillUserControlDimensionValues);
 			AddProperty(labelMinMaxDimensionValues, fromTillUserControlMinMaxDimensionValues);
-			AddProperty(labelControllerValues, fromTillUserControlControllerValues);
 			AddSpacing();
+			AddProperty(labelControllerValues, fromTillUserControlControllerValues);
 			AddProperty(labelVelocities, fromTillUserControlVelocities);
 			AddProperty(labelPositions, fromTillUserControlPositions);
 			AddProperty(labelScale, comboBoxScale);
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.MidiMappingElement);
 			labelControllerCode.Text = ResourceFormatter.ControllerCode;
-			labelCustomDimensionName.Text = ResourceFormatter.CustomDimensionName;
+			labelCustomDimensionName.Text = ResourceFormatter.CustomDimension;
 			labelControllerValues.Text = ResourceFormatter.ControllerValues;
 			labelDimensionValues.Text = ResourceFormatter.DimensionValues;
 			labelNoteNumbers.Text = ResourceFormatter.NoteNumbers;

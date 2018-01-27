@@ -45,6 +45,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		private void PositionControls()
 		{
 			int textBoxWidth = (Width - labelDash.Width) / 2;
+			if (textBoxWidth < 1) textBoxWidth = 1;
+
 			int height = fromMaskedTextBox.Height;
 
 			int x = 0;
