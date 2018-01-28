@@ -92,8 +92,7 @@ namespace JJ.Business.Synthesizer.Calculation
 				if (MustScaleByMidiController(midiMappingElement, midiControllerCode, midiControllerValue))
 				{
 					double midiControllerRatio = (midiControllerValue.Value - midiMappingElement.FromMidiControllerValue.Value) /
-					                             (double)(midiMappingElement.TillMidiControllerValue.Value -
-					                                      midiMappingElement.FromMidiControllerValue.Value);
+					                             (double)midiMappingElement.TryGetMidiControllerValueRange();
 
 					ratio *= midiControllerRatio;
 				}
@@ -101,7 +100,7 @@ namespace JJ.Business.Synthesizer.Calculation
 				if (MustScaleByMidiNoteNumber(midiMappingElement, midiNoteNumber))
 				{
 					double midiNoteNumberRatio = (midiNoteNumber.Value - midiMappingElement.FromMidiNoteNumber.Value) /
-					                             (double)(midiMappingElement.TillMidiNoteNumber.Value - midiMappingElement.FromMidiNoteNumber.Value);
+					                             (double)midiMappingElement.TryGetMidiNoteNumberRange();
 
 					ratio *= midiNoteNumberRatio;
 				}
@@ -109,7 +108,7 @@ namespace JJ.Business.Synthesizer.Calculation
 				if (MustScaleByMidiVelocity(midiMappingElement, midiVelocity))
 				{
 					double midiVelocityRatio = (midiVelocity.Value - midiMappingElement.FromMidiVelocity.Value) /
-					                           (double)(midiMappingElement.TillMidiVelocity.Value - midiMappingElement.FromMidiVelocity.Value);
+					                           (double)midiMappingElement.TryGetMidiVelocityRange();
 
 					ratio *= midiVelocityRatio;
 				}
@@ -147,35 +146,17 @@ namespace JJ.Business.Synthesizer.Calculation
 
 		private bool MustScaleByMidiController(MidiMappingElement midiMappingElement, int? midiControllerCode, int? midiControllerValue)
 		{
-			if (!midiControllerCode.HasValue)
-			{
-				return false;
-			}
+			bool mustScaleByMidiController = midiControllerCode.HasValue &&
+			                                 midiControllerValue.HasValue &&
+											 midiMappingElement.HasMidiControllerValues() &&
+											 midiMappingElement.MidiControllerCode == midiControllerCode;
 
-			if (!midiControllerValue.HasValue)
-			{
-				return false;
-			}
-
-			if (midiMappingElement.MidiControllerCode != midiControllerCode)
-			{
-				return false;
-			}
-
-			if (!midiMappingElement.FromMidiControllerValue.HasValue ||
-			    !midiMappingElement.TillMidiControllerValue.HasValue)
-			{
-				return false;
-			}
-
-			return true;
+			return mustScaleByMidiController;
 		}
 
 		private bool MustScaleByMidiNoteNumber(MidiMappingElement midiMappingElement, int? midiNoteNumber)
 		{
-			bool mustScaleByMidiNoteNumber = midiMappingElement.Scale != null &&
-			                                 midiMappingElement.FromMidiNoteNumber.HasValue &&
-			                                 midiMappingElement.TillMidiNoteNumber.HasValue &&
+			bool mustScaleByMidiNoteNumber = midiMappingElement.HasMidiNoteNumbers() &&
 			                                 midiNoteNumber.HasValue;
 
 			return mustScaleByMidiNoteNumber;
@@ -183,42 +164,21 @@ namespace JJ.Business.Synthesizer.Calculation
 
 		private bool MustScaleByMidiVelocity(MidiMappingElement midiMappingElement, int? midiVelocity)
 		{
-			bool mustScaleByMidiVelocity = midiMappingElement.FromMidiVelocity.HasValue &&
-			                               midiMappingElement.TillMidiVelocity.HasValue &&
+			bool mustScaleByMidiVelocity = midiMappingElement.HasMidiVelocities() &&
 			                               midiVelocity.HasValue;
 
 			return mustScaleByMidiVelocity;
 		}
 
-		private bool MustScalePosition(MidiMappingElement midiMappingElement)
-		{
-			bool mustScalePosition = midiMappingElement.FromPosition.HasValue &&
-			                         midiMappingElement.TillPosition.HasValue;
+		private bool MustScaleDimension(MidiMappingElement midiMappingElement) => midiMappingElement.HasDimensionValues();
 
-			return mustScalePosition;
-		}
+		private bool MustScalePosition(MidiMappingElement midiMappingElement) => midiMappingElement.HasPositions();
 
-		private bool MustScaleDimension(MidiMappingElement midiMappingElement)
-		{
-			bool mustScaleDimension = midiMappingElement.FromDimensionValue.HasValue &&
-			                          midiMappingElement.TillDimensionValue.HasValue;
-
-			return mustScaleDimension;
-		}
-
-		private bool MustScaleToneNumber(MidiMappingElement midiMappingElement)
-		{
-			bool mustScaleToneNumber = midiMappingElement.Scale != null &&
-			                           midiMappingElement.FromToneNumber.HasValue &&
-			                           midiMappingElement.TillToneNumber.HasValue;
-
-			return mustScaleToneNumber;
-		}
+		private bool MustScaleToneNumber(MidiMappingElement midiMappingElement) => midiMappingElement.HasToneNumbers();
 
 		private double GetScaledDimensionValue(MidiMappingElement midiMappingElement, double ratio)
 		{
-			double destRange = midiMappingElement.TillDimensionValue.Value -
-			                   midiMappingElement.FromDimensionValue.Value;
+			double destRange = midiMappingElement.TryGetDimensionValueRange().Value;
 
 			double destValue = ratio * destRange + midiMappingElement.TillDimensionValue.Value;
 
@@ -237,8 +197,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 		private int GetScaledPosition(MidiMappingElement midiMappingElement, double ratio)
 		{
-			double destRange = midiMappingElement.TillPosition.Value -
-			                   midiMappingElement.FromPosition.Value;
+			double destRange = midiMappingElement.TryGetPositionRange().Value;
 
 			double destValueDouble = ratio * destRange + midiMappingElement.TillPosition.Value;
 
@@ -249,8 +208,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 		private int GetScaledToneNumber(MidiMappingElement midiMappingElement, double ratio)
 		{
-			double destRange = midiMappingElement.TillToneNumber.Value -
-			                   midiMappingElement.FromToneNumber.Value;
+			double destRange = midiMappingElement.TryGetToneNumberRange().Value;
 
 			double destValueDouble = ratio * destRange + midiMappingElement.TillPosition.Value;
 
