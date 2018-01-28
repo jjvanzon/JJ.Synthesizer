@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Calculation
 				if (MustScaleByMidiController(midiMappingElement, midiControllerCode, midiControllerValue))
 				{
 					double midiControllerRatio = (midiControllerValue.Value - midiMappingElement.FromMidiControllerValue.Value) /
-					                             (double)midiMappingElement.TryGetMidiControllerValueRange();
+					                             (double)midiMappingElement.GetMidiControllerValueRange();
 
 					ratio *= midiControllerRatio;
 				}
@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Calculation
 				if (MustScaleByMidiNoteNumber(midiMappingElement, midiNoteNumber))
 				{
 					double midiNoteNumberRatio = (midiNoteNumber.Value - midiMappingElement.FromMidiNoteNumber.Value) /
-					                             (double)midiMappingElement.TryGetMidiNoteNumberRange();
+					                             (double)midiMappingElement.GetMidiNoteNumberRange();
 
 					ratio *= midiNoteNumberRatio;
 				}
@@ -108,25 +108,25 @@ namespace JJ.Business.Synthesizer.Calculation
 				if (MustScaleByMidiVelocity(midiMappingElement, midiVelocity))
 				{
 					double midiVelocityRatio = (midiVelocity.Value - midiMappingElement.FromMidiVelocity.Value) /
-					                           (double)midiMappingElement.TryGetMidiVelocityRange();
+					                           (double)midiMappingElement.GetMidiVelocityRange();
 
 					ratio *= midiVelocityRatio;
 				}
 
 				double? destDimensionValue = null;
-				if (MustScaleDimension(midiMappingElement))
+				if (midiMappingElement.HasDimensionValues())
 				{
 					destDimensionValue = GetScaledDimensionValue(midiMappingElement, ratio);
 				}
 
 				int? destPosition = null;
-				if (MustScalePosition(midiMappingElement))
+				if (midiMappingElement.HasPositions())
 				{
 					destPosition = GetScaledPosition(midiMappingElement, ratio);
 				}
 
 				int? destToneNumber = null;
-				if (MustScaleToneNumber(midiMappingElement))
+				if (midiMappingElement.HasToneNumbers())
 				{
 					destToneNumber = GetScaledToneNumber(midiMappingElement, ratio);
 				}
@@ -148,8 +148,8 @@ namespace JJ.Business.Synthesizer.Calculation
 		{
 			bool mustScaleByMidiController = midiControllerCode.HasValue &&
 			                                 midiControllerValue.HasValue &&
-											 midiMappingElement.HasMidiControllerValues() &&
-											 midiMappingElement.MidiControllerCode == midiControllerCode;
+			                                 midiMappingElement.HasMidiControllerValues() &&
+			                                 midiMappingElement.MidiControllerCode == midiControllerCode;
 
 			return mustScaleByMidiController;
 		}
@@ -170,15 +170,9 @@ namespace JJ.Business.Synthesizer.Calculation
 			return mustScaleByMidiVelocity;
 		}
 
-		private bool MustScaleDimension(MidiMappingElement midiMappingElement) => midiMappingElement.HasDimensionValues();
-
-		private bool MustScalePosition(MidiMappingElement midiMappingElement) => midiMappingElement.HasPositions();
-
-		private bool MustScaleToneNumber(MidiMappingElement midiMappingElement) => midiMappingElement.HasToneNumbers();
-
 		private double GetScaledDimensionValue(MidiMappingElement midiMappingElement, double ratio)
 		{
-			double destRange = midiMappingElement.TryGetDimensionValueRange().Value;
+			double destRange = midiMappingElement.GetDimensionValueRange();
 
 			double destValue = ratio * destRange + midiMappingElement.TillDimensionValue.Value;
 
@@ -197,7 +191,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 		private int GetScaledPosition(MidiMappingElement midiMappingElement, double ratio)
 		{
-			double destRange = midiMappingElement.TryGetPositionRange().Value;
+			double destRange = midiMappingElement.GetPositionRange();
 
 			double destValueDouble = ratio * destRange + midiMappingElement.TillPosition.Value;
 
@@ -208,7 +202,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 		private int GetScaledToneNumber(MidiMappingElement midiMappingElement, double ratio)
 		{
-			double destRange = midiMappingElement.TryGetToneNumberRange().Value;
+			double destRange = midiMappingElement.GetToneNumberRange();
 
 			double destValueDouble = ratio * destRange + midiMappingElement.TillPosition.Value;
 

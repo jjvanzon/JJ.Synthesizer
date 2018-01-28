@@ -1,10 +1,23 @@
 ﻿using System;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
 	public static class MidiMappingElementExtensions
 	{
+		public static int GetMidiControllerValueRange(this MidiMappingElement entity)
+		{
+			int? midiControllerValueRange = TryGetMidiControllerValueRange(entity);
+
+			if (midiControllerValueRange == null)
+			{
+				throw new NullException(() => midiControllerValueRange);
+			}
+
+			return midiControllerValueRange.Value;
+		}
+
 		public static int? TryGetMidiControllerValueRange(this MidiMappingElement entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -13,6 +26,18 @@ namespace JJ.Business.Synthesizer.Extensions
 			if (!entity.FromMidiControllerValue.HasValue) return null;
 
 			return entity.TillMidiControllerValue.Value - entity.FromMidiControllerValue.Value;
+		}
+
+		public static int GetMidiNoteNumberRange(this MidiMappingElement entity)
+		{
+			int? midiNoteNumberRange = TryGetMidiNoteNumberRange(entity);
+
+			if (midiNoteNumberRange == null)
+			{
+				throw new NullException(() => midiNoteNumberRange);
+			}
+
+			return midiNoteNumberRange.Value;
 		}
 
 		public static int? TryGetMidiNoteNumberRange(this MidiMappingElement entity)
@@ -25,6 +50,18 @@ namespace JJ.Business.Synthesizer.Extensions
 			return entity.TillMidiNoteNumber.Value - entity.FromMidiNoteNumber.Value;
 		}
 
+		public static int GetMidiVelocityRange(this MidiMappingElement entity)
+		{
+			int? midiVelocityRange = TryGetMidiVelocityRange(entity);
+
+			if (midiVelocityRange == null)
+			{
+				throw new NullException(() => midiVelocityRange);
+			}
+
+			return midiVelocityRange.Value;
+		}
+
 		public static int? TryGetMidiVelocityRange(this MidiMappingElement entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -33,6 +70,18 @@ namespace JJ.Business.Synthesizer.Extensions
 			if (!entity.FromMidiVelocity.HasValue) return null;
 
 			return entity.TillMidiVelocity.Value - entity.FromMidiVelocity.Value;
+		}
+
+		public static double GetDimensionValueRange(this MidiMappingElement entity)
+		{
+			double? midiVelocityRange = TryGetDimensionValueRange(entity);
+
+			if (midiVelocityRange == null)
+			{
+				throw new NullException(() => midiVelocityRange);
+			}
+
+			return midiVelocityRange.Value;
 		}
 
 		public static double? TryGetDimensionValueRange(this MidiMappingElement entity)
@@ -45,7 +94,19 @@ namespace JJ.Business.Synthesizer.Extensions
 			return entity.TillDimensionValue.Value - entity.FromDimensionValue.Value;
 		}
 
-		public static double? TryGetPositionRange(this MidiMappingElement entity)
+		public static int GetPositionRange(this MidiMappingElement entity)
+		{
+			int? midiVelocityRange = TryGetPositionRange(entity);
+
+			if (midiVelocityRange == null)
+			{
+				throw new NullException(() => midiVelocityRange);
+			}
+
+			return midiVelocityRange.Value;
+		}
+
+		public static int? TryGetPositionRange(this MidiMappingElement entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -53,6 +114,18 @@ namespace JJ.Business.Synthesizer.Extensions
 			if (!entity.FromPosition.HasValue) return null;
 
 			return entity.TillPosition.Value - entity.FromPosition.Value;
+		}
+
+		public static int GetToneNumberRange(this MidiMappingElement entity)
+		{
+			int? midiVelocityRange = TryGetToneNumberRange(entity);
+
+			if (midiVelocityRange == null)
+			{
+				throw new NullException(() => midiVelocityRange);
+			}
+
+			return midiVelocityRange.Value;
 		}
 
 		public static int? TryGetToneNumberRange(this MidiMappingElement entity)
