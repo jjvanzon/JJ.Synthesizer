@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
@@ -48,6 +49,8 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
+		public static string TryGetDebuggerDisplay(Dimension entity) => entity == null ? null : GetDebuggerDisplay(entity);
+
 		public static string GetDebuggerDisplay(Dimension entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
@@ -60,7 +63,7 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entityPosition == null) throw new NullException(() => entityPosition);
 
-			string debuggerDisplay = $"{{{entityPosition.GetType().Name}}} {new {entityPosition.X, entityPosition.Y}}";
+			string debuggerDisplay = $"{{{entityPosition.GetType().Name}}} {new { entityPosition.X, entityPosition.Y }}";
 
 			return debuggerDisplay;
 		}
@@ -125,10 +128,48 @@ namespace JJ.Data.Synthesizer.Helpers
 
 		public static string GetDebuggerDisplay(MidiMappingElement entity)
 		{
-			if (entity == null) throw new NullException(() => entity);
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithID<MidiMappingElement>(entity.ID);
-			return debuggerDisplay;
+			var sb = new StringBuilder();
+
+			sb.Append($"{{{nameof(MidiMappingElement)}}} ");
+
+			if (entity.StandardDimension != null ||
+			    !string.IsNullOrEmpty(entity.CustomDimensionName) ||
+			    entity.FromDimensionValue.HasValue ||
+			    entity.TillDimensionValue.HasValue)
+			{
+				sb.Append($"{new { StandardDimension = entity.StandardDimension?.Name, entity.CustomDimensionName, entity.FromDimensionValue, entity.TillDimensionValue }} ");
+			}
+
+			if (entity.MidiControllerCode.HasValue || entity.FromMidiControllerValue.HasValue || entity.TillMidiControllerValue.HasValue)
+			{
+				sb.Append($"{new { entity.MidiControllerCode, entity.FromMidiControllerValue, entity.TillMidiControllerValue }} ");
+			}
+
+			if (entity.FromMidiVelocity.HasValue || entity.TillMidiVelocity.HasValue)
+			{
+				sb.Append($"{new { entity.FromMidiVelocity, entity.TillMidiVelocity }} ");
+			}
+
+			if (entity.Scale != null) sb.Append($"{new { Scale = GetDebuggerDisplay(entity.Scale) }} ");
+
+			if (entity.FromToneNumber.HasValue || entity.TillToneNumber.HasValue)
+			{
+				sb.Append($"{new { entity.FromToneNumber, entity.TillToneNumber }} ");
+			}
+
+			if (entity.FromMidiNoteNumber.HasValue || entity.TillMidiNoteNumber.HasValue)
+			{
+				sb.Append($"{new { entity.FromMidiNoteNumber, entity.TillMidiNoteNumber }} ");
+			}
+
+			if (entity.FromPosition.HasValue || entity.TillPosition.HasValue)
+			{
+				sb.Append($"{new { entity.FromPosition, entity.TillPosition }} ");
+			}
+
+			return sb.ToString().TrimEnd();
 		}
 
 		public static string GetDebuggerDisplay(Node entity)
@@ -178,10 +219,10 @@ namespace JJ.Data.Synthesizer.Helpers
 			}
 
 			bool isValidPatchInlet = op.UnderlyingPatch != null &&
-									 string.Equals(op.UnderlyingPatch.Document.Name, "System") &&
-									 string.Equals(op.UnderlyingPatch.Name, "PatchInlet") &&
-									 op.Inlets.Count == 1 &&
-									 op.Inlets[0] != null;
+			                         string.Equals(op.UnderlyingPatch.Document.Name, "System") &&
+			                         string.Equals(op.UnderlyingPatch.Name, "PatchInlet") &&
+			                         op.Inlets.Count == 1 &&
+			                         op.Inlets[0] != null;
 			if (isValidPatchInlet)
 			{
 				Inlet inlet = op.Inlets[0];
@@ -205,10 +246,10 @@ namespace JJ.Data.Synthesizer.Helpers
 			}
 
 			bool isValidPatchOutlet = op.UnderlyingPatch != null &&
-									  string.Equals(op.UnderlyingPatch.Document.Name, "System") &&
-									  string.Equals(op.UnderlyingPatch.Name, "PatchOutlet") &&
-									  op.Outlets.Count == 1 &&
-									  op.Outlets[0] != null;
+			                          string.Equals(op.UnderlyingPatch.Document.Name, "System") &&
+			                          string.Equals(op.UnderlyingPatch.Name, "PatchOutlet") &&
+			                          op.Outlets.Count == 1 &&
+			                          op.Outlets[0] != null;
 			if (isValidPatchOutlet)
 			{
 				Outlet outlet = op.Outlets[0];
