@@ -10,9 +10,14 @@ using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
+	/// <summary>
+	/// Not thread-safe.
+	/// In particular the Results property is overwritten in-place in the Calculate method.
+	/// This is done to avoid garbage collection.
+	/// </summary>
 	public class MidiMappingCalculator
 	{
-		public class Result
+		public struct Result
 		{
 			public Result(
 				DimensionEnum standardDimensionEnum,
@@ -38,13 +43,18 @@ namespace JJ.Business.Synthesizer.Calculation
 			public int? ToneNumber { get; }
 		}
 
+		private const int MIDDLE_CONTROLLER_VALUE = 64;
+
 		private readonly IList<MidiMappingElement> _midiMappingElements;
 
 		public MidiMappingCalculator(IList<MidiMappingElement> midiMappingElements)
 		{
 			_midiMappingElements = midiMappingElements ?? throw new ArgumentNullException(nameof(midiMappingElements));
 			_midiMappingElements.ForEach(x => new MidiMappingElementValidator(x).Assert());
+			Results = new List<Result>();
 		}
+
+		public IList<Result> Results { get; }
 
 		public int ToAbsoluteControllerValue(int midiControllerCode, int inputMidiControllerValue, int previousAbsoluteMidiControllerValue)
 		{
@@ -67,7 +77,7 @@ namespace JJ.Business.Synthesizer.Calculation
 					continue;
 				}
 
-				int delta = inputMidiControllerValue - 64;
+				int delta = inputMidiControllerValue - MIDDLE_CONTROLLER_VALUE;
 
 				// Overriding mechanism: last applicable mapping wins.
 				absoluteMidiControllerValue = previousAbsoluteMidiControllerValue + delta;
@@ -76,9 +86,9 @@ namespace JJ.Business.Synthesizer.Calculation
 			return absoluteMidiControllerValue;
 		}
 
-		public IList<Result> Calculate(int? midiControllerCode, int? midiControllerValue, int? midiNoteNumber, int? midiVelocity)
+		public void Calculate(int? midiControllerCode, int? midiControllerValue, int? midiNoteNumber, int? midiVelocity)
 		{
-			var list = new List<Result>();
+			Results.Clear();
 
 			foreach (MidiMappingElement midiMappingElement in _midiMappingElements)
 			{
@@ -131,7 +141,7 @@ namespace JJ.Business.Synthesizer.Calculation
 					destToneNumber = GetScaledToneNumber(midiMappingElement, ratio);
 				}
 
-				list.Add(
+				Results.Add(
 					new Result(
 						midiMappingElement.GetStandardDimensionEnum(),
 						midiMappingElement.CustomDimensionName,
@@ -140,8 +150,6 @@ namespace JJ.Business.Synthesizer.Calculation
 						midiMappingElement.Scale,
 						destToneNumber));
 			}
-
-			return list;
 		}
 
 		private bool MustScaleByMidiController(MidiMappingElement midiMappingElement, int? midiControllerCode, int? midiControllerValue)
