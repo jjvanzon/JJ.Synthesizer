@@ -1114,24 +1114,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is a MIDI controller code, but no MIDI controller values..
-        /// </summary>
-        internal static string HasMidiControllerCodeButNoMidiControllerValue {
-            get {
-                return ResourceManager.GetString("HasMidiControllerCodeButNoMidiControllerValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are MIDI controller values, but no MIDI controller code..
-        /// </summary>
-        internal static string HasMidiControllerValueButNoMidiControllerCode {
-            get {
-                return ResourceManager.GetString("HasMidiControllerValueButNoMidiControllerCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Hermite.
         /// </summary>
         internal static string Hermite {

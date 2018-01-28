@@ -1131,12 +1131,6 @@
   <data name="MidiVelocity" xml:space="preserve">
     <value>MIDI aanslagsnelheid</value>
   </data>
-  <data name="HasMidiControllerCodeButNoMidiControllerValue" xml:space="preserve">
-    <value>Er is een MIDI controller code, maar geen MIDI controller waardes.</value>
-  </data>
-  <data name="HasMidiControllerValueButNoMidiControllerCode" xml:space="preserve">
-    <value>Er zijn MIDI controller waardes, maar geen MIDI controller code.</value>
-  </data>
   <data name="HasDimensionMinMaxButNoFromOrTill" xml:space="preserve">
     <value>Er is een mininum of maximum dimensie waarde maar geen dimensie van/tot.</value>
   </data>

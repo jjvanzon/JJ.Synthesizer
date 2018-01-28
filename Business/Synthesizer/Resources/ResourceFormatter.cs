@@ -126,8 +126,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Harmonic => Resources.Harmonic;
 		public static string HasDimension => Resources.HasDimension;
 		public static string HasDimensionMinMaxButNoFromOrTill => Resources.HasDimensionMinMaxButNoFromOrTill;
-		public static string HasMidiControllerCodeButNoMidiControllerValue => Resources.HasMidiControllerCodeButNoMidiControllerValue;
-		public static string HasMidiControllerValueButNoMidiControllerCode => Resources.HasMidiControllerValueButNoMidiControllerCode;
 		public static string Hermite => Resources.Hermite;
 		public static string Hidden => Resources.Hidden;
 		public static string High => Resources.High;

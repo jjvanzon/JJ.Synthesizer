@@ -1140,12 +1140,6 @@
   <data name="MidiVelocity" xml:space="preserve">
     <value>MIDI Velocity</value>
   </data>
-  <data name="HasMidiControllerCodeButNoMidiControllerValue" xml:space="preserve">
-    <value>There is a MIDI controller code, but no MIDI controller values.</value>
-  </data>
-  <data name="HasMidiControllerValueButNoMidiControllerCode" xml:space="preserve">
-    <value>There are MIDI controller values, but no MIDI controller code.</value>
-  </data>
   <data name="HasDimensionMinMaxButNoFromOrTill" xml:space="preserve">
     <value>There are min or max dimension values, but no dimension from/till.</value>
   </data>
