@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 
 			foreach (MidiMappingElement midiMappingElement in scale.MidiMappingElements)
 			{
-				string midiMappingElemenIdentifier = ResourceFormatter.MidiMappingElement + " " + ValidationHelper.GetUserFriendlyIdentifier(midiMappingElement);
+				string midiMappingElemenIdentifier = $"{ResourceFormatter.MidiMappingElement} ({ValidationHelper.GetUserFriendlyIdentifierLong(midiMappingElement)})";
 				string message = CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(scaleIdentifier, midiMappingElemenIdentifier);
 				Messages.Add(message);
 

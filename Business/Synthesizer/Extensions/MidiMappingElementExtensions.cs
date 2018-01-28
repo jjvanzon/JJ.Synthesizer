@@ -193,8 +193,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			bool hasToneNumbers = entity.Scale != null && 
-			                      entity.FromToneNumber.HasValue &&
+			bool hasToneNumbers = entity.FromToneNumber.HasValue &&
 			                      entity.TillToneNumber.HasValue;
 
 			return hasToneNumbers;

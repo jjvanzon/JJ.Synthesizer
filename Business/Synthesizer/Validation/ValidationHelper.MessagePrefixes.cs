@@ -13,23 +13,28 @@ namespace JJ.Business.Synthesizer.Validation
 			ResourceFormatter.AudioFileOutput,
 			GetUserFriendlyIdentifier(entity));
 
-		public static string GetMessagePrefix(AudioOutput entity) => GetMessagePrefix(ResourceFormatter.AudioOutput, GetUserFriendlyIdentifier(entity));
+		public static string GetMessagePrefix(AudioOutput entity) =>
+			GetMessagePrefix(ResourceFormatter.AudioOutput, GetUserFriendlyIdentifier(entity));
+
 		public static string GetMessagePrefix(Curve entity) => GetMessagePrefix(ResourceFormatter.Curve, GetUserFriendlyIdentifier(entity));
 		public static string GetMessagePrefix(Document entity) => GetMessagePrefix(ResourceFormatter.Document, entity.Name);
 
-		public static string GetMessagePrefix_ForLowerDocumentReference(DocumentReference lowerDocumentReference)
-		{
-			return GetMessagePrefix(ResourceFormatter.Library, GetUserFriendlyIdentifier_ForLowerDocumentReference(lowerDocumentReference));
-		}
+		public static string GetMessagePrefix_ForLowerDocumentReference(DocumentReference lowerDocumentReference) => GetMessagePrefix(
+			ResourceFormatter.Library,
+			GetUserFriendlyIdentifier_ForLowerDocumentReference(lowerDocumentReference));
 
-		public static string GetMessagePrefix_ForHigherDocumentReference(DocumentReference higherDocumentReference)
-		{
-			return GetMessagePrefix(ResourceFormatter.HigherDocument, GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference));
-		}
+		public static string GetMessagePrefix_ForHigherDocumentReference(DocumentReference higherDocumentReference) => GetMessagePrefix(
+			ResourceFormatter.HigherDocument,
+			GetUserFriendlyIdentifier_ForHigherDocumentReference(higherDocumentReference));
 
 		public static string GetMessagePrefix(EntityPosition entityPosition) => ResourceFormatter.EntityPosition;
-		public static string GetMessagePrefix(MidiMapping midiMapping) => GetMessagePrefix(ResourceFormatter.MidiMapping, GetUserFriendlyIdentifier(midiMapping));
-		public static string GetMessagePrefix(MidiMappingElement midiMappingElement) => GetMessagePrefix(ResourceFormatter.MidiMappingElement, GetUserFriendlyIdentifier(midiMappingElement));
+
+		public static string GetMessagePrefix(MidiMapping midiMapping) => GetMessagePrefix(
+			ResourceFormatter.MidiMapping,
+			GetUserFriendlyIdentifier(midiMapping));
+
+		public static string GetMessagePrefix(MidiMappingElement midiMappingElement) =>
+			$"{ResourceFormatter.MidiMappingElement}: {GetUserFriendlyIdentifierLong(midiMappingElement)}: ";
 
 		/// <summary> Only returns a prefix if higherPatch is actually in another document than lowerPatch. </summary>
 		public static string TryGetHigherDocumentPrefix(Patch lowerPatch, Patch higherPatch)
@@ -40,9 +45,9 @@ namespace JJ.Business.Synthesizer.Validation
 			}
 
 			DocumentReference documentReference = higherPatch.Document
-															 .LowerDocumentReferences
-															 .Where(x => x.LowerDocument.ID == lowerPatch.Document.ID)
-															 .FirstOrDefault();
+			                                                 .LowerDocumentReferences
+			                                                 .Where(x => x.LowerDocument.ID == lowerPatch.Document.ID)
+			                                                 .FirstOrDefault();
 
 			string higherDocumentPrefix = GetMessagePrefix_ForHigherDocumentReference(documentReference);
 
@@ -71,16 +76,15 @@ namespace JJ.Business.Synthesizer.Validation
 			}
 
 			return GetMessagePrefix(entityTypeDisplayName, GetUserFriendlyIdentifier(entity));
-
 		}
 
 		/// <param name="number">1-based</param>
-		public static string GetMessagePrefix(Node entity, int number) => GetMessagePrefix(ResourceFormatter.Node, GetUserFriendlyIdentifier(entity, number));
+		public static string GetMessagePrefix(Node entity, int number) =>
+			GetMessagePrefix(ResourceFormatter.Node, GetUserFriendlyIdentifier(entity, number));
 
-		public static string GetMessagePrefix(Operator entity, ICurveRepository curveRepository)
-		{
-			return GetMessagePrefix(ResourceFormatter.Operator, GetUserFriendlyIdentifier(entity, curveRepository));
-		}
+		public static string GetMessagePrefix(Operator entity, ICurveRepository curveRepository) => GetMessagePrefix(
+			ResourceFormatter.Operator,
+			GetUserFriendlyIdentifier(entity, curveRepository));
 
 		public static string GetMessagePrefix(Patch entity) => GetMessagePrefix(ResourceFormatter.Patch, GetUserFriendlyIdentifier(entity));
 
@@ -93,7 +97,6 @@ namespace JJ.Business.Synthesizer.Validation
 		// Helpers
 
 		/// <summary> Uses the name in the message or otherwise the only the entityTypeDisplayName. </summary>
-
 		private static string GetMessagePrefix(string entityTypeDisplayName, string identifier)
 		{
 			// ReSharper disable once ConvertIfStatementToReturnStatement
@@ -101,10 +104,8 @@ namespace JJ.Business.Synthesizer.Validation
 			{
 				return $"{entityTypeDisplayName}: ";
 			}
-			else
-			{
-				return $"{entityTypeDisplayName} {identifier}: ";
-			}
+
+			return $"{entityTypeDisplayName} {identifier}: ";
 		}
 	}
 }

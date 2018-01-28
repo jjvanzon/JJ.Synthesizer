@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return GetNoNameIdentifier();
 		}
 
-		public static string GetUserFriendlyIdentifier(MidiMappingElement entity)
+		public static string GetUserFriendlyIdentifierLong(MidiMappingElement entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -130,32 +130,32 @@ namespace JJ.Business.Synthesizer.Validation
 
 			if (!string.IsNullOrWhiteSpace(entity.CustomDimensionName))
 			{
-				sb.Append($"{ResourceFormatter.CustomDimensionName} '{entity.CustomDimensionName}' ");
+				sb.Append($"{ResourceFormatter.CustomDimensionName} '{entity.CustomDimensionName}', ");
 			}
 
 			if (entity.StandardDimension != null)
 			{
-				sb.Append($"{ResourceFormatter.StandardDimension} '{ResourceFormatter.GetDisplayName(entity.StandardDimension)}' ");
+				sb.Append($"{ResourceFormatter.StandardDimension} '{ResourceFormatter.GetDisplayName(entity.StandardDimension)}', ");
 			}
 
 			if (entity.MidiControllerCode.HasValue)
 			{
-				sb.Append($"{ResourceFormatter.MidiControllerCode} {entity.MidiControllerCode} ");
+				sb.Append($"{ResourceFormatter.MidiControllerCode} {entity.MidiControllerCode}, ");
 			}
 
 			if (entity.Scale != null)
 			{
-				sb.Append($"{ResourceFormatter.Scale} {GetUserFriendlyIdentifier(entity.Scale)}");
+				sb.Append($"{ResourceFormatter.Scale} '{GetUserFriendlyIdentifier(entity.Scale)}', ");
 			}
 
 			string[] elements =
 			{
-				GetRangeIdentifier(ResourceFormatter.DimensionValue, entity.FromDimensionValue, entity.TillDimensionValue),
-				GetRangeIdentifier(ResourceFormatter.MidiControllerValue, entity.FromMidiControllerValue, entity.TillMidiControllerValue),
-				GetRangeIdentifier(ResourceFormatter.MidiNoteNumber, entity.FromMidiNoteNumber, entity.TillMidiNoteNumber),
-				GetRangeIdentifier(ResourceFormatter.MidiVelocity, entity.FromMidiVelocity, entity.TillMidiVelocity),
-				GetRangeIdentifier(ResourceFormatter.Position, entity.FromPosition, entity.TillPosition),
-				GetRangeIdentifier(ResourceFormatter.ToneNumber, entity.FromToneNumber, entity.TillToneNumber)
+				TryGetRangeIdentifier(ResourceFormatter.DimensionValues, entity.FromDimensionValue, entity.TillDimensionValue),
+				TryGetRangeIdentifier(ResourceFormatter.MidiControllerValues, entity.FromMidiControllerValue, entity.TillMidiControllerValue),
+				TryGetRangeIdentifier(ResourceFormatter.MidiNoteNumbers, entity.FromMidiNoteNumber, entity.TillMidiNoteNumber),
+				TryGetRangeIdentifier(ResourceFormatter.MidiVelocities, entity.FromMidiVelocity, entity.TillMidiVelocity),
+				TryGetRangeIdentifier(ResourceFormatter.ToneNumbers, entity.FromToneNumber, entity.TillToneNumber),
+				TryGetRangeIdentifier(ResourceFormatter.Positions, entity.FromPosition, entity.TillPosition)
 			};
 
 			foreach (string element in elements)
@@ -163,53 +163,60 @@ namespace JJ.Business.Synthesizer.Validation
 				if (!string.IsNullOrEmpty(element))
 				{
 					sb.Append(element);
-					sb.Append(' ');
+					sb.Append(", ");
 				}
 			}
 
-			return sb.ToString();
+			return sb.ToString().TrimEnd(", ");
 		}
 
-		private static string GetRangeIdentifier(string displayName, int? from, int? till)
+		public static string GetUserFriendlyIdentifierShort(MidiMappingElement entity)
 		{
-			if (from.HasValue && till.HasValue)
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+
+			var sb = new StringBuilder();
+
+			bool dimensionIsFilledIn = entity.StandardDimension != null || !string.IsNullOrWhiteSpace(entity.CustomDimensionName);
+			if (dimensionIsFilledIn)
 			{
-				return $"{displayName} [{from}-{till}]";
+				// Use StandardDimension
+				if (entity.StandardDimension != null)
+				{
+					sb.Append(ResourceFormatter.GetDisplayName(entity.StandardDimension));
+					sb.Append(' ');
+				}
+
+				// Use CustomDimensionName
+				if (!string.IsNullOrWhiteSpace(entity.CustomDimensionName))
+				{
+					sb.Append(entity.CustomDimensionName);
+				}
+			}
+			else if (entity.MidiControllerCode.HasValue)
+			{
+				// Use ControllerCode
+				sb.Append(entity.MidiControllerCode);
+			}
+			else if (entity.HasToneNumbers())
+			{
+				sb.Append(TryGetRangeIdentifier(ResourceFormatter.ToneNumbers, entity.FromToneNumber, entity.TillToneNumber));
+			}
+			else if (entity.HasMidiNoteNumbers())
+			{
+				sb.Append(TryGetRangeIdentifier(ResourceFormatter.MidiNoteNumbers, entity.FromMidiNoteNumber, entity.TillMidiNoteNumber));
+			}
+			else if (entity.HasMidiVelocities())
+			{
+				sb.Append(TryGetRangeIdentifier(ResourceFormatter.MidiVelocities, entity.FromMidiVelocity, entity.TillMidiVelocity));
+			}
+			else if (entity.HasPositions())
+			{
+				sb.Append(TryGetRangeIdentifier(ResourceFormatter.Positions, entity.FromPosition, entity.TillPosition));
 			}
 
-			if (@from.HasValue)
-			{
-				return $"{displayName} {from}";
-			}
+			string userFriendlyIdentifier = sb.ToString().TrimEnd();
 
-			if (till.HasValue)
-			{
-				return $"{displayName} {till}";
-			}
-
-			return null;
-		}
-
-		private static string GetRangeIdentifier(string displayName, double? from, double? till)
-		{
-			// TODO: Format doubles in a user friendly way.
-
-			if (from.HasValue && till.HasValue)
-			{
-				return $"{displayName} [{from}-{till}]";
-			}
-
-			if (@from.HasValue)
-			{
-				return $"{displayName} {from}";
-			}
-
-			if (till.HasValue)
-			{
-				return $"{displayName} {till}";
-			}
-
-			return null;
+			return userFriendlyIdentifier;
 		}
 
 		public static string GetUserFriendlyIdentifier(Operator entity, ICurveRepository curveRepository)
@@ -444,10 +451,8 @@ namespace JJ.Business.Synthesizer.Validation
 			{
 				return $"'{name}'";
 			}
-			else
-			{
-				return GetNoNameIdentifier();
-			}
+
+			return GetNoNameIdentifier();
 		}
 
 		private static string GetUserFriendlyIdentifier_WithName_DimensionEnum_AndPosition(string name, DimensionEnum dimensionEnum, int position)
@@ -471,14 +476,19 @@ namespace JJ.Business.Synthesizer.Validation
 			return identifier;
 		}
 
-		private static string GetNoNameIdentifier()
-		{
-			return $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
-		}
+		private static string GetNoNameIdentifier() => $"'{CommonResourceFormatter.NoObject_WithName(CommonResourceFormatter.Name)}'";
 
-		private static string FormatNumber(double number)
+		private static string FormatNumber(double number) => $"{number:0.######}";
+
+		private static string TryGetRangeIdentifier<T>(string displayName, T? from, T? till)
+			where T : struct
 		{
-			return $"{number:0.######}";
+			if (from.HasValue || till.HasValue)
+			{
+				return $"{displayName} [{@from}-{till}]";
+			}
+
+			return null;
 		}
 	}
 }

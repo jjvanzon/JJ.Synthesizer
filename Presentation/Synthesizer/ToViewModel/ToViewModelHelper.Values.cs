@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
@@ -281,40 +282,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		public static string GetCaption(MidiMappingElement entity)
 		{
-			if (entity == null) throw new ArgumentNullException(nameof(entity));
+			string caption = ValidationHelper.GetUserFriendlyIdentifierShort(entity);
 
-			var sb = new StringBuilder();
-
-			// Use StandardDimension
-			if (entity.StandardDimension != null )
-			{
-				sb.Append(ResourceFormatter.GetDisplayName(entity.StandardDimension));
-				sb.Append(' ');
-			}
-
-			// Use CustomDimensionName
-			else if (!string.IsNullOrWhiteSpace(entity.CustomDimensionName))
-			{
-				sb.Append(entity.CustomDimensionName);
-				sb.Append(' ');
-			}
-
-			// Use ControllerCode
-			else if (entity.MidiControllerCode.HasValue)
-			{
-				sb.Append(entity.MidiControllerCode);
-				sb.Append(' ');
-			}
-
-			// TODO: Low priority: try using other things to identify the MidiMappingElement.
-
-			// ID
 			if (_idsVisible)
 			{
-				sb.Append($"({entity.ID})");
+				caption += $" ({entity.ID})";
 			}
 
-			return sb.ToString().TrimEnd();
+			// Prevent range strings "[0-10]" from getting broken off and spread over multiple lines, which is ugly
+			caption = caption.Replace(" [", $"{Environment.NewLine}[");
+
+			return caption;
 		}
 
 		// Node
