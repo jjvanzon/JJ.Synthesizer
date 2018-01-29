@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -7,6 +6,7 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
@@ -17,28 +17,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
 	/// <summary> thread-safe </summary>
 	internal static class MidiInputProcessor
 	{
-		private class ControllerInfo
-		{
-			public DimensionEnum DimensionEnum { get; set; }
-			public int ControllerCode { get; set; }
-			public double DimensionMinValue { get; set; } = CalculationHelper.VERY_LOW_VALUE;
-			public double ConversionFactor { get; set; }
-			public double TempValue { get; set; }
-		}
-
-		private const double LOWEST_FREQUENCY = 8.1757989156;
-		private const double MAX_VELOCITY = 127.0;
-		private const int MAX_NOTE_NUMBER = 127;
-		private const double MAX_CONTROLLER_VALUE = 127.0;
-
-		private static readonly Dictionary<int, ControllerInfo> _controllerCode_To_ControllerInfo_Dictionary = Create_ControllerCode_To_ControllerInfo_Dictionary();
-		private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
-
 		private static IPatchCalculatorContainer _patchCalculatorContainer;
 		private static TimeProvider _timeProvider;
 		private static NoteRecycler _noteRecycler;
 		private static MidiIn _midiIn;
 		private static MidiMappingCalculator _midiMappingCalculator;
+		private static readonly Dictionary<int, int> _controllerValueDictionary = new Dictionary<int, int>();
 
 		private static readonly object _lock = new object();
 
@@ -157,6 +141,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			calculatorLock.EnterWriteLock();
 			try
 			{
+				IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
+				if (calculator == null)
+				{
+					return;
+				}
+
 				double time = _timeProvider.Time;
 
 				NoteInfo noteInfo = _noteRecycler.TryGetNoteInfoToStart(noteOnEvent.NoteNumber, time);
@@ -164,42 +154,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				{
 					return;
 				}
-
-				IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
-				if (calculator == null)
-				{
-					return;
-				}
-
-				double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
-				double volume = noteOnEvent.Velocity / MAX_VELOCITY;
-
-				// Remember controller values.
-				foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
-				{
-					double controllerValue = calculator.GetValue(controllerInfo.DimensionEnum);
-					controllerInfo.TempValue = controllerValue;
-				}
+				noteInfo.NoteNumber = noteOnEvent.NoteNumber;
+				noteInfo.Velocity = noteOnEvent.Velocity;
 
 				calculator.Reset(time, noteInfo.ListIndex);
 
-				calculator.SetValue(DimensionEnum.Frequency, noteInfo.ListIndex, frequency);
-				calculator.SetValue(DimensionEnum.Volume, noteInfo.ListIndex, volume);
+				ApplyMappings(calculator, noteInfo);
+
 				calculator.SetValue(DimensionEnum.NoteStart, noteInfo.ListIndex, time);
 				calculator.SetValue(DimensionEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
-
-				// Re-apply controller values
-				foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
-				{
-					double controllerValue = controllerInfo.TempValue;
-
-					if (controllerValue < controllerInfo.DimensionMinValue)
-					{
-						controllerValue = controllerInfo.DimensionMinValue;
-					}
-
-					calculator.SetValue(controllerInfo.DimensionEnum, noteInfo.ListIndex, controllerValue);
-				}
 			}
 			finally
 			{
@@ -237,7 +200,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				double releaseDuration = calculator.GetValue(DimensionEnum.ReleaseDuration, noteInfo.ListIndex);
 				double releaseTime = noteStart + noteDuration;
 				double endTime = releaseTime + releaseDuration;
-				_noteRecycler.ReleaseNoteInfo(noteInfo, releaseTime, endTime);
+
+				_noteRecycler.ReleaseNote(noteInfo, releaseTime, endTime);
 			}
 			finally
 			{
@@ -253,20 +217,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 			int controllerCode = (int)controlChangeEvent.Controller;
 
-
-			if (!_controllerCode_To_ControllerInfo_Dictionary.TryGetValue(controllerCode, out ControllerInfo controllerInfo))
-			{
-				return;
-			}
-
-			double delta = (controlChangeEvent.ControllerValue - 64) * controllerInfo.ConversionFactor;
-
-			// ReSharper disable once CompareOfFloatsByEqualityOperator
-			if (delta == 0.0)
-			{
-				return;
-			}
-
 			ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
 
 			lck.EnterWriteLock();
@@ -278,18 +228,25 @@ namespace JJ.Presentation.Synthesizer.NAudio
 					return;
 				}
 
-				double value = calculator.GetValue(controllerInfo.DimensionEnum);
+				double time = _timeProvider.Time;
 
-				value += delta;
-
-				if (value < controllerInfo.DimensionMinValue)
+				if (!_controllerValueDictionary.TryGetValue(controllerCode, out int previousControllerValue))
 				{
-					value = controllerInfo.DimensionMinValue;
+					// TODO: Initialize to the calculator's value converted back to a controller value.
+					previousControllerValue = MidiMappingCalculator.MIDDLE_CONTROLLER_VALUE;
 				}
 
-				calculator.SetValue(controllerInfo.DimensionEnum, value);
+				int absoluteControllerValue = _midiMappingCalculator.ToAbsoluteControllerValue(
+					controllerCode,
+					controlChangeEvent.ControllerValue,
+					previousControllerValue);
 
-				Debug.WriteLine($"{controllerInfo.DimensionEnum} = {value}");
+				_controllerValueDictionary[controllerCode] = absoluteControllerValue;
+
+				foreach (NoteInfo noteInfo in _noteRecycler.GetPlayingNoteInfos(time))
+				{
+					ApplyMappings(calculator, noteInfo);
+				}
 			}
 			finally
 			{
@@ -297,147 +254,55 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		// Helpers
-
-		private static double[] Create_NoteNumber_To_Frequency_Array()
+		private static void ApplyMappings(IPatchCalculator patchCalculator, NoteInfo noteInfo)
 		{
-			IList<double> frequencies = new List<double>(MAX_NOTE_NUMBER + 1);
+			// TODO: Prevent garbage collection.
+			IList<(int, int)> controllerCodesAndValues = _controllerValueDictionary.Select(x => (x.Key, x.Value)).ToArray();
+			_midiMappingCalculator.Calculate(controllerCodesAndValues, noteInfo.NoteNumber, noteInfo.Velocity);
 
-			for (int i = 0; i < MAX_NOTE_NUMBER; i++)
+			// Apply Dimension-Related MIDI Mappings
+			foreach (MidiMappingCalculatorResult mappingResult in _midiMappingCalculator.Results)
 			{
-				double frequency = GetFrequencyByNoteNumber(i);
-				frequencies.Add(frequency);
+				if (!mappingResult.DimensionValue.HasValue) continue;
+
+				if (mappingResult.StandardDimensionEnum != default)
+				{
+					patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue.Value);
+
+					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.StandardDimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue.Value }}");
+				}
+
+				if (NameHelper.IsFilledIn(mappingResult.CustomDimensionName))
+				{
+					patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, mappingResult.DimensionValue.Value);
+
+					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.CustomDimensionName, noteInfo.ListIndex, mappingResult.DimensionValue.Value }}");
+				}
 			}
 
-			double[] noteNumber_To_Frequency_Array = frequencies.ToArray();
-
-			return noteNumber_To_Frequency_Array;
-		}
-
-		private static double GetFrequencyByNoteNumber(int noteNumber)
-		{
-			double frequency = LOWEST_FREQUENCY * Math.Pow(2.0, noteNumber / 12.0);
-			return frequency;
-		}
-
-		private static Dictionary<int, ControllerInfo> Create_ControllerCode_To_ControllerInfo_Dictionary()
-		{
-			const double controllerFactorForVolumeChangeRate = 4.0 / MAX_CONTROLLER_VALUE;
-			const double controllerFactorForFilters = 8.0 / MAX_CONTROLLER_VALUE;
-			const double controllerFactorForModulationSpeed = 30.0 / MAX_CONTROLLER_VALUE;
-
-			var controllerInfos = new[]
+			// Apply Scale-Related MIDI Mappings
+			foreach (MidiMappingCalculatorResult mappingResult in _midiMappingCalculator.Results)
 			{
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.AttackDuration,
-					ControllerCode = 73, // Recommended code
-					DimensionMinValue = 0.001,
-					ConversionFactor = controllerFactorForVolumeChangeRate
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.ReleaseDuration,
-					ControllerCode = 72, // Recommended code
-					DimensionMinValue = 0.001,
-					ConversionFactor = controllerFactorForVolumeChangeRate
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.Brightness,
-					ControllerCode = 74, // Recommended code
-					DimensionMinValue =  1.00001, // 1 shuts off the sound.
-					ConversionFactor = controllerFactorForFilters
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.VibratoSpeed,
-					ControllerCode = 76, // Default on Arturia MiniLab
-					DimensionMinValue = 0,
-					ConversionFactor = controllerFactorForModulationSpeed
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.VibratoDepth,
-					ControllerCode = 77, // Default on Arturia MiniLab
-					DimensionMinValue = 0,
-					ConversionFactor = 0.0005 / MAX_CONTROLLER_VALUE
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.TremoloDepth,
-					ControllerCode = 92, // Recommended code. However, not mapped by default on my Arturia MiniLab.
-					DimensionMinValue = 0,
-					ConversionFactor = 4.0 / MAX_CONTROLLER_VALUE
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.TremoloSpeed,
-					ControllerCode = 16, // Right below vibrato on Arturia MiniLab
-					DimensionMinValue = 0,
-					ConversionFactor = controllerFactorForModulationSpeed
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.TremoloDepth,
-					ControllerCode = 17, // Right below vibrato on Arturia MiniLab
-					DimensionMinValue = 0,
-					ConversionFactor = 1.0 / MAX_CONTROLLER_VALUE
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.Intensity,
-					ControllerCode = 71, // Resonance on Arturia MiniLab. Recommended code for Timbre/Harmonic Content.
-					DimensionMinValue = 0,
-					ConversionFactor = controllerFactorForFilters
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.DecayDuration,
-					ControllerCode = 75, // Decay on Arturia MiniLab. Recommended code for 'Sound Controller 6'
-					DimensionMinValue = 0.00001,
-					ConversionFactor = controllerFactorForVolumeChangeRate
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.SustainVolume,
-					ControllerCode = 79, // Decay on Arturia MiniLab. Recommended code for 'Sound Controller 10'.
-					DimensionMinValue = 0,
-					ConversionFactor = 1.0 / MAX_CONTROLLER_VALUE
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.BrightnessModulationSpeed,
-					ControllerCode = 18, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
-					DimensionMinValue = 0,
-					ConversionFactor = controllerFactorForModulationSpeed 
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.BrightnessModulationDepth,
-					ControllerCode = 19, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
-					DimensionMinValue = 0,
-					ConversionFactor = controllerFactorForFilters
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.IntensityModulationSpeed,
-					ControllerCode = 93, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
-					DimensionMinValue = 0,
-					ConversionFactor = controllerFactorForModulationSpeed
-				},
-				new ControllerInfo
-				{
-					DimensionEnum = DimensionEnum.IntensityModulationDepth,
-					ControllerCode = 91, // Completely arbitrarily mapped on left-over knobs on my Artirua MiniLab
-					DimensionMinValue = 0,
-					ConversionFactor = controllerFactorForFilters
-				},
-			};
+				if (mappingResult.Scale == null) continue;
+				if (!mappingResult.ToneNumber.HasValue) continue;
 
-			// ReSharper disable once SuggestVarOrType_Elsewhere
-			var dictionary = controllerInfos.ToDictionary(x => x.ControllerCode);
-			return dictionary;
+				// TODO: Sorting all the time is not efficient.
+				double dimensionValue = mappingResult.Scale.Tones.Sort()[mappingResult.ToneNumber.Value - 1].GetFrequency();
+
+				if (mappingResult.StandardDimensionEnum != default)
+				{
+					patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, dimensionValue);
+
+					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.StandardDimensionEnum, noteInfo.ListIndex, frequency = dimensionValue }}");
+				}
+
+				if (NameHelper.IsFilledIn(mappingResult.CustomDimensionName))
+				{
+					patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, dimensionValue);
+
+					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.CustomDimensionName, noteInfo.ListIndex, frequency = dimensionValue }}");
+				}
+			}
 		}
 	}
 }

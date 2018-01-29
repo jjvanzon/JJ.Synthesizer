@@ -7,5 +7,6 @@
 		public double StartTime { get; set; }
 		public double ReleaseTime { get; set; }
 		public double EndTime { get; set; }
+		public int Velocity { get; set; }
 	}
 }

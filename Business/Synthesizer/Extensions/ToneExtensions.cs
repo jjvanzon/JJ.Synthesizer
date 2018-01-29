@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
@@ -13,7 +15,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			if (tone == null) throw new NullException(() => tone);
 
 			// Officially this is an unnecessary null-check, but I suspect there could be programming errors.
-			if (tone.Scale == null) throw new NullException(() => tone.Scale); 
+			if (tone.Scale == null) throw new NullException(() => tone.Scale);
 
 			ScaleTypeEnum scaleTypeEnum = tone.Scale.GetScaleTypeEnum();
 
@@ -23,40 +25,40 @@ namespace JJ.Business.Synthesizer.Extensions
 					return tone.Number;
 
 				case ScaleTypeEnum.Factor:
-					{
-						// BaseFrequency * (2 ^ octave) * number
-						AssertBaseFrequency(tone);
-						// ReSharper disable once PossibleInvalidOperationException
-						double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave) * tone.Number;
-						return frequency;
-					}
+				{
+					// BaseFrequency * (2 ^ octave) * number
+					AssertBaseFrequency(tone);
+					// ReSharper disable once PossibleInvalidOperationException
+					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave) * tone.Number;
+					return frequency;
+				}
 
 				case ScaleTypeEnum.Exponent:
-					{
-						// BaseFrequency * 2 ^ (octave + number)
-						AssertBaseFrequency(tone);
-						// ReSharper disable once PossibleInvalidOperationException
-						double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Number);
-						return frequency;
-					}
+				{
+					// BaseFrequency * 2 ^ (octave + number)
+					AssertBaseFrequency(tone);
+					// ReSharper disable once PossibleInvalidOperationException
+					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Number);
+					return frequency;
+				}
 
 				case ScaleTypeEnum.SemiTone:
-					{
-						// BaseFrequency * 2 ^ (octave + 1/12 * tone)
-						AssertBaseFrequency(tone);
-						// ReSharper disable once PossibleInvalidOperationException
-						double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + 1.0 / 12.0 * (tone.Number - 1));
-						return frequency;
-					}
+				{
+					// BaseFrequency * 2 ^ (octave + 1/12 * tone)
+					AssertBaseFrequency(tone);
+					// ReSharper disable once PossibleInvalidOperationException
+					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + 1.0 / 12.0 * (tone.Number - 1));
+					return frequency;
+				}
 
 				case ScaleTypeEnum.Cent:
-					{
-						// BaseFrequency * 2 ^ (octave + number / 1200)
-						AssertBaseFrequency(tone);
-						// ReSharper disable once PossibleInvalidOperationException
-						double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Number / 1200.0);
-						return frequency;
-					}
+				{
+					// BaseFrequency * 2 ^ (octave + number / 1200)
+					AssertBaseFrequency(tone);
+					// ReSharper disable once PossibleInvalidOperationException
+					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Number / 1200.0);
+					return frequency;
+				}
 
 				default:
 					throw new InvalidValueException(scaleTypeEnum);
@@ -66,6 +68,16 @@ namespace JJ.Business.Synthesizer.Extensions
 		private static void AssertBaseFrequency(Tone tone)
 		{
 			if (!tone.Scale.BaseFrequency.HasValue) throw new NullException(() => tone.Scale.BaseFrequency);
+		}
+
+		public static IList<Tone> Sort(this IList<Tone> tones)
+		{
+			if (tones == null) throw new ArgumentNullException(nameof(tones));
+
+			IList<Tone> sortedTones = tones.OrderBy(x => x.Octave)
+			                               .ThenBy(x => x.Number)
+			                               .ToArray();
+			return sortedTones;
 		}
 	}
 }

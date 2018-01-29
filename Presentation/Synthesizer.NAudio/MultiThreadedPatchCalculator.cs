@@ -86,8 +86,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 			for (int noteIndex = 0; noteIndex < maxConcurrentNotes; noteIndex++)
 			{
-				bool noteIsReleased = _noteRecycler.NoteIsReleased(noteIndex, t0);
-				if (noteIsReleased)
+				bool noteHasStopped = _noteRecycler.NoteHasStopped(noteIndex, t0);
+				if (noteHasStopped)
 				{
 					continue;
 				}

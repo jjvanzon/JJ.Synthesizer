@@ -8,8 +8,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 	/// <summary> Thread-safe. Most of the work is done by the AudioOutputSampleProvider. </summary>
 	internal class AudioOutputProcessor
 	{
-		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
-		private readonly TimeProvider _timeProvider;
 		private readonly AudioOutputSampleProvider _sampleProvider;
 		private readonly object _lock = new object();
 
@@ -27,10 +25,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int channelCount,
 			double desiredBufferDuration)
 		{
-			_patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
-			_timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
-
-			_sampleProvider = new AudioOutputSampleProvider(_patchCalculatorContainer, _timeProvider, samplingRate, channelCount);
+			_sampleProvider = new AudioOutputSampleProvider(patchCalculatorContainer, timeProvider, samplingRate, channelCount);
 
 			UpdateAudioProperties(samplingRate, channelCount, desiredBufferDuration);
 		}

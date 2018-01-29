@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
+// ReSharper disable ConvertToAutoPropertyWithPrivateSetter
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -21,6 +22,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 			_noteInfos = CollectionHelper.Repeat(maxConcurrentNotes, i => CreateNoteInfo(i)).ToArray();
 		}
+
+		public IList<NoteInfo> GetPlayingNoteInfos(double presentTime) => _noteInfos.Where(x => NoteIsPlaying(x.EndTime, presentTime)).ToArray();
 
 		public void SetMaxConcurrentNotes(int maxConcurrentNotes)
 		{
@@ -61,7 +64,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			_lock.EnterReadLock();
 			try
 			{
-				noteInfo = _noteInfos.Where(x => x.EndTime < presentTime).FirstOrDefault();
+				noteInfo = _noteInfos.FirstOrDefault(x => !NoteIsPlaying(x.EndTime, presentTime));
 			}
 			finally
 			{
@@ -100,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		public void ReleaseNoteInfo(NoteInfo noteInfo, double releaseTime, double endTime)
+		public void ReleaseNote(NoteInfo noteInfo, double releaseTime, double endTime)
 		{
 			if (noteInfo == null) throw new NullException(() => noteInfo);
 
@@ -108,8 +111,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			noteInfo.EndTime = endTime;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="noteListIndex"></param>
+		/// <param name="presentTime"></param>
+		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public bool NoteIsReleased(int noteListIndex, double presentTime)
+		public bool NoteHasStopped(int noteListIndex, double presentTime)
 		{
 			_lock.EnterReadLock();
 			try
@@ -117,14 +126,17 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				if (noteListIndex < 0) throw new LessThanException(() => noteListIndex, 0);
 				if (noteListIndex > _noteInfos.Count) throw new GreaterThanException(() => noteListIndex, () => _noteInfos.Count);
 
-				bool isReleased = _noteInfos[noteListIndex].EndTime < presentTime;
-				return isReleased;
+				bool noteHasStopped = _noteInfos[noteListIndex].EndTime < presentTime;
+				return noteHasStopped;
 			}
 			finally
 			{
 				_lock.ExitReadLock();
 			}
 		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool NoteIsPlaying(double noteEndTime, double presentTime) => noteEndTime >= presentTime;
 
 		private static NoteInfo CreateNoteInfo(int listIndex)
 		{

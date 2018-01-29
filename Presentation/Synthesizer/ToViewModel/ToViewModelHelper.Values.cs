@@ -289,7 +289,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				caption += $" ({entity.ID})";
 			}
 
-			// Prevent range strings "[0-10]" from getting broken off and spread over multiple lines, which is ugly
+			// Prevent range strings "[0-10]" from getting broken off and spread over multiple lines, which is ugly.
 			caption = caption.Replace(" [", $"{Environment.NewLine}[");
 
 			return caption;

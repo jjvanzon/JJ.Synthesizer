@@ -944,9 +944,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			if (entities == null) throw new ArgumentNullException(nameof(entities));
 
-			IList<ToneViewModel> viewModels = entities.OrderBy(x => x.Octave)
-													  .ThenBy(x => x.Number)
-													  .Select(x => x.ToViewModel())
+			IList<ToneViewModel> viewModels = entities.Sort()
+			                                          .Select(x => x.ToViewModel())
 													  .ToList();
 			return viewModels;
 		}
