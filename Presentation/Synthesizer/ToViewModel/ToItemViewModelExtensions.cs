@@ -367,14 +367,25 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Tone
 
-		public static ToneViewModel ToViewModel(this Tone entity)
+		public static IList<ToneViewModel> ToToneViewModels(this IList<Tone> entities)
+		{
+			if (entities == null) throw new ArgumentNullException(nameof(entities));
+
+			IList<ToneViewModel> viewModels = entities.Sort()
+			                                          .Select((x, i) => x.ToViewModel(i + 1))
+			                                          .ToList();
+			return viewModels;
+		}
+
+		public static ToneViewModel ToViewModel(this Tone entity, int toneNumber)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
 			var viewModel = new ToneViewModel
 			{
 				ID = entity.ID,
-				Number = entity.Number.ToString(),
+				ToneNumber = toneNumber,
+				Value = entity.Value.ToString(),
 				Octave = entity.Octave.ToString(),
 				Frequency = entity.GetFrequency()
 			};

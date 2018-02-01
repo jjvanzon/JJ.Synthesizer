@@ -22,14 +22,14 @@ namespace JJ.Business.Synthesizer.Extensions
 			switch (scaleTypeEnum)
 			{
 				case ScaleTypeEnum.LiteralFrequency:
-					return tone.Number;
+					return tone.Value;
 
 				case ScaleTypeEnum.Factor:
 				{
 					// BaseFrequency * (2 ^ octave) * number
 					AssertBaseFrequency(tone);
 					// ReSharper disable once PossibleInvalidOperationException
-					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave) * tone.Number;
+					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave) * tone.Value;
 					return frequency;
 				}
 
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Extensions
 					// BaseFrequency * 2 ^ (octave + number)
 					AssertBaseFrequency(tone);
 					// ReSharper disable once PossibleInvalidOperationException
-					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Number);
+					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Value);
 					return frequency;
 				}
 
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Extensions
 					// BaseFrequency * 2 ^ (octave + 1/12 * tone)
 					AssertBaseFrequency(tone);
 					// ReSharper disable once PossibleInvalidOperationException
-					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + 1.0 / 12.0 * (tone.Number - 1));
+					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + 1.0 / 12.0 * (tone.Value - 1));
 					return frequency;
 				}
 
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Extensions
 					// BaseFrequency * 2 ^ (octave + number / 1200)
 					AssertBaseFrequency(tone);
 					// ReSharper disable once PossibleInvalidOperationException
-					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Number / 1200.0);
+					double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave + tone.Value / 1200.0);
 					return frequency;
 				}
 
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			if (tones == null) throw new ArgumentNullException(nameof(tones));
 
 			IList<Tone> sortedTones = tones.OrderBy(x => x.Octave)
-			                               .ThenBy(x => x.Number)
+			                               .ThenBy(x => x.Value)
 			                               .ToArray();
 			return sortedTones;
 		}

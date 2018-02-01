@@ -8,8 +8,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public int ScaleID { get; set; }
 		public IList<ToneViewModel> Tones { get; set; }
 
-		/// <summary> The title of the number column might vary with the ScaleType. </summary>
-		public string NumberTitle { get; set; }
+		/// <summary> The title of the value column might vary with the ScaleType. </summary>
+		public string ValueTitle { get; set; }
 		public bool FrequencyVisible { get; set; }
 		internal int? OutletIDToPlay { get; set; }
 		public int CreatedToneID { get; set; }

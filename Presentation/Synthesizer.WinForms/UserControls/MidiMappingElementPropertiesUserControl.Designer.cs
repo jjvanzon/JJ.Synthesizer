@@ -103,7 +103,7 @@
 			this.labelMidiControllerCode.Name = "labelMidiControllerCode";
 			this.labelMidiControllerCode.Size = new System.Drawing.Size(183, 22);
 			this.labelMidiControllerCode.TabIndex = 20;
-			this.labelMidiControllerCode.Text = "labelControllerCode";
+			this.labelMidiControllerCode.Text = "labelMidiControllerCode";
 			this.labelMidiControllerCode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// maskedTextBoxMidiControllerCode
@@ -213,7 +213,7 @@
 			this.labelMidiControllerValues.Name = "labelMidiControllerValues";
 			this.labelMidiControllerValues.Size = new System.Drawing.Size(180, 22);
 			this.labelMidiControllerValues.TabIndex = 59;
-			this.labelMidiControllerValues.Text = "labelControllerValues";
+			this.labelMidiControllerValues.Text = "labelMidiControllerValues";
 			this.labelMidiControllerValues.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelMidiVelocities
@@ -223,7 +223,7 @@
 			this.labelMidiVelocities.Name = "labelMidiVelocities";
 			this.labelMidiVelocities.Size = new System.Drawing.Size(180, 22);
 			this.labelMidiVelocities.TabIndex = 61;
-			this.labelMidiVelocities.Text = "labelVelocities";
+			this.labelMidiVelocities.Text = "labelMidiVelocities";
 			this.labelMidiVelocities.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// fromTillUserControlMidiVelocities
@@ -265,7 +265,7 @@
 			this.labelMidiNoteNumbers.Name = "labelMidiNoteNumbers";
 			this.labelMidiNoteNumbers.Size = new System.Drawing.Size(180, 22);
 			this.labelMidiNoteNumbers.TabIndex = 65;
-			this.labelMidiNoteNumbers.Text = "labelNoteNumbers";
+			this.labelMidiNoteNumbers.Text = "labelMidiNoteNumbers";
 			this.labelMidiNoteNumbers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// fromTillUserControlMidiNoteNumbers

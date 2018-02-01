@@ -436,7 +436,7 @@ namespace JJ.Business.Synthesizer.Validation
 				sb.Append($"{ResourceFormatter.GetScaleTypeDisplayNameSingular(entity.Scale)} ");
 			}
 
-			sb.Append($"{FormatNumber(entity.Number)}");
+			sb.Append($"{FormatNumber(entity.Value)}");
 			sb.Append('\'');
 
 			return sb.ToString();

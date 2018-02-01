@@ -111,12 +111,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			noteInfo.EndTime = endTime;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="noteListIndex"></param>
-		/// <param name="presentTime"></param>
-		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool NoteHasStopped(int noteListIndex, double presentTime)
 		{

@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Validation
 			ExecuteValidator(new IDValidator(entity.ID));
 
 			For(entity.Scale, ResourceFormatter.Scale).NotNull();
-			For(entity.Number, ResourceFormatter.Number).NotNaN().NotInfinity();
+			For(entity.Value, ResourceFormatter.Value).NotNaN().NotInfinity();
 		}
 	}
 }

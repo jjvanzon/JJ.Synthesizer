@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.Enums;
@@ -115,16 +116,20 @@ namespace JJ.Business.Synthesizer
 		{
 			if (scale == null) throw new NullException(() => scale);
 
+			Tone previousTone = scale.Tones.Sort().LastOrDefault();
+
 			var tone = new Tone { ID = _repositories.IDRepository.GetID() };
-			tone.LinkTo(scale);
 			_repositories.ToneRepository.Insert(tone);
+			tone.LinkTo(scale);
+
+			new Tone_SideEffect_SetDefaults_Versatile(tone, previousTone).Execute();
+
 			return tone;
 		}
 
 		public VoidResult SaveTone(Tone tone)
 		{
 			if (tone == null) throw new NullException(() => tone);
-			if (tone.ID == 0) throw new ZeroException(() => tone.ID);
 
 			IValidator validator = new ToneValidator(tone);
 			return validator.ToResult();

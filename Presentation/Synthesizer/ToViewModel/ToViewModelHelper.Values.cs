@@ -759,7 +759,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Tone
 
-		public static string GetToneGridEditNumberTitle(Scale entity)
+		public static string GetToneGridEditValueTitle(Scale entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -775,7 +775,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				sb.Append(' ');
 			}
 
-			sb.AppendFormat("({0})", ResourceFormatter.IsObsolete);
+			sb.Append($"({ResourceFormatter.IsObsolete})");
 		}
 	}
 }

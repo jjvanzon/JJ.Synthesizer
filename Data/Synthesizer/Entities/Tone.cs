@@ -24,6 +24,6 @@
 		/// This number is also a substitute for the ordinal number within an octave.
 		/// You can derive an integer number from it by sorting it and taking the list position.
 		/// </summary>
-		public virtual double Number { get; set; }
+		public virtual double Value { get; set; }
 	}
 }

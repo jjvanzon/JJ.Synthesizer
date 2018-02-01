@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			titleBarUserControl.Text = ResourceFormatter.Tones;
 			OctaveColumn.HeaderText = ResourceFormatter.Octave;
 			FrequencyColumn.HeaderText = ResourceFormatter.Frequency;
+			ToneNumberColumn.HeaderText = ResourceFormatter.Number;
 		}
 
 		// Binding
@@ -47,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			NumberColumn.HeaderText = ViewModel.NumberTitle;
+			ValueColumn.HeaderText = ViewModel.ValueTitle;
 			FrequencyColumn.Visible = ViewModel.FrequencyVisible;
 
 			specializedDataGridView.DataSource = ViewModel.Tones;

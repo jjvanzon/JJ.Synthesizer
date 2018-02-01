@@ -10,7 +10,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 		{
 			Id(x => x.ID).GeneratedBy.Assigned();
 			Map(x => x.Octave);
-			Map(x => x.Number);
+			Map(x => x.Value);
 			References(x => x.Scale, ColumnNames.ScaleID);
 		}
 	}

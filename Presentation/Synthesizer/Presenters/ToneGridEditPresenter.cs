@@ -61,14 +61,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					tone = _scaleFacade.CreateTone(scale);
 					return ResultHelper.Successful;
 				},
-				viewModel =>
-				{
-					// ToVieWModel
-					ToneViewModel toneViewModel = tone.ToViewModel();
-					viewModel.Tones.Add(toneViewModel);
-					// Do not sort grid, so that the new item appears at the bottom.
-					viewModel.CreatedToneID = tone.ID;
-				});
+				viewModel => viewModel.CreatedToneID = tone.ID);
 		}
 
 		public ToneGridEditViewModel DeleteTone(ToneGridEditViewModel userInput, int toneID)

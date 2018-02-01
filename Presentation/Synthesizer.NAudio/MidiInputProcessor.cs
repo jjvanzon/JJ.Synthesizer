@@ -22,7 +22,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private static NoteRecycler _noteRecycler;
 		private static MidiIn _midiIn;
 		private static MidiMappingCalculator _midiMappingCalculator;
-		private static readonly Dictionary<int, int> _controllerValueDictionary = new Dictionary<int, int>();
+		private static Dictionary<int, int> _controllerValueDictionary;
+
+		/// <summary>
+		/// Key is Scale ID. Value is frequency array.
+		/// Caching prevents sorting the tones all the time.
+		/// </summary>
+		private static Dictionary<int, double[]> _scaleID_To_Frequencies_Dictionary;
 
 		private static readonly object _lock = new object();
 
@@ -44,6 +50,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				_patchCalculatorContainer = patchCalculatorContainer;
 				_timeProvider = timeProvider;
 				_noteRecycler = noteRecycler;
+
+				_controllerValueDictionary = new Dictionary<int, int>();
+				_scaleID_To_Frequencies_Dictionary = new Dictionary<int, double[]>();
 
 				var systemFacade = new SystemFacade(documentRepository);
 				_midiMappingCalculator = new MidiMappingCalculator(systemFacade.GetDefaultMidiMappingElements());
@@ -283,26 +292,48 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			// Apply Scale-Related MIDI Mappings
 			foreach (MidiMappingCalculatorResult mappingResult in _midiMappingCalculator.Results)
 			{
-				if (mappingResult.Scale == null) continue;
-				if (!mappingResult.ToneNumber.HasValue) continue;
+				double? dimensionValue = TryGetScaleFrequency(mappingResult);
 
-				// TODO: Sorting all the time is not efficient.
-				double dimensionValue = mappingResult.Scale.Tones.Sort()[mappingResult.ToneNumber.Value - 1].GetFrequency();
+				if (!dimensionValue.HasValue)
+				{
+					continue;
+				}
 
 				if (mappingResult.StandardDimensionEnum != default)
 				{
-					patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, dimensionValue);
+					patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, dimensionValue.Value);
 
 					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.StandardDimensionEnum, noteInfo.ListIndex, frequency = dimensionValue }}");
 				}
 
 				if (NameHelper.IsFilledIn(mappingResult.CustomDimensionName))
 				{
-					patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, dimensionValue);
+					patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, dimensionValue.Value);
 
 					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.CustomDimensionName, noteInfo.ListIndex, frequency = dimensionValue }}");
 				}
 			}
+		}
+
+		private static double? TryGetScaleFrequency(MidiMappingCalculatorResult mappingResult)
+		{
+			if (mappingResult.Scale == null) return null;
+			if (!mappingResult.ToneNumber.HasValue) return null;
+
+			if (!_scaleID_To_Frequencies_Dictionary.TryGetValue(mappingResult.Scale.ID, out double[] frequencies))
+			{
+				frequencies = mappingResult.Scale.Tones
+				                           .Sort()
+				                           .Select(x => x.GetFrequency())
+				                           .ToArray();
+
+				_scaleID_To_Frequencies_Dictionary[mappingResult.Scale.ID] = frequencies;
+			}
+
+			double frequency = frequencies[mappingResult.ToneNumber.Value - 1];
+
+			return frequency;
+
 		}
 	}
 }

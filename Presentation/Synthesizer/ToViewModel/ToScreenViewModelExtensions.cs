@@ -933,21 +933,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return new ToneGridEditViewModel
 			{
 				ScaleID = entity.ID,
-				NumberTitle = ToViewModelHelper.GetToneGridEditNumberTitle(entity),
+				ValueTitle = ToViewModelHelper.GetToneGridEditValueTitle(entity),
 				Tones = entity.Tones.ToToneViewModels(),
 				FrequencyVisible = entity.GetScaleTypeEnum() != ScaleTypeEnum.LiteralFrequency,
 				ValidationMessages = new List<string>()
 			};
-		}
-
-		public static IList<ToneViewModel> ToToneViewModels(this IList<Tone> entities)
-		{
-			if (entities == null) throw new ArgumentNullException(nameof(entities));
-
-			IList<ToneViewModel> viewModels = entities.Sort()
-			                                          .Select(x => x.ToViewModel())
-													  .ToList();
-			return viewModels;
 		}
 	}
 }

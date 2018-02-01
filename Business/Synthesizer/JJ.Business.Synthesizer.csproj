@@ -326,6 +326,14 @@
     <Compile Include="SideEffects\MidiMapping_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\MidiMappingElement_SideEffect_AutoCreateEntityPosition.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_AutoCreateEntityPosition.cs" />
+    <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Cent.cs" />
+    <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_BaseWithToneValueArray.cs" />
+    <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Factor.cs" />
+    <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Exponent.cs" />
+    <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_SemiTone.cs" />
+    <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_LiteralFrequency.cs" />
+    <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Base.cs" />
+    <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Versatile.cs" />
     <Compile Include="SystemFacade.cs" />
     <Compile Include="Validation\DataProperty\Position_DataProperty_Validator.cs" />
     <Compile Include="Validation\DimensionInfoValidator.cs" />

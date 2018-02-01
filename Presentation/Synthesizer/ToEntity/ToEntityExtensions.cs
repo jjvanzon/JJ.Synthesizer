@@ -1319,9 +1319,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				toneRepository.Insert(entity);
 			}
 
-			if (double.TryParse(viewModel.Number, out double number))
+			if (double.TryParse(viewModel.Value, out double value))
 			{
-				entity.Number = number;
+				entity.Value = value;
 			}
 
 			if (int.TryParse(viewModel.Octave, out int octave))

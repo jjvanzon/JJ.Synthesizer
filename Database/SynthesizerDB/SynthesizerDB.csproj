@@ -555,6 +555,7 @@
     <Content Include="2018-01-09 130 SynthesizerDB MidiMappingElement.EntityPositionID not null.sql" />
     <Content Include="2018-01-09 140 SynthesizerDB IX_Operator_EntityPositionID_Unique.sql" />
     <Content Include="2018-01-09 150 SynthesizerDB IX_MidiMappingElement_EntityPositionID_Unique.sql" />
+    <Content Include="2018-01-31 010 SynthesizerDB Tone rename column Number to Value.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
