@@ -34,6 +34,7 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
 			this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
 			this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.SpecializedDataGridView();
@@ -42,6 +43,7 @@
 			this.OctaveColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ValueColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.FrequencyColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.OrdinalColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ToneNumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tableLayoutPanelMain.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
@@ -106,6 +108,7 @@
             this.OctaveColumn,
             this.ValueColumn,
             this.FrequencyColumn,
+            this.OrdinalColumn,
             this.ToneNumberColumn});
 			this.specializedDataGridView.EnableHeadersVisualStyles = false;
 			this.specializedDataGridView.Location = new System.Drawing.Point(0, 26);
@@ -143,7 +146,7 @@
 			// OctaveColumn
 			// 
 			this.OctaveColumn.DataPropertyName = "Octave";
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.Format = "0";
 			this.OctaveColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.OctaveColumn.FillWeight = 40F;
@@ -176,13 +179,23 @@
 			this.FrequencyColumn.ReadOnly = true;
 			this.FrequencyColumn.Width = 85;
 			// 
+			// OrdinalColumn
+			// 
+			this.OrdinalColumn.DataPropertyName = "Ordinal";
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlDark;
+			this.OrdinalColumn.DefaultCellStyle = dataGridViewCellStyle5;
+			this.OrdinalColumn.HeaderText = "Ordinal";
+			this.OrdinalColumn.Name = "OrdinalColumn";
+			this.OrdinalColumn.ReadOnly = true;
+			// 
 			// ToneNumberColumn
 			// 
 			this.ToneNumberColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
 			this.ToneNumberColumn.DataPropertyName = "ToneNumber";
-			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlDark;
-			this.ToneNumberColumn.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlDark;
+			this.ToneNumberColumn.DefaultCellStyle = dataGridViewCellStyle6;
 			this.ToneNumberColumn.HeaderText = "ToneNumber";
 			this.ToneNumberColumn.Name = "ToneNumberColumn";
 			this.ToneNumberColumn.ReadOnly = true;
@@ -212,6 +225,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn OctaveColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ValueColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn FrequencyColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn OrdinalColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ToneNumberColumn;
 	}
 }

@@ -1,0 +1,1 @@
+alter table Scale alter column BaseFrequency float not null;

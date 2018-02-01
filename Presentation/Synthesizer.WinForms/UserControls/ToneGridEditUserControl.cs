@@ -34,6 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			OctaveColumn.HeaderText = ResourceFormatter.Octave;
 			FrequencyColumn.HeaderText = ResourceFormatter.Frequency;
 			ToneNumberColumn.HeaderText = ResourceFormatter.Number;
+			OrdinalColumn.HeaderText = ResourceFormatter.Ordinal;
 		}
 
 		// Binding

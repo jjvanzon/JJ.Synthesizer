@@ -1161,4 +1161,7 @@
   <data name="MidiVelocities" xml:space="preserve">
     <value>MIDI aanslagsnelheden</value>
   </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>Ordinaal</value>
+  </data>
 </root>

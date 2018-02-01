@@ -32,14 +32,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 				_scale.SetScaleTypeEnum(ScaleTypeEnum.SemiTone, _scaleTypeRepository);
 			}
 
-			if (scaleTypeEnum == ScaleTypeEnum.LiteralFrequency)
-			{
-				_scale.BaseFrequency = null;
-			}
-			else
-			{
-				_scale.BaseFrequency = _defaultBaseFrequency;
-			}
+			_scale.BaseFrequency = _defaultBaseFrequency;
 		}
 
 		private static double GetDefaultBaseFrequency()

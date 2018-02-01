@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.SideEffects
@@ -14,12 +15,13 @@ namespace JJ.Business.Synthesizer.SideEffects
 			if (_previousTone != null)
 			{
 				_tone.Value = _previousTone.Value * Math.Pow(2.0, 1.0 / 12.0);
-				_tone.Octave = _previousTone.Octave;
+				_tone.Octave = _tone.GetCalculatedOctave();
 			}
 			else
 			{
-				_tone.Value = 440.0;
-				_tone.Octave = 1;
+				// Start at Octave 1, not 0, by multiplying base frequency times 2.
+				_tone.Value = _tone.Scale.BaseFrequency * 2;
+				_tone.Octave = _tone.GetCalculatedOctave();
 			}
 		}
 	}

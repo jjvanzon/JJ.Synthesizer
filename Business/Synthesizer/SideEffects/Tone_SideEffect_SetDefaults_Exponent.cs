@@ -8,25 +8,24 @@ namespace JJ.Business.Synthesizer.SideEffects
 	/// </summary>
 	internal class Tone_SideEffect_SetDefaults_Exponent : Tone_SideEffect_SetDefaults_BaseWithToneValueArray
 	{
+		private static readonly double[] _toneValues =
+		{
+			0.0 / 12.0,
+			1.0 / 12.0,
+			2.0 / 12.0,
+			3.0 / 12.0,
+			4.0 / 12.0,
+			5.0 / 12.0,
+			6.0 / 12.0,
+			7.0 / 12.0,
+			8.0 / 12.0,
+			9.0 / 12.0,
+			10.0 / 12.0,
+			11.0 / 12.0
+		};
+
 		/// <inheritdoc />
 		public Tone_SideEffect_SetDefaults_Exponent(Tone tone, Tone previousTone)
-			: base(
-				tone,
-				previousTone,
-				toneValues: new[]
-				{
-					0.0 / 12.0,
-					1.0 / 12.0,
-					2.0 / 12.0,
-					3.0 / 12.0,
-					4.0 / 12.0,
-					5.0 / 12.0,
-					6.0 / 12.0,
-					7.0 / 12.0,
-					8.0 / 12.0,
-					9.0 / 12.0,
-					10.0 / 12.0,
-					11.0 / 12.0
-				}) { }
+			: base(tone, previousTone, _toneValues) { }
 	}
 }

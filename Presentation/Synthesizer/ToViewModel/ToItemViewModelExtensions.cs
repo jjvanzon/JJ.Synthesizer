@@ -387,6 +387,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				ToneNumber = toneNumber,
 				Value = entity.Value.ToString(),
 				Octave = entity.Octave.ToString(),
+				Ordinal = entity.GetOrdinal(),
 				Frequency = entity.GetFrequency()
 			};
 

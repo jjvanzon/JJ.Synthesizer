@@ -13,13 +13,10 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 
 			ExecuteValidator(new IDValidator(entity.ID));
 
-			if (entity.BaseFrequency.HasValue)
-			{
-				For(entity.BaseFrequency, ResourceFormatter.BaseFrequency)
-					.NotNaN()
-					.NotInfinity()
-					.GreaterThan(0);
-			}
+			For(entity.BaseFrequency, ResourceFormatter.BaseFrequency)
+				.NotNaN()
+				.NotInfinity()
+				.GreaterThan(0);
 
 			For(entity.ScaleType, ResourceFormatter.ScaleType).NotNull();
 		}

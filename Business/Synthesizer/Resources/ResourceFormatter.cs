@@ -216,6 +216,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Operator => Resources.Operator;
 		public static string OperatorIsInGraphButNotInList => Resources.OperatorIsInGraphButNotInList;
 		public static string Or => Resources.Or;
+		public static string Ordinal => Resources.Ordinal;
 		public static string Origin => Resources.Origin;
 		public static string Outlet => Resources.Outlet;
 		public static string Outlets => Resources.Outlets;

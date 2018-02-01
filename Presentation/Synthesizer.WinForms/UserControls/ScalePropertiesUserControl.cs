@@ -1,7 +1,7 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Resources;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
+using JJ.Framework.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -40,10 +40,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		protected override void ApplyViewModelToControls()
 		{
 			textBoxName.Text = ViewModel.Entity.Name;
-			if (ViewModel.Entity.BaseFrequency.HasValue)
-			{
-				numericUpDownBaseFrequency.Value = (decimal)ViewModel.Entity.BaseFrequency.Value;
-			}
+			numericUpDownBaseFrequency.Value = (decimal)ViewModel.Entity.BaseFrequency;
 
 			if (comboBoxScaleType.DataSource == null)
 			{

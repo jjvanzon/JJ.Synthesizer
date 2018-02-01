@@ -1969,6 +1969,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ordinal.
+        /// </summary>
+        internal static string Ordinal {
+            get {
+                return ResourceManager.GetString("Ordinal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Origin.
         /// </summary>
         internal static string Origin {
