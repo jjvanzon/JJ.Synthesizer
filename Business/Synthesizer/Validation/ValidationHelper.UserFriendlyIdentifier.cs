@@ -199,19 +199,19 @@ namespace JJ.Business.Synthesizer.Validation
 			}
 			else if (entity.HasToneNumbers())
 			{
-				sb.Append(GetDisplayNameIfFromOrTillFilledIn(ResourceFormatter.ToneNumbers, entity.FromToneNumber, entity.TillToneNumber));
+				sb.Append(ResourceFormatter.ToneNumbers);
 			}
 			else if (entity.HasMidiNoteNumbers())
 			{
-				sb.Append(GetDisplayNameIfFromOrTillFilledIn(ResourceFormatter.MidiNoteNumbers, entity.FromMidiNoteNumber, entity.TillMidiNoteNumber));
+				sb.Append(ResourceFormatter.MidiNoteNumbers);
 			}
 			else if (entity.HasMidiVelocities())
 			{
-				sb.Append(GetDisplayNameIfFromOrTillFilledIn(ResourceFormatter.MidiVelocities, entity.FromMidiVelocity, entity.TillMidiVelocity));
+				sb.Append(ResourceFormatter.MidiVelocities);
 			}
 			else if (entity.HasPositions())
 			{
-				sb.Append(GetDisplayNameIfFromOrTillFilledIn(ResourceFormatter.Positions, entity.FromPosition, entity.TillPosition));
+				sb.Append(ResourceFormatter.Positions);
 			}
 
 			string userFriendlyIdentifier = sb.ToString().TrimEnd();
@@ -486,17 +486,6 @@ namespace JJ.Business.Synthesizer.Validation
 			if (from.HasValue || till.HasValue)
 			{
 				return $"{displayName} [{@from}-{till}]";
-			}
-
-			return null;
-		}
-
-		private static string GetDisplayNameIfFromOrTillFilledIn<T>(string displayName, T? from, T? till)
-			where T : struct
-		{
-			if (from.HasValue || till.HasValue)
-			{
-				return displayName;
 			}
 
 			return null;
