@@ -252,8 +252,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 				_controllerValueDictionary[controllerCode] = absoluteControllerValue;
 
-				foreach (NoteInfo noteInfo in _noteRecycler.GetPlayingNoteInfos(time))
+				IList<NoteInfo> noteInfos = _noteRecycler.GetPlayingNoteInfos(time);
+				int noteInfoCount = noteInfos.Count;
+				for (int i = 0; i < noteInfoCount; i++)
 				{
+					NoteInfo noteInfo = noteInfos[i];
 					ApplyMappings(calculator, noteInfo);
 				}
 			}
@@ -270,47 +273,59 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			_midiMappingCalculator.Calculate(controllerCodesAndValues, noteInfo.NoteNumber, noteInfo.Velocity);
 
 			// Apply Dimension-Related MIDI Mappings
-			foreach (MidiMappingCalculatorResult mappingResult in _midiMappingCalculator.Results)
 			{
-				if (!mappingResult.DimensionValue.HasValue) continue;
-
-				if (mappingResult.StandardDimensionEnum != default)
+				int count = _midiMappingCalculator.Results.Count;
+				for (int i = 0; i < count; i++)
 				{
-					patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue.Value);
+					MidiMappingCalculatorResult mappingResult = _midiMappingCalculator.Results[i];
+					if (!mappingResult.DimensionValue.HasValue) continue;
 
-					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.StandardDimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue.Value }}");
-				}
+					if (mappingResult.StandardDimensionEnum != default)
+					{
+						patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue.Value);
 
-				if (NameHelper.IsFilledIn(mappingResult.CustomDimensionName))
-				{
-					patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, mappingResult.DimensionValue.Value);
+						Debug.WriteLine(
+							$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.StandardDimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue.Value }}");
+					}
 
-					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.CustomDimensionName, noteInfo.ListIndex, mappingResult.DimensionValue.Value }}");
+					if (NameHelper.IsFilledIn(mappingResult.CustomDimensionName))
+					{
+						patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, mappingResult.DimensionValue.Value);
+
+						Debug.WriteLine(
+							$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.CustomDimensionName, noteInfo.ListIndex, mappingResult.DimensionValue.Value }}");
+					}
 				}
 			}
 
 			// Apply Scale-Related MIDI Mappings
-			foreach (MidiMappingCalculatorResult mappingResult in _midiMappingCalculator.Results)
 			{
-				double? dimensionValue = TryGetScaleFrequency(mappingResult);
-
-				if (!dimensionValue.HasValue)
+				int count = _midiMappingCalculator.Results.Count;
+				for (int i = 0; i < count; i++)
 				{
-					continue;
-				}
+					MidiMappingCalculatorResult mappingResult = _midiMappingCalculator.Results[i];
+					double? dimensionValue = TryGetScaleFrequency(mappingResult);
 
-				if (mappingResult.StandardDimensionEnum != default)
-				{
-					patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, dimensionValue.Value);
+					if (!dimensionValue.HasValue)
+					{
+						continue;
+					}
 
-					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.StandardDimensionEnum, noteInfo.ListIndex, frequency = dimensionValue }}");
-				}
+					if (mappingResult.StandardDimensionEnum != default)
+					{
+						patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, dimensionValue.Value);
 
-				if (NameHelper.IsFilledIn(mappingResult.CustomDimensionName))
-				{
-					patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, dimensionValue.Value);
+						Debug.WriteLine(
+							$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.StandardDimensionEnum, noteInfo.ListIndex, frequency = dimensionValue }}");
+					}
 
-					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.CustomDimensionName, noteInfo.ListIndex, frequency = dimensionValue }}");
+					if (NameHelper.IsFilledIn(mappingResult.CustomDimensionName))
+					{
+						patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, dimensionValue.Value);
+
+						Debug.WriteLine(
+							$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.CustomDimensionName, noteInfo.ListIndex, frequency = dimensionValue }}");
+					}
 				}
 			}
 		}

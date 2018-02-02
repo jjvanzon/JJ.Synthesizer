@@ -36,8 +36,12 @@ namespace JJ.Business.Synthesizer.Calculation
 		{
 			Results.Clear();
 
-			foreach (MidiMappingElement midiMappingElement in _midiMappingElements)
+			int midiMappingElementsCount = _midiMappingElements.Count;
+			int midiControllerTupleCount = midiControllerCodesAndValues.Count;
+
+			for (int midiMappingElementIndex = 0; midiMappingElementIndex < midiMappingElementsCount; midiMappingElementIndex++)
 			{
+				MidiMappingElement midiMappingElement = _midiMappingElements[midiMappingElementIndex];
 				if (!midiMappingElement.IsActive)
 				{
 					continue;
@@ -47,8 +51,10 @@ namespace JJ.Business.Synthesizer.Calculation
 				double ratio = 1.0;
 
 				// Multiple MIDI Controller Values should be considered, but only one should be applied.
-				foreach ((int midiControllerCode, int midiControllerValue) in midiControllerCodesAndValues)
+				for (int midiControllerTupleIndex = 0; midiControllerTupleIndex < midiControllerTupleCount; midiControllerTupleIndex++)
 				{
+					(int midiControllerCode, int midiControllerValue) = midiControllerCodesAndValues[midiControllerTupleIndex];
+
 					if (MustScaleByMidiController(midiMappingElement, midiControllerCode, midiControllerValue))
 					{
 						double midiControllerRatio = (midiControllerValue - midiMappingElement.FromMidiControllerValue.Value) /
@@ -113,8 +119,10 @@ namespace JJ.Business.Synthesizer.Calculation
 		{
 			int absoluteMidiControllerValue = inputMidiControllerValue;
 
-			foreach (MidiMappingElement midiMappingElement in _midiMappingElements)
+			int midiMappingElementsCount = _midiMappingElements.Count;
+			for (int i = 0; i < midiMappingElementsCount; i++)
 			{
+				MidiMappingElement midiMappingElement = _midiMappingElements[i];
 				if (!midiMappingElement.IsActive)
 				{
 					continue;

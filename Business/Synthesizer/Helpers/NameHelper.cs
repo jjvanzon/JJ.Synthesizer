@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Common;
+﻿using System.Runtime.CompilerServices;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
@@ -23,6 +24,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		/// Checks whether the name is filled in,
 		/// taking whitespace into account, etc.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool IsFilledIn(string name) => !string.IsNullOrWhiteSpace(name);
 
 		/// <summary>
