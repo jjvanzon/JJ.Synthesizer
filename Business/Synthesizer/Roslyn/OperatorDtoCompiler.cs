@@ -11,16 +11,17 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
+using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Roslyn
 {

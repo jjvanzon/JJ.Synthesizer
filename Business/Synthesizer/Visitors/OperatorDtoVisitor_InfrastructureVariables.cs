@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Dto;
+﻿using JJ.Business.Synthesizer.Dto.Operators;
 
 namespace JJ.Business.Synthesizer.Visitors
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Framework.Common;
 // ReSharper disable CompareOfFloatsByEqualityOperator
 #pragma warning disable 618

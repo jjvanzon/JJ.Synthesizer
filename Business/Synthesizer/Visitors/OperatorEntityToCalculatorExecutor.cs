@@ -1,5 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.Dto;
+using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 

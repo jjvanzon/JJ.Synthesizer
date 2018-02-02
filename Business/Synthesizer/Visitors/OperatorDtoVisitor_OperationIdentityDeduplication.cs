@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using JJ.Business.Synthesizer.Dto;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.Dto.Operators;
 
 namespace JJ.Business.Synthesizer.Visitors
 {

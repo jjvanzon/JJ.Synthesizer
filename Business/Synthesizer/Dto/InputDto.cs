@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Dto
