@@ -9,7 +9,7 @@ namespace JJ.Data.Synthesizer.Helpers
 {
 	public static class DebuggerDisplayFormatter
 	{
-		public static string GetDebuggerDisplay(AudioFileFormat entity)
+		internal static string GetDebuggerDisplay(AudioFileFormat entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -17,7 +17,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(AudioFileOutput entity)
+		internal static string GetDebuggerDisplay(AudioFileOutput entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -25,7 +25,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(Channel entity)
+		internal static string GetDebuggerDisplay(Channel entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -33,7 +33,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(Curve entity)
+		internal static string GetDebuggerDisplay(Curve entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -41,7 +41,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(Document entity)
+		internal static string GetDebuggerDisplay(Document entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -49,9 +49,9 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string TryGetDebuggerDisplay(Dimension entity) => entity == null ? null : GetDebuggerDisplay(entity);
+		internal static string TryGetDebuggerDisplay(Dimension entity) => entity == null ? null : GetDebuggerDisplay(entity);
 
-		public static string GetDebuggerDisplay(Dimension entity)
+		internal static string GetDebuggerDisplay(Dimension entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -59,22 +59,22 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(EntityPosition entityPosition)
+		internal static string GetDebuggerDisplay(EntityPosition entityPosition)
 		{
 			if (entityPosition == null) throw new NullException(() => entityPosition);
 
-			string debuggerDisplay = $"{{{entityPosition.GetType().Name}}} {new { entityPosition.X, entityPosition.Y }}";
+			string debuggerDisplay = $"{{{nameof(EntityPosition)}}} {new { entityPosition.X, entityPosition.Y }}";
 
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(IInletOrOutlet entity)
+		internal static string GetDebuggerDisplay(IInletOrOutlet entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
 			var sb = new StringBuilder();
 
-			sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
+			sb.Append($"{{{entity.GetType().Name}}} ");
 
 			if (entity.Dimension != null)
 			{
@@ -93,7 +93,7 @@ namespace JJ.Data.Synthesizer.Helpers
 				sb.Append($"{nameof(entity.RepetitionPosition)}={entity.RepetitionPosition} ");
 			}
 
-			sb.AppendFormat("({0})", entity.ID);
+			sb.Append($"({entity.ID})");
 
 			if (entity.IsObsolete)
 			{
@@ -110,7 +110,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return sb.ToString();
 		}
 
-		public static string GetDebuggerDisplay(InterpolationType entity)
+		internal static string GetDebuggerDisplay(InterpolationType entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -118,7 +118,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(MidiMapping entity)
+		internal static string GetDebuggerDisplay(MidiMapping entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -126,7 +126,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(MidiMappingElement entity)
+		internal static string GetDebuggerDisplay(MidiMappingElement entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -172,27 +172,27 @@ namespace JJ.Data.Synthesizer.Helpers
 			return sb.ToString().TrimEnd();
 		}
 
-		public static string GetDebuggerDisplay(Node entity)
+		internal static string GetDebuggerDisplay(Node entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
 			var sb = new StringBuilder();
 
-			sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
+			sb.Append($"{{{nameof(Node)}}} ");
 
-			sb.AppendFormat("x={0} y={1} ", entity.X, entity.Y);
+			sb.Append($"x={entity.X} y={entity.Y} ");
 
 			if (!string.IsNullOrEmpty(entity.NodeType?.Name))
 			{
-				sb.AppendFormat("({0}) ", entity.NodeType.Name);
+				sb.Append($"({entity.NodeType.Name}) ");
 			}
 
-			sb.AppendFormat("({0})", entity.ID);
+			sb.Append($"({entity.ID})");
 
 			return sb.ToString();
 		}
 
-		public static string GetDebuggerDisplay(NodeType entity)
+		internal static string GetDebuggerDisplay(NodeType entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -206,7 +206,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
 			var sb = new StringBuilder();
 
-			sb.AppendFormat("{{{0}}} ", op.GetType().Name);
+			sb.Append($"{{{typeof(Operator)}}} ");
 
 			if (op.UnderlyingPatch != null)
 			{
@@ -277,7 +277,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return sb.ToString();
 		}
 
-		public static string GetDebuggerDisplay(Patch entity)
+		internal static string GetDebuggerDisplay(Patch entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -285,7 +285,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(Sample entity)
+		internal static string GetDebuggerDisplay(Sample entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -293,7 +293,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(SampleDataType entity)
+		internal static string GetDebuggerDisplay(SampleDataType entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -301,7 +301,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(Scale entity)
+		internal static string GetDebuggerDisplay(Scale entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -309,7 +309,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(ScaleType entity)
+		internal static string GetDebuggerDisplay(ScaleType entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -317,7 +317,7 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(SpeakerSetup entity)
+		internal static string GetDebuggerDisplay(SpeakerSetup entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 

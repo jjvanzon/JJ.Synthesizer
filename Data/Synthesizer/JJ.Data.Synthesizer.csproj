@@ -97,6 +97,7 @@
     <Compile Include="Entities\Outlet.cs" />
     <Compile Include="Entities\Patch.cs" />
     <Compile Include="Interfaces\IInletOrOutlet.cs" />
+    <Compile Include="Interfaces\IMidiMappingElement.cs" />
     <Compile Include="RepositoryInterfaces\IAudioFileFormatRepository.cs" />
     <Compile Include="RepositoryInterfaces\IAudioFileOutputRepository.cs" />
     <Compile Include="RepositoryInterfaces\IAudioOutputRepository.cs" />

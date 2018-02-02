@@ -166,6 +166,9 @@
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
+    <Compile Include="Converters\MidiMappingElementToDtoConverter.cs" />
+    <Compile Include="Converters\ScaleToDtoConverter.cs" />
+    <Compile Include="Dto\MidiMappingElementDto.cs" />
     <Compile Include="Dto\Operators\DoubleToBoolean_OperatorDto.cs" />
     <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
@@ -191,12 +194,13 @@
     <Compile Include="Dto\Operators\OperatorDtoBase_WithInput.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithSound.cs" />
     <Compile Include="Dto\Operators\Remainder_OperatorDto.cs" />
+    <Compile Include="Dto\ScaleDto.cs" />
     <Compile Include="Enums\EntityTypeEnum.cs" />
+    <Compile Include="Extensions\IMidiMappingElementExtensions.cs" />
     <Compile Include="Extensions\InheritExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
     <Compile Include="Extensions\IInletOrOutletExtensions.cs" />
-    <Compile Include="Extensions\MidiMappingElementExtensions.cs" />
     <Compile Include="Extensions\SortExtensions.cs" />
     <Compile Include="Helpers\AggregateInfoFactory.cs" />
     <Compile Include="Helpers\CalculationHelper.cs" />

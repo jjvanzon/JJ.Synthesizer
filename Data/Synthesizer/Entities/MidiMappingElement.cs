@@ -1,14 +1,15 @@
 ﻿using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
+using JJ.Data.Synthesizer.Interfaces;
 
 namespace JJ.Data.Synthesizer.Entities
 {
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public class MidiMappingElement
+	public class MidiMappingElement : IMidiMappingElement
 	{
 		public virtual int ID { get; set; }
 		public virtual bool IsActive { get; set; }
-		/// <summary> Tells us if MIDI controller value changes are interpreted as absolute values or relative changes. </summary>
+		/// <inheritdoc />
 		public virtual bool IsRelative { get; set; }
 		public virtual int? MidiControllerCode { get; set; }
 		public virtual int? FromMidiControllerValue { get; set; }
@@ -19,7 +20,7 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual int? TillMidiVelocity { get; set; }
 		/// <summary> nullable </summary>
 		public virtual Dimension StandardDimension { get; set; }
-		/// <summary> optional </summary>
+		/// <inheritdoc />
 		public virtual string CustomDimensionName { get; set; }
 		public virtual double? FromDimensionValue { get; set; }
 		public virtual double? TillDimensionValue { get; set; }
@@ -29,9 +30,9 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual int? TillPosition { get; set; }
 		/// <summary> nullable </summary>
 		public virtual Scale Scale { get; set; }
-		/// <summary> 1-based </summary>
+		/// <inheritdoc />
 		public virtual int? FromToneNumber { get; set; }
-		/// <summary> 1-based </summary>
+		/// <inheritdoc />
 		public virtual int? TillToneNumber { get; set; }
 		/// <summary> parent, not nullable </summary>
 		public virtual MidiMapping MidiMapping { get; set; }

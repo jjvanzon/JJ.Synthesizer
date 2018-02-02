@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
@@ -332,17 +331,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 		private static double? TryGetScaleFrequency(MidiMappingCalculatorResult mappingResult)
 		{
-			if (mappingResult.Scale == null) return null;
+			if (mappingResult.ScaleDto == null) return null;
 			if (!mappingResult.ToneNumber.HasValue) return null;
 
-			if (!_scaleID_To_Frequencies_Dictionary.TryGetValue(mappingResult.Scale.ID, out double[] frequencies))
+			if (!_scaleID_To_Frequencies_Dictionary.TryGetValue(mappingResult.ScaleDto.ID, out double[] frequencies))
 			{
-				frequencies = mappingResult.Scale.Tones
-				                           .Sort()
-				                           .Select(x => x.GetFrequency())
-				                           .ToArray();
+				frequencies = mappingResult.ScaleDto.Frequencies.ToArray();
 
-				_scaleID_To_Frequencies_Dictionary[mappingResult.Scale.ID] = frequencies;
+				_scaleID_To_Frequencies_Dictionary[mappingResult.ScaleDto.ID] = frequencies;
 			}
 
 			double frequency = frequencies[mappingResult.ToneNumber.Value - 1];

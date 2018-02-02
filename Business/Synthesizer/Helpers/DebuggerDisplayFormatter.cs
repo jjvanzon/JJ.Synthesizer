@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Exceptions;
-using DebugHelper_Data = JJ.Data.Synthesizer.Helpers.DebuggerDisplayFormatter;
+using DebuggerDisplayFormatter_Data = JJ.Data.Synthesizer.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		{
 			if (operatorWrapperBase == null) throw new NullException(() => operatorWrapperBase);
 
-			string debuggerDisplay = DebugHelper_Data.GetDebuggerDisplay(operatorWrapperBase.WrappedOperator);
+			string debuggerDisplay = DebuggerDisplayFormatter_Data.GetDebuggerDisplay(operatorWrapperBase.WrappedOperator);
 
 			return debuggerDisplay;
 		}
@@ -54,6 +54,52 @@ namespace JJ.Business.Synthesizer.Helpers
 			if (operatorDto == null) throw new NullException(() => operatorDto);
 
 			return operatorDto.GetType().Name;
+		}
+
+		public static string GetDebuggerDisplay(MidiMappingElementDto dto)
+		{
+			if (dto == null) throw new ArgumentNullException(nameof(dto));
+
+			var sb = new StringBuilder();
+
+			sb.Append($"{{{nameof(MidiMappingElementDto)}}} ");
+
+			if (dto.StandardDimensionEnum != default ||
+			    !string.IsNullOrEmpty(dto.CustomDimensionName) ||
+			    dto.FromDimensionValue.HasValue ||
+			    dto.TillDimensionValue.HasValue)
+			{
+				sb.Append($"{new { StandardDimension = dto.StandardDimensionEnum, dto.CustomDimensionName, dto.FromDimensionValue, dto.TillDimensionValue }} ");
+			}
+
+			if (dto.MidiControllerCode.HasValue || dto.FromMidiControllerValue.HasValue || dto.TillMidiControllerValue.HasValue)
+			{
+				sb.Append($"{new { dto.MidiControllerCode, dto.FromMidiControllerValue, dto.TillMidiControllerValue }} ");
+			}
+
+			if (dto.FromMidiVelocity.HasValue || dto.TillMidiVelocity.HasValue)
+			{
+				sb.Append($"{new { dto.FromMidiVelocity, dto.TillMidiVelocity }} ");
+			}
+
+			if (dto.ScaleDto != null) sb.Append($"{new { Scale = dto.ScaleDto.Name  }} ");
+
+			if (dto.FromToneNumber.HasValue || dto.TillToneNumber.HasValue)
+			{
+				sb.Append($"{new { dto.FromToneNumber, dto.TillToneNumber }} ");
+			}
+
+			if (dto.FromMidiNoteNumber.HasValue || dto.TillMidiNoteNumber.HasValue)
+			{
+				sb.Append($"{new { dto.FromMidiNoteNumber, dto.TillMidiNoteNumber }} ");
+			}
+
+			if (dto.FromPosition.HasValue || dto.TillPosition.HasValue)
+			{
+				sb.Append($"{new { dto.FromPosition, dto.TillPosition }} ");
+			}
+
+			return sb.ToString().TrimEnd();
 		}
 
 		public static string GetDebuggerDisplay(InputVariableInfo variableInfo)
