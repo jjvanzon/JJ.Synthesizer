@@ -46,10 +46,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				SampleFileBrowser = ToViewModelHelper.CreateEmptySampleFileBrowserViewModel(),
 				SaveChangesPopup = ToViewModelHelper.CreateEmptySaveChangesPopupViewModel(),
 				ScaleGrid = document.Scales.ToGridViewModel(document.ID),
-				ScaleLookup = document.Scales.Select(x => x.ToIDAndName()).ToList(),
+				ScaleLookup = document.Scales.ToLookupViewModel(),
 				ScalePropertiesDictionary = document.Scales.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
 				ToneGridEditDictionary = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToDictionary(x => x.ScaleID),
-				UnderlyingPatchLookup = ToViewModelHelper.CreateUnderlyingPatchLookupViewModel(document),
+				UnderlyingPatchLookup = document.ToUnderlyingPatchLookupViewModel(),
 				UndoHistory = new Stack<UndoItemViewModelBase>(),
 				RedoFuture = new Stack<UndoItemViewModelBase>()
 			};

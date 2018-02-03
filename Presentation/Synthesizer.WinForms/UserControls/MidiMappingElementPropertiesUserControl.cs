@@ -77,6 +77,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			checkBoxIsActive.Checked = ViewModel.IsActive;
 			checkBoxIsRelative.Checked = ViewModel.IsRelative;
+			comboBoxScale.SelectedValue = ViewModel.Scale?.ID ?? 0;
 			fromTillUserControlMidiControllerValues.From = $"{ViewModel.FromMidiControllerValue}";
 			fromTillUserControlMidiControllerValues.From = $"{ViewModel.FromMidiControllerValue}";
 			fromTillUserControlMidiControllerValues.Till = $"{ViewModel.TillMidiControllerValue}";
@@ -106,6 +107,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 
 			comboBoxStandardDimension.SelectedValue = ViewModel.StandardDimension?.ID ?? 0;
+
 		}
 
 		protected override void ApplyControlsToViewModel()
@@ -132,15 +134,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			ViewModel.TillMidiVelocity = Int32Helper.ParseNullable(fromTillUserControlMidiVelocities.Till);
 		}
 
-		public void SetScaleLookup(IList<IDAndName> underlyingPatchLookup)
+		public void SetScaleLookup(IList<IDAndName> scaleLookup)
 		{
 			if (ViewModel == null) return;
 
 			comboBoxScale.DataSource = null; // Do this or WinForms will not refresh the list.
 			comboBoxScale.ValueMember = nameof(IDAndName.ID);
 			comboBoxScale.DisplayMember = nameof(IDAndName.Name);
-			comboBoxScale.DataSource = underlyingPatchLookup;
-			comboBoxScale.SelectedValue = ViewModel.Scale?.ID ?? 0;
+			comboBoxScale.DataSource = scaleLookup;
 		}
 	}
 }

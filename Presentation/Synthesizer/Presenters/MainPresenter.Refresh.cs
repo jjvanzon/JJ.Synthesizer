@@ -349,6 +349,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			foreach (int idToDelete in idsToDelete.ToArray())
 			{
 				viewModelDictionary.Remove(idToDelete);
+
+				if (MainViewModel.Document.VisibleMidiMappingDetails?.MidiMapping.ID == idToDelete)
+				{
+					MainViewModel.Document.VisibleMidiMappingDetails = null;
+				}
 			}
 		}
 
@@ -995,7 +1000,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private void ScaleLookupRefresh()
 		{
 			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-			MainViewModel.Document.ScaleLookup = document.Scales.Select(x => x.ToIDAndName()).ToList();
+			MainViewModel.Document.ScaleLookup = document.Scales.ToLookupViewModel();
 		}
 
 		private void ScalePropertiesDictionaryRefresh()
@@ -1103,7 +1108,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private void UnderylingPatchLookupRefresh()
 		{
 			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-			MainViewModel.Document.UnderlyingPatchLookup = ToViewModelHelper.CreateUnderlyingPatchLookupViewModel(document);
+			MainViewModel.Document.UnderlyingPatchLookup = document.ToUnderlyingPatchLookupViewModel();
 		}
 	}
 }
