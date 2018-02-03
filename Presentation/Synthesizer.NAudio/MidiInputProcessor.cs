@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private static NoteRecycler _noteRecycler;
 		private static MidiIn _midiIn;
 		private static MidiMappingCalculator _midiMappingCalculator;
-		private static Dictionary<int, int> _controllerValueDictionary;
+		private static Dictionary<int, int> _midiControllerDictionary;
 
 		/// <summary>
 		/// Key is Scale ID. Value is frequency array.
@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				_timeProvider = timeProvider;
 				_noteRecycler = noteRecycler;
 
-				_controllerValueDictionary = new Dictionary<int, int>();
+				_midiControllerDictionary = new Dictionary<int, int>();
 				_scaleID_To_Frequencies_Dictionary = new Dictionary<int, double[]>();
 
 				var systemFacade = new SystemFacade(documentRepository);
@@ -238,7 +238,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 				double time = _timeProvider.Time;
 
-				if (!_controllerValueDictionary.TryGetValue(controllerCode, out int previousControllerValue))
+				if (!_midiControllerDictionary.TryGetValue(controllerCode, out int previousControllerValue))
 				{
 					// TODO: Initialize to the calculator's value converted back to a controller value.
 					previousControllerValue = MidiMappingCalculator.MIDDLE_CONTROLLER_VALUE;
@@ -249,7 +249,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 					controlChangeEvent.ControllerValue,
 					previousControllerValue);
 
-				_controllerValueDictionary[controllerCode] = absoluteControllerValue;
+				_midiControllerDictionary[controllerCode] = absoluteControllerValue;
 
 				IList<NoteInfo> noteInfos = _noteRecycler.GetPlayingNoteInfos(time);
 				int noteInfoCount = noteInfos.Count;
@@ -268,7 +268,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private static void ApplyMappings(IPatchCalculator patchCalculator, NoteInfo noteInfo)
 		{
 			// TODO: Prevent garbage collection.
-			IList<(int, int)> controllerCodesAndValues = _controllerValueDictionary.Select(x => (x.Key, x.Value)).ToArray();
+			IList<(int, int)> controllerCodesAndValues = _midiControllerDictionary.Select(x => (x.Key, x.Value)).ToArray();
 			_midiMappingCalculator.Calculate(controllerCodesAndValues, noteInfo.NoteNumber, noteInfo.Velocity);
 
 			// Apply Dimension-Related MIDI Mappings

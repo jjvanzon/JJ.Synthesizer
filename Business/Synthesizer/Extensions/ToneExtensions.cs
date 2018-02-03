@@ -76,8 +76,8 @@ namespace JJ.Business.Synthesizer.Extensions
 			if (tone == null) throw new ArgumentNullException(nameof(tone));
 			if (tone.Scale == null) throw new NullException(() => tone.Scale);
 
-			double baseFrequencyTimeX = tone.Value / tone.Scale.BaseFrequency;
-			double octave = Math.Log(baseFrequencyTimeX, 2.0);
+			double factorOfBaseFrequency = tone.Value / tone.Scale.BaseFrequency;
+			double octave = Math.Log(factorOfBaseFrequency, 2.0);
 
 			// Floating point imprecision
 			octave = Math.Round(octave, 3, MidpointRounding.AwayFromZero);
