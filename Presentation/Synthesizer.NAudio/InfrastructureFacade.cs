@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -18,16 +17,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private readonly TimeProvider _timeProvider;
 		private readonly NoteRecycler _noteRecycler;
 		private readonly AudioOutputProcessor _audioOutputProcessor;
+		private MidiInputProcessor _midiInputProcessor;
 		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
+		private readonly IDocumentRepository _documentRepository;
 
 		private AudioOutput _audioOutput;
-
-		// ReSharper disable once NotAccessedField.Local
-		private Thread _audioOutputThread;
-
-		// ReSharper disable once NotAccessedField.Local
-		private Thread _midiInputThread;
-		private readonly IDocumentRepository _documentRepository;
 
 		public InfrastructureFacade(RepositoryWrapper repositories)
 		{
@@ -59,22 +53,20 @@ namespace JJ.Presentation.Synthesizer.NAudio
 					_audioOutput.GetChannelCount(),
 					_audioOutput.DesiredBufferDuration);
 
-				_audioOutputThread = _audioOutputProcessor.StartThread();
+				_audioOutputProcessor.StartThread();
 			}
 
 			// ReSharper disable once InvertIf
 			if (_midiInputEnabled)
 			{
-				MidiInputProcessor.Stop();
-				MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler, _documentRepository);
-				_midiInputThread = MidiInputProcessor.StartThread();
+				_midiInputProcessor = new MidiInputProcessor(_patchCalculatorContainer, _timeProvider, _noteRecycler, _documentRepository);
 			}
 		}
 
 		public void Dispose()
 		{
 			_audioOutputProcessor?.Stop();
-			MidiInputProcessor.Stop();
+			_midiInputProcessor?.Dispose();
 		}
 
 		public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch)
@@ -87,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			double desiredBufferDuration = audioOutput.DesiredBufferDuration;
 
 			_audioOutputProcessor?.Stop();
-			MidiInputProcessor.Stop();
+			_midiInputProcessor?.Dispose();
 
 			_noteRecycler.SetMaxConcurrentNotes(maxConcurrentNotes);
 			_patchCalculatorContainer.RecreateCalculator(patch, samplingRate, channelCount, maxConcurrentNotes);
@@ -95,12 +87,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			if (_audioOutputProcessor != null)
 			{
 				_audioOutputProcessor.UpdateAudioProperties(samplingRate, channelCount, desiredBufferDuration);
-				_audioOutputThread = _audioOutputProcessor.StartThread();
+				_audioOutputProcessor.StartThread();
 			}
 
 			// ReSharper disable once InvertIf
-			MidiInputProcessor.Initialize(_patchCalculatorContainer, _timeProvider, _noteRecycler, _documentRepository);
-			_midiInputThread = MidiInputProcessor.StartThread();
+			if (_midiInputProcessor != null)
+			{
+				_midiInputProcessor = new MidiInputProcessor(_patchCalculatorContainer, _timeProvider, _noteRecycler, _documentRepository);
+			}
 		}
 
 		public void RecreatePatchCalculator(Patch patch)

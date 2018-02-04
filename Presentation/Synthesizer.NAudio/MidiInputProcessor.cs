@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -14,63 +15,49 @@ using NAudio.Midi;
 namespace JJ.Presentation.Synthesizer.NAudio
 {
 	/// <summary> thread-safe </summary>
-	internal static class MidiInputProcessor
+	internal class MidiInputProcessor : IDisposable
 	{
-		private static IPatchCalculatorContainer _patchCalculatorContainer;
-		private static TimeProvider _timeProvider;
-		private static NoteRecycler _noteRecycler;
-		private static MidiIn _midiIn;
-		private static MidiMappingCalculator _midiMappingCalculator;
-		private static Dictionary<int, int> _midiControllerDictionary;
+		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
+		private readonly TimeProvider _timeProvider;
+		private readonly NoteRecycler _noteRecycler;
+		private readonly MidiMappingCalculator _midiMappingCalculator;
+		private readonly Dictionary<int, int> _midiControllerDictionary;
+		private MidiIn _midiIn;
 
 		/// <summary>
 		/// Key is Scale ID. Value is frequency array.
 		/// Caching prevents sorting the tones all the time.
 		/// </summary>
-		private static Dictionary<int, double[]> _scaleID_To_Frequencies_Dictionary;
+		private readonly Dictionary<int, double[]> _scaleID_To_Frequencies_Dictionary;
 
-		private static readonly object _lock = new object();
+		private readonly object _lock = new object();
 
 		/// <summary> Can be called more than once. </summary>
-		public static void Initialize(
+		public MidiInputProcessor(
 			IPatchCalculatorContainer patchCalculatorContainer,
 			TimeProvider timeProvider,
 			NoteRecycler noteRecycler,
 			IDocumentRepository documentRepository)
 		{
-			lock (_lock)
-			{
-				// NOTE: Don't turn into throw expressions.
-				// You want to check them all for null, before assigning any of them.
-				if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
-				if (timeProvider == null) throw new NullException(() => timeProvider);
-				if (noteRecycler == null) throw new NullException(() => noteRecycler);
+			_patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
+			_timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
+			_noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
 
-				_patchCalculatorContainer = patchCalculatorContainer;
-				_timeProvider = timeProvider;
-				_noteRecycler = noteRecycler;
+			_midiControllerDictionary = new Dictionary<int, int>();
+			_scaleID_To_Frequencies_Dictionary = new Dictionary<int, double[]>();
 
-				_midiControllerDictionary = new Dictionary<int, int>();
-				_scaleID_To_Frequencies_Dictionary = new Dictionary<int, double[]>();
+			var systemFacade = new SystemFacade(documentRepository);
+			_midiMappingCalculator = new MidiMappingCalculator(systemFacade.GetDefaultMidiMappingElements());
 
-				var systemFacade = new SystemFacade(documentRepository);
-				_midiMappingCalculator = new MidiMappingCalculator(systemFacade.GetDefaultMidiMappingElements());
-			}
-		}
-
-		public static Thread StartThread()
-		{
 			var thread = new Thread(TryStart);
 			thread.Start();
-
-			return thread;
 		}
 
 		/// <summary> 
 		/// For now will only work with the first MIDI device it finds. 
 		/// Does nothing when no MIDI devices.
 		/// </summary>
-		private static void TryStart()
+		private void TryStart()
 		{
 			if (MidiIn.NumberOfDevices == 0)
 			{
@@ -93,11 +80,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			catch
 			{
 				// Do not crash your whole application, if midi device communication fails.
-				Stop();
+				Dispose();
 			}
 		}
 
-		public static void Stop()
+		public void Dispose()
 		{
 			lock (_lock)
 			{
@@ -122,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		private static void _midiIn_MessageReceived(object sender, MidiInMessageEventArgs e)
+		private void _midiIn_MessageReceived(object sender, MidiInMessageEventArgs e)
 		{
 			switch (e.MidiEvent.CommandCode)
 			{
@@ -140,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		private static void HandleNoteOn(MidiEvent midiEvent)
+		private void HandleNoteOn(MidiEvent midiEvent)
 		{
 			var noteOnEvent = (NoteOnEvent)midiEvent;
 
@@ -178,7 +165,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		private static void HandleNoteOff(MidiEvent midiEvent)
+		private void HandleNoteOff(MidiEvent midiEvent)
 		{
 			var noteEvent = (NoteEvent)midiEvent;
 
@@ -217,7 +204,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		private static void HandleControlChange(MidiEvent midiEvent)
+		private void HandleControlChange(MidiEvent midiEvent)
 		{
 			var controlChangeEvent = (ControlChangeEvent)midiEvent;
 
@@ -265,7 +252,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		private static void ApplyMappings(IPatchCalculator patchCalculator, NoteInfo noteInfo)
+		private void ApplyMappings(IPatchCalculator patchCalculator, NoteInfo noteInfo)
 		{
 			// TODO: Prevent garbage collection.
 			IList<(int, int)> controllerCodesAndValues = _midiControllerDictionary.Select(x => (x.Key, x.Value)).ToArray();
@@ -329,7 +316,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		private static double? TryGetScaleFrequency(MidiMappingCalculatorResult mappingResult)
+		private double? TryGetScaleFrequency(MidiMappingCalculatorResult mappingResult)
 		{
 			if (mappingResult.ScaleDto == null) return null;
 			if (!mappingResult.ToneNumber.HasValue) return null;
@@ -344,7 +331,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			double frequency = frequencies[mappingResult.ToneNumber.Value - 1];
 
 			return frequency;
-
 		}
 	}
 }

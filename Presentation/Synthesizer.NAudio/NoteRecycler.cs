@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			if (maxConcurrentNotes < 1) throw new LessThanException(() => maxConcurrentNotes, 1);
 
-			_noteInfos = CollectionHelper.Repeat(maxConcurrentNotes, i => CreateNoteInfo(i)).ToArray();
+			_noteInfos = CollectionHelper.Repeat(maxConcurrentNotes, CreateNoteInfo).ToArray();
 		}
 
 		public IList<NoteInfo> GetPlayingNoteInfos(double presentTime) => _noteInfos.Where(x => NoteIsPlaying(x.EndTime, presentTime)).ToArray();
