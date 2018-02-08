@@ -106,8 +106,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 		private float GetOtherOperatorWidth(OperatorViewModel sourceOperatorViewModel)
 		{
-			WidthAndHeight widthAndHeight = _textMeasurer.GetTextSize(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont);
-			float textWidth = widthAndHeight.Width;
+			(float textWidth, _) = _textMeasurer.GetTextSize(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont);
 			float minimumWidth = GetOtherOperatorMinimumWidth(sourceOperatorViewModel);
 
 			float width = textWidth + StyleHelper.SPACING_TIMES_2;
@@ -140,11 +139,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			float spacing = StyleHelper.SPACING;
 			spacing *= 0.8f; // Use a smaller spacing for numbers.
 
-
-			WidthAndHeight widthAndHeight = _textMeasurer.GetTextSize(sourceOperatorViewModel.Caption, StyleHelper.NumberOperatorFont);
-			float textWidth = widthAndHeight.Width;
+			(float textWidth, _) = _textMeasurer.GetTextSize(sourceOperatorViewModel.Caption, StyleHelper.NumberOperatorFont);
 			float width = textWidth + spacing + spacing;
-
 
 			// Apply minimum operator width
 			if (width < StyleHelper.SMALLER_OBJECT_SIZE)

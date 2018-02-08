@@ -170,9 +170,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			label.Text = viewModel.Caption;
 
-			WidthAndHeight widthAndHeight = _textMeasurer.GetTextSize(label.Text, label.TextStyle.Font, MAX_LABEL_WIDTH);
-			label.Position.Width = widthAndHeight.Width;
-			label.Position.Height = widthAndHeight.Height;
+			(float textWidth, float textHeight) = _textMeasurer.GetTextSize(label.Text, label.TextStyle.Font, MAX_LABEL_WIDTH);
+			label.Position.Width = textWidth;
+			label.Position.Height = textHeight;
 
 			label.Position.X = StyleHelper.DEFAULT_OBJECT_SIZE / 2f - label.Position.Width / 2f;
 
