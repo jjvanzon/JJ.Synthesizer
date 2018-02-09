@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
@@ -7,7 +8,6 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
-using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

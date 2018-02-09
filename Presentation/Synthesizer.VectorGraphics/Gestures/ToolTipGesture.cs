@@ -151,9 +151,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			_toolTipLabel.Text = text;
 
 			// Set text width
-			(float width, _)  = _textMeasurer.GetTextSize(text, _toolTipLabel.TextStyle.Font);
-			float textWidthInPixels = width;
-			float widthInPixels = TEXT_MARGIN_IN_PIXELS * 2f + textWidthInPixels;
+			(float textWidth, _)  = _textMeasurer.GetTextSize(text, _toolTipLabel.TextStyle.Font);
+			//(float textWidth, _)  =_toolTipLabel.TextSize;
+			float textWidthInPixels = _diagram.Position.WidthToPixels(textWidth);
+			float widthInPixels = textWidthInPixels + TEXT_MARGIN_IN_PIXELS * 2f;
 			float scaledWidth = _diagram.Position.PixelsToWidth(widthInPixels);
 			_toolTipRectangle.Position.Width = scaledWidth;
 			_toolTipLabel.Position.Width = scaledWidth;
