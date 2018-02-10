@@ -3,6 +3,7 @@ using System.Linq;
 using JJ.Framework.Common;
 using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.Helpers;
+using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Framework.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.Helpers;
 
@@ -266,6 +267,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		public static PointStyle DentPointStyleInactive { get; } = HalfenOpacity(DentPointStyle);
 
 		public static PointStyle DentPointStyleSelectedInactive { get; } = HalfenOpacity(DentPointStyleSelected);
+
+		public static RectangleStyle RectangleStyleInvisible { get; } = new RectangleStyle
+		{
+			BackStyle = BackStyleInvisible,
+			LineStyle = BorderStyleInvisible
+		};
 
 		// ToolTip
 

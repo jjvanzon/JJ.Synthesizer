@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="Converters\CurrentPatchRectangleConverter.cs" />
+    <Compile Include="Converters\CurrentPatchLabelConverter.cs" />
+    <Compile Include="Converters\CurrentPatchPictureButtonConverter.cs" />
     <Compile Include="Converters\InletControlPointConverter.cs" />
     <Compile Include="Converters\InletPointConverter.cs" />
     <Compile Include="Converters\InletRectangleConverter.cs" />
@@ -53,6 +56,8 @@
     <Compile Include="Converters\OutletControlPointConverter.cs" />
     <Compile Include="Converters\OutletPointConverter.cs" />
     <Compile Include="Converters\OutletRectangleConverter.cs" />
+    <Compile Include="CurrentInstrumentViewModelToDiagramConverter.cs" />
+    <Compile Include="CurrentInstrumentViewModelToDiagramConverterPatchResultItem.cs" />
     <Compile Include="EventArg\IDEventArgs.cs" />
     <Compile Include="Gestures\ChangeNodeTypeGesture.cs" />
     <Compile Include="Gestures\SelectGesture.cs" />
@@ -65,6 +70,7 @@
     <Compile Include="Helpers\PositionHelper.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />
     <Compile Include="CurveDetailsViewModelToDiagramConverterResult.cs" />
+    <Compile Include="CurrentInstrumentViewModelToDiagramConverterResult.cs" />
     <Compile Include="MidiMappingDetailsViewModelToDiagramConverterResult.cs" />
     <Compile Include="MidiMappingDetailsViewModelToDiagramConverter.cs" />
     <Compile Include="PatchViewModelToDiagramConverter.cs" />

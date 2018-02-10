@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 				buttonMoveBackward.Location = new Point(x, SPACING);
 				x += buttonWidth + SPACING;
 			}
-
+			
 			labelName.Location = new Point(x, labelY);
 			x += labelName.Width;
 

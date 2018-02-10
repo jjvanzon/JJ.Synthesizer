@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
 using JJ.Business.SynthesizerPrototype.Dto;
-using JJ.Framework.Common;
+using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
 using JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
 using JJ.Business.SynthesizerPrototype.Roslyn.Visitors;
+using JJ.Framework.Common;
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
 {
@@ -185,7 +185,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
 						// Return statement
 						sb.AppendLine();
 						//_sb.AppendLine($"return values;");
-						sb.AppendLine($"return null;");
+						sb.AppendLine("return null;");
 
 						sb.Unindent();
 					}

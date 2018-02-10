@@ -28,15 +28,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<int>> PlayItemRequested;
 		public event EventHandler<EventArgs<int>> DeleteRequested;
 
-		public CurrentInstrumentUserControl()
-		{
-			InitializeComponent();
-		}
+		public CurrentInstrumentUserControl() => InitializeComponent();
 
-		private void CurrentInstrumentUserControl_Load(object sender, EventArgs e)
-		{
-			SetTitles();
-		}
+		private void CurrentInstrumentUserControl_Load(object sender, EventArgs e) => SetTitles();
 
 		public new CurrentInstrumentViewModel ViewModel
 		{

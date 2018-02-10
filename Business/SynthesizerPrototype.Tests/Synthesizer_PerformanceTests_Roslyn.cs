@@ -4,6 +4,7 @@ using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
 using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+// ReSharper disable UnusedVariable
 
 namespace JJ.Business.SynthesizerPrototype.Tests
 {

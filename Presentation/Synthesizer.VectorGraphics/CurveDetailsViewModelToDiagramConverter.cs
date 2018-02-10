@@ -192,10 +192,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 						Diagram = Result.Diagram,
 						Parent = Result.Diagram.Background,
 						Tag = nodeViewModel.ID,
-						MustBubble = false
+						MustBubble = false,
+						Style = StyleHelper.RectangleStyleInvisible
 					};
-					rectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
-					rectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
 
 					rectangle.Gestures.Add(
 						Result.MoveNodeGesture,

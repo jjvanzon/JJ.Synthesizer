@@ -6,6 +6,7 @@ using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
 using JJ.Business.SynthesizerPrototype.Visitors;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 {
@@ -277,8 +278,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 		{
 			string camelCaseOperatorTypeName = operatorTypeName.ToCamelCase();
 
-			int counter;
-			if (!_camelCaseOperatorTypeName_To_VariableCounter_Dictionary.TryGetValue(camelCaseOperatorTypeName, out counter))
+			if (!_camelCaseOperatorTypeName_To_VariableCounter_Dictionary.TryGetValue(camelCaseOperatorTypeName, out int counter))
 			{
 				counter = FIRST_VARIABLE_NUMBER;
 			}
@@ -292,8 +292,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
 		private string GetInputVariableName(VariableInput_OperatorDto dto)
 		{
-			string name;
-			if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out name))
+			if (_variableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out string name))
 			{
 				return name;
 			}
@@ -340,14 +339,6 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 			_positionVariableNamesCamelCaseHashSet.Add(variableName);
 
 			return variableName;
-		}
-
-		private IList<string> GetInstanceVariableNamesCamelCase()
-		{
-			IList<string> list = _phaseVariableNamesCamelCase.Union(_previousPositionVariableNamesCamelCase)
-																	.Union(_inputVariableInfoDictionary.Keys)
-																	.ToArray();
-			return list;
 		}
 	}
 }

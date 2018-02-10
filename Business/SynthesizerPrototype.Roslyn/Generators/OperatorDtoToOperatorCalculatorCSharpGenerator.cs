@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
 using JJ.Business.SynthesizerPrototype.Dto;
-using JJ.Framework.Common;
+using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
 using JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Business.SynthesizerPrototype.Roslyn.Visitors;
+using JJ.Framework.Common;
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
 {
