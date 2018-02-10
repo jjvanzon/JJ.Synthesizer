@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.IO;
 using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers

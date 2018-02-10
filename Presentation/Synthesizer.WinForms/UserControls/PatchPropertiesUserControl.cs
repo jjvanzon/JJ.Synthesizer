@@ -1,9 +1,9 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
+using JJ.Framework.Common;
 using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 // ReSharper disable PossibleNullReferenceException
 

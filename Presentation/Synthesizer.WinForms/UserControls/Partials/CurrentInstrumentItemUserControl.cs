@@ -3,9 +3,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Common;
 using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 #pragma warning disable IDE1006 // Naming Styles
 // ReSharper disable PossibleNullReferenceException
@@ -47,15 +47,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
 		private void SetTitles()
 		{
+			toolTip.SetToolTip(buttonDelete, CommonResourceFormatter.Remove);
 			toolTip.SetToolTip(buttonExpand, CommonResourceFormatter.Open);
 			toolTip.SetToolTip(buttonMoveBackward, CommonResourceFormatter.Move);
 			toolTip.SetToolTip(buttonMoveForward, CommonResourceFormatter.Move);
 			toolTip.SetToolTip(buttonPlay, ResourceFormatter.Play);
-			toolTip.SetToolTip(buttonDelete, CommonResourceFormatter.Remove);
 		}
 
 		private void ApplyViewModelToControls()
 		{
+			if (_viewModel == null)
+			{
+				return;
+			}
+
 			labelName.Text = _viewModel.Name;
 			buttonMoveBackward.Visible = _viewModel.CanGoBackward;
 			buttonMoveForward.Visible = _viewModel.CanGoForward;
@@ -102,10 +107,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			Width = x;
 		}
 
+		private void buttonDelete_Click(object sender, EventArgs e) => DeleteRequested(this, new EventArgs<int>(_viewModel.PatchID));
 		private void buttonExpand_Click(object sender, EventArgs e) => ExpandRequested(this, new EventArgs<int>(_viewModel.PatchID));
 		private void buttonMoveBackward_Click(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
 		private void buttonMoveForward_Click(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
 		private void buttonPlay_Click(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.PatchID));
-		private void buttonDelete_Click(object sender, EventArgs e) => DeleteRequested(this, new EventArgs<int>(_viewModel.PatchID));
 	}
 }

@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
-    <Compile Include="EventArg\EventArgsOfT.cs" />
     <Compile Include="EventArg\LibraryPatchGroupEventArgs.cs" />
     <Compile Include="EventArg\ScaleAndToneEventArgs.cs" />
     <Compile Include="EventArg\NodeEventArgs.cs" />

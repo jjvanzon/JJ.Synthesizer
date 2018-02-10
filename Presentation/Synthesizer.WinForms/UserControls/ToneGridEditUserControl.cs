@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;

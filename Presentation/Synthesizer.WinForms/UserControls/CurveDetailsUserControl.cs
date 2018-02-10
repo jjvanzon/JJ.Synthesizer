@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Common;
 using JJ.Framework.Drawing;
 using JJ.Framework.Resources;
 using JJ.Framework.VectorGraphics.Enums;

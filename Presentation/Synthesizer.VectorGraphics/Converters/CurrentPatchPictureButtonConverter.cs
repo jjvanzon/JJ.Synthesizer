@@ -13,22 +13,29 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (!_dictionary.TryGetValue(patchID, out (Picture, MouseDownGesture) tuple))
 			{
-				var picture = new Picture
-				{
-					Diagram = parentElement.Diagram,
-					Parent = parentElement,
-					UnderlyingPicture = underlyingPicture
-				};
-				picture.Position.Width = StyleHelper.ICON_SIZE;
-				picture.Position.Height = StyleHelper.ICON_SIZE;
+				tuple = CreatePicture(parentElement, underlyingPicture);
 
-				var mouseDownGesture = new MouseDownGesture();
-				picture.Gestures.Add(mouseDownGesture);
-
-				_dictionary[patchID] = (picture, mouseDownGesture);
+				_dictionary[patchID] = tuple;
 			}
 
 			return tuple;
+		}
+
+		private (Picture picture, MouseDownGesture mouseDownGesture) CreatePicture(Element parentElement, object underlyingPicture)
+		{
+			var picture = new Picture
+			{
+				Diagram = parentElement.Diagram,
+				Parent = parentElement,
+				UnderlyingPicture = underlyingPicture
+			};
+			picture.Position.Width = StyleHelper.ICON_SIZE;
+			picture.Position.Height = StyleHelper.ICON_SIZE;
+
+			var mouseDownGesture = new MouseDownGesture();
+			picture.Gestures.Add(mouseDownGesture);
+
+			return (picture, mouseDownGesture);
 		}
 
 		public void TryRemove(int patchID)

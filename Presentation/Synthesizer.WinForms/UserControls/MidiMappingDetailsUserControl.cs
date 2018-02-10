@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Framework.Common;
 using JJ.Framework.Drawing;
 using JJ.Framework.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 // ReSharper disable PossibleNullReferenceException

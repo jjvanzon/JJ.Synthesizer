@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private readonly HashSet<int> _patchIDHashSet;
 
-		public CurrentInstrumentViewModelToDiagramConverterResult Result { get; private set; }
+		public CurrentInstrumentViewModelToDiagramConverterResult Result { get; }
 
 		public CurrentInstrumentViewModelToDiagramConverter(ITextMeasurer textMeasurer)
 		{

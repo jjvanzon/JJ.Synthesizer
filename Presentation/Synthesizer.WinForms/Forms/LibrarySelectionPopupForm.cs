@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms

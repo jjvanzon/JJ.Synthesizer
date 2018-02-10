@@ -32,8 +32,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			set
 			{
 				// DataGridView screws up if you do assign a data source that has 0 items.
-				var asIList = value as IList;
-				if (asIList == null)
+				if (!(value is IList asIList))
 				{
 					throw new IsNotTypeException<IList>(() => value);
 				}

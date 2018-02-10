@@ -58,6 +58,9 @@
     <Compile Include="Converters\OutletRectangleConverter.cs" />
     <Compile Include="CurrentInstrumentViewModelToDiagramConverter.cs" />
     <Compile Include="CurrentInstrumentViewModelToDiagramConverterPatchResultItem.cs" />
+    <Compile Include="Elements\CurrentInstrumentPatchElement.cs" />
+    <Compile Include="Elements\ElementBase.cs" />
+    <Compile Include="Elements\ElementWithViewModelBase.cs" />
     <Compile Include="EventArg\IDEventArgs.cs" />
     <Compile Include="Gestures\ChangeNodeTypeGesture.cs" />
     <Compile Include="Gestures\SelectGesture.cs" />
@@ -112,6 +115,10 @@
     <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Resources\JJ.Framework.Resources.csproj">
+      <Project>{40A53175-8048-4F2D-93CA-383074C0267E}</Project>
+      <Name>JJ.Framework.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\VectorGraphics\JJ.Framework.VectorGraphics.csproj">
       <Project>{52e03e08-331a-4ca7-8d8f-6f598c94eed4}</Project>

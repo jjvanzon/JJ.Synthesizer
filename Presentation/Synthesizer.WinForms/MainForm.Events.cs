@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
