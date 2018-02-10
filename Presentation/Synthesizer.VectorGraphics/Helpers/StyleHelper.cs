@@ -350,28 +350,28 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
 		private static PointStyle HalfenOpacity(PointStyle sourceStyle)
 		{
-			var destStyle = sourceStyle.Clone();
+			PointStyle destStyle = sourceStyle.Clone();
 			destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
 			return destStyle;
 		}
 
 		private static LineStyle HalfenOpacity(LineStyle sourceStyle)
 		{
-			var destStyle = sourceStyle.Clone();
+			LineStyle destStyle = sourceStyle.Clone();
 			destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
 			return destStyle;
 		}
 
 		private static TextStyle HalfenOpacity(TextStyle sourceStyle)
 		{
-			var destStyle = sourceStyle.Clone();
+			TextStyle destStyle = sourceStyle.Clone();
 			destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
 			return destStyle;
 		}
 
 		private static BackStyle HalfenOpacity(BackStyle sourceStyle)
 		{
-			var destStyle = sourceStyle.Clone();
+			BackStyle destStyle = sourceStyle.Clone();
 			destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
 			return destStyle;
 

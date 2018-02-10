@@ -105,6 +105,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 				return;
 			}
 
+			// ReSharper disable once LocalizableElement
 			MessageBox.Show("Please select a radio button.");
 		}
 	}

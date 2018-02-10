@@ -292,7 +292,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				DocumentReferenceID = documentReference.ID,
 				LowerDocumentID = documentReference.LowerDocument?.ID ?? default, // Null after delete action.
-				Name = documentReference.LowerDocument.Name,
+				Name = documentReference.LowerDocument?.Name,
 				Alias = documentReference.Alias,
 				ValidationMessages = new List<string>()
 			};

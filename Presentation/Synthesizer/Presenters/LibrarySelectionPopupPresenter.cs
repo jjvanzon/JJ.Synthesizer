@@ -100,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		/// <see cref="PresenterBase{}.ExecuteNonPersistedAction"/>
+		/// <see cref="PresenterBase{LibrarySelectionPopupViewModel}.ExecuteNonPersistedAction"/>
 		public void OpenItemExternally(LibrarySelectionPopupViewModel viewModel, int lowerDocumentID)
 		{
 			ExecuteNonPersistedAction(

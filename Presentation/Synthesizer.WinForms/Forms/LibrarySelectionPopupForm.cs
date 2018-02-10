@@ -1,8 +1,9 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System;
+using System.Windows.Forms;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using System;
-using System.Windows.Forms;
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
@@ -52,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
 		private void librarySelectionPopupUserControl_CancelRequested(object sender, EventArgs e)
 		{
-			CancelRequested?.Invoke(this, EventArgs.Empty);
+			CancelRequested.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

@@ -3,9 +3,9 @@ using System.Diagnostics;
 using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStructs;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
+using JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.SynthesizerPrototype.Tests
 {
@@ -18,9 +18,10 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 			var dimensionStack = new DimensionStack();
 			dimensionStack.Push(0.0);
 
+			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var calculator = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_8Partials(dimensionStack);
 
-			var stopWatch = Stopwatch.StartNew();
+			Stopwatch stopWatch = Stopwatch.StartNew();
 
 			for (int i = 0; i < 500000; i++)
 			{
@@ -43,7 +44,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 			IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
 			IOperatorCalculator calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
-			var stopWatch = Stopwatch.StartNew();
+			Stopwatch stopWatch = Stopwatch.StartNew();
 
 			for (int i = 0; i < 500000; i++)
 			{
@@ -73,6 +74,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 			{
 				dimensionStack.Set(t);
 
+				// ReSharper disable once UnusedVariable
 				double value = calculator.Calculate();
 
 				t += dt;
@@ -86,17 +88,20 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 
 			dimensionStack.Push(0.123456789);
 
+			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var compileTimeStruct = OperatorCalculatorFactory.CreateOperatorCalculatorStructure_SinglePartial(dimensionStack);
 
 			IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_SinglePartial();
-			var runTimeStruct = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
+			IOperatorCalculator runTimeStruct = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
 			Type compileTimeStructType = compileTimeStruct.GetType();
 			Type runTimeStructType = runTimeStruct.GetType();
 			bool typesAreEqual = compileTimeStructType == runTimeStructType;
 			Assert.IsTrue(typesAreEqual, "designTimeStruct is not equal to runTimeStruct.");
 
+			// ReSharper disable once UnusedVariable
 			double compileTimeStructValue = compileTimeStruct.Calculate();
+			// ReSharper disable once UnusedVariable
 			double runTimeStructValue = runTimeStruct.Calculate();
 		}
 	}

@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
@@ -7,8 +9,6 @@ using JJ.Framework.Exceptions;
 using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
 		}
 
-		/// <see cref="PresenterBase{}.ExecuteNonPersistedAction"/>
+		/// <see cref="PresenterBase{DocumentOrPatchNotFoundPopupViewModel}.ExecuteNonPersistedAction"/>
 		public void Show(DocumentOrPatchNotFoundPopupViewModel userInput, string documentName, string patchName = null)
 		{
 			ExecuteNonPersistedAction(

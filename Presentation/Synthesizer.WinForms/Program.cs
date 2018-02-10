@@ -99,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				return parsedCommandLineArguments;
 			}
 
-			switch (args?.Count)
+			switch (args.Count)
 			{
 				case 0:
 					return parsedCommandLineArguments;

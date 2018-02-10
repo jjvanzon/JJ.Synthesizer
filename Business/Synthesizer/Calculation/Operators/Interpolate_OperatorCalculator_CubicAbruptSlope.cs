@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 			// TODO: What if _x1 exceeds _x2 already? What happens then?
 			double dx = x - _x0;
-			double t = 0;
+			double t;
 			t = dx / _dx0;
 
 			// TODO: Figure out how to prevent t from becoming out of range.

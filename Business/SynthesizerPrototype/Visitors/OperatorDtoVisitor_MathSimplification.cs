@@ -172,7 +172,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 			OperatorDtoBase_Consts dto,
 			Func<IEnumerable<double>, double> aggregationDelegate)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			// Pre-calculate
 			double result = aggregationDelegate(dto.Consts);
@@ -182,7 +182,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 
 		private IOperatorDto Process_NoVars_NoConsts(IOperatorDto dto)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			// 0
 			return new Number_OperatorDto_Zero();
@@ -190,7 +190,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 
 		private IOperatorDto Process_Vars_NoConsts(OperatorDtoBase_Vars dto)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			switch (dto.Vars.Count)
 			{

@@ -1,7 +1,7 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
-using System;
+﻿using System;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
@@ -9,11 +9,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 	{
 		public event EventHandler OKClicked;
 
+		private string _text;
+		public override string Text
+		{
+			get => _text;
+			set => _text = value;
+		}
+
 		public DocumentCannotDeleteForm()
 		{
 			InitializeComponent();
 
-			Text = ResourceFormatter.ApplicationName;
+			_text = ResourceFormatter.ApplicationName;
 		}
 
 		public void ShowDialog(DocumentCannotDeleteViewModel viewModel)

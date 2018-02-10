@@ -78,6 +78,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				Patch patch = _repositories.PatchRepository.Get(userInput.Entity.ID);
 
 				// Business
+				// ReSharper disable once PossibleNullReferenceException
 				_patchFacade.DeleteOwnedNumberOperators(userInput.SelectedOperator.ID);
 				_patchFacade.DeleteOperatorWithRelatedEntities(userInput.SelectedOperator.ID);
 

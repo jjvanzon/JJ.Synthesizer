@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using JJ.Business.SynthesizerPrototype.Dto;
-using JJ.Business.SynthesizerPrototype.Tests.Helpers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
 using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
+using JJ.Business.SynthesizerPrototype.Tests.Helpers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.SynthesizerPrototype.Tests
 {
@@ -20,7 +20,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 			var compiler = new OperatorDtoCompiler();
 			IPatchCalculator calculator = compiler.CompileToPatchCalculator(dto, framesPerChunk);
 
-			var stopWatch = Stopwatch.StartNew();
+			Stopwatch stopWatch = Stopwatch.StartNew();
 
 			for (int i = 0; i < 100; i++)
 			{
@@ -41,7 +41,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 			var compiler = new OperatorDtoCompiler();
 			IOperatorCalculator calculator = compiler.CompileToOperatorCalculator(dto);
 
-			var stopWatch = Stopwatch.StartNew();
+			Stopwatch stopWatch = Stopwatch.StartNew();
 
 			for (int i = 0; i < 500000; i++)
 			{

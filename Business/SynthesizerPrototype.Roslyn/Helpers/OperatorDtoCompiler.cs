@@ -4,15 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
 using JJ.Business.SynthesizerPrototype.Dto;
-using JJ.Framework.IO;
+using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
+using JJ.Business.SynthesizerPrototype.Roslyn.Generators;
+using JJ.Business.SynthesizerPrototype.Visitors;
 using JJ.Framework.Exceptions;
+using JJ.Framework.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using JJ.Business.SynthesizerPrototype.Visitors;
-using JJ.Business.SynthesizerPrototype.Roslyn.Generators;
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 {
@@ -36,7 +36,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 			if (_includeSymbols)
 			{
 				_encoding = Encoding.UTF8;
-			};
+			}
 		}
 
 		public IOperatorCalculator CompileToOperatorCalculator(IOperatorDto dto)

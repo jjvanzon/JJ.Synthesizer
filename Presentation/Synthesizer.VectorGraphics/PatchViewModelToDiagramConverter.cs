@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			foreach (Element elementToDelete in elementsToDelete)
 			{
 				// TODO: This is pretty dirty.
-				string tagString = Convert.ToString(elementToDelete.Tag) ?? "";
+				string tagString = Convert.ToString(elementToDelete.Tag);
 
 				bool isGestureGeneratedElement = tagString.Contains("ToolTip") ||
 												 tagString.Contains("LineGesture");
@@ -178,8 +178,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private OperatorElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel sourceOperatorViewModel1, Diagram destDiagram)
 		{
-			OperatorElements operatorVectorGraphicsElements1;
-			if (_operatorID_OperatorElements_Dictionary.TryGetValue(sourceOperatorViewModel1.ID, out operatorVectorGraphicsElements1))
+			if (_operatorID_OperatorElements_Dictionary.TryGetValue(sourceOperatorViewModel1.ID, out OperatorElements operatorVectorGraphicsElements1))
 			{
 				return operatorVectorGraphicsElements1;
 			}
@@ -292,8 +291,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private Curve TryGetInletCurve(int id)
 		{
-			Curve curve;
-			if (_inletID_Curve_Dictionary.TryGetValue(id, out curve))
+			if (_inletID_Curve_Dictionary.TryGetValue(id, out Curve curve))
 			{
 				return curve;
 			}

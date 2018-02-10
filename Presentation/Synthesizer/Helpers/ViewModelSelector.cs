@@ -319,7 +319,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 				return viewModel;
 			}
 
-			return viewModel;
+			return null;
 		}
 
 		public static OperatorPropertiesViewModel_ForCurve GetOperatorPropertiesViewModel_ForCurve_ByCurveID(DocumentViewModel documentViewModel, int curveID)
@@ -431,7 +431,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 				return viewModel;
 			}
 
-			return viewModel;
+			return null;
 		}
 
 		public static OperatorPropertiesViewModel_ForPatchOutlet GetOperatorPropertiesViewModel_ForPatchOutlet(DocumentViewModel documentViewModel, int operatorID)

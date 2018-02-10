@@ -1,7 +1,6 @@
-﻿using JJ.Framework.Exceptions;
-using System;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+﻿using System;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

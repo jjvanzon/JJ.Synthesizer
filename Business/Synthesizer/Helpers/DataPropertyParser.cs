@@ -231,7 +231,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			string str = TryGetString(data, key);
 			if (string.IsNullOrEmpty(str))
 			{
-				return default(TEnum);
+				return default;
 			}
 
 			if (!Enum.TryParse(str, out TEnum value))
@@ -374,7 +374,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			AssertKeyOrValue(parsedKeyValuePair.Value);
 		}
 
-		// ReSharper disable once UnusedParameter.Local
+		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
 		private static void AssertKeyOrValue(string keyOrValue)
 		{
 			if (keyOrValue.Contains(';')) throw new Exception("keyOrValue cannot contain ';' character");

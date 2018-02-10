@@ -2,9 +2,9 @@
 using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers;
 using JJ.Business.SynthesizerPrototype.Tests.Helpers.WithInheritance;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Business.SynthesizerPrototype.WithInheritance.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Business.SynthesizerPrototype.WithInheritance.Calculation;
+using JJ.Business.SynthesizerPrototype.WithInheritance.CopiedCode.From_JJ_Business_SynthesizerPrototype;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.SynthesizerPrototype.Tests
 {
@@ -20,7 +20,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 			IOperatorDto dto = OperatorDtoFactory.CreateOperatorDto_8Partials();
 			OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateOperatorCalculatorFromDto(dto, dimensionStack);
 
-			var stopWatch = Stopwatch.StartNew();
+			Stopwatch stopWatch = Stopwatch.StartNew();
 
 			for (int i = 0; i < 500000; i++)
 			{
@@ -50,6 +50,7 @@ namespace JJ.Business.SynthesizerPrototype.Tests
 			{
 				dimensionStack.Set(t);
 
+				// ReSharper disable once UnusedVariable
 				double value = calculator.Calculate();
 
 				t += dt;

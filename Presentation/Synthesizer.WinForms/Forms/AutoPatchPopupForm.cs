@@ -38,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
 		private void SetTitles()
 		{
+			// ReSharper disable once LocalizableElement
 			Text = ResourceFormatter.AutoPatch + " - " + ResourceFormatter.ApplicationName;
 		}
 

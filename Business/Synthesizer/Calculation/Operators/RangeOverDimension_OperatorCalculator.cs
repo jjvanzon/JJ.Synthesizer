@@ -1,5 +1,4 @@
-﻿using System;
-using JJ.Framework.Mathematics;
+﻿using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

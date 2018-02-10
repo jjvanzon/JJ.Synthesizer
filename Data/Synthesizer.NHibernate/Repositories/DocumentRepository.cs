@@ -31,9 +31,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 		{
 			Document document = null;
 			AudioFileOutput audioFileOutput = null;
-			Curve curve = null;
 			MidiMapping midiMapping = null;
-			Sample sample = null;
 			Scale scale = null;
 			Patch patch = null;
 			Operator op = null;

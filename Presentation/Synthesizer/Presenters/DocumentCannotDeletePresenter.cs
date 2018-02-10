@@ -1,10 +1,10 @@
-﻿using JJ.Data.Synthesizer.Entities;
+﻿using System.Collections.Generic;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
 		}
 
-		/// <see cref="PresenterBase{}.ExecuteNonPersistedAction"/>
+		/// <see cref="PresenterBase{DocumentCannotDeleteViewModel}.ExecuteNonPersistedAction"/>
 		public DocumentCannotDeleteViewModel Show(int id, IList<string> messages)
 		{
 			// GetEntity

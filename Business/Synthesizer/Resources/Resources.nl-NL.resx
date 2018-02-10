@@ -120,9 +120,6 @@
   <data name="UnderlyingPatchIsCircular" xml:space="preserve">
     <value>Er is een cirkelverband met de onderliggende schakeling.</value>
   </data>
-  <data name="DocumentIsDependentOnDocument" xml:space="preserve">
-    <value>Document '{0}' is afhankelijk van document '{1}'.</value>
-  </data>
   <data name="InletNames" xml:space="preserve">
     <value>Ingang namen</value>
   </data>

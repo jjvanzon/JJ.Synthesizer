@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				dto2 = new Cache_OperatorDto_ConstSignal();
 			}
-			if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
+			else if (dto.ChannelCount == 1 && dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
 			{
 				dto2 = new Cache_OperatorDto_SingleChannel_Block();
 			}

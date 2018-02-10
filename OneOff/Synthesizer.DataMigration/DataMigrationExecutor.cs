@@ -8,7 +8,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
-using JJ.Framework.Collections;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions;
 

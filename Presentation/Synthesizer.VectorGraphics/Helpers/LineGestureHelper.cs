@@ -15,8 +15,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			if (diagram == null) throw new NullException(() => diagram);
 			lock (_lock)
 			{
-				Line line;
-				if (_lineDictionary.TryGetValue(diagram, out line))
+				if (_lineDictionary.TryGetValue(diagram, out Line line))
 				{
 					return line;
 				}

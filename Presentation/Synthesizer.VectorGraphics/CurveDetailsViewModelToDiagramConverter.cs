@@ -687,12 +687,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private CurveInfo CreateCurveInfo(IList<NodeViewModel> nodeViewModels)
 		{
-			var nodeTuples = nodeViewModels.Select(x => (x.X, x.Y, (NodeTypeEnum)x.NodeType.ID)).ToArray();
+			(double X, double Y, NodeTypeEnum)[] nodeTuples = nodeViewModels.Select(x => (x.X, x.Y, (NodeTypeEnum)x.NodeType.ID)).ToArray();
 
 			Curve mockCurve = _curveFacade.Create(nodeTuples);
 
-			IList<NodeInfo> noteInfos = Enumerable.Zip(
-				mockCurve.Nodes,
+			IList<NodeInfo> noteInfos = mockCurve.Nodes.Zip(
 				nodeViewModels,
 				(e, v) => new NodeInfo
 				{

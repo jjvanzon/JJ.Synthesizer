@@ -38,21 +38,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		private readonly TitleBarUserControl _titleBarUserControl;
 		private readonly SpecializedDataGridView _specializedDataGridView;
-		private readonly TableLayoutPanel _tableLayoutPanel;
 		private int _columnCounter = 1;
 
 		// Construction
 
+		// ReSharper disable once MemberCanBeProtected.Global
 		public GridUserControlBase()
 		{
-			_tableLayoutPanel = CreateTableLayoutPanel();
-			Controls.Add(_tableLayoutPanel);
+			TableLayoutPanel tableLayoutPanel = CreateTableLayoutPanel();
+			Controls.Add(tableLayoutPanel);
 
 			_titleBarUserControl = CreateTitleBarUserControl();
-			_tableLayoutPanel.Controls.Add(_titleBarUserControl, 0, 0);
+			tableLayoutPanel.Controls.Add(_titleBarUserControl, 0, 0);
 
 			_specializedDataGridView = CreateSpecializedDataGridView();
-			_tableLayoutPanel.Controls.Add(_specializedDataGridView, 0, 1);
+			tableLayoutPanel.Controls.Add(_specializedDataGridView, 0, 1);
 
 			AutoScaleMode = AutoScaleMode.None;
 

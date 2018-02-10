@@ -46,9 +46,6 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JJ.Framework.Exceptions">
-      <HintPath>..\..\Framework\Exceptions\bin\Debug\JJ.Framework.Exceptions.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -65,7 +62,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Helpers\WithInheritance\OperatorCalculatorFactory.cs" />
-    <Compile Include="Helpers\WithStucts\OperatorCalculatorFactory.cs" />
+    <Compile Include="Helpers\WithStructs\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\OperatorDtoFactory.cs" />
     <Compile Include="SynthesizerPrototypeTests_General.cs" />
     <Compile Include="Synthesizer_PerformanceTests_Roslyn.cs" />
@@ -82,6 +79,10 @@
     <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
+      <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
+      <Name>JJ.Framework.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\IO\JJ.Framework.IO.csproj">
       <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>

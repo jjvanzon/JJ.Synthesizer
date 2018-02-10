@@ -120,6 +120,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private Stack<IOperatorDto_PositionTransformation> GetTransformationStack(DimensionEnum standardDimensionEnum, string canonicalCustomDimensionName)
 		{
+			// ReSharper disable once SuggestVarOrType_SimpleTypes
 			var key = (standardDimensionEnum, canonicalCustomDimensionName);
 
 			if (!_transformationStackDictionary.TryGetValue(key, out Stack<IOperatorDto_PositionTransformation> stack))

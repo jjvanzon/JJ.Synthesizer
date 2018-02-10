@@ -25,13 +25,13 @@ namespace JJ.Data.Synthesizer.SqlClient
 		/// </summary>
 		public byte[] Sample_TryGetBytes(int id)
 		{
-			object obj = _sqlExecutor.ExecuteScalar(SqlEnum.Sample_TryGetBytes, new { id }); ;
+			object obj = _sqlExecutor.ExecuteScalar(SqlEnum.Sample_TryGetBytes, new { id });
 			if (obj == DBNull.Value)
 			{
 				return null;
 			}
 
-			byte[] bytes = (byte[])obj;
+			var bytes = (byte[])obj;
 			return bytes;
 		}
 		

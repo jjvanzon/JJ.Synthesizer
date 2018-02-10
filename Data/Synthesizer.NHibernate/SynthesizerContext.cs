@@ -52,8 +52,7 @@ namespace JJ.Data.Synthesizer.NHibernate
 		{
 			lock (_sampleBytesLock)
 			{
-				byte[] sampleBytes;
-				if (_sampleBytesReadDictionary.TryGetValue(sampleID, out sampleBytes))
+				if (_sampleBytesReadDictionary.TryGetValue(sampleID, out byte[] sampleBytes))
 				{
 					return sampleBytes;
 				}
@@ -101,6 +100,7 @@ namespace JJ.Data.Synthesizer.NHibernate
 
 			lock (_sampleBytesLock)
 			{
+				// ReSharper disable once SuggestVarOrType_Elsewhere
 				foreach (var entry in _sampleBytesToSaveDictionary)
 				{
 					SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(this);

@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private IOperatorDto ProcessIf(If_OperatorDto dto)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			dto.Condition = TryInsertDoubleToBoolean(dto.Condition);
 
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private IOperatorDto ProcessAndOrNot(IOperatorDto dto)
 		{
-			dto = base.Visit_OperatorDto_Base(dto);
+			dto = Visit_OperatorDto_Base(dto);
 
 			var list = new List<InputDto>();
 

@@ -363,6 +363,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (MidiMappingElementPropertiesViewModel)viewModel;
 
+			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.MidiMappingElementPropertiesDictionary;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
@@ -380,6 +381,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			var castedViewModel = (MidiMappingDetailsViewModel)viewModel;
 
+			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var dictionary = MainViewModel.Document.MidiMappingDetailsDictionary;
 			dictionary[castedViewModel.MidiMapping.ID] = castedViewModel;
 

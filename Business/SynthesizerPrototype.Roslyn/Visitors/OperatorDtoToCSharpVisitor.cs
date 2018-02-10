@@ -42,14 +42,6 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 		protected int _phaseVariableCounter;
 		protected int _previousPositionVariableCounter;
 
-		public static string PREVIOUS_POSITION_VARIABLE_PREFIX1
-		{
-			get
-			{
-				return PREVIOUS_POSITION_VARIABLE_PREFIX;
-			}
-		}
-
 		public OperatorDtoToCSharpVisitorResult Execute(IOperatorDto dto, int intialIndentLevel)
 		{
 			_stack = new Stack<string>();
@@ -334,7 +326,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 
 		private string GeneratePreviousPositionVariableName()
 		{
-			string variableName = $"{PREVIOUS_POSITION_VARIABLE_PREFIX1}{_previousPositionVariableCounter++}";
+			string variableName = $"{PREVIOUS_POSITION_VARIABLE_PREFIX}{_previousPositionVariableCounter++}";
 
 			_previousPositionVariableNamesCamelCase.Add(variableName);
 

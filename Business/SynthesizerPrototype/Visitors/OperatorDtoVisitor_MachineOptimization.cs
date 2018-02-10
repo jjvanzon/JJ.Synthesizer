@@ -21,11 +21,13 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 				return new Number_OperatorDto_NaN();
 			}
 
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			if (value == 1.0)
 			{
 				return new Number_OperatorDto_One();
 			}
 
+			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			if (value == 0.0)
 			{
 				return new Number_OperatorDto_Zero();

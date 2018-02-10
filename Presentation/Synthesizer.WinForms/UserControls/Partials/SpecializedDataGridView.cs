@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Exceptions;
+// ReSharper disable RedundantBaseQualifier
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
