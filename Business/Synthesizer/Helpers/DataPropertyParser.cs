@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
@@ -374,7 +375,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			AssertKeyOrValue(parsedKeyValuePair.Value);
 		}
 
-		// ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
+		[AssertionMethod]
 		private static void AssertKeyOrValue(string keyOrValue)
 		{
 			if (keyOrValue.Contains(';')) throw new Exception("keyOrValue cannot contain ';' character");
