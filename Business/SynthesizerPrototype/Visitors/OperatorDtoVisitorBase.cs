@@ -15,8 +15,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 		{
 			Type type = dto.GetType();
 
-			Func<IOperatorDto, IOperatorDto> func;
-			if (!_delegateDictionary.TryGetValue(type, out func))
+			if (!_delegateDictionary.TryGetValue(type, out Func<IOperatorDto, IOperatorDto> func))
 			{
 				throw new Exception($"No Visit method delegate found in the dictionary for {type.Name}.");
 			}

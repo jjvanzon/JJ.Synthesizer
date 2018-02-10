@@ -11,8 +11,7 @@ namespace JJ.Business.SynthesizerPrototype.Helpers
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static MathPropertiesDto GetMathPropertiesDto(IOperatorDto operatorDto)
 		{
-			var number_OperatorDto = operatorDto as Number_OperatorDto;
-			if (number_OperatorDto != null)
+			if (operatorDto is Number_OperatorDto number_OperatorDto)
 			{
 				double value = number_OperatorDto.Number;
 				MathPropertiesDto mathPropertiesDto = GetMathPropertiesDto(value);
@@ -25,6 +24,7 @@ namespace JJ.Business.SynthesizerPrototype.Helpers
 			}
 		}
 
+		// ReSharper disable CompareOfFloatsByEqualityOperator
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static MathPropertiesDto GetMathPropertiesDto(double value)
 		{
@@ -34,7 +34,6 @@ namespace JJ.Business.SynthesizerPrototype.Helpers
 				IsVar = false,
 				ConstValue = value
 			};
-
 			if (value == 0.0)
 			{
 				mathPropertiesDto.IsConstZero = true;

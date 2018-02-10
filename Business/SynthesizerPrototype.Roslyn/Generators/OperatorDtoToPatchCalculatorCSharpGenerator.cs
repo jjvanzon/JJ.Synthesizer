@@ -6,6 +6,7 @@ using JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_Synthe
 using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
 using JJ.Business.SynthesizerPrototype.Roslyn.Visitors;
 using JJ.Framework.Common;
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
 {

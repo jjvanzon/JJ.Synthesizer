@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Exceptions;
 // ReSharper disable SuggestVarOrType_Elsewhere
+// ReSharper disable SuggestVarOrType_SimpleTypes
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {

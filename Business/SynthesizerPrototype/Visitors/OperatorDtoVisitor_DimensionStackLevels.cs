@@ -38,6 +38,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 				return base.Visit_OperatorDto_Polymorphic(dto);
 			}
 
+			// ReSharper disable once UsePatternMatching
 			var castedOperatorDto = dto as IOperatorDto_VarSignal;
 			if (castedOperatorDto == null)
 			{

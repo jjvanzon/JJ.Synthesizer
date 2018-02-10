@@ -1,6 +1,6 @@
 ﻿using JJ.Data.Synthesizer.Entities;
 
-namespace JJ.Business.Synthesizer
+namespace JJ.Business.Synthesizer.Tests.Helpers
 {
 	internal interface ITestOperatorCalculator
 	{

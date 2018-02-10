@@ -23,7 +23,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 			sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);
 
 			Type destOperatorCalculatorType_ClosedGeneric = OperatorDtoToCalculatorTypeConverter.ConvertToClosedGenericType(sourceOperatorDto);
-			IOperatorCalculator destOperatorCalculator = (IOperatorCalculator)Activator.CreateInstance(destOperatorCalculatorType_ClosedGeneric);
+			var destOperatorCalculator = (IOperatorCalculator)Activator.CreateInstance(destOperatorCalculatorType_ClosedGeneric);
 
 			var variableAssignmentVisitor = new VariableAssignment_OperatorDtoVisitor(_dimensionStack);
 			destOperatorCalculator = variableAssignmentVisitor.Execute(sourceOperatorDto, destOperatorCalculator);

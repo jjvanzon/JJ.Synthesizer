@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
 using JJ.Business.SynthesizerPrototype.Dto;
+using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
@@ -42,7 +42,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
 				return calculatorType_OpenGeneric;
 			}
 
-			Type[] calculatorType_ClosedGenericTypeArguments = new Type[count];
+			var calculatorType_ClosedGenericTypeArguments = new Type[count];
 			for (int i = 0; i < count; i++)
 			{
 				IOperatorDto inputOperatorDto = inputOperatorDtos[i];
@@ -92,8 +92,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
 				}
 			}
 
-			Type type;
-			if (!_dtoType_Concrete_To_CalculatorType_OpenGeneric_Dictionary.TryGetValue(dtoType_Concrete, out type))
+			if (!_dtoType_Concrete_To_CalculatorType_OpenGeneric_Dictionary.TryGetValue(dtoType_Concrete, out Type type))
 			{
 				throw new Exception($"No calculator type available for DTO type '{dtoType_Concrete.Name}'.");
 			}

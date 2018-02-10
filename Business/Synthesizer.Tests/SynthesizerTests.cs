@@ -15,6 +15,10 @@ using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+// ReSharper disable SuggestVarOrType_SimpleTypes
+// ReSharper disable UnusedVariable
+// ReSharper disable RedundantAssignment
+// ReSharper disable CollectionNeverQueried.Local
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -357,6 +361,7 @@ namespace JJ.Business.Synthesizer.Tests
 					DEFAULT_CHANNEL_INDEX,
 					new CalculatorCache());
 
+				// ReSharper disable once JoinDeclarationAndInitializer
 				double value;
 
 				value = TestHelper.CalculateOneValue(calculator, 0.2);

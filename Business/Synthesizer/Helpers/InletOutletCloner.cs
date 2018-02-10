@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			if (source == null) throw new ArgumentNullException(nameof(source));
 			if (dest == null) throw new ArgumentNullException(nameof(dest));
 
+			// ReSharper disable RedundantCast
 			Clone((IInletOrOutlet)source, (IInletOrOutlet)dest);
 			dest.DefaultValue = source.DefaultValue;
 			dest.WarnIfEmpty = source.WarnIfEmpty;

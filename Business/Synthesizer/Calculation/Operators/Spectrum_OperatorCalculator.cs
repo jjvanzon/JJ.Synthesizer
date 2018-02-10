@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private readonly OperatorCalculatorBase _endCalculator;
 		private readonly OperatorCalculatorBase _frequencyCountCalculator;
 
+		// ReSharper disable once InconsistentNaming
 		private readonly LomontFFT _lomontFFT;
 
 		private double[] _harmonicVolumes;

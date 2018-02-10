@@ -9,8 +9,8 @@ using JJ.Business.Synthesizer.Visitors;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Configuration;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -108,7 +108,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 																			.DefaultIfEmpty(new VariableInput_OperatorCalculator(DimensionEnum.Channel, "", 0, 0))
 																			.FirstOrDefault();
 			// Set special channel dimension value.
-			channelInputCalculator._value = channelIndex;
+			if (channelInputCalculator != null)
+			{
+				channelInputCalculator._value = channelIndex;
+			}
 		}
 
 		// Calculate

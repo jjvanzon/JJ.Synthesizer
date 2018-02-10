@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 
@@ -8,6 +9,7 @@ namespace JJ.Business.Synthesizer.Helpers
 	{
 		public static AggregateInfo CreateAggregateInfo(IEnumerable<InputDto> inputDtos)
 		{
+			if (inputDtos == null) throw new ArgumentNullException(nameof(inputDtos));
 			IList<InputDto> constInputDtos = inputDtos.Where(x => x.IsConst).ToArray();
 
 			IList<InputDto> varInputDtos = inputDtos.Except(constInputDtos).ToArray();

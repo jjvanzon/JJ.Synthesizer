@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
@@ -18,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				var repositories = PersistenceHelper.CreateCurveRepositories(context);
+				CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
 				var curveFacade = new CurveFacade(repositories);
 
 				Curve curve = CreateTestCurve(curveFacade);
@@ -38,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				var repositories = PersistenceHelper.CreateCurveRepositories(context);
+				CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
 				var curveFacade = new CurveFacade(repositories);
 
 				Curve curve = CreateTestCurve(curveFacade);
@@ -58,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				var repositories = PersistenceHelper.CreateCurveRepositories(context);
+				CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
 				var curveFacade = new CurveFacade(repositories);
 
 				Curve curve = CreateTestCurve(curveFacade);
@@ -78,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
-				var repositories = PersistenceHelper.CreateCurveRepositories(context);
+				CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
 				var curveFacade = new CurveFacade(repositories);
 				Curve curve = curveFacade.Create
 				(

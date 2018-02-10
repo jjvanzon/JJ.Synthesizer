@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using JJ.Framework.Exceptions;
 using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.Visitors;
 using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
 using JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 {
@@ -44,7 +44,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 		{
 			base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
 
-			IOperatorCalculator_Vars calculator = (IOperatorCalculator_Vars)CreateCalculator(dto);
+			var calculator = (IOperatorCalculator_Vars)CreateCalculator(dto);
 
 			int varCount = dto.Vars.Count;
 			for (int i = 0; i < varCount; i++)
@@ -62,7 +62,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 		{
 			base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
-			IOperatorCalculator_Vars_1Const calculator = (IOperatorCalculator_Vars_1Const)CreateCalculator(dto);
+			var calculator = (IOperatorCalculator_Vars_1Const)CreateCalculator(dto);
 			calculator.ConstValue = dto.ConstValue;
 
 			int varCount = dto.Vars.Count;
@@ -257,7 +257,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 		private object CreateCalculator(IOperatorDto dto)
 		{
 			Type calculatorType = OperatorDtoToCalculatorTypeConverter.ConvertToClosedGenericType(dto);
-			var calculator = Activator.CreateInstance(calculatorType);
+			object calculator = Activator.CreateInstance(calculatorType);
 			return calculator;
 		}
 	}

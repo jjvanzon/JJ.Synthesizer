@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Framework.Exceptions;
+// ReSharper disable CompareOfFloatsByEqualityOperator
+// ReSharper disable once RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

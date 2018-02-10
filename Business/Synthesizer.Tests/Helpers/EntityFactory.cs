@@ -1,7 +1,7 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Framework.Exceptions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 		{
 			if (x == null) throw new NullException(() => x);
 
-			var subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
+			OperatorWrapper subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
 			return subtract;
 		}
 
