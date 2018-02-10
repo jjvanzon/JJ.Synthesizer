@@ -9,8 +9,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
 	internal class CurrentPatchLabelConverter
 	{
-		private const float ROW_HEIGHT = 24f;
-
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Dictionary<int, Label> _dictionary = new Dictionary<int, Label>();
 
@@ -32,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 					// TODO: Probably needs a different style.
 					TextStyle = StyleHelper.DefaultTextStyle
 				};
-				label.Position.Height = ROW_HEIGHT;
+				label.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
 
 				_dictionary[viewModel.PatchID] = label;
 			}

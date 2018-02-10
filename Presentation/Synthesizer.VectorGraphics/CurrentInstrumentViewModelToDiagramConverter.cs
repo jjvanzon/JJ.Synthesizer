@@ -5,6 +5,7 @@ using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
@@ -90,23 +91,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			{
 				(Picture picture, MouseDownGesture mouseDownGesture) = _moveForwardPictureButtonConverter.Convert(viewModel.PatchID, invisibleRectangle, null);
 				resultItem.GoForwardMouseDownGesture = mouseDownGesture;
-				x += picture.Position.Width + SPACING;
+				x += StyleHelper.ICON_SIZE + SPACING;
 			}
 
 			{
 				(Picture picture, MouseDownGesture mouseDownGesture) = _playPictureButtonConverter.Convert(viewModel.PatchID, invisibleRectangle, null);
 				resultItem.PlayMouseDownGesture = mouseDownGesture;
-				x += picture.Position.Width + SPACING;
+				x += StyleHelper.ICON_SIZE + SPACING;
 			}
 			{
 				(Picture picture, MouseDownGesture mouseDownGesture) = _expandPictureButtonConverter.Convert(viewModel.PatchID, invisibleRectangle, null);
 				resultItem.ExpandMouseDownGesture = mouseDownGesture;
-				x += picture.Position.Width + SPACING;
+				x += StyleHelper.ICON_SIZE + SPACING;
 			}
 			{
 				(Picture picture, MouseDownGesture mouseDownGesture) = _deletePictureButtonConverter.Convert(viewModel.PatchID, invisibleRectangle, null);
 				resultItem.DeleteMouseDownGesture = mouseDownGesture;
-				x += picture.Position.Width + SPACING;
+				x += StyleHelper.ICON_SIZE + SPACING;
 			}
 
 			x += SPACING;

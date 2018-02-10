@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
 	internal class CurrentPatchPictureButtonConverter
 	{
-		private const float BUTTON_SIZE = 24f;
-
 		private readonly Dictionary<int, (Picture, MouseDownGesture)> _dictionary = new Dictionary<int, (Picture, MouseDownGesture)>();
 
 		public (Picture, MouseDownGesture) Convert(int patchID, Element parentElement, object underlyingPicture)
@@ -20,8 +19,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 					Parent = parentElement,
 					UnderlyingPicture = underlyingPicture
 				};
-				picture.Position.Width = BUTTON_SIZE;
-				picture.Position.Height = BUTTON_SIZE;
+				picture.Position.Width = StyleHelper.ICON_SIZE;
+				picture.Position.Height = StyleHelper.ICON_SIZE;
 
 				var mouseDownGesture = new MouseDownGesture();
 				picture.Gestures.Add(mouseDownGesture);

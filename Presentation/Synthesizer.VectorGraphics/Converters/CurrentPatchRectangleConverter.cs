@@ -8,8 +8,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
 	internal class CurrentPatchRectangleConverter
 	{
-		private const float ROW_HEIGHT = 24f;
-
 		private readonly Diagram _destDiagram;
 		private readonly Dictionary<int, Rectangle> _dictionary = new Dictionary<int, Rectangle>();
 
@@ -31,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 					Style = StyleHelper.RectangleStyleInvisible,
 					Tag = viewModel.PatchID
 				};
-				rectangle.Position.Height = ROW_HEIGHT;
+				rectangle.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
 
 				_dictionary[viewModel.PatchID] = rectangle;
 			}
