@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		public CurrentInstrumentPatchElement(
 			Diagram diagram,
 			object underlyingPictureDelete,
-			object underlyingPictureElement,
+			object underlyingPictureExpand,
 			object underlyingPictureMoveBackward,
 			object underlyingPictureMoveForward,
 			object underlyingPicturePlay,
@@ -47,15 +47,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_label = CreateLabel();
 
 			_pictureDelete = CreatePicture(underlyingPictureDelete, CommonResourceFormatter.Delete, _pictureDelete_MouseDown);
-			_pictureExpand = CreatePicture(underlyingPictureElement, CommonResourceFormatter.Open, _pictureExpand_MouseDown);
+			_pictureExpand = CreatePicture(underlyingPictureExpand, CommonResourceFormatter.Open, _pictureExpand_MouseDown);
 			_pictureMoveBackward = CreatePicture(underlyingPictureMoveBackward, CommonResourceFormatter.Move, _pictureMoveBackward_MouseDown);
 			_pictureMoveForward = CreatePicture(underlyingPictureMoveForward, CommonResourceFormatter.Move, _pictureMoveForward_MouseDown);
 			_picturePlay = CreatePicture(underlyingPicturePlay, ResourceFormatter.Play, _picturePlay_MouseDown);
 		}
 
-		private CurrentInstrumentItemViewModel _viewModel;
+		private CurrentInstrumentPatchViewModel _viewModel;
 
-		public CurrentInstrumentItemViewModel ViewModel
+		public CurrentInstrumentPatchViewModel ViewModel
 		{
 			get => _viewModel;
 			set
@@ -107,12 +107,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			Position.Width = x;
 		}
 
-		private void _pictureDelete_MouseDown(object sender, EventArgs e) => DeleteRequested(this, new EventArgs<int>(_viewModel.PatchID));
-		private void _pictureExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(this, new EventArgs<int>(_viewModel.PatchID));
-		private void _pictureMoveBackward_MouseDown(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
-		private void _pictureMoveForward_MouseDown(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
-		private void _picturePlay_MouseDown(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.PatchID));
-
 		private Label CreateLabel()
 		{
 			var label = new Label
@@ -161,5 +155,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 			return toolTipGesture;
 		}
+
+		private void _pictureDelete_MouseDown(object sender, EventArgs e) => DeleteRequested(this, new EventArgs<int>(_viewModel.PatchID));
+		private void _pictureExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(this, new EventArgs<int>(_viewModel.PatchID));
+		private void _pictureMoveBackward_MouseDown(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
+		private void _pictureMoveForward_MouseDown(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
+		private void _picturePlay_MouseDown(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.PatchID));
 	}
 }

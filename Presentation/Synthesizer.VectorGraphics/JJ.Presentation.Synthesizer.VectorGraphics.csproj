@@ -58,6 +58,7 @@
     <Compile Include="Converters\OutletRectangleConverter.cs" />
     <Compile Include="CurrentInstrumentViewModelToDiagramConverter.cs" />
     <Compile Include="CurrentInstrumentViewModelToDiagramConverterPatchResultItem.cs" />
+    <Compile Include="Elements\CurrentInstrumentElement.cs" />
     <Compile Include="Elements\CurrentInstrumentPatchElement.cs" />
     <Compile Include="Elements\ElementBase.cs" />
     <Compile Include="Elements\ElementWithViewModelBase.cs" />

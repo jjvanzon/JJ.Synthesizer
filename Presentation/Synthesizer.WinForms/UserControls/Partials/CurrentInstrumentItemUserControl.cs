@@ -30,11 +30,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			PositionControls();
 		}
 
-		private CurrentInstrumentItemViewModel _viewModel;
+		private CurrentInstrumentPatchViewModel _viewModel;
 
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public CurrentInstrumentItemViewModel ViewModel
+		public CurrentInstrumentPatchViewModel ViewModel
 		{
 			get => _viewModel;
 			set

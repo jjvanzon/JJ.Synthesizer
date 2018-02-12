@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			_destDiagram = destDiagram ?? throw new ArgumentNullException(nameof(destDiagram));
 		}
 
-		public Rectangle Convert(CurrentInstrumentItemViewModel viewModel)
+		public Rectangle Convert(CurrentInstrumentPatchViewModel viewModel)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 

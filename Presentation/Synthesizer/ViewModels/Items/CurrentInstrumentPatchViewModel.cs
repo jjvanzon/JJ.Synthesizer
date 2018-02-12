@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.ViewModels.Items
 {
-	public sealed class CurrentInstrumentItemViewModel
+	public sealed class CurrentInstrumentPatchViewModel
 	{
 		public int PatchID { get; set; }
 		public string Name { get; set; }

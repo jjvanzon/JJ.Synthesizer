@@ -47,12 +47,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-			foreach (CurrentInstrumentItemViewModel itemViewModel in viewModel.List)
+			foreach (CurrentInstrumentPatchViewModel itemViewModel in viewModel.Patches)
 			{
 				ConvertPatch(itemViewModel);
 			}
 
-			IEnumerable<int> idsToKeep = viewModel.List.Select(x => x.PatchID);
+			IEnumerable<int> idsToKeep = viewModel.Patches.Select(x => x.PatchID);
 			IEnumerable<int> idsToDelete = _patchIDHashSet.Except(idsToKeep);
 			foreach (int idToDelete in idsToDelete.ToArray())
 			{
@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		//private Retangle ConvertPatchTo
 
-		private CurrentInstrumentViewModelToDiagramConverterPatchResultItem ConvertPatch(CurrentInstrumentItemViewModel viewModel)
+		private CurrentInstrumentViewModelToDiagramConverterPatchResultItem ConvertPatch(CurrentInstrumentPatchViewModel viewModel)
 		{
 			var resultItem = new CurrentInstrumentViewModelToDiagramConverterPatchResultItem();
 			float x = SPACING;

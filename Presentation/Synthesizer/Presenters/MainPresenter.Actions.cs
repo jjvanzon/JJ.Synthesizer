@@ -340,7 +340,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					// GetEntities
 					AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(userInput.Entity.ID);
-					IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List.Select(x => _repositories.PatchRepository.Get(x.PatchID)).ToArray();
+					IList<Patch> entities = MainViewModel.Document.CurrentInstrument.Patches.Select(x => _repositories.PatchRepository.Get(x.PatchID)).ToArray();
 
 					// Business
 					Patch autoPatch = _autoPatcher.AutoPatch(entities);
@@ -474,7 +474,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
 			// Get Entities
-			IList<Patch> underlyingPatches = currentInstrumentUserInput.List.Select(x => _repositories.PatchRepository.Get(x.PatchID)).ToArray();
+			IList<Patch> underlyingPatches = currentInstrumentUserInput.Patches.Select(x => _repositories.PatchRepository.Get(x.PatchID)).ToArray();
 
 			// Business
 			Patch autoPatch = _autoPatcher.AutoPatch(underlyingPatches);
@@ -1359,7 +1359,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					case DocumentTreeNodeTypeEnum.AudioOutput:
 					{
 						// GetEntities
-						IList<Patch> entities = MainViewModel.Document.CurrentInstrument.List
+						IList<Patch> entities = MainViewModel.Document.CurrentInstrument.Patches
 						                                     .Select(x => _repositories.PatchRepository.Get(x.PatchID))
 						                                     .ToArray();
 						// Business
@@ -3165,8 +3165,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					// GetEntities
 					Tone tone = _repositories.ToneRepository.Get(toneID);
 
-					var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentInstrument.List.Count);
-					foreach (CurrentInstrumentItemViewModel itemViewModel in MainViewModel.Document.CurrentInstrument.List)
+					var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentInstrument.Patches.Count);
+					foreach (CurrentInstrumentPatchViewModel itemViewModel in MainViewModel.Document.CurrentInstrument.Patches)
 					{
 						Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.PatchID);
 						underlyingPatches.Add(underlyingPatch);

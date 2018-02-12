@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 		}
 
-		public Label Convert(CurrentInstrumentItemViewModel viewModel, Element parentElement)
+		public Label Convert(CurrentInstrumentPatchViewModel viewModel, Element parentElement)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 

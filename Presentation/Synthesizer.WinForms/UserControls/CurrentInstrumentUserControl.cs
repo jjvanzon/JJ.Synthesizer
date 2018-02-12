@@ -50,18 +50,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			buttonExpand.Visible = ViewModel.CanExpand;
 
 			// Update
-			int minCount = Math.Min(_itemControls.Count, ViewModel.List.Count);
+			int minCount = Math.Min(_itemControls.Count, ViewModel.Patches.Count);
 			for (int i = 0; i < minCount; i++)
 			{
-				CurrentInstrumentItemViewModel itemViewModel = ViewModel.List[i];
+				CurrentInstrumentPatchViewModel itemViewModel = ViewModel.Patches[i];
 				CurrentInstrumentItemUserControl itemUserControl = _itemControls[i];
 				itemUserControl.ViewModel = itemViewModel;
 			}
 
 			// Insert
-			for (int i = _itemControls.Count; i < ViewModel.List.Count; i++)
+			for (int i = _itemControls.Count; i < ViewModel.Patches.Count; i++)
 			{
-				CurrentInstrumentItemViewModel itemViewModel = ViewModel.List[i];
+				CurrentInstrumentPatchViewModel itemViewModel = ViewModel.Patches[i];
 				var itemControl = new CurrentInstrumentItemUserControl
 				{
 					Margin = new Padding(0),
@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 
 			// Delete
-			for (int i = _itemControls.Count - 1; i >= ViewModel.List.Count; i--)
+			for (int i = _itemControls.Count - 1; i >= ViewModel.Patches.Count; i--)
 			{
 				CurrentInstrumentItemUserControl itemControl = _itemControls[i];
 				itemControl.ExpandRequested -= ItemControl_ExpandRequested;

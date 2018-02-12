@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		private const float SMALLER_FONT_SIZE = 9f;
 		private const float TOOL_TIP_FONT_SIZE = 8f;
 
-		public const float SPACING = 8;
+		public const float SPACING = 8f;
 		public const float SPACING_TIMES_2 = SPACING * 2;
 		public const float SMALL_SPACING = 4f;
 
