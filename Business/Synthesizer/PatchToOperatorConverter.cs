@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Cascading;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Cascading;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -6,8 +8,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Business.Synthesizer
 {
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer
 		/// <param name="sourcePatch">nullable</param>
 		private static void ConvertDimensionInfo(Patch sourcePatch, Operator destOperator)
 		{
-			if (sourcePatch?.HasDimension == false)
+			if (sourcePatch == null || sourcePatch.HasDimension == false)
 			{
 				destOperator.HasDimension = false;
 				destOperator.CustomDimensionName = null;

@@ -14,6 +14,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace JJ.Business.Synthesizer.Roslyn
 {

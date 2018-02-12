@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer
 			{
 				stream.Position = 0;
 				var reader = new BinaryReader(stream);
-				WavHeaderStruct wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
+				var wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
 
 				IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
 				if (validator.IsValid)

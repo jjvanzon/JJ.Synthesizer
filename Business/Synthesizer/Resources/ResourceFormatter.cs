@@ -150,7 +150,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string IsObsolete => Resources.IsObsolete;
 		public static string IsRelative => Resources.IsRelative;
 		public static string IsRepeating => Resources.IsRepeating;
-		public static string ItemList => Resources.ItemList;
 		public static string Left => Resources.Left;
 		public static string LessThan => Resources.LessThan;
 		public static string LessThanOrEqual => Resources.LessThanOrEqual;

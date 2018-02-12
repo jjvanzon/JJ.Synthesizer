@@ -65,8 +65,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 		{
 			// Right now this only works if the OutletRectangle's center is the same as the OutletPoint,
 			// but it would perform worse to query for the OutletPoint.
-			var rectangle = element as Rectangle;
-			if (rectangle == null)
+			if (!(element is Rectangle rectangle))
 			{
 				throw new IsNotTypeException<Rectangle>(() => element);
 			}

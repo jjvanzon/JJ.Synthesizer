@@ -19,6 +19,7 @@ using JJ.Framework.Common;
 // for which the copy from JJ.Business.Synthesizer.CopiedCode.FromFramework should be used.
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace JJ.Business.Synthesizer.Roslyn
 {
@@ -1785,8 +1786,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			{
 				case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
 				case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
-					GeneratedMethodInfo generatedMethodInfo;
-					if (!_operationIdentity_To_GeneratedMethodInfo_Dictionary.TryGetValue(operationIdentity, out generatedMethodInfo))
+					if (!_operationIdentity_To_GeneratedMethodInfo_Dictionary.TryGetValue(operationIdentity, out GeneratedMethodInfo generatedMethodInfo))
 					{
 						generatedMethodInfo = new GeneratedMethodInfo
 						{

@@ -9,6 +9,7 @@ using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {

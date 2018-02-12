@@ -120,9 +120,6 @@
   <data name="UnderlyingPatchIsCircular" xml:space="preserve">
     <value>Er is een cirkelverband met de onderliggende schakeling.</value>
   </data>
-  <data name="InletNames" xml:space="preserve">
-    <value>Ingang namen</value>
-  </data>
   <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">
     <value>De patch van operator '{0}' is ingevuld, maar het is niet de verwachte patch '{1}'.</value>
   </data>
@@ -582,9 +579,6 @@
   <data name="Outlets" xml:space="preserve">
     <value>Uitgangen</value>
   </data>
-  <data name="OutletType" xml:space="preserve">
-    <value>Soort uitgang</value>
-  </data>
   <data name="PassThrough" xml:space="preserve">
     <value>Doorgang</value>
   </data>
@@ -951,7 +945,7 @@
   <data name="AutoPatch" xml:space="preserve">
     <value>Automatische schakeling</value>
   </data>
-  <data name="PatchHasNoSOutlets" xml:space="preserve">
+  <data name="PatchHasNoOutlets" xml:space="preserve">
     <value>De schakeling heeft geen uitgangen.</value>
   </data>
   <data name="SelectedOperatorHasNoOutlets" xml:space="preserve">
@@ -983,9 +977,6 @@
   </data>
   <data name="BlobVolume" xml:space="preserve">
     <value>Blob volume</value>
-  </data>
-  <data name="ListOfItems" xml:space="preserve">
-    <value>Item lijst</value>
   </data>
   <data name="Decibel" xml:space="preserve">
     <value>dB</value>

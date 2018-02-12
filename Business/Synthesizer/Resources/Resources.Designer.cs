@@ -1348,15 +1348,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Item List.
-        /// </summary>
-        internal static string ItemList {
-            get {
-                return ResourceManager.GetString("ItemList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Left.
         /// </summary>
         internal static string Left {

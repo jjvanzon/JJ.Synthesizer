@@ -19,6 +19,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 // ReSharper disable UnusedVariable
 // ReSharper disable RedundantAssignment
 // ReSharper disable CollectionNeverQueried.Local
+// ReSharper disable NotAccessedVariable
 
 namespace JJ.Business.Synthesizer.Tests
 {

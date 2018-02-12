@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Common;
+// ReSharper disable RedundantArgumentDefaultValue
 
 namespace JJ.Business.Synthesizer.Roslyn.Helpers
 {

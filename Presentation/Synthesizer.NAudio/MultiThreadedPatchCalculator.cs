@@ -182,6 +182,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			base.CloneValues(sourceCalculator);
 
+			// ReSharper disable once UsePatternMatching
 			var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator;
 			if (castedSourceCalculator == null)
 			{

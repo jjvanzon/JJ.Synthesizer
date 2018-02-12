@@ -994,9 +994,6 @@
   <data name="BlobVolume" xml:space="preserve">
     <value>Blob Volume</value>
   </data>
-  <data name="ItemList" xml:space="preserve">
-    <value>Item List</value>
-  </data>
   <data name="Decibel" xml:space="preserve">
     <value>dB</value>
   </data>
