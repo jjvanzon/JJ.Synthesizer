@@ -133,8 +133,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 				itemElement.Position.X = x;
 				itemElement.Position.Y = 0;
-				itemElement.Position.Height = Position.Height;
+				itemElement.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
 			}
+
+			Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
 		}
 
 		private CurrentInstrumentPatchElement CreatePatchElement(CurrentInstrumentPatchViewModel itemViewModel)

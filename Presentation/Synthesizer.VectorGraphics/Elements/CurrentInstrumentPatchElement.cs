@@ -105,6 +105,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			x += SPACING;
 
 			Position.Width = x;
+			Position.Height = StyleHelper.ICON_SIZE;
 		}
 
 		private Label CreateLabel()
