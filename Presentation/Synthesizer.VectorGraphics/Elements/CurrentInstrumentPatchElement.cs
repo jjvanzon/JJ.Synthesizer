@@ -16,6 +16,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 	internal class CurrentInstrumentPatchElement : ElementBase
 	{
 		private const float SPACING = 1f;
+		private const float MARGIN_TOP = 4f;
 
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _label;
@@ -114,8 +115,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			{
 				Diagram = Diagram,
 				Parent = this,
-				// TODO: Probably needs a different style.
-				TextStyle = StyleHelper.DefaultTextStyle
+				TextStyle = StyleHelper.TitleTextStyle
 			};
 			label.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
 
@@ -132,6 +132,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			};
 			picture.Position.Width = StyleHelper.ICON_SIZE;
 			picture.Position.Height = StyleHelper.ICON_SIZE;
+			picture.Position.Y = MARGIN_TOP;
 
 			var mouseDownGesture = new MouseDownGesture();
 			mouseDownGesture.MouseDown += mouseDownHandler;

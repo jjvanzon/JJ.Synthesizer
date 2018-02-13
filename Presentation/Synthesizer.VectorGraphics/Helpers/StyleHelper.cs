@@ -52,6 +52,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Size = DEFAULT_FONT_SIZE
 		};
 
+		public static Font TitleFont { get; } = new Font
+		{
+			Name = DEFAULT_FONT_NAME,
+			Size = DEFAULT_FONT_SIZE,
+			Bold = true
+		};
+
 		public static Font NumberOperatorFont { get; } = new Font
 		{
 			Name = DEFAULT_FONT_NAME,
@@ -77,6 +84,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
 			Font = DefaultFont,
 			Color = AlmostBlack
+		};
+
+		public static TextStyle TitleTextStyle { get; } = new TextStyle
+		{
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+			VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
+			Font = TitleFont,
+			Color = ColorHelper.Black
 		};
 
 		public static TextStyle NumberOperatorTextStyle { get; } = new TextStyle

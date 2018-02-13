@@ -12,11 +12,22 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class CurrentInstrumentElement : ElementWithViewModelBase
+	public class CurrentInstrumentElement : ElementWithViewModelBase
 	{
+		private const float MARGIN_TOP = 4f;
+
+		public event EventHandler ExpandRequested;
+		public event EventHandler<EventArgs<int>> ExpandItemRequested;
+		public event EventHandler<EventArgs<int>> MoveBackwardRequested;
+		public event EventHandler<EventArgs<int>> MoveForwardRequested;
+		public event EventHandler PlayRequested;
+		public event EventHandler<EventArgs<int>> PlayItemRequested;
+		public event EventHandler<EventArgs<int>> DeleteRequested;
+
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Picture _picturePlay;
 		private readonly Picture _pictureExpand;
@@ -26,14 +37,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly object _underlyingPictureMoveBackward;
 		private readonly object _underlyingPictureMoveForward;
 		private readonly object _underlyingPicturePlay;
-
-		public event EventHandler ExpandRequested;
-		public event EventHandler<EventArgs<int>> ExpandItemRequested;
-		public event EventHandler<EventArgs<int>> MoveBackwardRequested;
-		public event EventHandler<EventArgs<int>> MoveForwardRequested;
-		public event EventHandler PlayRequested;
-		public event EventHandler<EventArgs<int>> PlayItemRequested;
-		public event EventHandler<EventArgs<int>> DeleteRequested;
 
 		public CurrentInstrumentElement(
 			Diagram diagram,
@@ -106,24 +109,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			PositionElements();
 		}
 
-		private void PositionElements()
+		public void PositionElements()
 		{
 			float x = Position.Width;
 
 			x -= StyleHelper.ICON_SIZE;
 
 			_pictureExpand.Position.X = x;
-			_pictureExpand.Position.Y = 0;
-			_pictureExpand.Position.Width = StyleHelper.ICON_SIZE;
-			_pictureExpand.Position.Height = StyleHelper.ICON_SIZE;
 
 			x -= StyleHelper.SMALL_SPACING;
 			x -= StyleHelper.ICON_SIZE;
 
 			_picturePlay.Position.X = x;
-			_picturePlay.Position.Y = 0;
-			_picturePlay.Position.Width = StyleHelper.ICON_SIZE;
-			_picturePlay.Position.Height = StyleHelper.ICON_SIZE;
 
 			foreach (CurrentInstrumentPatchElement itemElement in _patchElements.Reverse())
 			{
@@ -132,8 +129,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				x -= itemElement.Position.Width;
 
 				itemElement.Position.X = x;
-				itemElement.Position.Y = 0;
-				itemElement.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
 			}
 
 			Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
@@ -154,6 +149,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				Parent = this,
 				ViewModel = itemViewModel
 			};
+			itemElement.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
+
 			itemElement.ExpandRequested += patchElement_ExpandRequested;
 			itemElement.MoveBackwardRequested += patchElement_MoveBackwardRequested;
 			itemElement.MoveForwardRequested += patchElement_MoveForwardRequested;
@@ -172,6 +169,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			};
 			picture.Position.Width = StyleHelper.ICON_SIZE;
 			picture.Position.Height = StyleHelper.ICON_SIZE;
+			picture.Position.Y = MARGIN_TOP;
 
 			var mouseDownGesture = new MouseDownGesture();
 			mouseDownGesture.MouseDown += mouseDownHandler;

@@ -118,6 +118,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CurrentInstrumentUserControl2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CurrentInstrumentUserControl2.Designer.cs">
+      <DependentUpon>CurrentInstrumentUserControl2.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CurveDetailsListUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -371,6 +377,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CurrentInstrumentUserControl2.resx">
+      <DependentUpon>CurrentInstrumentUserControl2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsListUserControl.resx">
       <DependentUpon>CurveDetailsListUserControl.cs</DependentUpon>

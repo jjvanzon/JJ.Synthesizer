@@ -2,7 +2,7 @@
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class ElementBase : Element
+	public class ElementBase : Element
 	{
 		// ReSharper disable once MemberCanBeProtected.Global
 		public ElementBase() => Position = new RectanglePosition(this);

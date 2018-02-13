@@ -2,7 +2,7 @@
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal abstract class ElementWithViewModelBase : ElementBase
+	public abstract class ElementWithViewModelBase : ElementBase
 	{
 		private ViewModelBase _viewModel;
 		private int _refreshCounter = -1;
