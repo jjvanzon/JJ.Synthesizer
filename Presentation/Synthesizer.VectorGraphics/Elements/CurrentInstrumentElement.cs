@@ -91,11 +91,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			for (int i = _patchElements.Count - 1; i >= ViewModel.Patches.Count; i--)
 			{
 				CurrentInstrumentPatchElement patchElement = _patchElements[i];
-				patchElement.ExpandRequested -= ItemControl_ExpandRequested;
-				patchElement.MoveBackwardRequested -= ItemControl_MoveBackwardRequested;
-				patchElement.MoveForwardRequested -= ItemControl_MoveForwardRequested;
-				patchElement.PlayRequested -= ItemControl_PlayRequested;
-				patchElement.DeleteRequested -= ItemControl_DeleteRequested;
+				patchElement.ExpandRequested -= patchElement_ExpandRequested;
+				patchElement.MoveBackwardRequested -= patchElement_MoveBackwardRequested;
+				patchElement.MoveForwardRequested -= patchElement_MoveForwardRequested;
+				patchElement.PlayRequested -= patchElement_PlayRequested;
+				patchElement.DeleteRequested -= patchElement_DeleteRequested;
 				patchElement.Children.Clear();
 				patchElement.Parent = null;
 				patchElement.Diagram = null;
@@ -103,10 +103,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				_patchElements.RemoveAt(i);
 			}
 
-			PositionControls();
+			PositionElements();
 		}
 
-		private void PositionControls()
+		private void PositionElements()
 		{
 			float x = Position.Width;
 
@@ -154,11 +154,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				Parent = this,
 				ViewModel = itemViewModel
 			};
-			itemElement.ExpandRequested += ItemControl_ExpandRequested;
-			itemElement.MoveBackwardRequested += ItemControl_MoveBackwardRequested;
-			itemElement.MoveForwardRequested += ItemControl_MoveForwardRequested;
-			itemElement.PlayRequested += ItemControl_PlayRequested;
-			itemElement.DeleteRequested += ItemControl_DeleteRequested;
+			itemElement.ExpandRequested += patchElement_ExpandRequested;
+			itemElement.MoveBackwardRequested += patchElement_MoveBackwardRequested;
+			itemElement.MoveForwardRequested += patchElement_MoveForwardRequested;
+			itemElement.PlayRequested += patchElement_PlayRequested;
+			itemElement.DeleteRequested += patchElement_DeleteRequested;
 			return itemElement;
 		}
 
@@ -197,12 +197,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			return toolTipGesture;
 		}
 
-		private void Base_SizeChanged(object sender, EventArgs e) => PositionControls();
-		private void ItemControl_ExpandRequested(object sender, EventArgs<int> e) => ExpandItemRequested(sender, e);
-		private void ItemControl_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
-		private void ItemControl_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
-		private void ItemControl_PlayRequested(object sender, EventArgs<int> e) => PlayItemRequested(sender, e);
-		private void ItemControl_DeleteRequested(object sender, EventArgs<int> e) => DeleteRequested(sender, e);
+		private void patchElement_ExpandRequested(object sender, EventArgs<int> e) => ExpandItemRequested(sender, e);
+		private void patchElement_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
+		private void patchElement_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
+		private void patchElement_PlayRequested(object sender, EventArgs<int> e) => PlayItemRequested(sender, e);
+		private void patchElement_DeleteRequested(object sender, EventArgs<int> e) => DeleteRequested(sender, e);
 		private void _pictureExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
 		private void _picturePlay_MouseDown(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
 	}
