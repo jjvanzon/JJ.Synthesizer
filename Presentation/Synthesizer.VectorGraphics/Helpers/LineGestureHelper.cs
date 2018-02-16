@@ -27,10 +27,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 					Tag = "LineGesture Line",
 					PointA = new Point(diagram.Background)
 					{
+						Visible = false,
 						Tag = "LineGesture Point"
 					},
 					PointB = new Point(diagram.Background)
 					{
+						Visible = false,
 						Tag = "LineGesture Point"
 					}
 				};

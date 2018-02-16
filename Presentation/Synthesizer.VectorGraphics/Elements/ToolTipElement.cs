@@ -44,8 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_label.Text = text;
 
 			// Set text width
-			(float textWidth, _) = _textMeasurer.GetTextSize(text, _label.TextStyle.Font);
-			float textWidthInPixels = Diagram.Position.WidthToPixels(textWidth);
+			(float textWidthInPixels, _) = _textMeasurer.GetTextSize(text, _label.TextStyle.Font);
 			float widthInPixels = textWidthInPixels + TEXT_MARGIN_IN_PIXELS * 2f;
 			float scaledWidth = Diagram.Position.PixelsToWidth(widthInPixels);
 			Position.Width = scaledWidth;

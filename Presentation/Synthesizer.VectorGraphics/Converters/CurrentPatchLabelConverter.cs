@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			}
 
 			label.Text = viewModel.Name;
-			label.Position.Width = _textMeasurer.GetTextSize(label.Text, label.TextStyle.Font).width;
+			(label.Position.Width, _) = _textMeasurer.GetTextSize(label.Text, label.TextStyle.Font);
 
 			return label;
 		}

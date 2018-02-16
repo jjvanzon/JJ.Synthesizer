@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			}
 
 			_label.Position.X = x;
-			_label.Position.Width = _textMeasurer.GetTextSize(_label.Text, _label.TextStyle.Font).width;
+			(_label.Position.Width, _) = _textMeasurer.GetTextSize(_label.Text, _label.TextStyle.Font);
 			x += _label.Position.Width + SPACING;
 
 			if (_viewModel.CanGoForward)
