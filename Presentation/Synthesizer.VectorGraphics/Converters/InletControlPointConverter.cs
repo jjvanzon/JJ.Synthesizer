@@ -47,10 +47,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			if (!_destInletControlPointDictionary.TryGetValue(inletID, out Point destInletControlPoint))
 			{
-				destInletControlPoint = new Point
+				destInletControlPoint = new Point(sourceInletPoint)
 				{
-					Diagram = sourceInletPoint.Diagram,
-					Parent = sourceInletPoint,
 					PointStyle = StyleHelper.PointStyleInvisible,
 					Tag = sourceInletPoint.Tag
 				};
@@ -86,9 +84,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				_destInletControlPointDictionary.Remove(inletID);
 				_destInletControlPointHashSet.Remove(destElement);
 
-				destElement.Children.Clear();
-				destElement.Parent = null;
-				destElement.Diagram = null;
+				destElement.Dispose();
 			}
 		}
 	}

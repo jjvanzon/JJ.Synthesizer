@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
@@ -35,12 +36,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			ExpandNodeMouseGesture = new ExpandMouseGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			KeyDownGesture = new KeyDownGesture();
 			MoveNodeGesture = new MoveGesture();
-			NodeToolTipGesture = new ToolTipGesture(
-				Diagram,
+
+			var nodeToolTipElement = new ToolTipElement(
+				Diagram.Background,
 				StyleHelper.ToolTipBackStyle,
 				StyleHelper.ToolTipLineStyle,
 				StyleHelper.ToolTipTextStyle,
 				textMeasurer);
+
+			NodeToolTipGesture = new ToolTipGesture(nodeToolTipElement);
 			SelectNodeGesture = new SelectGesture();
 
 			Diagram.Gestures.Add(DeleteGesture);

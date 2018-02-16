@@ -62,6 +62,7 @@
     <Compile Include="Elements\CurrentInstrumentPatchElement.cs" />
     <Compile Include="Elements\ElementBase.cs" />
     <Compile Include="Elements\ElementWithViewModelBase.cs" />
+    <Compile Include="Elements\ToolTipElement.cs" />
     <Compile Include="EventArg\IDEventArgs.cs" />
     <Compile Include="Gestures\ChangeNodeTypeGesture.cs" />
     <Compile Include="Gestures\SelectGesture.cs" />

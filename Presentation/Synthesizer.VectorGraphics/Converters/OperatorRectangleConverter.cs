@@ -43,10 +43,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			if (!_destOperatorRectangleDictionary.TryGetValue(operatorID, out Rectangle destOperatorRectangle))
 			{
-				destOperatorRectangle = new Rectangle
+				destOperatorRectangle = new Rectangle(_diagram.Background)
 				{
-					Diagram = _diagram,
-					Parent = _diagram.Background,
 					Tag = operatorID
 				};
 
@@ -163,9 +161,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			_destOperatorRectangleDictionary.Remove(operatorID);
 			_destOperatorRectangleHashSet.Remove(destElement);
 
-			destElement.Children.Clear();
-			destElement.Parent = null;
-			destElement.Diagram = null;
+			destElement.Dispose();
 		}
 	}
 }

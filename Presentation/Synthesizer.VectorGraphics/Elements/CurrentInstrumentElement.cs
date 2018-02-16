@@ -12,6 +12,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
@@ -39,17 +40,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly object _underlyingPicturePlay;
 
 		public CurrentInstrumentElement(
-			Diagram diagram,
+			Element parent,
 			object underlyingPictureDelete,
 			object underlyingPictureExpand,
 			object underlyingPictureMoveBackward,
 			object underlyingPictureMoveForward,
 			object underlyingPicturePlay,
 			ITextMeasurer textMeasurer)
-
+			: base(parent)
 		{
-			Diagram = diagram;
-
 			_underlyingPictureDelete = underlyingPictureDelete ?? throw new ArgumentNullException(nameof(underlyingPictureDelete));
 			_underlyingPictureExpand = underlyingPictureExpand ?? throw new ArgumentNullException(nameof(underlyingPictureExpand));
 			_underlyingPictureMoveBackward = underlyingPictureMoveBackward ?? throw new ArgumentNullException(nameof(underlyingPictureMoveBackward));
@@ -99,9 +98,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				patchElement.MoveForwardRequested -= patchElement_MoveForwardRequested;
 				patchElement.PlayRequested -= patchElement_PlayRequested;
 				patchElement.DeleteRequested -= patchElement_DeleteRequested;
-				patchElement.Children.Clear();
-				patchElement.Parent = null;
-				patchElement.Diagram = null;
+				patchElement.Dispose();
 
 				_patchElements.RemoveAt(i);
 			}
@@ -137,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private CurrentInstrumentPatchElement CreatePatchElement(CurrentInstrumentPatchViewModel itemViewModel)
 		{
 			var itemElement = new CurrentInstrumentPatchElement(
-				Diagram,
+				this,
 				_underlyingPictureDelete,
 				_underlyingPictureExpand,
 				_underlyingPictureMoveBackward,
@@ -145,8 +142,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				_underlyingPicturePlay,
 				_textMeasurer)
 			{
-				Diagram = Diagram,
-				Parent = this,
 				ViewModel = itemViewModel
 			};
 			itemElement.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
@@ -161,10 +156,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		private Picture CreatePicture(object underlyingPicture, string toolTipText, EventHandler<MouseEventArgs> mouseDownHandler)
 		{
-			var picture = new Picture
+			var picture = new Picture(this)
 			{
-				Diagram = Diagram,
-				Parent = this,
 				UnderlyingPicture = underlyingPicture
 			};
 			picture.Position.Width = StyleHelper.ICON_SIZE;
@@ -184,14 +177,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		private ToolTipGesture CreateToolTipGesture()
 		{
-			var toolTipGesture = new ToolTipGesture(
-				Diagram,
+			var toolTipElement = new ToolTipElement(
+				Diagram.Background,
 				StyleHelper.ToolTipBackStyle,
 				StyleHelper.ToolTipLineStyle,
 				StyleHelper.ToolTipTextStyle,
 				_textMeasurer,
 				zIndex: 2);
 
+			var toolTipGesture = new ToolTipGesture(toolTipElement);
 			return toolTipGesture;
 		}
 

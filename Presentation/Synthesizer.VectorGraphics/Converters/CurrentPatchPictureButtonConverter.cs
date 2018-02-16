@@ -23,10 +23,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 		private (Picture picture, MouseDownGesture mouseDownGesture) CreatePicture(Element parentElement, object underlyingPicture)
 		{
-			var picture = new Picture
+			var picture = new Picture(parentElement)
 			{
-				Diagram = parentElement.Diagram,
-				Parent = parentElement,
 				UnderlyingPicture = underlyingPicture
 			};
 			picture.Position.Width = StyleHelper.ICON_SIZE;
@@ -44,9 +42,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			{
 				(Picture picture, _) = tuple;
 
-				picture.Children.Clear();
-				picture.Parent = null;
-				picture.Diagram = null;
+				picture.Dispose();
 
 				_dictionary.Remove(patchID);
 			}

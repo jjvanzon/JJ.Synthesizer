@@ -9,6 +9,7 @@ using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
@@ -33,17 +34,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		public event EventHandler<EventArgs<int>> PlayRequested;
 
 		public CurrentInstrumentPatchElement(
-			Diagram diagram,
+			Element parent,
 			object underlyingPictureDelete,
 			object underlyingPictureExpand,
 			object underlyingPictureMoveBackward,
 			object underlyingPictureMoveForward,
 			object underlyingPicturePlay,
 			ITextMeasurer textMeasurer)
+			: base(parent)
 		{
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
-
-			Diagram = diagram ?? throw new ArgumentNullException(nameof(diagram));
 
 			_label = CreateLabel();
 
@@ -111,10 +111,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		private Label CreateLabel()
 		{
-			var label = new Label
+			var label = new Label(this)
 			{
-				Diagram = Diagram,
-				Parent = this,
 				TextStyle = StyleHelper.TitleTextStyle
 			};
 			label.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
@@ -124,10 +122,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		private Picture CreatePicture(object underlyingPicture, string toolTipText, EventHandler<MouseEventArgs> mouseDownHandler)
 		{
-			var picture = new Picture
+			var picture = new Picture(this)
 			{
-				Diagram = Diagram,
-				Parent = this,
 				UnderlyingPicture = underlyingPicture
 			};
 			picture.Position.Width = StyleHelper.ICON_SIZE;
@@ -147,21 +143,28 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		private ToolTipGesture CreateToolTipGesture()
 		{
-			var toolTipGesture = new ToolTipGesture(
-				Diagram,
+			var toolTipElement = new ToolTipElement(
+				Diagram.Background,
 				StyleHelper.ToolTipBackStyle,
 				StyleHelper.ToolTipLineStyle,
 				StyleHelper.ToolTipTextStyle,
 				_textMeasurer,
 				zIndex: 2);
 
+			var toolTipGesture = new ToolTipGesture(toolTipElement);
+
 			return toolTipGesture;
 		}
 
 		private void _pictureDelete_MouseDown(object sender, EventArgs e) => DeleteRequested(this, new EventArgs<int>(_viewModel.PatchID));
 		private void _pictureExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(this, new EventArgs<int>(_viewModel.PatchID));
-		private void _pictureMoveBackward_MouseDown(object sender, EventArgs e) => MoveBackwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
-		private void _pictureMoveForward_MouseDown(object sender, EventArgs e) => MoveForwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
+
+		private void _pictureMoveBackward_MouseDown(object sender, EventArgs e) =>
+			MoveBackwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
+
+		private void _pictureMoveForward_MouseDown(object sender, EventArgs e) =>
+			MoveForwardRequested(this, new EventArgs<int>(_viewModel.PatchID));
+
 		private void _picturePlay_MouseDown(object sender, EventArgs e) => PlayRequested(this, new EventArgs<int>(_viewModel.PatchID));
 	}
 }

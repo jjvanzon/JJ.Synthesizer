@@ -23,12 +23,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			if (!_dictionary.TryGetValue(viewModel.PatchID, out Label label)) {
 
-				label = new Label
+				label = new Label(parentElement.Diagram.Background)
 				{
-					Diagram = parentElement.Diagram,
-					Parent = parentElement,
-					// TODO: Probably needs a different style.
-					TextStyle = StyleHelper.DefaultTextStyle
+					TextStyle = StyleHelper.TitleTextStyle
 				};
 				label.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
 
@@ -45,9 +42,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (_dictionary.TryGetValue(patchID, out Label label))
 			{
-				label.Children.Clear();
-				label.Parent = null;
-				label.Diagram = null;
+				label.Dispose();
 
 				_dictionary.Remove(patchID);
 			}

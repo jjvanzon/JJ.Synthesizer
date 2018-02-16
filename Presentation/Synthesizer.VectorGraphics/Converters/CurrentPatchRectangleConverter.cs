@@ -22,10 +22,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			if (!_dictionary.TryGetValue(viewModel.PatchID, out Rectangle rectangle))
 			{
-				rectangle = new Rectangle
+				rectangle = new Rectangle(_destDiagram.Background)
 				{
-					Diagram = _destDiagram,
-					Parent = _destDiagram.Background,
 					Style = StyleHelper.RectangleStyleInvisible,
 					Tag = viewModel.PatchID
 				};
@@ -41,9 +39,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 		{
 			if (_dictionary.TryGetValue(patchID, out Rectangle destRectangle))
 			{
-				destRectangle.Children.Clear();
-				destRectangle.Parent = null;
-				destRectangle.Diagram = null;
+				destRectangle.Dispose();
 
 				_dictionary.Remove(patchID);
 			}

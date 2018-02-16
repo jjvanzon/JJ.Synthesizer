@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
@@ -47,25 +48,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				doubleClickSpeedInMilliseconds,
 				doubleClickDeltaInPixels);
 
-			InletToolTipGesture = new ToolTipGesture(
-				Diagram,
+			var toolTipElement = new ToolTipElement(
+				Diagram.Background,
 				StyleHelper.ToolTipBackStyle,
 				StyleHelper.ToolTipLineStyle,
 				StyleHelper.ToolTipTextStyle,
 				textMeasurer,
 				zIndex: 2);
 
+			InletToolTipGesture = new ToolTipGesture(toolTipElement);
 			MoveGesture = new MoveGesture();
-
-			OutletToolTipGesture = new ToolTipGesture(
-				Diagram,
-				StyleHelper.ToolTipBackStyle,
-				StyleHelper.ToolTipLineStyle,
-				StyleHelper.ToolTipTextStyle,
-				textMeasurer,
-				preferShowOnBottom: true,
-				zIndex: 2);
-
+			OutletToolTipGesture = new ToolTipGesture(toolTipElement, preferShowOnBottom: true);
 			SelectOperatorGesture = new SelectGesture();
 			SelectPatchGesture = new ClickGesture();
 		}

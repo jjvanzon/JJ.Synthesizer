@@ -20,10 +20,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			if (!_destOperatorLabelDictionary.TryGetValue(operatorID, out Label destLabel))
 			{
-				destLabel = new Label
+				destLabel = new Label(destOperatorRectangle)
 				{
-					Diagram = destOperatorRectangle.Diagram,
-					Parent = destOperatorRectangle,
 					Tag = operatorID
 				};
 
@@ -56,9 +54,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				_destOperatorLabelDictionary.Remove(operatorID);
 				_destOperatorLabelHashSet.Remove(destElement);
 
-				destElement.Children.Clear();
-				destElement.Parent = null;
-				destElement.Diagram = null;
+				destElement.Dispose();
 			}
 		}
 	}

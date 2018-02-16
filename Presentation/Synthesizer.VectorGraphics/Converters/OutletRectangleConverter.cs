@@ -69,10 +69,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			if (!_destOutletRectangleDictionary.TryGetValue(outletID, out Rectangle destOutletRectangle))
 			{
-				destOutletRectangle = new Rectangle
+				destOutletRectangle = new Rectangle(destOperatorRectangle)
 				{
-					Diagram = destOperatorRectangle.Diagram,
-					Parent = destOperatorRectangle,
 					Tag = outletID
 				};
 
@@ -103,9 +101,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			_destOutletRectangleDictionary.Remove(outletID);
 			_destOutletRectangleHashSet.Remove(destElement);
 
-			destElement.Children.Clear();
-			destElement.Parent = null;
-			destElement.Diagram = null;
+			destElement.Dispose();
 		}
 	}
 }

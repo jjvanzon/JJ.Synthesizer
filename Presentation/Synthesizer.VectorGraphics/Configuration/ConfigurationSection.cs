@@ -5,9 +5,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Configuration
 	internal class ConfigurationSection
 	{
 		[XmlAttribute]
-		public bool MustShowInvisibleElements { get; set; }
-
-		[XmlAttribute]
 		public int NodeClickableRegionSizeInPixels { get; set; }
 
 		[XmlAttribute]

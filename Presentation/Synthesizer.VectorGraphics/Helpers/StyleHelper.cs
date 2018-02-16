@@ -289,8 +289,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			LineStyle = BorderStyleInvisible
 		};
 
-		// ToolTip
-
 		public static BackStyle ToolTipBackStyle { get; } = new BackStyle
 		{
 			Color = ColorHelper.GetColor(0xDDFEFEFE)
@@ -312,21 +310,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Center
 		};
-
-		public static void MakeHiddenStylesVisible()
-		{
-			PointStyleInvisible.Visible = true;
-			PointStyleInvisible.Color = ColorHelper.GetColor(128, 40, 128, 192);
-			PointStyleInvisible.Width = 5;
-
-			BackStyleInvisible.Visible = true;
-			BackStyleInvisible.Color = ColorHelper.GetColor(64, 40, 128, 192);
-
-			BorderStyleInvisible.Visible = true;
-			BorderStyleInvisible.Color = ColorHelper.GetColor(128, 40, 128, 192);
-			BorderStyleInvisible.Width = 2;
-			BorderStyleInvisible.DashStyleEnum = DashStyleEnum.Dotted;
-		}
 
 		private static readonly Dictionary<StyleGradeEnum, BackStyle> _gradedBackStyleDictionary = Create_StyleGradeEnum_BackStyle_Dictionary();
 

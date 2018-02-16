@@ -25,10 +25,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		}
 
 		private const int DEFAULT_LINE_SEGMENT_COUNT = 15;
-		private const bool DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS = false;
 
 		private static readonly int _lineSegmentCount = GetLineSegmentCount();
-		private static readonly bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly int _doubleClickSpeedInMilliseconds;
@@ -58,11 +56,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 			_doubleClickSpeedInMilliseconds = doubleClickSpeedInMilliseconds;
 			_doubleClickDeltaInPixels = doubleClickDeltaInPixels;
-
-			if (_mustShowInvisibleElements)
-			{
-				StyleHelper.MakeHiddenStylesVisible();
-			}
 		}
 
 		/// <param name="result">Pass an existing result to update an existing diagram.</param>
@@ -164,9 +157,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 						break;
 				}
 
-				elementToDelete.Children.Clear();
-				elementToDelete.Parent = null;
-				elementToDelete.Diagram = null;
+				elementToDelete.Dispose();
 			}
 
 			_operatorID_OperatorElements_Dictionary = null;
@@ -209,13 +200,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				Curve destCurve = TryGetInletCurve(inletID);
 				if (destCurve == null)
 				{
-					destCurve = new Curve
+					destCurve = new Curve(destDiagram.Background)
 					{
 						SegmentCount = _lineSegmentCount,
 						ZIndex = -1,
-						Tag = inletID,
-						Diagram = destDiagram,
-						Parent = destDiagram.Background
+						Tag = inletID
 					};
 					_inletID_Curve_Dictionary.Add(inletID, destCurve);
 				}
@@ -356,13 +345,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
 			if (config == null) return DEFAULT_LINE_SEGMENT_COUNT;
 			return config.PatchLineSegmentCount;
-		}
-
-		private static bool GetMustShowInvisibleElements()
-		{
-			var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
-			if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
-			return config.MustShowInvisibleElements;
 		}
 	}
 }

@@ -61,25 +61,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			{
 				if (_circleDictionary.TryGetValue(idToDelete, out Ellipse circleToDelete))
 				{
-					circleToDelete.Parent = null;
-					circleToDelete.Children.Clear();
-					Result.Diagram.Elements.Remove(circleToDelete);
+					circleToDelete.Dispose();
 
 					_circleDictionary.Remove(idToDelete);
 				}
 
 				if (_labelDictionary.TryGetValue(idToDelete, out Label labelToDelete))
 				{
-					labelToDelete.Parent = null;
-					Result.Diagram.Elements.Remove(labelToDelete);
+					labelToDelete.Dispose();
 
 					_labelDictionary.Remove(idToDelete);
 				}
 
 				if (_dentPointDictionary.TryGetValue(idToDelete, out Point dentPointToDelete))
 				{
-					dentPointToDelete.Parent = null;
-					Result.Diagram.Elements.Remove(dentPointToDelete);
+					dentPointToDelete.Dispose();
 
 					_dentPointDictionary.Remove(idToDelete);
 				}
@@ -97,10 +93,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		{
 			if (!_circleDictionary.TryGetValue(viewModel.ID, out Ellipse circle))
 			{
-				circle = new Ellipse
+				circle = new Ellipse(Result.Diagram.Background)
 				{
-					Diagram = Result.Diagram,
-					Parent = Result.Diagram.Background,
 					Tag = viewModel.ID
 				};
 
@@ -148,11 +142,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		{
 			if (!_labelDictionary.TryGetValue(viewModel.ID, out Label label))
 			{
-				label = new Label
-				{
-					Diagram = Result.Diagram,
-					Parent = parent
-				};
+				label = new Label(parent);
 
 				label.Position.Y = LABEL_Y;
 
@@ -184,11 +174,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		{
 			if (!_dentPointDictionary.TryGetValue(viewModel.ID, out Point point))
 			{
-				point = new Point
-				{
-					Diagram = Result.Diagram,
-					Parent = parent
-				};
+				point = new Point(parent);
 
 				point.Position.X = StyleHelper.DEFAULT_OBJECT_SIZE / 2f;
 				point.Position.Y = DENT_POINT_Y;
@@ -218,10 +204,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private Label CreateWaterMarkTitleLabel(Diagram diagram)
 		{
-			var label = new Label
+			var label = new Label(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				ZIndex = -1,
 				TextStyle = StyleHelper.TopWaterMarkTextStyle
 			};

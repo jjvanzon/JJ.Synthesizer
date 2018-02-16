@@ -1,4 +1,5 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
+﻿using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
@@ -6,6 +7,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 	{
 		private ViewModelBase _viewModel;
 		private int _refreshCounter = -1;
+
+		public ElementWithViewModelBase(Element parent) : base(parent) { }
 
 		/// <summary> nullable </summary>
 		public ViewModelBase ViewModel

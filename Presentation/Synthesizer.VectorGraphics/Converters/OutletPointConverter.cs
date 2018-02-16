@@ -54,10 +54,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			if (!_destOutletPointDictionary.TryGetValue(outletID, out Point destOutletPoint))
 			{
-				destOutletPoint = new Point
+				destOutletPoint = new Point(destOperatorRectangle)
 				{
-					Diagram = destOperatorRectangle.Diagram,
-					Parent = destOperatorRectangle,
 					Tag = outletID
 				};
 
@@ -89,9 +87,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			_destOutletPointDictionary.Remove(outletID);
 			_destOutletPointHashSet.Add(destElement);
 
-			destElement.Children.Clear();
-			destElement.Parent = null;
-			destElement.Diagram = null;
+			destElement.Dispose();
 		}
 	}
 }

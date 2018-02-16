@@ -20,23 +20,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 					return line;
 				}
 
-				line = new Line
+				line = new Line(diagram.Background)
 				{
-					Diagram = diagram,
-					Parent = diagram.Background,
 					ZIndex = lineZIndex,
 					Visible = false,
 					Tag = "LineGesture Line",
-					PointA = new Point
+					PointA = new Point(diagram.Background)
 					{
-						Diagram = diagram,
-						Parent = diagram.Background,
 						Tag = "LineGesture Point"
 					},
-					PointB = new Point
+					PointB = new Point(diagram.Background)
 					{
-						Diagram = diagram,
-						Parent = diagram.Background,
 						Tag = "LineGesture Point"
 					}
 				};

@@ -22,26 +22,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<int>> PlayItemRequested;
 		public event EventHandler<EventArgs<int>> DeleteRequested;
 
-		private readonly Diagram _diagram;
 		private readonly CurrentInstrumentElement _currentInstrumentElement;
 
 		public CurrentInstrumentUserControl2()
 		{
 			InitializeComponent();
 
-			_diagram = new Diagram();
-
+			var diagram = new Diagram();
 			_currentInstrumentElement = new CurrentInstrumentElement(
-				_diagram,
+				diagram.Background,
 				Resources.RemoveIcon,
 				Resources.OpenWindowIcon,
 				Resources.LessThanIcon,
 				Resources.GreaterThanIcon,
 				Resources.PlayIcon,
-				new TextMeasurer(diagramControl.CreateGraphics()))
-			{
-				Parent = _diagram.Background
-			};
+				new TextMeasurer(diagramControl.CreateGraphics()));
 
 			_currentInstrumentElement.ExpandRequested += (sender, e) => ExpandRequested(sender, e);
 			_currentInstrumentElement.ExpandItemRequested += (sender, e) => ExpandItemRequested(sender, e);
@@ -52,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_currentInstrumentElement.DeleteRequested += (sender, e) => DeleteRequested(sender, e);
 
 			diagramControl.Location = new Point(0, 0);
-			diagramControl.Diagram = _diagram;
+			diagramControl.Diagram = diagram;
 
 			PositionControls();
 		}

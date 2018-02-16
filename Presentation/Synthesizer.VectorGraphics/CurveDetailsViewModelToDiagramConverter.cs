@@ -40,7 +40,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private const int MINIMUM_NODE_COUNT = 2;
 		private const int DEFAULT_LINE_SEGMENT_COUNT = 10;
 		private const float DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS = 20;
-		private const bool DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS = false;
 
 		/// <summary> Elements with this tag are deleted and recreated upon each conversion. </summary>
 		private const string HELPER_ELEMENT_TAG = "Helper Element";
@@ -48,7 +47,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private static readonly int _lineSegmentCount = GetLineSegmentCount();
 		private static readonly int _lineSegmentPointCount = GetLineSegmentCount() + 1;
 		private static readonly float _nodeClickableRegionSizeInPixels = GetNodeClickableRegionSizeInPixels();
-		private static readonly bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
 		private readonly Line _xAxis;
 		private readonly Line _yAxis;
@@ -90,11 +88,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			_rightBoundCoodinateLabel = CreateRightBoundCoordinateLabel(Result.Diagram);
 			_leftBoundCoodinateLabel = CreateLeftBoundCoordinateLabel(Result.Diagram);
 			_waterMarkTitleLabel = CreateWaterMarkTitleLabel(Result.Diagram);
-
-			if (_mustShowInvisibleElements)
-			{
-				StyleHelper.MakeHiddenStylesVisible();
-			}
 		}
 
 		public void Execute(CurveDetailsViewModel curveDetailsViewModel)
@@ -112,9 +105,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			foreach (Element elementToDelete in elementsToDelete)
 			{
-				elementToDelete.Children.Clear();
-				elementToDelete.Parent = null;
-				elementToDelete.Diagram = null;
+				elementToDelete.Dispose();
 			}
 
 			IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Nodes.Values.OrderBy(x => x.X).ToArray();
@@ -187,10 +178,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				// Convert Rectangle
 				if (!_rectangleDictionary.TryGetValue(nodeViewModel.ID, out Rectangle rectangle))
 				{
-					rectangle = new Rectangle
+					rectangle = new Rectangle(Result.Diagram.Background)
 					{
-						Diagram = Result.Diagram,
-						Parent = Result.Diagram.Background,
 						Tag = nodeViewModel.ID,
 						MustBubble = false,
 						Style = StyleHelper.RectangleStyleInvisible
@@ -212,10 +201,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				// Convert Point
 				if (!_pointDictionary.TryGetValue(nodeViewModel.ID, out Point point))
 				{
-					point = new Point
+					point = new Point(rectangle)
 					{
-						Diagram = Result.Diagram,
-						Parent = rectangle,
 						PointStyle = StyleHelper.PointStyleThick,
 						ZIndex = 1,
 						Tag = nodeViewModel.ID
@@ -264,9 +251,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				// Delete point
 				if (_pointDictionary.TryGetValue(idToDelete, out Point pointToDelete))
 				{
-					pointToDelete.Children.Clear();
-					pointToDelete.Parent = null;
-					pointToDelete.Diagram = null;
+					pointToDelete.Dispose();
 					_pointDictionary.Remove(idToDelete);
 				}
 
@@ -274,9 +259,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				// ReSharper disable once InvertIf
 				if (_rectangleDictionary.TryGetValue(idToDelete, out Rectangle rectangleToDelete))
 				{
-					rectangleToDelete.Children.Clear();
-					rectangleToDelete.Parent = null;
-					rectangleToDelete.Diagram = null;
+					rectangleToDelete.Dispose();
 					_rectangleDictionary.Remove(idToDelete);
 				}
 			}
@@ -284,21 +267,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private Line CreateXAxis(Diagram diagram)
 		{
-			var line = new Line
+			var line = new Line(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				LineStyle = StyleHelper.LineStyleTransparent,
-				PointA = new Point
+				PointA = new Point(diagram.Background)
 				{
-					Diagram = diagram,
-					Parent = diagram.Background,
 					PointStyle = StyleHelper.PointStyleInvisible
 				},
-				PointB = new Point
+				PointB = new Point(diagram.Background)
 				{
-					Diagram = diagram,
-					Parent = diagram.Background,
 					PointStyle = StyleHelper.PointStyleInvisible
 				}
 			};
@@ -330,21 +307,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private Line CreateYAxis(Diagram diagram)
 		{
-			var line = new Line
+			var line = new Line(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				LineStyle = StyleHelper.LineStyleTransparent,
-				PointA = new Point
-				{
-					Diagram = diagram,
-					Parent = diagram.Background,
+				PointA = new Point(diagram.Background)
+				{ 
 					PointStyle = StyleHelper.PointStyleInvisible
 				},
-				PointB = new Point
+				PointB = new Point(diagram.Background)
 				{
-					Diagram = diagram,
-					Parent = diagram.Background,
 					PointStyle = StyleHelper.PointStyleInvisible
 				}
 			};
@@ -374,11 +345,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private Label CreateLeftBoundCoordinateLabel(Diagram diagram)
 		{
-			var label = new Label
-			{
-				Diagram = diagram,
-				Parent = diagram.Background,
-			};
+			var label = new Label(diagram.Background);
 			label.Position.X = 0;
 			label.TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone();
 			label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
@@ -397,14 +364,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private Label CreateRightBoundCoordinateLabel(Diagram diagram)
 		{
-			// ReSharper disable once UseObjectOrCollectionInitializer
-			var label = new Label
+			var label = new Label(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
+				TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone()
 			};
-
-			label.TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone();
 			label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
 			label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Right;
 #if DEBUG
@@ -422,11 +385,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private Label CreateTopBoundCoordinateLabel(Diagram diagram)
 		{
-			var label = new Label
-			{
-				Diagram = diagram,
-				Parent = diagram.Background,
-			};
+			var label = new Label(diagram.Background);
 			label.Position.Y = 0;
 			label.TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone();
 			label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Top;
@@ -445,10 +404,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private Label CreateBottomBoundCoordinateLabel(Diagram diagram)
 		{
-			var label = new Label
+			var label = new Label(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone(),
 			};
 
@@ -469,11 +426,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private Label CreateWaterMarkTitleLabel(Diagram diagram)
 		{
-			// ReSharper disable once UseObjectOrCollectionInitializer
-			var label = new Label
+			var label = new Label(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				ZIndex = -1,
 				TextStyle = StyleHelper.CenterWaterMarkTextStyle
 			};
@@ -522,19 +476,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private void CreateLines_WithRelatedElements_ForNodeTypeOff(Diagram diagram, Point previousPoint, Point nextPoint)
 		{
 			// ReSharper disable once UseObjectOrCollectionInitializer
-			var verticalLineTo0 = new Line
+			var verticalLineTo0 = new Line(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				PointA = previousPoint,
 				LineStyle = StyleHelper.LineStyleThick,
 				Tag = HELPER_ELEMENT_TAG
 			};
 
-			verticalLineTo0.PointB = new Point
+			verticalLineTo0.PointB = new Point(previousPoint)
 			{
-				Diagram = diagram,
-				Parent = previousPoint,
 				PointStyle = StyleHelper.PointStyleInvisible,
 				Tag = HELPER_ELEMENT_TAG
 			};
@@ -542,19 +492,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			verticalLineTo0.PointB.Position.Y = previousPoint.Position.AbsoluteToRelativeY(0);
 
 			// ReSharper disable once UseObjectOrCollectionInitializer
-			var horizontalLine = new Line
+			var horizontalLine = new Line(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				PointA = verticalLineTo0.PointB,
 				LineStyle = StyleHelper.LineStyleThick,
 				Tag = HELPER_ELEMENT_TAG
 			};
 
-			horizontalLine.PointB = new Point
+			horizontalLine.PointB = new Point(nextPoint)
 			{
-				Diagram = diagram,
-				Parent = nextPoint,
 				PointStyle = StyleHelper.PointStyleInvisible,
 				Tag = HELPER_ELEMENT_TAG
 			};
@@ -562,10 +508,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			horizontalLine.PointB.Position.Y = nextPoint.Position.AbsoluteToRelativeY(0);
 
 			// ReSharper disable once UnusedVariable
-			var verticalLineToNextPoint = new Line
+			var verticalLineToNextPoint = new Line(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				PointA = horizontalLine.PointB,
 				PointB = nextPoint,
 				LineStyle = StyleHelper.LineStyleThick,
@@ -577,19 +521,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		{
 			// Create horizontal line to the next node.
 			// ReSharper disable once UseObjectOrCollectionInitializer
-			var line = new Line
+			var line = new Line(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				PointA = previousPoint,
 				LineStyle = StyleHelper.LineStyleThick,
 				Tag = HELPER_ELEMENT_TAG
 			};
 
-			line.PointB = new Point
+			line.PointB = new Point(nextPoint)
 			{
-				Diagram = diagram,
-				Parent = nextPoint,
 				PointStyle = StyleHelper.PointStyleInvisible,
 				Tag = HELPER_ELEMENT_TAG
 			};
@@ -598,10 +538,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			// Create vertical line down.
 			// ReSharper disable once UnusedVariable
-			var line2 = new Line
+			var line2 = new Line(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				PointA = line.PointB,
 				PointB = nextPoint,
 				LineStyle = StyleHelper.LineStyleThick,
@@ -612,10 +550,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private void CreateLines_WithRelatedElements_ForNodeTypeLine(Diagram diagram, Point previousPoint, Point nextPoint)
 		{
 			// ReSharper disable once UnusedVariable
-			var line = new Line
+			var line = new Line(diagram.Background)
 			{
-				Diagram = diagram,
-				Parent = diagram.Background,
 				PointA = previousPoint,
 				PointB = nextPoint,
 				LineStyle = StyleHelper.LineStyleThick,
@@ -648,10 +584,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			{
 				double y = _currentCurveCalculator.Calculate(x);
 
-				var destPoint = new Point
+				var destPoint = new Point(diagram.Background)
 				{
-					Diagram = diagram,
-					Parent = diagram.Background,
 					PointStyle = StyleHelper.PointStyleInvisible,
 					Tag = HELPER_ELEMENT_TAG
 				};
@@ -672,10 +606,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				Point destPointB = destPoints[i + 1];
 
 				// ReSharper disable once UnusedVariable
-				var destLine = new Line
+				var destLine = new Line(previousPoint)
 				{
-					Diagram = diagram,
-					Parent = previousPoint,
 					PointA = destPointA,
 					PointB = destPointB,
 					LineStyle = StyleHelper.LineStyleThick,
@@ -719,13 +651,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
 			if (config == null) return DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS;
 			return config.NodeClickableRegionSizeInPixels;
-		}
-
-		private static bool GetMustShowInvisibleElements()
-		{
-			var config = CustomConfigurationManager.TryGetSection<ConfigurationSection>();
-			if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
-			return config.MustShowInvisibleElements;
 		}
 	}
 }

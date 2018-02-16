@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
+using JJ.Framework.VectorGraphics.Drawing;
 using JJ.Framework.WinForms.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.Configuration;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -25,6 +28,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			UnhandledExceptionMessageBoxShower.Initialize(ResourceFormatter.ApplicationName);
 			ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
 
+#if DEBUG
+			DrawerBase.MustDrawCoordinateIndicators = CustomConfigurationManager.GetSection<ConfigurationSection>()
+			                                                                              .MustDrawCoordinateIndicators;
+#endif
 			MainForm form = ShowMainWindow(parsedCommandLineArguments.DocumentName, parsedCommandLineArguments.PatchName);
 			Application.Run(form);
 		}

@@ -73,15 +73,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
 			if (!_destInletRectangleDictionary.TryGetValue(inletID, out Rectangle destInletRectangle))
 			{
-				destInletRectangle = new Rectangle
+				destInletRectangle = new Rectangle(destOperatorRectangle)
 				{
-					Diagram = destOperatorRectangle.Diagram,
-					Parent = destOperatorRectangle,
-					Tag = inletID
+					Tag = inletID,
+					Style =
+					{
+						BackStyle = StyleHelper.BackStyleInvisible,
+						LineStyle = StyleHelper.BorderStyleInvisible
+					}
 				};
-
-				destInletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
-				destInletRectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
 
 				_destInletRectangleDictionary.Add(inletID, destInletRectangle);
 				_destInletRectangleHashSet.Add(destInletRectangle);
@@ -103,9 +103,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 				_destInletRectangleDictionary.Remove(inletID);
 				_destInletRectangleHashSet.Remove(destElement);
 
-				destElement.Children.Clear();
-				destElement.Parent = null;
-				destElement.Diagram = null;
+				destElement.Dispose();
 			}
 		}
 	}
