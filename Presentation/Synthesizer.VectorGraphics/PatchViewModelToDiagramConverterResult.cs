@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			InletToolTipGesture = new ToolTipGesture(toolTipElement);
 			MoveGesture = new MoveGesture();
-			OutletToolTipGesture = new ToolTipGesture(toolTipElement, preferShowOnBottom: true);
+			OutletToolTipGesture = new ToolTipGesture(toolTipElement, preferredSideToShowToolTip: ToolTipPositioningEnum.BottomRight);
 			SelectOperatorGesture = new SelectGesture();
 			SelectPatchGesture = new ClickGesture();
 		}

@@ -5,6 +5,7 @@ using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
@@ -14,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		private readonly ToolTipElement _toolTipElement;
 		private readonly string _fixedToolTipText;
-		private readonly bool _preferShowOnBottom;
+		private readonly ToolTipPositioningEnum _preferredSideToShowToolTip;
 		private readonly MouseLeaveGesture _mouseLeaveGesture;
 
 		private Element _previousElement;
@@ -23,11 +24,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 		/// If you do not set it to a fixed text here,
 		/// use the ToolTipTextRequested event and/or the ShowToolTipText method to change it on the fly.
 		/// </param>
-		public ToolTipGesture(ToolTipElement toolTipElement, string fixedToolTipText = null, bool preferShowOnBottom = false)
+		public ToolTipGesture(
+			ToolTipElement toolTipElement,
+			string fixedToolTipText = null,
+			ToolTipPositioningEnum preferredSideToShowToolTip = ToolTipPositioningEnum.TopRight)
 		{
 			_toolTipElement = toolTipElement ?? throw new ArgumentNullException(nameof(toolTipElement));
 			_fixedToolTipText = fixedToolTipText;
-			_preferShowOnBottom = preferShowOnBottom;
+			_preferredSideToShowToolTip = preferredSideToShowToolTip;
 
 			_mouseLeaveGesture = new MouseLeaveGesture();
 			_mouseLeaveGesture.MouseLeave += _mouseLeaveGesture_MouseLeave;
@@ -131,14 +135,43 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 		private void SetToolTipElementRelativePosition()
 		{
 			// Set X and Y
-			PositionOnTheRight(_toolTipElement);
-			if (_preferShowOnBottom)
+
+			switch (_preferredSideToShowToolTip)
 			{
-				PositionOnBottom(_toolTipElement);
-			}
-			else
-			{
-				PositionOnTop(_toolTipElement);
+				case ToolTipPositioningEnum.TopRight:
+					PositionOnTheRight(_toolTipElement);
+					PositionOnTop(_toolTipElement);
+					break;
+
+				case ToolTipPositioningEnum.BottomRight:
+					PositionOnTheRight(_toolTipElement);
+					PositionOnBottom(_toolTipElement);
+					break;
+
+				case ToolTipPositioningEnum.TopLeft:
+					PositionOnTheLeft(_toolTipElement);
+					PositionOnTop(_toolTipElement);
+					break;
+
+				case ToolTipPositioningEnum.BottomLeft:
+					PositionOnTheLeft(_toolTipElement);
+					PositionOnBottom(_toolTipElement);
+					break;
+
+				case ToolTipPositioningEnum.CenterLeft:
+					// TODO: Position in CenterY
+					// TODO: Position to the actual left instead of left-aligned, which this does.
+					PositionOnTheLeft(_toolTipElement);
+					break;
+
+				case ToolTipPositioningEnum.CenterRight:
+					// TODO: Position in CenterY
+					// TODO: Position to the actual right instead of right-aligned, which this does.
+					PositionOnTheRight(_toolTipElement);
+					break;
+
+				default:
+					throw new ValueNotSupportedException(_preferredSideToShowToolTip);
 			}
 
 			// Correct position if out of diagram bounds.

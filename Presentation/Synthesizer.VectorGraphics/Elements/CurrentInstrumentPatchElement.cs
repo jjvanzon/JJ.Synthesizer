@@ -137,7 +137,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			mouseDownGesture.MouseDown += mouseDownHandler;
 			picture.Gestures.Add(mouseDownGesture);
 
-			var toolTipGesture = new ToolTipGesture(_toolTipElement, toolTipText);
+			var toolTipGesture = new ToolTipGesture(_toolTipElement, toolTipText, preferredSideToShowToolTip: ToolTipPositioningEnum.CenterRight);
 			picture.Gestures.Add(toolTipGesture);
 
 			return picture;
