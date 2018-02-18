@@ -139,35 +139,33 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			switch (_preferredSideToShowToolTip)
 			{
 				case ToolTipPositioningEnum.TopRight:
-					PositionOnTheRight(_toolTipElement);
+					PositionRightAligned(_toolTipElement);
 					PositionOnTop(_toolTipElement);
 					break;
 
 				case ToolTipPositioningEnum.BottomRight:
-					PositionOnTheRight(_toolTipElement);
+					PositionRightAligned(_toolTipElement);
 					PositionOnBottom(_toolTipElement);
 					break;
 
 				case ToolTipPositioningEnum.TopLeft:
-					PositionOnTheLeft(_toolTipElement);
+					PositionLeftAligned(_toolTipElement);
 					PositionOnTop(_toolTipElement);
 					break;
 
 				case ToolTipPositioningEnum.BottomLeft:
-					PositionOnTheLeft(_toolTipElement);
+					PositionLeftAligned(_toolTipElement);
 					PositionOnBottom(_toolTipElement);
 					break;
 
 				case ToolTipPositioningEnum.CenterLeft:
-					// TODO: Position in CenterY
-					// TODO: Position to the actual left instead of left-aligned, which this does.
-					PositionOnTheLeft(_toolTipElement);
+					PositionToTheLeft(_toolTipElement);
+					PositionInCenterY(_toolTipElement);
 					break;
 
 				case ToolTipPositioningEnum.CenterRight:
-					// TODO: Position in CenterY
-					// TODO: Position to the actual right instead of right-aligned, which this does.
-					PositionOnTheRight(_toolTipElement);
+					PositionToTheRight(_toolTipElement);
+					PositionInCenterY(_toolTipElement);
 					break;
 
 				default:
@@ -178,13 +176,33 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			bool rightBoundIsExceeded = RightBoundIsExceeded(_toolTipElement);
 			if (rightBoundIsExceeded)
 			{
-				PositionOnTheLeft(_toolTipElement);
+				switch (_preferredSideToShowToolTip)
+				{
+					case ToolTipPositioningEnum.CenterRight:
+					case ToolTipPositioningEnum.CenterLeft:
+						PositionToTheLeft(_toolTipElement);
+						break;
+
+					default:
+						PositionLeftAligned(_toolTipElement);
+						break;
+				}
 			}
 
 			bool leftBoundIsExceeded = LeftBoundIsExceeded(_toolTipElement);
 			if (leftBoundIsExceeded)
 			{
-				PositionOnTheRight(_toolTipElement);
+				switch (_preferredSideToShowToolTip)
+				{
+					case ToolTipPositioningEnum.CenterRight:
+					case ToolTipPositioningEnum.CenterLeft:
+						PositionToTheRight(_toolTipElement);
+						break;
+
+					default:
+						PositionRightAligned(_toolTipElement);
+						break;
+				}
 			}
 
 			bool topBoundIsExceeded = TopBoundIsExceeded(_toolTipElement);
@@ -262,12 +280,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		// Note it is an assumption that the tool tip height will be similar to the mouse arrow height.
 
-		private static void PositionOnTheLeft(Element toolTipElement)
+		private static void PositionToTheLeft(Element toolTipElement)
+		{
+			toolTipElement.Position.RelativeRight = 0;
+		}
+
+		private static void PositionToTheRight(Element toolTipElement)
+		{
+			toolTipElement.Position.X = toolTipElement.Parent.Position.Width;
+		}
+
+		private static void PositionLeftAligned(Element toolTipElement)
 		{
 			toolTipElement.Position.X = toolTipElement.Parent.Position.Width / 2f - toolTipElement.Position.Width;
 		}
 
-		private static void PositionOnTheRight(Element toolTipElement)
+		private static void PositionRightAligned(Element toolTipElement)
 		{
 			toolTipElement.Position.X = toolTipElement.Parent.Position.Width / 2f;
 		}
@@ -280,6 +308,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 		private static void PositionOnBottom(Element toolTipElement)
 		{
 			toolTipElement.Position.Y = toolTipElement.Position.Height + toolTipElement.Position.Height;
+		}
+
+		private static void PositionInCenterY(Element toolTipElement)
+		{
+			toolTipElement.Position.RelativeCenterY = toolTipElement.Parent.Position.Height / 2f;
 		}
 	}
 }
