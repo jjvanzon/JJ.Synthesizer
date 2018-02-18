@@ -24,7 +24,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		public const float DEFAULT_OBJECT_SIZE = 40f;
 		public const float SMALLER_OBJECT_SIZE = 30f;
 		public const float TITLE_BAR_HEIGHT = 24;
-		public const float ICON_SIZE = 24;
+		public const float ICON_BUTTON_SIZE = 24;
+		public const float ICON_BUTTON_MARGIN = 4;
+		public const float ICON_BUTTON_PICTURE_SIZE = 16;
 		public const int DRAG_DROP_LINE_ZINDEX = 100;
 
 		/// <summary>
@@ -309,6 +311,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			},
 			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Center
+		};
+
+		public static PictureStyle IconPictureStyle { get; } = new PictureStyle
+		{
+			Scale = true
 		};
 
 		private static readonly Dictionary<StyleGradeEnum, BackStyle> _gradedBackStyleDictionary = Create_StyleGradeEnum_BackStyle_Dictionary();

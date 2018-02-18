@@ -16,9 +16,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
 	internal class CurrentInstrumentPatchElement : ElementBase
 	{
-		private const float SPACING = 1f;
-		private const float MARGIN_TOP = 4f;
-
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _label;
 		private readonly Picture _pictureDelete;
@@ -79,37 +76,35 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		private void PositionControls()
 		{
-			float x = SPACING;
+			float x = 0;
 
 			if (_viewModel.CanGoBackward)
 			{
 				_pictureMoveForward.Position.X = x;
-				x += StyleHelper.ICON_SIZE + SPACING;
+				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
 			}
 
 			_label.Position.X = x;
 			(_label.Position.Width, _) = _textMeasurer.GetTextSize(_label.Text, _label.TextStyle.Font);
-			x += _label.Position.Width + SPACING;
+			x += _label.Position.Width + StyleHelper.ICON_BUTTON_MARGIN;
 
 			if (_viewModel.CanGoForward)
 			{
 				_pictureMoveForward.Position.X = x;
-				x += StyleHelper.ICON_SIZE + SPACING;
+				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
 			}
 
 			_picturePlay.Position.X = x;
-			x += StyleHelper.ICON_SIZE + SPACING;
+			x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
 
 			_pictureExpand.Position.X = x;
-			x += StyleHelper.ICON_SIZE + SPACING;
+			x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
 
 			_pictureDelete.Position.X = x;
-			x += StyleHelper.ICON_SIZE + SPACING;
-
-			x += SPACING;
+			x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
 
 			Position.Width = x;
-			Position.Height = StyleHelper.ICON_SIZE;
+			Position.Height = StyleHelper.ICON_BUTTON_SIZE;
 		}
 
 		private Label CreateLabel()
@@ -129,9 +124,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			{
 				UnderlyingPicture = underlyingPicture
 			};
-			picture.Position.Width = StyleHelper.ICON_SIZE;
-			picture.Position.Height = StyleHelper.ICON_SIZE;
-			picture.Position.Y = MARGIN_TOP;
+			picture.Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
+			picture.Position.Height = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
+			picture.Position.Y = StyleHelper.ICON_BUTTON_MARGIN;
+			picture.Style = StyleHelper.IconPictureStyle;
 
 			var mouseDownGesture = new MouseDownGesture();
 			mouseDownGesture.MouseDown += mouseDownHandler;

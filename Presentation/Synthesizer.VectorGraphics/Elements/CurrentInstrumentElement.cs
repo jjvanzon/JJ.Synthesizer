@@ -19,8 +19,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
 	public class CurrentInstrumentElement : ElementWithViewModelBase
 	{
-		private const float MARGIN_TOP = 4f;
-
 		public event EventHandler ExpandRequested;
 		public event EventHandler<EventArgs<int>> ExpandItemRequested;
 		public event EventHandler<EventArgs<int>> MoveBackwardRequested;
@@ -112,12 +110,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			float x = Position.Width;
 
-			x -= StyleHelper.ICON_SIZE;
+			x -= StyleHelper.ICON_BUTTON_MARGIN;
+			x -= StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 
 			_pictureExpand.Position.X = x;
 
-			x -= StyleHelper.SMALL_SPACING;
-			x -= StyleHelper.ICON_SIZE;
+			x -= StyleHelper.ICON_BUTTON_MARGIN;
+			x -= StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 
 			_picturePlay.Position.X = x;
 
@@ -163,9 +162,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			{
 				UnderlyingPicture = underlyingPicture
 			};
-			picture.Position.Width = StyleHelper.ICON_SIZE;
-			picture.Position.Height = StyleHelper.ICON_SIZE;
-			picture.Position.Y = MARGIN_TOP;
+			picture.Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
+			picture.Position.Height = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
+			picture.Position.X = StyleHelper.ICON_BUTTON_MARGIN;
+			picture.Position.Y = StyleHelper.ICON_BUTTON_MARGIN;
+			picture.Style = StyleHelper.IconPictureStyle;
 
 			var mouseDownGesture = new MouseDownGesture();
 			mouseDownGesture.MouseDown += mouseDownHandler;
