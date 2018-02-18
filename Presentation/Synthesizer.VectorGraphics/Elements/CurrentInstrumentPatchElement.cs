@@ -26,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly Picture _pictureMoveForward;
 		private readonly Picture _picturePlay;
 		private readonly Picture _pictureExpand;
+		private readonly ToolTipElement _toolTipElement;
 
 		public event EventHandler<EventArgs<int>> DeleteRequested;
 		public event EventHandler<EventArgs<int>> ExpandRequested;
@@ -35,6 +36,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		public CurrentInstrumentPatchElement(
 			Element parent,
+			ToolTipElement toolTipElement,
 			object underlyingPictureDelete,
 			object underlyingPictureExpand,
 			object underlyingPictureMoveBackward,
@@ -44,6 +46,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			: base(parent)
 		{
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
+			_toolTipElement = toolTipElement ?? throw new ArgumentNullException(nameof(toolTipElement));
 
 			_label = CreateLabel();
 
@@ -134,26 +137,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			mouseDownGesture.MouseDown += mouseDownHandler;
 			picture.Gestures.Add(mouseDownGesture);
 
-			ToolTipGesture toolTipGesture = CreateToolTipGesture();
+			var toolTipGesture = new ToolTipGesture(_toolTipElement, toolTipText);
 			picture.Gestures.Add(toolTipGesture);
-			toolTipGesture.SetToolTipText(toolTipText);
 
 			return picture;
-		}
-
-		private ToolTipGesture CreateToolTipGesture()
-		{
-			var toolTipElement = new ToolTipElement(
-				Diagram.Background,
-				StyleHelper.ToolTipBackStyle,
-				StyleHelper.ToolTipLineStyle,
-				StyleHelper.ToolTipTextStyle,
-				_textMeasurer,
-				zIndex: 2);
-
-			var toolTipGesture = new ToolTipGesture(toolTipElement);
-
-			return toolTipGesture;
 		}
 
 		private void _pictureDelete_MouseDown(object sender, EventArgs e) => DeleteRequested(this, new EventArgs<int>(_viewModel.PatchID));

@@ -32,6 +32,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Picture _picturePlay;
 		private readonly Picture _pictureExpand;
+		private readonly ToolTipElement _toolTipElement;
 		private readonly IList<CurrentInstrumentPatchElement> _patchElements = new List<CurrentInstrumentPatchElement>();
 		private readonly object _underlyingPictureDelete;
 		private readonly object _underlyingPictureExpand;
@@ -56,8 +57,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_underlyingPicturePlay = underlyingPicturePlay ?? throw new ArgumentNullException(nameof(underlyingPicturePlay));
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 
-			_pictureExpand = CreatePicture(underlyingPictureExpand, CommonResourceFormatter.Open, _pictureExpand_MouseDown);
-			_picturePlay = CreatePicture(underlyingPicturePlay, ResourceFormatter.Play, _picturePlay_MouseDown);
+			_toolTipElement = CreateToolTipElement();
+			_pictureExpand = CreatePicture(underlyingPictureExpand, _toolTipElement, CommonResourceFormatter.Open, _pictureExpand_MouseDown);
+			_picturePlay = CreatePicture(underlyingPicturePlay, _toolTipElement, ResourceFormatter.Play, _picturePlay_MouseDown);
 		}
 
 		public new CurrentInstrumentViewModel ViewModel
@@ -135,6 +137,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			var itemElement = new CurrentInstrumentPatchElement(
 				this,
+				_toolTipElement,
 				_underlyingPictureDelete,
 				_underlyingPictureExpand,
 				_underlyingPictureMoveBackward,
@@ -154,7 +157,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			return itemElement;
 		}
 
-		private Picture CreatePicture(object underlyingPicture, string toolTipText, EventHandler<MouseEventArgs> mouseDownHandler)
+		private Picture CreatePicture(object underlyingPicture, ToolTipElement toolTipElement, string toolTipText, EventHandler<MouseEventArgs> mouseDownHandler)
 		{
 			var picture = new Picture(this)
 			{
@@ -168,25 +171,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			mouseDownGesture.MouseDown += mouseDownHandler;
 			picture.Gestures.Add(mouseDownGesture);
 
-			ToolTipGesture toolTipGesture = CreateToolTipGesture();
+			var toolTipGesture = new ToolTipGesture(toolTipElement, toolTipText);
 			picture.Gestures.Add(toolTipGesture);
-			toolTipGesture.SetToolTipText(toolTipText);
 
 			return picture;
 		}
 
-		private ToolTipGesture CreateToolTipGesture()
+		private ToolTipElement CreateToolTipElement()
 		{
-			var toolTipElement = new ToolTipElement(
+			return new ToolTipElement(
 				Diagram.Background,
 				StyleHelper.ToolTipBackStyle,
 				StyleHelper.ToolTipLineStyle,
 				StyleHelper.ToolTipTextStyle,
-				_textMeasurer,
-				zIndex: 2);
-
-			var toolTipGesture = new ToolTipGesture(toolTipElement);
-			return toolTipGesture;
+				_textMeasurer);
 		}
 
 		private void patchElement_ExpandRequested(object sender, EventArgs<int> e) => ExpandItemRequested(sender, e);

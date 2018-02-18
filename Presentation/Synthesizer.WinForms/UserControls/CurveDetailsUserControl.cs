@@ -189,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// TODO: This kind of seems to belong in the ApplyViewModelToControls().
 			// Refresh ToolTip Text
 			NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
-			_converter.Result.NodeToolTipGesture.SetToolTipText(nodeViewModel.Caption);
+			_converter.Result.NodeToolTipGesture.ShowToolTipText(nodeViewModel.Caption);
 		}
 
 		private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
@@ -215,7 +215,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// TODO: This kind of seems to belong in the ApplyViewModelToControls().
 			// Refresh ToolTip Text
 			NodeViewModel nodeViewModel = ViewModel.Nodes[nodeID];
-			_converter.Result.NodeToolTipGesture.SetToolTipText(nodeViewModel.Caption);
+			_converter.Result.NodeToolTipGesture.ShowToolTipText(nodeViewModel.Caption);
 		}
 
 		private void BackgroundClickGesture_Click(object sender, ElementEventArgs e)

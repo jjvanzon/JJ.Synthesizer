@@ -13,14 +13,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 		public event EventHandler<ToolTipTextEventArgs> ToolTipTextRequested;
 
 		private readonly ToolTipElement _toolTipElement;
+		private readonly string _fixedToolTipText;
 		private readonly bool _preferShowOnBottom;
 		private readonly MouseLeaveGesture _mouseLeaveGesture;
 
 		private Element _previousElement;
 
-		public ToolTipGesture(ToolTipElement toolTipElement, bool preferShowOnBottom = false)
+		/// <param name="fixedToolTipText">
+		/// If you do not set it to a fixed text here,
+		/// use the ToolTipTextRequested event and/or the ShowToolTipText method to change it on the fly.
+		/// </param>
+		public ToolTipGesture(ToolTipElement toolTipElement, string fixedToolTipText = null, bool preferShowOnBottom = false)
 		{
 			_toolTipElement = toolTipElement ?? throw new ArgumentNullException(nameof(toolTipElement));
+			_fixedToolTipText = fixedToolTipText;
 			_preferShowOnBottom = preferShowOnBottom;
 
 			_mouseLeaveGesture = new MouseLeaveGesture();
@@ -37,11 +43,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		protected override void HandleMouseMove(object sender, MouseEventArgs e)
 		{
-			if (ToolTipTextRequested == null)
-			{
-				return;
-			}
-
 			// TODO: Is e.Element not nullable?
 			if (e.Element == null)
 			{
@@ -53,12 +54,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 				return;
 			}
 
-			var e2 = new ToolTipTextEventArgs(e.Element);
-			ToolTipTextRequested(sender, e2);
-
-			if (!string.IsNullOrEmpty(e2.ToolTipText))
+			if (!string.IsNullOrEmpty(_fixedToolTipText))
 			{
-				SetToolTipText(e2.Element, e2.ToolTipText);
+				ShowToolTipText(e.Element, _fixedToolTipText);
+			}
+			else
+			{
+				var e2 = new ToolTipTextEventArgs(e.Element);
+				ToolTipTextRequested?.Invoke(sender, e2);
+
+				if (!string.IsNullOrEmpty(e2.ToolTipText))
+				{
+					ShowToolTipText(e.Element, e2.ToolTipText);
+				}
 			}
 
 			_previousElement = e.Element;
@@ -69,21 +77,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			HideToolTip(e.Element);
 		}
 
-		public void SetToolTipText(string text)
+		public void ShowToolTipText(string text)
 		{
 			if (_previousElement == null)
 			{
 				return;
 			}
 
-			SetToolTipText(_previousElement, text);
+			ShowToolTipText(_previousElement, text);
 		}
 
-		private void SetToolTipText(Element element, string text)
+		private void ShowToolTipText(Element element, string text)
 		{
 			if (element == null) throw new NullException(() => element);
 
-			HideToolTip(element); // Also removes it from the previous diagram, if needed.
+			HideToolTip(element);
 
 			if (string.IsNullOrEmpty(text))
 			{
@@ -91,10 +99,37 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 				return;
 			}
 
-			_toolTipElement.Parent = element;
-
 			_toolTipElement.SetText(text);
 
+			_toolTipElement.Parent = element;
+
+			SetToolTipElementRelativePosition();
+
+			// Add _mouseLeaveGesture.
+			if (!element.Gestures.Contains(_mouseLeaveGesture))
+			{
+				element.Gestures.Add(_mouseLeaveGesture);
+			}
+
+			_toolTipElement.Visible = true;
+		}
+
+		private void HideToolTip(Element parentElement)
+		{
+			if (parentElement == null) throw new NullException(() => parentElement);
+
+			_toolTipElement.Visible = false;
+
+			parentElement.Gestures.Remove(_mouseLeaveGesture);
+
+			_previousElement?.Gestures.Remove(_mouseLeaveGesture);
+			_previousElement = null;
+		}
+
+		// Positioning
+
+		private void SetToolTipElementRelativePosition()
+		{
 			// Set X and Y
 			PositionOnTheRight(_toolTipElement);
 			if (_preferShowOnBottom)
@@ -130,14 +165,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			{
 				PositionOnTop(_toolTipElement);
 			}
-
-			// Add _mouseLeaveGesture.
-			if (!element.Gestures.Contains(_mouseLeaveGesture))
-			{
-				element.Gestures.Add(_mouseLeaveGesture);
-			}
-
-			_toolTipElement.Visible = true;
 		}
 
 		private bool BottomBoundIsExceeded(Element toolTipElement)
@@ -220,18 +247,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 		private static void PositionOnBottom(Element toolTipElement)
 		{
 			toolTipElement.Position.Y = toolTipElement.Position.Height + toolTipElement.Position.Height;
-		}
-
-		private void HideToolTip(Element parentElement)
-		{
-			if (parentElement == null) throw new NullException(() => parentElement);
-
-			_toolTipElement.Visible = false;
-
-			parentElement.Gestures.Remove(_mouseLeaveGesture);
-
-			_previousElement?.Gestures.Remove(_mouseLeaveGesture);
-			_previousElement = null;
 		}
 	}
 }
