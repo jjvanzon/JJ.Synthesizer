@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer
 		private static Document _systemDocument;
 		private static Dictionary<string, Patch> _systemPatchDictionary;
 		private static IList<MidiMappingElement> _systemMidiMappingElements;
+		private static IList<MidiMapping> _systemMidiMappings;
 
 		private readonly IDocumentRepository _documentRepository;
 
@@ -42,7 +43,8 @@ namespace JJ.Business.Synthesizer
 
 				_systemDocument = _documentRepository.GetByNameComplete(DocumentHelper.SYSTEM_DOCUMENT_NAME);
 				_systemPatchDictionary = _systemDocument.Patches.Where(x => !x.Hidden).ToDictionary(x => x.Name);
-				_systemMidiMappingElements = _systemDocument.MidiMappings.SelectMany(x => x.MidiMappingElements).ToArray();
+				_systemMidiMappings = _systemDocument.MidiMappings;
+				_systemMidiMappingElements = _systemMidiMappings.SelectMany(x => x.MidiMappingElements).ToArray();
 			}
 		}
 
@@ -57,6 +59,7 @@ namespace JJ.Business.Synthesizer
 			{
 				_systemDocument = null;
 				_systemPatchDictionary = null;
+				_systemMidiMappings = null;
 				_systemMidiMappingElements = null;
 			}
 		}
@@ -65,6 +68,12 @@ namespace JJ.Business.Synthesizer
 		{
 			EnsureCache();
 			return _systemDocument;
+		}
+
+		public IList<MidiMapping> GetDefaultMidiMappings()
+		{
+			EnsureCache();
+			return _systemMidiMappings;
 		}
 
 		public IList<MidiMappingElement> GetDefaultMidiMappingElements()

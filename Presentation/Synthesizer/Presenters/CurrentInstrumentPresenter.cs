@@ -20,12 +20,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly IDocumentRepository _documentRepository;
 		private readonly IPatchRepository _patchRepository;
 		private readonly AutoPatcher _autoPatcher;
+		private readonly SystemFacade _systemFacade;
 
-		public CurrentInstrumentPresenter(AutoPatcher autoPatcher, IDocumentRepository documentRepository, IPatchRepository patchRepository)
+		public CurrentInstrumentPresenter(
+			AutoPatcher autoPatcher,
+			SystemFacade systemFacade,
+			IDocumentRepository documentRepository,
+			IPatchRepository patchRepository)
 		{
 			_autoPatcher = autoPatcher ?? throw new ArgumentNullException(nameof(autoPatcher));
 			_documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
 			_patchRepository = patchRepository ?? throw new ArgumentNullException(nameof(patchRepository));
+			_systemFacade = systemFacade ?? throw new ArgumentNullException(nameof(systemFacade));
 		}
 
 		protected override (Document document, IList<Patch> patches) GetEntity(CurrentInstrumentViewModel userInput)
@@ -36,13 +42,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			                                .Select(x => x.EntityID)
 			                                .Select(x => _patchRepository.Get(x))
 			                                .ToList();
-
 			return (document, patches);
 		}
 
-		protected override CurrentInstrumentViewModel ToViewModel((Document document, IList<Patch> patches) x)
+		protected override CurrentInstrumentViewModel ToViewModel((Document document, IList<Patch> patches) tuple)
 		{
-			return x.document.ToCurrentInstrumentViewModel(x.patches);
+			(Document document, IList<Patch> patches) = tuple;
+
+			IList<MidiMapping> midiMappings = _systemFacade.GetDefaultMidiMappings();
+
+			Scale scale = midiMappings.SelectMany(x => x.MidiMappingElements)
+			                          .Select(x => x.Scale)
+			                          .FirstOrDefault(x => x != null);
+
+			return document.ToCurrentInstrumentViewModel(scale, midiMappings, patches);
 		}
 
 		public CurrentInstrumentViewModel Add(CurrentInstrumentViewModel userInput, int patchID)

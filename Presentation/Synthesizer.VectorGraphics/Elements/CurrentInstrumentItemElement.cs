@@ -75,6 +75,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_label.Text = ViewModel.Name;
 			_pictureButtonMoveBackward.Visible = _viewModel.CanGoBackward;
 			_pictureButtonMoveForward.Visible = _viewModel.CanGoForward;
+			_pictureButtonPlay.Visible = _viewModel.CanPlay;
 		}
 
 		public void PositionElements()

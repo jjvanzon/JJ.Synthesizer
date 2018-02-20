@@ -110,7 +110,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(this Document higherDocument, IList<Patch> patches)
+		public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(
+			this Document higherDocument,
+			Scale scale,
+			IList<MidiMapping> midiMappings,
+			IList<Patch> patches)
 		{
 			if (patches == null) throw new ArgumentNullException(nameof(patches));
 			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
@@ -123,15 +127,26 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			// Lookup for Aliases (of DocumentReference by Document).
 			Dictionary<int, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences
 																						   .ToDictionary(x => x.LowerDocument.ID);
-			int lastIndex = patches.Count - 1;
+			int lastPatchIndex = patches.Count - 1;
 
 			viewModel.Patches = patches.Select((x, i) => new CurrentInstrumentItemViewModel
 			{
 				EntityID = x.ID,
 				Name = getName(x),
 				CanGoBackward = i != 0,
-				CanGoForward = i != lastIndex,
+				CanGoForward = i != lastPatchIndex,
 				CanPlay = true
+			}).ToList();
+
+			int lastMidiMappingIndex = midiMappings.Count - 1;
+
+			viewModel.MidiMappingElements = midiMappings.Select((x, i) => new CurrentInstrumentItemViewModel
+			{
+				EntityID = x.ID,
+				Name = x.Name,
+				CanGoBackward = i != 0,
+				CanGoForward = i != lastMidiMappingIndex,
+				CanPlay = false
 			}).ToList();
 
 			string getName(Patch patch)
@@ -151,6 +166,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				return $"{documentReference.GetAliasOrName()} | {patch.Name}";
 			}
 
+			viewModel.Scale = scale.ToIDAndName();
 			return viewModel;
 		}
 
