@@ -3,7 +3,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class ToneGridEditViewModel : ViewModelBase
+	public sealed class ToneGridEditViewModel : ScreenViewModelBase
 	{
 		public int ScaleID { get; set; }
 		public IList<ToneViewModel> Tones { get; set; }

@@ -2,7 +2,7 @@
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public class SampleFileBrowserViewModel : ViewModelBase
+	public class SampleFileBrowserViewModel : ScreenViewModelBase
 	{
 		public byte[] Bytes { get; set; }
 		public int DestPatchID { get; set; }

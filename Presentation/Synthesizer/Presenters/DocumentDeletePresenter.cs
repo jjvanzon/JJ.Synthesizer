@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <summary> return DocumentDeleteViewModel or DocumentCannotDeleteViewModel. </summary>
-		public ViewModelBase Show(int id)
+		public ScreenViewModelBase Show(int id)
 		{
 			// GetEntity
 			Document document = _documentRepository.Get(id);
@@ -56,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <summary> Can return DocumentDeletedViewModel or DocumentCannotDeletePresenter. </summary>
-		public ViewModelBase Confirm(DocumentDeleteViewModel userInput)
+		public ScreenViewModelBase Confirm(DocumentDeleteViewModel userInput)
 		{
 			if (userInput == null) throw new NullException(() => userInput);
 

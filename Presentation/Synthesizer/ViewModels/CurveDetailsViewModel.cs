@@ -4,7 +4,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class CurveDetailsViewModel : ViewModelBase
+	public sealed class CurveDetailsViewModel : ScreenViewModelBase
 	{
 		public IDAndName Curve { get; set; }
 		public Dictionary<int, NodeViewModel> Nodes { get; set; }

@@ -4,7 +4,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class MidiMappingDetailsViewModel : ViewModelBase
+	public sealed class MidiMappingDetailsViewModel : ScreenViewModelBase
 	{
 		public IDAndName MidiMapping { get; set; }
 		public Dictionary<int, MidiMappingElementItemViewModel> Elements { get; set; }

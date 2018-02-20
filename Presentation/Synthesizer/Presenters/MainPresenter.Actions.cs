@@ -340,7 +340,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					// GetEntities
 					AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(userInput.Entity.ID);
-					IList<Patch> entities = MainViewModel.Document.CurrentInstrument.Patches.Select(x => _repositories.PatchRepository.Get(x.PatchID)).ToArray();
+					IList<Patch> entities = MainViewModel.Document.CurrentInstrument.Patches.Select(x => _repositories.PatchRepository.Get(x.EntityID)).ToArray();
 
 					// Business
 					Patch autoPatch = _autoPatcher.AutoPatch(entities);
@@ -474,7 +474,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
 			// Get Entities
-			IList<Patch> underlyingPatches = currentInstrumentUserInput.Patches.Select(x => _repositories.PatchRepository.Get(x.PatchID)).ToArray();
+			IList<Patch> underlyingPatches = currentInstrumentUserInput.Patches.Select(x => _repositories.PatchRepository.Get(x.EntityID)).ToArray();
 
 			// Business
 			Patch autoPatch = _autoPatcher.AutoPatch(underlyingPatches);
@@ -664,7 +664,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DocumentDeleteViewModel viewModel = MainViewModel.DocumentDelete;
 
 			// Partial Action
-			ViewModelBase viewModel2 = _documentDeletePresenter.Confirm(viewModel);
+			ScreenViewModelBase viewModel2 = _documentDeletePresenter.Confirm(viewModel);
 
 			// RefreshCounter
 			viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
@@ -705,7 +705,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			gridViewModel.Successful = false;
 
 			// Partial Action
-			ViewModelBase viewModel2 = _documentDeletePresenter.Show(id);
+			ScreenViewModelBase viewModel2 = _documentDeletePresenter.Show(id);
 
 			// Successful
 			gridViewModel.Successful = true;
@@ -1360,7 +1360,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					{
 						// GetEntities
 						IList<Patch> entities = MainViewModel.Document.CurrentInstrument.Patches
-						                                     .Select(x => _repositories.PatchRepository.Get(x.PatchID))
+						                                     .Select(x => _repositories.PatchRepository.Get(x.EntityID))
 						                                     .ToArray();
 						// Business
 						Patch autoPatch = _autoPatcher.AutoPatch(entities);
@@ -1924,7 +1924,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
 			// Undo History
-			IList<ViewModelBase> oldStates = default;
+			IList<ScreenViewModelBase> oldStates = default;
 			if (userInput.SelectedNodeID.HasValue)
 			{
 				oldStates = GetNodeStates(userInput.SelectedNodeID.Value);
@@ -1941,7 +1941,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				NodePropertiesRefresh(nodeID);
 
 				// Undo History
-				IList<ViewModelBase> newStates = GetNodeStates(userInput.SelectedNodeID.Value);
+				IList<ScreenViewModelBase> newStates = GetNodeStates(userInput.SelectedNodeID.Value);
 				var undoItem = new UndoUpdateViewModel
 				{
 					OldStates = oldStates,
@@ -3166,9 +3166,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					Tone tone = _repositories.ToneRepository.Get(toneID);
 
 					var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentInstrument.Patches.Count);
-					foreach (CurrentInstrumentPatchViewModel itemViewModel in MainViewModel.Document.CurrentInstrument.Patches)
+					foreach (CurrentInstrumentItemViewModel itemViewModel in MainViewModel.Document.CurrentInstrument.Patches)
 					{
-						Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.PatchID);
+						Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.EntityID);
 						underlyingPatches.Add(underlyingPatch);
 					}
 
@@ -3221,7 +3221,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// provide a delegate to the sub-presenter's action method.
 		/// </summary>
 		private void ExecuteNonPersistedAction<TViewModel>(TViewModel viewModelToDispatch, Action partialAction)
-			where TViewModel : ViewModelBase
+			where TViewModel : ScreenViewModelBase
 		{
 			if (viewModelToDispatch == null) throw new ArgumentNullException(nameof(viewModelToDispatch));
 
@@ -3248,7 +3248,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// <param name="viewModelToDispatch">
 		/// Can be null if no view model is relevant. But if you have a relevant view model, please pass it along.
 		/// </param>
-		private void ExecuteReadAction(ViewModelBase viewModelToDispatch, Action partialAction)
+		private void ExecuteReadAction(ScreenViewModelBase viewModelToDispatch, Action partialAction)
 		{
 			// ToEntity
 			if (MainViewModel.Document.IsOpen)
@@ -3292,7 +3292,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// </param>
 		// ReSharper disable once UnusedParameter.Local
 		private void ExecuteReadAction<TViewModel>(TViewModel viewModelToDoNothingWith, Func<TViewModel> partialAction)
-			where TViewModel : ViewModelBase
+			where TViewModel : ScreenViewModelBase
 		{
 			// ToEntity
 			if (MainViewModel.Document.IsOpen)
@@ -3308,7 +3308,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		private TViewModel ExecuteCreateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
-			where TViewModel : ViewModelBase
+			where TViewModel : ScreenViewModelBase
 		{
 			return ExecuteWriteAction(userInput, partialAction, undoHistoryDelegate: () => MainViewModel.Document.RedoFuture.Clear());
 		}
@@ -3318,7 +3318,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// before having the 'new state' of the undo action.
 		/// </summary>
 		private TViewModel ExecuteUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
-			where TViewModel : ViewModelBase
+			where TViewModel : ScreenViewModelBase
 		{
 			return ExecuteWriteAction(
 				userInput,
@@ -3342,7 +3342,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// For instance for the ChangeSelectedNodeType action, the user input is not the final state of the action.
 		/// </summary>
 		private TViewModel ExecuteSpecialUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
-			where TViewModel : ViewModelBase
+			where TViewModel : ScreenViewModelBase
 		{
 			return ExecuteWriteAction(
 				userInput,
@@ -3355,7 +3355,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// since afterwards the state to remember is already gone.
 		/// </param>
 		private TViewModel ExecuteDeleteAction<TViewModel>(TViewModel userInput, UndoDeleteViewModel undoItemViewModel, Func<TViewModel> partialAction)
-			where TViewModel : ViewModelBase
+			where TViewModel : ScreenViewModelBase
 		{
 			return ExecuteWriteAction(
 				userInput,
@@ -3387,7 +3387,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// and possibly do some refreshing of other view models afterwards.
 		/// </summary>
 		private TViewModel ExecuteWriteAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction, Action undoHistoryDelegate)
-			where TViewModel : ViewModelBase
+			where TViewModel : ScreenViewModelBase
 		{
 			if (userInput == null) throw new NullException(() => userInput);
 

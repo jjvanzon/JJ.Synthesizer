@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
 	internal abstract class EntityPresenterBase<TEntity, TViewModel> : PresenterBase<TViewModel>
-		where TViewModel : ViewModelBase
+		where TViewModel : ScreenViewModelBase
 	{
 		protected abstract TEntity GetEntity(TViewModel userInput);
 

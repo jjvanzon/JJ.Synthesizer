@@ -2,7 +2,7 @@
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class PatchDetailsViewModel : ViewModelBase
+	public sealed class PatchDetailsViewModel : ScreenViewModelBase
 	{
 		public PatchViewModel Entity { get; set; }
 		public OperatorViewModel SelectedOperator { get; set; }

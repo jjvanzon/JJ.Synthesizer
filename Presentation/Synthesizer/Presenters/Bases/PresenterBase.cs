@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
 	internal class PresenterBase<TViewModel>
-		where TViewModel : ViewModelBase
+		where TViewModel : ScreenViewModelBase
 	{
 		/// <summary>
 		/// NOTE: If data read is never edited in this context, we can pretend it is a NonPersistedAction too.

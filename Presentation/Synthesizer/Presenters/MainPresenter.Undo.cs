@@ -87,10 +87,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void ExecuteUndoRedoInsertionOrUpdate(IList<ViewModelBase> states)
+		private void ExecuteUndoRedoInsertionOrUpdate(IList<ScreenViewModelBase> states)
 		{
 			// Action
-			foreach (ViewModelBase viewModel in states)
+			foreach (ScreenViewModelBase viewModel in states)
 			{
 				RestoreUndoState(viewModel);
 			}
@@ -111,9 +111,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DocumentViewModelRefresh();
 		}
 
-		private bool MustRefreshDocument(IList<ViewModelBase> states)
+		private bool MustRefreshDocument(IList<ScreenViewModelBase> states)
 		{
-			foreach (ViewModelBase state in states)
+			foreach (ScreenViewModelBase state in states)
 			{
 				switch (state)
 				{
@@ -126,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return false;
 		}
 
-		private void RestoreUndoState(ViewModelBase viewModel)
+		private void RestoreUndoState(ScreenViewModelBase viewModel)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
@@ -201,37 +201,37 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DocumentViewModelRefresh();
 		}
 
-		private IList<ViewModelBase> GetAudioFileOutputStates(int id) => new List<ViewModelBase>
+		private IList<ScreenViewModelBase> GetAudioFileOutputStates(int id) => new List<ScreenViewModelBase>
 		{
 			ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id)
 		};
 
-		private IList<ViewModelBase> GetLibraryStates(int documentReferenceID) => new List<ViewModelBase> { ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID) };
+		private IList<ScreenViewModelBase> GetLibraryStates(int documentReferenceID) => new List<ScreenViewModelBase> { ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID) };
 
-		private IList<ViewModelBase> GetMidiMappingElementStates(int id)
+		private IList<ScreenViewModelBase> GetMidiMappingElementStates(int id)
 		{
 			MidiMappingElementPropertiesViewModel mappingElementPropertiesViewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
 			int midiMappingID = mappingElementPropertiesViewModel.MidiMappingID;
 			MidiMappingDetailsViewModel midiMappingDetailsViewModel = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
 
-			var states = new List<ViewModelBase> { midiMappingDetailsViewModel, mappingElementPropertiesViewModel };
+			var states = new List<ScreenViewModelBase> { midiMappingDetailsViewModel, mappingElementPropertiesViewModel };
 
 			return states;
 		}
 
-		private IList<ViewModelBase> GetMidiMappingStates(int midiMappingID)
+		private IList<ScreenViewModelBase> GetMidiMappingStates(int midiMappingID)
 		{
 			return ViewModelSelector.EnumerateMidiMappingElementPropertiesViewModel_ByMidiMappingID(MainViewModel.Document, midiMappingID)
-			                        .Union<ViewModelBase>(ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID))
+			                        .Union<ScreenViewModelBase>(ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID))
 			                        .ToArray();
 		}
 
-		private IList<ViewModelBase> GetNodeStates(int id)
+		private IList<ScreenViewModelBase> GetNodeStates(int id)
 		{
 			NodePropertiesViewModel nodePropertiesViewModel = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 			CurveDetailsViewModel curveDetailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, nodePropertiesViewModel.CurveID);
 
-			return new List<ViewModelBase>
+			return new List<ScreenViewModelBase>
 			{
 				nodePropertiesViewModel,
 				curveDetailsViewModel,
@@ -243,12 +243,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// so instead PatchDetailsViewModel is part of the undo state.
 		/// Also including PatchDetailsViewModel in the OperatorState will make sure the cleaning up of obsolete inlets/outlets is taken care of.
 		/// </summary>
-		private IList<ViewModelBase> GetOperatorStates(int id)
+		private IList<ScreenViewModelBase> GetOperatorStates(int id)
 		{
 			OperatorPropertiesViewModelBase operatorPropertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
 			PatchDetailsViewModel patchDetailsViewModel = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, operatorPropertiesViewModel.PatchID);
 
-			var states = new List<ViewModelBase> { patchDetailsViewModel, operatorPropertiesViewModel };
+			var states = new List<ScreenViewModelBase> { patchDetailsViewModel, operatorPropertiesViewModel };
 
 			if (operatorPropertiesViewModel is OperatorPropertiesViewModel_ForCurve castedViewModel)
 			{
@@ -262,14 +262,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return states;
 		}
 
-		private IList<ViewModelBase> GetPatchStates(int id)
+		private IList<ScreenViewModelBase> GetPatchStates(int id)
 		{
 			// NOTE: 'By accident' the GetOperatorStates already includes the PatchDetailsViewModel, but to not apply the uwritter agreement anti-pattern,
 			// it is included here again. When GetOperatorStates changes, this should not break this code. Also it would look like something is wrong if it weren't included here.
 			PatchDetailsViewModel patchDetailsViewModel = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 			PatchPropertiesViewModel patchPropertiesViewModel = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
-			IList<ViewModelBase> states = ViewModelSelector.EnumerateAllOperatorPropertiesViewModels(MainViewModel.Document)
+			IList<ScreenViewModelBase> states = ViewModelSelector.EnumerateAllOperatorPropertiesViewModels(MainViewModel.Document)
 														   .SelectMany(x => GetOperatorStates(x.ID))
 			                                               .Union(patchDetailsViewModel)
 			                                               .Union(patchPropertiesViewModel)
@@ -278,12 +278,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return states;
 		}
 
-		private IList<ViewModelBase> GetScaleStates(int id) => new List<ViewModelBase>
+		private IList<ScreenViewModelBase> GetScaleStates(int id) => new List<ScreenViewModelBase>
 		{
 			ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, id),
 			ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id)
 		};
 
-		private IList<ViewModelBase> GetToneStates(int scaleID) => new List<ViewModelBase> { ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID) };
+		private IList<ScreenViewModelBase> GetToneStates(int scaleID) => new List<ScreenViewModelBase> { ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID) };
 	}
 }

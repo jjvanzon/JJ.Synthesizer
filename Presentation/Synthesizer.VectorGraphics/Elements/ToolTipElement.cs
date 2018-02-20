@@ -38,6 +38,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			};
 		}
 
+		public override void Dispose()
+		{
+			if (Parent == Diagram.Background)
+			{
+				base.Dispose();
+			}
+			else
+			{
+				Parent = Parent.Parent;
+			}
+		}
+
 		/// <summary> Sets the text and resizes the elements to fit the text. </summary>
 		public void SetText(string text)
 		{

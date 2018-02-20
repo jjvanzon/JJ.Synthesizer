@@ -4,7 +4,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class DocumentTreeViewModel : ViewModelBase
+	public sealed class DocumentTreeViewModel : ScreenViewModelBase
 	{
 		public int ID { get; set; }
 		public PatchesTreeNodeViewModel PatchesNode { get; set; }

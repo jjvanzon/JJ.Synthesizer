@@ -3,7 +3,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class DocumentDetailsViewModel : ViewModelBase
+	public sealed class DocumentDetailsViewModel : ScreenViewModelBase
 	{
 		public IDAndName Document { get; set; }
 

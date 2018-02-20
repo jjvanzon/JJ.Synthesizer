@@ -1,42 +1,90 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
-using JJ.Framework.Resources;
-using JJ.Framework.VectorGraphics.EventArg;
-using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
-using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-
-// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	public class CurrentInstrumentElement : ElementWithViewModelBase
+	public class CurrentInstrumentElement : ElementWithScreenViewModelBase
 	{
-		public event EventHandler ExpandRequested;
-		public event EventHandler<EventArgs<int>> ExpandItemRequested;
-		public event EventHandler<EventArgs<int>> MoveBackwardRequested;
-		public event EventHandler<EventArgs<int>> MoveForwardRequested;
-		public event EventHandler PlayRequested;
-		public event EventHandler<EventArgs<int>> PlayItemRequested;
-		public event EventHandler<EventArgs<int>> DeleteRequested;
+		private readonly CurrentInstrumentScaleElement _scaleElement;
+		private readonly CurrentInstrumentItemsElement _patchesElement;
+		private readonly CurrentInstrumentItemsElement _midiMappingElementsElement;
+		private readonly CurrentInstrumentButtonsElement _buttonsElement;
 
-		private readonly ITextMeasurer _textMeasurer;
-		private readonly Picture _picturePlay;
-		private readonly Picture _pictureExpand;
-		private readonly ToolTipElement _toolTipElement;
-		private readonly IList<CurrentInstrumentPatchElement> _patchElements = new List<CurrentInstrumentPatchElement>();
-		private readonly object _underlyingPictureDelete;
-		private readonly object _underlyingPictureExpand;
-		private readonly object _underlyingPictureMoveBackward;
-		private readonly object _underlyingPictureMoveForward;
-		private readonly object _underlyingPicturePlay;
+		public event EventHandler ExpandRequested
+		{
+			add => _buttonsElement.ExpandRequested += value;
+			remove => _buttonsElement.ExpandRequested -= value;
+		}
+
+		public event EventHandler PlayRequested
+		{
+			add => _buttonsElement.PlayRequested += value;
+			remove => _buttonsElement.PlayRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> ExpandPatchRequested
+		{
+			add => _patchesElement.ExpandRequested += value;
+			remove => _patchesElement.ExpandRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> MovePatchBackwardRequested
+		{
+			add => _patchesElement.MoveBackwardRequested += value;
+			remove => _patchesElement.MoveBackwardRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> MovePatchForwardRequested
+		{
+			add => _patchesElement.MoveForwardRequested += value;
+			remove => _patchesElement.MoveForwardRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> PlayPatchRequested
+		{
+			add => _patchesElement.PlayRequested += value;
+			remove => _patchesElement.PlayRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> DeletePatchRequested
+		{
+			add => _patchesElement.DeleteRequested += value;
+			remove => _patchesElement.DeleteRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> ExpandMidiMappingElementRequested
+		{
+			add => _midiMappingElementsElement.ExpandRequested += value;
+			remove => _midiMappingElementsElement.ExpandRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> MoveMidiMappingElementBackwardRequested
+		{
+			add => _midiMappingElementsElement.MoveBackwardRequested += value;
+			remove => _midiMappingElementsElement.MoveBackwardRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> MoveMidiMappingElementForwardRequested
+		{
+			add => _midiMappingElementsElement.MoveForwardRequested += value;
+			remove => _midiMappingElementsElement.MoveForwardRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> PlayMidiMappingElementRequested
+		{
+			add => _midiMappingElementsElement.PlayRequested += value;
+			remove => _midiMappingElementsElement.PlayRequested -= value;
+		}
+
+		public event EventHandler<EventArgs<int>> DeleteMidiMappingElementRequested
+		{
+			add => _midiMappingElementsElement.DeleteRequested += value;
+			remove => _midiMappingElementsElement.DeleteRequested -= value;
+		}
 
 		public CurrentInstrumentElement(
 			Element parent,
@@ -45,19 +93,38 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			object underlyingPictureMoveBackward,
 			object underlyingPictureMoveForward,
 			object underlyingPicturePlay,
-			ITextMeasurer textMeasurer)
-			: base(parent)
+			ITextMeasurer textMeasurer) : base(parent)
 		{
-			_underlyingPictureDelete = underlyingPictureDelete ?? throw new ArgumentNullException(nameof(underlyingPictureDelete));
-			_underlyingPictureExpand = underlyingPictureExpand ?? throw new ArgumentNullException(nameof(underlyingPictureExpand));
-			_underlyingPictureMoveBackward = underlyingPictureMoveBackward ?? throw new ArgumentNullException(nameof(underlyingPictureMoveBackward));
-			_underlyingPictureMoveForward = underlyingPictureMoveForward ?? throw new ArgumentNullException(nameof(underlyingPictureMoveForward));
-			_underlyingPicturePlay = underlyingPicturePlay ?? throw new ArgumentNullException(nameof(underlyingPicturePlay));
-			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
+			var toolTipElement = new ToolTipElement(
+				Diagram.Background,
+				StyleHelper.ToolTipBackStyle,
+				StyleHelper.ToolTipLineStyle,
+				StyleHelper.ToolTipTextStyle,
+				textMeasurer);
 
-			_toolTipElement = CreateToolTipElement();
-			_pictureExpand = CreatePicture(underlyingPictureExpand, _toolTipElement, CommonResourceFormatter.Open, _pictureExpand_MouseDown);
-			_picturePlay = CreatePicture(underlyingPicturePlay, _toolTipElement, ResourceFormatter.Play, _picturePlay_MouseDown);
+			_scaleElement = new CurrentInstrumentScaleElement(this, textMeasurer);
+
+			_patchesElement = new CurrentInstrumentItemsElement(
+				this,
+				toolTipElement,
+				underlyingPictureDelete,
+				underlyingPictureExpand,
+				underlyingPictureMoveBackward,
+				underlyingPictureMoveForward,
+				underlyingPicturePlay,
+				textMeasurer);
+
+			_midiMappingElementsElement = new CurrentInstrumentItemsElement(
+				this,
+				toolTipElement,
+				underlyingPictureDelete,
+				underlyingPictureExpand,
+				underlyingPictureMoveBackward,
+				underlyingPictureMoveForward,
+				underlyingPicturePlay,
+				textMeasurer);
+
+			_buttonsElement = new CurrentInstrumentButtonsElement(this, toolTipElement, underlyingPictureExpand, underlyingPicturePlay);
 		}
 
 		public new CurrentInstrumentViewModel ViewModel
@@ -66,134 +133,32 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			set => base.ViewModel = value;
 		}
 
+		public override void PositionElements()
+		{
+			_scaleElement.PositionElements();
+			_buttonsElement.PositionElements();
+
+			_buttonsElement.Position.X = Position.Width - _buttonsElement.Position.Width - StyleHelper.SMALL_SPACING;
+			
+			float remainingWidth = _buttonsElement.Position.X - _scaleElement.Position.Width - StyleHelper.SMALL_SPACING * 3;
+			float halfRemainingWidth = remainingWidth / 2f;
+
+			_midiMappingElementsElement.Position.X = _scaleElement.Position.Right + StyleHelper.SMALL_SPACING;
+			_midiMappingElementsElement.Position.Width = halfRemainingWidth;
+
+			_patchesElement.Position.X = _midiMappingElementsElement.Position.Right + StyleHelper.SMALL_SPACING;
+			_patchesElement.Position.Width = halfRemainingWidth;
+
+			_patchesElement.PositionElements();
+			_midiMappingElementsElement.PositionElements();
+		}
+
 		protected override void ApplyViewModelToElements()
 		{
-			_picturePlay.Visible = ViewModel.CanPlay;
-			_pictureExpand.Visible = ViewModel.CanExpand;
-
-			// Update
-			int minCount = Math.Min(_patchElements.Count, ViewModel.Patches.Count);
-			for (int i = 0; i < minCount; i++)
-			{
-				CurrentInstrumentPatchViewModel patchViewModel = ViewModel.Patches[i];
-				CurrentInstrumentPatchElement patchElement = _patchElements[i];
-				patchElement.ViewModel = patchViewModel;
-			}
-
-			// Insert
-			for (int i = _patchElements.Count; i < ViewModel.Patches.Count; i++)
-			{
-				CurrentInstrumentPatchViewModel patchViewModel = ViewModel.Patches[i];
-				CurrentInstrumentPatchElement patchElement = CreatePatchElement(patchViewModel);
-
-				_patchElements.Add(patchElement);
-			}
-
-			// Delete
-			for (int i = _patchElements.Count - 1; i >= ViewModel.Patches.Count; i--)
-			{
-				CurrentInstrumentPatchElement patchElement = _patchElements[i];
-				patchElement.ExpandRequested -= patchElement_ExpandRequested;
-				patchElement.MoveBackwardRequested -= patchElement_MoveBackwardRequested;
-				patchElement.MoveForwardRequested -= patchElement_MoveForwardRequested;
-				patchElement.PlayRequested -= patchElement_PlayRequested;
-				patchElement.DeleteRequested -= patchElement_DeleteRequested;
-				patchElement.Dispose();
-
-				_patchElements.RemoveAt(i);
-			}
-
-			PositionElements();
+			_scaleElement.ViewModel = ViewModel.Scale;
+			_patchesElement.ViewModels = ViewModel.Patches;
+			_midiMappingElementsElement.ViewModels = ViewModel.MidiMappingElements;
+			_buttonsElement.ViewModel = ViewModel;
 		}
-
-		public void PositionElements()
-		{
-			float x = Position.Width;
-
-			x -= StyleHelper.ICON_BUTTON_MARGIN;
-			x -= StyleHelper.ICON_BUTTON_PICTURE_SIZE;
-
-			_pictureExpand.Position.X = x;
-
-			x -= StyleHelper.ICON_BUTTON_MARGIN;
-			x -= StyleHelper.ICON_BUTTON_PICTURE_SIZE;
-
-			_picturePlay.Position.X = x;
-
-			foreach (CurrentInstrumentPatchElement itemElement in _patchElements.Reverse())
-			{
-				x -= StyleHelper.SMALL_SPACING;
-				x -= StyleHelper.SMALL_SPACING;
-				x -= itemElement.Position.Width;
-
-				itemElement.Position.X = x;
-			}
-
-			Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
-		}
-
-		private CurrentInstrumentPatchElement CreatePatchElement(CurrentInstrumentPatchViewModel itemViewModel)
-		{
-			var itemElement = new CurrentInstrumentPatchElement(
-				this,
-				_toolTipElement,
-				_underlyingPictureDelete,
-				_underlyingPictureExpand,
-				_underlyingPictureMoveBackward,
-				_underlyingPictureMoveForward,
-				_underlyingPicturePlay,
-				_textMeasurer)
-			{
-				ViewModel = itemViewModel
-			};
-			itemElement.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
-
-			itemElement.ExpandRequested += patchElement_ExpandRequested;
-			itemElement.MoveBackwardRequested += patchElement_MoveBackwardRequested;
-			itemElement.MoveForwardRequested += patchElement_MoveForwardRequested;
-			itemElement.PlayRequested += patchElement_PlayRequested;
-			itemElement.DeleteRequested += patchElement_DeleteRequested;
-			return itemElement;
-		}
-
-		private Picture CreatePicture(object underlyingPicture, ToolTipElement toolTipElement, string toolTipText, EventHandler<MouseEventArgs> mouseDownHandler)
-		{
-			var picture = new Picture(this)
-			{
-				UnderlyingPicture = underlyingPicture
-			};
-			picture.Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
-			picture.Position.Height = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
-			picture.Position.X = StyleHelper.ICON_BUTTON_MARGIN;
-			picture.Position.Y = StyleHelper.ICON_BUTTON_MARGIN;
-			picture.Style = StyleHelper.IconPictureStyle;
-
-			var mouseDownGesture = new MouseDownGesture();
-			mouseDownGesture.MouseDown += mouseDownHandler;
-			picture.Gestures.Add(mouseDownGesture);
-
-			var toolTipGesture = new ToolTipGesture(toolTipElement, toolTipText, preferredSideToShowToolTip: ToolTipPositioningEnum.CenterRight);
-			picture.Gestures.Add(toolTipGesture);
-
-			return picture;
-		}
-
-		private ToolTipElement CreateToolTipElement()
-		{
-			return new ToolTipElement(
-				Diagram.Background,
-				StyleHelper.ToolTipBackStyle,
-				StyleHelper.ToolTipLineStyle,
-				StyleHelper.ToolTipTextStyle,
-				_textMeasurer);
-		}
-
-		private void patchElement_ExpandRequested(object sender, EventArgs<int> e) => ExpandItemRequested(sender, e);
-		private void patchElement_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
-		private void patchElement_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
-		private void patchElement_PlayRequested(object sender, EventArgs<int> e) => PlayItemRequested(sender, e);
-		private void patchElement_DeleteRequested(object sender, EventArgs<int> e) => DeleteRequested(sender, e);
-		private void _pictureExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
-		private void _picturePlay_MouseDown(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
 	}
 }

@@ -3,7 +3,7 @@ using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public abstract class OperatorPropertiesViewModelBase : ViewModelBase
+	public abstract class OperatorPropertiesViewModelBase : ScreenViewModelBase
 	{
 		public int ID { get; set; }
 		public int PatchID { get; set; }

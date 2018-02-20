@@ -3,7 +3,7 @@
 namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
 	internal abstract class EntityPresenterWithoutSaveBase<TEntity, TViewModel> : EntityPresenterBase<TEntity, TViewModel>
-		where TViewModel : ViewModelBase
+		where TViewModel : ScreenViewModelBase
 	{
 		public virtual void Close(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 	}

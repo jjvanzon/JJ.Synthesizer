@@ -100,7 +100,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new CurrentInstrumentViewModel
 			{
 				DocumentID = higherDocument.ID,
-				Patches = new List<CurrentInstrumentPatchViewModel>(),
+				Scale = ToViewModelHelper.CreateEmptyIDAndName(),
+				Patches = new List<CurrentInstrumentItemViewModel>(),
+				MidiMappingElements = new List<CurrentInstrumentItemViewModel>(),
 				ValidationMessages = new List<string>(),
 				Visible = true
 			};
@@ -123,12 +125,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 																						   .ToDictionary(x => x.LowerDocument.ID);
 			int lastIndex = patches.Count - 1;
 
-			viewModel.Patches = patches.Select((x, i) => new CurrentInstrumentPatchViewModel
+			viewModel.Patches = patches.Select((x, i) => new CurrentInstrumentItemViewModel
 			{
-				PatchID = x.ID,
+				EntityID = x.ID,
 				Name = getName(x),
 				CanGoBackward = i != 0,
-				CanGoForward = i != lastIndex
+				CanGoForward = i != lastIndex,
+				CanPlay = true
 			}).ToList();
 
 			string getName(Patch patch)

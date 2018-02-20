@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public sealed class AudioOutputPropertiesViewModel : ViewModelBase
+	public sealed class AudioOutputPropertiesViewModel : ScreenViewModelBase
 	{
 		public AudioOutputViewModel Entity { get; set; }
 		public IList<IDAndName> SpeakerSetupLookup { get; set; }

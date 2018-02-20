@@ -112,7 +112,7 @@
     <Compile Include="ViewModels\AudioOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\CurrentInstrumentViewModel.cs" />
     <Compile Include="ViewModels\DocumentOrPatchNotFoundPopupViewModel.cs" />
-    <Compile Include="ViewModels\Items\CurrentInstrumentPatchViewModel.cs" />
+    <Compile Include="ViewModels\Items\CurrentInstrumentItemViewModel.cs" />
     <Compile Include="ViewModels\Items\DocumentTreeNodeTypeEnum.cs" />
     <Compile Include="ViewModels\Items\AutoPatchPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\PositionViewModel.cs" />
@@ -190,7 +190,7 @@
     <Compile Include="ViewModels\ScaleGridViewModel.cs" />
     <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModelBase.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ScreenViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\Canonical\JJ.Business.Canonical.csproj">

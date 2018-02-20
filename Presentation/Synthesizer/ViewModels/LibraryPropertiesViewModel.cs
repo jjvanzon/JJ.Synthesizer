@@ -2,7 +2,7 @@
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class LibraryPropertiesViewModel : ViewModelBase
+	public sealed class LibraryPropertiesViewModel : ScreenViewModelBase
 	{
 		public int DocumentReferenceID { get; set; }
 		public int LowerDocumentID { get; set; }

@@ -187,7 +187,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private Patch GetCurrentInstrumentPatch()
 		{
 			IList<Patch> patches = _mainPresenter.MainViewModel.Document.CurrentInstrument.Patches
-			                                     .Select(x => _repositories.PatchRepository.Get(x.PatchID))
+			                                     .Select(x => _repositories.PatchRepository.Get(x.EntityID))
 			                                     .ToArray();
 			if (patches.Count == 0)
 			{

@@ -3,15 +3,15 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	public abstract class ElementWithViewModelBase : ElementBase
+	public abstract class ElementWithScreenViewModelBase : ElementBase
 	{
-		private ViewModelBase _viewModel;
+		private ScreenViewModelBase _viewModel;
 		private int _refreshCounter = -1;
 
-		public ElementWithViewModelBase(Element parent) : base(parent) { }
+		public ElementWithScreenViewModelBase(Element parent) : base(parent) { }
 
 		/// <summary> nullable </summary>
-		public ViewModelBase ViewModel
+		protected ScreenViewModelBase ViewModel
 		{
 			get => _viewModel;
 			set
@@ -31,10 +31,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				if (mustApplyViewModel)
 				{
 					ApplyViewModelToElements();
+					PositionElements();
 				}
 			}
 		}
 
 		protected abstract void ApplyViewModelToElements();
+		public abstract void PositionElements();
 	}
 }

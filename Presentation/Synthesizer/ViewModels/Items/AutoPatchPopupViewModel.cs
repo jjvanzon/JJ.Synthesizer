@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 	/// but the other accompanying screens are necessary to be able to save the complete Patch 
 	/// object graph: PatchProperties and all the different variations of the OperatorProperties view models.
 	/// </summary>
-	public sealed class AutoPatchPopupViewModel : ViewModelBase
+	public sealed class AutoPatchPopupViewModel : ScreenViewModelBase
 	{
 		public PatchDetailsViewModel PatchDetails { get; set; }
 		public PatchPropertiesViewModel PatchProperties { get; set; }

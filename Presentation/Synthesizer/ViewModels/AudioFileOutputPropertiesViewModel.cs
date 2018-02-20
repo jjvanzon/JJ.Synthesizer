@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class AudioFileOutputPropertiesViewModel : ViewModelBase
+	public sealed class AudioFileOutputPropertiesViewModel : ScreenViewModelBase
 	{
 		public AudioFileOutputViewModel Entity { get; set; }
 

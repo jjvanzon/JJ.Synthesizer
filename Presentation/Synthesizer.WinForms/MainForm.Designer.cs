@@ -43,7 +43,7 @@
 			this.operatorPropertiesUserControl_ForSample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForSample();
 			this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
 			this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-			this.currentInstrumentUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentUserControl2();
+			this.currentInstrumentUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentUserControl();
 			this.splitContainerCurvesAndTopSide = new System.Windows.Forms.SplitContainer();
 			this.curveDetailsListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveDetailsListUserControl();
 			this.midiMappingElementPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingElementPropertiesUserControl();
@@ -791,7 +791,7 @@
 		private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
 		private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
 		private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
-		private UserControls.CurrentInstrumentUserControl2 currentInstrumentUserControl;
+		private UserControls.CurrentInstrumentUserControl currentInstrumentUserControl;
 		private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
 		private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
 		private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;

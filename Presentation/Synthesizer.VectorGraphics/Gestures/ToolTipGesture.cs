@@ -282,7 +282,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		private static void PositionToTheLeft(Element toolTipElement)
 		{
-			toolTipElement.Position.RelativeRight = 0;
+			toolTipElement.Position.Right = 0;
 		}
 
 		private static void PositionToTheRight(Element toolTipElement)
@@ -312,7 +312,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		private static void PositionInCenterY(Element toolTipElement)
 		{
-			toolTipElement.Position.RelativeCenterY = toolTipElement.Parent.Position.Height / 2f;
+			toolTipElement.Position.CenterY = toolTipElement.Parent.Position.Height / 2f;
 		}
 	}
 }

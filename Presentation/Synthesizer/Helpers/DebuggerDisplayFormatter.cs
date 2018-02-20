@@ -121,6 +121,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
 		public static string GetDebuggerDisplay(UndoItemViewModelBase viewModel) => CommonDebuggerDisplayFormatter.GetDebuggerDisplay(viewModel);
 
-		public static string GetDebuggerDisplay(ViewModelBase obj) => CommonDebuggerDisplayFormatter.GetDebuggerDisplay(obj);
+		public static string GetDebuggerDisplay(ScreenViewModelBase obj) => CommonDebuggerDisplayFormatter.GetDebuggerDisplay(obj);
 	}
 }

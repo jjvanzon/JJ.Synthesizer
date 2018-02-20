@@ -12,11 +12,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
 	public partial class MainPresenter
 	{
-		private readonly Dictionary<Type, Action<ViewModelBase>> _dispatchDelegateDictionary;
+		private readonly Dictionary<Type, Action<ScreenViewModelBase>> _dispatchDelegateDictionary;
 
-		private Dictionary<Type, Action<ViewModelBase>> CreateDispatchDelegateDictionary()
+		private Dictionary<Type, Action<ScreenViewModelBase>> CreateDispatchDelegateDictionary()
 		{
-			var dictionary = new Dictionary<Type, Action<ViewModelBase>>
+			var dictionary = new Dictionary<Type, Action<ScreenViewModelBase>>
 			{
 				{ typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
 				{ typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
@@ -68,13 +68,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// but also for instance yielding over the validation message from a partial
 		/// ViewModel to the MainViewModel, and showing and hiding views currently not on the foreground.
 		/// </summary>
-		private void DispatchViewModel(ViewModelBase viewModel)
+		private void DispatchViewModel(ScreenViewModelBase viewModel)
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 
 			Type viewModelType = viewModel.GetType();
 
-			if (!_dispatchDelegateDictionary.TryGetValue(viewModelType, out Action<ViewModelBase> dispatchDelegate))
+			if (!_dispatchDelegateDictionary.TryGetValue(viewModelType, out Action<ScreenViewModelBase> dispatchDelegate))
 			{
 				throw new Exception($"{nameof(_dispatchDelegateDictionary)} does not contain {nameof(viewModelType)} '{viewModelType}'.");
 			}
@@ -82,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			dispatchDelegate(viewModel);
 		}
 
-		private void DispatchAudioFileOutputGridViewModel(ViewModelBase viewModel)
+		private void DispatchAudioFileOutputGridViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (AudioFileOutputGridViewModel)viewModel;
 
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchAudioFileOutputPropertiesViewModel(ViewModelBase viewModel)
+		private void DispatchAudioFileOutputPropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (AudioFileOutputPropertiesViewModel)viewModel;
 
@@ -117,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchAudioOutputPropertiesViewModel(ViewModelBase viewModel)
+		private void DispatchAudioOutputPropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (AudioOutputPropertiesViewModel)viewModel;
 
@@ -137,7 +137,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchAutoPatchViewModel(ViewModelBase viewModel)
+		private void DispatchAutoPatchViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (AutoPatchPopupViewModel)viewModel;
 
@@ -146,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchCurrentInstrumentViewModel(ViewModelBase viewModel)
+		private void DispatchCurrentInstrumentViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (CurrentInstrumentViewModel)viewModel;
 
@@ -161,7 +161,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchCurveDetailsViewModel(ViewModelBase viewModel)
+		private void DispatchCurveDetailsViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (CurveDetailsViewModel)viewModel;
 
@@ -172,7 +172,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchDocumentCannotDeleteViewModel(ViewModelBase viewModel)
+		private void DispatchDocumentCannotDeleteViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (DocumentCannotDeleteViewModel)viewModel;
 
@@ -181,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchDocumentDeletedViewModel(ViewModelBase viewModel)
+		private void DispatchDocumentDeletedViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (DocumentDeletedViewModel)viewModel;
 
@@ -200,7 +200,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchDocumentDeleteViewModel(ViewModelBase viewModel)
+		private void DispatchDocumentDeleteViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (DocumentDeleteViewModel)viewModel;
 			MainViewModel.DocumentDelete = castedViewModel;
@@ -208,7 +208,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchDocumentDetailsViewModel(ViewModelBase viewModel)
+		private void DispatchDocumentDetailsViewModel(ScreenViewModelBase viewModel)
 		{
 			var documentDetailsViewModel = (DocumentDetailsViewModel)viewModel;
 
@@ -223,7 +223,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(documentDetailsViewModel);
 		}
 
-		private void DispatchDocumentGridViewModel(ViewModelBase viewModel)
+		private void DispatchDocumentGridViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (DocumentGridViewModel)viewModel;
 
@@ -244,7 +244,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchDocumentOrPatchNotFoundPopupViewModel(ViewModelBase viewModel)
+		private void DispatchDocumentOrPatchNotFoundPopupViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewmodel = (DocumentOrPatchNotFoundPopupViewModel)viewModel;
 
@@ -253,7 +253,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewmodel);
 		}
 
-		private void DispatchDocumentPropertiesViewModel(ViewModelBase viewModel)
+		private void DispatchDocumentPropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (DocumentPropertiesViewModel)viewModel;
 
@@ -274,7 +274,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchDocumentTreeViewModel(ViewModelBase viewModel)
+		private void DispatchDocumentTreeViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (DocumentTreeViewModel)viewModel;
 			MainViewModel.Document.DocumentTree = castedViewModel;
@@ -300,7 +300,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchLibraryPropertiesViewModel(ViewModelBase viewModel)
+		private void DispatchLibraryPropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (LibraryPropertiesViewModel)viewModel;
 
@@ -330,7 +330,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchLibrarySelectionPopupViewModel(ViewModelBase viewModel)
+		private void DispatchLibrarySelectionPopupViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (LibrarySelectionPopupViewModel)viewModel;
 
@@ -351,7 +351,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchMenuViewModel(ViewModelBase viewModel)
+		private void DispatchMenuViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (MenuViewModel)viewModel;
 			MainViewModel.Menu = castedViewModel;
@@ -359,7 +359,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchMidiMappingElementPropertiesViewModel(ViewModelBase viewModel)
+		private void DispatchMidiMappingElementPropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (MidiMappingElementPropertiesViewModel)viewModel;
 
@@ -377,7 +377,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchMidiMappingDetailsViewModel(ViewModelBase viewModel)
+		private void DispatchMidiMappingDetailsViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (MidiMappingDetailsViewModel)viewModel;
 
@@ -395,7 +395,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchNodePropertiesViewModel(ViewModelBase viewModel)
+		private void DispatchNodePropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (NodePropertiesViewModel)viewModel;
 
@@ -413,7 +413,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel)viewModel;
 
@@ -431,7 +431,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchOperatorPropertiesViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel_ForCache(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel_ForCache(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForCache)viewModel;
 
@@ -449,7 +449,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchOperatorPropertiesViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel_ForCurve(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel_ForCurve(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForCurve)viewModel;
 
@@ -467,7 +467,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchOperatorPropertiesViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel_ForInletsToDimension(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel_ForInletsToDimension(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForInletsToDimension)viewModel;
 
@@ -485,7 +485,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchOperatorPropertiesViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel_ForNumber(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel_ForNumber(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel;
 
@@ -503,7 +503,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchOperatorPropertiesViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel_ForPatchInlet(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel_ForPatchInlet(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForPatchInlet)viewModel;
 
@@ -521,7 +521,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchOperatorPropertiesViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel_ForPatchOutlet(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel_ForPatchOutlet(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel;
 
@@ -539,7 +539,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchOperatorPropertiesViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel_ForSample(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel_ForSample(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel;
 
@@ -557,7 +557,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchOperatorPropertiesViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel_WithInterpolation(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel_WithInterpolation(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_WithInterpolation)viewModel;
 
@@ -575,7 +575,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchOperatorPropertiesViewModelBase(castedViewModel);
 		}
 
-		private void DispatchOperatorPropertiesViewModel_WithCollectionRecalculation(ViewModelBase viewModel)
+		private void DispatchOperatorPropertiesViewModel_WithCollectionRecalculation(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (OperatorPropertiesViewModel_WithCollectionRecalculation)viewModel;
 
@@ -604,7 +604,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(viewModel);
 		}
 
-		private void DispatchPatchDetailsViewModel(ViewModelBase viewModel)
+		private void DispatchPatchDetailsViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (PatchDetailsViewModel)viewModel;
 
@@ -637,7 +637,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchPatchPropertiesViewModel(ViewModelBase viewModel)
+		private void DispatchPatchPropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (PatchPropertiesViewModel)viewModel;
 
@@ -661,7 +661,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchSampleFileBrowserViewModel(ViewModelBase viewModel)
+		private void DispatchSampleFileBrowserViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (SampleFileBrowserViewModel)viewModel;
 
@@ -670,7 +670,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(viewModel);
 		}
 
-		private void DispatchSaveChangesPopupViewModel(ViewModelBase viewModel)
+		private void DispatchSaveChangesPopupViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (SaveChangesPopupViewModel)viewModel;
 
@@ -679,7 +679,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchScaleGridViewModel(ViewModelBase viewModel)
+		private void DispatchScaleGridViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (ScaleGridViewModel)viewModel;
 
@@ -694,7 +694,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchScalePropertiesViewModel(ViewModelBase viewModel)
+		private void DispatchScalePropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (ScalePropertiesViewModel)viewModel;
 
@@ -712,7 +712,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchToneGridEditViewModel(ViewModelBase viewModel)
+		private void DispatchToneGridEditViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (ToneGridEditViewModel)viewModel;
 
@@ -740,7 +740,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// Note that this does not assign the view model to the right MainViewModel property.
 		/// You have to do that yourself.
 		/// </summary>
-		private void DispatchViewModelBase(ViewModelBase castedViewModel)
+		private void DispatchViewModelBase(ScreenViewModelBase castedViewModel)
 		{
 			MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
 			castedViewModel.ValidationMessages.Clear();

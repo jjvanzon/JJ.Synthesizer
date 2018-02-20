@@ -5,7 +5,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 {
 	internal abstract class EntityPresenterWithSaveBase<TEntity, TViewModel> 
 		: EntityPresenterBase<TEntity, TViewModel>
-		where TViewModel : ViewModelBase
+		where TViewModel : ScreenViewModelBase
 	{
 		/// <param name="userInput">
 		/// Only used sometimes, typically in case validations must be executed on the view model.

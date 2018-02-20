@@ -118,11 +118,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CurrentInstrumentUserControl2.cs">
+    <Compile Include="UserControls\CurrentInstrumentUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\CurrentInstrumentUserControl2.Designer.cs">
-      <DependentUpon>CurrentInstrumentUserControl2.cs</DependentUpon>
+    <Compile Include="UserControls\CurrentInstrumentUserControl.Designer.cs">
+      <DependentUpon>CurrentInstrumentUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CurveDetailsListUserControl.cs">
       <SubType>UserControl</SubType>
@@ -141,12 +141,6 @@
     </Compile>
     <Compile Include="UserControls\Bases\GridUserControlBase.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\CurrentInstrumentUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\CurrentInstrumentUserControl.Designer.cs">
-      <DependentUpon>CurrentInstrumentUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Bases\OperatorPropertiesUserControlBase.cs">
       <SubType>UserControl</SubType>
@@ -183,12 +177,6 @@
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForInletsToDimension.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForInletsToDimension.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Partials\CurrentInstrumentItemUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\Partials\CurrentInstrumentItemUserControl.Designer.cs">
-      <DependentUpon>CurrentInstrumentItemUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CurveDetailsUserControl.cs">
       <SubType>UserControl</SubType>
@@ -378,8 +366,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CurrentInstrumentUserControl2.resx">
-      <DependentUpon>CurrentInstrumentUserControl2.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\CurrentInstrumentUserControl.resx">
+      <DependentUpon>CurrentInstrumentUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsListUserControl.resx">
       <DependentUpon>CurveDetailsListUserControl.cs</DependentUpon>
@@ -389,9 +377,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Bases\PropertiesUserControlBase.resx">
       <DependentUpon>PropertiesUserControlBase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CurrentInstrumentUserControl.resx">
-      <DependentUpon>CurrentInstrumentUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\LibraryPropertiesUserControl.resx">
       <DependentUpon>LibraryPropertiesUserControl.cs</DependentUpon>
@@ -407,9 +392,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForInletsToDimension.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForInletsToDimension.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\CurrentInstrumentItemUserControl.resx">
-      <DependentUpon>CurrentInstrumentItemUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsUserControl.resx">
       <DependentUpon>CurveDetailsUserControl.cs</DependentUpon>

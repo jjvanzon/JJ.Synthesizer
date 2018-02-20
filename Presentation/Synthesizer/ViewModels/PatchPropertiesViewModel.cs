@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
 	/// <summary> Leading for saving when it comes to the simple properties. </summary>
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public sealed class PatchPropertiesViewModel : ViewModelBase
+	public sealed class PatchPropertiesViewModel : ScreenViewModelBase
 	{
 		public int ID { get; internal set; }
 		public string Name { get; set; }

@@ -26,12 +26,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
 			audioOutputPropertiesUserControl.PlayRequested += audioOutputPropertiesUserControl_PlayRequested;
 			currentInstrumentUserControl.ExpandRequested += currentInstrumentUserControl_ExpandRequested;
-			currentInstrumentUserControl.ExpandItemRequested += currentInstrumentUserControl_ExpandItemRequested;
-			currentInstrumentUserControl.MoveBackwardRequested += currentInstrumentUserControl_MoveBackwardRequested;
-			currentInstrumentUserControl.MoveForwardRequested += currentInstrumentUserControl_MoveForwardRequested;
+			currentInstrumentUserControl.ExpandPatchRequested += CurrentInstrumentUserControl_ExpandPatchRequested;
+			currentInstrumentUserControl.MovePatchBackwardRequested += CurrentInstrumentUserControl_MovePatchBackwardRequested;
+			currentInstrumentUserControl.MovePatchForwardRequested += CurrentInstrumentUserControl_MovePatchForwardRequested;
 			currentInstrumentUserControl.PlayRequested += currentInstrumentUserControl_PlayRequested;
-			currentInstrumentUserControl.PlayItemRequested += CurrentInstrumentUserControl_PlayItemRequested;
-			currentInstrumentUserControl.DeleteRequested += CurrentInstrumentUserControl_DeleteRequested;
+			currentInstrumentUserControl.PlayPatchRequested += CurrentInstrumentUserControl_PlayPatchRequested;
+			currentInstrumentUserControl.DeletePatchRequested += CurrentInstrumentUserControl_DeletePatchRequested;
 			curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsListUserControl_ChangeSelectedNodeTypeRequested;
 			curveDetailsListUserControl.CloseRequested += curveDetailsListUserControl_CloseRequested;
 			curveDetailsListUserControl.CreateNodeRequested += curveDetailsListUserControl_CreateNodeRequested;
@@ -348,12 +348,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(_mainPresenter.CurrentInstrumentExpand);
 		}
 
-		private void currentInstrumentUserControl_ExpandItemRequested(object sender, EventArgs<int> e)
+		private void CurrentInstrumentUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentExpandItem(e.Value));
 		}
 
-		private void currentInstrumentUserControl_MoveBackwardRequested(object sender, EventArgs<int> e)
+		private void CurrentInstrumentUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -363,7 +363,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void currentInstrumentUserControl_MoveForwardRequested(object sender, EventArgs<int> e)
+		private void CurrentInstrumentUserControl_MovePatchForwardRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -384,7 +384,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void CurrentInstrumentUserControl_PlayItemRequested(object sender, EventArgs<int> e)
+		private void CurrentInstrumentUserControl_PlayPatchRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -395,7 +395,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void CurrentInstrumentUserControl_DeleteRequested(object sender, EventArgs<int> e)
+		private void CurrentInstrumentUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>

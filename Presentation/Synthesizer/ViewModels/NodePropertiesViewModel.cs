@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public sealed class NodePropertiesViewModel : ViewModelBase
+	public sealed class NodePropertiesViewModel : ScreenViewModelBase
 	{
 		public int CurveID { get; set; }
 		public NodeViewModel Entity { get; set; }

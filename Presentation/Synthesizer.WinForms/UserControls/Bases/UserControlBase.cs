@@ -6,13 +6,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
 	internal class UserControlBase : UserControl
 	{
-		private ViewModelBase _viewModel;
+		private ScreenViewModelBase _viewModel;
 		private int _refreshCounter = -1;
 
 		/// <summary> nullable </summary>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public ViewModelBase ViewModel
+		public ScreenViewModelBase ViewModel
 		{
 			get => _viewModel;
 			set
