@@ -76,6 +76,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_pictureButtonMoveBackward.Visible = _viewModel.CanGoBackward;
 			_pictureButtonMoveForward.Visible = _viewModel.CanGoForward;
 			_pictureButtonPlay.Visible = _viewModel.CanPlay;
+			_pictureButtonDelete.Visible = _viewModel.CanDelete;
 		}
 
 		public void PositionElements()
@@ -107,8 +108,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_pictureButtonExpand.Position.X = x;
 			x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
 
-			_pictureButtonDelete.Position.X = x;
-			x += StyleHelper.ICON_BUTTON_PICTURE_SIZE;
+			if (_viewModel.CanDelete)
+			{
+				_pictureButtonDelete.Position.X = x;
+				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+			}
+
+			x -= StyleHelper.ICON_BUTTON_MARGIN;
 
 			Position.Width = x;
 			Position.Height = StyleHelper.ICON_BUTTON_SIZE;

@@ -135,7 +135,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				Name = getName(x),
 				CanGoBackward = i != 0,
 				CanGoForward = i != lastPatchIndex,
-				CanPlay = true
+				CanPlay = true,
+				CanDelete = true
 			}).ToList();
 
 			int lastMidiMappingIndex = midiMappings.Count - 1;
@@ -146,7 +147,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				Name = x.Name,
 				CanGoBackward = i != 0,
 				CanGoForward = i != lastMidiMappingIndex,
-				CanPlay = false
+				CanPlay = false,
+				CanDelete = false
 			}).ToList();
 
 			string getName(Patch patch)

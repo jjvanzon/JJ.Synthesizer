@@ -906,8 +906,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.ScalePropertiesDictionary.Values.ForEach(x => x.Successful = true);
 			viewModel.ToneGridEditDictionary.Values.ForEach(x => x.Successful = true);
 
+			// Partials
 			string titleBar = _titleBarPresenter.Show(document);
 			MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: true);
+			viewModel.CurrentInstrument = _currentInstrumentPresenter.Load(viewModel.CurrentInstrument);
 
 			// DispatchViewModel
 			MainViewModel.Document = viewModel;

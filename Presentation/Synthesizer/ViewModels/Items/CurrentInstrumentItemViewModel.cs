@@ -7,5 +7,6 @@
 		public bool CanGoBackward { get; set; }
 		public bool CanGoForward { get; set; }
 		public bool CanPlay { get; set; }
+		public bool CanDelete { get; set; }
 	}
 }

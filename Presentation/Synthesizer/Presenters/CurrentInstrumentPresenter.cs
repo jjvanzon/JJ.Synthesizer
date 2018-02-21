@@ -49,6 +49,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			(Document document, IList<Patch> patches) = tuple;
 
+			// It is kind of a hack to do this much in the ToViewModel, because these entities should already have been retrieved.
 			IList<MidiMapping> midiMappings = _systemFacade.GetDefaultMidiMappings();
 
 			Scale scale = midiMappings.SelectMany(x => x.MidiMappingElements)
@@ -137,6 +138,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			return ExecuteAction(viewModel, entities => entities.patches.RemoveFirst(x => x.ID == patchID));
 		}
+
+		public CurrentInstrumentViewModel Load(CurrentInstrumentViewModel userInput) => Refresh(userInput);
 
 		[Obsolete("Use Load instead.", true)]
 		public override void Show(CurrentInstrumentViewModel viewModel) => throw new NotSupportedException("Call Load instead.");
