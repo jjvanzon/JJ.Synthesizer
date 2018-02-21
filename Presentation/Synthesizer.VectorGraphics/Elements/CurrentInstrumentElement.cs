@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 	public class CurrentInstrumentElement : ElementWithScreenViewModelBase
 	{
 		private readonly CurrentInstrumentScaleElement _scaleElement;
-		private readonly CurrentInstrumentItemsElement _midiMappingElementsElement;
+		private readonly CurrentInstrumentItemsElement _midiMappingsElement;
 		private readonly CurrentInstrumentItemsElement _patchesElement;
 		private readonly CurrentInstrumentButtonsElement _buttonsElement;
 
@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 			_scaleElement = new CurrentInstrumentScaleElement(this, textMeasurer);
 
-			_midiMappingElementsElement = new CurrentInstrumentItemsElement(
+			_midiMappingsElement = new CurrentInstrumentItemsElement(
 				this,
 				HorizontalAlignmentEnum.Left,
 				toolTipElement,
@@ -73,21 +73,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			float remainingWidth = _buttonsElement.Position.X - _scaleElement.Position.Width - StyleHelper.SPACING * 3;
 			float halfRemainingWidth = remainingWidth / 2f;
 
-			_midiMappingElementsElement.Position.X = _scaleElement.Position.Right + StyleHelper.SPACING;
-			_midiMappingElementsElement.Position.Width = halfRemainingWidth;
+			_midiMappingsElement.Position.X = _scaleElement.Position.Right + StyleHelper.SPACING;
+			_midiMappingsElement.Position.Width = halfRemainingWidth;
 
-			_patchesElement.Position.X = _midiMappingElementsElement.Position.Right + StyleHelper.SPACING;
+			_patchesElement.Position.X = _midiMappingsElement.Position.Right + StyleHelper.SPACING;
 			_patchesElement.Position.Width = halfRemainingWidth;
 
 			_patchesElement.PositionElements();
-			_midiMappingElementsElement.PositionElements();
+			_midiMappingsElement.PositionElements();
 		}
 
 		protected override void ApplyViewModelToElements()
 		{
 			_scaleElement.ViewModel = ViewModel.Scale;
 			_patchesElement.ViewModels = ViewModel.Patches;
-			_midiMappingElementsElement.ViewModels = ViewModel.MidiMappingElements;
+			_midiMappingsElement.ViewModels = ViewModel.MidiMappings;
 			_buttonsElement.ViewModel = ViewModel;
 		}
 
@@ -133,34 +133,28 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			remove => _patchesElement.DeleteRequested -= value;
 		}
 
-		public event EventHandler<EventArgs<int>> ExpandMidiMappingElementRequested
+		public event EventHandler<EventArgs<int>> ExpandMidiMappingRequested
 		{
-			add => _midiMappingElementsElement.ExpandRequested += value;
-			remove => _midiMappingElementsElement.ExpandRequested -= value;
+			add => _midiMappingsElement.ExpandRequested += value;
+			remove => _midiMappingsElement.ExpandRequested -= value;
 		}
 
-		public event EventHandler<EventArgs<int>> MoveMidiMappingElementBackwardRequested
+		public event EventHandler<EventArgs<int>> MoveMidiMappingBackwardRequested
 		{
-			add => _midiMappingElementsElement.MoveBackwardRequested += value;
-			remove => _midiMappingElementsElement.MoveBackwardRequested -= value;
+			add => _midiMappingsElement.MoveBackwardRequested += value;
+			remove => _midiMappingsElement.MoveBackwardRequested -= value;
 		}
 
-		public event EventHandler<EventArgs<int>> MoveMidiMappingElementForwardRequested
+		public event EventHandler<EventArgs<int>> MoveMidiMappingForwardRequested
 		{
-			add => _midiMappingElementsElement.MoveForwardRequested += value;
-			remove => _midiMappingElementsElement.MoveForwardRequested -= value;
+			add => _midiMappingsElement.MoveForwardRequested += value;
+			remove => _midiMappingsElement.MoveForwardRequested -= value;
 		}
 
-		public event EventHandler<EventArgs<int>> PlayMidiMappingElementRequested
+		public event EventHandler<EventArgs<int>> DeleteMidiMappingRequested
 		{
-			add => _midiMappingElementsElement.PlayRequested += value;
-			remove => _midiMappingElementsElement.PlayRequested -= value;
-		}
-
-		public event EventHandler<EventArgs<int>> DeleteMidiMappingElementRequested
-		{
-			add => _midiMappingElementsElement.DeleteRequested += value;
-			remove => _midiMappingElementsElement.DeleteRequested -= value;
+			add => _midiMappingsElement.DeleteRequested += value;
+			remove => _midiMappingsElement.DeleteRequested -= value;
 		}
 	}
 }

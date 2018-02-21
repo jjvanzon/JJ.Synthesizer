@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				DocumentID = higherDocument.ID,
 				Scale = ToViewModelHelper.CreateEmptyIDAndName(),
 				Patches = new List<CurrentInstrumentItemViewModel>(),
-				MidiMappingElements = new List<CurrentInstrumentItemViewModel>(),
+				MidiMappings = new List<CurrentInstrumentItemViewModel>(),
 				ValidationMessages = new List<string>(),
 				Visible = true
 			};
@@ -140,7 +140,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			int lastMidiMappingIndex = midiMappings.Count - 1;
 
-			viewModel.MidiMappingElements = midiMappings.Select((x, i) => new CurrentInstrumentItemViewModel
+			viewModel.MidiMappings = midiMappings.Select((x, i) => new CurrentInstrumentItemViewModel
 			{
 				EntityID = x.ID,
 				Name = x.Name,

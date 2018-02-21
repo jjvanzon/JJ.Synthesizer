@@ -23,11 +23,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<int>> PlayPatchRequested;
 		public event EventHandler<EventArgs<int>> DeletePatchRequested;
 
-		public event EventHandler<EventArgs<int>> ExpandMidiMappingElementRequested;
-		public event EventHandler<EventArgs<int>> MoveMidiMappingElementBackwardRequested;
-		public event EventHandler<EventArgs<int>> MoveMidiMappingElementForwardRequested;
-		public event EventHandler<EventArgs<int>> PlayMidiMappingElementRequested;
-		public event EventHandler<EventArgs<int>> DeleteMidiMappingElementRequested;
+		public event EventHandler<EventArgs<int>> ExpandMidiMappingRequested;
+		public event EventHandler<EventArgs<int>> MoveMidiMappingBackwardRequested;
+		public event EventHandler<EventArgs<int>> MoveMidiMappingForwardRequested;
+		public event EventHandler<EventArgs<int>> DeleteMidiMappingRequested;
 
 		private readonly CurrentInstrumentElement _currentInstrumentElement;
 
@@ -56,11 +55,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_currentInstrumentElement.PlayPatchRequested += (sender, e) => PlayPatchRequested(sender, e);
 			_currentInstrumentElement.DeletePatchRequested += (sender, e) => DeletePatchRequested(sender, e);
 
-			_currentInstrumentElement.ExpandMidiMappingElementRequested += (sender, e) => ExpandMidiMappingElementRequested(sender, e);
-			_currentInstrumentElement.MoveMidiMappingElementBackwardRequested += (sender, e) => MoveMidiMappingElementBackwardRequested(sender, e);
-			_currentInstrumentElement.MoveMidiMappingElementForwardRequested += (sender, e) => MoveMidiMappingElementForwardRequested(sender, e);
-			_currentInstrumentElement.PlayMidiMappingElementRequested += (sender, e) => PlayMidiMappingElementRequested(sender, e);
-			_currentInstrumentElement.DeleteMidiMappingElementRequested += (sender, e) => DeleteMidiMappingElementRequested(sender, e);
+			_currentInstrumentElement.ExpandMidiMappingRequested += (sender, e) => ExpandMidiMappingRequested(sender, e);
+			_currentInstrumentElement.MoveMidiMappingBackwardRequested += (sender, e) => MoveMidiMappingBackwardRequested(sender, e);
+			_currentInstrumentElement.MoveMidiMappingForwardRequested += (sender, e) => MoveMidiMappingForwardRequested(sender, e);
+			_currentInstrumentElement.DeleteMidiMappingRequested += (sender, e) => DeleteMidiMappingRequested(sender, e);
 
 			diagramControl.Location = new Point(0, 0);
 			diagramControl.Diagram = diagram;

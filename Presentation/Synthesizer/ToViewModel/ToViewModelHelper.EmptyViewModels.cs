@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				Scale = CreateEmptyIDAndName(),
 				Patches = new List<CurrentInstrumentItemViewModel>(),
-				MidiMappingElements = new List<CurrentInstrumentItemViewModel>(),
+				MidiMappings = new List<CurrentInstrumentItemViewModel>(),
 				ValidationMessages = new List<string>(),
 				Successful = true,
 				Visible = true
