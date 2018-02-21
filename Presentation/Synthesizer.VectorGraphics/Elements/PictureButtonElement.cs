@@ -4,7 +4,6 @@ using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
-
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable once SuggestBaseTypeForParameter
 
@@ -24,33 +23,28 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			: base(parent)
 		{
 			_mouseDownGesture = new MouseDownGesture();
-			Picture picture = CreatePicture(underlyingPicture, toolTipText, toolTipElement, _mouseDownGesture);
+			CreatePicture(underlyingPicture, _mouseDownGesture);
 
-			Position.Width = picture.Position.Width;
-			Position.Height = picture.Position.Height;
+			var toolTipGesture = new ToolTipGesture(toolTipElement, toolTipText, preferredSideToShowToolTip: ToolTipPositioningEnum.CenterRight);
+			Gestures.Add(toolTipGesture);
+
+			Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
+			Position.Height = StyleHelper.ICON_BUTTON_MARGIN + StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
 		}
 
-		private Picture CreatePicture(
-			object underlyingPicture,
-			string toolTipText,
-			ToolTipElement toolTipElement,
-			MouseDownGesture mouseDownGesture)
+		private void CreatePicture(object underlyingPicture, MouseDownGesture mouseDownGesture)
 		{
 			var picture = new Picture(this)
 			{
-				UnderlyingPicture = underlyingPicture
+				UnderlyingPicture = underlyingPicture,
+				Style = StyleHelper.IconPictureStyle
 			};
+
 			picture.Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 			picture.Position.Height = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 			picture.Position.Y = StyleHelper.ICON_BUTTON_MARGIN;
-			picture.Style = StyleHelper.IconPictureStyle;
 
 			picture.Gestures.Add(mouseDownGesture);
-
-			var toolTipGesture = new ToolTipGesture(toolTipElement, toolTipText, preferredSideToShowToolTip: ToolTipPositioningEnum.CenterRight);
-			picture.Gestures.Add(toolTipGesture);
-
-			return picture;
 		}
 	}
 }

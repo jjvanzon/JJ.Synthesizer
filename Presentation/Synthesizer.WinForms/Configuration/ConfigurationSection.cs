@@ -26,6 +26,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
 		public bool MustHandleMainFormActivated { get; set; }
 
 		[XmlAttribute]
-		public bool MustDrawCoordinateIndicators { get; set; }
+		public bool DrawCoordinateIndicatorsForPrimitives { get; set; }
+
+		[XmlAttribute]
+		public bool DrawCoordinateIndicatorsForComposites { get; set; }
 	}
 }

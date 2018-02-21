@@ -85,12 +85,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			if (_viewModel.CanGoBackward)
 			{
 				_pictureButtonMoveForward.Position.X = x;
-				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 			}
 
 			_label.Position.X = x;
 			(_label.Position.Width, _) = _textMeasurer.GetTextSize(_label.Text, _label.TextStyle.Font);
-			x += _label.Position.Width + StyleHelper.ICON_BUTTON_MARGIN;
+			x += _label.Position.Width;
 
 			if (_viewModel.CanGoForward)
 			{
@@ -108,7 +108,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
 
 			_pictureButtonDelete.Position.X = x;
-			x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+			x += StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 
 			Position.Width = x;
 			Position.Height = StyleHelper.ICON_BUTTON_SIZE;

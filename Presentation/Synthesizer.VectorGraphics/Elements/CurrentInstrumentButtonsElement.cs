@@ -5,6 +5,7 @@ using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 // ReSharper disable PossibleNullReferenceException
+// ReSharper disable once VirtualMemberCallInConstructor
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
@@ -25,9 +26,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			_pictureButtonExpand = new PictureButtonElement(this, underlyingPictureExpand, CommonResourceFormatter.Open, toolTipElement);
 			_pictureButtonExpand.MouseDown += _pictureExpand_MouseDown;
+			_pictureButtonExpand.Position.X = StyleHelper.ICON_BUTTON_MARGIN + StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 
 			_pictureButtonPlay = new PictureButtonElement(this, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
 			_pictureButtonPlay.MouseDown += _picturePlay_MouseDown;
+
+			Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE +
+			                 StyleHelper.ICON_BUTTON_MARGIN +
+			                 StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 		}
 
 		private CurrentInstrumentViewModel _viewModel;
@@ -46,15 +52,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			_pictureButtonPlay.Visible = ViewModel.CanPlay;
 			_pictureButtonExpand.Visible = ViewModel.CanExpand;
-		}
-
-		public void PositionElements()
-		{
-			_pictureButtonExpand.Position.X = StyleHelper.ICON_BUTTON_MARGIN + StyleHelper.ICON_BUTTON_PICTURE_SIZE;
-
-			Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE +
-			                 StyleHelper.ICON_BUTTON_MARGIN + 
-			                 StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 		}
 
 		private void _pictureExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);

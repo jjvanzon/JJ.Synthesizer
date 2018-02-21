@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Common;
+using JJ.Framework.Exceptions;
+using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable VirtualMemberCallInConstructor
 
 // ReSharper disable PossibleNullReferenceException
 
@@ -19,6 +22,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		public event EventHandler<EventArgs<int>> PlayRequested;
 		public event EventHandler<EventArgs<int>> DeleteRequested;
 
+		private readonly HorizontalAlignmentEnum _horizontalAlignmentEnum;
 		private readonly ToolTipElement _toolTipElement;
 		private readonly IList<CurrentInstrumentItemElement> _itemElements = new List<CurrentInstrumentItemElement>();
 		private readonly object _underlyingPictureDelete;
@@ -30,6 +34,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		public CurrentInstrumentItemsElement(
 			Element parent,
+			HorizontalAlignmentEnum horizontalAlignmentEnum,
 			ToolTipElement toolTipElement,
 			object underlyingPictureDelete,
 			object underlyingPictureExpand,
@@ -39,6 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			ITextMeasurer textMeasurer)
 			: base(parent)
 		{
+			_horizontalAlignmentEnum = horizontalAlignmentEnum;
 			_toolTipElement = toolTipElement ?? throw new ArgumentNullException(nameof(toolTipElement));
 			_underlyingPictureDelete = underlyingPictureDelete ?? throw new ArgumentNullException(nameof(underlyingPictureDelete));
 			_underlyingPictureExpand = underlyingPictureExpand ?? throw new ArgumentNullException(nameof(underlyingPictureExpand));
@@ -46,6 +52,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_underlyingPictureMoveForward = underlyingPictureMoveForward ?? throw new ArgumentNullException(nameof(underlyingPictureMoveForward));
 			_underlyingPicturePlay = underlyingPicturePlay ?? throw new ArgumentNullException(nameof(underlyingPicturePlay));
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
+
+			Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
 		}
 
 		private IList<CurrentInstrumentItemViewModel> _viewModels;
@@ -99,20 +107,50 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		public void PositionElements()
 		{
+			switch (_horizontalAlignmentEnum)
+			{
+				case HorizontalAlignmentEnum.Right:
+					PositionElementsRightAligned();
+					break;
+
+				case HorizontalAlignmentEnum.Left:
+					PositionElementsLeftAligned();
+					break;
+
+				default:
+					throw new ValueNotSupportedException(_horizontalAlignmentEnum);
+
+			}
+		}
+
+		private void PositionElementsRightAligned()
+		{
 			float x = Position.Width;
 
 			foreach (CurrentInstrumentItemElement itemElement in _itemElements.Reverse())
 			{
 				itemElement.PositionElements();
 
-				x -= StyleHelper.SMALL_SPACING;
-				x -= StyleHelper.SMALL_SPACING;
 				x -= itemElement.Position.Width;
 
 				itemElement.Position.X = x;
-			}
 
-			Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
+				x -= StyleHelper.SPACING;
+			}
+		}
+
+		private void PositionElementsLeftAligned()
+		{
+			float x = 0;
+
+			foreach (CurrentInstrumentItemElement itemElement in _itemElements)
+			{
+				itemElement.PositionElements();
+
+				itemElement.Position.X = x;
+
+				x += itemElement.Position.Width + StyleHelper.SPACING;
+			}
 		}
 
 		private CurrentInstrumentItemElement CreateItemElement(CurrentInstrumentItemViewModel itemViewModel)

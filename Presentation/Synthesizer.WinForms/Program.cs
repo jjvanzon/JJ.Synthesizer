@@ -29,8 +29,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
 
 #if DEBUG
-			DrawerBase.MustDrawCoordinateIndicators = CustomConfigurationManager.GetSection<ConfigurationSection>()
-			                                                                              .MustDrawCoordinateIndicators;
+			DrawerBase.MustDrawCoordinateIndicatorsForPrimitives = CustomConfigurationManager.GetSection<ConfigurationSection>()
+			                                                                                 .DrawCoordinateIndicatorsForPrimitives;
+			DrawerBase.MustDrawCoordinateIndicatorsForComposites = CustomConfigurationManager.GetSection<ConfigurationSection>()
+			                                                                                 .DrawCoordinateIndicatorsForComposites;
 #endif
 			MainForm form = ShowMainWindow(parsedCommandLineArguments.DocumentName, parsedCommandLineArguments.PatchName);
 			Application.Run(form);

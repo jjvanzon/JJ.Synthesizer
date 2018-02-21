@@ -1,5 +1,6 @@
 ﻿using System;
 using JJ.Framework.Common;
+using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
@@ -10,9 +11,85 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 	public class CurrentInstrumentElement : ElementWithScreenViewModelBase
 	{
 		private readonly CurrentInstrumentScaleElement _scaleElement;
-		private readonly CurrentInstrumentItemsElement _patchesElement;
 		private readonly CurrentInstrumentItemsElement _midiMappingElementsElement;
+		private readonly CurrentInstrumentItemsElement _patchesElement;
 		private readonly CurrentInstrumentButtonsElement _buttonsElement;
+
+		public CurrentInstrumentElement(
+			Element parent,
+			object underlyingPictureDelete,
+			object underlyingPictureExpand,
+			object underlyingPictureMoveBackward,
+			object underlyingPictureMoveForward,
+			object underlyingPicturePlay,
+			ITextMeasurer textMeasurer) : base(parent)
+		{
+			var toolTipElement = new ToolTipElement(
+				Diagram.Background,
+				StyleHelper.ToolTipBackStyle,
+				StyleHelper.ToolTipLineStyle,
+				StyleHelper.ToolTipTextStyle,
+				textMeasurer);
+
+			_scaleElement = new CurrentInstrumentScaleElement(this, textMeasurer);
+
+			_midiMappingElementsElement = new CurrentInstrumentItemsElement(
+				this,
+				HorizontalAlignmentEnum.Left,
+				toolTipElement,
+				underlyingPictureDelete,
+				underlyingPictureExpand,
+				underlyingPictureMoveBackward,
+				underlyingPictureMoveForward,
+				underlyingPicturePlay,
+				textMeasurer);
+
+			_patchesElement = new CurrentInstrumentItemsElement(
+				this,
+				HorizontalAlignmentEnum.Right,
+				toolTipElement,
+				underlyingPictureDelete,
+				underlyingPictureExpand,
+				underlyingPictureMoveBackward,
+				underlyingPictureMoveForward,
+				underlyingPicturePlay,
+				textMeasurer);
+
+			_buttonsElement = new CurrentInstrumentButtonsElement(this, toolTipElement, underlyingPictureExpand, underlyingPicturePlay);
+		}
+
+		public new CurrentInstrumentViewModel ViewModel
+		{
+			get => (CurrentInstrumentViewModel)base.ViewModel;
+			set => base.ViewModel = value;
+		}
+
+		public override void PositionElements()
+		{
+			_scaleElement.PositionElements();
+
+			_buttonsElement.Position.X = Position.Width - _buttonsElement.Position.Width - StyleHelper.SMALL_SPACING;
+			
+			float remainingWidth = _buttonsElement.Position.X - _scaleElement.Position.Width - StyleHelper.SPACING * 3;
+			float halfRemainingWidth = remainingWidth / 2f;
+
+			_midiMappingElementsElement.Position.X = _scaleElement.Position.Right + StyleHelper.SPACING;
+			_midiMappingElementsElement.Position.Width = halfRemainingWidth;
+
+			_patchesElement.Position.X = _midiMappingElementsElement.Position.Right + StyleHelper.SPACING;
+			_patchesElement.Position.Width = halfRemainingWidth;
+
+			_patchesElement.PositionElements();
+			_midiMappingElementsElement.PositionElements();
+		}
+
+		protected override void ApplyViewModelToElements()
+		{
+			_scaleElement.ViewModel = ViewModel.Scale;
+			_patchesElement.ViewModels = ViewModel.Patches;
+			_midiMappingElementsElement.ViewModels = ViewModel.MidiMappingElements;
+			_buttonsElement.ViewModel = ViewModel;
+		}
 
 		public event EventHandler ExpandRequested
 		{
@@ -84,81 +161,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			add => _midiMappingElementsElement.DeleteRequested += value;
 			remove => _midiMappingElementsElement.DeleteRequested -= value;
-		}
-
-		public CurrentInstrumentElement(
-			Element parent,
-			object underlyingPictureDelete,
-			object underlyingPictureExpand,
-			object underlyingPictureMoveBackward,
-			object underlyingPictureMoveForward,
-			object underlyingPicturePlay,
-			ITextMeasurer textMeasurer) : base(parent)
-		{
-			var toolTipElement = new ToolTipElement(
-				Diagram.Background,
-				StyleHelper.ToolTipBackStyle,
-				StyleHelper.ToolTipLineStyle,
-				StyleHelper.ToolTipTextStyle,
-				textMeasurer);
-
-			_scaleElement = new CurrentInstrumentScaleElement(this, textMeasurer);
-
-			_patchesElement = new CurrentInstrumentItemsElement(
-				this,
-				toolTipElement,
-				underlyingPictureDelete,
-				underlyingPictureExpand,
-				underlyingPictureMoveBackward,
-				underlyingPictureMoveForward,
-				underlyingPicturePlay,
-				textMeasurer);
-
-			_midiMappingElementsElement = new CurrentInstrumentItemsElement(
-				this,
-				toolTipElement,
-				underlyingPictureDelete,
-				underlyingPictureExpand,
-				underlyingPictureMoveBackward,
-				underlyingPictureMoveForward,
-				underlyingPicturePlay,
-				textMeasurer);
-
-			_buttonsElement = new CurrentInstrumentButtonsElement(this, toolTipElement, underlyingPictureExpand, underlyingPicturePlay);
-		}
-
-		public new CurrentInstrumentViewModel ViewModel
-		{
-			get => (CurrentInstrumentViewModel)base.ViewModel;
-			set => base.ViewModel = value;
-		}
-
-		public override void PositionElements()
-		{
-			_scaleElement.PositionElements();
-			_buttonsElement.PositionElements();
-
-			_buttonsElement.Position.X = Position.Width - _buttonsElement.Position.Width - StyleHelper.SMALL_SPACING;
-			
-			float remainingWidth = _buttonsElement.Position.X - _scaleElement.Position.Width - StyleHelper.SMALL_SPACING * 3;
-			float halfRemainingWidth = remainingWidth / 2f;
-
-			_midiMappingElementsElement.Position.X = _scaleElement.Position.Right + StyleHelper.SMALL_SPACING;
-			_midiMappingElementsElement.Position.Width = halfRemainingWidth;
-
-			_patchesElement.Position.X = _midiMappingElementsElement.Position.Right + StyleHelper.SMALL_SPACING;
-			_patchesElement.Position.Width = halfRemainingWidth;
-
-			_patchesElement.PositionElements();
-			_midiMappingElementsElement.PositionElements();
-		}
-
-		protected override void ApplyViewModelToElements()
-		{
-			_scaleElement.ViewModel = ViewModel.Scale;
-			_patchesElement.ViewModels = ViewModel.Patches;
-			_midiMappingElementsElement.ViewModels = ViewModel.MidiMappingElements;
-			_buttonsElement.ViewModel = ViewModel;
 		}
 	}
 }
