@@ -40,14 +40,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		public override void Dispose()
 		{
-			if (Parent == Diagram.Background)
-			{
-				base.Dispose();
-			}
-			else
-			{
-				Parent = Parent.Parent;
-			}
+			// Do not dispose the ToolTipElement of a parent that just got deleted.
+			// Keep the ToolTipElement in the diagram, but hide it.
+			Parent = Diagram.Background;
+			Visible = false;
 		}
 
 		/// <summary> Sets the text and resizes the elements to fit the text. </summary>

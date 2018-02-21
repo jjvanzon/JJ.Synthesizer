@@ -182,6 +182,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private void patchElement_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
 		private void patchElement_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
 		private void patchElement_PlayRequested(object sender, EventArgs<int> e) => PlayRequested(sender, e);
-		private void patchElement_DeleteRequested(object sender, EventArgs<int> e) => DeleteRequested(sender, e);
+		private void patchElement_DeleteRequested(object sender, EventArgs<int> e)
+		{
+			DeleteRequested(sender, e);
+
+			// Hide ToolTipElement. so that it does not jump to the delete button of another Patch or MidiMappingElement.
+			// (ItemElements get redistributed over the entities.)
+			_toolTipElement.Visible = false;
+		}
 	}
 }
