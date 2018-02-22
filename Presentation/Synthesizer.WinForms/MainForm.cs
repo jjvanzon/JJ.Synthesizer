@@ -94,7 +94,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		public void DocumentOpen(string name) => TemplateActionHandler(() => _mainPresenter.DocumentOpen(name));
+		public void DocumentOpen(string name) => TemplateActionHandler(() => _mainPresenter.Document_Open(name));
 
 		public void PatchShow(string patchName)
 		{
@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				{
 					Document document = _repositories.DocumentRepository.Get(_mainPresenter.MainViewModel.Document.ID);
 					Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleWithClearException(new { patchName });
-					_mainPresenter.PatchDetailsShow(patch.ID);
+					_mainPresenter.PatchDetails_Show(patch.ID);
 				});
 		}
 

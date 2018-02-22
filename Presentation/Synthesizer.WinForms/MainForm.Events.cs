@@ -244,7 +244,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.DocumentActivate();
+					_mainPresenter.Document_Activate();
 
 					if (_mainPresenter.MainViewModel.Successful)
 					{
@@ -261,37 +261,37 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void audioFileOutputGridUserControl_AddRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.AudioFileOutputGridCreate);
+			TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Create);
 		}
 
 		private void audioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.AudioFileOutputGridClose);
+			TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Close);
 		}
 
 		private void AudioFileOutputGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.AudioFileOutputGridDelete(e.Value));
+			TemplateActionHandler(() => _mainPresenter.AudioFileOutputGrid_Delete(e.Value));
 		}
 
 		private void audioFileOutputGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.AudioFileOutputPropertiesShow(e.Value));
+			TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Show(e.Value));
 		}
 
 		private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.AudioFileOutputPropertiesClose(e.Value));
+			TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Close(e.Value));
 		}
 
 		private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.AudioFileOutputPropertiesLoseFocus(e.Value));
+			TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_LoseFocus(e.Value));
 		}
 
 		private void AudioFileOutputPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.AudioFileOutputPropertiesDelete(e.Value));
+			TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Delete(e.Value));
 		}
 
 		// AudioOutput
@@ -301,7 +301,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.AudioOutputPropertiesClose();
+					_mainPresenter.AudioOutputProperties_Close();
 
 					RecreatePatchCalculatorIfSuccessful();
 					SetAudioOutputIfNeeded();
@@ -313,7 +313,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.AudioOutputPropertiesLoseFocus();
+					_mainPresenter.AudioOutputProperties_LoseFocus();
 
 					RecreatePatchCalculatorIfSuccessful();
 					SetAudioOutputIfNeeded();
@@ -322,7 +322,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void audioOutputPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(_mainPresenter.AudioOutputPropertiesPlay);
+			TemplateActionHandler(_mainPresenter.AudioOutputProperties_Play);
 		}
 
 		// CurrentInstrument
@@ -332,21 +332,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.PatchPropertiesAddToInstrument(e.Value);
+					_mainPresenter.PatchProperties_AddToInstrument(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void CurrentInstrumentBarUserControl_ExpandRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.CurrentInstrumentBarExpand);
+			TemplateActionHandler(_mainPresenter.CurrentInstrumentBar_Expand);
 		}
 
 		private void CurrentInstrumentBarUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() =>
 			{
-				_mainPresenter.CurrentInstrumentBarExpandPatch(e.Value);
+				_mainPresenter.CurrentInstrumentBar_ExpandPatch(e.Value);
 			});
 		}
 
@@ -355,7 +355,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBarMovePatchBackward(e.Value);
+					_mainPresenter.CurrentInstrumentBar_MovePatchBackward(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -365,19 +365,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBarMovePatchForward(e.Value);
+					_mainPresenter.CurrentInstrumentBar_MovePatchForward(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void CurrentInstrumentBarUserControl_PlayRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.CurrentInstrumentBarPlay);
+			TemplateActionHandler(_mainPresenter.CurrentInstrumentBar_Play);
 		}
 
 		private void CurrentInstrumentBarBarUserControl_PlayPatchRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBarPlayPatch(e.Value));
+			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_PlayPatch(e.Value));
 		}
 
 		private void CurrentInstrumentBarBarUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
@@ -392,12 +392,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void _autoPatchPopupForm_CloseRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.AutoPatchPopupClose);
+			TemplateActionHandler(_mainPresenter.AutoPatchPopup_Close);
 		}
 
 		private void _autoPatchPopupForm_SaveRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(_mainPresenter.AutoPatchPopupSave);
+			TemplateActionHandler(_mainPresenter.AutoPatchPopup_Save);
 		}
 
 		// Curve
@@ -407,14 +407,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.NodeChangeSelectedNodeType(e.Value);
+					_mainPresenter.Node_ChangeSelectedNodeType(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void curveDetailsListUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurveDetailsClose(e.Value));
+			TemplateActionHandler(() => _mainPresenter.CurveDetails_Close(e.Value));
 		}
 
 		private void curveDetailsListUserControl_CreateNodeRequested(object sender, EventArgs<int> e)
@@ -422,7 +422,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.NodeCreate(e.Value);
+					_mainPresenter.Node_Create(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -432,25 +432,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.NodeDeleteSelected(e.Value);
+					_mainPresenter.Node_DeleteSelected(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void curveDetailsListUserControl_ExpandCurveRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurveDetailsExpand(e.Value));
+			TemplateActionHandler(() => _mainPresenter.CurveDetails_Expand(e.Value));
 		}
 
 		private void curveDetailsListUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurveDetailsLoseFocus(e.Value));
+			TemplateActionHandler(() => _mainPresenter.CurveDetails_LoseFocus(e.Value));
 		}
 
 		private void curveDetailsListUserControl_NodeMoving(object sender, MoveNodeEventArgs e)
 		{
 			TemplateActionHandler(
-				() => { _mainPresenter.NodeMoving(e.CurveID, e.NodeID, e.X, e.Y); });
+				() => { _mainPresenter.Node_Moving(e.CurveID, e.NodeID, e.X, e.Y); });
 		}
 
 		private void curveDetailsListUserControl_NodeMoved(object sender, MoveNodeEventArgs e)
@@ -458,46 +458,46 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.NodeMoved(e.CurveID, e.NodeID, e.X, e.Y);
+					_mainPresenter.Node_Moved(e.CurveID, e.NodeID, e.X, e.Y);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void curveDetailsListUserControl_SelectCurveRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurveSelect(e.Value));
+			TemplateActionHandler(() => _mainPresenter.Curve_Select(e.Value));
 		}
 
 		private void curveDetailsListUserControl_SelectNodeRequested(object sender, NodeEventArgs e)
 		{
-			TemplateActionHandler(() => _mainPresenter.NodeSelect(e.CurveID, e.NodeID));
+			TemplateActionHandler(() => _mainPresenter.Node_Select(e.CurveID, e.NodeID));
 		}
 
 		private void curveDetailsListUserControl_ExpandNodeRequested(object sender, NodeEventArgs e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurveDetailsExpandNode(e.CurveID, e.NodeID));
+			TemplateActionHandler(() => _mainPresenter.CurveDetails_ExpandNode(e.CurveID, e.NodeID));
 		}
 
 		// Document Grid
 
 		private void documentGridUserControl_AddRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentCreate);
+			TemplateActionHandler(_mainPresenter.Document_Create);
 		}
 
 		private void documentGridUserControl_CloseRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentGridClose);
+			TemplateActionHandler(_mainPresenter.DocumentGrid_Close);
 		}
 
 		private void documentGridUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentGridPlay(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentGrid_Play(e.Value));
 		}
 
 		private void DocumentGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentDeleteShow(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
 		}
 
 		private void documentGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
@@ -507,7 +507,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				{
 					ForceLoseFocus();
 
-					_mainPresenter.DocumentOpen(e.Value);
+					_mainPresenter.Document_Open(e.Value);
 
 					SetAudioOutputIfNeeded();
 				});
@@ -517,17 +517,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentDetailsSave);
+			TemplateActionHandler(_mainPresenter.DocumentDetails_Save);
 		}
 
 		private void documentDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentDeleteShow(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
 		}
 
 		private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentDetailsClose);
+			TemplateActionHandler(_mainPresenter.DocumentDetails_Close);
 		}
 
 		// Document Tree
@@ -537,84 +537,84 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.DocumentTreeAddToInstrument();
+					_mainPresenter.DocumentTree_AddToInstrument();
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void documentTreeUserControl_AudioFileOutputsNodeSelected(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeSelectAudioFileOutputs);
+			TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioFileOutputs);
 		}
 
 		private void documentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeSelectAudioOutput);
+			TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioOutput);
 		}
 
 		private void documentTreeUserControl_CloseRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeClose);
+			TemplateActionHandler(_mainPresenter.DocumentTree_Close);
 		}
 
 		private void documentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeSelectLibraries);
+			TemplateActionHandler(_mainPresenter.DocumentTree_SelectLibraries);
 		}
 
 		private void documentTreeUserControl_LibraryNodeSelected(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeSelectLibrary(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibrary(e.Value));
 		}
 
 		private void documentTreeUserControl_LibraryPatchNodeSelected(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeSelectLibraryPatch(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryPatch(e.Value));
 		}
 
 		private void documentTreeUserControl_LibraryPatchGroupNodeSelected(object sender, LibraryPatchGroupEventArgs e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeSelectLibraryPatchGroup(e.LowerDocumentReferenceID, e.PatchGroup));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryPatchGroup(e.LowerDocumentReferenceID, e.PatchGroup));
 		}
 
 		private void documentTreeUserControl_MidiNodeSelected(object sender, EventArgs e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeSelectMidi());
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidi());
 		}
 
 		private void documentTreeUserControl_MidiMappingNodeSelected(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeSelectMidiMapping(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidiMapping(e.Value));
 		}
 
 		private void documentTreeUserControl_NewRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeCreate);
+			TemplateActionHandler(_mainPresenter.DocumentTree_Create);
 		}
 
 		private void documentTreeUserControl_OpenItemExternallyRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeOpenItemExternally);
+			TemplateActionHandler(_mainPresenter.DocumentTree_OpenItemExternally);
 		}
 
 		private void documentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeSelectPatchGroup(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatchGroup(e.Value));
 		}
 
 		private void documentTreeUserControl_PatchHovered(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeHoverPatch(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_HoverPatch(e.Value));
 		}
 
 		private void documentTreeUserControl_PatchNodeSelected(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeSelectPatch(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatch(e.Value));
 		}
 
 		private void documentTreeUserControl_PlayRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreePlay());
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_Play());
 		}
 
 		private void documentTreeUserControl_RefreshRequested(object sender, EventArgs e)
@@ -622,7 +622,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.DocumentRefresh();
+					_mainPresenter.Document_Refresh();
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -634,47 +634,47 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void DocumentTreeUserControl_DeleteRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeDelete);
+			TemplateActionHandler(_mainPresenter.DocumentTree_Delete);
 		}
 
 		private void documentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeSelectScales);
+			TemplateActionHandler(_mainPresenter.DocumentTree_SelectScales);
 		}
 
 		private void documentTreeUserControl_SaveRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentSave);
+			TemplateActionHandler(_mainPresenter.Document_Save);
 		}
 
 		private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.AudioFileOutputGridShow);
+			TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Show);
 		}
 
 		private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeShowAudioOutput);
+			TemplateActionHandler(_mainPresenter.DocumentTree_ShowAudioOutput);
 		}
 
 		private void documentTreeUserControl_ShowLibraryRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeShowLibrary(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowLibrary(e.Value));
 		}
 
 		private void DocumentTreeUserControl_ShowMidiMappingRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeShowMidiMapping(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowMidiMapping(e.Value));
 		}
 
 		private void documentTreeUserControl_ShowPatchRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeShowPatch(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowPatch(e.Value));
 		}
 
 		private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.ScaleGridShow);
+			TemplateActionHandler(_mainPresenter.ScaleGrid_Show);
 		}
 
 		private void documentTreeUserControl_UndoRequested(object sender, EventArgs e)
@@ -686,76 +686,76 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentPropertiesClose);
+			TemplateActionHandler(_mainPresenter.DocumentProperties_Close);
 		}
 
 		private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentPropertiesLoseFocus);
+			TemplateActionHandler(_mainPresenter.DocumentProperties_LoseFocus);
 		}
 
 		private void documentPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentPropertiesPlay);
+			TemplateActionHandler(_mainPresenter.DocumentProperties_Play);
 		}
 
 		// Library
 
 		private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.LibraryPropertiesClose(e.Value));
+			TemplateActionHandler(() => _mainPresenter.LibraryProperties_Close(e.Value));
 		}
 
 		private void libraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.LibraryPropertiesLoseFocus(e.Value));
+			TemplateActionHandler(() => _mainPresenter.LibraryProperties_LoseFocus(e.Value));
 		}
 
 		private void libraryPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.LibraryPropertiesPlay(e.Value));
+			TemplateActionHandler(() => _mainPresenter.LibraryProperties_Play(e.Value));
 		}
 
 		private void libraryPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.LibraryPropertiesOpenExternally(e.Value));
+			TemplateActionHandler(() => _mainPresenter.LibraryProperties_OpenExternally(e.Value));
 		}
 
 		private void LibraryPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.LibraryPropertiesRemove(e.Value));
+			TemplateActionHandler(() => _mainPresenter.LibraryProperties_Remove(e.Value));
 		}
 
 		private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.LibrarySelectionPopupCancel);
+			TemplateActionHandler(_mainPresenter.LibrarySelectionPopup_Cancel);
 		}
 
 		private void _librarySelectionPopupForm_CloseRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.LibrarySelectionPopupClose);
+			TemplateActionHandler(_mainPresenter.LibrarySelectionPopup_Close);
 		}
 
 		private void _librarySelectionPopupForm_OKRequested(object sender, EventArgs<int?> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopupOK(e.Value));
+			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_OK(e.Value));
 		}
 
 		private void _librarySelectionPopupForm_OpenItemExternallyRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopupOpenItemExternally(e.Value));
+			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_OpenItemExternally(e.Value));
 		}
 
 		private void _librarySelectionPopupForm_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopupPlay(e.Value));
+			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_Play(e.Value));
 		}
 
 		// MidiMapping
 
 		private void midiMappingDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsClose(e.Value));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetails_Close(e.Value));
 		}
 
 		private void midiMappingDetailsUserControl_MoveElementRequested(
@@ -763,59 +763,59 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			EventArgs<(int midiMappingID, int midiMappingElementID, float x, float y)> e)
 		{
 			TemplateActionHandler(
-				() => _mainPresenter.MidiMappingDetailsMoveElement(e.Value.midiMappingID, e.Value.midiMappingElementID, e.Value.x, e.Value.y));
+				() => _mainPresenter.MidiMappingDetails_MoveElement(e.Value.midiMappingID, e.Value.midiMappingElementID, e.Value.x, e.Value.y));
 		}
 
 		private void midiMappingDetailsUserControl_NewRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsCreateElement(e.Value));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetails_CreateElement(e.Value));
 		}
 
 		private void midiMappingDetailsUserControl_SelectElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingElementSelect(e.Value.midiMappingID, e.Value.midiMappingElementID));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElement_Select(e.Value.midiMappingID, e.Value.midiMappingElementID));
 		}
 
 		private void midiMappingDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsDeleteSelectedElement(e.Value));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetails_DeleteSelectedElement(e.Value));
 		}
 
 		private void midiMappingDetailsUserControl_ExpandElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetailsExpandElement(e.Value.midiMappingID, e.Value.midiMappingElementID));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingDetails_ExpandElement(e.Value.midiMappingID, e.Value.midiMappingElementID));
 		}
 
 		private void midiMappingElementPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesClose(e.Value));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElementProperties_Close(e.Value));
 		}
 
 		private void midiMappingElementPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesDelete(e.Value));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElementProperties_Delete(e.Value));
 		}
 
 		private void midiMappingElementPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesExpand(e.Value));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElementProperties_Expand(e.Value));
 		}
 
 		private void midiMappingElementPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingElementPropertiesLoseFocus(e.Value));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingElementProperties_LoseFocus(e.Value));
 		}
 
 		// Menu
 
 		private void menuUserControl_ShowDocumentGridRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentGridShow);
+			TemplateActionHandler(_mainPresenter.DocumentGrid_Show);
 		}
 
 		private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentTreeShow);
+			TemplateActionHandler(_mainPresenter.DocumentTree_Show);
 		}
 
 		private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e)
@@ -824,13 +824,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				() =>
 				{
 					ForceLoseFocus();
-					_mainPresenter.DocumentClose();
+					_mainPresenter.Document_Close();
 				});
 		}
 
 		private void MenuUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentPropertiesShow);
+			TemplateActionHandler(_mainPresenter.DocumentProperties_Show);
 		}
 
 		// Node
@@ -840,14 +840,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.NodePropertiesClose(e.Value);
+					_mainPresenter.NodeProperties_Close(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void nodePropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.NodePropertiesExpand(e.Value));
+			TemplateActionHandler(() => _mainPresenter.NodeProperties_Expand(e.Value));
 		}
 
 		private void nodePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
@@ -855,7 +855,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.NodePropertiesLoseFocus(e.Value);
+					_mainPresenter.NodeProperties_LoseFocus(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -865,7 +865,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.NodePropertiesDelete(e.Value);
+					_mainPresenter.NodeProperties_Delete(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -874,7 +874,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void operatorPropertiesUserControlBase_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.OperatorPropertiesPlay(e.Value));
+			TemplateActionHandler(() => _mainPresenter.OperatorProperties_Play(e.Value));
 		}
 
 		private void OperatorPropertiesUserControlBase_DeleteRequested(object sender, EventArgs<int> e)
@@ -882,14 +882,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesDelete(e.Value);
+					_mainPresenter.OperatorProperties_Delete(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void operatorPropertiesUserControlBase_ExpandRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.OperatorPropertiesExpand(e.Value));
+			TemplateActionHandler(() => _mainPresenter.OperatorProperties_Expand(e.Value));
 		}
 
 		private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
@@ -897,7 +897,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -907,7 +907,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose(e.Value);
+					_mainPresenter.OperatorProperties_Close(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -917,7 +917,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus_ForCache(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus_ForCache(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -927,7 +927,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose_ForCache(e.Value);
+					_mainPresenter.OperatorProperties_Close_ForCache(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -937,7 +937,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus_ForCurve(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus_ForCurve(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -947,7 +947,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose_ForCurve(e.Value);
+					_mainPresenter.OperatorProperties_Close_ForCurve(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -957,7 +957,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus_ForInletsToDimension(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus_ForInletsToDimension(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -967,7 +967,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose_ForInletsToDimension(e.Value);
+					_mainPresenter.OperatorProperties_Close_ForInletsToDimension(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -977,7 +977,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus_ForNumber(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus_ForNumber(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -987,7 +987,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose_ForNumber(e.Value);
+					_mainPresenter.OperatorProperties_Close_ForNumber(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -997,7 +997,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus_ForPatchInlet(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus_ForPatchInlet(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1007,7 +1007,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose_ForPatchInlet(e.Value);
+					_mainPresenter.OperatorProperties_Close_ForPatchInlet(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1017,7 +1017,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus_ForPatchOutlet(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus_ForPatchOutlet(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1027,7 +1027,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose_ForPatchOutlet(e.Value);
+					_mainPresenter.OperatorProperties_Close_ForPatchOutlet(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1037,7 +1037,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus_ForSample(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus_ForSample(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1047,7 +1047,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose_ForSample(e.Value);
+					_mainPresenter.OperatorProperties_Close_ForSample(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1057,7 +1057,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus_WithInterpolation(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus_WithInterpolation(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1067,7 +1067,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose_WithInterpolation(e.Value);
+					_mainPresenter.OperatorProperties_Close_WithInterpolation(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1077,7 +1077,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesLoseFocus_WithCollectionRecalculation(e.Value);
+					_mainPresenter.OperatorProperties_LoseFocus_WithCollectionRecalculation(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1087,7 +1087,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorPropertiesClose_WithCollectionRecalculation(e.Value);
+					_mainPresenter.OperatorProperties_Close_WithCollectionRecalculation(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1099,7 +1099,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.PatchDetailsAddToInstrument(e.Value);
+					_mainPresenter.PatchDetails_AddToInstrument(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1109,14 +1109,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.OperatorChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID);
+					_mainPresenter.Operator_ChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchDetailsClose(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchDetails_Close(e.Value));
 		}
 
 		private void PatchDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
@@ -1124,71 +1124,71 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.PatchDetailsDeleteSelectedOperator(e.Value);
+					_mainPresenter.PatchDetails_DeleteSelectedOperator(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
 		{
-			TemplateActionHandler(() => _mainPresenter.OperatorMove(e.PatchID, e.OperatorID, e.X, e.Y));
+			TemplateActionHandler(() => _mainPresenter.Operator_Move(e.PatchID, e.OperatorID, e.X, e.Y));
 		}
 
 		private void patchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchDetailsPlay(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchDetails_Play(e.Value));
 		}
 
 		private void patchDetailsUserControl_SelectOperatorRequested(object sender, PatchAndOperatorEventArgs e)
 		{
-			TemplateActionHandler(() => _mainPresenter.OperatorSelect(e.PatchID, e.OperatorID));
+			TemplateActionHandler(() => _mainPresenter.Operator_Select(e.PatchID, e.OperatorID));
 		}
 
 		private void patchDetailsUserControl_ExpandOperatorRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.OperatorExpand(e.Value));
+			TemplateActionHandler(() => _mainPresenter.Operator_Expand(e.Value));
 		}
 
 		/// <summary> This is for the background double click. </summary>
 		private void patchDetailsUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchDetailsExpand(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchDetails_Expand(e.Value));
 		}
 
 		/// <summary> This is for the tool bar button click. </summary>
 		private void patchDetailsUserControl_ExpandRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchDetailsExpand(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchDetails_Expand(e.Value));
 		}
 
 		private void patchDetailsUserControl_SelectPatchRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchDetailsSelect(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchDetails_Select(e.Value));
 		}
 
 		private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchPropertiesClose(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchProperties_Close(e.Value));
 		}
 
 		private void patchPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchPropertiesExpand(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchProperties_Expand(e.Value));
 		}
 
 		private void patchPropertiesUserControl_HasDimensionChanged(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchPropertiesChangeHasDimension(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchProperties_ChangeHasDimension(e.Value));
 		}
 
 		private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchPropertiesLoseFocus(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchProperties_LoseFocus(e.Value));
 		}
 
 		private void patchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.PatchPropertiesPlay(e.Value));
+			TemplateActionHandler(() => _mainPresenter.PatchProperties_Play(e.Value));
 		}
 
 		private void PatchPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
@@ -1196,7 +1196,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.PatchPropertiesDelete(e.Value);
+					_mainPresenter.PatchProperties_Delete(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1205,27 +1205,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void scaleGridUserControl_AddRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.ScaleGridCreate);
+			TemplateActionHandler(_mainPresenter.ScaleGrid_Create);
 		}
 
 		private void ScaleGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.ScaleGridDelete(e.Value));
+			TemplateActionHandler(() => _mainPresenter.ScaleGrid_Delete(e.Value));
 		}
 
 		private void scaleGridUserControl_CloseRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.ScaleGridClose);
+			TemplateActionHandler(_mainPresenter.ScaleGrid_Close);
 		}
 
 		private void scaleGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.ScaleShow(e.Value));
+			TemplateActionHandler(() => _mainPresenter.Scale_Show(e.Value));
 		}
 
 		private void toneGridEditUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.ToneGridEditClose(e.Value));
+			TemplateActionHandler(() => _mainPresenter.ToneGridEdit_Close(e.Value));
 		}
 
 		private void toneGridEditUserControl_Edited(object sender, EventArgs<int> e)
@@ -1233,14 +1233,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.ToneGridEditEdit(e.Value);
+					_mainPresenter.ToneGridEdit_Edit(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.ToneGridEditLoseFocus(e.Value));
+			TemplateActionHandler(() => _mainPresenter.ToneGridEdit_LoseFocus(e.Value));
 		}
 
 		private void toneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e)
@@ -1248,7 +1248,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.ToneCreate(e.Value);
+					_mainPresenter.Tone_Create(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1258,14 +1258,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.ToneDelete(e.ScaleID, e.ToneID);
+					_mainPresenter.Tone_Delete(e.ScaleID, e.ToneID);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
 		private void toneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e)
 		{
-			TemplateActionHandler(() => _mainPresenter.TonePlay(e.ScaleID, e.ToneID));
+			TemplateActionHandler(() => _mainPresenter.Tone_Play(e.ScaleID, e.ToneID));
 		}
 
 		private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -1273,7 +1273,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.ScalePropertiesClose(e.Value);
+					_mainPresenter.ScaleProperties_Close(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1283,7 +1283,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.ScalePropertiesLoseFocus(e.Value);
+					_mainPresenter.ScaleProperties_LoseFocus(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1293,7 +1293,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.ScalePropertiesDelete(e.Value);
+					_mainPresenter.ScaleProperties_Delete(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1302,59 +1302,59 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void ModalPopupHelper_DocumentDeleteCanceled(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentDeleteCancel);
+			TemplateActionHandler(_mainPresenter.DocumentDelete_Cancel);
 		}
 
 		private void ModalPopupHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentDeleteConfirm);
+			TemplateActionHandler(_mainPresenter.DocumentDelete_Confirm);
 		}
 
 		private void ModalPopupHelper_DocumentDeletedOKRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentDeletedOK);
+			TemplateActionHandler(_mainPresenter.DocumentDeleted_OK);
 		}
 
 		private void ModalPopupHelper_DocumentOrPatchNotFoundOKRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentOrPatchNotFoundOK);
+			TemplateActionHandler(_mainPresenter.DocumentOrPatchNotFound_OK);
 		}
 
 		private void ModalPopupHelper_PopupMessagesOKRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.PopupMessagesOK);
+			TemplateActionHandler(_mainPresenter.PopupMessages_OK);
 		}
 
 		private void ModalPopupHelper_SampleFileBrowserCanceled(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.SampleFileBrowserCancel);
+			TemplateActionHandler(_mainPresenter.SampleFileBrowser_Cancel);
 		}
 
 		private void ModalPopupHelper_SampleFileBrowserOKRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.SampleFileBrowserOK);
+			TemplateActionHandler(_mainPresenter.SampleFileBrowser_OK);
 		}
 
 		private void ModalPopupHelper_SaveChangesPopupYesRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.SaveChangesPopupYes);
+			TemplateActionHandler(_mainPresenter.SaveChangesPopup_Yes);
 		}
 
 		private void ModalPopupHelper_SaveChangesPopupNoRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.SaveChangesPopupNo);
+			TemplateActionHandler(_mainPresenter.SaveChangesPopup_No);
 		}
 
 		private void ModalPopupHelper_SaveChangesPopupCanceled(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.SaveChangesPopupCancel);
+			TemplateActionHandler(_mainPresenter.SaveChangesPopup_Cancel);
 		}
 
 		// DocumentCannotDeleteForm
 
 		private void _documentCannotDeleteForm_OKClicked(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.DocumentCannotDeleteOK);
+			TemplateActionHandler(_mainPresenter.DocumentCannotDelete_OK);
 		}
 
 		// Template Method

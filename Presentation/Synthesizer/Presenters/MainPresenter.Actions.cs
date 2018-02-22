@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			if (MainViewModel.Document.IsOpen)
 			{
-				DocumentClose();
+				Document_Close();
 
 				if (MainViewModel.Document.SaveChangesPopup.Visible)
 				{
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.MustClose = true;
 		}
 
-		public void PopupMessagesOK()
+		public void PopupMessages_OK()
 		{
 			MainViewModel.PopupMessages = new List<string>();
 		}
@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			else
 			{
 				// Redirect
-				DocumentOpen(document);
+				Document_Open(document);
 			}
 		}
 
@@ -134,14 +134,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			else
 			{
 				// Redirect
-				DocumentOpen(document);
-				PatchDetailsShow(patch.ID);
+				Document_Open(document);
+				PatchDetails_Show(patch.ID);
 			}
 		}
 
 		// AudioFileOutput
 
-		public void AudioFileOutputGridClose()
+		public void AudioFileOutputGrid_Close()
 		{
 			// GetViewModel
 			AudioFileOutputGridViewModel viewModel = MainViewModel.Document.AudioFileOutputGrid;
@@ -150,7 +150,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => _audioFileOutputGridPresenter.Close(viewModel));
 		}
 
-		public void AudioFileOutputGridCreate()
+		public void AudioFileOutputGrid_Create()
 		{
 			// GetViewModel
 			AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
@@ -183,7 +183,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void AudioFileOutputGridDelete(int id)
+		public void AudioFileOutputGrid_Delete(int id)
 		{
 			// GetViewModel
 			AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
@@ -214,7 +214,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void AudioFileOutputGridShow()
+		public void AudioFileOutputGrid_Show()
 		{
 			// GetViewModel
 			AudioFileOutputGridViewModel viewModel = MainViewModel.Document.AudioFileOutputGrid;
@@ -223,14 +223,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => _audioFileOutputGridPresenter.Show(viewModel));
 		}
 
-		public void AudioFileOutputPropertiesShow(int id)
+		public void AudioFileOutputProperties_Show(int id)
 		{
 			AudioFileOutputPropertiesViewModel viewModel = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(viewModel, () => _audioFileOutputPropertiesPresenter.Show(viewModel));
 		}
 
-		public void AudioFileOutputPropertiesClose(int id)
+		public void AudioFileOutputProperties_Close(int id)
 		{
 			// GetViewModel
 			AudioFileOutputPropertiesViewModel userInput = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
@@ -247,7 +247,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void AudioFileOutputPropertiesDelete(int id)
+		public void AudioFileOutputProperties_Delete(int id)
 		{
 			// GetViewModel
 			AudioFileOutputPropertiesViewModel userInput = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
@@ -278,7 +278,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void AudioFileOutputPropertiesLoseFocus(int id)
+		public void AudioFileOutputProperties_LoseFocus(int id)
 		{
 			// GetViewModel
 			AudioFileOutputPropertiesViewModel userInput = ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id);
@@ -295,36 +295,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// AudioOutput
 
-		private void AudioOutputPropertiesShow()
+		private void AudioOutputProperties_Show()
 		{
 			AudioOutputPropertiesViewModel viewModel = MainViewModel.Document.AudioOutputProperties;
 
 			ExecuteNonPersistedAction(viewModel, () => _audioOutputPropertiesPresenter.Show(viewModel));
 		}
 
-		private void AudioOutputPropertiesSwitch()
+		private void AudioOutputProperties_Switch()
 		{
 			if (MainViewModel.PropertiesPanelVisible)
 			{
-				AudioOutputPropertiesShow();
+				AudioOutputProperties_Show();
 			}
 		}
 
-		public void AudioOutputPropertiesClose()
+		public void AudioOutputProperties_Close()
 		{
 			AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
 
 			ExecuteUpdateAction(userInput, () => _audioOutputPropertiesPresenter.Close(userInput));
 		}
 
-		public void AudioOutputPropertiesLoseFocus()
+		public void AudioOutputProperties_LoseFocus()
 		{
 			AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
 
 			ExecuteUpdateAction(userInput, () => _audioOutputPropertiesPresenter.LoseFocus(userInput));
 		}
 
-		public void AudioOutputPropertiesPlay()
+		public void AudioOutputProperties_Play()
 		{
 			// NOTE:
 			// Cannot use partial presenter, because this action uses both
@@ -363,7 +363,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// AutoPatch
 
-		public void AutoPatchPopupClose()
+		public void AutoPatchPopup_Close()
 		{
 			AutoPatchPopupViewModel userInput = MainViewModel.Document.AutoPatchPopup;
 
@@ -386,7 +386,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public void AutoPatchPopupSave()
+		public void AutoPatchPopup_Save()
 		{
 			AutoPatchPopupViewModel userInput = MainViewModel.Document.AutoPatchPopup;
 
@@ -442,8 +442,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			if (viewModel.Successful)
 			{
 				DocumentViewModelRefresh();
-				PatchDetailsShow(userInput.PatchDetails.Entity.ID);
-				PatchPropertiesShow(userInput.PatchDetails.Entity.ID);
+				PatchDetails_Show(userInput.PatchDetails.Entity.ID);
+				PatchProperties_Show(userInput.PatchDetails.Entity.ID);
 			}
 		}
 
@@ -456,7 +456,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.AddPatch(userInput, patchID));
 		}
 
-		public void CurrentInstrumentBarExpand()
+		public void CurrentInstrumentBar_Expand()
 		{
 			// GetViewModel
 			CurrentInstrumentBarViewModel currentInstrumentUserInput = MainViewModel.Document.CurrentInstrument;
@@ -511,41 +511,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(autoPatchPopupViewModel);
 		}
 
-		public void CurrentInstrumentBarExpandPatch(int patchID)
+		public void CurrentInstrumentBar_ExpandPatch(int patchID)
 		{
 			// Redirect
-			PatchExpand(patchID);
+			Patch_Expand(patchID);
 		}
 
-		public void CurrentInstrumentBarMovePatch(int patchID, int newPosition)
+		public void CurrentInstrumentBar_MovePatch(int patchID, int newPosition)
 		{
 			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
 			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MovePatch(viewModel, patchID, newPosition));
 		}
 
-		public void CurrentInstrumentBarMovePatchBackward(int patchID)
+		public void CurrentInstrumentBar_MovePatchBackward(int patchID)
 		{
 			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
 			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MovePatchBackward(viewModel, patchID));
 		}
 
-		public void CurrentInstrumentBarMovePatchForward(int patchID)
+		public void CurrentInstrumentBar_MovePatchForward(int patchID)
 		{
 			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
 			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MovePatchForward(viewModel, patchID));
 		}
 
-		public void CurrentInstrumentBarPlay()
+		public void CurrentInstrumentBar_Play()
 		{
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
 			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.Play(userInput));
 		}
 
-		public void CurrentInstrumentBarPlayPatch(int patchID)
+		public void CurrentInstrumentBar_PlayPatch(int patchID)
 		{
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
@@ -561,7 +561,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Curve
 
-		private void CurveExpand(int id)
+		private void Curve_Expand(int id)
 		{
 			ExecuteReadAction(
 				null,
@@ -573,54 +573,54 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					int patchID = op.Patch.ID;
 
 					// Redirect
-					OperatorPropertiesShow(operatorID);
-					CurveDetailsShow(id);
-					PatchDetailsShow(patchID);
-					OperatorSelect(patchID, operatorID);
+					OperatorProperties_Show(operatorID);
+					CurveDetails_Show(id);
+					PatchDetails_Show(patchID);
+					Operator_Select(patchID, operatorID);
 				});
 		}
 
-		private void CurveDetailsShow(int id)
+		private void CurveDetails_Show(int id)
 		{
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(userInput, () => _curveDetailsPresenter.Show(userInput));
 		}
 
-		public void CurveDetailsClose(int id)
+		public void CurveDetails_Close(int id)
 		{
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteUpdateAction(userInput, () => _curveDetailsPresenter.Close(userInput));
 		}
 
-		public void CurveDetailsExpand(int curveID)
+		public void CurveDetails_Expand(int curveID)
 		{
 			// Redirect
-			CurveExpand(curveID);
+			Curve_Expand(curveID);
 		}
 
-		public void CurveDetailsExpandNode(int curveID, int nodeID)
+		public void CurveDetails_ExpandNode(int curveID, int nodeID)
 		{
 			// Redirect
-			NodeExpand(curveID, nodeID);
+			Node_Expand(curveID, nodeID);
 		}
 
-		public void CurveDetailsLoseFocus(int id)
+		public void CurveDetails_LoseFocus(int id)
 		{
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteUpdateAction(userInput, () => _curveDetailsPresenter.LoseFocus(userInput));
 		}
 
-		private void CurveDetailsSelectNode(int curveID, int nodeID)
+		private void CurveDetails_SelectNode(int curveID, int nodeID)
 		{
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
 			ExecuteNonPersistedAction(userInput, () => _curveDetailsPresenter.SelectNode(userInput, nodeID));
 		}
 
-		public void CurveSelect(int id)
+		public void Curve_Select(int id)
 		{
 			ExecuteReadAction(
 				null,
@@ -632,14 +632,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					int patchID = op.Patch.ID;
 
 					// Redirect
-					OperatorPropertiesSwitch(operatorID);
-					PatchDetailsSelectOperator(patchID, operatorID);
+					OperatorProperties_Switch(operatorID);
+					PatchDetails_SelectOperator(patchID, operatorID);
 				});
 		}
 
 		// Document Grid
 
-		public void DocumentCannotDeleteOK()
+		public void DocumentCannotDelete_OK()
 		{
 			// GetViewModel
 			DocumentCannotDeleteViewModel userInput = MainViewModel.DocumentCannotDelete;
@@ -648,7 +648,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(userInput, () => _documentCannotDeletePresenter.OK(userInput));
 		}
 
-		public void DocumentDeleteCancel()
+		public void DocumentDelete_Cancel()
 		{
 			// GetViewModel
 			DocumentDeleteViewModel viewModel = MainViewModel.DocumentDelete;
@@ -657,7 +657,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => _documentDeletePresenter.Cancel(viewModel));
 		}
 
-		public void DocumentDeleteConfirm()
+		public void DocumentDelete_Confirm()
 		{
 			// GetViewModel
 			DocumentDeleteViewModel viewModel = MainViewModel.DocumentDelete;
@@ -683,7 +683,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel2);
 		}
 
-		public void DocumentDeletedOK()
+		public void DocumentDeleted_OK()
 		{
 			// GetViewModel
 			DocumentDeletedViewModel viewModel = MainViewModel.DocumentDeleted;
@@ -692,7 +692,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => _documentDeletedPresenter.OK(viewModel));
 		}
 
-		public void DocumentDeleteShow(int id)
+		public void DocumentDelete_Show(int id)
 		{
 			// GetViewModel
 			DocumentGridViewModel gridViewModel = MainViewModel.DocumentGrid;
@@ -713,7 +713,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel2);
 		}
 
-		public void DocumentDetailsClose()
+		public void DocumentDetails_Close()
 		{
 			// GetViewModel
 			DocumentDetailsViewModel viewModel = MainViewModel.DocumentDetails;
@@ -725,12 +725,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		public void DocumentCreate()
+		public void Document_Create()
 		{
 			// Dirty Check
 			if (MainViewModel.Document.IsDirty)
 			{
-				SaveChangesPopupShow(mustGoToDocumentCreateAfterConfirmation: true);
+				SaveChangesPopup_Show(mustGoToDocumentCreateAfterConfirmation: true);
 				return;
 			}
 
@@ -753,7 +753,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		public void DocumentDetailsSave()
+		public void DocumentDetails_Save()
 		{
 			// GetViewModel
 			DocumentDetailsViewModel userInput = MainViewModel.DocumentDetails;
@@ -777,25 +777,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				DocumentGridRefresh();
 
 				// Redirect
-				DocumentOpen(viewModel.Document.ID);
+				Document_Open(viewModel.Document.ID);
 			}
 		}
 
-		public void DocumentGridClose()
+		public void DocumentGrid_Close()
 		{
 			DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
 
 			ExecuteNonPersistedAction(viewModel, () => _documentGridPresenter.Close(viewModel));
 		}
 
-		public void DocumentGridPlay(int id)
+		public void DocumentGrid_Play(int id)
 		{
 			DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
 
 			ExecuteReadAction(userInput, () => _documentGridPresenter.Play(userInput, id));
 		}
 
-		public void DocumentGridShow()
+		public void DocumentGrid_Show()
 		{
 			DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
 
@@ -804,25 +804,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Document
 
-		public void DocumentActivate()
+		public void Document_Activate()
 		{
-			DocumentRefresh();
+			Document_Refresh();
 		}
 
-		public void DocumentClose()
+		public void Document_Close()
 		{
 			// Dirty Check
 			if (MainViewModel.Document.IsDirty)
 			{
-				SaveChangesPopupShow();
+				SaveChangesPopup_Show();
 				return;
 			}
 
 			// Redirect
-			DocumentCloseConfirmed();
+			Document_CloseConfirmed();
 		}
 
-		private void DocumentCloseConfirmed()
+		private void Document_CloseConfirmed()
 		{
 			// Partial Actions
 			string titleBar = _titleBarPresenter.Show();
@@ -835,29 +835,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.Document = documentViewModel;
 
 			// Redirect
-			DocumentGridShow();
+			DocumentGrid_Show();
 		}
 
-		public void DocumentOpen(string name)
+		public void Document_Open(string name)
 		{
 			Document document = _documentFacade.Get(name);
 
-			DocumentOpen(document);
+			Document_Open(document);
 		}
 
-		public void DocumentOpen(int id)
+		public void Document_Open(int id)
 		{
 			Document document = _documentFacade.Get(id);
 
-			DocumentOpen(document);
+			Document_Open(document);
 		}
 
-		private void DocumentOpen(Document document)
+		private void Document_Open(Document document)
 		{
 			// Dirty Check
 			if (MainViewModel.Document.IsDirty)
 			{
-				SaveChangesPopupShow(document.ID);
+				SaveChangesPopup_Show(document.ID);
 				return;
 			}
 
@@ -919,35 +919,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.DocumentGrid.Visible = false;
 			if (document.Patches.Count == 1)
 			{
-				PatchDetailsShow(document.Patches[0].ID);
+				PatchDetails_Show(document.Patches[0].ID);
 			}
 		}
 
-		public void DocumentOrPatchNotFoundOK()
+		public void DocumentOrPatchNotFound_OK()
 		{
 			DocumentOrPatchNotFoundPopupViewModel userInput = MainViewModel.DocumentOrPatchNotFound;
 
 			ExecuteNonPersistedAction(userInput, () => _documentOrPatchNotFoundPresenter.OK(userInput));
 		}
 
-		public void DocumentPropertiesShow()
+		public void DocumentProperties_Show()
 		{
 			DocumentPropertiesViewModel viewModel = MainViewModel.Document.DocumentProperties;
 
 			ExecuteNonPersistedAction(viewModel, () => _documentPropertiesPresenter.Show(viewModel));
 		}
 
-		public void DocumentPropertiesClose()
+		public void DocumentProperties_Close()
 		{
-			DocumentPropertiesCloseOrLoseFocus(_documentPropertiesPresenter.Close);
+			DocumentProperties_CloseOrLoseFocus(_documentPropertiesPresenter.Close);
 		}
 
-		public void DocumentPropertiesLoseFocus()
+		public void DocumentProperties_LoseFocus()
 		{
-			DocumentPropertiesCloseOrLoseFocus(_documentPropertiesPresenter.LoseFocus);
+			DocumentProperties_CloseOrLoseFocus(_documentPropertiesPresenter.LoseFocus);
 		}
 
-		private void DocumentPropertiesCloseOrLoseFocus(Func<DocumentPropertiesViewModel, DocumentPropertiesViewModel> partialAction)
+		private void DocumentProperties_CloseOrLoseFocus(Func<DocumentPropertiesViewModel, DocumentPropertiesViewModel> partialAction)
 		{
 			// GetViewModel
 			DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
@@ -964,7 +964,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentPropertiesPlay()
+		public void DocumentProperties_Play()
 		{
 			DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
 
@@ -976,7 +976,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// (The private Refresh methods do not.)
 		/// Will also apply (external) UnderlyingPatches.
 		/// </summary>
-		public void DocumentRefresh()
+		public void Document_Refresh()
 		{
 			if (MainViewModel.Document.IsOpen)
 			{
@@ -991,7 +991,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentSave()
+		public void Document_Save()
 		{
 			// ToEntity
 			// Get rid of AutoPatch view model temporarily from the DocumentViewModel.
@@ -1031,7 +1031,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.WarningMessages = warningsResult.Messages;
 		}
 
-		public void DocumentTreeAddToInstrument()
+		public void DocumentTree_AddToInstrument()
 		{
 			// Involves both DocumentTree and CurrentInstrument view,
 			// so cannot be handled by a single sub-presenter.
@@ -1047,7 +1047,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			AddPatchToCurrentInstrument(patchID);
 		}
 
-		public void DocumentTreeCreate()
+		public void DocumentTree_Create()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1056,23 +1056,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				case DocumentTreeNodeTypeEnum.Libraries:
 					// Redirect
-					DocumentTreeCreateLibrary();
+					DocumentTree_CreateLibrary();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Midi:
 					// Redirect
-					DocumentTreeCreateMidiMapping();
+					DocumentTree_CreateMidiMapping();
 					break;
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
 					// Redirect
-					DocumentTreeCreatePatch();
+					DocumentTree_CreatePatch();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Patch:
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
 					// Redirect
-					DocumentTreeCreateOperator();
+					DocumentTree_CreateOperator();
 					break;
 
 				default:
@@ -1080,14 +1080,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void DocumentTreeCreateLibrary()
+		private void DocumentTree_CreateLibrary()
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
 			ExecuteUpdateAction(userInput, () => _librarySelectionPopupPresenter.Load(userInput));
 		}
 
-		private void DocumentTreeCreateMidiMapping()
+		private void DocumentTree_CreateMidiMapping()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1109,11 +1109,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
-				MidiMappingDetailsShow(viewModel.CreatedEntityID);
+				MidiMappingDetails_Show(viewModel.CreatedEntityID);
 			}
 		}
 
-		private void DocumentTreeCreateOperator()
+		private void DocumentTree_CreateOperator()
 		{
 			if (MainViewModel.Document.VisiblePatchDetails == null)
 			{
@@ -1190,12 +1190,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Redirect
 				if (op != null)
 				{
-					OperatorExpand(op.ID);
+					Operator_Expand(op.ID);
 				}
 			}
 		}
 
-		private void DocumentTreeCreatePatch()
+		private void DocumentTree_CreatePatch()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1217,17 +1217,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
-				PatchDetailsShow(viewModel.CreatedEntityID);
-				PatchPropertiesShow(viewModel.CreatedEntityID);
+				PatchDetails_Show(viewModel.CreatedEntityID);
+				PatchProperties_Show(viewModel.CreatedEntityID);
 			}
 		}
 
-		public void DocumentTreeClose()
+		public void DocumentTree_Close()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Close);
 		}
 
-		public void DocumentTreeDelete()
+		public void DocumentTree_Delete()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1236,15 +1236,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			switch (userInput.SelectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.MidiMapping:
-					DocumentTreeDeleteMidiMapping();
+					DocumentTree_DeleteMidiMapping();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Library:
-					DocumentTreeDeleteLibrary();
+					DocumentTree_DeleteLibrary();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Patch:
-					DocumentTreeDeletePatch();
+					DocumentTree_DeletePatch();
 					break;
 
 				default:
@@ -1252,7 +1252,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void DocumentTreeDeleteMidiMapping()
+		private void DocumentTree_DeleteMidiMapping()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1275,7 +1275,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void DocumentTreeDeleteLibrary()
+		private void DocumentTree_DeleteLibrary()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1298,7 +1298,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void DocumentTreeDeletePatch()
+		private void DocumentTree_DeletePatch()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1321,21 +1321,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentTreeHoverPatch(int id)
+		public void DocumentTree_HoverPatch(int id)
 		{
 			DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
 
 			ExecuteReadAction(viewModel, () => _documentTreePresenter.HoverPatch(viewModel, id));
 		}
 
-		public void DocumentTreeOpenItemExternally()
+		public void DocumentTree_OpenItemExternally()
 		{
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
 			ExecuteReadAction(userInput, () => _documentTreePresenter.OpenItemExternally(userInput));
 		}
 
-		public void DocumentTreePlay()
+		public void DocumentTree_Play()
 		{
 			// GetViewModel
 			DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
@@ -1470,97 +1470,97 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentTreeSelectAudioFileOutputs()
+		public void DocumentTree_SelectAudioFileOutputs()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioFileOutputs);
 		}
 
-		public void DocumentTreeSelectAudioOutput()
+		public void DocumentTree_SelectAudioOutput()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioOutput);
 
 			// Redirect
-			AudioOutputPropertiesSwitch();
+			AudioOutputProperties_Switch();
 		}
 
-		public void DocumentTreeSelectLibraries()
+		public void DocumentTree_SelectLibraries()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectLibraries);
 		}
 
-		public void DocumentTreeSelectLibrary(int documentReferenceID)
+		public void DocumentTree_SelectLibrary(int documentReferenceID)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibrary(x, documentReferenceID));
 
 			// Redirect
-			LibraryPropertiesSwitch(documentReferenceID);
+			LibraryProperties_Switch(documentReferenceID);
 		}
 
-		public void DocumentTreeSelectLibraryPatch(int id)
+		public void DocumentTree_SelectLibraryPatch(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatch(x, id));
 		}
 
-		public void DocumentTreeSelectLibraryPatchGroup(int lowerDocumentReferenceID, string patchGroup)
+		public void DocumentTree_SelectLibraryPatchGroup(int lowerDocumentReferenceID, string patchGroup)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatchGroup(x, lowerDocumentReferenceID, patchGroup));
 		}
 
-		public void DocumentTreeSelectMidi() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectMidi);
+		public void DocumentTree_SelectMidi() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectMidi);
 
-		public void DocumentTreeSelectMidiMapping(int id)
+		public void DocumentTree_SelectMidiMapping(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectMidiMapping(x, id));
 
 			// Redirect
-			MidiMappingDetailsSwitch(id);
+			MidiMappingDetails_Switch(id);
 		}
 
-		public void DocumentTreeSelectScales()
+		public void DocumentTree_SelectScales()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectScales);
 		}
 
-		public void DocumentTreeSelectPatch(int id)
+		public void DocumentTree_SelectPatch(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatch(x, id));
 
 			// Redirect
-			PatchPropertiesSwitch(id);
+			PatchProperties_Switch(id);
 		}
 
-		public void DocumentTreeSelectPatchGroup(string group)
+		public void DocumentTree_SelectPatchGroup(string group)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatchGroup(x, group));
 		}
 
-		public void DocumentTreeShow()
+		public void DocumentTree_Show()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Show);
 		}
 
-		public void DocumentTreeShowAudioOutput()
+		public void DocumentTree_ShowAudioOutput()
 		{
 			// Redirect
-			AudioOutputPropertiesShow();
+			AudioOutputProperties_Show();
 		}
 
-		public void DocumentTreeShowLibrary(int documentReferenceID)
+		public void DocumentTree_ShowLibrary(int documentReferenceID)
 		{
 			// Redirect
-			LibraryPropertiesShow(documentReferenceID);
+			LibraryProperties_Show(documentReferenceID);
 		}
 
-		public void DocumentTreeShowMidiMapping(int id)
+		public void DocumentTree_ShowMidiMapping(int id)
 		{
 			// Redirect
-			MidiMappingDetailsShow(id);
+			MidiMappingDetails_Show(id);
 		}
 
-		public void DocumentTreeShowPatch(int id)
+		public void DocumentTree_ShowPatch(int id)
 		{
 			// Redirect
-			PatchDetailsShow(id);
+			PatchDetails_Show(id);
 		}
 
 		/// <summary>
@@ -1588,7 +1588,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Library
 
-		public void LibraryPropertiesClose(int documentReferenceID)
+		public void LibraryProperties_Close(int documentReferenceID)
 		{
 			// GetViewModel
 			LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
@@ -1605,7 +1605,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void LibraryPropertiesLoseFocus(int documentReferenceID)
+		public void LibraryProperties_LoseFocus(int documentReferenceID)
 		{
 			// GetViewModel
 			LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
@@ -1620,21 +1620,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void LibraryPropertiesOpenExternally(int documentReferenceID)
+		public void LibraryProperties_OpenExternally(int documentReferenceID)
 		{
 			LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
 			ExecuteReadAction(userInput, () => _libraryPropertiesPresenter.OpenExternally(userInput));
 		}
 
-		public void LibraryPropertiesPlay(int documentReferenceID)
+		public void LibraryProperties_Play(int documentReferenceID)
 		{
 			LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
 			ExecuteReadAction(userInput, () => _libraryPropertiesPresenter.Play(userInput));
 		}
 
-		public void LibraryPropertiesRemove(int documentReferenceID)
+		public void LibraryProperties_Remove(int documentReferenceID)
 		{
 			// GetViewModel
 			LibraryPropertiesViewModel userInput = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
@@ -1649,23 +1649,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void LibraryPropertiesShow(int documentReferenceID)
+		private void LibraryProperties_Show(int documentReferenceID)
 		{
 			LibraryPropertiesViewModel viewModel = ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID);
 
 			ExecuteNonPersistedAction(viewModel, () => _libraryPropertiesPresenter.Show(viewModel));
 		}
 
-		private void LibraryPropertiesSwitch(int documentReferenceID)
+		private void LibraryProperties_Switch(int documentReferenceID)
 		{
 			if (MainViewModel.PropertiesPanelVisible)
 			{
-				LibraryPropertiesShow(documentReferenceID);
+				LibraryProperties_Show(documentReferenceID);
 			}
 		}
 
 		/// <see cref="LibrarySelectionPopupPresenter.Cancel"/>
-		public void LibrarySelectionPopupCancel()
+		public void LibrarySelectionPopup_Cancel()
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
@@ -1673,14 +1673,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <see cref="LibrarySelectionPopupPresenter.Close"/>
-		public void LibrarySelectionPopupClose()
+		public void LibrarySelectionPopup_Close()
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
 			ExecuteNonPersistedAction(userInput, () => _librarySelectionPopupPresenter.Close(userInput));
 		}
 
-		public void LibrarySelectionPopupOK(int? lowerDocumentID)
+		public void LibrarySelectionPopup_OK(int? lowerDocumentID)
 		{
 			// GetViewModel
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
@@ -1703,14 +1703,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void LibrarySelectionPopupOpenItemExternally(int lowerDocumentID)
+		public void LibrarySelectionPopup_OpenItemExternally(int lowerDocumentID)
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
 			ExecuteReadAction(userInput, () => _librarySelectionPopupPresenter.OpenItemExternally(userInput, lowerDocumentID));
 		}
 
-		public void LibrarySelectionPopupPlay(int lowerDocumentID)
+		public void LibrarySelectionPopup_Play(int lowerDocumentID)
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
@@ -1719,22 +1719,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// MidiMapping
 
-		private void MidiMappingDetailsShow(int id)
+		private void MidiMappingDetails_Show(int id)
 		{
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.Show(userInput));
 		}
 
-		private void MidiMappingDetailsSwitch(int id)
+		private void MidiMappingDetails_Switch(int id)
 		{
 			if (MainViewModel.DetailsOrGridPanelVisible)
 			{
-				MidiMappingDetailsShow(id);
+				MidiMappingDetails_Show(id);
 			}
 		}
 
-		public void MidiMappingDetailsClose(int id)
+		public void MidiMappingDetails_Close(int id)
 		{
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
 
@@ -1743,7 +1743,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.Document.VisibleMidiMappingDetails = null;
 		}
 
-		public void MidiMappingDetailsCreateElement(int midiMappingID)
+		public void MidiMappingDetails_CreateElement(int midiMappingID)
 		{
 			// GetViewModel
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
@@ -1765,11 +1765,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
-				MidiMappingElementExpand(midiMappingID, viewModel.CreatedElementID);
+				MidiMappingElement_Expand(midiMappingID, viewModel.CreatedElementID);
 			}
 		}
 
-		public void MidiMappingDetailsDeleteSelectedElement(int midiMappingID)
+		public void MidiMappingDetails_DeleteSelectedElement(int midiMappingID)
 		{
 			// GetViewModel
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
@@ -1796,13 +1796,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void MidiMappingDetailsExpandElement(int midiMappingID, int midiMappingElementID)
+		public void MidiMappingDetails_ExpandElement(int midiMappingID, int midiMappingElementID)
 		{
 			// Redirect
-			MidiMappingElementPropertiesShow(midiMappingElementID);
+			MidiMappingElementProperties_Show(midiMappingElementID);
 		}
 
-		public void MidiMappingDetailsMoveElement(int midiMappingID, int midiMappingElementID, float centerX, float centerY)
+		public void MidiMappingDetails_MoveElement(int midiMappingID, int midiMappingElementID, float centerX, float centerY)
 		{
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
 
@@ -1811,7 +1811,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <summary> Only selecting the element, not e.g. switching properties. </summary>
-		private void MidiMappingDetailsSelectElement(int midiMappingID, int midiMappingElementID)
+		private void MidiMappingDetails_SelectElement(int midiMappingID, int midiMappingElementID)
 		{
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
 
@@ -1819,23 +1819,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <summary> Affects multiple partials. </summary>
-		private void MidiMappingElementExpand(int midiMappingID, int midiMappingElementID)
+		private void MidiMappingElement_Expand(int midiMappingID, int midiMappingElementID)
 		{
 			// Redirect
-			MidiMappingElementPropertiesShow(midiMappingElementID);
-			MidiMappingDetailsShow(midiMappingID);
-			MidiMappingDetailsSelectElement(midiMappingID, midiMappingElementID);
+			MidiMappingElementProperties_Show(midiMappingElementID);
+			MidiMappingDetails_Show(midiMappingID);
+			MidiMappingDetails_SelectElement(midiMappingID, midiMappingElementID);
 		}
 
 		/// <summary> Affects multiple partials. </summary>
-		public void MidiMappingElementSelect(int midiMappingID, int midiMappingElementID)
+		public void MidiMappingElement_Select(int midiMappingID, int midiMappingElementID)
 		{
 			// Redirect
-			MidiMappingDetailsSelectElement(midiMappingID, midiMappingElementID);
-			MidiMappingElementPropertiesSwitch(midiMappingElementID);
+			MidiMappingDetails_SelectElement(midiMappingID, midiMappingElementID);
+			MidiMappingElementProperties_Switch(midiMappingElementID);
 		}
 
-		public void MidiMappingElementPropertiesClose(int id)
+		public void MidiMappingElementProperties_Close(int id)
 		{
 			// GetViewModel
 			MidiMappingElementPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
@@ -1852,7 +1852,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void MidiMappingElementPropertiesDelete(int id)
+		public void MidiMappingElementProperties_Delete(int id)
 		{
 			// GetViewModel
 			MidiMappingElementPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
@@ -1874,15 +1874,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void MidiMappingElementPropertiesExpand(int id)
+		public void MidiMappingElementProperties_Expand(int id)
 		{
 			MidiMappingElementPropertiesViewModel viewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
 
 			// Redirect
-			MidiMappingElementExpand(viewModel.MidiMappingID, id);
+			MidiMappingElement_Expand(viewModel.MidiMappingID, id);
 		}
 
-		public void MidiMappingElementPropertiesLoseFocus(int id)
+		public void MidiMappingElementProperties_LoseFocus(int id)
 		{
 			// GetViewModel
 			MidiMappingElementPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
@@ -1897,19 +1897,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void MidiMappingElementPropertiesShow(int id)
+		private void MidiMappingElementProperties_Show(int id)
 		{
 			MidiMappingElementPropertiesViewModel viewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(viewModel, () => _midiMappingElementPropertiesPresenter.Show(viewModel));
 		}
 
-		private void MidiMappingElementPropertiesSwitch(int id)
+		private void MidiMappingElementProperties_Switch(int id)
 		{
 			if (MainViewModel.PropertiesPanelVisible)
 			{
 				// Redirect
-				MidiMappingElementPropertiesShow(id);
+				MidiMappingElementProperties_Show(id);
 			}
 		}
 
@@ -1919,7 +1919,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// Rotates between node types for the selected node.
 		/// If no node is selected, nothing happens.
 		/// </summary>
-		public void NodeChangeSelectedNodeType(int curveID)
+		public void Node_ChangeSelectedNodeType(int curveID)
 		{
 			// GetViewModel
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
@@ -1952,7 +1952,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void NodeCreate(int curveID)
+		public void Node_Create(int curveID)
 		{
 			// GetViewModel
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
@@ -1975,7 +1975,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void NodeDeleteSelected(int curveID)
+		public void Node_DeleteSelected(int curveID)
 		{
 			// GetViewModel
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
@@ -2002,7 +2002,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void NodeMoving(int curveID, int nodeID, double x, double y)
+		public void Node_Moving(int curveID, int nodeID, double x, double y)
 		{
 			// Opted to not use the TemplateActionMethod
 			// (which would do a complete DocumentViewModel to Entity conversion),
@@ -2029,7 +2029,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void NodeMoved(int curveID, int nodeID, double x, double y)
+		public void Node_Moved(int curveID, int nodeID, double x, double y)
 		{
 			// GetViewModel
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
@@ -2045,7 +2045,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void NodePropertiesClose(int id)
+		public void NodeProperties_Close(int id)
 		{
 			// GetViewModel
 			NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
@@ -2063,7 +2063,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void NodePropertiesDelete(int id)
+		public void NodeProperties_Delete(int id)
 		{
 			// GetViewModel
 			NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
@@ -2085,15 +2085,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void NodePropertiesExpand(int id)
+		public void NodeProperties_Expand(int id)
 		{
 			NodePropertiesViewModel viewModel = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
 			// Redirect
-			NodeExpand(viewModel.CurveID, id);
+			Node_Expand(viewModel.CurveID, id);
 		}
 
-		public void NodePropertiesLoseFocus(int id)
+		public void NodeProperties_LoseFocus(int id)
 		{
 			// GetViewModel
 			NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
@@ -2109,29 +2109,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void NodePropertiesShow(int id)
+		private void NodeProperties_Show(int id)
 		{
 			NodePropertiesViewModel viewModel = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(viewModel, () => _nodePropertiesPresenter.Show(viewModel));
 		}
 
-		private void NodePropertiesSwitch(int id)
+		private void NodeProperties_Switch(int id)
 		{
 			if (MainViewModel.PropertiesPanelVisible)
 			{
-				NodePropertiesShow(id);
+				NodeProperties_Show(id);
 			}
 		}
 
-		public void NodeSelect(int curveID, int nodeID)
+		public void Node_Select(int curveID, int nodeID)
 		{
 			// Redirect
-			CurveDetailsSelectNode(curveID, nodeID);
-			NodePropertiesSwitch(nodeID);
+			CurveDetails_SelectNode(curveID, nodeID);
+			NodeProperties_Switch(nodeID);
 		}
 
-		private void NodeExpand(int curveID, int nodeID)
+		private void Node_Expand(int curveID, int nodeID)
 		{
 			ExecuteReadAction(
 				null,
@@ -2143,31 +2143,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					int patchID = op.Patch.ID;
 
 					// Redirect
-					NodePropertiesShow(nodeID);
-					CurveDetailsShow(curveID);
-					CurveDetailsSelectNode(curveID, nodeID);
-					PatchDetailsShow(patchID);
-					PatchDetailsSelectOperator(patchID, operatorID);
+					NodeProperties_Show(nodeID);
+					CurveDetails_Show(curveID);
+					CurveDetails_SelectNode(curveID, nodeID);
+					PatchDetails_Show(patchID);
+					PatchDetails_SelectOperator(patchID, operatorID);
 				});
 		}
 
 		// Operator
 
-		public void OperatorChangeInputOutlet(int patchID, int inletID, int inputOutletID)
+		public void Operator_ChangeInputOutlet(int patchID, int inletID, int inputOutletID)
 		{
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
 			ExecuteUpdateAction(userInput, () => _patchDetailsPresenter.ChangeInputOutlet(userInput, inletID, inputOutletID));
 		}
 
-		public void OperatorMove(int patchID, int operatorID, float centerX, float centerY)
+		public void Operator_Move(int patchID, int operatorID, float centerX, float centerY)
 		{
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
 			ExecuteUpdateAction(userInput, () => _patchDetailsPresenter.MoveOperator(userInput, operatorID, centerX, centerY));
 		}
 
-		public void OperatorPropertiesClose(int id)
+		public void OperatorProperties_Close(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel userInput = ViewModelSelector.GetOperatorPropertiesViewModel(MainViewModel.Document, id);
@@ -2184,7 +2184,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesClose_ForCache(int id)
+		public void OperatorProperties_Close_ForCache(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
@@ -2201,7 +2201,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesClose_ForCurve(int id)
+		public void OperatorProperties_Close_ForCurve(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, id);
@@ -2218,7 +2218,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesClose_ForInletsToDimension(int id)
+		public void OperatorProperties_Close_ForInletsToDimension(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForInletsToDimension userInput =
@@ -2238,7 +2238,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesClose_ForNumber(int id)
+		public void OperatorProperties_Close_ForNumber(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
@@ -2255,7 +2255,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesClose_ForPatchInlet(int id)
+		public void OperatorProperties_Close_ForPatchInlet(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
@@ -2272,7 +2272,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesClose_ForPatchOutlet(int id)
+		public void OperatorProperties_Close_ForPatchOutlet(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
@@ -2289,7 +2289,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesClose_ForSample(int id)
+		public void OperatorProperties_Close_ForSample(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
@@ -2306,7 +2306,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesClose_WithInterpolation(int id)
+		public void OperatorProperties_Close_WithInterpolation(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_WithInterpolation userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
@@ -2324,7 +2324,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesClose_WithCollectionRecalculation(int id)
+		public void OperatorProperties_Close_WithCollectionRecalculation(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_WithCollectionRecalculation userInput =
@@ -2344,7 +2344,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesDelete(int id)
+		public void OperatorProperties_Delete(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModelBase userInput = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
@@ -2367,13 +2367,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesExpand(int id)
+		public void OperatorProperties_Expand(int id)
 		{
 			// Redirect
-			OperatorExpand(id);
+			Operator_Expand(id);
 		}
 
-		public void OperatorPropertiesLoseFocus(int id)
+		public void OperatorProperties_LoseFocus(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel userInput = ViewModelSelector.GetOperatorPropertiesViewModel(MainViewModel.Document, id);
@@ -2388,7 +2388,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesLoseFocus_ForCache(int id)
+		public void OperatorProperties_LoseFocus_ForCache(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForCache userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCache(MainViewModel.Document, id);
@@ -2403,7 +2403,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesLoseFocus_ForCurve(int id)
+		public void OperatorProperties_LoseFocus_ForCurve(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForCurve userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, id);
@@ -2418,7 +2418,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesLoseFocus_ForInletsToDimension(int id)
+		public void OperatorProperties_LoseFocus_ForInletsToDimension(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForInletsToDimension userInput =
@@ -2436,7 +2436,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesLoseFocus_ForNumber(int id)
+		public void OperatorProperties_LoseFocus_ForNumber(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForNumber userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForNumber(MainViewModel.Document, id);
@@ -2451,7 +2451,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesLoseFocus_ForPatchInlet(int id)
+		public void OperatorProperties_LoseFocus_ForPatchInlet(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForPatchInlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchInlet(MainViewModel.Document, id);
@@ -2467,7 +2467,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesLoseFocus_ForPatchOutlet(int id)
+		public void OperatorProperties_LoseFocus_ForPatchOutlet(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForPatchOutlet userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForPatchOutlet(MainViewModel.Document, id);
@@ -2483,7 +2483,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesLoseFocus_ForSample(int id)
+		public void OperatorProperties_LoseFocus_ForSample(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_ForSample userInput = ViewModelSelector.GetOperatorPropertiesViewModel_ForSample(MainViewModel.Document, id);
@@ -2498,7 +2498,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesLoseFocus_WithInterpolation(int id)
+		public void OperatorProperties_LoseFocus_WithInterpolation(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_WithInterpolation userInput = ViewModelSelector.GetOperatorPropertiesViewModel_WithInterpolation(MainViewModel.Document, id);
@@ -2515,7 +2515,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesLoseFocus_WithCollectionRecalculation(int id)
+		public void OperatorProperties_LoseFocus_WithCollectionRecalculation(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel_WithCollectionRecalculation userInput =
@@ -2533,14 +2533,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorPropertiesPlay(int id)
+		public void OperatorProperties_Play(int id)
 		{
 			OperatorPropertiesViewModelBase userInput = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
 
 			ExecuteReadAction(userInput, () => GetOperatorPropertiesPresenter(id).Play(userInput));
 		}
 
-		private void OperatorPropertiesShow(int id)
+		private void OperatorProperties_Show(int id)
 		{
 			{
 				OperatorPropertiesViewModel viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel(MainViewModel.Document, id);
@@ -2628,22 +2628,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			throw new NotFoundException<OperatorPropertiesViewModelBase>(new { OperatorID = id });
 		}
 
-		private void OperatorPropertiesSwitch(int id)
+		private void OperatorProperties_Switch(int id)
 		{
 			if (MainViewModel.PropertiesPanelVisible)
 			{
-				OperatorPropertiesShow(id);
+				OperatorProperties_Show(id);
 			}
 		}
 
-		public void OperatorSelect(int patchID, int operatorID)
+		public void Operator_Select(int patchID, int operatorID)
 		{
 			// Redirect
-			PatchDetailsSelectOperator(patchID, operatorID);
-			OperatorPropertiesSwitch(operatorID);
+			PatchDetails_SelectOperator(patchID, operatorID);
+			OperatorProperties_Switch(operatorID);
 		}
 
-		public void OperatorExpand(int operatorID)
+		public void Operator_Expand(int operatorID)
 		{
 			ExecuteReadAction(
 				null,
@@ -2656,25 +2656,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					// Redirect
 					if (curve != null)
 					{
-						CurveExpand(curve.ID);
+						Curve_Expand(curve.ID);
 					}
 					else
 					{
 						int patchID = op.Patch.ID;
-						OperatorPropertiesShow(operatorID);
-						PatchDetailsShow(patchID);
+						OperatorProperties_Show(operatorID);
+						PatchDetails_Show(patchID);
 					}
 				});
 		}
 
 		// Patch
 
-		public void PatchDetailsAddToInstrument(int id)
+		public void PatchDetails_AddToInstrument(int id)
 		{
 			AddPatchToCurrentInstrument(id);
 		}
 
-		public void PatchDetailsClose(int id)
+		public void PatchDetails_Close(int id)
 		{
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
@@ -2683,7 +2683,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.Document.VisiblePatchDetails = null;
 		}
 
-		public void PatchDetailsDeleteSelectedOperator(int patchID)
+		public void PatchDetails_DeleteSelectedOperator(int patchID)
 		{
 			// GetViewModel
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
@@ -2706,41 +2706,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void PatchDetailsPlay(int id)
+		public void PatchDetails_Play(int id)
 		{
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteReadAction(userInput, () => _patchDetailsPresenter.Play(userInput));
 		}
 
-		private void PatchDetailsSelectOperator(int patchID, int operatorID)
+		private void PatchDetails_SelectOperator(int patchID, int operatorID)
 		{
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, patchID);
 
 			ExecuteNonPersistedAction(userInput, () => _patchDetailsPresenter.SelectOperator(userInput, operatorID));
 		}
 
-		public void PatchDetailsShow(int id)
+		public void PatchDetails_Show(int id)
 		{
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(userInput, () => _patchDetailsPresenter.Show(userInput));
 		}
 
-		public void PatchDetailsExpand(int id)
+		public void PatchDetails_Expand(int id)
 		{
 			// Redirect
-			PatchExpand(id);
+			Patch_Expand(id);
 		}
 
-		public void PatchDetailsSelect(int id)
+		public void PatchDetails_Select(int id)
 		{
 			// Redirect
-			PatchPropertiesSwitch(id);
-			DocumentTreeSelectPatch(id);
+			PatchProperties_Switch(id);
+			DocumentTree_SelectPatch(id);
 		}
 
-		private void PatchExpand(int id)
+		private void Patch_Expand(int id)
 		{
 			ExecuteReadAction(
 				null,
@@ -2762,26 +2762,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					else
 					{
 						// Redirect
-						PatchPropertiesShow(id);
-						PatchDetailsShow(id);
-						DocumentTreeSelectPatch(id);
+						PatchProperties_Show(id);
+						PatchDetails_Show(id);
+						DocumentTree_SelectPatch(id);
 					}
 				});
 		}
 
-		public void PatchPropertiesAddToInstrument(int id)
+		public void PatchProperties_AddToInstrument(int id)
 		{
 			AddPatchToCurrentInstrument(id);
 		}
 
-		public void PatchPropertiesChangeHasDimension(int id)
+		public void PatchProperties_ChangeHasDimension(int id)
 		{
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
 			ExecuteUpdateAction(userInput, () => _patchPropertiesPresenter.ChangeHasDimension(userInput));
 		}
 
-		public void PatchPropertiesClose(int id)
+		public void PatchProperties_Close(int id)
 		{
 			// GetViewModel
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
@@ -2798,7 +2798,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void PatchPropertiesDelete(int id)
+		public void PatchProperties_Delete(int id)
 		{
 			// GetViewModel
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
@@ -2820,13 +2820,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void PatchPropertiesExpand(int id)
+		public void PatchProperties_Expand(int id)
 		{
 			// Redirect
-			PatchExpand(id);
+			Patch_Expand(id);
 		}
 
-		public void PatchPropertiesLoseFocus(int id)
+		public void PatchProperties_LoseFocus(int id)
 		{
 			// GetViewModel
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
@@ -2841,38 +2841,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void PatchPropertiesPlay(int id)
+		public void PatchProperties_Play(int id)
 		{
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
 			ExecuteReadAction(userInput, () => _patchPropertiesPresenter.Play(userInput));
 		}
 
-		private void PatchPropertiesShow(int id)
+		private void PatchProperties_Show(int id)
 		{
 			PatchPropertiesViewModel viewModel = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(viewModel, () => _patchPropertiesPresenter.Show(viewModel));
 		}
 
-		private void PatchPropertiesSwitch(int id)
+		private void PatchProperties_Switch(int id)
 		{
 			if (MainViewModel.PropertiesPanelVisible)
 			{
-				PatchPropertiesShow(id);
+				PatchProperties_Show(id);
 			}
 		}
 
 		// Sample
 
-		public void SampleFileBrowserCancel()
+		public void SampleFileBrowser_Cancel()
 		{
 			SampleFileBrowserViewModel userInput = MainViewModel.Document.SampleFileBrowser;
 
 			ExecuteNonPersistedAction(userInput, () => _sampleFileBrowserPresenter.Cancel(userInput));
 		}
 
-		public void SampleFileBrowserOK()
+		public void SampleFileBrowser_OK()
 		{
 			// GetViewModel
 			SampleFileBrowserViewModel userInput = MainViewModel.Document.SampleFileBrowser;
@@ -2899,7 +2899,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// SaveChanges
 
-		private void SaveChangesPopupShow(int? documentIDToOpenAfterConfirmation = null, bool mustGoToDocumentCreateAfterConfirmation = false)
+		private void SaveChangesPopup_Show(int? documentIDToOpenAfterConfirmation = null, bool mustGoToDocumentCreateAfterConfirmation = false)
 		{
 			SaveChangesPopupViewModel viewModel = MainViewModel.Document.SaveChangesPopup;
 
@@ -2908,14 +2908,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				() => _saveChangesPopupPresenter.Show(viewModel, documentIDToOpenAfterConfirmation, mustGoToDocumentCreateAfterConfirmation));
 		}
 
-		public void SaveChangesPopupCancel()
+		public void SaveChangesPopup_Cancel()
 		{
 			SaveChangesPopupViewModel viewModel = MainViewModel.Document.SaveChangesPopup;
 
 			ExecuteNonPersistedAction(viewModel, () => _saveChangesPopupPresenter.Cancel(viewModel));
 		}
 
-		public void SaveChangesPopupNo()
+		public void SaveChangesPopup_No()
 		{
 			// GetViewModel
 			SaveChangesPopupViewModel viewModel = MainViewModel.Document.SaveChangesPopup;
@@ -2933,7 +2933,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			RedirectAfterSaveChangesPopup(viewModel);
 		}
 
-		public void SaveChangesPopupYes()
+		public void SaveChangesPopup_Yes()
 		{
 			// GetViewModel
 			SaveChangesPopupViewModel viewModel = MainViewModel.Document.SaveChangesPopup;
@@ -2942,21 +2942,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => _saveChangesPopupPresenter.Yes(viewModel));
 
 			// Redirect
-			DocumentSave();
+			Document_Save();
 			RedirectAfterSaveChangesPopup(viewModel);
 		}
 
 		private void RedirectAfterSaveChangesPopup(SaveChangesPopupViewModel viewModel)
 		{
-			DocumentClose();
+			Document_Close();
 
 			if (viewModel.DocumentIDToOpenAfterConfirmation.HasValue)
 			{
-				DocumentOpen(viewModel.DocumentIDToOpenAfterConfirmation.Value);
+				Document_Open(viewModel.DocumentIDToOpenAfterConfirmation.Value);
 			}
 			else if (viewModel.MustGoToDocumentCreateAfterConfirmation)
 			{
-				DocumentCreate();
+				Document_Create();
 			}
 
 			viewModel.DocumentIDToOpenAfterConfirmation = null;
@@ -2965,21 +2965,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Scale
 
-		public void ScaleGridShow()
+		public void ScaleGrid_Show()
 		{
 			ScaleGridViewModel viewModel = MainViewModel.Document.ScaleGrid;
 
 			ExecuteNonPersistedAction(viewModel, () => _scaleGridPresenter.Show(viewModel));
 		}
 
-		public void ScaleGridClose()
+		public void ScaleGrid_Close()
 		{
 			ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
 
 			ExecuteNonPersistedAction(userInput, () => _scaleGridPresenter.Close(userInput));
 		}
 
-		public void ScaleGridCreate()
+		public void ScaleGrid_Create()
 		{
 			// GetViewModel
 			ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
@@ -3002,7 +3002,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void ScaleGridDelete(int id)
+		public void ScaleGrid_Delete(int id)
 		{
 			// GetViewModel
 			ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
@@ -3024,7 +3024,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void ScaleShow(int id)
+		public void Scale_Show(int id)
 		{
 			// GetViewModel
 			ScalePropertiesViewModel viewModel1 = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
@@ -3039,7 +3039,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel2);
 		}
 
-		public void ScalePropertiesClose(int id)
+		public void ScaleProperties_Close(int id)
 		{
 			// Get ViewModel
 			ScalePropertiesViewModel userInput = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
@@ -3058,7 +3058,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void ScalePropertiesDelete(int id)
+		public void ScaleProperties_Delete(int id)
 		{
 			// GetViewModel
 			ScalePropertiesViewModel userInput = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
@@ -3080,7 +3080,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void ScalePropertiesLoseFocus(int id)
+		public void ScaleProperties_LoseFocus(int id)
 		{
 			// Get ViewModel
 			ScalePropertiesViewModel userInput = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
@@ -3099,7 +3099,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Tone
 
-		public void ToneCreate(int scaleID)
+		public void Tone_Create(int scaleID)
 		{
 			// GetViewModel
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
@@ -3119,7 +3119,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void ToneDelete(int scaleID, int toneID)
+		public void Tone_Delete(int scaleID, int toneID)
 		{
 			// GetViewModel
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
@@ -3135,7 +3135,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteDeleteAction(userInput, undoItem, () => _toneGridEditPresenter.DeleteTone(userInput, toneID));
 		}
 
-		public void ToneGridEditClose(int scaleID)
+		public void ToneGridEdit_Close(int scaleID)
 		{
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
@@ -3147,21 +3147,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void ToneGridEditLoseFocus(int scaleID)
+		public void ToneGridEdit_LoseFocus(int scaleID)
 		{
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
 			ExecuteUpdateAction(userInput, () => _toneGridEditPresenter.LoseFocus(userInput));
 		}
 
-		public void ToneGridEditEdit(int scaleID)
+		public void ToneGridEdit_Edit(int scaleID)
 		{
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
 			ExecuteUpdateAction(userInput, () => _toneGridEditPresenter.Edit(userInput));
 		}
 
-		public void TonePlay(int scaleID, int toneID)
+		public void Tone_Play(int scaleID, int toneID)
 		{
 			// NOTE:
 			// Cannot use partial presenter, because this action uses both
