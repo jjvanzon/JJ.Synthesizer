@@ -244,7 +244,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				return;
 			}
 
-			// Get Entities
+			// ToViewModel
+			_mainPresenter.MainViewModel.Document.OutletIDToPlay = null;
+
+			// GetEntities
 			Outlet outlet = _repositories.OutletRepository.Get(outletIDToPlay.Value);
 
 			// Determine AudioOutput
@@ -292,8 +295,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculators);
 			var soundPlayer = new SoundPlayer(_patchPlayOutputFilePath);
 			soundPlayer.Play();
-
-			_mainPresenter.MainViewModel.Document.OutletIDToPlay = null;
 		}
 
 		private void OpenDocumentExternallyAndOptionallyPatchIfNeeded()
@@ -305,7 +306,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			string documentName = documentToOpenExternally?.Name;
 			string patchName = patchToOpenExternally?.Name;
 
-			// ReSharper disable once InvertIf
 			if (!string.IsNullOrEmpty(documentName))
 			{
 				Program.ShowMainWindow(documentName, patchName);
@@ -318,11 +318,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				//}
 
 				//Process.Start(Assembly.GetExecutingAssembly().Location, arguments);
-
-				// ToViewModel
-				_mainPresenter.MainViewModel.Document.DocumentToOpenExternally = null;
-				_mainPresenter.MainViewModel.Document.PatchToOpenExternally = null;
 			}
+
+			// ToViewModel
+			_mainPresenter.MainViewModel.Document.DocumentToOpenExternally = null;
+			_mainPresenter.MainViewModel.Document.PatchToOpenExternally = null;
 		}
 	}
 }

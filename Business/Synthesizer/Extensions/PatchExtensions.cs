@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -40,5 +40,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
 			return string.Equals(patch.Name, nameof(SystemPatchNames.Sample));
 		}
+
+		public static bool IsExternal(this Patch patch, Document currentDocument) => patch.Document?.ID != currentDocument?.ID;
 	}
 }

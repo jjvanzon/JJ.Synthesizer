@@ -514,8 +514,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void CurrentInstrumentExpandItem(int patchID)
 		{
 			// Redirect
-			PatchDetailsShow(patchID);
-			DocumentTreeSelectPatch(patchID);
+			PatchExpand(patchID);
 		}
 
 		public void CurrentInstrumentMove(int patchID, int newPosition)
@@ -2743,10 +2742,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private void PatchExpand(int id)
 		{
-			// Redirect
-			PatchPropertiesShow(id);
-			PatchDetailsShow(id);
-			DocumentTreeSelectPatch(id);
+			ExecuteReadAction(
+				null,
+				() =>
+				{
+					// GetEntities
+					Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+					Patch patch = _repositories.PatchRepository.Get(id);
+
+					// Business
+					bool isExternal = patch.IsExternal(document);
+
+					if (isExternal)
+					{
+						// Non-Persisted
+						MainViewModel.Document.DocumentToOpenExternally = patch.Document.ToIDAndName();
+						MainViewModel.Document.PatchToOpenExternally = patch.ToIDAndName();
+					}
+					else
+					{
+						// Redirect
+						PatchPropertiesShow(id);
+						PatchDetailsShow(id);
+						DocumentTreeSelectPatch(id);
+					}
+				});
 		}
 
 		public void PatchPropertiesAddToInstrument(int id)

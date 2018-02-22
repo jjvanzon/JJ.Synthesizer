@@ -322,13 +322,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void audioOutputPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.AudioOutputPropertiesPlay();
-
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(_mainPresenter.AudioOutputPropertiesPlay);
 		}
 
 		// CurrentInstrument
@@ -350,7 +344,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void CurrentInstrumentUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentExpandItem(e.Value));
+			TemplateActionHandler(() =>
+			{
+				_mainPresenter.CurrentInstrumentExpandItem(e.Value);
+			});
 		}
 
 		private void CurrentInstrumentUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e)
@@ -375,24 +372,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void currentInstrumentUserControl_PlayRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.CurrentInstrumentPlay();
-
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(_mainPresenter.CurrentInstrumentPlay);
 		}
 
 		private void CurrentInstrumentUserControl_PlayPatchRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.CurrentInstrumentPlayItem(e.Value);
-
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentPlayItem(e.Value));
 		}
 
 		private void CurrentInstrumentUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
@@ -507,12 +492,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void documentGridUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.DocumentGridPlay(e.Value);
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.DocumentGridPlay(e.Value));
 		}
 
 		private void DocumentGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
@@ -609,17 +589,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void documentTreeUserControl_NewRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTreeCreate());
+			TemplateActionHandler(_mainPresenter.DocumentTreeCreate);
 		}
 
 		private void documentTreeUserControl_OpenItemExternallyRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.DocumentTreeOpenItemExternally();
-					OpenDocumentExternallyAndOptionallyPatchIfNeeded();
-				});
+			TemplateActionHandler(_mainPresenter.DocumentTreeOpenItemExternally);
 		}
 
 		private void documentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e)
@@ -639,12 +614,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void documentTreeUserControl_PlayRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.DocumentTreePlay();
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.DocumentTreePlay());
 		}
 
 		private void documentTreeUserControl_RefreshRequested(object sender, EventArgs e)
@@ -726,12 +696,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void documentPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.DocumentPropertiesPlay();
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(_mainPresenter.DocumentPropertiesPlay);
 		}
 
 		// Library
@@ -748,22 +713,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void libraryPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.LibraryPropertiesPlay(e.Value);
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.LibraryPropertiesPlay(e.Value));
 		}
 
 		private void libraryPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.LibraryPropertiesOpenExternally(e.Value);
-					OpenDocumentExternallyAndOptionallyPatchIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.LibraryPropertiesOpenExternally(e.Value));
 		}
 
 		private void LibraryPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
@@ -788,22 +743,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void _librarySelectionPopupForm_OpenItemExternallyRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.LibrarySelectionPopupOpenItemExternally(e.Value);
-					OpenDocumentExternallyAndOptionallyPatchIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopupOpenItemExternally(e.Value));
 		}
 
 		private void _librarySelectionPopupForm_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.LibrarySelectionPopupPlay(e.Value);
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopupPlay(e.Value));
 		}
 
 		// MidiMapping
@@ -929,12 +874,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void operatorPropertiesUserControlBase_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.OperatorPropertiesPlay(e.Value);
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.OperatorPropertiesPlay(e.Value));
 		}
 
 		private void OperatorPropertiesUserControlBase_DeleteRequested(object sender, EventArgs<int> e)
@@ -1196,13 +1136,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void patchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.PatchDetailsPlay(e.Value);
-
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.PatchDetailsPlay(e.Value));
 		}
 
 		private void patchDetailsUserControl_SelectOperatorRequested(object sender, PatchAndOperatorEventArgs e)
@@ -1254,12 +1188,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void patchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.PatchPropertiesPlay(e.Value);
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.PatchPropertiesPlay(e.Value));
 		}
 
 		private void PatchPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
@@ -1336,12 +1265,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void toneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e)
 		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.TonePlay(e.ScaleID, e.ToneID);
-					PlayOutletIfNeeded();
-				});
+			TemplateActionHandler(() => _mainPresenter.TonePlay(e.ScaleID, e.ToneID));
 		}
 
 		private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -1435,12 +1359,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		// Template Method
 
-		/// <summary> Surrounds a call to a presenter action with rollback and ApplyViewModel. </summary>
+		/// <summary>
+		/// Surrounds a call to a presenter action with rollback and ApplyViewModel.
+		/// Also executes some side-effects if needed, for instance playing an outlet or opening a document externally.
+		/// </summary>
 		private void TemplateActionHandler(Action action)
 		{
 			try
 			{
 				action();
+
+				PlayOutletIfNeeded();
+				OpenDocumentExternallyAndOptionallyPatchIfNeeded();
 			}
 			finally
 			{
