@@ -43,7 +43,7 @@
 			this.operatorPropertiesUserControl_ForSample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForSample();
 			this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
 			this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-			this.currentInstrumentUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentUserControl();
+			this.currentInstrumentBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentBarUserControl();
 			this.splitContainerCurvesAndTopSide = new System.Windows.Forms.SplitContainer();
 			this.curveDetailsListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveDetailsListUserControl();
 			this.midiMappingElementPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingElementPropertiesUserControl();
@@ -675,17 +675,17 @@
 			this.menuUserControl.Size = new System.Drawing.Size(1459, 24);
 			this.menuUserControl.TabIndex = 3;
 			// 
-			// currentInstrumentUserControl
+			// currentInstrumentBarUserControl
 			// 
-			this.currentInstrumentUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.currentInstrumentBarUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.currentInstrumentUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-			this.currentInstrumentUserControl.Location = new System.Drawing.Point(271, 0);
-			this.currentInstrumentUserControl.Margin = new System.Windows.Forms.Padding(0);
-			this.currentInstrumentUserControl.Name = "currentInstrumentUserControl";
-			this.currentInstrumentUserControl.Size = new System.Drawing.Size(1188, 30);
-			this.currentInstrumentUserControl.TabIndex = 14;
-			this.currentInstrumentUserControl.ViewModel = null;
+			this.currentInstrumentBarUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+			this.currentInstrumentBarUserControl.Location = new System.Drawing.Point(271, 0);
+			this.currentInstrumentBarUserControl.Margin = new System.Windows.Forms.Padding(0);
+			this.currentInstrumentBarUserControl.Name = "currentInstrumentBarUserControl";
+			this.currentInstrumentBarUserControl.Size = new System.Drawing.Size(1188, 30);
+			this.currentInstrumentBarUserControl.TabIndex = 14;
+			this.currentInstrumentBarUserControl.ViewModel = null;
 			// 
 			// splitContainerCurvesAndTopSide
 			// 
@@ -745,7 +745,7 @@
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.ClientSize = new System.Drawing.Size(1459, 838);
 			this.Controls.Add(this.splitContainerCurvesAndTopSide);
-			this.Controls.Add(this.currentInstrumentUserControl);
+			this.Controls.Add(this.currentInstrumentBarUserControl);
 			this.Controls.Add(this.menuUserControl);
 			this.IsMdiContainer = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
@@ -791,7 +791,7 @@
 		private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
 		private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
 		private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
-		private UserControls.CurrentInstrumentUserControl currentInstrumentUserControl;
+		private UserControls.CurrentInstrumentBarUserControl currentInstrumentBarUserControl;
 		private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
 		private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
 		private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;

@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			audioFileOutputGridUserControl.ViewModel = _mainPresenter.MainViewModel.Document.AudioFileOutputGrid;
 			audioFileOutputPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleAudioFileOutputProperties;
 			audioOutputPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.AudioOutputProperties;
-			currentInstrumentUserControl.ViewModel = _mainPresenter.MainViewModel.Document.CurrentInstrument;
+			currentInstrumentBarUserControl.ViewModel = _mainPresenter.MainViewModel.Document.CurrentInstrument;
 			curveDetailsListUserControl.ViewModels = _mainPresenter.MainViewModel.Document.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
 			documentDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.DocumentDetails;
 			documentGridUserControl.ViewModel = _mainPresenter.MainViewModel.DocumentGrid;

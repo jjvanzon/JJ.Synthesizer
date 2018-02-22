@@ -14,7 +14,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class CurrentInstrumentItemsElement : ElementBase
+	internal class CurrentInstrumentBarItemsElement : ElementBase
 	{
 		public event EventHandler<EventArgs<int>> ExpandRequested;
 		public event EventHandler<EventArgs<int>> MoveBackwardRequested;
@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		private readonly HorizontalAlignmentEnum _horizontalAlignmentEnum;
 		private readonly ToolTipElement _toolTipElement;
-		private readonly IList<CurrentInstrumentItemElement> _itemElements = new List<CurrentInstrumentItemElement>();
+		private readonly IList<CurrentInstrumentBarItemElement> _itemElements = new List<CurrentInstrumentBarItemElement>();
 		private readonly object _underlyingPictureDelete;
 		private readonly object _underlyingPictureExpand;
 		private readonly object _underlyingPictureMoveBackward;
@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly object _underlyingPicturePlay;
 		private readonly ITextMeasurer _textMeasurer;
 
-		public CurrentInstrumentItemsElement(
+		public CurrentInstrumentBarItemsElement(
 			Element parent,
 			HorizontalAlignmentEnum horizontalAlignmentEnum,
 			ToolTipElement toolTipElement,
@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			for (int i = 0; i < minCount; i++)
 			{
 				CurrentInstrumentItemViewModel patchViewModel = ViewModels[i];
-				CurrentInstrumentItemElement patchElement = _itemElements[i];
+				CurrentInstrumentBarItemElement patchElement = _itemElements[i];
 				patchElement.ViewModel = patchViewModel;
 			}
 
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			for (int i = _itemElements.Count; i < ViewModels.Count; i++)
 			{
 				CurrentInstrumentItemViewModel patchViewModel = ViewModels[i];
-				CurrentInstrumentItemElement patchElement = CreateItemElement(patchViewModel);
+				CurrentInstrumentBarItemElement patchElement = CreateItemElement(patchViewModel);
 
 				_itemElements.Add(patchElement);
 			}
@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			// Delete
 			for (int i = _itemElements.Count - 1; i >= ViewModels.Count; i--)
 			{
-				CurrentInstrumentItemElement patchElement = _itemElements[i];
+				CurrentInstrumentBarItemElement patchElement = _itemElements[i];
 				patchElement.ExpandRequested -= patchElement_ExpandRequested;
 				patchElement.MoveBackwardRequested -= patchElement_MoveBackwardRequested;
 				patchElement.MoveForwardRequested -= patchElement_MoveForwardRequested;
@@ -127,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			float x = Position.Width;
 
-			foreach (CurrentInstrumentItemElement itemElement in _itemElements.Reverse())
+			foreach (CurrentInstrumentBarItemElement itemElement in _itemElements.Reverse())
 			{
 				itemElement.PositionElements();
 
@@ -143,7 +143,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			float x = 0;
 
-			foreach (CurrentInstrumentItemElement itemElement in _itemElements)
+			foreach (CurrentInstrumentBarItemElement itemElement in _itemElements)
 			{
 				itemElement.PositionElements();
 
@@ -153,9 +153,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			}
 		}
 
-		private CurrentInstrumentItemElement CreateItemElement(CurrentInstrumentItemViewModel itemViewModel)
+		private CurrentInstrumentBarItemElement CreateItemElement(CurrentInstrumentItemViewModel itemViewModel)
 		{
-			var itemElement = new CurrentInstrumentItemElement(
+			var itemElement = new CurrentInstrumentBarItemElement(
 				this,
 				_toolTipElement,
 				_underlyingPictureDelete,

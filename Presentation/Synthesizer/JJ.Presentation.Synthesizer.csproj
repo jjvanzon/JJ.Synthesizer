@@ -54,7 +54,7 @@
     <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />
     <Compile Include="Presenters\AudioOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\Bases\EntityPresenterBase.cs" />
-    <Compile Include="Presenters\CurrentInstrumentPresenter.cs" />
+    <Compile Include="Presenters\CurrentInstrumentBarPresenter.cs" />
     <Compile Include="Presenters\DocumentOrPatchNotFoundPopupPresenter.cs" />
     <Compile Include="Presenters\Bases\EntityPresenterWithoutSaveBase.cs" />
     <Compile Include="Presenters\Bases\IOperatorPropertiesPresenter.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="Validators\ToneViewModelValidator.cs" />
     <Compile Include="Validators\ValidationHelper.cs" />
     <Compile Include="ViewModels\AudioOutputPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\CurrentInstrumentViewModel.cs" />
+    <Compile Include="ViewModels\CurrentInstrumentBarViewModel.cs" />
     <Compile Include="ViewModels\DocumentOrPatchNotFoundPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\CurrentInstrumentItemViewModel.cs" />
     <Compile Include="ViewModels\Items\DocumentTreeNodeTypeEnum.cs" />

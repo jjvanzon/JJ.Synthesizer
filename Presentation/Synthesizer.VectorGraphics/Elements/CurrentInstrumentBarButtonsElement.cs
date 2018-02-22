@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class CurrentInstrumentButtonsElement : ElementBase
+	internal class CurrentInstrumentBarButtonsElement : ElementBase
 	{
 		public event EventHandler ExpandRequested;
 		public event EventHandler PlayRequested;
@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly PictureButtonElement _pictureButtonPlay;
 		private readonly PictureButtonElement _pictureButtonExpand;
 
-		public CurrentInstrumentButtonsElement(
+		public CurrentInstrumentBarButtonsElement(
 			Element parent,
 			ToolTipElement toolTipElement,
 			object underlyingPictureExpand,
@@ -36,9 +36,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			                 StyleHelper.ICON_BUTTON_PICTURE_SIZE;
 		}
 
-		private CurrentInstrumentViewModel _viewModel;
+		private CurrentInstrumentBarViewModel _viewModel;
 
-		public CurrentInstrumentViewModel ViewModel
+		public CurrentInstrumentBarViewModel ViewModel
 		{
 			get => _viewModel;
 			set

@@ -49,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
 		private readonly AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
 		private readonly AudioOutputPropertiesPresenter _audioOutputPropertiesPresenter;
-		private readonly CurrentInstrumentPresenter _currentInstrumentPresenter;
+		private readonly CurrentInstrumentBarPresenter _currentInstrumentBarPresenter;
 		private readonly CurveDetailsPresenter _curveDetailsPresenter;
 		private readonly DocumentCannotDeletePresenter _documentCannotDeletePresenter;
 		private readonly DocumentDeletedPresenter _documentDeletedPresenter;
@@ -121,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				_repositories.AudioOutputRepository,
 				_repositories.SpeakerSetupRepository,
 				_repositories.IDRepository);
-			_currentInstrumentPresenter = new CurrentInstrumentPresenter(_autoPatcher, _systemFacade, _repositories.DocumentRepository, _repositories.PatchRepository);
+			_currentInstrumentBarPresenter = new CurrentInstrumentBarPresenter(_autoPatcher, _systemFacade, _repositories.DocumentRepository, _repositories.PatchRepository);
 			_curveDetailsPresenter = new CurveDetailsPresenter(_repositories.CurveRepository, _repositories.NodeRepository, _curveFacade);
 			_documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
 			_documentDeletedPresenter = new DocumentDeletedPresenter();

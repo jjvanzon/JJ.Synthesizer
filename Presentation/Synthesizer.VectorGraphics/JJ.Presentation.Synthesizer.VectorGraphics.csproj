@@ -53,11 +53,11 @@
     <Compile Include="Converters\OutletControlPointConverter.cs" />
     <Compile Include="Converters\OutletPointConverter.cs" />
     <Compile Include="Converters\OutletRectangleConverter.cs" />
-    <Compile Include="Elements\CurrentInstrumentButtonsElement.cs" />
-    <Compile Include="Elements\CurrentInstrumentElement.cs" />
-    <Compile Include="Elements\CurrentInstrumentItemsElement.cs" />
-    <Compile Include="Elements\CurrentInstrumentItemElement.cs" />
-    <Compile Include="Elements\CurrentInstrumentScaleElement.cs" />
+    <Compile Include="Elements\CurrentInstrumentBarButtonsElement.cs" />
+    <Compile Include="Elements\CurrentInstrumentBarElement.cs" />
+    <Compile Include="Elements\CurrentInstrumentBarItemsElement.cs" />
+    <Compile Include="Elements\CurrentInstrumentBarItemElement.cs" />
+    <Compile Include="Elements\CurrentInstrumentBarScaleElement.cs" />
     <Compile Include="Elements\ElementBase.cs" />
     <Compile Include="Elements\ElementWithScreenViewModelBase.cs" />
     <Compile Include="Elements\PictureButtonElement.cs" />

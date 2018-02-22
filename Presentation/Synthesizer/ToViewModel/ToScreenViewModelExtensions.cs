@@ -93,11 +93,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// CurrentInstrument
 
-		public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(this Document higherDocument)
+		public static CurrentInstrumentBarViewModel ToCurrentInstrumentBarViewModel(this Document higherDocument)
 		{
 			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
 
-			var viewModel = new CurrentInstrumentViewModel
+			var viewModel = new CurrentInstrumentBarViewModel
 			{
 				DocumentID = higherDocument.ID,
 				Scale = ToViewModelHelper.CreateEmptyIDAndName(),
@@ -110,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static CurrentInstrumentViewModel ToCurrentInstrumentViewModel(
+		public static CurrentInstrumentBarViewModel ToCurrentInstrumentBarViewModel(
 			this Document higherDocument,
 			Scale scale,
 			IList<MidiMapping> midiMappings,
@@ -119,7 +119,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (patches == null) throw new ArgumentNullException(nameof(patches));
 			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
 
-			CurrentInstrumentViewModel viewModel = higherDocument.ToCurrentInstrumentViewModel();
+			CurrentInstrumentBarViewModel viewModel = higherDocument.ToCurrentInstrumentBarViewModel();
 			bool hasPatches = patches.Count != 0;
 			viewModel.CanPlay = hasPatches;
 			viewModel.CanExpand = hasPatches;
@@ -136,7 +136,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				CanGoBackward = i != 0,
 				CanGoForward = i != lastPatchIndex,
 				CanPlay = true,
-				CanDelete = true
+				CanDelete = true,
+				CanExpand = true,
 			}).ToList();
 
 			int lastMidiMappingIndex = midiMappings.Count - 1;
@@ -148,7 +149,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				CanGoBackward = i != 0,
 				CanGoForward = i != lastMidiMappingIndex,
 				CanPlay = false,
-				CanDelete = false
+				CanDelete = false,
+				CanExpand = false
 			}).ToList();
 
 			string getName(Patch patch)

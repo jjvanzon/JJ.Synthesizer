@@ -4,7 +4,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class CurrentInstrumentViewModel : ScreenViewModelBase
+	public sealed class CurrentInstrumentBarViewModel : ScreenViewModelBase
 	{
 		public int DocumentID { get; set; }
 		public IDAndName Scale { get; set; }

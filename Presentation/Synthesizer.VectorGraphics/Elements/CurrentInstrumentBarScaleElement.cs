@@ -6,12 +6,12 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class CurrentInstrumentScaleElement : ElementBase
+	internal class CurrentInstrumentBarScaleElement : ElementBase
 	{
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _label;
 
-		public CurrentInstrumentScaleElement(Element parent, ITextMeasurer textMeasurer) : base(parent)
+		public CurrentInstrumentBarScaleElement(Element parent, ITextMeasurer textMeasurer) : base(parent)
 		{
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 

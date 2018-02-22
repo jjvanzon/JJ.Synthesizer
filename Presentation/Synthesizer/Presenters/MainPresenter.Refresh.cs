@@ -86,10 +86,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private void CurrentInstrumentRefresh()
 		{
 			// GetViewModel
-			CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
+			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
 			// Partial Action
-			CurrentInstrumentViewModel viewModel = _currentInstrumentPresenter.Refresh(userInput);
+			CurrentInstrumentBarViewModel viewModel = _currentInstrumentBarPresenter.Refresh(userInput);
 
 			// DispatchViewModel
 			DispatchViewModel(viewModel);

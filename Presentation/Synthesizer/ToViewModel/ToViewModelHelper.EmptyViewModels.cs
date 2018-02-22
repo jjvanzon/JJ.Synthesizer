@@ -72,9 +72,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static CurrentInstrumentViewModel CreateEmptyCurrentInstrumentViewModel()
+		public static CurrentInstrumentBarViewModel CreateEmptyCurrentInstrumentBarViewModel()
 		{
-			var viewModel = new CurrentInstrumentViewModel
+			var viewModel = new CurrentInstrumentBarViewModel
 			{
 				Scale = CreateEmptyIDAndName(),
 				Patches = new List<CurrentInstrumentItemViewModel>(),
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				AudioFileOutputPropertiesDictionary = new Dictionary<int, AudioFileOutputPropertiesViewModel>(),
 				AudioOutputProperties = CreateEmptyAudioOutputPropertiesViewModel(),
 				AutoPatchPopup = CreateEmptyAutoPatchViewModel(),
-				CurrentInstrument = CreateEmptyCurrentInstrumentViewModel(),
+				CurrentInstrument = CreateEmptyCurrentInstrumentBarViewModel(),
 				CurveDetailsDictionary = new Dictionary<int, CurveDetailsViewModel>(),
 				DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
 				DocumentTree = new RecursiveDocumentTreeViewModelFactory().CreateEmptyDocumentTreeViewModel(),

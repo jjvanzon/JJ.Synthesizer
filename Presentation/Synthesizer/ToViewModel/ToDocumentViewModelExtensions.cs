@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
 				AudioFileOutputPropertiesDictionary = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
 				AutoPatchPopup = ToViewModelHelper.CreateEmptyAutoPatchViewModel(),
-				CurrentInstrument = document.ToCurrentInstrumentViewModel(),
+				CurrentInstrument = document.ToCurrentInstrumentBarViewModel(),
 				CurveDetailsDictionary = document.GetCurves().Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.Curve.ID),
 				DocumentProperties = document.ToPropertiesViewModel(),
 				LibrarySelectionPopup = document.ToEmptyLibrarySelectionPopupViewModel(),

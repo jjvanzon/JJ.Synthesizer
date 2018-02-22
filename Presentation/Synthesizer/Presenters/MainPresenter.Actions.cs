@@ -449,17 +449,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// CurrentInstrument
 
-		private void AddToInstrument(int patchID)
+		private void AddPatchToCurrentInstrument(int patchID)
 		{
-			CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
+			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Add(userInput, patchID));
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.AddPatch(userInput, patchID));
 		}
 
-		public void CurrentInstrumentExpand()
+		public void CurrentInstrumentBarExpand()
 		{
 			// GetViewModel
-			CurrentInstrumentViewModel currentInstrumentUserInput = MainViewModel.Document.CurrentInstrument;
+			CurrentInstrumentBarViewModel currentInstrumentUserInput = MainViewModel.Document.CurrentInstrument;
 			AutoPatchPopupViewModel autoPatchPopupUserInput = MainViewModel.Document.AutoPatchPopup;
 
 			// RefreshCounter
@@ -511,52 +511,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(autoPatchPopupViewModel);
 		}
 
-		public void CurrentInstrumentExpandItem(int patchID)
+		public void CurrentInstrumentBarExpandPatch(int patchID)
 		{
 			// Redirect
 			PatchExpand(patchID);
 		}
 
-		public void CurrentInstrumentMove(int patchID, int newPosition)
+		public void CurrentInstrumentBarMovePatch(int patchID, int newPosition)
 		{
-			CurrentInstrumentViewModel viewModel = MainViewModel.Document.CurrentInstrument;
+			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(viewModel, () => _currentInstrumentPresenter.Move(viewModel, patchID, newPosition));
+			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MovePatch(viewModel, patchID, newPosition));
 		}
 
-		public void CurrentInstrumentMoveBackward(int patchID)
+		public void CurrentInstrumentBarMovePatchBackward(int patchID)
 		{
-			CurrentInstrumentViewModel viewModel = MainViewModel.Document.CurrentInstrument;
+			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(viewModel, () => _currentInstrumentPresenter.MoveBackward(viewModel, patchID));
+			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MovePatchBackward(viewModel, patchID));
 		}
 
-		public void CurrentInstrumentMoveForward(int patchID)
+		public void CurrentInstrumentBarMovePatchForward(int patchID)
 		{
-			CurrentInstrumentViewModel viewModel = MainViewModel.Document.CurrentInstrument;
+			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(viewModel, () => _currentInstrumentPresenter.MoveForward(viewModel, patchID));
+			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MovePatchForward(viewModel, patchID));
 		}
 
-		public void CurrentInstrumentPlay()
+		public void CurrentInstrumentBarPlay()
 		{
-			CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
+			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Play(userInput));
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.Play(userInput));
 		}
 
-		public void CurrentInstrumentPlayItem(int patchID)
+		public void CurrentInstrumentBarPlayPatch(int patchID)
 		{
-			CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
+			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(userInput, () => _currentInstrumentPresenter.PlayItem(userInput, patchID));
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.PlayPatch(userInput, patchID));
 		}
 
-		public void RemoveFromInstrument(int patchID)
+		public void CurrentInstrumentBarRemovePatch(int patchID)
 		{
-			CurrentInstrumentViewModel userInput = MainViewModel.Document.CurrentInstrument;
+			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(userInput, () => _currentInstrumentPresenter.Remove(userInput, patchID));
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.RemovePatch(userInput, patchID));
 		}
 
 		// Curve
@@ -908,7 +908,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Partials
 			string titleBar = _titleBarPresenter.Show(document);
 			MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: true);
-			viewModel.CurrentInstrument = _currentInstrumentPresenter.Load(viewModel.CurrentInstrument);
+			viewModel.CurrentInstrument = _currentInstrumentBarPresenter.Load(viewModel.CurrentInstrument);
 
 			// DispatchViewModel
 			MainViewModel.Document = viewModel;
@@ -1044,7 +1044,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			int patchID = MainViewModel.Document.DocumentTree.SelectedItemID.Value;
 
 			// Redirect
-			AddToInstrument(patchID);
+			AddPatchToCurrentInstrument(patchID);
 		}
 
 		public void DocumentTreeCreate()
@@ -2671,7 +2671,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void PatchDetailsAddToInstrument(int id)
 		{
-			AddToInstrument(id);
+			AddPatchToCurrentInstrument(id);
 		}
 
 		public void PatchDetailsClose(int id)
@@ -2771,7 +2771,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void PatchPropertiesAddToInstrument(int id)
 		{
-			AddToInstrument(id);
+			AddPatchToCurrentInstrument(id);
 		}
 
 		public void PatchPropertiesChangeHasDimension(int id)

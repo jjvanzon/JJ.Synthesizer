@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
 				{ typeof(AudioOutputPropertiesViewModel), DispatchAudioOutputPropertiesViewModel },
 				{ typeof(AutoPatchPopupViewModel), DispatchAutoPatchViewModel },
-				{ typeof(CurrentInstrumentViewModel), DispatchCurrentInstrumentViewModel },
+				{ typeof(CurrentInstrumentBarViewModel), DispatchCurrentInstrumentBarViewModel },
 				{ typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
 				{ typeof(DocumentCannotDeleteViewModel), DispatchDocumentCannotDeleteViewModel },
 				{ typeof(DocumentDeletedViewModel), DispatchDocumentDeletedViewModel },
@@ -146,9 +146,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchCurrentInstrumentViewModel(ScreenViewModelBase viewModel)
+		private void DispatchCurrentInstrumentBarViewModel(ScreenViewModelBase viewModel)
 		{
-			var castedViewModel = (CurrentInstrumentViewModel)viewModel;
+			var castedViewModel = (CurrentInstrumentBarViewModel)viewModel;
 
 			MainViewModel.Document.CurrentInstrument = castedViewModel;
 

@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
 	/// <summary> Can be used for both CurrentInstrument Patches as well as CurrentInstrument MidiMappings. </summary>
-	internal class CurrentInstrumentItemElement : ElementBase
+	internal class CurrentInstrumentBarItemElement : ElementBase
 	{
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _label;
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		public event EventHandler<EventArgs<int>> MoveForwardRequested;
 		public event EventHandler<EventArgs<int>> PlayRequested;
 
-		public CurrentInstrumentItemElement(
+		public CurrentInstrumentBarItemElement(
 			Element parent,
 			ToolTipElement toolTipElement,
 			object underlyingPictureDelete,
@@ -77,6 +77,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_pictureButtonMoveForward.Visible = _viewModel.CanGoForward;
 			_pictureButtonPlay.Visible = _viewModel.CanPlay;
 			_pictureButtonDelete.Visible = _viewModel.CanDelete;
+			_pictureButtonExpand.Visible = _viewModel.CanExpand;
 		}
 
 		public void PositionElements()
@@ -105,8 +106,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
 			}
 
-			_pictureButtonExpand.Position.X = x;
-			x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+			if (_viewModel.CanExpand)
+			{
+				_pictureButtonExpand.Position.X = x;
+				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+			}
 
 			if (_viewModel.CanDelete)
 			{

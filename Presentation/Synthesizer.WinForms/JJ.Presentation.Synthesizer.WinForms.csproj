@@ -118,11 +118,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CurrentInstrumentUserControl.cs">
+    <Compile Include="UserControls\CurrentInstrumentBarUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\CurrentInstrumentUserControl.Designer.cs">
-      <DependentUpon>CurrentInstrumentUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\CurrentInstrumentBarUserControl.Designer.cs">
+      <DependentUpon>CurrentInstrumentBarUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CurveDetailsListUserControl.cs">
       <SubType>UserControl</SubType>
@@ -366,8 +366,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CurrentInstrumentUserControl.resx">
-      <DependentUpon>CurrentInstrumentUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\CurrentInstrumentBarUserControl.resx">
+      <DependentUpon>CurrentInstrumentBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsListUserControl.resx">
       <DependentUpon>CurveDetailsListUserControl.cs</DependentUpon>

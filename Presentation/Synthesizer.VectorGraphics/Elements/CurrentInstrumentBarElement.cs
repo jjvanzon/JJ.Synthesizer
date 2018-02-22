@@ -8,14 +8,14 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	public class CurrentInstrumentElement : ElementWithScreenViewModelBase
+	public class CurrentInstrumentBarElement : ElementWithScreenViewModelBase
 	{
-		private readonly CurrentInstrumentScaleElement _scaleElement;
-		private readonly CurrentInstrumentItemsElement _midiMappingsElement;
-		private readonly CurrentInstrumentItemsElement _patchesElement;
-		private readonly CurrentInstrumentButtonsElement _buttonsElement;
+		private readonly CurrentInstrumentBarScaleElement _scaleElement;
+		private readonly CurrentInstrumentBarItemsElement _midiMappingsElement;
+		private readonly CurrentInstrumentBarItemsElement _patchesElement;
+		private readonly CurrentInstrumentBarButtonsElement _buttonsElement;
 
-		public CurrentInstrumentElement(
+		public CurrentInstrumentBarElement(
 			Element parent,
 			object underlyingPictureDelete,
 			object underlyingPictureExpand,
@@ -31,9 +31,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				StyleHelper.ToolTipTextStyle,
 				textMeasurer);
 
-			_scaleElement = new CurrentInstrumentScaleElement(this, textMeasurer);
+			_scaleElement = new CurrentInstrumentBarScaleElement(this, textMeasurer);
 
-			_midiMappingsElement = new CurrentInstrumentItemsElement(
+			_midiMappingsElement = new CurrentInstrumentBarItemsElement(
 				this,
 				HorizontalAlignmentEnum.Left,
 				toolTipElement,
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				underlyingPicturePlay,
 				textMeasurer);
 
-			_patchesElement = new CurrentInstrumentItemsElement(
+			_patchesElement = new CurrentInstrumentBarItemsElement(
 				this,
 				HorizontalAlignmentEnum.Right,
 				toolTipElement,
@@ -55,12 +55,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				underlyingPicturePlay,
 				textMeasurer);
 
-			_buttonsElement = new CurrentInstrumentButtonsElement(this, toolTipElement, underlyingPictureExpand, underlyingPicturePlay);
+			_buttonsElement = new CurrentInstrumentBarButtonsElement(this, toolTipElement, underlyingPictureExpand, underlyingPicturePlay);
 		}
 
-		public new CurrentInstrumentViewModel ViewModel
+		public new CurrentInstrumentBarViewModel ViewModel
 		{
-			get => (CurrentInstrumentViewModel)base.ViewModel;
+			get => (CurrentInstrumentBarViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}
 
