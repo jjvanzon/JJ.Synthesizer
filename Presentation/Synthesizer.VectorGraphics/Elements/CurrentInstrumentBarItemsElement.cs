@@ -8,8 +8,8 @@ using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-// ReSharper disable VirtualMemberCallInConstructor
 
+// ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
@@ -119,7 +119,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 				default:
 					throw new ValueNotSupportedException(_horizontalAlignmentEnum);
-
 			}
 		}
 
@@ -182,6 +181,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private void patchElement_MoveBackwardRequested(object sender, EventArgs<int> e) => MoveBackwardRequested(sender, e);
 		private void patchElement_MoveForwardRequested(object sender, EventArgs<int> e) => MoveForwardRequested(sender, e);
 		private void patchElement_PlayRequested(object sender, EventArgs<int> e) => PlayRequested(sender, e);
+
 		private void patchElement_DeleteRequested(object sender, EventArgs<int> e)
 		{
 			DeleteRequested(sender, e);

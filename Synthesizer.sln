@@ -105,6 +105,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.SynthesizerProt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Conversion", "Framework\Conversion\JJ.Framework.Conversion.csproj", "{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections.Tests", "Framework\Collections.Tests\JJ.Framework.Collections.Tests.csproj", "{6C0B1E65-EAA0-472F-81E5-96584744C7B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1147,6 +1149,30 @@ Global
 		{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}.Release|x64.Build.0 = Release|Any CPU
 		{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}.Release|x86.ActiveCfg = Release|Any CPU
 		{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}.Release|x86.Build.0 = Release|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Debug|x64.Build.0 = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Debug|x86.Build.0 = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|x64.ActiveCfg = Release|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|x64.Build.0 = Release|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1171,8 +1197,6 @@ Global
 		{40A53175-8048-4F2D-93CA-383074C0267E} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{F44D03E8-FEEC-40D4-B866-A87799185B4C} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{CEB85F8E-D429-4510-95A5-47CC3069D412} = {72857B67-3003-486C-9BB3-34AF5748BE95}
-		{1ED07700-D0FE-4397-A6A2-5FAAB025A0D9} = {72857B67-3003-486C-9BB3-34AF5748BE95}
-		{AE5758E9-37E7-41FE-844D-A91471DB8FA5} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{CEEB755D-DE12-4E70-816E-546C429B44B7} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{529145D5-6CC3-4016-89B5-826563024AF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
@@ -1189,12 +1213,13 @@ Global
 		{4D7EE000-E58D-4EB8-8DB3-B3BFED50CFFB} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{06933DCA-EB38-4766-9794-A4EC0F5DA135} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{6C0B1E65-EAA0-472F-81E5-96584744C7B4} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3414313-7017-4FA4-9609-1C5DD252B9A7}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 51
+		SccNumberOfProjects = 52
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://jjs-server:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -1299,11 +1324,9 @@ Global
 		SccProjectName27 = Framework/Drawing
 		SccLocalPath27 = Framework\\Drawing
 		SccProjectUniqueName28 = Framework\\WinForms.TestForms\\JJ.Framework.WinForms.TestForms.csproj
-		SccProjectTopLevelParentUniqueName28 = Synthesizer.sln
 		SccProjectName28 = Framework/WinForms.TestForms
 		SccLocalPath28 = Framework\\WinForms.TestForms
 		SccProjectUniqueName29 = Framework\\VectorGraphics.Tests\\JJ.Framework.VectorGraphics.Tests.csproj
-		SccProjectTopLevelParentUniqueName29 = Synthesizer.sln
 		SccProjectName29 = Framework/VectorGraphics.Tests
 		SccLocalPath29 = Framework\\VectorGraphics.Tests
 		SccProjectUniqueName30 = Presentation\\Synthesizer.WinForms\\JJ.Presentation.Synthesizer.WinForms.csproj
@@ -1385,5 +1408,9 @@ Global
 		SccProjectTopLevelParentUniqueName50 = Synthesizer.sln
 		SccProjectName50 = Framework/Conversion
 		SccLocalPath50 = Framework\\Conversion
+		SccProjectUniqueName51 = Framework\\Collections.Tests\\JJ.Framework.Collections.Tests.csproj
+		SccProjectTopLevelParentUniqueName51 = Synthesizer.sln
+		SccProjectName51 = Framework/Collections.Tests
+		SccLocalPath51 = Framework\\Collections.Tests
 	EndGlobalSection
 EndGlobal
