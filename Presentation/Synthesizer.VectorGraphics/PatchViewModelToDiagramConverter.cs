@@ -129,9 +129,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				// TODO: This is pretty dirty.
 				string tagString = Convert.ToString(elementToDelete.Tag);
 
-				bool isGestureGeneratedElement = tagString.Contains("ToolTip") ||
-												 tagString.Contains("LineGesture");
-				if (isGestureGeneratedElement)
+				bool isGeneratedElement = tagString.Contains("ToolTip") ||
+				                          tagString.Contains("LineGesture") ||
+				                          string.Equals(tagString, "Curve Line") ||
+				                          string.Equals(tagString, "Curve Point");
+				if (isGeneratedElement)
 				{
 					continue;
 				}
