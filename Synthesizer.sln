@@ -107,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Conversion", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections.Tests", "Framework\Collections.Tests\JJ.Framework.Collections.Tests.csproj", "{6C0B1E65-EAA0-472F-81E5-96584744C7B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Text", "Framework\Text\JJ.Framework.Text.csproj", "{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1173,6 +1175,30 @@ Global
 		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|x64.Build.0 = Release|Any CPU
 		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|x86.ActiveCfg = Release|Any CPU
 		{6C0B1E65-EAA0-472F-81E5-96584744C7B4}.Release|x86.Build.0 = Release|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Debug|x64.Build.0 = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Debug|x86.Build.0 = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Release|x64.ActiveCfg = Release|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Release|x64.Build.0 = Release|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Release|x86.ActiveCfg = Release|Any CPU
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1214,12 +1240,13 @@ Global
 		{06933DCA-EB38-4766-9794-A4EC0F5DA135} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{6C0B1E65-EAA0-472F-81E5-96584744C7B4} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{964DE0B4-27F8-40F8-8D50-C97388BF8CE2} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3414313-7017-4FA4-9609-1C5DD252B9A7}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 52
+		SccNumberOfProjects = 53
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://jjs-server:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -1412,5 +1439,9 @@ Global
 		SccProjectTopLevelParentUniqueName51 = Synthesizer.sln
 		SccProjectName51 = Framework/Collections.Tests
 		SccLocalPath51 = Framework\\Collections.Tests
+		SccProjectUniqueName52 = Framework\\Text\\JJ.Framework.Text.csproj
+		SccProjectTopLevelParentUniqueName52 = Synthesizer.sln
+		SccProjectName52 = Framework/Text
+		SccLocalPath52 = Framework\\Text
 	EndGlobalSection
 EndGlobal

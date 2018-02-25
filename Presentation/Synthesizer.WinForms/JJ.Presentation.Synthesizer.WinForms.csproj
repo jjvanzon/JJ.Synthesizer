@@ -532,6 +532,10 @@
       <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
       <Name>JJ.Framework.Resources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Text\JJ.Framework.Text.csproj">
+      <Project>{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}</Project>
+      <Name>JJ.Framework.Text</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Third Party\FluentNHibernate\Source Code\1.3\src\FluentNHibernate\FluentNHibernate.csproj">
       <Project>{529145d5-6cc3-4016-89b5-826563024af1}</Project>
       <Name>FluentNHibernate</Name>

@@ -5,7 +5,8 @@ using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.Roslyn.Helpers;
 using JJ.Business.SynthesizerPrototype.Visitors;
 using JJ.Framework.Collections;
-using JJ.Framework.Common;
+using JJ.Framework.Text;
+
 // ReSharper disable RedundantArgumentDefaultValue
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors

@@ -12,6 +12,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Resources;
+using JJ.Framework.Text;
 using JJ.Framework.Validation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation

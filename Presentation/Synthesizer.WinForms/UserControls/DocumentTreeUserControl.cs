@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Text;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;

@@ -14,11 +14,12 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Framework.Collections;
-using JJ.Framework.Common;
 // Class alias to prevent accidentally use other things from JJ.Framework.Mathematics, 
 // for which the copy from JJ.Business.Synthesizer.CopiedCode.FromFramework should be used.
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Text;
+
 // ReSharper disable RedundantArgumentDefaultValue
 
 namespace JJ.Business.Synthesizer.Roslyn

@@ -56,9 +56,6 @@
       <HintPath>..\..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Reflection.Metadata">
-      <HintPath>..\..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
-    </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
@@ -679,6 +676,10 @@
     <ProjectReference Include="..\..\Framework\Resources\JJ.Framework.Resources.csproj">
       <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
       <Name>JJ.Framework.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Text\JJ.Framework.Text.csproj">
+      <Project>{964DE0B4-27F8-40F8-8D50-C97388BF8CE2}</Project>
+      <Name>JJ.Framework.Text</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Third Party\Lomont\Lomont.csproj">
       <Project>{cda729cd-cd5e-4700-8308-b4b916c8eab9}</Project>
