@@ -1,21 +1,18 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Validation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
+using JJ.Framework.Exceptions;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty
 {
 	internal class DataPropertyValidator : VersatileValidator
 	{
 		private static readonly int? _dataMaxLength = CustomConfigurationManager.GetSection<ConfigurationSection>().OperatorDataMaxLength;
-
-		/// <summary> HashSet for unicity and value comparisons. </summary>
-		private readonly HashSet<string> _expectedDataKeysHashSet;
 
 		// ReSharper disable once SuggestBaseTypeForParameter
 		public DataPropertyValidator(string data, IList<string> expectedDataKeys)
@@ -28,7 +25,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 				throw new NotUniqueException(() => expectedDataKeys);
 			}
 
-			_expectedDataKeysHashSet = expectedDataKeys.ToHashSet();
+			HashSet<string> expectedDataKeysHashSet = expectedDataKeys.ToHashSet();
 
 			// Check length
 			if (_dataMaxLength.HasValue)
@@ -58,17 +55,17 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 			foreach (string actualDataKey in actualDataKeysHashSet)
 			{
 				// Check non-existence
-				bool dataKeyIsAllowed = _expectedDataKeysHashSet.Contains(actualDataKey);
+				bool dataKeyIsAllowed = expectedDataKeysHashSet.Contains(actualDataKey);
 				if (!dataKeyIsAllowed)
 				{
 					Messages.AddNotInListMessage(
 						ResourceFormatter.DataKey,
 						actualDataKey,
-						_expectedDataKeysHashSet);
+						expectedDataKeysHashSet);
 				}
 			}
 
-			foreach (string expectedDataKey in _expectedDataKeysHashSet)
+			foreach (string expectedDataKey in expectedDataKeysHashSet)
 			{
 				// Check existence
 				bool dataKeyExists = actualDataKeysHashSet.Contains(expectedDataKey);

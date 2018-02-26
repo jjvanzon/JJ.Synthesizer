@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer
 			// Read header
 			stream.Position = 0;
 			var reader = new BinaryReader(stream);
-			WavHeaderStruct wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
+			var wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
 			stream.Position = 0;
 
 			// Validate header

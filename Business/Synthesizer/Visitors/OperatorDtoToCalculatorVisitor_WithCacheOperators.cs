@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		/// </summary>
 		private IOperatorDto Process_Cache_OperatorDto(Cache_OperatorDto dto)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			OperatorCalculatorBase calculator;
 

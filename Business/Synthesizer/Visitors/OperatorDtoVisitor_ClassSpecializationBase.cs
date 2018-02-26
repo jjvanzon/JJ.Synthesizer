@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				dto2 = new Curve_OperatorDto_NoCurve();
 			}
-			if (dto.StandardDimensionEnum == DimensionEnum.Time)
+			else if (dto.StandardDimensionEnum == DimensionEnum.Time)
 			{
 				dto2 = new Curve_OperatorDto_WithOriginShifting();
 			}
@@ -585,7 +585,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				dto2 = new Round_OperatorDto_StepOne_ZeroOffset();
 			}
-			if (dto.Offset.IsConstZero)
+			else if (dto.Offset.IsConstZero)
 			{
 				dto2 = new Round_OperatorDto_ZeroOffset();
 			}

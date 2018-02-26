@@ -946,7 +946,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private IOperatorDto Process_Filter_SoundVarOrConst_OtherInputsVar(IOperatorDto_WithSound dto)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			if (dto.Sound.IsConst)
 			{
@@ -961,7 +961,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume dto,
 			SetFilterParametersWithWidthOrBlobVolumeDelegate setFilterParametersDelegate)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			if (dto.Sound.IsConst)
 			{
@@ -1043,7 +1043,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			OperatorDtoBase_ShelfFilter_SoundVarOrConst_OtherInputsConst dto,
 			SetShelfFilterParametersDelegate setFilterParametersDelegate)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			if (dto.Sound.IsConst)
 			{
@@ -1067,7 +1067,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private IOperatorDto Process_Trigger(OperatorDtoBase_Trigger dto)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			if (dto.PassThroughInput.IsConst && dto.Reset.IsConst)
 			{
@@ -1105,7 +1105,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private IOperatorDto ProcessZero(IOperatorDto dto)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			// 0
 			return new Number_OperatorDto(0);
@@ -1113,7 +1113,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private IOperatorDto ProcessWithSignal(IOperatorDto_WithSignal dto)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			if (dto.Signal.IsConst)
 			{
@@ -1126,7 +1126,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private IOperatorDto ProcessIdentity(IOperatorDto_WithSignal dto)
 		{
-			base.Visit_OperatorDto_Base(dto);
+			Visit_OperatorDto_Base(dto);
 
 			// Identity
 			return new Number_OperatorDto { Number = dto.Signal };

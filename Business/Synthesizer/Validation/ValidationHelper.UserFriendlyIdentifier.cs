@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Resources;
 using JJ.Framework.Text;
@@ -486,7 +485,7 @@ namespace JJ.Business.Synthesizer.Validation
 		{
 			if (from.HasValue || till.HasValue)
 			{
-				return $"{displayName} [{@from}-{till}]";
+				return $"{displayName} [{from}-{till}]";
 			}
 
 			return null;

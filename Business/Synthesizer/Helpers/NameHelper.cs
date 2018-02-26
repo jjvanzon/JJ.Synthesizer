@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using JJ.Framework.Common;
 using JJ.Framework.Text;
 
 namespace JJ.Business.Synthesizer.Helpers

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Dto;
+// ReSharper disable PossibleMultipleEnumeration
 
 namespace JJ.Business.Synthesizer.Helpers
 {

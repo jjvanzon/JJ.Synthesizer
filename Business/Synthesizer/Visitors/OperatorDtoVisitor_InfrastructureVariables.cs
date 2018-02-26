@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			dto.TargetSamplingRate = _targetSamplingRate;
 			dto.NyquistFrequency = _nyquistFrequency;
 
-			return base.Visit_OperatorDto_Base(dto);
+			return Visit_OperatorDto_Base(dto);
 		}
 
 		// Samples
