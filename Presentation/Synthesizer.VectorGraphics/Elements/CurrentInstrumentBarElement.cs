@@ -69,15 +69,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_scaleElement.PositionElements();
 
 			_buttonsElement.Position.X = Position.Width - _buttonsElement.Position.Width - StyleHelper.SMALL_SPACING;
-			
+
 			float remainingWidth = _buttonsElement.Position.X - _scaleElement.Position.Width - StyleHelper.SPACING * 3;
-			float halfRemainingWidth = remainingWidth / 2f;
+
+			float midiMappingsTotalWidth = _midiMappingsElement.GetTotalItemsWidth();
+			float patchesTotalWidth = _patchesElement.GetTotalItemsWidth();
+			float patchesAndMidiMappingsTotalWidth = midiMappingsTotalWidth + patchesTotalWidth;
+			float midiMappingElementsFraction = midiMappingsTotalWidth / patchesAndMidiMappingsTotalWidth;
+			float patchesFraction = patchesTotalWidth / patchesAndMidiMappingsTotalWidth;
+
+			float midiMappingWidth = remainingWidth * midiMappingElementsFraction;
+			float patchesWidth = remainingWidth * patchesFraction;
 
 			_midiMappingsElement.Position.X = _scaleElement.Position.Right + StyleHelper.SPACING;
-			_midiMappingsElement.Position.Width = halfRemainingWidth;
+			_midiMappingsElement.Position.Width = midiMappingWidth;
 
 			_patchesElement.Position.X = _midiMappingsElement.Position.Right + StyleHelper.SPACING;
-			_patchesElement.Position.Width = halfRemainingWidth;
+			_patchesElement.Position.Width = patchesWidth;
 
 			_patchesElement.PositionElements();
 			_midiMappingsElement.PositionElements();

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
 using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Framework.VectorGraphics.Positioners;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
@@ -105,51 +107,64 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			PositionElements();
 		}
 
+		/// <summary>
+		/// The total width of all the items added together + the spacings between them,
+		/// if they were all to be put on one line.
+		/// </summary>
+		public float GetTotalItemsWidth()
+		{
+			foreach (CurrentInstrumentBarItemElement element in _itemElements)
+			{
+				element.PositionElements();
+			}
+
+			float totalItemsWidth = _itemElements.Sum(x => x.Position.Width) + (_itemElements.Count - 1) * StyleHelper.SPACING;
+			return totalItemsWidth;
+		}
+
+		/// <summary> Set the width beforehand. The height will be set automatically. </summary>
 		public void PositionElements()
 		{
+			foreach (CurrentInstrumentBarItemElement element in _itemElements)
+			{
+				element.PositionElements();
+			}
+
+			IList<float> itemWidths = _itemElements.Select(x => x.Position.Width).ToArray();
+
 			switch (_horizontalAlignmentEnum)
 			{
 				case HorizontalAlignmentEnum.Right:
-					PositionElementsRightAligned();
+				{
+					IPositioner positioner = new FlowPositionerRightAligned(
+						Position.Width,
+						StyleHelper.TITLE_BAR_HEIGHT,
+						StyleHelper.SPACING,
+						StyleHelper.SPACING,
+						itemWidths);
+
+					positioner.Calculate(_itemElements);
 					break;
+				}
 
 				case HorizontalAlignmentEnum.Left:
-					PositionElementsLeftAligned();
+				{
+					IPositioner positioner = new FlowPositionerLeftAligned(
+						Position.Width,
+						StyleHelper.TITLE_BAR_HEIGHT,
+						StyleHelper.SPACING,
+						StyleHelper.SPACING,
+						itemWidths);
+
+					positioner.Calculate(_itemElements);
 					break;
+				}
 
 				default:
 					throw new ValueNotSupportedException(_horizontalAlignmentEnum);
 			}
-		}
 
-		private void PositionElementsRightAligned()
-		{
-			float x = Position.Width;
-
-			foreach (CurrentInstrumentBarItemElement itemElement in _itemElements.Reverse())
-			{
-				itemElement.PositionElements();
-
-				x -= itemElement.Position.Width;
-
-				itemElement.Position.X = x;
-
-				x -= StyleHelper.SPACING;
-			}
-		}
-
-		private void PositionElementsLeftAligned()
-		{
-			float x = 0;
-
-			foreach (CurrentInstrumentBarItemElement itemElement in _itemElements)
-			{
-				itemElement.PositionElements();
-
-				itemElement.Position.X = x;
-
-				x += itemElement.Position.Width + StyleHelper.SPACING;
-			}
+			Position.Height = _itemElements.Select(x => x.Position.Y).MaxOrDefault();
 		}
 
 		private CurrentInstrumentBarItemElement CreateItemElement(CurrentInstrumentItemViewModel itemViewModel)
@@ -191,4 +206,4 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_toolTipElement.Visible = false;
 		}
 	}
-}
+};
