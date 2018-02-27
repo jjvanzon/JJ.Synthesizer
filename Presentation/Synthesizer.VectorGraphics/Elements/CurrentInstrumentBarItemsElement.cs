@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_underlyingPicturePlay = underlyingPicturePlay ?? throw new ArgumentNullException(nameof(underlyingPicturePlay));
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 
-			Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
+			Position.Height = StyleHelper.ROW_HEIGHT;
 		}
 
 		private IList<CurrentInstrumentItemViewModel> _viewModels;
@@ -138,9 +138,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				{
 					IPositioner positioner = new FlowPositionerRightAligned(
 						Position.Width,
-						StyleHelper.TITLE_BAR_HEIGHT,
+						StyleHelper.ROW_HEIGHT,
 						StyleHelper.SPACING,
-						StyleHelper.SPACING,
+						0,
 						itemWidths);
 
 					positioner.Calculate(_itemElements);
@@ -151,9 +151,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				{
 					IPositioner positioner = new FlowPositionerLeftAligned(
 						Position.Width,
-						StyleHelper.TITLE_BAR_HEIGHT,
+						StyleHelper.ROW_HEIGHT,
 						StyleHelper.SPACING,
-						StyleHelper.SPACING,
+						0,
 						itemWidths);
 
 					positioner.Calculate(_itemElements);
@@ -164,7 +164,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 					throw new ValueNotSupportedException(_horizontalAlignmentEnum);
 			}
 
-			Position.Height = _itemElements.Select(x => x.Position.Y).MaxOrDefault();
+			Position.Height = _itemElements.Select(x => x.Position.Y).MaxOrDefault() + StyleHelper.ROW_HEIGHT;
 		}
 
 		private CurrentInstrumentBarItemElement CreateItemElement(CurrentInstrumentItemViewModel itemViewModel)
@@ -181,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			{
 				ViewModel = itemViewModel
 			};
-			itemElement.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
+			itemElement.Position.Height = StyleHelper.ROW_HEIGHT;
 
 			itemElement.ExpandRequested += patchElement_ExpandRequested;
 			itemElement.MoveBackwardRequested += patchElement_MoveBackwardRequested;

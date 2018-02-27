@@ -23,10 +23,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
 		public const float DEFAULT_OBJECT_SIZE = 40f;
 		public const float SMALLER_OBJECT_SIZE = 30f;
-		public const float TITLE_BAR_HEIGHT = 24;
-		public const float ICON_BUTTON_SIZE = 24;
-		public const float ICON_BUTTON_MARGIN = 4;
-		public const float ICON_BUTTON_PICTURE_SIZE = 16;
+		public const float ROW_HEIGHT = 24;
+		public const float PICTURE_BUTTON_SIZE = 24;
+		public const float PICTURE_BUTTON_MARGIN = 4;
+		public const float PICTURE_BUTTON_PICTURE_SIZE = 16;
 		public const int DRAG_DROP_LINE_ZINDEX = 100;
 
 		/// <summary>
@@ -316,6 +316,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		public static PictureStyle IconPictureStyle { get; } = new PictureStyle
 		{
 			Scale = true
+		};
+
+		public static PictureStyle IconPictureStyleLight { get; } = new PictureStyle
+		{
+			Scale = true,
+			Opacity = 0.6f
 		};
 
 		private static readonly Dictionary<StyleGradeEnum, BackStyle> _gradedBackStyleDictionary = Create_StyleGradeEnum_BackStyle_Dictionary();

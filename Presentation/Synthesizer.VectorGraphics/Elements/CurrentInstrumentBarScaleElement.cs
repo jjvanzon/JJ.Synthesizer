@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			{
 				TextStyle = StyleHelper.TitleTextStyle
 			};
-			label.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
+			label.Position.Height = StyleHelper.ROW_HEIGHT;
 
 			return label;
 		}

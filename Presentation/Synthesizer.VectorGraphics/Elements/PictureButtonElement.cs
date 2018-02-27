@@ -2,6 +2,7 @@
 using JJ.Framework.VectorGraphics.EventArg;
 using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Framework.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 // ReSharper disable VirtualMemberCallInConstructor
@@ -12,6 +13,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 	internal class PictureButtonElement : ElementBase
 	{
 		private readonly MouseDownGesture _mouseDownGesture;
+		private readonly Picture _picture;
 
 		public event EventHandler<MouseEventArgs> MouseDown
 		{
@@ -19,20 +21,26 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			remove => _mouseDownGesture.MouseDown -= value;
 		}
 
+		public PictureStyle PictureStyle
+		{
+			get => _picture.Style;
+			set => _picture.Style = value;
+		}
+
 		public PictureButtonElement(Element parent, object underlyingPicture, string toolTipText, ToolTipElement toolTipElement)
 			: base(parent)
 		{
 			_mouseDownGesture = new MouseDownGesture();
-			CreatePicture(underlyingPicture, _mouseDownGesture);
+			_picture = CreatePicture(underlyingPicture, _mouseDownGesture);
 
 			var toolTipGesture = new ToolTipGesture(toolTipElement, toolTipText, preferredSideToShowToolTip: ToolTipPositioningEnum.CenterRight);
 			Gestures.Add(toolTipGesture);
 
-			Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
-			Position.Height = StyleHelper.ICON_BUTTON_MARGIN + StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+			Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
+			Position.Height = StyleHelper.PICTURE_BUTTON_MARGIN + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_MARGIN;
 		}
 
-		private void CreatePicture(object underlyingPicture, MouseDownGesture mouseDownGesture)
+		private Picture CreatePicture(object underlyingPicture, MouseDownGesture mouseDownGesture)
 		{
 			var picture = new Picture(this)
 			{
@@ -40,11 +48,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				Style = StyleHelper.IconPictureStyle
 			};
 
-			picture.Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
-			picture.Position.Height = StyleHelper.ICON_BUTTON_PICTURE_SIZE;
-			picture.Position.Y = StyleHelper.ICON_BUTTON_MARGIN;
+			picture.Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
+			picture.Position.Height = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
+			picture.Position.Y = StyleHelper.PICTURE_BUTTON_MARGIN;
 
 			picture.Gestures.Add(mouseDownGesture);
+
+			return picture;
 		}
 	}
 }

@@ -87,8 +87,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_patchesElement.Position.X = _midiMappingsElement.Position.Right + StyleHelper.SPACING;
 			_patchesElement.Position.Width = patchesWidth;
 
-			_patchesElement.PositionElements();
 			_midiMappingsElement.PositionElements();
+			_patchesElement.PositionElements();
+
+			Position.Height = Math.Max(_midiMappingsElement.Position.Height, _patchesElement.Position.Height);
 		}
 
 		protected override void ApplyViewModelToElements()

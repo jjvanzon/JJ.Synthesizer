@@ -25,6 +25,7 @@
 			this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
 			this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
 			this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
+			this.midiMappingElementPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingElementPropertiesUserControl();
 			this.libraryPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryPropertiesUserControl();
 			this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
 			this.operatorPropertiesUserControl_WithCollectionRecalculation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation();
@@ -46,7 +47,6 @@
 			this.currentInstrumentBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentBarUserControl();
 			this.splitContainerCurvesAndTopSide = new System.Windows.Forms.SplitContainer();
 			this.curveDetailsListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveDetailsListUserControl();
-			this.midiMappingElementPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingElementPropertiesUserControl();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerTreeAndRightSide)).BeginInit();
 			this.splitContainerTreeAndRightSide.Panel1.SuspendLayout();
 			this.splitContainerTreeAndRightSide.Panel2.SuspendLayout();
@@ -246,6 +246,31 @@
 			this.patchDetailsUserControl.TitleLabelVisible = true;
 			this.patchDetailsUserControl.ViewModel = null;
 			this.patchDetailsUserControl.Visible = false;
+			// 
+			// midiMappingElementPropertiesUserControl
+			// 
+			this.midiMappingElementPropertiesUserControl.AddButtonVisible = false;
+			this.midiMappingElementPropertiesUserControl.AddToInstrumentButtonVisible = false;
+			this.midiMappingElementPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.midiMappingElementPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.midiMappingElementPropertiesUserControl.CloseButtonVisible = true;
+			this.midiMappingElementPropertiesUserControl.DeleteButtonVisible = true;
+			this.midiMappingElementPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.midiMappingElementPropertiesUserControl.ExpandButtonVisible = true;
+			this.midiMappingElementPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+			this.midiMappingElementPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+			this.midiMappingElementPropertiesUserControl.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+			this.midiMappingElementPropertiesUserControl.Name = "midiMappingElementPropertiesUserControl";
+			this.midiMappingElementPropertiesUserControl.PlayButtonVisible = false;
+			this.midiMappingElementPropertiesUserControl.RefreshButtonVisible = false;
+			this.midiMappingElementPropertiesUserControl.SaveButtonVisible = false;
+			this.midiMappingElementPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.midiMappingElementPropertiesUserControl.TabIndex = 1;
+			this.midiMappingElementPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
+			this.midiMappingElementPropertiesUserControl.TitleBarText = "MIDI Mapping Element Properties";
+			this.midiMappingElementPropertiesUserControl.TitleLabelVisible = true;
+			this.midiMappingElementPropertiesUserControl.ViewModel = null;
+			this.midiMappingElementPropertiesUserControl.Visible = false;
 			// 
 			// libraryPropertiesUserControl
 			// 
@@ -677,19 +702,16 @@
 			// 
 			// currentInstrumentBarUserControl
 			// 
-			this.currentInstrumentBarUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.currentInstrumentBarUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.currentInstrumentBarUserControl.Location = new System.Drawing.Point(271, 0);
 			this.currentInstrumentBarUserControl.Margin = new System.Windows.Forms.Padding(0);
 			this.currentInstrumentBarUserControl.Name = "currentInstrumentBarUserControl";
-			this.currentInstrumentBarUserControl.Size = new System.Drawing.Size(1188, 30);
+			this.currentInstrumentBarUserControl.Size = new System.Drawing.Size(1188, 0);
 			this.currentInstrumentBarUserControl.TabIndex = 14;
 			this.currentInstrumentBarUserControl.ViewModel = null;
 			// 
 			// splitContainerCurvesAndTopSide
 			// 
-			this.splitContainerCurvesAndTopSide.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainerCurvesAndTopSide.Location = new System.Drawing.Point(0, 24);
 			this.splitContainerCurvesAndTopSide.Name = "splitContainerCurvesAndTopSide";
 			this.splitContainerCurvesAndTopSide.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -714,44 +736,22 @@
 			this.curveDetailsListUserControl.TabIndex = 0;
 			this.curveDetailsListUserControl.ViewModels = null;
 			// 
-			// midiMappingElementPropertiesUserControl
-			// 
-			this.midiMappingElementPropertiesUserControl.AddButtonVisible = false;
-			this.midiMappingElementPropertiesUserControl.AddToInstrumentButtonVisible = false;
-			this.midiMappingElementPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.midiMappingElementPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.midiMappingElementPropertiesUserControl.CloseButtonVisible = true;
-			this.midiMappingElementPropertiesUserControl.DeleteButtonVisible = true;
-			this.midiMappingElementPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.midiMappingElementPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-			this.midiMappingElementPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
-			this.midiMappingElementPropertiesUserControl.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-			this.midiMappingElementPropertiesUserControl.Name = "midiMappingElementPropertiesUserControl";
-			this.midiMappingElementPropertiesUserControl.PlayButtonVisible = false;
-			this.midiMappingElementPropertiesUserControl.RefreshButtonVisible = false;
-			this.midiMappingElementPropertiesUserControl.SaveButtonVisible = false;
-			this.midiMappingElementPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
-			this.midiMappingElementPropertiesUserControl.TabIndex = 1;
-			this.midiMappingElementPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-			this.midiMappingElementPropertiesUserControl.TitleBarText = "MIDI Mapping Element Properties";
-			this.midiMappingElementPropertiesUserControl.TitleLabelVisible = true;
-			this.midiMappingElementPropertiesUserControl.ViewModel = null;
-			this.midiMappingElementPropertiesUserControl.Visible = false;
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.ClientSize = new System.Drawing.Size(1459, 838);
-			this.Controls.Add(this.splitContainerCurvesAndTopSide);
 			this.Controls.Add(this.currentInstrumentBarUserControl);
+			this.Controls.Add(this.splitContainerCurvesAndTopSide);
 			this.Controls.Add(this.menuUserControl);
 			this.IsMdiContainer = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "MainForm";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Activated += new System.EventHandler(this.MainForm_Activated);
+			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
 			this.splitContainerTreeAndRightSide.Panel1.ResumeLayout(false);
 			this.splitContainerTreeAndRightSide.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerTreeAndRightSide)).EndInit();

@@ -44,18 +44,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 			_pictureButtonDelete = new PictureButtonElement(this, underlyingPictureDelete, CommonResourceFormatter.Delete, toolTipElement);
 			_pictureButtonDelete.MouseDown += _pictureButtonDelete_MouseDown;
+			_pictureButtonDelete.PictureStyle = StyleHelper.IconPictureStyleLight;
 
 			_pictureButtonExpand = new PictureButtonElement(this, underlyingPictureExpand, CommonResourceFormatter.Open, toolTipElement);
 			_pictureButtonExpand.MouseDown += _pictureButtonExpand_MouseDown;
+			_pictureButtonExpand.PictureStyle = StyleHelper.IconPictureStyleLight;
 
 			_pictureButtonMoveBackward = new PictureButtonElement(this, underlyingPictureMoveBackward, CommonResourceFormatter.Move, toolTipElement);
 			_pictureButtonMoveBackward.MouseDown += _pictureButtonMoveBackward_MouseDown;
+			_pictureButtonMoveBackward.PictureStyle = StyleHelper.IconPictureStyleLight;
 
 			_pictureButtonMoveForward = new PictureButtonElement(this, underlyingPictureMoveForward, CommonResourceFormatter.Move, toolTipElement);
 			_pictureButtonMoveForward.MouseDown += _pictureButtonMoveForward_MouseDown;
+			_pictureButtonMoveForward.PictureStyle = StyleHelper.IconPictureStyleLight;
 
 			_pictureButtonPlay = new PictureButtonElement(this, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
 			_pictureButtonPlay.MouseDown += _pictureButtonPlay_MouseDown;
+			_pictureButtonPlay.PictureStyle = StyleHelper.IconPictureStyleLight;
 		}
 
 		private CurrentInstrumentItemViewModel _viewModel;
@@ -87,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			if (_viewModel.CanGoBackward)
 			{
 				_pictureButtonMoveForward.Position.X = x;
-				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE;
+				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 			}
 
 			_label.Position.X = x;
@@ -97,31 +102,31 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			if (_viewModel.CanGoForward)
 			{
 				_pictureButtonMoveForward.Position.X = x;
-				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_MARGIN;
 			}
 
 			if (_viewModel.CanPlay)
 			{
 				_pictureButtonPlay.Position.X = x;
-				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_MARGIN;
 			}
 
 			if (_viewModel.CanExpand)
 			{
 				_pictureButtonExpand.Position.X = x;
-				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_MARGIN;
 			}
 
 			if (_viewModel.CanDelete)
 			{
 				_pictureButtonDelete.Position.X = x;
-				x += StyleHelper.ICON_BUTTON_PICTURE_SIZE + StyleHelper.ICON_BUTTON_MARGIN;
+				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_MARGIN;
 			}
 
-			x -= StyleHelper.ICON_BUTTON_MARGIN;
+			x -= StyleHelper.PICTURE_BUTTON_MARGIN;
 
 			Position.Width = x;
-			Position.Height = StyleHelper.ICON_BUTTON_SIZE;
+			Position.Height = StyleHelper.PICTURE_BUTTON_SIZE;
 		}
 
 		private Label CreateLabel()
@@ -130,7 +135,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			{
 				TextStyle = StyleHelper.TitleTextStyle
 			};
-			label.Position.Height = StyleHelper.TITLE_BAR_HEIGHT;
+			label.Position.Height = StyleHelper.ROW_HEIGHT;
 
 			return label;
 		}

@@ -26,14 +26,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			_pictureButtonExpand = new PictureButtonElement(this, underlyingPictureExpand, CommonResourceFormatter.Open, toolTipElement);
 			_pictureButtonExpand.MouseDown += _pictureExpand_MouseDown;
-			_pictureButtonExpand.Position.X = StyleHelper.ICON_BUTTON_MARGIN + StyleHelper.ICON_BUTTON_PICTURE_SIZE;
+			_pictureButtonExpand.Position.X = StyleHelper.PICTURE_BUTTON_MARGIN + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
 			_pictureButtonPlay = new PictureButtonElement(this, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
 			_pictureButtonPlay.MouseDown += _picturePlay_MouseDown;
 
-			Position.Width = StyleHelper.ICON_BUTTON_PICTURE_SIZE +
-			                 StyleHelper.ICON_BUTTON_MARGIN +
-			                 StyleHelper.ICON_BUTTON_PICTURE_SIZE;
+			Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
+			                 StyleHelper.PICTURE_BUTTON_MARGIN +
+			                 StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 		}
 
 		private CurrentInstrumentBarViewModel _viewModel;

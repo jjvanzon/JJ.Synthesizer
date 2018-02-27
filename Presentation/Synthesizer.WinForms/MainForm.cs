@@ -31,6 +31,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
 	internal partial class MainForm : Form
 	{
+		private const int MIN_TOP_BAR_HEIGHT = 16;
+
 		private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionDurationInSeconds;
 		private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionOutputFilePath;
 		private static readonly bool _mustHandleMainFormActivated = CustomConfigurationManager.GetSection<ConfigurationSection>().MustHandleMainFormActivated;
@@ -62,6 +64,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			BindEvents();
 			ApplyStyling();
+
+			PositionControls();
 		}
 
 		/// <summary>
@@ -323,6 +327,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			// ToViewModel
 			_mainPresenter.MainViewModel.Document.DocumentToOpenExternally = null;
 			_mainPresenter.MainViewModel.Document.PatchToOpenExternally = null;
+		}
+
+		private void MainForm_SizeChanged(object sender, EventArgs e) => PositionControls();
+
+		private void PositionControls()
+		{
+			currentInstrumentBarUserControl.Width = ClientSize.Width - currentInstrumentBarUserControl.Location.X;
+			currentInstrumentBarUserControl.PositionControls();
+
+			int topBarHeight = Math.Max(currentInstrumentBarUserControl.Height, MIN_TOP_BAR_HEIGHT);
+
+			splitContainerCurvesAndTopSide.Left = 0;
+			splitContainerCurvesAndTopSide.Top = topBarHeight;
+			splitContainerCurvesAndTopSide.Height = ClientSize.Height - topBarHeight;
+			splitContainerCurvesAndTopSide.Width = ClientSize.Width;
+		}
+
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

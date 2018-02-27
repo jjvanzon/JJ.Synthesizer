@@ -78,16 +78,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private void PositionControls()
+		public void PositionControls()
 		{
 			diagramControl.Size = new Size(Width, Height);
 
 			if (_currentInstrumentBarElement != null)
 			{
 				_currentInstrumentBarElement.Position.WidthInPixels = Width;
-				_currentInstrumentBarElement.Position.HeightInPixels = Height;
 
 				_currentInstrumentBarElement.PositionElements();
+
+				Height = (int)_currentInstrumentBarElement.Position.HeightInPixels;
 			}
 		}
 	}
