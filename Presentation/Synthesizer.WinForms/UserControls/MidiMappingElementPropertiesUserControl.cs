@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
-using JJ.Framework.Common;
+using JJ.Framework.Conversion;
 using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
@@ -112,26 +112,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void ApplyControlsToViewModel()
 		{
-			ViewModel.MidiControllerCode = Int32Helper.ParseNullable(maskedTextBoxMidiControllerCode.Text);
+			ViewModel.MidiControllerCode = Int32Parser.ParseNullable(maskedTextBoxMidiControllerCode.Text);
 			ViewModel.CustomDimensionName = textBoxCustomDimensionName.Text;
-			ViewModel.FromMidiControllerValue = Int32Helper.ParseNullable(fromTillUserControlMidiControllerValues.From);
+			ViewModel.FromMidiControllerValue = Int32Parser.ParseNullable(fromTillUserControlMidiControllerValues.From);
 			ViewModel.FromDimensionValue = fromTillUserControlDimensionValues.From;
-			ViewModel.FromMidiNoteNumber = Int32Helper.ParseNullable(fromTillUserControlMidiNoteNumbers.From);
+			ViewModel.FromMidiNoteNumber = Int32Parser.ParseNullable(fromTillUserControlMidiNoteNumbers.From);
 			ViewModel.FromPosition =  fromTillUserControlPositions.From;
-			ViewModel.FromToneNumber = Int32Helper.ParseNullable(fromTillUserControlToneNumbers.From);
-			ViewModel.FromMidiVelocity = Int32Helper.ParseNullable(fromTillUserControlMidiVelocities.From);
+			ViewModel.FromToneNumber = Int32Parser.ParseNullable(fromTillUserControlToneNumbers.From);
+			ViewModel.FromMidiVelocity = Int32Parser.ParseNullable(fromTillUserControlMidiVelocities.From);
 			ViewModel.IsActive = checkBoxIsActive.Checked;
 			ViewModel.IsRelative = checkBoxIsRelative.Checked;
 			ViewModel.MaxDimensionValue = fromTillUserControlMinMaxDimensionValues.Till;
 			ViewModel.MinDimensionValue = fromTillUserControlMinMaxDimensionValues.From;
 			ViewModel.Scale = (IDAndName)comboBoxScale.SelectedItem;
 			ViewModel.StandardDimension = (IDAndName)comboBoxStandardDimension.SelectedItem;
-			ViewModel.TillMidiControllerValue = Int32Helper.ParseNullable(fromTillUserControlMidiControllerValues.Till);
+			ViewModel.TillMidiControllerValue = Int32Parser.ParseNullable(fromTillUserControlMidiControllerValues.Till);
 			ViewModel.TillDimensionValue = fromTillUserControlDimensionValues.Till;
-			ViewModel.TillMidiNoteNumber = Int32Helper.ParseNullable(fromTillUserControlMidiNoteNumbers.Till);
+			ViewModel.TillMidiNoteNumber = Int32Parser.ParseNullable(fromTillUserControlMidiNoteNumbers.Till);
 			ViewModel.TillPosition = fromTillUserControlPositions.Till;
-			ViewModel.TillToneNumber = Int32Helper.ParseNullable(fromTillUserControlToneNumbers.Till);
-			ViewModel.TillMidiVelocity = Int32Helper.ParseNullable(fromTillUserControlMidiVelocities.Till);
+			ViewModel.TillToneNumber = Int32Parser.ParseNullable(fromTillUserControlToneNumbers.Till);
+			ViewModel.TillMidiVelocity = Int32Parser.ParseNullable(fromTillUserControlMidiVelocities.Till);
 		}
 
 		public void SetScaleLookup(IList<IDAndName> scaleLookup)

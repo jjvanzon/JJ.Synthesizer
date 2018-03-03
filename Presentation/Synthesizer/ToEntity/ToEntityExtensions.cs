@@ -14,7 +14,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
-using JJ.Framework.Common;
+using JJ.Framework.Conversion;
 using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -694,32 +694,32 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			entity.IsRelative = viewModel.IsRelative;
 			entity.MidiMapping = repositories.MidiMappingRepository.Get(viewModel.MidiMappingID);
 
-			if (DoubleHelper.TryParse(viewModel.FromDimensionValue, out double? fromDimensionValue))
+			if (DoubleParser.TryParse(viewModel.FromDimensionValue, out double? fromDimensionValue))
 			{
 				entity.FromDimensionValue = fromDimensionValue;
 			}
 
-			if (DoubleHelper.TryParse(viewModel.TillDimensionValue, out double? tillDimensionValue))
+			if (DoubleParser.TryParse(viewModel.TillDimensionValue, out double? tillDimensionValue))
 			{
 				entity.TillDimensionValue = tillDimensionValue;
 			}
 
-			if (DoubleHelper.TryParse(viewModel.MinDimensionValue, out double? minDimensionValue))
+			if (DoubleParser.TryParse(viewModel.MinDimensionValue, out double? minDimensionValue))
 			{
 				entity.MinDimensionValue = minDimensionValue;
 			}
 
-			if (DoubleHelper.TryParse(viewModel.MaxDimensionValue, out double? maxDimensionValue))
+			if (DoubleParser.TryParse(viewModel.MaxDimensionValue, out double? maxDimensionValue))
 			{
 				entity.MaxDimensionValue = maxDimensionValue;
 			}
 
-			if (Int32Helper.TryParse(viewModel.FromPosition, out int? fromPosition))
+			if (Int32Parser.TryParse(viewModel.FromPosition, out int? fromPosition))
 			{
 				entity.FromPosition = fromPosition;
 			}
 
-			if (Int32Helper.TryParse(viewModel.TillPosition, out int? tillPosition))
+			if (Int32Parser.TryParse(viewModel.TillPosition, out int? tillPosition))
 			{
 				entity.TillPosition = tillPosition;
 			}

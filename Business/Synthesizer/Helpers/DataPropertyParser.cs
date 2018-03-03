@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Common;
+using JJ.Framework.Conversion;
 using JJ.Framework.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Helpers
 				return null;
 			}
 
-			if (!DoubleHelper.TryParse(str, FormattingCulture, out double value))
+			if (!DoubleParser.TryParse(str, FormattingCulture, out double value))
 			{
 				throw new Exception($"Value with key '{key}' in data '{data}' could not be parsed to Double.");
 			}
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		{
 			string str = TryGetString(data, key);
 
-			if (DoubleHelper.TryParse(str, FormattingCulture, out double value))
+			if (DoubleParser.TryParse(str, FormattingCulture, out double value))
 			{
 				return value;
 			}

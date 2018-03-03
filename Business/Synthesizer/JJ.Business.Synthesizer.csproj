@@ -56,12 +56,11 @@
       <HintPath>..\..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
-	<Reference Include="System.Reflection.Metadata">
-		<HintPath>..\..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
-	</Reference>
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>..\..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <HintPath>..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -672,6 +671,10 @@
       <Project>{805A8237-05ED-40AE-8D1A-9288373EA5E0}</Project>
       <Name>JJ.Framework.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Conversion\JJ.Framework.Conversion.csproj">
+      <Project>{BA9EC027-FE36-4FE8-AD96-D0A534FA35A4}</Project>
+      <Name>JJ.Framework.Conversion</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>
@@ -747,7 +750,9 @@
     <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
     <None Include="Calculation\Operators\OperatorCalculator Inheritance.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Visitors\Visitors.cd" />
   </ItemGroup>
   <ItemGroup>
