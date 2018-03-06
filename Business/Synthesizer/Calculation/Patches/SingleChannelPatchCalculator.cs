@@ -11,6 +11,8 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Misc;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {

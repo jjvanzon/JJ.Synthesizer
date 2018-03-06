@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Diagnostics;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Visitors

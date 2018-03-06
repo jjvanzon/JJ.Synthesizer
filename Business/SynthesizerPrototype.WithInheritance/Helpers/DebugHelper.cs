@@ -1,5 +1,6 @@
 ﻿using JJ.Business.SynthesizerPrototype.WithInheritance.Calculation;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 {

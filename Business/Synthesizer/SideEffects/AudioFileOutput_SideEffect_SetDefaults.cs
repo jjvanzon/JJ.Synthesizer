@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Configuration;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {

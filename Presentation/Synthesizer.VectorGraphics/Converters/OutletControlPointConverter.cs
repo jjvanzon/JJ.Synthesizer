@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;

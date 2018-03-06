@@ -2,6 +2,7 @@
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Warnings
 {

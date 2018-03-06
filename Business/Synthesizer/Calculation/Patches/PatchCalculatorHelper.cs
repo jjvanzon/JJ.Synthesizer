@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Aggregates;
+using JJ.Framework.Exceptions.Comparative;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {

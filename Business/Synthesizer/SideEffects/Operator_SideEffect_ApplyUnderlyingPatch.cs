@@ -2,6 +2,8 @@
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+
 // ReSharper disable InvertIf
 
 namespace JJ.Business.Synthesizer.SideEffects

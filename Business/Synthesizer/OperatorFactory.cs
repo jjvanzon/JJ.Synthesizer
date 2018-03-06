@@ -14,6 +14,8 @@ using JJ.Business.Synthesizer.Validation.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer

@@ -1,4 +1,4 @@
-﻿using JJ.Framework.Exceptions;
+﻿using JJ.Framework.Exceptions.Comparative;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {

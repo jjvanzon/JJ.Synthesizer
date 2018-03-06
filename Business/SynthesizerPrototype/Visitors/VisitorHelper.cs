@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Reflection;
 
 namespace JJ.Business.SynthesizerPrototype.Visitors

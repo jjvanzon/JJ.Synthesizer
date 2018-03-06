@@ -6,6 +6,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

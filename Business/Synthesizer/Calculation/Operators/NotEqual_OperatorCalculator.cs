@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+
 // ReSharper disable once CompareOfFloatsByEqualityOperator
 // ReSharper disable once ConvertIfStatementToReturnStatement
 // ReSharper disable once RedundantIfElseBlock

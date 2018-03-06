@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Comparative;
 using NAudio.Wave;
 
 namespace JJ.Presentation.Synthesizer.NAudio

@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

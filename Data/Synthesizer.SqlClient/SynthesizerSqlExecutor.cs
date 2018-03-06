@@ -1,6 +1,7 @@
 ﻿using System;
 using JJ.Framework.Data.SqlClient;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Data.Synthesizer.SqlClient
 {

@@ -5,6 +5,7 @@ using JJ.Framework.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

@@ -6,6 +6,8 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Misc;
+using JJ.Framework.Exceptions.TypeChecking;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ViewModels;

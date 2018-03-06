@@ -5,6 +5,7 @@ using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
 using JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 {

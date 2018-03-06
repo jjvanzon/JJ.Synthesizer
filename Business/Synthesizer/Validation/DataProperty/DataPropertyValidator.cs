@@ -6,6 +6,8 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Aggregates;
+using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.DataProperty

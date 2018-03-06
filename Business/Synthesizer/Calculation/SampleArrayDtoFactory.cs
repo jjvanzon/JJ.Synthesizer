@@ -7,6 +7,8 @@ using JJ.Framework.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Exceptions.Basic;
+
 // ReSharper disable CoVariantArrayConversion
 
 namespace JJ.Business.Synthesizer.Calculation

@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Misc;
 using JJ.Framework.IO;
 using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;

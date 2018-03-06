@@ -9,7 +9,9 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Comparative;
+using JJ.Framework.Exceptions.TypeChecking;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {

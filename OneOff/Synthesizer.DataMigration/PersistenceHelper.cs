@@ -2,6 +2,7 @@
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {

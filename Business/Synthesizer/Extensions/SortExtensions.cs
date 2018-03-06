@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Extensions
 {

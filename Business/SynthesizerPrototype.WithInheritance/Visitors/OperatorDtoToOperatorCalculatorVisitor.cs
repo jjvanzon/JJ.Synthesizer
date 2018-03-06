@@ -6,6 +6,7 @@ using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.WithInheritance.Helpers;
 using JJ.Framework.Exceptions;
 using JJ.Business.SynthesizerPrototype.WithInheritance.CopiedCode.From_JJ_Business_SynthesizerPrototype;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
 {

@@ -2,7 +2,11 @@
 using System.Linq.Expressions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Comparative;
+using JJ.Framework.Exceptions.InvalidValues;
+using JJ.Framework.Exceptions.Misc;
+
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace JJ.Business.Synthesizer.Calculation.Operators

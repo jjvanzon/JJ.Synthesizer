@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Helpers
 {

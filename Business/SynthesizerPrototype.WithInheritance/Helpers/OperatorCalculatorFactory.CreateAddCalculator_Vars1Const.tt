@@ -6,7 +6,7 @@
 <# int maxVarOperands = 31; #>
 
 using System.Collections.Generic;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Comparative;
 using JJ.Business.SynthesizerPrototype.WithInheritance.Calculation;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers

@@ -1,8 +1,9 @@
 ﻿using System;
-using NAudio.Wave;
-using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Threading;
-using JJ.Framework.Exceptions;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Comparative;
+using NAudio.Wave;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {

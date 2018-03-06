@@ -1,9 +1,9 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Mathematics;
 using JJ.Framework.Configuration;
+using JJ.Framework.Exceptions.Comparative;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation
 {

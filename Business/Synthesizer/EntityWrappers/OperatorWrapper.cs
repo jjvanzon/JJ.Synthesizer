@@ -6,7 +6,8 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Comparative;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

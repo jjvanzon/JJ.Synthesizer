@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Aggregates;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {

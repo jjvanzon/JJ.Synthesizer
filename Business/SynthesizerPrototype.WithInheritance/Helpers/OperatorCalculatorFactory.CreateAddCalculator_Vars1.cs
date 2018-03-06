@@ -1,8 +1,8 @@
 ﻿
 
 using System.Collections.Generic;
-using JJ.Framework.Exceptions;
 using JJ.Business.SynthesizerPrototype.WithInheritance.Calculation;
+using JJ.Framework.Exceptions.Comparative;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 {

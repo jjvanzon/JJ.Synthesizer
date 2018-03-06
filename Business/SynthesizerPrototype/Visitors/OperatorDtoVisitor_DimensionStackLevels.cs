@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.TypeChecking;
 
 namespace JJ.Business.SynthesizerPrototype.Visitors
 {

@@ -4,6 +4,7 @@ using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Windows.Forms;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {

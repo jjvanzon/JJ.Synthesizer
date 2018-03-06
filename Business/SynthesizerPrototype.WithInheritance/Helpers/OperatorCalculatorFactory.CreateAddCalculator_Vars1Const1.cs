@@ -1,36 +1,36 @@
 ﻿
 
 using System.Collections.Generic;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Comparative;
 using JJ.Business.SynthesizerPrototype.WithInheritance.Calculation;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 {
-	internal static partial class OperatorCalculatorFactory
-	{
-		public static OperatorCalculatorBase CreateAddCalculator_Vars_1Const(IList<OperatorCalculatorBase> varOperandCalculators, double constValue)
-		{
+    internal static partial class OperatorCalculatorFactory
+    {
+	    public static OperatorCalculatorBase CreateAddCalculator_Vars_1Const(IList<OperatorCalculatorBase> varOperandCalculators, double constValue)
+        {
 			if (varOperandCalculators.Count < 1) throw new LessThanException(() => varOperandCalculators.Count, 1);
 
-			switch (varOperandCalculators.Count)
-			{
-				case 1:
-					return new Add_OperatorCalculator_1Vars_1Const
+            switch (varOperandCalculators.Count)
+            {
+                case 1:
+                    return new Add_OperatorCalculator_1Vars_1Const
 					(
 						varOperandCalculators[0],
 						
 						constValue
 					);
-				case 2:
-					return new Add_OperatorCalculator_2Vars_1Const
+                case 2:
+                    return new Add_OperatorCalculator_2Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
 						
 						constValue
 					);
-				case 3:
-					return new Add_OperatorCalculator_3Vars_1Const
+                case 3:
+                    return new Add_OperatorCalculator_3Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -38,8 +38,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 4:
-					return new Add_OperatorCalculator_4Vars_1Const
+                case 4:
+                    return new Add_OperatorCalculator_4Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -48,8 +48,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 5:
-					return new Add_OperatorCalculator_5Vars_1Const
+                case 5:
+                    return new Add_OperatorCalculator_5Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -59,8 +59,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 6:
-					return new Add_OperatorCalculator_6Vars_1Const
+                case 6:
+                    return new Add_OperatorCalculator_6Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -71,8 +71,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 7:
-					return new Add_OperatorCalculator_7Vars_1Const
+                case 7:
+                    return new Add_OperatorCalculator_7Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -84,8 +84,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 8:
-					return new Add_OperatorCalculator_8Vars_1Const
+                case 8:
+                    return new Add_OperatorCalculator_8Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -98,8 +98,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 9:
-					return new Add_OperatorCalculator_9Vars_1Const
+                case 9:
+                    return new Add_OperatorCalculator_9Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -113,8 +113,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 10:
-					return new Add_OperatorCalculator_10Vars_1Const
+                case 10:
+                    return new Add_OperatorCalculator_10Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -129,8 +129,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 11:
-					return new Add_OperatorCalculator_11Vars_1Const
+                case 11:
+                    return new Add_OperatorCalculator_11Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -146,8 +146,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 12:
-					return new Add_OperatorCalculator_12Vars_1Const
+                case 12:
+                    return new Add_OperatorCalculator_12Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -164,8 +164,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 13:
-					return new Add_OperatorCalculator_13Vars_1Const
+                case 13:
+                    return new Add_OperatorCalculator_13Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -183,8 +183,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 14:
-					return new Add_OperatorCalculator_14Vars_1Const
+                case 14:
+                    return new Add_OperatorCalculator_14Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -203,8 +203,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 15:
-					return new Add_OperatorCalculator_15Vars_1Const
+                case 15:
+                    return new Add_OperatorCalculator_15Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -224,8 +224,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 16:
-					return new Add_OperatorCalculator_16Vars_1Const
+                case 16:
+                    return new Add_OperatorCalculator_16Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -246,8 +246,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 17:
-					return new Add_OperatorCalculator_17Vars_1Const
+                case 17:
+                    return new Add_OperatorCalculator_17Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -269,8 +269,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 18:
-					return new Add_OperatorCalculator_18Vars_1Const
+                case 18:
+                    return new Add_OperatorCalculator_18Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -293,8 +293,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 19:
-					return new Add_OperatorCalculator_19Vars_1Const
+                case 19:
+                    return new Add_OperatorCalculator_19Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -318,8 +318,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 20:
-					return new Add_OperatorCalculator_20Vars_1Const
+                case 20:
+                    return new Add_OperatorCalculator_20Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -344,8 +344,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 21:
-					return new Add_OperatorCalculator_21Vars_1Const
+                case 21:
+                    return new Add_OperatorCalculator_21Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -371,8 +371,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 22:
-					return new Add_OperatorCalculator_22Vars_1Const
+                case 22:
+                    return new Add_OperatorCalculator_22Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -399,8 +399,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 23:
-					return new Add_OperatorCalculator_23Vars_1Const
+                case 23:
+                    return new Add_OperatorCalculator_23Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -428,8 +428,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 24:
-					return new Add_OperatorCalculator_24Vars_1Const
+                case 24:
+                    return new Add_OperatorCalculator_24Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -458,8 +458,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 25:
-					return new Add_OperatorCalculator_25Vars_1Const
+                case 25:
+                    return new Add_OperatorCalculator_25Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -489,8 +489,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 26:
-					return new Add_OperatorCalculator_26Vars_1Const
+                case 26:
+                    return new Add_OperatorCalculator_26Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -521,8 +521,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 27:
-					return new Add_OperatorCalculator_27Vars_1Const
+                case 27:
+                    return new Add_OperatorCalculator_27Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -554,8 +554,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 28:
-					return new Add_OperatorCalculator_28Vars_1Const
+                case 28:
+                    return new Add_OperatorCalculator_28Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -588,8 +588,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 29:
-					return new Add_OperatorCalculator_29Vars_1Const
+                case 29:
+                    return new Add_OperatorCalculator_29Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -623,8 +623,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 30:
-					return new Add_OperatorCalculator_30Vars_1Const
+                case 30:
+                    return new Add_OperatorCalculator_30Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -659,8 +659,8 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				case 31:
-					return new Add_OperatorCalculator_31Vars_1Const
+                case 31:
+                    return new Add_OperatorCalculator_31Vars_1Const
 					(
 						varOperandCalculators[0],
 						varOperandCalculators[1],
@@ -696,9 +696,9 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Helpers
 						
 						constValue
 					);
-				default:
-					return new Add_OperatorCalculator_VarArray_1Const(varOperandCalculators, constValue);
-			}
-		}
+                default:
+                    return new Add_OperatorCalculator_VarArray_1Const(varOperandCalculators, constValue);
+            }
+        }
 	}
 }

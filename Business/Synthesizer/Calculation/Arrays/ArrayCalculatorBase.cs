@@ -1,5 +1,6 @@
 ﻿using System;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Comparative;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {

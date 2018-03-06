@@ -2,6 +2,7 @@
 using JJ.Framework.Exceptions;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Arrays;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 using DebuggerDisplayFormatter_Data = JJ.Data.Synthesizer.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Helpers

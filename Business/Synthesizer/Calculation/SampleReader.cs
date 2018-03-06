@@ -6,6 +6,8 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Misc;
 using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer.Calculation

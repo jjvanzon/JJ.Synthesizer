@@ -3,6 +3,7 @@ using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

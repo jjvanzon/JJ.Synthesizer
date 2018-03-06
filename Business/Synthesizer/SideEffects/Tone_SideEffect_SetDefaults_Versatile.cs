@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Misc;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {

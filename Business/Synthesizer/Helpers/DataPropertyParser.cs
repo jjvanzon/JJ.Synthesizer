@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Conversion;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Helpers
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Configuration;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.VectorGraphics.Drawing;
 using JJ.Framework.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;

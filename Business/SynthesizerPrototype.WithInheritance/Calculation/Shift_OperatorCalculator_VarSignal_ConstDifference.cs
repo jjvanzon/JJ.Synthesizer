@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Business.SynthesizerPrototype.WithInheritance.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {

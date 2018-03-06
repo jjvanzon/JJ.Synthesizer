@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.Comparative;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

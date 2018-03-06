@@ -6,7 +6,8 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Conversion;
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Resources

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 

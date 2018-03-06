@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;

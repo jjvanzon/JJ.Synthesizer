@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Misc;
 using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Helpers
