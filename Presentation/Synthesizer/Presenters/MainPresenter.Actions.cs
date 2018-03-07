@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Aggregates;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Misc;
