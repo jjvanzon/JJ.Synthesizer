@@ -285,12 +285,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
 		public static PointStyle DentPointStyleSelectedInactive { get; } = HalfenOpacity(DentPointStyleSelected);
 
-		public static RectangleStyle RectangleStyleInvisible { get; } = new RectangleStyle
-		{
-			BackStyle = BackStyleInvisible,
-			LineStyle = BorderStyleInvisible
-		};
-
 		public static BackStyle ToolTipBackStyle { get; } = new BackStyle
 		{
 			Color = ColorHelper.GetColor(0xDDFEFEFE)
@@ -365,6 +359,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		public static BackStyle CircleBackStyleInactive { get; } = HalfenOpacity(CircleBackStyle);
 
 		public static BackStyle CircleBackStyleSelectedInactive { get; } = HalfenOpacity(CircleBackStyleSelected);
+
+		public static RectangleStyle RectangleStyleInvisible { get; } = new RectangleStyle
+		{
+			BackStyle = BackStyleInvisible,
+			LineStyle = BorderStyleInvisible
+		};
+
+		public static RectangleStyle RectangleStyleNeutralGrayBack { get; } = new RectangleStyle
+		{
+			BackStyle = NeutralBackStyle,
+			LineStyle = BorderStyleInvisible
+		};
 
 		private static PointStyle HalfenOpacity(PointStyle sourceStyle)
 		{

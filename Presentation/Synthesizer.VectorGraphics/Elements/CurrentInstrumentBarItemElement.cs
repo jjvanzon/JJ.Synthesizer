@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
 	/// <summary> Can be used for both CurrentInstrument Patches as well as CurrentInstrument MidiMappings. </summary>
-	internal class CurrentInstrumentBarItemElement : ElementBase
+	internal class CurrentInstrumentBarItemElement : ElementBaseWithOpaqueBack
 	{
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _label;
@@ -40,25 +40,25 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 
-			_label = CreateLabel();
+			_label = CreateLabel(_backRectangle);
 
-			_pictureButtonDelete = new PictureButtonElement(this, underlyingPictureDelete, CommonResourceFormatter.Delete, toolTipElement);
+			_pictureButtonDelete = new PictureButtonElement(_backRectangle, underlyingPictureDelete, CommonResourceFormatter.Delete, toolTipElement);
 			_pictureButtonDelete.MouseDown += _pictureButtonDelete_MouseDown;
 			_pictureButtonDelete.PictureStyle = StyleHelper.IconPictureStyleLight;
 
-			_pictureButtonExpand = new PictureButtonElement(this, underlyingPictureExpand, CommonResourceFormatter.Open, toolTipElement);
+			_pictureButtonExpand = new PictureButtonElement(_backRectangle, underlyingPictureExpand, CommonResourceFormatter.Open, toolTipElement);
 			_pictureButtonExpand.MouseDown += _pictureButtonExpand_MouseDown;
 			_pictureButtonExpand.PictureStyle = StyleHelper.IconPictureStyleLight;
 
-			_pictureButtonMoveBackward = new PictureButtonElement(this, underlyingPictureMoveBackward, CommonResourceFormatter.Move, toolTipElement);
+			_pictureButtonMoveBackward = new PictureButtonElement(_backRectangle, underlyingPictureMoveBackward, CommonResourceFormatter.Move, toolTipElement);
 			_pictureButtonMoveBackward.MouseDown += _pictureButtonMoveBackward_MouseDown;
 			_pictureButtonMoveBackward.PictureStyle = StyleHelper.IconPictureStyleLight;
 
-			_pictureButtonMoveForward = new PictureButtonElement(this, underlyingPictureMoveForward, CommonResourceFormatter.Move, toolTipElement);
+			_pictureButtonMoveForward = new PictureButtonElement(_backRectangle, underlyingPictureMoveForward, CommonResourceFormatter.Move, toolTipElement);
 			_pictureButtonMoveForward.MouseDown += _pictureButtonMoveForward_MouseDown;
 			_pictureButtonMoveForward.PictureStyle = StyleHelper.IconPictureStyleLight;
 
-			_pictureButtonPlay = new PictureButtonElement(this, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
+			_pictureButtonPlay = new PictureButtonElement(_backRectangle, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
 			_pictureButtonPlay.MouseDown += _pictureButtonPlay_MouseDown;
 			_pictureButtonPlay.PictureStyle = StyleHelper.IconPictureStyleLight;
 		}
@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_pictureButtonExpand.Visible = _viewModel.CanExpand;
 		}
 
-		public void PositionElements()
+		public override void PositionElements()
 		{
 			float x = 0;
 
@@ -127,11 +127,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 			Position.Width = x;
 			Position.Height = StyleHelper.PICTURE_BUTTON_SIZE;
+
+			base.PositionElements();
 		}
 
-		private Label CreateLabel()
+		private Label CreateLabel(Element parent)
 		{
-			var label = new Label(this)
+			var label = new Label(parent)
 			{
 				TextStyle = StyleHelper.TitleTextStyle
 			};

@@ -5,11 +5,11 @@ using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 // ReSharper disable PossibleNullReferenceException
-// ReSharper disable once VirtualMemberCallInConstructor
+// ReSharper disable VirtualMemberCallInConstructor
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class CurrentInstrumentBarButtonsElement : ElementBase
+	internal class CurrentInstrumentBarButtonsElement : ElementBaseWithOpaqueBack
 	{
 		public event EventHandler ExpandRequested;
 		public event EventHandler PlayRequested;
@@ -34,6 +34,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
 			                 StyleHelper.PICTURE_BUTTON_MARGIN +
 			                 StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
+
+			Position.Height = StyleHelper.ROW_HEIGHT;
+
+			PositionElements();
 		}
 
 		private CurrentInstrumentBarViewModel _viewModel;

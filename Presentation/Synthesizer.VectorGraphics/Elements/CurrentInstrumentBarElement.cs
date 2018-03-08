@@ -75,11 +75,32 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			float midiMappingsTotalWidth = _midiMappingsElement.GetTotalItemsWidth();
 			float patchesTotalWidth = _patchesElement.GetTotalItemsWidth();
 			float patchesAndMidiMappingsTotalWidth = midiMappingsTotalWidth + patchesTotalWidth;
-			float midiMappingElementsFraction = midiMappingsTotalWidth / patchesAndMidiMappingsTotalWidth;
+			float midiMappingsFraction = midiMappingsTotalWidth / patchesAndMidiMappingsTotalWidth;
 			float patchesFraction = patchesTotalWidth / patchesAndMidiMappingsTotalWidth;
 
-			float midiMappingWidth = remainingWidth * midiMappingElementsFraction;
-			float patchesWidth = remainingWidth * patchesFraction;
+			bool midiMappingsAreWithinHalfTheWidth = midiMappingsFraction <= 0.5;
+			bool patchesAreWithinHalfTheWidth = patchesFraction <= 0.5;
+
+			float midiMappingWidth;
+			float patchesWidth;
+			if (patchesAreWithinHalfTheWidth)
+			{
+				// Let Patches use all the width they needs.
+				patchesWidth = patchesTotalWidth;
+				midiMappingWidth = remainingWidth - patchesWidth;
+			}
+			else if (midiMappingsAreWithinHalfTheWidth)
+			{
+				// Let MidiMappings use all the width they needs.
+				midiMappingWidth = midiMappingsTotalWidth;
+				patchesWidth = remainingWidth - midiMappingsTotalWidth;
+			}
+			else
+			{
+				// Divide space fairly over MidiMappings and Patches.
+				midiMappingWidth = remainingWidth * midiMappingsFraction;
+				patchesWidth = remainingWidth * patchesFraction;
+			}
 
 			_midiMappingsElement.Position.X = _scaleElement.Position.Right + StyleHelper.SPACING;
 			_midiMappingsElement.Position.Width = midiMappingWidth;

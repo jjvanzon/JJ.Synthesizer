@@ -3,10 +3,11 @@ using JJ.Data.Canonical;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
+// ReSharper disable VirtualMemberCallInConstructor
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class CurrentInstrumentBarScaleElement : ElementBase
+	internal class CurrentInstrumentBarScaleElement : ElementBaseWithOpaqueBack
 	{
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _label;
@@ -15,7 +16,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 
-			_label = CreateLabel();
+			_label = CreateLabel(_backRectangle);
+			Position.Height = StyleHelper.ROW_HEIGHT;
 		}
 
 		private IDAndName _viewModel;
@@ -32,16 +34,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		private void ApplyViewModelToElements() => _label.Text = ViewModel.Name;
 
-		public void PositionElements()
+		public override void PositionElements()
 		{
 			(float textWidth, _) = _textMeasurer.GetTextSize(_label.Text, _label.TextStyle.Font);
 			_label.Position.Width = textWidth;
 			Position.Width = textWidth;
+
+			base.PositionElements();
 		}
 
-		private Label CreateLabel()
+		private Label CreateLabel(Element parent)
 		{
-			var label = new Label(this)
+			var label = new Label(parent)
 			{
 				TextStyle = StyleHelper.TitleTextStyle
 			};
