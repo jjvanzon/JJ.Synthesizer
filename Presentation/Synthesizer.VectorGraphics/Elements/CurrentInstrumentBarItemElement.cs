@@ -61,6 +61,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_pictureButtonPlay = new PictureButtonElement(_backRectangle, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
 			_pictureButtonPlay.MouseDown += _pictureButtonPlay_MouseDown;
 			_pictureButtonPlay.PictureStyle = StyleHelper.IconPictureStyleLight;
+#if DEBUG
+			_pictureButtonDelete.Tag = nameof(_pictureButtonDelete);
+			_pictureButtonExpand.Tag = nameof(_pictureButtonExpand);
+			_pictureButtonMoveBackward.Tag = nameof(_pictureButtonMoveBackward);
+			_pictureButtonMoveForward.Tag = nameof(_pictureButtonMoveForward);
+			_pictureButtonPlay.Tag = nameof(_pictureButtonPlay);
+#endif
 		}
 
 		private CurrentInstrumentItemViewModel _viewModel;
