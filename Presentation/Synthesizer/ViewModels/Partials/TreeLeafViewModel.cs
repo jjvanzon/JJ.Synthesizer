@@ -1,4 +1,4 @@
-﻿namespace JJ.Presentation.Synthesizer.ViewModels.Items
+﻿namespace JJ.Presentation.Synthesizer.ViewModels.Partials
 {
 	public sealed class TreeLeafViewModel
 	{

@@ -6,10 +6,8 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
@@ -26,9 +24,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					PatchNodes = new List<PatchTreeNodeViewModel>(),
 					PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
 				},
-				MidiNode = new MidiTreeNodeViewModel
+				MidiNode = new SimpleTreeNodeViewModel
 				{
 					Text = GetTreeNodeText(ResourceFormatter.Midi, count: 0),
+					Visible = true,
 					List = new List<IDAndName>()
 				},
 				ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, count: 0),
@@ -56,9 +55,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				{
 					Text = GetTreeNodeText(ResourceFormatter.Patches, document.Patches.Count)
 				},
-				MidiNode = new MidiTreeNodeViewModel
+				MidiNode = new SimpleTreeNodeViewModel
 				{
-					Text = GetTreeNodeText(ResourceFormatter.Midi, document.MidiMappings.Count)
+					Text = GetTreeNodeText(ResourceFormatter.Midi, document.MidiMappings.Count),
+					Visible = true
 				},
 				ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
 				AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
@@ -67,19 +67,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				LibrariesNode = new LibrariesTreeNodeViewModel
 				{
 					Text = GetTreeNodeText(ResourceFormatter.Libraries, document.LowerDocumentReferences.Count),
-					List = new List<LibraryTreeNodeViewModel>()
 				}
 			};
+
+			viewModel.MidiNode.List = document.MidiMappings.OrderBy(x => x.Name)
+			                                  .Select(x => x.ToIDAndName())
+			                                  .ToList();
 
 			viewModel.LibrariesNode.List = document.LowerDocumentReferences
 			                                       .Select(ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities)
 			                                       .OrderBy(x => x.Caption)
 			                                       .ToList();
-
-			viewModel.MidiNode.List = document.MidiMappings.
-			                                           OrderBy(x => x.Name)
-			                                          .Select(ConvertToTreeNodeViewModel)
-			                                          .ToList();
 
 			// Business
 			IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: true);
@@ -96,20 +94,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		private IDAndName ConvertToTreeNodeViewModel(MidiMapping midiMapping) => new IDAndName { ID = midiMapping.ID, Name = midiMapping.Name };
-
 		private LibraryTreeNodeViewModel ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities(DocumentReference lowerDocumentReference)
 		{
-			Document document = lowerDocumentReference.LowerDocument;
+			Document lowerDocument = lowerDocumentReference.LowerDocument;
 
 			var viewModel = new LibraryTreeNodeViewModel
 			{
-				LowerDocumentReferenceID = lowerDocumentReference.ID
+				LowerDocumentReferenceID = lowerDocumentReference.ID,
+				MidiNode = new SimpleTreeNodeViewModel
+				{
+					Text = GetTreeNodeText(ResourceFormatter.Midi, lowerDocument.MidiMappings.Count),
+					List = lowerDocument.MidiMappings.Select(x => x.ToIDAndName()).OrderBy(x => x.Name).ToArray(),
+					Visible = lowerDocument.MidiMappings.Any()
+				},
+				ScalesNode = new SimpleTreeNodeViewModel
+				{
+					Text = GetTreeNodeText(ResourceFormatter.Scales, lowerDocument.Scales.Count),
+					List = lowerDocument.Scales.Select(x => x.ToIDAndName()).OrderBy(x => x.Name).ToArray(),
+					Visible = lowerDocument.Scales.Any()
+				}
 			};
 
 			// Business
-			IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(document.Patches, mustIncludeHidden: false);
-			IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(document.Patches, mustIncludeHidden: false);
+			IList<Patch> grouplessPatches = PatchGrouper.GetGrouplessPatches(lowerDocument.Patches, mustIncludeHidden: false);
+			IList<PatchGroupDto> patchGroupDtos = PatchGrouper.GetPatchGroupDtos_ExcludingGroupless(lowerDocument.Patches, mustIncludeHidden: false);
 
 			// ToViewModel
 			viewModel.PatchNodes = grouplessPatches.OrderBy(x => x.Name)
@@ -121,7 +129,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			                                          .ToList();
 
 			string aliasOrName = lowerDocumentReference.GetAliasOrName();
-			int visiblePatchCount = document.Patches.Where(x => !x.Hidden).Count();
+			int visiblePatchCount = lowerDocument.Patches.Where(x => !x.Hidden).Count();
 			viewModel.Caption = GetTreeNodeText(aliasOrName, visiblePatchCount);
 
 			return viewModel;

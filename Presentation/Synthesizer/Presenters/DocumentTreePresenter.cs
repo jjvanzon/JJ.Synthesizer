@@ -8,7 +8,6 @@ using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Misc;
 using JJ.Presentation.Synthesizer.Helpers;
@@ -325,8 +324,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = _repositories.DocumentRepository.Get(userInput.ID);
 
 			// ToViewModel
-			var converter = new RecursiveDocumentTreeViewModelFactory();
-			DocumentTreeViewModel viewModel = converter.ToTreeViewModel(document);
+			var factory = new RecursiveDocumentTreeViewModelFactory();
+			DocumentTreeViewModel viewModel = factory.ToTreeViewModel(document);
 
 			// NOTE: Keep split up into two Non-Persisted phases:
 			// CopyNonPersisted must be done first, because action will change some of the properties.

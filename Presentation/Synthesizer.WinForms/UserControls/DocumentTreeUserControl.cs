@@ -4,8 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.TypeChecking;
 using JJ.Framework.Text;
@@ -21,6 +21,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	internal partial class DocumentTreeUserControl : UserControlBase
 	{
+		private const string LIBRARY_MIDI_NODE_TAG = "LibraryMidiNode";
+		private const string LIBRARY_SCALES_NODE_TAG = "LibraryScalesNode";
 		private static readonly string _separator = Guid.NewGuid().ToString();
 
 		// Button Events
@@ -61,8 +63,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private TreeNode _audioFileOutputListTreeNode;
 		private TreeNode _audioOutputNode;
 		private TreeNode _librariesTreeNode;
+		private HashSet<TreeNode> _libraryMidiMappingNodes;
+		private HashSet<TreeNode> _libraryMidiNodes;
 		private HashSet<TreeNode> _libraryPatchGroupTreeNodes;
 		private HashSet<TreeNode> _libraryPatchTreeNodes;
+		private HashSet<TreeNode> _libraryScaleNodes;
+		private HashSet<TreeNode> _libraryScalesNodes;
 		private HashSet<TreeNode> _libraryTreeNodes;
 		private TreeNode _midiTreeNode;
 		private HashSet<TreeNode> _midiMappingTreeNodes;
@@ -103,8 +109,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
 			titleBarUserControl.DeleteButtonVisible = ViewModel.CanDelete;
 
+			_libraryMidiNodes = new HashSet<TreeNode>();
+			_libraryMidiMappingNodes = new HashSet<TreeNode>();
 			_libraryPatchTreeNodes = new HashSet<TreeNode>();
 			_libraryPatchGroupTreeNodes = new HashSet<TreeNode>();
+			_libraryScaleNodes = new HashSet<TreeNode>();
+			_libraryScalesNodes = new HashSet<TreeNode>();
 			_libraryTreeNodes = new HashSet<TreeNode>();
 			_midiMappingTreeNodes = new HashSet<TreeNode>();
 			_patchGroupTreeNodes = new HashSet<TreeNode> { _patchesTreeNode };
@@ -179,6 +189,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				_midiTreeNode.Text = viewModel.MidiNode.Text;
 			}
 			ConvertMidiChildren(viewModel.MidiNode.List, _midiTreeNode.Nodes);
+
+			_midiMappingTreeNodes.AddRange(_midiTreeNode.Nodes.Cast<TreeNode>());
 
 			if (_scalesTreeNode.Text != viewModel.ScalesNode.Text)
 			{
@@ -297,8 +309,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				TreeNode treeNode = ConvertMidiMappingNode(viewModel, treeNodes, out bool isNewOrIsDirtyName);
 				treeNodesToKeep.Add(treeNode);
-
-				_midiMappingTreeNodes.Add(treeNode);
 
 				mustSort |= isNewOrIsDirtyName;
 			}
@@ -436,6 +446,58 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				_libraryPatchGroupTreeNodes.Add(patchGroupTreeNode);
 
 				mustSort |= isNewOrIsDirtyName;
+			}
+
+			// MidiMappings
+			// TODO: Extract method(s)
+			if (viewModel.MidiNode.Visible)
+			{
+				TreeNode midiTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_MIDI_NODE_TAG));
+				if (midiTreeNode == null)
+				{
+					midiTreeNode = new TreeNode
+					{
+						Tag = LIBRARY_MIDI_NODE_TAG
+					};
+					treeNodes.Add(midiTreeNode);
+				}
+
+				if (midiTreeNode.Text != viewModel.MidiNode.Text)
+				{
+					midiTreeNode.Text = viewModel.MidiNode.Text;
+				}
+
+				_libraryMidiNodes.Add(midiTreeNode);
+				treeNodesToKeep.Add(midiTreeNode);
+
+				ConvertMidiChildren(viewModel.MidiNode.List, midiTreeNode.Nodes);
+				_libraryMidiMappingNodes.AddRange(midiTreeNode.Nodes.Cast<TreeNode>());
+			}
+
+			// Scales
+			// TODO: Extract method(s)
+			if (viewModel.ScalesNode.Visible)
+			{
+				TreeNode scalesTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_SCALES_NODE_TAG));
+				if (scalesTreeNode == null)
+				{
+					scalesTreeNode = new TreeNode
+					{
+						Tag = LIBRARY_SCALES_NODE_TAG
+					};
+					treeNodes.Add(scalesTreeNode);
+				}
+
+				if (scalesTreeNode.Text != viewModel.ScalesNode.Text)
+				{
+					scalesTreeNode.Text = viewModel.ScalesNode.Text;
+				}
+
+				_libraryScaleNodes.Add(scalesTreeNode);
+				treeNodesToKeep.Add(scalesTreeNode);
+
+				ConvertScaleItems(viewModel.ScalesNode.List, scalesTreeNode.Nodes);
+				_libraryScalesNodes.AddRange(scalesTreeNode.Nodes.Cast<TreeNode>());
 			}
 
 			// Deletions
@@ -576,6 +638,56 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			if (viewModel.HasLighterStyle)
 			{
 				treeNode.ForeColor = StyleHelper.LightGray;
+			}
+
+			return treeNode;
+		}
+
+		private void ConvertScaleItems(IList<IDAndName> viewModels, TreeNodeCollection treeNodes)
+		{
+			var treeNodesToKeep = new HashSet<TreeNode>();
+
+			bool mustSort = false;
+
+			foreach (IDAndName viewModel in viewModels)
+			{
+				TreeNode treeNode = ConvertScaleItemNode(viewModel, treeNodes, out bool isNewOrIsDirtyName);
+				treeNodesToKeep.Add(treeNode);
+
+				mustSort |= isNewOrIsDirtyName;
+			}
+
+			IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
+			IEnumerable<TreeNode> treeNodesToDelete = existingTreeNodes.Except(treeNodesToKeep);
+			foreach (TreeNode treeNodeToDelete in treeNodesToDelete.ToArray())
+			{
+				treeNodes.Remove(treeNodeToDelete);
+			}
+
+			// Sort
+			// ReSharper disable once InvertIf
+			if (mustSort)
+			{
+				SortTreeNodes(treeNodes);
+			}
+		}
+
+		private TreeNode ConvertScaleItemNode(IDAndName viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
+		{
+			TreeNode treeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, viewModel.ID));
+
+			isNewOrIsDirtyName = false;
+			if (treeNode == null)
+			{
+				isNewOrIsDirtyName = true;
+				treeNode = new TreeNode { Tag = viewModel.ID };
+				treeNodes.Add(treeNode);
+			}
+
+			if (treeNode.Text != viewModel.Name)
+			{
+				isNewOrIsDirtyName = true;
+				treeNode.Text = viewModel.Name;
 			}
 
 			return treeNode;

@@ -123,7 +123,7 @@
     <Compile Include="ViewModels\MidiMappingDetailsViewModel.cs" />
     <Compile Include="ViewModels\MidiMappingElementPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Items\MidiMappingElementItemViewModel.cs" />
-    <Compile Include="ViewModels\Partials\MidiTreeNodeViewModel.cs" />
+    <Compile Include="ViewModels\Partials\SimpleTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\SampleFileBrowserViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />
@@ -136,7 +136,7 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForInletsToDimension.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_WithInterpolation.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCache.cs" />
-    <Compile Include="ViewModels\Items\TreeLeafViewModel.cs" />
+    <Compile Include="ViewModels\Partials\TreeLeafViewModel.cs" />
     <Compile Include="ViewModels\Partials\PatchTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchPropertiesViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
