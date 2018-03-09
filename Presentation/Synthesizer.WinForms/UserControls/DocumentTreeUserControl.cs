@@ -23,6 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 	{
 		private const string LIBRARY_MIDI_NODE_TAG = "LibraryMidiNode";
 		private const string LIBRARY_SCALES_NODE_TAG = "LibraryScalesNode";
+
 		private static readonly string _separator = Guid.NewGuid().ToString();
 
 		// Button Events
@@ -307,7 +308,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			foreach (IDAndName viewModel in viewModels)
 			{
-				TreeNode treeNode = ConvertMidiMappingNode(viewModel, treeNodes, out bool isNewOrIsDirtyName);
+				TreeNode treeNode = ConvertMidiMapping(viewModel, treeNodes, out bool isNewOrIsDirtyName);
 				treeNodesToKeep.Add(treeNode);
 
 				mustSort |= isNewOrIsDirtyName;
@@ -328,7 +329,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private TreeNode ConvertMidiMappingNode(IDAndName viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
+		private TreeNode ConvertMidiMapping(IDAndName viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
 		{
 			TreeNode treeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, viewModel.ID));
 
@@ -435,7 +436,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// Library PatchGroups
 			foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in viewModel.PatchGroupNodes)
 			{
-				TreeNode patchGroupTreeNode = ConvertLibraryPatchGroupAndDescendants(
+				TreeNode patchGroupTreeNode = Convert_LibraryPatchGroup_AndDescendants(
 					patchGroupViewModel,
 					treeNodes,
 					viewModel.LowerDocumentReferenceID,
@@ -448,57 +449,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				mustSort |= isNewOrIsDirtyName;
 			}
 
-			// MidiMappings
-			// TODO: Extract method(s)
-			if (viewModel.MidiNode.Visible)
+			// Sort
+			// ReSharper disable once InvertIf
+			if (mustSort)
 			{
-				TreeNode midiTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_MIDI_NODE_TAG));
-				if (midiTreeNode == null)
-				{
-					midiTreeNode = new TreeNode
-					{
-						Tag = LIBRARY_MIDI_NODE_TAG
-					};
-					treeNodes.Add(midiTreeNode);
-				}
-
-				if (midiTreeNode.Text != viewModel.MidiNode.Text)
-				{
-					midiTreeNode.Text = viewModel.MidiNode.Text;
-				}
-
-				_libraryMidiNodes.Add(midiTreeNode);
-				treeNodesToKeep.Add(midiTreeNode);
-
-				ConvertMidiChildren(viewModel.MidiNode.List, midiTreeNode.Nodes);
-				_libraryMidiMappingNodes.AddRange(midiTreeNode.Nodes.Cast<TreeNode>());
+				SortTreeNodes(treeNodes);
 			}
+
+			// MidiMappings
+			TreeNode libraryMidiTreeNode = TryConvert_LibraryMidi_WithDescendants(viewModel.MidiNode, treeNodes);
+			treeNodesToKeep.Add(libraryMidiTreeNode);
 
 			// Scales
-			// TODO: Extract method(s)
-			if (viewModel.ScalesNode.Visible)
-			{
-				TreeNode scalesTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_SCALES_NODE_TAG));
-				if (scalesTreeNode == null)
-				{
-					scalesTreeNode = new TreeNode
-					{
-						Tag = LIBRARY_SCALES_NODE_TAG
-					};
-					treeNodes.Add(scalesTreeNode);
-				}
-
-				if (scalesTreeNode.Text != viewModel.ScalesNode.Text)
-				{
-					scalesTreeNode.Text = viewModel.ScalesNode.Text;
-				}
-
-				_libraryScaleNodes.Add(scalesTreeNode);
-				treeNodesToKeep.Add(scalesTreeNode);
-
-				ConvertScaleItems(viewModel.ScalesNode.List, scalesTreeNode.Nodes);
-				_libraryScalesNodes.AddRange(scalesTreeNode.Nodes.Cast<TreeNode>());
-			}
+			TreeNode scalesTreeNode = TryConvert_LibraryScalesNode_WithDescendants(viewModel.ScalesNode, treeNodes);
+			treeNodesToKeep.Add(scalesTreeNode);
 
 			// Deletions
 			IEnumerable<TreeNode> existingTreeNodes = treeNodes.Cast<TreeNode>();
@@ -507,16 +471,71 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				treeNodes.Remove(treeNodeToDelete);
 			}
-
-			// Sort
-			// ReSharper disable once InvertIf
-			if (mustSort)
-			{
-				SortTreeNodes(treeNodes);
-			}
 		}
 
-		private TreeNode ConvertLibraryPatchGroupAndDescendants(
+		private TreeNode TryConvert_LibraryScalesNode_WithDescendants(SimpleTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+		{
+			if (!viewModel.Visible)
+			{
+				return null;
+			}
+
+			TreeNode scalesTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_SCALES_NODE_TAG));
+			if (scalesTreeNode == null)
+			{
+				scalesTreeNode = new TreeNode
+				{
+					Tag = LIBRARY_SCALES_NODE_TAG
+				};
+				treeNodes.Add(scalesTreeNode);
+			}
+
+			if (scalesTreeNode.Text != viewModel.Text)
+			{
+				scalesTreeNode.Text = viewModel.Text;
+			}
+
+			_libraryScaleNodes.Add(scalesTreeNode);
+
+			ConvertScales(viewModel.List, scalesTreeNode.Nodes);
+
+			_libraryScalesNodes.AddRange(scalesTreeNode.Nodes.Cast<TreeNode>());
+
+			return scalesTreeNode;
+		}
+
+		private TreeNode TryConvert_LibraryMidi_WithDescendants(SimpleTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+		{
+			if (!viewModel.Visible)
+			{
+				return null;
+			}
+
+			TreeNode midiTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_MIDI_NODE_TAG));
+			if (midiTreeNode == null)
+			{
+				midiTreeNode = new TreeNode
+				{
+					Tag = LIBRARY_MIDI_NODE_TAG
+				};
+				treeNodes.Add(midiTreeNode);
+			}
+
+			if (midiTreeNode.Text != viewModel.Text)
+			{
+				midiTreeNode.Text = viewModel.Text;
+			}
+
+			_libraryMidiNodes.Add(midiTreeNode);
+
+			ConvertMidiChildren(viewModel.List, midiTreeNode.Nodes);
+
+			_libraryMidiMappingNodes.AddRange(midiTreeNode.Nodes.Cast<TreeNode>());
+
+			return midiTreeNode;
+		}
+
+		private TreeNode Convert_LibraryPatchGroup_AndDescendants(
 			PatchGroupTreeNodeViewModel viewModel,
 			TreeNodeCollection treeNodes,
 			int lowerDocumentReferenceID,
@@ -643,7 +662,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			return treeNode;
 		}
 
-		private void ConvertScaleItems(IList<IDAndName> viewModels, TreeNodeCollection treeNodes)
+		private void ConvertScales(IList<IDAndName> viewModels, TreeNodeCollection treeNodes)
 		{
 			var treeNodesToKeep = new HashSet<TreeNode>();
 
@@ -651,7 +670,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			foreach (IDAndName viewModel in viewModels)
 			{
-				TreeNode treeNode = ConvertScaleItemNode(viewModel, treeNodes, out bool isNewOrIsDirtyName);
+				TreeNode treeNode = ConvertScale(viewModel, treeNodes, out bool isNewOrIsDirtyName);
 				treeNodesToKeep.Add(treeNode);
 
 				mustSort |= isNewOrIsDirtyName;
@@ -672,7 +691,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private TreeNode ConvertScaleItemNode(IDAndName viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
+		private TreeNode ConvertScale(IDAndName viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
 		{
 			TreeNode treeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, viewModel.ID));
 
