@@ -12,7 +12,6 @@ using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Mathematics;
 using JJ.Presentation.Synthesizer.Helpers;
@@ -103,6 +102,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
 				case DocumentTreeNodeTypeEnum.Patch:
+				case DocumentTreeNodeTypeEnum.LibraryScale:
+				case DocumentTreeNodeTypeEnum.MidiMapping:
+				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
 					return true;
 
 				default:
@@ -141,8 +143,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				case DocumentTreeNodeTypeEnum.PatchGroup:
 					return true;
 
-				case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-				case DocumentTreeNodeTypeEnum.Scales:
 				default:
 					return false;
 			}

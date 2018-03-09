@@ -1498,6 +1498,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibraryProperties_Switch(documentReferenceID);
 		}
 
+		public void DocumentTree_SelectLibraryMidi(int documentReferenceID)
+		{
+			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryMidi(x, documentReferenceID));
+		}
+
+		public void DocumentTree_SelectLibraryMidiMapping(int id)
+		{
+			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryMidiMapping(x, id));
+		}
+
 		public void DocumentTree_SelectLibraryPatch(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatch(x, id));
@@ -1506,6 +1516,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void DocumentTree_SelectLibraryPatchGroup(int lowerDocumentReferenceID, string patchGroup)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatchGroup(x, lowerDocumentReferenceID, patchGroup));
+		}
+
+		public void DocumentTree_SelectLibraryScale(int id)
+		{
+			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryScale(x, id));
+		}
+
+		public void DocumentTree_SelectLibraryScales(int documentReferenceID)
+		{
+			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryScales(x, documentReferenceID));
 		}
 
 		public void DocumentTree_SelectMidi() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectMidi);

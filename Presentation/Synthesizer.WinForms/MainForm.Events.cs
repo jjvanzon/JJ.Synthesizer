@@ -59,9 +59,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.AudioOutputNodeSelected += documentTreeUserControl_AudioOutputNodeSelected;
 			documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
 			documentTreeUserControl.LibrariesNodeSelected += documentTreeUserControl_LibrariesNodeSelected;
+			documentTreeUserControl.LibraryMidiMappingNodeSelected += documentTreeUserControl_LibraryMidiMappingNodeSelected;
+			documentTreeUserControl.LibraryMidiNodeSelected += documentTreeUserControl_LibraryMidiNodeSelected;
 			documentTreeUserControl.LibraryNodeSelected += documentTreeUserControl_LibraryNodeSelected;
 			documentTreeUserControl.LibraryPatchNodeSelected += documentTreeUserControl_LibraryPatchNodeSelected;
 			documentTreeUserControl.LibraryPatchGroupNodeSelected += documentTreeUserControl_LibraryPatchGroupNodeSelected;
+			documentTreeUserControl.LibraryScaleNodeSelected += documentTreeUserControl_LibraryScaleNodeSelected;
+			documentTreeUserControl.LibraryScalesNodeSelected += documentTreeUserControl_LibraryScalesNodeSelected;
 			documentTreeUserControl.MidiNodeSelected += documentTreeUserControl_MidiNodeSelected;
 			documentTreeUserControl.MidiMappingNodeSelected += documentTreeUserControl_MidiMappingNodeSelected;
 			documentTreeUserControl.NewRequested += documentTreeUserControl_NewRequested;
@@ -562,6 +566,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(_mainPresenter.DocumentTree_SelectLibraries);
 		}
 
+		private void documentTreeUserControl_LibraryScalesNodeSelected(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScales(e.Value));
+		}
+
+		private void documentTreeUserControl_LibraryScaleNodeSelected(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScale(e.Value));
+		}
+
 		private void documentTreeUserControl_LibraryNodeSelected(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibrary(e.Value));
@@ -575,6 +589,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private void documentTreeUserControl_LibraryPatchGroupNodeSelected(object sender, LibraryPatchGroupEventArgs e)
 		{
 			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryPatchGroup(e.LowerDocumentReferenceID, e.PatchGroup));
+		}
+
+		private void documentTreeUserControl_LibraryMidiNodeSelected(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidi(e.Value));
+		}
+
+		private void documentTreeUserControl_LibraryMidiMappingNodeSelected(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidiMapping(e.Value));
 		}
 
 		private void documentTreeUserControl_MidiNodeSelected(object sender, EventArgs e)

@@ -53,9 +53,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler MidiNodeSelected;
 		public event EventHandler<EventArgs<int>> MidiMappingNodeSelected;
 		public event EventHandler LibrariesNodeSelected;
+		public event EventHandler<EventArgs<int>> LibraryMidiNodeSelected;
+		public event EventHandler<EventArgs<int>> LibraryMidiMappingNodeSelected;
 		public event EventHandler<EventArgs<int>> LibraryNodeSelected;
 		public event EventHandler<LibraryPatchGroupEventArgs> LibraryPatchGroupNodeSelected;
 		public event EventHandler<EventArgs<int>> LibraryPatchNodeSelected;
+		public event EventHandler<EventArgs<int>> LibraryScaleNodeSelected;
+		public event EventHandler<EventArgs<int>> LibraryScalesNodeSelected;
 		public event EventHandler<EventArgs<string>> PatchGroupNodeSelected;
 		public event EventHandler<EventArgs<int>> PatchNodeSelected;
 		public event EventHandler ScalesNodeSelected;
@@ -64,12 +68,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private TreeNode _audioFileOutputListTreeNode;
 		private TreeNode _audioOutputNode;
 		private TreeNode _librariesTreeNode;
-		private HashSet<TreeNode> _libraryMidiMappingNodes;
-		private HashSet<TreeNode> _libraryMidiNodes;
+		private HashSet<TreeNode> _libraryMidiMappingTreeNodes;
+		private HashSet<TreeNode> _libraryMidiTreeNodes;
 		private HashSet<TreeNode> _libraryPatchGroupTreeNodes;
 		private HashSet<TreeNode> _libraryPatchTreeNodes;
-		private HashSet<TreeNode> _libraryScaleNodes;
-		private HashSet<TreeNode> _libraryScalesNodes;
+		private HashSet<TreeNode> _libraryScaleTreeNodes;
+		private HashSet<TreeNode> _libraryScalesTreeNodes;
 		private HashSet<TreeNode> _libraryTreeNodes;
 		private TreeNode _midiTreeNode;
 		private HashSet<TreeNode> _midiMappingTreeNodes;
@@ -110,12 +114,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
 			titleBarUserControl.DeleteButtonVisible = ViewModel.CanDelete;
 
-			_libraryMidiNodes = new HashSet<TreeNode>();
-			_libraryMidiMappingNodes = new HashSet<TreeNode>();
+			_libraryMidiTreeNodes = new HashSet<TreeNode>();
+			_libraryMidiMappingTreeNodes = new HashSet<TreeNode>();
 			_libraryPatchTreeNodes = new HashSet<TreeNode>();
 			_libraryPatchGroupTreeNodes = new HashSet<TreeNode>();
-			_libraryScaleNodes = new HashSet<TreeNode>();
-			_libraryScalesNodes = new HashSet<TreeNode>();
+			_libraryScaleTreeNodes = new HashSet<TreeNode>();
+			_libraryScalesTreeNodes = new HashSet<TreeNode>();
 			_libraryTreeNodes = new HashSet<TreeNode>();
 			_midiMappingTreeNodes = new HashSet<TreeNode>();
 			_patchGroupTreeNodes = new HashSet<TreeNode> { _patchesTreeNode };
@@ -495,11 +499,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				scalesTreeNode.Text = viewModel.Text;
 			}
 
-			_libraryScaleNodes.Add(scalesTreeNode);
+			_libraryScalesTreeNodes.Add(scalesTreeNode);
 
 			ConvertScales(viewModel.List, scalesTreeNode.Nodes);
 
-			_libraryScalesNodes.AddRange(scalesTreeNode.Nodes.Cast<TreeNode>());
+			_libraryScaleTreeNodes.AddRange(scalesTreeNode.Nodes.Cast<TreeNode>());
 
 			return scalesTreeNode;
 		}
@@ -526,11 +530,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				midiTreeNode.Text = viewModel.Text;
 			}
 
-			_libraryMidiNodes.Add(midiTreeNode);
+			_libraryMidiTreeNodes.Add(midiTreeNode);
 
 			ConvertMidiChildren(viewModel.List, midiTreeNode.Nodes);
 
-			_libraryMidiMappingNodes.AddRange(midiTreeNode.Nodes.Cast<TreeNode>());
+			_libraryMidiMappingTreeNodes.AddRange(midiTreeNode.Nodes.Cast<TreeNode>());
 
 			return midiTreeNode;
 		}
@@ -832,20 +836,38 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_libraryTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
-				LibraryNodeSelected(this, new EventArgs<int>(id));
+				LibraryNodeSelected(this, new EventArgs<int>((int)node.Tag));
+			}
+
+			if (_libraryMidiTreeNodes.Contains(node))
+			{
+				LibraryMidiNodeSelected(this, new EventArgs<int>((int)node.Tag));
+			}
+
+			if (_libraryMidiMappingTreeNodes.Contains(node))
+			{
+				LibraryMidiMappingNodeSelected(this, new EventArgs<int>((int)node.Tag));
 			}
 
 			if (_libraryPatchTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
-				LibraryPatchNodeSelected(this, new EventArgs<int>(id));
+				LibraryPatchNodeSelected(this, new EventArgs<int>((int)node.Tag));
 			}
 
 			if (_libraryPatchGroupTreeNodes.Contains(node))
 			{
 				LibraryPatchGroupEventArgs e2 = ParseLibraryPatchGroupTag(node.Tag);
 				LibraryPatchGroupNodeSelected(this, e2);
+			}
+
+			if (_libraryScalesTreeNodes.Contains(node))
+			{
+				LibraryScalesNodeSelected(this, new EventArgs<int>((int)node.Tag));
+			}
+
+			if (_libraryScaleTreeNodes.Contains(node))
+			{
+				LibraryScaleNodeSelected(this, new EventArgs<int>((int)node.Tag));
 			}
 
 			if (node == _midiTreeNode)
@@ -855,8 +877,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_midiMappingTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
-				MidiMappingNodeSelected(this, new EventArgs<int>(id));
+				MidiMappingNodeSelected(this, new EventArgs<int>((int)node.Tag));
 			}
 
 			if (_patchGroupTreeNodes.Contains(node))
@@ -866,8 +887,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_patchTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
-				PatchNodeSelected(this, new EventArgs<int>(id));
+				PatchNodeSelected(this, new EventArgs<int>((int)node.Tag));
 			}
 
 			if (node == _scalesTreeNode)

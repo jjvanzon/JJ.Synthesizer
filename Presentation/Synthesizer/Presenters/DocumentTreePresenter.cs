@@ -229,6 +229,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
+		public void SelectLibraryMidi(DocumentTreeViewModel viewModel, int documentReferenceID)
+		{
+			ExecuteNonPersistedAction(
+				viewModel,
+				() =>
+				{
+					viewModel.SelectedItemID = documentReferenceID;
+					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryMidi;
+				});
+		}
+
+		public void SelectLibraryMidiMapping(DocumentTreeViewModel viewModel, int id)
+		{
+			ExecuteNonPersistedAction(
+				viewModel,
+				() =>
+				{
+					viewModel.SelectedItemID = id;
+					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryMidiMapping;
+				});
+		}
+
 		public void SelectLibraryPatch(DocumentTreeViewModel viewModel, int id)
 		{
 			ExecuteNonPersistedAction(
@@ -250,6 +272,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					viewModel.SelectedPatchGroup = patchGroup;
 					viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(patchGroup);
 					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatchGroup;
+				});
+		}
+
+		public void SelectLibraryScale(DocumentTreeViewModel viewModel, int id)
+		{
+			ExecuteNonPersistedAction(
+				viewModel,
+				() =>
+				{
+					viewModel.SelectedItemID = id;
+					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryScale;
 				});
 		}
 
@@ -405,6 +438,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 				}
 
+				case DocumentTreeNodeTypeEnum.LibraryMidi:
+				{
+					Document entity = _repositories.DocumentRepository.TryGet(viewModel.SelectedItemID.Value);
+					if (entity.MidiMappings.Count == 0)
+					{
+						ClearSelection(viewModel);
+					}
+
+					break;
+				}
+
+				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
+				{
+					MidiMapping entity = _repositories.MidiMappingRepository.TryGet(viewModel.SelectedItemID.Value);
+					if (entity == null)
+					{
+						ClearSelection(viewModel);
+					}
+
+					break;
+				}
+
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
 				{
 					Patch entity = _repositories.PatchRepository.TryGet(viewModel.SelectedItemID.Value);
@@ -424,6 +479,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					                           .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
 					                           .Any();
 					if (!nodeExists)
+					{
+						ClearSelection(viewModel);
+					}
+
+					break;
+				}
+
+				case DocumentTreeNodeTypeEnum.LibraryScales:
+				{
+					Document entity = _repositories.DocumentRepository.TryGet(viewModel.SelectedItemID.Value);
+					if (entity.Scales.Count == 0)
+					{
+						ClearSelection(viewModel);
+					}
+
+					break;
+				}
+
+				case DocumentTreeNodeTypeEnum.LibraryScale:
+				{
+					Scale entity = _repositories.ScaleRepository.TryGet(viewModel.SelectedItemID.Value);
+					if (entity == null)
+					{
+						ClearSelection(viewModel);
+					}
+
+					break;
+				}
+
+				case DocumentTreeNodeTypeEnum.MidiMapping:
+				{
+					MidiMapping entity = _repositories.MidiMappingRepository.TryGet(viewModel.SelectedItemID.Value);
+					if (entity == null)
 					{
 						ClearSelection(viewModel);
 					}
@@ -469,6 +557,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Undefined;
 			viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(null);
 			viewModel.SelectedPatchGroupLowerDocumentReferenceID = null;
+		}
+
+		public void SelectLibraryScales(DocumentTreeViewModel viewModel, int documentReferenceID)
+		{
+			ExecuteNonPersistedAction(
+				viewModel,
+				() =>
+				{
+					viewModel.SelectedItemID = documentReferenceID;
+					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryScales;
+				});
 		}
 	}
 }
