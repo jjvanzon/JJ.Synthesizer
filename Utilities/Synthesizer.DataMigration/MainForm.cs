@@ -4,13 +4,12 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Reflection;
 using JJ.Framework.WinForms.Extensions;
 using JJ.Framework.WinForms.Forms;
 
-namespace JJ.OneOff.Synthesizer.DataMigration
+namespace JJ.Utilities.Synthesizer.DataMigration
 {
 	public partial class MainForm : SimpleFileProcessForm
 	{

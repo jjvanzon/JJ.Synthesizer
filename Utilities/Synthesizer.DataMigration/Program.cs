@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace JJ.OneOff.Synthesizer.DataMigration
+namespace JJ.Utilities.Synthesizer.DataMigration
 {
 	static class Program
 	{

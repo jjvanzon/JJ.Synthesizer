@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("JJ.OneOff.Synthesizer.DataMigration")]
+[assembly: AssemblyTitle("JJ.Utilities.Synthesizer.DataMigration")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("JJ.OneOff.Synthesizer.DataMigration")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCompany("Jan-Joost van Zon")]
+[assembly: AssemblyProduct("JJ.Utilities.Synthesizer.DataMigration")]
+[assembly: AssemblyCopyright("Copyright © 2015 - 2018 Jan-Joost van Zon")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

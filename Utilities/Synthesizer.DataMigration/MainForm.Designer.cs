@@ -1,4 +1,4 @@
-﻿namespace JJ.OneOff.Synthesizer.DataMigration
+﻿namespace JJ.Utilities.Synthesizer.DataMigration
 {
 	partial class MainForm
 	{
