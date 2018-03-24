@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Logging;
 using JJ.Presentation.Synthesizer.ViewModels;

@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Configuration;
-using JJ.Framework.Validation;
-using JJ.Data.Synthesizer.Entities;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Patches
 {

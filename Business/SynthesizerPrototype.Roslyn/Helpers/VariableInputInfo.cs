@@ -1,5 +1,4 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Framework.Exceptions.Basic;
+﻿using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 {

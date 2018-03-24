@@ -1,8 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Exceptions;
-using JJ.Framework.Exceptions.Misc;
+using JJ.Framework.Exceptions.InvalidValues;
 
 // ReSharper disable RedundantIfElseBlock
 // ReSharper disable ConvertIfStatementToSwitchStatement

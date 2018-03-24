@@ -17,9 +17,8 @@ using JJ.Framework.Collections;
 // Class alias to prevent accidentally use other things from JJ.Framework.Mathematics, 
 // for which the copy from JJ.Business.Synthesizer.CopiedCode.FromFramework should be used.
 using JJ.Framework.Configuration;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
-using JJ.Framework.Exceptions.Misc;
+using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Text;
 
 // ReSharper disable RedundantArgumentDefaultValue

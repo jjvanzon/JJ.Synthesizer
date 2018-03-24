@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Resources;
 using JJ.Framework.Text;

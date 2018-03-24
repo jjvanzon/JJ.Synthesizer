@@ -2,6 +2,7 @@
 using System.Text;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Dto.Operators;
+// ReSharper disable AccessToModifiedClosure
 
 namespace JJ.Business.Synthesizer.Visitors
 {

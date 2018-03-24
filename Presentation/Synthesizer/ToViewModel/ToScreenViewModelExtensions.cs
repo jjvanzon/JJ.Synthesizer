@@ -8,7 +8,6 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;

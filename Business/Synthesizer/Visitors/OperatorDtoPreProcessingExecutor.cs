@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Dto.Operators;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Visitors

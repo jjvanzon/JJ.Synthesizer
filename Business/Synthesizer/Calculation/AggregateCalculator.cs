@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Calculation

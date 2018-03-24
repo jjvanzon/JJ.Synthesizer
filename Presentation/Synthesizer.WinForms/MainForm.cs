@@ -17,7 +17,6 @@ using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Data;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.NAudio;

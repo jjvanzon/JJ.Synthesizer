@@ -5,7 +5,6 @@ using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.Exceptions.InvalidValues;
-using JJ.Framework.Exceptions.Misc;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 

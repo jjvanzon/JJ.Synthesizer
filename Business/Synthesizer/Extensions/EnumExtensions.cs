@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Extensions

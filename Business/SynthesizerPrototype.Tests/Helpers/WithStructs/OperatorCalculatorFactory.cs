@@ -1,5 +1,4 @@
 ﻿using JJ.Business.SynthesizerPrototype.Dto;
-using JJ.Framework.Exceptions;
 using JJ.Business.SynthesizerPrototype.WithStructs.Calculation;
 using JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Business.SynthesizerPrototype.WithStructs.Visitors;

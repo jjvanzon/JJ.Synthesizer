@@ -1,9 +1,8 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {

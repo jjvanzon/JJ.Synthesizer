@@ -1,7 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Data;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers

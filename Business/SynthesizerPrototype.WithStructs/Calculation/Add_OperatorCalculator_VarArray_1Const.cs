@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation

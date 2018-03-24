@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.IO;
 using JJ.Framework.WinForms.EventArg;

@@ -1,10 +1,9 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Configuration;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Business;
-using JJ.Framework.Exceptions;
-using JJ.Business.Synthesizer.Configuration;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Business;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Basic;
 

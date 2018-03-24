@@ -1,6 +1,5 @@
 ﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 
 // ReSharper disable RedundantCast

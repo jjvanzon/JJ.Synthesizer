@@ -2,7 +2,6 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Interfaces;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Validation;
 

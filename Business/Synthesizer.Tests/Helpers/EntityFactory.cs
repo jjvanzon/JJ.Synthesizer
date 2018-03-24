@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers

@@ -1,11 +1,10 @@
-﻿using JJ.Framework.Validation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings.Operators;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {

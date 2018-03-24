@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters.Bases;

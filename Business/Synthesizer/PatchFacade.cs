@@ -22,9 +22,8 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
-using JJ.Framework.Exceptions.Misc;
+using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer

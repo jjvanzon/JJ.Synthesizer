@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.TypeChecking;
 
 // ReSharper disable RedundantBaseQualifier

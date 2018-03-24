@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Validation.DocumentReferences;
 using JJ.Business.Synthesizer.Validation.Patches;
 using JJ.Business.Synthesizer.Validation.Scales;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Validation;
 

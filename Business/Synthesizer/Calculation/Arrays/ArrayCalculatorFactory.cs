@@ -1,8 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
-using JJ.Framework.Exceptions.Misc;
+using JJ.Framework.Exceptions.InvalidValues;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {

@@ -1,11 +1,10 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Business;
-using JJ.Framework.Exceptions;
-using System.Collections.Generic;
-using System.Linq;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions.Basic;
 

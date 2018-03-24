@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Calculation.Random;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators

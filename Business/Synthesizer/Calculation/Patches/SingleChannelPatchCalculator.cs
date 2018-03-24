@@ -10,9 +10,8 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
-using JJ.Framework.Exceptions.Misc;
+using JJ.Framework.Exceptions.InvalidValues;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {

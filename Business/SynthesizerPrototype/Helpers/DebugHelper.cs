@@ -1,5 +1,4 @@
 ﻿using JJ.Business.SynthesizerPrototype.Dto;
-using JJ.Framework.Exceptions;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.Helpers

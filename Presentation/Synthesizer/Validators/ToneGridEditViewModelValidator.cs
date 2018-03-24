@@ -1,5 +1,4 @@
-﻿using JJ.Framework.Exceptions;
-using JJ.Framework.Exceptions.Basic;
+﻿using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
