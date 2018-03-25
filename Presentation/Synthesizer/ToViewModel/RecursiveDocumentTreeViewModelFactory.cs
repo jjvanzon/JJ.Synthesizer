@@ -57,8 +57,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				},
 				MidiNode = new SimpleTreeNodeViewModel
 				{
+					EntityID = document.ID,
 					Text = GetTreeNodeText(ResourceFormatter.Midi, document.MidiMappings.Count),
-					Visible = true
+					Visible = true,
 				},
 				ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
 				AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
@@ -103,12 +104,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				LowerDocumentReferenceID = lowerDocumentReference.ID,
 				MidiNode = new SimpleTreeNodeViewModel
 				{
+					EntityID = lowerDocument.ID,
 					Text = GetTreeNodeText(ResourceFormatter.Midi, lowerDocument.MidiMappings.Count),
 					List = lowerDocument.MidiMappings.Select(x => x.ToIDAndName()).OrderBy(x => x.Name).ToArray(),
 					Visible = lowerDocument.MidiMappings.Any()
 				},
 				ScalesNode = new SimpleTreeNodeViewModel
 				{
+					EntityID = lowerDocument.ID,
 					Text = GetTreeNodeText(ResourceFormatter.Scales, lowerDocument.Scales.Count),
 					List = lowerDocument.Scales.Select(x => x.ToIDAndName()).OrderBy(x => x.Name).ToArray(),
 					Visible = lowerDocument.Scales.Any()

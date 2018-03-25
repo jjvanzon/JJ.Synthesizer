@@ -21,8 +21,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	internal partial class DocumentTreeUserControl : UserControlBase
 	{
-		private const string LIBRARY_MIDI_NODE_TAG = "LibraryMidiNode";
-		private const string LIBRARY_SCALES_NODE_TAG = "LibraryScalesNode";
+		private const string LIBRARY_MIDI_NODE_TAG_PREFIX = "LibraryMidiNode";
+		private const string LIBRARY_SCALES_NODE_TAG_PREFIX = "LibraryScalesNode";
 
 		private static readonly string _separator = Guid.NewGuid().ToString();
 
@@ -484,12 +484,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				return null;
 			}
 
-			TreeNode scalesTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_SCALES_NODE_TAG));
+			TreeNode scalesTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_SCALES_NODE_TAG_PREFIX));
 			if (scalesTreeNode == null)
 			{
 				scalesTreeNode = new TreeNode
 				{
-					Tag = LIBRARY_SCALES_NODE_TAG
+					Tag = BuildTag(LIBRARY_SCALES_NODE_TAG_PREFIX, viewModel.EntityID)
 				};
 				treeNodes.Add(scalesTreeNode);
 			}
@@ -515,12 +515,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				return null;
 			}
 
-			TreeNode midiTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_MIDI_NODE_TAG));
+			TreeNode midiTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_MIDI_NODE_TAG_PREFIX));
 			if (midiTreeNode == null)
 			{
 				midiTreeNode = new TreeNode
 				{
-					Tag = LIBRARY_MIDI_NODE_TAG
+					Tag = BuildTag(LIBRARY_MIDI_NODE_TAG_PREFIX, viewModel.EntityID)
 				};
 				treeNodes.Add(midiTreeNode);
 			}
@@ -749,6 +749,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					treeView.SelectedNode = _libraryPatchTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
 					break;
 
+				case DocumentTreeNodeTypeEnum.LibraryMidi:
+					treeView.SelectedNode = _libraryMidiTreeNodes.Where(x => ParseTag(x.Tag, LIBRARY_MIDI_NODE_TAG_PREFIX) == ViewModel.SelectedItemID).First();
+					break;
+
+				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
+					treeView.SelectedNode = _libraryMidiMappingTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
+					break;
+
 				case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
 					if (!ViewModel.SelectedPatchGroupLowerDocumentReferenceID.HasValue)
 					{
@@ -757,6 +765,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 					string tag = FormatLibraryPatchGroupTag(ViewModel.SelectedPatchGroupLowerDocumentReferenceID.Value, ViewModel.SelectedCanonicalPatchGroup);
 					treeView.SelectedNode = _libraryPatchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, tag)).First();
+					break;
+
+				case DocumentTreeNodeTypeEnum.LibraryScales:
+					treeView.SelectedNode = _libraryScalesTreeNodes.Where(x => ParseTag(x.Tag, LIBRARY_SCALES_NODE_TAG_PREFIX) == ViewModel.SelectedItemID).First();
+					break;
+
+				case DocumentTreeNodeTypeEnum.LibraryScale:
+					treeView.SelectedNode = _libraryScaleTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Scales:
@@ -841,7 +857,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_libraryMidiTreeNodes.Contains(node))
 			{
-				LibraryMidiNodeSelected(this, new EventArgs<int>((int)node.Tag));
+				LibraryMidiNodeSelected(this, new EventArgs<int>(ParseTag(node.Tag, LIBRARY_MIDI_NODE_TAG_PREFIX)));
 			}
 
 			if (_libraryMidiMappingTreeNodes.Contains(node))
@@ -862,7 +878,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_libraryScalesTreeNodes.Contains(node))
 			{
-				LibraryScalesNodeSelected(this, new EventArgs<int>((int)node.Tag));
+				LibraryScalesNodeSelected(this, new EventArgs<int>(ParseTag(node.Tag, LIBRARY_SCALES_NODE_TAG_PREFIX)));
 			}
 
 			if (_libraryScaleTreeNodes.Contains(node))
@@ -983,6 +999,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			string patchGroup = values[1];
 
 			return new LibraryPatchGroupEventArgs(lowerDocumentReferenceID, patchGroup);
+		}
+
+		private string BuildTag(string tagPrefix, int id) => $"{tagPrefix}{id}";
+
+		private int ParseTag(object tag, string tagPrefix)
+		{
+			string tagString = Convert.ToString(tag);
+			string idString = tagString.TrimStart(tagPrefix);
+			int id = int.Parse(idString);
+			return id;
 		}
 	}
 }

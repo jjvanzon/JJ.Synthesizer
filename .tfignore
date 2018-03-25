@@ -1,3 +1,4 @@
 .vs
+*.cache
 \packages
 !\packages\repositories.config
