@@ -58,6 +58,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.AudioFileOutputsNodeSelected += documentTreeUserControl_AudioFileOutputsNodeSelected;
 			documentTreeUserControl.AudioOutputNodeSelected += documentTreeUserControl_AudioOutputNodeSelected;
 			documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
+			documentTreeUserControl.DeleteRequested += DocumentTreeUserControl_DeleteRequested;
 			documentTreeUserControl.LibrariesNodeSelected += documentTreeUserControl_LibrariesNodeSelected;
 			documentTreeUserControl.LibraryMidiMappingNodeSelected += documentTreeUserControl_LibraryMidiMappingNodeSelected;
 			documentTreeUserControl.LibraryMidiNodeSelected += documentTreeUserControl_LibraryMidiNodeSelected;
@@ -76,15 +77,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.OpenItemExternallyRequested += documentTreeUserControl_OpenItemExternallyRequested;
 			documentTreeUserControl.RedoRequested += documentTreeUserControl_RedoRequested;
 			documentTreeUserControl.RefreshRequested += documentTreeUserControl_RefreshRequested;
-			documentTreeUserControl.DeleteRequested += DocumentTreeUserControl_DeleteRequested;
 			documentTreeUserControl.SaveRequested += documentTreeUserControl_SaveRequested;
 			documentTreeUserControl.ScalesNodeSelected += documentTreeUserControl_ScalesNodeSelected;
+			documentTreeUserControl.ScaleNodeSelected += documentTreeUserControl_ScaleNodeSelected;
 			documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
 			documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
 			documentTreeUserControl.ShowLibraryRequested += documentTreeUserControl_ShowLibraryRequested;
 			documentTreeUserControl.ShowMidiMappingRequested += DocumentTreeUserControl_ShowMidiMappingRequested;
 			documentTreeUserControl.ShowPatchRequested += documentTreeUserControl_ShowPatchRequested;
 			documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
+			documentTreeUserControl.ShowScaleRequested += documentTreeUserControl_ShowScaleRequested;
 			documentTreeUserControl.UndoRequested += documentTreeUserControl_UndoRequested;
 			libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
 			libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
@@ -666,6 +668,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(_mainPresenter.DocumentTree_SelectScales);
 		}
 
+		private void documentTreeUserControl_ScaleNodeSelected(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectScale(e.Value));
+		}
+
 		private void documentTreeUserControl_SaveRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.Document_Save);
@@ -699,6 +706,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.ScaleGrid_Show);
+		}
+
+		private void documentTreeUserControl_ShowScaleRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowScale(e.Value));
 		}
 
 		private void documentTreeUserControl_UndoRequested(object sender, EventArgs e)

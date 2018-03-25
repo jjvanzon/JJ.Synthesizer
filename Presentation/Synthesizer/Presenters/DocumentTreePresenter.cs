@@ -275,6 +275,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
+		public void SelectLibraryScales(DocumentTreeViewModel viewModel, int documentReferenceID)
+		{
+			ExecuteNonPersistedAction(
+				viewModel,
+				() =>
+				{
+					viewModel.SelectedItemID = documentReferenceID;
+					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryScales;
+				});
+		}
+
 		public void SelectLibraryScale(DocumentTreeViewModel viewModel, int id)
 		{
 			ExecuteNonPersistedAction(
@@ -322,6 +333,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					viewModel.SelectedPatchGroup = group;
 					viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(group);
 					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
+				});
+		}
+
+		public void SelectScale(DocumentTreeViewModel viewModel, int id)
+		{
+			ExecuteNonPersistedAction(
+				viewModel,
+				() =>
+				{
+					viewModel.SelectedItemID = id;
+					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scale;
 				});
 		}
 
@@ -557,17 +579,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Undefined;
 			viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(null);
 			viewModel.SelectedPatchGroupLowerDocumentReferenceID = null;
-		}
-
-		public void SelectLibraryScales(DocumentTreeViewModel viewModel, int documentReferenceID)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = documentReferenceID;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryScales;
-				});
 		}
 	}
 }

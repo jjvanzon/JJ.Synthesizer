@@ -123,7 +123,7 @@
     <Compile Include="ViewModels\MidiMappingDetailsViewModel.cs" />
     <Compile Include="ViewModels\MidiMappingElementPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Items\MidiMappingElementItemViewModel.cs" />
-    <Compile Include="ViewModels\Partials\SimpleTreeNodeViewModel.cs" />
+    <Compile Include="ViewModels\Partials\EntityWithListTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\SampleFileBrowserViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />
     <Compile Include="ViewModels\Items\AudioOutputViewModel.cs" />

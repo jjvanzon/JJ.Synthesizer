@@ -24,13 +24,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					PatchNodes = new List<PatchTreeNodeViewModel>(),
 					PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
 				},
-				MidiNode = new SimpleTreeNodeViewModel
+				MidiNode = new EntityWithListTreeNodeViewModel
 				{
 					Text = GetTreeNodeText(ResourceFormatter.Midi, count: 0),
 					Visible = true,
 					List = new List<IDAndName>()
 				},
-				ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, count: 0),
+				ScalesNode = new EntityWithListTreeNodeViewModel
+				{
+					Text = GetTreeNodeText(ResourceFormatter.Scales, count: 0),
+					Visible = true,
+					List = new List<IDAndName>()
+				},
 				AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
 				AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, count: 0),
 				ValidationMessages = new List<string>(),
@@ -55,25 +60,34 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				{
 					Text = GetTreeNodeText(ResourceFormatter.Patches, document.Patches.Count)
 				},
-				MidiNode = new SimpleTreeNodeViewModel
+				MidiNode = new EntityWithListTreeNodeViewModel
 				{
 					EntityID = document.ID,
 					Text = GetTreeNodeText(ResourceFormatter.Midi, document.MidiMappings.Count),
 					Visible = true,
+					List = document.MidiMappings
+					               .Select(x => x.ToIDAndName())
+					               .OrderBy(x => x.Name)
+					               .ToList()
 				},
-				ScalesNode = CreateTreeLeafViewModel(ResourceFormatter.Scales, document.Scales.Count),
+				ScalesNode = new EntityWithListTreeNodeViewModel
+				{
+					EntityID = document.ID,
+					Text = GetTreeNodeText(ResourceFormatter.Scales, document.Scales.Count),
+					Visible = true,
+					List = document.Scales
+					               .Select(x => x.ToIDAndName())
+					               .OrderBy(x => x.Name)
+					               .ToList()
+				},
 				AudioOutputNode = CreateTreeLeafViewModel(ResourceFormatter.AudioOutput),
 				AudioFileOutputListNode = CreateTreeLeafViewModel(ResourceFormatter.AudioFileOutput, document.AudioFileOutputs.Count),
 				ValidationMessages = new List<string>(),
 				LibrariesNode = new LibrariesTreeNodeViewModel
 				{
-					Text = GetTreeNodeText(ResourceFormatter.Libraries, document.LowerDocumentReferences.Count),
+					Text = GetTreeNodeText(ResourceFormatter.Libraries, document.LowerDocumentReferences.Count)
 				}
 			};
-
-			viewModel.MidiNode.List = document.MidiMappings.OrderBy(x => x.Name)
-			                                  .Select(x => x.ToIDAndName())
-			                                  .ToList();
 
 			viewModel.LibrariesNode.List = document.LowerDocumentReferences
 			                                       .Select(ConvertTo_LibraryTreeNodeViewModel_WithRelatedEntities)
@@ -102,14 +116,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new LibraryTreeNodeViewModel
 			{
 				LowerDocumentReferenceID = lowerDocumentReference.ID,
-				MidiNode = new SimpleTreeNodeViewModel
+				MidiNode = new EntityWithListTreeNodeViewModel
 				{
 					EntityID = lowerDocument.ID,
 					Text = GetTreeNodeText(ResourceFormatter.Midi, lowerDocument.MidiMappings.Count),
 					List = lowerDocument.MidiMappings.Select(x => x.ToIDAndName()).OrderBy(x => x.Name).ToArray(),
 					Visible = lowerDocument.MidiMappings.Any()
 				},
-				ScalesNode = new SimpleTreeNodeViewModel
+				ScalesNode = new EntityWithListTreeNodeViewModel
 				{
 					EntityID = lowerDocument.ID,
 					Text = GetTreeNodeText(ResourceFormatter.Scales, lowerDocument.Scales.Count),

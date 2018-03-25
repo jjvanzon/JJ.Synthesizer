@@ -8,8 +8,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 	{
 		public int ID { get; set; }
 		public PatchesTreeNodeViewModel PatchesNode { get; set; }
-		public SimpleTreeNodeViewModel MidiNode { get; set; }
-		public TreeLeafViewModel ScalesNode { get; set; }
+		public EntityWithListTreeNodeViewModel MidiNode { get; set; }
+		public EntityWithListTreeNodeViewModel ScalesNode { get; set; }
 		public TreeLeafViewModel AudioOutputNode { get; set; }
 		public TreeLeafViewModel AudioFileOutputListNode { get; set; }
 		public LibrariesTreeNodeViewModel LibrariesNode { get; set; }

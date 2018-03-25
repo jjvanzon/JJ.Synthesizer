@@ -1533,9 +1533,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void DocumentTree_SelectMidiMapping(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectMidiMapping(x, id));
+		}
 
-			// Redirect
-			MidiMappingDetails_Switch(id);
+		public void DocumentTree_SelectScale(int id)
+		{
+			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectScale(x, id));
 		}
 
 		public void DocumentTree_SelectScales()
@@ -1583,6 +1585,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			// Redirect
 			PatchDetails_Show(id);
+		}
+
+ 		public void DocumentTree_ShowScale(int id)
+		{
+			// Redirect
+			Scale_Show(id);
 		}
 
 		/// <summary>

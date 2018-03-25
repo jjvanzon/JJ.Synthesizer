@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Partials
 		/// <summary> Contains patches without a group. </summary>
 		public IList<PatchTreeNodeViewModel> PatchNodes { get; set; }
 
-		public SimpleTreeNodeViewModel MidiNode { get; set; }
-		public SimpleTreeNodeViewModel ScalesNode { get; set; }
+		public EntityWithListTreeNodeViewModel MidiNode { get; set; }
+		public EntityWithListTreeNodeViewModel ScalesNode { get; set; }
 	}
 }

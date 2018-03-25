@@ -15,6 +15,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+
 // ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -46,6 +47,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<int>> ShowPatchRequested;
 		public event EventHandler<EventArgs<int>> ShowMidiMappingRequested;
 		public event EventHandler ShowScalesRequested;
+		public event EventHandler<EventArgs<int>> ShowScaleRequested;
 
 		// Selected Events
 		public event EventHandler AudioOutputNodeSelected;
@@ -63,6 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<string>> PatchGroupNodeSelected;
 		public event EventHandler<EventArgs<int>> PatchNodeSelected;
 		public event EventHandler ScalesNodeSelected;
+		public event EventHandler<EventArgs<int>> ScaleNodeSelected;
 
 		// TreeNodes
 		private TreeNode _audioFileOutputListTreeNode;
@@ -82,6 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private HashSet<TreeNode> _patchGroupTreeNodes;
 		private HashSet<TreeNode> _patchTreeNodes;
 		private TreeNode _scalesTreeNode;
+		private HashSet<TreeNode> _scaleTreeNodes;
 
 		public DocumentTreeUserControl()
 		{
@@ -124,6 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_midiMappingTreeNodes = new HashSet<TreeNode>();
 			_patchGroupTreeNodes = new HashSet<TreeNode> { _patchesTreeNode };
 			_patchTreeNodes = new HashSet<TreeNode>();
+			_scaleTreeNodes = new HashSet<TreeNode>();
 
 			if (ViewModel == null)
 			{
@@ -187,20 +192,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				_patchesTreeNode.Text = viewModel.PatchesNode.Text;
 			}
+
 			ConvertPatchesDescendants(viewModel.PatchesNode, _patchesTreeNode);
 
 			if (_midiTreeNode.Text != viewModel.MidiNode.Text)
 			{
 				_midiTreeNode.Text = viewModel.MidiNode.Text;
 			}
-			ConvertMidiChildren(viewModel.MidiNode.List, _midiTreeNode.Nodes);
 
+			ConvertMidiChildren(viewModel.MidiNode.List, _midiTreeNode.Nodes);
 			_midiMappingTreeNodes.AddRange(_midiTreeNode.Nodes.Cast<TreeNode>());
 
 			if (_scalesTreeNode.Text != viewModel.ScalesNode.Text)
 			{
 				_scalesTreeNode.Text = viewModel.ScalesNode.Text;
 			}
+
+			ConvertScales(viewModel.ScalesNode.List, _scalesTreeNode.Nodes);
+			_scaleTreeNodes.AddRange(_scalesTreeNode.Nodes.Cast<TreeNode>());
 
 			if (_audioOutputNode.Text != viewModel.AudioOutputNode.Text)
 			{
@@ -216,6 +225,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				_librariesTreeNode.Text = viewModel.LibrariesNode.Text;
 			}
+
 			ConvertLibrariesDescendants(viewModel.LibrariesNode.List, _librariesTreeNode.Nodes);
 		}
 
@@ -398,9 +408,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private static TreeNode ConvertLibrary(LibraryTreeNodeViewModel viewModel, TreeNodeCollection treeNodes, out bool isNewOrIsDirtyName)
 		{
 			TreeNode treeNode = treeNodes.Cast<TreeNode>()
-										 .Where(x => x.Tag is int)
-										 .Where(x => (int)x.Tag == viewModel.LowerDocumentReferenceID)
-										 .SingleOrDefault();
+			                             .Where(x => x.Tag is int)
+			                             .Where(x => (int)x.Tag == viewModel.LowerDocumentReferenceID)
+			                             .SingleOrDefault();
 			isNewOrIsDirtyName = false;
 			if (treeNode == null)
 			{
@@ -477,14 +487,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private TreeNode TryConvert_LibraryScalesNode_WithDescendants(SimpleTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+		private TreeNode TryConvert_LibraryScalesNode_WithDescendants(EntityWithListTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
 		{
 			if (!viewModel.Visible)
 			{
 				return null;
 			}
 
-			TreeNode scalesTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, BuildTag(LIBRARY_SCALES_NODE_TAG_PREFIX, viewModel.EntityID)));
+			TreeNode scalesTreeNode = treeNodes.Cast<TreeNode>()
+			                                   .SingleOrDefault(x => Equals(x.Tag, BuildTag(LIBRARY_SCALES_NODE_TAG_PREFIX, viewModel.EntityID)));
 			if (scalesTreeNode == null)
 			{
 				scalesTreeNode = new TreeNode
@@ -508,14 +519,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			return scalesTreeNode;
 		}
 
-		private TreeNode TryConvert_LibraryMidi_WithDescendants(SimpleTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
+		private TreeNode TryConvert_LibraryMidi_WithDescendants(EntityWithListTreeNodeViewModel viewModel, TreeNodeCollection treeNodes)
 		{
 			if (!viewModel.Visible)
 			{
 				return null;
 			}
 
-			TreeNode midiTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, BuildTag(LIBRARY_MIDI_NODE_TAG_PREFIX, viewModel.EntityID)));
+			TreeNode midiTreeNode = treeNodes.Cast<TreeNode>()
+			                                 .SingleOrDefault(x => Equals(x.Tag, BuildTag(LIBRARY_MIDI_NODE_TAG_PREFIX, viewModel.EntityID)));
 			if (midiTreeNode == null)
 			{
 				midiTreeNode = new TreeNode
@@ -562,9 +574,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			string tag = FormatLibraryPatchGroupTag(lowerDocumentReferenceID, viewModel.CanonicalGroupName);
 
 			TreeNode treeNode = treeNodes.Cast<TreeNode>()
-										 .Where(x => x.Tag is string)
-										 .Where(x => NameHelper.AreEqual((string)x.Tag, tag))
-										 .SingleOrDefault();
+			                             .Where(x => x.Tag is string)
+			                             .Where(x => NameHelper.AreEqual((string)x.Tag, tag))
+			                             .SingleOrDefault();
 			if (treeNode == null)
 			{
 				isNewOrIsDirtyName = true;
@@ -719,8 +731,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private void SortTreeNodes(TreeNodeCollection treeNodes)
 		{
 			TreeNode[] sortedTreeNodes = treeNodes.Cast<TreeNode>()
-												  .OrderBy(x => x.Text)
-												  .ToArray();
+			                                      .OrderBy(x => x.Text)
+			                                      .ToArray();
 			treeNodes.Clear();
 			treeNodes.AddRange(sortedTreeNodes);
 		}
@@ -750,7 +762,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryMidi:
-					treeView.SelectedNode = _libraryMidiTreeNodes.Where(x => ParseTag(x.Tag, LIBRARY_MIDI_NODE_TAG_PREFIX) == ViewModel.SelectedItemID).First();
+					treeView.SelectedNode = _libraryMidiTreeNodes.Where(x => ParseTag(x.Tag, LIBRARY_MIDI_NODE_TAG_PREFIX) == ViewModel.SelectedItemID)
+																 .First();
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
@@ -763,16 +776,31 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 						throw new NullException(() => ViewModel.SelectedPatchGroupLowerDocumentReferenceID);
 					}
 
-					string tag = FormatLibraryPatchGroupTag(ViewModel.SelectedPatchGroupLowerDocumentReferenceID.Value, ViewModel.SelectedCanonicalPatchGroup);
+					string tag = FormatLibraryPatchGroupTag(
+						ViewModel.SelectedPatchGroupLowerDocumentReferenceID.Value,
+						ViewModel.SelectedCanonicalPatchGroup);
 					treeView.SelectedNode = _libraryPatchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, tag)).First();
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryScales:
-					treeView.SelectedNode = _libraryScalesTreeNodes.Where(x => ParseTag(x.Tag, LIBRARY_SCALES_NODE_TAG_PREFIX) == ViewModel.SelectedItemID).First();
+					treeView.SelectedNode = _libraryScalesTreeNodes.Where(x => ParseTag(x.Tag, LIBRARY_SCALES_NODE_TAG_PREFIX) == ViewModel.SelectedItemID)
+																   .First();
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryScale:
 					treeView.SelectedNode = _libraryScaleTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
+					break;
+
+				case DocumentTreeNodeTypeEnum.Midi:
+					treeView.SelectedNode = _midiTreeNode;
+					break;
+
+				case DocumentTreeNodeTypeEnum.MidiMapping:
+					treeView.SelectedNode = _midiMappingTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
+					break;
+
+				case DocumentTreeNodeTypeEnum.Scale:
+					treeView.SelectedNode = _scaleTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).First();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Scales:
@@ -784,7 +812,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					break;
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
-					treeView.SelectedNode = _patchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, ViewModel.SelectedCanonicalPatchGroup)).First();
+					treeView.SelectedNode = _patchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, ViewModel.SelectedCanonicalPatchGroup))
+																.First();
 					break;
 			}
 		}
@@ -910,6 +939,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				ScalesNodeSelected(this, EventArgs.Empty);
 			}
+
+			if (_scaleTreeNodes.Contains(node))
+			{
+				ScaleNodeSelected(this, new EventArgs<int>((int)node.Tag));
+			}
 		}
 
 		private void treeView_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
@@ -966,12 +1000,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				ShowScalesRequested(this, EventArgs.Empty);
 			}
+
+			if (_scaleTreeNodes.Contains(node))
+			{
+				int id = (int)node.Tag;
+				ShowScaleRequested(this, new EventArgs<int>(id));
+			}
 		}
 
-		private string FormatLibraryPatchGroupTag(int lowerDocumentReferenceID, string patchGroupNameCanonical)
-		{
-			return $"{lowerDocumentReferenceID}{_separator}{patchGroupNameCanonical}";
-		}
+		private string FormatLibraryPatchGroupTag(int lowerDocumentReferenceID, string patchGroupNameCanonical) =>
+			$"{lowerDocumentReferenceID}{_separator}{patchGroupNameCanonical}";
 
 		private LibraryPatchGroupEventArgs ParseLibraryPatchGroupTag(object tag)
 		{
