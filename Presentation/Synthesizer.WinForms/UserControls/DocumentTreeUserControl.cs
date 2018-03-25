@@ -484,7 +484,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				return null;
 			}
 
-			TreeNode scalesTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_SCALES_NODE_TAG_PREFIX));
+			TreeNode scalesTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, BuildTag(LIBRARY_SCALES_NODE_TAG_PREFIX, viewModel.EntityID)));
 			if (scalesTreeNode == null)
 			{
 				scalesTreeNode = new TreeNode
@@ -515,7 +515,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				return null;
 			}
 
-			TreeNode midiTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, LIBRARY_MIDI_NODE_TAG_PREFIX));
+			TreeNode midiTreeNode = treeNodes.Cast<TreeNode>().SingleOrDefault(x => Equals(x.Tag, BuildTag(LIBRARY_MIDI_NODE_TAG_PREFIX, viewModel.EntityID)));
 			if (midiTreeNode == null)
 			{
 				midiTreeNode = new TreeNode
