@@ -753,20 +753,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					break;
 
 				case DocumentTreeNodeTypeEnum.Library:
-					treeView.SelectedNode = _libraryTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).FirstWithClearException(GetTreeNodeKeyIndicator());
+					treeView.SelectedNode = _libraryTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID)
+					                                         .FirstWithClearException(GetSimpleTreeNodeKeyIndicator());
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
-					treeView.SelectedNode = _libraryPatchTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).FirstWithClearException(GetTreeNodeKeyIndicator());
+					treeView.SelectedNode = _libraryPatchTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID)
+					                                              .FirstWithClearException(GetSimpleTreeNodeKeyIndicator());
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryMidi:
 					treeView.SelectedNode = _libraryMidiTreeNodes.Where(x => ParseTag(x.Tag, LIBRARY_MIDI_NODE_TAG_PREFIX) == ViewModel.SelectedItemID)
-																 .First();
+					                                             .FirstWithClearException(GetSimpleTreeNodeKeyIndicator());
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
-					treeView.SelectedNode = _libraryMidiMappingTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).FirstWithClearException(GetTreeNodeKeyIndicator());
+					treeView.SelectedNode = _libraryMidiMappingTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID)
+					                        .FirstWithClearException(GetSimpleTreeNodeKeyIndicator());
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
@@ -783,11 +786,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 				case DocumentTreeNodeTypeEnum.LibraryScales:
 					treeView.SelectedNode = _libraryScalesTreeNodes.Where(x => ParseTag(x.Tag, LIBRARY_SCALES_NODE_TAG_PREFIX) == ViewModel.SelectedItemID)
-																   .First();
+					                                               .FirstWithClearException(GetSimpleTreeNodeKeyIndicator());
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryScale:
-					treeView.SelectedNode = _libraryScaleTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).FirstWithClearException(GetTreeNodeKeyIndicator());
+					treeView.SelectedNode = _libraryScaleTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID)
+					                                              .FirstWithClearException(GetSimpleTreeNodeKeyIndicator());
 					break;
 
 				case DocumentTreeNodeTypeEnum.Midi:
@@ -795,11 +799,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					break;
 
 				case DocumentTreeNodeTypeEnum.MidiMapping:
-					treeView.SelectedNode = _midiMappingTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).FirstWithClearException(GetTreeNodeKeyIndicator());
+					treeView.SelectedNode = _midiMappingTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID)
+					                                             .FirstWithClearException(GetSimpleTreeNodeKeyIndicator());
 					break;
 
 				case DocumentTreeNodeTypeEnum.Scale:
-					treeView.SelectedNode = _scaleTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).FirstWithClearException(GetTreeNodeKeyIndicator());
+					treeView.SelectedNode = _scaleTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID)
+					                                       .FirstWithClearException(GetSimpleTreeNodeKeyIndicator());
 					break;
 
 				case DocumentTreeNodeTypeEnum.Scales:
@@ -807,12 +813,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					break;
 
 				case DocumentTreeNodeTypeEnum.Patch:
-					treeView.SelectedNode = _patchTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID).FirstWithClearException(GetTreeNodeKeyIndicator());
+					treeView.SelectedNode = _patchTreeNodes.Where(x => (int)x.Tag == ViewModel.SelectedItemID)
+					                                       .FirstWithClearException(GetSimpleTreeNodeKeyIndicator());
 					break;
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
 					treeView.SelectedNode = _patchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, ViewModel.SelectedCanonicalPatchGroup))
-																.First();
+					                                            .First();
 					break;
 			}
 		}
@@ -1043,6 +1050,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			return id;
 		}
 
-		private object GetTreeNodeKeyIndicator() => new { ViewModel.SelectedNodeType, ViewModel.SelectedItemID };
+		private object GetSimpleTreeNodeKeyIndicator() => new { ViewModel.SelectedNodeType, ViewModel.SelectedItemID };
 	}
 }
