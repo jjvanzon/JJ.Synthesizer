@@ -118,7 +118,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				PatchPropertiesDictionary = new Dictionary<int, PatchPropertiesViewModel>(),
 				SampleFileBrowser = CreateEmptySampleFileBrowserViewModel(),
 				SaveChangesPopup = CreateEmptySaveChangesPopupViewModel(),
-				ScaleGrid = CreateEmptyScaleGridViewModel(),
 				ScaleLookup = new List<IDAndName>(),
 				ScalePropertiesDictionary = new Dictionary<int, ScalePropertiesViewModel>(),
 				ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
@@ -257,18 +256,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		public static MenuViewModel CreateEmptyMenuViewModel()
 		{
 			MenuViewModel viewModel = CreateMenuViewModel(documentIsOpen: false);
-			return viewModel;
-		}
-
-		public static ScaleGridViewModel CreateEmptyScaleGridViewModel()
-		{
-			var viewModel = new ScaleGridViewModel
-			{
-				Dictionary = new Dictionary<int, IDAndName>(),
-				ValidationMessages = new List<string>(),
-				Successful = true
-			};
-
 			return viewModel;
 		}
 

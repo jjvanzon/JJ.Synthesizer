@@ -122,8 +122,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Document document = _repositories.DocumentRepository.TryGetByName(documentName);
 			string canonicalPatchName = NameHelper.ToCanonical(patchName);
 			Patch patch = document?.Patches
-			                      .Where(x => string.Equals(NameHelper.ToCanonical(x.Name), canonicalPatchName))
-			                      .SingleWithClearException(new { canonicalPatchName });
+								  .Where(x => string.Equals(NameHelper.ToCanonical(x.Name), canonicalPatchName))
+								  .SingleWithClearException(new { canonicalPatchName });
 
 			if (document == null || patch == null)
 			{
@@ -903,7 +903,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
 			viewModel.PatchDetailsDictionary.Values.ForEach(x => x.Successful = true);
 			viewModel.PatchPropertiesDictionary.Values.ForEach(x => x.Successful = true);
-			viewModel.ScaleGrid.Successful = true;
 			viewModel.ScalePropertiesDictionary.Values.ForEach(x => x.Successful = true);
 			viewModel.ToneGridEditDictionary.Values.ForEach(x => x.Successful = true);
 
@@ -1077,6 +1076,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					DocumentTree_CreateOperator();
 					break;
 
+				case DocumentTreeNodeTypeEnum.Scales:
+					// Redirect
+					DocumentTree_CreateScale();
+					break;
+
 				default:
 					throw new ValueNotSupportedException(userInput.SelectedNodeType);
 			}
@@ -1224,6 +1228,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
+		private void DocumentTree_CreateScale()
+		{
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			// Template Method
+			DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Create(userInput));
+
+			if (viewModel.Successful)
+			{
+				// Refresh
+				DocumentViewModelRefresh();
+
+				// Undo History
+				var undoItem = new UndoCreateViewModel
+				{
+					EntityTypesAndIDs = (EntityTypeEnum.Scale, viewModel.CreatedEntityID).ToViewModel().AsArray(),
+					States = GetScaleStates(viewModel.CreatedEntityID)
+				};
+				MainViewModel.Document.UndoHistory.Push(undoItem);
+
+				// Redirect
+				Scale_Show(viewModel.CreatedEntityID);
+			}
+		}
+
 		public void DocumentTree_Close()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Close);
@@ -1247,6 +1277,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				case DocumentTreeNodeTypeEnum.Patch:
 					DocumentTree_DeletePatch();
+					break;
+
+				case DocumentTreeNodeTypeEnum.Scale:
+					DocumentTree_DeleteScale();
 					break;
 
 				default:
@@ -1323,6 +1357,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
+		private void DocumentTree_DeleteScale()
+		{
+			// GetViewModel
+			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+			// Undo History
+			int id = userInput.SelectedItemID ?? 0;
+			var undoItem = new UndoDeleteViewModel
+			{
+				EntityTypesAndIDs = (EntityTypeEnum.Scale, id).ToViewModel().AsArray(),
+				States = GetScaleStates(id)
+			};
+
+			// Template Method
+			DocumentTreeViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _documentTreePresenter.Delete(userInput));
+
+			// Refresh
+			if (viewModel.Successful)
+			{
+				DocumentViewModelRefresh();
+			}
+		}
+
 		public void DocumentTree_HoverPatch(int id)
 		{
 			DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
@@ -1363,8 +1420,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					{
 						// GetEntities
 						IList<Patch> entities = MainViewModel.Document.CurrentInstrument.Patches
-						                                     .Select(x => _repositories.PatchRepository.Get(x.EntityID))
-						                                     .ToArray();
+															 .Select(x => _repositories.PatchRepository.Get(x.EntityID))
+															 .ToArray();
 						// Business
 						Patch autoPatch = _autoPatcher.AutoPatch(entities);
 						_autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
@@ -1587,7 +1644,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchDetails_Show(id);
 		}
 
- 		public void DocumentTree_ShowScale(int id)
+		public void DocumentTree_ShowScale(int id)
 		{
 			// Redirect
 			Scale_Show(id);
@@ -2995,66 +3052,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Scale
 
-		public void ScaleGrid_Show()
-		{
-			ScaleGridViewModel viewModel = MainViewModel.Document.ScaleGrid;
-
-			ExecuteNonPersistedAction(viewModel, () => _scaleGridPresenter.Show(viewModel));
-		}
-
-		public void ScaleGrid_Close()
-		{
-			ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
-
-			ExecuteNonPersistedAction(userInput, () => _scaleGridPresenter.Close(userInput));
-		}
-
-		public void ScaleGrid_Create()
-		{
-			// GetViewModel
-			ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
-
-			// Template Method
-			ScaleGridViewModel viewModel = ExecuteCreateAction(userInput, () => _scaleGridPresenter.Create(userInput));
-
-			if (viewModel.Successful)
-			{
-				// Refresh
-				DocumentViewModelRefresh();
-
-				// Undo History
-				var undoItem = new UndoCreateViewModel
-				{
-					EntityTypesAndIDs = (EntityTypeEnum.Scale, viewModel.CreatedScaleID).ToViewModel().AsArray(),
-					States = GetScaleStates(viewModel.CreatedScaleID)
-				};
-				MainViewModel.Document.UndoHistory.Push(undoItem);
-			}
-		}
-
-		public void ScaleGrid_Delete(int id)
-		{
-			// GetViewModel
-			ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
-
-			// Undo History
-			var undoItem = new UndoDeleteViewModel
-			{
-				EntityTypesAndIDs = (EntityTypeEnum.Scale, id).ToViewModel().AsArray(),
-				States = GetScaleStates(id)
-			};
-
-			// Template Method
-			ScaleGridViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _scaleGridPresenter.Delete(userInput, id));
-
-			// Refresh
-			if (viewModel.Successful)
-			{
-				DocumentViewModelRefresh();
-			}
-		}
-
-		public void Scale_Show(int id)
+		private void Scale_Show(int id)
 		{
 			// GetViewModel
 			ScalePropertiesViewModel viewModel1 = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
@@ -3083,7 +3081,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				// Refresh
 				ToneGridEditRefresh(userInput.Entity.ID);
-				ScaleGridRefresh();
+				DocumentTreeRefresh();
 				ScaleLookupRefresh();
 			}
 		}
@@ -3122,7 +3120,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			if (viewModel.Successful)
 			{
 				ToneGridEditRefresh(userInput.Entity.ID);
-				ScaleGridRefresh();
+				DocumentTreeRefresh();
 				ScaleLookupRefresh();
 			}
 		}

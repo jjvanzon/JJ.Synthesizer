@@ -79,7 +79,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly PatchPropertiesPresenter _patchPropertiesPresenter;
 		private readonly SampleFileBrowserPresenter _sampleFileBrowserPresenter;
 		private readonly SaveChangesPopupPresenter _saveChangesPopupPresenter;
-		private readonly ScaleGridPresenter _scaleGridPresenter;
 		private readonly ScalePropertiesPresenter _scalePropertiesPresenter;
 		private readonly ToneGridEditPresenter _toneGridEditPresenter;
 		private readonly TitleBarPresenter _titleBarPresenter;
@@ -130,7 +129,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_documentGridPresenter = new DocumentGridPresenter(_repositories);
 			_documentOrPatchNotFoundPresenter = new DocumentOrPatchNotFoundPopupPresenter(_repositories.DocumentRepository);
 			_documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
-			_documentTreePresenter = new DocumentTreePresenter(_documentFacade, _patchFacade, _midiMappingFacade, _repositories);
+			_documentTreePresenter = new DocumentTreePresenter(_documentFacade, _midiMappingFacade, _patchFacade, _scaleFacade, _repositories);
 			_libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
 			_menuPresenter = new MenuPresenter();
@@ -151,7 +150,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_patchPropertiesPresenter = new PatchPropertiesPresenter(_repositories);
 			_sampleFileBrowserPresenter = new SampleFileBrowserPresenter(_autoPatcher, _repositories);
 			_saveChangesPopupPresenter = new SaveChangesPopupPresenter();
-			_scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository, _scaleFacade);
 			_scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, _scaleFacade);
 			_toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, _scaleFacade);
 			_titleBarPresenter = new TitleBarPresenter();
@@ -168,7 +166,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.Document.MidiMappingDetailsDictionary.Values.ForEach(x => x.Visible = false);
 			MainViewModel.Document.VisiblePatchDetails = null;
 			MainViewModel.Document.PatchDetailsDictionary.Values.ForEach(x => x.Visible = false);
-			MainViewModel.Document.ScaleGrid.Visible = false;
 			MainViewModel.Document.VisibleToneGridEdit = null;
 			MainViewModel.Document.ToneGridEditDictionary.Values.ForEach(x => x.Visible = false);
 			MainViewModel.DocumentDetails.Visible = false;

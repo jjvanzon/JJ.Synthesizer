@@ -85,7 +85,6 @@
     <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\Partials\TitleBarPresenter.cs" />
     <Compile Include="Presenters\ToneGridEditPresenter.cs" />
-    <Compile Include="Presenters\ScaleGridPresenter.cs" />
     <Compile Include="ToEntity\RecursiveToEntityConverter.cs" />
     <Compile Include="Helpers\ViewModelSelector.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
@@ -186,7 +185,6 @@
     <Compile Include="ViewModels\NodePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SaveChangesPopupViewModel.cs" />
     <Compile Include="ViewModels\ToneGridEditViewModel.cs" />
-    <Compile Include="ViewModels\ScaleGridViewModel.cs" />
     <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModelBase.cs" />
     <Compile Include="ViewModels\ScreenViewModelBase.cs" />

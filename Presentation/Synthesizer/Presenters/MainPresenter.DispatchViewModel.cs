@@ -52,7 +52,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(PatchPropertiesViewModel), DispatchPatchPropertiesViewModel },
 				{ typeof(SampleFileBrowserViewModel), DispatchSampleFileBrowserViewModel },
 				{ typeof(SaveChangesPopupViewModel), DispatchSaveChangesPopupViewModel },
-				{ typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
 				{ typeof(ScalePropertiesViewModel), DispatchScalePropertiesViewModel },
 				{ typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel }
 			};
@@ -679,21 +678,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchScaleGridViewModel(ScreenViewModelBase viewModel)
-		{
-			var castedViewModel = (ScaleGridViewModel)viewModel;
-
-			MainViewModel.Document.ScaleGrid = (ScaleGridViewModel)viewModel;
-
-			if (castedViewModel.Visible)
-			{
-				HideAllGridAndDetailsViewModels();
-				castedViewModel.Visible = true;
-			}
-
-			DispatchViewModelBase(castedViewModel);
-		}
-
 		private void DispatchScalePropertiesViewModel(ScreenViewModelBase viewModel)
 		{
 			var castedViewModel = (ScalePropertiesViewModel)viewModel;
@@ -770,8 +754,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.VisibleMidiMappingDetails != null ||
 				MainViewModel.Document.VisiblePatchDetails != null ||
 				MainViewModel.Document.VisibleToneGridEdit != null ||
-				MainViewModel.Document.AudioFileOutputGrid.Visible ||
-				MainViewModel.Document.ScaleGrid.Visible;
+				MainViewModel.Document.AudioFileOutputGrid.Visible;
 
 			MainViewModel.CurveDetailsPanelVisible = MainViewModel.Document.CurveDetailsDictionary.Any(x => x.Value.Visible);
 		}

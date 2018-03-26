@@ -85,7 +85,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.ShowLibraryRequested += documentTreeUserControl_ShowLibraryRequested;
 			documentTreeUserControl.ShowMidiMappingRequested += DocumentTreeUserControl_ShowMidiMappingRequested;
 			documentTreeUserControl.ShowPatchRequested += documentTreeUserControl_ShowPatchRequested;
-			documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
 			documentTreeUserControl.ShowScaleRequested += documentTreeUserControl_ShowScaleRequested;
 			documentTreeUserControl.UndoRequested += documentTreeUserControl_UndoRequested;
 			libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
@@ -182,10 +181,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			patchPropertiesUserControl.LoseFocusRequested += patchPropertiesUserControl_LoseFocusRequested;
 			patchPropertiesUserControl.PlayRequested += patchPropertiesUserControl_PlayRequested;
 			patchPropertiesUserControl.DeleteRequested += PatchPropertiesUserControl_DeleteRequested;
-			scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
-			scaleGridUserControl.AddRequested += scaleGridUserControl_AddRequested;
-			scaleGridUserControl.DeleteRequested += ScaleGridUserControl_DeleteRequested;
-			scaleGridUserControl.ShowItemRequested += scaleGridUserControl_ShowItemRequested;
 			scalePropertiesUserControl.CloseRequested += scalePropertiesUserControl_CloseRequested;
 			scalePropertiesUserControl.LoseFocusRequested += scalePropertiesUserControl_LoseFocusRequested;
 			scalePropertiesUserControl.DeleteRequested += ScalePropertiesUserControl_DeleteRequested;
@@ -701,11 +696,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private void documentTreeUserControl_ShowPatchRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowPatch(e.Value));
-		}
-
-		private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e)
-		{
-			TemplateActionHandler(_mainPresenter.ScaleGrid_Show);
 		}
 
 		private void documentTreeUserControl_ShowScaleRequested(object sender, EventArgs<int> e)
@@ -1238,26 +1228,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		}
 
 		// Scale
-
-		private void scaleGridUserControl_AddRequested(object sender, EventArgs e)
-		{
-			TemplateActionHandler(_mainPresenter.ScaleGrid_Create);
-		}
-
-		private void ScaleGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.ScaleGrid_Delete(e.Value));
-		}
-
-		private void scaleGridUserControl_CloseRequested(object sender, EventArgs e)
-		{
-			TemplateActionHandler(_mainPresenter.ScaleGrid_Close);
-		}
-
-		private void scaleGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.Scale_Show(e.Value));
-		}
 
 		private void toneGridEditUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{

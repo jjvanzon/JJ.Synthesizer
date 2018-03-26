@@ -209,7 +209,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesDictionaryRefresh();
 			PatchDetailsDictionaryRefresh();
 			PatchPropertiesDictionaryRefresh();
-			ScaleGridRefresh();
 			ScaleLookupRefresh();
 			ScalePropertiesDictionaryRefresh();
 			ToneGridEditDictionaryRefresh();
@@ -982,18 +981,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private void PatchPropertiesRefresh(PatchPropertiesViewModel userInput)
 		{
 			PatchPropertiesViewModel viewModel = _patchPropertiesPresenter.Refresh(userInput);
-			DispatchViewModel(viewModel);
-		}
-
-		private void ScaleGridRefresh()
-		{
-			// GetViewModel
-			ScaleGridViewModel userInput = MainViewModel.Document.ScaleGrid;
-
-			// Partial Action
-			ScaleGridViewModel viewModel = _scaleGridPresenter.Refresh(userInput);
-
-			// DispatchViewModel
 			DispatchViewModel(viewModel);
 		}
 

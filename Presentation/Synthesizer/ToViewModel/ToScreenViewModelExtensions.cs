@@ -924,22 +924,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			};
 		}
 
-		public static ScaleGridViewModel ToGridViewModel(this IList<Scale> entities, int documentID)
-		{
-			if (entities == null) throw new ArgumentNullException(nameof(entities));
-
-			var viewModel = new ScaleGridViewModel
-			{
-				DocumentID = documentID,
-				ValidationMessages = new List<string>(),
-				Dictionary = entities.OrderBy(x => x.Name)
-									 .Select(x => x.ToIDAndName())
-									 .ToDictionary(x => x.ID)
-			};
-
-			return viewModel;
-		}
-
 		// Tone
 
 		public static ToneGridEditViewModel ToToneGridEditViewModel(this Scale entity)

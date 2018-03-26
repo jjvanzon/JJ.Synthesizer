@@ -67,7 +67,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			operatorPropertiesUserControl_WithInterpolation.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_WithInterpolation;
 			patchDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisiblePatchDetails;
 			patchPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisiblePatchProperties;
-			scaleGridUserControl.ViewModel = _mainPresenter.MainViewModel.Document.ScaleGrid;
 			scalePropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleScaleProperties;
 			toneGridEditUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleToneGridEdit;
 

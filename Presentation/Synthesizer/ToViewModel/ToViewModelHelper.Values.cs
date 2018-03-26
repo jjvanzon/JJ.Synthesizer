@@ -119,6 +119,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				case DocumentTreeNodeTypeEnum.Midi:
 				case DocumentTreeNodeTypeEnum.Libraries:
 				case DocumentTreeNodeTypeEnum.PatchGroup:
+				case DocumentTreeNodeTypeEnum.Scales:
 					return true;
 
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
@@ -168,6 +169,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				case DocumentTreeNodeTypeEnum.MidiMapping:
 				case DocumentTreeNodeTypeEnum.Library:
 				case DocumentTreeNodeTypeEnum.Patch:
+				case DocumentTreeNodeTypeEnum.Scale:
 					return true;
 
 				default:

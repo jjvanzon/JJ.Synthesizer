@@ -22,18 +22,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	{
 		private readonly RepositoryWrapper _repositories;
 		private readonly DocumentFacade _documentFacade;
-		private readonly PatchFacade _patchFacade;
 		private readonly MidiMappingFacade _midiMappingFacade;
+		private readonly PatchFacade _patchFacade;
+		private readonly ScaleFacade _scaleFacade;
 
 		public DocumentTreePresenter(
 			DocumentFacade documentFacade,
-			PatchFacade patchFacade,
 			MidiMappingFacade midiMappingFacade,
+			PatchFacade patchFacade,
+			ScaleFacade scaleFacade,
 			RepositoryWrapper repositories)
 		{
 			_documentFacade = documentFacade ?? throw new ArgumentNullException(nameof(documentFacade));
 			_patchFacade = patchFacade ?? throw new ArgumentNullException(nameof(patchFacade));
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
+			_scaleFacade = scaleFacade ?? throw new ArgumentNullException(nameof(scaleFacade));
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
@@ -51,6 +54,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
 					return CreatePatch(userInput);
+
+				case DocumentTreeNodeTypeEnum.Scales:
+					return CreateScale(userInput);
 
 				default:
 					throw new ValueNotSupportedException(userInput.SelectedNodeType);
@@ -92,6 +98,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
+		private DocumentTreeViewModel CreateScale(DocumentTreeViewModel userInput)
+		{
+			return ExecuteAction(
+				userInput,
+				viewModel =>
+				{
+					// GetEntity
+					Document document = _repositories.DocumentRepository.Get(userInput.ID);
+
+					// Business
+					Scale scale = _scaleFacade.Create(document);
+
+					// Non-Persisted
+					viewModel.CreatedEntityID = scale.ID;
+				});
+		}
+
 		public DocumentTreeViewModel Delete(DocumentTreeViewModel userInput)
 		{
 			switch (userInput.SelectedNodeType)
@@ -105,21 +128,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				case DocumentTreeNodeTypeEnum.Patch:
 					return DeletePatch(userInput);
 
+				case DocumentTreeNodeTypeEnum.Scale:
+					return DeleteScale(userInput);
+
 				default:
 					throw new ValueNotSupportedException(userInput.SelectedNodeType);
 			}
-		}
-
-		private DocumentTreeViewModel DeleteMidiMapping(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
-
-					_midiMappingFacade.DeleteMidiMapping(userInput.SelectedItemID.Value);
-				});
 		}
 
 		private DocumentTreeViewModel DeleteLibrary(DocumentTreeViewModel userInput)
@@ -134,6 +148,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
+		private DocumentTreeViewModel DeleteMidiMapping(DocumentTreeViewModel userInput)
+		{
+			return ExecuteAction(
+				userInput,
+				viewModel =>
+				{
+					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
+
+					_midiMappingFacade.DeleteMidiMapping(userInput.SelectedItemID.Value);
+				});
+		}
+
 		private DocumentTreeViewModel DeletePatch(DocumentTreeViewModel userInput)
 		{
 			return ExecuteAction(
@@ -143,6 +169,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
 					return _patchFacade.DeletePatchWithRelatedEntities(userInput.SelectedItemID.Value);
+				});
+		}
+
+		private DocumentTreeViewModel DeleteScale(DocumentTreeViewModel userInput)
+		{
+			return ExecuteAction(
+				userInput,
+				viewModel =>
+				{
+					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
+
+					_scaleFacade.DeleteWithRelatedEntities(userInput.SelectedItemID.Value);
 				});
 		}
 
@@ -556,14 +594,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					bool nodeExists1 = viewModel.PatchesNode
 					                            .PatchGroupNodes
-					                            .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
-					                            .Any();
+					                            .Any(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup));
 
 					bool nodeExists2 = NameHelper.AreEqual(viewModel.SelectedCanonicalPatchGroup, NameHelper.ToCanonical(null));
 
 					bool nodeExists = nodeExists1 || nodeExists2;
 
 					if (!nodeExists)
+					{
+						ClearSelection(viewModel);
+					}
+
+					break;
+				}
+
+				case DocumentTreeNodeTypeEnum.Scale:
+				{
+					Scale entity = _repositories.ScaleRepository.TryGet(viewModel.SelectedItemID.Value);
+					if (entity == null)
 					{
 						ClearSelection(viewModel);
 					}

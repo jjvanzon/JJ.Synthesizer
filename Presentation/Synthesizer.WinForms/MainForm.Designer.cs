@@ -20,7 +20,6 @@
 			this.splitContainerCenterAndProperties = new System.Windows.Forms.SplitContainer();
 			this.midiMappingDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingDetailsUserControl();
 			this.toneGridEditUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ToneGridEditUserControl();
-			this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
 			this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
 			this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
 			this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
@@ -104,7 +103,6 @@
 			// 
 			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.midiMappingDetailsUserControl);
 			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
-			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.scaleGridUserControl);
 			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.audioFileOutputGridUserControl);
 			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.documentDetailsUserControl);
 			this.splitContainerCenterAndProperties.Panel1.Controls.Add(this.documentGridUserControl);
@@ -171,18 +169,6 @@
 			this.toneGridEditUserControl.TabIndex = 1;
 			this.toneGridEditUserControl.ViewModel = null;
 			this.toneGridEditUserControl.Visible = false;
-			// 
-			// scaleGridUserControl
-			// 
-			this.scaleGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.scaleGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-			this.scaleGridUserControl.Location = new System.Drawing.Point(0, 0);
-			this.scaleGridUserControl.Margin = new System.Windows.Forms.Padding(4);
-			this.scaleGridUserControl.Name = "scaleGridUserControl";
-			this.scaleGridUserControl.Size = new System.Drawing.Size(851, 532);
-			this.scaleGridUserControl.TabIndex = 11;
-			this.scaleGridUserControl.ViewModel = null;
-			this.scaleGridUserControl.Visible = false;
 			// 
 			// audioFileOutputGridUserControl
 			// 
@@ -786,7 +772,6 @@
 		private UserControls.OperatorPropertiesUserControl_ForPatchOutlet operatorPropertiesUserControl_ForPatchOutlet;
 		private UserControls.OperatorPropertiesUserControl_ForNumber operatorPropertiesUserControl_ForNumber;
 		private UserControls.OperatorPropertiesUserControl_ForSample operatorPropertiesUserControl_ForSample;
-		private UserControls.ScaleGridUserControl scaleGridUserControl;
 		private UserControls.ToneGridEditUserControl toneGridEditUserControl;
 		private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
 		private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;

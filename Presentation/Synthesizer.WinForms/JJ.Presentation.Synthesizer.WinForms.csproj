@@ -288,12 +288,6 @@
     <Compile Include="UserControls\PatchPropertiesUserControl.Designer.cs">
       <DependentUpon>PatchPropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ScaleGridUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\ScaleGridUserControl.Designer.cs">
-      <DependentUpon>ScaleGridUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\DocumentPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -445,9 +439,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\PatchPropertiesUserControl.resx">
       <DependentUpon>PatchPropertiesUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\ScaleGridUserControl.resx">
-      <DependentUpon>ScaleGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentPropertiesUserControl.resx">
       <DependentUpon>DocumentPropertiesUserControl.cs</DependentUpon>
