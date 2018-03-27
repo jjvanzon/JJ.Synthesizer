@@ -109,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// Refresh
-			DocumentViewModelRefresh();
+			DocumentViewModel_Refresh();
 		}
 
 		private bool MustRefreshDocument(IList<ScreenViewModelBase> states)
@@ -199,7 +199,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// Refresh
-			DocumentViewModelRefresh();
+			DocumentViewModel_Refresh();
 		}
 
 		private IList<ScreenViewModelBase> GetAudioFileOutputStates(int id) => new List<ScreenViewModelBase>

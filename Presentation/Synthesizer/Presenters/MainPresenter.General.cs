@@ -120,7 +120,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				_repositories.AudioOutputRepository,
 				_repositories.SpeakerSetupRepository,
 				_repositories.IDRepository);
-			_currentInstrumentBarPresenter = new CurrentInstrumentBarPresenter(_autoPatcher, _systemFacade, _repositories.DocumentRepository, _repositories.PatchRepository);
+			_currentInstrumentBarPresenter = new CurrentInstrumentBarPresenter(_autoPatcher, _systemFacade, _repositories.DocumentRepository, _repositories.MidiMappingRepository, _repositories.PatchRepository, _repositories.ScaleRepository);
 			_curveDetailsPresenter = new CurveDetailsPresenter(_repositories.CurveRepository, _repositories.NodeRepository, _curveFacade);
 			_documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
 			_documentDeletedPresenter = new DocumentDeletedPresenter();

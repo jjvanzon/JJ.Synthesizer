@@ -193,7 +193,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			if (!castedViewModel.Visible)
 			{
 				// Also: this might better be done in the action method.
-				DocumentGridRefresh();
+				DocumentGrid_Refresh();
 			}
 
 			DispatchViewModelBase(castedViewModel);

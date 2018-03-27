@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
 	public partial class MainPresenter
 	{
-		private void AudioFileOutputGridRefresh()
+		private void AudioFileOutputGrid_Refresh()
 		{
 			// GetViewModel
 			AudioFileOutputGridViewModel userInput = MainViewModel.Document.AudioFileOutputGrid;
@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void AudioFileOutputPropertiesDictionaryRefresh()
+		private void AudioFileOutputPropertiesDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.AudioFileOutputPropertiesDictionary;
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void AudioOutputPropertiesRefresh()
+		private void AudioOutputProperties_Refresh()
 		{
 			// GetViewModel
 			AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void CurrentInstrumentRefresh()
+		private void CurrentInstrument_Refresh()
 		{
 			// GetViewModel
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void CurveDetailsDictionaryRefresh()
+		private void CurveDetailsDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.CurveDetailsDictionary;
@@ -149,7 +149,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void DocumentGridRefresh()
+		private void DocumentGrid_Refresh()
 		{
 			// GetViewModel
 			DocumentGridViewModel userInput = MainViewModel.DocumentGrid;
@@ -158,7 +158,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _documentGridPresenter.Refresh(userInput));
 		}
 
-		private void DocumentPropertiesRefresh()
+		private void DocumentProperties_Refresh()
 		{
 			// GetViewModel
 			DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
@@ -170,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void DocumentTreeRefresh()
+		private void DocumentTree_Refresh()
 		{
 			// Partial Action
 			DocumentTreeViewModel viewModel = _documentTreePresenter.Refresh(MainViewModel.Document.DocumentTree);
@@ -183,20 +183,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <summary> Note that this does not do a ViewModel to Entity conversion. </summary>
-		private void DocumentViewModelRefresh()
+		private void DocumentViewModel_Refresh()
 		{
-			AudioFileOutputGridRefresh();
-			AudioFileOutputPropertiesDictionaryRefresh();
-			AudioOutputPropertiesRefresh();
-			CurrentInstrumentRefresh();
-			CurveDetailsDictionaryRefresh();
-			DocumentPropertiesRefresh();
-			DocumentTreeRefresh();
-			LibraryPropertiesDictionaryRefresh();
-			LibrarySelectionPopupRefresh();
-			NodePropertiesDictionaryRefresh();
-			MidiMappingDetailsDictionaryRefresh();
-			MidiMappingElementPropertiesDictionaryRefresh();
+			AudioFileOutputGrid_Refresh();
+			AudioFileOutputPropertiesDictionary_Refresh();
+			AudioOutputProperties_Refresh();
+			CurrentInstrument_Refresh();
+			CurveDetailsDictionary_Refresh();
+			DocumentProperties_Refresh();
+			DocumentTree_Refresh();
+			LibraryPropertiesDictionary_Refresh();
+			LibrarySelectionPopup_Refresh();
+			NodePropertiesDictionary_Refresh();
+			MidiMappingDetailsDictionary_Refresh();
+			MidiMappingElementPropertiesDictionary_Refresh();
 			OperatorPropertiesDictionary_ForCaches_Refresh();
 			OperatorPropertiesDictionary_ForCurves_Refresh();
 			OperatorPropertiesDictionary_ForInletsToDimension_Refresh();
@@ -206,18 +206,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesDictionary_ForSamples_Refresh();
 			OperatorPropertiesDictionary_WithCollectionRecalculation_Refresh();
 			OperatorPropertiesDictionary_WithInterpolation_Refresh();
-			OperatorPropertiesDictionaryRefresh();
-			PatchDetailsDictionaryRefresh();
-			PatchPropertiesDictionaryRefresh();
-			ScaleLookupRefresh();
-			ScalePropertiesDictionaryRefresh();
-			ToneGridEditDictionaryRefresh();
-			UnderylingPatchLookupRefresh();
+			OperatorPropertiesDictionary_Refresh();
+			PatchDetailsDictionary_Refresh();
+			PatchPropertiesDictionary_Refresh();
+			ScaleLookup_Refresh();
+			ScalePropertiesDictionary_Refresh();
+			ToneGridEditDictionary_Refresh();
+			UnderylingPatchLookup_Refresh();
 
 			// Note that AutoPatchDetails cannot be refreshed.
 		}
 
-		private void LibraryPropertiesDictionaryRefresh()
+		private void LibraryPropertiesDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.LibraryPropertiesDictionary;
@@ -261,14 +261,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void LibrarySelectionPopupRefresh()
+		private void LibrarySelectionPopup_Refresh()
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 			LibrarySelectionPopupViewModel viewModel = _librarySelectionPopupPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
 		}
 
-		private void NodePropertiesDictionaryRefresh()
+		private void NodePropertiesDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.NodePropertiesDictionary;
@@ -318,7 +318,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void MidiMappingDetailsDictionaryRefresh()
+		private void MidiMappingDetailsDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.MidiMappingDetailsDictionary;
@@ -362,7 +362,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void MidiMappingElementPropertiesDictionaryRefresh()
+		private void MidiMappingElementPropertiesDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.MidiMappingElementPropertiesDictionary;
@@ -466,7 +466,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void OperatorPropertiesDictionaryRefresh()
+		private void OperatorPropertiesDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.OperatorPropertiesDictionary;
@@ -894,7 +894,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				_repositories.CurveRepository);
 		}
 
-		private void PatchDetailsDictionaryRefresh()
+		private void PatchDetailsDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.PatchDetailsDictionary;
@@ -939,7 +939,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void PatchPropertiesDictionaryRefresh()
+		private void PatchPropertiesDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.PatchPropertiesDictionary;
@@ -984,13 +984,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void ScaleLookupRefresh()
+		private void ScaleLookup_Refresh()
 		{
 			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 			MainViewModel.Document.ScaleLookup = document.Scales.ToLookupViewModel();
 		}
 
-		private void ScalePropertiesDictionaryRefresh()
+		private void ScalePropertiesDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.ScalePropertiesDictionary;
@@ -1034,7 +1034,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void TitleBarRefresh()
+		private void TitleBar_Refresh()
 		{
 			int documentID = MainViewModel.Document.ID;
 			Document document = _repositories.DocumentRepository.TryGet(documentID);
@@ -1042,7 +1042,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.TitleBar = windowTitle;
 		}
 
-		private void ToneGridEditDictionaryRefresh()
+		private void ToneGridEditDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.ToneGridEditDictionary;
@@ -1061,7 +1061,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					ToneGridEditRefresh(viewModel);
+					ToneGridEdit_Refresh(viewModel);
 				}
 			}
 
@@ -1080,19 +1080,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void ToneGridEditRefresh(ToneGridEditViewModel userInput)
+		private void ToneGridEdit_Refresh(ToneGridEditViewModel userInput)
 		{
 			ToneGridEditViewModel viewModel = _toneGridEditPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
 		}
 
-		private void ToneGridEditRefresh(int scaleID)
+		private void ToneGridEdit_Refresh(int scaleID)
 		{
 			ToneGridEditViewModel viewModel = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
-			ToneGridEditRefresh(viewModel);
+			ToneGridEdit_Refresh(viewModel);
 		}
 
-		private void UnderylingPatchLookupRefresh()
+		private void UnderylingPatchLookup_Refresh()
 		{
 			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 			MainViewModel.Document.UnderlyingPatchLookup = document.ToUnderlyingPatchLookupViewModel();

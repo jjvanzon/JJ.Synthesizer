@@ -100,11 +100,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			switch (selectedNodeType)
 			{
+				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
-				case DocumentTreeNodeTypeEnum.Patch:
 				case DocumentTreeNodeTypeEnum.LibraryScale:
 				case DocumentTreeNodeTypeEnum.MidiMapping:
-				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
+				case DocumentTreeNodeTypeEnum.Patch:
+				case DocumentTreeNodeTypeEnum.Scale:
 					return true;
 
 				default:
