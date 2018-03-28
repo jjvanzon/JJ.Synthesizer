@@ -68,7 +68,7 @@
 			// titleBarUserControl
 			// 
 			this.titleBarUserControl.AddButtonVisible = true;
-			this.titleBarUserControl.AddToInstrumentButtonVisible = false;
+			this.titleBarUserControl.AddToInstrumentButtonVisible = true;
 			this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
 			this.titleBarUserControl.CloseButtonVisible = true;
 			this.titleBarUserControl.DeleteButtonVisible = true;
@@ -86,6 +86,7 @@
 			this.titleBarUserControl.TitleLabelVisible = true;
 			this.titleBarUserControl.UndoButtonVisible = false;
 			this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
+			this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.titleBarUserControl_AddToInstrumentClicked);
 			this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
 			this.titleBarUserControl.DeleteClicked += new System.EventHandler(this.titleBarUserControl_DeleteClicked);
 			// 

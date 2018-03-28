@@ -1096,22 +1096,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			switch (documentTreeViewModel.SelectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Patch:
+				case DocumentTreeNodeTypeEnum.LibraryPatch:
 					// Redirect
 					CurrentInstrumentBar_AddPatch(entityID);
 					break;
 
 				case DocumentTreeNodeTypeEnum.MidiMapping:
+				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
 					// Redirect
 					CurrentInstrumentBar_AddMidiMapping(entityID);
 					break;
 
 				case DocumentTreeNodeTypeEnum.Scale:
+				case DocumentTreeNodeTypeEnum.LibraryScale:
 					// Redirect
 					CurrentInstrumentBar_SetScale(entityID);
 					break;
 
 				default:
-					throw new ValueNotSupportedException(documentTreeViewModel.SelectedItemID);
+					throw new ValueNotSupportedException(documentTreeViewModel.SelectedNodeType);
 			}
 		}
 

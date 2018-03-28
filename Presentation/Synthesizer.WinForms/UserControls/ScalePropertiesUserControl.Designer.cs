@@ -90,33 +90,34 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// 
 			this.numericUpDownBaseFrequency.DecimalPlaces = 6;
 			this.numericUpDownBaseFrequency.Increment = new decimal(new int[] {
-			1,
-			0,
-			0,
-			65536});
+            1,
+            0,
+            0,
+            65536});
 			this.numericUpDownBaseFrequency.Location = new System.Drawing.Point(0, 0);
 			this.numericUpDownBaseFrequency.Margin = new System.Windows.Forms.Padding(0);
 			this.numericUpDownBaseFrequency.Maximum = new decimal(new int[] {
-			25000,
-			0,
-			0,
-			0});
+            25000,
+            0,
+            0,
+            0});
 			this.numericUpDownBaseFrequency.Minimum = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			this.numericUpDownBaseFrequency.Name = "numericUpDownBaseFrequency";
 			this.numericUpDownBaseFrequency.Size = new System.Drawing.Size(13, 22);
 			this.numericUpDownBaseFrequency.TabIndex = 20;
 			this.numericUpDownBaseFrequency.Value = new decimal(new int[] {
-			1,
-			0,
-			0,
-			0});
+            1,
+            0,
+            0,
+            0});
 			// 
 			// ScalePropertiesUserControl
 			// 
+			this.AddToInstrumentButtonVisible = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -127,9 +128,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.Add(this.comboBoxScaleType);
 			this.Controls.Add(this.labelBaseFrequency);
 			this.Controls.Add(this.numericUpDownBaseFrequency);
+			this.DeleteButtonVisible = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "ScalePropertiesUserControl";
-			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(505, 375);
 			this.Controls.SetChildIndex(this.numericUpDownBaseFrequency, 0);
 			this.Controls.SetChildIndex(this.labelBaseFrequency, 0);

@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			TitleBarBackColor = SystemColors.Window;
 			TitleLabelVisible = false;
 
-			AddToInstrumentButtonVisible = false;
+			AddToInstrumentButtonVisible = true;
 			PlayButtonVisible = false;
 			NewButtonVisible = true;
 

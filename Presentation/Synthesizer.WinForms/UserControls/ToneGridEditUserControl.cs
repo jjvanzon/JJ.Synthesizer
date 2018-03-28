@@ -5,6 +5,7 @@ using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -12,6 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 	{
 		private const string ID_COLUMN_NAME = "IDColumn";
 
+		public event EventHandler<EventArgs<int>> SetCurrrentInstrumentScaleRequested;
 		public event EventHandler<EventArgs<int>> CreateToneRequested;
 		public event EventHandler<ScaleAndToneEventArgs> DeleteToneRequested;
 		public event EventHandler<ScaleAndToneEventArgs> PlayToneRequested;
@@ -60,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void CreateTone()
 		{
-			CreateToneRequested?.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
+			CreateToneRequested.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
 		}
 
 		private void DeleteTone()
@@ -70,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			int? toneID = TryGetSelectedID();
 			if (toneID.HasValue)
 			{
-				DeleteToneRequested?.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID.Value));
+				DeleteToneRequested.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID.Value));
 			}
 		}
 
@@ -80,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			specializedDataGridView.EndEdit();
 
-			CloseRequested?.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
+			CloseRequested.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
 		}
 
 		private void LoseFocus()
@@ -89,25 +91,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			specializedDataGridView.EndEdit();
 
-			LoseFocusRequested?.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
+			LoseFocusRequested.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
 		}
 
 		// Events
 
-		private void titleBarUserControl_AddClicked(object sender, EventArgs e)
-		{
-			CreateTone();
-		}
+		private void titleBarUserControl_AddClicked(object sender, EventArgs e) => CreateTone();
 
-		private void titleBarUserControl_DeleteClicked(object sender, EventArgs e)
-		{
-			DeleteTone();
-		}
+		private void titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => SetCurrrentInstrumentScaleRequested(sender, new EventArgs<int>(ViewModel.ScaleID));
 
-		private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
-		{
-			Close();
-		}
+		private void titleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteTone();
+
+		private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
 
 		private void specializedDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
@@ -115,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// 'Operation is not valid because it results in a reentrant call to the SetCurrentCellAddressCore function.'
 			// when we try to reassign the data source.
 
-			BeginInvoke(new Action(() => Edited?.Invoke(this, new EventArgs<int>(ViewModel.ScaleID))));
+			BeginInvoke(new Action(() => Edited.Invoke(this, new EventArgs<int>(ViewModel.ScaleID))));
 		}
 
 		private void specializedDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -131,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			if (e.ColumnIndex == PlayColumn.Index)
 			{
 				int toneID = (int)specializedDataGridView.Rows[e.RowIndex].Cells[IDColumn.Name].Value;
-				PlayToneRequested?.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID));
+				PlayToneRequested.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID));
 			}
 		}
 
@@ -157,7 +152,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 						int? toneID = TryGetSelectedID();
 						if (toneID.HasValue)
 						{
-							PlayToneRequested?.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID.Value));
+							PlayToneRequested.Invoke(this, new ScaleAndToneEventArgs(ViewModel.ScaleID, toneID.Value));
 							e.Handled = true;
 						}
 					}

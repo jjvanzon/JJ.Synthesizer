@@ -149,8 +149,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				CanGoBackward = i != 0,
 				CanGoForward = i != lastMidiMappingIndex,
 				CanPlay = false,
-				CanDelete = false,
-				CanExpand = false
+				CanDelete = true,
+				CanExpand = true
 			}).ToList();
 
 			string getName(Patch patch)
