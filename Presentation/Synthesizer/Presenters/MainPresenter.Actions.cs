@@ -909,7 +909,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Partials
 			string titleBar = _titleBarPresenter.Show(document);
 			MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: true);
-			viewModel.CurrentInstrument = _currentInstrumentBarPresenter.Load(viewModel.CurrentInstrument);
+			viewModel.CurrentInstrument = _currentInstrumentBarPresenter.OpenDocument(viewModel.CurrentInstrument);
 
 			// DispatchViewModel
 			MainViewModel.Document = viewModel;

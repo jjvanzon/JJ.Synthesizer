@@ -44,16 +44,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			Document document = _documentRepository.Get(userInput.DocumentID);
 
-			IList<MidiMapping> midiMappings = _systemFacade.GetDefaultMidiMappings();
+			Scale scale = _scaleRepository.TryGet(userInput.Scale.ID);
 
-			Scale scale = midiMappings.SelectMany(x => x.MidiMappingElements)
-			                          .Select(x => x.Scale)
-			                          .FirstOrDefault(x => x != null);
-
+			IList<MidiMapping> midiMappings = userInput.MidiMappings
+			                                           .Select(x => _midiMappingRepository.Get(x.EntityID))
+			                                           .ToList();
 			IList<Patch> patches = userInput.Patches
-			                                .Select(x => x.EntityID)
-			                                .Select(x => _patchRepository.Get(x))
+			                                .Select(x => _patchRepository.Get(x.EntityID))
 			                                .ToList();
+			if (midiMappings.Count == 0)
+			{
+				midiMappings = _systemFacade.GetDefaultMidiMappings();
+			}
+
+			if (scale == null)
+			{
+				scale = _systemFacade.GetDefaultMidiMappings()
+				                     .SelectMany(x => x.MidiMappingElements)
+				                     .Select(x => x.Scale)
+				                     .FirstOrDefault(x => x != null);
+			}
 
 			return (document, scale, midiMappings, patches);
 		}
@@ -86,8 +96,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					entities.patches.Add(patch);
 				});
 		}
-
-		public CurrentInstrumentBarViewModel Load(CurrentInstrumentBarViewModel userInput) => Refresh(userInput);
 
 		public CurrentInstrumentBarViewModel MoveMidiMapping(CurrentInstrumentBarViewModel userInput, int midiMappingID, int newPosition)
 		{
@@ -147,6 +155,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return MovePatch(userInput, patchID, currentPosition + 1);
 		}
 
+		public CurrentInstrumentBarViewModel OpenDocument(CurrentInstrumentBarViewModel userInput) => Refresh(userInput);
+
 		public CurrentInstrumentBarViewModel Play(CurrentInstrumentBarViewModel userInput)
 		{
 			Outlet outlet = null;
@@ -203,7 +213,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		[Obsolete("Call Load instead.", true)]
-		public override void Show(CurrentInstrumentBarViewModel viewModel) => throw new NotSupportedException("Call Load instead.");
+		[Obsolete("Call OpenDocument instead.", true)]
+		public override void Show(CurrentInstrumentBarViewModel viewModel) => throw new NotSupportedException("Call OpenDocument instead.");
 	}
 }

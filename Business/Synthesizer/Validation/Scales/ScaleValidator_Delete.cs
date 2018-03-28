@@ -19,7 +19,6 @@ namespace JJ.Business.Synthesizer.Validation.Scales
 				string midiMappingElemenIdentifier = $"{ResourceFormatter.MidiMappingElement} ({ValidationHelper.GetUserFriendlyIdentifierLong(midiMappingElement)})";
 				string message = CommonResourceFormatter.CannotDelete_WithName_AndDependentItem(scaleIdentifier, midiMappingElemenIdentifier);
 				Messages.Add(message);
-
 			}
 		}
 	}
