@@ -451,7 +451,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// CurrentInstrument
 
-		private void AddPatchToCurrentInstrument(int patchID)
+		private void CurrentInstrumentBar_AddMidiMapping(int midiMappingID)
+		{
+			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
+
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.AddMidiMapping(userInput, midiMappingID));
+		}
+
+		private void CurrentInstrumentBar_AddPatch(int patchID)
 		{
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
@@ -513,10 +520,37 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(autoPatchPopupViewModel);
 		}
 
+		public void CurrentInstrumentBar_ExpandMidiMapping(int midiMappingID)
+		{
+			// Redirect
+			MidiMapping_Expand(midiMappingID);
+		}
+
 		public void CurrentInstrumentBar_ExpandPatch(int patchID)
 		{
 			// Redirect
 			Patch_Expand(patchID);
+		}
+
+		public void CurrentInstrumentBar_MoveMidiMapping(int midiMappingID, int newPosition)
+		{
+			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
+
+			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMapping(viewModel, midiMappingID, newPosition));
+		}
+
+		public void CurrentInstrumentBar_MoveMidiMappingBackward(int midiMappingID)
+		{
+			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
+
+			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingBackward(viewModel, midiMappingID));
+		}
+
+		public void CurrentInstrumentBar_MoveMidiMappingForward(int midiMappingID)
+		{
+			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
+
+			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingForward(viewModel, midiMappingID));
 		}
 
 		public void CurrentInstrumentBar_MovePatch(int patchID, int newPosition)
@@ -554,11 +588,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.PlayPatch(userInput, patchID));
 		}
 
-		public void CurrentInstrumentBarRemovePatch(int patchID)
+		public void CurrentInstrumentBar_RemoveMidiMapping(int midiMappingID)
+		{
+			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
+
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.RemoveMidiMapping(userInput, midiMappingID));
+		}
+
+		public void CurrentInstrumentBar_RemovePatch(int patchID)
 		{
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
 			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.RemovePatch(userInput, patchID));
+		}
+
+		private void CurrentInstrumentBar_SetScale(int scaleID)
+		{
+			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
+
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.SetScale(userInput, scaleID));
 		}
 
 		// Curve
@@ -1037,15 +1085,34 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Involves both DocumentTree and CurrentInstrument view,
 			// so cannot be handled by a single sub-presenter.
 
-			if (!MainViewModel.Document.DocumentTree.SelectedItemID.HasValue)
+			DocumentTreeViewModel documentTreeViewModel = MainViewModel.Document.DocumentTree;
+
+			if (!documentTreeViewModel.SelectedItemID.HasValue)
 			{
-				throw new NotHasValueException(() => MainViewModel.Document.DocumentTree.SelectedItemID);
+				throw new NotHasValueException(() => documentTreeViewModel.SelectedItemID);
 			}
+			int entityID = documentTreeViewModel.SelectedItemID.Value;
 
-			int patchID = MainViewModel.Document.DocumentTree.SelectedItemID.Value;
+			switch (documentTreeViewModel.SelectedNodeType)
+			{
+				case DocumentTreeNodeTypeEnum.Patch:
+					// Redirect
+					CurrentInstrumentBar_AddPatch(entityID);
+					break;
 
-			// Redirect
-			AddPatchToCurrentInstrument(patchID);
+				case DocumentTreeNodeTypeEnum.MidiMapping:
+					// Redirect
+					CurrentInstrumentBar_AddMidiMapping(entityID);
+					break;
+
+				case DocumentTreeNodeTypeEnum.Scale:
+					// Redirect
+					CurrentInstrumentBar_SetScale(entityID);
+					break;
+
+				default:
+					throw new ValueNotSupportedException(documentTreeViewModel.SelectedItemID);
+			}
 		}
 
 		public void DocumentTree_Create()
@@ -1223,8 +1290,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
-				PatchDetails_Show(viewModel.CreatedEntityID);
-				PatchProperties_Show(viewModel.CreatedEntityID);
+				Patch_Expand(viewModel.CreatedEntityID);
 			}
 		}
 
@@ -1806,19 +1872,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// MidiMapping
 
-		private void MidiMappingDetails_Show(int id)
+		public void MidiMappingDetails_AddToInstrument(int id)
 		{
-			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
-
-			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.Show(userInput));
-		}
-
-		private void MidiMappingDetails_Switch(int id)
-		{
-			if (MainViewModel.DetailsOrGridPanelVisible)
-			{
-				MidiMappingDetails_Show(id);
-			}
+			// Redirect
+			CurrentInstrumentBar_AddMidiMapping(id);
 		}
 
 		public void MidiMappingDetails_Close(int id)
@@ -1903,6 +1960,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
 
 			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.SelectElement(userInput, midiMappingElementID));
+		}
+
+		private void MidiMappingDetails_Show(int id)
+		{
+			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
+
+			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.Show(userInput));
+		}
+
+		private void MidiMappingDetails_Switch(int id)
+		{
+			if (MainViewModel.DetailsOrGridPanelVisible)
+			{
+				MidiMappingDetails_Show(id);
+			}
 		}
 
 		/// <summary> Affects multiple partials. </summary>
@@ -1999,6 +2071,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MidiMappingElementProperties_Show(id);
 			}
 		}
+
+		private void MidiMapping_Expand(int id) => MidiMappingDetails_Show(id);
 
 		// Node
 
@@ -2758,7 +2832,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void PatchDetails_AddToInstrument(int id)
 		{
-			AddPatchToCurrentInstrument(id);
+			// Redirect
+			CurrentInstrumentBar_AddPatch(id);
 		}
 
 		public void PatchDetails_Close(int id)
@@ -2858,7 +2933,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void PatchProperties_AddToInstrument(int id)
 		{
-			AddPatchToCurrentInstrument(id);
+			// Redirect
+			CurrentInstrumentBar_AddPatch(id);
 		}
 
 		public void PatchProperties_ChangeHasDimension(int id)
@@ -3125,6 +3201,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
+		public void ScaleProperties_SetInstrumentScale(int scaleID)
+		{
+			// Redirect
+			CurrentInstrumentBar_SetScale(scaleID);
+		}
+
 		// Tone
 
 		public void Tone_Create(int scaleID)
@@ -3175,6 +3257,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
+		public void ToneGridEdit_Edit(int scaleID)
+		{
+			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
+
+			ExecuteUpdateAction(userInput, () => _toneGridEditPresenter.Edit(userInput));
+		}
+
 		public void ToneGridEdit_LoseFocus(int scaleID)
 		{
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
@@ -3182,11 +3271,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteUpdateAction(userInput, () => _toneGridEditPresenter.LoseFocus(userInput));
 		}
 
-		public void ToneGridEdit_Edit(int scaleID)
+		public void ToneGridEdit_SetInstrumentScale(int scaleID)
 		{
-			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
-
-			ExecuteUpdateAction(userInput, () => _toneGridEditPresenter.Edit(userInput));
+			// Redirect
+			CurrentInstrumentBar_SetScale(scaleID);
 		}
 
 		public void Tone_Play(int scaleID, int toneID)

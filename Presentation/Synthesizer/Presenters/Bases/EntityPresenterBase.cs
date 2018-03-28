@@ -11,25 +11,64 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 	internal abstract class EntityPresenterBase<TEntity, TViewModel> : PresenterBase<TViewModel>
 		where TViewModel : ScreenViewModelBase
 	{
+		private static readonly Action<TViewModel> _defaultNonPersistedDelegate = _ => { };
+		private static readonly Action<TEntity> _defaultBusinessAction = _ => { };
+		private static readonly Func<TEntity, IResult> _defaultBusinessFunc = _ => ResultHelper.Successful;
+
 		protected abstract TEntity GetEntity(TViewModel userInput);
 
 		protected abstract TViewModel ToViewModel(TEntity entity);
 
 		public virtual void Show(TViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
-		public virtual TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput, _ => { });
+		public virtual TViewModel Refresh(TViewModel userInput) => ExecuteAction(userInput, _defaultBusinessAction);
 
 		/// <see cref="ExecuteAction(TViewModel,Func{TEntity, IResult},Action{TViewModel})"/>
 		protected TViewModel ExecuteAction(
-			TViewModel userInput, 
+			TViewModel userInput,
 			Action<TEntity> businessDelegate = null,
 			Action<TViewModel> nonPersistedDelegate = null)
 		{
-			return ExecuteAction(userInput, x =>
-			{
-				businessDelegate?.Invoke(x);
-				return ResultHelper.Successful;
-			}, nonPersistedDelegate);
+			return ExecuteAction(
+				userInput,
+				x =>
+				{
+					businessDelegate?.Invoke(x);
+					return ResultHelper.Successful;
+				},
+				nonPersistedDelegate ?? _defaultNonPersistedDelegate);
+		}
+
+		protected TViewModel ExecuteAction(
+			TViewModel userInput,
+			Func<TEntity, IResult> businessDelegate = null,
+			Action<TViewModel> nonPersistedDelegate = null)
+		{
+			
+			return ExecuteAction(
+				userInput,
+				() => GetEntity(userInput),
+				x =>
+				{
+					businessDelegate?.Invoke(x);
+					return ResultHelper.Successful;
+				},
+				nonPersistedDelegate ?? _defaultNonPersistedDelegate);
+		}
+
+		protected TViewModel ExecuteAction(
+			TViewModel userInput,
+			Func<TEntity> getEntityDelegate)
+		{
+			return ExecuteAction(userInput, getEntityDelegate, _defaultBusinessFunc, _defaultNonPersistedDelegate);
+		}
+
+		protected TViewModel ExecuteAction(
+			TViewModel userInput,
+			Func<TEntity> getEntityDelegate,
+			Func<TEntity, IResult> businessDelegate)
+		{
+			return ExecuteAction(userInput, getEntityDelegate, businessDelegate, _defaultNonPersistedDelegate);
 		}
 
 		/// <summary>
@@ -40,10 +79,14 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 		/// <param name="businessDelegate">Can return null.</param>
 		protected TViewModel ExecuteAction(
 			TViewModel userInput,
-			Func<TEntity, IResult> businessDelegate = null,
-			Action<TViewModel> nonPersistedDelegate = null)
+			Func<TEntity> getEntityDelegate,
+			Func<TEntity, IResult> businessDelegate,
+			Action<TViewModel> nonPersistedDelegate)
 		{
+			if (businessDelegate == null) throw new ArgumentNullException(nameof(businessDelegate));
 			if (userInput == null) throw new NullException(() => userInput);
+			if (getEntityDelegate == null) throw new NullException(() => getEntityDelegate);
+			if (nonPersistedDelegate == null) throw new ArgumentNullException(nameof(nonPersistedDelegate));
 
 			// RefreshCounter
 			userInput.RefreshID = RefreshIDProvider.GetRefreshID();
@@ -52,10 +95,10 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 			userInput.Successful = false;
 
 			// ToEntity
-			TEntity entity = GetEntity(userInput);
+			TEntity entity = getEntityDelegate();
 
 			// Business
-			IResult result = businessDelegate?.Invoke(entity);
+			IResult result = businessDelegate.Invoke(entity);
 
 			// ToViewModel
 			TViewModel viewModel = ToViewModel(entity);
@@ -72,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 
 			// Non-Persisted
 			// (might use viewModel.Successful)
-			nonPersistedDelegate?.Invoke(viewModel);
+			nonPersistedDelegate.Invoke(viewModel);
 
 			return viewModel;
 		}

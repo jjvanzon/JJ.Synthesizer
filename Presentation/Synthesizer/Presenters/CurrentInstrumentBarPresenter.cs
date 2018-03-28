@@ -206,10 +206,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			return ExecuteAction(
 				userInput,
-				entities =>
+				() =>
 				{
+					(Document document, _, IList<MidiMapping> midiMappings, IList<Patch> patches) = GetEntity(userInput);
+
 					Scale scale = _scaleRepository.Get(scaleID);
-					entities.scale = scale;
+
+					return (document, scale, midiMappings, patches);
 				});
 		}
 

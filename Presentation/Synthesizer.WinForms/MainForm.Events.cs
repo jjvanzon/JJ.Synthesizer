@@ -386,7 +386,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBarRemovePatch(e.Value);
+					_mainPresenter.CurrentInstrumentBar_RemovePatch(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
