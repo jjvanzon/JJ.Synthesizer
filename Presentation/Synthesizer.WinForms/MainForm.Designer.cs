@@ -135,25 +135,16 @@
 			// 
 			// midiMappingDetailsUserControl
 			// 
-			this.midiMappingDetailsUserControl.AddButtonVisible = false;
-			this.midiMappingDetailsUserControl.AddToInstrumentButtonVisible = false;
 			this.midiMappingDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.midiMappingDetailsUserControl.CloseButtonVisible = true;
-			this.midiMappingDetailsUserControl.DeleteButtonVisible = true;
 			this.midiMappingDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.midiMappingDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.midiMappingDetailsUserControl.Location = new System.Drawing.Point(0, 0);
 			this.midiMappingDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
 			this.midiMappingDetailsUserControl.Name = "midiMappingDetailsUserControl";
-			this.midiMappingDetailsUserControl.NewButtonVisible = true;
-			this.midiMappingDetailsUserControl.PlayButtonVisible = false;
-			this.midiMappingDetailsUserControl.RefreshButtonVisible = false;
-			this.midiMappingDetailsUserControl.SaveButtonVisible = false;
 			this.midiMappingDetailsUserControl.Size = new System.Drawing.Size(851, 532);
 			this.midiMappingDetailsUserControl.TabIndex = 1;
 			this.midiMappingDetailsUserControl.TitleBarBackColor = System.Drawing.SystemColors.Window;
 			this.midiMappingDetailsUserControl.TitleBarText = "";
-			this.midiMappingDetailsUserControl.TitleLabelVisible = false;
 			this.midiMappingDetailsUserControl.ViewModel = null;
 			this.midiMappingDetailsUserControl.Visible = false;
 			// 
@@ -211,469 +202,302 @@
 			// 
 			// patchDetailsUserControl
 			// 
-			this.patchDetailsUserControl.AddButtonVisible = false;
-			this.patchDetailsUserControl.AddToInstrumentButtonVisible = true;
 			this.patchDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.patchDetailsUserControl.CloseButtonVisible = true;
-			this.patchDetailsUserControl.DeleteButtonVisible = true;
 			this.patchDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.patchDetailsUserControl.ExpandButtonVisible = true;
 			this.patchDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
 			this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.patchDetailsUserControl.Name = "patchDetailsUserControl";
-			this.patchDetailsUserControl.PlayButtonVisible = true;
-			this.patchDetailsUserControl.RefreshButtonVisible = false;
-			this.patchDetailsUserControl.SaveButtonVisible = false;
 			this.patchDetailsUserControl.Size = new System.Drawing.Size(851, 532);
 			this.patchDetailsUserControl.TabIndex = 1;
 			this.patchDetailsUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.patchDetailsUserControl.TitleBarText = "Patch Details";
-			this.patchDetailsUserControl.TitleLabelVisible = true;
 			this.patchDetailsUserControl.ViewModel = null;
 			this.patchDetailsUserControl.Visible = false;
 			// 
 			// midiMappingElementPropertiesUserControl
 			// 
-			this.midiMappingElementPropertiesUserControl.AddButtonVisible = false;
-			this.midiMappingElementPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.midiMappingElementPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.midiMappingElementPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.midiMappingElementPropertiesUserControl.CloseButtonVisible = true;
-			this.midiMappingElementPropertiesUserControl.DeleteButtonVisible = true;
 			this.midiMappingElementPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.midiMappingElementPropertiesUserControl.ExpandButtonVisible = true;
 			this.midiMappingElementPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.midiMappingElementPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.midiMappingElementPropertiesUserControl.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
 			this.midiMappingElementPropertiesUserControl.Name = "midiMappingElementPropertiesUserControl";
-			this.midiMappingElementPropertiesUserControl.PlayButtonVisible = false;
-			this.midiMappingElementPropertiesUserControl.RefreshButtonVisible = false;
-			this.midiMappingElementPropertiesUserControl.SaveButtonVisible = false;
 			this.midiMappingElementPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.midiMappingElementPropertiesUserControl.TabIndex = 1;
 			this.midiMappingElementPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.midiMappingElementPropertiesUserControl.TitleBarText = "MIDI Mapping Element Properties";
-			this.midiMappingElementPropertiesUserControl.TitleLabelVisible = true;
 			this.midiMappingElementPropertiesUserControl.ViewModel = null;
 			this.midiMappingElementPropertiesUserControl.Visible = false;
 			// 
 			// libraryPropertiesUserControl
 			// 
-			this.libraryPropertiesUserControl.AddButtonVisible = false;
-			this.libraryPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.libraryPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.libraryPropertiesUserControl.CloseButtonVisible = true;
-			this.libraryPropertiesUserControl.DeleteButtonVisible = true;
 			this.libraryPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.libraryPropertiesUserControl.ExpandButtonVisible = true;
 			this.libraryPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.libraryPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.libraryPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.libraryPropertiesUserControl.Name = "libraryPropertiesUserControl";
-			this.libraryPropertiesUserControl.PlayButtonVisible = true;
-			this.libraryPropertiesUserControl.RefreshButtonVisible = false;
-			this.libraryPropertiesUserControl.SaveButtonVisible = false;
 			this.libraryPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.libraryPropertiesUserControl.TabIndex = 1;
 			this.libraryPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.libraryPropertiesUserControl.TitleBarText = "Library Properties";
-			this.libraryPropertiesUserControl.TitleLabelVisible = true;
 			this.libraryPropertiesUserControl.ViewModel = null;
 			this.libraryPropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForNumber
 			// 
-			this.operatorPropertiesUserControl_ForNumber.AddButtonVisible = false;
-			this.operatorPropertiesUserControl_ForNumber.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForNumber.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl_ForNumber.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl_ForNumber.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForNumber.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl_ForNumber.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForNumber.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForNumber.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForNumber.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
-			this.operatorPropertiesUserControl_ForNumber.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl_ForNumber.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForNumber.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForNumber.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForNumber.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl_ForNumber.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForNumber.ViewModel = null;
 			this.operatorPropertiesUserControl_ForNumber.Visible = false;
 			// 
 			// operatorPropertiesUserControl_WithCollectionRecalculation
 			// 
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.AddButtonVisible = false;
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Name = "operatorPropertiesUserControl_WithCollectionRecalculation";
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.TabIndex = 1;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = null;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForInletsToDimension
 			// 
-			this.operatorPropertiesUserControl_ForInletsToDimension.AddButtonVisible = false;
-			this.operatorPropertiesUserControl_ForInletsToDimension.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForInletsToDimension.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForInletsToDimension.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl_ForInletsToDimension.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl_ForInletsToDimension.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForInletsToDimension.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl_ForInletsToDimension.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForInletsToDimension.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForInletsToDimension.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForInletsToDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.operatorPropertiesUserControl_ForInletsToDimension.Name = "operatorPropertiesUserControl_ForInletsToDimension";
-			this.operatorPropertiesUserControl_ForInletsToDimension.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl_ForInletsToDimension.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForInletsToDimension.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForInletsToDimension.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForInletsToDimension.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl_ForInletsToDimension.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForInletsToDimension.ViewModel = null;
 			this.operatorPropertiesUserControl_ForInletsToDimension.Visible = false;
 			// 
 			// audioOutputPropertiesUserControl
 			// 
-			this.audioOutputPropertiesUserControl.AddButtonVisible = false;
-			this.audioOutputPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.audioOutputPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.audioOutputPropertiesUserControl.CloseButtonVisible = true;
-			this.audioOutputPropertiesUserControl.DeleteButtonVisible = false;
 			this.audioOutputPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.audioOutputPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.audioOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.audioOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
-			this.audioOutputPropertiesUserControl.PlayButtonVisible = true;
-			this.audioOutputPropertiesUserControl.RefreshButtonVisible = false;
-			this.audioOutputPropertiesUserControl.SaveButtonVisible = false;
 			this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.audioOutputPropertiesUserControl.TabIndex = 1;
 			this.audioOutputPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.audioOutputPropertiesUserControl.TitleBarText = "Audio Output Properties";
-			this.audioOutputPropertiesUserControl.TitleLabelVisible = true;
 			this.audioOutputPropertiesUserControl.ViewModel = null;
 			this.audioOutputPropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForCache
 			// 
-			this.operatorPropertiesUserControl_ForCache.AddButtonVisible = false;
-			this.operatorPropertiesUserControl_ForCache.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForCache.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForCache.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl_ForCache.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl_ForCache.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCache.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl_ForCache.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCache.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForCache.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForCache.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.operatorPropertiesUserControl_ForCache.Name = "operatorPropertiesUserControl_ForCache";
-			this.operatorPropertiesUserControl_ForCache.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl_ForCache.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForCache.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForCache.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForCache.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl_ForCache.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForCache.ViewModel = null;
 			this.operatorPropertiesUserControl_ForCache.Visible = false;
 			// 
 			// operatorPropertiesUserControl_WithInterpolation
 			// 
-			this.operatorPropertiesUserControl_WithInterpolation.AddButtonVisible = false;
-			this.operatorPropertiesUserControl_WithInterpolation.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_WithInterpolation.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_WithInterpolation.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl_WithInterpolation.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl_WithInterpolation.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_WithInterpolation.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl_WithInterpolation.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_WithInterpolation.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_WithInterpolation.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_WithInterpolation.Margin = new System.Windows.Forms.Padding(4);
 			this.operatorPropertiesUserControl_WithInterpolation.Name = "operatorPropertiesUserControl_WithInterpolation";
-			this.operatorPropertiesUserControl_WithInterpolation.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl_WithInterpolation.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_WithInterpolation.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_WithInterpolation.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_WithInterpolation.TabIndex = 1;
 			this.operatorPropertiesUserControl_WithInterpolation.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_WithInterpolation.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl_WithInterpolation.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_WithInterpolation.ViewModel = null;
 			this.operatorPropertiesUserControl_WithInterpolation.Visible = false;
 			// 
 			// nodePropertiesUserControl
 			// 
-			this.nodePropertiesUserControl.AddButtonVisible = false;
-			this.nodePropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.nodePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.nodePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.nodePropertiesUserControl.CloseButtonVisible = true;
-			this.nodePropertiesUserControl.DeleteButtonVisible = true;
 			this.nodePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.nodePropertiesUserControl.ExpandButtonVisible = true;
 			this.nodePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.nodePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.nodePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
-			this.nodePropertiesUserControl.PlayButtonVisible = false;
-			this.nodePropertiesUserControl.RefreshButtonVisible = false;
-			this.nodePropertiesUserControl.SaveButtonVisible = false;
 			this.nodePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.nodePropertiesUserControl.TabIndex = 1;
 			this.nodePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.nodePropertiesUserControl.TitleBarText = "Node Properties";
-			this.nodePropertiesUserControl.TitleLabelVisible = true;
 			this.nodePropertiesUserControl.ViewModel = null;
 			this.nodePropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForCurve
 			// 
-			this.operatorPropertiesUserControl_ForCurve.AddButtonVisible = false;
-			this.operatorPropertiesUserControl_ForCurve.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForCurve.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForCurve.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl_ForCurve.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl_ForCurve.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCurve.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl_ForCurve.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForCurve.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForCurve.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForCurve.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
-			this.operatorPropertiesUserControl_ForCurve.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl_ForCurve.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForCurve.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForCurve.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForCurve.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl_ForCurve.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForCurve.ViewModel = null;
 			this.operatorPropertiesUserControl_ForCurve.Visible = false;
 			// 
 			// scalePropertiesUserControl
 			// 
-			this.scalePropertiesUserControl.AddButtonVisible = false;
-			this.scalePropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.scalePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.scalePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.scalePropertiesUserControl.CloseButtonVisible = true;
-			this.scalePropertiesUserControl.DeleteButtonVisible = true;
 			this.scalePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.scalePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.scalePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.scalePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
-			this.scalePropertiesUserControl.PlayButtonVisible = false;
-			this.scalePropertiesUserControl.RefreshButtonVisible = false;
-			this.scalePropertiesUserControl.SaveButtonVisible = false;
 			this.scalePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.scalePropertiesUserControl.TabIndex = 1;
 			this.scalePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.scalePropertiesUserControl.TitleBarText = "Scale Properties";
-			this.scalePropertiesUserControl.TitleLabelVisible = true;
 			this.scalePropertiesUserControl.ViewModel = null;
 			this.scalePropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForPatchInlet
 			// 
-			this.operatorPropertiesUserControl_ForPatchInlet.AddButtonVisible = false;
-			this.operatorPropertiesUserControl_ForPatchInlet.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForPatchInlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForPatchInlet.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl_ForPatchInlet.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl_ForPatchInlet.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchInlet.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl_ForPatchInlet.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchInlet.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
-			this.operatorPropertiesUserControl_ForPatchInlet.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl_ForPatchInlet.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForPatchInlet.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForPatchInlet.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForPatchInlet.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl_ForPatchInlet.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForPatchInlet.ViewModel = null;
 			this.operatorPropertiesUserControl_ForPatchInlet.Visible = false;
 			// 
 			// documentPropertiesUserControl
 			// 
-			this.documentPropertiesUserControl.AddButtonVisible = false;
-			this.documentPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.documentPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.documentPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.documentPropertiesUserControl.CloseButtonVisible = true;
-			this.documentPropertiesUserControl.DeleteButtonVisible = false;
 			this.documentPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.documentPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.documentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.documentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
-			this.documentPropertiesUserControl.PlayButtonVisible = true;
-			this.documentPropertiesUserControl.RefreshButtonVisible = false;
-			this.documentPropertiesUserControl.SaveButtonVisible = false;
 			this.documentPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.documentPropertiesUserControl.TabIndex = 1;
 			this.documentPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.documentPropertiesUserControl.TitleBarText = "Document Properties";
-			this.documentPropertiesUserControl.TitleLabelVisible = true;
 			this.documentPropertiesUserControl.ViewModel = null;
 			this.documentPropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl
 			// 
-			this.operatorPropertiesUserControl.AddButtonVisible = false;
-			this.operatorPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.operatorPropertiesUserControl.Name = "operatorPropertiesUserControl";
-			this.operatorPropertiesUserControl.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl.TabIndex = 1;
 			this.operatorPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl.ViewModel = null;
 			this.operatorPropertiesUserControl.Visible = false;
 			// 
 			// patchPropertiesUserControl
 			// 
-			this.patchPropertiesUserControl.AddButtonVisible = false;
-			this.patchPropertiesUserControl.AddToInstrumentButtonVisible = true;
 			this.patchPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.patchPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.patchPropertiesUserControl.CloseButtonVisible = true;
-			this.patchPropertiesUserControl.DeleteButtonVisible = true;
 			this.patchPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.patchPropertiesUserControl.ExpandButtonVisible = true;
 			this.patchPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.patchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.patchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.patchPropertiesUserControl.Name = "patchPropertiesUserControl";
-			this.patchPropertiesUserControl.PlayButtonVisible = true;
-			this.patchPropertiesUserControl.RefreshButtonVisible = false;
-			this.patchPropertiesUserControl.SaveButtonVisible = false;
 			this.patchPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.patchPropertiesUserControl.TabIndex = 1;
 			this.patchPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.patchPropertiesUserControl.TitleBarText = "Patch Properties";
-			this.patchPropertiesUserControl.TitleLabelVisible = true;
 			this.patchPropertiesUserControl.ViewModel = null;
 			this.patchPropertiesUserControl.Visible = false;
 			// 
 			// audioFileOutputPropertiesUserControl
 			// 
-			this.audioFileOutputPropertiesUserControl.AddButtonVisible = false;
-			this.audioFileOutputPropertiesUserControl.AddToInstrumentButtonVisible = false;
 			this.audioFileOutputPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.audioFileOutputPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.audioFileOutputPropertiesUserControl.CloseButtonVisible = true;
-			this.audioFileOutputPropertiesUserControl.DeleteButtonVisible = true;
 			this.audioFileOutputPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.audioFileOutputPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
 			this.audioFileOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.audioFileOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(0);
 			this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
-			this.audioFileOutputPropertiesUserControl.PlayButtonVisible = false;
-			this.audioFileOutputPropertiesUserControl.RefreshButtonVisible = false;
-			this.audioFileOutputPropertiesUserControl.SaveButtonVisible = false;
 			this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
 			this.audioFileOutputPropertiesUserControl.TabIndex = 1;
 			this.audioFileOutputPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.audioFileOutputPropertiesUserControl.TitleBarText = "Title";
-			this.audioFileOutputPropertiesUserControl.TitleLabelVisible = true;
 			this.audioFileOutputPropertiesUserControl.ViewModel = null;
 			this.audioFileOutputPropertiesUserControl.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForSample
 			// 
-			this.operatorPropertiesUserControl_ForSample.AddButtonVisible = false;
-			this.operatorPropertiesUserControl_ForSample.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForSample.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForSample.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl_ForSample.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl_ForSample.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForSample.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl_ForSample.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForSample.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
-			this.operatorPropertiesUserControl_ForSample.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl_ForSample.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForSample.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForSample.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForSample.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl_ForSample.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForSample.ViewModel = null;
 			this.operatorPropertiesUserControl_ForSample.Visible = false;
 			// 
 			// operatorPropertiesUserControl_ForPatchOutlet
 			// 
-			this.operatorPropertiesUserControl_ForPatchOutlet.AddButtonVisible = false;
-			this.operatorPropertiesUserControl_ForPatchOutlet.AddToInstrumentButtonVisible = false;
 			this.operatorPropertiesUserControl_ForPatchOutlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.operatorPropertiesUserControl_ForPatchOutlet.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.operatorPropertiesUserControl_ForPatchOutlet.CloseButtonVisible = true;
-			this.operatorPropertiesUserControl_ForPatchOutlet.DeleteButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchOutlet.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operatorPropertiesUserControl_ForPatchOutlet.ExpandButtonVisible = true;
 			this.operatorPropertiesUserControl_ForPatchOutlet.Font = new System.Drawing.Font("Verdana", 10F);
 			this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
-			this.operatorPropertiesUserControl_ForPatchOutlet.PlayButtonVisible = true;
-			this.operatorPropertiesUserControl_ForPatchOutlet.RefreshButtonVisible = false;
-			this.operatorPropertiesUserControl_ForPatchOutlet.SaveButtonVisible = false;
 			this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(333, 532);
 			this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarText = "Operator Properties";
-			this.operatorPropertiesUserControl_ForPatchOutlet.TitleLabelVisible = true;
 			this.operatorPropertiesUserControl_ForPatchOutlet.ViewModel = null;
 			this.operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
 			// 

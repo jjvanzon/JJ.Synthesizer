@@ -88,57 +88,57 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			set => _titleBarUserControl.Text = value;
 		}
 
-		public bool AddButtonVisible
+		protected bool AddButtonVisible
 		{
 			get => _titleBarUserControl.AddButtonVisible;
 			set => _titleBarUserControl.AddButtonVisible = value;
 		}
 
-		public bool AddToInstrumentButtonVisible
+		protected bool AddToInstrumentButtonVisible
 		{
 			get => _titleBarUserControl.AddToInstrumentButtonVisible;
 			set => _titleBarUserControl.AddToInstrumentButtonVisible = value;
 		}
 
-		public bool CloseButtonVisible
+		protected bool CloseButtonVisible
 		{
 			get => _titleBarUserControl.CloseButtonVisible;
 			set => _titleBarUserControl.CloseButtonVisible = value;
 		}
 
 		[DefaultValue(false)]
-		public bool ExpandButtonVisible
+		protected bool ExpandButtonVisible
 		{
 			get => _titleBarUserControl.ExpandButtonVisible;
 			set => _titleBarUserControl.ExpandButtonVisible = value;
 		}
 
 		[DefaultValue(false)]
-		public bool NewButtonVisible
+		protected bool NewButtonVisible
 		{
 			get => _titleBarUserControl.NewButtonVisible;
 			set => _titleBarUserControl.NewButtonVisible = value;
 		}
 
-		public bool PlayButtonVisible
+		protected bool PlayButtonVisible
 		{
 			get => _titleBarUserControl.PlayButtonVisible;
 			set => _titleBarUserControl.PlayButtonVisible = value;
 		}
 
-		public bool DeleteButtonVisible
+		protected bool DeleteButtonVisible
 		{
 			get => _titleBarUserControl.DeleteButtonVisible;
 			set => _titleBarUserControl.DeleteButtonVisible = value;
 		}
 
-		public bool RefreshButtonVisible
+		protected bool RefreshButtonVisible
 		{
 			get => _titleBarUserControl.RefreshButtonVisible;
 			set => _titleBarUserControl.RefreshButtonVisible = value;
 		}
 
-		public bool SaveButtonVisible
+		protected bool SaveButtonVisible
 		{
 			get => _titleBarUserControl.SaveButtonVisible;
 			set => _titleBarUserControl.SaveButtonVisible = value;
@@ -150,13 +150,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			set => _titleBarUserControl.BackColor = value;
 		}
 
-		public bool TitleLabelVisible
+		protected bool TitleLabelVisible
 		{
 			get => _titleBarUserControl.TitleLabelVisible;
 			set => _titleBarUserControl.TitleLabelVisible = value;
 		}
 
-		public int TitleBarHeight => _titleBarUserControl.Height;
+		protected int TitleBarHeight => _titleBarUserControl.Height;
 
 		protected virtual void PositionControls()
 		{
@@ -216,7 +216,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			PlayRequested?.Invoke(this, new EventArgs<int>(GetID()));
 		}
 
-		protected virtual void Delete()
+		protected void Delete()
 		{
 			DeleteRequested?.Invoke(this, new EventArgs<int>(GetID()));
 		}
