@@ -1664,6 +1664,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void DocumentTree_SelectScale(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectScale(x, id));
+
+			// Redirect
+			ScaleProperties_Switch(id);
 		}
 
 		public void DocumentTree_SelectScales()
@@ -3133,17 +3136,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private void Scale_Show(int id)
 		{
-			// GetViewModel
-			ScalePropertiesViewModel viewModel1 = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
-			ToneGridEditViewModel viewModel2 = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID: id);
+			// Redirect
+			ScaleProperties_Show(id);
+			ToneGridEdit_Show(id);
+		}
 
-			// Partial Actions
-			_scalePropertiesPresenter.Show(viewModel1);
-			_toneGridEditPresenter.Show(viewModel2);
+		private void ScaleProperties_Show(int id)
+		{
+			ScalePropertiesViewModel viewModel = ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id);
 
-			// DispatchViewModel
-			DispatchViewModel(viewModel1);
-			DispatchViewModel(viewModel2);
+			ExecuteNonPersistedAction(viewModel, () => _scalePropertiesPresenter.Show(viewModel));
 		}
 
 		public void ScaleProperties_Close(int id)
@@ -3208,6 +3210,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			// Redirect
 			CurrentInstrumentBar_SetScale(scaleID);
+		}
+
+		private void ScaleProperties_Switch(int id)
+		{
+			if (MainViewModel.PropertiesPanelVisible)
+			{
+				ScaleProperties_Show(id);
+			}
 		}
 
 		// Tone
@@ -3278,6 +3288,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			// Redirect
 			CurrentInstrumentBar_SetScale(scaleID);
+		}
+
+		private void ToneGridEdit_Show(int scaleID)
+		{
+			ToneGridEditViewModel viewModel = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
+
+			ExecuteNonPersistedAction(viewModel, () => _toneGridEditPresenter.Show(viewModel));
 		}
 
 		public void Tone_Play(int scaleID, int toneID)
