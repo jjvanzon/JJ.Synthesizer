@@ -1659,6 +1659,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void DocumentTree_SelectMidiMapping(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectMidiMapping(x, id));
+
+			if (MainViewModel.Document.VisibleMidiMappingDetails != null)
+			{
+				MidiMappingDetails_Switch(id);
+			}
 		}
 
 		public void DocumentTree_SelectScale(int id)
@@ -1667,6 +1672,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Redirect
 			ScaleProperties_Switch(id);
+
+			if (MainViewModel.Document.VisibleToneGridEdit != null)
+			{
+				ToneGridEdit_Switch(id);
+			}
 		}
 
 		public void DocumentTree_SelectScales()
@@ -3295,6 +3305,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ToneGridEditViewModel viewModel = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
 			ExecuteNonPersistedAction(viewModel, () => _toneGridEditPresenter.Show(viewModel));
+		}
+
+		private void ToneGridEdit_Switch(int scaleID)
+		{
+			if (MainViewModel.DetailsOrGridPanelVisible)
+			{
+				ToneGridEdit_Show(scaleID);
+			}
 		}
 
 		public void Tone_Play(int scaleID, int toneID)
