@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
@@ -37,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			currentInstrumentBarUserControl.MovePatchForwardRequested += CurrentInstrumentBarBarUserControl_MovePatchForwardRequested;
 			currentInstrumentBarUserControl.PlayRequested += CurrentInstrumentBarUserControl_PlayRequested;
 			currentInstrumentBarUserControl.PlayPatchRequested += CurrentInstrumentBarBarUserControl_PlayPatchRequested;
-			currentInstrumentBarUserControl.DeleteMidiMappingRequested += CurrentInstrumentBarBarUserControl_DeleteMidiMappingRequested; 
+			currentInstrumentBarUserControl.DeleteMidiMappingRequested += CurrentInstrumentBarBarUserControl_DeleteMidiMappingRequested;
 			currentInstrumentBarUserControl.DeletePatchRequested += CurrentInstrumentBarBarUserControl_DeletePatchRequested;
 
 			curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsListUserControl_ChangeSelectedNodeTypeRequested;
@@ -281,14 +280,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				{
 					_mainPresenter.Document_Activate();
 
-					if (_mainPresenter.MainViewModel.Successful)
-					{
-						int audioOutputID = _mainPresenter.MainViewModel.Document.AudioOutputProperties.Entity.ID;
-						AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(audioOutputID);
-						Patch patch = GetCurrentInstrumentPatch();
-
-						_infrastructureFacade.UpdateInfrastructure(audioOutput, patch);
-					}
+					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
@@ -389,12 +381,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void CurrentInstrumentBarUserControl_MoveMidiMappingBackwardRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_MoveMidiMappingBackward(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.CurrentInstrumentBar_MoveMidiMappingBackward(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void CurrentInstrumentBarBarUserControl_MoveMidiMappingForwardRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_MoveMidiMappingForward(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.CurrentInstrumentBar_MoveMidiMappingForward(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void CurrentInstrumentBarUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e)
@@ -429,7 +431,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void CurrentInstrumentBarBarUserControl_DeleteMidiMappingRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_RemoveMidiMapping(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.CurrentInstrumentBar_DeleteMidiMapping(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void CurrentInstrumentBarBarUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
@@ -591,6 +598,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				{
 					_mainPresenter.DocumentTree_AddToInstrument();
 					RecreatePatchCalculatorIfSuccessful();
+					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
@@ -832,7 +840,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void MidiMappingDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetails_AddToInstrument(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.MidiMappingDetails_AddToInstrument(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void midiMappingDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -850,7 +863,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void midiMappingDetailsUserControl_NewRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetails_CreateElement(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.MidiMappingDetails_CreateElement(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void midiMappingDetailsUserControl_SelectElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
@@ -860,7 +878,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void midiMappingDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetails_DeleteSelectedElement(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.MidiMappingDetails_DeleteSelectedElement(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void midiMappingDetailsUserControl_ExpandElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
@@ -870,12 +893,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void midiMappingElementPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingElementProperties_Close(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.MidiMappingElementProperties_Close(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void midiMappingElementPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingElementProperties_Delete(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.MidiMappingElementProperties_Delete(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void midiMappingElementPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
@@ -885,7 +918,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void midiMappingElementPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingElementProperties_LoseFocus(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.MidiMappingElementProperties_LoseFocus(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		// Menu
@@ -1283,16 +1321,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		// Scale
+		// Tone
 
 		private void ToneGridEditUserControl_SetCurrentInstrumentScaleRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.ToneGridEdit_SetInstrumentScale(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.ToneGridEdit_SetInstrumentScale(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void toneGridEditUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.ToneGridEdit_Close(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.ToneGridEdit_Close(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void toneGridEditUserControl_Edited(object sender, EventArgs<int> e)
@@ -1301,13 +1349,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				() =>
 				{
 					_mainPresenter.ToneGridEdit_Edit(e.Value);
-					RecreatePatchCalculatorIfSuccessful();
+					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
 		private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.ToneGridEdit_LoseFocus(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.ToneGridEdit_LoseFocus(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void toneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e)
@@ -1316,7 +1369,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				() =>
 				{
 					_mainPresenter.Tone_Create(e.Value);
-					RecreatePatchCalculatorIfSuccessful();
+					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
@@ -1326,7 +1379,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				() =>
 				{
 					_mainPresenter.Tone_Delete(e.ScaleID, e.ToneID);
-					RecreatePatchCalculatorIfSuccessful();
+					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
@@ -1335,9 +1388,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.Tone_Play(e.ScaleID, e.ToneID));
 		}
 
+		// Scale
+
 		private void ScalePropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.ScaleProperties_SetInstrumentScale(e.Value));
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.ScaleProperties_SetInstrumentScale(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
 		}
 
 		private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)

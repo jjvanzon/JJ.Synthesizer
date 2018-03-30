@@ -82,8 +82,6 @@ namespace JJ.Business.Synthesizer.Helpers
 				sb.Append($"{new { dto.FromMidiVelocity, dto.TillMidiVelocity }} ");
 			}
 
-			if (dto.ScaleDto != null) sb.Append($"{new { Scale = dto.ScaleDto.Name  }} ");
-
 			if (dto.FromToneNumber.HasValue || dto.TillToneNumber.HasValue)
 			{
 				sb.Append($"{new { dto.FromToneNumber, dto.TillToneNumber }} ");

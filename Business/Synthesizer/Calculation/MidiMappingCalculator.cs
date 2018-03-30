@@ -23,16 +23,20 @@ namespace JJ.Business.Synthesizer.Calculation
 	{
 		public const int MIDDLE_CONTROLLER_VALUE = 64;
 
+		private readonly ScaleDto _scaleDto;
 		private readonly MidiMappingElementDto[] _midiMappingElementDtos;
 		private readonly IList<MidiMappingCalculatorResult> _results = new List<MidiMappingCalculatorResult>();
 
 		public IList<MidiMappingCalculatorResult> Results => _results;
 
-		public MidiMappingCalculator(IList<MidiMappingElement> midiMappingElements)
+		public MidiMappingCalculator(Scale scale, IList<MidiMappingElement> midiMappingElements)
 		{
 			if (midiMappingElements == null) throw new ArgumentNullException(nameof(midiMappingElements));
 
 			midiMappingElements.ForEach(x => new MidiMappingElementValidator(x).Assert());
+
+			var scaleToDtoConverter = new ScaleToDtoConverter();
+			_scaleDto = scaleToDtoConverter.Convert(scale);
 
 			var converter = new MidiMappingElementToDtoConverter();
 			_midiMappingElementDtos = midiMappingElements.Where(x => x.IsActive).Select(x => converter.Convert(x)).ToArray();
@@ -77,7 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation
 					ratio *= midiNoteNumberRatio;
 					mustScale = true;
 				}
-
+				
 				if (MustScaleByMidiVelocity(midiMappingElementDto, midiVelocity))
 				{
 					double midiVelocityRatio = (midiVelocity.Value - midiMappingElementDto.FromMidiVelocity.Value) /
@@ -115,7 +119,7 @@ namespace JJ.Business.Synthesizer.Calculation
 						midiMappingElementDto.CustomDimensionName,
 						destDimensionValue,
 						destPosition,
-						midiMappingElementDto.ScaleDto,
+						_scaleDto,
 						destToneNumber));
 			}
 		}
@@ -215,9 +219,9 @@ namespace JJ.Business.Synthesizer.Calculation
 				destValueDouble = 1;
 			}
 
-			if (destValueDouble > midiMappingElementDto.ScaleDto.Frequencies.Count)
+			if (destValueDouble > _scaleDto.Frequencies.Count)
 			{
-				destValueDouble = midiMappingElementDto.ScaleDto.Frequencies.Count;
+				destValueDouble = _scaleDto.Frequencies.Count;
 			}
 
 			int destValue = (int)Math.Round(destValueDouble, MidpointRounding.AwayFromZero);

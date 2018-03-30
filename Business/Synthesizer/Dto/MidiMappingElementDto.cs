@@ -26,8 +26,6 @@ namespace JJ.Business.Synthesizer.Dto
 		public double? MaxDimensionValue { get; set; }
 		public int? FromPosition { get; set; }
 		public int? TillPosition { get; set; }
-		/// <summary> nullable </summary>
-		public ScaleDto ScaleDto { get; set; }
 		/// <inheritdoc />
 		public int? FromToneNumber { get; set; }
 		/// <inheritdoc />

@@ -192,12 +192,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
-		public CurrentInstrumentBarViewModel RemoveMidiMapping(CurrentInstrumentBarViewModel userInput, int midiMappingID)
+		public CurrentInstrumentBarViewModel DeleteMidiMapping(CurrentInstrumentBarViewModel userInput, int midiMappingID)
 		{
 			return ExecuteAction(userInput, entities => entities.midiMappings.RemoveFirst(x => x.ID == midiMappingID));
 		}
 
-		public CurrentInstrumentBarViewModel RemovePatch(CurrentInstrumentBarViewModel userInput, int patchID)
+		public CurrentInstrumentBarViewModel DeletePatch(CurrentInstrumentBarViewModel userInput, int patchID)
 		{
 			return ExecuteAction(userInput, entities => entities.patches.RemoveFirst(x => x.ID == patchID));
 		}

@@ -7,13 +7,6 @@ namespace JJ.Business.Synthesizer.Converters
 {
 	public class MidiMappingElementToDtoConverter
 	{
-		private readonly ScaleToDtoConverter _scaleToDtoConverter;
-
-		public MidiMappingElementToDtoConverter()
-		{
-			_scaleToDtoConverter = new ScaleToDtoConverter();
-		}
-
 		public MidiMappingElementDto Convert(MidiMappingElement entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -39,11 +32,6 @@ namespace JJ.Business.Synthesizer.Converters
 				FromToneNumber = entity.FromToneNumber,
 				TillToneNumber = entity.TillToneNumber
 			};
-
-			if (entity.Scale != null)
-			{
-				dto.ScaleDto = _scaleToDtoConverter.Convert(entity.Scale);
-			}
 
 			return dto;
 		}

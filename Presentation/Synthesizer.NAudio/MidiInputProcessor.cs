@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
 using NAudio.Midi;
 
@@ -34,10 +33,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 		/// <summary> Can be called more than once. </summary>
 		public MidiInputProcessor(
+			Scale scale,
+			IList<MidiMappingElement> midiMappingElements,
 			IPatchCalculatorContainer patchCalculatorContainer,
 			TimeProvider timeProvider,
-			NoteRecycler noteRecycler,
-			IDocumentRepository documentRepository)
+			NoteRecycler noteRecycler)
 		{
 			_patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
 			_timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
@@ -45,9 +45,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 			_midiControllerDictionary = new Dictionary<int, int>();
 			_scaleID_To_Frequencies_Dictionary = new Dictionary<int, double[]>();
-
-			var systemFacade = new SystemFacade(documentRepository);
-			_midiMappingCalculator = new MidiMappingCalculator(systemFacade.GetDefaultMidiMappingElements());
+			_midiMappingCalculator = new MidiMappingCalculator(scale, midiMappingElements);
 
 			var thread = new Thread(TryStart);
 			thread.Start();

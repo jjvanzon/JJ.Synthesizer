@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Basic;
 
@@ -19,20 +19,22 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private readonly AudioOutputProcessor _audioOutputProcessor;
 		private MidiInputProcessor _midiInputProcessor;
 		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
-		private readonly IDocumentRepository _documentRepository;
 
 		private AudioOutput _audioOutput;
 
-		public InfrastructureFacade(RepositoryWrapper repositories)
+		public InfrastructureFacade(AudioOutputFacade audioOutputFacade, SystemFacade systemFacade, RepositoryWrapper repositories)
 		{
+			if (audioOutputFacade == null) throw new ArgumentNullException(nameof(audioOutputFacade));
+			if (systemFacade == null) throw new ArgumentNullException(nameof(systemFacade));
 			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
 
-			_documentRepository = repositories.DocumentRepository;
-
-			var audioOutputFacade = new AudioOutputFacade(repositories.AudioOutputRepository, repositories.SpeakerSetupRepository, repositories.IDRepository);
-			_audioOutput = audioOutputFacade.CreateWithDefaults();
 			_timeProvider = new TimeProvider();
-			_noteRecycler = new NoteRecycler(_audioOutput.MaxConcurrentNotes);
+
+			if (_audioOutputEnabled)
+			{
+				_audioOutput = audioOutputFacade.CreateWithDefaults();
+				_noteRecycler = new NoteRecycler(_audioOutput.MaxConcurrentNotes);
+			}
 
 			bool mustCreateEmptyPatchCalculatorContainer = !_audioOutputEnabled;
 			if (mustCreateEmptyPatchCalculatorContainer)
@@ -59,7 +61,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			// ReSharper disable once InvertIf
 			if (_midiInputEnabled)
 			{
-				_midiInputProcessor = new MidiInputProcessor(_patchCalculatorContainer, _timeProvider, _noteRecycler, _documentRepository);
+				_midiInputProcessor = new MidiInputProcessor(
+					systemFacade.GetDefaultScale(),
+					systemFacade.GetDefaultMidiMappingElements(),
+					_patchCalculatorContainer,
+					_timeProvider,
+					_noteRecycler);
 			}
 		}
 
@@ -69,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			_midiInputProcessor?.Dispose();
 		}
 
-		public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch)
+		public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch, Scale scale, IList<MidiMappingElement> midiMappingElements)
 		{
 			_audioOutput = audioOutput ?? throw new NullException(() => audioOutput);
 
@@ -93,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			// ReSharper disable once InvertIf
 			if (_midiInputProcessor != null)
 			{
-				_midiInputProcessor = new MidiInputProcessor(_patchCalculatorContainer, _timeProvider, _noteRecycler, _documentRepository);
+				_midiInputProcessor = new MidiInputProcessor(scale, midiMappingElements, _patchCalculatorContainer, _timeProvider, _noteRecycler);
 			}
 		}
 

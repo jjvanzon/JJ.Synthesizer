@@ -42,6 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private readonly MainPresenter _mainPresenter;
 		private readonly InfrastructureFacade _infrastructureFacade;
 		private readonly AutoPatcher _autoPatcher;
+		private readonly SystemFacade _systemFacade;
 
 		private readonly AutoPatchPopupForm _autoPatchPopupForm = new AutoPatchPopupForm();
 		private readonly DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
@@ -57,8 +58,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			_repositories = PersistenceHelper.CreateRepositoryWrapper(_context);
 			_mainPresenter = new MainPresenter(_repositories);
 
-			_infrastructureFacade = new InfrastructureFacade(_repositories);
 			_autoPatcher = new AutoPatcher(_repositories);
+
+			var audioOutputFacade = new AudioOutputFacade(_repositories.AudioOutputRepository, _repositories.SpeakerSetupRepository, _repositories.IDRepository);
+			_systemFacade = new SystemFacade(_repositories.DocumentRepository);
+			_infrastructureFacade = new InfrastructureFacade(audioOutputFacade, _systemFacade, _repositories);
 
 			curveDetailsListUserControl.SetCurveFacade(new CurveFacade(new CurveRepositories(_repositories)));
 
@@ -166,13 +170,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			AudioOutputPropertiesViewModel viewModel = _mainPresenter.MainViewModel.Document.AudioOutputProperties;
 
-			// ReSharper disable once InvertIf
 			if (viewModel.Successful)
 			{
-				AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(viewModel.Entity.ID);
-				Patch patch = GetCurrentInstrumentPatch();
-
-				_infrastructureFacade.UpdateInfrastructure(audioOutput, patch);
+				UpdateInfrastructureIfSuccessful();
 			}
 		}
 
@@ -186,6 +186,31 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			Patch patch = GetCurrentInstrumentPatch();
 
 			_infrastructureFacade.RecreatePatchCalculator(patch);
+		}
+
+		private void UpdateInfrastructureIfSuccessful()
+		{
+			if (_mainPresenter.MainViewModel.Successful)
+			{
+				int audioOutputID = _mainPresenter.MainViewModel.Document.AudioOutputProperties.Entity.ID;
+
+				AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(audioOutputID);
+				Patch patch = GetCurrentInstrumentPatch();
+
+				Scale scale = _repositories.ScaleRepository.TryGet(_mainPresenter.MainViewModel.Document.CurrentInstrument.Scale?.ID ?? default) ??
+				              _systemFacade.GetDefaultScale();
+
+				IList<MidiMappingElement> midiMappingsElements = _mainPresenter.MainViewModel.Document.CurrentInstrument.MidiMappings
+				                                                               .Select(x => _repositories.MidiMappingRepository.Get(x.EntityID))
+				                                                               .SelectMany(x => x.MidiMappingElements)
+				                                                               .ToArray();
+				if (midiMappingsElements.Count == 0)
+				{
+					midiMappingsElements = _systemFacade.GetDefaultMidiMappingElements();
+				}
+
+				_infrastructureFacade.UpdateInfrastructure(audioOutput, patch, scale, midiMappingsElements);
+			}
 		}
 
 		private Patch GetCurrentInstrumentPatch()

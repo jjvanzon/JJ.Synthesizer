@@ -588,18 +588,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.PlayPatch(userInput, patchID));
 		}
 
-		public void CurrentInstrumentBar_RemoveMidiMapping(int midiMappingID)
+		public void CurrentInstrumentBar_DeleteMidiMapping(int midiMappingID)
 		{
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.RemoveMidiMapping(userInput, midiMappingID));
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.DeleteMidiMapping(userInput, midiMappingID));
 		}
 
 		public void CurrentInstrumentBar_RemovePatch(int patchID)
 		{
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.RemovePatch(userInput, patchID));
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.DeletePatch(userInput, patchID));
 		}
 
 		private void CurrentInstrumentBar_SetScale(int scaleID)
