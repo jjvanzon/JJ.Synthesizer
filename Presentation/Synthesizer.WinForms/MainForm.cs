@@ -200,8 +200,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				Scale scale = _repositories.ScaleRepository.TryGet(_mainPresenter.MainViewModel.Document.CurrentInstrument.Scale?.ID ?? default) ??
 				              _systemFacade.GetDefaultScale();
 
-				IList<MidiMappingElement> midiMappingsElements = _mainPresenter.MainViewModel.Document.CurrentInstrument.MidiMappings
-				                                                               .Select(x => _repositories.MidiMappingRepository.Get(x.EntityID))
+				IList<MidiMappingElement> midiMappingsElements = _mainPresenter.MainViewModel.Document.CurrentInstrument.MidiMappingGroups
+				                                                               .Select(x => _repositories.MidiMappingGroupRepository.Get(x.EntityID))
 				                                                               .SelectMany(x => x.MidiMappingElements)
 				                                                               .ToArray();
 				if (midiMappingsElements.Count == 0)

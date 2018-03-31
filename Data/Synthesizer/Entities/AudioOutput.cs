@@ -1,4 +1,8 @@
-﻿namespace JJ.Data.Synthesizer.Entities
+﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable VirtualMemberCallInConstructor
+
+namespace JJ.Data.Synthesizer.Entities
 {
 	public class AudioOutput
 	{

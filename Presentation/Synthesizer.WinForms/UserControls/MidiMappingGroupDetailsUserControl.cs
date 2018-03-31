@@ -13,23 +13,23 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	internal partial class MidiMappingDetailsUserControl : DetailsOrPropertiesUserControlBase
+	internal partial class MidiMappingGroupDetailsUserControl : DetailsOrPropertiesUserControlBase
 	{
-		public event EventHandler<EventArgs<(int midiMappingID, int midiMappingElementID)>> SelectElementRequested;
-		public event EventHandler<EventArgs<(int midiMappingID, int midiMappingElementID, float x, float y)>> MoveElementRequested;
-		public event EventHandler<EventArgs<(int midiMappingID, int midiMappingElementID)>> ExpandElementRequested;
+		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingElementID)>> SelectElementRequested;
+		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingElementID, float x, float y)>> MoveElementRequested;
+		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingElementID)>> ExpandElementRequested;
 
-		private readonly MidiMappingDetailsViewModelToDiagramConverter _converter;
+		private readonly MidiMappingGroupDetails_ViewModelToDiagramConverter _converter;
 
 		// Constructors
 
-		public MidiMappingDetailsUserControl()
+		public MidiMappingGroupDetailsUserControl()
 		{
 			InitializeComponent();
 
 			var textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 
-			_converter = new MidiMappingDetailsViewModelToDiagramConverter(
+			_converter = new MidiMappingGroupDetails_ViewModelToDiagramConverter(
 				textMeasurer,
 				SystemInformation.DoubleClickTime,
 				SystemInformation.DoubleClickSize.Width);
@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_converter.Result.MoveGesture.Moved += MoveGesture_Moved;
 		}
 
-		private void MidiMappingDetailsUserControl_Load(object sender, EventArgs e)
+		private void MidiMappingGroupDetailsUserControl_Load(object sender, EventArgs e)
 		{
 			TitleBarBackColor = SystemColors.Window;
 			TitleLabelVisible = false;
@@ -70,13 +70,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Binding
 
-		public new MidiMappingDetailsViewModel ViewModel
+		public new MidiMappingGroupDetailsViewModel ViewModel
 		{
-			get => (MidiMappingDetailsViewModel)base.ViewModel;
+			get => (MidiMappingGroupDetailsViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}
 
-		protected override int GetID() => ViewModel.MidiMapping.ID;
+		protected override int GetID() => ViewModel.MidiMappingGroup.ID;
 
 		protected override void ApplyViewModelToControls()
 		{
@@ -87,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Events
 
-		private void MidiMappingDetailsUserControl_Resize(object sender, EventArgs e)
+		private void MidiMappingGroupDetailsUserControl_Resize(object sender, EventArgs e)
 		{
 			if (ViewModel != null)
 			{
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private void MidiMappingDetailsUserControl_Paint(object sender, PaintEventArgs e)
+		private void MidiMappingGroupDetailsUserControl_Paint(object sender, PaintEventArgs e)
 		{
 			if (ViewModel != null)
 			{
@@ -108,13 +108,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private void ExpandElementKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)
 		{
 			if (ViewModel == null) return;
-			ExpandElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMapping.ID, e.ID)));
+			ExpandElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, e.ID)));
 		}
 
 		private void ExpandElementMouseGesture_ExpandRequested(object sender, IDEventArgs e)
 		{
 			if (ViewModel == null) return;
-			ExpandElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMapping.ID, e.ID)));
+			ExpandElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, e.ID)));
 		}
 
 		private void MoveGesture_Moved(object sender, ElementEventArgs e)
@@ -127,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				this,
 				new EventArgs<(int, int, float, float)>(
 					(
-					ViewModel.MidiMapping.ID,
+					ViewModel.MidiMappingGroup.ID,
 					midiMappingElementID,
 					e.Element.Position.AbsoluteCenterX,
 					e.Element.Position.AbsoluteCenterY)));
@@ -139,7 +139,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			int midiMappingElementID = (int)e.Element.Tag;
 
-			SelectElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMapping.ID, midiMappingElementID)));
+			SelectElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, midiMappingElementID)));
 
 			_converter.Result.ExpandElementKeyboardGesture.SelectedEntityID = midiMappingElementID;
 		}

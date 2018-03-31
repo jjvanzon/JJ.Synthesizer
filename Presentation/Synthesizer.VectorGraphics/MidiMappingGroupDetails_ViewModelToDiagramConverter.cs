@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
-	public class MidiMappingDetailsViewModelToDiagramConverter
+	public class MidiMappingGroupDetails_ViewModelToDiagramConverter
 	{
 		private const float LABEL_Y = StyleHelper.DEFAULT_OBJECT_SIZE + StyleHelper.SMALL_SPACING;
 		private const float DENT_POINT_Y = 8f;
@@ -23,16 +23,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		private readonly Dictionary<int, Point> _dentPointDictionary;
 		private readonly ITextMeasurer _textMeasurer;
 
-		public MidiMappingDetailsViewModelToDiagramConverterResult Result { get; }
+		public MidiMappingGroupDetails_ViewModelToDiagramConverterResult Result { get; }
 
-		public MidiMappingDetailsViewModelToDiagramConverter(
+		public MidiMappingGroupDetails_ViewModelToDiagramConverter(
 			ITextMeasurer textMeasurer,
 			int doubleClickSpeedInMilliseconds,
 			int doubleClickDeltaInPixels)
 		{
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 
-			Result = new MidiMappingDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+			Result = new MidiMappingGroupDetails_ViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			Result.GridSnapGesture.Snap = DEFAULT_GRID_SNAP;
 			Result.Diagram.Gestures.Add(Result.DeleteElementGesture);
 			Result.Diagram.Gestures.Add(Result.ExpandElementKeyboardGesture);
@@ -44,11 +44,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			_waterMarkTitleLabel = CreateWaterMarkTitleLabel(Result.Diagram);
 		}
 
-		public void Execute(MidiMappingDetailsViewModel viewModel)
+		public void Execute(MidiMappingGroupDetailsViewModel viewModel)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-			UpdateWaterMarkTitleLabel(viewModel.MidiMapping.Name);
+			UpdateWaterMarkTitleLabel(viewModel.MidiMappingGroup.Name);
 
 			foreach (MidiMappingElementItemViewModel midiMappingElementViewModel in viewModel.Elements.Values)
 			{
@@ -151,11 +151,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			if (viewModel.HasInactiveStyle)
 			{
-				label.TextStyle = StyleHelper.MidiMappingTextStyleInactive;
+				label.TextStyle = StyleHelper.MidiMappingElementTextStyleInactive;
 			}
 			else
 			{
-				label.TextStyle = StyleHelper.MidiMappingTextStyle;
+				label.TextStyle = StyleHelper.MidiMappingElementTextStyle;
 			}
 
 			label.Text = viewModel.Caption;

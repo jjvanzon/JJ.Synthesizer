@@ -23,10 +23,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<int>> PlayPatchRequested;
 		public event EventHandler<EventArgs<int>> DeletePatchRequested;
 
-		public event EventHandler<EventArgs<int>> ExpandMidiMappingRequested;
-		public event EventHandler<EventArgs<int>> MoveMidiMappingBackwardRequested;
-		public event EventHandler<EventArgs<int>> MoveMidiMappingForwardRequested;
-		public event EventHandler<EventArgs<int>> DeleteMidiMappingRequested;
+		public event EventHandler<EventArgs<int>> ExpandMidiMappingGroupRequested;
+		public event EventHandler<EventArgs<int>> MoveMidiMappingGroupBackwardRequested;
+		public event EventHandler<EventArgs<int>> MoveMidiMappingGroupForwardRequested;
+		public event EventHandler<EventArgs<int>> DeleteMidiMappingGroupRequested;
 
 		private readonly CurrentInstrumentBarElement _currentInstrumentBarElement;
 
@@ -55,10 +55,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_currentInstrumentBarElement.PlayPatchRequested += (sender, e) => PlayPatchRequested(sender, e);
 			_currentInstrumentBarElement.DeletePatchRequested += (sender, e) => DeletePatchRequested(sender, e);
 
-			_currentInstrumentBarElement.ExpandMidiMappingRequested += (sender, e) => ExpandMidiMappingRequested(sender, e);
-			_currentInstrumentBarElement.MoveMidiMappingBackwardRequested += (sender, e) => MoveMidiMappingBackwardRequested(sender, e);
-			_currentInstrumentBarElement.MoveMidiMappingForwardRequested += (sender, e) => MoveMidiMappingForwardRequested(sender, e);
-			_currentInstrumentBarElement.DeleteMidiMappingRequested += (sender, e) => DeleteMidiMappingRequested(sender, e);
+			_currentInstrumentBarElement.ExpandMidiMappingGroupRequested += (sender, e) => ExpandMidiMappingGroupRequested(sender, e);
+			_currentInstrumentBarElement.MoveMidiMappingGroupBackwardRequested += (sender, e) => MoveMidiMappingGroupBackwardRequested(sender, e);
+			_currentInstrumentBarElement.MoveMidiMappingGroupForwardRequested += (sender, e) => MoveMidiMappingGroupForwardRequested(sender, e);
+			_currentInstrumentBarElement.DeleteMidiMappingGroupRequested += (sender, e) => DeleteMidiMappingGroupRequested(sender, e);
 
 			diagramControl.Location = new Point(0, 0);
 			diagramControl.Diagram = diagram;

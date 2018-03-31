@@ -65,7 +65,7 @@
     <Compile Include="DefaultRepositories\PatchRepository.cs" />
     <Compile Include="DefaultRepositories\SampleDataTypeRepository.cs" />
     <Compile Include="DefaultRepositories\SampleRepository.cs" />
-    <Compile Include="DefaultRepositories\MidiMappingRepository.cs" />
+    <Compile Include="DefaultRepositories\MidiMappingGroupRepository.cs" />
     <Compile Include="DefaultRepositories\ScaleRepository.cs" />
     <Compile Include="DefaultRepositories\ScaleTypeRepository.cs" />
     <Compile Include="DefaultRepositories\SpeakerSetupChannelRepository.cs" />
@@ -78,7 +78,7 @@
     </Compile>
     <Compile Include="Entities\DocumentReference.cs" />
     <Compile Include="Entities\EntityPosition.cs" />
-    <Compile Include="Entities\MidiMapping.cs" />
+    <Compile Include="Entities\MidiMappingGroup.cs" />
     <Compile Include="Entities\MidiMappingElement.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Entities\Dimension.cs" />
@@ -118,7 +118,7 @@
     <Compile Include="RepositoryInterfaces\IPatchRepository.cs" />
     <Compile Include="RepositoryInterfaces\ISampleDataTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\ISampleRepository.cs" />
-    <Compile Include="RepositoryInterfaces\IMidiMappingRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMidiMappingGroupRepository.cs" />
     <Compile Include="RepositoryInterfaces\IScaleRepository.cs" />
     <Compile Include="RepositoryInterfaces\IScaleTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\ISpeakerSetupChannelRepository.cs" />

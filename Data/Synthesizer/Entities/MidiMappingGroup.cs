@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 // ReSharper disable VirtualMemberCallInConstructor
-// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
 
 namespace JJ.Data.Synthesizer.Entities
 {
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public class MidiMapping
+	public class MidiMappingGroup
 	{
-		public MidiMapping()
+		public MidiMappingGroup()
 		{
 			MidiMappingElements = new List<MidiMappingElement>();
 		}

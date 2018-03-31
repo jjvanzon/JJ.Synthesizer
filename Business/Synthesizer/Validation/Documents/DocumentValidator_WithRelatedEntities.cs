@@ -49,10 +49,10 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 				ExecuteValidator(new DocumentReferenceValidator_Basic(lowerDocumentReference), messagePrefix);
 			}
 
-			foreach (MidiMapping midiMapping in document.MidiMappings)
+			foreach (MidiMappingGroup midiMapping in document.MidiMappingGroups)
 			{
 				string messagePrefix = ValidationHelper.GetMessagePrefix(midiMapping);
-				ExecuteValidator(new MidiMappingValidator_WithRelatedEntities(midiMapping), messagePrefix);
+				ExecuteValidator(new MidiMappingGroupValidator_WithRelatedEntities(midiMapping), messagePrefix);
 			}
 
 			foreach (Patch patch in document.Patches)

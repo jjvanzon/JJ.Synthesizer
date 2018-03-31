@@ -186,8 +186,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 				}
 
-				case EntityTypeEnum.MidiMapping:
-					_midiMappingFacade.DeleteMidiMapping(id);
+				case EntityTypeEnum.MidiMappingGroup:
+					_midiMappingFacade.DeleteMidiMappingGroup(id);
 					break;
 
 				case EntityTypeEnum.MidiMappingElement:
@@ -212,18 +212,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private IList<ScreenViewModelBase> GetMidiMappingElementStates(int id)
 		{
 			MidiMappingElementPropertiesViewModel mappingElementPropertiesViewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
-			int midiMappingID = mappingElementPropertiesViewModel.MidiMappingID;
-			MidiMappingDetailsViewModel midiMappingDetailsViewModel = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
+			int midiMappingID = mappingElementPropertiesViewModel.MidiMappingGroupID;
+			MidiMappingGroupDetailsViewModel midiMappingDetailsViewModel = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
 
 			var states = new List<ScreenViewModelBase> { midiMappingDetailsViewModel, mappingElementPropertiesViewModel };
 
 			return states;
 		}
 
-		private IList<ScreenViewModelBase> GetMidiMappingStates(int midiMappingID)
+		private IList<ScreenViewModelBase> GetMidiMappingGroupStates(int midiMappingGroupID)
 		{
-			return ViewModelSelector.EnumerateMidiMappingElementPropertiesViewModel_ByMidiMappingID(MainViewModel.Document, midiMappingID)
-			                        .Union<ScreenViewModelBase>(ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID))
+			return ViewModelSelector.EnumerateMidiMappingElementPropertiesViewModel_ByMidiMappingGroupID(MainViewModel.Document, midiMappingGroupID)
+			                        .Union<ScreenViewModelBase>(ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID))
 			                        .ToArray();
 		}
 

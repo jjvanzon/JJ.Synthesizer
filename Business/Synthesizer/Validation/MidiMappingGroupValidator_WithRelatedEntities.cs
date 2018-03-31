@@ -4,13 +4,13 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-	internal class MidiMappingValidator_WithRelatedEntities : VersatileValidator
+	internal class MidiMappingGroupValidator_WithRelatedEntities : VersatileValidator
 	{
-		public MidiMappingValidator_WithRelatedEntities(MidiMapping entity)
+		public MidiMappingGroupValidator_WithRelatedEntities(MidiMappingGroup entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			ExecuteValidator(new MidiMappingValidator_Basic(entity));
+			ExecuteValidator(new MidiMappingGroupValidator_Basic(entity));
 
 			foreach (MidiMappingElement midiMappingElement in entity.MidiMappingElements)
 			{

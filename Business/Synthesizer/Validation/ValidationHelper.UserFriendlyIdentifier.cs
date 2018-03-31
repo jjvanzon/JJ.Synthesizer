@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return number.ToString();
 		}
 
-		public static string GetUserFriendlyIdentifier(MidiMapping entity)
+		public static string GetUserFriendlyIdentifier(MidiMappingGroup entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 

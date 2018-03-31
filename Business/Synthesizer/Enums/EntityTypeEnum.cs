@@ -6,7 +6,7 @@
 		Undefined,
 		AudioFileOutput,
 		DocumentReference,
-		MidiMapping,
+		MidiMappingGroup,
 		MidiMappingElement,
 		Node,
 		Operator,

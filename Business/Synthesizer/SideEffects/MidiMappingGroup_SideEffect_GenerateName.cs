@@ -6,11 +6,11 @@ using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-	internal class MidiMapping_SideEffect_GenerateName : ISideEffect
+	internal class MidiMappingGroup_SideEffect_GenerateName : ISideEffect
 	{
-		private readonly MidiMapping _entity;
+		private readonly MidiMappingGroup _entity;
 
-		public MidiMapping_SideEffect_GenerateName(MidiMapping entity)
+		public MidiMappingGroup_SideEffect_GenerateName(MidiMappingGroup entity)
 		{
 			_entity = entity ?? throw new NullException(() => entity);
 		}
@@ -20,9 +20,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 			bool mustExecute = _entity.Document != null;
 			if (mustExecute)
 			{
-				IEnumerable<string> existingNames = _entity.Document.MidiMappings.Select(x => x.Name);
+				IEnumerable<string> existingNames = _entity.Document.MidiMappingGroups.Select(x => x.Name);
 
-				_entity.Name = SideEffectHelper.GenerateName<MidiMapping>(existingNames);
+				_entity.Name = SideEffectHelper.GenerateName<MidiMappingGroup>(existingNames);
 			}
 		}
 	}

@@ -156,25 +156,25 @@ namespace JJ.Business.Synthesizer.LinkTo
 			}
 		}
 
-		public static void LinkTo(this MidiMapping midiMapping, Document document)
+		public static void LinkTo(this MidiMappingGroup midiMappingGroup, Document document)
 		{
-			if (midiMapping == null) throw new NullException(() => midiMapping);
+			if (midiMappingGroup == null) throw new NullException(() => midiMappingGroup);
 
-			if (midiMapping.Document != null)
+			if (midiMappingGroup.Document != null)
 			{
-				if (midiMapping.Document.MidiMappings.Contains(midiMapping))
+				if (midiMappingGroup.Document.MidiMappingGroups.Contains(midiMappingGroup))
 				{
-					midiMapping.Document.MidiMappings.Remove(midiMapping);
+					midiMappingGroup.Document.MidiMappingGroups.Remove(midiMappingGroup);
 				}
 			}
 
-			midiMapping.Document = document;
+			midiMappingGroup.Document = document;
 
-			if (midiMapping.Document != null)
+			if (midiMappingGroup.Document != null)
 			{
-				if (!midiMapping.Document.MidiMappings.Contains(midiMapping))
+				if (!midiMappingGroup.Document.MidiMappingGroups.Contains(midiMappingGroup))
 				{
-					midiMapping.Document.MidiMappings.Add(midiMapping);
+					midiMappingGroup.Document.MidiMappingGroups.Add(midiMappingGroup);
 				}
 			}
 		}
@@ -188,25 +188,25 @@ namespace JJ.Business.Synthesizer.LinkTo
 			// No inverse property.
 		}
 
-		public static void LinkTo(this MidiMappingElement midiMappingElement, MidiMapping midiMapping)
+		public static void LinkTo(this MidiMappingElement midiMappingElement, MidiMappingGroup midiMappingGroup)
 		{
 			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
 
-			if (midiMappingElement.MidiMapping != null)
+			if (midiMappingElement.MidiMappingGroup != null)
 			{
-				if (midiMappingElement.MidiMapping.MidiMappingElements.Contains(midiMappingElement))
+				if (midiMappingElement.MidiMappingGroup.MidiMappingElements.Contains(midiMappingElement))
 				{
-					midiMappingElement.MidiMapping.MidiMappingElements.Remove(midiMappingElement);
+					midiMappingElement.MidiMappingGroup.MidiMappingElements.Remove(midiMappingElement);
 				}
 			}
 
-			midiMappingElement.MidiMapping = midiMapping;
+			midiMappingElement.MidiMappingGroup = midiMappingGroup;
 
-			if (midiMappingElement.MidiMapping != null)
+			if (midiMappingElement.MidiMappingGroup != null)
 			{
-				if (!midiMappingElement.MidiMapping.MidiMappingElements.Contains(midiMappingElement))
+				if (!midiMappingElement.MidiMappingGroup.MidiMappingElements.Contains(midiMappingElement))
 				{
-					midiMappingElement.MidiMapping.MidiMappingElements.Add(midiMappingElement);
+					midiMappingElement.MidiMappingGroup.MidiMappingElements.Add(midiMappingElement);
 				}
 			}
 		}

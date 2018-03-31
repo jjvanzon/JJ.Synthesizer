@@ -8,13 +8,13 @@
 		Libraries,
 		Library,
 		LibraryMidi,
-		LibraryMidiMapping,
+		LibraryMidiMappingGroup,
 		LibraryPatch,
 		LibraryPatchGroup,
 		LibraryScales,
 		LibraryScale,
 		Midi,
-		MidiMapping,
+		MidiMappingGroup,
 		Patch,
 
 		/// <summary> Includes groupless patches, controlled through the main Patches node. </summary>

@@ -11,37 +11,37 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-	public class MidiMappingFacade
+	public class MidiMappingElementFacade
 	{
-		private readonly MidiMappingRepositories _repositories;
+		private readonly MidiMappingElementRepositories _repositories;
 
-		public MidiMappingFacade(MidiMappingRepositories repositories)
+		public MidiMappingElementFacade(MidiMappingElementRepositories repositories)
 		{
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 		}
 
-		public MidiMapping CreateMidiMappingWithDefaults(Document document)
+		public MidiMappingGroup CreateMidiMappingGroupWithDefaults(Document document)
 		{
 			if (document == null) throw new ArgumentNullException(nameof(document));
 
-			var entity = new MidiMapping { ID = _repositories.IDRepository.GetID() };
+			var entity = new MidiMappingGroup { ID = _repositories.IDRepository.GetID() };
 			entity.LinkTo(document);
-			_repositories.MidiMappingRepository.Insert(entity);
+			_repositories.MidiMappingGroupRepository.Insert(entity);
 
-			new MidiMapping_SideEffect_GenerateName(entity).Execute();
-			new MidiMapping_SideEffect_AutoCreate_MidiMapingElement(entity, this).Execute();
+			new MidiMappingGroup_SideEffect_GenerateName(entity).Execute();
+			new MidiMappingGroup_SideEffect_AutoCreate_MidiMapingElement(entity, this).Execute();
 
 			return entity;
 		}
 
-		public MidiMappingElement CreateMidiMappingElementWithDefaults(MidiMapping midiMapping)
+		public MidiMappingElement CreateMidiMappingElementWithDefaults(MidiMappingGroup midiMappingGroup)
 		{
-			if (midiMapping == null) throw new ArgumentNullException(nameof(midiMapping));
+			if (midiMappingGroup == null) throw new ArgumentNullException(nameof(midiMappingGroup));
 
 			var entity = new MidiMappingElement { ID = _repositories.IDRepository.GetID() };
 			_repositories.MidiMappingElementRepository.Insert(entity);
 
-			entity.LinkTo(midiMapping);
+			entity.LinkTo(midiMappingGroup);
 
 			new MidiMappingElement_SideEffect_AutoCreateEntityPosition(entity, _repositories.EntityPositionRepository, _repositories.IDRepository).Execute();
 			new MidiMappingElement_SideEffect_SetDefaults(entity, _repositories.DimensionRepository).Execute();
@@ -49,9 +49,9 @@ namespace JJ.Business.Synthesizer
 			return entity;
 		}
 
-		public VoidResult SaveMidiMapping(MidiMapping entity)
+		public VoidResult SaveMidiMappingGroup(MidiMappingGroup entity)
 		{
-			IValidator validator = new MidiMappingValidator_WithRelatedEntities(entity);
+			IValidator validator = new MidiMappingGroupValidator_WithRelatedEntities(entity);
 
 			return validator.ToResult();
 		}
@@ -63,20 +63,20 @@ namespace JJ.Business.Synthesizer
 			return validator.ToResult();
 		}
 
-		public void DeleteMidiMapping(int id)
+		public void DeleteMidiMappingGroup(int id)
 		{
-			MidiMapping entity = _repositories.MidiMappingRepository.Get(id);
-			DeleteMidiMapping(entity);
+			MidiMappingGroup entity = _repositories.MidiMappingGroupRepository.Get(id);
+			DeleteMidiMappingGroup(entity);
 		}
 
-		public void DeleteMidiMapping(MidiMapping entity)
+		public void DeleteMidiMappingGroup(MidiMappingGroup entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
 			entity.DeleteRelatedEntities(_repositories.MidiMappingElementRepository, _repositories.EntityPositionRepository);
 			entity.UnlinkRelatedEntities();
 
-			_repositories.MidiMappingRepository.Delete(entity);
+			_repositories.MidiMappingGroupRepository.Delete(entity);
 		}
 
 		public void DeleteMidiMappingElement(int id)

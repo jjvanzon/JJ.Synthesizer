@@ -39,10 +39,10 @@ namespace JJ.Business.Synthesizer.Warnings
 
 			// There are no Curve warnings.
 
-			foreach (MidiMapping midiMapping in document.MidiMappings)
+			foreach (MidiMappingGroup midiMapping in document.MidiMappingGroups)
 			{
 				string messagePrefix = ValidationHelper.GetMessagePrefix(midiMapping);
-				ExecuteValidator(new MidiMappingWarningValidator_WithRelatedEntities(midiMapping), messagePrefix);
+				ExecuteValidator(new MidiMappingGroupWarningValidator_WithRelatedEntities(midiMapping), messagePrefix);
 			}
 
 			foreach (Patch patch in document.Patches)

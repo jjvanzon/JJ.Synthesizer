@@ -4,9 +4,9 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-	public class MidiMappingRepository : RepositoryBase<MidiMapping, int>, IMidiMappingRepository
+	public class MidiMappingGroupRepository : RepositoryBase<MidiMappingGroup, int>, IMidiMappingGroupRepository
 	{
-		public MidiMappingRepository(IContext context)
+		public MidiMappingGroupRepository(IContext context)
 			: base(context)
 		{ }
 	}

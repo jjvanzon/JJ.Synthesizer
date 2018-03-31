@@ -72,35 +72,49 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 			float remainingWidth = _buttonsElement.Position.X - _scaleElement.Position.Width - StyleHelper.SPACING * 3;
 
-			float midiMappingsTotalWidth = _midiMappingsElement.GetTotalItemsWidth();
+			float midiMappingGroupsTotalWidth = _midiMappingsElement.GetTotalItemsWidth();
 			float patchesTotalWidth = _patchesElement.GetTotalItemsWidth();
-			float patchesAndMidiMappingsTotalWidth = midiMappingsTotalWidth + patchesTotalWidth;
-			float midiMappingsFraction = midiMappingsTotalWidth / patchesAndMidiMappingsTotalWidth;
-			float patchesFraction = patchesTotalWidth / patchesAndMidiMappingsTotalWidth;
+			float patchesAndMidiMappingGroupsTotalWidth = midiMappingGroupsTotalWidth + patchesTotalWidth;
+			float midiMappingsFraction = midiMappingGroupsTotalWidth / patchesAndMidiMappingGroupsTotalWidth;
+			float patchesFraction = patchesTotalWidth / patchesAndMidiMappingGroupsTotalWidth;
 
-			bool midiMappingsAreWithinHalfTheWidth = midiMappingsFraction <= 0.5;
+			bool midiMappingGroupsAreWithinHalfTheWidth = midiMappingsFraction <= 0.5;
 			bool patchesAreWithinHalfTheWidth = patchesFraction <= 0.5;
 
+			// ReSharper disable ConditionIsAlwaysTrueOrFalse
 			float midiMappingWidth;
 			float patchesWidth;
-			if (patchesAreWithinHalfTheWidth)
+			if (!patchesAreWithinHalfTheWidth && !midiMappingGroupsAreWithinHalfTheWidth)
+			{
+				// Divide space fairly over MidiMappingGroups and Patches.
+				midiMappingWidth = remainingWidth * midiMappingsFraction;
+				patchesWidth = remainingWidth * patchesFraction;
+			}
+
+			if (patchesAreWithinHalfTheWidth && !midiMappingGroupsAreWithinHalfTheWidth)
 			{
 				// Let Patches use all the width they needs.
 				patchesWidth = patchesTotalWidth;
 				midiMappingWidth = remainingWidth - patchesWidth;
 			}
-			else if (midiMappingsAreWithinHalfTheWidth)
+			else if (!patchesAreWithinHalfTheWidth && midiMappingGroupsAreWithinHalfTheWidth)
 			{
-				// Let MidiMappings use all the width they needs.
-				midiMappingWidth = midiMappingsTotalWidth;
-				patchesWidth = remainingWidth - midiMappingsTotalWidth;
+				// Let MidiMappingGroups use all the width they needs.
+				midiMappingWidth = midiMappingGroupsTotalWidth;
+				patchesWidth = remainingWidth - midiMappingGroupsTotalWidth;
 			}
-			else
+			else if (patchesAreWithinHalfTheWidth && midiMappingGroupsAreWithinHalfTheWidth)
 			{
-				// Divide space fairly over MidiMappings and Patches.
+				// Divide space fairly over MidiMappingGroups and Patches.
 				midiMappingWidth = remainingWidth * midiMappingsFraction;
 				patchesWidth = remainingWidth * patchesFraction;
 			}
+			else
+			{
+				throw new Exception(
+					$"Error evaluating {new { patchesAreWithinHalfTheWidth, midiMappingGroupsAreWithinHalfTheWidth }}. All cases should have been covered, but somehow they were not.");
+			}
+			// ReSharper restore ConditionIsAlwaysTrueOrFalse
 
 			_midiMappingsElement.Position.X = _scaleElement.Position.Right + StyleHelper.SPACING;
 			_midiMappingsElement.Position.Width = midiMappingWidth;
@@ -118,7 +132,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			_scaleElement.ViewModel = ViewModel.Scale;
 			_patchesElement.ViewModels = ViewModel.Patches;
-			_midiMappingsElement.ViewModels = ViewModel.MidiMappings;
+			_midiMappingsElement.ViewModels = ViewModel.MidiMappingGroups;
 			_buttonsElement.ViewModel = ViewModel;
 		}
 
@@ -164,25 +178,25 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			remove => _patchesElement.DeleteRequested -= value;
 		}
 
-		public event EventHandler<EventArgs<int>> ExpandMidiMappingRequested
+		public event EventHandler<EventArgs<int>> ExpandMidiMappingGroupRequested
 		{
 			add => _midiMappingsElement.ExpandRequested += value;
 			remove => _midiMappingsElement.ExpandRequested -= value;
 		}
 
-		public event EventHandler<EventArgs<int>> MoveMidiMappingBackwardRequested
+		public event EventHandler<EventArgs<int>> MoveMidiMappingGroupBackwardRequested
 		{
 			add => _midiMappingsElement.MoveBackwardRequested += value;
 			remove => _midiMappingsElement.MoveBackwardRequested -= value;
 		}
 
-		public event EventHandler<EventArgs<int>> MoveMidiMappingForwardRequested
+		public event EventHandler<EventArgs<int>> MoveMidiMappingGroupForwardRequested
 		{
 			add => _midiMappingsElement.MoveForwardRequested += value;
 			remove => _midiMappingsElement.MoveForwardRequested -= value;
 		}
 
-		public event EventHandler<EventArgs<int>> DeleteMidiMappingRequested
+		public event EventHandler<EventArgs<int>> DeleteMidiMappingGroupRequested
 		{
 			add => _midiMappingsElement.DeleteRequested += value;
 			remove => _midiMappingsElement.DeleteRequested -= value;

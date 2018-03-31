@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					AudioFileOutputPropertiesRefresh(viewModel);
+					AudioFileOutputProperties_Refresh(viewModel);
 				}
 			}
 
@@ -62,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void AudioFileOutputPropertiesRefresh(AudioFileOutputPropertiesViewModel userInput)
+		private void AudioFileOutputProperties_Refresh(AudioFileOutputPropertiesViewModel userInput)
 		{
 			// Partial Action
 			AudioFileOutputPropertiesViewModel viewModel = _audioFileOutputPropertiesPresenter.Refresh(userInput);
@@ -114,7 +114,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					CurveDetailsRefresh(viewModel);
+					CurveDetails_Refresh(viewModel);
 				}
 			}
 
@@ -128,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 	
-		private void CurveDetailsNodeRefresh(int curveID, int nodeID)
+		private void CurveDetailsNode_Refresh(int curveID, int nodeID)
 		{
 			CurveDetailsViewModel detailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
 
@@ -143,7 +143,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			detailsViewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 		}
 
-		private void CurveDetailsRefresh(CurveDetailsViewModel userInput)
+		private void CurveDetails_Refresh(CurveDetailsViewModel userInput)
 		{
 			CurveDetailsViewModel viewModel = _curveDetailsPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
@@ -195,7 +195,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibraryPropertiesDictionary_Refresh();
 			LibrarySelectionPopup_Refresh();
 			NodePropertiesDictionary_Refresh();
-			MidiMappingDetailsDictionary_Refresh();
+			MidiMappingGroupDetailsDictionary_Refresh();
 			MidiMappingElementPropertiesDictionary_Refresh();
 			OperatorPropertiesDictionary_ForCaches_Refresh();
 			OperatorPropertiesDictionary_ForCurves_Refresh();
@@ -236,7 +236,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					LibraryPropertiesRefresh(viewModel);
+					LibraryProperties_Refresh(viewModel);
 				}
 			}
 
@@ -255,7 +255,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void LibraryPropertiesRefresh(LibraryPropertiesViewModel userInput)
+		private void LibraryProperties_Refresh(LibraryPropertiesViewModel userInput)
 		{
 			LibraryPropertiesViewModel viewModel = _libraryPropertiesPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
@@ -287,7 +287,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					NodePropertiesRefresh(viewModel);
+					NodeProperties_Refresh(viewModel);
 				}
 			}
 
@@ -306,29 +306,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void NodePropertiesRefresh(int nodeID)
+		private void NodeProperties_Refresh(int nodeID)
 		{
 			NodePropertiesViewModel userInput = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, nodeID);
-			NodePropertiesRefresh(userInput);
+			NodeProperties_Refresh(userInput);
 		}
 
-		private void NodePropertiesRefresh(NodePropertiesViewModel userInput)
+		private void NodeProperties_Refresh(NodePropertiesViewModel userInput)
 		{
 			NodePropertiesViewModel viewModel = _nodePropertiesPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
 		}
 
-		private void MidiMappingDetailsDictionary_Refresh()
+		private void MidiMappingGroupDetailsDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
-			var viewModelDictionary = MainViewModel.Document.MidiMappingDetailsDictionary;
+			var viewModelDictionary = MainViewModel.Document.MidiMappingGroupDetailsDictionary;
 
 			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-			IList<MidiMapping> entities = document.MidiMappings;
+			IList<MidiMappingGroup> entities = document.MidiMappingGroups;
 
-			foreach (MidiMapping entity in entities)
+			foreach (MidiMappingGroup entity in entities)
 			{
-				MidiMappingDetailsViewModel viewModel = ViewModelSelector.TryGetMidiMappingDetailsViewModel(MainViewModel.Document, entity.ID);
+				MidiMappingGroupDetailsViewModel viewModel = ViewModelSelector.TryGetMidiMappingGroupDetailsViewModel(MainViewModel.Document, entity.ID);
 				if (viewModel == null)
 				{
 					viewModel = entity.ToDetailsViewModel();
@@ -337,7 +337,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					MidiMappingDetailsRefresh(viewModel);
+					MidiMappingGroupDetails_Refresh(viewModel);
 				}
 			}
 
@@ -349,16 +349,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				viewModelDictionary.Remove(idToDelete);
 
-				if (MainViewModel.Document.VisibleMidiMappingDetails?.MidiMapping.ID == idToDelete)
+				if (MainViewModel.Document.VisibleMidiMappingGroupDetails?.MidiMappingGroup.ID == idToDelete)
 				{
-					MainViewModel.Document.VisibleMidiMappingDetails = null;
+					MainViewModel.Document.VisibleMidiMappingGroupDetails = null;
 				}
 			}
 		}
 
-		private void MidiMappingDetailsRefresh(MidiMappingDetailsViewModel userInput)
+		private void MidiMappingGroupDetails_Refresh(MidiMappingGroupDetailsViewModel userInput)
 		{
-			MidiMappingDetailsViewModel viewModel = _midiMappingDetailsPresenter.Refresh(userInput);
+			MidiMappingGroupDetailsViewModel viewModel = _midiMappingDetailsPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
 		}
 
@@ -368,7 +368,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			var viewModelDictionary = MainViewModel.Document.MidiMappingElementPropertiesDictionary;
 
 			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-			IList<MidiMappingElement> entities = document.MidiMappings.SelectMany(x => x.MidiMappingElements).ToArray();
+			IList<MidiMappingElement> entities = document.MidiMappingGroups.SelectMany(x => x.MidiMappingElements).ToArray();
 
 			foreach (MidiMappingElement entity in entities)
 			{
@@ -381,7 +381,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					MidiMappingElementPropertiesRefresh(viewModel);
+					MidiMappingElementProperties_Refresh(viewModel);
 				}
 			}
 
@@ -400,13 +400,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void MidiMappingElementPropertiesRefresh(MidiMappingElementPropertiesViewModel userInput)
+		private void MidiMappingElementProperties_Refresh(MidiMappingElementPropertiesViewModel userInput)
 		{
 			MidiMappingElementPropertiesViewModel viewModel = _midiMappingElementPropertiesPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
 		}
 
-		private void OperatorPropertiesRefresh(OperatorPropertiesViewModel userInput)
+		private void OperatorProperties_Refresh(OperatorPropertiesViewModel userInput)
 		{
 			OperatorPropertiesViewModel viewModel = _operatorPropertiesPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
@@ -487,7 +487,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					OperatorPropertiesRefresh(viewModel);
+					OperatorProperties_Refresh(viewModel);
 				}
 			}
 
@@ -914,7 +914,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					PatchDetailsRefresh(viewModel);
+					PatchDetails_Refresh(viewModel);
 				}
 			}
 
@@ -933,7 +933,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void PatchDetailsRefresh(PatchDetailsViewModel userInput)
+		private void PatchDetails_Refresh(PatchDetailsViewModel userInput)
 		{
 			PatchDetailsViewModel viewModel = _patchDetailsPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
@@ -959,7 +959,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					PatchPropertiesRefresh(viewModel);
+					PatchProperties_Refresh(viewModel);
 				}
 			}
 
@@ -978,7 +978,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void PatchPropertiesRefresh(PatchPropertiesViewModel userInput)
+		private void PatchProperties_Refresh(PatchPropertiesViewModel userInput)
 		{
 			PatchPropertiesViewModel viewModel = _patchPropertiesPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
@@ -1009,7 +1009,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					ScalePropertiesRefresh(viewModel);
+					ScaleProperties_Refresh(viewModel);
 				}
 			}
 
@@ -1028,7 +1028,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void ScalePropertiesRefresh(ScalePropertiesViewModel userInput)
+		private void ScaleProperties_Refresh(ScalePropertiesViewModel userInput)
 		{
 			ScalePropertiesViewModel viewModel = _scalePropertiesPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);

@@ -15,10 +15,10 @@ using JJ.Presentation.Synthesizer.ViewModels;
 namespace JJ.Presentation.Synthesizer.Presenters
 {
 	internal class CurrentInstrumentBarPresenter
-		: EntityPresenterWithoutSaveBase<(Document document, Scale scale, IList<MidiMapping> midiMappings, IList<Patch> patches), CurrentInstrumentBarViewModel>
+		: EntityPresenterWithoutSaveBase<(Document document, Scale scale, IList<MidiMappingGroup> midiMappings, IList<Patch> patches), CurrentInstrumentBarViewModel>
 	{
 		private readonly IDocumentRepository _documentRepository;
-		private readonly IMidiMappingRepository _midiMappingRepository;
+		private readonly IMidiMappingGroupRepository _midiMappingGroupRepository;
 		private readonly IPatchRepository _patchRepository;
 		private readonly IScaleRepository _scaleRepository;
 		private readonly AutoPatcher _autoPatcher;
@@ -28,38 +28,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			AutoPatcher autoPatcher,
 			SystemFacade systemFacade,
 			IDocumentRepository documentRepository,
-			IMidiMappingRepository midiMappingRepository,
+			IMidiMappingGroupRepository midiMappingRepository,
 			IPatchRepository patchRepository,
 			IScaleRepository scaleRepository)
 		{
 			_autoPatcher = autoPatcher ?? throw new ArgumentNullException(nameof(autoPatcher));
 			_documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
-			_midiMappingRepository = midiMappingRepository ?? throw new ArgumentNullException(nameof(midiMappingRepository));
+			_midiMappingGroupRepository = midiMappingRepository ?? throw new ArgumentNullException(nameof(midiMappingRepository));
 			_patchRepository = patchRepository ?? throw new ArgumentNullException(nameof(patchRepository));
 			_scaleRepository = scaleRepository ?? throw new ArgumentNullException(nameof(scaleRepository));
 			_systemFacade = systemFacade ?? throw new ArgumentNullException(nameof(systemFacade));
 		}
 
-		protected override (Document document, Scale scale, IList<MidiMapping> midiMappings, IList<Patch> patches) GetEntity(CurrentInstrumentBarViewModel userInput)
+		protected override (Document document, Scale scale, IList<MidiMappingGroup> midiMappings, IList<Patch> patches) GetEntity(CurrentInstrumentBarViewModel userInput)
 		{
 			Document document = _documentRepository.Get(userInput.DocumentID);
 
 			Scale scale = _scaleRepository.TryGet(userInput.Scale.ID);
 
-			IList<MidiMapping> midiMappings = userInput.MidiMappings
-			                                           .Select(x => _midiMappingRepository.Get(x.EntityID))
+			IList<MidiMappingGroup> midiMappings = userInput.MidiMappingGroups
+			                                           .Select(x => _midiMappingGroupRepository.Get(x.EntityID))
 			                                           .ToList();
 			IList<Patch> patches = userInput.Patches
 			                                .Select(x => _patchRepository.Get(x.EntityID))
 			                                .ToList();
 			if (midiMappings.Count == 0)
 			{
-				midiMappings = _systemFacade.GetDefaultMidiMappings();
+				midiMappings = _systemFacade.GetDefaultMidiMappingGroups();
 			}
 
 			if (scale == null)
 			{
-				scale = _systemFacade.GetDefaultMidiMappings()
+				scale = _systemFacade.GetDefaultMidiMappingGroups()
 				                     .SelectMany(x => x.MidiMappingElements)
 				                     .Select(x => x.Scale)
 				                     .FirstOrDefault(x => x != null);
@@ -68,20 +68,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return (document, scale, midiMappings, patches);
 		}
 
-		protected override CurrentInstrumentBarViewModel ToViewModel((Document document, Scale scale, IList<MidiMapping> midiMappings, IList<Patch> patches) tuple)
+		protected override CurrentInstrumentBarViewModel ToViewModel((Document document, Scale scale, IList<MidiMappingGroup> midiMappings, IList<Patch> patches) tuple)
 		{
-			(Document document, Scale scale, IList<MidiMapping> midiMappings, IList<Patch> patches) = tuple;
+			(Document document, Scale scale, IList<MidiMappingGroup> midiMappings, IList<Patch> patches) = tuple;
 
 			return document.ToCurrentInstrumentBarViewModel(scale, midiMappings, patches);
 		}
 
-		public CurrentInstrumentBarViewModel AddMidiMapping(CurrentInstrumentBarViewModel userInput, int midiMappingID)
+		public CurrentInstrumentBarViewModel AddMidiMappingGroup(CurrentInstrumentBarViewModel userInput, int midiMappingID)
 		{
 			return ExecuteAction(
 				userInput,
 				entities =>
 				{
-					MidiMapping midiMapping = _midiMappingRepository.Get(midiMappingID);
+					MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingID);
 					entities.midiMappings.Add(midiMapping);
 				});
 		}
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public CurrentInstrumentBarViewModel MoveMidiMapping(CurrentInstrumentBarViewModel userInput, int midiMappingID, int newPosition)
+		public CurrentInstrumentBarViewModel MoveMidiMappingGroup(CurrentInstrumentBarViewModel userInput, int midiMappingID, int newPosition)
 		{
 			return ExecuteAction(
 				userInput,
@@ -106,24 +106,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					if (newPosition < 0) newPosition = 0;
 					if (newPosition > entities.midiMappings.Count - 1) newPosition = entities.midiMappings.Count - 1;
 
-					MidiMapping midiMapping = _midiMappingRepository.Get(midiMappingID);
+					MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingID);
 					entities.midiMappings.Remove(midiMapping);
 					entities.midiMappings.Insert(newPosition, midiMapping);
 				});
 		}
 
-		public CurrentInstrumentBarViewModel MoveMidiMappingBackward(CurrentInstrumentBarViewModel userInput, int midiMappingID)
+		public CurrentInstrumentBarViewModel MoveMidiMappingGroupBackward(CurrentInstrumentBarViewModel userInput, int midiMappingID)
 		{
-			int currentPosition = userInput.MidiMappings.IndexOf(x => x.EntityID == midiMappingID);
+			int currentPosition = userInput.MidiMappingGroups.IndexOf(x => x.EntityID == midiMappingID);
 
-			return MoveMidiMapping(userInput, midiMappingID, currentPosition - 1);
+			return MoveMidiMappingGroup(userInput, midiMappingID, currentPosition - 1);
 		}
 
-		public CurrentInstrumentBarViewModel MoveMidiMappingForward(CurrentInstrumentBarViewModel userInput, int midiMappingID)
+		public CurrentInstrumentBarViewModel MoveMidiMappingGroupForward(CurrentInstrumentBarViewModel userInput, int midiMappingID)
 		{
-			int currentPosition = userInput.MidiMappings.IndexOf(x => x.EntityID == midiMappingID);
+			int currentPosition = userInput.MidiMappingGroups.IndexOf(x => x.EntityID == midiMappingID);
 
-			return MoveMidiMapping(userInput, midiMappingID, currentPosition + 1);
+			return MoveMidiMappingGroup(userInput, midiMappingID, currentPosition + 1);
 		}
 
 		public CurrentInstrumentBarViewModel MovePatch(CurrentInstrumentBarViewModel userInput, int patchID, int newPosition)
@@ -192,7 +192,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
-		public CurrentInstrumentBarViewModel DeleteMidiMapping(CurrentInstrumentBarViewModel userInput, int midiMappingID)
+		public CurrentInstrumentBarViewModel DeleteMidiMappingGroup(CurrentInstrumentBarViewModel userInput, int midiMappingID)
 		{
 			return ExecuteAction(userInput, entities => entities.midiMappings.RemoveFirst(x => x.ID == midiMappingID));
 		}
@@ -208,7 +208,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				userInput,
 				() =>
 				{
-					(Document document, _, IList<MidiMapping> midiMappings, IList<Patch> patches) = GetEntity(userInput);
+					(Document document, _, IList<MidiMappingGroup> midiMappings, IList<Patch> patches) = GetEntity(userInput);
 
 					Scale scale = _scaleRepository.Get(scaleID);
 

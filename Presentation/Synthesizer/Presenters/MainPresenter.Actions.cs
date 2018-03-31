@@ -451,11 +451,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// CurrentInstrument
 
-		private void CurrentInstrumentBar_AddMidiMapping(int midiMappingID)
+		private void CurrentInstrumentBar_AddMidiMappingGroup(int midiMappingID)
 		{
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.AddMidiMapping(userInput, midiMappingID));
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.AddMidiMappingGroup(userInput, midiMappingID));
 		}
 
 		private void CurrentInstrumentBar_AddPatch(int patchID)
@@ -520,10 +520,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(autoPatchPopupViewModel);
 		}
 
-		public void CurrentInstrumentBar_ExpandMidiMapping(int midiMappingID)
+		public void CurrentInstrumentBar_ExpandMidiMappingGroup(int midiMappingGroupID)
 		{
 			// Redirect
-			MidiMapping_Expand(midiMappingID);
+			MidiMappingGroup_Expand(midiMappingGroupID);
 		}
 
 		public void CurrentInstrumentBar_ExpandPatch(int patchID)
@@ -532,25 +532,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Patch_Expand(patchID);
 		}
 
-		public void CurrentInstrumentBar_MoveMidiMapping(int midiMappingID, int newPosition)
+		public void CurrentInstrumentBar_MoveMidiMappingGroup(int midiMappingGroupID, int newPosition)
 		{
 			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMapping(viewModel, midiMappingID, newPosition));
+			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingGroup(viewModel, midiMappingGroupID, newPosition));
 		}
 
-		public void CurrentInstrumentBar_MoveMidiMappingBackward(int midiMappingID)
+		public void CurrentInstrumentBar_MoveMidiMappingGroupBackward(int midiMappingGroupID)
 		{
 			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingBackward(viewModel, midiMappingID));
+			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingGroupBackward(viewModel, midiMappingGroupID));
 		}
 
-		public void CurrentInstrumentBar_MoveMidiMappingForward(int midiMappingID)
+		public void CurrentInstrumentBar_MoveMidiMappingGroupForward(int midiMappingGroupID)
 		{
 			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingForward(viewModel, midiMappingID));
+			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingGroupForward(viewModel, midiMappingGroupID));
 		}
 
 		public void CurrentInstrumentBar_MovePatch(int patchID, int newPosition)
@@ -588,11 +588,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.PlayPatch(userInput, patchID));
 		}
 
-		public void CurrentInstrumentBar_DeleteMidiMapping(int midiMappingID)
+		public void CurrentInstrumentBar_DeleteMidiMappingGroup(int midiMappingGroupID)
 		{
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.DeleteMidiMapping(userInput, midiMappingID));
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.DeleteMidiMappingGroup(userInput, midiMappingGroupID));
 		}
 
 		public void CurrentInstrumentBar_RemovePatch(int patchID)
@@ -1101,10 +1101,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					CurrentInstrumentBar_AddPatch(entityID);
 					break;
 
-				case DocumentTreeNodeTypeEnum.MidiMapping:
-				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
+				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
+				case DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup:
 					// Redirect
-					CurrentInstrumentBar_AddMidiMapping(entityID);
+					CurrentInstrumentBar_AddMidiMappingGroup(entityID);
 					break;
 
 				case DocumentTreeNodeTypeEnum.Scale:
@@ -1132,7 +1132,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				case DocumentTreeNodeTypeEnum.Midi:
 					// Redirect
-					DocumentTree_CreateMidiMapping();
+					DocumentTree_CreateMidiMappingGroup();
 					break;
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
@@ -1163,7 +1163,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteUpdateAction(userInput, () => _librarySelectionPopupPresenter.Load(userInput));
 		}
 
-		private void DocumentTree_CreateMidiMapping()
+		private void DocumentTree_CreateMidiMappingGroup()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1179,13 +1179,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.MidiMapping, viewModel.CreatedEntityID).ToViewModel().AsArray(),
-					States = GetMidiMappingStates(viewModel.CreatedEntityID)
+					EntityTypesAndIDs = (EntityTypeEnum.MidiMappingGroup, viewModel.CreatedEntityID).ToViewModel().AsArray(),
+					States = GetMidiMappingGroupStates(viewModel.CreatedEntityID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
-				MidiMappingDetails_Show(viewModel.CreatedEntityID);
+				MidiMappingGroupDetails_Show(viewModel.CreatedEntityID);
 			}
 		}
 
@@ -1336,8 +1336,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Redirect
 			switch (userInput.SelectedNodeType)
 			{
-				case DocumentTreeNodeTypeEnum.MidiMapping:
-					DocumentTree_DeleteMidiMapping();
+				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
+					DocumentTree_DeleteMidiMappingGroup();
 					break;
 
 				case DocumentTreeNodeTypeEnum.Library:
@@ -1357,7 +1357,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void DocumentTree_DeleteMidiMapping()
+		private void DocumentTree_DeleteMidiMappingGroup()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1366,8 +1366,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			int id = userInput.SelectedItemID ?? 0;
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypesAndIDs = (EntityTypeEnum.MidiMapping, id).ToViewModel().AsArray(),
-				States = GetMidiMappingStates(id)
+				EntityTypesAndIDs = (EntityTypeEnum.MidiMappingGroup, id).ToViewModel().AsArray(),
+				States = GetMidiMappingGroupStates(id)
 			};
 
 			// Template Method
@@ -1629,9 +1629,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryMidi(x, documentReferenceID));
 		}
 
-		public void DocumentTree_SelectLibraryMidiMapping(int id)
+		public void DocumentTree_SelectLibraryMidiMappingGroup(int id)
 		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryMidiMapping(x, id));
+			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryMidiMappingGroup(x, id));
 		}
 
 		public void DocumentTree_SelectLibraryPatch(int id)
@@ -1656,13 +1656,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void DocumentTree_SelectMidi() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectMidi);
 
-		public void DocumentTree_SelectMidiMapping(int id)
+		public void DocumentTree_SelectMidiMappingGroup(int id)
 		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectMidiMapping(x, id));
+			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectMidiMappingGroup(x, id));
 
-			if (MainViewModel.Document.VisibleMidiMappingDetails != null)
+			if (MainViewModel.Document.VisibleMidiMappingGroupDetails != null)
 			{
-				MidiMappingDetails_Switch(id);
+				MidiMappingGroupDetails_Switch(id);
 			}
 		}
 
@@ -1714,10 +1714,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibraryProperties_Show(documentReferenceID);
 		}
 
-		public void DocumentTree_ShowMidiMapping(int id)
+		public void DocumentTree_ShowMidiMappingGroup(int id)
 		{
 			// Redirect
-			MidiMappingDetails_Show(id);
+			MidiMappingGroupDetails_Show(id);
 		}
 
 		public void DocumentTree_ShowPatch(int id)
@@ -1886,30 +1886,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _librarySelectionPopupPresenter.Play(userInput, lowerDocumentID));
 		}
 
-		// MidiMapping
+		// MidiMappingElement
 
-		public void MidiMappingDetails_AddToInstrument(int id)
+		public void MidiMappingGroupDetails_AddToInstrument(int id)
 		{
 			// Redirect
-			CurrentInstrumentBar_AddMidiMapping(id);
+			CurrentInstrumentBar_AddMidiMappingGroup(id);
 		}
 
-		public void MidiMappingDetails_Close(int id)
+		public void MidiMappingGroupDetails_Close(int id)
 		{
-			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.Close(userInput));
 
-			MainViewModel.Document.VisibleMidiMappingDetails = null;
+			MainViewModel.Document.VisibleMidiMappingGroupDetails = null;
 		}
 
-		public void MidiMappingDetails_CreateElement(int midiMappingID)
+		public void MidiMappingGroupDetails_CreateElement(int midiMappingID)
 		{
 			// GetViewModel
-			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
 
 			// Template Method
-			MidiMappingDetailsViewModel viewModel = ExecuteCreateAction(userInput, () => _midiMappingDetailsPresenter.CreateElement(userInput));
+			MidiMappingGroupDetailsViewModel viewModel = ExecuteCreateAction(userInput, () => _midiMappingDetailsPresenter.CreateElement(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -1929,10 +1929,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void MidiMappingDetails_DeleteSelectedElement(int midiMappingID)
+		public void MidiMappingGroupDetails_DeleteSelectedElement(int midiMappingID)
 		{
 			// GetViewModel
-			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
 
 			// Undo History
 			int id = userInput.SelectedElement?.ID ?? 0;
@@ -1947,7 +1947,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// Template Method
-			MidiMappingDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _midiMappingDetailsPresenter.DeleteSelectedElement(userInput));
+			MidiMappingGroupDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _midiMappingDetailsPresenter.DeleteSelectedElement(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1956,40 +1956,40 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void MidiMappingDetails_ExpandElement(int midiMappingID, int midiMappingElementID)
+		public void MidiMappingGroupDetails_ExpandElement(int midiMappingID, int midiMappingElementID)
 		{
 			// Redirect
 			MidiMappingElementProperties_Show(midiMappingElementID);
 		}
 
-		public void MidiMappingDetails_MoveElement(int midiMappingID, int midiMappingElementID, float centerX, float centerY)
+		public void MidiMappingGroupDetails_MoveElement(int midiMappingID, int midiMappingElementID, float centerX, float centerY)
 		{
-			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
 
 			ExecuteUpdateAction(userInput, () => _midiMappingDetailsPresenter.MoveElement(userInput, midiMappingElementID, centerX, centerY));
 
 		}
 
 		/// <summary> Only selecting the element, not e.g. switching properties. </summary>
-		private void MidiMappingDetails_SelectElement(int midiMappingID, int midiMappingElementID)
+		private void MidiMappingGroupDetails_SelectElement(int midiMappingID, int midiMappingElementID)
 		{
-			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, midiMappingID);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
 
 			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.SelectElement(userInput, midiMappingElementID));
 		}
 
-		private void MidiMappingDetails_Show(int id)
+		private void MidiMappingGroupDetails_Show(int id)
 		{
-			MidiMappingDetailsViewModel userInput = ViewModelSelector.GetMidiMappingDetailsViewModel(MainViewModel.Document, id);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, id);
 
 			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.Show(userInput));
 		}
 
-		private void MidiMappingDetails_Switch(int id)
+		private void MidiMappingGroupDetails_Switch(int id)
 		{
 			if (MainViewModel.DetailsOrGridPanelVisible)
 			{
-				MidiMappingDetails_Show(id);
+				MidiMappingGroupDetails_Show(id);
 			}
 		}
 
@@ -1998,15 +1998,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			// Redirect
 			MidiMappingElementProperties_Show(midiMappingElementID);
-			MidiMappingDetails_Show(midiMappingID);
-			MidiMappingDetails_SelectElement(midiMappingID, midiMappingElementID);
+			MidiMappingGroupDetails_Show(midiMappingID);
+			MidiMappingGroupDetails_SelectElement(midiMappingID, midiMappingElementID);
 		}
 
 		/// <summary> Affects multiple partials. </summary>
 		public void MidiMappingElement_Select(int midiMappingID, int midiMappingElementID)
 		{
 			// Redirect
-			MidiMappingDetails_SelectElement(midiMappingID, midiMappingElementID);
+			MidiMappingGroupDetails_SelectElement(midiMappingID, midiMappingElementID);
 			MidiMappingElementProperties_Switch(midiMappingElementID);
 		}
 
@@ -2054,7 +2054,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MidiMappingElementPropertiesViewModel viewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
 
 			// Redirect
-			MidiMappingElement_Expand(viewModel.MidiMappingID, id);
+			MidiMappingElement_Expand(viewModel.MidiMappingGroupID, id);
 		}
 
 		public void MidiMappingElementProperties_LoseFocus(int id)
@@ -2088,7 +2088,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void MidiMapping_Expand(int id) => MidiMappingDetails_Show(id);
+		private void MidiMappingGroup_Expand(int id) => MidiMappingGroupDetails_Show(id);
 
 		// Node
 
@@ -2115,8 +2115,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				// Refresh
 				int nodeID = userInput.SelectedNodeID.Value;
-				CurveDetailsNodeRefresh(curveID, nodeID);
-				NodePropertiesRefresh(nodeID);
+				CurveDetailsNode_Refresh(curveID, nodeID);
+				NodeProperties_Refresh(nodeID);
 
 				// Undo History
 				IList<ScreenViewModelBase> newStates = GetNodeStates(userInput.SelectedNodeID.Value);
@@ -2201,8 +2201,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Refresh
 			if (viewModel.Successful)
 			{
-				CurveDetailsNodeRefresh(curveID, nodeID);
-				NodePropertiesRefresh(nodeID);
+				CurveDetailsNode_Refresh(curveID, nodeID);
+				NodeProperties_Refresh(nodeID);
 			}
 		}
 
@@ -2217,8 +2217,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Refresh
 			if (viewModel.Successful)
 			{
-				CurveDetailsNodeRefresh(curveID, nodeID);
-				NodePropertiesRefresh(nodeID);
+				CurveDetailsNode_Refresh(curveID, nodeID);
+				NodeProperties_Refresh(nodeID);
 			}
 		}
 
@@ -2236,7 +2236,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				// Refresh
 				Node node = _repositories.NodeRepository.Get(id);
-				CurveDetailsNodeRefresh(node.Curve.ID, id);
+				CurveDetailsNode_Refresh(node.Curve.ID, id);
 			}
 		}
 
@@ -2282,7 +2282,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			if (viewModel.Successful)
 			{
 				Node node = _repositories.NodeRepository.Get(id);
-				CurveDetailsNodeRefresh(node.Curve.ID, id);
+				CurveDetailsNode_Refresh(node.Curve.ID, id);
 			}
 		}
 

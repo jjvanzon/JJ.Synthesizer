@@ -3,16 +3,16 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-	public class MidiMappingRepositories
+	public class MidiMappingElementRepositories
 	{
 		public IDimensionRepository DimensionRepository { get; }
 		public IEntityPositionRepository EntityPositionRepository { get; }
 		public IIDRepository IDRepository { get; }
 		public IMidiMappingElementRepository MidiMappingElementRepository { get; }
-		public IMidiMappingRepository MidiMappingRepository { get; }
+		public IMidiMappingGroupRepository MidiMappingGroupRepository { get; }
 		public IScaleRepository ScaleRepository { get; }
 
-		public MidiMappingRepositories(RepositoryWrapper repositoryWrapper)
+		public MidiMappingElementRepositories(RepositoryWrapper repositoryWrapper)
 		{
 			if (repositoryWrapper == null) throw new ArgumentNullException(nameof(repositoryWrapper));
 
@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			EntityPositionRepository = repositoryWrapper.EntityPositionRepository;
 			IDRepository = repositoryWrapper.IDRepository;
 			MidiMappingElementRepository = repositoryWrapper.MidiMappingElementRepository;
-			MidiMappingRepository = repositoryWrapper.MidiMappingRepository;
+			MidiMappingGroupRepository = repositoryWrapper.MidiMappingGroupRepository;
 			ScaleRepository = repositoryWrapper.ScaleRepository;
 		}
 	}

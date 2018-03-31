@@ -118,11 +118,11 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		internal static string GetDebuggerDisplay(MidiMapping entity)
+		internal static string GetDebuggerDisplay(MidiMappingGroup entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<MidiMapping>(entity.ID, entity.Name);
+			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<MidiMappingGroup>(entity.ID, entity.Name);
 			return debuggerDisplay;
 		}
 

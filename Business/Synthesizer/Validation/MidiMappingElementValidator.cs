@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Validation
 				ExecuteValidator(new EntityPositionValidator(entity.EntityPosition), ValidationHelper.GetMessagePrefix(entity.EntityPosition));
 			}
 
-			For(entity.MidiMapping, ResourceFormatter.MidiMapping).NotNull();
+			For(entity.MidiMappingGroup, ResourceFormatter.MidiMappingGroup).NotNull();
 
 			ValidateMidiControllerProperties(entity);
 			ValidateMidiNoteNumberProperties(entity);

@@ -28,15 +28,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			audioOutputPropertiesUserControl.PlayRequested += audioOutputPropertiesUserControl_PlayRequested;
 
 			currentInstrumentBarUserControl.ExpandRequested += CurrentInstrumentBarUserControl_ExpandRequested;
-			currentInstrumentBarUserControl.ExpandMidiMappingRequested += CurrentInstrumentBarUserControl_ExpandMidiMappingRequested;
+			currentInstrumentBarUserControl.ExpandMidiMappingGroupRequested += CurrentInstrumentBarUserControl_ExpandMidiMappingGroupRequested;
 			currentInstrumentBarUserControl.ExpandPatchRequested += CurrentInstrumentBarUserControl_ExpandPatchRequested;
-			currentInstrumentBarUserControl.MoveMidiMappingBackwardRequested += CurrentInstrumentBarUserControl_MoveMidiMappingBackwardRequested;
-			currentInstrumentBarUserControl.MoveMidiMappingForwardRequested += CurrentInstrumentBarBarUserControl_MoveMidiMappingForwardRequested;
+			currentInstrumentBarUserControl.MoveMidiMappingGroupBackwardRequested += CurrentInstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested;
+			currentInstrumentBarUserControl.MoveMidiMappingGroupForwardRequested += CurrentInstrumentBarBarUserControl_MoveMidiMappingGroupForwardRequested;
 			currentInstrumentBarUserControl.MovePatchBackwardRequested += CurrentInstrumentBarUserControl_MovePatchBackwardRequested;
 			currentInstrumentBarUserControl.MovePatchForwardRequested += CurrentInstrumentBarBarUserControl_MovePatchForwardRequested;
 			currentInstrumentBarUserControl.PlayRequested += CurrentInstrumentBarUserControl_PlayRequested;
 			currentInstrumentBarUserControl.PlayPatchRequested += CurrentInstrumentBarBarUserControl_PlayPatchRequested;
-			currentInstrumentBarUserControl.DeleteMidiMappingRequested += CurrentInstrumentBarBarUserControl_DeleteMidiMappingRequested;
+			currentInstrumentBarUserControl.DeleteMidiMappingGroupRequested += CurrentInstrumentBarBarUserControl_DeleteMidiMappingGroupRequested;
 			currentInstrumentBarUserControl.DeletePatchRequested += CurrentInstrumentBarBarUserControl_DeletePatchRequested;
 
 			curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsListUserControl_ChangeSelectedNodeTypeRequested;
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
 			documentTreeUserControl.DeleteRequested += DocumentTreeUserControl_DeleteRequested;
 			documentTreeUserControl.LibrariesNodeSelected += documentTreeUserControl_LibrariesNodeSelected;
-			documentTreeUserControl.LibraryMidiMappingNodeSelected += documentTreeUserControl_LibraryMidiMappingNodeSelected;
+			documentTreeUserControl.LibraryMidiMappingGroupNodeSelected += DocumentTreeUserControl_LibraryMidiMappingGroupNodeSelected;
 			documentTreeUserControl.LibraryMidiNodeSelected += documentTreeUserControl_LibraryMidiNodeSelected;
 			documentTreeUserControl.LibraryNodeSelected += documentTreeUserControl_LibraryNodeSelected;
 			documentTreeUserControl.LibraryPatchNodeSelected += documentTreeUserControl_LibraryPatchNodeSelected;
@@ -79,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.LibraryScaleNodeSelected += documentTreeUserControl_LibraryScaleNodeSelected;
 			documentTreeUserControl.LibraryScalesNodeSelected += documentTreeUserControl_LibraryScalesNodeSelected;
 			documentTreeUserControl.MidiNodeSelected += documentTreeUserControl_MidiNodeSelected;
-			documentTreeUserControl.MidiMappingNodeSelected += documentTreeUserControl_MidiMappingNodeSelected;
+			documentTreeUserControl.MidiMappingGroupNodeSelected += DocumentTreeUserControl_MidiMappingGroupNodeSelected;
 			documentTreeUserControl.NewRequested += documentTreeUserControl_NewRequested;
 			documentTreeUserControl.PatchGroupNodeSelected += documentTreeUserControl_PatchGroupNodeSelected;
 			documentTreeUserControl.PatchHovered += documentTreeUserControl_PatchHovered;
@@ -94,7 +94,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
 			documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
 			documentTreeUserControl.ShowLibraryRequested += documentTreeUserControl_ShowLibraryRequested;
-			documentTreeUserControl.ShowMidiMappingRequested += DocumentTreeUserControl_ShowMidiMappingRequested;
+			documentTreeUserControl.ShowMidiMappingGroupRequested += DocumentTreeUserControl_ShowMidiMappingGroupRequested;
 			documentTreeUserControl.ShowPatchRequested += documentTreeUserControl_ShowPatchRequested;
 			documentTreeUserControl.ShowScaleRequested += documentTreeUserControl_ShowScaleRequested;
 			documentTreeUserControl.UndoRequested += documentTreeUserControl_UndoRequested;
@@ -110,13 +110,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
 			menuUserControl.ShowDocumentPropertiesRequested += MenuUserControl_ShowDocumentPropertiesRequested;
 
-			midiMappingDetailsUserControl.AddToInstrumentRequested += MidiMappingDetailsUserControl_AddToInstrumentRequested;
-			midiMappingDetailsUserControl.CloseRequested += midiMappingDetailsUserControl_CloseRequested;
-			midiMappingDetailsUserControl.DeleteRequested += midiMappingDetailsUserControl_DeleteRequested;
-			midiMappingDetailsUserControl.ExpandElementRequested += midiMappingDetailsUserControl_ExpandElementRequested;
-			midiMappingDetailsUserControl.MoveElementRequested += midiMappingDetailsUserControl_MoveElementRequested;
-			midiMappingDetailsUserControl.NewRequested += midiMappingDetailsUserControl_NewRequested;
-			midiMappingDetailsUserControl.SelectElementRequested += midiMappingDetailsUserControl_SelectElementRequested;
+			midiMappingDetailsUserControl.AddToInstrumentRequested += MidiMappingGroupDetailsUserControl_AddToInstrumentRequested;
+			midiMappingDetailsUserControl.CloseRequested += midiMappingGroupDetailsUserControl_CloseRequested;
+			midiMappingDetailsUserControl.DeleteRequested += midiMappingGroupDetailsUserControl_DeleteRequested;
+			midiMappingDetailsUserControl.ExpandElementRequested += midiMappingGroupDetailsUserControl_ExpandElementRequested;
+			midiMappingDetailsUserControl.MoveElementRequested += midiMappingGroupDetailsUserControl_MoveElementRequested;
+			midiMappingDetailsUserControl.NewRequested += midiMappingGroupDetailsUserControl_NewRequested;
+			midiMappingDetailsUserControl.SelectElementRequested += midiMappingGroupDetailsUserControl_SelectElementRequested;
 
 			midiMappingElementPropertiesUserControl.CloseRequested += midiMappingElementPropertiesUserControl_CloseRequested;
 			midiMappingElementPropertiesUserControl.DeleteRequested += midiMappingElementPropertiesUserControl_DeleteRequested;
@@ -369,9 +369,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(_mainPresenter.CurrentInstrumentBar_Expand);
 		}
 
-		private void CurrentInstrumentBarUserControl_ExpandMidiMappingRequested(object sender, EventArgs<int> e)
+		private void CurrentInstrumentBarUserControl_ExpandMidiMappingGroupRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_ExpandMidiMapping(e.Value));
+			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_ExpandMidiMappingGroup(e.Value));
 		}
 
 		private void CurrentInstrumentBarUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
@@ -379,22 +379,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_ExpandPatch(e.Value));
 		}
 
-		private void CurrentInstrumentBarUserControl_MoveMidiMappingBackwardRequested(object sender, EventArgs<int> e)
+		private void CurrentInstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBar_MoveMidiMappingBackward(e.Value);
+					_mainPresenter.CurrentInstrumentBar_MoveMidiMappingGroupBackward(e.Value);
 					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
-		private void CurrentInstrumentBarBarUserControl_MoveMidiMappingForwardRequested(object sender, EventArgs<int> e)
+		private void CurrentInstrumentBarBarUserControl_MoveMidiMappingGroupForwardRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBar_MoveMidiMappingForward(e.Value);
+					_mainPresenter.CurrentInstrumentBar_MoveMidiMappingGroupForward(e.Value);
 					UpdateInfrastructureIfSuccessful();
 				});
 		}
@@ -429,12 +429,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_PlayPatch(e.Value));
 		}
 
-		private void CurrentInstrumentBarBarUserControl_DeleteMidiMappingRequested(object sender, EventArgs<int> e)
+		private void CurrentInstrumentBarBarUserControl_DeleteMidiMappingGroupRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBar_DeleteMidiMapping(e.Value);
+					_mainPresenter.CurrentInstrumentBar_DeleteMidiMappingGroup(e.Value);
 					UpdateInfrastructureIfSuccessful();
 				});
 		}
@@ -652,9 +652,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidi(e.Value));
 		}
 
-		private void documentTreeUserControl_LibraryMidiMappingNodeSelected(object sender, EventArgs<int> e)
+		private void DocumentTreeUserControl_LibraryMidiMappingGroupNodeSelected(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidiMapping(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidiMappingGroup(e.Value));
 		}
 
 		private void documentTreeUserControl_MidiNodeSelected(object sender, EventArgs e)
@@ -662,9 +662,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidi());
 		}
 
-		private void documentTreeUserControl_MidiMappingNodeSelected(object sender, EventArgs<int> e)
+		private void DocumentTreeUserControl_MidiMappingGroupNodeSelected(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidiMapping(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidiMappingGroup(e.Value));
 		}
 
 		private void documentTreeUserControl_NewRequested(object sender, EventArgs e)
@@ -747,9 +747,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowLibrary(e.Value));
 		}
 
-		private void DocumentTreeUserControl_ShowMidiMappingRequested(object sender, EventArgs<int> e)
+		private void DocumentTreeUserControl_ShowMidiMappingGroupRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowMidiMapping(e.Value));
+			TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowMidiMappingGroup(e.Value));
 		}
 
 		private void documentTreeUserControl_ShowPatchRequested(object sender, EventArgs<int> e)
@@ -836,59 +836,59 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_Play(e.Value));
 		}
 
-		// MidiMapping
+		// MidiMappingElement
 
-		private void MidiMappingDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
+		private void MidiMappingGroupDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.MidiMappingDetails_AddToInstrument(e.Value);
+					_mainPresenter.MidiMappingGroupDetails_AddToInstrument(e.Value);
 					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
-		private void midiMappingDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
+		private void midiMappingGroupDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetails_Close(e.Value));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingGroupDetails_Close(e.Value));
 		}
 
-		private void midiMappingDetailsUserControl_MoveElementRequested(
+		private void midiMappingGroupDetailsUserControl_MoveElementRequested(
 			object sender,
 			EventArgs<(int midiMappingID, int midiMappingElementID, float x, float y)> e)
 		{
 			TemplateActionHandler(
-				() => _mainPresenter.MidiMappingDetails_MoveElement(e.Value.midiMappingID, e.Value.midiMappingElementID, e.Value.x, e.Value.y));
+				() => _mainPresenter.MidiMappingGroupDetails_MoveElement(e.Value.midiMappingID, e.Value.midiMappingElementID, e.Value.x, e.Value.y));
 		}
 
-		private void midiMappingDetailsUserControl_NewRequested(object sender, EventArgs<int> e)
+		private void midiMappingGroupDetailsUserControl_NewRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.MidiMappingDetails_CreateElement(e.Value);
+					_mainPresenter.MidiMappingGroupDetails_CreateElement(e.Value);
 					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
-		private void midiMappingDetailsUserControl_SelectElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
+		private void midiMappingGroupDetailsUserControl_SelectElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.MidiMappingElement_Select(e.Value.midiMappingID, e.Value.midiMappingElementID));
 		}
 
-		private void midiMappingDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
+		private void midiMappingGroupDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.MidiMappingDetails_DeleteSelectedElement(e.Value);
+					_mainPresenter.MidiMappingGroupDetails_DeleteSelectedElement(e.Value);
 					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
-		private void midiMappingDetailsUserControl_ExpandElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
+		private void midiMappingGroupDetailsUserControl_ExpandElementRequested(object sender, EventArgs<(int midiMappingID, int midiMappingElementID)> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.MidiMappingDetails_ExpandElement(e.Value.midiMappingID, e.Value.midiMappingElementID));
+			TemplateActionHandler(() => _mainPresenter.MidiMappingGroupDetails_ExpandElement(e.Value.midiMappingID, e.Value.midiMappingElementID));
 		}
 
 		private void midiMappingElementPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)

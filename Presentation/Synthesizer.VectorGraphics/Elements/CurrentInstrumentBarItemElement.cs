@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	/// <summary> Can be used for both CurrentInstrument Patches as well as CurrentInstrument MidiMappings. </summary>
+	/// <summary> Can be used for both CurrentInstrument Patches as well as CurrentInstrument MidiMappingGroups. </summary>
 	internal class CurrentInstrumentBarItemElement : ElementBaseWithOpaqueBack
 	{
 		private readonly ITextMeasurer _textMeasurer;

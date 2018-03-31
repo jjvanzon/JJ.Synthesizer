@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public int DocumentID { get; set; }
 		public IDAndName Scale { get; set; }
 		public IList<CurrentInstrumentItemViewModel> Patches { get; set; }
-		public IList<CurrentInstrumentItemViewModel> MidiMappings { get; set; }
+		public IList<CurrentInstrumentItemViewModel> MidiMappingGroups { get; set; }
 		public bool CanPlay { get; set; }
 		public bool CanExpand { get; set; }
 		internal int? OutletIDToPlay { get; set; }

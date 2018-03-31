@@ -22,13 +22,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	{
 		private readonly RepositoryWrapper _repositories;
 		private readonly DocumentFacade _documentFacade;
-		private readonly MidiMappingFacade _midiMappingFacade;
+		private readonly MidiMappingElementFacade _midiMappingFacade;
 		private readonly PatchFacade _patchFacade;
 		private readonly ScaleFacade _scaleFacade;
 
 		public DocumentTreePresenter(
 			DocumentFacade documentFacade,
-			MidiMappingFacade midiMappingFacade,
+			MidiMappingElementFacade midiMappingFacade,
 			PatchFacade patchFacade,
 			ScaleFacade scaleFacade,
 			RepositoryWrapper repositories)
@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			switch (userInput.SelectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Midi:
-					return CreateMidiMapping(userInput);
+					return CreateMidiMappingGroup(userInput);
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
 					return CreatePatch(userInput);
@@ -81,7 +81,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		private DocumentTreeViewModel CreateMidiMapping(DocumentTreeViewModel userInput)
+		private DocumentTreeViewModel CreateMidiMappingGroup(DocumentTreeViewModel userInput)
 		{
 			return ExecuteAction(
 				userInput,
@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					Document document = _repositories.DocumentRepository.Get(userInput.ID);
 
 					// Business
-					MidiMapping midiMapping = _midiMappingFacade.CreateMidiMappingWithDefaults(document);
+					MidiMappingGroup midiMapping = _midiMappingFacade.CreateMidiMappingGroupWithDefaults(document);
 
 					// Non-Persisted
 					viewModel.CreatedEntityID = midiMapping.ID;
@@ -122,8 +122,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				case DocumentTreeNodeTypeEnum.Library:
 					return DeleteLibrary(userInput);
 
-				case DocumentTreeNodeTypeEnum.MidiMapping:
-					return DeleteMidiMapping(userInput);
+				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
+					return DeleteMidiMappingGroup(userInput);
 
 				case DocumentTreeNodeTypeEnum.Patch:
 					return DeletePatch(userInput);
@@ -148,7 +148,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		private DocumentTreeViewModel DeleteMidiMapping(DocumentTreeViewModel userInput)
+		private DocumentTreeViewModel DeleteMidiMappingGroup(DocumentTreeViewModel userInput)
 		{
 			return ExecuteAction(
 				userInput,
@@ -156,7 +156,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
-					_midiMappingFacade.DeleteMidiMapping(userInput.SelectedItemID.Value);
+					_midiMappingFacade.DeleteMidiMappingGroup(userInput.SelectedItemID.Value);
 				});
 		}
 
@@ -278,14 +278,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public void SelectLibraryMidiMapping(DocumentTreeViewModel viewModel, int id)
+		public void SelectLibraryMidiMappingGroup(DocumentTreeViewModel viewModel, int id)
 		{
 			ExecuteNonPersistedAction(
 				viewModel,
 				() =>
 				{
 					viewModel.SelectedItemID = id;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryMidiMapping;
+					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup;
 				});
 		}
 
@@ -340,14 +340,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Midi);
 		}
 
-		public void SelectMidiMapping(DocumentTreeViewModel viewModel, int id)
+		public void SelectMidiMappingGroup(DocumentTreeViewModel viewModel, int id)
 		{
 			ExecuteNonPersistedAction(
 				viewModel,
 				() =>
 				{
 					viewModel.SelectedItemID = id;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.MidiMapping;
+					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.MidiMappingGroup;
 				});
 		}
 
@@ -501,7 +501,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				case DocumentTreeNodeTypeEnum.LibraryMidi:
 				{
 					Document entity = _repositories.DocumentRepository.TryGet(viewModel.SelectedItemID.Value);
-					if (entity.MidiMappings.Count == 0)
+					if (entity.MidiMappingGroups.Count == 0)
 					{
 						ClearSelection(viewModel);
 					}
@@ -509,9 +509,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 				}
 
-				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
+				case DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup:
 				{
-					MidiMapping entity = _repositories.MidiMappingRepository.TryGet(viewModel.SelectedItemID.Value);
+					MidiMappingGroup entity = _repositories.MidiMappingGroupRepository.TryGet(viewModel.SelectedItemID.Value);
 					if (entity == null)
 					{
 						ClearSelection(viewModel);
@@ -568,9 +568,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					break;
 				}
 
-				case DocumentTreeNodeTypeEnum.MidiMapping:
+				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
 				{
-					MidiMapping entity = _repositories.MidiMappingRepository.TryGet(viewModel.SelectedItemID.Value);
+					MidiMappingGroup entity = _repositories.MidiMappingGroupRepository.TryGet(viewModel.SelectedItemID.Value);
 					if (entity == null)
 					{
 						ClearSelection(viewModel);

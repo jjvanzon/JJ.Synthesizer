@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				DocumentID = higherDocument.ID,
 				Scale = ToViewModelHelper.CreateEmptyIDAndName(),
 				Patches = new List<CurrentInstrumentItemViewModel>(),
-				MidiMappings = new List<CurrentInstrumentItemViewModel>(),
+				MidiMappingGroups = new List<CurrentInstrumentItemViewModel>(),
 				ValidationMessages = new List<string>(),
 				Visible = true
 			};
@@ -113,7 +113,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		public static CurrentInstrumentBarViewModel ToCurrentInstrumentBarViewModel(
 			this Document higherDocument,
 			Scale scale,
-			IList<MidiMapping> midiMappings,
+			IList<MidiMappingGroup> midiMappings,
 			IList<Patch> patches)
 		{
 			if (patches == null) throw new ArgumentNullException(nameof(patches));
@@ -140,14 +140,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				CanExpand = true,
 			}).ToList();
 
-			int lastMidiMappingIndex = midiMappings.Count - 1;
+			int lastMidiMappingGroupIndex = midiMappings.Count - 1;
 
-			viewModel.MidiMappings = midiMappings.Select((x, i) => new CurrentInstrumentItemViewModel
+			viewModel.MidiMappingGroups = midiMappings.Select((x, i) => new CurrentInstrumentItemViewModel
 			{
 				EntityID = x.ID,
 				Name = x.Name,
 				CanGoBackward = i != 0,
-				CanGoForward = i != lastMidiMappingIndex,
+				CanGoForward = i != lastMidiMappingGroupIndex,
 				CanPlay = false,
 				CanDelete = true,
 				CanExpand = true
@@ -349,24 +349,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		// MidiMapping
+		// MidiMappingGroup
 
-		public static MidiMappingDetailsViewModel ToDetailsViewModel(this MidiMapping entity)
+		public static MidiMappingGroupDetailsViewModel ToDetailsViewModel(this MidiMappingGroup entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			MidiMappingDetailsViewModel viewModel = entity.ToDetailsViewModel_WithoutOriginalState();
+			MidiMappingGroupDetailsViewModel viewModel = entity.ToDetailsViewModel_WithoutOriginalState();
 			viewModel.OriginalState = entity.ToDetailsViewModel_WithoutOriginalState();
 			return viewModel;
 		}
 
-		private static MidiMappingDetailsViewModel ToDetailsViewModel_WithoutOriginalState(this MidiMapping entity)
+		private static MidiMappingGroupDetailsViewModel ToDetailsViewModel_WithoutOriginalState(this MidiMappingGroup entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			var viewModel = new MidiMappingDetailsViewModel
+			var viewModel = new MidiMappingGroupDetailsViewModel
 			{
-				MidiMapping = entity.ToIDAndName(),
+				MidiMappingGroup = entity.ToIDAndName(),
 				Elements = entity.MidiMappingElements.Select(x => x.ToItemViewModel()).ToDictionary(x => x.ID),
 				ValidationMessages = new List<string>()
 			};
@@ -391,7 +391,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new MidiMappingElementPropertiesViewModel
 			{
 				ID = entity.ID,
-				MidiMappingID = entity.MidiMapping?.ID ?? default, // Null after delete action. 
+				MidiMappingGroupID = entity.MidiMappingGroup?.ID ?? default, // Null after delete action. 
 				MidiControllerCode = entity.MidiControllerCode,
 				FromMidiControllerValue = entity.FromMidiControllerValue,
 				TillMidiControllerValue = entity.TillMidiControllerValue,

@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
 		private readonly TimeProvider _timeProvider;
 		private readonly NoteRecycler _noteRecycler;
-		private readonly MidiMappingCalculator _midiMappingCalculator;
+		private readonly MidiMappingElementCalculator _midiMappingCalculator;
 		private readonly Dictionary<int, int> _midiControllerDictionary;
 		private MidiIn _midiIn;
 
@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 			_midiControllerDictionary = new Dictionary<int, int>();
 			_scaleID_To_Frequencies_Dictionary = new Dictionary<int, double[]>();
-			_midiMappingCalculator = new MidiMappingCalculator(scale, midiMappingElements);
+			_midiMappingCalculator = new MidiMappingElementCalculator(scale, midiMappingElements);
 
 			var thread = new Thread(TryStart);
 			thread.Start();
@@ -226,7 +226,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				if (!_midiControllerDictionary.TryGetValue(controllerCode, out int previousControllerValue))
 				{
 					// TODO: Initialize to the calculator's value converted back to a controller value.
-					previousControllerValue = MidiMappingCalculator.MIDDLE_CONTROLLER_VALUE;
+					previousControllerValue = MidiMappingElementCalculator.MIDDLE_CONTROLLER_VALUE;
 				}
 
 				int absoluteControllerValue = _midiMappingCalculator.ToAbsoluteControllerValue(
@@ -261,7 +261,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				int count = _midiMappingCalculator.Results.Count;
 				for (int i = 0; i < count; i++)
 				{
-					MidiMappingCalculatorResult mappingResult = _midiMappingCalculator.Results[i];
+					MidiMappingElementCalculatorResult mappingResult = _midiMappingCalculator.Results[i];
 					if (!mappingResult.DimensionValue.HasValue) continue;
 
 					if (mappingResult.StandardDimensionEnum != default)
@@ -287,7 +287,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				int count = _midiMappingCalculator.Results.Count;
 				for (int i = 0; i < count; i++)
 				{
-					MidiMappingCalculatorResult mappingResult = _midiMappingCalculator.Results[i];
+					MidiMappingElementCalculatorResult mappingResult = _midiMappingCalculator.Results[i];
 					double? dimensionValue = TryGetScaleFrequency(mappingResult);
 
 					if (!dimensionValue.HasValue)
@@ -314,7 +314,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		private double? TryGetScaleFrequency(MidiMappingCalculatorResult mappingResult)
+		private double? TryGetScaleFrequency(MidiMappingElementCalculatorResult mappingResult)
 		{
 			if (mappingResult.ScaleDto == null) return null;
 			if (!mappingResult.ToneNumber.HasValue) return null;

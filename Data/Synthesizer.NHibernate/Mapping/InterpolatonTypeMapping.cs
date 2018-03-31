@@ -1,5 +1,6 @@
 ﻿using FluentNHibernate.Mapping;
 using JJ.Data.Synthesizer.Entities;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {

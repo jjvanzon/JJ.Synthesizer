@@ -31,7 +31,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 		{
 			Document document = null;
 			AudioFileOutput audioFileOutput = null;
-			MidiMapping midiMapping = null;
+			MidiMappingGroup midiMappingGroup = null;
 			Scale scale = null;
 			Patch patch = null;
 			Operator op = null;
@@ -154,17 +154,17 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 			                                  .Eager
 			                                  .Future<Operator>();
 
-			var level_2_MidiMappingsQuery = _context.Session.QueryOver(() => document)
-			                                        .Left.JoinAlias(() => document.MidiMappings, () => midiMapping)
+			var level_2_MidiMappingGroupsQuery = _context.Session.QueryOver(() => document)
+			                                        .Left.JoinAlias(() => document.MidiMappingGroups, () => midiMappingGroup)
 			                                        .Where(() => document.ID == documentID)
 			                                        .Future<Document>();
 
-			var level_3_MidiMappingElementsQuery = _context.Session.QueryOver(() => midiMapping)
-			                                               .JoinAlias(() => midiMapping.Document, () => document)
+			var level_3_MidiMappingElementsQuery = _context.Session.QueryOver(() => midiMappingGroup)
+			                                               .JoinAlias(() => midiMappingGroup.Document, () => document)
 			                                               .Where(() => document.ID == documentID)
 			                                               .Fetch(x => x.MidiMappingElements)
 			                                               .Eager
-			                                               .Future<MidiMapping>();
+			                                               .Future<MidiMappingGroup>();
 
 			Document outputDocument = level_1_DocumentQuery.FirstOrDefault();
 			return outputDocument;

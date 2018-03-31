@@ -168,7 +168,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		// MidiMapping
+		// MidiMappingElement
 
 		public static MidiMappingElementItemViewModel ToItemViewModel(this MidiMappingElement entity)
 		{

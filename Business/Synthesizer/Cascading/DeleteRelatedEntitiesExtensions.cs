@@ -32,11 +32,11 @@ namespace JJ.Business.Synthesizer.Cascading
 				repositories.DocumentReferenceRepository.Delete(documentReference);
 			}
 
-			foreach (MidiMapping midiMapping in document.MidiMappings.ToArray())
+			foreach (MidiMappingGroup midiMappingGroup in document.MidiMappingGroups.ToArray())
 			{
-				midiMapping.DeleteRelatedEntities(repositories.MidiMappingElementRepository, repositories.EntityPositionRepository);
-				midiMapping.UnlinkRelatedEntities();
-				repositories.MidiMappingRepository.Delete(midiMapping);
+				midiMappingGroup.DeleteRelatedEntities(repositories.MidiMappingElementRepository, repositories.EntityPositionRepository);
+				midiMappingGroup.UnlinkRelatedEntities();
+				repositories.MidiMappingGroupRepository.Delete(midiMappingGroup);
 			}
 
 			foreach (Patch patch in document.Patches.ToArray())
@@ -67,14 +67,14 @@ namespace JJ.Business.Synthesizer.Cascading
 		}
 
 		public static void DeleteRelatedEntities(
-			this MidiMapping midiMapping,
+			this MidiMappingGroup midiMappingGroup,
 			IMidiMappingElementRepository midiMappingElementRepository,
 			IEntityPositionRepository entityPositionRepository)
 		{
-			if (midiMapping == null) throw new NullException(() => midiMapping);
+			if (midiMappingGroup == null) throw new NullException(() => midiMappingGroup);
 			if (midiMappingElementRepository == null) throw new NullException(() => midiMappingElementRepository);
 
-			foreach (MidiMappingElement midiMappingElement in midiMapping.MidiMappingElements.ToArray())
+			foreach (MidiMappingElement midiMappingElement in midiMappingGroup.MidiMappingElements.ToArray())
 			{
 				midiMappingElement.UnlinkRelatedEntities();
 				midiMappingElementRepository.Delete(midiMappingElement);

@@ -61,7 +61,7 @@
     <Compile Include="Presenters\LibrarySelectionPopupPresenter.cs" />
     <Compile Include="Presenters\Bases\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\MainPresenter.Undo.cs" />
-    <Compile Include="Presenters\MidiMappingDetailsPresenter.cs" />
+    <Compile Include="Presenters\MidiMappingGroupDetailsPresenter.cs" />
     <Compile Include="Presenters\MidiMappingElementPropertiesPresenter.cs" />
     <Compile Include="ToViewModel\ToLookupViewModelExtensions.cs" />
     <Compile Include="Validators\MidiMappingElementPropertiesViewModel_Validator.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="ViewModels\Items\UndoDeleteViewModel.cs" />
     <Compile Include="ViewModels\Items\UndoUpdateViewModel.cs" />
     <Compile Include="ViewModels\Items\UndoItemViewModelBase.cs" />
-    <Compile Include="ViewModels\MidiMappingDetailsViewModel.cs" />
+    <Compile Include="ViewModels\MidiMappingGroupDetailsViewModel.cs" />
     <Compile Include="ViewModels\MidiMappingElementPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Items\MidiMappingElementItemViewModel.cs" />
     <Compile Include="ViewModels\Partials\EntityWithListTreeNodeViewModel.cs" />

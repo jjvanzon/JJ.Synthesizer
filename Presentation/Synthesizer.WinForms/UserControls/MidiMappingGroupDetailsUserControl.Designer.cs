@@ -2,7 +2,7 @@
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	partial class MidiMappingDetailsUserControl
+	partial class MidiMappingGroupDetailsUserControl
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.diagramControl.Size = new System.Drawing.Size(713, 293);
 			this.diagramControl.TabIndex = 3;
 			// 
-			// MidiMappingDetailsUserControl
+			// MidiMappingGroupDetailsUserControl
 			// 
 			this.AddToInstrumentButtonVisible = true;
 			this.AddButtonVisible = true;
@@ -54,9 +54,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Name = "CurveDetailsUserControl";
 			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(672, 393);
-			this.Load += new System.EventHandler(this.MidiMappingDetailsUserControl_Load);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.MidiMappingDetailsUserControl_Paint);
-			this.Resize += new System.EventHandler(this.MidiMappingDetailsUserControl_Resize);
+			this.Load += new System.EventHandler(this.MidiMappingGroupDetailsUserControl_Load);
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.MidiMappingGroupDetailsUserControl_Paint);
+			this.Resize += new System.EventHandler(this.MidiMappingGroupDetailsUserControl_Resize);
 			this.Controls.SetChildIndex(this.diagramControl, 0);
 			this.ResumeLayout(false);
 		}

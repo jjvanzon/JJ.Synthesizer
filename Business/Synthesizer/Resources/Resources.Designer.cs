@@ -1591,20 +1591,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MIDI Mapping.
-        /// </summary>
-        internal static string MidiMapping {
-            get {
-                return ResourceManager.GetString("MidiMapping", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to MIDI Mapping Element.
         /// </summary>
         internal static string MidiMappingElement {
             get {
                 return ResourceManager.GetString("MidiMappingElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIDI Mapping Group.
+        /// </summary>
+        internal static string MidiMappingGroup {
+            get {
+                return ResourceManager.GetString("MidiMappingGroup", resourceCulture);
             }
         }
         

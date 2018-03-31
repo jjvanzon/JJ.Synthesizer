@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(LibraryPropertiesViewModel), DispatchLibraryPropertiesViewModel },
 				{ typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
 				{ typeof(MenuViewModel), DispatchMenuViewModel },
-				{ typeof(MidiMappingDetailsViewModel), DispatchMidiMappingDetailsViewModel },
+				{ typeof(MidiMappingGroupDetailsViewModel), DispatchMidiMappingGroupDetailsViewModel },
 				{ typeof(MidiMappingElementPropertiesViewModel), DispatchMidiMappingElementPropertiesViewModel },
 				{ typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
 				{ typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
@@ -376,19 +376,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchMidiMappingDetailsViewModel(ScreenViewModelBase viewModel)
+		private void DispatchMidiMappingGroupDetailsViewModel(ScreenViewModelBase viewModel)
 		{
-			var castedViewModel = (MidiMappingDetailsViewModel)viewModel;
+			var castedViewModel = (MidiMappingGroupDetailsViewModel)viewModel;
 
 			// ReSharper disable once SuggestVarOrType_Elsewhere
-			var dictionary = MainViewModel.Document.MidiMappingDetailsDictionary;
-			dictionary[castedViewModel.MidiMapping.ID] = castedViewModel;
+			var dictionary = MainViewModel.Document.MidiMappingGroupDetailsDictionary;
+			dictionary[castedViewModel.MidiMappingGroup.ID] = castedViewModel;
 
 			if (castedViewModel.Visible)
 			{
 				HideAllGridAndDetailsViewModels();
 				castedViewModel.Visible = true;
-				MainViewModel.Document.VisibleMidiMappingDetails = castedViewModel;
+				MainViewModel.Document.VisibleMidiMappingGroupDetails = castedViewModel;
 			}
 
 			DispatchViewModelBase(castedViewModel);
@@ -751,7 +751,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.VisibleScaleProperties != null;
 
 			MainViewModel.DetailsOrGridPanelVisible =
-				MainViewModel.Document.VisibleMidiMappingDetails != null ||
+				MainViewModel.Document.VisibleMidiMappingGroupDetails != null ||
 				MainViewModel.Document.VisiblePatchDetails != null ||
 				MainViewModel.Document.VisibleToneGridEdit != null ||
 				MainViewModel.Document.AudioFileOutputGrid.Visible;

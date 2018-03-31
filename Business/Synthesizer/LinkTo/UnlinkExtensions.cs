@@ -26,21 +26,21 @@ namespace JJ.Business.Synthesizer.LinkTo
 		{
 			if (document == null) throw new NullException(() => document);
 
-			document.LinkTo((AudioOutput)null);
+			document.LinkTo(null);
 		}
 
 		public static void UnlinkHigherDocument(this DocumentReference documentReference)
 		{
 			if (documentReference == null) throw new NullException(() => documentReference);
 
-			documentReference.LinkToHigherDocument((Document)null);
+			documentReference.LinkToHigherDocument(null);
 		}
 
 		public static void UnlinkLowerDocument(this DocumentReference lowerDocumentReference)
 		{
 			if (lowerDocumentReference == null) throw new NullException(() => lowerDocumentReference);
 
-			lowerDocumentReference.LinkToLowerDocument((Document)null);
+			lowerDocumentReference.LinkToLowerDocument(null);
 		}
 
 		public static void UnlinkOperator(this Inlet inlet)
@@ -57,11 +57,11 @@ namespace JJ.Business.Synthesizer.LinkTo
 			inlet.LinkTo((Outlet)null);
 		}
 
-		public static void UnlinkDocument(this MidiMapping midiMapping)
+		public static void UnlinkDocument(this MidiMappingGroup midiMappingGroup)
 		{
-			if (midiMapping == null) throw new NullException(() => midiMapping);
+			if (midiMappingGroup == null) throw new NullException(() => midiMappingGroup);
 
-			midiMapping.LinkTo((Document)null);
+			midiMappingGroup.LinkTo(null);
 		}
 
 		public static void UnlinkEntityPosition(this MidiMappingElement midiMappingElement)
@@ -71,11 +71,11 @@ namespace JJ.Business.Synthesizer.LinkTo
 			midiMappingElement.LinkTo((EntityPosition)null);
 		}
 
-		public static void UnlinkMidiMapping(this MidiMappingElement midiMappingElement)
+		public static void UnlinkMidiMappingGroup(this MidiMappingElement midiMappingElement)
 		{
 			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
 
-			midiMappingElement.LinkTo((MidiMapping)null);
+			midiMappingElement.LinkTo((MidiMappingGroup)null);
 		}
 
 		public static void UnlinkScale(this MidiMappingElement midiMappingElement)
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.LinkTo
 		{
 			if (outlet == null) throw new NullException(() => outlet);
 
-			outlet.LinkTo((Operator)null);
+			outlet.LinkTo(null);
 		}
 
 		public static void UnlinkDocument(this Patch patch)
@@ -152,7 +152,7 @@ namespace JJ.Business.Synthesizer.LinkTo
 		{
 			if (tone == null) throw new NullException(() => tone);
 
-			tone.LinkTo((Scale)null);
+			tone.LinkTo(null);
 		}
 
 		// Enum-Like Entities
@@ -182,14 +182,14 @@ namespace JJ.Business.Synthesizer.LinkTo
 		{
 			if (audioOutput == null) throw new NullException(() => audioOutput);
 
-			audioOutput.LinkTo((SpeakerSetup)null);
+			audioOutput.LinkTo(null);
 		}
 
 		public static void UnlinkDimension(this IInletOrOutlet inletOrOutlet)
 		{
 			if (inletOrOutlet == null) throw new NullException(() => inletOrOutlet);
 
-			inletOrOutlet.LinkTo((Dimension)null);
+			inletOrOutlet.LinkTo(null);
 		}
 
 		public static void UnlinkStandardDimension(this MidiMappingElement midiMappingElement)

@@ -4,7 +4,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
-	public class MidiMappingDetailsViewModelToDiagramConverterResult
+	public class MidiMappingGroupDetails_ViewModelToDiagramConverterResult
 	{
 		public Diagram Diagram { get; }
 		public DeleteGesture DeleteElementGesture { get; }
@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public MoveGesture MoveGesture { get; }
 		public SelectGesture SelectElementGesture { get; }
 
-		public MidiMappingDetailsViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
+		public MidiMappingGroupDetails_ViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
 		{
 			Diagram = new Diagram();
 			DeleteElementGesture = new DeleteGesture();

@@ -19,17 +19,17 @@ namespace JJ.Business.Synthesizer.Calculation
 	/// In particular the Results property is overwritten in-place in the Calculate method.
 	/// This is done to avoid garbage collection.
 	/// </summary>
-	public class MidiMappingCalculator
+	public class MidiMappingElementCalculator
 	{
 		public const int MIDDLE_CONTROLLER_VALUE = 64;
 
 		private readonly ScaleDto _scaleDto;
 		private readonly MidiMappingElementDto[] _midiMappingElementDtos;
-		private readonly IList<MidiMappingCalculatorResult> _results = new List<MidiMappingCalculatorResult>();
+		private readonly IList<MidiMappingElementCalculatorResult> _results = new List<MidiMappingElementCalculatorResult>();
 
-		public IList<MidiMappingCalculatorResult> Results => _results;
+		public IList<MidiMappingElementCalculatorResult> Results => _results;
 
-		public MidiMappingCalculator(Scale scale, IList<MidiMappingElement> midiMappingElements)
+		public MidiMappingElementCalculator(Scale scale, IList<MidiMappingElement> midiMappingElements)
 		{
 			if (midiMappingElements == null) throw new ArgumentNullException(nameof(midiMappingElements));
 
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Calculation
 				}
 
 				_results.Add(
-					new MidiMappingCalculatorResult(
+					new MidiMappingElementCalculatorResult(
 						midiMappingElementDto.StandardDimensionEnum,
 						midiMappingElementDto.CustomDimensionName,
 						destDimensionValue,

@@ -78,8 +78,8 @@
     <Compile Include="Helpers\ToolTipPositioningEnum.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />
     <Compile Include="CurveDetailsViewModelToDiagramConverterResult.cs" />
-    <Compile Include="MidiMappingDetailsViewModelToDiagramConverterResult.cs" />
-    <Compile Include="MidiMappingDetailsViewModelToDiagramConverter.cs" />
+    <Compile Include="MidiMappingGroupDetails_ViewModelToDiagramConverterResult.cs" />
+    <Compile Include="MidiMappingGroupDetails_ViewModelToDiagramConverter.cs" />
     <Compile Include="PatchViewModelToDiagramConverter.cs" />
     <Compile Include="EventArg\ToolTipTextEventArgs.cs" />
     <Compile Include="Gestures\DeleteGesture.cs" />

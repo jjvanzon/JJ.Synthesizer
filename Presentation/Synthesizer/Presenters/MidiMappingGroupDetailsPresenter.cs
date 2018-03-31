@@ -12,33 +12,33 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-	internal class MidiMappingDetailsPresenter : EntityPresenterWithSaveBase<MidiMapping, MidiMappingDetailsViewModel>
+	internal class MidiMappingGroupDetailsPresenter : EntityPresenterWithSaveBase<MidiMappingGroup, MidiMappingGroupDetailsViewModel>
 	{
-		private readonly MidiMappingRepositories _repositories;
-		private readonly MidiMappingFacade _midiMappingFacade;
+		private readonly MidiMappingElementRepositories _repositories;
+		private readonly MidiMappingElementFacade _midiMappingFacade;
 
-		public MidiMappingDetailsPresenter(MidiMappingRepositories repositories, MidiMappingFacade midiMappingFacade)
+		public MidiMappingGroupDetailsPresenter(MidiMappingElementRepositories repositories, MidiMappingElementFacade midiMappingFacade)
 		{
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
-		protected override MidiMapping GetEntity(MidiMappingDetailsViewModel userInput)
+		protected override MidiMappingGroup GetEntity(MidiMappingGroupDetailsViewModel userInput)
 		{
-			return _repositories.MidiMappingRepository.Get(userInput.MidiMapping.ID);
+			return _repositories.MidiMappingGroupRepository.Get(userInput.MidiMappingGroup.ID);
 		}
 
-		protected override MidiMappingDetailsViewModel ToViewModel(MidiMapping entity)
+		protected override MidiMappingGroupDetailsViewModel ToViewModel(MidiMappingGroup entity)
 		{
 			return entity.ToDetailsViewModel();
 		}
 
-		protected override IResult Save(MidiMapping entity, MidiMappingDetailsViewModel userInput)
+		protected override IResult Save(MidiMappingGroup entity, MidiMappingGroupDetailsViewModel userInput)
 		{
-			return _midiMappingFacade.SaveMidiMapping(entity);
+			return _midiMappingFacade.SaveMidiMappingGroup(entity);
 		}
 
-		public MidiMappingDetailsViewModel CreateElement(MidiMappingDetailsViewModel userInput)
+		public MidiMappingGroupDetailsViewModel CreateElement(MidiMappingGroupDetailsViewModel userInput)
 		{
 			MidiMappingElement newMidiMappingElement = null;
 
@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// Deletes the selected element.
 		/// Produces a validation message if no element is selected.
 		/// </summary>
-		public MidiMappingDetailsViewModel DeleteSelectedElement(MidiMappingDetailsViewModel userInput)
+		public MidiMappingGroupDetailsViewModel DeleteSelectedElement(MidiMappingGroupDetailsViewModel userInput)
 		{
 			if (userInput == null) throw new ArgumentNullException(nameof(userInput));
 
@@ -74,14 +74,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// GetEntities
-			MidiMapping midiMapping = _repositories.MidiMappingRepository.Get(userInput.MidiMapping.ID);
+			MidiMappingGroup midiMapping = _repositories.MidiMappingGroupRepository.Get(userInput.MidiMappingGroup.ID);
 
 			// Business
 			// ReSharper disable once PossibleNullReferenceException
 			_midiMappingFacade.DeleteMidiMappingElement(userInput.SelectedElement.ID);
 
 			// ToViewModel
-			MidiMappingDetailsViewModel viewModel = ToViewModel(midiMapping);
+			MidiMappingGroupDetailsViewModel viewModel = ToViewModel(midiMapping);
 
 			// Non-Persisted
 			CopyNonPersistedProperties(userInput, viewModel);
@@ -93,8 +93,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return viewModel;
 		}
 
-		public MidiMappingDetailsViewModel MoveElement(
-			MidiMappingDetailsViewModel userInput,
+		public MidiMappingGroupDetailsViewModel MoveElement(
+			MidiMappingGroupDetailsViewModel userInput,
 			int midiMappingElementID,
 			float centerX,
 			float centerY)
@@ -112,14 +112,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public void SelectElement(MidiMappingDetailsViewModel viewModel, int operatorID)
+		public void SelectElement(MidiMappingGroupDetailsViewModel viewModel, int operatorID)
 		{
 			ExecuteNonPersistedAction(viewModel, () => SetSelectedElement(viewModel, operatorID));
 		}
 
 		// Helpers
 
-		private void SetSelectedElement(MidiMappingDetailsViewModel viewModel, int operatorID)
+		private void SetSelectedElement(MidiMappingGroupDetailsViewModel viewModel, int operatorID)
 		{
 			MidiMappingElementItemViewModel previousSelectedElementViewModel = viewModel.SelectedElement;
 			if (previousSelectedElementViewModel != null)
@@ -135,7 +135,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.SelectedElement = selectedElementViewModel;
 		}
 
-		public override void CopyNonPersistedProperties(MidiMappingDetailsViewModel sourceViewModel, MidiMappingDetailsViewModel destViewModel)
+		public override void CopyNonPersistedProperties(MidiMappingGroupDetailsViewModel sourceViewModel, MidiMappingGroupDetailsViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 

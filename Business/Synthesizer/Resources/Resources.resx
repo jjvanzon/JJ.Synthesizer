@@ -1068,8 +1068,8 @@
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
-  <data name="MidiMapping" xml:space="preserve">
-    <value>MIDI Mapping</value>
+  <data name="MidiMappingGroup" xml:space="preserve">
+    <value>MIDI Mapping Group</value>
   </data>
   <data name="MidiMappingElement" xml:space="preserve">
     <value>MIDI Mapping Element</value>

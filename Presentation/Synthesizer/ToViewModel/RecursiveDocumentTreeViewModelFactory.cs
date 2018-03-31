@@ -63,9 +63,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				MidiNode = new EntityWithListTreeNodeViewModel
 				{
 					EntityID = document.ID,
-					Text = GetTreeNodeText(ResourceFormatter.Midi, document.MidiMappings.Count),
+					Text = GetTreeNodeText(ResourceFormatter.Midi, document.MidiMappingGroups.Count),
 					Visible = true,
-					List = document.MidiMappings
+					List = document.MidiMappingGroups
 					               .Select(x => x.ToIDAndName())
 					               .OrderBy(x => x.Name)
 					               .ToList()
@@ -119,9 +119,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				MidiNode = new EntityWithListTreeNodeViewModel
 				{
 					EntityID = lowerDocument.ID,
-					Text = GetTreeNodeText(ResourceFormatter.Midi, lowerDocument.MidiMappings.Count),
-					List = lowerDocument.MidiMappings.Select(x => x.ToIDAndName()).OrderBy(x => x.Name).ToArray(),
-					Visible = lowerDocument.MidiMappings.Any()
+					Text = GetTreeNodeText(ResourceFormatter.Midi, lowerDocument.MidiMappingGroups.Count),
+					List = lowerDocument.MidiMappingGroups.Select(x => x.ToIDAndName()).OrderBy(x => x.Name).ToArray(),
+					Visible = lowerDocument.MidiMappingGroups.Any()
 				},
 				ScalesNode = new EntityWithListTreeNodeViewModel
 				{

@@ -16,10 +16,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	internal class MidiMappingElementPropertiesPresenter
 		: EntityPresenterWithSaveBase<MidiMappingElement, MidiMappingElementPropertiesViewModel>
 	{
-		private readonly MidiMappingRepositories _repositories;
-		private readonly MidiMappingFacade _midiMappingFacade;
+		private readonly MidiMappingElementRepositories _repositories;
+		private readonly MidiMappingElementFacade _midiMappingFacade;
 
-		public MidiMappingElementPropertiesPresenter(MidiMappingRepositories repositories, MidiMappingFacade midiMappingFacade)
+		public MidiMappingElementPropertiesPresenter(MidiMappingElementRepositories repositories, MidiMappingElementFacade midiMappingFacade)
 		{
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));

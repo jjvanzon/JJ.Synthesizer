@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Interfaces;
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable VirtualMemberCallInConstructor
 
 namespace JJ.Data.Synthesizer.Entities
 {
@@ -35,7 +38,7 @@ namespace JJ.Data.Synthesizer.Entities
 		/// <inheritdoc />
 		public virtual int? TillToneNumber { get; set; }
 		/// <summary> parent, not nullable </summary>
-		public virtual MidiMapping MidiMapping { get; set; }
+		public virtual MidiMappingGroup MidiMappingGroup { get; set; }
 		public virtual EntityPosition EntityPosition { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);

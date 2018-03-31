@@ -1,6 +1,7 @@
 ﻿using FluentNHibernate.Mapping;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.NHibernate.Names;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {
@@ -32,7 +33,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 			Map(x => x.TillToneNumber);
 			References(x => x.EntityPosition, ColumnNames.EntityPositionID);
 
-			References(x => x.MidiMapping, ColumnNames.MidiMappingID);
+			References(x => x.MidiMappingGroup, ColumnNames.MidiMappingGroupID);
 		}
 	}
 }

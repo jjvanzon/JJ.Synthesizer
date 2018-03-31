@@ -100,10 +100,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			switch (selectedNodeType)
 			{
-				case DocumentTreeNodeTypeEnum.LibraryMidiMapping:
+				case DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup:
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
 				case DocumentTreeNodeTypeEnum.LibraryScale:
-				case DocumentTreeNodeTypeEnum.MidiMapping:
+				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
 				case DocumentTreeNodeTypeEnum.Patch:
 				case DocumentTreeNodeTypeEnum.Scale:
 					return true;
@@ -167,7 +167,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			switch (selectedNodeType)
 			{
-				case DocumentTreeNodeTypeEnum.MidiMapping:
+				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
 				case DocumentTreeNodeTypeEnum.Library:
 				case DocumentTreeNodeTypeEnum.Patch:
 				case DocumentTreeNodeTypeEnum.Scale:
@@ -282,7 +282,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return distance;
 		}
 
-		// MidiMapping
+		// MidiMappingGroup
 
 		public static string GetCaption(MidiMappingElement entity)
 		{

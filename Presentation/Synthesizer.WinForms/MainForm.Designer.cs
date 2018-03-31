@@ -18,7 +18,7 @@
 			this.splitContainerTreeAndRightSide = new System.Windows.Forms.SplitContainer();
 			this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
 			this.splitContainerCenterAndProperties = new System.Windows.Forms.SplitContainer();
-			this.midiMappingDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingDetailsUserControl();
+			this.midiMappingDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingGroupDetailsUserControl();
 			this.toneGridEditUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ToneGridEditUserControl();
 			this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
 			this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
@@ -609,7 +609,7 @@
 		private UserControls.LibraryPropertiesUserControl libraryPropertiesUserControl;
 		private System.Windows.Forms.SplitContainer splitContainerCurvesAndTopSide;
 		private UserControls.CurveDetailsListUserControl curveDetailsListUserControl;
-		private UserControls.MidiMappingDetailsUserControl midiMappingDetailsUserControl;
+		private UserControls.MidiMappingGroupDetailsUserControl midiMappingDetailsUserControl;
 		private UserControls.MidiMappingElementPropertiesUserControl midiMappingElementPropertiesUserControl;
 	}
 }

@@ -4,12 +4,12 @@ using JJ.Framework.Business;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-	internal class MidiMapping_SideEffect_AutoCreate_MidiMapingElement : ISideEffect
+	internal class MidiMappingGroup_SideEffect_AutoCreate_MidiMapingElement : ISideEffect
 	{
-		private readonly MidiMapping _midiMapping;
-		private readonly MidiMappingFacade _midiMappingFacade;
+		private readonly MidiMappingGroup _midiMapping;
+		private readonly MidiMappingElementFacade _midiMappingFacade;
 
-		public MidiMapping_SideEffect_AutoCreate_MidiMapingElement(MidiMapping midiMapping, MidiMappingFacade midiMappingFacade)
+		public MidiMappingGroup_SideEffect_AutoCreate_MidiMapingElement(MidiMappingGroup midiMapping, MidiMappingElementFacade midiMappingFacade)
 		{
 			_midiMapping = midiMapping ?? throw new ArgumentNullException(nameof(midiMapping));
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));

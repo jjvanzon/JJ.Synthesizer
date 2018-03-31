@@ -92,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			};
 		}
 
-		public static IDAndName ToIDAndName(this MidiMapping entity)
+		public static IDAndName ToIDAndName(this MidiMappingGroup entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 

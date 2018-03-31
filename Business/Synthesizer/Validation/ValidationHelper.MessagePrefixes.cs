@@ -29,8 +29,8 @@ namespace JJ.Business.Synthesizer.Validation
 
 		public static string GetMessagePrefix(EntityPosition entityPosition) => ResourceFormatter.EntityPosition;
 
-		public static string GetMessagePrefix(MidiMapping midiMapping) => GetMessagePrefix(
-			ResourceFormatter.MidiMapping,
+		public static string GetMessagePrefix(MidiMappingGroup midiMapping) => GetMessagePrefix(
+			ResourceFormatter.MidiMappingGroup,
 			GetUserFriendlyIdentifier(midiMapping));
 
 		public static string GetMessagePrefix(MidiMappingElement midiMappingElement) =>

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
-
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 // ReSharper disable VirtualMemberCallInConstructor
 
 namespace JJ.Data.Synthesizer.Entities
@@ -14,7 +15,7 @@ namespace JJ.Data.Synthesizer.Entities
 			AudioFileOutputs = new List<AudioFileOutput>();
 			Patches = new List<Patch>();
 			Scales = new List<Scale>();
-			MidiMappings = new List<MidiMapping>();
+			MidiMappingGroups = new List<MidiMappingGroup>();
 			LowerDocumentReferences = new List<DocumentReference>();
 			HigherDocumentReferences = new List<DocumentReference>();
 		}
@@ -25,7 +26,7 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual AudioOutput AudioOutput { get; set; }
 		public virtual IList<DocumentReference> LowerDocumentReferences { get; set; }
 		public virtual IList<DocumentReference> HigherDocumentReferences { get; set; }
-		public virtual IList<MidiMapping> MidiMappings { get; set; }
+		public virtual IList<MidiMappingGroup> MidiMappingGroups { get; set; }
 		public virtual IList<Patch> Patches { get; set; }
 		public virtual IList<Scale> Scales { get; set; }
 

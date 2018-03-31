@@ -6,7 +6,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 	public sealed class MidiMappingElementPropertiesViewModel : ScreenViewModelBase
 	{
 		public int ID { get; set; }
-		public int MidiMappingID { get; set; }
+		public int MidiMappingGroupID { get; set; }
 		public int? MidiControllerCode { get; set; }
 		public int? FromMidiControllerValue { get; set; }
 		public int? TillMidiControllerValue { get; set; }

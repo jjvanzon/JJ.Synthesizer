@@ -228,11 +228,11 @@
     <Compile Include="UserControls\Partials\ButtonBarUserControl.Designer.cs">
       <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MidiMappingDetailsUserControl.cs">
+    <Compile Include="UserControls\MidiMappingGroupDetailsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\MidiMappingDetailsUserControl.Designer.cs">
-      <DependentUpon>MidiMappingDetailsUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\MidiMappingGroupDetailsUserControl.Designer.cs">
+      <DependentUpon>MidiMappingGroupDetailsUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ToneGridEditUserControl.cs">
       <SubType>UserControl</SubType>
@@ -407,8 +407,8 @@
     <EmbeddedResource Include="UserControls\Partials\ButtonBarUserControl.resx">
       <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\MidiMappingDetailsUserControl.resx">
-      <DependentUpon>MidiMappingDetailsUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\MidiMappingGroupDetailsUserControl.resx">
+      <DependentUpon>MidiMappingGroupDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Partials\FromTillUserControl.resx">
       <DependentUpon>FromTillUserControl.cs</DependentUpon>

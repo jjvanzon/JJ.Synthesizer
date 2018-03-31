@@ -44,11 +44,11 @@ namespace JJ.Business.Synthesizer.Cascading
 			inlet.UnlinkOperator();
 		}
 
-		public static void UnlinkRelatedEntities(this MidiMapping midiMapping)
+		public static void UnlinkRelatedEntities(this MidiMappingGroup midiMappingGroup)
 		{
-			if (midiMapping == null) throw new NullException(() => midiMapping);
+			if (midiMappingGroup == null) throw new NullException(() => midiMappingGroup);
 
-			midiMapping.UnlinkDocument();
+			midiMappingGroup.UnlinkDocument();
 		}
 
 		public static void UnlinkRelatedEntities(this MidiMappingElement midiMappingElement)
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Cascading
 
 			midiMappingElement.UnlinkScale();
 			midiMappingElement.UnlinkStandardDimension();
-			midiMappingElement.UnlinkMidiMapping();
+			midiMappingElement.UnlinkMidiMappingGroup();
 		}
 
 		public static void UnlinkRelatedEntities(this Node node)

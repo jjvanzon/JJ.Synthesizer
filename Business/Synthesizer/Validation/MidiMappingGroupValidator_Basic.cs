@@ -4,9 +4,9 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-	internal class MidiMappingValidator_Basic : VersatileValidator
+	internal class MidiMappingGroupValidator_Basic : VersatileValidator
 	{
-		public MidiMappingValidator_Basic(MidiMapping entity)
+		public MidiMappingGroupValidator_Basic(MidiMappingGroup entity)
 		{
 			ExecuteValidator(new IDValidator(entity.ID));
 			ExecuteValidator(new NameValidator(entity.Name));

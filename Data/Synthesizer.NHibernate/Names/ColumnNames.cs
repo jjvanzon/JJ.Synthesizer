@@ -15,7 +15,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Names
 		public const string InputOutletID = nameof(InputOutletID);
 		public const string InterpolationTypeID = nameof(InterpolationTypeID);
 		public const string LowerDocumentID = nameof(LowerDocumentID);
-		public const string MidiMappingID = nameof(MidiMappingID);
+		public const string MidiMappingGroupID = nameof(MidiMappingGroupID);
 		public const string NodeTypeID = nameof(NodeTypeID);
 		public const string OperatorID = nameof(OperatorID);
 		public const string OperatorTypeID = nameof(OperatorTypeID);

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using JJ.Data.Synthesizer.Helpers;
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace JJ.Data.Synthesizer.Entities
 {

@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				Scale = CreateEmptyIDAndName(),
 				Patches = new List<CurrentInstrumentItemViewModel>(),
-				MidiMappings = new List<CurrentInstrumentItemViewModel>(),
+				MidiMappingGroups = new List<CurrentInstrumentItemViewModel>(),
 				ValidationMessages = new List<string>(),
 				Successful = true,
 				Visible = true
@@ -101,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				DocumentTree = new RecursiveDocumentTreeViewModelFactory().CreateEmptyDocumentTreeViewModel(),
 				LibraryPropertiesDictionary = new Dictionary<int, LibraryPropertiesViewModel>(),
 				LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
-				MidiMappingDetailsDictionary = new Dictionary<int, MidiMappingDetailsViewModel>(),
+				MidiMappingGroupDetailsDictionary = new Dictionary<int, MidiMappingGroupDetailsViewModel>(),
 				MidiMappingElementPropertiesDictionary = new Dictionary<int, MidiMappingElementPropertiesViewModel>(),
 				NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
 				OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),
