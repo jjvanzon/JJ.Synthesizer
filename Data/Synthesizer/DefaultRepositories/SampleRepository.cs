@@ -1,13 +1,13 @@
-﻿using JJ.Framework.Data;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Data;
 using JJ.Framework.Exceptions.Aggregates;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
 	public class SampleRepository : RepositoryBase<Sample, int>, ISampleRepository
 	{
-		public SampleRepository(IContext context)
+		protected SampleRepository(IContext context)
 			: base(context)
 		{ }
 

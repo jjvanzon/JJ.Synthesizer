@@ -14,10 +14,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
 	internal class MidiMappingGroupDetailsPresenter : EntityPresenterWithSaveBase<MidiMappingGroup, MidiMappingGroupDetailsViewModel>
 	{
-		private readonly MidiMappingElementRepositories _repositories;
-		private readonly MidiMappingElementFacade _midiMappingFacade;
+		private readonly MidiMappingRepositories _repositories;
+		private readonly MidiMappingFacade _midiMappingFacade;
 
-		public MidiMappingGroupDetailsPresenter(MidiMappingElementRepositories repositories, MidiMappingElementFacade midiMappingFacade)
+		public MidiMappingGroupDetailsPresenter(MidiMappingRepositories repositories, MidiMappingFacade midiMappingFacade)
 		{
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
@@ -38,22 +38,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return _midiMappingFacade.SaveMidiMappingGroup(entity);
 		}
 
-		public MidiMappingGroupDetailsViewModel CreateElement(MidiMappingGroupDetailsViewModel userInput)
+		public MidiMappingGroupDetailsViewModel CreateMidiMapping(MidiMappingGroupDetailsViewModel userInput)
 		{
-			MidiMappingElement newMidiMappingElement = null;
+			MidiMapping newMidiMapping = null;
 
 			return ExecuteAction(
 				userInput,
-				entity => { newMidiMappingElement = _midiMappingFacade.CreateMidiMappingElementWithDefaults(entity); },
-				viewModel => viewModel.CreatedElementID = newMidiMappingElement.ID);
+				entity => { newMidiMapping = _midiMappingFacade.CreateMidiMappingWithDefaults(entity); },
+				viewModel => viewModel.CreatedMidiMappingID = newMidiMapping.ID);
 		}
 
 		/// <summary>
 		/// NOTE: Has view model validation, which the base class's template method does not support.
-		/// Deletes the selected element.
-		/// Produces a validation message if no element is selected.
+		/// Deletes the selected MidiMapping.
+		/// Produces a validation message if no MidiMapping is selected.
 		/// </summary>
-		public MidiMappingGroupDetailsViewModel DeleteSelectedElement(MidiMappingGroupDetailsViewModel userInput)
+		public MidiMappingGroupDetailsViewModel DeleteSelectedMidiMapping(MidiMappingGroupDetailsViewModel userInput)
 		{
 			if (userInput == null) throw new ArgumentNullException(nameof(userInput));
 
@@ -64,8 +64,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			userInput.Successful = false;
 
 			// ViewModel Validation
-			bool selectedElementIsEmpty = (userInput.SelectedElement?.ID ?? 0) == 0;
-			if (selectedElementIsEmpty)
+			bool selectedMidiMappingIsEmpty = (userInput.SelectedMidiMapping?.ID ?? 0) == 0;
+			if (selectedMidiMappingIsEmpty)
 			{
 				// Non-Persisted
 				userInput.ValidationMessages.Add(ResourceFormatter.SelectAnElementFirst);
@@ -78,14 +78,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Business
 			// ReSharper disable once PossibleNullReferenceException
-			_midiMappingFacade.DeleteMidiMappingElement(userInput.SelectedElement.ID);
+			_midiMappingFacade.DeleteMidiMapping(userInput.SelectedMidiMapping.ID);
 
 			// ToViewModel
 			MidiMappingGroupDetailsViewModel viewModel = ToViewModel(midiMapping);
 
 			// Non-Persisted
 			CopyNonPersistedProperties(userInput, viewModel);
-			viewModel.SelectedElement = null;
+			viewModel.SelectedMidiMapping = null;
 
 			// Successful
 			viewModel.Successful = true;
@@ -93,9 +93,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return viewModel;
 		}
 
-		public MidiMappingGroupDetailsViewModel MoveElement(
+		public MidiMappingGroupDetailsViewModel MoveMidiMapping(
 			MidiMappingGroupDetailsViewModel userInput,
-			int midiMappingElementID,
+			int midiMappingID,
 			float centerX,
 			float centerY)
 		{
@@ -104,42 +104,42 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				x =>
 				{
 					// GetEntity
-					MidiMappingElement midiMappingElement = _repositories.MidiMappingElementRepository.Get(midiMappingElementID);
+					MidiMapping midiMapping = _repositories.MidiMappingRepository.Get(midiMappingID);
 
 					// Business
-					midiMappingElement.EntityPosition.X = centerX;
-					midiMappingElement.EntityPosition.Y = centerY;
+					midiMapping.EntityPosition.X = centerX;
+					midiMapping.EntityPosition.Y = centerY;
 				});
 		}
 
-		public void SelectElement(MidiMappingGroupDetailsViewModel viewModel, int operatorID)
+		public void SelectMidiMapping(MidiMappingGroupDetailsViewModel viewModel, int operatorID)
 		{
-			ExecuteNonPersistedAction(viewModel, () => SetSelectedElement(viewModel, operatorID));
+			ExecuteNonPersistedAction(viewModel, () => SetSelectedMidiMapping(viewModel, operatorID));
 		}
 
 		// Helpers
 
-		private void SetSelectedElement(MidiMappingGroupDetailsViewModel viewModel, int operatorID)
+		private void SetSelectedMidiMapping(MidiMappingGroupDetailsViewModel viewModel, int operatorID)
 		{
-			MidiMappingElementItemViewModel previousSelectedElementViewModel = viewModel.SelectedElement;
-			if (previousSelectedElementViewModel != null)
+			MidiMappingItemViewModel previousSelectedMidiMappingViewModel = viewModel.SelectedMidiMapping;
+			if (previousSelectedMidiMappingViewModel != null)
 			{
-				previousSelectedElementViewModel.IsSelected = false;
+				previousSelectedMidiMappingViewModel.IsSelected = false;
 			}
 
-			if (viewModel.Elements.TryGetValue(operatorID, out MidiMappingElementItemViewModel selectedElementViewModel))
+			if (viewModel.MidiMappings.TryGetValue(operatorID, out MidiMappingItemViewModel selectedElementViewModel))
 			{
 				selectedElementViewModel.IsSelected = true;
 			}
 
-			viewModel.SelectedElement = selectedElementViewModel;
+			viewModel.SelectedMidiMapping = selectedElementViewModel;
 		}
 
 		public override void CopyNonPersistedProperties(MidiMappingGroupDetailsViewModel sourceViewModel, MidiMappingGroupDetailsViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
-			SetSelectedElement(destViewModel, sourceViewModel.SelectedElement?.ID ?? 0);
+			SetSelectedMidiMapping(destViewModel, sourceViewModel.SelectedMidiMapping?.ID ?? 0);
 		}
 	}
 }

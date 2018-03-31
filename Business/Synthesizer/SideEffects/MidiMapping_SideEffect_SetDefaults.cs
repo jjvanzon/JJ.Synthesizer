@@ -7,12 +7,12 @@ using JJ.Framework.Business;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-	internal class MidiMappingElement_SideEffect_SetDefaults : ISideEffect
+	internal class MidiMapping_SideEffect_SetDefaults : ISideEffect
 	{
-		private readonly MidiMappingElement _entity;
+		private readonly MidiMapping _entity;
 		private readonly IDimensionRepository _dimensionRepository;
 
-		public MidiMappingElement_SideEffect_SetDefaults(MidiMappingElement entity, IDimensionRepository dimensionRepository)
+		public MidiMapping_SideEffect_SetDefaults(MidiMapping entity, IDimensionRepository dimensionRepository)
 		{
 			_entity = entity ?? throw new ArgumentNullException(nameof(entity));
 			_dimensionRepository = dimensionRepository ?? throw new ArgumentNullException(nameof(dimensionRepository));

@@ -168,9 +168,9 @@ namespace JJ.Business.Synthesizer.Extensions
 			return (InterpolationTypeEnum)entity.ID;
 		}
 
-		// MidiMappingElement
+		// MidiMapping
 
-		public static DimensionEnum GetStandardDimensionEnum(this MidiMappingElement entity)
+		public static DimensionEnum GetStandardDimensionEnum(this MidiMapping entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return entity.StandardDimension.ToEnum();
 		}
 
-		public static void SetStandardDimensionEnum(this MidiMappingElement entity, DimensionEnum enumValue, IDimensionRepository repository)
+		public static void SetStandardDimensionEnum(this MidiMapping entity, DimensionEnum enumValue, IDimensionRepository repository)
 		{
 			if (repository == null) throw new NullException(() => repository);
 

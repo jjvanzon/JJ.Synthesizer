@@ -34,8 +34,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			Result = new MidiMappingGroupDetails_ViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 			Result.GridSnapGesture.Snap = DEFAULT_GRID_SNAP;
-			Result.Diagram.Gestures.Add(Result.DeleteElementGesture);
-			Result.Diagram.Gestures.Add(Result.ExpandElementKeyboardGesture);
+			Result.Diagram.Gestures.Add(Result.DeleteMidiMappingGesture);
+			Result.Diagram.Gestures.Add(Result.ExpandMidiMappingKeyboardGesture);
 
 			_circleDictionary = new Dictionary<int, Ellipse>();
 			_labelDictionary = new Dictionary<int, Label>();
@@ -50,12 +50,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			UpdateWaterMarkTitleLabel(viewModel.MidiMappingGroup.Name);
 
-			foreach (MidiMappingElementItemViewModel midiMappingElementViewModel in viewModel.Elements.Values)
+			foreach (MidiMappingItemViewModel midiMappingElementViewModel in viewModel.MidiMappings.Values)
 			{
 				ConvertToVectorGraphics(midiMappingElementViewModel);
 			}
 
-			IEnumerable<int> idsToKeep = viewModel.Elements.Keys;
+			IEnumerable<int> idsToKeep = viewModel.MidiMappings.Keys;
 			IEnumerable<int> idsToDelete = _circleDictionary.Keys.Except(idsToKeep);
 			foreach (int idToDelete in idsToDelete.ToArray())
 			{
@@ -82,14 +82,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			}
 		}
 
-		private void ConvertToVectorGraphics(MidiMappingElementItemViewModel viewModel)
+		private void ConvertToVectorGraphics(MidiMappingItemViewModel viewModel)
 		{
 			Ellipse circle = ConvertToCircle(viewModel);
 			ConvertToLabel(viewModel, circle);
 			ConvertToDentPoint(viewModel, circle);
 		}
 
-		private Ellipse ConvertToCircle(MidiMappingElementItemViewModel viewModel)
+		private Ellipse ConvertToCircle(MidiMappingItemViewModel viewModel)
 		{
 			if (!_circleDictionary.TryGetValue(viewModel.ID, out Ellipse circle))
 			{
@@ -104,8 +104,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				circle.Style.LineStyle = StyleHelper.CircleLineStyle;
 
 				circle.Gestures.Add(Result.MoveGesture);
-				circle.Gestures.Add(Result.SelectElementGesture);
-				circle.Gestures.Add(Result.ExpandElementMouseGesture);
+				circle.Gestures.Add(Result.SelectMidiMappingGesture);
+				circle.Gestures.Add(Result.ExpandMidiMappingMouseGesture);
 
 				_circleDictionary[viewModel.ID] = circle;
 			}
@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		}
 
 		// ReSharper disable once UnusedMethodReturnValue.Local
-		private Label ConvertToLabel(MidiMappingElementItemViewModel viewModel, Element parent)
+		private Label ConvertToLabel(MidiMappingItemViewModel viewModel, Element parent)
 		{
 			if (!_labelDictionary.TryGetValue(viewModel.ID, out Label label))
 			{
@@ -151,11 +151,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			if (viewModel.HasInactiveStyle)
 			{
-				label.TextStyle = StyleHelper.MidiMappingElementTextStyleInactive;
+				label.TextStyle = StyleHelper.MidiMappingTextStyleInactive;
 			}
 			else
 			{
-				label.TextStyle = StyleHelper.MidiMappingElementTextStyle;
+				label.TextStyle = StyleHelper.MidiMappingTextStyle;
 			}
 
 			label.Text = viewModel.Caption;
@@ -170,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		}
 
 		// ReSharper disable once UnusedMethodReturnValue.Local
-		private Point ConvertToDentPoint(MidiMappingElementItemViewModel viewModel, Element parent)
+		private Point ConvertToDentPoint(MidiMappingItemViewModel viewModel, Element parent)
 		{
 			if (!_dentPointDictionary.TryGetValue(viewModel.ID, out Point point))
 			{

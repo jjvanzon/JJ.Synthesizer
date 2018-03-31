@@ -3,6 +3,7 @@ using System.Linq;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Data;
 using JJ.Framework.Data.NHibernate;
+
 // ReSharper disable SuggestVarOrType_Elsewhere
 
 // ReSharper disable UnusedVariable
@@ -155,16 +156,16 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 			                                  .Future<Operator>();
 
 			var level_2_MidiMappingGroupsQuery = _context.Session.QueryOver(() => document)
-			                                        .Left.JoinAlias(() => document.MidiMappingGroups, () => midiMappingGroup)
-			                                        .Where(() => document.ID == documentID)
-			                                        .Future<Document>();
+			                                             .Left.JoinAlias(() => document.MidiMappingGroups, () => midiMappingGroup)
+			                                             .Where(() => document.ID == documentID)
+			                                             .Future<Document>();
 
-			var level_3_MidiMappingElementsQuery = _context.Session.QueryOver(() => midiMappingGroup)
-			                                               .JoinAlias(() => midiMappingGroup.Document, () => document)
-			                                               .Where(() => document.ID == documentID)
-			                                               .Fetch(x => x.MidiMappingElements)
-			                                               .Eager
-			                                               .Future<MidiMappingGroup>();
+			var level_3_MidiMappingsQuery = _context.Session.QueryOver(() => midiMappingGroup)
+			                                        .JoinAlias(() => midiMappingGroup.Document, () => document)
+			                                        .Where(() => document.ID == documentID)
+			                                        .Fetch(x => x.MidiMappings)
+			                                        .Eager
+			                                        .Future<MidiMappingGroup>();
 
 			Document outputDocument = level_1_DocumentQuery.FirstOrDefault();
 			return outputDocument;

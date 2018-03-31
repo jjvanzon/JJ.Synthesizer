@@ -5,13 +5,13 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Converters
 {
-	public class MidiMappingElementToDtoConverter
+	public class MidiMappingToDtoConverter
 	{
-		public MidiMappingElementDto Convert(MidiMappingElement entity)
+		public MidiMappingDto Convert(MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			var dto = new MidiMappingElementDto
+			var dto = new MidiMappingDto
 			{
 				IsRelative = entity.IsRelative,
 				MidiControllerCode = entity.MidiControllerCode,

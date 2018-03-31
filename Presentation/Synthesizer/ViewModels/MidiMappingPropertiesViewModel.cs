@@ -3,7 +3,7 @@ using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-	public sealed class MidiMappingElementPropertiesViewModel : ScreenViewModelBase
+	public sealed class MidiMappingPropertiesViewModel : ScreenViewModelBase
 	{
 		public int ID { get; set; }
 		public int MidiMappingGroupID { get; set; }

@@ -9,6 +9,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 {
 	public class DocumentRepository : RepositoryBase<Document, int>, IDocumentRepository
 	{
+		// ReSharper disable once MemberCanBeProtected.Global
 		public DocumentRepository(IContext context)
 			: base(context)
 		{ }

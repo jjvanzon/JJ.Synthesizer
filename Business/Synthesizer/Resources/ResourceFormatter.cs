@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string MidiControllerValue => Resources.MidiControllerValue;
 		public static string MidiControllerValues => Resources.MidiControllerValues;
 		public static string MidiMappingGroup => Resources.MidiMappingGroup;
-		public static string MidiMappingElement => Resources.MidiMappingElement;
+		public static string MidiMapping => Resources.MidiMapping;
 		public static string MidiNoteNumber => Resources.MidiNoteNumber;
 		public static string MidiNoteNumbers => Resources.MidiNoteNumbers;
 		public static string MidiVelocities => Resources.MidiVelocities;

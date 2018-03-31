@@ -5,9 +5,9 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Validators
 {
-	internal class MidiMappingElementPropertiesViewModel_Validator : VersatileValidator
+	internal class MidiMappingPropertiesViewModel_Validator : VersatileValidator
 	{
-		public MidiMappingElementPropertiesViewModel_Validator(MidiMappingElementPropertiesViewModel viewModel)
+		public MidiMappingPropertiesViewModel_Validator(MidiMappingPropertiesViewModel viewModel)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 

@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		public IIDRepository IDRepository { get; }
 		public IInletRepository InletRepository { get; }
 		public IInterpolationTypeRepository InterpolationTypeRepository { get; }
-		public IMidiMappingElementRepository MidiMappingElementRepository { get; }
+		public IMidiMappingRepository MidiMappingRepository { get; }
 		public IMidiMappingGroupRepository MidiMappingGroupRepository { get; }
 		public INodeRepository NodeRepository { get; }
 		public INodeTypeRepository NodeTypeRepository { get; }
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			IIDRepository idRepository,
 			IInletRepository inletRepository,
 			IInterpolationTypeRepository interpolationTypeRepository,
-			IMidiMappingElementRepository midiMappingElementRepository,
+			IMidiMappingRepository midiMappingRepository,
 			IMidiMappingGroupRepository midiMappingGroupRepository,
 			INodeRepository nodeRepository,
 			INodeTypeRepository nodeTypeRepository,
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			IDRepository = idRepository ?? throw new NullException(() => idRepository);
 			InletRepository = inletRepository ?? throw new NullException(() => inletRepository);
 			InterpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
-			MidiMappingElementRepository = midiMappingElementRepository ?? throw new NullException(() => midiMappingElementRepository);
+			MidiMappingRepository = midiMappingRepository ?? throw new NullException(() => midiMappingRepository);
 			MidiMappingGroupRepository = midiMappingGroupRepository ?? throw new NullException(() => midiMappingGroupRepository);
 			NodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
 			NodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);

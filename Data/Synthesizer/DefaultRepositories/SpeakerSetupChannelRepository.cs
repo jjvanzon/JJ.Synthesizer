@@ -8,6 +8,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 {
 	public class SpeakerSetupChannelRepository : RepositoryBase<SpeakerSetupChannel, int>, ISpeakerSetupChannelRepository
 	{
+		// ReSharper disable once MemberCanBeProtected.Global
 		public SpeakerSetupChannelRepository(IContext context)
 			: base(context)
 		{ }

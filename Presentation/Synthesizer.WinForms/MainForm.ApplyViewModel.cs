@@ -32,8 +32,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			_librarySelectionPopupForm.ViewModel = _mainPresenter.MainViewModel.Document.LibrarySelectionPopup;
 			midiMappingDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingGroupDetails;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			midiMappingElementPropertiesUserControl.SetScaleLookup(_mainPresenter.MainViewModel.Document.ScaleLookup);
-			midiMappingElementPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingElementProperties;
+			midiMappingPropertiesUserControl.SetScaleLookup(_mainPresenter.MainViewModel.Document.ScaleLookup);
+			midiMappingPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingProperties;
 			nodePropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleNodeProperties;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);

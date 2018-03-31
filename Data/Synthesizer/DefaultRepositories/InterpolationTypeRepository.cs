@@ -8,6 +8,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 {
 	public class InterpolationTypeRepository : RepositoryBase<InterpolationType, int>, IInterpolationTypeRepository
 	{
+		// ReSharper disable once MemberCanBeProtected.Global
 		public InterpolationTypeRepository(IContext context)
 			: base(context)
 		{ }

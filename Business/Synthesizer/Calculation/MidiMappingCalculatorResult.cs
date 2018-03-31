@@ -3,9 +3,9 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-	public class MidiMappingElementCalculatorResult
+	public class MidiMappingCalculatorResult
 	{
-		public MidiMappingElementCalculatorResult(
+		public MidiMappingCalculatorResult(
 			DimensionEnum standardDimensionEnum,
 			string customDimensionName,
 			double? dimensionValue,

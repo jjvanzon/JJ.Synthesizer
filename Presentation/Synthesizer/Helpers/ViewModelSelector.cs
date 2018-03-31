@@ -79,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 			return viewModel;
 		}
 
-		// MidiMappingElement
+		// MidiMapping
 
 		public static MidiMappingGroupDetailsViewModel GetMidiMappingGroupDetailsViewModel(DocumentViewModel documentViewModel, int id)
 		{
@@ -102,36 +102,36 @@ namespace JJ.Presentation.Synthesizer.Helpers
 			return viewModel;
 		}
 
-		public static MidiMappingElementPropertiesViewModel GetMidiMappingElementPropertiesViewModel(DocumentViewModel documentViewModel, int id)
+		public static MidiMappingPropertiesViewModel GetMidiMappingPropertiesViewModel(DocumentViewModel documentViewModel, int id)
 		{
-			MidiMappingElementPropertiesViewModel viewModel = TryGetMidiMappingElementPropertiesViewModel(documentViewModel, id);
+			MidiMappingPropertiesViewModel viewModel = TryGetMidiMappingPropertiesViewModel(documentViewModel, id);
 
 			if (viewModel == null)
 			{
-				throw new NotFoundException<MidiMappingElementPropertiesViewModel>(id);
+				throw new NotFoundException<MidiMappingPropertiesViewModel>(id);
 			}
 
 			return viewModel;
 		}
 
-		public static MidiMappingElementPropertiesViewModel TryGetMidiMappingElementPropertiesViewModel(DocumentViewModel documentViewModel, int id)
+		public static MidiMappingPropertiesViewModel TryGetMidiMappingPropertiesViewModel(DocumentViewModel documentViewModel, int id)
 		{
 			if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
-			documentViewModel.MidiMappingElementPropertiesDictionary.TryGetValue(id, out MidiMappingElementPropertiesViewModel viewModel);
+			documentViewModel.MidiMappingPropertiesDictionary.TryGetValue(id, out MidiMappingPropertiesViewModel viewModel);
 
 			return viewModel;
 		}
 
-		public static IEnumerable<MidiMappingElementPropertiesViewModel> EnumerateMidiMappingElementPropertiesViewModel_ByMidiMappingGroupID(DocumentViewModel documentViewModel, int midiMappingGroupID)
+		public static IEnumerable<MidiMappingPropertiesViewModel> EnumerateMidiMappingPropertiesViewModel_ByMidiMappingGroupID(DocumentViewModel documentViewModel, int midiMappingGroupID)
 		{
 			if (documentViewModel == null) throw new ArgumentNullException(nameof(documentViewModel));
 
-			foreach (MidiMappingElementPropertiesViewModel mappingElementPropertiesViewModel in documentViewModel.MidiMappingElementPropertiesDictionary.Values)
+			foreach (MidiMappingPropertiesViewModel midiMappingPropertiesViewModel in documentViewModel.MidiMappingPropertiesDictionary.Values)
 			{
-				if (mappingElementPropertiesViewModel.MidiMappingGroupID == midiMappingGroupID)
+				if (midiMappingPropertiesViewModel.MidiMappingGroupID == midiMappingGroupID)
 				{
-					yield return mappingElementPropertiesViewModel;
+					yield return midiMappingPropertiesViewModel;
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 ﻿namespace JJ.Data.Synthesizer.Interfaces
 {
-	public interface IMidiMappingElement
+	public interface IMidiMapping
 	{
 		/// <summary> optional </summary>
 		string CustomDimensionName { get; set; }

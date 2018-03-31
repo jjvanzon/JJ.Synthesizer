@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer
 
 		private static Document _systemDocument;
 		private static Dictionary<string, Patch> _systemPatchDictionary;
-		private static IList<MidiMappingElement> _systemMidiMappingElements;
+		private static IList<MidiMapping> _systemMidiMappings;
 		private static IList<MidiMappingGroup> _systemMidiMappingGroups;
 		private Scale _systemScale;
 
@@ -45,8 +45,8 @@ namespace JJ.Business.Synthesizer
 				_systemDocument = _documentRepository.GetByNameComplete(DocumentHelper.SYSTEM_DOCUMENT_NAME);
 				_systemPatchDictionary = _systemDocument.Patches.Where(x => !x.Hidden).ToDictionary(x => x.Name);
 				_systemMidiMappingGroups = _systemDocument.MidiMappingGroups;
-				_systemMidiMappingElements = _systemMidiMappingGroups.SelectMany(x => x.MidiMappingElements).ToArray();
-				_systemScale = _systemMidiMappingElements.Where(x => x.Scale != null).Select(x => x.Scale).FirstOrDefault();
+				_systemMidiMappings = _systemMidiMappingGroups.SelectMany(x => x.MidiMappings).ToArray();
+				_systemScale = _systemMidiMappings.Where(x => x.Scale != null).Select(x => x.Scale).FirstOrDefault();
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer
 				_systemDocument = null;
 				_systemPatchDictionary = null;
 				_systemMidiMappingGroups = null;
-				_systemMidiMappingElements = null;
+				_systemMidiMappings = null;
 				_systemScale = null;
 			}
 		}
@@ -79,10 +79,10 @@ namespace JJ.Business.Synthesizer
 			return _systemMidiMappingGroups;
 		}
 
-		public IList<MidiMappingElement> GetDefaultMidiMappingElements()
+		public IList<MidiMapping> GetDefaultMidiMappings()
 		{
 			EnsureCache();
-			return _systemMidiMappingElements;
+			return _systemMidiMappings;
 
 		}
 

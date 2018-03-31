@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
 		private readonly MenuPresenter _menuPresenter;
 		private readonly MidiMappingGroupDetailsPresenter _midiMappingDetailsPresenter;
-		private readonly MidiMappingElementPropertiesPresenter _midiMappingElementPropertiesPresenter;
+		private readonly MidiMappingPropertiesPresenter _midiMappingPropertiesPresenter;
 		private readonly NodePropertiesPresenter _nodePropertiesPresenter;
 		private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
 		private readonly OperatorPropertiesPresenter_ForCache _operatorPropertiesPresenter_ForCache;
@@ -87,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly AudioFileOutputFacade _audioFileOutputFacade;
 		private readonly CurveFacade _curveFacade;
 		private readonly DocumentFacade _documentFacade;
-		private readonly MidiMappingElementFacade _midiMappingFacade;
+		private readonly MidiMappingFacade _midiMappingFacade;
 		private readonly PatchFacade _patchFacade;
 		private readonly ScaleFacade _scaleFacade;
 		private readonly SystemFacade _systemFacade;
@@ -100,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_repositories = repositories ?? throw new NullException(() => repositories);
 			var audioFileOutputRepositories = new AudioFileOutputRepositories(_repositories);
 			_curveRepositories = new CurveRepositories(_repositories);
-			var midiMappingRepositories = new MidiMappingElementRepositories(_repositories);
+			var midiMappingRepositories = new MidiMappingRepositories(_repositories);
 			var scaleRepositories = new ScaleRepositories(_repositories);
 
 			// Create Facades
@@ -108,7 +108,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_audioFileOutputFacade = new AudioFileOutputFacade(audioFileOutputRepositories);
 			_curveFacade = new CurveFacade(_curveRepositories);
 			_documentFacade = new DocumentFacade(_repositories);
-			_midiMappingFacade = new MidiMappingElementFacade(midiMappingRepositories);
+			_midiMappingFacade = new MidiMappingFacade(midiMappingRepositories);
 			_patchFacade = new PatchFacade(_repositories);
 			_scaleFacade = new ScaleFacade(scaleRepositories);
 			_systemFacade = new SystemFacade(_repositories.DocumentRepository);
@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
 			_menuPresenter = new MenuPresenter();
 			_midiMappingDetailsPresenter = new MidiMappingGroupDetailsPresenter(midiMappingRepositories, _midiMappingFacade);
-			_midiMappingElementPropertiesPresenter = new MidiMappingElementPropertiesPresenter(midiMappingRepositories, _midiMappingFacade);
+			_midiMappingPropertiesPresenter = new MidiMappingPropertiesPresenter(midiMappingRepositories, _midiMappingFacade);
 			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveFacade);
 			_operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);
 			_operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_repositories);
@@ -183,8 +183,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.Document.NodePropertiesDictionary.Values.ForEach(x => x.Visible = false);
 			MainViewModel.Document.VisibleLibraryProperties = null;
 			MainViewModel.Document.LibraryPropertiesDictionary.Values.ForEach(x => x.Visible = false);
-			MainViewModel.Document.VisibleMidiMappingElementProperties = null;
-			MainViewModel.Document.MidiMappingElementPropertiesDictionary.Values.ForEach(x => x.Visible = false);
+			MainViewModel.Document.VisibleMidiMappingProperties = null;
+			MainViewModel.Document.MidiMappingPropertiesDictionary.Values.ForEach(x => x.Visible = false);
 			MainViewModel.Document.VisibleOperatorProperties = null;
 			MainViewModel.Document.OperatorPropertiesDictionary.Values.ForEach(x => x.Visible = false);
 			MainViewModel.Document.VisibleOperatorProperties_ForCache = null;

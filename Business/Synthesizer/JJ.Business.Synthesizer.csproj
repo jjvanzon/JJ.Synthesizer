@@ -154,7 +154,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calculation\ICalculatorWithPosition.cs" />
-    <Compile Include="Calculation\MidiMappingElementCalculatorResult.cs" />
+    <Compile Include="Calculation\MidiMappingCalculatorResult.cs" />
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\HighShelfFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
@@ -168,9 +168,9 @@
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
-    <Compile Include="Converters\MidiMappingElementToDtoConverter.cs" />
+    <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
     <Compile Include="Converters\ScaleToDtoConverter.cs" />
-    <Compile Include="Dto\MidiMappingElementDto.cs" />
+    <Compile Include="Dto\MidiMappingDto.cs" />
     <Compile Include="Dto\Operators\DoubleToBoolean_OperatorDto.cs" />
     <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
@@ -198,7 +198,7 @@
     <Compile Include="Dto\Operators\Remainder_OperatorDto.cs" />
     <Compile Include="Dto\ScaleDto.cs" />
     <Compile Include="Enums\EntityTypeEnum.cs" />
-    <Compile Include="Extensions\IMidiMappingElementExtensions.cs" />
+    <Compile Include="Extensions\IMidiMappingExtensions.cs" />
     <Compile Include="Extensions\InheritExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
@@ -300,11 +300,11 @@
     <Compile Include="Helpers\InletOrOutletTuple.cs" />
     <Compile Include="Helpers\InletOutletCloner.cs" />
     <Compile Include="Helpers\MidiConstants.cs" />
-    <Compile Include="Helpers\MidiMappingElementRepositories.cs" />
+    <Compile Include="Helpers\MidiMappingRepositories.cs" />
     <Compile Include="Helpers\OutletTuple.cs" />
     <Compile Include="Helpers\InletTuple.cs" />
     <Compile Include="Helpers\SystemPatchNames.cs" />
-    <Compile Include="Calculation\MidiMappingElementCalculator.cs" />
+    <Compile Include="Calculation\MidiMappingCalculator.cs" />
     <Compile Include="PatchGrouper.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator2.cs" />
@@ -323,14 +323,14 @@
     <Compile Include="Roslyn\OperatorDtoToPatchCalculatorCSharpGenerator.cs" />
     <Compile Include="Roslyn\Helpers\VariableCollections.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
-    <Compile Include="MidiMappingElementFacade.cs" />
-    <Compile Include="SideEffects\MidiMappingGroup_SideEffect_AutoCreate_MidiMapingElement.cs" />
+    <Compile Include="MidiMappingFacade.cs" />
+    <Compile Include="SideEffects\MidiMappingGroup_SideEffect_AutoCreate_MidiMaping.cs" />
     <Compile Include="SideEffects\Document_SideEffect_AutoCreate_SystemDocumentReference.cs" />
     <Compile Include="SideEffects\Document_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Document_SideEffect_ApplyUnderlyingPatches.cs" />
-    <Compile Include="SideEffects\MidiMappingElement_SideEffect_SetDefaults.cs" />
+    <Compile Include="SideEffects\MidiMapping_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\MidiMappingGroup_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\MidiMappingElement_SideEffect_AutoCreateEntityPosition.cs" />
+    <Compile Include="SideEffects\MidiMapping_SideEffect_AutoCreateEntityPosition.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_AutoCreateEntityPosition.cs" />
     <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Cent.cs" />
     <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_BaseWithToneValueArray.cs" />
@@ -353,7 +353,7 @@
     <Compile Include="Validation\EntityPositionValidator.cs" />
     <Compile Include="Validation\IDValidator.cs" />
     <Compile Include="Validation\InletOrOutletListValidator.cs" />
-    <Compile Include="Validation\MidiMappingElementValidator.cs" />
+    <Compile Include="Validation\MidiMappingValidator.cs" />
     <Compile Include="Validation\MidiMappingGroupValidator_Basic.cs" />
     <Compile Include="Validation\MidiMappingGroupValidator_WithRelatedEntities.cs" />
     <Compile Include="Validation\Operators\AggregateOverDimension_OperatorValidator.cs" />
@@ -594,7 +594,7 @@
     <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
-    <Compile Include="Warnings\MidiMappingElementWarningValidator.cs" />
+    <Compile Include="Warnings\MidiMappingWarningValidator.cs" />
     <Compile Include="Warnings\MidiMappingGroupWarningValidator_WithRelatedEntities.cs" />
     <Compile Include="Warnings\OutletWarningValidator.cs" />
     <Compile Include="Warnings\InletWarningValidator.cs" />

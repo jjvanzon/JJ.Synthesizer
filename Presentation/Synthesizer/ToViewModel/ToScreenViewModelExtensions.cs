@@ -367,28 +367,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new MidiMappingGroupDetailsViewModel
 			{
 				MidiMappingGroup = entity.ToIDAndName(),
-				Elements = entity.MidiMappingElements.Select(x => x.ToItemViewModel()).ToDictionary(x => x.ID),
+				MidiMappings = entity.MidiMappings.Select(x => x.ToItemViewModel()).ToDictionary(x => x.ID),
 				ValidationMessages = new List<string>()
 			};
 
 			return viewModel;
 		}
 
-		public static MidiMappingElementPropertiesViewModel ToPropertiesViewModel(this MidiMappingElement entity)
+		public static MidiMappingPropertiesViewModel ToPropertiesViewModel(this MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			MidiMappingElementPropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
+			MidiMappingPropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
 			viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
 
 			return viewModel;
 		}
 
-		private static MidiMappingElementPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this MidiMappingElement entity)
+		private static MidiMappingPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			var viewModel = new MidiMappingElementPropertiesViewModel
+			var viewModel = new MidiMappingPropertiesViewModel
 			{
 				ID = entity.ID,
 				MidiMappingGroupID = entity.MidiMappingGroup?.ID ?? default, // Null after delete action. 

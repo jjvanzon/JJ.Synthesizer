@@ -8,6 +8,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 {
 	public class OperatorRepository : RepositoryBase<Operator, int>, IOperatorRepository
 	{
+		// ReSharper disable once MemberCanBeProtected.Global
 		public OperatorRepository(IContext context)
 			: base(context)
 		{ }

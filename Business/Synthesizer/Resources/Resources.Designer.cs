@@ -1591,11 +1591,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MIDI Mapping Element.
+        ///   Looks up a localized string similar to MIDI Mapping.
         /// </summary>
-        internal static string MidiMappingElement {
+        internal static string MidiMapping {
             get {
-                return ResourceManager.GetString("MidiMappingElement", resourceCulture);
+                return ResourceManager.GetString("MidiMapping", resourceCulture);
             }
         }
         

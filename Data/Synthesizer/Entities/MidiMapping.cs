@@ -8,7 +8,7 @@ using JJ.Data.Synthesizer.Interfaces;
 namespace JJ.Data.Synthesizer.Entities
 {
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public class MidiMappingElement : IMidiMappingElement
+	public class MidiMapping : IMidiMapping
 	{
 		public virtual int ID { get; set; }
 		public virtual bool IsActive { get; set; }

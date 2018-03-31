@@ -1,14 +1,14 @@
 ﻿using JetBrains.Annotations;
-using JJ.Framework.Data;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
 	[UsedImplicitly]
-	public class ScaleRepository : RepositoryBase<Scale, int>, IScaleRepository
+	public class MidiMappingRepository : RepositoryBase<MidiMapping, int>, IMidiMappingRepository
 	{
-		public ScaleRepository(IContext context)
+		public MidiMappingRepository(IContext context)
 			: base(context)
 		{ }
 	}

@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			{
 				_midiInputProcessor = new MidiInputProcessor(
 					systemFacade.GetDefaultScale(),
-					systemFacade.GetDefaultMidiMappingElements(),
+					systemFacade.GetDefaultMidiMappings(),
 					_patchCalculatorContainer,
 					_timeProvider,
 					_noteRecycler);
@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			_midiInputProcessor?.Dispose();
 		}
 
-		public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch, Scale scale, IList<MidiMappingElement> midiMappingElements)
+		public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch, Scale scale, IList<MidiMapping> midiMappingElements)
 		{
 			_audioOutput = audioOutput ?? throw new NullException(() => audioOutput);
 

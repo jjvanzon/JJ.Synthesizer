@@ -14,7 +14,7 @@ namespace JJ.Data.Synthesizer.Entities
 		public Scale()
 		{
 			Tones = new List<Tone>();
-			MidiMappingElements = new List<MidiMappingElement>();
+			MidiMapping = new List<MidiMapping>();
 		}
 
 		public virtual int ID { get; set; }
@@ -23,7 +23,7 @@ namespace JJ.Data.Synthesizer.Entities
 		public virtual ScaleType ScaleType { get; set; }
 		public virtual double BaseFrequency { get; set; }
 		public virtual IList<Tone> Tones { get; set; }
-		public virtual IList<MidiMappingElement> MidiMappingElements { get; set; }
+		public virtual IList<MidiMapping> MidiMapping { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
 	}

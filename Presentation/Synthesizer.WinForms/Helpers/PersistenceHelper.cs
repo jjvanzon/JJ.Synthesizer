@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 				CreateRepository<IIDRepository>(context),
 				CreateRepository<IInletRepository>(context),
 				CreateRepository<IInterpolationTypeRepository>(context),
-				CreateRepository<IMidiMappingElementRepository>(context),
+				CreateRepository<IMidiMappingRepository>(context),
 				CreateRepository<IMidiMappingGroupRepository>(context),
 				CreateRepository<INodeRepository>(context),
 				CreateRepository<INodeTypeRepository>(context),

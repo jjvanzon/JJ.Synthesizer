@@ -11,11 +11,11 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
 {
-	public class MidiMappingElementFacade
+	public class MidiMappingFacade
 	{
-		private readonly MidiMappingElementRepositories _repositories;
+		private readonly MidiMappingRepositories _repositories;
 
-		public MidiMappingElementFacade(MidiMappingElementRepositories repositories)
+		public MidiMappingFacade(MidiMappingRepositories repositories)
 		{
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 		}
@@ -29,22 +29,22 @@ namespace JJ.Business.Synthesizer
 			_repositories.MidiMappingGroupRepository.Insert(entity);
 
 			new MidiMappingGroup_SideEffect_GenerateName(entity).Execute();
-			new MidiMappingGroup_SideEffect_AutoCreate_MidiMapingElement(entity, this).Execute();
+			new MidiMappingGroup_SideEffect_AutoCreate_MidiMaping(entity, this).Execute();
 
 			return entity;
 		}
 
-		public MidiMappingElement CreateMidiMappingElementWithDefaults(MidiMappingGroup midiMappingGroup)
+		public MidiMapping CreateMidiMappingWithDefaults(MidiMappingGroup midiMappingGroup)
 		{
 			if (midiMappingGroup == null) throw new ArgumentNullException(nameof(midiMappingGroup));
 
-			var entity = new MidiMappingElement { ID = _repositories.IDRepository.GetID() };
-			_repositories.MidiMappingElementRepository.Insert(entity);
+			var entity = new MidiMapping { ID = _repositories.IDRepository.GetID() };
+			_repositories.MidiMappingRepository.Insert(entity);
 
 			entity.LinkTo(midiMappingGroup);
 
-			new MidiMappingElement_SideEffect_AutoCreateEntityPosition(entity, _repositories.EntityPositionRepository, _repositories.IDRepository).Execute();
-			new MidiMappingElement_SideEffect_SetDefaults(entity, _repositories.DimensionRepository).Execute();
+			new MidiMapping_SideEffect_AutoCreateEntityPosition(entity, _repositories.EntityPositionRepository, _repositories.IDRepository).Execute();
+			new MidiMapping_SideEffect_SetDefaults(entity, _repositories.DimensionRepository).Execute();
 
 			return entity;
 		}
@@ -56,9 +56,9 @@ namespace JJ.Business.Synthesizer
 			return validator.ToResult();
 		}
 
-		public VoidResult SaveMidiMappingElement(MidiMappingElement entity)
+		public VoidResult SaveMidiMapping(MidiMapping entity)
 		{
-			IValidator validator = new MidiMappingElementValidator(entity);
+			IValidator validator = new MidiMappingValidator(entity);
 
 			return validator.ToResult();
 		}
@@ -73,29 +73,29 @@ namespace JJ.Business.Synthesizer
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			entity.DeleteRelatedEntities(_repositories.MidiMappingElementRepository, _repositories.EntityPositionRepository);
+			entity.DeleteRelatedEntities(_repositories.MidiMappingRepository, _repositories.EntityPositionRepository);
 			entity.UnlinkRelatedEntities();
 
 			_repositories.MidiMappingGroupRepository.Delete(entity);
 		}
 
-		public void DeleteMidiMappingElement(int id)
+		public void DeleteMidiMapping(int id)
 		{
-			MidiMappingElement entity = _repositories.MidiMappingElementRepository.Get(id);
-			DeleteMidiMappingElement(entity);
+			MidiMapping entity = _repositories.MidiMappingRepository.Get(id);
+			DeleteMidiMapping(entity);
 		}
 
-		public void DeleteMidiMappingElement(MidiMappingElement entity)
+		public void DeleteMidiMapping(MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
 			entity.UnlinkRelatedEntities();
 
-			_repositories.MidiMappingElementRepository.Delete(entity);
+			_repositories.MidiMappingRepository.Delete(entity);
 
 			// Order-Dependence:
-			// You need to postpone deleting this 1-to-1 related entity till after deleting the MidiMappingElement, 
-			// or ORM will try to update MidiMappingElement.EntityPositionID to null and crash.
+			// You need to postpone deleting this 1-to-1 related entity till after deleting the MidiMapping, 
+			// or ORM will try to update MidiMapping.EntityPositionID to null and crash.
 			if (entity.EntityPosition != null)
 			{
 				_repositories.EntityPositionRepository.Delete(entity.EntityPosition);

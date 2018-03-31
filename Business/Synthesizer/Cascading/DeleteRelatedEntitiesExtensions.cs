@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Cascading
 
 			foreach (MidiMappingGroup midiMappingGroup in document.MidiMappingGroups.ToArray())
 			{
-				midiMappingGroup.DeleteRelatedEntities(repositories.MidiMappingElementRepository, repositories.EntityPositionRepository);
+				midiMappingGroup.DeleteRelatedEntities(repositories.MidiMappingRepository, repositories.EntityPositionRepository);
 				midiMappingGroup.UnlinkRelatedEntities();
 				repositories.MidiMappingGroupRepository.Delete(midiMappingGroup);
 			}
@@ -68,23 +68,23 @@ namespace JJ.Business.Synthesizer.Cascading
 
 		public static void DeleteRelatedEntities(
 			this MidiMappingGroup midiMappingGroup,
-			IMidiMappingElementRepository midiMappingElementRepository,
+			IMidiMappingRepository midiMappingRepository,
 			IEntityPositionRepository entityPositionRepository)
 		{
 			if (midiMappingGroup == null) throw new NullException(() => midiMappingGroup);
-			if (midiMappingElementRepository == null) throw new NullException(() => midiMappingElementRepository);
+			if (midiMappingRepository == null) throw new NullException(() => midiMappingRepository);
 
-			foreach (MidiMappingElement midiMappingElement in midiMappingGroup.MidiMappingElements.ToArray())
+			foreach (MidiMapping midiMapping in midiMappingGroup.MidiMappings.ToArray())
 			{
-				midiMappingElement.UnlinkRelatedEntities();
-				midiMappingElementRepository.Delete(midiMappingElement);
+				midiMapping.UnlinkRelatedEntities();
+				midiMappingRepository.Delete(midiMapping);
 
 				// Order-Dependence:
-				// You need to postpone deleting this 1-to-1 related entity till after deleting the MidiMappingElement, 
-				// or ORM will try to update MidiMappingElement.EntityPositionID to null and crash.
-				if (midiMappingElement.EntityPosition != null)
+				// You need to postpone deleting this 1-to-1 related entity till after deleting the MidiMapping, 
+				// or ORM will try to update MidiMapping.EntityPositionID to null and crash.
+				if (midiMapping.EntityPosition != null)
 				{
-					entityPositionRepository.Delete(midiMappingElement.EntityPosition);
+					entityPositionRepository.Delete(midiMapping.EntityPosition);
 				}
 			}
 		}

@@ -12,9 +12,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 		public IDRepository(IContext context)
 		{ }
 
-		public virtual int GetID()
-		{
-			throw new NotSupportedException("GetID can only be executed using a specialized repository.");
-		}
+		public virtual int GetID() => throw new NotSupportedException("GetID can only be executed using a specialized repository.");
 	}
 }

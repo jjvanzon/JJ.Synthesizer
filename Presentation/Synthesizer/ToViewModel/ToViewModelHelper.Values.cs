@@ -284,7 +284,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// MidiMappingGroup
 
-		public static string GetCaption(MidiMappingElement entity)
+		public static string GetCaption(MidiMapping entity)
 		{
 			string caption = ValidationHelper.GetUserFriendlyIdentifierShort(entity);
 

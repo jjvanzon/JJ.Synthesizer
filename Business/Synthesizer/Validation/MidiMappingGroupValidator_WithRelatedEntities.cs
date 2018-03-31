@@ -12,10 +12,10 @@ namespace JJ.Business.Synthesizer.Validation
 
 			ExecuteValidator(new MidiMappingGroupValidator_Basic(entity));
 
-			foreach (MidiMappingElement midiMappingElement in entity.MidiMappingElements)
+			foreach (MidiMapping midiMapping in entity.MidiMappings)
 			{
-				string messagePrefix = ValidationHelper.GetMessagePrefix(midiMappingElement);
-				ExecuteValidator(new MidiMappingElementValidator(midiMappingElement), messagePrefix);
+				string messagePrefix = ValidationHelper.GetMessagePrefix(midiMapping);
+				ExecuteValidator(new MidiMappingValidator(midiMapping), messagePrefix);
 			}
 		}
 	}

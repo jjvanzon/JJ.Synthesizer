@@ -5,9 +5,9 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-	internal class MidiMappingElementWarningValidator : VersatileValidator
+	internal class MidiMappingWarningValidator : VersatileValidator
 	{
-		public MidiMappingElementWarningValidator(MidiMappingElement entity)
+		public MidiMappingWarningValidator(MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 

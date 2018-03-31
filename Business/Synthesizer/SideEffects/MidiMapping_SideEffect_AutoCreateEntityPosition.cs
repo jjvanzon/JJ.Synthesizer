@@ -6,14 +6,14 @@ using JJ.Framework.Business;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-	internal class MidiMappingElement_SideEffect_AutoCreateEntityPosition : ISideEffect
+	internal class MidiMapping_SideEffect_AutoCreateEntityPosition : ISideEffect
 	{
-		private readonly MidiMappingElement _entity;
+		private readonly MidiMapping _entity;
 		private readonly IEntityPositionRepository _entityPositionRepository;
 		private readonly IIDRepository _idRepository;
 
-		public MidiMappingElement_SideEffect_AutoCreateEntityPosition(
-			MidiMappingElement entity,
+		public MidiMapping_SideEffect_AutoCreateEntityPosition(
+			MidiMapping entity,
 			IEntityPositionRepository entityPositionRepository,
 			IIDRepository idRepository)
 		{

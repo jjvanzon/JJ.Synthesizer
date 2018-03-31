@@ -10,10 +10,10 @@ using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	internal partial class MidiMappingElementPropertiesUserControl
+	internal partial class MidiMappingPropertiesUserControl
 		: PropertiesUserControlBase
 	{
-		public MidiMappingElementPropertiesUserControl()
+		public MidiMappingPropertiesUserControl()
 		{
 			InitializeComponent();
 		}
@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void SetTitles()
 		{
-			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.MidiMappingElement);
+			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.MidiMapping);
 			labelMidiControllerCode.Text = ResourceFormatter.MidiControllerCode;
 			labelCustomDimensionName.Text = ResourceFormatter.CustomDimension;
 			labelMidiControllerValues.Text = ResourceFormatter.MidiControllerValues;
@@ -62,9 +62,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Binding
 
-		public new MidiMappingElementPropertiesViewModel ViewModel
+		public new MidiMappingPropertiesViewModel ViewModel
 		{
-			get => (MidiMappingElementPropertiesViewModel)base.ViewModel;
+			get => (MidiMappingPropertiesViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}
 

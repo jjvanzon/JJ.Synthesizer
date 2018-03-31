@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				LibraryPropertiesDictionary = new Dictionary<int, LibraryPropertiesViewModel>(),
 				LibrarySelectionPopup = CreateEmptyLibrarySelectionPopupViewModel(),
 				MidiMappingGroupDetailsDictionary = new Dictionary<int, MidiMappingGroupDetailsViewModel>(),
-				MidiMappingElementPropertiesDictionary = new Dictionary<int, MidiMappingElementPropertiesViewModel>(),
+				MidiMappingPropertiesDictionary = new Dictionary<int, MidiMappingPropertiesViewModel>(),
 				NodePropertiesDictionary = new Dictionary<int, NodePropertiesViewModel>(),
 				OperatorPropertiesDictionary = new Dictionary<int, OperatorPropertiesViewModel>(),
 				OperatorPropertiesDictionary_ForCaches = new Dictionary<int, OperatorPropertiesViewModel_ForCache>(),

@@ -201,7 +201,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			DeleteRequested(sender, e);
 
-			// Hide ToolTipElement. so that it does not jump to the delete button of another Patch or MidiMappingElement.
+			// Hide ToolTipElement. so that it does not jump to the delete button of another Patch or MidiMappingGroup.
 			// (ItemElements get redistributed over the entities.)
 			_toolTipElement.Visible = false;
 		}

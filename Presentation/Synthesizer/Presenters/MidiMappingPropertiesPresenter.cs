@@ -13,45 +13,45 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-	internal class MidiMappingElementPropertiesPresenter
-		: EntityPresenterWithSaveBase<MidiMappingElement, MidiMappingElementPropertiesViewModel>
+	internal class MidiMappingPropertiesPresenter
+		: EntityPresenterWithSaveBase<MidiMapping, MidiMappingPropertiesViewModel>
 	{
-		private readonly MidiMappingElementRepositories _repositories;
-		private readonly MidiMappingElementFacade _midiMappingFacade;
+		private readonly MidiMappingRepositories _repositories;
+		private readonly MidiMappingFacade _midiMappingFacade;
 
-		public MidiMappingElementPropertiesPresenter(MidiMappingElementRepositories repositories, MidiMappingElementFacade midiMappingFacade)
+		public MidiMappingPropertiesPresenter(MidiMappingRepositories repositories, MidiMappingFacade midiMappingFacade)
 		{
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
-		protected override MidiMappingElement GetEntity(MidiMappingElementPropertiesViewModel userInput)
+		protected override MidiMapping GetEntity(MidiMappingPropertiesViewModel userInput)
 		{
 			return userInput.ToEntity(_repositories);
 		}
 
-		protected override MidiMappingElementPropertiesViewModel ToViewModel(MidiMappingElement entity)
+		protected override MidiMappingPropertiesViewModel ToViewModel(MidiMapping entity)
 		{
 			return entity.ToPropertiesViewModel();
 		}
 
-		protected override IResult Save(MidiMappingElement entity, MidiMappingElementPropertiesViewModel userInput)
+		protected override IResult Save(MidiMapping entity, MidiMappingPropertiesViewModel userInput)
 		{
-			IValidator validator = new MidiMappingElementPropertiesViewModel_Validator(userInput);
+			IValidator validator = new MidiMappingPropertiesViewModel_Validator(userInput);
 			if (!validator.IsValid)
 			{
 				return validator.ToResult();
 			}
 
-			return _midiMappingFacade.SaveMidiMappingElement(entity);
+			return _midiMappingFacade.SaveMidiMapping(entity);
 		}
 
-		public MidiMappingElementPropertiesViewModel Delete(MidiMappingElementPropertiesViewModel userInput)
+		public MidiMappingPropertiesViewModel Delete(MidiMappingPropertiesViewModel userInput)
 		{
-			return ExecuteAction(userInput, entity => _midiMappingFacade.DeleteMidiMappingElement(entity));
+			return ExecuteAction(userInput, entity => _midiMappingFacade.DeleteMidiMapping(entity));
 		}
 
-		public override void CopyNonPersistedProperties(MidiMappingElementPropertiesViewModel sourceViewModel, MidiMappingElementPropertiesViewModel destViewModel)
+		public override void CopyNonPersistedProperties(MidiMappingPropertiesViewModel sourceViewModel, MidiMappingPropertiesViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 

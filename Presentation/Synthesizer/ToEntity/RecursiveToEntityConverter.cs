@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				_repositories.OperatorRepository.Delete(op);
 
 				// Order-Dependence:
-				// You need to postpone deleting this 1-to-1 related entity till after deleting the MidiMappingElement, 
+				// You need to postpone deleting this 1-to-1 related entity till after deleting the MidiMapping, 
 				// or ORM will try to update Operator.EntityPositionID to null and crash.
 				if (op.EntityPosition != null)
 				{

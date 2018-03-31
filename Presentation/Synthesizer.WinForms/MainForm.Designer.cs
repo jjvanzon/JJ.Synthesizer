@@ -24,7 +24,7 @@
 			this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
 			this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
 			this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
-			this.midiMappingElementPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingElementPropertiesUserControl();
+			this.midiMappingPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MidiMappingPropertiesUserControl();
 			this.libraryPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.LibraryPropertiesUserControl();
 			this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
 			this.operatorPropertiesUserControl_WithCollectionRecalculation = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_WithCollectionRecalculation();
@@ -110,7 +110,7 @@
 			// 
 			// splitContainerCenterAndProperties.Panel2
 			// 
-			this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.midiMappingElementPropertiesUserControl);
+			this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.midiMappingPropertiesUserControl);
 			this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.libraryPropertiesUserControl);
 			this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForNumber);
 			this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_WithCollectionRecalculation);
@@ -217,19 +217,19 @@
 			// 
 			// midiMappingElementPropertiesUserControl
 			// 
-			this.midiMappingElementPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.midiMappingElementPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.midiMappingElementPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.midiMappingElementPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-			this.midiMappingElementPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
-			this.midiMappingElementPropertiesUserControl.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-			this.midiMappingElementPropertiesUserControl.Name = "midiMappingElementPropertiesUserControl";
-			this.midiMappingElementPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
-			this.midiMappingElementPropertiesUserControl.TabIndex = 1;
-			this.midiMappingElementPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-			this.midiMappingElementPropertiesUserControl.TitleBarText = "MIDI Mapping Element Properties";
-			this.midiMappingElementPropertiesUserControl.ViewModel = null;
-			this.midiMappingElementPropertiesUserControl.Visible = false;
+			this.midiMappingPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.midiMappingPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.midiMappingPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.midiMappingPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+			this.midiMappingPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+			this.midiMappingPropertiesUserControl.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+			this.midiMappingPropertiesUserControl.Name = "midiMappingPropertiesUserControl";
+			this.midiMappingPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.midiMappingPropertiesUserControl.TabIndex = 1;
+			this.midiMappingPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
+			this.midiMappingPropertiesUserControl.TitleBarText = "MIDI Mapping Element Properties";
+			this.midiMappingPropertiesUserControl.ViewModel = null;
+			this.midiMappingPropertiesUserControl.Visible = false;
 			// 
 			// libraryPropertiesUserControl
 			// 
@@ -610,6 +610,6 @@
 		private System.Windows.Forms.SplitContainer splitContainerCurvesAndTopSide;
 		private UserControls.CurveDetailsListUserControl curveDetailsListUserControl;
 		private UserControls.MidiMappingGroupDetailsUserControl midiMappingDetailsUserControl;
-		private UserControls.MidiMappingElementPropertiesUserControl midiMappingElementPropertiesUserControl;
+		private UserControls.MidiMappingPropertiesUserControl midiMappingPropertiesUserControl;
 	}
 }

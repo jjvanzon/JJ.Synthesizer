@@ -190,8 +190,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					_midiMappingFacade.DeleteMidiMappingGroup(id);
 					break;
 
-				case EntityTypeEnum.MidiMappingElement:
-					_midiMappingFacade.DeleteMidiMappingElement(id);
+				case EntityTypeEnum.MidiMapping:
+					_midiMappingFacade.DeleteMidiMapping(id);
 					break;
 
 				default:
@@ -209,11 +209,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private IList<ScreenViewModelBase> GetLibraryStates(int documentReferenceID) => new List<ScreenViewModelBase> { ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID) };
 
-		private IList<ScreenViewModelBase> GetMidiMappingElementStates(int id)
+		private IList<ScreenViewModelBase> GetMidiMappingStates(int id)
 		{
-			MidiMappingElementPropertiesViewModel mappingElementPropertiesViewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
-			int midiMappingID = mappingElementPropertiesViewModel.MidiMappingGroupID;
-			MidiMappingGroupDetailsViewModel midiMappingDetailsViewModel = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
+			MidiMappingPropertiesViewModel mappingElementPropertiesViewModel = ViewModelSelector.GetMidiMappingPropertiesViewModel(MainViewModel.Document, id);
+			int midiMappingGroupID = mappingElementPropertiesViewModel.MidiMappingGroupID;
+			MidiMappingGroupDetailsViewModel midiMappingDetailsViewModel = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
 
 			var states = new List<ScreenViewModelBase> { midiMappingDetailsViewModel, mappingElementPropertiesViewModel };
 
@@ -222,7 +222,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private IList<ScreenViewModelBase> GetMidiMappingGroupStates(int midiMappingGroupID)
 		{
-			return ViewModelSelector.EnumerateMidiMappingElementPropertiesViewModel_ByMidiMappingGroupID(MainViewModel.Document, midiMappingGroupID)
+			return ViewModelSelector.EnumerateMidiMappingPropertiesViewModel_ByMidiMappingGroupID(MainViewModel.Document, midiMappingGroupID)
 			                        .Union<ScreenViewModelBase>(ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID))
 			                        .ToArray();
 		}

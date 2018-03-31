@@ -1071,8 +1071,8 @@
   <data name="MidiMappingGroup" xml:space="preserve">
     <value>MIDI Mapping Group</value>
   </data>
-  <data name="MidiMappingElement" xml:space="preserve">
-    <value>MIDI Mapping Element</value>
+  <data name="MidiMapping" xml:space="preserve">
+    <value>MIDI Mapping</value>
   </data>
   <data name="MidiControllerCode" xml:space="preserve">
     <value>MIDI Controller Code</value>

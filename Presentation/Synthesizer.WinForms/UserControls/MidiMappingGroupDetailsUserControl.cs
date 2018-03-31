@@ -15,9 +15,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	internal partial class MidiMappingGroupDetailsUserControl : DetailsOrPropertiesUserControlBase
 	{
-		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingElementID)>> SelectElementRequested;
-		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingElementID, float x, float y)>> MoveElementRequested;
-		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingElementID)>> ExpandElementRequested;
+		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingID)>> SelectMidiMappingRequested;
+		public event EventHandler<EventArgs<(int midiMappingGroupID, int midiMappingID, float x, float y)>> MoveMidiMappingRequested;
+		public event EventHandler<EventArgs<int>> ExpandMidiMappingRequested;
 
 		private readonly MidiMappingGroupDetails_ViewModelToDiagramConverter _converter;
 
@@ -34,10 +34,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				SystemInformation.DoubleClickTime,
 				SystemInformation.DoubleClickSize.Width);
 
-			_converter.Result.DeleteElementGesture.DeleteSelectionRequested += DeleteElementGesture_DeleteSelectionRequested;
-			_converter.Result.ExpandElementKeyboardGesture.ExpandRequested += ExpandElementKeyboardGesture_ExpandRequested;
-			_converter.Result.ExpandElementMouseGesture.ExpandRequested += ExpandElementMouseGesture_ExpandRequested;
-			_converter.Result.SelectElementGesture.SelectRequested += SelectElementGesture_SelectRequested;
+			_converter.Result.DeleteMidiMappingGesture.DeleteSelectionRequested += DeleteMidiMappingGesture_DeleteSelectionRequested;
+			_converter.Result.ExpandMidiMappingKeyboardGesture.ExpandRequested += ExpandMidiMappingKeyboardGesture_ExpandRequested;
+			_converter.Result.ExpandMidiMappingMouseGesture.ExpandRequested += ExpandMidiMappingMouseGesture_ExpandRequested;
+			_converter.Result.SelectMidiMappingGesture.SelectRequested += SelectMidiMappingGesture_SelectRequested;
 			_converter.Result.MoveGesture.Moved += MoveGesture_Moved;
 		}
 
@@ -103,18 +103,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private void DeleteElementGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
+		private void DeleteMidiMappingGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
 
-		private void ExpandElementKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)
+		private void ExpandMidiMappingKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)
 		{
 			if (ViewModel == null) return;
-			ExpandElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, e.ID)));
+			ExpandMidiMappingRequested(this, new EventArgs<int>(e.ID));
 		}
 
-		private void ExpandElementMouseGesture_ExpandRequested(object sender, IDEventArgs e)
+		private void ExpandMidiMappingMouseGesture_ExpandRequested(object sender, IDEventArgs e)
 		{
 			if (ViewModel == null) return;
-			ExpandElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, e.ID)));
+			ExpandMidiMappingRequested(this, new EventArgs<int>(e.ID));
 		}
 
 		private void MoveGesture_Moved(object sender, ElementEventArgs e)
@@ -123,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			int midiMappingElementID = (int)e.Element.Tag;
 
-			MoveElementRequested(
+			MoveMidiMappingRequested(
 				this,
 				new EventArgs<(int, int, float, float)>(
 					(
@@ -133,15 +133,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					e.Element.Position.AbsoluteCenterY)));
 		}
 
-		private void SelectElementGesture_SelectRequested(object sender, ElementEventArgs e)
+		private void SelectMidiMappingGesture_SelectRequested(object sender, ElementEventArgs e)
 		{
 			if (ViewModel == null) return;
 
 			int midiMappingElementID = (int)e.Element.Tag;
 
-			SelectElementRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, midiMappingElementID)));
+			SelectMidiMappingRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, midiMappingElementID)));
 
-			_converter.Result.ExpandElementKeyboardGesture.SelectedEntityID = midiMappingElementID;
+			_converter.Result.ExpandMidiMappingKeyboardGesture.SelectedEntityID = midiMappingElementID;
 		}
 	}
 }

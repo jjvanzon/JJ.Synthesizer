@@ -196,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibrarySelectionPopup_Refresh();
 			NodePropertiesDictionary_Refresh();
 			MidiMappingGroupDetailsDictionary_Refresh();
-			MidiMappingElementPropertiesDictionary_Refresh();
+			MidiMappingPropertiesDictionary_Refresh();
 			OperatorPropertiesDictionary_ForCaches_Refresh();
 			OperatorPropertiesDictionary_ForCurves_Refresh();
 			OperatorPropertiesDictionary_ForInletsToDimension_Refresh();
@@ -362,17 +362,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void MidiMappingElementPropertiesDictionary_Refresh()
+		private void MidiMappingPropertiesDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
-			var viewModelDictionary = MainViewModel.Document.MidiMappingElementPropertiesDictionary;
+			var viewModelDictionary = MainViewModel.Document.MidiMappingPropertiesDictionary;
 
 			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-			IList<MidiMappingElement> entities = document.MidiMappingGroups.SelectMany(x => x.MidiMappingElements).ToArray();
+			IList<MidiMapping> entities = document.MidiMappingGroups.SelectMany(x => x.MidiMappings).ToArray();
 
-			foreach (MidiMappingElement entity in entities)
+			foreach (MidiMapping entity in entities)
 			{
-				MidiMappingElementPropertiesViewModel viewModel = ViewModelSelector.TryGetMidiMappingElementPropertiesViewModel(MainViewModel.Document, entity.ID);
+				MidiMappingPropertiesViewModel viewModel = ViewModelSelector.TryGetMidiMappingPropertiesViewModel(MainViewModel.Document, entity.ID);
 				if (viewModel == null)
 				{
 					viewModel = entity.ToPropertiesViewModel();
@@ -381,7 +381,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				}
 				else
 				{
-					MidiMappingElementProperties_Refresh(viewModel);
+					MidiMappingProperties_Refresh(viewModel);
 				}
 			}
 
@@ -393,16 +393,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				viewModelDictionary.Remove(idToDelete);
 
-				if (MainViewModel.Document.VisibleMidiMappingElementProperties?.ID == idToDelete)
+				if (MainViewModel.Document.VisibleMidiMappingProperties?.ID == idToDelete)
 				{
-					MainViewModel.Document.VisibleMidiMappingElementProperties = null;
+					MainViewModel.Document.VisibleMidiMappingProperties = null;
 				}
 			}
 		}
 
-		private void MidiMappingElementProperties_Refresh(MidiMappingElementPropertiesViewModel userInput)
+		private void MidiMappingProperties_Refresh(MidiMappingPropertiesViewModel userInput)
 		{
-			MidiMappingElementPropertiesViewModel viewModel = _midiMappingElementPropertiesPresenter.Refresh(userInput);
+			MidiMappingPropertiesViewModel viewModel = _midiMappingPropertiesPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
 		}
 

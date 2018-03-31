@@ -179,57 +179,57 @@ namespace JJ.Business.Synthesizer.LinkTo
 			}
 		}
 
-		public static void LinkTo(this MidiMappingElement midiMappingElement, EntityPosition entityPosition)
+		public static void LinkTo(this MidiMapping midiMapping, EntityPosition entityPosition)
 		{
-			if (midiMappingElement == null) throw new ArgumentNullException(nameof(midiMappingElement));
+			if (midiMapping == null) throw new ArgumentNullException(nameof(midiMapping));
 
-			midiMappingElement.EntityPosition = entityPosition;
+			midiMapping.EntityPosition = entityPosition;
 
 			// No inverse property.
 		}
 
-		public static void LinkTo(this MidiMappingElement midiMappingElement, MidiMappingGroup midiMappingGroup)
+		public static void LinkTo(this MidiMapping midiMapping, MidiMappingGroup midiMappingGroup)
 		{
-			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			if (midiMappingElement.MidiMappingGroup != null)
+			if (midiMapping.MidiMappingGroup != null)
 			{
-				if (midiMappingElement.MidiMappingGroup.MidiMappingElements.Contains(midiMappingElement))
+				if (midiMapping.MidiMappingGroup.MidiMappings.Contains(midiMapping))
 				{
-					midiMappingElement.MidiMappingGroup.MidiMappingElements.Remove(midiMappingElement);
+					midiMapping.MidiMappingGroup.MidiMappings.Remove(midiMapping);
 				}
 			}
 
-			midiMappingElement.MidiMappingGroup = midiMappingGroup;
+			midiMapping.MidiMappingGroup = midiMappingGroup;
 
-			if (midiMappingElement.MidiMappingGroup != null)
+			if (midiMapping.MidiMappingGroup != null)
 			{
-				if (!midiMappingElement.MidiMappingGroup.MidiMappingElements.Contains(midiMappingElement))
+				if (!midiMapping.MidiMappingGroup.MidiMappings.Contains(midiMapping))
 				{
-					midiMappingElement.MidiMappingGroup.MidiMappingElements.Add(midiMappingElement);
+					midiMapping.MidiMappingGroup.MidiMappings.Add(midiMapping);
 				}
 			}
 		}
 
-		public static void LinkTo(this MidiMappingElement midiMappingElement, Scale scale)
+		public static void LinkTo(this MidiMapping midiMapping, Scale scale)
 		{
-			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			if (midiMappingElement.Scale != null)
+			if (midiMapping.Scale != null)
 			{
-				if (midiMappingElement.Scale.MidiMappingElements.Contains(midiMappingElement))
+				if (midiMapping.Scale.MidiMapping.Contains(midiMapping))
 				{
-					midiMappingElement.Scale.MidiMappingElements.Remove(midiMappingElement);
+					midiMapping.Scale.MidiMapping.Remove(midiMapping);
 				}
 			}
 
-			midiMappingElement.Scale = scale;
+			midiMapping.Scale = scale;
 
-			if (midiMappingElement.Scale != null)
+			if (midiMapping.Scale != null)
 			{
-				if (!midiMappingElement.Scale.MidiMappingElements.Contains(midiMappingElement))
+				if (!midiMapping.Scale.MidiMapping.Contains(midiMapping))
 				{
-					midiMappingElement.Scale.MidiMappingElements.Add(midiMappingElement);
+					midiMapping.Scale.MidiMapping.Add(midiMapping);
 				}
 			}
 		}
@@ -455,11 +455,11 @@ namespace JJ.Business.Synthesizer.LinkTo
 			// No inverse property.
 		}
 
-		public static void LinkTo(this MidiMappingElement midiMappingElement, Dimension dimension)
+		public static void LinkTo(this MidiMapping midiMapping, Dimension dimension)
 		{
-			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMappingElement.StandardDimension = dimension;
+			midiMapping.StandardDimension = dimension;
 
 			// No inverse property.
 		}

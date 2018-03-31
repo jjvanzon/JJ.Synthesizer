@@ -168,13 +168,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		// MidiMappingElement
+		// MidiMapping
 
-		public static MidiMappingElementItemViewModel ToItemViewModel(this MidiMappingElement entity)
+		public static MidiMappingItemViewModel ToItemViewModel(this MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			var viewModel = new MidiMappingElementItemViewModel
+			var viewModel = new MidiMappingItemViewModel
 			{
 				ID = entity.ID,
 				Position = entity.EntityPosition.ToViewModel(),

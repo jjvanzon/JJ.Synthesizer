@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			}
 		};
 
-		public static TextStyle MidiMappingElementTextStyle { get; } = new TextStyle
+		public static TextStyle MidiMappingTextStyle { get; } = new TextStyle
 		{
 			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
@@ -147,7 +147,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Wrap = true
 		};
 
-		public static TextStyle MidiMappingElementTextStyleInactive { get; } = HalfenOpacity(MidiMappingElementTextStyle);
+		public static TextStyle MidiMappingTextStyleInactive { get; } = HalfenOpacity(MidiMappingTextStyle);
 
 		public static BackStyle OperatorBackStyleSelected { get; } = new BackStyle
 		{

@@ -6,9 +6,9 @@ using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
-	public static class IMidiMappingElementExtensions
+	public static class IMidiMappingExtensions
 	{
-		public static int GetMidiControllerValueRange(this IMidiMappingElement entity)
+		public static int GetMidiControllerValueRange(this IMidiMapping entity)
 		{
 			int? midiControllerValueRange = TryGetMidiControllerValueRange(entity);
 
@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return midiControllerValueRange.Value;
 		}
 
-		public static int? TryGetMidiControllerValueRange(this IMidiMappingElement entity)
+		public static int? TryGetMidiControllerValueRange(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return entity.TillMidiControllerValue.Value - entity.FromMidiControllerValue.Value;
 		}
 
-		public static int GetMidiNoteNumberRange(this IMidiMappingElement entity)
+		public static int GetMidiNoteNumberRange(this IMidiMapping entity)
 		{
 			int? midiNoteNumberRange = TryGetMidiNoteNumberRange(entity);
 
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return midiNoteNumberRange.Value;
 		}
 
-		public static int? TryGetMidiNoteNumberRange(this IMidiMappingElement entity)
+		public static int? TryGetMidiNoteNumberRange(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return entity.TillMidiNoteNumber.Value - entity.FromMidiNoteNumber.Value;
 		}
 
-		public static int GetMidiVelocityRange(this IMidiMappingElement entity)
+		public static int GetMidiVelocityRange(this IMidiMapping entity)
 		{
 			int? midiVelocityRange = TryGetMidiVelocityRange(entity);
 
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return midiVelocityRange.Value;
 		}
 
-		public static int? TryGetMidiVelocityRange(this IMidiMappingElement entity)
+		public static int? TryGetMidiVelocityRange(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return entity.TillMidiVelocity.Value - entity.FromMidiVelocity.Value;
 		}
 
-		public static double GetDimensionValueRange(this IMidiMappingElement entity)
+		public static double GetDimensionValueRange(this IMidiMapping entity)
 		{
 			double? midiVelocityRange = TryGetDimensionValueRange(entity);
 
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return midiVelocityRange.Value;
 		}
 
-		public static double? TryGetDimensionValueRange(this IMidiMappingElement entity)
+		public static double? TryGetDimensionValueRange(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return entity.TillDimensionValue.Value - entity.FromDimensionValue.Value;
 		}
 
-		public static int GetPositionRange(this IMidiMappingElement entity)
+		public static int GetPositionRange(this IMidiMapping entity)
 		{
 			int? midiVelocityRange = TryGetPositionRange(entity);
 
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return midiVelocityRange.Value;
 		}
 
-		public static int? TryGetPositionRange(this IMidiMappingElement entity)
+		public static int? TryGetPositionRange(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return entity.TillPosition.Value - entity.FromPosition.Value;
 		}
 
-		public static int GetToneNumberRange(this IMidiMappingElement entity)
+		public static int GetToneNumberRange(this IMidiMapping entity)
 		{
 			int? midiVelocityRange = TryGetToneNumberRange(entity);
 
@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return midiVelocityRange.Value;
 		}
 
-		public static int? TryGetToneNumberRange(this IMidiMappingElement entity)
+		public static int? TryGetToneNumberRange(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return entity.TillToneNumber.Value - entity.FromToneNumber.Value;
 		}
 
-		public static bool HasMidiControllerValues(this IMidiMappingElement entity)
+		public static bool HasMidiControllerValues(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return hasMidiControllerValues;
 		}
 
-		public static bool HasMidiNoteNumbers(this IMidiMappingElement entity)
+		public static bool HasMidiNoteNumbers(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return hasMidiNoteNumbers;
 		}
 
-		public static bool HasMidiVelocities(this IMidiMappingElement entity)
+		public static bool HasMidiVelocities(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return hasMidiVelocities;
 		}
 
-		public static bool HasDimensionValues(this IMidiMappingElement entity)
+		public static bool HasDimensionValues(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return hasDimensionValues;
 		}
 
-		public static bool HasPositions(this IMidiMappingElement entity)
+		public static bool HasPositions(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return hasPositions;
 		}
 
-		public static bool HasToneNumbers(this IMidiMappingElement entity)
+		public static bool HasToneNumbers(this IMidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 

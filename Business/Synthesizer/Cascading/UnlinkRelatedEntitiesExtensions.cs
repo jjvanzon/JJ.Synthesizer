@@ -51,13 +51,13 @@ namespace JJ.Business.Synthesizer.Cascading
 			midiMappingGroup.UnlinkDocument();
 		}
 
-		public static void UnlinkRelatedEntities(this MidiMappingElement midiMappingElement)
+		public static void UnlinkRelatedEntities(this MidiMapping midiMapping)
 		{
-			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMappingElement.UnlinkScale();
-			midiMappingElement.UnlinkStandardDimension();
-			midiMappingElement.UnlinkMidiMappingGroup();
+			midiMapping.UnlinkScale();
+			midiMapping.UnlinkStandardDimension();
+			midiMapping.UnlinkMidiMappingGroup();
 		}
 
 		public static void UnlinkRelatedEntities(this Node node)

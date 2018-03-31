@@ -5,9 +5,9 @@ using JJ.Data.Synthesizer.NHibernate.Names;
 
 namespace JJ.Data.Synthesizer.NHibernate.Mapping
 {
-	public class MidiMappingElementMapping : ClassMap<MidiMappingElement>
+	public class MidiMappingMapping : ClassMap<MidiMapping>
 	{
-		public MidiMappingElementMapping()
+		public MidiMappingMapping()
 		{
 			Id(x => x.ID).GeneratedBy.Assigned();
 

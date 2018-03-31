@@ -36,8 +36,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 		public LibraryPropertiesViewModel VisibleLibraryProperties { get; set; }
 		public MidiMappingGroupDetailsViewModel VisibleMidiMappingGroupDetails { get; set; }
 		public Dictionary<int, MidiMappingGroupDetailsViewModel> MidiMappingGroupDetailsDictionary { get; set; }
-		public MidiMappingElementPropertiesViewModel VisibleMidiMappingElementProperties { get; set; }
-		public Dictionary<int, MidiMappingElementPropertiesViewModel> MidiMappingElementPropertiesDictionary { get; set; }
+		public MidiMappingPropertiesViewModel VisibleMidiMappingProperties { get; set; }
+		public Dictionary<int, MidiMappingPropertiesViewModel> MidiMappingPropertiesDictionary { get; set; }
 		public NodePropertiesViewModel VisibleNodeProperties { get; set; }
 		public Dictionary<int, NodePropertiesViewModel> NodePropertiesDictionary { get; set; }
 		public OperatorPropertiesViewModel VisibleOperatorProperties { get; set; }

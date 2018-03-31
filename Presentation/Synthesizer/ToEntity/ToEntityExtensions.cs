@@ -282,7 +282,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			var curveRepositories = new CurveRepositories(repositories);
 			var scaleRepositories = new ScaleRepositories(repositories);
-			var midiMappingRepositories = new MidiMappingElementRepositories(repositories);
+			var midiMappingRepositories = new MidiMappingRepositories(repositories);
 
 			repositories.DocumentRepository.TryGetComplete(viewModel.ID); // Eager loading
 			Document destDocument = viewModel.ToEntity(repositories.DocumentRepository);
@@ -365,8 +365,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			viewModel.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
 
 			viewModel.MidiMappingGroupDetailsDictionary.Values.ToEntitiesWithRelatedEntities(destDocument, midiMappingRepositories);
-			// Order-Dependence: MidiMappingElementProperties are leading over MidiMappingGroupDetails items.
-			viewModel.MidiMappingElementPropertiesDictionary.Values.ForEach(x => x.ToEntity(midiMappingRepositories));
+			// Order-Dependence: MidiMappingProperties are leading over MidiMappingGroupDetails items.
+			viewModel.MidiMappingPropertiesDictionary.Values.ForEach(x => x.ToEntity(midiMappingRepositories));
 
 			return destDocument;
 		}
@@ -545,12 +545,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			return entity;
 		}
 
-		// MidiMappingElement
+		// MidiMapping
 
 		public static void ToEntitiesWithRelatedEntities(
 			this IEnumerable<MidiMappingGroupDetailsViewModel> viewModelList,
 			Document destDocument,
-			MidiMappingElementRepositories repositories)
+			MidiMappingRepositories repositories)
 		{
 			if (viewModelList == null) throw new ArgumentNullException(nameof(viewModelList));
 			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
@@ -565,7 +565,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				idsToKeep.Add(entity.ID);
 			}
 
-			var midiMappingFacade = new MidiMappingElementFacade(repositories);
+			var midiMappingFacade = new MidiMappingFacade(repositories);
 
 			IList<int> existingIDs = destDocument.MidiMappingGroups.Select(x => x.ID).ToArray();
 			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
@@ -575,14 +575,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			}
 		}
 
-		public static MidiMappingGroup ToEntityWithRelatedEntities(this MidiMappingGroupDetailsViewModel viewModel, MidiMappingElementRepositories repositories)
+		public static MidiMappingGroup ToEntityWithRelatedEntities(this MidiMappingGroupDetailsViewModel viewModel, MidiMappingRepositories repositories)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
 
 			MidiMappingGroup midiMapping = viewModel.MidiMappingGroup.ToEntity(repositories.MidiMappingGroupRepository);
 
-			viewModel.Elements.Values.ToEntitiesWithRelatedEntities(midiMapping, repositories);
+			viewModel.MidiMappings.Values.ToEntitiesWithRelatedEntities(midiMapping, repositories);
 
 			return midiMapping;
 		}
@@ -605,9 +605,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 		}
 
 		public static void ToEntitiesWithRelatedEntities(
-			this IEnumerable<MidiMappingElementItemViewModel> viewModelList,
+			this IEnumerable<MidiMappingItemViewModel> viewModelList,
 			MidiMappingGroup destMidiMappingGroup,
-			MidiMappingElementRepositories repositories)
+			MidiMappingRepositories repositories)
 		{
 			if (viewModelList == null) throw new ArgumentNullException(nameof(viewModelList));
 			if (destMidiMappingGroup == null) throw new ArgumentNullException(nameof(destMidiMappingGroup));
@@ -615,10 +615,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			var idsToKeep = new HashSet<int>();
 
-			foreach (MidiMappingElementItemViewModel viewModel in viewModelList)
+			foreach (MidiMappingItemViewModel viewModel in viewModelList)
 			{
-				MidiMappingElement entity = viewModel.ToEntityWithRelatedEntities(
-					repositories.MidiMappingElementRepository,
+				MidiMapping entity = viewModel.ToEntityWithRelatedEntities(
+					repositories.MidiMappingRepository,
 					repositories.EntityPositionRepository);
 
 				entity.LinkTo(destMidiMappingGroup);
@@ -626,19 +626,19 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				idsToKeep.Add(entity.ID);
 			}
 
-			var midiMappingFacade = new MidiMappingElementFacade(repositories);
+			var midiMappingFacade = new MidiMappingFacade(repositories);
 
-			IList<int> existingIDs = destMidiMappingGroup.MidiMappingElements.Select(x => x.ID).ToArray();
+			IList<int> existingIDs = destMidiMappingGroup.MidiMappings.Select(x => x.ID).ToArray();
 			IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 			foreach (int idToDelete in idsToDelete)
 			{
-				midiMappingFacade.DeleteMidiMappingElement(idToDelete);
+				midiMappingFacade.DeleteMidiMapping(idToDelete);
 			}
 		}
 
-		public static MidiMappingElement ToEntityWithRelatedEntities(
-			this MidiMappingElementItemViewModel viewModel,
-			IMidiMappingElementRepository midiMappingElementRepository,
+		public static MidiMapping ToEntityWithRelatedEntities(
+			this MidiMappingItemViewModel viewModel,
+			IMidiMappingRepository midiMappingElementRepository,
 			IEntityPositionRepository entityPositionRepository)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
@@ -646,38 +646,38 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			// Order-Dependenc2: EntityPosition must be created first and then Operator, or you get a null constraint violation.
 			EntityPosition entityPosition = viewModel.Position.ToEntity(entityPositionRepository);
 
-			MidiMappingElement entity = viewModel.ToEntity(midiMappingElementRepository);
+			MidiMapping entity = viewModel.ToEntity(midiMappingElementRepository);
 			entity.LinkTo(entityPosition);
 
 			return entity;
 		}
 
-		public static MidiMappingElement ToEntity(
-			this MidiMappingElementItemViewModel viewModel,
-			IMidiMappingElementRepository midiMappingElementRepository)
+		public static MidiMapping ToEntity(
+			this MidiMappingItemViewModel viewModel,
+			IMidiMappingRepository midiMappingElementRepository)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-			MidiMappingElement entity = midiMappingElementRepository.TryGet(viewModel.ID);
+			MidiMapping entity = midiMappingElementRepository.TryGet(viewModel.ID);
 			if (entity == null)
 			{
-				entity = new MidiMappingElement { ID = viewModel.ID };
+				entity = new MidiMapping { ID = viewModel.ID };
 				midiMappingElementRepository.Insert(entity);
 			}
 
 			return entity;
 		}
 
-		public static MidiMappingElement ToEntity(this MidiMappingElementPropertiesViewModel viewModel, MidiMappingElementRepositories repositories)
+		public static MidiMapping ToEntity(this MidiMappingPropertiesViewModel viewModel, MidiMappingRepositories repositories)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
 
-			MidiMappingElement entity = repositories.MidiMappingElementRepository.TryGet(viewModel.ID);
+			MidiMapping entity = repositories.MidiMappingRepository.TryGet(viewModel.ID);
 			if (entity == null)
 			{
-				entity = new MidiMappingElement { ID = viewModel.ID };
-				repositories.MidiMappingElementRepository.Insert(entity);
+				entity = new MidiMapping { ID = viewModel.ID };
+				repositories.MidiMappingRepository.Insert(entity);
 			}
 
 			entity.MidiControllerCode = viewModel.MidiControllerCode;

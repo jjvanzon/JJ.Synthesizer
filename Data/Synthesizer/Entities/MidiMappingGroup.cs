@@ -10,16 +10,13 @@ namespace JJ.Data.Synthesizer.Entities
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
 	public class MidiMappingGroup
 	{
-		public MidiMappingGroup()
-		{
-			MidiMappingElements = new List<MidiMappingElement>();
-		}
+		public MidiMappingGroup() => MidiMappings = new List<MidiMapping>();
 
 		public virtual int ID { get; set; }
 		public virtual string Name { get; set; }
 		/// <summary> parent, not nullable </summary>
 		public virtual Document Document { get; set; }
-		public virtual IList<MidiMappingElement> MidiMappingElements { get; set; }
+		public virtual IList<MidiMapping> MidiMappings { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
 	}

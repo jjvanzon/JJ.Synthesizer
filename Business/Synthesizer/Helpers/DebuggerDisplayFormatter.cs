@@ -56,13 +56,13 @@ namespace JJ.Business.Synthesizer.Helpers
 			return operatorDto.GetType().Name;
 		}
 
-		public static string GetDebuggerDisplay(MidiMappingElementDto dto)
+		public static string GetDebuggerDisplay(MidiMappingDto dto)
 		{
 			if (dto == null) throw new ArgumentNullException(nameof(dto));
 
 			var sb = new StringBuilder();
 
-			sb.Append($"{{{nameof(MidiMappingElementDto)}}} ");
+			sb.Append($"{{{nameof(MidiMappingDto)}}} ");
 
 			if (dto.StandardDimensionEnum != default ||
 			    !string.IsNullOrEmpty(dto.CustomDimensionName) ||

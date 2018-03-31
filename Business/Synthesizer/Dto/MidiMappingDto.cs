@@ -6,7 +6,7 @@ using JJ.Data.Synthesizer.Interfaces;
 namespace JJ.Business.Synthesizer.Dto
 {
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public class MidiMappingElementDto : IMidiMappingElement
+	public class MidiMappingDto : IMidiMapping
 	{
 		/// <inheritdoc />
 		public bool IsRelative { get; set; }

@@ -7,8 +7,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 	public sealed class MidiMappingGroupDetailsViewModel : ScreenViewModelBase
 	{
 		public IDAndName MidiMappingGroup { get; set; }
-		public Dictionary<int, MidiMappingElementItemViewModel> Elements { get; set; }
-		public MidiMappingElementItemViewModel SelectedElement { get; set; }
-		public int CreatedElementID { get; set; }
+		public Dictionary<int, MidiMappingItemViewModel> MidiMappings { get; set; }
+		public MidiMappingItemViewModel SelectedMidiMapping { get; set; }
+		public int CreatedMidiMappingID { get; set; }
 	}
 }

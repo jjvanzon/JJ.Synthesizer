@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 			Id(x => x.ID).GeneratedBy.Assigned();
 			Map(x => x.Name);
 			References(x => x.Document, ColumnNames.DocumentID);
-			HasMany(x => x.MidiMappingElements).KeyColumn(ColumnNames.MidiMappingGroupID).Inverse();
+			HasMany(x => x.MidiMappings).KeyColumn(ColumnNames.MidiMappingGroupID).Inverse();
 		}
 	}
 }

@@ -64,25 +64,25 @@ namespace JJ.Business.Synthesizer.LinkTo
 			midiMappingGroup.LinkTo(null);
 		}
 
-		public static void UnlinkEntityPosition(this MidiMappingElement midiMappingElement)
+		public static void UnlinkEntityPosition(this MidiMapping midiMapping)
 		{
-			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMappingElement.LinkTo((EntityPosition)null);
+			midiMapping.LinkTo((EntityPosition)null);
 		}
 
-		public static void UnlinkMidiMappingGroup(this MidiMappingElement midiMappingElement)
+		public static void UnlinkMidiMappingGroup(this MidiMapping midiMapping)
 		{
-			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMappingElement.LinkTo((MidiMappingGroup)null);
+			midiMapping.LinkTo((MidiMappingGroup)null);
 		}
 
-		public static void UnlinkScale(this MidiMappingElement midiMappingElement)
+		public static void UnlinkScale(this MidiMapping midiMapping)
 		{
-			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMappingElement.LinkTo((Scale)null);
+			midiMapping.LinkTo((Scale)null);
 		}
 
 		public static void UnlinkCurve(this Node node)
@@ -192,11 +192,11 @@ namespace JJ.Business.Synthesizer.LinkTo
 			inletOrOutlet.LinkTo(null);
 		}
 
-		public static void UnlinkStandardDimension(this MidiMappingElement midiMappingElement)
+		public static void UnlinkStandardDimension(this MidiMapping midiMapping)
 		{
-			if (midiMappingElement == null) throw new NullException(() => midiMappingElement);
+			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMappingElement.LinkTo((Dimension)null);
+			midiMapping.LinkTo((Dimension)null);
 		}
 
 		public static void UnlinkNodeType(this Node node)

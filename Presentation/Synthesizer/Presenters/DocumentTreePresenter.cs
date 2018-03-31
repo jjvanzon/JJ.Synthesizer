@@ -22,13 +22,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	{
 		private readonly RepositoryWrapper _repositories;
 		private readonly DocumentFacade _documentFacade;
-		private readonly MidiMappingElementFacade _midiMappingFacade;
+		private readonly MidiMappingFacade _midiMappingFacade;
 		private readonly PatchFacade _patchFacade;
 		private readonly ScaleFacade _scaleFacade;
 
 		public DocumentTreePresenter(
 			DocumentFacade documentFacade,
-			MidiMappingElementFacade midiMappingFacade,
+			MidiMappingFacade midiMappingFacade,
 			PatchFacade patchFacade,
 			ScaleFacade scaleFacade,
 			RepositoryWrapper repositories)

@@ -3,6 +3,6 @@ using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.RepositoryInterfaces
 {
-	public interface IMidiMappingElementRepository : IRepository<MidiMappingElement, int>
+	public interface IMidiMappingRepository : IRepository<MidiMapping, int>
 	{ }
 }

@@ -11,10 +11,10 @@ namespace JJ.Business.Synthesizer.Warnings
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			foreach (MidiMappingElement midiMappingElement in entity.MidiMappingElements)
+			foreach (MidiMapping midiMapping in entity.MidiMappings)
 			{
-				string messagePrefix = ValidationHelper.GetMessagePrefix(midiMappingElement);
-				ExecuteValidator(new MidiMappingElementWarningValidator(midiMappingElement), messagePrefix);
+				string messagePrefix = ValidationHelper.GetMessagePrefix(midiMapping);
+				ExecuteValidator(new MidiMappingWarningValidator(midiMapping), messagePrefix);
 			}
 		}
 	}

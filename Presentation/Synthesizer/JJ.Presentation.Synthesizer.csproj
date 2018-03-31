@@ -62,9 +62,9 @@
     <Compile Include="Presenters\Bases\OperatorPropertiesPresenterBase.cs" />
     <Compile Include="Presenters\MainPresenter.Undo.cs" />
     <Compile Include="Presenters\MidiMappingGroupDetailsPresenter.cs" />
-    <Compile Include="Presenters\MidiMappingElementPropertiesPresenter.cs" />
+    <Compile Include="Presenters\MidiMappingPropertiesPresenter.cs" />
     <Compile Include="ToViewModel\ToLookupViewModelExtensions.cs" />
-    <Compile Include="Validators\MidiMappingElementPropertiesViewModel_Validator.cs" />
+    <Compile Include="Validators\MidiMappingPropertiesViewModel_Validator.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithCollectionRecalculation.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForInletsToDimension.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithInterpolation.cs" />
@@ -120,8 +120,8 @@
     <Compile Include="ViewModels\Items\UndoUpdateViewModel.cs" />
     <Compile Include="ViewModels\Items\UndoItemViewModelBase.cs" />
     <Compile Include="ViewModels\MidiMappingGroupDetailsViewModel.cs" />
-    <Compile Include="ViewModels\MidiMappingElementPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\Items\MidiMappingElementItemViewModel.cs" />
+    <Compile Include="ViewModels\MidiMappingPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\Items\MidiMappingItemViewModel.cs" />
     <Compile Include="ViewModels\Partials\EntityWithListTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\SampleFileBrowserViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />

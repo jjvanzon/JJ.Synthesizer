@@ -126,13 +126,13 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		internal static string GetDebuggerDisplay(MidiMappingElement entity)
+		internal static string GetDebuggerDisplay(MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
 			var sb = new StringBuilder();
 
-			sb.Append($"{{{nameof(MidiMappingElement)}}} ");
+			sb.Append($"{{{nameof(MidiMapping)}}} ");
 
 			if (entity.StandardDimension != null ||
 			    !string.IsNullOrEmpty(entity.CustomDimensionName) ||

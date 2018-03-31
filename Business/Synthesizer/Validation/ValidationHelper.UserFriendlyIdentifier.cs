@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return GetNoNameIdentifier();
 		}
 
-		public static string GetUserFriendlyIdentifierLong(MidiMappingElement entity)
+		public static string GetUserFriendlyIdentifierLong(MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return sb.ToString().TrimEnd(", ");
 		}
 
-		public static string GetUserFriendlyIdentifierShort(MidiMappingElement entity)
+		public static string GetUserFriendlyIdentifierShort(MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 

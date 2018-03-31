@@ -60,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			if (scale == null)
 			{
 				scale = _systemFacade.GetDefaultMidiMappingGroups()
-				                     .SelectMany(x => x.MidiMappingElements)
+				                     .SelectMany(x => x.MidiMappings)
 				                     .Select(x => x.Scale)
 				                     .FirstOrDefault(x => x != null);
 			}
@@ -75,13 +75,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return document.ToCurrentInstrumentBarViewModel(scale, midiMappings, patches);
 		}
 
-		public CurrentInstrumentBarViewModel AddMidiMappingGroup(CurrentInstrumentBarViewModel userInput, int midiMappingID)
+		public CurrentInstrumentBarViewModel AddMidiMappingGroup(CurrentInstrumentBarViewModel userInput, int midiMappingGroupID)
 		{
 			return ExecuteAction(
 				userInput,
 				entities =>
 				{
-					MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingID);
+					MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingGroupID);
 					entities.midiMappings.Add(midiMapping);
 				});
 		}
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public CurrentInstrumentBarViewModel MoveMidiMappingGroup(CurrentInstrumentBarViewModel userInput, int midiMappingID, int newPosition)
+		public CurrentInstrumentBarViewModel MoveMidiMappingGroup(CurrentInstrumentBarViewModel userInput, int midiMappingGroupID, int newPosition)
 		{
 			return ExecuteAction(
 				userInput,
@@ -106,24 +106,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					if (newPosition < 0) newPosition = 0;
 					if (newPosition > entities.midiMappings.Count - 1) newPosition = entities.midiMappings.Count - 1;
 
-					MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingID);
+					MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingGroupID);
 					entities.midiMappings.Remove(midiMapping);
 					entities.midiMappings.Insert(newPosition, midiMapping);
 				});
 		}
 
-		public CurrentInstrumentBarViewModel MoveMidiMappingGroupBackward(CurrentInstrumentBarViewModel userInput, int midiMappingID)
+		public CurrentInstrumentBarViewModel MoveMidiMappingGroupBackward(CurrentInstrumentBarViewModel userInput, int midiMappingGroupID)
 		{
-			int currentPosition = userInput.MidiMappingGroups.IndexOf(x => x.EntityID == midiMappingID);
+			int currentPosition = userInput.MidiMappingGroups.IndexOf(x => x.EntityID == midiMappingGroupID);
 
-			return MoveMidiMappingGroup(userInput, midiMappingID, currentPosition - 1);
+			return MoveMidiMappingGroup(userInput, midiMappingGroupID, currentPosition - 1);
 		}
 
-		public CurrentInstrumentBarViewModel MoveMidiMappingGroupForward(CurrentInstrumentBarViewModel userInput, int midiMappingID)
+		public CurrentInstrumentBarViewModel MoveMidiMappingGroupForward(CurrentInstrumentBarViewModel userInput, int midiMappingGroupID)
 		{
-			int currentPosition = userInput.MidiMappingGroups.IndexOf(x => x.EntityID == midiMappingID);
+			int currentPosition = userInput.MidiMappingGroups.IndexOf(x => x.EntityID == midiMappingGroupID);
 
-			return MoveMidiMappingGroup(userInput, midiMappingID, currentPosition + 1);
+			return MoveMidiMappingGroup(userInput, midiMappingGroupID, currentPosition + 1);
 		}
 
 		public CurrentInstrumentBarViewModel MovePatch(CurrentInstrumentBarViewModel userInput, int patchID, int newPosition)
@@ -192,9 +192,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
-		public CurrentInstrumentBarViewModel DeleteMidiMappingGroup(CurrentInstrumentBarViewModel userInput, int midiMappingID)
+		public CurrentInstrumentBarViewModel DeleteMidiMappingGroup(CurrentInstrumentBarViewModel userInput, int midiMappingGroupID)
 		{
-			return ExecuteAction(userInput, entities => entities.midiMappings.RemoveFirst(x => x.ID == midiMappingID));
+			return ExecuteAction(userInput, entities => entities.midiMappings.RemoveFirst(x => x.ID == midiMappingGroupID));
 		}
 
 		public CurrentInstrumentBarViewModel DeletePatch(CurrentInstrumentBarViewModel userInput, int patchID)

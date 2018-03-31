@@ -451,11 +451,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// CurrentInstrument
 
-		private void CurrentInstrumentBar_AddMidiMappingGroup(int midiMappingID)
+		private void CurrentInstrumentBar_AddMidiMappingGroup(int midiMappingGroupID)
 		{
 			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
 
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.AddMidiMappingGroup(userInput, midiMappingID));
+			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.AddMidiMappingGroup(userInput, midiMappingGroupID));
 		}
 
 		private void CurrentInstrumentBar_AddPatch(int patchID)
@@ -1886,7 +1886,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _librarySelectionPopupPresenter.Play(userInput, lowerDocumentID));
 		}
 
-		// MidiMappingElement
+		// MidiMapping
 
 		public void MidiMappingGroupDetails_AddToInstrument(int id)
 		{
@@ -1903,13 +1903,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.Document.VisibleMidiMappingGroupDetails = null;
 		}
 
-		public void MidiMappingGroupDetails_CreateElement(int midiMappingID)
+		public void MidiMappingGroupDetails_CreateMidiMapping(int midiMappingGroupID)
 		{
 			// GetViewModel
-			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
 
 			// Template Method
-			MidiMappingGroupDetailsViewModel viewModel = ExecuteCreateAction(userInput, () => _midiMappingDetailsPresenter.CreateElement(userInput));
+			MidiMappingGroupDetailsViewModel viewModel = ExecuteCreateAction(userInput, () => _midiMappingDetailsPresenter.CreateMidiMapping(userInput));
 
 			if (viewModel.Successful)
 			{
@@ -1919,35 +1919,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Undo History
 				var undoItem = new UndoCreateViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.MidiMappingElement, viewModel.CreatedElementID).ToViewModel().AsArray(),
-					States = GetMidiMappingElementStates(viewModel.CreatedElementID)
+					EntityTypesAndIDs = (EntityTypeEnum.MidiMapping, viewModel.CreatedMidiMappingID).ToViewModel().AsArray(),
+					States = GetMidiMappingStates(viewModel.CreatedMidiMappingID)
 				};
 				MainViewModel.Document.UndoHistory.Push(undoItem);
 
 				// Redirect
-				MidiMappingElement_Expand(midiMappingID, viewModel.CreatedElementID);
+				MidiMapping_Expand(midiMappingGroupID, viewModel.CreatedMidiMappingID);
 			}
 		}
 
-		public void MidiMappingGroupDetails_DeleteSelectedElement(int midiMappingID)
+		public void MidiMappingGroupDetails_DeleteSelectedMidiMapping(int midiMappingGroupID)
 		{
 			// GetViewModel
-			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
 
 			// Undo History
-			int id = userInput.SelectedElement?.ID ?? 0;
+			int id = userInput.SelectedMidiMapping?.ID ?? 0;
 			UndoDeleteViewModel undoItem = null;
 			if (id != 0)
 			{
 				undoItem = new UndoDeleteViewModel
 				{
-					EntityTypesAndIDs = (EntityTypeEnum.MidiMappingElement, id).ToViewModel().AsArray(),
-					States = GetMidiMappingElementStates(id)
+					EntityTypesAndIDs = (EntityTypeEnum.MidiMapping, id).ToViewModel().AsArray(),
+					States = GetMidiMappingStates(id)
 				};
 			}
 
 			// Template Method
-			MidiMappingGroupDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _midiMappingDetailsPresenter.DeleteSelectedElement(userInput));
+			MidiMappingGroupDetailsViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _midiMappingDetailsPresenter.DeleteSelectedMidiMapping(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -1956,26 +1956,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void MidiMappingGroupDetails_ExpandElement(int midiMappingID, int midiMappingElementID)
+		public void MidiMappingGroupDetails_ExpandMidiMapping(int midiMappingID)
 		{
 			// Redirect
-			MidiMappingElementProperties_Show(midiMappingElementID);
+			MidiMappingProperties_Show(midiMappingID);
 		}
 
-		public void MidiMappingGroupDetails_MoveElement(int midiMappingID, int midiMappingElementID, float centerX, float centerY)
+		public void MidiMappingGroupDetails_MoveMidiMapping(int midiMappingGroupID, int midiMappingElementID, float centerX, float centerY)
 		{
-			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
 
-			ExecuteUpdateAction(userInput, () => _midiMappingDetailsPresenter.MoveElement(userInput, midiMappingElementID, centerX, centerY));
+			ExecuteUpdateAction(userInput, () => _midiMappingDetailsPresenter.MoveMidiMapping(userInput, midiMappingElementID, centerX, centerY));
 
 		}
 
 		/// <summary> Only selecting the element, not e.g. switching properties. </summary>
-		private void MidiMappingGroupDetails_SelectElement(int midiMappingID, int midiMappingElementID)
+		private void MidiMappingGroupDetails_SelectMidiMapping(int midiMappingGroupID, int midiMappingElementID)
 		{
-			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingID);
+			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
 
-			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.SelectElement(userInput, midiMappingElementID));
+			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.SelectMidiMapping(userInput, midiMappingElementID));
 		}
 
 		private void MidiMappingGroupDetails_Show(int id)
@@ -1994,53 +1994,53 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <summary> Affects multiple partials. </summary>
-		private void MidiMappingElement_Expand(int midiMappingID, int midiMappingElementID)
+		private void MidiMapping_Expand(int midiMappingGroupID, int midiMappingID)
 		{
 			// Redirect
-			MidiMappingElementProperties_Show(midiMappingElementID);
-			MidiMappingGroupDetails_Show(midiMappingID);
-			MidiMappingGroupDetails_SelectElement(midiMappingID, midiMappingElementID);
+			MidiMappingProperties_Show(midiMappingID);
+			MidiMappingGroupDetails_Show(midiMappingGroupID);
+			MidiMappingGroupDetails_SelectMidiMapping(midiMappingGroupID, midiMappingID);
 		}
 
 		/// <summary> Affects multiple partials. </summary>
-		public void MidiMappingElement_Select(int midiMappingID, int midiMappingElementID)
+		public void MidiMapping_Select(int midiMappingGroupID, int midiMappingID)
 		{
 			// Redirect
-			MidiMappingGroupDetails_SelectElement(midiMappingID, midiMappingElementID);
-			MidiMappingElementProperties_Switch(midiMappingElementID);
+			MidiMappingGroupDetails_SelectMidiMapping(midiMappingGroupID, midiMappingID);
+			MidiMappingProperties_Switch(midiMappingID);
 		}
 
-		public void MidiMappingElementProperties_Close(int id)
+		public void MidiMappingProperties_Close(int id)
 		{
 			// GetViewModel
-			MidiMappingElementPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+			MidiMappingPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingPropertiesViewModel(MainViewModel.Document, id);
 
 			// TemplateMethod
-			MidiMappingElementPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _midiMappingElementPropertiesPresenter.Close(userInput));
+			MidiMappingPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _midiMappingPropertiesPresenter.Close(userInput));
 
 			if (viewModel.Successful)
 			{
-				MainViewModel.Document.VisibleMidiMappingElementProperties = null;
+				MainViewModel.Document.VisibleMidiMappingProperties = null;
 
 				// Refresh
 				DocumentViewModel_Refresh();
 			}
 		}
 
-		public void MidiMappingElementProperties_Delete(int id)
+		public void MidiMappingProperties_Delete(int id)
 		{
 			// GetViewModel
-			MidiMappingElementPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+			MidiMappingPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingPropertiesViewModel(MainViewModel.Document, id);
 
 			// Undo History
 			var undoItem = new UndoDeleteViewModel
 			{
-				EntityTypesAndIDs = (EntityTypeEnum.MidiMappingElement, id).ToViewModel().AsArray(),
-				States = GetMidiMappingElementStates(id)
+				EntityTypesAndIDs = (EntityTypeEnum.MidiMapping, id).ToViewModel().AsArray(),
+				States = GetMidiMappingStates(id)
 			};
 
 			// Template Method
-			MidiMappingElementPropertiesViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _midiMappingElementPropertiesPresenter.Delete(userInput));
+			MidiMappingPropertiesViewModel viewModel = ExecuteDeleteAction(userInput, undoItem, () => _midiMappingPropertiesPresenter.Delete(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2049,21 +2049,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void MidiMappingElementProperties_Expand(int id)
+		public void MidiMappingProperties_Expand(int id)
 		{
-			MidiMappingElementPropertiesViewModel viewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+			MidiMappingPropertiesViewModel viewModel = ViewModelSelector.GetMidiMappingPropertiesViewModel(MainViewModel.Document, id);
 
 			// Redirect
-			MidiMappingElement_Expand(viewModel.MidiMappingGroupID, id);
+			MidiMapping_Expand(viewModel.MidiMappingGroupID, id);
 		}
 
-		public void MidiMappingElementProperties_LoseFocus(int id)
+		public void MidiMappingProperties_LoseFocus(int id)
 		{
 			// GetViewModel
-			MidiMappingElementPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+			MidiMappingPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingPropertiesViewModel(MainViewModel.Document, id);
 
 			// TemplateMethod
-			MidiMappingElementPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _midiMappingElementPropertiesPresenter.LoseFocus(userInput));
+			MidiMappingPropertiesViewModel viewModel = ExecuteUpdateAction(userInput, () => _midiMappingPropertiesPresenter.LoseFocus(userInput));
 
 			// Refresh
 			if (viewModel.Successful)
@@ -2072,19 +2072,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void MidiMappingElementProperties_Show(int id)
+		private void MidiMappingProperties_Show(int id)
 		{
-			MidiMappingElementPropertiesViewModel viewModel = ViewModelSelector.GetMidiMappingElementPropertiesViewModel(MainViewModel.Document, id);
+			MidiMappingPropertiesViewModel viewModel = ViewModelSelector.GetMidiMappingPropertiesViewModel(MainViewModel.Document, id);
 
-			ExecuteNonPersistedAction(viewModel, () => _midiMappingElementPropertiesPresenter.Show(viewModel));
+			ExecuteNonPersistedAction(viewModel, () => _midiMappingPropertiesPresenter.Show(viewModel));
 		}
 
-		private void MidiMappingElementProperties_Switch(int id)
+		private void MidiMappingProperties_Switch(int id)
 		{
 			if (MainViewModel.PropertiesPanelVisible)
 			{
 				// Redirect
-				MidiMappingElementProperties_Show(id);
+				MidiMappingProperties_Show(id);
 			}
 		}
 

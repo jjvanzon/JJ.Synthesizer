@@ -558,6 +558,7 @@
     <Content Include="2018-01-31 010 SynthesizerDB Tone rename column Number to Value.sql" />
     <Content Include="2018-02-01 010 SynthesizerDB Scale.BaseFrequency not null.sql" />
     <Content Include="2018-03-31 010 SynthesizerDB Rename MidiMapping to MidiMappingGroup.sql" />
+    <Content Include="2018-03-31 020 SynthesizerDB Rename MidiMappingElement to MidiMapping.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -57,7 +57,7 @@
     <Compile Include="DefaultRepositories\IDRepository.cs" />
     <Compile Include="DefaultRepositories\InletRepository.cs" />
     <Compile Include="DefaultRepositories\InterpolationTypeRepository.cs" />
-    <Compile Include="DefaultRepositories\MidiMappingElementRepository.cs" />
+    <Compile Include="DefaultRepositories\MidiMappingRepository.cs" />
     <Compile Include="DefaultRepositories\NodeRepository.cs" />
     <Compile Include="DefaultRepositories\NodeTypeRepository.cs" />
     <Compile Include="DefaultRepositories\OperatorRepository.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Entities\DocumentReference.cs" />
     <Compile Include="Entities\EntityPosition.cs" />
     <Compile Include="Entities\MidiMappingGroup.cs" />
-    <Compile Include="Entities\MidiMappingElement.cs" />
+    <Compile Include="Entities\MidiMapping.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Entities\Dimension.cs" />
     <Compile Include="Entities\Scale.cs" />
@@ -97,7 +97,7 @@
     <Compile Include="Entities\Outlet.cs" />
     <Compile Include="Entities\Patch.cs" />
     <Compile Include="Interfaces\IInletOrOutlet.cs" />
-    <Compile Include="Interfaces\IMidiMappingElement.cs" />
+    <Compile Include="Interfaces\IMidiMapping.cs" />
     <Compile Include="RepositoryInterfaces\IAudioFileFormatRepository.cs" />
     <Compile Include="RepositoryInterfaces\IAudioFileOutputRepository.cs" />
     <Compile Include="RepositoryInterfaces\IAudioOutputRepository.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="RepositoryInterfaces\IIDRepository.cs" />
     <Compile Include="RepositoryInterfaces\IInletRepository.cs" />
     <Compile Include="RepositoryInterfaces\IInterpolationTypeRepository.cs" />
-    <Compile Include="RepositoryInterfaces\IMidiMappingElementRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMidiMappingRepository.cs" />
     <Compile Include="RepositoryInterfaces\INodeRepository.cs" />
     <Compile Include="RepositoryInterfaces\INodeTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\IOperatorRepository.cs" />

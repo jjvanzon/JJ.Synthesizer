@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	partial class MidiMappingElementPropertiesUserControl
+	partial class MidiMappingPropertiesUserControl
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -321,7 +321,7 @@
 			this.fromTillUserControlMinMaxDimensionValues.TabIndex = 68;
 			this.fromTillUserControlMinMaxDimensionValues.Till = "";
 			// 
-			// MidiMappingElementPropertiesUserControl
+			// MidiMappingPropertiesUserControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -356,7 +356,7 @@
 			this.DeleteButtonVisible = true;
 			this.ExpandButtonVisible = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
-			this.Name = "MidiMappingElementPropertiesUserControl";
+			this.Name = "MidiMappingPropertiesUserControl";
 			this.Size = new System.Drawing.Size(467, 746);
 			this.TitleBarText = "";
 			this.Controls.SetChildIndex(this.labelIsActive, 0);

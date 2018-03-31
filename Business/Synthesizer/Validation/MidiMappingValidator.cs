@@ -6,9 +6,9 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-	internal class MidiMappingElementValidator : VersatileValidator
+	internal class MidiMappingValidator : VersatileValidator
 	{
-		public MidiMappingElementValidator(MidiMappingElement entity)
+		public MidiMappingValidator(MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Validation
 			ValidatePositionProperties(entity);
 		}
 
-		private void ValidateMidiControllerProperties(MidiMappingElement entity)
+		private void ValidateMidiControllerProperties(MidiMapping entity)
 		{
 			For(entity.MidiControllerCode, ResourceFormatter.MidiControllerCode)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Validation
 			}
 		}
 
-		private void ValidateMidiNoteNumberProperties(MidiMappingElement entity)
+		private void ValidateMidiNoteNumberProperties(MidiMapping entity)
 		{
 			For(entity.FromMidiNoteNumber, ResourceFormatter.FromMidiNoteNumber)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Validation
 			}
 		}
 
-		private void ValidateMidiVelocityProperties(MidiMappingElement entity)
+		private void ValidateMidiVelocityProperties(MidiMapping entity)
 		{
 			For(entity.FromMidiVelocity, ResourceFormatter.FromMidiVelocity)
 				.GreaterThanOrEqual(MidiConstants.MIDI_MIN_VALUE)
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Validation
 			}
 		}
 
-		private void ValidateDimensionProperties(MidiMappingElement entity)
+		private void ValidateDimensionProperties(MidiMapping entity)
 		{
 			For(entity.FromDimensionValue, ResourceFormatter.FromDimensionValue).NotNaN().NotInfinity();
 			For(entity.TillDimensionValue, ResourceFormatter.TillDimensionValue).NotNaN().NotInfinity();
@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Validation
 			}
 		}
 
-		private void ValidateToneNumberProperties(MidiMappingElement entity)
+		private void ValidateToneNumberProperties(MidiMapping entity)
 		{
 			For(entity.FromToneNumber, ResourceFormatter.FromToneNumber).GreaterThan(0);
 			For(entity.TillToneNumber, ResourceFormatter.TillToneNumber).GreaterThan(0);
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Validation
 			// because the plan is to fall back to a default.
 		}
 
-		private void ValidatePositionProperties(MidiMappingElement entity)
+		private void ValidatePositionProperties(MidiMapping entity)
 		{
 			bool fromNotEmptyButTillIsEmpty = entity.FromPosition.HasValue && !entity.TillPosition.HasValue;
 			if (fromNotEmptyButTillIsEmpty)

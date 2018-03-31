@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
 				{ typeof(MenuViewModel), DispatchMenuViewModel },
 				{ typeof(MidiMappingGroupDetailsViewModel), DispatchMidiMappingGroupDetailsViewModel },
-				{ typeof(MidiMappingElementPropertiesViewModel), DispatchMidiMappingElementPropertiesViewModel },
+				{ typeof(MidiMappingPropertiesViewModel), DispatchMidiMappingPropertiesViewModel },
 				{ typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
 				{ typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
 				{ typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
@@ -358,19 +358,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		private void DispatchMidiMappingElementPropertiesViewModel(ScreenViewModelBase viewModel)
+		private void DispatchMidiMappingPropertiesViewModel(ScreenViewModelBase viewModel)
 		{
-			var castedViewModel = (MidiMappingElementPropertiesViewModel)viewModel;
+			var castedViewModel = (MidiMappingPropertiesViewModel)viewModel;
 
 			// ReSharper disable once SuggestVarOrType_Elsewhere
-			var dictionary = MainViewModel.Document.MidiMappingElementPropertiesDictionary;
+			var dictionary = MainViewModel.Document.MidiMappingPropertiesDictionary;
 			dictionary[castedViewModel.ID] = castedViewModel;
 
 			if (castedViewModel.Visible)
 			{
 				HideAllPropertiesViewModels();
 				castedViewModel.Visible = true;
-				MainViewModel.Document.VisibleMidiMappingElementProperties = castedViewModel;
+				MainViewModel.Document.VisibleMidiMappingProperties = castedViewModel;
 			}
 
 			DispatchViewModelBase(castedViewModel);
@@ -736,7 +736,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.DocumentProperties.Visible ||
 				MainViewModel.Document.VisibleLibraryProperties != null ||
 				MainViewModel.Document.VisibleNodeProperties != null ||
-				MainViewModel.Document.VisibleMidiMappingElementProperties != null ||
+				MainViewModel.Document.VisibleMidiMappingProperties != null ||
 				MainViewModel.Document.VisibleOperatorProperties != null ||
 				MainViewModel.Document.VisibleOperatorProperties_ForCache != null ||
 				MainViewModel.Document.VisibleOperatorProperties_ForCurve != null ||
