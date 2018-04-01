@@ -38,12 +38,7 @@ namespace JJ.Business.Synthesizer.Warnings
 			}
 
 			// There are no Curve warnings.
-
-			foreach (MidiMappingGroup midiMapping in document.MidiMappingGroups)
-			{
-				string messagePrefix = ValidationHelper.GetMessagePrefix(midiMapping);
-				ExecuteValidator(new MidiMappingGroupWarningValidator_WithRelatedEntities(midiMapping), messagePrefix);
-			}
+			// There are no MidiMappingGroup warnings.
 
 			foreach (Patch patch in document.Patches)
 			{

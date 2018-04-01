@@ -1,4 +1,6 @@
-﻿using JJ.Data.Synthesizer.RepositoryInterfaces;
+﻿using System;
+using JetBrains.Annotations;
+using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Helpers
@@ -29,6 +31,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		public IScaleTypeRepository ScaleTypeRepository { get; }
 		public ISpeakerSetupRepository SpeakerSetupRepository { get; }
 		public IToneRepository ToneRepository { get; }
+		public IMidiMappingTypeRepository MidiMappingTypeRepository { get; }
 
 		public RepositoryWrapper(
 			IAudioFileFormatRepository audioFileFormatRepository,
@@ -44,6 +47,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			IInterpolationTypeRepository interpolationTypeRepository,
 			IMidiMappingRepository midiMappingRepository,
 			IMidiMappingGroupRepository midiMappingGroupRepository,
+			[NotNull] IMidiMappingTypeRepository midiMappingTypeRepository,
 			INodeRepository nodeRepository,
 			INodeTypeRepository nodeTypeRepository,
 			IOperatorRepository operatorRepository,
@@ -69,6 +73,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			InterpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
 			MidiMappingRepository = midiMappingRepository ?? throw new NullException(() => midiMappingRepository);
 			MidiMappingGroupRepository = midiMappingGroupRepository ?? throw new NullException(() => midiMappingGroupRepository);
+			MidiMappingTypeRepository = midiMappingTypeRepository ?? throw new ArgumentNullException(nameof(midiMappingTypeRepository));
 			NodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
 			NodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);
 			OperatorRepository = operatorRepository ?? throw new NullException(() => operatorRepository);

@@ -60,44 +60,12 @@ namespace JJ.Business.Synthesizer.Helpers
 		{
 			if (dto == null) throw new ArgumentNullException(nameof(dto));
 
-			var sb = new StringBuilder();
+			string debuggerDisplay =
+				$"{{{nameof(MidiMappingDto)}}} " +
+				$"{new { dto.DimensionEnum, dto.Name, dto.Position, dto.FromDimensionValue, dto.TillDimensionValue }} " +
+				$"{new { dto.MidiMappingTypeEnum, dto.FromMidiValue, dto.TillMidiValue, dto.MidiControllerCode }}";
 
-			sb.Append($"{{{nameof(MidiMappingDto)}}} ");
-
-			if (dto.StandardDimensionEnum != default ||
-			    !string.IsNullOrEmpty(dto.CustomDimensionName) ||
-			    dto.FromDimensionValue.HasValue ||
-			    dto.TillDimensionValue.HasValue)
-			{
-				sb.Append($"{new { StandardDimension = dto.StandardDimensionEnum, dto.CustomDimensionName, dto.FromDimensionValue, dto.TillDimensionValue }} ");
-			}
-
-			if (dto.MidiControllerCode.HasValue || dto.FromMidiControllerValue.HasValue || dto.TillMidiControllerValue.HasValue)
-			{
-				sb.Append($"{new { dto.MidiControllerCode, dto.FromMidiControllerValue, dto.TillMidiControllerValue }} ");
-			}
-
-			if (dto.FromMidiVelocity.HasValue || dto.TillMidiVelocity.HasValue)
-			{
-				sb.Append($"{new { dto.FromMidiVelocity, dto.TillMidiVelocity }} ");
-			}
-
-			if (dto.FromToneNumber.HasValue || dto.TillToneNumber.HasValue)
-			{
-				sb.Append($"{new { dto.FromToneNumber, dto.TillToneNumber }} ");
-			}
-
-			if (dto.FromMidiNoteNumber.HasValue || dto.TillMidiNoteNumber.HasValue)
-			{
-				sb.Append($"{new { dto.FromMidiNoteNumber, dto.TillMidiNoteNumber }} ");
-			}
-
-			if (dto.FromPosition.HasValue || dto.TillPosition.HasValue)
-			{
-				sb.Append($"{new { dto.FromPosition, dto.TillPosition }} ");
-			}
-
-			return sb.ToString().TrimEnd();
+			return debuggerDisplay;
 		}
 
 		public static string GetDebuggerDisplay(InputVariableInfo variableInfo)

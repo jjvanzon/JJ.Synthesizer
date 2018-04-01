@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			$"CopiedCode\\FromFramework\\{nameof(Geometry)}.cs",
 			$"CopiedCode\\FromFramework\\{nameof(Interpolator)}.cs",
 			$"CopiedCode\\FromFramework\\{nameof(MathHelper)}.cs",
-			$"Helpers\\{nameof(ConversionHelper)}.cs");
+			$"Helpers\\{nameof(CalculationHelper)}.cs");
 
 		private static readonly IList<MetadataReference> _metaDataReferences = new MetadataReference[]
 		{

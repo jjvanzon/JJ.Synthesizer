@@ -559,6 +559,21 @@
     <Content Include="2018-02-01 010 SynthesizerDB Scale.BaseFrequency not null.sql" />
     <Content Include="2018-03-31 010 SynthesizerDB Rename MidiMapping to MidiMappingGroup.sql" />
     <Content Include="2018-03-31 020 SynthesizerDB Rename MidiMappingElement to MidiMapping.sql" />
+    <Content Include="2018-04-01 010 SynthesizerDB MidiMappingType.sql" />
+    <Content Include="2018-04-01 020 SynthesizerDB MidiMappingType master data.sql" />
+    <Content Include="2018-04-01 030 SynthesizerDB Dimension 78 - NoteNumber.sql" />
+    <Content Include="2018-04-01 040 SynthesizerDB MidiMapping rename column CustomDimensionName to Name.sql" />
+    <Content Include="2018-04-01 050 SynthesizerDB MidiMapping rename StandardDimensionID to DimensionID + IX.sql" />
+    <Content Include="2018-04-01 060 SynthesizerDB MidiMapping.FromMidiValue.sql" />
+    <Content Include="2018-04-01 070 SynthesizerDB MidiMapping.TillMidiValue.sql" />
+    <Content Include="2018-04-01 080 SynthesizerDB MidiMapping.MidiMappingTypeID.sql" />
+    <Content Include="2018-04-01 090 SynthesizerDB FK_MidiMapping_MidiMappingType.sql" />
+    <Content Include="2018-04-01 100 SynthesizerDB MidiMapping.Position.sql" />
+    <Content Include="2018-04-01 110 SynthesizerDB MidiMapping data migration.sql" />
+    <Content Include="2018-04-01 120 SynthesizerDB MidiMapping drop many columns.sql" />
+    <Content Include="2018-04-01 130 SynthesizerDB MidiMapping.ScaleID drop column and IX and FK.sql" />
+    <Content Include="2018-04-01 140 SynthesizerDB MidiMapping delete incomplete records.sql" />
+    <Content Include="2018-04-01 150 SynthesizerDB MidiMapping several columns not null.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

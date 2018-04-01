@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -27,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		/// Key is Scale ID. Value is frequency array.
 		/// Caching prevents sorting the tones all the time.
 		/// </summary>
-		private readonly Dictionary<int, double[]> _scaleID_To_Frequencies_Dictionary;
+		private readonly double[] _frequencies;
 
 		private readonly object _lock = new object();
 
@@ -44,8 +45,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			_noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
 
 			_midiControllerDictionary = new Dictionary<int, int>();
-			_scaleID_To_Frequencies_Dictionary = new Dictionary<int, double[]>();
-			_midiMappingCalculator = new MidiMappingCalculator(scale, midiMappingElements);
+			_midiMappingCalculator = new MidiMappingCalculator(midiMappingElements);
+
+			_frequencies = new ScaleToDtoConverter().Convert(scale).Frequencies.ToArray();
 
 			var thread = new Thread(TryStart);
 			thread.Start();
@@ -149,6 +151,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				}
 				noteInfo.NoteNumber = noteOnEvent.NoteNumber;
 				noteInfo.Velocity = noteOnEvent.Velocity;
+				noteInfo.MidiChannel = noteOnEvent.Channel;
 
 				calculator.Reset(time, noteInfo.ListIndex);
 
@@ -252,9 +255,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 		private void ApplyMappings(IPatchCalculator patchCalculator, NoteInfo noteInfo)
 		{
-			// TODO: Prevent garbage collection.
-			IList<(int, int)> controllerCodesAndValues = _midiControllerDictionary.Select(x => (x.Key, x.Value)).ToArray();
-			_midiMappingCalculator.Calculate(controllerCodesAndValues, noteInfo.NoteNumber, noteInfo.Velocity);
+			_midiMappingCalculator.Calculate(_midiControllerDictionary, noteInfo.NoteNumber, noteInfo.Velocity, noteInfo.MidiChannel);
 
 			// Apply Dimension-Related MIDI Mappings
 			{
@@ -262,22 +263,19 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				for (int i = 0; i < count; i++)
 				{
 					MidiMappingCalculatorResult mappingResult = _midiMappingCalculator.Results[i];
-					if (!mappingResult.DimensionValue.HasValue) continue;
 
-					if (mappingResult.StandardDimensionEnum != default)
+					if (mappingResult.DimensionEnum != default)
 					{
-						patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue.Value);
+						patchCalculator.SetValue(mappingResult.DimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue);
 
-						Debug.WriteLine(
-							$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.StandardDimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue.Value }}");
+						Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.DimensionEnum, noteInfo.ListIndex, mappingResult.DimensionValue }}");
 					}
 
-					if (NameHelper.IsFilledIn(mappingResult.CustomDimensionName))
+					if (NameHelper.IsFilledIn(mappingResult.Name))
 					{
-						patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, mappingResult.DimensionValue.Value);
+						patchCalculator.SetValue(mappingResult.Name, noteInfo.ListIndex, mappingResult.DimensionValue);
 
-						Debug.WriteLine(
-							$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.CustomDimensionName, noteInfo.ListIndex, mappingResult.DimensionValue.Value }}");
+						Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.Name, noteInfo.ListIndex, mappingResult.DimensionValue }}");
 					}
 				}
 			}
@@ -288,45 +286,32 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				for (int i = 0; i < count; i++)
 				{
 					MidiMappingCalculatorResult mappingResult = _midiMappingCalculator.Results[i];
-					double? dimensionValue = TryGetScaleFrequency(mappingResult);
+					double? frequency = TryGetScaleFrequency(mappingResult);
 
-					if (!dimensionValue.HasValue)
+					if (!frequency.HasValue)
 					{
 						continue;
 					}
 
-					if (mappingResult.StandardDimensionEnum != default)
-					{
-						patchCalculator.SetValue(mappingResult.StandardDimensionEnum, noteInfo.ListIndex, dimensionValue.Value);
+					patchCalculator.SetValue(DimensionEnum.Frequency, noteInfo.ListIndex, frequency.Value);
 
-						Debug.WriteLine(
-							$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.StandardDimensionEnum, noteInfo.ListIndex, frequency = dimensionValue }}");
-					}
-
-					if (NameHelper.IsFilledIn(mappingResult.CustomDimensionName))
-					{
-						patchCalculator.SetValue(mappingResult.CustomDimensionName, noteInfo.ListIndex, dimensionValue.Value);
-
-						Debug.WriteLine(
-							$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.CustomDimensionName, noteInfo.ListIndex, frequency = dimensionValue }}");
-					}
+					Debug.WriteLine($"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { DimensionEnum = DimensionEnum.Frequency, noteInfo.ListIndex, frequency }}");
 				}
 			}
 		}
 
 		private double? TryGetScaleFrequency(MidiMappingCalculatorResult mappingResult)
 		{
-			if (mappingResult.ScaleDto == null) return null;
-			if (!mappingResult.ToneNumber.HasValue) return null;
+			if (mappingResult.DimensionEnum != DimensionEnum.NoteNumber) return null;
 
-			if (!_scaleID_To_Frequencies_Dictionary.TryGetValue(mappingResult.ScaleDto.ID, out double[] frequencies))
-			{
-				frequencies = mappingResult.ScaleDto.Frequencies.ToArray();
+			double value = mappingResult.DimensionValue;
 
-				_scaleID_To_Frequencies_Dictionary[mappingResult.ScaleDto.ID] = frequencies;
-			}
+			if (value <= 0) value = 0;
+			if (value > _frequencies.Length - 1) value = _frequencies.Length - 1;
 
-			double frequency = frequencies[mappingResult.ToneNumber.Value - 1];
+			int index = (int)value;
+
+			double frequency = _frequencies[index];
 
 			return frequency;
 		}

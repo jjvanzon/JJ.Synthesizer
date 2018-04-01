@@ -76,6 +76,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
+		// MidiMappingType
+
+		private static readonly IList<IDAndName> _midiMappingTypeLookupViewModel = CreateMidiMappingTypeLookupViewModel();
+
+		public static IList<IDAndName> GetMidiMappingTypeLookupViewModel() => _midiMappingTypeLookupViewModel;
+
+		private static IList<IDAndName> CreateMidiMappingTypeLookupViewModel()
+		{
+			IList<IDAndName> idAndNames = CreateEnumLookupViewModel<MidiMappingTypeEnum>(mustIncludeUndefined: false);
+			idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
+			return idAndNames;
+		}
+
 		// NodeType
 
 		private static readonly IList<IDAndName> _nodeTypeLookupViewModel = CreateNodeTypeLookupViewModel();

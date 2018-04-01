@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double position = _positionCalculator.Calculate();
 
-			if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))
+			if (!CalculationHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))
 			{
 				return 0.0;
 			}

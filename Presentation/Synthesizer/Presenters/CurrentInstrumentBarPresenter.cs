@@ -59,10 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			if (scale == null)
 			{
-				scale = _systemFacade.GetDefaultMidiMappingGroups()
-				                     .SelectMany(x => x.MidiMappings)
-				                     .Select(x => x.Scale)
-				                     .FirstOrDefault(x => x != null);
+				scale = _systemFacade.GetDefaultScale();
 			}
 
 			return (document, scale, midiMappings, patches);

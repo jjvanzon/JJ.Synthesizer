@@ -8,5 +8,6 @@
 		public double ReleaseTime { get; set; }
 		public double EndTime { get; set; }
 		public int Velocity { get; set; }
+		public int MidiChannel { get; set; }
 	}
 }

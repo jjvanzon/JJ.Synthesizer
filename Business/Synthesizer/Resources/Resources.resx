@@ -1077,23 +1077,8 @@
   <data name="MidiControllerCode" xml:space="preserve">
     <value>MIDI Controller Code</value>
   </data>
-  <data name="FromMidiControllerValue" xml:space="preserve">
-    <value>From MIDI Controller Value</value>
-  </data>
   <data name="FromDimensionValue" xml:space="preserve">
     <value>From Dimension Value</value>
-  </data>
-  <data name="FromMidiNoteNumber" xml:space="preserve">
-    <value>From MIDI Note Number</value>
-  </data>
-  <data name="FromPosition" xml:space="preserve">
-    <value>From Position</value>
-  </data>
-  <data name="FromToneNumber" xml:space="preserve">
-    <value>From Tone Number</value>
-  </data>
-  <data name="FromMidiVelocity" xml:space="preserve">
-    <value> From MIDI Velocity</value>
   </data>
   <data name="IsRelative" xml:space="preserve">
     <value>Relative</value>
@@ -1104,26 +1089,8 @@
   <data name="MinDimensionValue" xml:space="preserve">
     <value>Min Dimension Value</value>
   </data>
-  <data name="TillMidiControllerValue" xml:space="preserve">
-    <value>Till MIDI Controller Value</value>
-  </data>
   <data name="TillDimensionValue" xml:space="preserve">
     <value>Till Dimension Value</value>
-  </data>
-  <data name="TillMidiNoteNumber" xml:space="preserve">
-    <value>Till MIDI Note Number</value>
-  </data>
-  <data name="TillPosition" xml:space="preserve">
-    <value>Till Position</value>
-  </data>
-  <data name="TillToneNumber" xml:space="preserve">
-    <value>Till Tone Number</value>
-  </data>
-  <data name="TillMidiVelocity" xml:space="preserve">
-    <value>Till MIDI Velocity</value>
-  </data>
-  <data name="MidiControllerValue" xml:space="preserve">
-    <value>MIDI Controller Value</value>
   </data>
   <data name="DimensionValue" xml:space="preserve">
     <value>Dimension Value</value>
@@ -1149,8 +1116,8 @@
   <data name="EntityPosition" xml:space="preserve">
     <value>Object Position</value>
   </data>
-  <data name="MidiControllerValues" xml:space="preserve">
-    <value>MIDI Controller Values</value>
+  <data name="MidiController" xml:space="preserve">
+    <value>MIDI Controller</value>
   </data>
   <data name="DimensionValues" xml:space="preserve">
     <value>Dimension Values</value>
@@ -1158,16 +1125,22 @@
   <data name="MinMaxDimensionValues" xml:space="preserve">
     <value>Min/Max Dimension Values</value>
   </data>
-  <data name="MidiNoteNumbers" xml:space="preserve">
-    <value>MIDI Note Numbers</value>
-  </data>
   <data name="ToneNumbers" xml:space="preserve">
     <value>Tone Numbers</value>
   </data>
-  <data name="MidiVelocities" xml:space="preserve">
-    <value>MIDI Velocities</value>
-  </data>
   <data name="Ordinal" xml:space="preserve">
     <value>Ordinal</value>
+  </data>
+  <data name="FromMidiValue" xml:space="preserve">
+    <value>From MIDI Value</value>
+  </data>
+  <data name="MidiMappingType" xml:space="preserve">
+    <value>MIDI Mapping Type</value>
+  </data>
+  <data name="TillMidiValue" xml:space="preserve">
+    <value>Till MIDI Value</value>
+  </data>
+  <data name="MidiValues" xml:space="preserve">
+    <value>MIDI Values</value>
   </data>
 </root>

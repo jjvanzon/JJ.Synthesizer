@@ -1,0 +1,1 @@
+alter table MidiMapping add Position int null;

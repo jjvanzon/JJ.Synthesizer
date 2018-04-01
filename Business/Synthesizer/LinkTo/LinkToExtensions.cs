@@ -211,29 +211,6 @@ namespace JJ.Business.Synthesizer.LinkTo
 			}
 		}
 
-		public static void LinkTo(this MidiMapping midiMapping, Scale scale)
-		{
-			if (midiMapping == null) throw new NullException(() => midiMapping);
-
-			if (midiMapping.Scale != null)
-			{
-				if (midiMapping.Scale.MidiMapping.Contains(midiMapping))
-				{
-					midiMapping.Scale.MidiMapping.Remove(midiMapping);
-				}
-			}
-
-			midiMapping.Scale = scale;
-
-			if (midiMapping.Scale != null)
-			{
-				if (!midiMapping.Scale.MidiMapping.Contains(midiMapping))
-				{
-					midiMapping.Scale.MidiMapping.Add(midiMapping);
-				}
-			}
-		}
-
 		public static void LinkTo(this Node node, Curve curve)
 		{
 			if (node == null) throw new NullException(() => node);
@@ -459,7 +436,16 @@ namespace JJ.Business.Synthesizer.LinkTo
 		{
 			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMapping.StandardDimension = dimension;
+			midiMapping.Dimension = dimension;
+
+			// No inverse property.
+		}
+
+		public static void LinkTo(this MidiMapping midiMapping, MidiMappingType dimension)
+		{
+			if (midiMapping == null) throw new NullException(() => midiMapping);
+
+			midiMapping.MidiMappingType = dimension;
 
 			// No inverse property.
 		}

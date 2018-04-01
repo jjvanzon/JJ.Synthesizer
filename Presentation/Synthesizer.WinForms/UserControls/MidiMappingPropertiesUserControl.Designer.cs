@@ -34,26 +34,20 @@
 			this.labelIsRelative = new System.Windows.Forms.Label();
 			this.labelMidiControllerCode = new System.Windows.Forms.Label();
 			this.maskedTextBoxMidiControllerCode = new System.Windows.Forms.MaskedTextBox();
-			this.labelStandardDimension = new System.Windows.Forms.Label();
-			this.comboBoxStandardDimension = new System.Windows.Forms.ComboBox();
-			this.labelCustomDimensionName = new System.Windows.Forms.Label();
-			this.textBoxCustomDimensionName = new System.Windows.Forms.TextBox();
-			this.labelScale = new System.Windows.Forms.Label();
-			this.comboBoxScale = new System.Windows.Forms.ComboBox();
-			this.fromTillUserControlDimensionValues = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
-			this.fromTillUserControlMidiControllerValues = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.labelDimension = new System.Windows.Forms.Label();
+			this.comboBoxDimension = new System.Windows.Forms.ComboBox();
+			this.labelName = new System.Windows.Forms.Label();
+			this.textBoxName = new System.Windows.Forms.TextBox();
+			this.labelMidiMappingType = new System.Windows.Forms.Label();
+			this.comboBoxMidiMappingType = new System.Windows.Forms.ComboBox();
+			this.fromTillDimensionValues = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.fromTillMidiValues = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
 			this.labelDimensionValues = new System.Windows.Forms.Label();
-			this.labelMidiControllerValues = new System.Windows.Forms.Label();
-			this.labelMidiVelocities = new System.Windows.Forms.Label();
-			this.fromTillUserControlMidiVelocities = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
-			this.labelPositions = new System.Windows.Forms.Label();
-			this.fromTillUserControlPositions = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
-			this.labelMidiNoteNumbers = new System.Windows.Forms.Label();
-			this.fromTillUserControlMidiNoteNumbers = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
-			this.labelToneNumbers = new System.Windows.Forms.Label();
-			this.fromTillUserControlToneNumbers = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.labelMidiValues = new System.Windows.Forms.Label();
 			this.labelMinMaxDimensionValues = new System.Windows.Forms.Label();
-			this.fromTillUserControlMinMaxDimensionValues = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.fromTillMinMaxDimensionValues = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.FromTillUserControl();
+			this.labelPosition = new System.Windows.Forms.Label();
+			this.textBoxPosition = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// checkBoxIsActive
@@ -98,7 +92,7 @@
 			// 
 			// labelMidiControllerCode
 			// 
-			this.labelMidiControllerCode.Location = new System.Drawing.Point(25, 42);
+			this.labelMidiControllerCode.Location = new System.Drawing.Point(25, 98);
 			this.labelMidiControllerCode.Margin = new System.Windows.Forms.Padding(0);
 			this.labelMidiControllerCode.Name = "labelMidiControllerCode";
 			this.labelMidiControllerCode.Size = new System.Drawing.Size(183, 22);
@@ -108,7 +102,7 @@
 			// 
 			// maskedTextBoxMidiControllerCode
 			// 
-			this.maskedTextBoxMidiControllerCode.Location = new System.Drawing.Point(211, 43);
+			this.maskedTextBoxMidiControllerCode.Location = new System.Drawing.Point(211, 99);
 			this.maskedTextBoxMidiControllerCode.Mask = "###";
 			this.maskedTextBoxMidiControllerCode.Name = "maskedTextBoxMidiControllerCode";
 			this.maskedTextBoxMidiControllerCode.PromptChar = ' ';
@@ -116,89 +110,89 @@
 			this.maskedTextBoxMidiControllerCode.TabIndex = 21;
 			this.maskedTextBoxMidiControllerCode.ValidatingType = typeof(int);
 			// 
-			// labelStandardDimension
+			// labelDimension
 			// 
-			this.labelStandardDimension.Location = new System.Drawing.Point(25, 157);
-			this.labelStandardDimension.Margin = new System.Windows.Forms.Padding(0);
-			this.labelStandardDimension.Name = "labelStandardDimension";
-			this.labelStandardDimension.Size = new System.Drawing.Size(168, 22);
-			this.labelStandardDimension.TabIndex = 33;
-			this.labelStandardDimension.Text = "labelStandardDimension";
-			this.labelStandardDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelDimension.Location = new System.Drawing.Point(25, 230);
+			this.labelDimension.Margin = new System.Windows.Forms.Padding(0);
+			this.labelDimension.Name = "labelDimension";
+			this.labelDimension.Size = new System.Drawing.Size(168, 22);
+			this.labelDimension.TabIndex = 33;
+			this.labelDimension.Text = "labelDimension";
+			this.labelDimension.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// comboBoxStandardDimension
+			// comboBoxDimension
 			// 
-			this.comboBoxStandardDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxStandardDimension.FormattingEnabled = true;
-			this.comboBoxStandardDimension.Location = new System.Drawing.Point(209, 160);
-			this.comboBoxStandardDimension.Margin = new System.Windows.Forms.Padding(0);
-			this.comboBoxStandardDimension.Name = "comboBoxStandardDimension";
-			this.comboBoxStandardDimension.Size = new System.Drawing.Size(130, 24);
-			this.comboBoxStandardDimension.TabIndex = 32;
+			this.comboBoxDimension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxDimension.FormattingEnabled = true;
+			this.comboBoxDimension.Location = new System.Drawing.Point(209, 233);
+			this.comboBoxDimension.Margin = new System.Windows.Forms.Padding(0);
+			this.comboBoxDimension.Name = "comboBoxDimension";
+			this.comboBoxDimension.Size = new System.Drawing.Size(130, 24);
+			this.comboBoxDimension.TabIndex = 32;
 			// 
-			// labelCustomDimensionName
+			// labelName
 			// 
-			this.labelCustomDimensionName.Location = new System.Drawing.Point(14, 186);
-			this.labelCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
-			this.labelCustomDimensionName.Name = "labelCustomDimensionName";
-			this.labelCustomDimensionName.Size = new System.Drawing.Size(203, 22);
-			this.labelCustomDimensionName.TabIndex = 30;
-			this.labelCustomDimensionName.Text = "labelCustomDimensionName";
-			this.labelCustomDimensionName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelName.Location = new System.Drawing.Point(14, 259);
+			this.labelName.Margin = new System.Windows.Forms.Padding(0);
+			this.labelName.Name = "labelName";
+			this.labelName.Size = new System.Drawing.Size(203, 22);
+			this.labelName.TabIndex = 30;
+			this.labelName.Text = "labelName";
+			this.labelName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// textBoxCustomDimensionName
+			// textBoxName
 			// 
-			this.textBoxCustomDimensionName.Location = new System.Drawing.Point(222, 187);
-			this.textBoxCustomDimensionName.Margin = new System.Windows.Forms.Padding(0);
-			this.textBoxCustomDimensionName.Name = "textBoxCustomDimensionName";
-			this.textBoxCustomDimensionName.Size = new System.Drawing.Size(105, 22);
-			this.textBoxCustomDimensionName.TabIndex = 31;
+			this.textBoxName.Location = new System.Drawing.Point(222, 260);
+			this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
+			this.textBoxName.Name = "textBoxName";
+			this.textBoxName.Size = new System.Drawing.Size(105, 22);
+			this.textBoxName.TabIndex = 31;
 			// 
-			// labelScale
+			// labelMidiMappingType
 			// 
-			this.labelScale.Location = new System.Drawing.Point(42, 372);
-			this.labelScale.Margin = new System.Windows.Forms.Padding(0);
-			this.labelScale.Name = "labelScale";
-			this.labelScale.Size = new System.Drawing.Size(168, 22);
-			this.labelScale.TabIndex = 43;
-			this.labelScale.Text = "labelScale";
-			this.labelScale.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelMidiMappingType.Location = new System.Drawing.Point(17, 40);
+			this.labelMidiMappingType.Margin = new System.Windows.Forms.Padding(0);
+			this.labelMidiMappingType.Name = "labelMidiMappingType";
+			this.labelMidiMappingType.Size = new System.Drawing.Size(168, 22);
+			this.labelMidiMappingType.TabIndex = 43;
+			this.labelMidiMappingType.Text = "labelMidiMappingType";
+			this.labelMidiMappingType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// comboBoxScale
+			// comboBoxMidiMappingType
 			// 
-			this.comboBoxScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxScale.FormattingEnabled = true;
-			this.comboBoxScale.Location = new System.Drawing.Point(226, 375);
-			this.comboBoxScale.Margin = new System.Windows.Forms.Padding(0);
-			this.comboBoxScale.Name = "comboBoxScale";
-			this.comboBoxScale.Size = new System.Drawing.Size(130, 24);
-			this.comboBoxScale.TabIndex = 42;
+			this.comboBoxMidiMappingType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxMidiMappingType.FormattingEnabled = true;
+			this.comboBoxMidiMappingType.Location = new System.Drawing.Point(201, 43);
+			this.comboBoxMidiMappingType.Margin = new System.Windows.Forms.Padding(0);
+			this.comboBoxMidiMappingType.Name = "comboBoxMidiMappingType";
+			this.comboBoxMidiMappingType.Size = new System.Drawing.Size(130, 24);
+			this.comboBoxMidiMappingType.TabIndex = 42;
 			// 
-			// fromTillUserControlDimensionValues
+			// fromTillDimensionValues
 			// 
-			this.fromTillUserControlDimensionValues.From = "";
-			this.fromTillUserControlDimensionValues.Location = new System.Drawing.Point(221, 548);
-			this.fromTillUserControlDimensionValues.Margin = new System.Windows.Forms.Padding(0);
-			this.fromTillUserControlDimensionValues.Mask = "";
-			this.fromTillUserControlDimensionValues.Name = "fromTillUserControlDimensionValues";
-			this.fromTillUserControlDimensionValues.Size = new System.Drawing.Size(133, 22);
-			this.fromTillUserControlDimensionValues.TabIndex = 56;
-			this.fromTillUserControlDimensionValues.Till = "";
+			this.fromTillDimensionValues.From = "";
+			this.fromTillDimensionValues.Location = new System.Drawing.Point(213, 330);
+			this.fromTillDimensionValues.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillDimensionValues.Mask = "";
+			this.fromTillDimensionValues.Name = "fromTillDimensionValues";
+			this.fromTillDimensionValues.Size = new System.Drawing.Size(133, 22);
+			this.fromTillDimensionValues.TabIndex = 56;
+			this.fromTillDimensionValues.Till = "";
 			// 
-			// fromTillUserControlMidiControllerValues
+			// fromTillMidiValues
 			// 
-			this.fromTillUserControlMidiControllerValues.From = "";
-			this.fromTillUserControlMidiControllerValues.Location = new System.Drawing.Point(215, 573);
-			this.fromTillUserControlMidiControllerValues.Margin = new System.Windows.Forms.Padding(0);
-			this.fromTillUserControlMidiControllerValues.Mask = "###";
-			this.fromTillUserControlMidiControllerValues.Name = "fromTillUserControlMidiControllerValues";
-			this.fromTillUserControlMidiControllerValues.Size = new System.Drawing.Size(133, 22);
-			this.fromTillUserControlMidiControllerValues.TabIndex = 57;
-			this.fromTillUserControlMidiControllerValues.Till = "";
+			this.fromTillMidiValues.From = "";
+			this.fromTillMidiValues.Location = new System.Drawing.Point(209, 72);
+			this.fromTillMidiValues.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillMidiValues.Mask = "###";
+			this.fromTillMidiValues.Name = "fromTillMidiValues";
+			this.fromTillMidiValues.Size = new System.Drawing.Size(133, 22);
+			this.fromTillMidiValues.TabIndex = 57;
+			this.fromTillMidiValues.Till = "";
 			// 
 			// labelDimensionValues
 			// 
-			this.labelDimensionValues.Location = new System.Drawing.Point(32, 549);
+			this.labelDimensionValues.Location = new System.Drawing.Point(24, 331);
 			this.labelDimensionValues.Margin = new System.Windows.Forms.Padding(0);
 			this.labelDimensionValues.Name = "labelDimensionValues";
 			this.labelDimensionValues.Size = new System.Drawing.Size(180, 22);
@@ -206,103 +200,19 @@
 			this.labelDimensionValues.Text = "labelDimensionValues";
 			this.labelDimensionValues.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// labelMidiControllerValues
+			// labelMidiValues
 			// 
-			this.labelMidiControllerValues.Location = new System.Drawing.Point(33, 573);
-			this.labelMidiControllerValues.Margin = new System.Windows.Forms.Padding(0);
-			this.labelMidiControllerValues.Name = "labelMidiControllerValues";
-			this.labelMidiControllerValues.Size = new System.Drawing.Size(180, 22);
-			this.labelMidiControllerValues.TabIndex = 59;
-			this.labelMidiControllerValues.Text = "labelMidiControllerValues";
-			this.labelMidiControllerValues.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// labelMidiVelocities
-			// 
-			this.labelMidiVelocities.Location = new System.Drawing.Point(34, 598);
-			this.labelMidiVelocities.Margin = new System.Windows.Forms.Padding(0);
-			this.labelMidiVelocities.Name = "labelMidiVelocities";
-			this.labelMidiVelocities.Size = new System.Drawing.Size(180, 22);
-			this.labelMidiVelocities.TabIndex = 61;
-			this.labelMidiVelocities.Text = "labelMidiVelocities";
-			this.labelMidiVelocities.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// fromTillUserControlMidiVelocities
-			// 
-			this.fromTillUserControlMidiVelocities.From = "";
-			this.fromTillUserControlMidiVelocities.Location = new System.Drawing.Point(216, 598);
-			this.fromTillUserControlMidiVelocities.Margin = new System.Windows.Forms.Padding(0);
-			this.fromTillUserControlMidiVelocities.Mask = "###";
-			this.fromTillUserControlMidiVelocities.Name = "fromTillUserControlMidiVelocities";
-			this.fromTillUserControlMidiVelocities.Size = new System.Drawing.Size(133, 22);
-			this.fromTillUserControlMidiVelocities.TabIndex = 60;
-			this.fromTillUserControlMidiVelocities.Till = "";
-			// 
-			// labelPositions
-			// 
-			this.labelPositions.Location = new System.Drawing.Point(34, 625);
-			this.labelPositions.Margin = new System.Windows.Forms.Padding(0);
-			this.labelPositions.Name = "labelPositions";
-			this.labelPositions.Size = new System.Drawing.Size(180, 22);
-			this.labelPositions.TabIndex = 63;
-			this.labelPositions.Text = "labelPositions";
-			this.labelPositions.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// fromTillUserControlPositions
-			// 
-			this.fromTillUserControlPositions.From = "";
-			this.fromTillUserControlPositions.Location = new System.Drawing.Point(216, 625);
-			this.fromTillUserControlPositions.Margin = new System.Windows.Forms.Padding(0);
-			this.fromTillUserControlPositions.Mask = "";
-			this.fromTillUserControlPositions.Name = "fromTillUserControlPositions";
-			this.fromTillUserControlPositions.Size = new System.Drawing.Size(133, 22);
-			this.fromTillUserControlPositions.TabIndex = 62;
-			this.fromTillUserControlPositions.Till = "";
-			// 
-			// labelMidiNoteNumbers
-			// 
-			this.labelMidiNoteNumbers.Location = new System.Drawing.Point(30, 651);
-			this.labelMidiNoteNumbers.Margin = new System.Windows.Forms.Padding(0);
-			this.labelMidiNoteNumbers.Name = "labelMidiNoteNumbers";
-			this.labelMidiNoteNumbers.Size = new System.Drawing.Size(180, 22);
-			this.labelMidiNoteNumbers.TabIndex = 65;
-			this.labelMidiNoteNumbers.Text = "labelMidiNoteNumbers";
-			this.labelMidiNoteNumbers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// fromTillUserControlMidiNoteNumbers
-			// 
-			this.fromTillUserControlMidiNoteNumbers.From = "";
-			this.fromTillUserControlMidiNoteNumbers.Location = new System.Drawing.Point(212, 651);
-			this.fromTillUserControlMidiNoteNumbers.Margin = new System.Windows.Forms.Padding(0);
-			this.fromTillUserControlMidiNoteNumbers.Mask = "###";
-			this.fromTillUserControlMidiNoteNumbers.Name = "fromTillUserControlMidiNoteNumbers";
-			this.fromTillUserControlMidiNoteNumbers.Size = new System.Drawing.Size(133, 22);
-			this.fromTillUserControlMidiNoteNumbers.TabIndex = 64;
-			this.fromTillUserControlMidiNoteNumbers.Till = "";
-			// 
-			// labelToneNumbers
-			// 
-			this.labelToneNumbers.Location = new System.Drawing.Point(31, 677);
-			this.labelToneNumbers.Margin = new System.Windows.Forms.Padding(0);
-			this.labelToneNumbers.Name = "labelToneNumbers";
-			this.labelToneNumbers.Size = new System.Drawing.Size(180, 22);
-			this.labelToneNumbers.TabIndex = 67;
-			this.labelToneNumbers.Text = "labelToneNumbers";
-			this.labelToneNumbers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// fromTillUserControlToneNumbers
-			// 
-			this.fromTillUserControlToneNumbers.From = "";
-			this.fromTillUserControlToneNumbers.Location = new System.Drawing.Point(213, 677);
-			this.fromTillUserControlToneNumbers.Margin = new System.Windows.Forms.Padding(0);
-			this.fromTillUserControlToneNumbers.Mask = "###";
-			this.fromTillUserControlToneNumbers.Name = "fromTillUserControlToneNumbers";
-			this.fromTillUserControlToneNumbers.Size = new System.Drawing.Size(133, 22);
-			this.fromTillUserControlToneNumbers.TabIndex = 66;
-			this.fromTillUserControlToneNumbers.Till = "";
+			this.labelMidiValues.Location = new System.Drawing.Point(27, 72);
+			this.labelMidiValues.Margin = new System.Windows.Forms.Padding(0);
+			this.labelMidiValues.Name = "labelMidiValues";
+			this.labelMidiValues.Size = new System.Drawing.Size(180, 22);
+			this.labelMidiValues.TabIndex = 59;
+			this.labelMidiValues.Text = "labelMidiValues";
+			this.labelMidiValues.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelMinMaxDimensionValues
 			// 
-			this.labelMinMaxDimensionValues.Location = new System.Drawing.Point(24, 702);
+			this.labelMinMaxDimensionValues.Location = new System.Drawing.Point(24, 356);
 			this.labelMinMaxDimensionValues.Margin = new System.Windows.Forms.Padding(0);
 			this.labelMinMaxDimensionValues.Name = "labelMinMaxDimensionValues";
 			this.labelMinMaxDimensionValues.Size = new System.Drawing.Size(180, 22);
@@ -310,16 +220,34 @@
 			this.labelMinMaxDimensionValues.Text = "labelMinMaxDimensionValues";
 			this.labelMinMaxDimensionValues.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
-			// fromTillUserControlMinMaxDimensionValues
+			// fromTillMinMaxDimensionValues
 			// 
-			this.fromTillUserControlMinMaxDimensionValues.From = "";
-			this.fromTillUserControlMinMaxDimensionValues.Location = new System.Drawing.Point(213, 701);
-			this.fromTillUserControlMinMaxDimensionValues.Margin = new System.Windows.Forms.Padding(0);
-			this.fromTillUserControlMinMaxDimensionValues.Mask = "";
-			this.fromTillUserControlMinMaxDimensionValues.Name = "fromTillUserControlMinMaxDimensionValues";
-			this.fromTillUserControlMinMaxDimensionValues.Size = new System.Drawing.Size(133, 22);
-			this.fromTillUserControlMinMaxDimensionValues.TabIndex = 68;
-			this.fromTillUserControlMinMaxDimensionValues.Till = "";
+			this.fromTillMinMaxDimensionValues.From = "";
+			this.fromTillMinMaxDimensionValues.Location = new System.Drawing.Point(213, 355);
+			this.fromTillMinMaxDimensionValues.Margin = new System.Windows.Forms.Padding(0);
+			this.fromTillMinMaxDimensionValues.Mask = "";
+			this.fromTillMinMaxDimensionValues.Name = "fromTillMinMaxDimensionValues";
+			this.fromTillMinMaxDimensionValues.Size = new System.Drawing.Size(133, 22);
+			this.fromTillMinMaxDimensionValues.TabIndex = 68;
+			this.fromTillMinMaxDimensionValues.Till = "";
+			// 
+			// labelPosition
+			// 
+			this.labelPosition.Location = new System.Drawing.Point(17, 287);
+			this.labelPosition.Margin = new System.Windows.Forms.Padding(0);
+			this.labelPosition.Name = "labelPosition";
+			this.labelPosition.Size = new System.Drawing.Size(203, 22);
+			this.labelPosition.TabIndex = 70;
+			this.labelPosition.Text = "labelPosition";
+			this.labelPosition.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// textBoxPosition
+			// 
+			this.textBoxPosition.Location = new System.Drawing.Point(225, 288);
+			this.textBoxPosition.Margin = new System.Windows.Forms.Padding(0);
+			this.textBoxPosition.Name = "textBoxPosition";
+			this.textBoxPosition.Size = new System.Drawing.Size(105, 22);
+			this.textBoxPosition.TabIndex = 71;
 			// 
 			// MidiMappingPropertiesUserControl
 			// 
@@ -327,34 +255,26 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.Controls.Add(this.labelPosition);
+			this.Controls.Add(this.textBoxPosition);
 			this.Controls.Add(this.labelMinMaxDimensionValues);
-			this.Controls.Add(this.fromTillUserControlMinMaxDimensionValues);
-			this.Controls.Add(this.labelToneNumbers);
-			this.Controls.Add(this.fromTillUserControlToneNumbers);
-			this.Controls.Add(this.labelMidiNoteNumbers);
-			this.Controls.Add(this.fromTillUserControlMidiNoteNumbers);
-			this.Controls.Add(this.labelPositions);
-			this.Controls.Add(this.fromTillUserControlPositions);
-			this.Controls.Add(this.labelMidiVelocities);
-			this.Controls.Add(this.fromTillUserControlMidiVelocities);
-			this.Controls.Add(this.labelMidiControllerValues);
+			this.Controls.Add(this.fromTillMinMaxDimensionValues);
+			this.Controls.Add(this.labelMidiValues);
 			this.Controls.Add(this.labelDimensionValues);
-			this.Controls.Add(this.fromTillUserControlMidiControllerValues);
-			this.Controls.Add(this.fromTillUserControlDimensionValues);
-			this.Controls.Add(this.labelScale);
-			this.Controls.Add(this.comboBoxScale);
-			this.Controls.Add(this.labelStandardDimension);
-			this.Controls.Add(this.comboBoxStandardDimension);
-			this.Controls.Add(this.labelCustomDimensionName);
-			this.Controls.Add(this.textBoxCustomDimensionName);
+			this.Controls.Add(this.fromTillMidiValues);
+			this.Controls.Add(this.fromTillDimensionValues);
+			this.Controls.Add(this.labelMidiMappingType);
+			this.Controls.Add(this.comboBoxMidiMappingType);
+			this.Controls.Add(this.labelDimension);
+			this.Controls.Add(this.comboBoxDimension);
+			this.Controls.Add(this.labelName);
+			this.Controls.Add(this.textBoxName);
 			this.Controls.Add(this.maskedTextBoxMidiControllerCode);
 			this.Controls.Add(this.labelMidiControllerCode);
 			this.Controls.Add(this.checkBoxIsRelative);
 			this.Controls.Add(this.labelIsRelative);
 			this.Controls.Add(this.checkBoxIsActive);
 			this.Controls.Add(this.labelIsActive);
-			this.DeleteButtonVisible = true;
-			this.ExpandButtonVisible = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "MidiMappingPropertiesUserControl";
 			this.Size = new System.Drawing.Size(467, 746);
@@ -365,26 +285,20 @@
 			this.Controls.SetChildIndex(this.checkBoxIsRelative, 0);
 			this.Controls.SetChildIndex(this.labelMidiControllerCode, 0);
 			this.Controls.SetChildIndex(this.maskedTextBoxMidiControllerCode, 0);
-			this.Controls.SetChildIndex(this.textBoxCustomDimensionName, 0);
-			this.Controls.SetChildIndex(this.labelCustomDimensionName, 0);
-			this.Controls.SetChildIndex(this.comboBoxStandardDimension, 0);
-			this.Controls.SetChildIndex(this.labelStandardDimension, 0);
-			this.Controls.SetChildIndex(this.comboBoxScale, 0);
-			this.Controls.SetChildIndex(this.labelScale, 0);
-			this.Controls.SetChildIndex(this.fromTillUserControlDimensionValues, 0);
-			this.Controls.SetChildIndex(this.fromTillUserControlMidiControllerValues, 0);
+			this.Controls.SetChildIndex(this.textBoxName, 0);
+			this.Controls.SetChildIndex(this.labelName, 0);
+			this.Controls.SetChildIndex(this.comboBoxDimension, 0);
+			this.Controls.SetChildIndex(this.labelDimension, 0);
+			this.Controls.SetChildIndex(this.comboBoxMidiMappingType, 0);
+			this.Controls.SetChildIndex(this.labelMidiMappingType, 0);
+			this.Controls.SetChildIndex(this.fromTillDimensionValues, 0);
+			this.Controls.SetChildIndex(this.fromTillMidiValues, 0);
 			this.Controls.SetChildIndex(this.labelDimensionValues, 0);
-			this.Controls.SetChildIndex(this.labelMidiControllerValues, 0);
-			this.Controls.SetChildIndex(this.fromTillUserControlMidiVelocities, 0);
-			this.Controls.SetChildIndex(this.labelMidiVelocities, 0);
-			this.Controls.SetChildIndex(this.fromTillUserControlPositions, 0);
-			this.Controls.SetChildIndex(this.labelPositions, 0);
-			this.Controls.SetChildIndex(this.fromTillUserControlMidiNoteNumbers, 0);
-			this.Controls.SetChildIndex(this.labelMidiNoteNumbers, 0);
-			this.Controls.SetChildIndex(this.fromTillUserControlToneNumbers, 0);
-			this.Controls.SetChildIndex(this.labelToneNumbers, 0);
-			this.Controls.SetChildIndex(this.fromTillUserControlMinMaxDimensionValues, 0);
+			this.Controls.SetChildIndex(this.labelMidiValues, 0);
+			this.Controls.SetChildIndex(this.fromTillMinMaxDimensionValues, 0);
 			this.Controls.SetChildIndex(this.labelMinMaxDimensionValues, 0);
+			this.Controls.SetChildIndex(this.textBoxPosition, 0);
+			this.Controls.SetChildIndex(this.labelPosition, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -398,25 +312,19 @@
 		private System.Windows.Forms.Label labelIsRelative;
 		private System.Windows.Forms.Label labelMidiControllerCode;
 		private System.Windows.Forms.MaskedTextBox maskedTextBoxMidiControllerCode;
-		private System.Windows.Forms.Label labelStandardDimension;
-		private System.Windows.Forms.ComboBox comboBoxStandardDimension;
-		private System.Windows.Forms.Label labelCustomDimensionName;
-		private System.Windows.Forms.TextBox textBoxCustomDimensionName;
-		private System.Windows.Forms.Label labelScale;
-		private System.Windows.Forms.ComboBox comboBoxScale;
-		private Partials.FromTillUserControl fromTillUserControlDimensionValues;
-		private Partials.FromTillUserControl fromTillUserControlMidiControllerValues;
+		private System.Windows.Forms.Label labelDimension;
+		private System.Windows.Forms.ComboBox comboBoxDimension;
+		private System.Windows.Forms.Label labelName;
+		private System.Windows.Forms.TextBox textBoxName;
+		private System.Windows.Forms.Label labelMidiMappingType;
+		private System.Windows.Forms.ComboBox comboBoxMidiMappingType;
+		private Partials.FromTillUserControl fromTillDimensionValues;
+		private Partials.FromTillUserControl fromTillMidiValues;
 		private System.Windows.Forms.Label labelDimensionValues;
-		private System.Windows.Forms.Label labelMidiControllerValues;
-		private System.Windows.Forms.Label labelMidiVelocities;
-		private Partials.FromTillUserControl fromTillUserControlMidiVelocities;
-		private System.Windows.Forms.Label labelPositions;
-		private Partials.FromTillUserControl fromTillUserControlPositions;
-		private System.Windows.Forms.Label labelMidiNoteNumbers;
-		private Partials.FromTillUserControl fromTillUserControlMidiNoteNumbers;
-		private System.Windows.Forms.Label labelToneNumbers;
-		private Partials.FromTillUserControl fromTillUserControlToneNumbers;
+		private System.Windows.Forms.Label labelMidiValues;
 		private System.Windows.Forms.Label labelMinMaxDimensionValues;
-		private Partials.FromTillUserControl fromTillUserControlMinMaxDimensionValues;
+		private Partials.FromTillUserControl fromTillMinMaxDimensionValues;
+		private System.Windows.Forms.Label labelPosition;
+		private System.Windows.Forms.TextBox textBoxPosition;
 	}
 }

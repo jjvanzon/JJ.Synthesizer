@@ -680,26 +680,40 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				repositories.MidiMappingRepository.Insert(entity);
 			}
 
-			entity.MidiControllerCode = viewModel.MidiControllerCode;
-			entity.FromMidiControllerValue = viewModel.FromMidiControllerValue;
-			entity.TillMidiControllerValue = viewModel.TillMidiControllerValue;
-			entity.FromMidiNoteNumber = viewModel.FromMidiNoteNumber;
-			entity.TillMidiNoteNumber = viewModel.TillMidiNoteNumber;
-			entity.FromMidiVelocity = viewModel.FromMidiVelocity;
-			entity.TillMidiVelocity = viewModel.TillMidiVelocity;
-			entity.CustomDimensionName = viewModel.CustomDimensionName;
-			entity.FromToneNumber = viewModel.FromToneNumber;
-			entity.TillToneNumber = viewModel.TillToneNumber;
-			entity.IsActive = viewModel.IsActive;
-			entity.IsRelative = viewModel.IsRelative;
 			entity.MidiMappingGroup = repositories.MidiMappingGroupRepository.Get(viewModel.MidiMappingGroupID);
+			bool midiMappingTypeIsFilledIn = viewModel.MidiMappingType != null && viewModel.MidiMappingType.ID != 0;
+			if (midiMappingTypeIsFilledIn)
+			{
+				MidiMappingType midiMappingType = repositories.MidiMappingTypeRepository.Get(viewModel.MidiMappingType.ID);
+				entity.LinkTo(midiMappingType);
+			}
+			else
+			{
+				entity.UnlinkMidiMappingType();
+			}
 
-			if (DoubleParser.TryParse(viewModel.FromDimensionValue, out double? fromDimensionValue))
+			bool dimensionIsFilledIn = viewModel.Dimension != null && viewModel.Dimension.ID != 0;
+			if (dimensionIsFilledIn)
+			{
+				Dimension dimension = repositories.DimensionRepository.Get(viewModel.Dimension.ID);
+				entity.LinkTo(dimension);
+			}
+			else
+			{
+				entity.UnlinkDimension();
+			}
+			entity.Name = viewModel.Name;
+			if (int.TryParse(viewModel.Position, out int position))
+			{
+				entity.Position = position;
+			}
+
+			if (double.TryParse(viewModel.FromDimensionValue, out double fromDimensionValue))
 			{
 				entity.FromDimensionValue = fromDimensionValue;
 			}
 
-			if (DoubleParser.TryParse(viewModel.TillDimensionValue, out double? tillDimensionValue))
+			if (double.TryParse(viewModel.TillDimensionValue, out double tillDimensionValue))
 			{
 				entity.TillDimensionValue = tillDimensionValue;
 			}
@@ -714,37 +728,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 				entity.MaxDimensionValue = maxDimensionValue;
 			}
 
-			if (Int32Parser.TryParse(viewModel.FromPosition, out int? fromPosition))
-			{
-				entity.FromPosition = fromPosition;
-			}
+			entity.MidiControllerCode = viewModel.MidiControllerCode;
+			entity.FromMidiValue = viewModel.FromMidiValue;
+			entity.TillMidiValue = viewModel.TillMidiValue;
 
-			if (Int32Parser.TryParse(viewModel.TillPosition, out int? tillPosition))
-			{
-				entity.TillPosition = tillPosition;
-			}
-
-			bool standardDimensionIsFilledIn = viewModel.StandardDimension != null && viewModel.StandardDimension.ID != 0;
-			if (standardDimensionIsFilledIn)
-			{
-				Dimension dimension = repositories.DimensionRepository.Get(viewModel.StandardDimension.ID);
-				entity.LinkTo(dimension);
-			}
-			else
-			{
-				entity.UnlinkStandardDimension();
-			}
-
-			bool scaleIsFilledIn = viewModel.Scale != null && viewModel.Scale.ID != 0;
-			if (scaleIsFilledIn)
-			{
-				Scale scale = repositories.ScaleRepository.Get(viewModel.Scale.ID);
-				entity.LinkTo(scale);
-			}
-			else
-			{
-				entity.UnlinkScale();
-			}
+			entity.IsActive = viewModel.IsActive;
+			entity.IsRelative = viewModel.IsRelative;
 
 			return entity;
 		}

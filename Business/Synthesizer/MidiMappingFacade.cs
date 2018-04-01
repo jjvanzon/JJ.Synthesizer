@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer
 			entity.LinkTo(midiMappingGroup);
 
 			new MidiMapping_SideEffect_AutoCreateEntityPosition(entity, _repositories.EntityPositionRepository, _repositories.IDRepository).Execute();
-			new MidiMapping_SideEffect_SetDefaults(entity, _repositories.DimensionRepository).Execute();
+			new MidiMapping_SideEffect_SetDefaults(entity, _repositories.DimensionRepository, _repositories.MidiMappingTypeRepository).Execute();
 
 			return entity;
 		}
@@ -69,6 +69,7 @@ namespace JJ.Business.Synthesizer
 			DeleteMidiMappingGroup(entity);
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public void DeleteMidiMappingGroup(MidiMappingGroup entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));

@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			_sliceLength = _sliceLengthCalculator.Calculate();
 			_sampleCountDouble = _sampleCountCalculator.Calculate();
 
-			if (ConversionHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
+			if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
 			{
 				_sampleCountDouble = (int)_sampleCountDouble;
 			}
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private Queue<double> CreateQueue()
 		{
 			int sampleCountInt = 0;
-			if (ConversionHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
+			if (CalculationHelper.CanCastToNonNegativeInt32(_sampleCountDouble))
 			{
 				sampleCountInt = (int)_sampleCountDouble;
 			}

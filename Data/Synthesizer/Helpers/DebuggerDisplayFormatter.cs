@@ -130,46 +130,12 @@ namespace JJ.Data.Synthesizer.Helpers
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			var sb = new StringBuilder();
+			string debuggerDisplay =
+				$"{{{nameof(MidiMapping)}}} " +
+				$"{new { Dimension = entity.Dimension?.Name, entity.Name, entity.Position, entity.FromDimensionValue, entity.TillDimensionValue }} " +
+				$"{new { MidiMappingType = entity.MidiMappingType?.Name, entity.FromMidiValue, entity.TillMidiValue, entity.MidiControllerCode }}";
 
-			sb.Append($"{{{nameof(MidiMapping)}}} ");
-
-			if (entity.StandardDimension != null ||
-			    !string.IsNullOrEmpty(entity.CustomDimensionName) ||
-			    entity.FromDimensionValue.HasValue ||
-			    entity.TillDimensionValue.HasValue)
-			{
-				sb.Append($"{new { StandardDimension = entity.StandardDimension?.Name, entity.CustomDimensionName, entity.FromDimensionValue, entity.TillDimensionValue }} ");
-			}
-
-			if (entity.MidiControllerCode.HasValue || entity.FromMidiControllerValue.HasValue || entity.TillMidiControllerValue.HasValue)
-			{
-				sb.Append($"{new { entity.MidiControllerCode, entity.FromMidiControllerValue, entity.TillMidiControllerValue }} ");
-			}
-
-			if (entity.FromMidiVelocity.HasValue || entity.TillMidiVelocity.HasValue)
-			{
-				sb.Append($"{new { entity.FromMidiVelocity, entity.TillMidiVelocity }} ");
-			}
-
-			if (entity.Scale != null) sb.Append($"{new { Scale = GetDebuggerDisplay(entity.Scale) }} ");
-
-			if (entity.FromToneNumber.HasValue || entity.TillToneNumber.HasValue)
-			{
-				sb.Append($"{new { entity.FromToneNumber, entity.TillToneNumber }} ");
-			}
-
-			if (entity.FromMidiNoteNumber.HasValue || entity.TillMidiNoteNumber.HasValue)
-			{
-				sb.Append($"{new { entity.FromMidiNoteNumber, entity.TillMidiNoteNumber }} ");
-			}
-
-			if (entity.FromPosition.HasValue || entity.TillPosition.HasValue)
-			{
-				sb.Append($"{new { entity.FromPosition, entity.TillPosition }} ");
-			}
-
-			return sb.ToString().TrimEnd();
+			return debuggerDisplay;
 		}
 
 		internal static string GetDebuggerDisplay(Node entity)

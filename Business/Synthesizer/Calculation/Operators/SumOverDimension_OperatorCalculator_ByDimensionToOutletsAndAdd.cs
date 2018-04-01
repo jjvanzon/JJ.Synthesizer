@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			if (signalCalculator == null) throw new NullException(() => signalCalculator);
 
-			if (!ConversionHelper.CanCastToNonNegativeInt32(till))
+			if (!CalculationHelper.CanCastToNonNegativeInt32(till))
 			{
 				throw new Exception($"{new {till}} cannot be casted to non-negative Int32.");
 			}

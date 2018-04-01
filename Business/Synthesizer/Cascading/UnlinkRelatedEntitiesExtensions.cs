@@ -55,9 +55,9 @@ namespace JJ.Business.Synthesizer.Cascading
 		{
 			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMapping.UnlinkScale();
-			midiMapping.UnlinkStandardDimension();
 			midiMapping.UnlinkMidiMappingGroup();
+			midiMapping.UnlinkMidiMappingType();
+			midiMapping.UnlinkDimension();
 		}
 
 		public static void UnlinkRelatedEntities(this Node node)

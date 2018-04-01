@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 			double result;
 
-			if (ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))
+			if (CalculationHelper.CanCastToNonNegativeInt32WithMax(position, _maxIndexDouble))
 			{
 				int positionInt = (int)position;
 

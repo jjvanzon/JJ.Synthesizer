@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			sb.AppendLine("using System;");
 			sb.AppendLine("using " + typeof(ArrayCalculatorBase).Namespace + ";");
 			sb.AppendLine("using " + typeof(ArrayDto).Namespace + ";");
-			sb.AppendLine("using " + typeof(ConversionHelper).Namespace + ";");
+			sb.AppendLine("using " + typeof(CalculationHelper).Namespace + ";");
 			sb.AppendLine("using " + typeof(Dictionary<,>).Namespace + ";");
 			sb.AppendLine("using " + typeof(DimensionEnum).Namespace + ";");
 			sb.AppendLine("using " + typeof(MathHelper).Namespace + ";");

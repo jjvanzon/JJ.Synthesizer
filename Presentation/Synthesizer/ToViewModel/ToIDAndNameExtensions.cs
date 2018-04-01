@@ -103,6 +103,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			};
 		}
 
+		public static IDAndName ToIDAndDisplayName(this MidiMappingType entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
+
+			string displayName = ResourceFormatter.GetDisplayName(entity);
+
+			return new IDAndName
+			{
+				ID = entity.ID,
+				Name = displayName
+			};
+		}
+
 		public static IDAndName ToIDAndDisplayName(this NodeType entity)
 		{
 			if (entity == null) throw new NullException(() => entity);

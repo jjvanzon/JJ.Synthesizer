@@ -988,47 +988,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to From MIDI Controller Value.
+        ///   Looks up a localized string similar to From MIDI Value.
         /// </summary>
-        internal static string FromMidiControllerValue {
+        internal static string FromMidiValue {
             get {
-                return ResourceManager.GetString("FromMidiControllerValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to From MIDI Note Number.
-        /// </summary>
-        internal static string FromMidiNoteNumber {
-            get {
-                return ResourceManager.GetString("FromMidiNoteNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to  From MIDI Velocity.
-        /// </summary>
-        internal static string FromMidiVelocity {
-            get {
-                return ResourceManager.GetString("FromMidiVelocity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to From Position.
-        /// </summary>
-        internal static string FromPosition {
-            get {
-                return ResourceManager.GetString("FromPosition", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to From Tone Number.
-        /// </summary>
-        internal static string FromToneNumber {
-            get {
-                return ResourceManager.GetString("FromToneNumber", resourceCulture);
+                return ResourceManager.GetString("FromMidiValue", resourceCulture);
             }
         }
         
@@ -1564,29 +1528,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MIDI Controller.
+        /// </summary>
+        internal static string MidiController {
+            get {
+                return ResourceManager.GetString("MidiController", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MIDI Controller Code.
         /// </summary>
         internal static string MidiControllerCode {
             get {
                 return ResourceManager.GetString("MidiControllerCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MIDI Controller Value.
-        /// </summary>
-        internal static string MidiControllerValue {
-            get {
-                return ResourceManager.GetString("MidiControllerValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MIDI Controller Values.
-        /// </summary>
-        internal static string MidiControllerValues {
-            get {
-                return ResourceManager.GetString("MidiControllerValues", resourceCulture);
             }
         }
         
@@ -1609,6 +1564,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MIDI Mapping Type.
+        /// </summary>
+        internal static string MidiMappingType {
+            get {
+                return ResourceManager.GetString("MidiMappingType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MIDI Note Number.
         /// </summary>
         internal static string MidiNoteNumber {
@@ -1618,20 +1582,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to MIDI Note Numbers.
+        ///   Looks up a localized string similar to MIDI Values.
         /// </summary>
-        internal static string MidiNoteNumbers {
+        internal static string MidiValues {
             get {
-                return ResourceManager.GetString("MidiNoteNumbers", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MIDI Velocities.
-        /// </summary>
-        internal static string MidiVelocities {
-            get {
-                return ResourceManager.GetString("MidiVelocities", resourceCulture);
+                return ResourceManager.GetString("MidiValues", resourceCulture);
             }
         }
         
@@ -2833,47 +2788,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Till MIDI Controller Value.
+        ///   Looks up a localized string similar to Till MIDI Value.
         /// </summary>
-        internal static string TillMidiControllerValue {
+        internal static string TillMidiValue {
             get {
-                return ResourceManager.GetString("TillMidiControllerValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Till MIDI Note Number.
-        /// </summary>
-        internal static string TillMidiNoteNumber {
-            get {
-                return ResourceManager.GetString("TillMidiNoteNumber", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Till MIDI Velocity.
-        /// </summary>
-        internal static string TillMidiVelocity {
-            get {
-                return ResourceManager.GetString("TillMidiVelocity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Till Position.
-        /// </summary>
-        internal static string TillPosition {
-            get {
-                return ResourceManager.GetString("TillPosition", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Till Tone Number.
-        /// </summary>
-        internal static string TillToneNumber {
-            get {
-                return ResourceManager.GetString("TillToneNumber", resourceCulture);
+                return ResourceManager.GetString("TillMidiValue", resourceCulture);
             }
         }
         

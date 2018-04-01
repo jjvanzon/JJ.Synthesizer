@@ -170,7 +170,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				return $"{documentReference.GetAliasOrName()} | {patch.Name}";
 			}
 
-			viewModel.Scale = scale.ToIDAndName();
+			if (scale != null)
+			{
+				viewModel.Scale = scale.ToIDAndName();
+			}
+			else
+			{
+				viewModel.Scale = ToViewModelHelper.CreateEmptyIDAndName();
+			}
+
 			return viewModel;
 		}
 
@@ -349,7 +357,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		// MidiMappingGroup
+		// MidiMapping
 
 		public static MidiMappingGroupDetailsViewModel ToDetailsViewModel(this MidiMappingGroup entity)
 		{
@@ -393,43 +401,41 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				ID = entity.ID,
 				MidiMappingGroupID = entity.MidiMappingGroup?.ID ?? default, // Null after delete action. 
 				MidiControllerCode = entity.MidiControllerCode,
-				FromMidiControllerValue = entity.FromMidiControllerValue,
-				TillMidiControllerValue = entity.TillMidiControllerValue,
-				FromMidiNoteNumber = entity.FromMidiNoteNumber,
-				TillMidiNoteNumber = entity.TillMidiNoteNumber,
-				FromMidiVelocity = entity.FromMidiVelocity,
-				TillMidiVelocity = entity.TillMidiVelocity,
-				CustomDimensionName = entity.CustomDimensionName,
+
+				FromMidiValue = entity.FromMidiValue,
+				TillMidiValue = entity.TillMidiValue,
+
+				Name = entity.Name,
+				Position = $"{entity.Position}",
+
 				FromDimensionValue = $"{entity.FromDimensionValue}",
 				TillDimensionValue = $"{entity.TillDimensionValue}",
 				MinDimensionValue = $"{entity.MinDimensionValue}",
 				MaxDimensionValue = $"{entity.MaxDimensionValue}",
-				FromPosition = $"{entity.FromPosition}",
-				TillPosition = $"{entity.TillPosition}",
-				FromToneNumber = entity.FromToneNumber,
-				TillToneNumber = entity.TillToneNumber,
+
 				IsActive = entity.IsActive,
 				IsRelative = entity.IsRelative,
 				ValidationMessages = new List<string>(),
-				StandardDimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel()
+				DimensionLookup = ToViewModelHelper.GetDimensionLookupViewModel(),
+				MidiMappingTypeLookup = ToViewModelHelper.GetMidiMappingTypeLookupViewModel()
 			};
 
-			if (entity.StandardDimension != null)
+			if (entity.MidiMappingType != null)
 			{
-				viewModel.StandardDimension = entity.StandardDimension.ToIDAndDisplayName();
+				viewModel.MidiMappingType = entity.MidiMappingType.ToIDAndDisplayName();
 			}
 			else
 			{
-				viewModel.StandardDimension = ToViewModelHelper.CreateEmptyIDAndName();
+				viewModel.MidiMappingType = ToViewModelHelper.CreateEmptyIDAndName();
 			}
 
-			if (entity.Scale != null)
+			if (entity.Dimension != null)
 			{
-				viewModel.Scale = entity.Scale.ToIDAndName();
+				viewModel.Dimension = entity.Dimension.ToIDAndDisplayName();
 			}
 			else
 			{
-				viewModel.Scale = ToViewModelHelper.CreateEmptyIDAndName();
+				viewModel.Dimension = ToViewModelHelper.CreateEmptyIDAndName();
 			}
 
 			return viewModel;
@@ -561,7 +567,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static OperatorPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Operator entity)
+		private static OperatorPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Operator entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -625,7 +631,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static OperatorPropertiesViewModel_ForInletsToDimension ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(this Operator entity)
+		private static OperatorPropertiesViewModel_ForInletsToDimension ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(this Operator entity)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForInletsToDimension>(entity);
 
@@ -648,7 +654,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static OperatorPropertiesViewModel_ForNumber ToPropertiesViewModel_ForNumber_WithoutOriginalState(this Operator entity)
+		private static OperatorPropertiesViewModel_ForNumber ToPropertiesViewModel_ForNumber_WithoutOriginalState(this Operator entity)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForNumber>(entity);
 
@@ -668,7 +674,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet_WithoutOriginalState(this Operator entity)
+		private static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet_WithoutOriginalState(this Operator entity)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForPatchInlet>(entity);
 

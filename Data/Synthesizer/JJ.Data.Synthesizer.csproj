@@ -67,6 +67,7 @@
     <Compile Include="DefaultRepositories\SampleRepository.cs" />
     <Compile Include="DefaultRepositories\MidiMappingGroupRepository.cs" />
     <Compile Include="DefaultRepositories\ScaleRepository.cs" />
+    <Compile Include="DefaultRepositories\MidiMappingTypeRepository.cs" />
     <Compile Include="DefaultRepositories\ScaleTypeRepository.cs" />
     <Compile Include="DefaultRepositories\SpeakerSetupChannelRepository.cs" />
     <Compile Include="DefaultRepositories\SpeakerSetupRepository.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Entities\EntityPosition.cs" />
     <Compile Include="Entities\MidiMappingGroup.cs" />
     <Compile Include="Entities\MidiMapping.cs" />
+    <Compile Include="Entities\MidiMappingType.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Entities\Dimension.cs" />
     <Compile Include="Entities\Scale.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="RepositoryInterfaces\IInletRepository.cs" />
     <Compile Include="RepositoryInterfaces\IInterpolationTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\IMidiMappingRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IMidiMappingTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\INodeRepository.cs" />
     <Compile Include="RepositoryInterfaces\INodeTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\IOperatorRepository.cs" />

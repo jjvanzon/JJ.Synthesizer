@@ -13,26 +13,18 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 
 			Map(x => x.IsActive);
 			Map(x => x.IsRelative);
-			Map(x => x.FromMidiNoteNumber);
-			Map(x => x.TillMidiNoteNumber);
+			Map(x => x.FromMidiValue);
+			Map(x => x.TillMidiValue);
 			Map(x => x.MidiControllerCode);
-			Map(x => x.FromMidiControllerValue);
-			Map(x => x.TillMidiControllerValue);
-			Map(x => x.FromMidiVelocity);
-			Map(x => x.TillMidiVelocity);
-			References(x => x.StandardDimension, ColumnNames.StandardDimensionID);
-			Map(x => x.CustomDimensionName);
+			References(x => x.Dimension, ColumnNames.DimensionID);
+			Map(x => x.Name);
 			Map(x => x.FromDimensionValue);
 			Map(x => x.TillDimensionValue);
 			Map(x => x.MinDimensionValue);
 			Map(x => x.MaxDimensionValue);
-			Map(x => x.FromPosition);
-			Map(x => x.TillPosition);
-			References(x => x.Scale, ColumnNames.ScaleID);
-			Map(x => x.FromToneNumber);
-			Map(x => x.TillToneNumber);
+			Map(x => x.Position);
 			References(x => x.EntityPosition, ColumnNames.EntityPositionID);
-
+			References(x => x.MidiMappingType, ColumnNames.MidiMappingTypeID);
 			References(x => x.MidiMappingGroup, ColumnNames.MidiMappingGroupID);
 		}
 	}

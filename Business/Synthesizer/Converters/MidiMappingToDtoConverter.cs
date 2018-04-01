@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Converters
 {
-	public class MidiMappingToDtoConverter
+	internal class MidiMappingToDtoConverter
 	{
 		public MidiMappingDto Convert(MidiMapping entity)
 		{
@@ -14,23 +14,17 @@ namespace JJ.Business.Synthesizer.Converters
 			var dto = new MidiMappingDto
 			{
 				IsRelative = entity.IsRelative,
+				MidiMappingTypeEnum = entity.GetMidiMappingTypeEnum(),
+				FromMidiValue = entity.FromMidiValue,
+				TillMidiValue = entity.TillMidiValue,
 				MidiControllerCode = entity.MidiControllerCode,
-				FromMidiControllerValue = entity.FromMidiControllerValue,
-				TillMidiControllerValue = entity.TillMidiControllerValue,
-				FromMidiNoteNumber = entity.FromMidiNoteNumber,
-				TillMidiNoteNumber = entity.TillMidiNoteNumber,
-				FromMidiVelocity = entity.FromMidiVelocity,
-				TillMidiVelocity = entity.TillMidiVelocity,
-				StandardDimensionEnum = entity.GetStandardDimensionEnum(),
-				CustomDimensionName = entity.CustomDimensionName,
+				DimensionEnum = entity.GetDimensionEnum(),
+				Name = entity.Name,
+				Position = entity.Position,
 				FromDimensionValue = entity.FromDimensionValue,
 				TillDimensionValue = entity.TillDimensionValue,
 				MinDimensionValue = entity.MinDimensionValue,
-				MaxDimensionValue = entity.MaxDimensionValue,
-				FromPosition = entity.FromPosition,
-				TillPosition = entity.TillPosition,
-				FromToneNumber = entity.FromToneNumber,
-				TillToneNumber = entity.TillToneNumber
+				MaxDimensionValue = entity.MaxDimensionValue
 			};
 
 			return dto;

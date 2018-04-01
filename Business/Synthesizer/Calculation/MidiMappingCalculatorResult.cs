@@ -1,31 +1,24 @@
-﻿using JJ.Business.Synthesizer.Dto;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
 	public class MidiMappingCalculatorResult
 	{
 		public MidiMappingCalculatorResult(
-			DimensionEnum standardDimensionEnum,
-			string customDimensionName,
-			double? dimensionValue,
+			DimensionEnum dimensionEnum,
+			string name,
 			int? position,
-			ScaleDto scaleDto,
-			int? toneNumber)
+			double dimensionValue)
 		{
-			StandardDimensionEnum = standardDimensionEnum;
-			CustomDimensionName = customDimensionName;
-			DimensionValue = dimensionValue;
+			DimensionEnum = dimensionEnum;
+			Name = name;
 			Position = position;
-			ScaleDto = scaleDto;
-			ToneNumber = toneNumber;
+			DimensionValue = dimensionValue;
 		}
 
-		public DimensionEnum StandardDimensionEnum { get; }
-		public string CustomDimensionName { get; }
-		public double? DimensionValue { get; }
+		public DimensionEnum DimensionEnum { get; }
+		public string Name { get; }
 		public int? Position { get; }
-		public ScaleDto ScaleDto { get; }
-		public int? ToneNumber { get; }
+		public double DimensionValue { get; }
 	}
 }

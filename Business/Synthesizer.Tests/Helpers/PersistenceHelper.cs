@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 				CreateRepository<IInterpolationTypeRepository>(context),
 				CreateRepository<IMidiMappingRepository>(context),
 				CreateRepository<IMidiMappingGroupRepository>(context),
+				CreateRepository<IMidiMappingTypeRepository>(context),
 				CreateRepository<INodeRepository>(context),
 				CreateRepository<INodeTypeRepository>(context),
 				CreateRepository<IOperatorRepository>(context),

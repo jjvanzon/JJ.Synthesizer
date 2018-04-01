@@ -78,11 +78,11 @@ namespace JJ.Business.Synthesizer.LinkTo
 			midiMapping.LinkTo((MidiMappingGroup)null);
 		}
 
-		public static void UnlinkScale(this MidiMapping midiMapping)
+		public static void UnlinkMidiMappingType(this MidiMapping midiMapping)
 		{
 			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMapping.LinkTo((Scale)null);
+			midiMapping.LinkTo((MidiMappingType)null);
 		}
 
 		public static void UnlinkCurve(this Node node)
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.LinkTo
 			inletOrOutlet.LinkTo(null);
 		}
 
-		public static void UnlinkStandardDimension(this MidiMapping midiMapping)
+		public static void UnlinkDimension(this MidiMapping midiMapping)
 		{
 			if (midiMapping == null) throw new NullException(() => midiMapping);
 

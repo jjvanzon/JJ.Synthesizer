@@ -8,15 +8,15 @@ namespace JJ.Business.Synthesizer.Converters
 {
 	public class ScaleToDtoConverter
 	{
-		public ScaleDto Convert(Scale entity)
+		public ScaleDto Convert(Scale scale)
 		{
-			if (entity == null) throw new ArgumentNullException(nameof(entity));
+			if (scale == null) throw new ArgumentNullException(nameof(scale));
 
 			var dto = new ScaleDto
 			{
-				ID = entity.ID,
-				Name = entity.Name,
-				Frequencies = entity.Tones
+				ID = scale.ID,
+				Name = scale.Name,
+				Frequencies = scale.Tones
 				                    .Sort()
 				                    .Select(x => x.GetFrequency())
 				                    .ToArray()

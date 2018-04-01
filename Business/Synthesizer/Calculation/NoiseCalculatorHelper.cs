@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 			double sampleCountDouble = samplingRate * cachedSeconds;
 
-			if (!ConversionHelper.CanCastToNonNegativeInt32(sampleCountDouble))
+			if (!CalculationHelper.CanCastToNonNegativeInt32(sampleCountDouble))
 			{
 				throw new Exception($"sampleCount '{sampleCountDouble}' cannot be cast to non-negative Int32.");
 			}

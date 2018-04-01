@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Configuration
@@ -41,5 +42,10 @@ namespace JJ.Business.Synthesizer.Configuration
 		/// </summary>
 		[XmlAttribute]
 		public bool HiddenButInUseValidationEnabled { get; set; }
+
+		[XmlAttribute]
+		public string DefaultScaleName { get; set; }
+
+		public IList<string> DefaultMidiMappingGroupNames { get; set; }
 	}
 }

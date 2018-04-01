@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 		private static bool FrequencyCountIsValid(double frequencyCount)
 		{
-			if (!ConversionHelper.CanCastToInt32(frequencyCount))
+			if (!CalculationHelper.CanCastToInt32(frequencyCount))
 			{
 				return false;
 			}

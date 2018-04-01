@@ -15,8 +15,7 @@ namespace JJ.Presentation.Synthesizer.Validators
 			For(viewModel.TillDimensionValue, ResourceFormatter.TillDimensionValue).IsDouble();
 			For(viewModel.MinDimensionValue, ResourceFormatter.MinDimensionValue).IsDouble();
 			For(viewModel.MaxDimensionValue, ResourceFormatter.MaxDimensionValue).IsDouble();
-			For(viewModel.FromPosition, ResourceFormatter.FromPosition).IsInteger();
-			For(viewModel.TillPosition, ResourceFormatter.TillPosition).IsInteger();
+			For(viewModel.Position, ResourceFormatter.Position).IsInteger();
 		}
 	}
 }

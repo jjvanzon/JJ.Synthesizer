@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Collections;
+using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Aggregates;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer
 {
@@ -18,20 +22,21 @@ namespace JJ.Business.Synthesizer
 	/// </summary>
 	public class SystemFacade
 	{
+		/// <summary> Hashset for value comparisons. </summary>
+		private static readonly HashSet<string> _defaultCanonicalMidiMappingGroupNames = GetDefaultMidiMappingGroupNames();
+		private static readonly string _defaultScaleName = CustomConfigurationManager.GetSection<ConfigurationSection>().DefaultScaleName;
 		private static readonly object _lock = new object();
 
 		private static Document _systemDocument;
 		private static Dictionary<string, Patch> _systemPatchDictionary;
 		private static IList<MidiMapping> _systemMidiMappings;
 		private static IList<MidiMappingGroup> _systemMidiMappingGroups;
-		private Scale _systemScale;
+		private static Scale _systemScale;
 
 		private readonly IDocumentRepository _documentRepository;
 
-		public SystemFacade(IDocumentRepository documentRepository)
-		{
+		public SystemFacade(IDocumentRepository documentRepository) =>
 			_documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
-		}
 
 		private void EnsureCache()
 		{
@@ -44,9 +49,11 @@ namespace JJ.Business.Synthesizer
 
 				_systemDocument = _documentRepository.GetByNameComplete(DocumentHelper.SYSTEM_DOCUMENT_NAME);
 				_systemPatchDictionary = _systemDocument.Patches.Where(x => !x.Hidden).ToDictionary(x => x.Name);
-				_systemMidiMappingGroups = _systemDocument.MidiMappingGroups;
+				_systemMidiMappingGroups = _systemDocument.MidiMappingGroups
+				                                          .Where(x => _defaultCanonicalMidiMappingGroupNames.Contains(NameHelper.ToCanonical(x.Name)))
+				                                          .ToArray();
 				_systemMidiMappings = _systemMidiMappingGroups.SelectMany(x => x.MidiMappings).ToArray();
-				_systemScale = _systemMidiMappings.Where(x => x.Scale != null).Select(x => x.Scale).FirstOrDefault();
+				_systemScale = _systemDocument.Scales.Where(x => NameHelper.AreEqual(x.Name, _defaultScaleName)).FirstOrDefault();
 			}
 		}
 
@@ -83,7 +90,6 @@ namespace JJ.Business.Synthesizer
 		{
 			EnsureCache();
 			return _systemMidiMappings;
-
 		}
 
 		public Patch GetSystemPatch(string name)
@@ -102,6 +108,22 @@ namespace JJ.Business.Synthesizer
 		{
 			EnsureCache();
 			return _systemScale;
+		}
+
+		// Helpers
+
+		private static HashSet<string> GetDefaultMidiMappingGroupNames()
+		{
+			IList<string> names = CustomConfigurationManager.GetSection<ConfigurationSection>().DefaultMidiMappingGroupNames;
+
+			if (names == null)
+			{
+				throw new NullException($"{nameof(ConfigurationSection)}.{nameof(ConfigurationSection.DefaultMidiMappingGroupNames)}");
+			}
+
+			HashSet<string> formattedNames = names.Select(NameHelper.ToCanonical).ToHashSet();
+
+			return formattedNames;
 		}
 	}
 }

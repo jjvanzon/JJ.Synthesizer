@@ -1,0 +1,1 @@
+alter table MidiMapping add TillMidiValue int null;

@@ -1,0 +1,1 @@
+alter table MidiMapping add MidiMappingTypeID int null;

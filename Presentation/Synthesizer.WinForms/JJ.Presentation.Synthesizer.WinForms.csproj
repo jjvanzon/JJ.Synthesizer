@@ -464,15 +464,6 @@
     <EmbeddedResource Include="UserControls\PatchDetailsUserControl.resx">
       <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Config\Dev Local Machine\App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Config\Dev Private Network\App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Config\Dev Public Network\App.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

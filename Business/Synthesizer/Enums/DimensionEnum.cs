@@ -99,6 +99,7 @@
 		/// then it falls back to the patch's dimension.
 		/// </summary>
 		Inherit = 76,
-		Position = 77
+		Position = 77,
+		NoteNumber = 78
 	}
 }

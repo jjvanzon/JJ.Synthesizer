@@ -1059,23 +1059,8 @@
   <data name="MidiControllerCode" xml:space="preserve">
     <value>MIDI controller code</value>
   </data>
-  <data name="FromMidiControllerValue" xml:space="preserve">
-    <value>Van MIDI controller waarde</value>
-  </data>
   <data name="FromDimensionValue" xml:space="preserve">
     <value>Van dimensie waarde</value>
-  </data>
-  <data name="FromMidiNoteNumber" xml:space="preserve">
-    <value>Van MIDI noot nummer</value>
-  </data>
-  <data name="FromPosition" xml:space="preserve">
-    <value>Van positie</value>
-  </data>
-  <data name="FromToneNumber" xml:space="preserve">
-    <value>Van toon nummer</value>
-  </data>
-  <data name="FromMidiVelocity" xml:space="preserve">
-    <value>Van MIDI aanslagsnelheid</value>
   </data>
   <data name="IsRelative" xml:space="preserve">
     <value>Relatief</value>
@@ -1086,26 +1071,11 @@
   <data name="MinDimensionValue" xml:space="preserve">
     <value>Minimale dimensie waarde</value>
   </data>
-  <data name="TillMidiControllerValue" xml:space="preserve">
-    <value>Tot MIDI controller waarde</value>
-  </data>
   <data name="TillDimensionValue" xml:space="preserve">
     <value>Tot dimensie waarde</value>
   </data>
-  <data name="TillMidiNoteNumber" xml:space="preserve">
-    <value>Tot MIDI noot nummer</value>
-  </data>
-  <data name="TillPosition" xml:space="preserve">
-    <value>Tot positie</value>
-  </data>
-  <data name="TillToneNumber" xml:space="preserve">
-    <value>Tot toon nummer</value>
-  </data>
-  <data name="TillMidiVelocity" xml:space="preserve">
-    <value>Tot MIDI aanslagsnelheid</value>
-  </data>
-  <data name="MidiControllerValue" xml:space="preserve">
-    <value>MIDI controller waarde</value>
+  <data name="MidiController" xml:space="preserve">
+    <value>MIDI controller</value>
   </data>
   <data name="DimensionValue" xml:space="preserve">
     <value>Dimensie waarde</value>
@@ -1131,25 +1101,28 @@
   <data name="EntityPosition" xml:space="preserve">
     <value>Object positie</value>
   </data>
-  <data name="MidiControllerValues" xml:space="preserve">
-    <value>MIDI controller waardes</value>
-  </data>
   <data name="DimensionValues" xml:space="preserve">
     <value>Dimensie waardes</value>
   </data>
   <data name="MinMaxDimensionValues" xml:space="preserve">
     <value>Min/max dimensie waardes</value>
   </data>
-  <data name="MidiNoteNumbers" xml:space="preserve">
-    <value>MIDI noot nummers</value>
-  </data>
   <data name="ToneNumbers" xml:space="preserve">
     <value>Toon nummers</value>
   </data>
-  <data name="MidiVelocities" xml:space="preserve">
-    <value>MIDI aanslagsnelheden</value>
-  </data>
   <data name="Ordinal" xml:space="preserve">
     <value>Ordinaal</value>
+  </data>
+  <data name="FromMidiValue" xml:space="preserve">
+    <value>Van MIDI waarde</value>
+  </data>
+  <data name="MidiMappingType" xml:space="preserve">
+    <value>MIDI indeling soort</value>
+  </data>
+  <data name="TillMidiValue" xml:space="preserve">
+    <value>Tot MIDI waarde</value>
+  </data>
+  <data name="MidiValues" xml:space="preserve">
+    <value>MIDI waardes</value>
   </data>
 </root>

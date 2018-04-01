@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			// Stripe interpolation
 			position += 0.5;
 
-			if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(position, _count))
+			if (!CalculationHelper.CanCastToNonNegativeInt32WithMax(position, _count))
 			{
 				return 0.0;
 			}

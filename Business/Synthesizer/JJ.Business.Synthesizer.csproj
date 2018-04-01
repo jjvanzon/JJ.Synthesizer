@@ -198,6 +198,7 @@
     <Compile Include="Dto\Operators\Remainder_OperatorDto.cs" />
     <Compile Include="Dto\ScaleDto.cs" />
     <Compile Include="Enums\EntityTypeEnum.cs" />
+    <Compile Include="Enums\MidiMappingTypeEnum.cs" />
     <Compile Include="Extensions\IMidiMappingExtensions.cs" />
     <Compile Include="Extensions\InheritExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
@@ -205,7 +206,9 @@
     <Compile Include="Extensions\IInletOrOutletExtensions.cs" />
     <Compile Include="Extensions\SortExtensions.cs" />
     <Compile Include="Helpers\AggregateInfoFactory.cs" />
-    <Compile Include="Helpers\CalculationHelper.cs" />
+    <Compile Include="Helpers\CalculationHelper.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Calculation\CalculatorCache.cs" />
     <Compile Include="Calculation\CurveArrayDtoFactory.cs" />
     <Compile Include="Calculation\Operators\PeakingEQFilter_OperatorCalculator.cs" />
@@ -540,9 +543,6 @@
     <Compile Include="Enums\NodeTypeEnum.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
-    <Compile Include="Helpers\ConversionHelper.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="Helpers\RepositoryWrapper.cs" />
     <Compile Include="Helpers\SampleDataTypeHelper.cs" />
     <Compile Include="Extensions\SampleExtensions.cs" />
@@ -594,8 +594,6 @@
     <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
-    <Compile Include="Warnings\MidiMappingWarningValidator.cs" />
-    <Compile Include="Warnings\MidiMappingGroupWarningValidator_WithRelatedEntities.cs" />
     <Compile Include="Warnings\OutletWarningValidator.cs" />
     <Compile Include="Warnings\InletWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Cache_OperatorWarningValidator.cs" />

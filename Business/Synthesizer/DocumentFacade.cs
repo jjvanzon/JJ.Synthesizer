@@ -51,6 +51,7 @@ namespace JJ.Business.Synthesizer
 		}
 
 		/// <summary> Will reapply patches (from external documents). </summary>
+		// ReSharper disable once MemberCanBePrivate.Global
 		public void Refresh(Document document)
 		{
 			new Document_SideEffect_ApplyUnderlyingPatches(document, _repositories).Execute();
@@ -62,6 +63,7 @@ namespace JJ.Business.Synthesizer
 
 		// Create
 		
+		// ReSharper disable once MemberCanBePrivate.Global
 		public Document Create()
 		{
 			var document = new Document { ID = _repositories.IDRepository.GetID() };
@@ -145,7 +147,8 @@ namespace JJ.Business.Synthesizer
 			Document document = _repositories.DocumentRepository.Get(documentID);
 			return DeleteWithRelatedEntities(document);
 		}
-		
+
+		// ReSharper disable once MemberCanBePrivate.Global
 		public VoidResult DeleteWithRelatedEntities(Document document)
 		{
 			if (document == null) throw new NullException(() => document);

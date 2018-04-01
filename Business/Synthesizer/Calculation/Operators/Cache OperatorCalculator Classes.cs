@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double channelDouble = _channelPositionCalculator.Calculate();
 
-			if (!ConversionHelper.CanCastToNonNegativeInt32WithMax(channelDouble, _arrayCalculatorsMaxIndexDouble))
+			if (!CalculationHelper.CanCastToNonNegativeInt32WithMax(channelDouble, _arrayCalculatorsMaxIndexDouble))
 			{
 				return 0.0;
 			}

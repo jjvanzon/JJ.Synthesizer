@@ -114,11 +114,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Frequency => Resources.Frequency;
 		public static string From => Resources.From;
 		public static string FromDimensionValue => Resources.FromDimensionValue;
-		public static string FromMidiControllerValue => Resources.FromMidiControllerValue;
-		public static string FromMidiNoteNumber => Resources.FromMidiNoteNumber;
-		public static string FromMidiVelocity => Resources.FromMidiVelocity;
-		public static string FromPosition => Resources.FromPosition;
-		public static string FromToneNumber => Resources.FromToneNumber;
+		public static string FromMidiValue => Resources.FromMidiValue;
 		public static string GetPosition => Resources.GetPosition;
 		public static string GreaterThan => Resources.GreaterThan;
 		public static string GreaterThanOrEqual => Resources.GreaterThanOrEqual;
@@ -175,14 +171,13 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string MaxOverInlets => Resources.MaxOverInlets;
 		public static string Midi => Resources.Midi;
 		public static string MidiControllerCode => Resources.MidiControllerCode;
-		public static string MidiControllerValue => Resources.MidiControllerValue;
-		public static string MidiControllerValues => Resources.MidiControllerValues;
+		public static string MidiController => Resources.MidiController;
 		public static string MidiMappingGroup => Resources.MidiMappingGroup;
 		public static string MidiMapping => Resources.MidiMapping;
+		public static string MidiMappingType => Resources.MidiMappingType;
 		public static string MidiNoteNumber => Resources.MidiNoteNumber;
-		public static string MidiNoteNumbers => Resources.MidiNoteNumbers;
-		public static string MidiVelocities => Resources.MidiVelocities;
 		public static string MidiVelocity => Resources.MidiVelocity;
+		public static string MidiValues => Resources.MidiValues;
 		public static string Min => Resources.Min;
 		public static string MinDimensionValue => Resources.MinDimensionValue;
 		public static string MinFollower => Resources.MinFollower;
@@ -306,11 +301,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Then => Resources.Then;
 		public static string Till => Resources.Till;
 		public static string TillDimensionValue => Resources.TillDimensionValue;
-		public static string TillMidiControllerValue => Resources.TillMidiControllerValue;
-		public static string TillMidiNoteNumber => Resources.TillMidiNoteNumber;
-		public static string TillMidiVelocity => Resources.TillMidiVelocity;
-		public static string TillPosition => Resources.TillPosition;
-		public static string TillToneNumber => Resources.TillToneNumber;
+		public static string TillMidiValue => Resources.TillMidiValue;
 		public static string Time => Resources.Time;
 		public static string TimeMultiplier => Resources.TimeMultiplier;
 		public static string TimePower => Resources.TimePower;
@@ -435,6 +426,22 @@ namespace JJ.Business.Synthesizer.Resources
 		}
 
 		public static string GetDisplayName(InterpolationTypeEnum enumValue)
+		{
+			return GetDisplayName(enumValue.ToString());
+		}
+
+		// MidiDimensionType
+
+		public static string GetDisplayName(MidiMappingType entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
+
+			var dimensionEnum = (MidiMappingTypeEnum)entity.ID;
+
+			return GetDisplayName(dimensionEnum);
+		}
+
+		public static string GetDisplayName(MidiMappingTypeEnum enumValue)
 		{
 			return GetDisplayName(enumValue.ToString());
 		}

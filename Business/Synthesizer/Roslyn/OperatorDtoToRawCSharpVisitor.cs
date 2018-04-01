@@ -1387,8 +1387,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 			string position = GetLiteralFromInputDto(dto.Position);
 			string items = GetLongLivedDoubleArrayVariableName(dto.Inputs.Count);
 			string output = GetVariableName(dto.OperatorTypeEnum);
-			const string conversionHelper = nameof(ConversionHelper);
-			const string canCastToNonNegativeInt32WithMax = nameof(ConversionHelper.CanCastToNonNegativeInt32WithMax);
+			const string conversionHelper = nameof(CalculationHelper);
+			const string canCastToNonNegativeInt32WithMax = nameof(CalculationHelper.CanCastToNonNegativeInt32WithMax);
 			string maxIndex = CompilationHelper.FormatValue(dto.Inputs.Count - 1);
 
 			AppendOperatorTitleComment(dto);

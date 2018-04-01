@@ -68,6 +68,7 @@
     <Compile Include="Mapping\EntityPositionMapping.cs" />
     <Compile Include="Mapping\InletMapping.cs" />
     <Compile Include="Mapping\InterpolatonTypeMapping.cs" />
+    <Compile Include="Mapping\MidiMappingTypeMapping.cs" />
     <Compile Include="Mapping\NodeMapping.cs" />
     <Compile Include="Mapping\NodeTypeMapping.cs" />
     <Compile Include="Mapping\OperatorMapping.cs" />

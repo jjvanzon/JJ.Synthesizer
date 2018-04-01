@@ -5,6 +5,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -170,28 +171,60 @@ namespace JJ.Business.Synthesizer.Extensions
 
 		// MidiMapping
 
-		public static DimensionEnum GetStandardDimensionEnum(this MidiMapping entity)
+		public static DimensionEnum GetDimensionEnum(this MidiMapping entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			if (entity.StandardDimension == null) return DimensionEnum.Undefined;
+			if (entity.Dimension == null) return DimensionEnum.Undefined;
 
-			return entity.StandardDimension.ToEnum();
+			return entity.Dimension.ToEnum();
 		}
 
-		public static void SetStandardDimensionEnum(this MidiMapping entity, DimensionEnum enumValue, IDimensionRepository repository)
+		public static void SetDimensionEnum(this MidiMapping entity, DimensionEnum enumValue, IDimensionRepository repository)
 		{
 			if (repository == null) throw new NullException(() => repository);
 
 			if (enumValue == DimensionEnum.Undefined)
 			{
-				entity.UnlinkStandardDimension();
+				entity.UnlinkDimension();
 			}
 			else
 			{
 				Dimension enumEntity = repository.Get((int)enumValue);
 				entity.LinkTo(enumEntity);
 			}
+		}
+
+		public static MidiMappingTypeEnum GetMidiMappingTypeEnum(this MidiMapping entity)
+		{
+			if (entity == null) throw new NullException(() => entity);
+
+			if (entity.MidiMappingType == null) return MidiMappingTypeEnum.Undefined;
+
+			return entity.MidiMappingType.ToEnum();
+		}
+
+		public static void SetMidiMappingTypeEnum(this MidiMapping entity, MidiMappingTypeEnum enumValue, IMidiMappingTypeRepository repository)
+		{
+			if (repository == null) throw new NullException(() => repository);
+
+			if (enumValue == MidiMappingTypeEnum.Undefined)
+			{
+				entity.UnlinkMidiMappingType();
+			}
+			else
+			{
+				MidiMappingType enumEntity = repository.Get((int)enumValue);
+				entity.LinkTo(enumEntity);
+			}
+		}
+
+		// MidiMappingTypeType
+
+		public static MidiMappingTypeEnum ToEnum(this MidiMappingType entity)
+		{
+			if (entity == null) throw new ArgumentNullException(nameof(entity));
+			return (MidiMappingTypeEnum)entity.ID;
 		}
 
 		// Node

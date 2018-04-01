@@ -66,11 +66,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Set !Successful
 			userInput.Successful = false;
 
-			// GetEntity
-			Document document = _documentRepository.Get(userInput.Document.ID);
-
 			// Business
-			VoidResult result = _documentFacade.DeleteWithRelatedEntities(document);
+			VoidResult result = _documentFacade.DeleteWithRelatedEntities(userInput.Document.ID);
 
 			if (!result.Successful)
 			{

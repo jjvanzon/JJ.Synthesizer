@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			// But adding 1 works for non-integer double values too.
 			countDouble += 1;
 
-			if (ConversionHelper.CanCastToNonNegativeInt32(countDouble))
+			if (CalculationHelper.CanCastToNonNegativeInt32(countDouble))
 			{
 				_count = (int)countDouble;
 			}

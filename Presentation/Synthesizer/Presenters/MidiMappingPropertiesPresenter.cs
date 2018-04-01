@@ -59,8 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			destViewModel.TillDimensionValue = sourceViewModel.TillDimensionValue;
 			destViewModel.MinDimensionValue = sourceViewModel.MinDimensionValue;
 			destViewModel.MaxDimensionValue = sourceViewModel.MaxDimensionValue;
-			destViewModel.FromPosition = sourceViewModel.FromPosition;
-			destViewModel.TillPosition = sourceViewModel.TillPosition;
+			destViewModel.Position = sourceViewModel.Position;
 		}
 	}
 }
