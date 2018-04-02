@@ -10,6 +10,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public IDAndName MidiMappingType { get; set; }
 
 		public int? MidiControllerCode { get; set; }
+		public bool CanEditMidiControllerCode { get; set; }
 		public int FromMidiValue { get; set; }
 		public int TillMidiValue { get; set; }
 

@@ -1,17 +1,23 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
+using JJ.Framework.Common;
 using JJ.Framework.Conversion;
 using JJ.Framework.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
-
 // ReSharper disable LocalizableElement
+// ReSharper disable PossibleNullReferenceException
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	internal partial class MidiMappingPropertiesUserControl
 		: PropertiesUserControlBase
 	{
+		private bool _applyViewModelToControlsIsBusy;
+
+		public event EventHandler<EventArgs<int>> MidiMappingTypeChanged;
+
 		public MidiMappingPropertiesUserControl() => InitializeComponent();
 
 		// Gui
@@ -66,35 +72,47 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void ApplyViewModelToControls()
 		{
-			if (comboBoxMidiMappingType.DataSource == null)
+			_applyViewModelToControlsIsBusy = true;
+			try
 			{
-				comboBoxMidiMappingType.DataSource = null; // Do this or WinForms will not refresh the list.
-				comboBoxMidiMappingType.ValueMember = nameof(IDAndName.ID);
-				comboBoxMidiMappingType.DisplayMember = nameof(IDAndName.Name);
-				comboBoxMidiMappingType.DataSource = ViewModel.MidiMappingTypeLookup;
-			}
-			comboBoxMidiMappingType.SelectedValue = ViewModel.MidiMappingType?.ID ?? 0;
-			fromTillMidiValues.From = $"{ViewModel.FromMidiValue}";
-			fromTillMidiValues.Till = $"{ViewModel.TillMidiValue}";
-			maskedTextBoxMidiControllerCode.Text = $"{ViewModel.MidiControllerCode}";
+				if (comboBoxMidiMappingType.DataSource == null)
+				{
+					comboBoxMidiMappingType.DataSource = null; // Do this or WinForms will not refresh the list.
+					comboBoxMidiMappingType.ValueMember = nameof(IDAndName.ID);
+					comboBoxMidiMappingType.DisplayMember = nameof(IDAndName.Name);
+					comboBoxMidiMappingType.DataSource = ViewModel.MidiMappingTypeLookup;
+				}
 
-			if (comboBoxDimension.DataSource == null)
+				comboBoxMidiMappingType.SelectedValue = ViewModel.MidiMappingType?.ID ?? 0;
+				fromTillMidiValues.From = $"{ViewModel.FromMidiValue}";
+				fromTillMidiValues.Till = $"{ViewModel.TillMidiValue}";
+				maskedTextBoxMidiControllerCode.Text = $"{ViewModel.MidiControllerCode}";
+				maskedTextBoxMidiControllerCode.Visible = ViewModel.CanEditMidiControllerCode;
+				labelMidiControllerCode.Visible = ViewModel.CanEditMidiControllerCode;
+
+				if (comboBoxDimension.DataSource == null)
+				{
+					comboBoxDimension.ValueMember = nameof(IDAndName.ID);
+					comboBoxDimension.DisplayMember = nameof(IDAndName.Name);
+					comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+				}
+
+				comboBoxDimension.SelectedValue = ViewModel.Dimension?.ID ?? 0;
+				textBoxName.Text = ViewModel.Name;
+				textBoxPosition.Text = ViewModel.Position;
+
+				fromTillDimensionValues.From = ViewModel.FromDimensionValue;
+				fromTillDimensionValues.Till = ViewModel.TillDimensionValue;
+				fromTillMinMaxDimensionValues.From = ViewModel.MinDimensionValue;
+				fromTillMinMaxDimensionValues.Till = ViewModel.MaxDimensionValue;
+
+				checkBoxIsActive.Checked = ViewModel.IsActive;
+				checkBoxIsRelative.Checked = ViewModel.IsRelative;
+			}
+			finally
 			{
-				comboBoxDimension.ValueMember = nameof(IDAndName.ID);
-				comboBoxDimension.DisplayMember = nameof(IDAndName.Name);
-				comboBoxDimension.DataSource = ViewModel.DimensionLookup;
+				_applyViewModelToControlsIsBusy = false;
 			}
-			comboBoxDimension.SelectedValue = ViewModel.Dimension?.ID ?? 0;
-			textBoxName.Text = ViewModel.Name;
-			textBoxPosition.Text = ViewModel.Position;
-
-			fromTillDimensionValues.From = ViewModel.FromDimensionValue;
-			fromTillDimensionValues.Till = ViewModel.TillDimensionValue;
-			fromTillMinMaxDimensionValues.From = ViewModel.MinDimensionValue;
-			fromTillMinMaxDimensionValues.Till = ViewModel.MaxDimensionValue;
-
-			checkBoxIsActive.Checked = ViewModel.IsActive;
-			checkBoxIsRelative.Checked = ViewModel.IsRelative;
 		}
 
 		protected override void ApplyControlsToViewModel()
@@ -106,7 +124,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			ViewModel.Dimension = (IDAndName)comboBoxDimension.SelectedItem;
 			ViewModel.Name = textBoxName.Text;
-			ViewModel.Position = textBoxName.Text;
+			ViewModel.Position = textBoxPosition.Text;
 
 			ViewModel.FromDimensionValue = fromTillDimensionValues.From;
 			ViewModel.TillDimensionValue = fromTillDimensionValues.Till;
@@ -115,6 +133,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			ViewModel.IsActive = checkBoxIsActive.Checked;
 			ViewModel.IsRelative = checkBoxIsRelative.Checked;
+		}
+
+		private void comboBoxMidiMappingType_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			if (_applyViewModelToControlsIsBusy) return;
+			if (ViewModel == null) return;
+
+			ApplyControlsToViewModel();
+
+			MidiMappingTypeChanged.Invoke(this, new EventArgs<int>(ViewModel.ID));
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.VectorGraphics.Drawing;
@@ -27,13 +28,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			UnhandledExceptionMessageBoxShower.Initialize(ResourceFormatter.ApplicationName);
 			ParsedCommandLineArguments parsedCommandLineArguments = ParseCommandLineArguments(args);
-
 #if DEBUG
 			DrawerBase.MustDrawCoordinateIndicatorsForPrimitives = CustomConfigurationManager.GetSection<ConfigurationSection>()
 			                                                                                 .DrawCoordinateIndicatorsForPrimitives;
 			DrawerBase.MustDrawCoordinateIndicatorsForComposites = CustomConfigurationManager.GetSection<ConfigurationSection>()
 			                                                                                 .DrawCoordinateIndicatorsForComposites;
 #endif
+			string cultureNameFromConfig = CustomConfigurationManager.GetSection<ConfigurationSection>().DefaultCulture;
+			if (!string.IsNullOrWhiteSpace(cultureNameFromConfig))
+			{
+				CultureHelper.SetCurrentCultureName(cultureNameFromConfig);
+			}
+
 			MainForm form = ShowMainWindow(parsedCommandLineArguments.DocumentName, parsedCommandLineArguments.PatchName);
 			Application.Run(form);
 		}

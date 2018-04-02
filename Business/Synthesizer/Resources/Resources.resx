@@ -1143,4 +1143,10 @@
   <data name="MidiValues" xml:space="preserve">
     <value>MIDI Values</value>
   </data>
+  <data name="MidiChannel" xml:space="preserve">
+    <value>MIDI Channel</value>
+  </data>
+  <data name="NoteNumber" xml:space="preserve">
+    <value>Note Number</value>
+  </data>
 </root>

@@ -2010,6 +2010,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MidiMappingProperties_Switch(midiMappingID);
 		}
 
+		public void MidiMappingProperties_ChangeMidiMappingType(int midiMappingID)
+		{
+			MidiMappingPropertiesViewModel userInput = ViewModelSelector.GetMidiMappingPropertiesViewModel(MainViewModel.Document, midiMappingID);
+
+			ExecuteUpdateAction(userInput, () => _midiMappingPropertiesPresenter.ChangeMidiMappingType(userInput));
+		}
+
 		public void MidiMappingProperties_Close(int id)
 		{
 			// GetViewModel
@@ -3490,7 +3497,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <summary>
-		/// Works only if userInput is the final state of the action, not if other data changes have to be applied,
+		/// Manages undo, but works only if userInput is the final state of the action, not if other data changes have to be applied,
 		/// before having the 'new state' of the undo action.
 		/// </summary>
 		private TViewModel ExecuteUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)

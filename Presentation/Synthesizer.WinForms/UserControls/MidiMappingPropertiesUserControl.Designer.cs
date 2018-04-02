@@ -167,6 +167,7 @@
 			this.comboBoxMidiMappingType.Name = "comboBoxMidiMappingType";
 			this.comboBoxMidiMappingType.Size = new System.Drawing.Size(130, 24);
 			this.comboBoxMidiMappingType.TabIndex = 42;
+			this.comboBoxMidiMappingType.SelectedIndexChanged += new System.EventHandler(this.comboBoxMidiMappingType_SelectedIndexChanged);
 			// 
 			// fromTillDimensionValues
 			// 

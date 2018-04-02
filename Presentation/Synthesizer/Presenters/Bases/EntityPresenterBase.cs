@@ -48,11 +48,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 			return ExecuteAction(
 				userInput,
 				() => GetEntity(userInput),
-				x =>
-				{
-					businessDelegate?.Invoke(x);
-					return ResultHelper.Successful;
-				},
+				x => businessDelegate?.Invoke(x),
 				nonPersistedDelegate ?? _defaultNonPersistedDelegate);
 		}
 

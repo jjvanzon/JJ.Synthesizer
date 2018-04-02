@@ -441,11 +441,11 @@ namespace JJ.Business.Synthesizer.LinkTo
 			// No inverse property.
 		}
 
-		public static void LinkTo(this MidiMapping midiMapping, MidiMappingType dimension)
+		public static void LinkTo(this MidiMapping midiMapping, MidiMappingType midiMappingType)
 		{
 			if (midiMapping == null) throw new NullException(() => midiMapping);
 
-			midiMapping.MidiMappingType = dimension;
+			midiMapping.MidiMappingType = midiMappingType;
 
 			// No inverse property.
 		}

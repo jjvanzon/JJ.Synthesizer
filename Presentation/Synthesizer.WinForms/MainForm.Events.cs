@@ -118,6 +118,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			midiMappingDetailsUserControl.NewRequested += midiMappingGroupDetailsUserControl_NewRequested;
 			midiMappingDetailsUserControl.SelectMidiMappingRequested += MidiMappingGroupDetailsUserControl_SelectMidiMappingRequested;
 
+			midiMappingPropertiesUserControl.MidiMappingTypeChanged += MidiMappingPropertiesUserControl_MidiMappingTypeChanged;
 			midiMappingPropertiesUserControl.CloseRequested += MidiMappingPropertiesUserControl_CloseRequested;
 			midiMappingPropertiesUserControl.DeleteRequested += MidiMappingPropertiesUserControl_DeleteRequested;
 			midiMappingPropertiesUserControl.ExpandRequested += MidiMappingPropertiesUserControl_ExpandRequested;
@@ -889,6 +890,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private void MidiMappingGroupDetailsUserControl_ExpandMidiMappingRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.MidiMappingGroupDetails_ExpandMidiMapping(e.Value));
+		}
+
+
+		private void MidiMappingPropertiesUserControl_MidiMappingTypeChanged(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.MidiMappingProperties_ChangeMidiMappingType(e.Value));
 		}
 
 		private void MidiMappingPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)

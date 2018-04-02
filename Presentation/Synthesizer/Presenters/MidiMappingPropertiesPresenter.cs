@@ -35,6 +35,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return entity.ToPropertiesViewModel();
 		}
 
+		public MidiMappingPropertiesViewModel ChangeMidiMappingType(MidiMappingPropertiesViewModel userInput)
+		{
+			// HACK: Try to get UserFriendlyIdentifierLong to show in the UI.
+			//return ExecuteAction(userInput, entity => Save(entity, userInput));
+			return Refresh(userInput);
+		}
+
+		public MidiMappingPropertiesViewModel Delete(MidiMappingPropertiesViewModel userInput)
+		{
+			return ExecuteAction(userInput, entity => _midiMappingFacade.DeleteMidiMapping(entity));
+		}
+
 		protected override IResult Save(MidiMapping entity, MidiMappingPropertiesViewModel userInput)
 		{
 			IValidator validator = new MidiMappingPropertiesViewModel_Validator(userInput);
@@ -44,11 +56,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			return _midiMappingFacade.SaveMidiMapping(entity);
-		}
-
-		public MidiMappingPropertiesViewModel Delete(MidiMappingPropertiesViewModel userInput)
-		{
-			return ExecuteAction(userInput, entity => _midiMappingFacade.DeleteMidiMapping(entity));
 		}
 
 		public override void CopyNonPersistedProperties(MidiMappingPropertiesViewModel sourceViewModel, MidiMappingPropertiesViewModel destViewModel)

@@ -97,12 +97,6 @@ namespace JJ.Business.Synthesizer
 		{
 			if (scale == null) throw new NullException(() => scale);
 
-			IValidator validator = new ScaleValidator_Delete(scale);
-			if (!validator.IsValid)
-			{
-				return validator.ToResult();
-			}
-
 			scale.DeleteRelatedEntities(_repositories.ToneRepository);
 			scale.UnlinkRelatedEntities();
 			_repositories.ScaleRepository.Delete(scale);

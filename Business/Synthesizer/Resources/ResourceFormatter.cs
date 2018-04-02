@@ -170,6 +170,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string MaxOverDimension => Resources.MaxOverDimension;
 		public static string MaxOverInlets => Resources.MaxOverInlets;
 		public static string Midi => Resources.Midi;
+		public static string MidiChannel => Resources.MidiChannel;
 		public static string MidiControllerCode => Resources.MidiControllerCode;
 		public static string MidiController => Resources.MidiController;
 		public static string MidiMappingGroup => Resources.MidiMappingGroup;
@@ -201,6 +202,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string NoteDuration => Resources.NoteDuration;
 		public static string NotEqual => Resources.NotEqual;
 		public static string NoteStart => Resources.NoteStart;
+		public static string NoteNumber => Resources.NoteNumber;
 		public static string NotLoaded => Resources.NotLoaded;
 		public static string Number => Resources.Number;
 		public static string ObsoleteButStillUsed => Resources.ObsoleteButStillUsed;

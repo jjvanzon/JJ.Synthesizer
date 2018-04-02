@@ -65,9 +65,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public PatchPropertiesViewModel ChangeHasDimension(PatchPropertiesViewModel userInput)
 		{
-			return ExecuteAction(
-				userInput,
-				entity => _patchFacade.SavePatch(entity));
+			return ExecuteAction(userInput, entity => Save(entity, userInput));
 		}
 	}
 }

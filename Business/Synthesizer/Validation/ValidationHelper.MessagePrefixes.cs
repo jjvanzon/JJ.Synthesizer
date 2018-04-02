@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation
 			GetUserFriendlyIdentifier(midiMapping));
 
 		public static string GetMessagePrefix(MidiMapping midiMapping) =>
-			$"{ResourceFormatter.MidiMapping}: {GetUserFriendlyIdentifierLong(midiMapping)}: ";
+			$"{ResourceFormatter.MidiMapping} '{GetUserFriendlyIdentifier(midiMapping)}': ";
 
 		/// <summary> Only returns a prefix if higherPatch is actually in another document than lowerPatch. </summary>
 		public static string TryGetHigherDocumentPrefix(Patch lowerPatch, Patch higherPatch)

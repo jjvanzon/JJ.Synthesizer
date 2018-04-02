@@ -401,6 +401,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				ID = entity.ID,
 				MidiMappingGroupID = entity.MidiMappingGroup?.ID ?? default, // Null after delete action. 
 				MidiControllerCode = entity.MidiControllerCode,
+				CanEditMidiControllerCode = entity.GetMidiMappingTypeEnum() == MidiMappingTypeEnum.MidiController,
 
 				FromMidiValue = entity.FromMidiValue,
 				TillMidiValue = entity.TillMidiValue,

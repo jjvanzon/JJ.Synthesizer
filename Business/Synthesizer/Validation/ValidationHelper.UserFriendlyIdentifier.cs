@@ -122,71 +122,50 @@ namespace JJ.Business.Synthesizer.Validation
 			return GetNoNameIdentifier();
 		}
 
-		public static string GetUserFriendlyIdentifierLong(MidiMapping entity)
+		public static string GetUserFriendlyIdentifier(MidiMapping entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
 			var sb = new StringBuilder();
 
-			sb.Append($"{ResourceFormatter.MidiMappingType} {entity.GetMidiMappingTypeEnum()}, ");
-			sb.Append($"{ResourceFormatter.MidiValues} [{entity.FromMidiValue}-{entity.TillMidiValue}], ");
+			bool anySynthPropertiesFilledIn = false;
 
-			if (entity.MidiControllerCode.HasValue)
-			{
-				sb.Append($"{ResourceFormatter.MidiControllerCode} {entity.MidiControllerCode}, ");
-			}
-
+			// Use Dimension
 			if (entity.Dimension != null)
 			{
-				sb.Append($"{ResourceFormatter.Dimension} '{ResourceFormatter.GetDisplayName(entity.Dimension)}', ");
+				sb.Append(ResourceFormatter.GetDisplayName(entity.Dimension));
+				sb.Append(' ');
+				anySynthPropertiesFilledIn = true;
 			}
 
+			// Use Name
 			if (!string.IsNullOrWhiteSpace(entity.Name))
 			{
-				sb.Append($"{CommonResourceFormatter.Name} '{entity.Name}', ");
+				sb.Append(entity.Name);
+				sb.Append(' ');
+				anySynthPropertiesFilledIn = true;
 			}
 
+			// Use Position
 			if (entity.Position.HasValue)
 			{
-				sb.Append($"{ResourceFormatter.Position} {entity.Position}, ");
-			}
-
-			sb.Append($"{ResourceFormatter.DimensionValues} [{entity.FromDimensionValue}-{entity.TillDimensionValue}], ");
-
-			return sb.ToString().TrimEnd(", ");
-		}
-
-		public static string GetUserFriendlyIdentifierShort(MidiMapping entity)
-		{
-			if (entity == null) throw new ArgumentNullException(nameof(entity));
-
-			var sb = new StringBuilder();
-
-			bool dimensionIsFilledIn = entity.Dimension != null || !string.IsNullOrWhiteSpace(entity.Name);
-			if (dimensionIsFilledIn)
-			{
-				// Use Dimension
-				if (entity.Dimension != null)
-				{
-					sb.Append(ResourceFormatter.GetDisplayName(entity.Dimension));
-					sb.Append(' ');
-				}
-
-				// Use Name
-				if (!string.IsNullOrWhiteSpace(entity.Name))
-				{
-					sb.Append(entity.Name);
-				}
-			}
-			else if (entity.GetMidiMappingTypeEnum() == MidiMappingTypeEnum.MidiController)
-			{
-				sb.Append(ResourceFormatter.GetDisplayName(entity.MidiMappingType));
+				sb.Append(entity.Position);
 				sb.Append(' ');
-				sb.Append(entity.MidiControllerCode);
+				anySynthPropertiesFilledIn = true;
 			}
-			else
+
+			if (!anySynthPropertiesFilledIn)
 			{
-				sb.Append(ResourceFormatter.GetDisplayName(entity.GetMidiMappingTypeEnum()));
+				if (entity.GetMidiMappingTypeEnum() == MidiMappingTypeEnum.MidiController)
+				{
+					sb.Append(ResourceFormatter.GetDisplayName(entity.MidiMappingType));
+					sb.Append(' ');
+					sb.Append(entity.MidiControllerCode);
+				}
+				else
+				{
+					sb.Append(ResourceFormatter.GetDisplayName(entity.GetMidiMappingTypeEnum()));
+				}
 			}
 
 			string userFriendlyIdentifier = sb.ToString().TrimEnd();

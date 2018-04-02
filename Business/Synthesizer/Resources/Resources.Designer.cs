@@ -1528,6 +1528,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MIDI Channel.
+        /// </summary>
+        internal static string MidiChannel {
+            get {
+                return ResourceManager.GetString("MidiChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MIDI Controller.
         /// </summary>
         internal static string MidiController {
@@ -1794,6 +1803,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string NoteDuration {
             get {
                 return ResourceManager.GetString("NoteDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note Number.
+        /// </summary>
+        internal static string NoteNumber {
+            get {
+                return ResourceManager.GetString("NoteNumber", resourceCulture);
             }
         }
         
