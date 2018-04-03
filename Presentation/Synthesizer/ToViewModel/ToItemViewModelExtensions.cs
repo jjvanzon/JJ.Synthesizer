@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Mathematics;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
@@ -197,7 +198,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				formattedName += $" {tuple.name}";
 			}
 
-			return new NameAndValueViewModel { Name = formattedName, Value = tuple.value };
+			double value = tuple.value;
+			double roundedValue = MathHelper.RoundToSignificantDigits(value, 3);
+
+			return new NameAndValueViewModel { Name = formattedName, Value = roundedValue };
 		}
 
 		// Node

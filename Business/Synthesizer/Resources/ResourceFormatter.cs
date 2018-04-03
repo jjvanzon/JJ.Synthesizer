@@ -299,6 +299,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string SumFollower => Resources.SumFollower;
 		public static string SumOverDimension => Resources.SumOverDimension;
 		public static string SustainVolume => Resources.SustainVolume;
+		public static string Synth => Resources.Synth;
 		public static string TargetValueA => Resources.TargetValueA;
 		public static string TargetValueB => Resources.TargetValueB;
 		public static string Then => Resources.Then;

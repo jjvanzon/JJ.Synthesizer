@@ -19,11 +19,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
 		public const float SPACING = 8f;
 		public const float SPACING_TIMES_2 = SPACING * 2;
-		public const float SMALL_SPACING = 4f;
+		public const float SPACING_SMALL = 4f;
+		public const float SPACING_SMALL_TIMES_2 = SPACING_SMALL * 2;
 
 		public const float DEFAULT_OBJECT_SIZE = 40f;
 		public const float SMALLER_OBJECT_SIZE = 30f;
 		public const float ROW_HEIGHT = 24;
+		public const float ROW_HEIGHT_SMALL = 16;
 		public const float PICTURE_BUTTON_SIZE = 24;
 		public const float PICTURE_BUTTON_MARGIN = 4;
 		public const float PICTURE_BUTTON_PICTURE_SIZE = 16;
@@ -90,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
 		public static TextStyle TitleTextStyle { get; } = new TextStyle
 		{
-			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
 			Font = TitleFont,
 			Color = ColorHelper.Black

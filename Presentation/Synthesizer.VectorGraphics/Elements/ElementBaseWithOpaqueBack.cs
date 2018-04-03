@@ -24,7 +24,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			{
 				Style = rectangleStyle ?? StyleHelper.RectangleStyleNeutralGrayBack
 			};
-			rectangle.Position.Height = StyleHelper.ROW_HEIGHT;
 
 			return rectangle;
 		}

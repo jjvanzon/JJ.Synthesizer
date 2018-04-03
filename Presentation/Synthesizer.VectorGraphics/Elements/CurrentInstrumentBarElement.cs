@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			_scaleElement.PositionElements();
 
-			_buttonsElement.Position.X = Position.Width - _buttonsElement.Position.Width - StyleHelper.SMALL_SPACING;
+			_buttonsElement.Position.X = Position.Width - _buttonsElement.Position.Width - StyleHelper.SPACING_SMALL;
 
 			float remainingWidth = _buttonsElement.Position.X - _scaleElement.Position.Width - StyleHelper.SPACING * 3;
 

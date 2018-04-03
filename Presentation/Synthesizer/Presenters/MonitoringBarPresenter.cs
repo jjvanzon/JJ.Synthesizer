@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void DimensionValuesChanged(MonitoringBarViewModel viewModel, IList<(DimensionEnum dimensionEnum, string name, double value)> values)
 		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.Synth = values.Select(x => x.ToViewModel()).ToList());
+			ExecuteNonPersistedAction(viewModel, () => viewModel.Synth = values.Select(x => x.ToViewModel()).OrderBy(x => x.Name).ToList());
 		}
 
 		public void MidiNoteOnOccurred(MonitoringBarViewModel viewModel, (int midiNoteNumber, int midiVelocity, int midiChannel) values)

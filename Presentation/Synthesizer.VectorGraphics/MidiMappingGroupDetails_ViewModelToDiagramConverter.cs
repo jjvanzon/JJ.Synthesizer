@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
 	public class MidiMappingGroupDetails_ViewModelToDiagramConverter
 	{
-		private const float LABEL_Y = StyleHelper.DEFAULT_OBJECT_SIZE + StyleHelper.SMALL_SPACING;
+		private const float LABEL_Y = StyleHelper.DEFAULT_OBJECT_SIZE + StyleHelper.SPACING_SMALL;
 		private const float DENT_POINT_Y = 8f;
 		private const float HALF_DEFAULT_OBJECT_SIZE = StyleHelper.DEFAULT_OBJECT_SIZE / 2f;
 		private const float DEFAULT_GRID_SNAP = 8f;
@@ -210,8 +210,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				TextStyle = StyleHelper.TopWaterMarkTextStyle
 			};
 
-			label.Position.X = StyleHelper.SMALL_SPACING;
-			label.Position.Y = StyleHelper.SMALL_SPACING;
+			label.Position.X = StyleHelper.SPACING_SMALL;
+			label.Position.Y = StyleHelper.SPACING_SMALL;
 #if DEBUG
 			label.Tag = "Title Label";
 #endif

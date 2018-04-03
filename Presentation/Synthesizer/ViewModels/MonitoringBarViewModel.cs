@@ -11,9 +11,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
 	public sealed class MonitoringBarMidiViewModel
 	{
-		public NameAndValueViewModel Controller { get; set; }
 		public NameAndValueViewModel NoteNumber { get; set; }
 		public NameAndValueViewModel Velocity { get; set; }
+		public NameAndValueViewModel Controller { get; set; }
 		public NameAndValueViewModel Channel { get; set; }
 	}
 }

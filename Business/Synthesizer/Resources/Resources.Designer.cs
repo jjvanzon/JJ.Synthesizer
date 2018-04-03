@@ -2770,6 +2770,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Synth.
+        /// </summary>
+        internal static string Synth {
+            get {
+                return ResourceManager.GetString("Synth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target Value A.
         /// </summary>
         internal static string TargetValueA {

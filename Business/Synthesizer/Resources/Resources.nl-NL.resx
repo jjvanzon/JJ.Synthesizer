@@ -1137,4 +1137,7 @@
   <data name="Controller" xml:space="preserve">
     <value>Controller</value>
   </data>
+  <data name="Synth" xml:space="preserve">
+    <value>Synth</value>
+  </data>
 </root>
