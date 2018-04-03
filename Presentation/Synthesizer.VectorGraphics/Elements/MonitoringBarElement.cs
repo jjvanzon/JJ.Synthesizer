@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
-using JJ.Framework.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -14,18 +13,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
 	public sealed class MonitoringBarElement : ElementWithScreenViewModelBase
 	{
-		private const string DUMMY_TEXT = "Midi";
-
-		private static readonly TextStyle _textStyle = CreateTextStyle();
-
-		private static TextStyle CreateTextStyle()
-		{
-			TextStyle labelTextStyle = StyleHelper.DefaultTextStyle.Clone();
-			labelTextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
-			labelTextStyle.Wrap = true;
-			return labelTextStyle;
-		}
-
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _midiLabel;
 		private readonly Label _synthLabel;
@@ -34,27 +21,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 
-			float x = StyleHelper.SPACING_SMALL;
-			//float x = 0;
-			float y = StyleHelper.SPACING_SMALL;
-			//float y = 0;
+			_midiLabel = new Label(this)
+			{
+				TextStyle = StyleHelper.DefaultTextStyle.Clone()
+			};
+			_midiLabel.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
+			_midiLabel.TextStyle.Wrap = true;
+			//_midiLabel.TextStyle.Wrap = false;
+			_midiLabel.Position.X = StyleHelper.SPACING_SMALL;
+			_midiLabel.Position.Y = StyleHelper.SPACING_SMALL;
 
-			_midiLabel = new Label(this) { TextStyle = _textStyle };
-			_midiLabel.Position.X = x;
-			_midiLabel.Position.Y = y;
-
-			(_, _midiLabel.Position.HeightInPixels) = _textMeasurer.GetTextSize(
-				DUMMY_TEXT,
-				_midiLabel.TextStyle.Font,
-				_midiLabel.Position.WidthInPixels);
-
-			y += _midiLabel.Position.Height;
-			//y += StyleHelper.SPACING_SMALL;
-			y += 0;
-
-			_synthLabel = new Label(this) { TextStyle = _textStyle };
-			_synthLabel.Position.X = x;
-			_synthLabel.Position.Y = y;
+			_synthLabel = new Label(this)
+			{
+				TextStyle = StyleHelper.DefaultTextStyle.Clone()
+			};
+			_synthLabel.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
+			_synthLabel.TextStyle.Wrap = true;
+			_synthLabel.Position.X = StyleHelper.SPACING_SMALL;
 
 			PositionElements();
 		}
@@ -62,6 +45,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		public override void PositionElements()
 		{
 			_midiLabel.Position.Width = Position.Width - StyleHelper.SPACING_SMALL_TIMES_2;
+			(_, _midiLabel.Position.HeightInPixels) = _textMeasurer.GetTextSize(
+				_midiLabel.Text,
+				_midiLabel.TextStyle.Font,
+				_midiLabel.Position.WidthInPixels);
+
+			_synthLabel.Position.Y = _midiLabel.Position.Bottom + StyleHelper.SPACING_SMALL;
 
 			_synthLabel.Position.Width = Position.Width - StyleHelper.SPACING_SMALL_TIMES_2;
 			(_, _synthLabel.Position.HeightInPixels) = _textMeasurer.GetTextSize(
@@ -70,7 +59,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				_synthLabel.Position.WidthInPixels);
 
 			Position.Height = _synthLabel.Position.Bottom + StyleHelper.SPACING_SMALL;
-			//Position.Height = _synthLabel.Position.Bottom;
 		}
 
 		public new MonitoringBarViewModel ViewModel
