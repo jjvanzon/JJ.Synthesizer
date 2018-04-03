@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			// ReSharper disable once InvertIf
 			if (noteInfo != null)
 			{
-				noteInfo.NoteNumber = noteNumber;
+				noteInfo.MidiNoteNumber = noteNumber;
 				noteInfo.StartTime = presentTime;
 				noteInfo.ReleaseTime = CalculationHelper.VERY_HIGH_VALUE;
 				noteInfo.EndTime = CalculationHelper.VERY_HIGH_VALUE;
@@ -92,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			try
 			{
 				NoteInfo noteInfo = _noteInfos.Where(
-												  x => x.NoteNumber == noteNumber &&
+												  x => x.MidiNoteNumber == noteNumber &&
 													   x.ReleaseTime > presentTime &&
 													   x.EndTime > presentTime) // Should never be evaluated, but does not cost anything to keep it in there.
 											  .OrderBy(x => x.StartTime)

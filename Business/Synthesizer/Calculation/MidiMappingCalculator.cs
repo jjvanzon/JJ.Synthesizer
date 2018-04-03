@@ -41,6 +41,9 @@ namespace JJ.Business.Synthesizer.Calculation
 			_midiMappingDtos = midiMappings.Where(x => x.IsActive).Select(x => converter.Convert(x)).ToArray();
 		}
 
+		public void Calculate(int midiControllerCode, int midiControllerValue)
+		{ }
+
 		public void Calculate(
 			Dictionary<int, int> midiControllerDictionary,
 			int? midiNoteNumber,

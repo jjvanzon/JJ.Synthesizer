@@ -361,11 +361,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			currentInstrumentBarUserControl.Width = ClientSize.Width - currentInstrumentBarUserControl.Location.X;
 			currentInstrumentBarUserControl.PositionControls();
 
+			monitoringBarUserControl.Width = ClientSize.Width;
+			monitoringBarUserControl.PositionControls();
+			monitoringBarUserControl.Left = 0;
+			monitoringBarUserControl.Top = ClientSize.Height - monitoringBarUserControl.Height;
+
 			int topBarHeight = Math.Max(currentInstrumentBarUserControl.Height, MIN_TOP_BAR_HEIGHT);
 
 			splitContainerCurvesAndTopSide.Left = 0;
 			splitContainerCurvesAndTopSide.Top = topBarHeight;
-			splitContainerCurvesAndTopSide.Height = ClientSize.Height - topBarHeight;
+			splitContainerCurvesAndTopSide.Height = ClientSize.Height - topBarHeight - monitoringBarUserControl.Height;
 			splitContainerCurvesAndTopSide.Width = ClientSize.Width;
 		}
 

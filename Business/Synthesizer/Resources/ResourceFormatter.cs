@@ -70,6 +70,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string CollectionRecalculation => Resources.CollectionRecalculation;
 		public static string Condition => Resources.Condition;
 		public static string Continuous => Resources.Continuous;
+		public static string Controller => Resources.Controller;
 		public static string Cubic => Resources.Cubic;
 		public static string CubicAbruptSlope => Resources.CubicAbruptSlope;
 		public static string CubicEquidistant => Resources.CubicEquidistant;
@@ -322,6 +323,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string UponReset => Resources.UponReset;
 		public static string UsedIn => Resources.UsedIn;
 		public static string Value => Resources.Value;
+		public static string Velocity => Resources.Velocity;
 		public static string VibratoDepth => Resources.VibratoDepth;
 		public static string VibratoSpeed => Resources.VibratoSpeed;
 		public static string Volume => Resources.Volume;

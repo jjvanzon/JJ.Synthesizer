@@ -2,12 +2,12 @@
 {
 	internal class NoteInfo
 	{
-		public int NoteNumber { get; set; }
+		public int MidiNoteNumber { get; set; }
+		public int MidiVelocity { get; set; }
+		public int MidiChannel { get; set; }
 		public int ListIndex { get; set; }
 		public double StartTime { get; set; }
 		public double ReleaseTime { get; set; }
 		public double EndTime { get; set; }
-		public int Velocity { get; set; }
-		public int MidiChannel { get; set; }
 	}
 }

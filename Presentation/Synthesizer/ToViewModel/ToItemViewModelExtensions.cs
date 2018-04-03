@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
@@ -183,6 +184,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			};
 
 			return viewModel;
+		}
+
+		// Monitoring
+
+		public static NameAndValueViewModel ToViewModel(this (DimensionEnum dimensionEnum, string name, double value) tuple)
+		{
+			string formattedName = ResourceFormatter.GetDisplayName(tuple.dimensionEnum);
+
+			if (!string.IsNullOrEmpty(tuple.name))
+			{
+				formattedName += $" {tuple.name}";
+			}
+
+			return new NameAndValueViewModel { Name = formattedName, Value = tuple.value };
 		}
 
 		// Node

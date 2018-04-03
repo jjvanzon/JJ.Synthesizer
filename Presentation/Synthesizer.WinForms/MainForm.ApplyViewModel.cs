@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
@@ -12,62 +13,65 @@ namespace JJ.Presentation.Synthesizer.WinForms
 	{
 		private void ApplyViewModel()
 		{
+			MainViewModel mainViewModel = _mainPresenter.MainViewModel;
+			DocumentViewModel documentViewModel = mainViewModel.Document;
+
 			// NOTE: Actually making controls visible is postponed till last, to do it in a way that does not flash as much.
 
-			Text = _mainPresenter.MainViewModel.TitleBar;
+			Text = mainViewModel.TitleBar;
 
-			menuUserControl.Show(_mainPresenter.MainViewModel.Menu);
-
-			_autoPatchPopupForm.ViewModel = _mainPresenter.MainViewModel.Document.AutoPatchPopup;
-			audioFileOutputGridUserControl.ViewModel = _mainPresenter.MainViewModel.Document.AudioFileOutputGrid;
-			audioFileOutputPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleAudioFileOutputProperties;
-			audioOutputPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.AudioOutputProperties;
-			currentInstrumentBarUserControl.ViewModel = _mainPresenter.MainViewModel.Document.CurrentInstrument;
-			curveDetailsListUserControl.ViewModels = _mainPresenter.MainViewModel.Document.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
-			documentDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.DocumentDetails;
-			documentGridUserControl.ViewModel = _mainPresenter.MainViewModel.DocumentGrid;
-			documentPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.DocumentProperties;
-			documentTreeUserControl.ViewModel = _mainPresenter.MainViewModel.Document.DocumentTree;
-			libraryPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleLibraryProperties;
-			_librarySelectionPopupForm.ViewModel = _mainPresenter.MainViewModel.Document.LibrarySelectionPopup;
-			midiMappingDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingGroupDetails;
+			menuUserControl.Show(mainViewModel.Menu);
+			_autoPatchPopupForm.ViewModel = documentViewModel.AutoPatchPopup;
+			audioFileOutputGridUserControl.ViewModel = documentViewModel.AudioFileOutputGrid;
+			audioFileOutputPropertiesUserControl.ViewModel = documentViewModel.VisibleAudioFileOutputProperties;
+			audioOutputPropertiesUserControl.ViewModel = documentViewModel.AudioOutputProperties;
+			currentInstrumentBarUserControl.ViewModel = documentViewModel.CurrentInstrument;
+			curveDetailsListUserControl.ViewModels = documentViewModel.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
+			documentDetailsUserControl.ViewModel = mainViewModel.DocumentDetails;
+			documentGridUserControl.ViewModel = mainViewModel.DocumentGrid;
+			documentPropertiesUserControl.ViewModel = documentViewModel.DocumentProperties;
+			documentTreeUserControl.ViewModel = documentViewModel.DocumentTree;
+			libraryPropertiesUserControl.ViewModel = documentViewModel.VisibleLibraryProperties;
+			_librarySelectionPopupForm.ViewModel = documentViewModel.LibrarySelectionPopup;
+			midiMappingDetailsUserControl.ViewModel = documentViewModel.VisibleMidiMappingGroupDetails;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			midiMappingPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleMidiMappingProperties;
-			nodePropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleNodeProperties;
+			midiMappingPropertiesUserControl.ViewModel = documentViewModel.VisibleMidiMappingProperties;
+			monitoringBarUserControl.ViewModel = mainViewModel.MonitoringBar;
+			nodePropertiesUserControl.ViewModel = documentViewModel.VisibleNodeProperties;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties;
+			operatorPropertiesUserControl.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl.ViewModel = documentViewModel.VisibleOperatorProperties;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl_ForCache.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForCache.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForCache;
+			operatorPropertiesUserControl_ForCache.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_ForCache.ViewModel = documentViewModel.VisibleOperatorProperties_ForCache;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl_ForCurve.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForCurve.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForCurve;
+			operatorPropertiesUserControl_ForCurve.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_ForCurve.ViewModel = documentViewModel.VisibleOperatorProperties_ForCurve;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl_ForInletsToDimension.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForInletsToDimension.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForInletsToDimension;
+			operatorPropertiesUserControl_ForInletsToDimension.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_ForInletsToDimension.ViewModel = documentViewModel.VisibleOperatorProperties_ForInletsToDimension;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl_ForNumber.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForNumber.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForNumber;
+			operatorPropertiesUserControl_ForNumber.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_ForNumber.ViewModel = documentViewModel.VisibleOperatorProperties_ForNumber;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl_ForPatchInlet.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForPatchInlet.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchInlet;
+			operatorPropertiesUserControl_ForPatchInlet.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_ForPatchInlet.ViewModel = documentViewModel.VisibleOperatorProperties_ForPatchInlet;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl_ForPatchOutlet.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForPatchOutlet.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForPatchOutlet;
+			operatorPropertiesUserControl_ForPatchOutlet.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_ForPatchOutlet.ViewModel = documentViewModel.VisibleOperatorProperties_ForPatchOutlet;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl_ForSample.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_ForSample.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_ForSample;
+			operatorPropertiesUserControl_ForSample.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_ForSample.ViewModel = documentViewModel.VisibleOperatorProperties_ForSample;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl_WithCollectionRecalculation.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_WithCollectionRecalculation;
+			operatorPropertiesUserControl_WithCollectionRecalculation.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = documentViewModel.VisibleOperatorProperties_WithCollectionRecalculation;
 			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
-			operatorPropertiesUserControl_WithInterpolation.SetUnderlyingPatchLookup(_mainPresenter.MainViewModel.Document.UnderlyingPatchLookup);
-			operatorPropertiesUserControl_WithInterpolation.ViewModel = _mainPresenter.MainViewModel.Document.VisibleOperatorProperties_WithInterpolation;
-			patchDetailsUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisiblePatchDetails;
-			patchPropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisiblePatchProperties;
-			scalePropertiesUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleScaleProperties;
-			toneGridEditUserControl.ViewModel = _mainPresenter.MainViewModel.Document.VisibleToneGridEdit;
+			operatorPropertiesUserControl_WithInterpolation.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
+			operatorPropertiesUserControl_WithInterpolation.ViewModel = documentViewModel.VisibleOperatorProperties_WithInterpolation;
+			patchDetailsUserControl.ViewModel = documentViewModel.VisiblePatchDetails;
+			patchPropertiesUserControl.ViewModel = documentViewModel.VisiblePatchProperties;
+			scalePropertiesUserControl.ViewModel = documentViewModel.VisibleScaleProperties;
+			toneGridEditUserControl.ViewModel = documentViewModel.VisibleToneGridEdit;
 
 			// Applying Visible = true first and then Visible = false prevents flickering.
 			foreach (UserControlBase userControl in _userControls)
@@ -86,31 +90,31 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				}
 			}
 
-			_autoPatchPopupForm.Visible = _mainPresenter.MainViewModel.Document.AutoPatchPopup.Visible;
+			_autoPatchPopupForm.Visible = documentViewModel.AutoPatchPopup.Visible;
 
 			// Panel Visibility
-			SetTreePanelVisible(_mainPresenter.MainViewModel.Document.DocumentTree.Visible);
-			SetPropertiesPanelVisible(_mainPresenter.MainViewModel.PropertiesPanelVisible);
-			SetCurveDetailsPanelVisible(_mainPresenter.MainViewModel.CurveDetailsPanelVisible);
+			SetTreePanelVisible(documentViewModel.DocumentTree.Visible);
+			SetPropertiesPanelVisible(mainViewModel.PropertiesPanelVisible);
+			SetCurveDetailsPanelVisible(mainViewModel.CurveDetailsPanelVisible);
 
 			// Modal Windows
-			if (_mainPresenter.MainViewModel.DocumentDelete.Visible)
+			if (mainViewModel.DocumentDelete.Visible)
 			{
-				ModalPopupHelper.ShowDocumentConfirmDelete(this, _mainPresenter.MainViewModel.DocumentDelete);
+				ModalPopupHelper.ShowDocumentConfirmDelete(this, mainViewModel.DocumentDelete);
 			}
 
-			if (_mainPresenter.MainViewModel.DocumentDeleted.Visible)
+			if (mainViewModel.DocumentDeleted.Visible)
 			{
 				ModalPopupHelper.ShowDocumentIsDeleted(this);
 			}
 
-			DocumentCannotDeleteViewModel documentCannotDeleteViewModel = _mainPresenter.MainViewModel.DocumentCannotDelete;
+			DocumentCannotDeleteViewModel documentCannotDeleteViewModel = mainViewModel.DocumentCannotDelete;
 			if (documentCannotDeleteViewModel.Visible)
 			{
 				_documentCannotDeleteForm.ShowDialog(documentCannotDeleteViewModel);
 			}
 
-			if (_mainPresenter.MainViewModel.Document.LibrarySelectionPopup.Visible)
+			if (documentViewModel.LibrarySelectionPopup.Visible)
 			{
 				if (!_librarySelectionPopupForm.Visible)
 				{
@@ -122,47 +126,47 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				_librarySelectionPopupForm.Visible = false;
 			}
 
-			SampleFileBrowserViewModel sampleFileBrowserViewModel = _mainPresenter.MainViewModel.Document.SampleFileBrowser;
+			SampleFileBrowserViewModel sampleFileBrowserViewModel = documentViewModel.SampleFileBrowser;
 			if (sampleFileBrowserViewModel.Visible)
 			{
 				ModalPopupHelper.ShowSampleFileBrowser(this, sampleFileBrowserViewModel);
 			}
 
-			SaveChangesPopupViewModel saveChangesPopupViewModel = _mainPresenter.MainViewModel.Document.SaveChangesPopup;
+			SaveChangesPopupViewModel saveChangesPopupViewModel = documentViewModel.SaveChangesPopup;
 			if (saveChangesPopupViewModel.Visible)
 			{
 				ModalPopupHelper.ShowSaveChangesPopup(this, saveChangesPopupViewModel);
 			}
 
-			if (_mainPresenter.MainViewModel.ValidationMessages.Count != 0)
+			if (mainViewModel.ValidationMessages.Count != 0)
 			{
 				// TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-				ModalPopupHelper.ShowMessageBox(this, string.Join(Environment.NewLine, _mainPresenter.MainViewModel.ValidationMessages));
+				ModalPopupHelper.ShowMessageBox(this, string.Join(Environment.NewLine, mainViewModel.ValidationMessages));
 
 				// Clear them so the next time the message box is not shown (message box is a temporary solution).
-				_mainPresenter.MainViewModel.ValidationMessages.Clear();
+				mainViewModel.ValidationMessages.Clear();
 			}
 
-			if (_mainPresenter.MainViewModel.PopupMessages.Count != 0)
+			if (mainViewModel.PopupMessages.Count != 0)
 			{
-				IList<string> messages = _mainPresenter.MainViewModel.PopupMessages;
-				_mainPresenter.MainViewModel.PopupMessages = new List<string>();
+				IList<string> messages = mainViewModel.PopupMessages;
+				mainViewModel.PopupMessages = new List<string>();
 
 				ModalPopupHelper.ShowPopupMessages(this, messages);
 			}
 
-			if (_mainPresenter.MainViewModel.WarningMessages.Count != 0)
+			if (mainViewModel.WarningMessages.Count != 0)
 			{
 				// TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-				IList<string> messages = _mainPresenter.MainViewModel.WarningMessages;
-				_mainPresenter.MainViewModel.WarningMessages = new List<string>();
+				IList<string> messages = mainViewModel.WarningMessages;
+				mainViewModel.WarningMessages = new List<string>();
 				ModalPopupHelper.ShowMessageBox(
 					this,
 					ResourceFormatter.Warnings + ":" + Environment.NewLine + 
 					string.Join(Environment.NewLine, messages));
 			}
 
-			DocumentOrPatchNotFoundPopupViewModel documentOrPatchNotFoundPopupViewModel = _mainPresenter.MainViewModel.DocumentOrPatchNotFound;
+			DocumentOrPatchNotFoundPopupViewModel documentOrPatchNotFoundPopupViewModel = mainViewModel.DocumentOrPatchNotFound;
 			if (documentOrPatchNotFoundPopupViewModel.Visible)
 			{
 				ModalPopupHelper.ShowDocumentOrPatchNotFoundPopup(this, documentOrPatchNotFoundPopupViewModel);
@@ -188,7 +192,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			}
 
 			// Close MainForm if needed.
-			if (_mainPresenter.MainViewModel.DocumentOrPatchNotFound.MustCloseMainView)
+			if (mainViewModel.DocumentOrPatchNotFound.MustCloseMainView)
 			{
 				Close();
 			}

@@ -46,6 +46,7 @@
 			this.currentInstrumentBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentBarUserControl();
 			this.splitContainerCurvesAndTopSide = new System.Windows.Forms.SplitContainer();
 			this.curveDetailsListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveDetailsListUserControl();
+			this.monitoringBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MonitoringBarUserControl();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerTreeAndRightSide)).BeginInit();
 			this.splitContainerTreeAndRightSide.Panel1.SuspendLayout();
 			this.splitContainerTreeAndRightSide.Panel2.SuspendLayout();
@@ -74,7 +75,7 @@
 			// splitContainerTreeAndRightSide.Panel2
 			// 
 			this.splitContainerTreeAndRightSide.Panel2.Controls.Add(this.splitContainerCenterAndProperties);
-			this.splitContainerTreeAndRightSide.Size = new System.Drawing.Size(1459, 532);
+			this.splitContainerTreeAndRightSide.Size = new System.Drawing.Size(1459, 488);
 			this.splitContainerTreeAndRightSide.SplitterDistance = 265;
 			this.splitContainerTreeAndRightSide.SplitterWidth = 5;
 			this.splitContainerTreeAndRightSide.TabIndex = 5;
@@ -87,7 +88,7 @@
 			this.documentTreeUserControl.Location = new System.Drawing.Point(0, 0);
 			this.documentTreeUserControl.Margin = new System.Windows.Forms.Padding(4);
 			this.documentTreeUserControl.Name = "documentTreeUserControl";
-			this.documentTreeUserControl.Size = new System.Drawing.Size(265, 532);
+			this.documentTreeUserControl.Size = new System.Drawing.Size(265, 488);
 			this.documentTreeUserControl.TabIndex = 0;
 			this.documentTreeUserControl.ViewModel = null;
 			this.documentTreeUserControl.Visible = false;
@@ -128,7 +129,7 @@
 			this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.audioFileOutputPropertiesUserControl);
 			this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForSample);
 			this.splitContainerCenterAndProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchOutlet);
-			this.splitContainerCenterAndProperties.Size = new System.Drawing.Size(1189, 532);
+			this.splitContainerCenterAndProperties.Size = new System.Drawing.Size(1189, 488);
 			this.splitContainerCenterAndProperties.SplitterDistance = 851;
 			this.splitContainerCenterAndProperties.SplitterWidth = 5;
 			this.splitContainerCenterAndProperties.TabIndex = 2;
@@ -141,7 +142,7 @@
 			this.midiMappingDetailsUserControl.Location = new System.Drawing.Point(0, 0);
 			this.midiMappingDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
 			this.midiMappingDetailsUserControl.Name = "midiMappingDetailsUserControl";
-			this.midiMappingDetailsUserControl.Size = new System.Drawing.Size(851, 532);
+			this.midiMappingDetailsUserControl.Size = new System.Drawing.Size(851, 488);
 			this.midiMappingDetailsUserControl.TabIndex = 1;
 			this.midiMappingDetailsUserControl.TitleBarBackColor = System.Drawing.SystemColors.Window;
 			this.midiMappingDetailsUserControl.TitleBarText = "";
@@ -156,7 +157,7 @@
 			this.toneGridEditUserControl.Location = new System.Drawing.Point(0, 0);
 			this.toneGridEditUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.toneGridEditUserControl.Name = "toneGridEditUserControl";
-			this.toneGridEditUserControl.Size = new System.Drawing.Size(851, 532);
+			this.toneGridEditUserControl.Size = new System.Drawing.Size(851, 488);
 			this.toneGridEditUserControl.TabIndex = 1;
 			this.toneGridEditUserControl.ViewModel = null;
 			this.toneGridEditUserControl.Visible = false;
@@ -168,7 +169,7 @@
 			this.audioFileOutputGridUserControl.Location = new System.Drawing.Point(0, 0);
 			this.audioFileOutputGridUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.audioFileOutputGridUserControl.Name = "audioFileOutputGridUserControl";
-			this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(851, 532);
+			this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(851, 488);
 			this.audioFileOutputGridUserControl.TabIndex = 5;
 			this.audioFileOutputGridUserControl.ViewModel = null;
 			this.audioFileOutputGridUserControl.Visible = false;
@@ -182,7 +183,7 @@
 			this.documentDetailsUserControl.Location = new System.Drawing.Point(0, 0);
 			this.documentDetailsUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.documentDetailsUserControl.Name = "documentDetailsUserControl";
-			this.documentDetailsUserControl.Size = new System.Drawing.Size(851, 532);
+			this.documentDetailsUserControl.Size = new System.Drawing.Size(851, 488);
 			this.documentDetailsUserControl.TabIndex = 1;
 			this.documentDetailsUserControl.ViewModel = null;
 			this.documentDetailsUserControl.Visible = false;
@@ -195,7 +196,7 @@
 			this.documentGridUserControl.Location = new System.Drawing.Point(0, 0);
 			this.documentGridUserControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.documentGridUserControl.Name = "documentGridUserControl";
-			this.documentGridUserControl.Size = new System.Drawing.Size(851, 532);
+			this.documentGridUserControl.Size = new System.Drawing.Size(851, 488);
 			this.documentGridUserControl.TabIndex = 0;
 			this.documentGridUserControl.ViewModel = null;
 			this.documentGridUserControl.Visible = false;
@@ -208,14 +209,14 @@
 			this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
 			this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.patchDetailsUserControl.Name = "patchDetailsUserControl";
-			this.patchDetailsUserControl.Size = new System.Drawing.Size(851, 532);
+			this.patchDetailsUserControl.Size = new System.Drawing.Size(851, 488);
 			this.patchDetailsUserControl.TabIndex = 1;
 			this.patchDetailsUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.patchDetailsUserControl.TitleBarText = "Patch Details";
 			this.patchDetailsUserControl.ViewModel = null;
 			this.patchDetailsUserControl.Visible = false;
 			// 
-			// midiMappingElementPropertiesUserControl
+			// midiMappingPropertiesUserControl
 			// 
 			this.midiMappingPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.midiMappingPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -224,10 +225,10 @@
 			this.midiMappingPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.midiMappingPropertiesUserControl.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
 			this.midiMappingPropertiesUserControl.Name = "midiMappingPropertiesUserControl";
-			this.midiMappingPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.midiMappingPropertiesUserControl.Size = new System.Drawing.Size(333, 488);
 			this.midiMappingPropertiesUserControl.TabIndex = 1;
 			this.midiMappingPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
-			this.midiMappingPropertiesUserControl.TitleBarText = "MIDI Mapping Element Properties";
+			this.midiMappingPropertiesUserControl.TitleBarText = "MIDI Mapping Properties";
 			this.midiMappingPropertiesUserControl.ViewModel = null;
 			this.midiMappingPropertiesUserControl.Visible = false;
 			// 
@@ -239,7 +240,7 @@
 			this.libraryPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.libraryPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.libraryPropertiesUserControl.Name = "libraryPropertiesUserControl";
-			this.libraryPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.libraryPropertiesUserControl.Size = new System.Drawing.Size(333, 488);
 			this.libraryPropertiesUserControl.TabIndex = 1;
 			this.libraryPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.libraryPropertiesUserControl.TitleBarText = "Library Properties";
@@ -255,7 +256,7 @@
 			this.operatorPropertiesUserControl_ForNumber.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForNumber.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
-			this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForNumber.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForNumber.TitleBarText = "Operator Properties";
@@ -271,7 +272,7 @@
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.Name = "operatorPropertiesUserControl_WithCollectionRecalculation";
-			this.operatorPropertiesUserControl_WithCollectionRecalculation.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl_WithCollectionRecalculation.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.TabIndex = 1;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_WithCollectionRecalculation.TitleBarText = "Operator Properties";
@@ -287,7 +288,7 @@
 			this.operatorPropertiesUserControl_ForInletsToDimension.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForInletsToDimension.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.operatorPropertiesUserControl_ForInletsToDimension.Name = "operatorPropertiesUserControl_ForInletsToDimension";
-			this.operatorPropertiesUserControl_ForInletsToDimension.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl_ForInletsToDimension.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl_ForInletsToDimension.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForInletsToDimension.TitleBarText = "Operator Properties";
@@ -302,7 +303,7 @@
 			this.audioOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.audioOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.audioOutputPropertiesUserControl.Name = "audioOutputPropertiesUserControl";
-			this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.audioOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 488);
 			this.audioOutputPropertiesUserControl.TabIndex = 1;
 			this.audioOutputPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.audioOutputPropertiesUserControl.TitleBarText = "Audio Output Properties";
@@ -318,7 +319,7 @@
 			this.operatorPropertiesUserControl_ForCache.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForCache.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.operatorPropertiesUserControl_ForCache.Name = "operatorPropertiesUserControl_ForCache";
-			this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl_ForCache.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl_ForCache.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForCache.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForCache.TitleBarText = "Operator Properties";
@@ -334,7 +335,7 @@
 			this.operatorPropertiesUserControl_WithInterpolation.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_WithInterpolation.Margin = new System.Windows.Forms.Padding(4);
 			this.operatorPropertiesUserControl_WithInterpolation.Name = "operatorPropertiesUserControl_WithInterpolation";
-			this.operatorPropertiesUserControl_WithInterpolation.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl_WithInterpolation.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl_WithInterpolation.TabIndex = 1;
 			this.operatorPropertiesUserControl_WithInterpolation.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_WithInterpolation.TitleBarText = "Operator Properties";
@@ -350,7 +351,7 @@
 			this.nodePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.nodePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
-			this.nodePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.nodePropertiesUserControl.Size = new System.Drawing.Size(333, 488);
 			this.nodePropertiesUserControl.TabIndex = 1;
 			this.nodePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.nodePropertiesUserControl.TitleBarText = "Node Properties";
@@ -366,7 +367,7 @@
 			this.operatorPropertiesUserControl_ForCurve.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForCurve.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
-			this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForCurve.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForCurve.TitleBarText = "Operator Properties";
@@ -382,7 +383,7 @@
 			this.scalePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.scalePropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
-			this.scalePropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.scalePropertiesUserControl.Size = new System.Drawing.Size(333, 488);
 			this.scalePropertiesUserControl.TabIndex = 1;
 			this.scalePropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.scalePropertiesUserControl.TitleBarText = "Scale Properties";
@@ -398,7 +399,7 @@
 			this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
-			this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForPatchInlet.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForPatchInlet.TitleBarText = "Operator Properties";
@@ -414,7 +415,7 @@
 			this.documentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.documentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
-			this.documentPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.documentPropertiesUserControl.Size = new System.Drawing.Size(333, 488);
 			this.documentPropertiesUserControl.TabIndex = 1;
 			this.documentPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.documentPropertiesUserControl.TitleBarText = "Document Properties";
@@ -430,7 +431,7 @@
 			this.operatorPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.operatorPropertiesUserControl.Name = "operatorPropertiesUserControl";
-			this.operatorPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl.TabIndex = 1;
 			this.operatorPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl.TitleBarText = "Operator Properties";
@@ -446,7 +447,7 @@
 			this.patchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.patchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(5);
 			this.patchPropertiesUserControl.Name = "patchPropertiesUserControl";
-			this.patchPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.patchPropertiesUserControl.Size = new System.Drawing.Size(333, 488);
 			this.patchPropertiesUserControl.TabIndex = 1;
 			this.patchPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.patchPropertiesUserControl.TitleBarText = "Patch Properties";
@@ -462,7 +463,7 @@
 			this.audioFileOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
 			this.audioFileOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(0);
 			this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
-			this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 532);
+			this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(333, 488);
 			this.audioFileOutputPropertiesUserControl.TabIndex = 1;
 			this.audioFileOutputPropertiesUserControl.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.audioFileOutputPropertiesUserControl.TitleBarText = "Title";
@@ -478,7 +479,7 @@
 			this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
-			this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForSample.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForSample.TitleBarText = "Operator Properties";
@@ -494,7 +495,7 @@
 			this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
 			this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(5);
 			this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
-			this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(333, 532);
+			this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(333, 488);
 			this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
 			this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarBackColor = System.Drawing.SystemColors.Control;
 			this.operatorPropertiesUserControl_ForPatchOutlet.TitleBarText = "Operator Properties";
@@ -516,7 +517,7 @@
 			this.currentInstrumentBarUserControl.Location = new System.Drawing.Point(271, 0);
 			this.currentInstrumentBarUserControl.Margin = new System.Windows.Forms.Padding(0);
 			this.currentInstrumentBarUserControl.Name = "currentInstrumentBarUserControl";
-			this.currentInstrumentBarUserControl.Size = new System.Drawing.Size(1188, 0);
+			this.currentInstrumentBarUserControl.Size = new System.Drawing.Size(1188, 24);
 			this.currentInstrumentBarUserControl.TabIndex = 14;
 			this.currentInstrumentBarUserControl.ViewModel = null;
 			// 
@@ -533,8 +534,8 @@
 			// splitContainerCurvesAndTopSide.Panel2
 			// 
 			this.splitContainerCurvesAndTopSide.Panel2.Controls.Add(this.curveDetailsListUserControl);
-			this.splitContainerCurvesAndTopSide.Size = new System.Drawing.Size(1459, 814);
-			this.splitContainerCurvesAndTopSide.SplitterDistance = 532;
+			this.splitContainerCurvesAndTopSide.Size = new System.Drawing.Size(1459, 749);
+			this.splitContainerCurvesAndTopSide.SplitterDistance = 488;
 			this.splitContainerCurvesAndTopSide.TabIndex = 16;
 			// 
 			// curveDetailsListUserControl
@@ -542,9 +543,17 @@
 			this.curveDetailsListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.curveDetailsListUserControl.Location = new System.Drawing.Point(0, 0);
 			this.curveDetailsListUserControl.Name = "curveDetailsListUserControl";
-			this.curveDetailsListUserControl.Size = new System.Drawing.Size(1459, 278);
+			this.curveDetailsListUserControl.Size = new System.Drawing.Size(1459, 257);
 			this.curveDetailsListUserControl.TabIndex = 0;
 			this.curveDetailsListUserControl.ViewModels = null;
+			// 
+			// monitoringBarUserControl
+			// 
+			this.monitoringBarUserControl.Location = new System.Drawing.Point(8, 781);
+			this.monitoringBarUserControl.Name = "monitoringBarUserControl";
+			this.monitoringBarUserControl.Size = new System.Drawing.Size(1439, 48);
+			this.monitoringBarUserControl.TabIndex = 18;
+			this.monitoringBarUserControl.ViewModel = null;
 			// 
 			// MainForm
 			// 
@@ -552,6 +561,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.ClientSize = new System.Drawing.Size(1459, 838);
+			this.Controls.Add(this.monitoringBarUserControl);
 			this.Controls.Add(this.currentInstrumentBarUserControl);
 			this.Controls.Add(this.splitContainerCurvesAndTopSide);
 			this.Controls.Add(this.menuUserControl);
@@ -611,5 +621,6 @@
 		private UserControls.CurveDetailsListUserControl curveDetailsListUserControl;
 		private UserControls.MidiMappingGroupDetailsUserControl midiMappingDetailsUserControl;
 		private UserControls.MidiMappingPropertiesUserControl midiMappingPropertiesUserControl;
+		private UserControls.MonitoringBarUserControl monitoringBarUserControl;
 	}
 }

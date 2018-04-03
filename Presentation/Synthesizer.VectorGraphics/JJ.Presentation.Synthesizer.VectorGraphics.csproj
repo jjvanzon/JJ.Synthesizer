@@ -63,6 +63,7 @@
     <Compile Include="Elements\ElementBaseWithOpaqueBack.cs" />
     <Compile Include="Elements\ElementBase.cs" />
     <Compile Include="Elements\ElementWithScreenViewModelBase.cs" />
+    <Compile Include="Elements\MonitoringBarElement.cs" />
     <Compile Include="Elements\PictureButtonElement.cs" />
     <Compile Include="Elements\ToolTipElement.cs" />
     <Compile Include="EventArg\IDEventArgs.cs" />

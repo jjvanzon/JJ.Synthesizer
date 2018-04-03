@@ -565,6 +565,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Controller.
+        /// </summary>
+        internal static string Controller {
+            get {
+                return ResourceManager.GetString("Controller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cubic.
         /// </summary>
         internal static string Cubic {
@@ -3000,6 +3009,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Velocity.
+        /// </summary>
+        internal static string Velocity {
+            get {
+                return ResourceManager.GetString("Velocity", resourceCulture);
             }
         }
         

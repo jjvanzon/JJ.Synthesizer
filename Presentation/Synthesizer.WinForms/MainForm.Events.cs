@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
+using JJ.Framework.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
@@ -30,8 +33,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			currentInstrumentBarUserControl.ExpandRequested += CurrentInstrumentBarUserControl_ExpandRequested;
 			currentInstrumentBarUserControl.ExpandMidiMappingGroupRequested += CurrentInstrumentBarUserControl_ExpandMidiMappingGroupRequested;
 			currentInstrumentBarUserControl.ExpandPatchRequested += CurrentInstrumentBarUserControl_ExpandPatchRequested;
-			currentInstrumentBarUserControl.MoveMidiMappingGroupBackwardRequested += CurrentInstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested;
-			currentInstrumentBarUserControl.MoveMidiMappingGroupForwardRequested += CurrentInstrumentBarBarUserControl_MoveMidiMappingGroupForwardRequested;
+			currentInstrumentBarUserControl.MoveMidiMappingGroupBackwardRequested +=
+				CurrentInstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested;
+			currentInstrumentBarUserControl.MoveMidiMappingGroupForwardRequested +=
+				CurrentInstrumentBarBarUserControl_MoveMidiMappingGroupForwardRequested;
 			currentInstrumentBarUserControl.MovePatchBackwardRequested += CurrentInstrumentBarUserControl_MovePatchBackwardRequested;
 			currentInstrumentBarUserControl.MovePatchForwardRequested += CurrentInstrumentBarBarUserControl_MovePatchForwardRequested;
 			currentInstrumentBarUserControl.PlayRequested += CurrentInstrumentBarUserControl_PlayRequested;
@@ -226,24 +231,36 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			toneGridEditUserControl.PlayToneRequested += toneGridEditUserControl_PlayToneRequested;
 
 			_documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
+
 			_autoPatchPopupForm.CloseRequested += _autoPatchPopupForm_CloseRequested;
 			_autoPatchPopupForm.SaveRequested += _autoPatchPopupForm_SaveRequested;
 			_autoPatchPopupForm.patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
 			_autoPatchPopupForm.patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
 			_autoPatchPopupForm.patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
+
 			_librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
 			_librarySelectionPopupForm.CloseRequested += _librarySelectionPopupForm_CloseRequested;
 			_librarySelectionPopupForm.OKRequested += _librarySelectionPopupForm_OKRequested;
 			_librarySelectionPopupForm.OpenItemExternallyRequested += _librarySelectionPopupForm_OpenItemExternallyRequested;
 			_librarySelectionPopupForm.PlayRequested += _librarySelectionPopupForm_PlayRequested;
 
+			_infrastructureFacade.ExceptionOnMidiThreadOcurred += _infrastructureFacade_ExceptionOnMidiThreadOcurred;
+			_infrastructureFacade.MidiControllerValueChanged += _infrastructureFacade_MidiControllerValueChanged;
+			_infrastructureFacade.MidiNoteOnOccurred += _infrastructureFacade_MidiNoteOnOccurred;
+			_infrastructureFacade.MidiDimensionValuesChanged += InfrastructureFacade_MidiDimensionValuesChanged;
+
 			ModalPopupHelper.DocumentDeleteConfirmed += ModalPopupHelper_DocumentDeleteConfirmed;
 			ModalPopupHelper.DocumentDeleteCanceled += ModalPopupHelper_DocumentDeleteCanceled;
+
 			ModalPopupHelper.DocumentDeletedOKRequested += ModalPopupHelper_DocumentDeletedOKRequested;
+
 			ModalPopupHelper.DocumentOrPatchNotFoundOKRequested += ModalPopupHelper_DocumentOrPatchNotFoundOKRequested;
+
 			ModalPopupHelper.PopupMessagesOKRequested += ModalPopupHelper_PopupMessagesOKRequested;
+
 			ModalPopupHelper.SampleFileBrowserCanceled += ModalPopupHelper_SampleFileBrowserCanceled;
 			ModalPopupHelper.SampleFileBrowserOKRequested += ModalPopupHelper_SampleFileBrowserOKRequested;
+
 			ModalPopupHelper.SaveChangesPopupCanceled += ModalPopupHelper_SaveChangesPopupCanceled;
 			ModalPopupHelper.SaveChangesPopupNoRequested += ModalPopupHelper_SaveChangesPopupNoRequested;
 			ModalPopupHelper.SaveChangesPopupYesRequested += ModalPopupHelper_SaveChangesPopupYesRequested;
@@ -837,6 +854,36 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_Play(e.Value));
 		}
 
+		private void InfrastructureFacade_MidiDimensionValuesChanged(
+			object sender,
+			EventArgs<IList<(DimensionEnum dimensionEnum, string name, double value)>> e)
+		{
+			void action() => TemplateActionHandler(() => _mainPresenter.Monitoring_DimensionValuesChanged(e.Value));
+			Invoke((Action)action);
+		}
+
+		private void _infrastructureFacade_MidiNoteOnOccurred(
+			object sender,
+			EventArgs<(int midiNoteNumber, int midiVelocity, int midiChannel)> e)
+		{
+			void action() => TemplateActionHandler(() => _mainPresenter.Monitoring_MidiNoteOnOccurred(e.Value));
+			Invoke((Action)action);
+		}
+
+		private void _infrastructureFacade_ExceptionOnMidiThreadOcurred(object sender, EventArgs<Exception> e)
+		{
+			void action() => UnhandledExceptionMessageBoxShower.ShowMessageBox(e.Value);
+			Invoke((Action)action);
+		}
+
+		private void _infrastructureFacade_MidiControllerValueChanged(
+			object sender,
+			EventArgs<(int midiControllerCode, int midiControllerValue, int midiChannel)> e)
+		{
+			void action() => TemplateActionHandler(() => _mainPresenter.Monitoring_MidiControllerValueChanged(e.Value));
+			Invoke((Action)action);
+		}
+
 		// MidiMapping
 
 		private void MidiMappingGroupDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
@@ -872,7 +919,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void MidiMappingGroupDetailsUserControl_SelectMidiMappingRequested(object sender, EventArgs<(int midiMappingGroupID, int midiMappingID)> e)
+		private void MidiMappingGroupDetailsUserControl_SelectMidiMappingRequested(
+			object sender,
+			EventArgs<(int midiMappingGroupID, int midiMappingID)> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.MidiMapping_Select(e.Value.midiMappingGroupID, e.Value.midiMappingID));
 		}
@@ -891,7 +940,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		{
 			TemplateActionHandler(() => _mainPresenter.MidiMappingGroupDetails_ExpandMidiMapping(e.Value));
 		}
-
 
 		private void MidiMappingPropertiesUserControl_MidiMappingTypeChanged(object sender, EventArgs<int> e)
 		{

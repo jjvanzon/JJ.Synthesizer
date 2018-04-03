@@ -66,8 +66,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			PositionControls();
 		}
 
-		private void CurrentInstrumentBarUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
-
 		public CurrentInstrumentBarViewModel ViewModel
 		{
 			get => _currentInstrumentBarElement.ViewModel;
@@ -85,11 +83,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			if (_currentInstrumentBarElement != null)
 			{
 				_currentInstrumentBarElement.Position.WidthInPixels = Width;
-
 				_currentInstrumentBarElement.PositionElements();
-
 				Height = (int)_currentInstrumentBarElement.Position.HeightInPixels;
 			}
 		}
+
+		private void CurrentInstrumentBarUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
 	}
 }

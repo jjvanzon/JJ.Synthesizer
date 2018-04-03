@@ -165,6 +165,12 @@
     <Compile Include="UserControls\MidiMappingPropertiesUserControl.Designer.cs">
       <DependentUpon>MidiMappingPropertiesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MonitoringBarUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\MonitoringBarUserControl.Designer.cs">
+      <DependentUpon>MonitoringBarUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -379,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MidiMappingPropertiesUserControl.resx">
       <DependentUpon>MidiMappingPropertiesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\MonitoringBarUserControl.resx">
+      <DependentUpon>MonitoringBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_WithCollectionRecalculation.resx">
       <DependentUpon>OperatorPropertiesUserControl_WithCollectionRecalculation.cs</DependentUpon>

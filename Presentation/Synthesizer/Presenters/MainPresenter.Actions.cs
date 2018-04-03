@@ -80,15 +80,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel = ToViewModelHelper.CreateEmptyMainViewModel();
 
 			// Partial Actions
+			string titleBar = _titleBarPresenter.Show();
 			MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
 			DocumentGridViewModel documentGridViewModel = MainViewModel.DocumentGrid;
 			documentGridViewModel = _documentGridPresenter.Load(documentGridViewModel);
-			string titleBar = _titleBarPresenter.Show();
+			_monitoringBarPresenter.Load(MainViewModel.MonitoringBar);
 
 			// DispatchViewModel
 			MainViewModel.TitleBar = titleBar;
 			DispatchViewModel(menuViewModel);
 			DispatchViewModel(documentGridViewModel);
+			DispatchViewModel(MainViewModel.MonitoringBar);
 		}
 
 		private void ShowWithDocumentName(string documentName)
@@ -958,11 +960,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			string titleBar = _titleBarPresenter.Show(document);
 			MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: true);
 			viewModel.CurrentInstrument = _currentInstrumentBarPresenter.OpenDocument(viewModel.CurrentInstrument);
+			_monitoringBarPresenter.Load(MainViewModel.MonitoringBar);
 
 			// DispatchViewModel
 			MainViewModel.Document = viewModel;
 			MainViewModel.TitleBar = titleBar;
-			MainViewModel.Menu = menuViewModel;
+			DispatchViewModel(menuViewModel);
+			DispatchViewModel(MainViewModel.MonitoringBar);
 
 			// Redirect
 			MainViewModel.DocumentGrid.Visible = false;
@@ -2096,6 +2100,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		private void MidiMappingGroup_Expand(int id) => MidiMappingGroupDetails_Show(id);
+
+		// Monitoring
+
+		public void Monitoring_DimensionValuesChanged(IList<(DimensionEnum dimensionEnum, string name, double value)> values)
+		{
+			MonitoringBarViewModel viewModel = MainViewModel.MonitoringBar;
+
+			ExecuteNonPersistedAction(viewModel, () => _monitoringBarPresenter.DimensionValuesChanged(viewModel, values));
+		}
+
+		public void Monitoring_MidiNoteOnOccurred((int midiNoteNumber, int midiVelocity, int midiChannel) values)
+		{
+			MonitoringBarViewModel viewModel = MainViewModel.MonitoringBar;
+
+			ExecuteNonPersistedAction(viewModel, () => _monitoringBarPresenter.MidiNoteOnOccurred(viewModel, values));
+		}
+
+		public void Monitoring_MidiControllerValueChanged((int midiControllerCode, int midiControllerValue, int midiChannel) values)
+		{
+			MonitoringBarViewModel viewModel = MainViewModel.MonitoringBar;
+
+			ExecuteNonPersistedAction(viewModel, () => _monitoringBarPresenter.MidiControllerValueChanged(viewModel, values));
+		}
 
 		// Node
 

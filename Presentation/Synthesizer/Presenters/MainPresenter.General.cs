@@ -64,6 +64,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly MenuPresenter _menuPresenter;
 		private readonly MidiMappingGroupDetailsPresenter _midiMappingDetailsPresenter;
 		private readonly MidiMappingPropertiesPresenter _midiMappingPropertiesPresenter;
+		private readonly MonitoringBarPresenter _monitoringBarPresenter;
 		private readonly NodePropertiesPresenter _nodePropertiesPresenter;
 		private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
 		private readonly OperatorPropertiesPresenter_ForCache _operatorPropertiesPresenter_ForCache;
@@ -135,6 +136,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_menuPresenter = new MenuPresenter();
 			_midiMappingDetailsPresenter = new MidiMappingGroupDetailsPresenter(midiMappingRepositories, _midiMappingFacade);
 			_midiMappingPropertiesPresenter = new MidiMappingPropertiesPresenter(midiMappingRepositories, _midiMappingFacade);
+			_monitoringBarPresenter = new MonitoringBarPresenter();
 			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveFacade);
 			_operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);
 			_operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_repositories);

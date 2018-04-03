@@ -239,6 +239,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return new MainViewModel
 			{
 				Menu = CreateEmptyMenuViewModel(),
+				MonitoringBar = CreateEmptyMonitoringBarViewModel(),
 				ValidationMessages = new List<string>(),
 				WarningMessages = new List<string>(),
 				PopupMessages = new List<string>(),
@@ -258,6 +259,35 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			MenuViewModel viewModel = CreateMenuViewModel(documentIsOpen: false);
 			return viewModel;
 		}
+
+		public static MonitoringBarViewModel CreateEmptyMonitoringBarViewModel()
+		{
+			var viewModel = new MonitoringBarViewModel
+			{
+				Midi = CreateEmptyMonitoringBarMidiViewModel(),
+				Synth = new List<NameAndValueViewModel>(),
+				ValidationMessages = new List<string>(),
+				Visible = true,
+				Successful = true
+			};
+
+			return viewModel;
+		}
+
+		private static MonitoringBarMidiViewModel CreateEmptyMonitoringBarMidiViewModel()
+		{
+			var viewModel = new MonitoringBarMidiViewModel
+			{
+				Controller = CreateEmptyNameAndValueViewModel(),
+				Channel = CreateEmptyNameAndValueViewModel(),
+				Velocity = CreateEmptyNameAndValueViewModel(),
+				NoteNumber = CreateEmptyNameAndValueViewModel()
+			};
+
+			return viewModel;
+		}
+
+		private static NameAndValueViewModel CreateEmptyNameAndValueViewModel() => new NameAndValueViewModel();
 
 		public static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel()
 		{

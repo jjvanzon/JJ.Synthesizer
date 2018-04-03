@@ -1149,4 +1149,10 @@
   <data name="NoteNumber" xml:space="preserve">
     <value>Note Number</value>
   </data>
+  <data name="Velocity" xml:space="preserve">
+    <value>Velocity</value>
+  </data>
+  <data name="Controller" xml:space="preserve">
+    <value>Controller</value>
+  </data>
 </root>

@@ -37,6 +37,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(MenuViewModel), DispatchMenuViewModel },
 				{ typeof(MidiMappingGroupDetailsViewModel), DispatchMidiMappingGroupDetailsViewModel },
 				{ typeof(MidiMappingPropertiesViewModel), DispatchMidiMappingPropertiesViewModel },
+				{ typeof(MonitoringBarViewModel), DispatchMonitoringBarViewModel },
 				{ typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
 				{ typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
 				{ typeof(OperatorPropertiesViewModel_ForCache), DispatchOperatorPropertiesViewModel_ForCache },
@@ -393,6 +394,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			DispatchViewModelBase(castedViewModel);
 		}
+
+		private void DispatchMonitoringBarViewModel(ScreenViewModelBase viewModel) => DispatchViewModelBase(viewModel);
 
 		private void DispatchNodePropertiesViewModel(ScreenViewModelBase viewModel)
 		{

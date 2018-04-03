@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Basic;
 
@@ -11,13 +13,38 @@ namespace JJ.Presentation.Synthesizer.NAudio
 {
 	public class InfrastructureFacade
 	{
+		public event EventHandler<EventArgs<(int midiNoteNumber, int midiVelocity, int midiChannel)>> MidiNoteOnOccurred
+		{
+			add => _midiInputProcessor.MidiNoteOnOccurred += value;
+			remove => _midiInputProcessor.MidiNoteOnOccurred -= value;
+		}
+
+		public event EventHandler<EventArgs<(int midiControllerCode, int midiControllerValue, int midiChannel)>> MidiControllerValueChanged
+		{
+			add => _midiInputProcessor.MidiControllerValueChanged += value;
+			remove => _midiInputProcessor.MidiControllerValueChanged -= value;
+		}
+
+		/// <summary> Position is left out, because there is still ambiguity between NoteIndex and ListIndex in the system. </summary>
+		public event EventHandler<EventArgs<IList<(DimensionEnum dimensionEnum, string name, double value)>>> MidiDimensionValuesChanged
+		{
+			add => _midiInputProcessor.DimensionValuesChanged += value;
+			remove => _midiInputProcessor.DimensionValuesChanged -= value;
+		}
+
+		public event EventHandler<EventArgs<Exception>> ExceptionOnMidiThreadOcurred
+		{
+			add => _midiInputProcessor.ExceptionOnMidiThreadOcurred += value;
+			remove => _midiInputProcessor.ExceptionOnMidiThreadOcurred -= value;
+		}
+
 		private static readonly bool _midiInputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().MidiInputEnabled;
 		private static readonly bool _audioOutputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().AudioOutputEnabled;
 
 		private readonly TimeProvider _timeProvider;
 		private readonly NoteRecycler _noteRecycler;
 		private readonly AudioOutputProcessor _audioOutputProcessor;
-		private MidiInputProcessor _midiInputProcessor;
+		private readonly MidiInputProcessor _midiInputProcessor;
 		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
 
 		private AudioOutput _audioOutput;
@@ -67,6 +94,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 					_patchCalculatorContainer,
 					_timeProvider,
 					_noteRecycler);
+
+				_midiInputProcessor.TryStartThread();
 			}
 		}
 
@@ -76,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			_midiInputProcessor?.Dispose();
 		}
 
-		public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch, Scale scale, IList<MidiMapping> midiMappingElements)
+		public void UpdateInfrastructure(AudioOutput audioOutput, Patch patch, Scale scale, IList<MidiMapping> midiMappings)
 		{
 			_audioOutput = audioOutput ?? throw new NullException(() => audioOutput);
 
@@ -86,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			double desiredBufferDuration = audioOutput.DesiredBufferDuration;
 
 			_audioOutputProcessor?.Stop();
-			_midiInputProcessor?.Dispose();
+			_midiInputProcessor?.Stop();
 
 			_noteRecycler.SetMaxConcurrentNotes(maxConcurrentNotes);
 			_patchCalculatorContainer.RecreateCalculator(patch, samplingRate, channelCount, maxConcurrentNotes);
@@ -100,7 +129,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			// ReSharper disable once InvertIf
 			if (_midiInputProcessor != null)
 			{
-				_midiInputProcessor = new MidiInputProcessor(scale, midiMappingElements, _patchCalculatorContainer, _timeProvider, _noteRecycler);
+				_midiInputProcessor.UpdateScaleAndMidiMappings(scale, midiMappings);
+				_midiInputProcessor.TryStartThread();
 			}
 		}
 
