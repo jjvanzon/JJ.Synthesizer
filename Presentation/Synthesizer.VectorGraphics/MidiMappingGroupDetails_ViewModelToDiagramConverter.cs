@@ -50,9 +50,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			UpdateWaterMarkTitleLabel(viewModel.MidiMappingGroup.Name);
 
-			foreach (MidiMappingItemViewModel midiMappingElementViewModel in viewModel.MidiMappings.Values)
+			foreach (MidiMappingItemViewModel midiMappingItemViewModel in viewModel.MidiMappings.Values)
 			{
-				ConvertToVectorGraphics(midiMappingElementViewModel);
+				ConvertToVectorGraphics(midiMappingItemViewModel);
 			}
 
 			IEnumerable<int> idsToKeep = viewModel.MidiMappings.Keys;

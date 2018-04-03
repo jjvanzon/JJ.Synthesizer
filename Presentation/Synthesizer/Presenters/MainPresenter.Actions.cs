@@ -1966,20 +1966,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MidiMappingProperties_Show(midiMappingID);
 		}
 
-		public void MidiMappingGroupDetails_MoveMidiMapping(int midiMappingGroupID, int midiMappingElementID, float centerX, float centerY)
+		public void MidiMappingGroupDetails_MoveMidiMapping(int midiMappingGroupID, int midiMappingID, float centerX, float centerY)
 		{
 			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
 
-			ExecuteUpdateAction(userInput, () => _midiMappingDetailsPresenter.MoveMidiMapping(userInput, midiMappingElementID, centerX, centerY));
+			ExecuteUpdateAction(userInput, () => _midiMappingDetailsPresenter.MoveMidiMapping(userInput, midiMappingID, centerX, centerY));
 
 		}
 
 		/// <summary> Only selecting the element, not e.g. switching properties. </summary>
-		private void MidiMappingGroupDetails_SelectMidiMapping(int midiMappingGroupID, int midiMappingElementID)
+		private void MidiMappingGroupDetails_SelectMidiMapping(int midiMappingGroupID, int midiMappingID)
 		{
 			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
 
-			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.SelectMidiMapping(userInput, midiMappingElementID));
+			ExecuteNonPersistedAction(userInput, () => _midiMappingDetailsPresenter.SelectMidiMapping(userInput, midiMappingID));
 		}
 
 		private void MidiMappingGroupDetails_Show(int id)

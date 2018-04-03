@@ -29,10 +29,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 		public static AudioFileOutput ToEntity(
 			this AudioFileOutputPropertiesViewModel viewModel,
-			AudioFileOutputRepositories audioFileOutputRepositories)
-		{
-			return viewModel.Entity.ToEntity(audioFileOutputRepositories);
-		}
+			AudioFileOutputRepositories audioFileOutputRepositories) => viewModel.Entity.ToEntity(audioFileOutputRepositories);
 
 		public static AudioFileOutput ToEntity(
 			this AudioFileOutputViewModel viewModel,
@@ -575,7 +572,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			}
 		}
 
-		public static MidiMappingGroup ToEntityWithRelatedEntities(this MidiMappingGroupDetailsViewModel viewModel, MidiMappingRepositories repositories)
+		public static MidiMappingGroup ToEntityWithRelatedEntities(
+			this MidiMappingGroupDetailsViewModel viewModel,
+			MidiMappingRepositories repositories)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
@@ -638,7 +637,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 		public static MidiMapping ToEntityWithRelatedEntities(
 			this MidiMappingItemViewModel viewModel,
-			IMidiMappingRepository midiMappingElementRepository,
+			IMidiMappingRepository midiMappingRepository,
 			IEntityPositionRepository entityPositionRepository)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
@@ -646,23 +645,21 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			// Order-Dependenc2: EntityPosition must be created first and then Operator, or you get a null constraint violation.
 			EntityPosition entityPosition = viewModel.Position.ToEntity(entityPositionRepository);
 
-			MidiMapping entity = viewModel.ToEntity(midiMappingElementRepository);
+			MidiMapping entity = viewModel.ToEntity(midiMappingRepository);
 			entity.LinkTo(entityPosition);
 
 			return entity;
 		}
 
-		public static MidiMapping ToEntity(
-			this MidiMappingItemViewModel viewModel,
-			IMidiMappingRepository midiMappingElementRepository)
+		public static MidiMapping ToEntity(this MidiMappingItemViewModel viewModel, IMidiMappingRepository midiMappingRepository)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
 
-			MidiMapping entity = midiMappingElementRepository.TryGet(viewModel.ID);
+			MidiMapping entity = midiMappingRepository.TryGet(viewModel.ID);
 			if (entity == null)
 			{
 				entity = new MidiMapping { ID = viewModel.ID };
-				midiMappingElementRepository.Insert(entity);
+				midiMappingRepository.Insert(entity);
 			}
 
 			return entity;
@@ -702,6 +699,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			{
 				entity.UnlinkDimension();
 			}
+
 			entity.Name = viewModel.Name;
 			if (int.TryParse(viewModel.Position, out int position))
 			{

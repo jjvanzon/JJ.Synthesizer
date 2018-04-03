@@ -121,14 +121,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int midiMappingElementID = (int)e.Element.Tag;
+			int midiMappingID = (int)e.Element.Tag;
 
 			MoveMidiMappingRequested(
 				this,
 				new EventArgs<(int, int, float, float)>(
 					(
 					ViewModel.MidiMappingGroup.ID,
-					midiMappingElementID,
+					midiMappingID,
 					e.Element.Position.AbsoluteCenterX,
 					e.Element.Position.AbsoluteCenterY)));
 		}
@@ -137,11 +137,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			if (ViewModel == null) return;
 
-			int midiMappingElementID = (int)e.Element.Tag;
+			int midiMappingID = (int)e.Element.Tag;
 
-			SelectMidiMappingRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, midiMappingElementID)));
+			SelectMidiMappingRequested(this, new EventArgs<(int, int)>((ViewModel.MidiMappingGroup.ID, midiMappingID)));
 
-			_converter.Result.ExpandMidiMappingKeyboardGesture.SelectedEntityID = midiMappingElementID;
+			_converter.Result.ExpandMidiMappingKeyboardGesture.SelectedEntityID = midiMappingID;
 		}
 	}
 }
