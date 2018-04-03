@@ -189,19 +189,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Monitoring
 
-		public static NameAndValueViewModel ToViewModel(this (DimensionEnum dimensionEnum, string name, double value) tuple)
+		public static MonitoringItemViewModel ToViewModel(this (DimensionEnum dimensionEnum, string name, double value) tuple, bool visible)
 		{
-			string formattedName = ResourceFormatter.GetDisplayName(tuple.dimensionEnum);
-
+			string formattedName = "";
+			if (tuple.dimensionEnum != default)
+			{
+				formattedName += ResourceFormatter.GetDisplayName(tuple.dimensionEnum) + " ";
+			}
 			if (!string.IsNullOrEmpty(tuple.name))
 			{
-				formattedName += $" {tuple.name}";
+				formattedName += tuple.name;
 			}
+			formattedName = formattedName.Trim();
 
 			double value = tuple.value;
 			double roundedValue = MathHelper.RoundToSignificantDigits(value, 3);
 
-			return new NameAndValueViewModel { Name = formattedName, Value = roundedValue };
+			return new MonitoringItemViewModel { Name = formattedName, Value = roundedValue, Visible = visible };
 		}
 
 		// Node

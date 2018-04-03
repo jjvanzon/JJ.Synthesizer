@@ -6,14 +6,14 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 	public sealed class MonitoringBarViewModel : ScreenViewModelBase
 	{
 		public MonitoringBarMidiViewModel Midi { get; set; }
-		public IList<NameAndValueViewModel> Synth { get; set; }
+		public IList<MonitoringItemViewModel> Synth { get; set; }
 	}
 
 	public sealed class MonitoringBarMidiViewModel
 	{
-		public NameAndValueViewModel NoteNumber { get; set; }
-		public NameAndValueViewModel Velocity { get; set; }
-		public NameAndValueViewModel Controller { get; set; }
-		public NameAndValueViewModel Channel { get; set; }
+		public MonitoringItemViewModel NoteNumber { get; set; }
+		public MonitoringItemViewModel Velocity { get; set; }
+		public MonitoringItemViewModel Controller { get; set; }
+		public MonitoringItemViewModel Channel { get; set; }
 	}
 }

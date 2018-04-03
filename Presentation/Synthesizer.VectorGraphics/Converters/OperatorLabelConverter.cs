@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.VectorGraphics.Enums;
+using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Framework.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
@@ -10,6 +13,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 	{
 		private readonly Dictionary<int, Label> _destOperatorLabelDictionary = new Dictionary<int, Label>();
 		private readonly HashSet<Label> _destOperatorLabelHashSet = new HashSet<Label>();
+
+		private static readonly TextStyle _labelTextStyle = CreateLabelTextStyle();
+
+		private static TextStyle CreateLabelTextStyle()
+		{
+			TextStyle labelTextStyle = StyleHelper.DefaultTextStyle.Clone();
+			labelTextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
+			return labelTextStyle;
+		}
 
 		public Label ConvertToOperatorLabel(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
 		{
@@ -39,7 +51,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			}
 			else
 			{
-				destLabel.TextStyle = StyleHelper.DefaultTextStyle;
+
+				destLabel.TextStyle = _labelTextStyle;
 			}
 
 			return destLabel;

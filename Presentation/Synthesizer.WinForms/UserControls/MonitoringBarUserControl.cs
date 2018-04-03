@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using JJ.Framework.Drawing;
+using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -18,7 +20,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			var diagram = new Diagram();
 			diagram.Background.Style.BackStyle.Color = SystemColors.Control.ToArgb();
 
-			_monitoringBarElement = new MonitoringBarElement(diagram.Background);
+			ITextMeasurer textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
+
+			_monitoringBarElement = new MonitoringBarElement(diagram.Background, textMeasurer);
 
 			diagramControl.Location = new Point(0, 0);
 			diagramControl.Diagram = diagram;

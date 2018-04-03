@@ -124,7 +124,7 @@
     <Compile Include="ViewModels\MidiMappingPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Items\MidiMappingItemViewModel.cs" />
     <Compile Include="ViewModels\MonitoringBarViewModel.cs" />
-    <Compile Include="ViewModels\Items\NameAndValueViewModel.cs" />
+    <Compile Include="ViewModels\Items\MonitoringItemViewModel.cs" />
     <Compile Include="ViewModels\Partials\EntityWithListTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\SampleFileBrowserViewModel.cs" />
     <Compile Include="ViewModels\LibrarySelectionPopupViewModel.cs" />

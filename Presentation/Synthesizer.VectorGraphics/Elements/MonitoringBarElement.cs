@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.VectorGraphics.Enums;
+using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Framework.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -10,31 +14,63 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
 	public sealed class MonitoringBarElement : ElementWithScreenViewModelBase
 	{
-		public readonly Label _midiLabel;
-		public readonly Label _synthLabel;
+		private const string DUMMY_TEXT = "Midi";
 
-		public MonitoringBarElement(Element parent) : base(parent)
+		private static readonly TextStyle _textStyle = CreateTextStyle();
+
+		private static TextStyle CreateTextStyle()
 		{
-			float x = StyleHelper.SPACING_SMALL;
-			float y = StyleHelper.SPACING_SMALL;
+			TextStyle labelTextStyle = StyleHelper.DefaultTextStyle.Clone();
+			labelTextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
+			labelTextStyle.Wrap = true;
+			return labelTextStyle;
+		}
 
-			_midiLabel = new Label(this) { TextStyle = StyleHelper.TitleTextStyle };
+		private readonly ITextMeasurer _textMeasurer;
+		private readonly Label _midiLabel;
+		private readonly Label _synthLabel;
+
+		public MonitoringBarElement(Element parent, ITextMeasurer textMeasurer) : base(parent)
+		{
+			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
+
+			float x = StyleHelper.SPACING_SMALL;
+			//float x = 0;
+			float y = StyleHelper.SPACING_SMALL;
+			//float y = 0;
+
+			_midiLabel = new Label(this) { TextStyle = _textStyle };
 			_midiLabel.Position.X = x;
 			_midiLabel.Position.Y = y;
-			_midiLabel.Position.Height = StyleHelper.ROW_HEIGHT_SMALL;
 
-			y += StyleHelper.ROW_HEIGHT_SMALL;
-			y += StyleHelper.SPACING_SMALL;
+			(_, _midiLabel.Position.HeightInPixels) = _textMeasurer.GetTextSize(
+				DUMMY_TEXT,
+				_midiLabel.TextStyle.Font,
+				_midiLabel.Position.WidthInPixels);
 
-			_synthLabel = new Label(this) { TextStyle = StyleHelper.TitleTextStyle };
+			y += _midiLabel.Position.Height;
+			//y += StyleHelper.SPACING_SMALL;
+			y += 0;
+
+			_synthLabel = new Label(this) { TextStyle = _textStyle };
 			_synthLabel.Position.X = x;
 			_synthLabel.Position.Y = y;
-			_synthLabel.Position.Height = StyleHelper.ROW_HEIGHT_SMALL;
 
-			y += StyleHelper.ROW_HEIGHT_SMALL;
-			y += StyleHelper.SPACING_SMALL;
+			PositionElements();
+		}
 
-			Position.Height = y;
+		public override void PositionElements()
+		{
+			_midiLabel.Position.Width = Position.Width - StyleHelper.SPACING_SMALL_TIMES_2;
+
+			_synthLabel.Position.Width = Position.Width - StyleHelper.SPACING_SMALL_TIMES_2;
+			(_, _synthLabel.Position.HeightInPixels) = _textMeasurer.GetTextSize(
+				_synthLabel.Text,
+				_synthLabel.TextStyle.Font,
+				_synthLabel.Position.WidthInPixels);
+
+			Position.Height = _synthLabel.Position.Bottom + StyleHelper.SPACING_SMALL;
+			//Position.Height = _synthLabel.Position.Bottom;
 		}
 
 		public new MonitoringBarViewModel ViewModel
@@ -55,20 +91,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_synthLabel.Text = FormatItemViewModels(ResourceFormatter.Synth, ViewModel.Synth);
 		}
 
-		private string FormatItemViewModels(string title, params NameAndValueViewModel[] viewModels) =>
-			FormatItemViewModels(title, (IList<NameAndValueViewModel>)viewModels);
+		private string FormatItemViewModels(string title, params MonitoringItemViewModel[] viewModels) =>
+			FormatItemViewModels(title, (IList<MonitoringItemViewModel>)viewModels);
 
-		private string FormatItemViewModels(string title, IList<NameAndValueViewModel> viewModels)
+		private string FormatItemViewModels(string title, IList<MonitoringItemViewModel> viewModels)
 		{
-			return title + ": " + string.Join(" | ", viewModels.Select(FormatItemViewModel));
-		}
-
-		private string FormatItemViewModel(NameAndValueViewModel viewModel) => $"{viewModel.Name} = {viewModel.Value}";
-
-		public override void PositionElements()
-		{
-			_midiLabel.Position.Width = Position.Width - StyleHelper.SPACING_SMALL_TIMES_2;
-			_synthLabel.Position.Width = Position.Width - StyleHelper.SPACING_SMALL_TIMES_2;
+			return title + ": " + string.Join(" | ", viewModels.Where(x => x.Visible).Select(x => $"{x.Name} = {x.Value}"));
 		}
 	}
 }

@@ -95,7 +95,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
 			Font = TitleFont,
-			Color = ColorHelper.Black
+			Color = ColorHelper.Black,
+			Wrap = true
 		};
 
 		public static TextStyle NumberOperatorTextStyle { get; } = new TextStyle
