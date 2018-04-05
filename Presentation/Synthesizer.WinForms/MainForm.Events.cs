@@ -802,6 +802,42 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(_mainPresenter.DocumentProperties_Play);
 		}
 
+		// Infrastructure 
+
+		private void InfrastructureFacade_MidiDimensionValuesChanged(
+			object sender,
+			EventArgs<IList<(DimensionEnum dimensionEnum, string name, double value)>> e)
+		{
+			_infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker.InvokeWithDelay(
+				() => TemplateActionHandler(() => _mainPresenter.Monitoring_DimensionValuesChanged(e.Value)));
+		}
+
+		private void _infrastructureFacade_MidiNoteOnOccurred(object sender, EventArgs<(int midiNoteNumber, int midiVelocity, int midiChannel)> e)
+		{
+			_infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker.InvokeWithDelay(
+				() => TemplateActionHandler(
+					() => _mainPresenter.Monitoring_MidiNoteOnOccurred(e.Value.midiNoteNumber, e.Value.midiVelocity, e.Value.midiChannel)));
+		}
+
+		private void _infrastructureFacade_ExceptionOnMidiThreadOcurred(object sender, EventArgs<Exception> e)
+		{
+			_infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker.InvokeWithDelay(
+				() => UnhandledExceptionMessageBoxShower.ShowMessageBox(e.Value));
+		}
+
+		private void _infrastructureFacade_MidiControllerValueChanged(
+			object sender,
+			EventArgs<(int midiControllerCode, int midiControllerValue, int midiChannel)> e)
+		{
+			_infrastructureFacade_MidiControllerValueChanged_DelayedInvoker.InvokeWithDelay(
+				() =>
+					TemplateActionHandler(
+						() => _mainPresenter.Monitoring_MidiControllerValueChanged(
+							e.Value.midiControllerCode,
+							e.Value.midiControllerValue,
+							e.Value.midiChannel)));
+		}
+
 		// Library
 
 		private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -852,36 +888,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private void _librarySelectionPopupForm_PlayRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_Play(e.Value));
-		}
-
-		private void InfrastructureFacade_MidiDimensionValuesChanged(
-			object sender,
-			EventArgs<IList<(DimensionEnum dimensionEnum, string name, double value)>> e)
-		{
-			void action() => TemplateActionHandler(() => _mainPresenter.Monitoring_DimensionValuesChanged(e.Value));
-			Invoke((Action)action);
-		}
-
-		private void _infrastructureFacade_MidiNoteOnOccurred(
-			object sender,
-			EventArgs<(int midiNoteNumber, int midiVelocity, int midiChannel)> e)
-		{
-			void action() => TemplateActionHandler(() => _mainPresenter.Monitoring_MidiNoteOnOccurred(e.Value));
-			Invoke((Action)action);
-		}
-
-		private void _infrastructureFacade_ExceptionOnMidiThreadOcurred(object sender, EventArgs<Exception> e)
-		{
-			void action() => UnhandledExceptionMessageBoxShower.ShowMessageBox(e.Value);
-			Invoke((Action)action);
-		}
-
-		private void _infrastructureFacade_MidiControllerValueChanged(
-			object sender,
-			EventArgs<(int midiControllerCode, int midiControllerValue, int midiChannel)> e)
-		{
-			void action() => TemplateActionHandler(() => _mainPresenter.Monitoring_MidiControllerValueChanged(e.Value));
-			Invoke((Action)action);
 		}
 
 		// MidiMapping

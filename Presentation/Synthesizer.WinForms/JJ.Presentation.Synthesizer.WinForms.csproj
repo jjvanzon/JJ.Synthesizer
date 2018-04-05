@@ -95,6 +95,7 @@
     <Compile Include="Forms\AutoPatchPopupForm.Designer.cs">
       <DependentUpon>AutoPatchPopupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DelayedControlInvoker.cs" />
     <Compile Include="Helpers\ModalPopupHelper.cs" />
     <Compile Include="MainForm.ApplyViewModel.cs">
       <SubType>Form</SubType>

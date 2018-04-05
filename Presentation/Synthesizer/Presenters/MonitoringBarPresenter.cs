@@ -28,33 +28,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => viewModel.Synth = values.Select(x => x.ToViewModel(visible: true)).OrderBy(x => x.Name).ToList());
 		}
 
-		public void MidiNoteOnOccurred(MonitoringBarViewModel viewModel, (int midiNoteNumber, int midiVelocity, int midiChannel) values)
+		public void MidiNoteOnOccurred(MonitoringBarViewModel viewModel, int midiNoteNumber, int midiVelocity, int midiChannel)
 		{
 			ExecuteNonPersistedAction(
 				viewModel,
 				() =>
 				{
-					viewModel.Midi.NoteNumber.Value = values.midiNoteNumber;
+					viewModel.Midi.NoteNumber.Value = midiNoteNumber;
 					viewModel.Midi.NoteNumber.Visible = true;
-					viewModel.Midi.Velocity.Value = values.midiVelocity;
+					viewModel.Midi.Velocity.Value = midiVelocity;
 					viewModel.Midi.Velocity.Visible = true;
-					viewModel.Midi.Channel.Value = values.midiChannel;
+					viewModel.Midi.Channel.Value = midiChannel;
 					viewModel.Midi.Channel.Visible = true;
 				});
 		}
 
-		public void MidiControllerValueChanged(
-			MonitoringBarViewModel viewModel,
-			(int midiControllerCode, int midiControllerValue, int midiChannel) values)
+		public void MidiControllerValueChanged(MonitoringBarViewModel viewModel, int midiControllerCode, int midiControllerValue, int midiChannel)
 		{
 			ExecuteNonPersistedAction(
 				viewModel,
 				() =>
 				{
-					string formattedControllerName = $"{ResourceFormatter.Controller} {values.midiControllerCode}";
-					viewModel.Midi.Controller = new MonitoringItemViewModel { Name = formattedControllerName, Value = values.midiControllerValue };
+					string formattedControllerName = $"{ResourceFormatter.Controller} {midiControllerCode}";
+					viewModel.Midi.Controller = new MonitoringItemViewModel { Name = formattedControllerName, Value = midiControllerValue };
 					viewModel.Midi.Controller.Visible = true;
-					viewModel.Midi.Channel = new MonitoringItemViewModel { Name = ResourceFormatter.Channel, Value = values.midiChannel };
+					viewModel.Midi.Channel = new MonitoringItemViewModel { Name = ResourceFormatter.Channel, Value = midiChannel };
 					viewModel.Midi.Channel.Visible = true;
 				});
 		}

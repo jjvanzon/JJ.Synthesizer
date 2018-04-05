@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using JJ.Business.Synthesizer.Calculation;
@@ -250,7 +249,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int midiControllerValue = midiControlChangeEvent.ControllerValue;
 			int midiChannel = midiControlChangeEvent.Channel;
 
-			Debug.WriteLine($"ControlChange value received: {midiControllerCode} = {midiControllerValue}");
 			MidiControllerValueChanged(this, new EventArgs<(int, int, int)>((midiControllerCode, midiControllerValue, midiChannel)));
 
 			ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
@@ -311,17 +309,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				if (dimensionEnum != default)
 				{
 					patchCalculator.SetValue(dimensionEnum, noteIndex, dimensionValue);
-					Debug.WriteLine(
-						$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { dimensionEnum, noteIndex, dimensionValue }}");
 				}
 
 				string name = mappingResult.Name;
 				if (NameHelper.IsFilledIn(name))
 				{
 					patchCalculator.SetValue(mappingResult.Name, noteIndex, dimensionValue);
-
-					Debug.WriteLine(
-						$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { mappingResult.Name, noteIndex, dimensionValue }}");
 				}
 
 				// Apply Scale-Related MIDI Mappings
@@ -334,9 +327,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 					// HACK
 					results.Add(new MidiMappingCalculatorResult(DimensionEnum.Frequency, "", noteIndex, frequencyValue));
-
-					Debug.WriteLine(
-						$"{nameof(patchCalculator)}.{nameof(patchCalculator.SetValue)}({new { DimensionEnum = DimensionEnum.Frequency, noteIndex, frequency }}");
 				}
 			}
 

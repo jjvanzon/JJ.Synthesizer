@@ -48,11 +48,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private readonly DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
 		private readonly LibrarySelectionPopupForm _librarySelectionPopupForm = new LibrarySelectionPopupForm();
 
+		private readonly DelayedControlInvoker _infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker;
+		private readonly DelayedControlInvoker _infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker;
+		private readonly DelayedControlInvoker _infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker;
+		private readonly DelayedControlInvoker _infrastructureFacade_MidiControllerValueChanged_DelayedInvoker;
+
 		public MainForm()
 		{
 			InitializeComponent();
 
 			_userControls = CreateUserControlsCollection();
+			_infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker = new DelayedControlInvoker(this);
+			_infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker = new DelayedControlInvoker(this);
+			_infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker = new DelayedControlInvoker(this);
+			_infrastructureFacade_MidiControllerValueChanged_DelayedInvoker = new DelayedControlInvoker(this);
 
 			_context = PersistenceHelper.CreateContext();
 			_repositories = PersistenceHelper.CreateRepositoryWrapper(_context);
@@ -68,7 +77,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			BindEvents();
 			ApplyStyling();
-
 			PositionControls();
 		}
 
@@ -81,6 +89,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			if (disposing)
 			{
 				components?.Dispose();
+				_infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker?.Dispose();
+				_infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker?.Dispose();
+				_infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker?.Dispose();
+				_infrastructureFacade_MidiControllerValueChanged_DelayedInvoker?.Dispose();
 				_infrastructureFacade?.Dispose();
 				_context?.Dispose();
 			}

@@ -2110,18 +2110,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => _monitoringBarPresenter.DimensionValuesChanged(viewModel, values));
 		}
 
-		public void Monitoring_MidiNoteOnOccurred((int midiNoteNumber, int midiVelocity, int midiChannel) values)
+		public void Monitoring_MidiNoteOnOccurred(int midiNoteNumber, int midiVelocity, int midiChannel)
 		{
 			MonitoringBarViewModel viewModel = MainViewModel.MonitoringBar;
 
-			ExecuteNonPersistedAction(viewModel, () => _monitoringBarPresenter.MidiNoteOnOccurred(viewModel, values));
+			ExecuteNonPersistedAction(viewModel, () => _monitoringBarPresenter.MidiNoteOnOccurred(viewModel, midiNoteNumber, midiVelocity, midiChannel));
 		}
 
-		public void Monitoring_MidiControllerValueChanged((int midiControllerCode, int midiControllerValue, int midiChannel) values)
+		public void Monitoring_MidiControllerValueChanged(int midiControllerCode, int midiControllerValue, int midiChannel)
 		{
 			MonitoringBarViewModel viewModel = MainViewModel.MonitoringBar;
 
-			ExecuteNonPersistedAction(viewModel, () => _monitoringBarPresenter.MidiControllerValueChanged(viewModel, values));
+			ExecuteNonPersistedAction(viewModel, () => _monitoringBarPresenter.MidiControllerValueChanged(viewModel, midiControllerCode, midiControllerValue, midiChannel));
 		}
 
 		// Node
