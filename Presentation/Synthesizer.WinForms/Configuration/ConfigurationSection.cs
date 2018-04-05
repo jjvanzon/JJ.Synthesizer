@@ -30,5 +30,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
 
 		[XmlAttribute]
 		public bool DrawCoordinateIndicatorsForComposites { get; set; }
+
+		[XmlAttribute]
+		public double DelayedControlInvoker_DelayInMilliseconds { get; set; }
 	}
 }
