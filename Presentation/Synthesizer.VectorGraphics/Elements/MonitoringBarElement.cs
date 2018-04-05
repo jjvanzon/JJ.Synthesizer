@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Framework.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -17,29 +18,34 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly Label _midiLabel;
 		private readonly Label _synthLabel;
 
+		private static readonly TextStyle _textStyle = CreateTextStyle();
+
 		public MonitoringBarElement(Element parent, ITextMeasurer textMeasurer) : base(parent)
 		{
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 
 			_midiLabel = new Label(this)
 			{
-				TextStyle = StyleHelper.DefaultTextStyle.Clone()
+				TextStyle = _textStyle
 			};
-			_midiLabel.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
-			_midiLabel.TextStyle.Wrap = true;
-			//_midiLabel.TextStyle.Wrap = false;
 			_midiLabel.Position.X = StyleHelper.SPACING_SMALL;
 			_midiLabel.Position.Y = StyleHelper.SPACING_SMALL;
 
 			_synthLabel = new Label(this)
 			{
-				TextStyle = StyleHelper.DefaultTextStyle.Clone()
+				TextStyle = _textStyle
 			};
-			_synthLabel.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
-			_synthLabel.TextStyle.Wrap = true;
 			_synthLabel.Position.X = StyleHelper.SPACING_SMALL;
 
 			PositionElements();
+		}
+
+		private static TextStyle CreateTextStyle()
+		{
+			TextStyle textStyle = StyleHelper.DefaultTextStyle.Clone();
+			textStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
+			textStyle.Wrap = true;
+			return textStyle;
 		}
 
 		public override void PositionElements()
