@@ -41,7 +41,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private static readonly bool _midiInputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().MidiInputEnabled;
 		private static readonly bool _audioOutputEnabled = CustomConfigurationManager.GetSection<ConfigurationSection>().AudioOutputEnabled;
 
-		private readonly TimeProvider _timeProvider;
 		private readonly NoteRecycler _noteRecycler;
 		private readonly AudioOutputProcessor _audioOutputProcessor;
 		private readonly MidiInputProcessor _midiInputProcessor;
@@ -55,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			if (systemFacade == null) throw new ArgumentNullException(nameof(systemFacade));
 			if (repositories == null) throw new ArgumentNullException(nameof(repositories));
 
-			_timeProvider = new TimeProvider();
+			var timeProvider = new TimeProvider();
 
 			if (_audioOutputEnabled)
 			{
@@ -77,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			{
 				_audioOutputProcessor = new AudioOutputProcessor(
 					_patchCalculatorContainer,
-					_timeProvider,
+					timeProvider,
 					_audioOutput.SamplingRate,
 					_audioOutput.GetChannelCount(),
 					_audioOutput.DesiredBufferDuration);
@@ -92,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 					systemFacade.GetDefaultScale(),
 					systemFacade.GetDefaultMidiMappings(),
 					_patchCalculatorContainer,
-					_timeProvider,
+					timeProvider,
 					_noteRecycler);
 
 				_midiInputProcessor.TryStartThread();

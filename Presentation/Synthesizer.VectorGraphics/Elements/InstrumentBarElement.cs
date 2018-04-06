@@ -72,38 +72,38 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 			float remainingWidth = _buttonsElement.Position.X - _scaleElement.Position.Width - StyleHelper.SPACING * 3;
 
-			float midiMappingGroupsTotalWidth = _midiMappingsElement.GetTotalItemsWidth();
+			float midiMappingsTotalWidth = _midiMappingsElement.GetTotalItemsWidth();
 			float patchesTotalWidth = _patchesElement.GetTotalItemsWidth();
-			float patchesAndMidiMappingGroupsTotalWidth = midiMappingGroupsTotalWidth + patchesTotalWidth;
-			float midiMappingsFraction = midiMappingGroupsTotalWidth / patchesAndMidiMappingGroupsTotalWidth;
-			float patchesFraction = patchesTotalWidth / patchesAndMidiMappingGroupsTotalWidth;
+			float patchesAndMidiMappingsTotalWidth = midiMappingsTotalWidth + patchesTotalWidth;
+			float midiMappingsFraction = midiMappingsTotalWidth / patchesAndMidiMappingsTotalWidth;
+			float patchesFraction = patchesTotalWidth / patchesAndMidiMappingsTotalWidth;
 
-			bool midiMappingGroupsAreWithinHalfTheWidth = midiMappingsFraction <= 0.5;
-			bool patchesAreWithinHalfTheWidth = patchesFraction <= 0.5;
+			float midiMappingsFractionOfRemainingWidth = midiMappingsTotalWidth / remainingWidth;
+			float patchesFractionOfRemainingWidth = patchesTotalWidth / remainingWidth;
+			bool midiMappingGroupsAreWithinHalfTheRemainingWidth = midiMappingsFractionOfRemainingWidth <= 0.5;
+			bool patchesAreWithinHalfTheRemainingWidth = patchesFractionOfRemainingWidth <= 0.5;
 
-			// ReSharper disable ConditionIsAlwaysTrueOrFalse
 			float midiMappingWidth;
 			float patchesWidth;
-			if (!patchesAreWithinHalfTheWidth && !midiMappingGroupsAreWithinHalfTheWidth)
+			if (!patchesAreWithinHalfTheRemainingWidth && !midiMappingGroupsAreWithinHalfTheRemainingWidth)
 			{
 				// Divide space fairly over MidiMappingGroups and Patches.
 				midiMappingWidth = remainingWidth * midiMappingsFraction;
 				patchesWidth = remainingWidth * patchesFraction;
 			}
-
-			if (patchesAreWithinHalfTheWidth && !midiMappingGroupsAreWithinHalfTheWidth)
+			else if (patchesAreWithinHalfTheRemainingWidth && !midiMappingGroupsAreWithinHalfTheRemainingWidth)
 			{
 				// Let Patches use all the width they needs.
 				patchesWidth = patchesTotalWidth;
 				midiMappingWidth = remainingWidth - patchesWidth;
 			}
-			else if (!patchesAreWithinHalfTheWidth && midiMappingGroupsAreWithinHalfTheWidth)
+			else if (!patchesAreWithinHalfTheRemainingWidth && midiMappingGroupsAreWithinHalfTheRemainingWidth)
 			{
 				// Let MidiMappingGroups use all the width they needs.
-				midiMappingWidth = midiMappingGroupsTotalWidth;
-				patchesWidth = remainingWidth - midiMappingGroupsTotalWidth;
+				midiMappingWidth = midiMappingsTotalWidth;
+				patchesWidth = remainingWidth - midiMappingsTotalWidth;
 			}
-			else if (patchesAreWithinHalfTheWidth && midiMappingGroupsAreWithinHalfTheWidth)
+			else if (patchesAreWithinHalfTheRemainingWidth && midiMappingGroupsAreWithinHalfTheRemainingWidth)
 			{
 				// Divide space fairly over MidiMappingGroups and Patches.
 				midiMappingWidth = remainingWidth * midiMappingsFraction;
@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			else
 			{
 				throw new Exception(
-					$"Error evaluating {new { patchesAreWithinHalfTheWidth, midiMappingGroupsAreWithinHalfTheWidth }}. All cases should have been covered, but somehow they were not.");
+					$"Error evaluating {new { patchesAreWithinHalfTheWidth = patchesAreWithinHalfTheRemainingWidth, midiMappingGroupsAreWithinHalfTheWidth = midiMappingGroupsAreWithinHalfTheRemainingWidth }}. All cases should have been covered, but somehow they were not.");
 			}
 			// ReSharper restore ConditionIsAlwaysTrueOrFalse
 

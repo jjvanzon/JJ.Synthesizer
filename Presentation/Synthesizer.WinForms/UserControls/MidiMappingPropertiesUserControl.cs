@@ -135,7 +135,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			ViewModel.IsRelative = checkBoxIsRelative.Checked;
 		}
 
-		private void comboBoxMidiMappingType_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void comboBoxMidiMappingType_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (_applyViewModelToControlsIsBusy) return;
 			if (ViewModel == null) return;
