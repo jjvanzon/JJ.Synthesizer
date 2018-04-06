@@ -21,8 +21,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
 	{
 		public event EventHandler<EventArgs<(int midiNoteNumber, int midiVelocity, int midiChannel)>> MidiNoteOnOccurred;
 		public event EventHandler<EventArgs<(int midiControllerCode, int midiControllerValue, int midiChannel)>> MidiControllerValueChanged;
+
 		/// <summary> Position is left out, because there is still ambiguity between NoteIndex and ListIndex in the system. </summary>
 		public event EventHandler<EventArgs<IList<(DimensionEnum dimensionEnum, string name, double value)>>> DimensionValuesChanged;
+
 		public event EventHandler<EventArgs<Exception>> ExceptionOnMidiThreadOcurred;
 
 		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
@@ -162,12 +164,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int midiNoteNumber = noteOnEvent.NoteNumber;
 			int midiVelocity = noteOnEvent.Velocity;
 			int midiChannel = noteOnEvent.Channel;
-			ReaderWriterLockSlim calculatorLock = _patchCalculatorContainer.Lock;
+			IList<MidiMappingCalculatorResult> midiMappingResults;
 
 			MidiNoteOnOccurred(this, new EventArgs<(int, int, int)>((midiNoteNumber, midiVelocity, midiChannel)));
 
-			// Lock wide enough to freeze time. (You cannot get note infos and reset notes at a different type.)
+			// Lock wide enough to freeze time. (You cannot get note infos and reset notes at a different time.)
 			// As a consequence, you also have to lock the calculation while applying MidiMappings,
+			ReaderWriterLockSlim calculatorLock = _patchCalculatorContainer.Lock;
 			calculatorLock.EnterWriteLock();
 			try
 			{
@@ -191,7 +194,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 				calculator.Reset(time, noteInfo.ListIndex);
 
-				ApplyMidiMappings(calculator, noteInfo);
+				midiMappingResults = ApplyMidiMappings(calculator, noteInfo);
 
 				int noteIndex = noteInfo.ListIndex;
 				calculator.SetValue(DimensionEnum.NoteStart, noteIndex, time);
@@ -201,6 +204,21 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			{
 				calculatorLock.ExitWriteLock();
 			}
+
+			TryRaiseDimensionValuesChanged(midiMappingResults);
+		}
+
+		/// <param name="midiMappingResults">nullable</param>
+		private void TryRaiseDimensionValuesChanged(IList<MidiMappingCalculatorResult> midiMappingResults)
+		{
+			if (midiMappingResults == null)
+			{
+				return;
+			}
+
+			var e = new EventArgs<IList<(DimensionEnum, string, double)>>(
+				midiMappingResults.Select(x => (x.DimensionEnum, x.Name, x.DimensionValue)).ToArray());
+			DimensionValuesChanged(this, e);
 		}
 
 		private void HandleNoteOff(MidiEvent midiEvent)
@@ -208,7 +226,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			var noteEvent = (NoteEvent)midiEvent;
 
 			ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
-
 			lck.EnterWriteLock();
 			try
 			{
@@ -248,11 +265,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int midiControllerCode = (int)midiControlChangeEvent.Controller;
 			int midiControllerValue = midiControlChangeEvent.ControllerValue;
 			int midiChannel = midiControlChangeEvent.Channel;
+			IList<MidiMappingCalculatorResult> midiMappingResults = null;
 
 			MidiControllerValueChanged(this, new EventArgs<(int, int, int)>((midiControllerCode, midiControllerValue, midiChannel)));
 
 			ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
-
 			lck.EnterWriteLock();
 			try
 			{
@@ -281,17 +298,18 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				int noteInfoCount = noteInfos.Count;
 				for (int i = 0; i < noteInfoCount; i++)
 				{
-					NoteInfo noteInfo = noteInfos[i];
-					ApplyMidiMappings(calculator, noteInfo);
+					midiMappingResults = ApplyMidiMappings(calculator, noteInfos[i]);
 				}
 			}
 			finally
 			{
 				lck.ExitWriteLock();
 			}
+
+			TryRaiseDimensionValuesChanged(midiMappingResults);
 		}
 
-		private void ApplyMidiMappings(IPatchCalculator patchCalculator, NoteInfo noteInfo)
+		private IList<MidiMappingCalculatorResult> ApplyMidiMappings(IPatchCalculator patchCalculator, NoteInfo noteInfo)
 		{
 			_midiMappingCalculator.Calculate(_midiControllerDictionary, noteInfo.MidiNoteNumber, noteInfo.MidiVelocity, noteInfo.MidiChannel);
 
@@ -330,11 +348,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				}
 			}
 
-			// TODO: Try moving this outside the calculator lock.
-			DimensionValuesChanged(
-				this,
-				new EventArgs<IList<(DimensionEnum, string, double)>>(
-					results.Select(x => (x.DimensionEnum, x.Name, x.DimensionValue)).ToArray()));
+			return results;
 		}
 
 		private double? TryGetScaleFrequency(DimensionEnum dimensionEnum, double dimensionValue)
