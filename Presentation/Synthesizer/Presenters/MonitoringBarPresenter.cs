@@ -17,43 +17,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel,
 				() =>
 				{
-					viewModel.Midi.NoteNumber.Name = ResourceFormatter.NoteNumber;
-					viewModel.Midi.Velocity.Name = ResourceFormatter.Velocity;
-					viewModel.Midi.Channel.Name = ResourceFormatter.Channel;
+					var midi = viewModel.Midi;
+					midi.NoteNumber.Name = ResourceFormatter.NoteNumber;
+					midi.Velocity.Name = ResourceFormatter.Velocity;
+					midi.Channel.Name = ResourceFormatter.Channel;
 				});
 		}
 
 		public void DimensionValuesChanged(MonitoringBarViewModel viewModel, IList<(DimensionEnum dimensionEnum, string name, double value)> values)
 		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.Synth = values.Select(x => x.ToViewModel(visible: true)).OrderBy(x => x.Name).ToList());
+			ExecuteNonPersistedAction(viewModel, () =>
+			{
+				var synth = viewModel.Synth;
+				synth.Items = values.Select(x => x.ToViewModel(visible: true)).OrderBy(x => x.Name).ToList();
+				synth.IsEmpty = false;
+			});
 		}
 
 		public void MidiNoteOnOccurred(MonitoringBarViewModel viewModel, int midiNoteNumber, int midiVelocity, int midiChannel)
 		{
-			ExecuteNonPersistedAction(
+			base.ExecuteNonPersistedAction(
 				viewModel,
 				() =>
 				{
-					viewModel.Midi.NoteNumber.Value = midiNoteNumber;
-					viewModel.Midi.NoteNumber.Visible = true;
-					viewModel.Midi.Velocity.Value = midiVelocity;
-					viewModel.Midi.Velocity.Visible = true;
-					viewModel.Midi.Channel.Value = midiChannel;
-					viewModel.Midi.Channel.Visible = true;
+					var midi = viewModel.Midi;
+					midi.NoteNumber.Value = midiNoteNumber;
+					midi.NoteNumber.Visible = true;
+					midi.Velocity.Value = midiVelocity;
+					midi.Velocity.Visible = true;
+					midi.Channel.Value = midiChannel;
+					midi.Channel.Visible = true;
+					midi.IsEmpty = false;
 				});
 		}
 
 		public void MidiControllerValueChanged(MonitoringBarViewModel viewModel, int midiControllerCode, int midiControllerValue, int midiChannel)
 		{
-			ExecuteNonPersistedAction(
+			base.ExecuteNonPersistedAction(
 				viewModel,
 				() =>
 				{
 					string formattedControllerName = $"{ResourceFormatter.Controller} {midiControllerCode}";
-					viewModel.Midi.Controller = new MonitoringItemViewModel { Name = formattedControllerName, Value = midiControllerValue };
-					viewModel.Midi.Controller.Visible = true;
-					viewModel.Midi.Channel = new MonitoringItemViewModel { Name = ResourceFormatter.Channel, Value = midiChannel };
-					viewModel.Midi.Channel.Visible = true;
+					var midi = viewModel.Midi;
+					midi.Controller = new MonitoringItemViewModel { Name = formattedControllerName, Value = midiControllerValue };
+					midi.Controller.Visible = true;
+					midi.Channel = new MonitoringItemViewModel { Name = ResourceFormatter.Channel, Value = midiChannel };
+					midi.Channel.Visible = true;
 				});
 		}
 	}

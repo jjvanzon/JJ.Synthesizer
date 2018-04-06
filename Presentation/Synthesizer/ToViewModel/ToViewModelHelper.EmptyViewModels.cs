@@ -265,7 +265,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new MonitoringBarViewModel
 			{
 				Midi = CreateEmptyMonitoringBarMidiViewModel(),
-				Synth = new List<MonitoringItemViewModel>(),
+				Synth = CreateEmptyMonitoringBarSynthViewModel(),
 				ValidationMessages = new List<string>(),
 				Visible = true,
 				Successful = true
@@ -281,7 +281,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				Controller = CreateEmptyNameAndValueViewModel(),
 				Channel = CreateEmptyNameAndValueViewModel(),
 				Velocity = CreateEmptyNameAndValueViewModel(),
-				NoteNumber = CreateEmptyNameAndValueViewModel()
+				NoteNumber = CreateEmptyNameAndValueViewModel(),
+				IsEmpty = true
+			};
+
+			return viewModel;
+		}
+
+		private static MonitoringBarSynthViewModel CreateEmptyMonitoringBarSynthViewModel()
+		{
+			var viewModel = new MonitoringBarSynthViewModel
+			{
+				Items = new List<MonitoringItemViewModel>(),
+				IsEmpty = true
 			};
 
 			return viewModel;

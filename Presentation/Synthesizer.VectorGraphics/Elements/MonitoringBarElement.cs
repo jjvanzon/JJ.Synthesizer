@@ -75,18 +75,34 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		protected override void ApplyViewModelToElements()
 		{
-			_midiLabel.Text = FormatItemViewModels(
-				ResourceFormatter.Midi,
-				ViewModel.Midi.NoteNumber,
-				ViewModel.Midi.Velocity,
-				ViewModel.Midi.Controller,
-				ViewModel.Midi.Channel);
+			if (ViewModel.Midi.IsEmpty)
+			{
+				_midiLabel.Text = $"{ResourceFormatter.Midi}: ...";
+			}
+			else
+			{
+				_midiLabel.Text = FormatItemViewModels(
+					ResourceFormatter.Midi,
+					ViewModel.Midi.NoteNumber,
+					ViewModel.Midi.Velocity,
+					ViewModel.Midi.Controller,
+					ViewModel.Midi.Channel);
+			}
 
-			_synthLabel.Text = FormatItemViewModels(ResourceFormatter.Synth, ViewModel.Synth);
+			if (ViewModel.Synth.IsEmpty)
+			{
+				_synthLabel.Text = $"{ResourceFormatter.Synth}: ...";
+			}
+			else
+			{
+				_synthLabel.Text = FormatItemViewModels(ResourceFormatter.Synth, ViewModel.Synth.Items);
+			}
 		}
 
-		private string FormatItemViewModels(string title, params MonitoringItemViewModel[] viewModels) =>
-			FormatItemViewModels(title, (IList<MonitoringItemViewModel>)viewModels);
+		private string FormatItemViewModels(string title, params MonitoringItemViewModel[] viewModels)
+		{
+			return FormatItemViewModels(title, (IList<MonitoringItemViewModel>)viewModels);
+		}
 
 		private string FormatItemViewModels(string title, IList<MonitoringItemViewModel> viewModels)
 		{

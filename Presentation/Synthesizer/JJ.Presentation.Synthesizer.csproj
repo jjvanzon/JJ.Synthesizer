@@ -123,6 +123,8 @@
     <Compile Include="ViewModels\MidiMappingGroupDetailsViewModel.cs" />
     <Compile Include="ViewModels\MidiMappingPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Items\MidiMappingItemViewModel.cs" />
+    <Compile Include="ViewModels\Partials\MonitoringBarSynthViewModel.cs" />
+    <Compile Include="ViewModels\Partials\MonitoringBarMidiViewModel.cs" />
     <Compile Include="ViewModels\MonitoringBarViewModel.cs" />
     <Compile Include="ViewModels\Items\MonitoringItemViewModel.cs" />
     <Compile Include="ViewModels\Partials\EntityWithListTreeNodeViewModel.cs" />
