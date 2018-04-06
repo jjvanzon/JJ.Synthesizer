@@ -49,7 +49,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
 		private readonly AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
 		private readonly AudioOutputPropertiesPresenter _audioOutputPropertiesPresenter;
-		private readonly CurrentInstrumentBarPresenter _currentInstrumentBarPresenter;
 		private readonly CurveDetailsPresenter _curveDetailsPresenter;
 		private readonly DocumentCannotDeletePresenter _documentCannotDeletePresenter;
 		private readonly DocumentDeletedPresenter _documentDeletedPresenter;
@@ -59,6 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly DocumentOrPatchNotFoundPopupPresenter _documentOrPatchNotFoundPresenter;
 		private readonly DocumentPropertiesPresenter _documentPropertiesPresenter;
 		private readonly DocumentTreePresenter _documentTreePresenter;
+		private readonly InstrumentBarPresenter _instrumentBarPresenter;
 		private readonly LibraryPropertiesPresenter _libraryPropertiesPresenter;
 		private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
 		private readonly MenuPresenter _menuPresenter;
@@ -121,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				_repositories.AudioOutputRepository,
 				_repositories.SpeakerSetupRepository,
 				_repositories.IDRepository);
-			_currentInstrumentBarPresenter = new CurrentInstrumentBarPresenter(_autoPatcher, _systemFacade, _repositories.DocumentRepository, _repositories.MidiMappingGroupRepository, _repositories.PatchRepository, _repositories.ScaleRepository);
+			_instrumentBarPresenter = new InstrumentBarPresenter(_autoPatcher, _systemFacade, _repositories.DocumentRepository, _repositories.MidiMappingGroupRepository, _repositories.PatchRepository, _repositories.ScaleRepository);
 			_curveDetailsPresenter = new CurveDetailsPresenter(_repositories.CurveRepository, _repositories.NodeRepository, _curveFacade);
 			_documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
 			_documentDeletedPresenter = new DocumentDeletedPresenter();

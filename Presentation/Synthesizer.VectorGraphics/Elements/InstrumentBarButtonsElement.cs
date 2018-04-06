@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class CurrentInstrumentBarButtonsElement : ElementBaseWithOpaqueBack
+	internal class InstrumentBarButtonsElement : ElementBaseWithOpaqueBack
 	{
 		public event EventHandler ExpandRequested;
 		public event EventHandler PlayRequested;
@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly PictureButtonElement _pictureButtonPlay;
 		private readonly PictureButtonElement _pictureButtonExpand;
 
-		public CurrentInstrumentBarButtonsElement(
+		public InstrumentBarButtonsElement(
 			Element parent,
 			ToolTipElement toolTipElement,
 			object underlyingPictureExpand,
@@ -40,9 +40,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			PositionElements();
 		}
 
-		private CurrentInstrumentBarViewModel _viewModel;
+		private InstrumentBarViewModel _viewModel;
 
-		public CurrentInstrumentBarViewModel ViewModel
+		public InstrumentBarViewModel ViewModel
 		{
 			get => _viewModel;
 			set

@@ -874,8 +874,8 @@
   <data name="ClosestExp" xml:space="preserve">
     <value>Closest Exp</value>
   </data>
-  <data name="CurrentInstrument" xml:space="preserve">
-    <value>Current Instrument</value>
+  <data name="Instrument" xml:space="preserve">
+    <value>Instrument</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>

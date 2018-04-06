@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			audioFileOutputGridUserControl.ViewModel = documentViewModel.AudioFileOutputGrid;
 			audioFileOutputPropertiesUserControl.ViewModel = documentViewModel.VisibleAudioFileOutputProperties;
 			audioOutputPropertiesUserControl.ViewModel = documentViewModel.AudioOutputProperties;
-			currentInstrumentBarUserControl.ViewModel = documentViewModel.CurrentInstrument;
+			instrumentBarUserControl.ViewModel = documentViewModel.InstrumentBar;
 			curveDetailsListUserControl.ViewModels = documentViewModel.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
 			documentDetailsUserControl.ViewModel = mainViewModel.DocumentDetails;
 			documentGridUserControl.ViewModel = mainViewModel.DocumentGrid;

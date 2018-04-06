@@ -332,7 +332,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			// NOTE:
 			// Cannot use partial presenter, because this action uses both
-			// AudioOutputProperties and CurrentInstrument view model.
+			// AudioOutputProperties and Instrument view model.
 
 			// GetViewModel
 			AudioOutputPropertiesViewModel userInput = MainViewModel.Document.AudioOutputProperties;
@@ -344,7 +344,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					// GetEntities
 					AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(userInput.Entity.ID);
-					IList<Patch> entities = MainViewModel.Document.CurrentInstrument.Patches.Select(x => _repositories.PatchRepository.Get(x.EntityID)).ToArray();
+					IList<Patch> entities = MainViewModel.Document.InstrumentBar.Patches.Select(x => _repositories.PatchRepository.Get(x.EntityID)).ToArray();
 
 					// Business
 					Patch autoPatch = _autoPatcher.AutoPatch(entities);
@@ -449,166 +449,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				PatchDetails_Show(userInput.PatchDetails.Entity.ID);
 				PatchProperties_Show(userInput.PatchDetails.Entity.ID);
 			}
-		}
-
-		// CurrentInstrument
-
-		private void CurrentInstrumentBar_AddMidiMappingGroup(int midiMappingGroupID)
-		{
-			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.AddMidiMappingGroup(userInput, midiMappingGroupID));
-		}
-
-		private void CurrentInstrumentBar_AddPatch(int patchID)
-		{
-			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.AddPatch(userInput, patchID));
-		}
-
-		public void CurrentInstrumentBar_Expand()
-		{
-			// GetViewModel
-			CurrentInstrumentBarViewModel currentInstrumentUserInput = MainViewModel.Document.CurrentInstrument;
-			AutoPatchPopupViewModel autoPatchPopupUserInput = MainViewModel.Document.AutoPatchPopup;
-
-			// RefreshCounter
-			currentInstrumentUserInput.RefreshID = RefreshIDProvider.GetRefreshID();
-			autoPatchPopupUserInput.RefreshID = RefreshIDProvider.GetRefreshID();
-			autoPatchPopupUserInput.PatchDetails.RefreshID = RefreshIDProvider.GetRefreshID();
-
-			// Set !Successful
-			currentInstrumentUserInput.Successful = false;
-
-			// ToEntity
-			Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
-
-			// Get Entities
-			IList<Patch> underlyingPatches = currentInstrumentUserInput.Patches.Select(x => _repositories.PatchRepository.Get(x.EntityID)).ToArray();
-
-			// Business
-			Patch autoPatch = _autoPatcher.AutoPatch(underlyingPatches);
-
-			// Business
-			IResult validationResult = _documentFacade.Save(document);
-			if (!validationResult.Successful)
-			{
-				// Non-Persisted
-				currentInstrumentUserInput.ValidationMessages.AddRange(validationResult.Messages);
-
-				// DispatchViewModel
-				DispatchViewModel(currentInstrumentUserInput);
-
-				return;
-			}
-
-			// ToViewModel
-			AutoPatchPopupViewModel autoPatchPopupViewModel = autoPatch.ToAutoPatchViewModel(
-				_repositories.SampleRepository,
-				_repositories.CurveRepository,
-				_repositories.InterpolationTypeRepository);
-
-			// Non-Persisted
-			autoPatchPopupViewModel.Visible = true;
-			autoPatchPopupViewModel.RefreshID = autoPatchPopupUserInput.RefreshID;
-			autoPatchPopupViewModel.PatchDetails.RefreshID = autoPatchPopupUserInput.PatchDetails.RefreshID;
-
-			// Successful
-			currentInstrumentUserInput.Successful = true;
-			autoPatchPopupViewModel.Successful = true;
-
-			// DispatchViewModel
-			DispatchViewModel(autoPatchPopupViewModel);
-		}
-
-		public void CurrentInstrumentBar_ExpandMidiMappingGroup(int midiMappingGroupID)
-		{
-			// Redirect
-			MidiMappingGroup_Expand(midiMappingGroupID);
-		}
-
-		public void CurrentInstrumentBar_ExpandPatch(int patchID)
-		{
-			// Redirect
-			Patch_Expand(patchID);
-		}
-
-		public void CurrentInstrumentBar_MoveMidiMappingGroup(int midiMappingGroupID, int newPosition)
-		{
-			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingGroup(viewModel, midiMappingGroupID, newPosition));
-		}
-
-		public void CurrentInstrumentBar_MoveMidiMappingGroupBackward(int midiMappingGroupID)
-		{
-			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingGroupBackward(viewModel, midiMappingGroupID));
-		}
-
-		public void CurrentInstrumentBar_MoveMidiMappingGroupForward(int midiMappingGroupID)
-		{
-			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MoveMidiMappingGroupForward(viewModel, midiMappingGroupID));
-		}
-
-		public void CurrentInstrumentBar_MovePatch(int patchID, int newPosition)
-		{
-			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MovePatch(viewModel, patchID, newPosition));
-		}
-
-		public void CurrentInstrumentBar_MovePatchBackward(int patchID)
-		{
-			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MovePatchBackward(viewModel, patchID));
-		}
-
-		public void CurrentInstrumentBar_MovePatchForward(int patchID)
-		{
-			CurrentInstrumentBarViewModel viewModel = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(viewModel, () => _currentInstrumentBarPresenter.MovePatchForward(viewModel, patchID));
-		}
-
-		public void CurrentInstrumentBar_Play()
-		{
-			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.Play(userInput));
-		}
-
-		public void CurrentInstrumentBar_PlayPatch(int patchID)
-		{
-			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.PlayPatch(userInput, patchID));
-		}
-
-		public void CurrentInstrumentBar_DeleteMidiMappingGroup(int midiMappingGroupID)
-		{
-			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.DeleteMidiMappingGroup(userInput, midiMappingGroupID));
-		}
-
-		public void CurrentInstrumentBar_RemovePatch(int patchID)
-		{
-			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.DeletePatch(userInput, patchID));
-		}
-
-		private void CurrentInstrumentBar_SetScale(int scaleID)
-		{
-			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
-
-			ExecuteReadAction(userInput, () => _currentInstrumentBarPresenter.SetScale(userInput, scaleID));
 		}
 
 		// Curve
@@ -936,7 +776,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.AutoPatchPopup.OperatorPropertiesDictionary_ForSamples.Values.ForEach(x => x.Successful = true);
 			viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithCollectionRecalculation.Values.ForEach(x => x.Successful = true);
 			viewModel.AutoPatchPopup.OperatorPropertiesDictionary_WithInterpolation.Values.ForEach(x => x.Successful = true);
-			viewModel.CurrentInstrument.Successful = true;
+			viewModel.InstrumentBar.Successful = true;
 			viewModel.CurveDetailsDictionary.Values.ForEach(x => x.Successful = true);
 			viewModel.DocumentProperties.Successful = true;
 			viewModel.DocumentTree.Successful = true;
@@ -959,7 +799,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Partials
 			string titleBar = _titleBarPresenter.Show(document);
 			MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: true);
-			viewModel.CurrentInstrument = _currentInstrumentBarPresenter.OpenDocument(viewModel.CurrentInstrument);
+			viewModel.InstrumentBar = _instrumentBarPresenter.OpenDocument(viewModel.InstrumentBar);
 			_monitoringBarPresenter.Load(MainViewModel.MonitoringBar);
 
 			// DispatchViewModel
@@ -1086,7 +926,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void DocumentTree_AddToInstrument()
 		{
-			// Involves both DocumentTree and CurrentInstrument view,
+			// Involves both DocumentTree and Instrument view,
 			// so cannot be handled by a single sub-presenter.
 
 			DocumentTreeViewModel documentTreeViewModel = MainViewModel.Document.DocumentTree;
@@ -1102,19 +942,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				case DocumentTreeNodeTypeEnum.Patch:
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
 					// Redirect
-					CurrentInstrumentBar_AddPatch(entityID);
+					InstrumentBar_AddPatch(entityID);
 					break;
 
 				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
 				case DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup:
 					// Redirect
-					CurrentInstrumentBar_AddMidiMappingGroup(entityID);
+					InstrumentBar_AddMidiMappingGroup(entityID);
 					break;
 
 				case DocumentTreeNodeTypeEnum.Scale:
 				case DocumentTreeNodeTypeEnum.LibraryScale:
 					// Redirect
-					CurrentInstrumentBar_SetScale(entityID);
+					InstrumentBar_SetScale(entityID);
 					break;
 
 				default:
@@ -1492,7 +1332,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					case DocumentTreeNodeTypeEnum.AudioOutput:
 					{
 						// GetEntities
-						IList<Patch> entities = MainViewModel.Document.CurrentInstrument.Patches
+						IList<Patch> entities = MainViewModel.Document.InstrumentBar.Patches
 															 .Select(x => _repositories.PatchRepository.Get(x.EntityID))
 															 .ToArray();
 						// Business
@@ -1759,6 +1599,166 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.CanCreate = ToViewModelHelper.GetCanCreate(viewModel.SelectedNodeType, patchDetailsVisible);
 		}
 
+		// InstrumentBar
+
+		private void InstrumentBar_AddMidiMappingGroup(int midiMappingGroupID)
+		{
+			InstrumentBarViewModel userInput = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(userInput, () => _instrumentBarPresenter.AddMidiMappingGroup(userInput, midiMappingGroupID));
+		}
+
+		private void InstrumentBar_AddPatch(int patchID)
+		{
+			InstrumentBarViewModel userInput = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(userInput, () => _instrumentBarPresenter.AddPatch(userInput, patchID));
+		}
+
+		public void InstrumentBar_Expand()
+		{
+			// GetViewModel
+			InstrumentBarViewModel instrumentBarUserInput = MainViewModel.Document.InstrumentBar;
+			AutoPatchPopupViewModel autoPatchPopupUserInput = MainViewModel.Document.AutoPatchPopup;
+
+			// RefreshCounter
+			instrumentBarUserInput.RefreshID = RefreshIDProvider.GetRefreshID();
+			autoPatchPopupUserInput.RefreshID = RefreshIDProvider.GetRefreshID();
+			autoPatchPopupUserInput.PatchDetails.RefreshID = RefreshIDProvider.GetRefreshID();
+
+			// Set !Successful
+			instrumentBarUserInput.Successful = false;
+
+			// ToEntity
+			Document document = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+
+			// Get Entities
+			IList<Patch> underlyingPatches = instrumentBarUserInput.Patches.Select(x => _repositories.PatchRepository.Get(x.EntityID)).ToArray();
+
+			// Business
+			Patch autoPatch = _autoPatcher.AutoPatch(underlyingPatches);
+
+			// Business
+			IResult validationResult = _documentFacade.Save(document);
+			if (!validationResult.Successful)
+			{
+				// Non-Persisted
+				instrumentBarUserInput.ValidationMessages.AddRange(validationResult.Messages);
+
+				// DispatchViewModel
+				DispatchViewModel(instrumentBarUserInput);
+
+				return;
+			}
+
+			// ToViewModel
+			AutoPatchPopupViewModel autoPatchPopupViewModel = autoPatch.ToAutoPatchViewModel(
+				_repositories.SampleRepository,
+				_repositories.CurveRepository,
+				_repositories.InterpolationTypeRepository);
+
+			// Non-Persisted
+			autoPatchPopupViewModel.Visible = true;
+			autoPatchPopupViewModel.RefreshID = autoPatchPopupUserInput.RefreshID;
+			autoPatchPopupViewModel.PatchDetails.RefreshID = autoPatchPopupUserInput.PatchDetails.RefreshID;
+
+			// Successful
+			instrumentBarUserInput.Successful = true;
+			autoPatchPopupViewModel.Successful = true;
+
+			// DispatchViewModel
+			DispatchViewModel(autoPatchPopupViewModel);
+		}
+
+		public void InstrumentBar_ExpandMidiMappingGroup(int midiMappingGroupID)
+		{
+			// Redirect
+			MidiMappingGroup_Expand(midiMappingGroupID);
+		}
+
+		public void InstrumentBar_ExpandPatch(int patchID)
+		{
+			// Redirect
+			Patch_Expand(patchID);
+		}
+
+		public void InstrumentBar_MoveMidiMappingGroup(int midiMappingGroupID, int newPosition)
+		{
+			InstrumentBarViewModel viewModel = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(viewModel, () => _instrumentBarPresenter.MoveMidiMappingGroup(viewModel, midiMappingGroupID, newPosition));
+		}
+
+		public void InstrumentBar_MoveMidiMappingGroupBackward(int midiMappingGroupID)
+		{
+			InstrumentBarViewModel viewModel = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(viewModel, () => _instrumentBarPresenter.MoveMidiMappingGroupBackward(viewModel, midiMappingGroupID));
+		}
+
+		public void InstrumentBar_MoveMidiMappingGroupForward(int midiMappingGroupID)
+		{
+			InstrumentBarViewModel viewModel = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(viewModel, () => _instrumentBarPresenter.MoveMidiMappingGroupForward(viewModel, midiMappingGroupID));
+		}
+
+		public void InstrumentBar_MovePatch(int patchID, int newPosition)
+		{
+			InstrumentBarViewModel viewModel = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(viewModel, () => _instrumentBarPresenter.MovePatch(viewModel, patchID, newPosition));
+		}
+
+		public void InstrumentBar_MovePatchBackward(int patchID)
+		{
+			InstrumentBarViewModel viewModel = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(viewModel, () => _instrumentBarPresenter.MovePatchBackward(viewModel, patchID));
+		}
+
+		public void InstrumentBar_MovePatchForward(int patchID)
+		{
+			InstrumentBarViewModel viewModel = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(viewModel, () => _instrumentBarPresenter.MovePatchForward(viewModel, patchID));
+		}
+
+		public void InstrumentBar_Play()
+		{
+			InstrumentBarViewModel userInput = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(userInput, () => _instrumentBarPresenter.Play(userInput));
+		}
+
+		public void InstrumentBar_PlayPatch(int patchID)
+		{
+			InstrumentBarViewModel userInput = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(userInput, () => _instrumentBarPresenter.PlayPatch(userInput, patchID));
+		}
+
+		public void InstrumentBar_DeleteMidiMappingGroup(int midiMappingGroupID)
+		{
+			InstrumentBarViewModel userInput = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(userInput, () => _instrumentBarPresenter.DeleteMidiMappingGroup(userInput, midiMappingGroupID));
+		}
+
+		public void InstrumentBar_RemovePatch(int patchID)
+		{
+			InstrumentBarViewModel userInput = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(userInput, () => _instrumentBarPresenter.DeletePatch(userInput, patchID));
+		}
+
+		private void InstrumentBar_SetScale(int scaleID)
+		{
+			InstrumentBarViewModel userInput = MainViewModel.Document.InstrumentBar;
+
+			ExecuteReadAction(userInput, () => _instrumentBarPresenter.SetScale(userInput, scaleID));
+		}
+
 		// Library
 
 		public void LibraryProperties_Close(int documentReferenceID)
@@ -1895,7 +1895,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void MidiMappingGroupDetails_AddToInstrument(int id)
 		{
 			// Redirect
-			CurrentInstrumentBar_AddMidiMappingGroup(id);
+			InstrumentBar_AddMidiMappingGroup(id);
 		}
 
 		public void MidiMappingGroupDetails_Close(int id)
@@ -2883,7 +2883,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void PatchDetails_AddToInstrument(int id)
 		{
 			// Redirect
-			CurrentInstrumentBar_AddPatch(id);
+			InstrumentBar_AddPatch(id);
 		}
 
 		public void PatchDetails_Close(int id)
@@ -2984,7 +2984,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void PatchProperties_AddToInstrument(int id)
 		{
 			// Redirect
-			CurrentInstrumentBar_AddPatch(id);
+			InstrumentBar_AddPatch(id);
 		}
 
 		public void PatchProperties_ChangeHasDimension(int id)
@@ -3253,7 +3253,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void ScaleProperties_SetInstrumentScale(int scaleID)
 		{
 			// Redirect
-			CurrentInstrumentBar_SetScale(scaleID);
+			InstrumentBar_SetScale(scaleID);
 		}
 
 		private void ScaleProperties_Switch(int id)
@@ -3331,7 +3331,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public void ToneGridEdit_SetInstrumentScale(int scaleID)
 		{
 			// Redirect
-			CurrentInstrumentBar_SetScale(scaleID);
+			InstrumentBar_SetScale(scaleID);
 		}
 
 		private void ToneGridEdit_Show(int scaleID)
@@ -3353,7 +3353,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			// NOTE:
 			// Cannot use partial presenter, because this action uses both
-			// ToneGridEditViewModel and CurrentInstrument view model.
+			// ToneGridEditViewModel and Instrument view model.
 
 			// GetEntity
 			ToneGridEditViewModel userInput = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
@@ -3375,8 +3375,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					// GetEntities
 					Tone tone = _repositories.ToneRepository.Get(toneID);
 
-					var underlyingPatches = new List<Patch>(MainViewModel.Document.CurrentInstrument.Patches.Count);
-					foreach (CurrentInstrumentItemViewModel itemViewModel in MainViewModel.Document.CurrentInstrument.Patches)
+					var underlyingPatches = new List<Patch>(MainViewModel.Document.InstrumentBar.Patches.Count);
+					foreach (InstrumentItemViewModel itemViewModel in MainViewModel.Document.InstrumentBar.Patches)
 					{
 						Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.EntityID);
 						underlyingPatches.Add(underlyingPatch);

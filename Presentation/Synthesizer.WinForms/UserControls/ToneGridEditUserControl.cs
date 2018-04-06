@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 	{
 		private const string ID_COLUMN_NAME = "IDColumn";
 
-		public event EventHandler<EventArgs<int>> SetCurrrentInstrumentScaleRequested;
+		public event EventHandler<EventArgs<int>> SetInstrumentScaleRequested;
 		public event EventHandler<EventArgs<int>> CreateToneRequested;
 		public event EventHandler<ScaleAndToneEventArgs> DeleteToneRequested;
 		public event EventHandler<ScaleAndToneEventArgs> PlayToneRequested;
@@ -98,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void titleBarUserControl_AddClicked(object sender, EventArgs e) => CreateTone();
 
-		private void titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => SetCurrrentInstrumentScaleRequested(sender, new EventArgs<int>(ViewModel.ScaleID));
+		private void titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => SetInstrumentScaleRequested(sender, new EventArgs<int>(ViewModel.ScaleID));
 
 		private void titleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteTone();
 

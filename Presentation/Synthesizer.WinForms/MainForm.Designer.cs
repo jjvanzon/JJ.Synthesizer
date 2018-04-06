@@ -43,7 +43,7 @@
 			this.operatorPropertiesUserControl_ForSample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForSample();
 			this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
 			this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-			this.currentInstrumentBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentInstrumentBarUserControl();
+			this.instrumentBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.InstrumentBarUserControl();
 			this.splitContainerCurvesAndTopSide = new System.Windows.Forms.SplitContainer();
 			this.curveDetailsListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveDetailsListUserControl();
 			this.monitoringBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.MonitoringBarUserControl();
@@ -511,15 +511,15 @@
 			this.menuUserControl.Size = new System.Drawing.Size(1459, 24);
 			this.menuUserControl.TabIndex = 3;
 			// 
-			// currentInstrumentBarUserControl
+			// instrumentBarUserControl
 			// 
-			this.currentInstrumentBarUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-			this.currentInstrumentBarUserControl.Location = new System.Drawing.Point(271, 0);
-			this.currentInstrumentBarUserControl.Margin = new System.Windows.Forms.Padding(0);
-			this.currentInstrumentBarUserControl.Name = "currentInstrumentBarUserControl";
-			this.currentInstrumentBarUserControl.Size = new System.Drawing.Size(1188, 24);
-			this.currentInstrumentBarUserControl.TabIndex = 14;
-			this.currentInstrumentBarUserControl.ViewModel = null;
+			this.instrumentBarUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+			this.instrumentBarUserControl.Location = new System.Drawing.Point(271, 0);
+			this.instrumentBarUserControl.Margin = new System.Windows.Forms.Padding(0);
+			this.instrumentBarUserControl.Name = "instrumentBarUserControl";
+			this.instrumentBarUserControl.Size = new System.Drawing.Size(1188, 24);
+			this.instrumentBarUserControl.TabIndex = 14;
+			this.instrumentBarUserControl.ViewModel = null;
 			// 
 			// splitContainerCurvesAndTopSide
 			// 
@@ -562,7 +562,7 @@
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.ClientSize = new System.Drawing.Size(1459, 838);
 			this.Controls.Add(this.monitoringBarUserControl);
-			this.Controls.Add(this.currentInstrumentBarUserControl);
+			this.Controls.Add(this.instrumentBarUserControl);
 			this.Controls.Add(this.splitContainerCurvesAndTopSide);
 			this.Controls.Add(this.menuUserControl);
 			this.IsMdiContainer = true;
@@ -610,7 +610,7 @@
 		private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
 		private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
 		private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
-		private UserControls.CurrentInstrumentBarUserControl currentInstrumentBarUserControl;
+		private UserControls.InstrumentBarUserControl instrumentBarUserControl;
 		private UserControls.OperatorPropertiesUserControl_WithInterpolation operatorPropertiesUserControl_WithInterpolation;
 		private UserControls.OperatorPropertiesUserControl_ForCache operatorPropertiesUserControl_ForCache;
 		private UserControls.AudioOutputPropertiesUserControl audioOutputPropertiesUserControl;

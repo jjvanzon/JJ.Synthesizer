@@ -10,8 +10,8 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	/// <summary> Can be used for both CurrentInstrument Patches as well as CurrentInstrument MidiMappingGroups. </summary>
-	internal class CurrentInstrumentBarItemElement : ElementBaseWithOpaqueBack
+	/// <summary> Can be used for both InstrumentBar Patches as well as InstrumentBar MidiMappingGroups. </summary>
+	internal class InstrumentBarItemElement : ElementBaseWithOpaqueBack
 	{
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _label;
@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		public event EventHandler<EventArgs<int>> MoveForwardRequested;
 		public event EventHandler<EventArgs<int>> PlayRequested;
 
-		public CurrentInstrumentBarItemElement(
+		public InstrumentBarItemElement(
 			Element parent,
 			ToolTipElement toolTipElement,
 			object underlyingPictureDelete,
@@ -70,9 +70,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 #endif
 		}
 
-		private CurrentInstrumentItemViewModel _viewModel;
+		private InstrumentItemViewModel _viewModel;
 
-		public CurrentInstrumentItemViewModel ViewModel
+		public InstrumentItemViewModel ViewModel
 		{
 			get => _viewModel;
 			set

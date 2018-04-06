@@ -91,97 +91,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			};
 		}
 
-		// CurrentInstrument
-
-		public static CurrentInstrumentBarViewModel ToCurrentInstrumentBarViewModel(this Document higherDocument)
-		{
-			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
-
-			var viewModel = new CurrentInstrumentBarViewModel
-			{
-				DocumentID = higherDocument.ID,
-				Scale = ToViewModelHelper.CreateEmptyIDAndName(),
-				Patches = new List<CurrentInstrumentItemViewModel>(),
-				MidiMappingGroups = new List<CurrentInstrumentItemViewModel>(),
-				ValidationMessages = new List<string>(),
-				Visible = true
-			};
-
-			return viewModel;
-		}
-
-		public static CurrentInstrumentBarViewModel ToCurrentInstrumentBarViewModel(
-			this Document higherDocument,
-			Scale scale,
-			IList<MidiMappingGroup> midiMappings,
-			IList<Patch> patches)
-		{
-			if (patches == null) throw new ArgumentNullException(nameof(patches));
-			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
-
-			CurrentInstrumentBarViewModel viewModel = higherDocument.ToCurrentInstrumentBarViewModel();
-			bool hasPatches = patches.Count != 0;
-			viewModel.CanPlay = hasPatches;
-			viewModel.CanExpand = hasPatches;
-
-			// Lookup for Aliases (of DocumentReference by Document).
-			Dictionary<int, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences
-																						   .ToDictionary(x => x.LowerDocument.ID);
-			int lastPatchIndex = patches.Count - 1;
-
-			viewModel.Patches = patches.Select((x, i) => new CurrentInstrumentItemViewModel
-			{
-				EntityID = x.ID,
-				Name = getName(x),
-				CanGoBackward = i != 0,
-				CanGoForward = i != lastPatchIndex,
-				CanPlay = true,
-				CanDelete = true,
-				CanExpand = true,
-			}).ToList();
-
-			int lastMidiMappingGroupIndex = midiMappings.Count - 1;
-
-			viewModel.MidiMappingGroups = midiMappings.Select((x, i) => new CurrentInstrumentItemViewModel
-			{
-				EntityID = x.ID,
-				Name = x.Name,
-				CanGoBackward = i != 0,
-				CanGoForward = i != lastMidiMappingGroupIndex,
-				CanPlay = false,
-				CanDelete = true,
-				CanExpand = true
-			}).ToList();
-
-			string getName(Patch patch)
-			{
-				Document lowerDocument = patch.Document;
-
-				// Not using Document Name or Alias
-				bool mustHideDocumentAliasOrName = lowerDocument.ID == higherDocument.ID ||
-												   lowerDocument.IsSystemDocument();
-				if (mustHideDocumentAliasOrName)
-				{
-					return ResourceFormatter.GetDisplayName(patch);
-				}
-
-				// Using Document Name or Alias
-				DocumentReference documentReference = documentReferenceDictionary[lowerDocument.ID];
-				return $"{documentReference.GetAliasOrName()} | {patch.Name}";
-			}
-
-			if (scale != null)
-			{
-				viewModel.Scale = scale.ToIDAndName();
-			}
-			else
-			{
-				viewModel.Scale = ToViewModelHelper.CreateEmptyIDAndName();
-			}
-
-			return viewModel;
-		}
-
 		// Curve
 
 		public static CurveDetailsViewModel ToDetailsViewModel(this Curve entity)
@@ -302,6 +211,97 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				List = entities.Select(x => x.ToIDAndName()).ToList(),
 				ValidationMessages = new List<string>()
 			};
+
+			return viewModel;
+		}
+
+		// InstrumentBar
+
+		public static InstrumentBarViewModel ToInstrumentBarViewModel(this Document higherDocument)
+		{
+			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
+
+			var viewModel = new InstrumentBarViewModel
+			{
+				DocumentID = higherDocument.ID,
+				Scale = ToViewModelHelper.CreateEmptyIDAndName(),
+				Patches = new List<InstrumentItemViewModel>(),
+				MidiMappingGroups = new List<InstrumentItemViewModel>(),
+				ValidationMessages = new List<string>(),
+				Visible = true
+			};
+
+			return viewModel;
+		}
+
+		public static InstrumentBarViewModel ToInstrumentBarViewModel(
+			this Document higherDocument,
+			Scale scale,
+			IList<MidiMappingGroup> midiMappings,
+			IList<Patch> patches)
+		{
+			if (patches == null) throw new ArgumentNullException(nameof(patches));
+			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
+
+			InstrumentBarViewModel viewModel = higherDocument.ToInstrumentBarViewModel();
+			bool hasPatches = patches.Count != 0;
+			viewModel.CanPlay = hasPatches;
+			viewModel.CanExpand = hasPatches;
+
+			// Lookup for Aliases (of DocumentReference by Document).
+			Dictionary<int, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences
+																						   .ToDictionary(x => x.LowerDocument.ID);
+			int lastPatchIndex = patches.Count - 1;
+
+			viewModel.Patches = patches.Select((x, i) => new InstrumentItemViewModel
+			{
+				EntityID = x.ID,
+				Name = getName(x),
+				CanGoBackward = i != 0,
+				CanGoForward = i != lastPatchIndex,
+				CanPlay = true,
+				CanDelete = true,
+				CanExpand = true,
+			}).ToList();
+
+			int lastMidiMappingGroupIndex = midiMappings.Count - 1;
+
+			viewModel.MidiMappingGroups = midiMappings.Select((x, i) => new InstrumentItemViewModel
+			{
+				EntityID = x.ID,
+				Name = x.Name,
+				CanGoBackward = i != 0,
+				CanGoForward = i != lastMidiMappingGroupIndex,
+				CanPlay = false,
+				CanDelete = true,
+				CanExpand = true
+			}).ToList();
+
+			string getName(Patch patch)
+			{
+				Document lowerDocument = patch.Document;
+
+				// Not using Document Name or Alias
+				bool mustHideDocumentAliasOrName = lowerDocument.ID == higherDocument.ID ||
+												   lowerDocument.IsSystemDocument();
+				if (mustHideDocumentAliasOrName)
+				{
+					return ResourceFormatter.GetDisplayName(patch);
+				}
+
+				// Using Document Name or Alias
+				DocumentReference documentReference = documentReferenceDictionary[lowerDocument.ID];
+				return $"{documentReference.GetAliasOrName()} | {patch.Name}";
+			}
+
+			if (scale != null)
+			{
+				viewModel.Scale = scale.ToIDAndName();
+			}
+			else
+			{
+				viewModel.Scale = ToViewModelHelper.CreateEmptyIDAndName();
+			}
 
 			return viewModel;
 		}

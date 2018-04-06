@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 		/// <summary> nullable, but only temporarily in the DocumentSave action. </summary>
 		public AutoPatchPopupViewModel AutoPatchPopup { get; set; }
 
-		public CurrentInstrumentBarViewModel CurrentInstrument { get; set; }
+		public InstrumentBarViewModel InstrumentBar { get; set; }
 
 		/// <summary>
 		/// Multiple of them can be visible.

@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
 				{ typeof(AudioOutputPropertiesViewModel), DispatchAudioOutputPropertiesViewModel },
 				{ typeof(AutoPatchPopupViewModel), DispatchAutoPatchViewModel },
-				{ typeof(CurrentInstrumentBarViewModel), DispatchCurrentInstrumentBarViewModel },
+				{ typeof(InstrumentBarViewModel), DispatchInstrumentBarViewModel },
 				{ typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
 				{ typeof(DocumentCannotDeleteViewModel), DispatchDocumentCannotDeleteViewModel },
 				{ typeof(DocumentDeletedViewModel), DispatchDocumentDeletedViewModel },
@@ -142,21 +142,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			var castedViewModel = (AutoPatchPopupViewModel)viewModel;
 
 			MainViewModel.Document.AutoPatchPopup = castedViewModel;
-
-			DispatchViewModelBase(castedViewModel);
-		}
-
-		private void DispatchCurrentInstrumentBarViewModel(ScreenViewModelBase viewModel)
-		{
-			var castedViewModel = (CurrentInstrumentBarViewModel)viewModel;
-
-			MainViewModel.Document.CurrentInstrument = castedViewModel;
-
-			if (castedViewModel.OutletIDToPlay.HasValue)
-			{
-				MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
-				castedViewModel.OutletIDToPlay = null;
-			}
 
 			DispatchViewModelBase(castedViewModel);
 		}
@@ -295,6 +280,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				MainViewModel.Document.PatchToOpenExternally = castedViewModel.PatchToOpenExternally;
 				castedViewModel.PatchToOpenExternally = null;
+			}
+
+			DispatchViewModelBase(castedViewModel);
+		}
+
+		private void DispatchInstrumentBarViewModel(ScreenViewModelBase viewModel)
+		{
+			var castedViewModel = (InstrumentBarViewModel)viewModel;
+
+			MainViewModel.Document.InstrumentBar = castedViewModel;
+
+			if (castedViewModel.OutletIDToPlay.HasValue)
+			{
+				MainViewModel.Document.OutletIDToPlay = castedViewModel.OutletIDToPlay;
+				castedViewModel.OutletIDToPlay = null;
 			}
 
 			DispatchViewModelBase(castedViewModel);

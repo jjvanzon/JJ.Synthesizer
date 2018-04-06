@@ -16,7 +16,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class CurrentInstrumentBarItemsElement : ElementBase
+	internal class InstrumentBarItemsElement : ElementBase
 	{
 		public event EventHandler<EventArgs<int>> ExpandRequested;
 		public event EventHandler<EventArgs<int>> MoveBackwardRequested;
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		private readonly HorizontalAlignmentEnum _horizontalAlignmentEnum;
 		private readonly ToolTipElement _toolTipElement;
-		private readonly IList<CurrentInstrumentBarItemElement> _itemElements = new List<CurrentInstrumentBarItemElement>();
+		private readonly IList<InstrumentBarItemElement> _itemElements = new List<InstrumentBarItemElement>();
 		private readonly object _underlyingPictureDelete;
 		private readonly object _underlyingPictureExpand;
 		private readonly object _underlyingPictureMoveBackward;
@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly object _underlyingPicturePlay;
 		private readonly ITextMeasurer _textMeasurer;
 
-		public CurrentInstrumentBarItemsElement(
+		public InstrumentBarItemsElement(
 			Element parent,
 			HorizontalAlignmentEnum horizontalAlignmentEnum,
 			ToolTipElement toolTipElement,
@@ -58,9 +58,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			Position.Height = StyleHelper.ROW_HEIGHT;
 		}
 
-		private IList<CurrentInstrumentItemViewModel> _viewModels;
+		private IList<InstrumentItemViewModel> _viewModels;
 
-		public IList<CurrentInstrumentItemViewModel> ViewModels
+		public IList<InstrumentItemViewModel> ViewModels
 		{
 			get => _viewModels;
 			set
@@ -76,16 +76,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			int minCount = Math.Min(_itemElements.Count, ViewModels.Count);
 			for (int i = 0; i < minCount; i++)
 			{
-				CurrentInstrumentItemViewModel patchViewModel = ViewModels[i];
-				CurrentInstrumentBarItemElement patchElement = _itemElements[i];
+				InstrumentItemViewModel patchViewModel = ViewModels[i];
+				InstrumentBarItemElement patchElement = _itemElements[i];
 				patchElement.ViewModel = patchViewModel;
 			}
 
 			// Insert
 			for (int i = _itemElements.Count; i < ViewModels.Count; i++)
 			{
-				CurrentInstrumentItemViewModel patchViewModel = ViewModels[i];
-				CurrentInstrumentBarItemElement patchElement = CreateItemElement(patchViewModel);
+				InstrumentItemViewModel patchViewModel = ViewModels[i];
+				InstrumentBarItemElement patchElement = CreateItemElement(patchViewModel);
 
 				_itemElements.Add(patchElement);
 			}
@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			// Delete
 			for (int i = _itemElements.Count - 1; i >= ViewModels.Count; i--)
 			{
-				CurrentInstrumentBarItemElement patchElement = _itemElements[i];
+				InstrumentBarItemElement patchElement = _itemElements[i];
 				patchElement.ExpandRequested -= patchElement_ExpandRequested;
 				patchElement.MoveBackwardRequested -= patchElement_MoveBackwardRequested;
 				patchElement.MoveForwardRequested -= patchElement_MoveForwardRequested;
@@ -113,7 +113,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		/// </summary>
 		public float GetTotalItemsWidth()
 		{
-			foreach (CurrentInstrumentBarItemElement element in _itemElements)
+			foreach (InstrumentBarItemElement element in _itemElements)
 			{
 				element.PositionElements();
 			}
@@ -125,7 +125,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		/// <summary> Set the width beforehand. The height will be set automatically. </summary>
 		public void PositionElements()
 		{
-			foreach (CurrentInstrumentBarItemElement element in _itemElements)
+			foreach (InstrumentBarItemElement element in _itemElements)
 			{
 				element.PositionElements();
 			}
@@ -167,9 +167,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			Position.Height = _itemElements.Select(x => x.Position.Y).MaxOrDefault() + StyleHelper.ROW_HEIGHT;
 		}
 
-		private CurrentInstrumentBarItemElement CreateItemElement(CurrentInstrumentItemViewModel itemViewModel)
+		private InstrumentBarItemElement CreateItemElement(InstrumentItemViewModel itemViewModel)
 		{
-			var itemElement = new CurrentInstrumentBarItemElement(
+			var itemElement = new InstrumentBarItemElement(
 				this,
 				_toolTipElement,
 				_underlyingPictureDelete,

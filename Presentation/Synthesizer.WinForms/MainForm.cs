@@ -195,7 +195,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				return;
 			}
 
-			Patch patch = GetCurrentInstrumentPatch();
+			Patch patch = GetInstrumentPatch();
 
 			_infrastructureFacade.RecreatePatchCalculator(patch);
 		}
@@ -207,12 +207,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				int audioOutputID = _mainPresenter.MainViewModel.Document.AudioOutputProperties.Entity.ID;
 
 				AudioOutput audioOutput = _repositories.AudioOutputRepository.Get(audioOutputID);
-				Patch patch = GetCurrentInstrumentPatch();
+				Patch patch = GetInstrumentPatch();
 
-				Scale scale = _repositories.ScaleRepository.TryGet(_mainPresenter.MainViewModel.Document.CurrentInstrument.Scale?.ID ?? default) ??
+				Scale scale = _repositories.ScaleRepository.TryGet(_mainPresenter.MainViewModel.Document.InstrumentBar.Scale?.ID ?? default) ??
 				              _systemFacade.GetDefaultScale();
 
-				IList<MidiMapping> midiMappings = _mainPresenter.MainViewModel.Document.CurrentInstrument.MidiMappingGroups
+				IList<MidiMapping> midiMappings = _mainPresenter.MainViewModel.Document.InstrumentBar.MidiMappingGroups
 				                                                               .Select(x => _repositories.MidiMappingGroupRepository.Get(x.EntityID))
 				                                                               .SelectMany(x => x.MidiMappings)
 				                                                               .ToArray();
@@ -225,9 +225,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			}
 		}
 
-		private Patch GetCurrentInstrumentPatch()
+		private Patch GetInstrumentPatch()
 		{
-			IList<Patch> patches = _mainPresenter.MainViewModel.Document.CurrentInstrument.Patches
+			IList<Patch> patches = _mainPresenter.MainViewModel.Document.InstrumentBar.Patches
 			                                     .Select(x => _repositories.PatchRepository.Get(x.EntityID))
 			                                     .ToArray();
 			if (patches.Count == 0)
@@ -370,15 +370,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void PositionControls()
 		{
-			currentInstrumentBarUserControl.Width = ClientSize.Width - currentInstrumentBarUserControl.Location.X;
-			currentInstrumentBarUserControl.PositionControls();
+			instrumentBarUserControl.Width = ClientSize.Width - instrumentBarUserControl.Location.X;
+			instrumentBarUserControl.PositionControls();
 
 			monitoringBarUserControl.Width = ClientSize.Width;
 			monitoringBarUserControl.PositionControls();
 			monitoringBarUserControl.Left = 0;
 			monitoringBarUserControl.Top = ClientSize.Height - monitoringBarUserControl.Height;
 
-			int topBarHeight = Math.Max(currentInstrumentBarUserControl.Height, MIN_TOP_BAR_HEIGHT);
+			int topBarHeight = Math.Max(instrumentBarUserControl.Height, MIN_TOP_BAR_HEIGHT);
 
 			splitContainerCurvesAndTopSide.Left = 0;
 			splitContainerCurvesAndTopSide.Top = topBarHeight;

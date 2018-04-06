@@ -610,15 +610,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current Instrument.
-        /// </summary>
-        internal static string CurrentInstrument {
-            get {
-                return ResourceManager.GetString("CurrentInstrument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Curve.
         /// </summary>
         internal static string Curve {
@@ -1218,6 +1209,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Input {
             get {
                 return ResourceManager.GetString("Input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instrument.
+        /// </summary>
+        internal static string Instrument {
+            get {
+                return ResourceManager.GetString("Instrument", resourceCulture);
             }
         }
         

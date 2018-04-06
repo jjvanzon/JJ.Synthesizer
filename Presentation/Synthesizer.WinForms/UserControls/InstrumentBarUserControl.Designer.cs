@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-	partial class CurrentInstrumentBarUserControl
+	partial class InstrumentBarUserControl
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -40,13 +40,13 @@
 			this.diagramControl.Size = new System.Drawing.Size(53, 20);
 			this.diagramControl.TabIndex = 0;
 			// 
-			// CurrentInstrumentBarUserControl
+			// InstrumentBarUserControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.diagramControl);
-			this.Name = "CurrentInstrumentBarUserControl";
-			this.SizeChanged += new System.EventHandler(this.CurrentInstrumentBarUserControl_SizeChanged);
+			this.Name = "InstrumentBarUserControl";
+			this.SizeChanged += new System.EventHandler(this.InstrumentBarUserControl_SizeChanged);
 			this.ResumeLayout(false);
 
 		}

@@ -30,19 +30,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
 			audioOutputPropertiesUserControl.PlayRequested += audioOutputPropertiesUserControl_PlayRequested;
 
-			currentInstrumentBarUserControl.ExpandRequested += CurrentInstrumentBarUserControl_ExpandRequested;
-			currentInstrumentBarUserControl.ExpandMidiMappingGroupRequested += CurrentInstrumentBarUserControl_ExpandMidiMappingGroupRequested;
-			currentInstrumentBarUserControl.ExpandPatchRequested += CurrentInstrumentBarUserControl_ExpandPatchRequested;
-			currentInstrumentBarUserControl.MoveMidiMappingGroupBackwardRequested +=
-				CurrentInstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested;
-			currentInstrumentBarUserControl.MoveMidiMappingGroupForwardRequested +=
-				CurrentInstrumentBarBarUserControl_MoveMidiMappingGroupForwardRequested;
-			currentInstrumentBarUserControl.MovePatchBackwardRequested += CurrentInstrumentBarUserControl_MovePatchBackwardRequested;
-			currentInstrumentBarUserControl.MovePatchForwardRequested += CurrentInstrumentBarBarUserControl_MovePatchForwardRequested;
-			currentInstrumentBarUserControl.PlayRequested += CurrentInstrumentBarUserControl_PlayRequested;
-			currentInstrumentBarUserControl.PlayPatchRequested += CurrentInstrumentBarBarUserControl_PlayPatchRequested;
-			currentInstrumentBarUserControl.DeleteMidiMappingGroupRequested += CurrentInstrumentBarBarUserControl_DeleteMidiMappingGroupRequested;
-			currentInstrumentBarUserControl.DeletePatchRequested += CurrentInstrumentBarBarUserControl_DeletePatchRequested;
+			instrumentBarUserControl.ExpandRequested += InstrumentBarUserControl_ExpandRequested;
+			instrumentBarUserControl.ExpandMidiMappingGroupRequested += InstrumentBarUserControl_ExpandMidiMappingGroupRequested;
+			instrumentBarUserControl.ExpandPatchRequested += InstrumentBarUserControl_ExpandPatchRequested;
+			instrumentBarUserControl.MoveMidiMappingGroupBackwardRequested +=
+				InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested;
+			instrumentBarUserControl.MoveMidiMappingGroupForwardRequested +=
+				InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested;
+			instrumentBarUserControl.MovePatchBackwardRequested += InstrumentBarUserControl_MovePatchBackwardRequested;
+			instrumentBarUserControl.MovePatchForwardRequested += InstrumentBarUserControl_MovePatchForwardRequested;
+			instrumentBarUserControl.PlayRequested += InstrumentBarUserControl_PlayRequested;
+			instrumentBarUserControl.PlayPatchRequested += InstrumentBarUserControl_PlayPatchRequested;
+			instrumentBarUserControl.DeleteMidiMappingGroupRequested += InstrumentBarUserControl_DeleteMidiMappingGroupRequested;
+			instrumentBarUserControl.DeletePatchRequested += InstrumentBarUserControl_DeletePatchRequested;
 
 			curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsListUserControl_ChangeSelectedNodeTypeRequested;
 			curveDetailsListUserControl.CloseRequested += curveDetailsListUserControl_CloseRequested;
@@ -222,7 +222,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			scalePropertiesUserControl.DeleteRequested += ScalePropertiesUserControl_DeleteRequested;
 			scalePropertiesUserControl.LoseFocusRequested += scalePropertiesUserControl_LoseFocusRequested;
 
-			toneGridEditUserControl.SetCurrrentInstrumentScaleRequested += ToneGridEditUserControl_SetCurrentInstrumentScaleRequested;
+			toneGridEditUserControl.SetInstrumentScaleRequested += ToneGridEditUserControl_SetInstrumentScaleRequested;
 			toneGridEditUserControl.CloseRequested += toneGridEditUserControl_CloseRequested;
 			toneGridEditUserControl.CreateToneRequested += toneGridEditUserControl_CreateToneRequested;
 			toneGridEditUserControl.DeleteToneRequested += toneGridEditUserControl_DeleteToneRequested;
@@ -370,7 +370,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(_mainPresenter.AudioOutputProperties_Play);
 		}
 
-		// CurrentInstrument
+		// InstrumentBar
 
 		private void patchPropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
 		{
@@ -382,87 +382,87 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void CurrentInstrumentBarUserControl_ExpandRequested(object sender, EventArgs e)
+		private void InstrumentBarUserControl_ExpandRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.CurrentInstrumentBar_Expand);
+			TemplateActionHandler(_mainPresenter.InstrumentBar_Expand);
 		}
 
-		private void CurrentInstrumentBarUserControl_ExpandMidiMappingGroupRequested(object sender, EventArgs<int> e)
+		private void InstrumentBarUserControl_ExpandMidiMappingGroupRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_ExpandMidiMappingGroup(e.Value));
+			TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandMidiMappingGroup(e.Value));
 		}
 
-		private void CurrentInstrumentBarUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
+		private void InstrumentBarUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_ExpandPatch(e.Value));
+			TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandPatch(e.Value));
 		}
 
-		private void CurrentInstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested(object sender, EventArgs<int> e)
+		private void InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBar_MoveMidiMappingGroupBackward(e.Value);
+					_mainPresenter.InstrumentBar_MoveMidiMappingGroupBackward(e.Value);
 					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
-		private void CurrentInstrumentBarBarUserControl_MoveMidiMappingGroupForwardRequested(object sender, EventArgs<int> e)
+		private void InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBar_MoveMidiMappingGroupForward(e.Value);
+					_mainPresenter.InstrumentBar_MoveMidiMappingGroupForward(e.Value);
 					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
-		private void CurrentInstrumentBarUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e)
+		private void InstrumentBarUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBar_MovePatchBackward(e.Value);
+					_mainPresenter.InstrumentBar_MovePatchBackward(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
-		private void CurrentInstrumentBarBarUserControl_MovePatchForwardRequested(object sender, EventArgs<int> e)
+		private void InstrumentBarUserControl_MovePatchForwardRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBar_MovePatchForward(e.Value);
+					_mainPresenter.InstrumentBar_MovePatchForward(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
 
-		private void CurrentInstrumentBarUserControl_PlayRequested(object sender, EventArgs e)
+		private void InstrumentBarUserControl_PlayRequested(object sender, EventArgs e)
 		{
-			TemplateActionHandler(_mainPresenter.CurrentInstrumentBar_Play);
+			TemplateActionHandler(_mainPresenter.InstrumentBar_Play);
 		}
 
-		private void CurrentInstrumentBarBarUserControl_PlayPatchRequested(object sender, EventArgs<int> e)
+		private void InstrumentBarUserControl_PlayPatchRequested(object sender, EventArgs<int> e)
 		{
-			TemplateActionHandler(() => _mainPresenter.CurrentInstrumentBar_PlayPatch(e.Value));
+			TemplateActionHandler(() => _mainPresenter.InstrumentBar_PlayPatch(e.Value));
 		}
 
-		private void CurrentInstrumentBarBarUserControl_DeleteMidiMappingGroupRequested(object sender, EventArgs<int> e)
+		private void InstrumentBarUserControl_DeleteMidiMappingGroupRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBar_DeleteMidiMappingGroup(e.Value);
+					_mainPresenter.InstrumentBar_DeleteMidiMappingGroup(e.Value);
 					UpdateInfrastructureIfSuccessful();
 				});
 		}
 
-		private void CurrentInstrumentBarBarUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
+		private void InstrumentBarUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
 				{
-					_mainPresenter.CurrentInstrumentBar_RemovePatch(e.Value);
+					_mainPresenter.InstrumentBar_RemovePatch(e.Value);
 					RecreatePatchCalculatorIfSuccessful();
 				});
 		}
@@ -1384,7 +1384,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		// Tone
 
-		private void ToneGridEditUserControl_SetCurrentInstrumentScaleRequested(object sender, EventArgs<int> e)
+		private void ToneGridEditUserControl_SetInstrumentScaleRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>

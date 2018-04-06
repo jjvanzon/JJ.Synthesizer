@@ -75,7 +75,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string CubicAbruptSlope => Resources.CubicAbruptSlope;
 		public static string CubicEquidistant => Resources.CubicEquidistant;
 		public static string CubicSmoothSlope => Resources.CubicSmoothSlope;
-		public static string CurrentInstrument => Resources.CurrentInstrument;
 		public static string Curve => Resources.Curve;
 		public static string Custom => Resources.Custom;
 		public static string CustomDimension => Resources.CustomDimension;
@@ -138,6 +137,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Inlets => Resources.Inlets;
 		public static string InletsToDimension => Resources.InletsToDimension;
 		public static string Input => Resources.Input;
+		public static string Instrument => Resources.Instrument;
 		public static string Int16 => Resources.Int16;
 		public static string Intensity => Resources.Intensity;
 		public static string IntensityModulationDepth => Resources.IntensityModulationDepth;

@@ -861,8 +861,8 @@
   <data name="ClosestExp" xml:space="preserve">
     <value>Dichtstbijzijnd exp</value>
   </data>
-  <data name="CurrentInstrument" xml:space="preserve">
-    <value>Huidig instrument</value>
+  <data name="Instrument" xml:space="preserve">
+    <value>Instrument</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Afwijkend</value>

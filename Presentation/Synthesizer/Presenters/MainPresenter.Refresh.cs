@@ -83,13 +83,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(viewModel);
 		}
 
-		private void CurrentInstrument_Refresh()
+		private void InstrumentBar_Refresh()
 		{
 			// GetViewModel
-			CurrentInstrumentBarViewModel userInput = MainViewModel.Document.CurrentInstrument;
+			InstrumentBarViewModel userInput = MainViewModel.Document.InstrumentBar;
 
 			// Partial Action
-			CurrentInstrumentBarViewModel viewModel = _currentInstrumentBarPresenter.Refresh(userInput);
+			InstrumentBarViewModel viewModel = _instrumentBarPresenter.Refresh(userInput);
 
 			// DispatchViewModel
 			DispatchViewModel(viewModel);
@@ -188,7 +188,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			AudioFileOutputGrid_Refresh();
 			AudioFileOutputPropertiesDictionary_Refresh();
 			AudioOutputProperties_Refresh();
-			CurrentInstrument_Refresh();
+			InstrumentBar_Refresh();
 			CurveDetailsDictionary_Refresh();
 			DocumentProperties_Refresh();
 			DocumentTree_Refresh();
