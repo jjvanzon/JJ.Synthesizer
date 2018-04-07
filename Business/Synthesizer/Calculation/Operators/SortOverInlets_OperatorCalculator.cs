@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		public SortOverInlets_OperatorCalculator(
 			IList<OperatorCalculatorBase> itemCalculators,
 			OperatorCalculatorBase positionCalculator) 
-			: base(itemCalculators.Union(positionCalculator).ToArray())
+			: base(itemCalculators.Concat(positionCalculator).ToArray())
 		{
 			_positionCalculator = positionCalculator;
 

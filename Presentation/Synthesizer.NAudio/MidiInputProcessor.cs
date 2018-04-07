@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Basic;
 using NAudio.Midi;
@@ -23,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		public event EventHandler<EventArgs<(int midiControllerCode, int midiControllerValue, int midiChannel)>> MidiControllerValueChanged;
 
 		/// <summary> Position is left out, because there is still ambiguity between NoteIndex and ListIndex in the system. </summary>
-		public event EventHandler<EventArgs<IList<(DimensionEnum dimensionEnum, string name, double value)>>> DimensionValuesChanged;
+		public event EventHandler<EventArgs<IList<(DimensionEnum dimensionEnum, string name, int? position, double value)>>> DimensionValuesChanged;
 
 		public event EventHandler<EventArgs<Exception>> ExceptionOnMidiThreadOcurred;
 
@@ -164,7 +165,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int midiNoteNumber = noteOnEvent.NoteNumber;
 			int midiVelocity = noteOnEvent.Velocity;
 			int midiChannel = noteOnEvent.Channel;
-			IList<MidiMappingCalculatorResult> midiMappingResults;
 
 			MidiNoteOnOccurred(this, new EventArgs<(int, int, int)>((midiNoteNumber, midiVelocity, midiChannel)));
 
@@ -172,6 +172,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			// As a consequence, you also have to lock the calculation while applying MidiMappings,
 			ReaderWriterLockSlim calculatorLock = _patchCalculatorContainer.Lock;
 			calculatorLock.EnterWriteLock();
+			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] dimensionValues;
+			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)? extraDimensionValue = null;
 			try
 			{
 				IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
@@ -191,12 +193,38 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				noteInfo.MidiNoteNumber = midiNoteNumber;
 				noteInfo.MidiVelocity = midiVelocity;
 				noteInfo.MidiChannel = midiChannel;
-
-				calculator.Reset(time, noteInfo.ListIndex);
-
-				midiMappingResults = ApplyMidiMappings(calculator, noteInfo);
-
 				int noteIndex = noteInfo.ListIndex;
+
+				calculator.Reset(time, noteIndex);
+
+				dimensionValues = _midiMappingCalculator.CalculateForMidiNote(noteInfo.MidiNoteNumber, noteInfo.MidiVelocity, noteInfo.MidiChannel);
+
+				int count = dimensionValues.Length;
+				for (int i = 0; i < count; i++)
+				{
+					(DimensionEnum dimensionEnum, string canonicalName, _, double dimensionValue) = dimensionValues[i];
+
+					// Apply Dimension-Related MIDI Mappings
+					if (dimensionEnum != default)
+					{
+						calculator.SetValue(dimensionEnum, noteIndex, dimensionValue);
+					}
+
+					if (canonicalName != "")
+					{
+						calculator.SetValue(canonicalName, noteIndex, dimensionValue);
+					}
+
+					// Apply Scale-Related MIDI Mappings
+					double? frequency = TryGetScaleFrequency(dimensionEnum, dimensionValue);
+					if (frequency.HasValue)
+					{
+						double frequencyValue = frequency.Value;
+						calculator.SetValue(DimensionEnum.Frequency, noteIndex, frequencyValue);
+						extraDimensionValue = (DimensionEnum.Frequency, "", null, frequencyValue);
+					}
+				}
+
 				calculator.SetValue(DimensionEnum.NoteStart, noteIndex, time);
 				calculator.SetValue(DimensionEnum.NoteDuration, noteIndex, CalculationHelper.VERY_HIGH_VALUE);
 			}
@@ -205,20 +233,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				calculatorLock.ExitWriteLock();
 			}
 
-			TryRaiseDimensionValuesChanged(midiMappingResults);
-		}
-
-		/// <param name="midiMappingResults">nullable</param>
-		private void TryRaiseDimensionValuesChanged(IList<MidiMappingCalculatorResult> midiMappingResults)
-		{
-			if (midiMappingResults == null)
-			{
-				return;
-			}
-
-			var e = new EventArgs<IList<(DimensionEnum, string, double)>>(
-				midiMappingResults.Select(x => (x.DimensionEnum, x.Name, x.DimensionValue)).ToArray());
-			DimensionValuesChanged(this, e);
+			RaiseDimensionValuesChanged(dimensionValues, extraDimensionValue);
 		}
 
 		private void HandleNoteOff(MidiEvent midiEvent)
@@ -265,7 +280,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int midiControllerCode = (int)midiControlChangeEvent.Controller;
 			int midiControllerValue = midiControlChangeEvent.ControllerValue;
 			int midiChannel = midiControlChangeEvent.Channel;
-			IList<MidiMappingCalculatorResult> midiMappingResults = null;
+			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] dimensionValues;
 
 			MidiControllerValueChanged(this, new EventArgs<(int, int, int)>((midiControllerCode, midiControllerValue, midiChannel)));
 
@@ -273,18 +288,19 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			lck.EnterWriteLock();
 			try
 			{
-				IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
-				if (calculator == null)
+				IPatchCalculator patchCalculator = _patchCalculatorContainer.Calculator;
+				if (patchCalculator == null)
 				{
 					return;
 				}
 
-				double time = _timeProvider.Time;
-
 				if (!_midiControllerDictionary.TryGetValue(midiControllerCode, out int previousControllerValue))
 				{
 					// TODO: Initialize to the calculator's value converted back to a controller value.
-					previousControllerValue = MidiMappingCalculator.MIDDLE_CONTROLLER_VALUE;
+					// TODO: I want to get the first dimension from the mappings. Then the dimension value from the PatchCalculator.
+					//calculator.GetValue()
+					//_midiMappingCalculator.CalculateMidiControllerValueOrNull(midiControllerCode, dimensionValue);
+					previousControllerValue = MidiMappingCalculator.CENTER_CONTROLLER_VALUE;
 				}
 
 				int absoluteControllerValue = _midiMappingCalculator.ToAbsoluteControllerValue(
@@ -294,11 +310,22 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 				_midiControllerDictionary[midiControllerCode] = absoluteControllerValue;
 
-				IList<NoteInfo> noteInfos = _noteRecycler.GetPlayingNoteInfos(time);
-				int noteInfoCount = noteInfos.Count;
-				for (int i = 0; i < noteInfoCount; i++)
+				dimensionValues = _midiMappingCalculator.CalculateForMidiController(midiControllerCode, absoluteControllerValue);
+
+				int count = dimensionValues.Length;
+				for (int i = 0; i < count; i++)
 				{
-					midiMappingResults = ApplyMidiMappings(calculator, noteInfos[i]);
+					(DimensionEnum dimensionEnum, string canonicalName, _, double dimensionValue) = dimensionValues[i];
+
+					if (dimensionEnum != default)
+					{
+						patchCalculator.SetValue(dimensionEnum, dimensionValue);
+					}
+
+					if (canonicalName != "")
+					{
+						patchCalculator.SetValue(canonicalName, dimensionValue);
+					}
 				}
 			}
 			finally
@@ -306,49 +333,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				lck.ExitWriteLock();
 			}
 
-			TryRaiseDimensionValuesChanged(midiMappingResults);
-		}
-
-		private IList<MidiMappingCalculatorResult> ApplyMidiMappings(IPatchCalculator patchCalculator, NoteInfo noteInfo)
-		{
-			_midiMappingCalculator.Calculate(_midiControllerDictionary, noteInfo.MidiNoteNumber, noteInfo.MidiVelocity, noteInfo.MidiChannel);
-
-			IList<MidiMappingCalculatorResult> results = _midiMappingCalculator.Results;
-			int count = results.Count;
-
-			for (int i = 0; i < count; i++)
-			{
-				MidiMappingCalculatorResult mappingResult = _midiMappingCalculator.Results[i];
-				double dimensionValue = mappingResult.DimensionValue;
-				int noteIndex = noteInfo.ListIndex;
-
-				// Apply Dimension-Related MIDI Mappings
-				DimensionEnum dimensionEnum = mappingResult.DimensionEnum;
-				if (dimensionEnum != default)
-				{
-					patchCalculator.SetValue(dimensionEnum, noteIndex, dimensionValue);
-				}
-
-				string name = mappingResult.Name;
-				if (NameHelper.IsFilledIn(name))
-				{
-					patchCalculator.SetValue(mappingResult.Name, noteIndex, dimensionValue);
-				}
-
-				// Apply Scale-Related MIDI Mappings
-				double? frequency = TryGetScaleFrequency(dimensionEnum, dimensionValue);
-				if (frequency.HasValue)
-				{
-					double frequencyValue = frequency.Value;
-
-					patchCalculator.SetValue(DimensionEnum.Frequency, noteIndex, frequencyValue);
-
-					// HACK
-					results.Add(new MidiMappingCalculatorResult(DimensionEnum.Frequency, "", noteIndex, frequencyValue));
-				}
-			}
-
-			return results;
+			RaiseDimensionValuesChanged(dimensionValues);
 		}
 
 		private double? TryGetScaleFrequency(DimensionEnum dimensionEnum, double dimensionValue)
@@ -365,6 +350,22 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			double frequency = _frequencies[index];
 
 			return frequency;
+		}
+
+		private void RaiseDimensionValuesChanged(
+			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] dimensionValues,
+			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)? extraDimensionValue = null)
+		{
+			if (extraDimensionValue.HasValue)
+			{
+				var e = new EventArgs<IList<(DimensionEnum, string, int?, double)>>(dimensionValues.Concat(extraDimensionValue.Value).ToArray());
+				DimensionValuesChanged(this, e);
+			}
+			else
+			{
+				var e = new EventArgs<IList<(DimensionEnum, string, int?, double)>>(dimensionValues);
+				DimensionValuesChanged(this, e);
+			}
 		}
 	}
 }

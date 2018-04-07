@@ -618,7 +618,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		private IList<string> GetDoubleInstanceVariableNamesCamelCase(OperatorDtoToCSharpVisitorResult visitorResult)
 		{
-			return visitorResult.LongLivedDoubleVariableNamesCamelCase.Union(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
+			return visitorResult.LongLivedDoubleVariableNamesCamelCase.Concat(visitorResult.InputVariableInfos.Select(x => x.VariableNameCamelCase))
 																	  .ToArray();
 		}
 

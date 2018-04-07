@@ -80,6 +80,10 @@
       <Project>{F44D03E8-FEEC-40D4-B866-A87799185B4C}</Project>
       <Name>JJ.Framework.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
+      <Project>{5D06A212-5459-47F3-8109-E012C5FC9E3A}</Project>
+      <Name>JJ.Framework.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Configuration\JJ.Framework.Configuration.csproj">
       <Project>{805A8237-05ED-40AE-8D1A-9288373EA5E0}</Project>
       <Name>JJ.Framework.Configuration</Name>

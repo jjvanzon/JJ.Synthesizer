@@ -2178,7 +2178,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		private IList<VariableCollections> GetVariableInfoList()
 		{
-			IList<VariableCollections> list = _generatedMethodInfoStack.Select(x => x.VariableInfo).Union(_variableInfo).ToArray();
+			IList<VariableCollections> list = _generatedMethodInfoStack.Select(x => x.VariableInfo).Concat(_variableInfo).ToArray();
 			return list;
 		}
 	}

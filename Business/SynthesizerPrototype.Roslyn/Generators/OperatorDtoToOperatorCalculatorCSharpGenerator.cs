@@ -47,9 +47,9 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
 					sb.Indent();
 					{
 						// Variable Declarations
-						IEnumerable<string> variableNames = visitorResult.PositionVariableNamesCamelCase.Union(visitorResult.PhaseVariableNamesCamelCase)
-																										.Union(visitorResult.PreviousPositionVariableNamesCamelCase)
-																										.Union(visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase));
+						IEnumerable<string> variableNames = visitorResult.PositionVariableNamesCamelCase.Concat(visitorResult.PhaseVariableNamesCamelCase)
+																										.Concat(visitorResult.PreviousPositionVariableNamesCamelCase)
+																										.Concat(visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase));
 						foreach (string variableName in variableNames)
 						{
 							sb.AppendLine($"double {variableName} = 0.0;");

@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			}
 
 			SyntaxTree generatedSyntaxTree = CSharpSyntaxTree.ParseText(generatedCode, path: generatedCodeFileName, encoding: Encoding.UTF8);
-			IList<SyntaxTree> syntaxTrees = generatedSyntaxTree.Union(_includedSyntaxTrees).ToArray();
+			IList<SyntaxTree> syntaxTrees = generatedSyntaxTree.Concat(_includedSyntaxTrees).ToArray();
 
 			string assemblyName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
 

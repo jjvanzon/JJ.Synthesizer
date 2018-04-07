@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public void DimensionValuesChanged(MonitoringBarViewModel viewModel, IList<(DimensionEnum dimensionEnum, string name, double value)> values)
+		public void DimensionValuesChanged(MonitoringBarViewModel viewModel, IList<(DimensionEnum dimensionEnum, string name, int? position, double value)> values)
 		{
 			ExecuteNonPersistedAction(viewModel, () =>
 			{

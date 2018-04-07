@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Converters;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
-using JJ.Framework.Exceptions.InvalidValues;
 
 // ReSharper disable SuggestBaseTypeForParameter
 // ReSharper disable PossibleInvalidOperationException
@@ -24,12 +23,18 @@ namespace JJ.Business.Synthesizer.Calculation
 	/// </summary>
 	public class MidiMappingCalculator
 	{
-		public const int MIDDLE_CONTROLLER_VALUE = 64;
+		public const int CENTER_CONTROLLER_VALUE = 64;
+
+		private static readonly (DimensionEnum dimensionEnum, string canonicalName, int? position, double value)[] _emptyDimensionValueArray =
+			new(DimensionEnum dimensionEnum, string canonicalName, int? position, double value)[0];
 
 		private readonly MidiMappingDto[] _midiMappingDtos;
-		private readonly IList<MidiMappingCalculatorResult> _results = new List<MidiMappingCalculatorResult>();
 
-		public IList<MidiMappingCalculatorResult> Results => _results;
+		private readonly Dictionary<int, MidiMappingDto[]> _midiControllerCode_ToMidiMappingDtos_Dictionary;
+		private readonly MidiMappingDto[] _midiVelocity_MidiMappingDtos;
+		private readonly MidiMappingDto[] _midiNoteNumber_MidiMappingDtos;
+		private readonly MidiMappingDto[] _midiChannel_MidiMappingDtos;
+		private readonly int _noteMappingDtoCount;
 
 		public MidiMappingCalculator(IList<MidiMapping> midiMappings)
 		{
@@ -38,75 +43,119 @@ namespace JJ.Business.Synthesizer.Calculation
 			midiMappings.ForEach(x => new MidiMappingValidator(x).Assert());
 
 			var converter = new MidiMappingToDtoConverter();
+
 			_midiMappingDtos = midiMappings.Where(x => x.IsActive).Select(x => converter.Convert(x)).ToArray();
+
+			_midiVelocity_MidiMappingDtos = _midiMappingDtos.Where(x => x.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiVelocity).ToArray();
+			_midiNoteNumber_MidiMappingDtos = _midiMappingDtos.Where(x => x.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiNoteNumber).ToArray();
+			_midiChannel_MidiMappingDtos = _midiMappingDtos.Where(x => x.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiChannel).ToArray();
+			_midiControllerCode_ToMidiMappingDtos_Dictionary = _midiMappingDtos.Where(x => x.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiController)
+			                                                                   .Where(x => x.MidiControllerCode.HasValue)
+			                                                                   .GroupBy(x => x.MidiControllerCode.Value)
+			                                                                   .ToDictionary(x => x.Key, x => x.ToArray());
+
+			_noteMappingDtoCount =
+				_midiVelocity_MidiMappingDtos.Length + _midiNoteNumber_MidiMappingDtos.Length + _midiChannel_MidiMappingDtos.Length;
 		}
 
-		public void Calculate(int midiControllerCode, int midiControllerValue)
-		{ }
-
-		public void Calculate(
-			Dictionary<int, int> midiControllerDictionary,
-			int? midiNoteNumber,
-			int? midiVelocity,
-			int? midiChannel)
+		public (DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] CalculateForMidiController(
+			int midiControllerCode,
+			int midiControllerValue)
 		{
-			_results.Clear();
+			if (!_midiControllerCode_ToMidiMappingDtos_Dictionary.TryGetValue(midiControllerCode, out MidiMappingDto[] sourceMidiMappingDtos))
+			{
+				return _emptyDimensionValueArray;
+			}
 
-			int count = _midiMappingDtos.Length;
+			int count = sourceMidiMappingDtos.Length;
+			var results = new(DimensionEnum dimensionEnum, string canonicalName, int? position, double value)[count];
 
 			for (int i = 0; i < count; i++)
 			{
-				MidiMappingDto midiMappingDto = _midiMappingDtos[i];
-
-				double? midiValue = null;
-
-				switch (midiMappingDto.MidiMappingTypeEnum)
-				{
-					case MidiMappingTypeEnum.MidiNoteNumber:
-						midiValue = midiNoteNumber;
-						break;
-
-					case MidiMappingTypeEnum.MidiVelocity:
-						midiValue = midiVelocity;
-						break;
-
-					case MidiMappingTypeEnum.MidiChannel:
-						midiValue = midiChannel;
-						break;
-
-					case MidiMappingTypeEnum.MidiController:
-						if (midiMappingDto.MidiControllerCode.HasValue)
-						{
-							if (midiControllerDictionary.TryGetValue(midiMappingDto.MidiControllerCode.Value, out int midiControllerValue))
-							{
-								midiValue = midiControllerValue;
-							}
-						}
-						break;
-
-					default:
-						throw new ValueNotSupportedException(midiMappingDto.MidiMappingTypeEnum);
-				}
-
-				if (!midiValue.HasValue)
-				{
-					continue;
-				}
-
-				double destDimensionValue = GetScaledDimensionValue(midiValue.Value, midiMappingDto);
-
-				_results.Add(
-					new MidiMappingCalculatorResult(midiMappingDto.DimensionEnum, midiMappingDto.Name, midiMappingDto.Position, destDimensionValue));
+				MidiMappingDto dto = sourceMidiMappingDtos[i];
+				results[i] = (dto.DimensionEnum, dto.Name, dto.Position, CalculateDimensionValue(midiControllerValue, dto));
 			}
+
+			return results;
 		}
 
-		private double GetScaledDimensionValue(double midiValue, MidiMappingDto midiMappingDto)
+		public (DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] CalculateForMidiNote(
+			int midiNoteNumber,
+			int midiVelocity,
+			int midiChannel)
 		{
-			double ratio = (midiValue - midiMappingDto.FromMidiValue) / midiMappingDto.GetMidiValueRange();
+			int j = 0;
+			var results = new(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[_noteMappingDtoCount];
 
-			double destRange = midiMappingDto.GetDimensionValueRange();
+			{
+				MidiMappingDto[] dtos = _midiNoteNumber_MidiMappingDtos;
+				int dtoCount = dtos.Length;
+				for (int i = 0; i < dtoCount; i++)
+				{
+					results[j++] = (
+						dtos[i].DimensionEnum,
+						dtos[i].Name,
+						dtos[i].Position,
+						CalculateDimensionValue(midiNoteNumber, dtos[i]));
+				}
+			}
 
-			double destValue = ratio * destRange + midiMappingDto.FromDimensionValue;
+			{
+				MidiMappingDto[] dtos = _midiVelocity_MidiMappingDtos;
+				int dtoCount = dtos.Length;
+				for (int i = 0; i < dtoCount; i++)
+				{
+					results[j++] = (
+						dtos[i].DimensionEnum,
+						dtos[i].Name,
+						dtos[i].Position,
+						CalculateDimensionValue(midiVelocity, dtos[i]));
+				}
+			}
+
+			{
+				MidiMappingDto[] dtos = _midiChannel_MidiMappingDtos;
+				int dtoCount = dtos.Length;
+				for (int i = 0; i < dtoCount; i++)
+				{
+					results[j++] = (
+						dtos[i].DimensionEnum,
+						dtos[i].Name,
+						dtos[i].Position,
+						CalculateDimensionValue(midiChannel, dtos[i]));
+				}
+			}
+
+			return results;
+		}
+
+		public int? CalculateMidiControllerValueOrNull(int midiControllerCode, double dimensionValue)
+		{
+			if (!_midiControllerCode_ToMidiMappingDtos_Dictionary.TryGetValue(midiControllerCode, out MidiMappingDto[] midiMappingDtos))
+			{
+				return null;
+			}
+
+			if (midiMappingDtos.Length == 0)
+			{
+				return null;
+			}
+
+			MidiMappingDto midiMappingDto = midiMappingDtos[0];
+
+			int midiControllerValue = CalculateMidiControllerValue(dimensionValue, midiMappingDto);
+
+			return midiControllerValue;
+		}
+
+		private double CalculateDimensionValue(double midiValue, MidiMappingDto midiMappingDto)
+		{
+			double destValue = MathHelper.ScaleLinearly(
+				midiValue,
+				midiMappingDto.FromMidiValue,
+				midiMappingDto.TillMidiValue,
+				midiMappingDto.FromDimensionValue,
+				midiMappingDto.TillDimensionValue);
 
 			if (destValue < midiMappingDto.MinDimensionValue)
 			{
@@ -121,11 +170,38 @@ namespace JJ.Business.Synthesizer.Calculation
 			return destValue;
 		}
 
+		private int CalculateMidiControllerValue(double dimensionValue, MidiMappingDto midiMappingDto)
+		{
+			double destValue = MathHelper.ScaleLinearly(
+				dimensionValue,
+				midiMappingDto.FromDimensionValue,
+				midiMappingDto.TillDimensionValue,
+				midiMappingDto.FromMidiValue,
+				midiMappingDto.TillMidiValue);
+
+			if (destValue > int.MaxValue)
+			{
+				destValue = int.MaxValue;
+			}
+
+			if (destValue < int.MinValue)
+			{
+				destValue = int.MinValue;
+			}
+
+			return (int)destValue;
+		}
+
 		public int ToAbsoluteControllerValue(int midiControllerCode, int inputMidiControllerValue, int previousAbsoluteMidiControllerValue)
 		{
+			if (!_midiControllerCode_ToMidiMappingDtos_Dictionary.TryGetValue(midiControllerCode, out MidiMappingDto[] midiMappingDtos))
+			{
+				return inputMidiControllerValue;
+			}
+
 			int absoluteMidiControllerValue = inputMidiControllerValue;
 
-			int count = _midiMappingDtos.Length;
+			int count = midiMappingDtos.Length;
 			for (int i = 0; i < count; i++)
 			{
 				MidiMappingDto midiMappingDto = _midiMappingDtos[i];
@@ -135,27 +211,13 @@ namespace JJ.Business.Synthesizer.Calculation
 					continue;
 				}
 
-				if (!MustScaleByMidiController(midiMappingDto, midiControllerCode))
-				{
-					continue;
-				}
-
-				int delta = inputMidiControllerValue - MIDDLE_CONTROLLER_VALUE;
+				int delta = inputMidiControllerValue - CENTER_CONTROLLER_VALUE;
 
 				// Overriding mechanism: last applicable mapping wins.
 				absoluteMidiControllerValue = previousAbsoluteMidiControllerValue + delta;
 			}
 
 			return absoluteMidiControllerValue;
-		}
-
-		private bool MustScaleByMidiController(MidiMappingDto midiMappingDto, int midiControllerCode)
-		{
-			bool mustScaleByMidiController = midiMappingDto.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiController &&
-			                                 midiMappingDto.MidiControllerCode.HasValue &&
-			                                 midiMappingDto.MidiControllerCode == midiControllerCode;
-
-			return mustScaleByMidiController;
 		}
 	}
 }

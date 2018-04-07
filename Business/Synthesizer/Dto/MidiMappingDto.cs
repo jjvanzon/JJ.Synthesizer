@@ -17,7 +17,11 @@ namespace JJ.Business.Synthesizer.Dto
 		public int? MidiControllerCode { get; set; }
 
 		public DimensionEnum DimensionEnum { get; set; }
-		/// <inheritdoc />
+		/// <summary>
+		/// Optional.
+		/// In case of the MidiMappingDto this is the canonical name.
+		/// It is not called that, because it is part of the same interface as that of the entity.
+		/// </summary>
 		public string Name { get; set; }
 		public int? Position { get; set; }
 		public double FromDimensionValue { get; set; }

@@ -41,13 +41,13 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
 
 			IList<GeneratedParameterInfo> list =
 				longLivedDoubleVariableNamesCamelCase.Select(y => new GeneratedParameterInfo { NameCamelCase = y, TypeName = nameof(Double) })
-													 .Union(
+													 .Concat(
 														 inputVariableInfos.Select(
 															 y => new GeneratedParameterInfo { NameCamelCase = y.VariableNameCamelCase, TypeName = nameof(Double) }))
-													 .Union(
+													 .Concat(
 														 arrayCalculationInfos.Select(
 															 y => new GeneratedParameterInfo { NameCamelCase = y.NameCamelCase, TypeName = y.TypeName }))
-													 .Union(
+													 .Concat(
 														 longLivedDoubleArrayVariableInfos.Select(
 															 y => new GeneratedParameterInfo { NameCamelCase = y.NameCamelCase, TypeName = nameof(Double) + "[]" }))
 													 .ToArray();

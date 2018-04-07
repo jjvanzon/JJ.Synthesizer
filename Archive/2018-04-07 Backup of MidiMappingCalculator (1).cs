@@ -1,0 +1,262 @@
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using JJ.Business.Synthesizer.Converters;
+//using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+//using JJ.Business.Synthesizer.Dto;
+//using JJ.Business.Synthesizer.Enums;
+//using JJ.Business.Synthesizer.Extensions;
+//using JJ.Business.Synthesizer.Validation;
+//using JJ.Data.Synthesizer.Entities;
+//using JJ.Framework.Collections;
+//using JJ.Framework.Exceptions.InvalidValues;
+
+//// ReSharper disable SuggestBaseTypeForParameter
+//// ReSharper disable PossibleInvalidOperationException
+//// ReSharper disable ConvertToAutoProperty
+//// ReSharper disable ConvertToAutoPropertyWhenPossible
+
+//namespace JJ.Business.Synthesizer.Calculation
+//{
+//	/// <summary>
+//	/// Not thread-safe.
+//	/// In particular the Results property is overwritten in-place in the Calculate method.
+//	/// This is done to avoid garbage collection.
+//	/// </summary>
+//	public class MidiMappingCalculator
+//	{
+//		public const int MIDDLE_CONTROLLER_VALUE = 64;
+
+//		private static readonly (DimensionEnum dimensionEnum, string canonicalName, int? position, double value)[] _emptyDimensionValueArray =
+//			new(DimensionEnum dimensionEnum, string canonicalName, int? position, double value)[0];
+
+//		private readonly IList<MidiMappingCalculatorResult> _results = new List<MidiMappingCalculatorResult>();
+//		public IList<MidiMappingCalculatorResult> Results => _results;
+
+//		private readonly MidiMappingDto[] _midiMappingDtos;
+
+//		private readonly Dictionary<int, IList<MidiMappingDto>> _midiControllerCode_ToMidiMappingDtos_Dictionary;
+//		private readonly MidiMappingDto[] _midiVelocity_MidiMappingDtos;
+//		private readonly MidiMappingDto[] _midiNoteNumber_MidiMappingDtos;
+//		private readonly MidiMappingDto[] _midiChannel_MidiMappingDtos;
+
+//		public MidiMappingCalculator(IList<MidiMapping> midiMappings)
+//		{
+//			if (midiMappings == null) throw new ArgumentNullException(nameof(midiMappings));
+
+//			midiMappings.ForEach(x => new MidiMappingValidator(x).Assert());
+
+//			var converter = new MidiMappingToDtoConverter();
+
+//			_midiMappingDtos = midiMappings.Where(x => x.IsActive).Select(x => converter.Convert(x)).ToArray();
+
+//			_midiVelocity_MidiMappingDtos = _midiMappingDtos.Where(x => x.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiVelocity).ToArray();
+//			_midiNoteNumber_MidiMappingDtos = _midiMappingDtos.Where(x => x.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiNoteNumber).ToArray();
+//			_midiChannel_MidiMappingDtos = _midiMappingDtos.Where(x => x.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiChannel).ToArray();
+//			_midiControllerCode_ToMidiMappingDtos_Dictionary = _midiMappingDtos.Where(x => x.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiController)
+//			                                                                   .Where(x => x.MidiControllerCode.HasValue)
+//			                                                                   .ToNonUniqueDictionary(x => x.MidiControllerCode.Value);
+//		}
+
+//		public (DimensionEnum dimensionEnum, string canonicalName, int? position, double value)[] CalculateFromMidiControllerValue(
+//			int midiControllerCode,
+//			int midiControllerValue)
+//		{
+//			if (!_midiControllerCode_ToMidiMappingDtos_Dictionary.TryGetValue(midiControllerCode, out IList<MidiMappingDto> sourceDtos))
+//			{
+//				return _emptyDimensionValueArray;
+//			}
+
+//			// TODO: Avoid enumerables.
+//			var results = sourceDtos.Select(x => (x.DimensionEnum, x.Name, x.Position, CalculateDimensionValue(midiControllerValue, x))).ToArray();
+
+//			return results;
+//		}
+
+//		public (DimensionEnum dimensionEnum, string canonicalName, int? position, double value)[] CalculateFromMidiNote(int midiNoteNumber, int midiVelocity, int midiChannel)
+//		{
+//			// TODO: Avoid enumerables.
+//			var enumerable1 =
+//				_midiNoteNumber_MidiMappingDtos.Select(x => (x.DimensionEnum, x.Name, x.Position, CalculateDimensionValue(midiNoteNumber, x)));
+
+//			var enumerable2 =
+//				_midiVelocity_MidiMappingDtos.Select(x => (x.DimensionEnum, x.Name, x.Position, CalculateDimensionValue(midiVelocity, x)));
+
+//			var enumerable3 =
+//				_midiChannel_MidiMappingDtos.Select(x => (x.DimensionEnum, x.Name, x.Position, CalculateDimensionValue(midiChannel, x)));
+
+
+//			return enumerable1.Union(enumerable2).Union(enumerable3).ToArray();
+//		}
+
+//		public int? CalculateMidiControllerValueOrNull(
+//			DimensionEnum dimensionEnum,
+//			string canonicalName,
+//			int? position,
+//			double dimensionValue,
+//			int midiControllerCode)
+//		{
+//			if (!_midiControllerCode_ToMidiMappingDtos_Dictionary.TryGetValue(midiControllerCode, out IList<MidiMappingDto> sourceDtos))
+//			{
+//				return null;
+//			}
+
+//			if (sourceDtos.Count == 0)
+//			{
+//				return null;
+//			}
+
+//			MidiMappingDto sourceDto = sourceDtos[0];
+
+//			int results = CalculateMidiControllerValue(dimensionEnum, canonicalName, position, dimensionValue, sourceDto);
+
+//			return results;
+//		}
+
+//		public void Calculate(
+//			Dictionary<int, int> midiControllerDictionary,
+//			int? midiNoteNumber,
+//			int? midiVelocity,
+//			int? midiChannel)
+//		{
+//			_results.Clear();
+
+//			int count = _midiMappingDtos.Length;
+
+//			for (int i = 0; i < count; i++)
+//			{
+//				MidiMappingDto midiMappingDto = _midiMappingDtos[i];
+
+//				double? midiValue = null;
+
+//				switch (midiMappingDto.MidiMappingTypeEnum)
+//				{
+//					case MidiMappingTypeEnum.MidiNoteNumber:
+//						midiValue = midiNoteNumber;
+//						break;
+
+//					case MidiMappingTypeEnum.MidiVelocity:
+//						midiValue = midiVelocity;
+//						break;
+
+//					case MidiMappingTypeEnum.MidiChannel:
+//						midiValue = midiChannel;
+//						break;
+
+//					case MidiMappingTypeEnum.MidiController:
+//						if (midiMappingDto.MidiControllerCode.HasValue)
+//						{
+//							if (midiControllerDictionary.TryGetValue(midiMappingDto.MidiControllerCode.Value, out int midiControllerValue))
+//							{
+//								midiValue = midiControllerValue;
+//							}
+//						}
+
+//						break;
+
+//					default:
+//						throw new ValueNotSupportedException(midiMappingDto.MidiMappingTypeEnum);
+//				}
+
+//				if (!midiValue.HasValue)
+//				{
+//					continue;
+//				}
+
+//				double destDimensionValue = CalculateDimensionValue(midiValue.Value, midiMappingDto);
+
+//				_results.Add(
+//					new MidiMappingCalculatorResult(midiMappingDto.DimensionEnum, midiMappingDto.Name, midiMappingDto.Position, destDimensionValue));
+//			}
+//		}
+
+//		private double CalculateDimensionValue(double midiValue, MidiMappingDto midiMappingDto)
+//		{
+//			// TODO: Use MathHelper.ScaleLinearly?
+//			double ratio = (midiValue - midiMappingDto.FromMidiValue) / midiMappingDto.GetMidiValueRange();
+
+//			double destRange = midiMappingDto.GetDimensionValueRange();
+
+//			double destValue = ratio * destRange + midiMappingDto.FromDimensionValue;
+
+//			if (destValue < midiMappingDto.MinDimensionValue)
+//			{
+//				destValue = midiMappingDto.MinDimensionValue.Value;
+//			}
+
+//			if (destValue > midiMappingDto.MaxDimensionValue)
+//			{
+//				destValue = midiMappingDto.MaxDimensionValue.Value;
+//			}
+
+//			return destValue;
+//		}
+
+//		//private int CalculateMidiControllerValue(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue, MidiMappingDto midiMappingDto)
+//		private int CalculateMidiControllerValue(double dimensionValue, MidiMappingDto midiMappingDto)
+//		{
+//			// TODO: Use MathHelper.ScaleLinearly?
+
+//			MathHelper.ScaleLinearly(
+//				dimensionValue,
+//				midiMappingDto.FromDimensionValue,
+//				midiMappingDto.TillDimensionValue,
+//				midiMappingDto.FromMidiValue,
+//				midiMappingDto.TillMidiValue);
+
+//			double ratio = (dimensionValue - midiMappingDto.FromDimensionValue) / midiMappingDto.GetDimensionValueRange();
+
+//			double destRange = midiMappingDto.GetMidiValueRange();
+
+//			double destValue = ratio * destRange + midiMappingDto.FromMidiValue;
+
+//			if (destValue > int.MaxValue)
+//			{
+//				destValue = int.MaxValue;
+//			}
+//			if (destValue < int.MinValue)
+//			{
+//				destValue = int.MinValue;
+//			}
+
+//			return (int)destValue;
+//		}
+
+//		public int ToAbsoluteControllerValue(int midiControllerCode, int inputMidiControllerValue, int previousAbsoluteMidiControllerValue)
+//		{
+//			int absoluteMidiControllerValue = inputMidiControllerValue;
+
+//			int count = _midiMappingDtos.Length;
+//			for (int i = 0; i < count; i++)
+//			{
+//				MidiMappingDto midiMappingDto = _midiMappingDtos[i];
+
+//				if (!midiMappingDto.IsRelative)
+//				{
+//					continue;
+//				}
+
+//				if (!MustScaleByMidiController(midiMappingDto, midiControllerCode))
+//				{
+//					continue;
+//				}
+
+//				int delta = inputMidiControllerValue - MIDDLE_CONTROLLER_VALUE;
+
+//				// Overriding mechanism: last applicable mapping wins.
+//				absoluteMidiControllerValue = previousAbsoluteMidiControllerValue + delta;
+//			}
+
+//			return absoluteMidiControllerValue;
+//		}
+
+//		private bool MustScaleByMidiController(MidiMappingDto midiMappingDto, int midiControllerCode)
+//		{
+//			bool mustScaleByMidiController = midiMappingDto.MidiMappingTypeEnum == MidiMappingTypeEnum.MidiController &&
+//			                                 midiMappingDto.MidiControllerCode.HasValue &&
+//			                                 midiMappingDto.MidiControllerCode == midiControllerCode;
+
+//			return mustScaleByMidiController;
+//		}
+//	}
+//}

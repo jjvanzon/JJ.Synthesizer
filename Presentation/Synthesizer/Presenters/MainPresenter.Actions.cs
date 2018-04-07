@@ -2103,7 +2103,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Monitoring
 
-		public void Monitoring_DimensionValuesChanged(IList<(DimensionEnum dimensionEnum, string name, double value)> values)
+		public void Monitoring_DimensionValuesChanged(IList<(DimensionEnum dimensionEnum, string name, int? position, double value)> values)
 		{
 			MonitoringBarViewModel viewModel = MainViewModel.MonitoringBar;
 
@@ -3100,7 +3100,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				// Undo History
 				// (Put main operator last so it is dispatched last upon redo and put on top.)
-				IList<int> createdOperatorIDs = viewModel.AutoCreatedNumberOperatorIDs.Union(viewModel.CreatedMainOperatorID).ToArray();
+				IList<int> createdOperatorIDs = viewModel.AutoCreatedNumberOperatorIDs.Concat(viewModel.CreatedMainOperatorID).ToArray();
 				var undoItem = new UndoCreateViewModel
 				{
 					EntityTypesAndIDs = createdOperatorIDs.Select(x => (EntityTypeEnum.Operator, x).ToViewModel()).ToArray(),

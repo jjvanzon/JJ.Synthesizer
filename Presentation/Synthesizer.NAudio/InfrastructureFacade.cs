@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		}
 
 		/// <summary> Position is left out, because there is still ambiguity between NoteIndex and ListIndex in the system. </summary>
-		public event EventHandler<EventArgs<IList<(DimensionEnum dimensionEnum, string name, double value)>>> MidiDimensionValuesChanged
+		public event EventHandler<EventArgs<IList<(DimensionEnum dimensionEnum, string name, int? position, double value)>>> MidiDimensionValuesChanged
 		{
 			add => _midiInputProcessor.DimensionValuesChanged += value;
 			remove => _midiInputProcessor.DimensionValuesChanged -= value;

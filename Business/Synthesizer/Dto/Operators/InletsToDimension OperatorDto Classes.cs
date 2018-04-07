@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 
 		public override IReadOnlyList<InputDto> Inputs
 		{
-			get => InputsExceptPosition.Union(Position).ToArray();
+			get => InputsExceptPosition.Concat(Position).ToArray();
 			set
 			{
 				InputsExceptPosition = value.Take(value.Count - 1).ToArray();

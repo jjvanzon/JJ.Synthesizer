@@ -1,6 +1,7 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Converters
@@ -19,7 +20,7 @@ namespace JJ.Business.Synthesizer.Converters
 				TillMidiValue = entity.TillMidiValue,
 				MidiControllerCode = entity.MidiControllerCode,
 				DimensionEnum = entity.GetDimensionEnum(),
-				Name = entity.Name,
+				Name = NameHelper.ToCanonical(entity.Name),
 				Position = entity.Position,
 				FromDimensionValue = entity.FromDimensionValue,
 				TillDimensionValue = entity.TillDimensionValue,

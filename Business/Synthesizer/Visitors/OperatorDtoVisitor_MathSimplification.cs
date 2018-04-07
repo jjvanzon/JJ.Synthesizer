@@ -1003,7 +1003,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				// Pre-calculate
 				InputDto aggregate = aggregationDelegate(aggregateInfo.Consts.Select(x => x.Const));
-				dto.Inputs = aggregateInfo.Vars.Union(aggregate).ToArray();
+				dto.Inputs = aggregateInfo.Vars.Concat(aggregate).ToArray();
 				return dto;
 			}
 			else if (aggregateInfo.OnlyVars)

@@ -189,21 +189,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Monitoring
 
-		public static MonitoringItemViewModel ToViewModel(this (DimensionEnum dimensionEnum, string name, double value) tuple, bool visible)
+		public static MonitoringItemViewModel ToViewModel(
+			this (DimensionEnum dimensionEnum, string name, int? position, double value) tuple,
+			bool visible)
 		{
-			string formattedName = "";
+			var list = new List<string>();
+
 			if (tuple.dimensionEnum != default)
 			{
-				formattedName += ResourceFormatter.GetDisplayName(tuple.dimensionEnum) + " ";
+				list.Add(ResourceFormatter.GetDisplayName(tuple.dimensionEnum));
 			}
+
 			if (!string.IsNullOrEmpty(tuple.name))
 			{
-				formattedName += tuple.name;
+				list.Add(tuple.name);
 			}
-			formattedName = formattedName.Trim();
 
-			double value = tuple.value;
-			double roundedValue = MathHelper.RoundToSignificantDigits(value, 3);
+			if (tuple.position.HasValue)
+			{
+				list.Add($"{tuple.position + 1}");
+			}
+
+			string formattedName = string.Join(" ", list);
+
+			double roundedValue = MathHelper.RoundToSignificantDigits(tuple.value, 3);
 
 			return new MonitoringItemViewModel { Name = formattedName, Value = roundedValue, Visible = visible };
 		}
@@ -248,10 +257,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static EntityTypeAndIDViewModel ToEntityTypeAndIDViewModel(this Operator entity)
-		{
-			return (EntityTypeEnum.Operator, entity.ID).ToViewModel();
-		}
+		public static EntityTypeAndIDViewModel ToEntityTypeAndIDViewModel(this Operator entity) =>
+			(EntityTypeEnum.Operator, entity.ID).ToViewModel();
 
 		// Outlet
 

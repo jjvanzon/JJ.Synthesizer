@@ -310,7 +310,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Put main operator last so it is dispatched last upon undo and put on top.
 			// Yes, this is the non-written agreement anti-pattern, but whatever.
-			IList<int> operatorIDsToDelete = ownedOperatorIDs.Union(operatorID.Value).ToArray();
+			IList<int> operatorIDsToDelete = ownedOperatorIDs.Concat(operatorID.Value).ToArray();
 
 			return operatorIDsToDelete;
 		}

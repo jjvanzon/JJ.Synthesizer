@@ -34,6 +34,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					{
 						ExecuteUndoRedoDeletion(entityTypeAndIDViewModel.EntityTypeEnum, entityTypeAndIDViewModel.EntityID);
 					}
+
 					break;
 
 				case UndoUpdateViewModel undoUpdateViewModel:
@@ -81,6 +82,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					{
 						ExecuteUndoRedoDeletion(entityTypeAndIDViewModel.EntityTypeEnum, entityTypeAndIDViewModel.EntityID);
 					}
+
 					break;
 
 				default:
@@ -207,13 +209,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ViewModelSelector.GetAudioFileOutputPropertiesViewModel(MainViewModel.Document, id)
 		};
 
-		private IList<ScreenViewModelBase> GetLibraryStates(int documentReferenceID) => new List<ScreenViewModelBase> { ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID) };
+		private IList<ScreenViewModelBase> GetLibraryStates(int documentReferenceID) => new List<ScreenViewModelBase>
+		{
+			ViewModelSelector.GetLibraryPropertiesViewModel(MainViewModel.Document, documentReferenceID)
+		};
 
 		private IList<ScreenViewModelBase> GetMidiMappingStates(int id)
 		{
-			MidiMappingPropertiesViewModel mappingElementPropertiesViewModel = ViewModelSelector.GetMidiMappingPropertiesViewModel(MainViewModel.Document, id);
+			MidiMappingPropertiesViewModel mappingElementPropertiesViewModel =
+				ViewModelSelector.GetMidiMappingPropertiesViewModel(MainViewModel.Document, id);
 			int midiMappingGroupID = mappingElementPropertiesViewModel.MidiMappingGroupID;
-			MidiMappingGroupDetailsViewModel midiMappingDetailsViewModel = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
+			MidiMappingGroupDetailsViewModel midiMappingDetailsViewModel =
+				ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
 
 			var states = new List<ScreenViewModelBase> { midiMappingDetailsViewModel, mappingElementPropertiesViewModel };
 
@@ -222,20 +229,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private IList<ScreenViewModelBase> GetMidiMappingGroupStates(int midiMappingGroupID)
 		{
-			return ViewModelSelector.EnumerateMidiMappingPropertiesViewModel_ByMidiMappingGroupID(MainViewModel.Document, midiMappingGroupID)
-			                        .Union<ScreenViewModelBase>(ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID))
-			                        .ToArray();
+			return ViewModelSelector
+			       .EnumerateMidiMappingPropertiesViewModel_ByMidiMappingGroupID(MainViewModel.Document,midiMappingGroupID)
+			       .Union<ScreenViewModelBase>(ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document,midiMappingGroupID))
+			       .ToArray();
 		}
 
 		private IList<ScreenViewModelBase> GetNodeStates(int id)
 		{
 			NodePropertiesViewModel nodePropertiesViewModel = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
-			CurveDetailsViewModel curveDetailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, nodePropertiesViewModel.CurveID);
+			CurveDetailsViewModel curveDetailsViewModel =
+				ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, nodePropertiesViewModel.CurveID);
 
 			return new List<ScreenViewModelBase>
 			{
 				nodePropertiesViewModel,
-				curveDetailsViewModel,
+				curveDetailsViewModel
 			};
 		}
 
@@ -246,8 +255,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// </summary>
 		private IList<ScreenViewModelBase> GetOperatorStates(int id)
 		{
-			OperatorPropertiesViewModelBase operatorPropertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
-			PatchDetailsViewModel patchDetailsViewModel = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, operatorPropertiesViewModel.PatchID);
+			OperatorPropertiesViewModelBase operatorPropertiesViewModel =
+				ViewModelSelector.GetOperatorPropertiesViewModelPolymorphic(MainViewModel.Document, id);
+			PatchDetailsViewModel patchDetailsViewModel =
+				ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, operatorPropertiesViewModel.PatchID);
 
 			var states = new List<ScreenViewModelBase> { patchDetailsViewModel, operatorPropertiesViewModel };
 
@@ -256,7 +267,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				CurveDetailsViewModel curveDetailsViewModel = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, castedViewModel.CurveID);
 				states.Add(curveDetailsViewModel);
 
-				IEnumerable<NodePropertiesViewModel> nodePropertiesViewModels = ViewModelSelector.GetNodePropertiesViewModelDictionary_ByCurveID(MainViewModel.Document, curveDetailsViewModel.Curve.ID).Values;
+				IEnumerable<NodePropertiesViewModel> nodePropertiesViewModels = ViewModelSelector
+				                                                                .GetNodePropertiesViewModelDictionary_ByCurveID(
+					                                                                MainViewModel.Document,
+					                                                                curveDetailsViewModel.Curve.ID)
+				                                                                .Values;
 				states.AddRange(nodePropertiesViewModels);
 			}
 
@@ -271,11 +286,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchPropertiesViewModel patchPropertiesViewModel = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
 			IList<ScreenViewModelBase> states = ViewModelSelector.EnumerateAllOperatorPropertiesViewModels(MainViewModel.Document)
-														   .SelectMany(x => GetOperatorStates(x.ID))
-			                                               .Union(patchDetailsViewModel)
-			                                               .Union(patchPropertiesViewModel)
-														   .Distinct() // Removes duplicate entries of PatchDetailsViewModel.
-			                                               .ToArray();
+			                                                     .SelectMany(x => GetOperatorStates(x.ID))
+			                                                     .Concat(patchDetailsViewModel)
+			                                                     .Concat(patchPropertiesViewModel)
+			                                                     .Distinct() // Removes duplicate entries of PatchDetailsViewModel.
+			                                                     .ToArray();
 			return states;
 		}
 
@@ -285,6 +300,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ViewModelSelector.GetScalePropertiesViewModel(MainViewModel.Document, id)
 		};
 
-		private IList<ScreenViewModelBase> GetToneStates(int scaleID) => new List<ScreenViewModelBase> { ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID) };
+		private IList<ScreenViewModelBase> GetToneStates(int scaleID) =>
+			new List<ScreenViewModelBase> { ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID) };
 	}
 }

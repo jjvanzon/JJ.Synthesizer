@@ -806,7 +806,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void InfrastructureFacade_MidiDimensionValuesChanged(
 			object sender,
-			EventArgs<IList<(DimensionEnum dimensionEnum, string name, double value)>> e)
+			EventArgs<IList<(DimensionEnum dimensionEnum, string name, int? position, double value)>> e)
 		{
 			_infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker.InvokeWithDelay(
 				() => TemplateActionHandler(() => _mainPresenter.Monitoring_DimensionValuesChanged(e.Value)));

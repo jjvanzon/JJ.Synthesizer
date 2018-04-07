@@ -1609,7 +1609,7 @@
 
 		//		IList<Operator> operators1 = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.HighPassFilter);
 		//		IList<Operator> operators2 = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.LowPassFilter);
-		//		IList<Operator> operators = Enumerable.Union(operators1, operators2).ToArray();
+		//		IList<Operator> operators = Enumerable.Concat(operators1, operators2).ToArray();
 
 		//		for (int i = 0; i < operators.Count; i++)
 		//		{
@@ -3564,7 +3564,7 @@
 		//		IList<Operator> customOperators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.CustomOperator);
 		//		IList<Operator> patchInlets = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.PatchInlet);
 		//		IList<Operator> patchOutlets = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.PatchOutlet);
-		//		IList<Operator> operators = customOperators.Union(patchInlets).Union(patchOutlets).ToArray();
+		//		IList<Operator> operators = customOperators.Concat(patchInlets).Concat(patchOutlets).ToArray();
 
 		//		for (int i = 0; i < operators.Count; i++)
 		//		{
@@ -3658,7 +3658,7 @@
 
 		//		IList<Operator> customOperators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.CustomOperator);
 		//		IList<Operator> absoluteOperators = repositories.OperatorRepository.GetManyByOperatorTypeID((int)OperatorTypeEnum.Absolute);
-		//		IList<Operator> operators = customOperators.Union(absoluteOperators).ToArray();
+		//		IList<Operator> operators = customOperators.Concat(absoluteOperators).ToArray();
 
 		//		for (int i = 0; i < operators.Count; i++)
 		//		{

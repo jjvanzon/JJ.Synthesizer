@@ -22,8 +22,8 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
 			var visitor = new OperatorDtoToCSharpVisitor();
 			OperatorDtoToCSharpVisitorResult visitorResult = visitor.Execute(dto, RAW_CALCULATION_INDENT_LEVEL);
 
-			IList<string> instanceVariableNames = visitorResult.PhaseVariableNamesCamelCase.Union(visitorResult.PreviousPositionVariableNamesCamelCase)
-																						   .Union(visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
+			IList<string> instanceVariableNames = visitorResult.PhaseVariableNamesCamelCase.Concat(visitorResult.PreviousPositionVariableNamesCamelCase)
+																						   .Concat(visitorResult.VariableInputValueInfos.Select(x => x.NameCamelCase))
 																						   .ToArray();
 			// Build up Code File
 			var sb = new StringBuilderWithIndentation(TAB_STRING);
@@ -83,7 +83,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Generators
 					sb.AppendLine("{");
 					sb.Indent();
 					{
-						foreach (string variableName in visitorResult.PhaseVariableNamesCamelCase.Union(visitorResult.PreviousPositionVariableNamesCamelCase))
+						foreach (string variableName in visitorResult.PhaseVariableNamesCamelCase.Concat(visitorResult.PreviousPositionVariableNamesCamelCase))
 						{
 							sb.AppendLine($"_{variableName} = 0.0;");
 						}

@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			_inputCalculator = inputCalculator;
 
-			_childOperatorCalculators = _childOperatorCalculators.Union(inputCalculator).ToArray();
+			_childOperatorCalculators = _childOperatorCalculators.Concat(inputCalculator).ToArray();
 
 			// ReSharper disable once VirtualMemberCallInConstructor
 			ResetNonRecursive();

@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 
 		public override IReadOnlyList<InputDto> Inputs
 		{
-			get => Input.Union(Items).ToArray();
+			get => Input.Concat(Items).ToArray();
 			set
 			{
 				Input = value.FirstOrDefault();
