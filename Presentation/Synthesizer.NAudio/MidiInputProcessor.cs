@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
 		private readonly TimeProvider _timeProvider;
 		private readonly NoteRecycler _noteRecycler;
-		private readonly Dictionary<int, int> _midiControllerDictionary;
+		private Dictionary<int, int> _midiControllerDictionary;
 		private MidiIn _midiIn;
 		private MidiMappingCalculator _midiMappingCalculator;
 
@@ -54,7 +54,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			_patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
 			_timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
 			_noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
-			_midiControllerDictionary = new Dictionary<int, int>();
 
 			UpdateScaleAndMidiMappings(scale, midiMappings);
 		}
@@ -63,8 +62,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			lock (_lock)
 			{
+				_midiControllerDictionary = new Dictionary<int, int>();
 				_midiMappingCalculator = new MidiMappingCalculator(midiMappings);
-
 				_frequencies = new ScaleToDtoConverter().Convert(scale).Frequencies.ToArray();
 			}
 		}
@@ -120,7 +119,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				try
 				{
 					_midiIn.MessageReceived -= _midiIn_MessageReceived;
-					// Not sure if I need to call of these methods,
+					// Not sure if I need to call of these met\hods,
 					// but when I omitted one I got an error upon application exit.
 					_midiIn.Stop();
 					_midiIn.Close();
@@ -166,14 +165,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int midiVelocity = noteOnEvent.Velocity;
 			int midiChannel = noteOnEvent.Channel;
 
+			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] dimensionValues;
+			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)? extraDimensionValue = null;
+
 			MidiNoteOnOccurred(this, new EventArgs<(int, int, int)>((midiNoteNumber, midiVelocity, midiChannel)));
 
 			// Lock wide enough to freeze time. (You cannot get note infos and reset notes at a different time.)
 			// As a consequence, you also have to lock the calculation while applying MidiMappings,
 			ReaderWriterLockSlim calculatorLock = _patchCalculatorContainer.Lock;
 			calculatorLock.EnterWriteLock();
-			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] dimensionValues;
-			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)? extraDimensionValue = null;
 			try
 			{
 				IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
@@ -296,11 +296,33 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 				if (!_midiControllerDictionary.TryGetValue(midiControllerCode, out int previousControllerValue))
 				{
-					// TODO: Initialize to the calculator's value converted back to a controller value.
-					// TODO: I want to get the first dimension from the mappings. Then the dimension value from the PatchCalculator.
-					//calculator.GetValue()
-					//_midiMappingCalculator.CalculateMidiControllerValueOrNull(midiControllerCode, dimensionValue);
-					previousControllerValue = MidiMappingCalculator.CENTER_CONTROLLER_VALUE;
+					// Initialize Remembered ControllerValue
+
+					// Get Dimension from MidiMapping
+					(DimensionEnum dimensionEnum, string canonicalName, int? position) =
+						_midiMappingCalculator.GetDimensionForMidiControllerOrDefault(midiControllerCode);
+
+					// Get Value from PatchCalculator
+					double? dimensionValue = null;
+					if (position.HasValue)
+					{
+						if (dimensionEnum != default) dimensionValue = patchCalculator.GetValue(dimensionEnum, position.Value);
+						if (canonicalName != "") dimensionValue = patchCalculator.GetValue(canonicalName, position.Value);
+					}
+					else
+					{
+						if (dimensionEnum != default) dimensionValue = patchCalculator.GetValue(dimensionEnum);
+						if (canonicalName != "") dimensionValue = patchCalculator.GetValue(canonicalName);
+					}
+
+					// Convert Dimension Value to Midi Controller Value
+					int? previousControllerValueNullable = null;
+					if (dimensionValue.HasValue)
+					{
+						previousControllerValueNullable = _midiMappingCalculator.CalculateMidiControllerValueOrNull(midiControllerCode, dimensionValue.Value);
+					}
+
+					previousControllerValue = previousControllerValueNullable ?? MidiMappingCalculator.CENTER_CONTROLLER_VALUE;
 				}
 
 				int absoluteControllerValue = _midiMappingCalculator.ToAbsoluteControllerValue(

@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.Entities
 	{
 		public virtual int ID { get; set; }
 		public virtual bool IsActive { get; set; }
-		/// <inheritdoc />
+		/// <summary> Tells us if MIDI controller value changes are interpreted as absolute values or relative changes. </summary>
 		public virtual bool IsRelative { get; set; }
 
 		/// <summary> parent, not nullable </summary>
@@ -26,7 +26,7 @@ namespace JJ.Data.Synthesizer.Entities
 		
 		/// <summary> nullable </summary>
 		public virtual Dimension Dimension { get; set; }
-		/// <inheritdoc />
+		/// <summary> optional </summary>
 		public virtual string Name { get; set; }
 		public virtual int? Position { get; set; }
 

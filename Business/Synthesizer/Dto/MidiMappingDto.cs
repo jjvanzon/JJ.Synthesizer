@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
 	internal class MidiMappingDto : IMidiMapping
 	{
-		/// <inheritdoc />
+		/// <summary> Tells us if MIDI controller value changes are interpreted as absolute values or relative changes. </summary>
 		public bool IsRelative { get; set; }
 
 		public MidiMappingTypeEnum MidiMappingTypeEnum { get; set; }
@@ -17,12 +17,8 @@ namespace JJ.Business.Synthesizer.Dto
 		public int? MidiControllerCode { get; set; }
 
 		public DimensionEnum DimensionEnum { get; set; }
-		/// <summary>
-		/// Optional.
-		/// In case of the MidiMappingDto this is the canonical name.
-		/// It is not called that, because it is part of the same interface as that of the entity.
-		/// </summary>
-		public string Name { get; set; }
+		/// <summary> Optional. </summary>
+		public string CanonicalName { get; set; }
 		public int? Position { get; set; }
 		public double FromDimensionValue { get; set; }
 		public double TillDimensionValue { get; set; }

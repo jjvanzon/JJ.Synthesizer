@@ -16,11 +16,6 @@ using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-	/// <summary>
-	/// Not thread-safe.
-	/// In particular the Results property is overwritten in-place in the Calculate method.
-	/// This is done to avoid garbage collection.
-	/// </summary>
 	public class MidiMappingCalculator
 	{
 		public const int CENTER_CONTROLLER_VALUE = 64;
@@ -73,7 +68,7 @@ namespace JJ.Business.Synthesizer.Calculation
 			for (int i = 0; i < count; i++)
 			{
 				MidiMappingDto dto = sourceMidiMappingDtos[i];
-				results[i] = (dto.DimensionEnum, dto.Name, dto.Position, CalculateDimensionValue(midiControllerValue, dto));
+				results[i] = (dto.DimensionEnum, dto.CanonicalName, dto.Position, CalculateDimensionValue(midiControllerValue, dto));
 			}
 
 			return results;
@@ -94,7 +89,7 @@ namespace JJ.Business.Synthesizer.Calculation
 				{
 					results[j++] = (
 						dtos[i].DimensionEnum,
-						dtos[i].Name,
+						dtos[i].CanonicalName,
 						dtos[i].Position,
 						CalculateDimensionValue(midiNoteNumber, dtos[i]));
 				}
@@ -107,7 +102,7 @@ namespace JJ.Business.Synthesizer.Calculation
 				{
 					results[j++] = (
 						dtos[i].DimensionEnum,
-						dtos[i].Name,
+						dtos[i].CanonicalName,
 						dtos[i].Position,
 						CalculateDimensionValue(midiVelocity, dtos[i]));
 				}
@@ -120,13 +115,25 @@ namespace JJ.Business.Synthesizer.Calculation
 				{
 					results[j++] = (
 						dtos[i].DimensionEnum,
-						dtos[i].Name,
+						dtos[i].CanonicalName,
 						dtos[i].Position,
 						CalculateDimensionValue(midiChannel, dtos[i]));
 				}
 			}
 
 			return results;
+		}
+
+
+		public (DimensionEnum dimensionEnum, string canonicalName, int? position) GetDimensionForMidiControllerOrDefault(int midiControllerCode)
+		{
+			if (_midiControllerCode_ToMidiMappingDtos_Dictionary.TryGetValue(midiControllerCode, out MidiMappingDto[] midiMappingDtos))
+			{
+				MidiMappingDto midiMappingDto = midiMappingDtos[midiMappingDtos.Length - 1];
+				return (midiMappingDto.DimensionEnum, midiMappingDto.CanonicalName, midiMappingDto.Position);
+			}
+
+			return default;
 		}
 
 		public int? CalculateMidiControllerValueOrNull(int midiControllerCode, double dimensionValue)

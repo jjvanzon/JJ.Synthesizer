@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
 			string debuggerDisplay =
 				$"{{{nameof(MidiMappingDto)}}} " +
-				$"{new { dto.DimensionEnum, dto.Name, dto.Position, dto.FromDimensionValue, dto.TillDimensionValue }} " +
+				$"{new { dto.DimensionEnum, dto.CanonicalName, dto.Position, dto.FromDimensionValue, dto.TillDimensionValue }} " +
 				$"{new { dto.MidiMappingTypeEnum, dto.FromMidiValue, dto.TillMidiValue, dto.MidiControllerCode }}";
 
 			return debuggerDisplay;

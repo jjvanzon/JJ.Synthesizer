@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Converters
 				TillMidiValue = entity.TillMidiValue,
 				MidiControllerCode = entity.MidiControllerCode,
 				DimensionEnum = entity.GetDimensionEnum(),
-				Name = NameHelper.ToCanonical(entity.Name),
+				CanonicalName = NameHelper.ToCanonical(entity.Name),
 				Position = entity.Position,
 				FromDimensionValue = entity.FromDimensionValue,
 				TillDimensionValue = entity.TillDimensionValue,
