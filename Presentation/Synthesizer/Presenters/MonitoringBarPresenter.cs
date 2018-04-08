@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private string GetMidiToolTip(int absoluteMidiControllerValue, int relativeMidiControllerValue)
 		{
-			if (absoluteMidiControllerValue != relativeMidiControllerValue)
+			if (absoluteMidiControllerValue == relativeMidiControllerValue)
 			{
 				return null;
 			}

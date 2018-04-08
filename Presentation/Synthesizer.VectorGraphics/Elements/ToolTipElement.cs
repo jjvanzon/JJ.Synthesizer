@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 	public class ToolTipElement : Rectangle
 	{
 		private const float TEXT_MARGIN_IN_PIXELS = 3f;
-		private const float TOOL_TIP_RECTANGLE_HEIGHT_IN_PIXELS = 20f;
+		//private const float TOOL_TIP_RECTANGLE_HEIGHT_IN_PIXELS = 20f;
 
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _label;
@@ -52,16 +52,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_label.Text = text;
 
 			// Set text width
-			(float textWidthInPixels, _) = _textMeasurer.GetTextSize(text, _label.TextStyle.Font);
+			(float textWidthInPixels, float textHeightInPixels) = _textMeasurer.GetTextSize(text, _label.TextStyle.Font);
 			float widthInPixels = textWidthInPixels + TEXT_MARGIN_IN_PIXELS * 2f;
+			float heightInPixels = textHeightInPixels + TEXT_MARGIN_IN_PIXELS * 2f;
+
 			float scaledWidth = Diagram.Position.PixelsToWidth(widthInPixels);
+			float scaledHeight = Diagram.Position.PixelsToHeight(heightInPixels);
 			Position.Width = scaledWidth;
 			_label.Position.Width = scaledWidth;
-
-			// Set height (can change with coordinate scaling)
-			float scaledHeight = Diagram.Position.PixelsToHeight(TOOL_TIP_RECTANGLE_HEIGHT_IN_PIXELS);
 			Position.Height = scaledHeight;
 			_label.Position.Height = scaledHeight;
+
+			// Set height (can change with coordinate scaling)
+			//float scaledHeight = Diagram.Position.PixelsToHeight(TOOL_TIP_RECTANGLE_HEIGHT_IN_PIXELS);
+			//Position.Height = scaledHeight;
+			//_label.Position.Height = scaledHeight;
 		}
 	}
 }

@@ -82,7 +82,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			HideToolTip(e.Element);
 		}
 
-		public void ShowToolTipText(string text)
+		/// <summary> Only shows the new tool tip text if the tool tip was already visible. </summary>
+		public void ChangeToolTipText(string text)
 		{
 			if (_previousElement == null)
 			{
@@ -92,7 +93,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			ShowToolTipText(_previousElement, text);
 		}
 
-		private void ShowToolTipText(Element element, string text)
+		/// <summary> Sets the tool tip text, positions the tooltip and shows it on the provided element. </summary>
+		public void ShowToolTipText(Element element, string text)
 		{
 			if (element == null) throw new NullException(() => element);
 
