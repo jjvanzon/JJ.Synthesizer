@@ -338,8 +338,6 @@ namespace JJ.Business.Synthesizer.Resources
 
 		// Resource texts with placeholders
 
-		public static string AbsoluteRelativeMidiControllerValueExplanation(int relativeMidiControllerValue, int absoluteMidiControllerValue) 
-			=> string.Format(Resources.AbsoluteRelativeMidiControllerValueExplanation, relativeMidiControllerValue, absoluteMidiControllerValue);
 		public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
 		public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
 		public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem) => string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);

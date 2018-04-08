@@ -1140,8 +1140,4 @@
   <data name="Synth" xml:space="preserve">
     <value>Synth</value>
   </data>
-  <data name="AbsoluteRelativeMidiControllerValueExplanation" xml:space="preserve">
-    <value>Een controller waarde '{0} ({1})' betekent dat
-de relatieve controller waarde {1} omgezet is naar een absolute controller waarde {0}.</value>
-  </data>
 </root>

@@ -79,19 +79,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					midiChannelViewModel.Name = ResourceFormatter.Channel;
 					midiChannelViewModel.Value = ToViewModelHelper.ToMonitoringBarValue(midiChannel);
 					midiChannelViewModel.Visible = true;
-					midiViewModel.ToolTip = GetMidiToolTip(absoluteMidiControllerValue, relativeMidiControllerValue);
 					midiViewModel.IsEmpty = false;
 				});
-		}
-
-		private string GetMidiToolTip(int absoluteMidiControllerValue, int relativeMidiControllerValue)
-		{
-			if (absoluteMidiControllerValue == relativeMidiControllerValue)
-			{
-				return null;
-			}
-
-			return ResourceFormatter.AbsoluteRelativeMidiControllerValueExplanation(absoluteMidiControllerValue, relativeMidiControllerValue);
 		}
 
 		private static string GetFormattedControllerName(int midiControllerCode) => $"{ResourceFormatter.Controller} {midiControllerCode}";

@@ -1159,9 +1159,4 @@
     <value>Synth</value>
     <comment>Short for 'synthesizer'</comment>
   </data>
-  <data name="AbsoluteRelativeMidiControllerValueExplanation" xml:space="preserve">
-    <value>Controller values like '{0} ({1})' mean that
-the relative controller value {1} translated to an absolute controller value of {0}.</value>
-    <comment>{0} = a number, {1} = another number</comment>
-  </data>
 </root>

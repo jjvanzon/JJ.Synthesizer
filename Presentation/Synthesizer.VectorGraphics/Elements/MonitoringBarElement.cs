@@ -6,7 +6,6 @@ using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Framework.VectorGraphics.Models.Styling;
-using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
@@ -18,8 +17,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _midiLabel;
 		private readonly Label _synthLabel;
-		private readonly ToolTipElement _toolTipElement;
-		private readonly ToolTipGesture _midiToolTipGesture;
 
 		private static readonly TextStyle _textStyle = CreateTextStyle();
 
@@ -40,16 +37,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			};
 
 			_synthLabel.Position.X = StyleHelper.SPACING_SMALL;
-
-			_toolTipElement = new ToolTipElement(
-				_midiLabel,
-				StyleHelper.ToolTipBackStyle,
-				StyleHelper.ToolTipLineStyle,
-				StyleHelper.ToolTipTextStyle,
-				textMeasurer);
-
-			_midiToolTipGesture = new ToolTipGesture(_toolTipElement);
-			_midiLabel.Gestures.Add(_midiToolTipGesture);
 
 			PositionElements();
 		}
@@ -111,8 +98,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			{
 				_synthLabel.Text = FormatItemViewModels(ResourceFormatter.Synth, ViewModel.Synth.Items);
 			}
-
-			_toolTipElement.SetText(ViewModel.Midi.ToolTip);
 		}
 
 		private string FormatItemViewModels(string title, params MonitoringItemViewModel[] viewModels)
