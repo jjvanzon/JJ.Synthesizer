@@ -827,14 +827,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void _infrastructureFacade_MidiControllerValueChanged(
 			object sender,
-			EventArgs<(int midiControllerCode, int midiControllerValue, int midiChannel)> e)
+			EventArgs<(int midiControllerCode, int absoluteMidiControllerValue, int relativeMidiControllerValue, int midiChannel)> e)
 		{
 			_infrastructureFacade_MidiControllerValueChanged_DelayedInvoker.InvokeWithDelay(
 				() =>
 					TemplateActionHandler(
 						() => _mainPresenter.Monitoring_MidiControllerValueChanged(
 							e.Value.midiControllerCode,
-							e.Value.midiControllerValue,
+							e.Value.absoluteMidiControllerValue,
+							e.Value.relativeMidiControllerValue,
 							e.Value.midiChannel)));
 		}
 

@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 	internal class MidiInputProcessor : IDisposable
 	{
 		public event EventHandler<EventArgs<(int midiNoteNumber, int midiVelocity, int midiChannel)>> MidiNoteOnOccurred;
-		public event EventHandler<EventArgs<(int midiControllerCode, int midiControllerValue, int midiChannel)>> MidiControllerValueChanged;
+		public event EventHandler<EventArgs<(int midiControllerCode, int absoluteMidiControllerValue, int relativeMidiControllerValue, int midiChannel)>> MidiControllerValueChanged;
 
 		/// <summary> Position is left out, because there is still ambiguity between NoteIndex and ListIndex in the system. </summary>
 		public event EventHandler<EventArgs<IList<(DimensionEnum dimensionEnum, string name, int? position, double value)>>> DimensionValuesChanged;
@@ -280,9 +280,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int midiControllerCode = (int)midiControlChangeEvent.Controller;
 			int midiControllerValue = midiControlChangeEvent.ControllerValue;
 			int midiChannel = midiControlChangeEvent.Channel;
+			int absoluteMidiControllerValue;
 			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] dimensionValues;
-
-			MidiControllerValueChanged(this, new EventArgs<(int, int, int)>((midiControllerCode, midiControllerValue, midiChannel)));
 
 			ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
 			lck.EnterWriteLock();
@@ -325,14 +324,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
 					previousControllerValue = previousControllerValueNullable ?? MidiMappingCalculator.CENTER_CONTROLLER_VALUE;
 				}
 
-				int absoluteControllerValue = _midiMappingCalculator.ToAbsoluteControllerValue(
+				absoluteMidiControllerValue = _midiMappingCalculator.ToAbsoluteControllerValue(
 					midiControllerCode,
 					midiControllerValue,
 					previousControllerValue);
 
-				_midiControllerDictionary[midiControllerCode] = absoluteControllerValue;
+				_midiControllerDictionary[midiControllerCode] = absoluteMidiControllerValue;
 
-				dimensionValues = _midiMappingCalculator.CalculateForMidiController(midiControllerCode, absoluteControllerValue);
+				dimensionValues = _midiMappingCalculator.CalculateForMidiController(midiControllerCode, absoluteMidiControllerValue);
 
 				int count = dimensionValues.Length;
 				for (int i = 0; i < count; i++)
@@ -355,6 +354,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				lck.ExitWriteLock();
 			}
 
+			MidiControllerValueChanged(this, new EventArgs<(int, int, int, int)>((midiControllerCode, absoluteMidiControllerValue, midiControllerValue, midiChannel)));
 			RaiseDimensionValuesChanged(dimensionValues);
 		}
 

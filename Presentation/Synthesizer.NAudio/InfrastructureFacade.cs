@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			remove => _midiInputProcessor.MidiNoteOnOccurred -= value;
 		}
 
-		public event EventHandler<EventArgs<(int midiControllerCode, int midiControllerValue, int midiChannel)>> MidiControllerValueChanged
+		public event EventHandler<EventArgs<(int midiControllerCode, int absoluteMidiControllerValue, int relativeMidiControllerValue, int midiChannel)>> MidiControllerValueChanged
 		{
 			add => _midiInputProcessor.MidiControllerValueChanged += value;
 			remove => _midiInputProcessor.MidiControllerValueChanged -= value;

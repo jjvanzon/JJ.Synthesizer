@@ -79,6 +79,16 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Controller values like &apos;{0} ({1})&apos; mean that
+        ///the relative controller value {1} translated to an absolute controller value of {0}..
+        /// </summary>
+        internal static string AbsoluteRelativeMidiControllerValueExplanation {
+            get {
+                return ResourceManager.GetString("AbsoluteRelativeMidiControllerValueExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to +.
         /// </summary>
         internal static string Add {

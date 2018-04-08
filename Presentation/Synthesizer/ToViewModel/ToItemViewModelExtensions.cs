@@ -7,7 +7,6 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
-using JJ.Framework.Mathematics;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
@@ -211,10 +210,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 
 			string formattedName = string.Join(" ", list);
+			string formattedValue = ToViewModelHelper.ToMonitoringBarValue(tuple.value);
 
-			double roundedValue = MathHelper.RoundToSignificantDigits(tuple.value, 3);
-
-			return new MonitoringItemViewModel { Name = formattedName, Value = roundedValue, Visible = visible };
+			return new MonitoringItemViewModel { Name = formattedName, Value = formattedValue, Visible = visible };
 		}
 
 		// Node

@@ -282,7 +282,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return distance;
 		}
 
-		// MidiMappingGroup
+		// MidiMapping
 
 		public static string GetCaption(MidiMapping entity)
 		{
@@ -298,6 +298,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			return caption;
 		}
+
+		// MonitoringBar
+
+		public static string ToMonitoringBarValue(int value) => $"{value}";
+
+		public static string ToMonitoringBarValue(double value) => $"{MathHelper.RoundToSignificantDigits(value, 3)}";
 
 		// Node
 
