@@ -8,7 +8,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	public class InstrumentBarElement : ElementWithScreenViewModelBase
+	public class InstrumentBarElement : ElementBaseWithScreenViewModel
 	{
 		private readonly InstrumentBarScaleElement _scaleElement;
 		private readonly InstrumentBarItemsElement _midiMappingsElement;

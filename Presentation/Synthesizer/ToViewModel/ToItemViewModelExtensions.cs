@@ -210,7 +210,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 
 			string formattedName = string.Join(" ", list);
-			string formattedValue = ToViewModelHelper.ToMonitoringBarValue(tuple.value);
+			string formattedValue = ToViewModelHelper.Format_MonitoringBar_DimensionValue(tuple.value);
 
 			return new MonitoringItemViewModel { Name = formattedName, Value = formattedValue, Visible = visible };
 		}

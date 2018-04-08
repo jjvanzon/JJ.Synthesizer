@@ -62,7 +62,7 @@
     <Compile Include="Elements\InstrumentBarScaleElement.cs" />
     <Compile Include="Elements\ElementBaseWithOpaqueBack.cs" />
     <Compile Include="Elements\ElementBase.cs" />
-    <Compile Include="Elements\ElementWithScreenViewModelBase.cs" />
+    <Compile Include="Elements\ElementBaseWithScreenViewModel.cs" />
     <Compile Include="Elements\MonitoringBarElement.cs" />
     <Compile Include="Elements\PictureButtonElement.cs" />
     <Compile Include="Elements\ToolTipElement.cs" />

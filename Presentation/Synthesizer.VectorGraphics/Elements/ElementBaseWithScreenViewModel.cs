@@ -3,12 +3,12 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	public abstract class ElementWithScreenViewModelBase : ElementBase
+	public abstract class ElementBaseWithScreenViewModel : ElementBase
 	{
 		private ScreenViewModelBase _viewModel;
 		private int _refreshCounter = -1;
 
-		public ElementWithScreenViewModelBase(Element parent) : base(parent) { }
+		public ElementBaseWithScreenViewModel(Element parent) : base(parent) { }
 
 		/// <summary> nullable </summary>
 		protected ScreenViewModelBase ViewModel

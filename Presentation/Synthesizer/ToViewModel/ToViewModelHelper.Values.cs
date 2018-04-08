@@ -16,6 +16,7 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Mathematics;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+
 // ReSharper disable RedundantCaseLabel
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
@@ -38,10 +39,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				return $"{CUSTOM_DIMENSION_KEY_PREFIX}{customDimensionName}";
 			}
-			else
-			{
-				return GetDimensionKey(op.GetStandardDimensionEnumWithFallback());
-			}
+
+			return GetDimensionKey(op.GetStandardDimensionEnumWithFallback());
 		}
 
 		public static string GetDimensionKey(DimensionEnum standardDimensionEnum)
@@ -206,6 +205,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 							return false;
 						}
 					}
+
 					break;
 			}
 
@@ -239,6 +239,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					{
 						sb.Append(' ');
 					}
+
 					sb.AppendFormat("= {0:0.####}", inlet.DefaultValue.Value);
 				}
 			}
@@ -301,9 +302,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// MonitoringBar
 
-		public static string ToMonitoringBarValue(int value) => $"{value}";
+		public static string Format_MonitoringBar_MidiValue(int value) => $"{value}";
 
-		public static string ToMonitoringBarValue(double value) => $"{MathHelper.RoundToSignificantDigits(value, 3)}";
+		public static string Format_MonitoringBar_DimensionValue(double value) => $"{MathHelper.RoundToSignificantDigits(value, 3)}";
+
+		public static string Format_MonitoringBar_MidiControllerName(int midiControllerCode)
+			=> $"{ResourceFormatter.Controller} {Format_MonitoringBar_MidiValue(midiControllerCode)}";
+
+		public static string Format_MonitoringBar_MidiControllerValue(int absoluteMidiControllerValue, int relativeMidiControllerValue)
+		{
+			if (absoluteMidiControllerValue == relativeMidiControllerValue)
+			{
+				string formattedValue = Format_MonitoringBar_MidiValue(absoluteMidiControllerValue);
+				return formattedValue;
+			}
+			else
+			{
+				string formattedRelativeValue = Format_MonitoringBar_MidiValue(relativeMidiControllerValue);
+				string formattedAbsoluteValue = Format_MonitoringBar_MidiValue(absoluteMidiControllerValue);
+				string formattedValue = $"{formattedAbsoluteValue} ({formattedRelativeValue})";
+				return formattedValue;
+			}
+		}
 
 		// Node
 
@@ -441,10 +461,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				return formattedValue;
 			}
-			else
-			{
-				return $"{op.Name}: {formattedValue}";
-			}
+
+			return $"{op.Name}: {formattedValue}";
 		}
 
 		private static string GetOperatorCaption_ForPatchInlet(Operator op)
@@ -563,18 +581,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static string GetOperatorCaption_ForGetPosition(Operator op)
-		{
-			return GetOperatorCaption_WithDimensionPlaceholder(
-				op,
-				ResourceFormatter.GetPositionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
-		}
+			=> GetOperatorCaption_WithDimensionPlaceholder(op, ResourceFormatter.GetPositionWithPlaceholder("{0}"));
 
 		private static string GetOperatorCaption_ForSetPosition(Operator op)
-		{
-			return GetOperatorCaption_WithDimensionPlaceholder(
-				op,
-				ResourceFormatter.SetPositionWithPlaceholder("{0}")); // HACK: Method delegated to will replace placeholder.
-		}
+			=> GetOperatorCaption_WithDimensionPlaceholder(op, ResourceFormatter.SetPositionWithPlaceholder("{0}"));
 
 		private static string GetOperatorCaption_WithDimensionPlaceholder(Operator op, string operatorTypeDisplayNameWithPlaceholder)
 		{
@@ -647,15 +657,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var sb = new StringBuilder();
 
 			double? from = outlet.Operator.Inlets
-								 .Where(x => x.GetDimensionEnum() == DimensionEnum.From)
-								 .Select(x => x.TryGetConstantNumber())
-								 .FirstOrDefault();
+			                     .Where(x => x.GetDimensionEnum() == DimensionEnum.From)
+			                     .Select(x => x.TryGetConstantNumber())
+			                     .FirstOrDefault();
 			if (from.HasValue)
 			{
 				double? step = outlet.Operator.Inlets
-									 .Where(x => x.GetDimensionEnum() == DimensionEnum.Step)
-									 .Select(x => x.TryGetConstantNumber())
-									 .FirstOrDefault();
+				                     .Where(x => x.GetDimensionEnum() == DimensionEnum.Step)
+				                     .Select(x => x.TryGetConstantNumber())
+				                     .FirstOrDefault();
 				if (step.HasValue)
 				{
 					int listIndex = outlet.Operator.Outlets.IndexOf(outlet);
@@ -761,20 +771,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				return patch.Name;
 			}
-			else
-			{ 
-				return $"{patch.Name}. {ResourceFormatter.UsedIn}: {formattedUsedInList}";
-			}
+
+			return $"{patch.Name}. {ResourceFormatter.UsedIn}: {formattedUsedInList}";
 		}
 
 		// Tone
 
-		public static string GetToneGridEditValueTitle(Scale entity)
-		{
-			if (entity == null) throw new NullException(() => entity);
-
-			return ResourceFormatter.GetScaleTypeDisplayNameSingular(entity);
-		}
+		public static string GetToneGridEditValueTitle(Scale entity) => ResourceFormatter.GetScaleTypeDisplayNameSingular(entity);
 
 		// Helpers
 

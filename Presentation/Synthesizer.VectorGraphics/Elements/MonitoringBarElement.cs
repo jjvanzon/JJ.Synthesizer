@@ -12,7 +12,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Items;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	public sealed class MonitoringBarElement : ElementWithScreenViewModelBase
+	public sealed class MonitoringBarElement : ElementBaseWithScreenViewModel
 	{
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _midiLabel;

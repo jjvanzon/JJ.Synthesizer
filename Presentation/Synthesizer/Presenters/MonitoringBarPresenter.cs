@@ -48,11 +48,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				() =>
 				{
 					var midi = viewModel.Midi;
-					midi.NoteNumber.Value = ToViewModelHelper.ToMonitoringBarValue(midiNoteNumber);
+					midi.NoteNumber.Value = ToViewModelHelper.Format_MonitoringBar_MidiValue(midiNoteNumber);
 					midi.NoteNumber.Visible = true;
-					midi.Velocity.Value = ToViewModelHelper.ToMonitoringBarValue(midiVelocity);
+					midi.Velocity.Value = ToViewModelHelper.Format_MonitoringBar_MidiValue(midiVelocity);
 					midi.Velocity.Visible = true;
-					midi.Channel.Value = ToViewModelHelper.ToMonitoringBarValue(midiChannel);
+					midi.Channel.Value = ToViewModelHelper.Format_MonitoringBar_MidiValue(midiChannel);
 					midi.Channel.Visible = true;
 					midi.IsEmpty = false;
 				});
@@ -73,32 +73,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					MonitoringItemViewModel midiControllerViewModel = midiViewModel.Controller;
 					MonitoringItemViewModel midiChannelViewModel = midiViewModel.Channel;
 
-					midiControllerViewModel.Name = GetFormattedControllerName(midiControllerCode);
-					midiControllerViewModel.Value = GetFormattedControllerValue(absoluteMidiControllerValue, relativeMidiControllerValue);
+					midiControllerViewModel.Name = ToViewModelHelper.Format_MonitoringBar_MidiControllerName(midiControllerCode);
+					midiControllerViewModel.Value = ToViewModelHelper.Format_MonitoringBar_MidiControllerValue(absoluteMidiControllerValue, relativeMidiControllerValue);
 					midiControllerViewModel.Visible = true;
 					midiChannelViewModel.Name = ResourceFormatter.Channel;
-					midiChannelViewModel.Value = ToViewModelHelper.ToMonitoringBarValue(midiChannel);
+					midiChannelViewModel.Value = ToViewModelHelper.Format_MonitoringBar_MidiValue(midiChannel);
 					midiChannelViewModel.Visible = true;
 					midiViewModel.IsEmpty = false;
 				});
-		}
-
-		private static string GetFormattedControllerName(int midiControllerCode) => $"{ResourceFormatter.Controller} {midiControllerCode}";
-
-		private static string GetFormattedControllerValue(int absoluteMidiControllerValue, int relativeMidiControllerValue)
-		{
-			if (absoluteMidiControllerValue == relativeMidiControllerValue)
-			{
-				string formattedValue = ToViewModelHelper.ToMonitoringBarValue(absoluteMidiControllerValue);
-				return formattedValue;
-			}
-			else
-			{
-				string formattedRelativeValue = ToViewModelHelper.ToMonitoringBarValue(relativeMidiControllerValue);
-				string formattedAbsoluteValue = ToViewModelHelper.ToMonitoringBarValue(absoluteMidiControllerValue);
-				string formattedValue = $"{formattedAbsoluteValue} ({formattedRelativeValue})";
-				return formattedValue;
-			}
 		}
 	}
 }
