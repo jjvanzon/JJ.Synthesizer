@@ -416,7 +416,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				Value = entity.Value.ToString(),
 				Octave = entity.Octave.ToString(),
 				Ordinal = entity.GetOrdinal(),
-				Frequency = entity.GetFrequency()
+				Frequency = entity.GetCalculatedFrequency()
 			};
 
 			return viewModel;

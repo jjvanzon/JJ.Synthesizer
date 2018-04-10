@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer
 			var operatorFactory = new OperatorFactory(patch, _repositories);
 
 			OperatorWrapper derivedOperator = operatorFactory.New(autoPatch);
-			Outlet frequencyOutlet = operatorFactory.Number(tone.GetFrequency());
+			Outlet frequencyOutlet = operatorFactory.Number(tone.GetCalculatedFrequency());
 
 			IList<Inlet> derivedOperatorFrequencyInlets = derivedOperator.Inlets.GetMany(DimensionEnum.Frequency);
 			if (derivedOperatorFrequencyInlets.Count == 0)

@@ -15,12 +15,10 @@ namespace JJ.Business.Synthesizer.Converters
 			{
 				Value = entity.Value,
 				Octave = entity.Octave,
-				ID = entity.ID,
 				ScaleTypeEnum = entity.GetScaleTypeEnum(),
 				ScaleBaseFrequency = entity.GetScaleBaseFrequency(),
-				IsFromEntity = true,
 				Ordinal = entity.GetOrdinal(),
-				Frequency = entity.GetFrequency()
+				Frequency = entity.GetCalculatedFrequency()
 			};
 
 			return dto;

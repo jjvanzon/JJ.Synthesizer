@@ -3399,7 +3399,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						Patch patch = _patchFacade.CreatePatch();
 
 						var operatorFactory = new OperatorFactory(patch, _repositories);
-						double frequency = tone.GetFrequency();
+						double frequency = tone.GetCalculatedFrequency();
 						outlet = operatorFactory.Sine(operatorFactory.PatchInlet(DimensionEnum.Frequency, frequency));
 					}
 

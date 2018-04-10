@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		}
 
 		/// <see cref="ToneCalculator.CalculateFrequency"/>
-		public static double GetFrequency(this Tone tone) => _toneCalculator.CalculateFrequency(tone);
+		public static double GetCalculatedFrequency(this Tone tone) => _toneCalculator.CalculateFrequency(tone);
 
 		/// <see cref="ToneCalculator.CalculateOctave"/>
 		public static int GetCalculatedOctave(this ITone tone) => _toneCalculator.CalculateOctave(tone);

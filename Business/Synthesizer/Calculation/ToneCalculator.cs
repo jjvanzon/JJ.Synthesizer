@@ -49,7 +49,6 @@ namespace JJ.Business.Synthesizer.Calculation
 
 					var destToneDto = new ToneDto
 					{
-						Number = destToneIndex,
 						Octave = destOctave,
 						Ordinal = destOrdinal,
 						Value = sourceTone.Value,
