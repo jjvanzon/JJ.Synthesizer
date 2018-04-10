@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Converters;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Basic;
 using NAudio.Midi;
@@ -21,7 +21,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 	internal class MidiInputProcessor : IDisposable
 	{
 		public event EventHandler<EventArgs<(int midiNoteNumber, int midiVelocity, int midiChannel)>> MidiNoteOnOccurred;
-		public event EventHandler<EventArgs<(int midiControllerCode, int absoluteMidiControllerValue, int relativeMidiControllerValue, int midiChannel)>> MidiControllerValueChanged;
+
+		public event EventHandler<EventArgs<(int midiControllerCode, int absoluteMidiControllerValue, int relativeMidiControllerValue, int
+			midiChannel)>> MidiControllerValueChanged;
 
 		/// <summary> Position is left out, because there is still ambiguity between NoteIndex and ListIndex in the system. </summary>
 		public event EventHandler<EventArgs<IList<(DimensionEnum dimensionEnum, string name, int? position, double value)>>> DimensionValuesChanged;
@@ -31,14 +33,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private readonly IPatchCalculatorContainer _patchCalculatorContainer;
 		private readonly TimeProvider _timeProvider;
 		private readonly NoteRecycler _noteRecycler;
+		private readonly ScaleFacade _scaleFacade;
 		private Dictionary<int, int> _midiControllerDictionary;
 		private MidiIn _midiIn;
 		private MidiMappingCalculator _midiMappingCalculator;
 
-		/// <summary>
-		/// Caching prevents sorting the tones all the time.
-		/// </summary>
-		private double[] _frequencies;
+		/// <summary> Index is note number. </summary>
+		private ToneDto[] _toneDtos;
 
 		private readonly object _lock = new object();
 
@@ -48,11 +49,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			IList<MidiMapping> midiMappings,
 			IPatchCalculatorContainer patchCalculatorContainer,
 			TimeProvider timeProvider,
-			NoteRecycler noteRecycler)
+			NoteRecycler noteRecycler,
+			ScaleFacade scaleFacade)
 		{
 			_patchCalculatorContainer = patchCalculatorContainer ?? throw new NullException(() => patchCalculatorContainer);
 			_timeProvider = timeProvider ?? throw new NullException(() => timeProvider);
 			_noteRecycler = noteRecycler ?? throw new NullException(() => noteRecycler);
+			_scaleFacade = scaleFacade ?? throw new ArgumentNullException(nameof(scaleFacade));
 
 			UpdateScaleAndMidiMappings(scale, midiMappings);
 		}
@@ -63,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			{
 				_midiControllerDictionary = new Dictionary<int, int>();
 				_midiMappingCalculator = new MidiMappingCalculator(midiMappings);
-				_frequencies = new ScaleToDtoConverter().Convert(scale).Frequencies.ToArray();
+				_toneDtos = _scaleFacade.GetToneDtosWithCompleteSetOfOctaves(scale).ToArray();
 			}
 		}
 
@@ -165,7 +168,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			int midiChannel = noteOnEvent.Channel;
 
 			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] dimensionValues;
-			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)? extraDimensionValue = null;
+			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] extraDimensionValues = null;
 
 			MidiNoteOnOccurred(this, new EventArgs<(int, int, int)>((midiNoteNumber, midiVelocity, midiChannel)));
 
@@ -215,12 +218,27 @@ namespace JJ.Presentation.Synthesizer.NAudio
 					}
 
 					// Apply Scale-Related MIDI Mappings
-					double? frequency = TryGetScaleFrequency(dimensionEnum, dimensionValue);
-					if (frequency.HasValue)
+					ToneDto toneDto = TryGetToneDto(dimensionEnum, dimensionValue);
+					if (toneDto != null)
 					{
-						double frequencyValue = frequency.Value;
-						calculator.SetValue(DimensionEnum.Frequency, noteIndex, frequencyValue);
-						extraDimensionValue = (DimensionEnum.Frequency, "", null, frequencyValue);
+						double frequency = toneDto.Frequency;
+						double octave = toneDto.Octave;
+						double ordinal = toneDto.Ordinal;
+						double toneValue = toneDto.Value;
+						double scaleBaseFrequency = toneDto.ScaleBaseFrequency;
+
+						calculator.SetValue(DimensionEnum.Frequency, noteIndex, frequency);
+						calculator.SetValue(DimensionEnum.Octave, noteIndex, octave);
+						calculator.SetValue(DimensionEnum.Ordinal, noteIndex, ordinal);
+						calculator.SetValue(DimensionEnum.ToneValue, noteIndex, toneValue);
+						calculator.SetValue(DimensionEnum.ScaleBaseFrequency, noteIndex, scaleBaseFrequency);
+
+						extraDimensionValues = new (DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[]
+						{
+							(DimensionEnum.Frequency, "", null, frequency),
+							(DimensionEnum.Octave, "", null, octave),
+							(DimensionEnum.Ordinal, "", null, ordinal)
+						};
 					}
 				}
 
@@ -232,7 +250,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				calculatorLock.ExitWriteLock();
 			}
 
-			RaiseDimensionValuesChanged(dimensionValues, extraDimensionValue);
+			RaiseDimensionValuesChanged(dimensionValues, extraDimensionValues);
 		}
 
 		private void HandleNoteOff(MidiEvent midiEvent)
@@ -353,33 +371,35 @@ namespace JJ.Presentation.Synthesizer.NAudio
 				lck.ExitWriteLock();
 			}
 
-			MidiControllerValueChanged(this, new EventArgs<(int, int, int, int)>((midiControllerCode, absoluteMidiControllerValue, midiControllerValue, midiChannel)));
+			MidiControllerValueChanged(
+				this,
+				new EventArgs<(int, int, int, int)>((midiControllerCode, absoluteMidiControllerValue, midiControllerValue, midiChannel)));
 			RaiseDimensionValuesChanged(dimensionValues);
 		}
 
-		private double? TryGetScaleFrequency(DimensionEnum dimensionEnum, double dimensionValue)
+		private ToneDto TryGetToneDto(DimensionEnum dimensionEnum, double dimensionValue)
 		{
 			if (dimensionEnum != DimensionEnum.NoteNumber) return null;
 
 			double value = dimensionValue;
 
 			if (value <= 0) value = 0;
-			if (value > _frequencies.Length - 1) value = _frequencies.Length - 1;
+			if (value > _toneDtos.Length - 1) value = _toneDtos.Length - 1;
 
 			int index = (int)value;
 
-			double frequency = _frequencies[index];
+			ToneDto toneDto = _toneDtos[index];
 
-			return frequency;
+			return toneDto;
 		}
 
 		private void RaiseDimensionValuesChanged(
-			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)[] dimensionValues,
-			(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)? extraDimensionValue = null)
+			IList<(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)> dimensionValues,
+			IList<(DimensionEnum dimensionEnum, string canonicalName, int? position, double dimensionValue)> extraDimensionValues = null)
 		{
-			if (extraDimensionValue.HasValue)
+			if (extraDimensionValues != null)
 			{
-				var e = new EventArgs<IList<(DimensionEnum, string, int?, double)>>(dimensionValues.Concat(extraDimensionValue.Value).ToArray());
+				var e = new EventArgs<IList<(DimensionEnum, string, int?, double)>>(dimensionValues.Concat(extraDimensionValues).ToArray());
 				DimensionValuesChanged(this, e);
 			}
 			else

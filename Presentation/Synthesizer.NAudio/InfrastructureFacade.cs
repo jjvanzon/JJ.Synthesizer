@@ -48,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 		private AudioOutput _audioOutput;
 
-		public InfrastructureFacade(AudioOutputFacade audioOutputFacade, SystemFacade systemFacade, RepositoryWrapper repositories)
+		public InfrastructureFacade(AudioOutputFacade audioOutputFacade, SystemFacade systemFacade, ScaleFacade scaleFacade, RepositoryWrapper repositories)
 		{
 			if (audioOutputFacade == null) throw new ArgumentNullException(nameof(audioOutputFacade));
 			if (systemFacade == null) throw new ArgumentNullException(nameof(systemFacade));
@@ -92,7 +92,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
 					systemFacade.GetDefaultMidiMappings(),
 					_patchCalculatorContainer,
 					timeProvider,
-					_noteRecycler);
+					_noteRecycler,
+					scaleFacade);
 
 				_midiInputProcessor.TryStartThread();
 			}

@@ -71,7 +71,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			var audioOutputFacade = new AudioOutputFacade(_repositories.AudioOutputRepository, _repositories.SpeakerSetupRepository, _repositories.IDRepository);
 			_systemFacade = new SystemFacade(_repositories.DocumentRepository);
-			_infrastructureFacade = new InfrastructureFacade(audioOutputFacade, _systemFacade, _repositories);
+			var scaleFacade = new ScaleFacade(new ScaleRepositories(_repositories));
+			_infrastructureFacade = new InfrastructureFacade(audioOutputFacade, _systemFacade, scaleFacade, _repositories);
 
 			curveDetailsListUserControl.SetCurveFacade(new CurveFacade(new CurveRepositories(_repositories)));
 

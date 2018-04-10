@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Cascading;
+using JJ.Business.Synthesizer.Converters;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -19,6 +22,8 @@ namespace JJ.Business.Synthesizer
 	public class ScaleFacade
 	{
 		private readonly ScaleRepositories _repositories;
+		private readonly ToneToDtoConverter _toneToDtoConverter = new ToneToDtoConverter();
+		private readonly ToneCalculator _toneCalculator = new ToneCalculator();
 
 		public ScaleFacade(ScaleRepositories repositories)
 		{
@@ -104,7 +109,7 @@ namespace JJ.Business.Synthesizer
 			return ResultHelper.Successful;
 		}
 
-		// Tone Actions
+		// Tone Operations
 
 		public Tone CreateTone(Scale scale)
 		{
@@ -141,6 +146,21 @@ namespace JJ.Business.Synthesizer
 
 			tone.UnlinkScale();
 			_repositories.ToneRepository.Delete(tone);
+		}
+
+		// Misc
+
+		public IList<ToneDto> GetToneDtosWithCompleteSetOfOctaves(Scale scale)
+		{
+			IList<Tone> scaleTones = scale.Tones;
+			return GetToneDtosWithCompleteSetOfOctaves(scaleTones);
+		}
+
+		private IList<ToneDto> GetToneDtosWithCompleteSetOfOctaves(IList<Tone> tones)
+		{
+			IEnumerable<ToneDto> toneDtos = tones.Select(x => _toneToDtoConverter.Convert(x));
+			IList<ToneDto> toneDtos2 = _toneCalculator.MakeOctavesComplete(toneDtos);
+			return toneDtos2;
 		}
 	}
 }
