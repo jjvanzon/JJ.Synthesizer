@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
+using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions.Basic;
 
@@ -11,8 +13,26 @@ namespace JJ.Business.Synthesizer.Extensions
 {
 	public static class SortExtensions
 	{
-		public static IEnumerable<T> Sort<T>(this IEnumerable<T> list)
-			where T : IInletOrOutlet
+		// These overloads are needed, because C# cannot (yet!) distinguish different 
+		// Sort<T> variations with different generic type constraints,
+		// e.g. "Sort<T> where T : ITone" and "where T : IInletOrOutlet".
+
+		public static IEnumerable<Inlet> Sort(this IEnumerable<Inlet> list) => list.Cast<IInletOrOutlet>().Sort().Cast<Inlet>();
+		public static IEnumerable<Outlet> Sort(this IEnumerable<Outlet> list) => list.Cast<IInletOrOutlet>().Sort().Cast<Outlet>();
+		public static IEnumerable<Tone> Sort(this IEnumerable<Tone> tones) => ((IEnumerable<ITone>)tones).Sort().Cast<Tone>();
+		public static IEnumerable<ToneDto> Sort(this IEnumerable<ToneDto> tones) => ((IEnumerable<ITone>)tones).Sort().Cast<ToneDto>();
+
+		public static IEnumerable<ITone> Sort(this IEnumerable<ITone> tones)
+		{
+			if (tones == null) throw new ArgumentNullException(nameof(tones));
+
+			IList<ITone> sortedTones = tones.OrderBy(x => x.Octave)
+			                                .ThenBy(x => x.Value)
+			                                .ToArray();
+			return sortedTones;
+		}
+
+		public static IEnumerable<IInletOrOutlet> Sort(this IEnumerable<IInletOrOutlet> list)
 		{
 			if (list == null) throw new NullException(() => list);
 
@@ -80,14 +100,14 @@ namespace JJ.Business.Synthesizer.Extensions
 			if (getRepetitionPosition != null)
 			{
 				enumerable = enumerable.ThenBy(x => getRepetitionPosition(x) == null)
-									   .ThenBy(getRepetitionPosition);
+				                       .ThenBy(getRepetitionPosition);
 			}
 
 			// Dimension, Name
 			enumerable = enumerable.ThenBy(x => getDimensionEnumDelegate(x) == DimensionEnum.Undefined)
-								   .ThenBy(getDimensionEnumDelegate)
-								   .ThenBy(x => string.IsNullOrWhiteSpace(getNameDelegate(x)))
-								   .ThenBy(x => getNameDelegate);
+			                       .ThenBy(getDimensionEnumDelegate)
+			                       .ThenBy(x => string.IsNullOrWhiteSpace(getNameDelegate(x)))
+			                       .ThenBy(x => getNameDelegate);
 
 			// Obsolete
 			if (getIsObsoleteDelegate != null)

@@ -166,9 +166,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Calculation\Random\RandomCalculatorHelper.cs" />
+    <Compile Include="Calculation\ToneCalculator.cs" />
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
     <Compile Include="Converters\ScaleToDtoConverter.cs" />
+    <Compile Include="Converters\ToneToDtoConverter.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
     <Compile Include="Dto\Operators\DoubleToBoolean_OperatorDto.cs" />
     <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
@@ -196,6 +198,7 @@
     <Compile Include="Dto\Operators\OperatorDtoBase_WithSound.cs" />
     <Compile Include="Dto\Operators\Remainder_OperatorDto.cs" />
     <Compile Include="Dto\ScaleDto.cs" />
+    <Compile Include="Dto\ToneDto.cs" />
     <Compile Include="Enums\EntityTypeEnum.cs" />
     <Compile Include="Enums\MidiMappingTypeEnum.cs" />
     <Compile Include="Extensions\IMidiMappingExtensions.cs" />

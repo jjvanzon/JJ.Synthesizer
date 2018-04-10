@@ -36,7 +36,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private MidiMappingCalculator _midiMappingCalculator;
 
 		/// <summary>
-		/// Key is Scale ID. Value is frequency array.
 		/// Caching prevents sorting the tones all the time.
 		/// </summary>
 		private double[] _frequencies;
