@@ -1,6 +1,4 @@
-﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
-// ReSharper disable VirtualMemberCallInConstructor
+﻿// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 
 using JJ.Data.Synthesizer.Interfaces;
 

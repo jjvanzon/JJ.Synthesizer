@@ -259,6 +259,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string SawDown => Resources.SawDown;
 		public static string SawUp => Resources.SawUp;
 		public static string Scale => Resources.Scale;
+		public static string ScaleBaseFrequency => Resources.ScaleBaseFrequency;
 		public static string Scaler => Resources.Scaler;
 		public static string Scales => Resources.Scales;
 		public static string ScaleType => Resources.ScaleType;
@@ -314,6 +315,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string ToneNumber => Resources.ToneNumber;
 		public static string ToneNumbers => Resources.ToneNumbers;
 		public static string Tones => Resources.Tones;
+		public static string ToneValue => Resources.ToneValue;
 		public static string TransitionFrequency => Resources.TransitionFrequency;
 		public static string TransitionSlope => Resources.TransitionSlope;
 		public static string TremoloDepth => Resources.TremoloDepth;

@@ -2392,6 +2392,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scale Base Frequency.
+        /// </summary>
+        internal static string ScaleBaseFrequency {
+            get {
+                return ResourceManager.GetString("ScaleBaseFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scaler.
         /// </summary>
         internal static string Scaler {
@@ -2910,6 +2919,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Tones {
             get {
                 return ResourceManager.GetString("Tones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tone Value.
+        /// </summary>
+        internal static string ToneValue {
+            get {
+                return ResourceManager.GetString("ToneValue", resourceCulture);
             }
         }
         

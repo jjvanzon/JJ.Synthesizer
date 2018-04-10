@@ -100,6 +100,10 @@
 		/// </summary>
 		Inherit = 76,
 		Position = 77,
-		NoteNumber = 78
+		NoteNumber = 78,
+		Octave = 79,
+		Ordinal = 80,
+		ToneValue = 81,
+		ScaleBaseFrequency = 82
 	}
 }

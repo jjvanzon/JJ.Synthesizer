@@ -1140,4 +1140,10 @@
   <data name="Synth" xml:space="preserve">
     <value>Synth</value>
   </data>
+  <data name="ScaleBaseFrequency" xml:space="preserve">
+    <value>Toonladder basisfrequentie</value>
+  </data>
+  <data name="ToneValue" xml:space="preserve">
+    <value>Toon getal</value>
+  </data>
 </root>
