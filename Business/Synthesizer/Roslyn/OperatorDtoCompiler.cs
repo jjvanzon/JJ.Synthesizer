@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		private static SyntaxTree[] CreateIncludedSyntaxTrees(params string[] codeFilesNames)
 		{
-			return codeFilesNames.Select(x => CreateSyntaxTree(x)).ToArray();
+			return codeFilesNames.Select(CreateSyntaxTree).ToArray();
 		}
 
 		private static SyntaxTree CreateSyntaxTree(string codeFileName)

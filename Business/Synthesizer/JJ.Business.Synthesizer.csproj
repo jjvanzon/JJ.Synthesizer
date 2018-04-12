@@ -313,9 +313,7 @@
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator2.cs" />
     <Compile Include="Roslyn\Calculation\HardCodedPatchCalculator.cs" />
     <Compile Include="Roslyn\ActivationInfo.cs" />
-    <Compile Include="Roslyn\Helpers\GeneratedMethodInfo.cs" />
     <Compile Include="Roslyn\Helpers\DoubleArrayVariableInfo.cs" />
-    <Compile Include="Roslyn\Helpers\GeneratedParameterInfo.cs" />
     <Compile Include="Roslyn\Helpers\OperatorDtoToPatchCalculatorCSharpGeneratorResult.cs" />
     <Compile Include="Roslyn\Helpers\CompilationHelper.cs" />
     <Compile Include="Roslyn\Helpers\ArrayCalculationInfo.cs" />

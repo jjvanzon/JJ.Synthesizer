@@ -88,29 +88,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 					AppendCalculateMethod(sb, visitorResult);
 					sb.AppendLine();
 
-					// Uninlined Methods
-					if (visitorResult.CalculationMethodCodeList.Any())
-					{
-						sb.AppendLine("// Uninlined Calculate Methods");
-						sb.AppendLine();
-						AppendUninlinedMethods(sb, visitorResult.CalculationMethodCodeList);
-						sb.AppendLine();
-					}
-
 					// Reset Method
 					sb.AppendLine("// Reset");
 					sb.AppendLine();
 					AppendResetMethod(sb, visitorResult);
 					sb.AppendLine();
-
-					// Uninlined Methods
-					if (visitorResult.ResetMethodCodeList.Any())
-					{
-						sb.AppendLine("// Uninlined Reset Methods");
-						sb.AppendLine();
-						AppendUninlinedMethods(sb, visitorResult.ResetMethodCodeList);
-						sb.AppendLine();
-					}
 
 					// Values
 					sb.AppendLine("// Values");
@@ -344,15 +326,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 			foreach (string variableName in doubleInstanceVariableNamesCamelCase)
 			{
 				sb.AppendLine($"_{variableName} = {variableName};");
-			}
-		}
-
-		private void AppendUninlinedMethods(StringBuilderWithIndentation sb, IList<string> methodCodeList)
-		{
-			foreach (string generatedMethodCode in methodCodeList)
-			{
-				sb.Append(generatedMethodCode);
-				sb.AppendLine();
 			}
 		}
 

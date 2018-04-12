@@ -76,7 +76,6 @@
     <Compile Include="Helpers\EntityFactory.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="DatabaseContextTests.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

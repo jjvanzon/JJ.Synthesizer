@@ -376,8 +376,6 @@ namespace JJ.Business.Synthesizer
 			switch (_calculationMethodEnum)
 			{
 				case CalculationMethodEnum.Roslyn:
-				case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
-				case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
 				{
 					IOperatorDto dto = new OperatorEntityToDtoVisitor(
 							calculatorCache,
@@ -429,8 +427,6 @@ namespace JJ.Business.Synthesizer
 					break;
 
 				case CalculationMethodEnum.Roslyn:
-				case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
-				case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
 					IOperatorDto dto = new OperatorEntityToDtoVisitor(
 						calculatorCache,
 						_repositories.CurveRepository,

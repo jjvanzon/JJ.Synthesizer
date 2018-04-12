@@ -5,7 +5,6 @@ using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Random;
-using JJ.Business.Synthesizer.Configuration;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Dto.Operators;
@@ -13,10 +12,8 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Roslyn.Helpers;
 using JJ.Business.Synthesizer.Visitors;
-using JJ.Framework.Collections;
 // Class alias to prevent accidentally use other things from JJ.Framework.Mathematics, 
 // for which the copy from JJ.Business.Synthesizer.CopiedCode.FromFramework should be used.
-using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Text;
@@ -36,8 +33,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 		}
 
 		private const string TAB_STRING = "	";
-		private const int METHOD_SIGNATURE_INDENT_LEVEL = 2;
-		private const int MULTI_LINE_PARAMETER_LIST_INDENT_LEVEL = 3;
 
 		private const string AND_SYMBOL = "&&";
 		private const string DIVIDE_SYMBOL = "/";
@@ -55,12 +50,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		private const string ARRAY_CALCULATOR_MNEMONIC = "arraycalculator";
 		private const string ARRAY_MNEMONIC = "array";
-		private const string CALCULATE_MNEMONIC = "calculate";
 		private const string DEFAULT_INPUT_MNEMONIC = "input";
 		private const string OFFSET_MNEMONIC = "offset";
-		private const string RESET_MNEMONIC = "reset";
-
-		private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
 		private readonly int _calculationIndentLevel;
 		private readonly int _resetIndentLevel;
@@ -71,28 +62,20 @@ namespace JJ.Business.Synthesizer.Roslyn
 		private int _counter;
 		private Stack<bool> _holdOperatorIsActiveStack;
 
-		private VariableCollections _variableInfo;
+		private VariableCollections _variableCollections;
 		private Dictionary<IOperatorDto, string> _resultReuse_Dictionary;
-
-		// We need both a GeneratedMethodInfo list and a stack. A stack for where we are in the processing,
-		// a list to not lose generated methods, when they are popped from the stack.
-
-		private Stack<GeneratedMethodInfo> _generatedMethodInfoStack;
-		private Dictionary<string, GeneratedMethodInfo> _operationIdentity_To_GeneratedMethodInfo_Dictionary;
 
 		public OperatorDtoToRawCSharpVisitor(int calculationIndentLevel, int resetIndentLevel)
 		{
 			_calculationIndentLevel = calculationIndentLevel;
 			_resetIndentLevel = resetIndentLevel;
-			_variableInfo = new VariableCollections();
+			_variableCollections = new VariableCollections();
 		}
 
 		public OperatorDtoToCSharpVisitorResult Execute(IOperatorDto dto)
 		{
 			_stack = new Stack<string>();
-			_variableInfo = new VariableCollections();
-			_generatedMethodInfoStack = new Stack<GeneratedMethodInfo>();
-			_operationIdentity_To_GeneratedMethodInfo_Dictionary = new Dictionary<string, GeneratedMethodInfo>();
+			_variableCollections = new VariableCollections();
 			_resultReuse_Dictionary = new Dictionary<IOperatorDto, string>();
 			_counter = 0;
 			_holdOperatorIsActiveStack = new Stack<bool>();
@@ -117,30 +100,24 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 			// Get some more variable info
 			string firstTimeVariableNameCamelCase =
-				_variableInfo.VariableName_To_InputVariableInfo_Dictionary
+				_variableCollections.VariableName_To_InputVariableInfo_Dictionary
 							 .Where(x => x.Value.DimensionEnum == DimensionEnum.Time && x.Value.Position == 0 && x.Value.CanonicalName == "")
 							 .Select(x => x.Key)
 							 .DefaultIfEmpty(GetLongLivedVariableName(nameof(DimensionEnum.Time)))
 							 .First();
 
-			IList<InputVariableInfo> inputVariableInfos = _variableInfo.VariableName_To_InputVariableInfo_Dictionary.Values.ToArray();
-			IList<ArrayCalculationInfo> arrayCalculationInfos = _variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray();
-
-			// ReSharper disable once InvokeAsExtensionMethod
-			IList<string> calculationMethodCodeList = _operationIdentity_To_GeneratedMethodInfo_Dictionary.Values.Select(x => x.MethodCodeForCalculate).ToArray();
-			IList<string> resetMethodCodeList = _operationIdentity_To_GeneratedMethodInfo_Dictionary.Values.Select(x => x.MethodCodeForReset).ToArray();
+			IList<InputVariableInfo> inputVariableInfos = _variableCollections.VariableName_To_InputVariableInfo_Dictionary.Values.ToArray();
+			IList<ArrayCalculationInfo> arrayCalculationInfos = _variableCollections.ArrayDto_To_ArrayCalculationInfo_Dictionary.Values.ToArray();
 
 			return new OperatorDtoToCSharpVisitorResult(
 				rawCalculationCode,
 				rawResetCode,
 				returnValueLiteral,
 				firstTimeVariableNameCamelCase,
-				_variableInfo.LongLivedDoubleVariableNamesCamelCase,
+				_variableCollections.LongLivedDoubleVariableNamesCamelCase,
 				inputVariableInfos,
 				arrayCalculationInfos,
-				_variableInfo.LongLivedDoubleArrayVariableInfos,
-				calculationMethodCodeList,
-				resetMethodCodeList);
+				_variableCollections.LongLivedDoubleArrayVariableInfos);
 		}
 
 		/*[DebuggerHidden]*/
@@ -212,7 +189,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
 		{
-			IList<string> items = dto.Inputs.Select(x => GetLiteralFromInputDto(x)).ToArray();
+			IList<string> items = dto.Inputs.Select(GetLiteralFromInputDto).ToArray();
 			string sum = GetVariableName(nameof(sum));
 			string output = GetVariableName(dto.OperatorTypeEnum);
 			string countLiteral = CompilationHelper.FormatValue(items.Count);
@@ -352,7 +329,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 		private IOperatorDto Process_ClosestOverInlets(ClosestOverInlets_OperatorDto dto, bool isExp)
 		{
 			string input = GetLiteralFromInputDto(dto.Input);
-			IList<string> items = dto.Items.Select(x => GetLiteralFromInputDto(x)).ToArray();
+			IList<string> items = dto.Items.Select(GetLiteralFromInputDto).ToArray();
 			int itemCount = items.Count;
 			string firstItem = items.First();
 			string smallestDistance = GetVariableName(nameof(smallestDistance));
@@ -535,35 +512,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 			AppendLine($"{GetOperatorTitleComment(dto)} (begin)");
 			AppendLine();
 
-			// TODO: Lower priority: Putting the then and else clauses in separate methods should be dependent on the if being 'long', 
-			// which should be determined in the DTO pre-processing.
-
-			string thenLeftSide;
-			if (dto.Then.IsVar)
-			{
-				BeginGenerateMethod(dto.Then.Var.OperationIdentity, nameof(then));
-				thenLeftSide = GetLiteralFromInputDto(dto.Then);
-				thenLeftSide = EndGenerateMethod(thenLeftSide);
-			}
-			else
-			{
-				thenLeftSide = GetLiteralFromInputDto(dto.Then);
-			}
+			string thenLeftSide = GetLiteralFromInputDto(dto.Then);
 			AppendLine($"{GetOperatorTitleComment(dto)} ({nameof(then)})");
 			AppendLine($"double {then} = {thenLeftSide};");
 			AppendLine();
 
-			string elseLeftSide;
-			if (dto.Else.IsVar)
-			{
-				BeginGenerateMethod(dto.Else.Var.OperationIdentity, nameof(@else));
-				elseLeftSide = GetLiteralFromInputDto(dto.Else);
-				elseLeftSide = EndGenerateMethod(elseLeftSide);
-			}
-			else
-			{
-				elseLeftSide = GetLiteralFromInputDto(dto.Else);
-			}
+			string elseLeftSide = GetLiteralFromInputDto(dto.Else);
 			AppendLine($"{GetOperatorTitleComment(dto)} ({nameof(@else)})");
 			AppendLine($"double {@else} = {elseLeftSide};");
 			AppendLine();
@@ -1552,7 +1506,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			string sound = GetLiteralFromInputDto(dto.Sound);
 			// TODO: I would expect a dto.Frequency in the abstract type, instead of resorting to dto.Inputs.ElementAt(1).
 			string frequency =  GetLiteralFromInputDto(dto.Inputs.ElementAt(1));
-			IList<string> additionalFilterParameters = dto.Inputs.Skip(2).Select(x => GetLiteralFromInputDto(x)).ToArray();
+			IList<string> additionalFilterParameters = dto.Inputs.Skip(2).Select(GetLiteralFromInputDto).ToArray();
 
 			AppendOperatorTitleComment(dto);
 
@@ -1664,7 +1618,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		private IOperatorDto Process_MinOrMaxOverInlets_MoreThan2Inlets(IOperatorDto dto, MinOrMaxEnum minOrMaxEnum)
 		{
-			IList<string> values = dto.Inputs.Select(x => GetLiteralFromInputDto(x)).ToArray();
+			IList<string> values = dto.Inputs.Select(GetLiteralFromInputDto).ToArray();
 			int valueCount = values.Count;
 			string firstValue = values.First();
 			string output = GetVariableName(dto.OperatorTypeEnum);
@@ -1701,7 +1655,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		private IOperatorDto ProcessMultiVarOperator(IOperatorDto dto, string operatorSymbol)
 		{
-			IList<string> values = dto.Inputs.Select(x => GetLiteralFromInputDto(x)).ToArray();
+			IList<string> values = dto.Inputs.Select(GetLiteralFromInputDto).ToArray();
 
 			string output = GetVariableName(dto.OperatorTypeEnum);
 
@@ -1750,14 +1704,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 				return _stringBuilderForReset;
 			}
 
-			// When you are in a separate generated method, you have to write to that.
-			GeneratedMethodInfo generatedMethodInfo = _generatedMethodInfoStack.PeekOrDefault();
-			// ReSharper disable once ConvertIfStatementToReturnStatement
-			if (generatedMethodInfo != null)
-			{
-				return generatedMethodInfo.MethodBodyStringBuilderForCalculate;
-			}
-
 			// Otherwise, write to the main calculate method.
 			return _stringBuilderForCalculate;
 		}
@@ -1770,186 +1716,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 				return null;
 			}
 
-			// When you are in a separate generated method, you have to write to that.
-			GeneratedMethodInfo generatedMethodInfo = _generatedMethodInfoStack.PeekOrDefault();
-			// ReSharper disable once ConvertIfStatementToReturnStatement
-			if (generatedMethodInfo != null)
-			{
-				return generatedMethodInfo.MethodBodyStringBuilderForReset;
-			}
-
 			return _stringBuilderForReset;
-		}
-
-		/// <param name="operationIdentity">key for a unique method</param>
-		private void BeginGenerateMethod(string operationIdentity, object mnemonic)
-		{
-			switch (_calculationMethodEnum)
-			{
-				case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
-				case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
-					if (!_operationIdentity_To_GeneratedMethodInfo_Dictionary.TryGetValue(operationIdentity, out GeneratedMethodInfo generatedMethodInfo))
-					{
-						generatedMethodInfo = new GeneratedMethodInfo
-						{
-							MethodNameForCalculate = GetMethodName($"{CALCULATE_MNEMONIC}{mnemonic}"),
-							MethodNameForReset = GetMethodName($"{RESET_MNEMONIC}{mnemonic}"),
-						};
-
-						_operationIdentity_To_GeneratedMethodInfo_Dictionary[operationIdentity] = generatedMethodInfo;
-					}
-					else
-					{
-						// For an already written method, create a new argument list.
-						generatedMethodInfo.VariableInfo = new VariableCollections();
-					}
-
-					_generatedMethodInfoStack.Push(generatedMethodInfo);
-					break;
-
-				case CalculationMethodEnum.Roslyn:
-					break;
-
-				default:
-					throw new ValueNotSupportedException(_calculationMethodEnum);
-			}
-		}
-
-		/// <summary> Returns a right side for a variable assignment. </summary>
-		private string EndGenerateMethod(string expressionToReturn)
-		{
-			switch (_calculationMethodEnum)
-			{
-				case CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters:
-				case CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters:
-
-					GeneratedMethodInfo generatedMethodInfo = _generatedMethodInfoStack.Peek();
-					IList<GeneratedParameterInfo> generatedParameterInfos = generatedMethodInfo.GetGeneratedParameterInfos();
-
-					if (!generatedMethodInfo.MethodGenerationIsComplete)
-					{
-						generatedMethodInfo.MethodGenerationIsComplete = true;
-
-						// Build Parameter List Code
-						string parameterListCode;
-						{
-							var sb = new StringBuilderWithIndentation(TAB_STRING) { IndentLevel = MULTI_LINE_PARAMETER_LIST_INDENT_LEVEL };
-
-							foreach (GeneratedParameterInfo generatedParameterInfo in generatedParameterInfos)
-							{
-								if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters)
-								{
-									sb.AppendLine($"{generatedParameterInfo.TypeName} {generatedParameterInfo.NameCamelCase},");
-
-									sb.AppendTabs();
-									sb.Append($"out {generatedParameterInfo.TypeName} {generatedParameterInfo.NameCamelCase}_out");
-										// DIRTY: "_out" suffix does not create ambiguity, but only by accident because the last part of an identifier is always a number.
-								}
-								else if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters)
-								{
-									sb.AppendTabs();
-									sb.Append($"ref {generatedParameterInfo.TypeName} {generatedParameterInfo.NameCamelCase}");
-								}
-								else
-								{
-									throw new ValueNotSupportedException(_calculationMethodEnum);
-								}
-
-								bool isLast = generatedParameterInfo == generatedParameterInfos.Last();
-								if (!isLast)
-								{
-									sb.Append(',');
-								}
-								else
-								{
-									sb.Append(')');
-								}
-
-								sb.AppendLine();
-							}
-							parameterListCode = sb.ToString();
-						}
-
-						// Write last bit of raw method code.
-						if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters)
-						{
-							foreach (GeneratedParameterInfo generatedParameterInfo in generatedParameterInfos)
-							{
-								AppendLine($"{generatedParameterInfo.NameCamelCase}_out = {generatedParameterInfo.NameCamelCase};");
-									// DIRTY: "_out" suffix does not create ambiguity, but only by accident because the last part of an identifier is always a number.
-							}
-							AppendLine();
-						}
-
-						AppendLine($"return {expressionToReturn};");
-
-						// Wrap raw Calculate code in a method.
-						{
-							var sb = new StringBuilderWithIndentation(TAB_STRING) { IndentLevel = METHOD_SIGNATURE_INDENT_LEVEL };
-							sb.AppendLine("[MethodImpl(MethodImplOptions.NoInlining)]");
-							sb.AppendLine($"private double {generatedMethodInfo.MethodNameForCalculate}(");
-							sb.Append(parameterListCode);
-							sb.AppendLine("{");
-							sb.Indent();
-							{
-								sb.Append(generatedMethodInfo.MethodBodyStringBuilderForCalculate.ToString());
-								sb.Unindent();
-							}
-							sb.AppendLine("}");
-							generatedMethodInfo.MethodCodeForCalculate = sb.ToString();
-						}
-
-						// Wrap raw Reset code in a method.
-						{
-							var sb = new StringBuilderWithIndentation(TAB_STRING) { IndentLevel = METHOD_SIGNATURE_INDENT_LEVEL };
-							sb.AppendLine($"private double {generatedMethodInfo.MethodNameForReset}(");
-							sb.Append(parameterListCode);
-							sb.AppendLine("{");
-							sb.Indent();
-							{
-								sb.Append(generatedMethodInfo.MethodBodyStringBuilderForReset.ToString());
-								sb.Unindent();
-							}
-							sb.AppendLine("}");
-							generatedMethodInfo.MethodCodeForReset = sb.ToString();
-						}
-					}
-
-					// Pop to parent level.
-					_generatedMethodInfoStack.Pop();
-
-					// Write method calls
-					string argumentListCode;
-					if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithNormalAndOutParameters)
-					{
-						argumentListCode = string.Join(
-							", ",
-							generatedMethodInfo.GetGeneratedParameterInfos().Select(x => $"{x.NameCamelCase}, out {x.NameCamelCase}"));
-					}
-					else if (_calculationMethodEnum == CalculationMethodEnum.Roslyn_WithUninlining_WithRefParameters)
-					{
-						argumentListCode = string.Join(
-							", ",
-							generatedMethodInfo.GetGeneratedParameterInfos().Select(x => $"ref {x.NameCamelCase}"));
-					}
-					else
-					{
-						throw new ValueNotSupportedException(_calculationMethodEnum);
-					}
-
-					string output = GetVariableName(generatedMethodInfo.MethodNameForCalculate);
-
-					AppendLineToCalculate($"double {output} = {generatedMethodInfo.MethodNameForCalculate}({argumentListCode});");
-					AppendLineToReset($"double {output} = {generatedMethodInfo.MethodNameForReset}({argumentListCode});");
-
-					return output;
-
-				case CalculationMethodEnum.Roslyn:
-					return expressionToReturn;
-
-				default:
-					throw new ValueNotSupportedException(_calculationMethodEnum);
-			}
 		}
 
 		// Helpers
@@ -1997,15 +1764,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 		private string GetRandomOrNoiseOffsetVariableNameCamelCase(string operationIdentity)
 		{
 			// ReSharper disable once InvertIf
-			if (!_variableInfo.RandomOrNoiseOperationIdentity_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operationIdentity, out string variableNameCamelCase))
+			if (!_variableCollections.RandomOrNoiseOperationIdentity_To_OffsetVariableNameCamelCase_Dictionary.TryGetValue(operationIdentity, out string variableNameCamelCase))
 			{
 				variableNameCamelCase = GetLongLivedVariableName(OFFSET_MNEMONIC);
 			}
 
-			foreach (VariableCollections variableInfo in GetVariableInfoList())
-			{
-				variableInfo.RandomOrNoiseOperationIdentity_To_OffsetVariableNameCamelCase_Dictionary[operationIdentity] = variableNameCamelCase;
-			}
+			_variableCollections.RandomOrNoiseOperationIdentity_To_OffsetVariableNameCamelCase_Dictionary[operationIdentity] = variableNameCamelCase;
 
 			return variableNameCamelCase;
 		}
@@ -2013,7 +1777,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 		private string GetArrayCalculatorVariableNameCamelCaseAndCache(ArrayDto arrayDto)
 		{
 			// ReSharper disable once InvertIf
-			if (!_variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary.TryGetValue(arrayDto, out ArrayCalculationInfo arrayCalculationInfo))
+			if (!_variableCollections.ArrayDto_To_ArrayCalculationInfo_Dictionary.TryGetValue(arrayDto, out ArrayCalculationInfo arrayCalculationInfo))
 			{
 				// Do not call GenerateUniqueLongLivedVariableName. In a later stage those are all assumed to be double variables. 
 				// The array calculator variables are not doubles.
@@ -2029,10 +1793,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 				};
 			}
 
-			foreach (VariableCollections variableInfo in GetVariableInfoList())
-			{
-				variableInfo.ArrayDto_To_ArrayCalculationInfo_Dictionary[arrayDto] = arrayCalculationInfo;
-			}
+			_variableCollections.ArrayDto_To_ArrayCalculationInfo_Dictionary[arrayDto] = arrayCalculationInfo;
 
 			return arrayCalculationInfo.NameCamelCase;
 		}
@@ -2041,9 +1802,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 		{
 			InputVariableInfo inputVariableInfo = null;
 
-			if (_variableInfo.VariableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out string variableName))
+			if (_variableCollections.VariableInput_OperatorDto_To_VariableName_Dictionary.TryGetValue(dto, out string variableName))
 			{
-				_variableInfo.VariableName_To_InputVariableInfo_Dictionary.TryGetValue(variableName, out inputVariableInfo);
+				_variableCollections.VariableName_To_InputVariableInfo_Dictionary.TryGetValue(variableName, out inputVariableInfo);
 			}
 
 			if (string.IsNullOrEmpty(variableName) || inputVariableInfo == null)
@@ -2066,11 +1827,8 @@ namespace JJ.Business.Synthesizer.Roslyn
 				inputVariableInfo = new InputVariableInfo(variableName, dto.CanonicalCustomDimensionName, dto.StandardDimensionEnum, dto.Position, dto.DefaultValue);
 			}
 
-			foreach (VariableCollections variableInfo in GetVariableInfoList())
-			{
-				variableInfo.VariableInput_OperatorDto_To_VariableName_Dictionary[dto] = variableName;
-				variableInfo.VariableName_To_InputVariableInfo_Dictionary[variableName] = inputVariableInfo;
-			}
+			_variableCollections.VariableInput_OperatorDto_To_VariableName_Dictionary[dto] = variableName;
+			_variableCollections.VariableName_To_InputVariableInfo_Dictionary[variableName] = inputVariableInfo;
 
 			return variableName;
 		}
@@ -2147,10 +1905,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 		{
 			string variableName = GetVariableName(mnemonic);
 
-			foreach (VariableCollections variableInfo in GetVariableInfoList())
-			{
-				variableInfo.LongLivedDoubleVariableNamesCamelCase.Add(variableName);
-			}
+			_variableCollections.LongLivedDoubleVariableNamesCamelCase.Add(variableName);
 
 			return variableName;
 		}
@@ -2159,27 +1914,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 		{
 			string variableName = GetVariableName(ARRAY_MNEMONIC);
 
-			foreach (VariableCollections variableInfo in GetVariableInfoList())
-			{
-				variableInfo.LongLivedDoubleArrayVariableInfos.Add(new DoubleArrayVariableInfo { NameCamelCase = variableName, ArrayLength = arrayLength });
-			}
+			_variableCollections.LongLivedDoubleArrayVariableInfos.Add(new DoubleArrayVariableInfo { NameCamelCase = variableName, ArrayLength = arrayLength });
 
 			return variableName;
 		}
 
-		private string GetMethodName(object mnemonic)
-		{
-			string uniqueNameCamelCase = GetVariableName(mnemonic);
-			string uniqueNamePascalCase = uniqueNameCamelCase.Left(1).ToUpper() + uniqueNameCamelCase.TrimStart(1);
-			return uniqueNamePascalCase;
-		}
-
 		private int GetUniqueNumber() => _counter++;
-
-		private IList<VariableCollections> GetVariableInfoList()
-		{
-			IList<VariableCollections> list = _generatedMethodInfoStack.Select(x => x.VariableInfo).Concat(_variableInfo).ToArray();
-			return list;
-		}
 	}
 }
