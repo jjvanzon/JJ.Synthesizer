@@ -40,10 +40,6 @@ namespace JJ.Business.Synthesizer.Calculation
 				for (int destOrdinal = LOWEST_DEST_ORDINAL; destOrdinal <= HIGHEST_DEST_ORDINAL; destOrdinal++)
 				{
 					int sourceToneIndex = destToneIndex % sourceToneCount;
-					if (sourceToneIndex == 0)
-					{
-						int bla = 1;
-					}
 
 					ITone sourceTone = sourceSortedTones[sourceToneIndex];
 

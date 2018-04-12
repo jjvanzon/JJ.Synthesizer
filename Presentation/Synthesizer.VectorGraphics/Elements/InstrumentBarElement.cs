@@ -5,6 +5,7 @@ using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
@@ -111,6 +112,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			}
 			else
 			{
+				// ReSharper disable once HeuristicUnreachableCode
 				throw new Exception(
 					$"Error evaluating {new { patchesAreWithinHalfTheWidth = patchesAreWithinHalfTheRemainingWidth, midiMappingGroupsAreWithinHalfTheWidth = midiMappingGroupsAreWithinHalfTheRemainingWidth }}. All cases should have been covered, but somehow they were not.");
 			}
