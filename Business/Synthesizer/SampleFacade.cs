@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer
 		public IList<ICalculatorWithPosition> CreateCalculators(Sample sample, byte[] bytes)
 		{
 			IList<ArrayDto> dtos = SampleArrayDtoFactory.CreateArrayDtos(sample, bytes);
-			IList<ICalculatorWithPosition> calculators = dtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
+			IList<ICalculatorWithPosition> calculators = dtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
 			return calculators;
 		}
 

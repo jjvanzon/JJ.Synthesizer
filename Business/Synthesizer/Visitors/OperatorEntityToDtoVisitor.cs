@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 			var dto = new InletsToDimension_OperatorDto
 			{
-				InputsExceptPosition = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
+				InputsExceptPosition = CollectionHelper.Repeat(op.Inlets.Count, PopInputDto)
 													   .Where(x => x != null)
 													   .ToArray(),
 				Position = new Number_OperatorDto(double.NaN)
@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Visitors
 				CanonicalCustomDimensionName = NameHelper.ToCanonical(op.GetCustomDimensionNameWithFallback())
 			};
 
-			dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
+			dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, PopInputDto)
 										 .Where(x => x != null)
 										 .ToArray();
 
@@ -370,7 +370,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			VisitOperatorBase(op);
 
-			dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, () => PopInputDto())
+			dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, PopInputDto)
 										 .Where(x => x != null)
 										 .ToArray();
 			{

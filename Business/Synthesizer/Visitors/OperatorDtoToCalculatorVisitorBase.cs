@@ -560,7 +560,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			return ProcessOperatorDto(dto, () =>
 			{
-				IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(x1 => ArrayCalculatorFactory.CreateArrayCalculator(x1)).ToArray();
+				IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
 				return new SampleWithRate1_OperatorCalculator_NoChannelConversion(_stack.Pop(), _stack.Pop(), underlyingCalculators);
 			});
 		}
@@ -569,7 +569,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			return ProcessOperatorDto(dto, () =>
 			{
-				IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(x1 => ArrayCalculatorFactory.CreateArrayCalculator(x1)).ToArray();
+				IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
 				return new SampleWithRate1_OperatorCalculator_StereoToMono(_stack.Pop(), underlyingCalculators);
 			});
 		}

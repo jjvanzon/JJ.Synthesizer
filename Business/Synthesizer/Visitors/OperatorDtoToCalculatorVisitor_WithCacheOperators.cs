@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Visitors
 					castedPositionCalculator,
 					castedChannelCalculator);
 
-				IList<ICalculatorWithPosition> arrayCalculators = arrayDtos.Select(x => ArrayCalculatorFactory.CreateArrayCalculator(x)).ToArray();
+				IList<ICalculatorWithPosition> arrayCalculators = arrayDtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
 
 				calculator = OperatorCalculatorFactory.Create_Cache_OperatorCalculator(arrayCalculators, castedPositionCalculator, castedChannelCalculator);
 			}

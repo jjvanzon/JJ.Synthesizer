@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected virtual IOperatorDto Visit_OperatorDto_Base(IOperatorDto dto)
 		{
-			dto.Inputs = dto.Inputs.Reverse().Select(x => VisitInputDto(x)).Reverse().ToArray();
+			dto.Inputs = dto.Inputs.Reverse().Select(VisitInputDto).Reverse().ToArray();
 
 			return dto;
 		}

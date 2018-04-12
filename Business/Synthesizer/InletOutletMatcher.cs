@@ -10,6 +10,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
+// ReSharper disable PossibleMultipleEnumeration
 
 namespace JJ.Business.Synthesizer
 {

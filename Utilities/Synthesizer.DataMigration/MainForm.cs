@@ -100,7 +100,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 			if (methodTuple != null)
 			{
 				// DIRTY: Assumption that all public methods of DataMigrationExecutor take a delegate of this kind.
-				Action<string> showProgressDelegate = x => ShowProgress(x);
+				Action<string> showProgressDelegate = ShowProgress;
 				methodTuple.Method.Invoke(null, new object[] { showProgressDelegate });
 				return;
 			}

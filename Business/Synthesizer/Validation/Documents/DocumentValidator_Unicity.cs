@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Validation.Documents
 			// ReSharper disable once InvertIf
 			if (duplicates.Count > 0)
 			{
-				IList<string> duplicateIdentifiers = duplicates.Select(x => ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference(x)).ToArray();
+				IList<string> duplicateIdentifiers = duplicates.Select(ValidationHelper.GetUserFriendlyIdentifier_ForLowerDocumentReference).ToArray();
 				string message = ValidationResourceFormatter.NotUniquePlural(ResourceFormatter.Libraries, duplicateIdentifiers);
 				Messages.Add(message);
 			}

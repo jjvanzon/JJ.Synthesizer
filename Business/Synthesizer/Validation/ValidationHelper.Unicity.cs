@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Validation
 
 		private static IList<string> GetDuplicateNames(IEnumerable<string> nameEnumerable)
 		{
-			IList<string> duplicateNames = nameEnumerable.GroupBy(x => NameHelper.ToCanonical(x))
+			IList<string> duplicateNames = nameEnumerable.GroupBy(NameHelper.ToCanonical)
 														 .Where(x => x.Count() > 1)
 														 .Select(x => x.First())
 														 .ToArray();

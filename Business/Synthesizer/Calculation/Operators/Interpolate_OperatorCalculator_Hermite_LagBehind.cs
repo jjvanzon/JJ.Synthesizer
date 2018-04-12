@@ -13,7 +13,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private readonly OperatorCalculatorBase _positionInputCalculator;
 		private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
-		private double _xMinus1;
 		private double _x0;
 		private double _x1;
 		private double _x2;
@@ -49,7 +48,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			if (x > _x1)
 			{
 				// Shift the samples to the left.
-				_xMinus1 = _x0;
 				_x0 = _x1;
 				_x1 = _x2;
 				_yMinus1 = _y0;
@@ -108,7 +106,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 			double dx = 1.0 / samplingRate;
 
-			_xMinus1 = x - dx - dx;
 			_x0 = x - dx;
 			_x1 = x;
 			_x2 = x + dx;
