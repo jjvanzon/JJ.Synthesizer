@@ -28,7 +28,6 @@ namespace JJ.Business.Synthesizer.Visitors
 			dto = new OperatorDtoVisitor_BooleanBoundaries().Execute(dto);
 			dto = new OperatorDtoVisitor_MachineOptimization().Execute(dto);
 			dto = new OperatorDtoVisitor_Rewriting().Execute(dto);
-			dto = new OperatorDtoVisitor_ProgrammerLaziness().Execute(dto);
 			new OperatorDtoVisitor_OperationIdentityAssignment().Execute(dto);
 			dto = new OperatorDtoVisitor_OperationIdentityDeduplication().Execute(dto);
 

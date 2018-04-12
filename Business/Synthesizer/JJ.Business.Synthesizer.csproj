@@ -584,11 +584,9 @@
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterClassSpecialization.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterMathSimplification.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitorBase_AfterProgrammerLaziness.cs" />
     <Compile Include="Visitors\OperatorEntityToDtoVisitor.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase.cs" />
     <Compile Include="Visitors\OperatorDtoPreProcessingExecutor.cs" />
-    <Compile Include="Visitors\OperatorDtoVisitor_ProgrammerLaziness.cs" />
     <Compile Include="Visitors\VisitorHelper.cs" />
     <Compile Include="Warnings\AudioOutputWarningValidator.cs" />
     <Compile Include="Warnings\OutletWarningValidator.cs" />

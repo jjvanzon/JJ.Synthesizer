@@ -10,6 +10,7 @@ using JJ.Framework.Collections;
 using JJ.Framework.Mathematics;
 // ReSharper disable RedundantIfElseBlock
 // ReSharper disable CompareOfFloatsByEqualityOperator
+// ReSharper disable SuggestVarOrType_SimpleTypes
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -908,6 +909,16 @@ namespace JJ.Business.Synthesizer.Visitors
 
 			// Pre-calculate
 			return new Number_OperatorDto { Number = dto.Signal * dto.SampleCount };
+		}
+
+		protected override IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto)
+		{
+			base.Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(dto);
+
+			// Simplify
+			var dto2 = new Multiply_OperatorDto { Inputs = new [] { dto.Signal, dto.SampleCount } };
+
+			return dto2;
 		}
 
 		protected override IOperatorDto Visit_SumOverDimension_OperatorDto_AllConsts(SumOverDimension_OperatorDto_AllConsts dto)

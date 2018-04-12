@@ -9,7 +9,7 @@ using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
-	internal class OperatorDtoVisitor_TransformationsToPositionInputs : OperatorDtoVisitorBase_AfterProgrammerLaziness
+	internal class OperatorDtoVisitor_TransformationsToPositionInputs : OperatorDtoVisitorBase_AfterRewriting
 	{
 		private Dictionary<(DimensionEnum, string), Stack<IOperatorDto_PositionTransformation>> _transformationStackDictionary;
 
