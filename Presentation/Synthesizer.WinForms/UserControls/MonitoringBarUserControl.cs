@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using JJ.Framework.Drawing;
 using JJ.Framework.VectorGraphics.Helpers;
@@ -11,6 +12,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	public partial class MonitoringBarUserControl : UserControl
 	{
+		public event EventHandler HeightChanged
+		{
+			add => _monitoringBarElement.HeightChanged += value;
+			remove => _monitoringBarElement.HeightChanged -= value;
+		}
+
 		private readonly MonitoringBarElement _monitoringBarElement;
 
 		public MonitoringBarUserControl()
@@ -26,8 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			diagramControl.Location = new Point(0, 0);
 			diagramControl.Diagram = diagram;
-
-			PositionControls();
 		}
 
 		public void PositionControls()
@@ -52,6 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private void MonitoringBarUserControl_SizeChanged(object sender, System.EventArgs e) => PositionControls();
+		private void MonitoringBarUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
+		private void MonitoringBarUserControl_Load(object sender, EventArgs e) => PositionControls();
 	}
 }

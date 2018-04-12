@@ -46,6 +46,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.diagramControl);
 			this.Name = "InstrumentBarUserControl";
+			this.Load += new System.EventHandler(this.InstrumentBarUserControl_Load);
 			this.SizeChanged += new System.EventHandler(this.InstrumentBarUserControl_SizeChanged);
 			this.ResumeLayout(false);
 

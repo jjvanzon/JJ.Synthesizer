@@ -46,6 +46,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.diagramControl);
 			this.Name = "MonitoringBarUserControl";
+			this.Load += new System.EventHandler(this.MonitoringBarUserControl_Load);
 			this.SizeChanged += new System.EventHandler(this.MonitoringBarUserControl_SizeChanged);
 			this.ResumeLayout(false);
 

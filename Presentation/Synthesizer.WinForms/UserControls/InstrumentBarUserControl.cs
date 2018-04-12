@@ -14,6 +14,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	public partial class InstrumentBarUserControl : UserControl
 	{
+		public event EventHandler HeightChanged
+		{
+			add => _instrumentBarElement.HeightChanged += value;
+			remove => _instrumentBarElement.HeightChanged -= value;
+		}
+
 		public event EventHandler ExpandRequested;
 		public event EventHandler PlayRequested;
 
@@ -62,8 +68,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			diagramControl.Location = new Point(0, 0);
 			diagramControl.Diagram = diagram;
-
-			PositionControls();
 		}
 
 		public InstrumentBarViewModel ViewModel
@@ -89,5 +93,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		}
 
 		private void InstrumentBarUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
+		private void InstrumentBarUserControl_Load(object sender, EventArgs e) => PositionControls();
 	}
 }

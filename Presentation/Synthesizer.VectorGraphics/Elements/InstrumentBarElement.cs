@@ -5,12 +5,16 @@ using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
+// ReSharper disable CompareOfFloatsByEqualityOperator
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
+// ReSharper disable HeuristicUnreachableCode
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
 	public class InstrumentBarElement : ElementBaseWithScreenViewModel
 	{
+		public event EventHandler HeightChanged;
+
 		private readonly InstrumentBarScaleElement _scaleElement;
 		private readonly InstrumentBarItemsElement _midiMappingsElement;
 		private readonly InstrumentBarItemsElement _patchesElement;
@@ -112,11 +116,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			}
 			else
 			{
-				// ReSharper disable once HeuristicUnreachableCode
 				throw new Exception(
 					$"Error evaluating {new { patchesAreWithinHalfTheWidth = patchesAreWithinHalfTheRemainingWidth, midiMappingGroupsAreWithinHalfTheWidth = midiMappingGroupsAreWithinHalfTheRemainingWidth }}. All cases should have been covered, but somehow they were not.");
 			}
-			// ReSharper restore ConditionIsAlwaysTrueOrFalse
 
 			_midiMappingsElement.Position.X = _scaleElement.Position.Right + StyleHelper.SPACING;
 			_midiMappingsElement.Position.Width = midiMappingWidth;
@@ -127,7 +129,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_midiMappingsElement.PositionElements();
 			_patchesElement.PositionElements();
 
-			Position.Height = Math.Max(_midiMappingsElement.Position.Height, _patchesElement.Position.Height);
+			float newHeight = Math.Max(_midiMappingsElement.Position.Height, _patchesElement.Position.Height);
+			if (Position.Height != newHeight)
+			{
+				Position.Height = newHeight;
+				HeightChanged?.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		protected override void ApplyViewModelToElements()

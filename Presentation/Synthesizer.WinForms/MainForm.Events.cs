@@ -7,8 +7,6 @@ using JJ.Framework.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
-#pragma warning disable IDE1006 // Naming Styles
-
 namespace JJ.Presentation.Synthesizer.WinForms
 {
 	internal partial class MainForm
@@ -17,22 +15,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		{
 			FormClosing += MainForm_FormClosing;
 
-			audioFileOutputGridUserControl.CloseRequested += audioFileOutputGridUserControl_CloseRequested;
-			audioFileOutputGridUserControl.AddRequested += audioFileOutputGridUserControl_AddRequested;
+			audioFileOutputGridUserControl.CloseRequested += AudioFileOutputGridUserControl_CloseRequested;
+			audioFileOutputGridUserControl.AddRequested += AudioFileOutputGridUserControl_AddRequested;
 			audioFileOutputGridUserControl.DeleteRequested += AudioFileOutputGridUserControl_DeleteRequested;
-			audioFileOutputGridUserControl.ShowItemRequested += audioFileOutputGridUserControl_ShowItemRequested;
+			audioFileOutputGridUserControl.ShowItemRequested += AudioFileOutputGridUserControl_ShowItemRequested;
 
-			audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
-			audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
+			audioFileOutputPropertiesUserControl.CloseRequested += AudioFileOutputPropertiesUserControl_CloseRequested;
+			audioFileOutputPropertiesUserControl.LoseFocusRequested += AudioFileOutputPropertiesUserControl_LoseFocusRequested;
 			audioFileOutputPropertiesUserControl.DeleteRequested += AudioFileOutputPropertiesUserControl_DeleteRequested;
 
-			audioOutputPropertiesUserControl.CloseRequested += audioOutputPropertiesUserControl_CloseRequested;
-			audioOutputPropertiesUserControl.LoseFocusRequested += audioOutputPropertiesUserControl_LoseFocusRequested;
-			audioOutputPropertiesUserControl.PlayRequested += audioOutputPropertiesUserControl_PlayRequested;
+			audioOutputPropertiesUserControl.CloseRequested += AudioOutputPropertiesUserControl_CloseRequested;
+			audioOutputPropertiesUserControl.LoseFocusRequested += AudioOutputPropertiesUserControl_LoseFocusRequested;
+			audioOutputPropertiesUserControl.PlayRequested += AudioOutputPropertiesUserControl_PlayRequested;
 
 			instrumentBarUserControl.ExpandRequested += InstrumentBarUserControl_ExpandRequested;
 			instrumentBarUserControl.ExpandMidiMappingGroupRequested += InstrumentBarUserControl_ExpandMidiMappingGroupRequested;
 			instrumentBarUserControl.ExpandPatchRequested += InstrumentBarUserControl_ExpandPatchRequested;
+			instrumentBarUserControl.DeleteMidiMappingGroupRequested += InstrumentBarUserControl_DeleteMidiMappingGroupRequested;
+			instrumentBarUserControl.DeletePatchRequested += InstrumentBarUserControl_DeletePatchRequested;
+			instrumentBarUserControl.HeightChanged += InstrumentBarUserControl_HeightChanged;
 			instrumentBarUserControl.MoveMidiMappingGroupBackwardRequested +=
 				InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested;
 			instrumentBarUserControl.MoveMidiMappingGroupForwardRequested +=
@@ -41,30 +42,28 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			instrumentBarUserControl.MovePatchForwardRequested += InstrumentBarUserControl_MovePatchForwardRequested;
 			instrumentBarUserControl.PlayRequested += InstrumentBarUserControl_PlayRequested;
 			instrumentBarUserControl.PlayPatchRequested += InstrumentBarUserControl_PlayPatchRequested;
-			instrumentBarUserControl.DeleteMidiMappingGroupRequested += InstrumentBarUserControl_DeleteMidiMappingGroupRequested;
-			instrumentBarUserControl.DeletePatchRequested += InstrumentBarUserControl_DeletePatchRequested;
 
-			curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += curveDetailsListUserControl_ChangeSelectedNodeTypeRequested;
-			curveDetailsListUserControl.CloseRequested += curveDetailsListUserControl_CloseRequested;
-			curveDetailsListUserControl.CreateNodeRequested += curveDetailsListUserControl_CreateNodeRequested;
-			curveDetailsListUserControl.DeleteSelectedNodeRequested += curveDetailsListUserControl_DeleteSelectedNodeRequested;
-			curveDetailsListUserControl.ExpandCurveRequested += curveDetailsListUserControl_ExpandCurveRequested;
-			curveDetailsListUserControl.LoseFocusRequested += curveDetailsListUserControl_LoseFocusRequested;
-			curveDetailsListUserControl.NodeMoving += curveDetailsListUserControl_NodeMoving;
-			curveDetailsListUserControl.NodeMoved += curveDetailsListUserControl_NodeMoved;
-			curveDetailsListUserControl.SelectCurveRequested += curveDetailsListUserControl_SelectCurveRequested;
-			curveDetailsListUserControl.SelectNodeRequested += curveDetailsListUserControl_SelectNodeRequested;
-			curveDetailsListUserControl.ExpandNodeRequested += curveDetailsListUserControl_ExpandNodeRequested;
+			curveDetailsListUserControl.ChangeSelectedNodeTypeRequested += CurveDetailsListUserControl_ChangeSelectedNodeTypeRequested;
+			curveDetailsListUserControl.CloseRequested += CurveDetailsListUserControl_CloseRequested;
+			curveDetailsListUserControl.CreateNodeRequested += CurveDetailsListUserControl_CreateNodeRequested;
+			curveDetailsListUserControl.DeleteSelectedNodeRequested += CurveDetailsListUserControl_DeleteSelectedNodeRequested;
+			curveDetailsListUserControl.ExpandCurveRequested += CurveDetailsListUserControl_ExpandCurveRequested;
+			curveDetailsListUserControl.LoseFocusRequested += CurveDetailsListUserControl_LoseFocusRequested;
+			curveDetailsListUserControl.NodeMoving += CurveDetailsListUserControl_NodeMoving;
+			curveDetailsListUserControl.NodeMoved += CurveDetailsListUserControl_NodeMoved;
+			curveDetailsListUserControl.SelectCurveRequested += CurveDetailsListUserControl_SelectCurveRequested;
+			curveDetailsListUserControl.SelectNodeRequested += CurveDetailsListUserControl_SelectNodeRequested;
+			curveDetailsListUserControl.ExpandNodeRequested += CurveDetailsListUserControl_ExpandNodeRequested;
 
-			documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
-			documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
-			documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
+			documentDetailsUserControl.CloseRequested += DocumentDetailsUserControl_CloseRequested;
+			documentDetailsUserControl.DeleteRequested += DocumentDetailsUserControl_DeleteRequested;
+			documentDetailsUserControl.SaveRequested += DocumentDetailsUserControl_SaveRequested;
 
-			documentGridUserControl.AddRequested += documentGridUserControl_AddRequested;
-			documentGridUserControl.CloseRequested += documentGridUserControl_CloseRequested;
-			documentGridUserControl.PlayRequested += documentGridUserControl_PlayRequested;
+			documentGridUserControl.AddRequested += DocumentGridUserControl_AddRequested;
+			documentGridUserControl.CloseRequested += DocumentGridUserControl_CloseRequested;
+			documentGridUserControl.PlayRequested += DocumentGridUserControl_PlayRequested;
 			documentGridUserControl.DeleteRequested += DocumentGridUserControl_DeleteRequested;
-			documentGridUserControl.ShowItemRequested += documentGridUserControl_ShowItemRequested;
+			documentGridUserControl.ShowItemRequested += DocumentGridUserControl_ShowItemRequested;
 
 			documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
 			documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
@@ -128,6 +127,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			midiMappingPropertiesUserControl.DeleteRequested += MidiMappingPropertiesUserControl_DeleteRequested;
 			midiMappingPropertiesUserControl.ExpandRequested += MidiMappingPropertiesUserControl_ExpandRequested;
 			midiMappingPropertiesUserControl.LoseFocusRequested += MidiMappingPropertiesUserControl_LoseFocusRequested;
+
+			monitoringBarUserControl.HeightChanged += MonitoringBarUserControl_HeightChanged;
 
 			nodePropertiesUserControl.CloseRequested += nodePropertiesUserControl_CloseRequested;
 			nodePropertiesUserControl.ExpandRequested += nodePropertiesUserControl_ExpandRequested;
@@ -304,12 +305,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		// AudioFileOutput
 
-		private void audioFileOutputGridUserControl_AddRequested(object sender, EventArgs e)
+		private void AudioFileOutputGridUserControl_AddRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Create);
 		}
 
-		private void audioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
+		private void AudioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Close);
 		}
@@ -319,17 +320,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.AudioFileOutputGrid_Delete(e.Value));
 		}
 
-		private void audioFileOutputGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
+		private void AudioFileOutputGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Show(e.Value));
 		}
 
-		private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+		private void AudioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Close(e.Value));
 		}
 
-		private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+		private void AudioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_LoseFocus(e.Value));
 		}
@@ -341,7 +342,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		// AudioOutput
 
-		private void audioOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+		private void AudioOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -353,7 +354,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void audioOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+		private void AudioOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -365,107 +366,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void audioOutputPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
+		private void AudioOutputPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(_mainPresenter.AudioOutputProperties_Play);
 		}
 
-		// InstrumentBar
-
-		private void patchPropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.PatchProperties_AddToInstrument(e.Value);
-					RecreatePatchCalculatorIfSuccessful();
-				});
-		}
-
-		private void InstrumentBarUserControl_ExpandRequested(object sender, EventArgs e)
-		{
-			TemplateActionHandler(_mainPresenter.InstrumentBar_Expand);
-		}
-
-		private void InstrumentBarUserControl_ExpandMidiMappingGroupRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandMidiMappingGroup(e.Value));
-		}
-
-		private void InstrumentBarUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandPatch(e.Value));
-		}
-
-		private void InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.InstrumentBar_MoveMidiMappingGroupBackward(e.Value);
-					UpdateInfrastructureIfSuccessful();
-				});
-		}
-
-		private void InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.InstrumentBar_MoveMidiMappingGroupForward(e.Value);
-					UpdateInfrastructureIfSuccessful();
-				});
-		}
-
-		private void InstrumentBarUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.InstrumentBar_MovePatchBackward(e.Value);
-					RecreatePatchCalculatorIfSuccessful();
-				});
-		}
-
-		private void InstrumentBarUserControl_MovePatchForwardRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.InstrumentBar_MovePatchForward(e.Value);
-					RecreatePatchCalculatorIfSuccessful();
-				});
-		}
-
-		private void InstrumentBarUserControl_PlayRequested(object sender, EventArgs e)
-		{
-			TemplateActionHandler(_mainPresenter.InstrumentBar_Play);
-		}
-
-		private void InstrumentBarUserControl_PlayPatchRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(() => _mainPresenter.InstrumentBar_PlayPatch(e.Value));
-		}
-
-		private void InstrumentBarUserControl_DeleteMidiMappingGroupRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.InstrumentBar_DeleteMidiMappingGroup(e.Value);
-					UpdateInfrastructureIfSuccessful();
-				});
-		}
-
-		private void InstrumentBarUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
-		{
-			TemplateActionHandler(
-				() =>
-				{
-					_mainPresenter.InstrumentBar_RemovePatch(e.Value);
-					RecreatePatchCalculatorIfSuccessful();
-				});
-		}
+		// AutoPatchPopup
 
 		private void _autoPatchPopupForm_CloseRequested(object sender, EventArgs e)
 		{
@@ -479,7 +385,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		// Curve
 
-		private void curveDetailsListUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e)
+		private void CurveDetailsListUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -489,12 +395,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void curveDetailsListUserControl_CloseRequested(object sender, EventArgs<int> e)
+		private void CurveDetailsListUserControl_CloseRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.CurveDetails_Close(e.Value));
 		}
 
-		private void curveDetailsListUserControl_CreateNodeRequested(object sender, EventArgs<int> e)
+		private void CurveDetailsListUserControl_CreateNodeRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -504,7 +410,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void curveDetailsListUserControl_DeleteSelectedNodeRequested(object sender, EventArgs<int> e)
+		private void CurveDetailsListUserControl_DeleteSelectedNodeRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -514,23 +420,23 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void curveDetailsListUserControl_ExpandCurveRequested(object sender, EventArgs<int> e)
+		private void CurveDetailsListUserControl_ExpandCurveRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.CurveDetails_Expand(e.Value));
 		}
 
-		private void curveDetailsListUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+		private void CurveDetailsListUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.CurveDetails_LoseFocus(e.Value));
 		}
 
-		private void curveDetailsListUserControl_NodeMoving(object sender, MoveNodeEventArgs e)
+		private void CurveDetailsListUserControl_NodeMoving(object sender, MoveNodeEventArgs e)
 		{
 			TemplateActionHandler(
 				() => { _mainPresenter.Node_Moving(e.CurveID, e.NodeID, e.X, e.Y); });
 		}
 
-		private void curveDetailsListUserControl_NodeMoved(object sender, MoveNodeEventArgs e)
+		private void CurveDetailsListUserControl_NodeMoved(object sender, MoveNodeEventArgs e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -540,34 +446,34 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		private void curveDetailsListUserControl_SelectCurveRequested(object sender, EventArgs<int> e)
+		private void CurveDetailsListUserControl_SelectCurveRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.Curve_Select(e.Value));
 		}
 
-		private void curveDetailsListUserControl_SelectNodeRequested(object sender, NodeEventArgs e)
+		private void CurveDetailsListUserControl_SelectNodeRequested(object sender, NodeEventArgs e)
 		{
 			TemplateActionHandler(() => _mainPresenter.Node_Select(e.CurveID, e.NodeID));
 		}
 
-		private void curveDetailsListUserControl_ExpandNodeRequested(object sender, NodeEventArgs e)
+		private void CurveDetailsListUserControl_ExpandNodeRequested(object sender, NodeEventArgs e)
 		{
 			TemplateActionHandler(() => _mainPresenter.CurveDetails_ExpandNode(e.CurveID, e.NodeID));
 		}
 
 		// Document Grid
 
-		private void documentGridUserControl_AddRequested(object sender, EventArgs e)
+		private void DocumentGridUserControl_AddRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.Document_Create);
 		}
 
-		private void documentGridUserControl_CloseRequested(object sender, EventArgs e)
+		private void DocumentGridUserControl_CloseRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.DocumentGrid_Close);
 		}
 
-		private void documentGridUserControl_PlayRequested(object sender, EventArgs<int> e)
+		private void DocumentGridUserControl_PlayRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.DocumentGrid_Play(e.Value));
 		}
@@ -577,7 +483,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
 		}
 
-		private void documentGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
+		private void DocumentGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(
 				() =>
@@ -592,17 +498,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		// Document Details
 
-		private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
+		private void DocumentDetailsUserControl_SaveRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.DocumentDetails_Save);
 		}
 
-		private void documentDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
+		private void DocumentDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
 		{
 			TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
 		}
 
-		private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
+		private void DocumentDetailsUserControl_CloseRequested(object sender, EventArgs e)
 		{
 			TemplateActionHandler(_mainPresenter.DocumentDetails_Close);
 		}
@@ -839,6 +745,105 @@ namespace JJ.Presentation.Synthesizer.WinForms
 							e.Value.midiChannel)));
 		}
 
+		// InstrumentBar
+
+		private void patchPropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.PatchProperties_AddToInstrument(e.Value);
+					RecreatePatchCalculatorIfSuccessful();
+				});
+		}
+
+		private void InstrumentBarUserControl_ExpandRequested(object sender, EventArgs e)
+		{
+			TemplateActionHandler(_mainPresenter.InstrumentBar_Expand);
+		}
+
+		private void InstrumentBarUserControl_ExpandMidiMappingGroupRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandMidiMappingGroup(e.Value));
+		}
+
+		private void InstrumentBarUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandPatch(e.Value));
+		}
+
+		private void InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.InstrumentBar_MoveMidiMappingGroupBackward(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
+		}
+
+		private void InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.InstrumentBar_MoveMidiMappingGroupForward(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
+		}
+
+		private void InstrumentBarUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.InstrumentBar_MovePatchBackward(e.Value);
+					RecreatePatchCalculatorIfSuccessful();
+				});
+		}
+
+		private void InstrumentBarUserControl_MovePatchForwardRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.InstrumentBar_MovePatchForward(e.Value);
+					RecreatePatchCalculatorIfSuccessful();
+				});
+		}
+
+		private void InstrumentBarUserControl_PlayRequested(object sender, EventArgs e)
+		{
+			TemplateActionHandler(_mainPresenter.InstrumentBar_Play);
+		}
+
+		private void InstrumentBarUserControl_PlayPatchRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(() => _mainPresenter.InstrumentBar_PlayPatch(e.Value));
+		}
+
+		private void InstrumentBarUserControl_DeleteMidiMappingGroupRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.InstrumentBar_DeleteMidiMappingGroup(e.Value);
+					UpdateInfrastructureIfSuccessful();
+				});
+		}
+
+		private void InstrumentBarUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
+		{
+			TemplateActionHandler(
+				() =>
+				{
+					_mainPresenter.InstrumentBar_RemovePatch(e.Value);
+					RecreatePatchCalculatorIfSuccessful();
+				});
+		}
+
+		private void InstrumentBarUserControl_HeightChanged(object sender, EventArgs e) => PositionControls();
+
 		// Library
 
 		private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -1014,6 +1019,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		{
 			TemplateActionHandler(_mainPresenter.DocumentProperties_Show);
 		}
+
+		private void MonitoringBarUserControl_HeightChanged(object sender, EventArgs e) => PositionControls();
 
 		// Node
 

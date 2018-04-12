@@ -9,11 +9,14 @@ using JJ.Framework.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable once CompareOfFloatsByEqualityOperator
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
 	public sealed class MonitoringBarElement : ElementBaseWithScreenViewModel
 	{
+		public event EventHandler HeightChanged;
+
 		private readonly ITextMeasurer _textMeasurer;
 		private readonly Label _midiLabel;
 		private readonly Label _synthLabel;
@@ -65,7 +68,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 				_synthLabel.TextStyle.Font,
 				_synthLabel.Position.WidthInPixels);
 
-			Position.Height = _synthLabel.Position.Bottom + StyleHelper.SPACING_SMALL;
+			float newHeight = _synthLabel.Position.Bottom + StyleHelper.SPACING_SMALL;
+			if (Position.Height != newHeight)
+			{
+				Position.Height = newHeight;
+				HeightChanged?.Invoke(this, EventArgs.Empty);
+			}
 		}
 
 		public new MonitoringBarViewModel ViewModel
