@@ -175,6 +175,7 @@
     <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
+    <Compile Include="Dto\Operators\IOperatorDto_WithResampleInterpolation.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_PositionReader.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_PositionTransformation.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithAggregateInfo.cs" />

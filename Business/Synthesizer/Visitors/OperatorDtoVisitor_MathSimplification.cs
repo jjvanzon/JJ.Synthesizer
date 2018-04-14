@@ -10,7 +10,6 @@ using JJ.Framework.Collections;
 using JJ.Framework.Mathematics;
 // ReSharper disable RedundantIfElseBlock
 // ReSharper disable CompareOfFloatsByEqualityOperator
-// ReSharper disable SuggestVarOrType_SimpleTypes
 
 namespace JJ.Business.Synthesizer.Visitors
 {

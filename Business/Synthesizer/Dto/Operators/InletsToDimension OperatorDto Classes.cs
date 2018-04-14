@@ -5,7 +5,7 @@ using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class InletsToDimension_OperatorDto : OperatorDtoBase_PositionReader
+	internal class InletsToDimension_OperatorDto : OperatorDtoBase_PositionReader, IOperatorDto_WithResampleInterpolation
 	{
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.InletsToDimension;
 

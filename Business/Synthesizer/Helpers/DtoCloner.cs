@@ -13,85 +13,130 @@ namespace JJ.Business.Synthesizer.Helpers
 			dest.Inputs = source.Inputs;
 			dest.OperationIdentity = source.OperationIdentity;
 
-			// Type checks are done here instead of overloads with different parameter types,
-			// so what gets cloned is not dependent on the overload you just happened to call,
-			// but is dependent on the specific concrete type you passed along.
+			TryCloneDimension(source, dest);
+			TryCloneCollectionRecalculation(source, dest);
+			TryCloneRandom(source, dest);
+			TryCloneFilterVarSound(source, dest);
+			TryCloneSampleWithRate1(source, dest);
+			TryCloneCurve(source, dest);
+			TryCloneCache(source, dest);
+			TryClonePositionReader(source, dest);
+			TryCloneResampleInterpolation(source, dest);
+		}
+
+		// Type checks are done instead of overloads with different parameter types,
+		// so what gets cloned is not dependent on the overload you just happened to call,
+		// but is dependent on the specific concrete type you passed along.
+
+		private static void TryCloneDimension(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is IOperatorDto_WithDimension castedSource) ||
+			    !(dest is IOperatorDto_WithDimension castedDest))
 			{
-				if (source is IOperatorDto_WithDimension castedSource &&
-					dest is IOperatorDto_WithDimension castedDest)
-				{
-					castedDest.CanonicalCustomDimensionName = castedSource.CanonicalCustomDimensionName;
-					castedDest.StandardDimensionEnum = castedSource.StandardDimensionEnum;
-				}
+				return;
 			}
 
+			castedDest.CanonicalCustomDimensionName = castedSource.CanonicalCustomDimensionName;
+			castedDest.StandardDimensionEnum = castedSource.StandardDimensionEnum;
+		}
+
+		private static void TryCloneCollectionRecalculation(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is OperatorDtoBase_WithCollectionRecalculation castedSource) ||
+			    !(dest is OperatorDtoBase_WithCollectionRecalculation castedDest))
 			{
-				if (source is OperatorDtoBase_WithCollectionRecalculation castedSource &&
-					dest is OperatorDtoBase_WithCollectionRecalculation castedDest)
-				{
-					castedDest.CollectionRecalculationEnum = castedSource.CollectionRecalculationEnum;
-				}
+				return;
 			}
 
+			castedDest.CollectionRecalculationEnum = castedSource.CollectionRecalculationEnum;
+		}
+
+		private static void TryCloneRandom(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is Random_OperatorDto castedSource) ||
+			    !(dest is Random_OperatorDto castedDest))
 			{
-				if (source is Interpolate_OperatorDto castedSource &&
-					dest is Interpolate_OperatorDto castedDest)
-				{
-					castedDest.ResampleInterpolationTypeEnum = castedSource.ResampleInterpolationTypeEnum;
-				}
+				return;
 			}
 
+			castedDest.ArrayDto = castedSource.ArrayDto;
+			castedDest.Rate = castedSource.Rate;
+		}
+
+		private static void TryCloneFilterVarSound(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is OperatorDtoBase_Filter_VarSound castedSource) ||
+			    !(dest is OperatorDtoBase_Filter_VarSound castedDest))
 			{
-				if (source is Random_OperatorDto castedSource &&
-					dest is Random_OperatorDto castedDest)
-				{
-					castedDest.ResampleInterpolationTypeEnum = castedSource.ResampleInterpolationTypeEnum;
-					castedDest.ArrayDto = castedSource.ArrayDto;
-				}
+				return;
 			}
 
+			castedDest.TargetSamplingRate = castedSource.TargetSamplingRate;
+			castedDest.NyquistFrequency = castedSource.NyquistFrequency;
+		}
+
+		private static void TryCloneSampleWithRate1(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is SampleWithRate1_OperatorDto castedSource) ||
+			    !(dest is SampleWithRate1_OperatorDto castedDest))
 			{
-				if (source is OperatorDtoBase_Filter_VarSound castedSource &&
-					dest is OperatorDtoBase_Filter_VarSound castedDest)
-				{
-					castedDest.TargetSamplingRate = castedSource.TargetSamplingRate;
-					castedDest.NyquistFrequency = castedSource.NyquistFrequency;
-				}
+				return;
 			}
 
+			castedDest.SampleID = castedSource.SampleID;
+			castedDest.SampleChannelCount = castedSource.SampleChannelCount;
+			castedDest.InterpolationTypeEnum = castedSource.InterpolationTypeEnum;
+			castedDest.TargetChannelCount = castedSource.TargetChannelCount;
+			castedDest.ArrayDtos = castedSource.ArrayDtos;
+		}
+
+		private static void TryCloneCurve(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is Curve_OperatorDto castedSource) || 
+			    !(dest is Curve_OperatorDto castedDest))
 			{
-				if (source is SampleWithRate1_OperatorDto castedSource &&
-					dest is SampleWithRate1_OperatorDto castedDest)
-				{
-					castedDest.SampleID = castedSource.SampleID;
-					castedDest.SampleChannelCount = castedSource.SampleChannelCount;
-					castedDest.InterpolationTypeEnum = castedSource.InterpolationTypeEnum;
-					castedDest.TargetChannelCount = castedSource.TargetChannelCount;
-					castedDest.ArrayDtos = castedSource.ArrayDtos;
-				}
+				return;
 			}
 
+			castedDest.CurveID = castedSource.CurveID;
+			castedDest.ArrayDto = castedSource.ArrayDto;
+			castedDest.MinX = castedSource.MinX;
+		}
 
+		private static void TryCloneCache(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is Cache_OperatorDto castedSource) ||
+			    !(dest is Cache_OperatorDto castedDest))
 			{
-				if (source is Curve_OperatorDto castedSource &&
-					dest is Curve_OperatorDto castedDest)
-				{
-					castedDest.CurveID = castedSource.CurveID;
-					castedDest.ArrayDto = castedSource.ArrayDto;
-					castedDest.MinX = castedSource.MinX;
-				}
+				return;
 			}
 
+			castedDest.ChannelCount = castedSource.ChannelCount;
+			castedDest.InterpolationTypeEnum = castedSource.InterpolationTypeEnum;
+			castedDest.SpeakerSetupEnum = castedSource.SpeakerSetupEnum;
+			castedDest.ArrayDto = castedSource.ArrayDto;
+		}
+
+		private static void TryCloneResampleInterpolation(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is IOperatorDto_WithResampleInterpolation castedSource) ||
+			    !(dest is IOperatorDto_WithResampleInterpolation castedDest))
 			{
-				if (source is Cache_OperatorDto castedSource &&
-					dest is Cache_OperatorDto castedDest)
-				{
-					castedDest.ChannelCount = castedSource.ChannelCount;
-					castedDest.InterpolationTypeEnum = castedSource.InterpolationTypeEnum;
-					castedDest.SpeakerSetupEnum = castedSource.SpeakerSetupEnum;
-					castedDest.ArrayDto = castedSource.ArrayDto;
-				}
+				return;
 			}
+
+			castedDest.ResampleInterpolationTypeEnum = castedSource.ResampleInterpolationTypeEnum;
+		}
+
+		private static void TryClonePositionReader(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is IOperatorDto_PositionReader castedSource) ||
+			    !(dest is IOperatorDto_PositionReader castedDest))
+			{
+				return;
+			}
+
+			castedDest.Position = castedSource.Position;
 		}
 	}
 }

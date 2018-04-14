@@ -4,8 +4,8 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class Interpolate_OperatorDto 
-		: OperatorDtoBase_PositionReader, IOperatorDto_WithSignal_WithDimension
+	internal class Interpolate_OperatorDto
+		: OperatorDtoBase_PositionReader, IOperatorDto_WithSignal_WithDimension, IOperatorDto_WithResampleInterpolation
 	{
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
