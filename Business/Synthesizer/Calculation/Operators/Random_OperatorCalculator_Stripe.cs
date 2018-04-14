@@ -17,9 +17,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			RandomCalculator_Stripe randomCalculator,
 			OperatorCalculatorBase rateCalculator,
 			OperatorCalculatorBase positionCalculator)
-			: base(new[] { rateCalculator })
+			: base(new[] { rateCalculator, positionCalculator })
 		{
-
 			_randomCalculator = randomCalculator ?? throw new NullException(() => randomCalculator);
 			_rateCalculator = rateCalculator;
 			_positionCalculator = positionCalculator;

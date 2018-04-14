@@ -1,13 +1,18 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Resources;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	internal partial class DocumentPropertiesUserControl : PropertiesUserControlBase
 	{
-		public DocumentPropertiesUserControl() => InitializeComponent();
+		public DocumentPropertiesUserControl()
+		{
+			InitializeComponent();
+
+			DeleteButtonVisible = false;
+		}
 
 		// Gui
 

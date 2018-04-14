@@ -366,7 +366,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.Add(this.filePathControl);
 			this.Controls.Add(this.labelDurationTitle);
 			this.Controls.Add(this.labelDurationValue);
-			this.DeleteButtonVisible = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "OperatorPropertiesUserControl_ForSample";
 			this.Size = new System.Drawing.Size(813, 414);

@@ -350,7 +350,6 @@
 			this.Controls.Add(this.numericUpDownSamplingRate);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "AudioFileOutputPropertiesUserControl";
-			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(10, 10);
 			this.Controls.SetChildIndex(this.numericUpDownSamplingRate, 0);
 			this.Controls.SetChildIndex(this.numericUpDownStartTime, 0);

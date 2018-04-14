@@ -55,6 +55,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 			_labelOutletCount = CreateLabelOutletCount();
 			_numericUpDownOutletCount = CreateNumericUpDownOutletCount();
+
+			DeleteButtonVisible = true;
 		}
 
 		public new OperatorPropertiesViewModelBase ViewModel

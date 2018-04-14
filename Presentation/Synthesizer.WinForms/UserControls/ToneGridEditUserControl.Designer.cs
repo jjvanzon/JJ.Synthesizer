@@ -71,7 +71,6 @@
 			this.titleBarUserControl.AddToInstrumentButtonVisible = true;
 			this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
 			this.titleBarUserControl.CloseButtonVisible = true;
-			this.titleBarUserControl.DeleteButtonVisible = true;
 			this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.titleBarUserControl.ExpandButtonVisible = false;
 			this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);

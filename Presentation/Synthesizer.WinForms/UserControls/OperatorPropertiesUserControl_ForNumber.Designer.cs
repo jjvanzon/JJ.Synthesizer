@@ -89,7 +89,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.Add(this.textBoxNumber);
 			this.Margin = new System.Windows.Forms.Padding(5);
 			this.Name = "OperatorPropertiesUserControl_ForNumber";
-			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(663, 451);
 			this.TitleBarText = "Operator Properties";
 			this.Controls.SetChildIndex(this._textBoxName, 0);

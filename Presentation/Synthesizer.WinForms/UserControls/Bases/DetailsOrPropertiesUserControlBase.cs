@@ -44,6 +44,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			_titleBarUserControl.SaveClicked += _titleBarUserControl_SaveClicked;
 			_titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
 			_titleBarUserControl.DeleteClicked += TitleBarUserControl_DeleteClicked;
+
+			_titleBarUserControl.DeleteButtonVisible = true;
 		}
 
 		~DetailsOrPropertiesUserControlBase()

@@ -52,7 +52,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.Controls.Add(this.diagramControl);
 			this.Name = "CurveDetailsUserControl";
-			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(672, 393);
 			this.Load += new System.EventHandler(this.MidiMappingGroupDetailsUserControl_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.MidiMappingGroupDetailsUserControl_Paint);

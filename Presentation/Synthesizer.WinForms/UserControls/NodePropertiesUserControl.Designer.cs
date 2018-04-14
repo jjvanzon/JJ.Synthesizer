@@ -147,7 +147,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.Add(this.labelX);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "NodePropertiesUserControl";
-			this.DeleteButtonVisible = true;
 			this.Size = new System.Drawing.Size(13, 12);
 			this.Controls.SetChildIndex(this.labelX, 0);
 			this.Controls.SetChildIndex(this.labelNodeType, 0);

@@ -128,7 +128,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.Add(this.comboBoxScaleType);
 			this.Controls.Add(this.labelBaseFrequency);
 			this.Controls.Add(this.numericUpDownBaseFrequency);
-			this.DeleteButtonVisible = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "ScalePropertiesUserControl";
 			this.Size = new System.Drawing.Size(505, 375);
