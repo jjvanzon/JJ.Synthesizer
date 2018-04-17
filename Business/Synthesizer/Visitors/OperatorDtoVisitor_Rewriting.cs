@@ -41,37 +41,5 @@ namespace JJ.Business.Synthesizer.Visitors
 
 			return destDto;
 		}
-
-		// Random
-
-		protected override IOperatorDto Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
-			=> Process_Random_OperatorDto(dto, new Interpolate_OperatorDto_CubicAbruptSlope());
-
-		protected override IOperatorDto Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto)
-			=> Process_Random_OperatorDto(dto, new Interpolate_OperatorDto_CubicEquidistant());
-
-		protected override IOperatorDto Visit_Random_OperatorDto_CubicSmoothSlope_LagBehind(Random_OperatorDto_CubicSmoothSlope_LagBehind dto)
-			=> Process_Random_OperatorDto(dto, new Interpolate_OperatorDto_CubicSmoothSlope_LagBehind());
-
-		protected override IOperatorDto Visit_Random_OperatorDto_Hermite_LagBehind(Random_OperatorDto_Hermite_LagBehind dto)
-			=> Process_Random_OperatorDto(dto, new Interpolate_OperatorDto_Hermite_LagBehind());
-
-		protected override IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_ConstRate(Random_OperatorDto_Line_LagBehind_ConstRate dto)
-			=> Process_Random_OperatorDto(dto, new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate());
-
-		protected override IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_VarRate(Random_OperatorDto_Line_LagBehind_VarRate dto)
-			=> Process_Random_OperatorDto(dto, new Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate());
-
-		private static IOperatorDto Process_Random_OperatorDto(Random_OperatorDto sourceDto, Interpolate_OperatorDto destDto)
-		{
-			var intermediateDto = new Random_OperatorDto_Stripe_LagBehind();
-			DtoCloner.CloneProperties(sourceDto, intermediateDto);
-
-			DtoCloner.CloneProperties(sourceDto, destDto);
-			destDto.Signal = intermediateDto;
-			destDto.SamplingRate = sourceDto.Rate;
-
-			return destDto;
-		}
 	}
 }

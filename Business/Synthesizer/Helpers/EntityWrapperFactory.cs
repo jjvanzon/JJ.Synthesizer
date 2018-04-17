@@ -2,14 +2,13 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
 	public static class EntityWrapperFactory
 	{
-		public static OperatorWrapper CreateOperatorWrapper(Operator op, ICurveRepository curveRepository)
+		public static OperatorWrapper CreateOperatorWrapper(Operator op)
 		{
 			if (op == null) throw new NullException(() => op);
 
@@ -17,13 +16,11 @@ namespace JJ.Business.Synthesizer.Helpers
 			switch (operatorTypeEnum)
 			{
 				case OperatorTypeEnum.Cache: return new Cache_OperatorWrapper(op);
-				case OperatorTypeEnum.InletsToDimension: return new InletsToDimension_OperatorWrapper(op);
-				case OperatorTypeEnum.Interpolate: return new Interpolate_OperatorWrapper(op);
 				case OperatorTypeEnum.Number: return new Number_OperatorWrapper(op);
 				case OperatorTypeEnum.PatchInlet: return new PatchInletOrOutlet_OperatorWrapper(op);
 				case OperatorTypeEnum.PatchOutlet: return new PatchInletOrOutlet_OperatorWrapper(op);
-				case OperatorTypeEnum.Random: return new Random_OperatorWrapper(op);
 				case OperatorTypeEnum.Reset: return new Reset_OperatorWrapper(op);
+
 				case OperatorTypeEnum.AverageOverDimension:
 				case OperatorTypeEnum.ClosestOverDimension:
 				case OperatorTypeEnum.ClosestOverDimensionExp:
@@ -33,6 +30,12 @@ namespace JJ.Business.Synthesizer.Helpers
 				case OperatorTypeEnum.SumFollower:
 				case OperatorTypeEnum.SumOverDimension:
 					return new OperatorWrapper_WithCollectionRecalculation(op);
+
+				case OperatorTypeEnum.InletsToDimension:
+				case OperatorTypeEnum.Interpolate:
+				case OperatorTypeEnum.Random:
+				case OperatorTypeEnum.RandomStripe:
+					return new OperatorWrapper_WithInterpolation(op);
 
 				default:
 					return new OperatorWrapper(op);

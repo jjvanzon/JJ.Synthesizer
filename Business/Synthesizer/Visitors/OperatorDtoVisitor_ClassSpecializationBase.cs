@@ -518,33 +518,9 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				dto2 = new Random_OperatorDto_Stripe_LagBehind();
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line && dto.Rate.IsConst)
-			{
-				dto2 = new Random_OperatorDto_Line_LagBehind_ConstRate();
-			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line && dto.Rate.IsVar)
-			{
-				dto2 = new Random_OperatorDto_Line_LagBehind_VarRate();
-			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicEquidistant)
-			{
-				dto2 = new Random_OperatorDto_CubicEquidistant();
-			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicAbruptSlope)
-			{
-				dto2 = new Random_OperatorDto_CubicAbruptSlope();
-			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicSmoothSlope)
-			{
-				dto2 = new Random_OperatorDto_CubicSmoothSlope_LagBehind();
-			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Hermite)
-			{
-				dto2 = new Random_OperatorDto_Hermite_LagBehind();
-			}
 			else
 			{
-				throw new VisitationCannotBeHandledException();
+				dto2 = dto;
 			}
 
 			DtoCloner.CloneProperties(dto, dto2);

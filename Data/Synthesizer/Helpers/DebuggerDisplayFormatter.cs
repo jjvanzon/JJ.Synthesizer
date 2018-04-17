@@ -172,7 +172,7 @@ namespace JJ.Data.Synthesizer.Helpers
 
 			var sb = new StringBuilder();
 
-			sb.Append($"{{{typeof(Operator)}}} ");
+			sb.Append($"{{{typeof(Operator).Name}}} ");
 
 			if (op.UnderlyingPatch != null)
 			{

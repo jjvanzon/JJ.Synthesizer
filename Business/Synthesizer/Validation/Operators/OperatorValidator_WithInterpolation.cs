@@ -4,12 +4,12 @@ using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Business.Synthesizer.Validation.Operators
 {
-	internal class Random_OperatorValidator : OperatorValidator_Basic
+	internal class OperatorValidator_WithInterpolation : OperatorValidator_Basic
 	{
-		public Random_OperatorValidator(Operator op)
+		public OperatorValidator_WithInterpolation(Operator op)
 			: base(
 				op,
-				expectedDataKeys: new[] { nameof(Random_OperatorWrapper.InterpolationType) })
+				expectedDataKeys: new[] { nameof(OperatorWrapper_WithInterpolation.InterpolationType) })
 		{ 
 			ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(op.Data));
 			ExecuteValidator(new OperatorValidator_CurveAndSampleAreNull(op));

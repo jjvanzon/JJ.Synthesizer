@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Collections;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -12,13 +12,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private readonly OperatorCalculatorBase _positionCalculator;
 		private readonly double _maxIndexDouble;
 
-		[Obsolete(
-			"Not obsolete, but make sure that you pass the positionCalculator " +
-			"is passed to the operandCalculators. When they are, remove this obsolete attribute.")]
 		public InletsToDimension_OperatorCalculator_Block(
 			IList<OperatorCalculatorBase> operandCalculators,
 			OperatorCalculatorBase positionCalculator)
-			: base(operandCalculators)
+			: base(operandCalculators.Union(positionCalculator).ToArray())
 		{
 			_operandCalculators = operandCalculators.ToArray();
 			_positionCalculator = positionCalculator;

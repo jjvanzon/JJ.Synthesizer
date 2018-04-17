@@ -137,19 +137,6 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
-		{
-			string number = GetLiteralFromInputDto(dto.Number);
-			string output = GetVariableName(dto.OperatorTypeEnum);
-
-			AppendOperatorTitleComment(dto);
-
-			AppendLine($"double {output} = {number};");
-			AppendLine($"if ({output} < 0.0) {output} = -{output};");
-
-			return GenerateOperatorWrapUp(dto, output);
-		}
-
 		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
 		{
 			return ProcessMultiVarOperator(dto, PLUS_SYMBOL);

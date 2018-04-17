@@ -24,9 +24,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public int? SelectedItemID { get; set; }
 		public int? SelectedPatchGroupLowerDocumentReferenceID { get; set; }
 		/// <summary> For a default for new patches. </summary>
-		public string SelectedPatchGroup { get; set; }
+		public string SelectedFriendlyPatchGroupName { get; set; }
 		/// <summary> For use as a key for grouping. </summary>
-		public string SelectedCanonicalPatchGroup { get; set; }
+		public string SelectedCanonicalPatchGroupName { get; set; }
 
 		public string PatchToolTipText { get; set; }
 		

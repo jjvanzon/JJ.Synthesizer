@@ -24,19 +24,15 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 					break;
 
 				case OperatorTypeEnum.InletsToDimension:
-					ExecuteValidator(new InletsToDimension_OperatorValidator(op));
-					break;
-
 				case OperatorTypeEnum.Interpolate:
-					ExecuteValidator(new Interpolate_OperatorValidator(op));
+				case OperatorTypeEnum.Random:
+				// TODO: Enable this code line once you have saved the RandomStripe operator once so it gets the data key 'InterpolationType'.
+				//case OperatorTypeEnum.RandomStripe:
+					ExecuteValidator(new OperatorValidator_WithInterpolation(op));
 					break;
 
 				case OperatorTypeEnum.Number:
 					ExecuteValidator(new Number_OperatorValidator(op));
-					break;
-
-				case OperatorTypeEnum.Random:
-					ExecuteValidator(new Random_OperatorValidator(op));
 					break;
 
 				case OperatorTypeEnum.Reset:

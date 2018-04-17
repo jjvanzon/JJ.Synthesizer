@@ -88,7 +88,7 @@
 		AverageFollower = 50,
 		//Scaler = 51,
 		//SawDown = 52,
-		Absolute = 53,
+		//Absolute = 53,
 		//Reverse = 54,
 		Round = 55,
 		Negative = 56,
@@ -133,6 +133,7 @@
 		SampleWithRate1 = 95,
 		SineWithRate1 = 96,
 		TriangleWithRate1 = 97,
-		VariableInput = 98
+		VariableInput = 98,
+		RandomStripe = 99
 	}
 }

@@ -170,6 +170,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			_scalesTreeNode = new TreeNode();
 			treeView.Nodes.Add(_scalesTreeNode);
+			_scalesTreeNode.Expand();
 
 			_audioOutputNode = new TreeNode();
 			treeView.Nodes.Add(_audioOutputNode);
@@ -581,7 +582,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				isNewOrIsDirtyName = true;
 				treeNode = new TreeNode { Tag = tag };
 				treeNodes.Add(treeNode);
-				treeNode.Expand();
 			}
 
 			isNewOrIsDirtyName = false;
@@ -631,14 +631,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			TreeNode treeNode = treeNodes.Cast<TreeNode>()
 			                             .Where(x => x.Tag is string)
-			                             .SingleOrDefault(x => NameHelper.AreEqual((string)x.Tag, viewModel.CanonicalGroupName));
+			                             .SingleOrDefault(x => NameHelper.AreEqual((string)x.Tag, viewModel.FriendlyGroupName));
 			isNewOrIsDirtyName = false;
 			if (treeNode == null)
 			{
 				isNewOrIsDirtyName = true;
-				treeNode = new TreeNode { Tag = viewModel.CanonicalGroupName };
+				// Use FriendlyGroupName, not CanonicalGroupName, because it will be used for creating a new patch and assigning the GroupName to it.
+				treeNode = new TreeNode { Tag = viewModel.FriendlyGroupName };
 				treeNodes.Add(treeNode);
-				treeNode.Expand();
 			}
 
 			// ReSharper disable once InvertIf
@@ -780,7 +780,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 					string tag = FormatLibraryPatchGroupTag(
 						ViewModel.SelectedPatchGroupLowerDocumentReferenceID.Value,
-						ViewModel.SelectedCanonicalPatchGroup);
+						ViewModel.SelectedCanonicalPatchGroupName);
 					treeView.SelectedNode = _libraryPatchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, tag)).First();
 					break;
 
@@ -818,7 +818,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					break;
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
-					treeView.SelectedNode = _patchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, ViewModel.SelectedCanonicalPatchGroup))
+					treeView.SelectedNode = _patchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, ViewModel.SelectedCanonicalPatchGroupName))
 					                                            .First();
 					break;
 			}

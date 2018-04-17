@@ -74,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 					// Business
 					Patch patch = _patchFacade.CreatePatch(document);
-					patch.GroupName = userInput.SelectedPatchGroup;
+					patch.GroupName = userInput.SelectedFriendlyPatchGroupName;
 
 					// Non-Persisted
 					viewModel.CreatedEntityID = patch.ID;
@@ -191,13 +191,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel =>
 				{
 					// GetEntity
-					Patch patch = _repositories.PatchRepository.Get(id);
+					Document currentDocument = _repositories.DocumentRepository.Get(userInput.ID);
+					Patch underlyingPatch = _repositories.PatchRepository.Get(id);
 
 					// Business
-					IList<IDAndName> usedInDtos = _documentFacade.GetUsedIn(patch);
+					IList<IDAndName> usedInDtos = _documentFacade.GetUsedIn(currentDocument, underlyingPatch);
 
 					// ToViewModel
-					viewModel.PatchToolTipText = ToViewModelHelper.GetPatchNodeToolTipText(patch, usedInDtos);
+					viewModel.PatchToolTipText = ToViewModelHelper.GetPatchNodeToolTipText(underlyingPatch, usedInDtos);
 				});
 		}
 
@@ -307,8 +308,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				() =>
 				{
 					viewModel.SelectedPatchGroupLowerDocumentReferenceID = lowerDocumentReferenceID;
-					viewModel.SelectedPatchGroup = patchGroup;
-					viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(patchGroup);
+					viewModel.SelectedFriendlyPatchGroupName = patchGroup;
+					viewModel.SelectedCanonicalPatchGroupName = NameHelper.ToCanonical(patchGroup);
 					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatchGroup;
 				});
 		}
@@ -362,14 +363,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public void SelectPatchGroup(DocumentTreeViewModel viewModel, string group)
+		public void SelectPatchGroup(DocumentTreeViewModel viewModel, string friendlyPatchGroupName)
 		{
 			ExecuteNonPersistedAction(
 				viewModel,
 				() =>
 				{
-					viewModel.SelectedPatchGroup = group;
-					viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(group);
+					viewModel.SelectedFriendlyPatchGroupName = friendlyPatchGroupName;
+					viewModel.SelectedCanonicalPatchGroupName = NameHelper.ToCanonical(friendlyPatchGroupName);
 					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
 				});
 		}
@@ -470,8 +471,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			destViewModel.CanPlay = sourceViewModel.CanPlay;
 			destViewModel.CanDelete = sourceViewModel.CanDelete;
 			destViewModel.OutletIDToPlay = sourceViewModel.OutletIDToPlay;
-			destViewModel.SelectedPatchGroup = sourceViewModel.SelectedPatchGroup;
-			destViewModel.SelectedCanonicalPatchGroup = sourceViewModel.SelectedCanonicalPatchGroup;
+			destViewModel.SelectedFriendlyPatchGroupName = sourceViewModel.SelectedFriendlyPatchGroupName;
+			destViewModel.SelectedCanonicalPatchGroupName = sourceViewModel.SelectedCanonicalPatchGroupName;
 			destViewModel.SelectedItemID = sourceViewModel.SelectedItemID;
 			destViewModel.SelectedNodeType = sourceViewModel.SelectedNodeType;
 			destViewModel.SelectedPatchGroupLowerDocumentReferenceID = sourceViewModel.SelectedPatchGroupLowerDocumentReferenceID;
@@ -536,7 +537,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					// ReSharper disable once SimplifyLinqExpression
 					bool nodeExists = viewModel.LibrariesNode.List
 					                           .SelectMany(x => x.PatchGroupNodes)
-					                           .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup))
+					                           .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroupName))
 					                           .Any();
 					if (!nodeExists)
 					{
@@ -594,9 +595,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{
 					bool nodeExists1 = viewModel.PatchesNode
 					                            .PatchGroupNodes
-					                            .Any(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroup));
+					                            .Any(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroupName));
 
-					bool nodeExists2 = NameHelper.AreEqual(viewModel.SelectedCanonicalPatchGroup, NameHelper.ToCanonical(null));
+					bool nodeExists2 = NameHelper.AreEqual(viewModel.SelectedCanonicalPatchGroupName, NameHelper.ToCanonical(null));
 
 					bool nodeExists = nodeExists1 || nodeExists2;
 
@@ -625,7 +626,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			viewModel.SelectedItemID = null;
 			viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Undefined;
-			viewModel.SelectedCanonicalPatchGroup = NameHelper.ToCanonical(null);
+			viewModel.SelectedCanonicalPatchGroupName = NameHelper.ToCanonical(null);
 			viewModel.SelectedPatchGroupLowerDocumentReferenceID = null;
 		}
 	}

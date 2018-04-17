@@ -106,11 +106,6 @@ namespace JJ.Business.Synthesizer.Visitors
 			return inputDto;
 		}
 
-		protected override IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Absolute_OperatorCalculator(_stack.Pop()));
-		}
-
 		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
 		{
 			return ProcessOperatorDto(dto, () => new Add_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));

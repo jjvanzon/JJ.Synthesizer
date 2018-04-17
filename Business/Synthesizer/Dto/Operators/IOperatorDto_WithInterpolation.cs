@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal interface IOperatorDto_WithResampleInterpolation
+	internal interface IOperatorDto_WithInterpolation
 	{
 		ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
 	}

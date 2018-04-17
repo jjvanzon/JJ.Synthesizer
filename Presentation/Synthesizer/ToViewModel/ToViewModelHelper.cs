@@ -36,6 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			new HashSet<OperatorTypeEnum>
 			{
 				OperatorTypeEnum.Random,
+				OperatorTypeEnum.RandomStripe,
 				OperatorTypeEnum.Interpolate
 			};
 

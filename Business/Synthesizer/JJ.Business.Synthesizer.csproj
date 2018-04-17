@@ -175,7 +175,7 @@
     <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
     <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
-    <Compile Include="Dto\Operators\IOperatorDto_WithResampleInterpolation.cs" />
+    <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_PositionReader.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_PositionTransformation.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithAggregateInfo.cs" />
@@ -260,7 +260,6 @@
     <Compile Include="Calculation\Operators\If_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\AverageFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxFollower_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Absolute_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Negative_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Not_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Or_OperatorCalculator.cs" />
@@ -424,7 +423,6 @@
     <Compile Include="Dto\Operators\If_OperatorDto.cs" />
     <Compile Include="Dto\Operators\AverageFollower_OperatorDto.cs" />
     <Compile Include="Dto\Operators\MaxFollower_OperatorDto.cs" />
-    <Compile Include="Dto\Operators\Absolute_OperatorDto.cs" />
     <Compile Include="Dto\Operators\Hold_OperatorDto.cs" />
     <Compile Include="Dto\Operators\SetPosition_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_Trigger.cs" />
@@ -496,14 +494,12 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WithCollectionRecalculation.cs" />
-    <Compile Include="EntityWrappers\InletsToDimension_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Cache_OperatorWrapper.cs" />
     <Compile Include="Enums\CollectionRecalculationEnum.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\OperatorCalculatorFactory.cs" />
     <Compile Include="Helpers\EntityWrapperFactory.cs" />
     <Compile Include="EntityWrappers\Scaler_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Random_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Reset_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Inlets.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Inputs.cs" />
@@ -525,7 +521,7 @@
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Interpolate_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_WithInterpolation.cs" />
     <Compile Include="Enums\OperatorTypeEnum.cs" />
     <Compile Include="Enums\SpeakerSetupEnum.cs" />
     <Compile Include="Enums\ChannelEnum.cs" />
@@ -566,9 +562,7 @@
     <Compile Include="Validation\DataProperty\ResampleInterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
-    <Compile Include="Validation\Operators\InletsToDimension_OperatorValidator.cs" />
     <Compile Include="Validation\DataProperty\DataPropertyValidator.cs" />
-    <Compile Include="Validation\Operators\Random_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Reset_OperatorValidator.cs" />
     <Compile Include="Validation\Operators\Cache_OperatorValidator.cs" />
     <Compile Include="Validation\Patches\PatchValidator_Delete.cs" />
@@ -615,7 +609,7 @@
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
-    <Compile Include="Validation\Operators\Interpolate_OperatorValidator.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_WithInterpolation.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Delete.cs" />
     <Compile Include="Validation\Documents\DocumentValidator_Basic.cs" />
     <Compile Include="Validation\NameValidator.cs" />

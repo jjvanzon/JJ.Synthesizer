@@ -158,7 +158,6 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			_delegateDictionary = new Dictionary<Type, Func<IOperatorDto, IOperatorDto>>
 			{
-				{ typeof(Absolute_OperatorDto), x => Visit_Absolute_OperatorDto((Absolute_OperatorDto)x) },
 				{ typeof(Add_OperatorDto), x => Visit_Add_OperatorDto((Add_OperatorDto)x) },
 				{ typeof(AllPassFilter_OperatorDto), x => Visit_AllPassFilter_OperatorDto((AllPassFilter_OperatorDto)x) },
 				{ typeof(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar), x => Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar((AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar)x) },
@@ -267,12 +266,6 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ typeof(Random_OperatorDto), x => Visit_Random_OperatorDto((Random_OperatorDto)x) },
 				{ typeof(Random_OperatorDto_Block), x => Visit_Random_OperatorDto_Block((Random_OperatorDto_Block)x) },
 				{ typeof(Random_OperatorDto_Stripe_LagBehind), x => Visit_Random_OperatorDto_Stripe_LagBehind((Random_OperatorDto_Stripe_LagBehind)x) },
-				{ typeof(Random_OperatorDto_Line_LagBehind_ConstRate), x => Visit_Random_OperatorDto_Line_LagBehind_ConstRate((Random_OperatorDto_Line_LagBehind_ConstRate)x) },
-				{ typeof(Random_OperatorDto_Line_LagBehind_VarRate), x => Visit_Random_OperatorDto_Line_LagBehind_VarRate((Random_OperatorDto_Line_LagBehind_VarRate)x) },
-				{ typeof(Random_OperatorDto_CubicEquidistant), x => Visit_Random_OperatorDto_CubicEquidistant((Random_OperatorDto_CubicEquidistant)x) },
-				{ typeof(Random_OperatorDto_CubicAbruptSlope), x => Visit_Random_OperatorDto_CubicAbruptSlope((Random_OperatorDto_CubicAbruptSlope)x) },
-				{ typeof(Random_OperatorDto_CubicSmoothSlope_LagBehind), x => Visit_Random_OperatorDto_CubicSmoothSlope_LagBehind((Random_OperatorDto_CubicSmoothSlope_LagBehind)x) },
-				{ typeof(Random_OperatorDto_Hermite_LagBehind), x => Visit_Random_OperatorDto_Hermite_LagBehind((Random_OperatorDto_Hermite_LagBehind)x) },
 				{ typeof(RangeOverDimension_OperatorDto), x => Visit_RangeOverDimension_OperatorDto((RangeOverDimension_OperatorDto)x) },
 				{ typeof(RangeOverDimension_OperatorDto_OnlyVars), x => Visit_RangeOverDimension_OperatorDto_OnlyVars((RangeOverDimension_OperatorDto_OnlyVars)x) },
 				{ typeof(RangeOverDimension_OperatorDto_OnlyConsts), x => Visit_RangeOverDimension_OperatorDto_OnlyConsts((RangeOverDimension_OperatorDto_OnlyConsts)x) },
@@ -319,7 +312,6 @@ namespace JJ.Business.Synthesizer.Visitors
 			};
 		}
 
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto(AllPassFilter_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Visit_OperatorDto_Base(dto);
@@ -434,12 +426,6 @@ namespace JJ.Business.Synthesizer.Visitors
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto(Random_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_ConstRate(Random_OperatorDto_Line_LagBehind_ConstRate dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_VarRate(Random_OperatorDto_Line_LagBehind_VarRate dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_CubicSmoothSlope_LagBehind(Random_OperatorDto_CubicSmoothSlope_LagBehind dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Random_OperatorDto_Hermite_LagBehind(Random_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto(RangeOverDimension_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto) => Visit_OperatorDto_Base(dto);

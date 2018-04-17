@@ -37,19 +37,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		// Operation-Specific
 
-		protected override IOperatorDto Visit_Absolute_OperatorDto(Absolute_OperatorDto dto)
-		{
-			base.Visit_Absolute_OperatorDto(dto);
-
-			if (dto.Number.IsConst)
-			{
-				// Pre-calculate
-				return new Number_OperatorDto { Number = Math.Abs(dto.Number) };
-			}
-
-			return dto;
-		}
-
 		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
 		{
 			base.Visit_Add_OperatorDto(dto);

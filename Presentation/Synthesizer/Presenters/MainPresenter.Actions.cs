@@ -1388,7 +1388,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						// Business
 						result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(
 							lowerDocumentReference.LowerDocument,
-							viewModel.SelectedCanonicalPatchGroup,
+							viewModel.SelectedCanonicalPatchGroupName,
 							mustIncludeHidden: false);
 						if (result.Data != null)
 						{
@@ -1401,7 +1401,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					case DocumentTreeNodeTypeEnum.PatchGroup:
 					{
 						// Business
-						result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(document, viewModel.SelectedCanonicalPatchGroup, mustIncludeHidden: false);
+						result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(document, viewModel.SelectedCanonicalPatchGroupName, mustIncludeHidden: false);
 
 						break;
 					}
@@ -1536,9 +1536,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchProperties_Switch(id);
 		}
 
-		public void DocumentTree_SelectPatchGroup(string group)
+		public void DocumentTree_SelectPatchGroup(string friendlyPatchGroupName)
 		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatchGroup(x, group));
+			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatchGroup(x, friendlyPatchGroupName));
 		}
 
 		public void DocumentTree_Show()

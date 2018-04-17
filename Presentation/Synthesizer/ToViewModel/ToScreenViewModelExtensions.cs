@@ -636,7 +636,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForInletsToDimension>(entity);
 
-			var wrapper = new InletsToDimension_OperatorWrapper(entity);
+			var wrapper = new OperatorWrapper_WithInterpolation(entity);
 
 			viewModel.InletCount = entity.Inlets.Count;
 			viewModel.CanEditInletCount = true;
@@ -784,7 +784,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithInterpolation>(entity);
 
-			var wrapper = new Interpolate_OperatorWrapper(entity);
+			var wrapper = new OperatorWrapper_WithInterpolation(entity);
 
 			viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
 			viewModel.InterpolationLookup = ToViewModelHelper.GetResampleInterpolationLookupViewModel();

@@ -284,7 +284,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.IsRepeating = entity.IsRepeating;
 			viewModel.RepetitionPosition = entity.RepetitionPosition;
 			viewModel.Visible = ToViewModelHelper.GetOutletVisible(entity);
-			viewModel.Caption = ToViewModelHelper.GetCaption(entity, curveRepository);
+			viewModel.Caption = ToViewModelHelper.GetCaption(entity);
 			viewModel.AverageConnectionDistance = ToViewModelHelper.TryGetAverageConnectionDistance(entity);
 
 			if (entity.Dimension != null)

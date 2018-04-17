@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class Random_OperatorDto : OperatorDtoBase_PositionReader, IOperatorDto_WithResampleInterpolation
+	internal class Random_OperatorDto : OperatorDtoBase_PositionReader, IOperatorDto_WithInterpolation
 	{
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Random;
 
@@ -24,24 +24,6 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 	}
 
 	internal class Random_OperatorDto_Block : Random_OperatorDto
-	{ }
-
-	internal class Random_OperatorDto_CubicAbruptSlope : Random_OperatorDto
-	{ }
-
-	internal class Random_OperatorDto_CubicEquidistant : Random_OperatorDto
-	{ }
-
-	internal class Random_OperatorDto_CubicSmoothSlope_LagBehind : Random_OperatorDto
-	{ }
-
-	internal class Random_OperatorDto_Hermite_LagBehind : Random_OperatorDto
-	{ }
-
-	internal class Random_OperatorDto_Line_LagBehind_ConstRate : Random_OperatorDto
-	{ }
-
-	internal class Random_OperatorDto_Line_LagBehind_VarRate : Random_OperatorDto
 	{ }
 
 	internal class Random_OperatorDto_Stripe_LagBehind : Random_OperatorDto

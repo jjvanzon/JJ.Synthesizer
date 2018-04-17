@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer
 		}
 
 		// Create
-		
+
 		// ReSharper disable once MemberCanBePrivate.Global
 		public Document Create()
 		{
@@ -72,10 +72,10 @@ namespace JJ.Business.Synthesizer
 			new Document_SideEffect_GenerateName(document, _repositories.DocumentRepository).Execute();
 			new Document_SideEffect_AutoCreate_SystemDocumentReference(document, _repositories).Execute();
 			new Document_SideEffect_AutoCreate_AudioOutput(
-				document,
-				_repositories.AudioOutputRepository,
-				_repositories.SpeakerSetupRepository,
-				_repositories.IDRepository)
+					document,
+					_repositories.AudioOutputRepository,
+					_repositories.SpeakerSetupRepository,
+					_repositories.IDRepository)
 				.Execute();
 
 			IResult result = Save(document);
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer
 
 			return document;
 		}
-		
+
 		public Document CreateWithPatch()
 		{
 			Document document = Create();
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer
 		}
 
 		// Delete
-		
+
 		public VoidResult DeleteWithRelatedEntities(int documentID)
 		{
 			Document document = _repositories.DocumentRepository.Get(documentID);
@@ -232,49 +232,20 @@ namespace JJ.Business.Synthesizer
 			return warningsValidator.ToResult();
 		}
 
-		public IList<IDAndName> GetUsedIn(Patch patch)
+		public IList<IDAndName> GetUsedIn(Document currentDocument, Patch underlyingPatch)
 		{
-			if (patch == null) throw new NullException(() => patch);
-			if (patch.Document == null) throw new NullException(() => patch.Document);
+			if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
+			if (underlyingPatch.Document == null) throw new NullException(() => underlyingPatch.Document);
 
-			IList<Operator> internalOperators =
-				patch.Document
-					 .Patches
-					 .SelectMany(x => x.Operators)
-					 .Where(x => x.UnderlyingPatch?.ID == patch.ID)
-					 .ToArray();
-
-			var idAndNames = new List<IDAndName>();
-
-			IList<Patch> internalHigherPatches = internalOperators.Select(x => x.Patch)
-																  .Distinct(x => x.ID)
-																  .OrderBy(x => x.Name)
-																  .ToArray();
-
-			foreach (Patch internalHigherPatch in internalHigherPatches)
-			{
-				idAndNames.Add(new IDAndName { ID = internalHigherPatch.ID, Name = internalHigherPatch.Name });
-			}
-
-			IList<Operator> flushedOperators = _repositories.OperatorRepository.GetManyByUnderlyingPatchID(patch.ID);
-
-			IList<Operator> externalOperators = flushedOperators.Where(x => x.Patch != null && // Handles orphaned operators up for deletion.
-																			x.Patch.Document.ID != patch.Document.ID)
-																.ToArray();
-
-			IList<Patch> externalHigherPatches = externalOperators.Select(x => x.Patch)
-																  .Distinct(x => x.ID)
-																  .OrderBy(x => x.Document.Name)
-																  .ThenBy(x => x.Name)
-																  .ToArray();
-
-			foreach (Patch externalHigherPatch in externalHigherPatches)
-			{
-				string name = externalHigherPatch.Document.Name + ": " + externalHigherPatch.Name;
-				idAndNames.Add(new IDAndName { ID = externalHigherPatch.ID, Name = name });
-			}
-
-			return idAndNames;
+			IList<IDAndName> idsAndNames = currentDocument.Patches
+			                                              .SelectMany(x => x.Operators)
+			                                              .Where(x => x.UnderlyingPatch?.ID == underlyingPatch.ID)
+			                                              .Select(x => x.Patch)
+			                                              .Select(x => new IDAndName { ID = x.ID, Name = x.Name })
+			                                              .Distinct(x => x.ID)
+			                                              .OrderBy(x => x.Name)
+			                                              .ToArray();
+			return idsAndNames;
 		}
 	}
 }

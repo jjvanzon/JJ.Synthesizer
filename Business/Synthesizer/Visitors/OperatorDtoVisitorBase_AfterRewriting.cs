@@ -29,35 +29,5 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			throw new NotSupportedException();
 		}
-
-		protected sealed override IOperatorDto Visit_Random_OperatorDto_CubicAbruptSlope(Random_OperatorDto_CubicAbruptSlope dto)
-		{
-			throw new NotSupportedException();
-		}
-
-		protected sealed override IOperatorDto Visit_Random_OperatorDto_CubicEquidistant(Random_OperatorDto_CubicEquidistant dto)
-		{
-			throw new NotSupportedException();
-		}
-
-		protected sealed override IOperatorDto Visit_Random_OperatorDto_CubicSmoothSlope_LagBehind(Random_OperatorDto_CubicSmoothSlope_LagBehind dto)
-		{
-			throw new NotSupportedException();
-		}
-
-		protected sealed override IOperatorDto Visit_Random_OperatorDto_Hermite_LagBehind(Random_OperatorDto_Hermite_LagBehind dto)
-		{
-			throw new NotSupportedException();
-		}
-
-		protected sealed override IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_ConstRate(Random_OperatorDto_Line_LagBehind_ConstRate dto)
-		{
-			throw new NotSupportedException();
-		}
-
-		protected sealed override IOperatorDto Visit_Random_OperatorDto_Line_LagBehind_VarRate(Random_OperatorDto_Line_LagBehind_VarRate dto)
-		{
-			throw new NotSupportedException();
-		}
 	}
 }

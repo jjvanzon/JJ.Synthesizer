@@ -119,8 +119,8 @@ namespace JJ.Business.Synthesizer.Helpers
 
 		private static void TryCloneResampleInterpolation(IOperatorDto source, IOperatorDto dest)
 		{
-			if (!(source is IOperatorDto_WithResampleInterpolation castedSource) ||
-			    !(dest is IOperatorDto_WithResampleInterpolation castedDest))
+			if (!(source is IOperatorDto_WithInterpolation castedSource) ||
+			    !(dest is IOperatorDto_WithInterpolation castedDest))
 			{
 				return;
 			}

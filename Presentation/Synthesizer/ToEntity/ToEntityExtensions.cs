@@ -29,7 +29,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 		public static AudioFileOutput ToEntity(
 			this AudioFileOutputPropertiesViewModel viewModel,
-			AudioFileOutputRepositories audioFileOutputRepositories) => viewModel.Entity.ToEntity(audioFileOutputRepositories);
+			AudioFileOutputRepositories audioFileOutputRepositories)
+			=> viewModel.Entity.ToEntity(audioFileOutputRepositories);
 
 		public static AudioFileOutput ToEntity(
 			this AudioFileOutputViewModel viewModel,
@@ -873,7 +874,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			Operator entity = viewModel.ToOperator_Base(repositories);
 
-			new InletsToDimension_OperatorWrapper(entity)
+			new OperatorWrapper_WithInterpolation(entity)
 			{
 				InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0)
 			};
@@ -1010,7 +1011,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			Operator entity = viewModel.ToOperator_Base(repositories);
 
-			new Interpolate_OperatorWrapper(entity) { InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0) };
+			new OperatorWrapper_WithInterpolation(entity)
+			{
+				InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0)
+			};
 
 			return entity;
 		}

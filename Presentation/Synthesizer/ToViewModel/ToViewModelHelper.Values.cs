@@ -23,8 +23,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
 	internal static partial class ToViewModelHelper
 	{
-		public const string DIMENSION_KEY_EMPTY = "";
-		public const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
+		private const string DIMENSION_KEY_EMPTY = "";
+		private const string STANDARD_DIMENSION_KEY_PREFIX = "0C26ADA8-0BFC-484C-BF80-774D055DAA3F-StandardDimension-";
 		public const string CUSTOM_DIMENSION_KEY_PREFIX = "5133584A-BA76-42DB-BD0E-42801FCB96DF-CustomDimension-";
 
 		private static readonly bool _idsVisible = CustomConfigurationManager.GetSection<ConfigurationSection>().IDsVisible;
@@ -219,7 +219,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (!inlet.NameOrDimensionHidden)
 			{
 				// Name or Dimension
-				OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(inlet.Operator, curveRepository);
+				OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(inlet.Operator);
 				string inletDisplayName = wrapper.GetInletDisplayName(inlet);
 				sb.Append(inletDisplayName);
 
@@ -638,7 +638,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return outletVisible;
 		}
 
-		public static string GetCaption(Outlet outlet, ICurveRepository curveRepository)
+		public static string GetCaption(Outlet outlet)
 		{
 			if (outlet == null) throw new NullException(() => outlet);
 
@@ -648,7 +648,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					return GetOutletCaption_ForRangeOverOutlets(outlet);
 
 				default:
-					return GetOutletCaption_ForOtherOperatorType(outlet, curveRepository);
+					return GetOutletCaption_ForOtherOperatorType(outlet);
 			}
 		}
 
@@ -689,14 +689,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return sb.ToString();
 		}
 
-		private static string GetOutletCaption_ForOtherOperatorType(Outlet outlet, ICurveRepository curveRepository)
+		private static string GetOutletCaption_ForOtherOperatorType(Outlet outlet)
 		{
 			var sb = new StringBuilder();
 
 			if (!outlet.NameOrDimensionHidden)
 			{
 				// Dimension or Name
-				OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(outlet.Operator, curveRepository);
+				OperatorWrapper wrapper = EntityWrapperFactory.CreateOperatorWrapper(outlet.Operator);
 				string inletDisplayName = wrapper.GetOutletDisplayName(outlet);
 				sb.Append(inletDisplayName);
 
