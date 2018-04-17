@@ -216,13 +216,6 @@ namespace JJ.Business.Synthesizer.Visitors
 					break;
 
 				default:
-					Operator underlyingRandomStripe = op.UnderlyingPatch.EnumerateOperatorsOfType(OperatorTypeEnum.RandomStripe).Single();
-					// TODO: Use wrapper instead. But first check it in after some self-review.
-					DataPropertyParser.SetValue(
-						underlyingRandomStripe,
-						nameof(OperatorWrapper_WithInterpolation.InterpolationType),
-						ResampleInterpolationTypeEnum.Stripe);
-
 					VisitDerivedOperatorOutlet(outlet);
 					break;
 			}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Configuration;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
@@ -91,6 +92,8 @@ namespace JJ.Business.Synthesizer
 			EnsureCache();
 			return _systemMidiMappings;
 		}
+
+		public Patch GetSystemPatch(OperatorTypeEnum operatorTypeEnum) => GetSystemPatch($"{operatorTypeEnum}");
 
 		public Patch GetSystemPatch(string name)
 		{

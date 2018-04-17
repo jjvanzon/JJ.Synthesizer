@@ -88,6 +88,7 @@
     <Compile Include="Repositories\IDRepository.cs" />
     <Compile Include="Repositories\InterpolationTypeRepository.cs" />
     <Compile Include="Repositories\OperatorRepository.cs" />
+    <Compile Include="Repositories\PatchRepository.cs" />
     <Compile Include="Repositories\SampleRepository.cs" />
     <Compile Include="Repositories\SpeakerSetupChannelRepository.cs" />
     <Compile Include="SynthesizerContext.cs" />

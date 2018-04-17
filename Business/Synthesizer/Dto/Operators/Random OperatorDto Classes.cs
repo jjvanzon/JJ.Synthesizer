@@ -27,5 +27,7 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 	{ }
 
 	internal class Random_OperatorDto_Stripe_LagBehind : Random_OperatorDto
-	{ }
+	{
+		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RandomStripe;
+	}
 }

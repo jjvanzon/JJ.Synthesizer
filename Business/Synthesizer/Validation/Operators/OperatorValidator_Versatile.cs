@@ -26,8 +26,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 				case OperatorTypeEnum.InletsToDimension:
 				case OperatorTypeEnum.Interpolate:
 				case OperatorTypeEnum.Random:
-				// TODO: Enable this code line once you have saved the RandomStripe operator once so it gets the data key 'InterpolationType'.
-				//case OperatorTypeEnum.RandomStripe:
+				case OperatorTypeEnum.RandomStripe:
 					ExecuteValidator(new OperatorValidator_WithInterpolation(op));
 					break;
 

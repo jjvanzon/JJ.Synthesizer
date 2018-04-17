@@ -4,12 +4,15 @@ using System.Linq;
 using System.Reflection;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions.Basic;
+// ReSharper disable ObjectCreationAsStatement
 
 namespace JJ.Utilities.Synthesizer.DataMigration
 {
@@ -403,5 +406,45 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 
 		//	return clonedCurve;
 		//}
+
+		public static void Migrate_RandomStripeOperators_AddInterpolationTypeDataKey(Action<string> progressCallback)
+		{
+			if (progressCallback == null) throw new NullException(() => progressCallback);
+
+			progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+				var patchFacade = new PatchFacade(repositories);
+
+				int patchID = repositories.PatchRepository.GetByName($"{OperatorTypeEnum.RandomStripe}").ID;
+
+				IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(patchID);
+
+				for (int i = 0; i < operators.Count; i++)
+				{
+					Operator op = operators[i];
+
+					new OperatorWrapper_WithInterpolation(op)
+					{
+						InterpolationType = ResampleInterpolationTypeEnum.Stripe
+					};
+
+					VoidResult result = patchFacade.SaveOperator(op);
+					result.Assert();
+
+					string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
+					progressCallback(progressMessage);
+				}
+
+				AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+				context.Commit();
+			}
+
+			progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+		}
 	}
 }
