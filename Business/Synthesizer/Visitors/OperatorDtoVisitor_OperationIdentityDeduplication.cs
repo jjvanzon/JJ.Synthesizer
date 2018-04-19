@@ -25,21 +25,19 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				return existingDto;
 			}
-			else
+
+			IOperatorDto dto2 = base.Visit_OperatorDto_Polymorphic(dto);
+
+			// TODO: It is weird that I need to do a dictionary check here again. Not sure why.
+			// for some reason in deeper recursion a DTO could already be added.
+			if (_dictionary.TryGetValue(key, out existingDto))
 			{
-				IOperatorDto dto2 = base.Visit_OperatorDto_Polymorphic(dto);
-
-				// TODO: It is weird that I need to do a dictionary check here again. Not sure why.
-				// for some reason in deeper recursion a DTO could already be added.
-				if (_dictionary.TryGetValue(key, out existingDto))
-				{
-					return existingDto;
-				}
-
-				_dictionary.Add(dto2.OperationIdentity, dto2);
-
-				return dto2;
+				return existingDto;
 			}
+
+			_dictionary.Add(dto2.OperationIdentity, dto2);
+
+			return dto2;
 		}
 	}
 }
