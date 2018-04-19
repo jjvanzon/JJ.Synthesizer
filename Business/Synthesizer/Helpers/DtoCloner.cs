@@ -9,6 +9,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		{
 			if (source == null) throw new ArgumentNullException(nameof(source));
 			if (dest == null) throw new ArgumentNullException(nameof(dest));
+			if (source == dest) return;
 
 			dest.Inputs = source.Inputs;
 			dest.OperationIdentity = source.OperationIdentity;
