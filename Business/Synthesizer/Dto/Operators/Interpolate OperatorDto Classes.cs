@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 
 		public InputDto Signal { get; set; }
 		public InputDto SamplingRate { get; set; }
-		public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
+		public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
 
 		public override IReadOnlyList<InputDto> Inputs
 		{
@@ -31,13 +31,10 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 	internal class Interpolate_OperatorDto_Block : Interpolate_OperatorDto
 	{ }
 
-	internal class Interpolate_OperatorDto_CubicAbruptSlope : Interpolate_OperatorDto
+	internal class Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate : Interpolate_OperatorDto
 	{ }
 
-	internal class Interpolate_OperatorDto_CubicEquidistant : Interpolate_OperatorDto
-	{ }
-
-	internal class Interpolate_OperatorDto_CubicSmoothSlope_LagBehind : Interpolate_OperatorDto
+	internal class Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate : Interpolate_OperatorDto
 	{ }
 
 	internal class Interpolate_OperatorDto_Hermite_LagBehind : Interpolate_OperatorDto

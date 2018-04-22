@@ -489,12 +489,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 						.ToList();
 		}
 
-		public static IList<OperatorPropertiesViewModel_ForInletsToDimension> ToPropertiesViewModelList_ForInletsToDimension(this Patch patch)
+		public static IList<OperatorPropertiesViewModel_ForInletsToDimension> ToPropertiesViewModelList_ForInletsToDimension(
+			this Patch patch,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.GetOperatorsOfType(OperatorTypeEnum.InletsToDimension)
-						.Select(x => x.ToPropertiesViewModel_ForInletsToDimension())
+						.Select(x => x.ToPropertiesViewModel_ForInletsToDimension(interpolationTypeRepository))
 						.ToList();
 		}
 
@@ -537,13 +539,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 						.ToList();
 		}
 
-		public static IList<OperatorPropertiesViewModel_WithInterpolation> ToPropertiesViewModelList_WithInterpolation(this Patch patch)
+		public static IList<OperatorPropertiesViewModel_WithInterpolation> ToPropertiesViewModelList_WithInterpolation(
+			this Patch patch,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.Operators
 						.Where(x => ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
-						.Select(x => x.ToPropertiesViewModel_WithInterpolation())
+						.Select(x => x.ToPropertiesViewModel_WithInterpolation(interpolationTypeRepository))
 						.ToList();
 		}
 
@@ -593,7 +597,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var wrapper = new Cache_OperatorWrapper(entity);
 
 			viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
-			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
+			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationLookupViewModel(interpolationTypeRepository);
 			viewModel.SpeakerSetup = wrapper.SpeakerSetup.ToIDAndDisplayName();
 			viewModel.SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel();
 
@@ -623,16 +627,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static OperatorPropertiesViewModel_ForInletsToDimension ToPropertiesViewModel_ForInletsToDimension(this Operator entity)
+		public static OperatorPropertiesViewModel_ForInletsToDimension ToPropertiesViewModel_ForInletsToDimension(
+			this Operator entity,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			OperatorPropertiesViewModel_ForInletsToDimension viewModel = entity.ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState();
-			viewModel.OriginalState = entity.ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState();
+			OperatorPropertiesViewModel_ForInletsToDimension viewModel = entity.ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(interpolationTypeRepository);
+			viewModel.OriginalState = entity.ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(interpolationTypeRepository);
 			return viewModel;
 		}
 
-		private static OperatorPropertiesViewModel_ForInletsToDimension ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(this Operator entity)
+		private static OperatorPropertiesViewModel_ForInletsToDimension ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(
+			this Operator entity,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForInletsToDimension>(entity);
 
@@ -641,7 +649,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.InletCount = entity.Inlets.Count;
 			viewModel.CanEditInletCount = true;
 			viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
-			viewModel.InterpolationLookup = ToViewModelHelper.GetResampleInterpolationLookupViewModel();
+			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationLookupViewModel(interpolationTypeRepository);
 
 			return viewModel;
 		}
@@ -763,7 +771,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel();
 			viewModel.SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel();
 			viewModel.SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel();
-			viewModel.InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
+			viewModel.InterpolationTypeLookup = ToViewModelHelper.GetInterpolationLookupViewModel(interpolationTypeRepository);
 
 			byte[] bytes = sampleRepository.GetBytes(op.Sample.ID);
 			viewModel.Sample = op.Sample.ToViewModel(bytes);
@@ -771,23 +779,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static OperatorPropertiesViewModel_WithInterpolation ToPropertiesViewModel_WithInterpolation(this Operator entity)
+		public static OperatorPropertiesViewModel_WithInterpolation ToPropertiesViewModel_WithInterpolation(
+			this Operator entity,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			OperatorPropertiesViewModel_WithInterpolation viewModel = entity.ToPropertiesViewModel_WithInterpolation_WithoutOriginalState();
-			viewModel.OriginalState = entity.ToPropertiesViewModel_WithInterpolation_WithoutOriginalState();
+			OperatorPropertiesViewModel_WithInterpolation viewModel = entity.ToPropertiesViewModel_WithInterpolation_WithoutOriginalState(interpolationTypeRepository);
+			viewModel.OriginalState = entity.ToPropertiesViewModel_WithInterpolation_WithoutOriginalState(interpolationTypeRepository);
 			return viewModel;
 		}
 
-		private static OperatorPropertiesViewModel_WithInterpolation ToPropertiesViewModel_WithInterpolation_WithoutOriginalState(this Operator entity)
+		private static OperatorPropertiesViewModel_WithInterpolation ToPropertiesViewModel_WithInterpolation_WithoutOriginalState(
+			this Operator entity,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithInterpolation>(entity);
 
 			var wrapper = new OperatorWrapper_WithInterpolation(entity);
 
 			viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
-			viewModel.InterpolationLookup = ToViewModelHelper.GetResampleInterpolationLookupViewModel();
+			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationLookupViewModel(interpolationTypeRepository);
 
 			return viewModel;
 		}

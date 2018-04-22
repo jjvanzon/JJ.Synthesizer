@@ -571,7 +571,7 @@
 		//			patchFacade.Patch = op.Patch;
 
 		//			var wrapper = new Resample_OperatorWrapper(op);
-		//			wrapper.InterpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope;
+		//			wrapper.InterpolationType = InterpolationTypeEnum.Cubic;
 
 		//			VoidResult result = patchFacade.SaveOperator(op);
 
@@ -2279,7 +2279,7 @@
 		//	progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
 		//}
 
-		//public static void Migrate_ResampleInterpolationType_LineRememberT0_To_LineRememberT1(Action<string> progressCallback)
+		//public static void Migrate_InterpolationType_LineRememberT0_To_LineRememberT1(Action<string> progressCallback)
 		//{
 		//	if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -2317,7 +2317,7 @@
 		//	progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
 		//}
 
-		//public static void Migrate_ResampleInterpolationType_Rename_LineRememberT1_To_Line(Action<string> progressCallback)
+		//public static void Migrate_InterpolationType_Rename_LineRememberT1_To_Line(Action<string> progressCallback)
 		//{
 		//	if (progressCallback == null) throw new NullException(() => progressCallback);
 
@@ -2379,7 +2379,7 @@
 		//				patchFacade.Patch = source_Bundle_Operator.Patch;
 
 		//				InletsToDimension_OperatorWrapper dest_InletsToDimension_Wrapper = patchFacade.InletsToDimension(source_Bundle_Wrapper.Operands);
-		//				dest_InletsToDimension_Wrapper.InterpolationType = ResampleInterpolationTypeEnum.Stripe;
+		//				dest_InletsToDimension_Wrapper.InterpolationType = InterpolationTypeEnum.Stripe;
 
 		//				Operator dest_InletsToDimension_Operator = dest_InletsToDimension_Wrapper;
 		//				dest_InletsToDimension_Operator.LinkTo(source_Bundle_Operator.StandardDimension);

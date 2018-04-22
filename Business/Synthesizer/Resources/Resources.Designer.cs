@@ -583,33 +583,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cubic Abrupt Slope.
-        /// </summary>
-        internal static string CubicAbruptSlope {
-            get {
-                return ResourceManager.GetString("CubicAbruptSlope", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cubic Equidistant.
-        /// </summary>
-        internal static string CubicEquidistant {
-            get {
-                return ResourceManager.GetString("CubicEquidistant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cubic Smooth Slope.
-        /// </summary>
-        internal static string CubicSmoothSlope {
-            get {
-                return ResourceManager.GetString("CubicSmoothSlope", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Curve.
         /// </summary>
         internal static string Curve {

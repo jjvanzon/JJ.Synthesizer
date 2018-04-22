@@ -876,7 +876,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			new OperatorWrapper_WithInterpolation(entity)
 			{
-				InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0)
+				InterpolationType = (InterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0)
 			};
 
 			return entity;
@@ -1013,7 +1013,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			new OperatorWrapper_WithInterpolation(entity)
 			{
-				InterpolationType = (ResampleInterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0)
+				InterpolationType = (InterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0)
 			};
 
 			return entity;

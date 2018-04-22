@@ -273,15 +273,6 @@
   <data name="Cubic" xml:space="preserve">
     <value>Kubiek</value>
   </data>
-  <data name="CubicAbruptSlope" xml:space="preserve">
-    <value>Kubiek abrupte afbuiging</value>
-  </data>
-  <data name="CubicEquidistant" xml:space="preserve">
-    <value>Kubiek equidistant</value>
-  </data>
-  <data name="CubicSmoothSlope" xml:space="preserve">
-    <value>Kubiek gladde afbuiging</value>
-  </data>
   <data name="Curve" xml:space="preserve">
     <value>Curve</value>
   </data>

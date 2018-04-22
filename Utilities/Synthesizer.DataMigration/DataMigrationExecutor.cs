@@ -12,6 +12,7 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Data;
 using JJ.Framework.Exceptions.Basic;
+
 // ReSharper disable ObjectCreationAsStatement
 
 namespace JJ.Utilities.Synthesizer.DataMigration
@@ -140,8 +141,8 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 
 					// Compare Warnings
 					IList<string> additionalWarningTexts = warningResultAfter.Messages
-																			 .Except(warningResultBefore.Messages)
-																			 .ToArray();
+					                                                         .Except(warningResultBefore.Messages)
+					                                                         .ToArray();
 					if (additionalWarningTexts.Count != 0)
 					{
 						var additionalWarningResult = new VoidResult
@@ -429,7 +430,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 
 					new OperatorWrapper_WithInterpolation(op)
 					{
-						InterpolationType = ResampleInterpolationTypeEnum.Stripe
+						InterpolationType = InterpolationTypeEnum.Stripe
 					};
 
 					VoidResult result = patchFacade.SaveOperator(op);
@@ -440,6 +441,46 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 				}
 
 				AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+				context.Commit();
+			}
+
+			progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+		}
+
+		public static void Migrate_OperatorDataKeys_ResampleInterpolationTypes_To_InterpolationType(Action<string> progressCallback)
+		{
+			if (progressCallback == null) throw new NullException(() => progressCallback);
+
+			progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+				IList<Operator> operators = repositories.OperatorRepository.GetAll();
+
+				for (int i = 0; i < operators.Count; i++)
+				{
+					Operator op = operators[i];
+
+					string interpolationType = DataPropertyParser.TryGetString(op, "InterpolationType");
+					if (interpolationType != null)
+					{
+						if (interpolationType.StartsWith("Cubic"))
+						{
+							interpolationType = "Cubic";
+							DataPropertyParser.SetValue(op, "InterpolationType", interpolationType);
+						}
+					}
+
+					string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
+					progressCallback(progressMessage);
+				}
+
+				AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+				//throw new Exception("Temporarily not committing, for debugging.");
 
 				context.Commit();
 			}

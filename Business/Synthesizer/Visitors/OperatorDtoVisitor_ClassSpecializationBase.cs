@@ -278,33 +278,25 @@ namespace JJ.Business.Synthesizer.Visitors
 
 			IOperatorDto dto2;
 
-			if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
+			if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
 			{
-				dto2 = new InletsToDimension_OperatorDto_Block { ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+				dto2 = new InletsToDimension_OperatorDto_Block { InterpolationTypeEnum = dto.InterpolationTypeEnum };
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Stripe)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe)
 			{
-				dto2 = new InletsToDimension_OperatorDto_Stripe_LagBehind { ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+				dto2 = new InletsToDimension_OperatorDto_Stripe_LagBehind { InterpolationTypeEnum = dto.InterpolationTypeEnum };
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line)
 			{
-				dto2 = new InletsToDimension_OperatorDto_Line { ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+				dto2 = new InletsToDimension_OperatorDto_Line { InterpolationTypeEnum = dto.InterpolationTypeEnum };
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicEquidistant)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic)
 			{
-				dto2 = new InletsToDimension_OperatorDto_CubicEquidistant { ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+				dto2 = new InletsToDimension_OperatorDto_Cubic_LagBehind { InterpolationTypeEnum = dto.InterpolationTypeEnum };
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicAbruptSlope)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite)
 			{
-				dto2 = new InletsToDimension_OperatorDto_CubicAbruptSlope { ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
-			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicSmoothSlope)
-			{
-				dto2 = new InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind { ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
-			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Hermite)
-			{
-				dto2 = new InletsToDimension_OperatorDto_Hermite_LagBehind { ResampleInterpolationTypeEnum = dto.ResampleInterpolationTypeEnum };
+				dto2 = new InletsToDimension_OperatorDto_Hermite_LagBehind { InterpolationTypeEnum = dto.InterpolationTypeEnum };
 			}
 			else
 			{
@@ -326,35 +318,31 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				dto2 = new Interpolate_OperatorDto_ConstSignal();
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
 			{
 				dto2 = new Interpolate_OperatorDto_Block();
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Stripe)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe)
 			{
 				dto2 = new Interpolate_OperatorDto_Stripe_LagBehind();
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line && dto.SamplingRate.IsConst)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.SamplingRate.IsConst)
 			{
 				dto2 = new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate();
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Line && dto.SamplingRate.IsVar)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.SamplingRate.IsVar)
 			{
 				dto2 = new Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate();
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicEquidistant)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.SamplingRate.IsConst)
 			{
-				dto2 = new Interpolate_OperatorDto_CubicEquidistant();
+				dto2 = new Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate();
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicAbruptSlope)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.SamplingRate.IsVar)
 			{
-				dto2 = new Interpolate_OperatorDto_CubicAbruptSlope();
+				dto2 = new Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate();
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.CubicSmoothSlope)
-			{
-				dto2 = new Interpolate_OperatorDto_CubicSmoothSlope_LagBehind();
-			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Hermite)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite)
 			{
 				dto2 = new Interpolate_OperatorDto_Hermite_LagBehind();
 			}
@@ -510,11 +498,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
 			IOperatorDto dto2;
 
-			if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Block)
+			if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Block)
 			{
 				dto2 = new Random_OperatorDto_Block();
 			}
-			else if (dto.ResampleInterpolationTypeEnum == ResampleInterpolationTypeEnum.Stripe)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe)
 			{
 				dto2 = new Random_OperatorDto_Stripe_LagBehind();
 			}

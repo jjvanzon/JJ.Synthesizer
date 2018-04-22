@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation
 			return curveCalculator;
 		}
 
-		internal ArrayDto GetCurveArrayDto(Curve curve)
+		private ArrayDto GetCurveArrayDto(Curve curve)
 		{
 			if (curve == null) throw new NullException(() => curve);
 
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Calculation
 		}
 
 		/// <summary> Returns one calculator for each channel. </summary>
-		internal IList<ArrayDto> GetSampleArrayDtos(SampleInfo sampleInfo)
+		private IList<ArrayDto> GetSampleArrayDtos(SampleInfo sampleInfo)
 		{
 			if (sampleInfo == null) throw new NullException(() => sampleInfo);
 			if (sampleInfo.Sample == null) throw new NullException(() => sampleInfo.Sample);
@@ -181,11 +181,11 @@ namespace JJ.Business.Synthesizer.Calculation
 			}
 		}
 
-		internal ArrayDto GetRandomArrayDto(ResampleInterpolationTypeEnum resampleInterpolationTypeEnum)
+		internal ArrayDto GetRandomArrayDto(InterpolationTypeEnum interpolationTypeEnum)
 		{
-			switch (resampleInterpolationTypeEnum)
+			switch (interpolationTypeEnum)
 			{
-				case ResampleInterpolationTypeEnum.Block:
+				case InterpolationTypeEnum.Block:
 					return GetRandomArrayDto_Block();
 
 				default:
@@ -193,9 +193,9 @@ namespace JJ.Business.Synthesizer.Calculation
 			}
 		}
 
-		internal ArrayDto GetRandomArrayDto_Block() => _randomArrayDto_Block;
+		private ArrayDto GetRandomArrayDto_Block() => _randomArrayDto_Block;
 
-		internal ArrayDto GetRandomArrayDto_Stripe() => _randomArrayDto_Stripe;
+		private ArrayDto GetRandomArrayDto_Stripe() => _randomArrayDto_Stripe;
 
 		internal IList<ArrayDto> GetCacheArrayDtos(
 			string operationIdentity, 

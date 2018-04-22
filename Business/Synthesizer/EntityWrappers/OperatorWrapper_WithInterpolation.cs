@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 			: base(op)
 		{ }
 
-		public ResampleInterpolationTypeEnum InterpolationType
+		public InterpolationTypeEnum InterpolationType
 		{
-			get => DataPropertyParser.GetEnum<ResampleInterpolationTypeEnum>(WrappedOperator, nameof(InterpolationType));
+			get => DataPropertyParser.GetEnum<InterpolationTypeEnum>(WrappedOperator, nameof(InterpolationType));
 			set => DataPropertyParser.SetValue(WrappedOperator, nameof(InterpolationType), value);
 		}
 	}

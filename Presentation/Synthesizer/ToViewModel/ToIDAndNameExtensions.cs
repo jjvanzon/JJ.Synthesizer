@@ -148,17 +148,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return idAndName;
 		}
 
-		public static IDAndName ToIDAndDisplayName(this ResampleInterpolationTypeEnum enumValue)
-		{
-			string displayName = ResourceFormatter.GetDisplayName(enumValue);
-
-			return new IDAndName
-			{
-				ID = (int)enumValue,
-				Name = displayName
-			};
-		}
-
 		public static IDAndName ToIDAndDisplayName(this CollectionRecalculationEnum enumValue)
 		{
 			string displayName = ResourceFormatter.GetDisplayName(enumValue);

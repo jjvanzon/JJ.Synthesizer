@@ -282,15 +282,6 @@
   <data name="Cubic" xml:space="preserve">
     <value>Cubic</value>
   </data>
-  <data name="CubicAbruptSlope" xml:space="preserve">
-    <value>Cubic Abrupt Slope</value>
-  </data>
-  <data name="CubicEquidistant" xml:space="preserve">
-    <value>Cubic Equidistant</value>
-  </data>
-  <data name="CubicSmoothSlope" xml:space="preserve">
-    <value>Cubic Smooth Slope</value>
-  </data>
   <data name="Curve" xml:space="preserve">
     <value>Curve</value>
   </data>

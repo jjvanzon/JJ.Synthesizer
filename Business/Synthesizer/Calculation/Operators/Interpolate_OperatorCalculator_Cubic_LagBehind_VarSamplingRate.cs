@@ -1,15 +1,10 @@
 ﻿using System;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	/// <summary>
-	/// A weakness though is, that the sampling rate is remembered until the next sample,
-	/// which may work poorly when a very low sampling rate is provided.
-	/// </summary>
-	[Obsolete("Will be refactored away at some point.")]
-	internal class Interpolate_OperatorCalculator_CubicAbruptSlope : OperatorCalculatorBase_WithChildCalculators
+	internal class Interpolate_OperatorCalculator_Cubic_LagBehind_VarSamplingRate : OperatorCalculatorBase_WithChildCalculators
 	{
 		private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
 
@@ -18,32 +13,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private readonly OperatorCalculatorBase _positionInputCalculator;
 		private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
-		// HACK: These defaults are hacks that are meaningless in practice.
+		private double _xMinus1;
 		private double _x0;
-		private double _x1 = 0.2;
-		private double _x2 = 0.4;
-
+		private double _x1;
+		private double _x2;
+		private double _dx1;
+		private double _yMinus1;
 		private double _y0;
-		private double _y1 = 12000.0 / short.MaxValue;
-		private double _y2 = -24000.0 / short.MaxValue;
+		private double _y1;
+		private double _y2;
 
-		private double _dx0 = 0.2;
-		private double _dx1 = 0.2;
-		private double _a0;
-		private double _a1;
-
-		public Interpolate_OperatorCalculator_CubicAbruptSlope(
+		public Interpolate_OperatorCalculator_Cubic_LagBehind_VarSamplingRate(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator,
 			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(new[]
-			{
-				signalCalculator,
-				samplingRateCalculator,
-				positionInputCalculator,
-				positionOutputCalculator
-			})
+			: base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator })
 		{
 			_signalCalculator = signalCalculator;
 			_samplingRateCalculator = samplingRateCalculator;
@@ -61,54 +46,38 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			// TODO: What if position goes in reverse?
 			// TODO: What if _x0 or _x1 are way off? How will it correct itself?
 			// When x goes past _x1 you must shift things.
-			if (x > _x1)
+			if (x >= _x1)
 			{
+				// Shift the samples to the left.
+				_xMinus1 = _x0;
 				_x0 = _x1;
 				_x1 = _x2;
-
+				_yMinus1 = _y0;
 				_y0 = _y1;
 				_y1 = _y2;
 
-				_dx0 = _dx1;
-				_a0 = _a1;
-
+				// Determine next sample
 				_positionOutputCalculator._value = _x1;
 
 				double samplingRate1 = GetSamplingRate();
 
 				_dx1 = 1.0 / samplingRate1;
-				_x2 += _dx1;
+				_x2 = _x1 + _dx1;
 
 				_positionOutputCalculator._value = _x2;
 
 				_y2 = _signalCalculator.Calculate();
-
-				_a1 = (_y2 - _y0) / (_x2 - _x0);
 			}
 
-			// TODO: What if _x1 exceeds _x2 already? What happens then?
-			double dx = x - _x0;
-			double t;
-			t = dx / _dx0;
+			double y = Interpolator.Interpolate_Cubic_SmoothSlope(
+				_xMinus1, _x0, _x1, _x2,
+				_yMinus1, _y0, _y1, _y2,
+				x);
 
-			// TODO: Figure out how to prevent t from becoming out of range.
-			if (t > 1.0)
-			{
-				return 0;
-			}
-			else if (t < 0.0)
-			{
-				return 0;
-			}
-
-			double y = (1.0 - t) * (_y0 + _a0 * (x - _x0)) + t * (_y1 + _a1 * (x - _x1));
 			return y;
 		}
 
-		/// <summary>
-		/// Gets the sampling rate, converts it to an absolute number
-		/// and ensures a minimum value.
-		/// </summary>
+		/// <summary> Gets the sampling rate, converts it to an absolute number and ensures a minimum value. </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private double GetSamplingRate()
 		{
@@ -137,20 +106,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			double x = _positionInputCalculator.Calculate();
 
 			double y = _signalCalculator.Calculate();
+			double samplingRate = GetSamplingRate();
 
-			_x0 = x - CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+			double dx = 1.0 / samplingRate;
+
+			_xMinus1 = x - dx - dx;
+			_x0 = x - dx;
 			_x1 = x;
-			_x2 = x + CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
+			_x2 = x + dx;
+			_dx1 = dx;
 
+			// Y's are just set at a more practical default than 0.
+			_yMinus1 = y;
 			_y0 = y;
 			_y1 = y;
 			_y2 = y;
-
-			_dx0 = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-			_dx1 = CalculationHelper.VERY_SMALL_POSITIVE_VALUE;
-
-			_a0 = 0.0;
-			_a1 = 0.0;
 		}
 	}
 }

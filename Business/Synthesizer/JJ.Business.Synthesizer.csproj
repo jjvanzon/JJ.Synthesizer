@@ -285,10 +285,9 @@
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Cubic_LagBehind_VarSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LagBehind.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicAbruptSlope.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_CubicEquidistant.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Cubic_LagBehind_ConstSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
@@ -505,7 +504,6 @@
     <Compile Include="EntityWrappers\OperatorWrapper_Inputs.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Outlets.cs" />
     <Compile Include="Enums\DimensionEnum.cs" />
-    <Compile Include="Enums\ResampleInterpolationTypeEnum.cs" />
     <Compile Include="Enums\ScaleTypeEnum.cs" />
     <Compile Include="Extensions\AudioOutputExtensions.cs" />
     <Compile Include="Extensions\PatchExtensions.cs" />
@@ -559,7 +557,6 @@
     <Compile Include="Validation\AudioOutputValidator.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DataProperty\CollectionRecalculation_DataProperty_Validator.cs" />
-    <Compile Include="Validation\DataProperty\ResampleInterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\SpeakerSetup_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\InterpolationType_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\DataPropertyValidator.cs" />

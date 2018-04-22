@@ -576,17 +576,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 			throw new NotImplementedException();
 		}
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto)
+		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate dto)
 		{
 			throw new NotImplementedException();
 		}
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_CubicEquidistant(Interpolate_OperatorDto_CubicEquidistant dto)
-		{
-			throw new NotImplementedException();
-		}
-
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind dto)
+		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate dto)
 		{
 			throw new NotImplementedException();
 		}

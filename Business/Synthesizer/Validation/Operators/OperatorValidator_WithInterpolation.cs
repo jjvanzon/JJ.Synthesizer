@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 				op,
 				expectedDataKeys: new[] { nameof(OperatorWrapper_WithInterpolation.InterpolationType) })
 		{ 
-			ExecuteValidator(new ResampleInterpolationType_DataProperty_Validator(op.Data));
+			ExecuteValidator(new InterpolationType_DataProperty_Validator(op.Data));
 			ExecuteValidator(new OperatorValidator_CurveAndSampleAreNull(op));
 		}
 	}

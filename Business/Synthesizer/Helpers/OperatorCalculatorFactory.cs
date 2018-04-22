@@ -6,7 +6,6 @@ using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Helpers
@@ -17,88 +16,6 @@ namespace JJ.Business.Synthesizer.Helpers
 	/// </summary>
 	internal static class OperatorCalculatorFactory
 	{
-		public static OperatorCalculatorBase Create_Interpolate_OperatorCalculator(
-			ResampleInterpolationTypeEnum resampleInterpolationTypeEnum,
-			OperatorCalculatorBase signalCalculator,
-			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator,
-			VariableInput_OperatorCalculator positionOutputCalculator)
-		{
-			OperatorCalculatorBase calculator;
-			switch (resampleInterpolationTypeEnum)
-			{
-				case ResampleInterpolationTypeEnum.Block:
-					calculator = new Interpolate_OperatorCalculator_Block(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator);
-					break;
-
-				case ResampleInterpolationTypeEnum.Stripe:
-					calculator = new Interpolate_OperatorCalculator_Stripe_LagBehind(
-						signalCalculator,
-						samplingRateCalculator,
-						positionInputCalculator,
-						positionOutputCalculator);
-					break;
-
-				case ResampleInterpolationTypeEnum.Line:
-					bool samplingRateIsConst = samplingRateCalculator is Number_OperatorCalculator;
-					if (samplingRateIsConst)
-					{
-						double samplingRate = samplingRateCalculator.Calculate();
-						calculator = new Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate(
-							signalCalculator,
-							samplingRate,
-							positionInputCalculator,
-							positionOutputCalculator);
-					}
-					else
-					{
-						calculator = new Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate(
-							signalCalculator,
-							samplingRateCalculator,
-							positionInputCalculator,
-							positionOutputCalculator);
-					}
-					break;
-
-				case ResampleInterpolationTypeEnum.CubicEquidistant:
-					calculator = new Interpolate_OperatorCalculator_CubicEquidistant(
-						signalCalculator,
-						samplingRateCalculator,
-						positionInputCalculator,
-						positionOutputCalculator);
-					break;
-
-				case ResampleInterpolationTypeEnum.CubicAbruptSlope:
-					calculator = new Interpolate_OperatorCalculator_CubicAbruptSlope(
-						signalCalculator,
-						samplingRateCalculator,
-						positionInputCalculator,
-						positionOutputCalculator);
-					break;
-
-				case ResampleInterpolationTypeEnum.CubicSmoothSlope:
-					calculator = new Interpolate_OperatorCalculator_CubicSmoothSlope_LagBehind(
-						signalCalculator,
-						samplingRateCalculator,
-						positionInputCalculator,
-						positionOutputCalculator);
-					break;
-
-				case ResampleInterpolationTypeEnum.Hermite:
-					calculator = new Interpolate_OperatorCalculator_Hermite_LagBehind(
-						signalCalculator,
-						samplingRateCalculator,
-						positionInputCalculator,
-						positionOutputCalculator);
-					break;
-
-				default:
-					throw new ValueNotSupportedException(resampleInterpolationTypeEnum);
-			}
-
-			return calculator;
-		}
-
 		public static OperatorCalculatorBase Create_Cache_OperatorCalculator(
 			IList<ICalculatorWithPosition> arrayCalculators,
 			VariableInput_OperatorCalculator dimensionCalculator,
@@ -147,8 +64,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		public static OperatorCalculatorBase Create_Curve_OperatorCalculator(
 			OperatorCalculatorBase positionCalculator,
 			ArrayDto arrayDto,
-			DimensionEnum standardDimensionEnum,
-			string customDimensionName)
+			DimensionEnum standardDimensionEnum)
 		{
 			if (positionCalculator == null) throw new ArgumentNullException(nameof(positionCalculator));
 

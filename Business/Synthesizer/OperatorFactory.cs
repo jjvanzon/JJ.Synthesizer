@@ -523,14 +523,14 @@ namespace JJ.Business.Synthesizer
 		}
 
 		public OperatorWrapper_WithInterpolation InletsToDimension(
-			ResampleInterpolationTypeEnum interpolation,
+			InterpolationTypeEnum interpolation,
 			DimensionEnum standardDimension,
 			params Outlet[] items)
 		{
 			return InletsToDimensionPrivate(items, interpolation, standardDimension);
 		}
 
-		public OperatorWrapper_WithInterpolation InletsToDimension(ResampleInterpolationTypeEnum interpolation, params Outlet[] items)
+		public OperatorWrapper_WithInterpolation InletsToDimension(InterpolationTypeEnum interpolation, params Outlet[] items)
 		{
 			return InletsToDimensionPrivate(items, interpolation, null);
 		}
@@ -547,13 +547,13 @@ namespace JJ.Business.Synthesizer
 
 		public OperatorWrapper_WithInterpolation InletsToDimension(
 			IList<Outlet> items,
-			ResampleInterpolationTypeEnum interpolation,
+			InterpolationTypeEnum interpolation,
 			DimensionEnum standardDimension)
 		{
 			return InletsToDimensionPrivate(items, interpolation, standardDimension);
 		}
 
-		public OperatorWrapper_WithInterpolation InletsToDimension(IList<Outlet> items, ResampleInterpolationTypeEnum interpolation)
+		public OperatorWrapper_WithInterpolation InletsToDimension(IList<Outlet> items, InterpolationTypeEnum interpolation)
 		{
 			return InletsToDimensionPrivate(items, interpolation, null);
 		}
@@ -570,7 +570,7 @@ namespace JJ.Business.Synthesizer
 
 		private OperatorWrapper_WithInterpolation InletsToDimensionPrivate(
 			IList<Outlet> items,
-			ResampleInterpolationTypeEnum? interpolation,
+			InterpolationTypeEnum? interpolation,
 			DimensionEnum? standardDimension,
 			string customDimension = null)
 		{
@@ -580,7 +580,7 @@ namespace JJ.Business.Synthesizer
 
 			var wrapper = new OperatorWrapper_WithInterpolation(op)
 			{
-				InterpolationType = interpolation ?? ResampleInterpolationTypeEnum.Stripe
+				InterpolationType = interpolation ?? InterpolationTypeEnum.Stripe
 			};
 
 			// Items
@@ -592,7 +592,7 @@ namespace JJ.Business.Synthesizer
 		public OperatorWrapper_WithInterpolation Interpolate(
 			Outlet signal = null,
 			Outlet samplingRate = null,
-			ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.CubicSmoothSlope,
+			InterpolationTypeEnum interpolationType = InterpolationTypeEnum.Cubic,
 			DimensionEnum? standardDimension = null,
 			string customDimension = null)
 		{
@@ -988,7 +988,7 @@ namespace JJ.Business.Synthesizer
 
 		public OperatorWrapper_WithInterpolation Random(
 			Outlet rate = null,
-			ResampleInterpolationTypeEnum interpolationType = ResampleInterpolationTypeEnum.Stripe,
+			InterpolationTypeEnum interpolationType = InterpolationTypeEnum.Stripe,
 			DimensionEnum? standardDimension = null,
 			string customDimension = null)
 		{

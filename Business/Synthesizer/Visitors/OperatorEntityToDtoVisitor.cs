@@ -205,12 +205,12 @@ namespace JJ.Business.Synthesizer.Visitors
 			Operator op = outlet.Operator;
 
 			var wrapper = new OperatorWrapper_WithInterpolation(op);
-			ResampleInterpolationTypeEnum resampleInterpolationTypeEnum = wrapper.InterpolationType;
+			InterpolationTypeEnum interpolationTypeEnum = wrapper.InterpolationType;
 
-			switch (resampleInterpolationTypeEnum)
+			switch (interpolationTypeEnum)
 			{
-				case ResampleInterpolationTypeEnum.Block:
-				case ResampleInterpolationTypeEnum.Stripe:
+				case InterpolationTypeEnum.Block:
+				case InterpolationTypeEnum.Stripe:
 					base.VisitRandomOutlet(outlet);
 					ProcessPolymorphic(op, new Random_OperatorDto());
 					break;
@@ -336,7 +336,7 @@ namespace JJ.Business.Synthesizer.Visitors
 				if (dto is IOperatorDto_WithInterpolation castedDto)
 				{
 					var wrapper = new OperatorWrapper_WithInterpolation(op);
-					castedDto.ResampleInterpolationTypeEnum = wrapper.InterpolationType;
+					castedDto.InterpolationTypeEnum = wrapper.InterpolationType;
 				}
 			}
 

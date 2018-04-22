@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			TryCloneCurve(source, dest);
 			TryCloneCache(source, dest);
 			TryClonePositionReader(source, dest);
-			TryCloneResampleInterpolation(source, dest);
+			TryCloneInterpolation(source, dest);
 		}
 
 		// Type checks are done instead of overloads with different parameter types,
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			castedDest.ArrayDto = castedSource.ArrayDto;
 		}
 
-		private static void TryCloneResampleInterpolation(IOperatorDto source, IOperatorDto dest)
+		private static void TryCloneInterpolation(IOperatorDto source, IOperatorDto dest)
 		{
 			if (!(source is IOperatorDto_WithInterpolation castedSource) ||
 			    !(dest is IOperatorDto_WithInterpolation castedDest))
@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Helpers
 				return;
 			}
 
-			castedDest.ResampleInterpolationTypeEnum = castedSource.ResampleInterpolationTypeEnum;
+			castedDest.InterpolationTypeEnum = castedSource.InterpolationTypeEnum;
 		}
 
 		private static void TryClonePositionReader(IOperatorDto source, IOperatorDto dest)

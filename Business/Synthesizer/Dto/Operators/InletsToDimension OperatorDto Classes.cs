@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 	{
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.InletsToDimension;
 
-		public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
+		public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
 
 		public IList<InputDto> InputsExceptPosition { get; set; }
 
@@ -27,13 +27,7 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 	internal class InletsToDimension_OperatorDto_Block : InletsToDimension_OperatorDto
 	{ }
 
-	internal class InletsToDimension_OperatorDto_CubicAbruptSlope : InletsToDimension_OperatorDto
-	{ }
-
-	internal class InletsToDimension_OperatorDto_CubicEquidistant : InletsToDimension_OperatorDto
-	{ }
-
-	internal class InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind : InletsToDimension_OperatorDto
+	internal class InletsToDimension_OperatorDto_Cubic_LagBehind : InletsToDimension_OperatorDto
 	{ }
 
 	internal class InletsToDimension_OperatorDto_Hermite_LagBehind : InletsToDimension_OperatorDto

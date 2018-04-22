@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Random;
 
 		public InputDto Rate { get; set; }
-		public ResampleInterpolationTypeEnum ResampleInterpolationTypeEnum { get; set; }
+		public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
 		public ArrayDto ArrayDto { get; set; }
 
 		public override IReadOnlyList<InputDto> Inputs

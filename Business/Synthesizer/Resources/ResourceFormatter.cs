@@ -72,9 +72,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Continuous => Resources.Continuous;
 		public static string Controller => Resources.Controller;
 		public static string Cubic => Resources.Cubic;
-		public static string CubicAbruptSlope => Resources.CubicAbruptSlope;
-		public static string CubicEquidistant => Resources.CubicEquidistant;
-		public static string CubicSmoothSlope => Resources.CubicSmoothSlope;
 		public static string Curve => Resources.Curve;
 		public static string Custom => Resources.Custom;
 		public static string CustomDimension => Resources.CustomDimension;
@@ -508,13 +505,6 @@ namespace JJ.Business.Synthesizer.Resources
 			{
 				return entity.Name;
 			}
-		}
-
-		// ResampleInterpolationType
-
-		public static string GetDisplayName(ResampleInterpolationTypeEnum enumValue)
-		{
-			return GetDisplayName(enumValue.ToString());
 		}
 
 		// SampleDataType

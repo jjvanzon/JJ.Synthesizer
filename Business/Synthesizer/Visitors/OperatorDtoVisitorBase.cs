@@ -14,8 +14,6 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private readonly Dictionary<Type, Func<IOperatorDto, IOperatorDto>> _delegateDictionary;
 
-		protected bool AlreadyProcessed(IOperatorDto dto) => _operatorDto_To_OperatorDto_Dictionary.ContainsKey(dto);
-
 		/// <summary>
 		/// For performance, first checks in a dictionary, whether the operator DTO was already processed
 		/// and returns the already processed dto. Otherwise the passed action is executed.
@@ -213,16 +211,13 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ typeof(InletsToDimension_OperatorDto_Block), x => Visit_InletsToDimension_OperatorDto_Block((InletsToDimension_OperatorDto_Block)x) },
 				{ typeof(InletsToDimension_OperatorDto_Stripe_LagBehind), x => Visit_InletsToDimension_OperatorDto_Stripe_LagBehind((InletsToDimension_OperatorDto_Stripe_LagBehind)x) },
 				{ typeof(InletsToDimension_OperatorDto_Line), x => Visit_InletsToDimension_OperatorDto_Line((InletsToDimension_OperatorDto_Line)x) },
-				{ typeof(InletsToDimension_OperatorDto_CubicEquidistant), x => Visit_InletsToDimension_OperatorDto_CubicEquidistant((InletsToDimension_OperatorDto_CubicEquidistant)x) },
-				{ typeof(InletsToDimension_OperatorDto_CubicAbruptSlope), x => Visit_InletsToDimension_OperatorDto_CubicAbruptSlope((InletsToDimension_OperatorDto_CubicAbruptSlope)x) },
-				{ typeof(InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind), x => Visit_InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind((InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind)x) },
+				{ typeof(InletsToDimension_OperatorDto_Cubic_LagBehind), x => Visit_InletsToDimension_OperatorDto_Cubic_LagBehind((InletsToDimension_OperatorDto_Cubic_LagBehind)x) },
 				{ typeof(InletsToDimension_OperatorDto_Hermite_LagBehind), x => Visit_InletsToDimension_OperatorDto_Hermite_LagBehind((InletsToDimension_OperatorDto_Hermite_LagBehind)x) },
 				{ typeof(Interpolate_OperatorDto), x => Visit_Interpolate_OperatorDto((Interpolate_OperatorDto)x) },
 				{ typeof(Interpolate_OperatorDto_ConstSignal), x => Visit_Interpolate_OperatorDto_ConstSignal((Interpolate_OperatorDto_ConstSignal)x) },
 				{ typeof(Interpolate_OperatorDto_Block), x => Visit_Interpolate_OperatorDto_Block((Interpolate_OperatorDto_Block)x) },
-				{ typeof(Interpolate_OperatorDto_CubicAbruptSlope), x => Visit_Interpolate_OperatorDto_CubicAbruptSlope((Interpolate_OperatorDto_CubicAbruptSlope)x) },
-				{ typeof(Interpolate_OperatorDto_CubicEquidistant), x => Visit_Interpolate_OperatorDto_CubicEquidistant((Interpolate_OperatorDto_CubicEquidistant)x) },
-				{ typeof(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind), x => Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind((Interpolate_OperatorDto_CubicSmoothSlope_LagBehind)x) },
+				{ typeof(Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate), x => Visit_Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate((Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate)x) },
+				{ typeof(Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate), x => Visit_Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate((Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate)x) },
 				{ typeof(Interpolate_OperatorDto_Hermite_LagBehind), x => Visit_Interpolate_OperatorDto_Hermite_LagBehind((Interpolate_OperatorDto_Hermite_LagBehind)x) },
 				{ typeof(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate), x => Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate((Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate)x) },
 				{ typeof(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate), x => Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate((Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate)x) },
@@ -373,16 +368,13 @@ namespace JJ.Business.Synthesizer.Visitors
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind(InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind dto) => Visit_OperatorDto_Base(dto);
+		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Cubic_LagBehind(InletsToDimension_OperatorDto_Cubic_LagBehind dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_InletsToDimension_OperatorDto_Hermite_LagBehind(InletsToDimension_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_CubicAbruptSlope(Interpolate_OperatorDto_CubicAbruptSlope dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_CubicEquidistant(Interpolate_OperatorDto_CubicEquidistant dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_CubicSmoothSlope_LagBehind(Interpolate_OperatorDto_CubicSmoothSlope_LagBehind dto) => Visit_OperatorDto_Base(dto);
+		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate dto) => Visit_OperatorDto_Base(dto);
+		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto) => Visit_OperatorDto_Base(dto);

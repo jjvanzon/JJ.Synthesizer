@@ -54,25 +54,25 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// InterpolationType
 
-		private static readonly object _interpolationTypeLookupViewModelLock = new object();
+		private static readonly object _interpolationLookupViewModelLock = new object();
 
-		private static IList<IDAndName> _interpolationTypeLookupViewModel;
+		private static IList<IDAndName> _interpolationLookupViewModel;
 
-		public static IList<IDAndName> GetInterpolationTypeLookupViewModel(IInterpolationTypeRepository repository)
+		public static IList<IDAndName> GetInterpolationLookupViewModel(IInterpolationTypeRepository repository)
 		{
 			if (repository == null) throw new NullException(() => repository);
 
-			lock (_interpolationTypeLookupViewModelLock)
+			lock (_interpolationLookupViewModelLock)
 			{
 				// ReSharper disable once InvertIf
-				if (_interpolationTypeLookupViewModel == null)
+				if (_interpolationLookupViewModel == null)
 				{
 					// Cannot delegate to CreateEnumLookupViewModel, because we need to order by SortOrder.
 					IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.SortOrder).ToArray();
-					_interpolationTypeLookupViewModel = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
+					_interpolationLookupViewModel = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 				}
 
-				return _interpolationTypeLookupViewModel;
+				return _interpolationLookupViewModel;
 			}
 		}
 
@@ -98,18 +98,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		private static IList<IDAndName> CreateNodeTypeLookupViewModel()
 		{
 			IList<IDAndName> idAndNames = CreateEnumLookupViewModel<NodeTypeEnum>(mustIncludeUndefined: false);
-			return idAndNames;
-		}
-
-		// ResampleInterpolationType
-
-		private static readonly IList<IDAndName> _resampleInterpolationLookupViewModel = CreateResampleInterpolationLookupViewModel();
-
-		public static IList<IDAndName> GetResampleInterpolationLookupViewModel() => _resampleInterpolationLookupViewModel;
-
-		private static IList<IDAndName> CreateResampleInterpolationLookupViewModel()
-		{
-			IList<IDAndName> idAndNames = CreateEnumLookupViewModel<ResampleInterpolationTypeEnum>(mustIncludeUndefined: true);
 			return idAndNames;
 		}
 

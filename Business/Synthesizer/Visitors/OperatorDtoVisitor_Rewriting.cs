@@ -14,15 +14,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		// InletsToDimension
 
-		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_CubicAbruptSlope(InletsToDimension_OperatorDto_CubicAbruptSlope dto)
-			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_CubicAbruptSlope());
-
-		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_CubicEquidistant(InletsToDimension_OperatorDto_CubicEquidistant dto)
-			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_CubicEquidistant());
-
-		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind(
-			InletsToDimension_OperatorDto_CubicSmoothSlope_LagBehind dto)
-			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_CubicSmoothSlope_LagBehind());
+		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Cubic_LagBehind(InletsToDimension_OperatorDto_Cubic_LagBehind dto)
+			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate());
+			//=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate());
 
 		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Hermite_LagBehind(InletsToDimension_OperatorDto_Hermite_LagBehind dto)
 			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Hermite_LagBehind());

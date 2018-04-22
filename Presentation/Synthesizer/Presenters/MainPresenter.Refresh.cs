@@ -600,7 +600,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				OperatorPropertiesViewModel_ForInletsToDimension viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForInletsToDimension(MainViewModel.Document, op.ID);
 				if (viewModel == null)
 				{
-					viewModel = op.ToPropertiesViewModel_ForInletsToDimension();
+					viewModel = op.ToPropertiesViewModel_ForInletsToDimension(_repositories.InterpolationTypeRepository);
 					viewModel.Successful = true;
 					viewModelDictionary[op.ID] = viewModel;
 				}
@@ -799,7 +799,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				if (viewModel == null)
 				{
-					viewModel = op.ToPropertiesViewModel_WithInterpolation();
+					viewModel = op.ToPropertiesViewModel_WithInterpolation(_repositories.InterpolationTypeRepository);
 					viewModel.Successful = true;
 					viewModelDictionary[op.ID] = viewModel;
 				}
