@@ -58,11 +58,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_positionOutputCalculator._value = _x2;
 
 				_y2 = _signalCalculator.Calculate();
+
+
 			}
 
 			double t = (x - _x0) / _dx;
 
-			double y = Interpolator.Interpolate_Cubic_Equidistant(_yMinus1, _y0, _y1, _y2, t);
+			double y = Interpolator.Interpolate_Cubic_SmoothSlope_Equidistant(_dx, _yMinus1, _y0, _y1, _y2, t);
 			return y;
 		}
 
