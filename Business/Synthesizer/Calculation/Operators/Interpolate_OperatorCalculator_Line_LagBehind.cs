@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -8,15 +7,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	/// A weakness though is, that the sampling rate is remembered until the next sample,
 	/// which may work poorly when a very low sampling rate is provided.
 	/// </summary>
-	internal class Interpolate_OperatorCalculator_Line_LagBehind : OperatorCalculatorBase_WithChildCalculators
+	internal class Interpolate_OperatorCalculator_Line_LagBehind : Interpolate_OperatorCalculator_Base
 	{
-		private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
-
-		private readonly OperatorCalculatorBase _signalCalculator;
-		private readonly OperatorCalculatorBase _samplingRateCalculator;
-		private readonly OperatorCalculatorBase _positionInputCalculator;
-		private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
-
 		private double _x0;
 		private double _x1;
 		private double _y0;
@@ -28,15 +20,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator,
 			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator })
-		{
-			_signalCalculator = signalCalculator;
-			_samplingRateCalculator = samplingRateCalculator;
-			_positionInputCalculator = positionInputCalculator;
-			_positionOutputCalculator = positionOutputCalculator;
-
-			ResetNonRecursive();
-		}
+			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
+		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate()
@@ -45,29 +30,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 			if (x > _x1)
 			{
+				// Shift samples to the left
 				_x0 = _x1;
 				_y0 = _y1;
 
+				// Determine next sample
 				_positionOutputCalculator._value = _x1;
 
 				double samplingRate = GetSamplingRate();
 				double dx = 1.0 / samplingRate;
-
 				_x1 += dx;
 
 				_positionOutputCalculator._value = _x1;
 
 				_y1 = _signalCalculator.Calculate();
 
+				// Precalculate
 				double dy = _y1 - _y0;
 				_a = dy / dx;
 			}
 			else if (x < _x0)
 			{
 				// Going in reverse, take sample in reverse position.
+
+				// Shift samples to the right
 				_x1 = _x0;
 				_y1 = _y0;
 
+				// Determine previous sample
 				_positionOutputCalculator._value = _x0;
 
 				double samplingRate0 = GetSamplingRate();
@@ -78,46 +68,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 				_y0 = _signalCalculator.Calculate();
 
+				// Precalculate
 				double dy = _y1 - _y0;
 				_a = dy / dx0;
 			}
 
+			// Calculate
 			double y = _y0 + _a * (x - _x0);
 			return y;
 		}
 
-		/// <summary>
-		/// Gets the sampling rate, converts it to an absolute number
-		/// and ensures a minimum value.
-		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private double GetSamplingRate()
-		{
-			// _x1 was recently (2015-08-22) corrected to x which might make going in reverse work better.
-			double samplingRate = _samplingRateCalculator.Calculate();
-
-			samplingRate = Math.Abs(samplingRate);
-
-			if (samplingRate < MINIMUM_SAMPLING_RATE)
-			{
-				samplingRate = MINIMUM_SAMPLING_RATE;
-			}
-
-			return samplingRate;
-		}
-
-		public override void Reset()
-		{
-			base.Reset();
-
-			ResetNonRecursive();
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private void ResetNonRecursive()
+		protected override void ResetNonRecursive()
 		{
 			double x = _positionInputCalculator.Calculate();
-
 			double y = _signalCalculator.Calculate();
 			double samplingRate = GetSamplingRate();
 
@@ -126,7 +89,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			_x0 = x - dx;
 			_x1 = x;
 
-			// Y's are just set at a slightly more practical default than 0.
 			_y0 = y;
 			_y1 = y;
 

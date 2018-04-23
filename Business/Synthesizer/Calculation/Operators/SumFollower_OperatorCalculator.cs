@@ -31,7 +31,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				signalCalculator,
 				sliceLengthCalculator,
-				sampleCountCalculator
+				sampleCountCalculator,
+				positionCalculator
 			})
 		{
 			_signalCalculator = signalCalculator ?? throw new NullException(() => signalCalculator);

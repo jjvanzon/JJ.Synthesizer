@@ -18,9 +18,6 @@ namespace JJ.Business.Synthesizer.Helpers
 		/// </summary>
 		public const double VERY_LOW_VALUE = -1E24;
 
-		/// <summary> Avoid using Double.Epsilon, because it will easily result in NaN </summary>
-		public const double VERY_SMALL_POSITIVE_VALUE = 1E-24;
-
 		/// <summary>
 		/// We need a lot of lenience in this code, because validity is dependent on user input,
 		/// and this validity cannot be checked on the entity level, only when starting the calculation.

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal class Interpolate_OperatorCalculator_Hermite_LagBehind : OperatorCalculatorBase_WithChildCalculators
+	internal class Interpolate_OperatorCalculator_Hermite_LagBehind : Interpolate_OperatorCalculator_Base
 	{
-		private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
-
-		private readonly OperatorCalculatorBase _signalCalculator;
-		private readonly OperatorCalculatorBase _samplingRateCalculator;
-		private readonly OperatorCalculatorBase _positionInputCalculator;
-		private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
-
 		private double _x0;
 		private double _x1;
 		private double _x2;
@@ -31,15 +23,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator,
 			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator })
-		{
-			_signalCalculator = signalCalculator;
-			_samplingRateCalculator = samplingRateCalculator;
-			_positionInputCalculator = positionInputCalculator;
-			_positionOutputCalculator = positionOutputCalculator;
-
-			ResetNonRecursive();
-		}
+			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
+		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate()
@@ -79,34 +64,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			return y;
 		}
 
-		/// <summary> Gets the sampling rate, converts it to an absolute number and ensures a minimum value. </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private double GetSamplingRate()
-		{
-			double samplingRate = _samplingRateCalculator.Calculate();
-
-			samplingRate = Math.Abs(samplingRate);
-
-			if (samplingRate < MINIMUM_SAMPLING_RATE)
-			{
-				samplingRate = MINIMUM_SAMPLING_RATE;
-			}
-
-			return samplingRate;
-		}
-
-		public override void Reset()
-		{
-			base.Reset();
-
-			ResetNonRecursive();
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private void ResetNonRecursive()
+		protected override void ResetNonRecursive()
 		{
 			double x = _positionInputCalculator.Calculate();
-
 			double y = _signalCalculator.Calculate();
 			double samplingRate = GetSamplingRate();
 
@@ -117,7 +78,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			_x2 = x + dx;
 			_dx1 = dx;
 
-			// Y's are just set at a more practical default than 0.
 			_yMinus1 = y;
 			_y0 = y;
 			_y1 = y;
