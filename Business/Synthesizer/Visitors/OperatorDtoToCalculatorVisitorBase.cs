@@ -377,31 +377,12 @@ namespace JJ.Business.Synthesizer.Visitors
 				() => new Interpolate_OperatorCalculator_Block(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
 		}
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate(
-			Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate dto)
+		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(
+			Interpolate_OperatorDto_Cubic_LagBehind dto)
 		{
 			return ProcessOperatorDto(
 				dto,
-				() =>
-				{
-					OperatorCalculatorBase signalCalculator = _stack.Pop();
-					OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
-					OperatorCalculatorBase positionInputCalculator = _stack.Pop();
-
-					return new Interpolate_OperatorCalculator_Cubic_LagBehind_ConstSamplingRate(
-						signalCalculator,
-						dto.SamplingRate.Const,
-						positionInputCalculator,
-						GetPositionOutputCalculator(dto));
-				});
-		}
-
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate(
-			Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Cubic_LagBehind_VarSamplingRate(
+				() => new Interpolate_OperatorCalculator_Cubic_LagBehind(
 					_stack.Pop(),
 					_stack.Pop(),
 					_stack.Pop(),
@@ -415,31 +396,12 @@ namespace JJ.Business.Synthesizer.Visitors
 				() => new Interpolate_OperatorCalculator_Hermite_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
 		}
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(
-			Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto)
+		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind(
+			Interpolate_OperatorDto_Line_LagBehind dto)
 		{
 			return ProcessOperatorDto(
 				dto,
-				() =>
-				{
-					OperatorCalculatorBase signalCalculator = _stack.Pop();
-					OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
-					OperatorCalculatorBase positionInputCalculator = _stack.Pop();
-
-					return new Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate(
-						signalCalculator,
-						dto.SamplingRate.Const,
-						positionInputCalculator,
-						GetPositionOutputCalculator(dto));
-				});
-		}
-
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(
-			Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate(
+				() => new Interpolate_OperatorCalculator_Line_LagBehind(
 					_stack.Pop(),
 					_stack.Pop(),
 					_stack.Pop(),

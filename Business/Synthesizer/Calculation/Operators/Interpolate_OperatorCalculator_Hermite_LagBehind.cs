@@ -21,6 +21,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private double _y0;
 		private double _y1;
 		private double _y2;
+		private double _c0;
+		private double _c1;
+		private double _c2;
+		private double _c3;
 
 		public Interpolate_OperatorCalculator_Hermite_LagBehind(
 			OperatorCalculatorBase signalCalculator,
@@ -65,11 +69,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_positionOutputCalculator._value = _x2;
 
 				_y2 = _signalCalculator.Calculate();
+
+				(_c0, _c1, _c2, _c3) = Interpolator.Hermite_4pt3oX_PrecalculateVariables(_yMinus1, _y0, _y1, _y2);
 			}
 
 			double t = (x - _x0) / _dx1;
 
-			double y = Interpolator.Interpolate_Hermite_4pt3oX(_yMinus1, _y0, _y1, _y2, t);
+			double y = Interpolator.Hermite_4pt4oX_FromPrecalculatedVariables(_c0, _c1, _c2, _c3, t);
 			return y;
 		}
 

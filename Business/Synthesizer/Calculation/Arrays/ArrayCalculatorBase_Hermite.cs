@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
 			double offset = x - x0;
 
-			double y = Interpolator.Interpolate_Hermite_4pt3oX(yMinus1, y0, y1, y2, offset);
+			double y = Interpolator.Hermite_4pt3oX(yMinus1, y0, y1, y2, offset);
 			return y;
 		}
 	}

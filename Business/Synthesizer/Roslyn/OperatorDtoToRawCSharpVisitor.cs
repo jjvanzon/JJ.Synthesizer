@@ -576,12 +576,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			throw new NotImplementedException();
 		}
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate dto)
-		{
-			throw new NotImplementedException();
-		}
-
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate dto)
+		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto)
 		{
 			throw new NotImplementedException();
 		}
@@ -591,12 +586,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			throw new NotImplementedException();
 		}
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto)
-		{
-			throw new NotImplementedException();
-		}
-
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto)
+		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind(Interpolate_OperatorDto_Line_LagBehind dto)
 		{
 			throw new NotImplementedException();
 		}

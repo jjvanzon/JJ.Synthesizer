@@ -15,14 +15,13 @@ namespace JJ.Business.Synthesizer.Visitors
 		// InletsToDimension
 
 		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Cubic_LagBehind(InletsToDimension_OperatorDto_Cubic_LagBehind dto)
-			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate());
-			//=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate());
+			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Cubic_LagBehind());
 
 		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Hermite_LagBehind(InletsToDimension_OperatorDto_Hermite_LagBehind dto)
 			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Hermite_LagBehind());
 
 		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Line(InletsToDimension_OperatorDto_Line dto)
-			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate());
+			=> Process_InletsToDimension_OperatorDto(dto, new Interpolate_OperatorDto_Line_LagBehind());
 
 		private static IOperatorDto Process_InletsToDimension_OperatorDto(InletsToDimension_OperatorDto sourceDto, Interpolate_OperatorDto destDto)
 		{

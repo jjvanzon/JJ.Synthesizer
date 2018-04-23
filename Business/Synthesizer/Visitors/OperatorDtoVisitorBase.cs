@@ -216,11 +216,9 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ typeof(Interpolate_OperatorDto), x => Visit_Interpolate_OperatorDto((Interpolate_OperatorDto)x) },
 				{ typeof(Interpolate_OperatorDto_ConstSignal), x => Visit_Interpolate_OperatorDto_ConstSignal((Interpolate_OperatorDto_ConstSignal)x) },
 				{ typeof(Interpolate_OperatorDto_Block), x => Visit_Interpolate_OperatorDto_Block((Interpolate_OperatorDto_Block)x) },
-				{ typeof(Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate), x => Visit_Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate((Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate)x) },
-				{ typeof(Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate), x => Visit_Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate((Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate)x) },
+				{ typeof(Interpolate_OperatorDto_Cubic_LagBehind), x => Visit_Interpolate_OperatorDto_Cubic_LagBehind((Interpolate_OperatorDto_Cubic_LagBehind)x) },
 				{ typeof(Interpolate_OperatorDto_Hermite_LagBehind), x => Visit_Interpolate_OperatorDto_Hermite_LagBehind((Interpolate_OperatorDto_Hermite_LagBehind)x) },
-				{ typeof(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate), x => Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate((Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate)x) },
-				{ typeof(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate), x => Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate((Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate)x) },
+				{ typeof(Interpolate_OperatorDto_Line_LagBehind), x => Visit_Interpolate_OperatorDto_Line_LagBehind((Interpolate_OperatorDto_Line_LagBehind)x) },
 				{ typeof(Interpolate_OperatorDto_Stripe_LagBehind), x => Visit_Interpolate_OperatorDto_Stripe_LagBehind((Interpolate_OperatorDto_Stripe_LagBehind)x) },
 				{ typeof(LessThan_OperatorDto), x => Visit_LessThan_OperatorDto((LessThan_OperatorDto)x) },
 				{ typeof(LessThanOrEqual_OperatorDto), x => Visit_LessThanOrEqual_OperatorDto((LessThanOrEqual_OperatorDto)x) },
@@ -373,11 +371,9 @@ namespace JJ.Business.Synthesizer.Visitors
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto(Interpolate_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate dto) => Visit_OperatorDto_Base(dto);
+		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate(Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate dto) => Visit_OperatorDto_Base(dto);
-		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate(Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate dto) => Visit_OperatorDto_Base(dto);
+		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind(Interpolate_OperatorDto_Line_LagBehind dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);

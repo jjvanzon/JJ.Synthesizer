@@ -326,21 +326,13 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				dto2 = new Interpolate_OperatorDto_Stripe_LagBehind();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.SamplingRate.IsConst)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line)
 			{
-				dto2 = new Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate();
+				dto2 = new Interpolate_OperatorDto_Line_LagBehind();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.SamplingRate.IsVar)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic)
 			{
-				dto2 = new Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate();
-			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.SamplingRate.IsConst)
-			{
-				dto2 = new Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate();
-			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.SamplingRate.IsVar)
-			{
-				dto2 = new Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate();
+				dto2 = new Interpolate_OperatorDto_Cubic_LagBehind();
 			}
 			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite)
 			{

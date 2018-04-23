@@ -285,11 +285,9 @@
     <Compile Include="Calculation\Operators\Spectrum_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Cubic_LagBehind_VarSamplingRate.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Cubic_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LagBehind.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Cubic_LagBehind_ConstSamplingRate.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_VarSamplingRate.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind_ConstSamplingRate.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Subtract OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Noise_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />

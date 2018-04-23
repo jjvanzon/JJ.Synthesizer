@@ -1,10 +1,10 @@
 ﻿using System;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal class Interpolate_OperatorCalculator_Cubic_LagBehind_VarSamplingRate : OperatorCalculatorBase_WithChildCalculators
+	internal class Interpolate_OperatorCalculator_Cubic_LagBehind : OperatorCalculatorBase_WithChildCalculators
 	{
 		private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
 
@@ -17,13 +17,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private double _x0;
 		private double _x1;
 		private double _x2;
-		private double _dx1;
 		private double _yMinus1;
 		private double _y0;
 		private double _y1;
 		private double _y2;
+		private double _a;
+		private double _b;
+		private double _c;
 
-		public Interpolate_OperatorCalculator_Cubic_LagBehind_VarSamplingRate(
+		public Interpolate_OperatorCalculator_Cubic_LagBehind(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator,
@@ -59,20 +61,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				// Determine next sample
 				_positionOutputCalculator._value = _x1;
 
-				double samplingRate1 = GetSamplingRate();
+				double samplingRate = GetSamplingRate();
 
-				_dx1 = 1.0 / samplingRate1;
-				_x2 = _x1 + _dx1;
+				double dx1 = 1.0 / samplingRate;
+				_x2 = _x1 + dx1;
 
 				_positionOutputCalculator._value = _x2;
 
 				_y2 = _signalCalculator.Calculate();
+
+				// Precalculate variables
+				(_a, _b, _c) = Interpolator.Cubic_SmoothSlope_PrecalculateVariables(
+					_xMinus1, _x0, _x1, _x2,
+					_yMinus1, _y0, _y1, _y2);
 			}
 
-			double y = Interpolator.Interpolate_Cubic_SmoothSlope(
-				_xMinus1, _x0, _x1, _x2,
-				_yMinus1, _y0, _y1, _y2,
-				x);
+			double y = Interpolator.Cubic_SmoothSlope_FromPrecalculatedVariables(_x0, _y0, _a, _b, _c, x);
 
 			return y;
 		}
@@ -114,7 +118,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			_x0 = x - dx;
 			_x1 = x;
 			_x2 = x + dx;
-			_dx1 = dx;
 
 			// Y's are just set at a more practical default than 0.
 			_yMinus1 = y;

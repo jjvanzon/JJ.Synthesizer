@@ -29,9 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 			double y1 = _array[x1];
 			double y2 = _array[x2];
 
-			double offset = x - x0;
-
-			double y = Interpolator.Interpolate_Cubic_SmoothSlope_Equidistant(1, yMinus1, y0, y1, y2, offset);
+			double y = Interpolator.Cubic_SmoothSlope_Distance1(x0, yMinus1, y0, y1, y2, x);
 			return y;
 		}
 	}

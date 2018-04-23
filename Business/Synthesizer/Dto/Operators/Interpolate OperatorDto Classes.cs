@@ -31,19 +31,13 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 	internal class Interpolate_OperatorDto_Block : Interpolate_OperatorDto
 	{ }
 
-	internal class Interpolate_OperatorDto_Cubic_LagBehind_ConstSamplingRate : Interpolate_OperatorDto
-	{ }
-
-	internal class Interpolate_OperatorDto_Cubic_LagBehind_VarSamplingRate : Interpolate_OperatorDto
+	internal class Interpolate_OperatorDto_Cubic_LagBehind : Interpolate_OperatorDto
 	{ }
 
 	internal class Interpolate_OperatorDto_Hermite_LagBehind : Interpolate_OperatorDto
 	{ }
 
-	internal class Interpolate_OperatorDto_Line_LagBehind_ConstSamplingRate : Interpolate_OperatorDto
-	{ }
-
-	internal class Interpolate_OperatorDto_Line_LagBehind_VarSamplingRate : Interpolate_OperatorDto
+	internal class Interpolate_OperatorDto_Line_LagBehind : Interpolate_OperatorDto
 	{ }
 
 	internal class Interpolate_OperatorDto_Stripe_LagBehind : Interpolate_OperatorDto
