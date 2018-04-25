@@ -11,15 +11,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private readonly OperatorCalculatorBase _samplingRateCalculator;
 		protected readonly OperatorCalculatorBase _positionInputCalculator;
 
+		// TODO: Consider making a second base class for this to make it non-nullable.
+		/// <summary> nullable </summary>
+		protected readonly VariableInput_OperatorCalculator _positionOutputCalculator;
+
 		public Interpolate_OperatorCalculator_Base(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator)
-			: base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator })
+			OperatorCalculatorBase positionInputCalculator,
+			VariableInput_OperatorCalculator positionOutputCalculator)
+			: base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator })
 		{
 			_signalCalculator = signalCalculator;
 			_samplingRateCalculator = samplingRateCalculator;
 			_positionInputCalculator = positionInputCalculator;
+
+			_positionOutputCalculator = positionOutputCalculator;
 
 			// ReSharper disable once VirtualMemberCallInConstructor
 			ResetNonRecursive();

@@ -400,10 +400,12 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			return ProcessOperatorDto(
 				dto,
-				() => new Interpolate_OperatorCalculator_Line_LagBehind(
+				// HACK
+				() => new Interpolate_OperatorCalculator_Line_LookAhead(
 					_stack.Pop(),
 					_stack.Pop(),
-					_stack.Pop()));
+					_stack.Pop(),
+					GetPositionOutputCalculator(dto)));
 		}
 
 		protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto)

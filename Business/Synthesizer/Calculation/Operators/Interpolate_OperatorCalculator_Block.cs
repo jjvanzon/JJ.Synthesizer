@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
-			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
+			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, null)
 		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

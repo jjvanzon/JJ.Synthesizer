@@ -158,6 +158,7 @@
     <Compile Include="Calculation\Operators\HighShelfFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Random_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Remainder_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SineWithRate1_OperatorCalculator.cs" />

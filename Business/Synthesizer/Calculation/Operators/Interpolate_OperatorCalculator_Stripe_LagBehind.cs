@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
-			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
+			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, null)
 		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -23,8 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			// TODO: What if _x1 is way off? How will it correct itself?
 			if (x > _xAtHalf)
 			{
-				double samplingRate = Dx();
-				double dx = 1.0 / samplingRate;
+				double dx = Dx();
 
 				_xAtMinusHalf += dx;
 				_xAtHalf += dx;
@@ -33,8 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 			else if (x < _xAtMinusHalf)
 			{
-				double samplingRate = Dx();
-				double dx = 1.0 / samplingRate;
+				double dx = Dx();
 
 				_xAtMinusHalf -= dx;
 				_xAtHalf -= dx;

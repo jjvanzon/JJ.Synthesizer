@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	/// A weakness though is, that the sampling rate is remembered until the next sample,
 	/// which may work poorly when a very low sampling rate is provided.
 	/// </summary>
-	internal class Interpolate_OperatorCalculator_Line_LagBehind : Interpolate_OperatorCalculator_Base
+	internal class Interpolate_OperatorCalculator_Line_LookAhead : Interpolate_OperatorCalculator_Base
 	{
 		private double _x0;
 		private double _x1;
@@ -15,11 +15,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private double _y1;
 		private double _a;
 
-		public Interpolate_OperatorCalculator_Line_LagBehind(
+		public Interpolate_OperatorCalculator_Line_LookAhead(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator)
-			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, null)
+			OperatorCalculatorBase positionInputCalculator,
+			VariableInput_OperatorCalculator positionOutputCalculator)
+			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
 		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -36,9 +37,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 				// Determine next sample
 				double dx = Dx();
-
 				_x1 += dx;
+
+				double originalValue = _positionOutputCalculator._value;
+				_positionOutputCalculator._value = _x1;
+
 				_y1 = _signalCalculator.Calculate();
+
+				_positionOutputCalculator._value = originalValue;
 
 				// Precalculate
 				double dy = _y1 - _y0;
@@ -54,9 +60,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 				// Determine previous sample
 				double dx = Dx();
-
 				_x0 -= dx;
+
+				double originalValue = _positionOutputCalculator._value;
+				_positionOutputCalculator._value = _x0;
+
 				_y0 = _signalCalculator.Calculate();
+
+				_positionOutputCalculator._value = originalValue;
 
 				// Precalculate
 				double dy = _y1 - _y0;
@@ -70,18 +81,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 		protected override void ResetNonRecursive()
 		{
-			double x = _positionInputCalculator.Calculate();
-			double y = _signalCalculator.Calculate();
+			_x0 = _positionInputCalculator.Calculate();
+			_y0 = _signalCalculator.Calculate();
 
+			// Determine next sample
 			double dx = Dx();
+			_x1 = _x0 + dx;
 
-			_x0 = x - dx;
-			_x1 = x;
+			double originalValue = _positionOutputCalculator._value;
+			_positionOutputCalculator._value = _x1;
 
-			_y0 = y;
-			_y1 = y;
+			_y1 = _signalCalculator.Calculate();
 
-			_a = 0.0;
+			_positionOutputCalculator._value = originalValue;
+
+			// Precalculate
+			double dy = _y1 - _y0;
+			_a = dy / dx;
 		}
 	}
 }
