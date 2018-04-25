@@ -30,9 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double x = _positionInputCalculator.Calculate();
 	 
-			// TODO: What if position goes in reverse?
 			// TODO: What if _x0 or _x1 are way off? How will it correct itself?
-			// When x goes past _x1 you must shift things.
 			if (x > _x1)
 			{
 				// Shift the samples to the left.
@@ -44,15 +42,41 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_y1 = _y2;
 
 				// Determine next sample
+				double originalValue = _positionOutputCalculator._value;
 				_positionOutputCalculator._value = _x1;
-
 				double samplingRate = GetSamplingRate();
-				double dx1 = 1.0 / samplingRate;
-				_x2 = _x1 + dx1;
+				_positionOutputCalculator._value = originalValue;
 
-				_positionOutputCalculator._value = _x2;
+				double dx = 1.0 / samplingRate;
+				_x2 += dx;
 
 				_y2 = _signalCalculator.Calculate();
+
+				// Precalculate
+				(_a, _b, _c) = Interpolator.Cubic_SmoothSlope_PrecalculateVariables(
+					_xMinus1, _x0, _x1, _x2,
+					_yMinus1, _y0, _y1, _y2);
+			}
+			else if (x < _x0)
+			{
+				// Shift the samples to the left.
+				_x0 = _xMinus1;
+				_x1 = _x0;
+				_x2 = _x1; 
+				_y0 = _yMinus1;
+				_y1 = _y0;
+				_y2 = _y1;
+
+				// Determine previous sample
+				double originalValue = _positionOutputCalculator._value;
+				_positionOutputCalculator._value = _xMinus1;
+				double samplingRate = GetSamplingRate();
+				_positionOutputCalculator._value = originalValue;
+
+				double dx = 1.0 / samplingRate;
+				_xMinus1 -= dx;
+
+				_yMinus1 = _signalCalculator.Calculate();
 
 				// Precalculate
 				(_a, _b, _c) = Interpolator.Cubic_SmoothSlope_PrecalculateVariables(
@@ -62,11 +86,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 			// Calculate
 			double y = Interpolator.Cubic_SmoothSlope_FromPrecalculatedVariables(_x0, _y0, _a, _b, _c, x);
-
 			return y;
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected override void ResetNonRecursive()
 		{
 			double x = _positionInputCalculator.Calculate();

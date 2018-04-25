@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Tests
 
 		// Helpers
 
-		public static Curve CreateTestCurve(CurveFacade curveFacade)
+		private static Curve CreateTestCurve(CurveFacade curveFacade)
 		{
 			Curve curve = curveFacade.Create(2, 1, 2, 0);
 			curve.Name = "Curve";

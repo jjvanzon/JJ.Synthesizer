@@ -28,9 +28,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_x0 = _x1;
 
 				// Determine next sample
+				double originalValue = _positionOutputCalculator._value;
 				_positionOutputCalculator._value = _x1;
-
 				double samplingRate1 = GetSamplingRate();
+				_positionOutputCalculator._value = originalValue;
+
 				double dx1 = 1.0 / samplingRate1;
 				_x1 += dx1;
 
@@ -38,15 +40,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 			else if (x < _x0)
 			{
+				// Going in reverse.
+
 				// Shift samples to the right.
 				_x1 = _x0;
 
 				// Determine previous sample
+				double originalValue = _positionOutputCalculator._value;
 				_positionOutputCalculator._value = _x0;
-
 				double samplingRate0 = GetSamplingRate();
+				_positionOutputCalculator._value = originalValue;
+
 				double dx0 = 1.0 / samplingRate0;
 				_x0 -= dx0;
+
 
 				_y0 = _signalCalculator.Calculate();
 			}
@@ -54,7 +61,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			return _y0;
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected override void ResetNonRecursive()
 		{
 			double x = _positionInputCalculator.Calculate();

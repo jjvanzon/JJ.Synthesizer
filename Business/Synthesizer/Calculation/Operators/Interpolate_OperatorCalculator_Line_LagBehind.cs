@@ -28,6 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double x = _positionInputCalculator.Calculate();
 
+			// TODO: What if _x0 or _x1 are way off? How will it correct itself?
 			if (x > _x1)
 			{
 				// Shift samples to the left
@@ -35,36 +36,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_y0 = _y1;
 
 				// Determine next sample
+				double originalValue = _positionOutputCalculator._value;
 				_positionOutputCalculator._value = _x1;
+				double samplingRate1 = GetSamplingRate();
+				_positionOutputCalculator._value = originalValue;
 
-				double samplingRate = GetSamplingRate();
-				double dx = 1.0 / samplingRate;
-				_x1 += dx;
-
-				_positionOutputCalculator._value = _x1;
+				double dx1 = 1.0 / samplingRate1;
+				_x1 += dx1;
 
 				_y1 = _signalCalculator.Calculate();
 
 				// Precalculate
 				double dy = _y1 - _y0;
-				_a = dy / dx;
+				_a = dy / dx1;
 			}
 			else if (x < _x0)
 			{
-				// Going in reverse, take sample in reverse position.
+				// Going in reverse.
 
 				// Shift samples to the right
 				_x1 = _x0;
 				_y1 = _y0;
 
 				// Determine previous sample
+				double originalValue = _positionOutputCalculator._value;
 				_positionOutputCalculator._value = _x0;
-
 				double samplingRate0 = GetSamplingRate();
+				_positionOutputCalculator._value = originalValue;
+
 				double dx0 = 1.0 / samplingRate0;
 				_x0 -= dx0;
-
-				_positionOutputCalculator._value = _x0;
 
 				_y0 = _signalCalculator.Calculate();
 
