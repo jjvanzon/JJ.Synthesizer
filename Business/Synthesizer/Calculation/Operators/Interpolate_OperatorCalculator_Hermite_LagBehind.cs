@@ -22,9 +22,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		public Interpolate_OperatorCalculator_Hermite_LagBehind(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator,
-			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
+			OperatorCalculatorBase positionInputCalculator)
+			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
 		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -44,14 +43,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_y1 = _y2;
 
 				// Determine next sample
-				double originalValue = _positionOutputCalculator._value;
-				_positionOutputCalculator._value = _x1;
-				double samplingRate1 = GetSamplingRate();
-				_positionOutputCalculator._value = originalValue;
+				_dx = Dx();
 
-				_dx = 1.0 / samplingRate1;
 				_x2 += _dx;
-
 				_y2 = _signalCalculator.Calculate();
 
 				// Precalculate
@@ -68,15 +62,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_y2 = _y1;
 
 				// Determine next sample
-				double originalValue = _positionOutputCalculator._value;
-				_positionOutputCalculator._value = _x0;
-				double samplingRate0 = GetSamplingRate();
-				_positionOutputCalculator._value = originalValue;
+				_dx = Dx();
 
-				_dx = 1.0 / samplingRate0;
 				_xMinus1 -= _dx;
-
-
 				_yMinus1 = _signalCalculator.Calculate();
 
 				// Precalculate
@@ -93,9 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double x = _positionInputCalculator.Calculate();
 			double y = _signalCalculator.Calculate();
-			double samplingRate = GetSamplingRate();
-
-			double dx = 1.0 / samplingRate;
+			double dx = Dx();
 
 			_xMinus1 = x - dx - dx;
 			_x0 = x - dx;

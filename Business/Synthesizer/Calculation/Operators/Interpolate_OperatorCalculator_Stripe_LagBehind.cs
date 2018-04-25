@@ -5,16 +5,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	internal class Interpolate_OperatorCalculator_Stripe_LagBehind : Interpolate_OperatorCalculator_Base
 	{
 		private double _xAtMinusHalf;
-		private double _x0;
 		private double _xAtHalf;
 		private double _y0;
 
 		public Interpolate_OperatorCalculator_Stripe_LagBehind(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator,
-			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
+			OperatorCalculatorBase positionInputCalculator)
+			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
 		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -25,29 +23,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			// TODO: What if _x1 is way off? How will it correct itself?
 			if (x > _xAtHalf)
 			{
-				double originalValue = _positionOutputCalculator._value;
-				_positionOutputCalculator._value = _x0;
-				double samplingRate0 = GetSamplingRate();
-				_positionOutputCalculator._value = originalValue;
+				double samplingRate = Dx();
+				double dx = 1.0 / samplingRate;
 
-				double dx0 = 1.0 / samplingRate0;
-				_xAtMinusHalf += dx0;
-				_x0 += dx0;
-				_xAtHalf += dx0;
+				_xAtMinusHalf += dx;
+				_xAtHalf += dx;
 
 				_y0 = _signalCalculator.Calculate();
 			}
 			else if (x < _xAtMinusHalf)
 			{
-				double originalValue = _positionOutputCalculator._value;
-				_positionOutputCalculator._value = _x0;
-				double samplingRate0 = GetSamplingRate();
-				_positionOutputCalculator._value = originalValue;
+				double samplingRate = Dx();
+				double dx = 1.0 / samplingRate;
 
-				double dx0 = 1.0 / samplingRate0;
-				_xAtMinusHalf -= dx0;
-				_x0 -= dx0;
-				_xAtHalf -= dx0;
+				_xAtMinusHalf -= dx;
+				_xAtHalf -= dx;
 
 				_y0 = _signalCalculator.Calculate();
 			}
@@ -59,12 +49,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double x = _positionInputCalculator.Calculate();
 			double y = _signalCalculator.Calculate();
-			double samplingRate = GetSamplingRate();
 
-			double dx = 1.0 / samplingRate;
-			double halfDx = dx / 2.0;
+			double halfDx = Dx() / 2.0;
 
-			_x0 = x;
 			_xAtMinusHalf = x - halfDx;
 			_xAtHalf = x + halfDx;
 			_y0 = y;

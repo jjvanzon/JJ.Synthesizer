@@ -18,9 +18,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		public Interpolate_OperatorCalculator_Line_LagBehind(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator,
-			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
+			OperatorCalculatorBase positionInputCalculator)
+			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
 		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -36,19 +35,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_y0 = _y1;
 
 				// Determine next sample
-				double originalValue = _positionOutputCalculator._value;
-				_positionOutputCalculator._value = _x1;
-				double samplingRate1 = GetSamplingRate();
-				_positionOutputCalculator._value = originalValue;
+				double dx = Dx();
 
-				double dx1 = 1.0 / samplingRate1;
-				_x1 += dx1;
-
+				_x1 += dx;
 				_y1 = _signalCalculator.Calculate();
 
 				// Precalculate
 				double dy = _y1 - _y0;
-				_a = dy / dx1;
+				_a = dy / dx;
 			}
 			else if (x < _x0)
 			{
@@ -59,19 +53,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_y1 = _y0;
 
 				// Determine previous sample
-				double originalValue = _positionOutputCalculator._value;
-				_positionOutputCalculator._value = _x0;
-				double samplingRate0 = GetSamplingRate();
-				_positionOutputCalculator._value = originalValue;
+				double dx = Dx();
 
-				double dx0 = 1.0 / samplingRate0;
-				_x0 -= dx0;
-
+				_x0 -= dx;
 				_y0 = _signalCalculator.Calculate();
 
 				// Precalculate
 				double dy = _y1 - _y0;
-				_a = dy / dx0;
+				_a = dy / dx;
 			}
 
 			// Calculate
@@ -83,9 +72,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double x = _positionInputCalculator.Calculate();
 			double y = _signalCalculator.Calculate();
-			double samplingRate = GetSamplingRate();
 
-			double dx = 1.0 / samplingRate;
+			double dx = Dx();
 
 			_x0 = x - dx;
 			_x1 = x;

@@ -374,7 +374,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			return ProcessOperatorDto(
 				dto,
-				() => new Interpolate_OperatorCalculator_Block(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
+				() => new Interpolate_OperatorCalculator_Block(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 		}
 
 		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(
@@ -385,15 +385,14 @@ namespace JJ.Business.Synthesizer.Visitors
 				() => new Interpolate_OperatorCalculator_Cubic_LagBehind(
 					_stack.Pop(),
 					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
+					_stack.Pop()));
 		}
 
 		protected override IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto)
 		{
 			return ProcessOperatorDto(
 				dto,
-				() => new Interpolate_OperatorCalculator_Hermite_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
+				() => new Interpolate_OperatorCalculator_Hermite_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 		}
 
 		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind(
@@ -404,15 +403,14 @@ namespace JJ.Business.Synthesizer.Visitors
 				() => new Interpolate_OperatorCalculator_Line_LagBehind(
 					_stack.Pop(),
 					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
+					_stack.Pop()));
 		}
 
 		protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto)
 		{
 			return ProcessOperatorDto(
 				dto,
-				() => new Interpolate_OperatorCalculator_Stripe_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
+				() => new Interpolate_OperatorCalculator_Stripe_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 		}
 
 		protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)

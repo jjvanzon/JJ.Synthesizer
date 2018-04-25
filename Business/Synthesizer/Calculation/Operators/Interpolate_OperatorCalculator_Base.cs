@@ -10,27 +10,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		protected readonly OperatorCalculatorBase _signalCalculator;
 		private readonly OperatorCalculatorBase _samplingRateCalculator;
 		protected readonly OperatorCalculatorBase _positionInputCalculator;
-		protected readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
 		public Interpolate_OperatorCalculator_Base(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator,
-			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator })
+			OperatorCalculatorBase positionInputCalculator)
+			: base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator })
 		{
 			_signalCalculator = signalCalculator;
 			_samplingRateCalculator = samplingRateCalculator;
 			_positionInputCalculator = positionInputCalculator;
-			_positionOutputCalculator = positionOutputCalculator;
 
 			// ReSharper disable once VirtualMemberCallInConstructor
 			ResetNonRecursive();
 		}
 
-		/// <summary> Gets the sampling rate, converts it to an absolute number and ensures a minimum value. </summary>
+		/// <summary> Gets the sampling rate, converts it to an absolute number, ensures a minimum value and returns dx. </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected double GetSamplingRate()
+		protected double Dx()
 		{
 			double samplingRate = _samplingRateCalculator.Calculate();
 
@@ -41,7 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				samplingRate = MINIMUM_SAMPLING_RATE;
 			}
 
-			return samplingRate;
+			return 1.0 / samplingRate;
 		}
 
 		public override void Reset()
