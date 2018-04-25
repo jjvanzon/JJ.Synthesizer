@@ -80,7 +80,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 
 			SyntaxTree generatedSyntaxTree = CSharpSyntaxTree.ParseText(generatedCode, path: generatedCodeFileName, encoding: _encoding);
 
-			var syntaxTrees = new[]
+			SyntaxTree[] syntaxTrees =
 			{
 				generatedSyntaxTree,
 				_sineCalculatorSyntaxTree
@@ -104,9 +104,10 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 			EmitResult emitResult = compilation.Emit(assemblyStream, pdbStream);
 			if (!emitResult.Success)
 			{
-				IEnumerable<Diagnostic> failureDiagnostics = emitResult.Diagnostics.Where(x =>
-					x.IsWarningAsError ||
-					x.Severity == DiagnosticSeverity.Error);
+				IEnumerable<Diagnostic> failureDiagnostics = emitResult.Diagnostics.Where(
+					x =>
+						x.IsWarningAsError ||
+						x.Severity == DiagnosticSeverity.Error);
 
 				string concatinatedFailureDiagnostics = string.Join(Environment.NewLine, failureDiagnostics.Select(x => $"{x.Id} - {x.GetMessage()}"));
 				throw new Exception("CSharpCompilation.Emit failed. " + concatinatedFailureDiagnostics);
@@ -131,13 +132,11 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 		}
 
 		private static IList<MetadataReference> GetMetadataReferences()
-		{
-			return new MetadataReference[]
+			=> new MetadataReference[]
 			{
 				MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
 				MetadataReference.CreateFromFile(typeof(IOperatorCalculator).Assembly.Location)
 			};
-		}
 
 		private static CSharpCompilationOptions GetCSharpCompilationOptions()
 		{

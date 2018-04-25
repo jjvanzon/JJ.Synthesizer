@@ -13,6 +13,7 @@ using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions.Basic;
 using CollectionHelper = JJ.Business.Synthesizer.CopiedCode.FromFramework.CollectionHelper;
+// ReSharper disable ObjectCreationAsStatement
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -216,6 +217,12 @@ namespace JJ.Business.Synthesizer.Visitors
 					break;
 
 				default:
+					Operator underlyingInterpolateOperator = op.UnderlyingPatch.EnumerateOperatorsOfType(OperatorTypeEnum.Interpolate).Single();
+					new OperatorWrapper_WithInterpolation(underlyingInterpolateOperator)
+					{
+						InterpolationType = interpolationTypeEnum
+					};
+
 					VisitDerivedOperatorOutlet(outlet);
 					break;
 			}
