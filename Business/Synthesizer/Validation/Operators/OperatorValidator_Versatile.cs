@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 					break;
 
 				case OperatorTypeEnum.Interpolate:
-					ExecuteValidator(new OperatorValidator_WithInterpolation_AndLookAheadOrLagBehind(op));
+					ExecuteValidator(new OperatorValidator_WithInterpolation_AndFollowingMode(op));
 					break;
 
 				case OperatorTypeEnum.Number:

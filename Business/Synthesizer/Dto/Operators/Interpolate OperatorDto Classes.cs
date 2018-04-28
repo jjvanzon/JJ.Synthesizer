@@ -6,14 +6,14 @@ using JJ.Business.Synthesizer.Enums;
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
 	internal class Interpolate_OperatorDto
-		: OperatorDtoBase_PositionReader, IOperatorDto_WithSignal_WithDimension, IOperatorDto_WithInterpolation_AndLookAheadOrLagBehind
+		: OperatorDtoBase_PositionReader, IOperatorDto_WithSignal_WithDimension, IOperatorDto_WithInterpolation_AndFollowingMode
 	{
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.Interpolate;
 
 		public InputDto Signal { get; set; }
 		public InputDto SamplingRate { get; set; }
 		public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-		public LookAheadOrLagBehindEnum LookAheadOrLagBehindEnum { get; set; }
+		public FollowingModeEnum FollowingModeEnum { get; set; }
 
 		public override IReadOnlyList<InputDto> Inputs
 		{

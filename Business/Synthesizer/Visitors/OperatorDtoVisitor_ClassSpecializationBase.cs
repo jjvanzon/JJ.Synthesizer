@@ -322,35 +322,35 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				dto2 = new Interpolate_OperatorDto_Block();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LagBehind)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe && dto.FollowingModeEnum == FollowingModeEnum.LagBehind)
 			{
 				dto2 = new Interpolate_OperatorDto_Stripe_LagBehind();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LookAhead)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe && dto.FollowingModeEnum == FollowingModeEnum.LookAhead)
 			{
 				dto2 = new Interpolate_OperatorDto_Stripe_LookAhead();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LagBehind)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.FollowingModeEnum == FollowingModeEnum.LagBehind)
 			{
 				dto2 = new Interpolate_OperatorDto_Line_LagBehind();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LookAhead)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.FollowingModeEnum == FollowingModeEnum.LookAhead)
 			{
 				dto2 = new Interpolate_OperatorDto_Line_LookAhead();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LagBehind)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.FollowingModeEnum == FollowingModeEnum.LagBehind)
 			{
 				dto2 = new Interpolate_OperatorDto_Cubic_LagBehind();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LookAhead)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.FollowingModeEnum == FollowingModeEnum.LookAhead)
 			{
 				dto2 = new Interpolate_OperatorDto_Cubic_LookAhead();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LagBehind)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite && dto.FollowingModeEnum == FollowingModeEnum.LagBehind)
 			{
 				dto2 = new Interpolate_OperatorDto_Hermite_LagBehind();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LookAhead)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite && dto.FollowingModeEnum == FollowingModeEnum.LookAhead)
 			{
 				dto2 = new Interpolate_OperatorDto_Hermite_LookAhead();
 			}

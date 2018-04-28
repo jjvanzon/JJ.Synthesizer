@@ -331,10 +331,10 @@ namespace JJ.Business.Synthesizer.Visitors
 			}
 
 			{
-				if (dto is IOperatorDto_WithInterpolation_AndLookAheadOrLagBehind castedDto)
+				if (dto is IOperatorDto_WithInterpolation_AndFollowingMode castedDto)
 				{
-					var wrapper = new OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind(op);
-					castedDto.LookAheadOrLagBehindEnum = wrapper.LookAheadOrLagBehind;
+					var wrapper = new OperatorWrapper_WithInterpolation_AndFollowingMode(op);
+					castedDto.FollowingModeEnum = wrapper.FollowingMode;
 				}
 			}
 

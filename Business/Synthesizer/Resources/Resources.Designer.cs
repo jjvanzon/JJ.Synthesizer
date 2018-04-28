@@ -916,6 +916,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Following Mode.
+        /// </summary>
+        internal static string FollowingMode {
+            get {
+                return ResourceManager.GetString("FollowingMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Frequencies.
         /// </summary>
         internal static string Frequencies {
@@ -1389,15 +1398,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string LookAhead {
             get {
                 return ResourceManager.GetString("LookAhead", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Look Ahead / Lag Behind.
-        /// </summary>
-        internal static string LookAheadOrLagBehind {
-            get {
-                return ResourceManager.GetString("LookAheadOrLagBehind", resourceCulture);
             }
         }
         

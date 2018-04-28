@@ -1,6 +1,6 @@
 ﻿namespace JJ.Business.Synthesizer.Enums
 {
-	public enum LookAheadOrLagBehindEnum
+	public enum FollowingModeEnum
 	{
 		LagBehind,
 		LookAhead

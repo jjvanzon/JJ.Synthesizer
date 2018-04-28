@@ -179,7 +179,7 @@
     <Compile Include="Dto\Operators\DoubleToBoolean_OperatorDto.cs" />
     <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
-    <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation_AndLookAheadOrLagBehind.cs" />
+    <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation_AndFollowingMode.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_PositionReader.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_PositionTransformation.cs" />
@@ -201,8 +201,8 @@
     <Compile Include="Dto\Operators\OperatorDtoBase_WithSound.cs" />
     <Compile Include="Dto\Operators\Remainder_OperatorDto.cs" />
     <Compile Include="Dto\ToneDto.cs" />
-    <Compile Include="Enums\LookAheadOrLagBehindEnum.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind.cs" />
+    <Compile Include="Enums\FollowingModeEnum.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_WithInterpolation_AndFollowingMode.cs" />
     <Compile Include="Enums\EntityTypeEnum.cs" />
     <Compile Include="Enums\MidiMappingTypeEnum.cs" />
     <Compile Include="Extensions\InheritExtensions.cs" />
@@ -340,7 +340,7 @@
     <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Base.cs" />
     <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Versatile.cs" />
     <Compile Include="SystemFacade.cs" />
-    <Compile Include="Validation\DataProperty\LookAheadOrLagBehind_DataProperty_Validator.cs" />
+    <Compile Include="Validation\DataProperty\FollowingMode_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\Position_DataProperty_Validator.cs" />
     <Compile Include="Validation\DimensionInfoValidator.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />
@@ -362,7 +362,7 @@
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount.cs" />
     <Compile Include="Validation\InletOrOutletValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Basic.cs" />
-    <Compile Include="Validation\Operators\OperatorValidator_WithInterpolation_AndLookAheadOrLagBehind.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_WithInterpolation_AndFollowingMode.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />

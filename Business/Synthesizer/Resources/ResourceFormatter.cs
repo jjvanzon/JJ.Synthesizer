@@ -109,6 +109,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Factors => Resources.Factors;
 		public static string FilePath => Resources.FilePath;
 		public static string FirstRepetitionPosition => Resources.FirstRepetitionPosition;
+		public static string FollowingMode => Resources.FollowingMode;
 		public static string Frequencies => Resources.Frequencies;
 		public static string Frequency => Resources.Frequency;
 		public static string From => Resources.From;
@@ -156,7 +157,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Line => Resources.Line;
 		public static string LiteralFrequencies => Resources.LiteralFrequencies;
 		public static string LiteralFrequency => Resources.LiteralFrequency;
-		public static string LookAheadOrLagBehind => Resources.LookAheadOrLagBehind;
 		public static string LookAhead => Resources.LookAhead;
 		public static string Loop => Resources.Loop;
 		public static string LoopEndMarker => Resources.LoopEndMarker;

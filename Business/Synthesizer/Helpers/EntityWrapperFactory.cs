@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Helpers
 					return new OperatorWrapper_WithInterpolation(op);
 
 				case OperatorTypeEnum.Interpolate:
-					return new OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind(op);
+					return new OperatorWrapper_WithInterpolation_AndFollowingMode(op);
 
 				default:
 					return new OperatorWrapper(op);

@@ -591,21 +591,21 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind Interpolate(
+		public OperatorWrapper_WithInterpolation_AndFollowingMode Interpolate(
 			Outlet signal = null,
 			Outlet samplingRate = null,
 			InterpolationTypeEnum interpolationType = InterpolationTypeEnum.Cubic,
 			DimensionEnum? standardDimension = DimensionEnum.Time,
 			string customDimension = null,
-			LookAheadOrLagBehindEnum lookAheadOrLagBehind = LookAheadOrLagBehindEnum.LagBehind)
+			FollowingModeEnum followingMode = FollowingModeEnum.LagBehind)
 		{
 			Operator op = NewWithDimension(standardDimension, customDimension);
 
-			var wrapper = new OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind(op);
+			var wrapper = new OperatorWrapper_WithInterpolation_AndFollowingMode(op);
 			wrapper.Inputs[DimensionEnum.Signal] = signal;
 			wrapper.Inputs[DimensionEnum.SamplingRate] = samplingRate;
 			wrapper.InterpolationType = interpolationType;
-			wrapper.LookAheadOrLagBehind = lookAheadOrLagBehind;
+			wrapper.FollowingMode = followingMode;
 
 			return wrapper;
 		}

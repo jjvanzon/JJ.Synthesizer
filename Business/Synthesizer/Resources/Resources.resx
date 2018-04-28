@@ -1162,7 +1162,7 @@
   <data name="LookAhead" xml:space="preserve">
     <value>Look Ahead</value>
   </data>
-  <data name="LookAheadOrLagBehind" xml:space="preserve">
-    <value>Look Ahead / Lag Behind</value>
+  <data name="FollowingMode" xml:space="preserve">
+    <value>Following Mode</value>
   </data>
 </root>
