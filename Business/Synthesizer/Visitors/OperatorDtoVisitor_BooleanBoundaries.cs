@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Business.Synthesizer.Enums;
@@ -52,15 +52,7 @@ namespace JJ.Business.Synthesizer.Visitors
 					dto.OperatorTypeEnum != OperatorTypeEnum.BooleanToDouble &&
 					dto.OperatorTypeEnum != OperatorTypeEnum.DoubleToBoolean)
 				{
-					var list = new List<InputDto>();
-
-					foreach (InputDto inputDto in dto.Inputs)
-					{
-						InputDto inputDto2 = TryInsertBooleanToDouble(inputDto);
-						list.Add(inputDto2);
-					}
-
-					dto.Inputs = list;
+					dto.Inputs = dto.Inputs.Select(TryInsertBooleanToDouble).ToList();
 				}
 
 				return dto;
@@ -82,15 +74,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			dto = Visit_OperatorDto_Base(dto);
 
-			var list = new List<InputDto>();
-
-			foreach (InputDto inputDto in dto.Inputs)
-			{
-				InputDto dto2 = TryInsertDoubleToBoolean(inputDto);
-				list.Add(dto2);
-			}
-
-			dto.Inputs = list;
+			dto.Inputs = dto.Inputs.Select(TryInsertDoubleToBoolean).ToList();
 
 			return dto;
 		}

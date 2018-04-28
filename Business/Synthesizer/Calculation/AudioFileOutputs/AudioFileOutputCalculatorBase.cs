@@ -45,10 +45,9 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 			// Prepare some variables
 			double startTime = audioFileOutput.StartTime;
 			double endTime = audioFileOutput.GetEndTime();
-			double duration = audioFileOutput.Duration;
-			double frameDuration = 1.0 / audioFileOutput.SamplingRate / audioFileOutput.TimeMultiplier;
-			int frameCount = (int)(duration / frameDuration);
-			int valueCount = frameCount * channelCount;
+			double frameDuration = audioFileOutput.GetFrameDuration();
+			int frameCount = audioFileOutput.GetFrameCount();
+			int valueCount = audioFileOutput.GetValueCount();
 			int valueCountPerChunk = _valueCountPerChunk;
 
 			// Calculate output and write file
@@ -64,12 +63,12 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 							var audioFileInfo = new AudioFileInfo
 							{
 								SamplingRate = audioFileOutput.SamplingRate,
-								BytesPerValue = SampleDataTypeHelper.SizeOf(audioFileOutput.SampleDataType),
+								BytesPerValue = audioFileOutput.SampleDataType.SizeOf(),
 								ChannelCount = channelCount,
 								FrameCount = frameCount
 							};
 
-							WavHeaderStruct wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
+							WavHeaderStruct wavHeaderStruct = WavHeaderFacade.CreateWavHeaderStruct(audioFileInfo);
 							writer.WriteStruct(wavHeaderStruct);
 							break;
 

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+// ReSharper disable ConvertIfStatementToReturnStatement
+// ReSharper disable RedundantIfElseBlock
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal class ClosestOverDimensionExp_OperatorCalculator_Base : ClosestOverDimension_OperatorCalculator_Base
+	internal abstract class ClosestOverDimensionExp_OperatorCalculator_Base : ClosestOverDimension_OperatorCalculator_Base
 	{
 		public ClosestOverDimensionExp_OperatorCalculator_Base(
 			OperatorCalculatorBase inputCalculator,
@@ -50,7 +52,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double input = _inputCalculator.Calculate();
 			double logInput = Math.Log(input);
-
 
 			// Fields are log'ed already.
 			CollectionHelper.BinarySearchInexact(

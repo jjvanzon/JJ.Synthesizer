@@ -806,10 +806,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
 		{
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (dto.Inputs.Count == 2)
 			{
 				return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
 			}
+			// ReSharper disable once RedundantIfElseBlock
 			else
 			{
 				return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min);
@@ -835,10 +837,12 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
 		{
+			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (dto.Inputs.Count == 2)
 			{
 				return Process_MinOrMaxOverInlets_With2Inlets(dto, MinOrMaxEnum.Min);
 			}
+			// ReSharper disable once RedundantIfElseBlock
 			else
 			{
 				return Process_MinOrMaxOverInlets_MoreThan2Inlets(dto, MinOrMaxEnum.Min);
@@ -1807,16 +1811,15 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		private string GetLiteralFromInputDto(InputDto inputDto)
 		{
-			if (inputDto.Var != null)
-			{
-				Visit_OperatorDto_Polymorphic(inputDto.Var);
-				string literal = _stack.Pop();
-				return literal;
-			}
-			else
+			if (inputDto.IsConst)
 			{
 				return CompilationHelper.FormatValue(inputDto.Const);
 			}
+
+			Visit_OperatorDto_Polymorphic(inputDto.Var);
+			string literal = _stack.Pop();
+			return literal;
+
 		}
 
 		/// <summary> '&gt;' for Min, '&lt;' for Max </summary>

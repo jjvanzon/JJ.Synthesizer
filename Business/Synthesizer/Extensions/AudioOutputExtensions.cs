@@ -1,5 +1,8 @@
 ﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable once CompareOfFloatsByEqualityOperator
+// ReSharper disable once RedundantCast
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -14,10 +17,8 @@ namespace JJ.Business.Synthesizer.Extensions
 		public static double GetFrameDuration(this AudioOutput entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
-			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			if (entity.SamplingRate == 0.0) throw new ZeroException(() => entity.SamplingRate);
 
-			// ReSharper disable once RedundantCast
 			double frameDuration = 1.0 / (double)entity.SamplingRate;
 			return frameDuration;
 		}

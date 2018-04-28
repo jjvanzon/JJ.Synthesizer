@@ -7,6 +7,8 @@ using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Conversion;
 using JJ.Framework.Exceptions.Basic;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Helpers
 {
@@ -259,9 +261,7 @@ namespace JJ.Business.Synthesizer.Helpers
 		public static string TryGetString(string data, string key)
 		{
 			IList<ParsedKeyValuePair> results = Parse(data);
-
-			ParsedKeyValuePair result = results.Where(x => string.Equals(x.Key, key)).FirstOrDefault();
-
+			ParsedKeyValuePair result = results.FirstOrDefault(x => string.Equals(x.Key, key));
 			return result?.Value;
 		}
 
@@ -316,7 +316,6 @@ namespace JJ.Business.Synthesizer.Helpers
 
 			return newData;
 		}
-
 		
 		private static IList<ParsedKeyValuePair> Parse(string data)
 		{
@@ -326,15 +325,8 @@ namespace JJ.Business.Synthesizer.Helpers
 			}
 
 			string[] keyValueStrings = data.Split(';');
-			var results = new List<ParsedKeyValuePair>(keyValueStrings.Length);
-			for (int i = 0; i < keyValueStrings.Length; i++)
-			{
-				string keyValueString = keyValueStrings[i];
 
-				ParsedKeyValuePair result = ParseProperty(keyValueString, data);
-
-				results.Add(result);
-			}
+			List<ParsedKeyValuePair> results = keyValueStrings.Select(x => ParseProperty(x, data)).ToList();
 
 			return results;
 		}
@@ -357,9 +349,8 @@ namespace JJ.Business.Synthesizer.Helpers
 
 		private static string Format(IList<ParsedKeyValuePair> parsedKeyValuePairs)
 		{
-			for (int i = 0; i < parsedKeyValuePairs.Count; i++)
+			foreach (ParsedKeyValuePair parsedKeyValuePair in parsedKeyValuePairs)
 			{
-				ParsedKeyValuePair parsedKeyValuePair = parsedKeyValuePairs[i];
 				AssertParsedKeyValuePair(parsedKeyValuePair);
 			}
 

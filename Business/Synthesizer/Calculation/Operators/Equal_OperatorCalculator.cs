@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using JJ.Framework.Exceptions.Basic;
-
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -25,8 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			double a = _aCalculator.Calculate();
 			double b = _bCalculator.Calculate();
 
-			if (a == b) return 1.0;
-			else return 0.0;
+			return a == b ? 1.0 : 0.0;
 		}
 	}
 }

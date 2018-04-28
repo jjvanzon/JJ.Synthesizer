@@ -47,6 +47,12 @@ namespace JJ.Business.Synthesizer.Warnings
 					new PatchWarningValidator_WithRelatedEntities(patch, sampleRepository, curveRepository, alreadyDone),
 					messagePrefix);
 			}
+
+			foreach (Scale scale in document.Scales)
+			{
+				string messagePrefix = ValidationHelper.GetMessagePrefix(scale);
+				ExecuteValidator(new ScaleWarningValidator(scale), messagePrefix);
+			}
 		}
 	}
 }

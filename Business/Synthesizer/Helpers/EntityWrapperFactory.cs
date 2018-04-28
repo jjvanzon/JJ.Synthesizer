@@ -32,10 +32,12 @@ namespace JJ.Business.Synthesizer.Helpers
 					return new OperatorWrapper_WithCollectionRecalculation(op);
 
 				case OperatorTypeEnum.InletsToDimension:
-				case OperatorTypeEnum.Interpolate:
 				case OperatorTypeEnum.Random:
 				case OperatorTypeEnum.RandomStripe:
 					return new OperatorWrapper_WithInterpolation(op);
+
+				case OperatorTypeEnum.Interpolate:
+					return new OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind(op);
 
 				default:
 					return new OperatorWrapper(op);

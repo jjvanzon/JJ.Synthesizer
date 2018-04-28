@@ -2,8 +2,8 @@
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal interface IOperatorDto_WithInterpolation
+	internal interface IOperatorDto_WithInterpolation_AndLookAheadOrLagBehind : IOperatorDto_WithInterpolation
 	{
-		InterpolationTypeEnum InterpolationTypeEnum { get; set; }
+		LookAheadOrLagBehindEnum LookAheadOrLagBehindEnum { get; set; }
 	}
 }

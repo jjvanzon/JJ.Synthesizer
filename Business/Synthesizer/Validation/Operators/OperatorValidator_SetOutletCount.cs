@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
 			For(newOutletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Outlets)).GreaterThanOrEqual(1);
 
-			if (!op.Outlets.Where(x => x.IsRepeating).Any())
+			if (!op.Outlets.Any(x => x.IsRepeating))
 			{
 				Messages.Add(ResourceFormatter.CannotSetOutletCountWithoutRepeatingOutlets);
 			}

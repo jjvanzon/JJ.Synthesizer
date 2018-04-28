@@ -16,7 +16,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 		/// </param>
 		void Calculate(float[] buffer, int frameCount, double t0);
 
+		// ReSharper disable once UnusedMember.Global
 		double GetValue(int position);
+		// ReSharper disable once UnusedMemberInSuper.Global
 		void SetValue(int position, double value);
 
 		double GetValue(string name);

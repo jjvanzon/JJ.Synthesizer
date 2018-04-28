@@ -3,6 +3,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -51,6 +52,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return false;
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		public static bool HasInvalidCircularUnderlyingPatch(this Patch patch)
 		{
 			if (patch == null) throw new NullException(() => patch);

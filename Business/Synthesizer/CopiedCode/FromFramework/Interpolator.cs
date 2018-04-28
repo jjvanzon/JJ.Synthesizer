@@ -3,6 +3,8 @@
 // to promote inlining and made class internal.
 
 using System.Runtime.CompilerServices;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 {

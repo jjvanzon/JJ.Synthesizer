@@ -59,6 +59,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 		}
 
 		/// <summary> Determines the Outlet display name based on its name, dimension or position. </summary>
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		public virtual string GetOutletDisplayName(Outlet outlet)
 		{
 			if (outlet == null) throw new NullException(() => outlet);

@@ -1156,4 +1156,13 @@
   <data name="ToneValue" xml:space="preserve">
     <value>Tone Value</value>
   </data>
+  <data name="LagBehind" xml:space="preserve">
+    <value>Lag Behind</value>
+  </data>
+  <data name="LookAhead" xml:space="preserve">
+    <value>Look Ahead</value>
+  </data>
+  <data name="LookAheadOrLagBehind" xml:space="preserve">
+    <value>Look Ahead / Lag Behind</value>
+  </data>
 </root>

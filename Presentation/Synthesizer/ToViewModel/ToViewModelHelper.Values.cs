@@ -10,7 +10,6 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Mathematics;
@@ -212,7 +211,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return true;
 		}
 
-		public static string GetInletCaption(Inlet inlet, ICurveRepository curveRepository)
+		public static string GetInletCaption(Inlet inlet)
 		{
 			var sb = new StringBuilder();
 

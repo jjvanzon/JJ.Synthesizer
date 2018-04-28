@@ -23,8 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			double a = _calculatorA.Calculate();
 			double b = _calculatorB.Calculate();
 
-			if (a <= b) return 1.0;
-			else return 0.0;
+			return a <= b ? 1.0 : 0.0;
 		}
 	}
 }

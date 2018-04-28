@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
-using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -13,7 +11,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Framework.Business;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.IO;
@@ -30,19 +27,6 @@ namespace JJ.Business.Synthesizer
 			_repositories = repositories ?? throw new NullException(() => repositories);
 		}
 
-		// Validate
-
-		public VoidResult Save(Sample entity)
-		{
-			if (entity == null) throw new NullException(() => entity);
-
-			byte[] bytes = _repositories.SampleRepository.TryGetBytes(entity.ID);
-
-			IValidator validator = new SampleValidator(entity, bytes);
-
-			return validator.ToResult();
-		}
-
 		// Create
 
 		public SampleInfo CreateSample(byte[] bytes, AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
@@ -52,6 +36,7 @@ namespace JJ.Business.Synthesizer
 			return CreateSample(stream, bytes, audioFileFormatEnum);
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		public SampleInfo CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
 		{
 			if (stream == null) throw new NullException(() => stream);
@@ -64,6 +49,7 @@ namespace JJ.Business.Synthesizer
 		// Misc
 
 		/// <summary> Returns a calculator for each channel. </summary>
+		// ReSharper disable once UnusedMember.Global
 		public IList<ICalculatorWithPosition> CreateCalculators(Sample sample, byte[] bytes)
 		{
 			IList<ArrayDto> dtos = SampleArrayDtoFactory.CreateArrayDtos(sample, bytes);
@@ -81,7 +67,7 @@ namespace JJ.Business.Synthesizer
 			{
 				audioFileFormatEnum = DetectAudioFileFormat(stream, bytes);
 			}
-			
+
 			switch (audioFileFormatEnum)
 			{
 				case AudioFileFormatEnum.Wav:
@@ -127,10 +113,6 @@ namespace JJ.Business.Synthesizer
 			var wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
 			stream.Position = 0;
 
-			// Validate header
-			IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
-			validator.Assert();
-
 			// Create Sample
 			Sample sample = CreateWavSampleFromHeader(wavHeaderStruct);
 			_repositories.SampleRepository.SetBytes(sample.ID, bytes);
@@ -144,7 +126,7 @@ namespace JJ.Business.Synthesizer
 
 		private Sample CreateWavSampleFromHeader(WavHeaderStruct wavHeaderStruct)
 		{
-			AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
+			AudioFileInfo audioFileInfo = WavHeaderFacade.GetAudioFileInfoFromWavHeaderStruct(wavHeaderStruct);
 
 			Sample sample = CreateSampleEntity();
 
@@ -182,7 +164,7 @@ namespace JJ.Business.Synthesizer
 
 			return sample;
 		}
-		
+
 		private SampleInfo CreateRawSample(byte[] bytes)
 		{
 			Sample sample = CreateSampleEntity();

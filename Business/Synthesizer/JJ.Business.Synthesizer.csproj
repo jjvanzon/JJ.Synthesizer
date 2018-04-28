@@ -158,7 +158,10 @@
     <Compile Include="Calculation\Operators\HighShelfFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Cubic_LookAhead.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LookAhead.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Random_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Remainder_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SineWithRate1_OperatorCalculator.cs" />
@@ -175,13 +178,12 @@
     <Compile Include="Dto\MidiMappingDto.cs" />
     <Compile Include="Dto\Operators\DoubleToBoolean_OperatorDto.cs" />
     <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
-    <Compile Include="Dto\DocumentReferencePatchGroupDto.cs" />
     <Compile Include="Dto\ArrayDto.cs" />
+    <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation_AndLookAheadOrLagBehind.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithInterpolation.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_PositionReader.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_PositionTransformation.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithAggregateInfo.cs" />
-    <Compile Include="Dto\Operators\IOperatorDto_WithOutletPosition.cs" />
     <Compile Include="Dto\Operators\IOperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_InputsOnly.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_PositionReader.cs" />
@@ -191,7 +193,6 @@
     <Compile Include="Dto\Operators\IOperatorDto_WithSignal.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithSignal_WithDimension.cs" />
     <Compile Include="Dto\Operators\IOperatorDto_WithAdditionalChannelDimension.cs" />
-    <Compile Include="Dto\Operators\IOperatorDto_WithTargetChannelCount.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithoutInputs.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_Filter_VarSound.cs" />
@@ -200,9 +201,10 @@
     <Compile Include="Dto\Operators\OperatorDtoBase_WithSound.cs" />
     <Compile Include="Dto\Operators\Remainder_OperatorDto.cs" />
     <Compile Include="Dto\ToneDto.cs" />
+    <Compile Include="Enums\LookAheadOrLagBehindEnum.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind.cs" />
     <Compile Include="Enums\EntityTypeEnum.cs" />
     <Compile Include="Enums\MidiMappingTypeEnum.cs" />
-    <Compile Include="Extensions\IMidiMappingExtensions.cs" />
     <Compile Include="Extensions\InheritExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentReferenceExtensions.cs" />
@@ -226,7 +228,6 @@
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous.cs" />
     <Compile Include="Calculation\Operators\ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset.cs" />
     <Compile Include="Calculation\Operators\AllPassFilter_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\RangeOverOutlets_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_SamplerOverDimension.cs" />
     <Compile Include="Calculation\Operators\SortOverInlets_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous.cs" />
@@ -255,7 +256,6 @@
     <Compile Include="Calculation\Operators\Cache OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Hold_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator_WithPositionOutput.cs" />
-    <Compile Include="Calculation\Operators\GetPosition_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\ToggleTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MinFollower_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\MaxOrMinFollower_OperatorCalculatorBase.cs" />
@@ -277,7 +277,6 @@
     <Compile Include="Calculation\Operators\LowPassFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
     <Compile Include="Calculation\Operators\Squash OperatorCalculator Classes.cs" />
-    <Compile Include="Calculation\Operators\OperatorCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\ChangeTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\PulseTrigger_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Random_OperatorCalculator_Block.cs" />
@@ -341,6 +340,7 @@
     <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Base.cs" />
     <Compile Include="SideEffects\Tone_SideEffect_SetDefaults_Versatile.cs" />
     <Compile Include="SystemFacade.cs" />
+    <Compile Include="Validation\DataProperty\LookAheadOrLagBehind_DataProperty_Validator.cs" />
     <Compile Include="Validation\DataProperty\Position_DataProperty_Validator.cs" />
     <Compile Include="Validation\DimensionInfoValidator.cs" />
     <Compile Include="Validation\DocumentReferences\DocumentReferenceValidator_Basic.cs" />
@@ -362,9 +362,11 @@
     <Compile Include="Validation\Operators\OperatorValidator_SetOutletCount.cs" />
     <Compile Include="Validation\InletOrOutletValidator.cs" />
     <Compile Include="Validation\Operators\OperatorValidator_Basic.cs" />
+    <Compile Include="Validation\Operators\OperatorValidator_WithInterpolation_AndLookAheadOrLagBehind.cs" />
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_LookAhead.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterDtoPreprocessing.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewriting.cs" />
@@ -456,7 +458,6 @@
     <Compile Include="Dto\Operators\Divide_OperatorDto.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase_WithAAndB.cs" />
     <Compile Include="Dto\Operators\OperatorDtoBase.cs" />
-    <Compile Include="Dto\Operators\OperatorDtoBase_WithFrequency.cs" />
     <Compile Include="Dto\Operators\Power_OperatorDto.cs" />
     <Compile Include="Dto\Operators\VariableInput_OperatorDto.cs" />
     <Compile Include="Dto\AggregateInfo.cs" />
@@ -536,7 +537,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
     <Compile Include="Helpers\RepositoryWrapper.cs" />
-    <Compile Include="Helpers\SampleDataTypeHelper.cs" />
+    <Compile Include="Extensions\SampleDataTypeHelper.cs" />
     <Compile Include="Extensions\SampleExtensions.cs" />
     <Compile Include="Helpers\SampleRepositories.cs" />
     <Compile Include="Helpers\AudioFileInfo.cs" />
@@ -585,7 +586,7 @@
     <Compile Include="Warnings\InletWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Cache_OperatorWarningValidator.cs" />
     <Compile Include="Warnings\Operators\Spectrum_OperatorWarningValidator.cs" />
-    <Compile Include="WavHeaderManager.cs" />
+    <Compile Include="WavHeaderFacade.cs" />
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -1,7 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading;
-using JJ.Framework.Exceptions.Aggregates;
-using JJ.Framework.Exceptions.Comparative;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -14,7 +12,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 	{
 		// Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static float InterlockedAdd(ref float location1, float value)
+		public static void InterlockedAdd(ref float location1, float value)
 		{
 			float newCurrentValue = 0;
 			while (true)
@@ -25,15 +23,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 				// ReSharper disable once CompareOfFloatsByEqualityOperator
 				if (newCurrentValue == currentValue)
 				{
-					return newValue;
+					return;
 				}
 			}
-		}
-
-		public static void AssertChannelIndex(int channelIndex, int channelCount)
-		{
-			if (channelIndex < 0) throw new LessThanException(() => channelIndex, 0);
-			if (channelIndex > channelCount - 1) throw new InvalidIndexException(() => channelIndex, () => channelCount);
 		}
 	}
 }

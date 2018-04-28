@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Extensions
@@ -23,6 +22,7 @@ namespace JJ.Business.Synthesizer.Extensions
 			return sample.GetDuration(bytes.Length);
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static double GetDuration(this Sample sample, long byteCount)
 		{
 			if (sample == null) throw new NullException(() => sample);
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Extensions
 							  // ReSharper disable once RedundantCast
 							  / (double)sample.SamplingRate
 							  // ReSharper disable once RedundantCast
-							  / (double)SampleDataTypeHelper.SizeOf(sample.SampleDataType)
+							  / (double)sample.SampleDataType.SizeOf()
 							  * sample.TimeMultiplier;
 			return duration;
 		}

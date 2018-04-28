@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {

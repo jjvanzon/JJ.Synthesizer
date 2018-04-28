@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return isUnique;
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static bool AudioFileOutputNameIsUnique(Document document, string name)
 		{
 			if (document == null) throw new NullException(() => document);
@@ -47,6 +48,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return isUnique;
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static bool DocumentNameIsUnique(Document document, IDocumentRepository documentRepository, string name)
 		{
 			if (document == null) throw new NullException(() => document);
@@ -58,8 +60,7 @@ namespace JJ.Business.Synthesizer.Validation
 
 			bool alreadyExists = documents.Where(x => x.ID != document.ID)
 										  .Select(x => x.Name)
-										  .Where(x => NameHelper.AreEqual(x, canonicalName))
-										  .Any();
+										  .Any(x => NameHelper.AreEqual(x, canonicalName));
 
 			bool isUnique = !alreadyExists;
 
@@ -82,6 +83,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return isUnique;
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static bool DocumentReference_LowerDocument_IsUnique(Document higherDocument, Document lowerDocument)
 		{
 			if (higherDocument == null) throw new NullException(() => higherDocument);
@@ -122,6 +124,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return isUnique;
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static bool DocumentReferenceAliasIsUnique(Document document, string alias)
 		{
 			if (document == null) throw new NullException(() => document);
@@ -151,6 +154,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return isUnique;
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static bool PatchNameIsUnique(Document document, string name)
 		{
 			if (document == null) throw new NullException(() => document);
@@ -180,6 +184,7 @@ namespace JJ.Business.Synthesizer.Validation
 			return isUnique;
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static bool ScaleNameIsUnique(Document document, string name)
 		{
 			if (document == null) throw new NullException(() => document);

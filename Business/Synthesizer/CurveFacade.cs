@@ -69,13 +69,14 @@ namespace JJ.Business.Synthesizer
 		public Curve Create(params (double x, double y, NodeTypeEnum nodeTypeEnum)[] nodeTuples)
 				  => Create((IList<(double x, double y, NodeTypeEnum nodeTypeEnum)>)nodeTuples);
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public Curve Create(IList<(double x, double y, NodeTypeEnum nodeTypeEnum)> nodeTuples)
 		{
 			if (nodeTuples == null) throw new NullException(() => nodeTuples);
 
 			Curve curve = CreateWithoutNodes();
 
-			foreach (var (x, y, nodeTypeEnum) in nodeTuples)
+			foreach ((double x, double y, NodeTypeEnum nodeTypeEnum) in nodeTuples)
 			{
 				Node node = CreateNode(curve);
 				node.X = x;
@@ -91,6 +92,7 @@ namespace JJ.Business.Synthesizer
 			      => Create(xSpan, (IList<(double y, NodeTypeEnum nodeTypeEnum)?>)nodeTuples);
 
 		/// <param name="nodeTuples">When an item is null, a node will not be created at that point in time.</param>
+		// ReSharper disable once MemberCanBePrivate.Global
 		public Curve Create(double xSpan, IList<(double y, NodeTypeEnum nodeTypeEnum)?> nodeTuples)
 		{
 			if (nodeTuples == null) throw new NullException(() => nodeTuples);
@@ -125,6 +127,7 @@ namespace JJ.Business.Synthesizer
 				  => Create(xSpan, (IList<double?>)yValues);
 
 		/// <param name="yValues">When a value is null, a node will not be created at that point in time.</param>
+		// ReSharper disable once MemberCanBePrivate.Global
 		public Curve Create(double xSpan, IList<double?> yValues)
 		{
 			if (yValues == null) throw new NullException(() => yValues);
@@ -155,6 +158,7 @@ namespace JJ.Business.Synthesizer
 			return curve;
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public Node CreateNode(Curve curve)
 		{
 			if (curve == null) throw new NullException(() => curve);
@@ -172,7 +176,7 @@ namespace JJ.Business.Synthesizer
 			if (curve.Nodes.Count < 2) throw new LessThanException(() => curve.Nodes.Count, 2);
 			if (afterNode == null) throw new NullException(() => afterNode);
 
-			IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.X).ToArray(); // TODO: Low priority: You could optimize this if there would be an isntance Curve.
+			IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.X).ToArray(); // TODO: Low priority: You could optimize this if there would be an instance Curve.
 			int afterNodeIndex = sortedNodes.IndexOf(afterNode);
 
 			bool isLastNode = afterNodeIndex == sortedNodes.Count - 1;
@@ -263,6 +267,7 @@ namespace JJ.Business.Synthesizer
 		}
 
 		/// <summary> Slower initialization, faster calculation. </summary>
+		// ReSharper disable once UnusedMember.Global
 		public ICalculatorWithPosition CreateOptimizedCalculator(Curve curve)
 		{
 			ArrayDto arrayDto = CurveArrayDtoFactory.ConvertToArrayDto(curve);

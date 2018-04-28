@@ -5,7 +5,6 @@ namespace JJ.Business.Synthesizer.Helpers
 {
 	public class SampleRepositories
 	{
-		public IDocumentRepository DocumentRepository { get; }
 		public ISampleRepository SampleRepository { get; }
 		public IAudioFileFormatRepository AudioFileFormatRepository { get; }
 		public ISampleDataTypeRepository SampleDataTypeRepository { get; }
@@ -17,7 +16,6 @@ namespace JJ.Business.Synthesizer.Helpers
 		{
 			if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-			DocumentRepository = repositoryWrapper.DocumentRepository;
 			SampleRepository = repositoryWrapper.SampleRepository;
 			AudioFileFormatRepository = repositoryWrapper.AudioFileFormatRepository;
 			SampleDataTypeRepository = repositoryWrapper.SampleDataTypeRepository;
@@ -25,9 +23,5 @@ namespace JJ.Business.Synthesizer.Helpers
 			InterpolationTypeRepository = repositoryWrapper.InterpolationTypeRepository;
 			IDRepository = repositoryWrapper.IDRepository;
 		}
-
-		public void Commit() => DocumentRepository.Commit();
-		public void Rollback() => DocumentRepository.Rollback();
-		public void Flush() => DocumentRepository.Flush();
 	}
 }

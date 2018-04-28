@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 {

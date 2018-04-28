@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 // ReSharper disable SuggestVarOrType_Elsewhere
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {

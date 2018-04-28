@@ -4,8 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class DimensionToOutlets_Outlet_OperatorDto 
-		: OperatorDtoBase_PositionTransformation, IOperatorDto_WithOutletPosition
+	internal class DimensionToOutlets_Outlet_OperatorDto : OperatorDtoBase_PositionTransformation
 	{
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.DimensionToOutlets;
 

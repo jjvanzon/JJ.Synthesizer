@@ -89,6 +89,5 @@ namespace JJ.Business.Synthesizer.Helpers
 
 		public void Commit() => DocumentRepository.Commit();
 		public void Rollback() => DocumentRepository.Rollback();
-		public void Flush() => DocumentRepository.Flush();
 	}
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Collections;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
@@ -10,7 +11,6 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.InletsToDimension;
 
 		public InterpolationTypeEnum InterpolationTypeEnum { get; set; }
-
 		public IList<InputDto> InputsExceptPosition { get; set; }
 
 		public override IReadOnlyList<InputDto> Inputs

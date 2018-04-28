@@ -99,6 +99,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				return InputDtoFactory.CreateInputDto(inputOperatorDto);
 			}
+			// ReSharper disable once RedundantIfElseBlock
 			else
 			{
 				// PositionReaders that have Position inputs that are not position transformations,

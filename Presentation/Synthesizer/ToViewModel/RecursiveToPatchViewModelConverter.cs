@@ -158,7 +158,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		private InletViewModel ConvertToViewModelRecursive(Inlet inlet)
 		{
-			InletViewModel viewModel = inlet.ToViewModel(_curveRepository);
+			InletViewModel viewModel = inlet.ToViewModel();
 
 			if (inlet.InputOutlet != null)
 			{

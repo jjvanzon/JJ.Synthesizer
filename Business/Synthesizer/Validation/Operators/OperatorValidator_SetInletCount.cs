@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 
 			For(newInletCount, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Inlets)).GreaterThanOrEqual(1);
 
-			if (!op.Inlets.Where(x => x.IsRepeating).Any())
+			if (!op.Inlets.Any(x => x.IsRepeating))
 			{
 				Messages.Add(ResourceFormatter.CannotSetInletCountWithoutRepeatingInlets);
 			}

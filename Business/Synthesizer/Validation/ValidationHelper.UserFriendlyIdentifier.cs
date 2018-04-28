@@ -13,12 +13,12 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Resources;
 using JJ.Framework.Text;
 using JJ.Framework.Validation.Resources;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Validation
 {
 	/// <summary>
-	/// Identifiers in this case are user-friendly identifications of an entity.
-	/// They are used in places where the data might not be valid yet,
+	/// 'UserFriendlyIdentifiers' are used in places where the data might not be valid yet,
 	/// so contains fallbacks to other means of identification.
 	/// It can happen that the identification is non-unique.
 	/// But they attempt to be the clearest identification to the user.

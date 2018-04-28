@@ -25,6 +25,7 @@ using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Validation;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer
 {
@@ -462,7 +463,7 @@ namespace JJ.Business.Synthesizer
 		{
 			if (ownerOperator == null) throw new NullException(() => ownerOperator);
 
-			foreach (Operator ownedOperator in ownerOperator.GetOwnedOperators().ToArray())
+			foreach (Operator ownedOperator in ownerOperator.GetOwnedOperators())
 			{
 				DeleteOperatorWithRelatedEntities(ownedOperator);
 			}

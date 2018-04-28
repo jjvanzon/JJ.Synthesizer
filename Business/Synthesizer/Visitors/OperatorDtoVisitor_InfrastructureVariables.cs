@@ -93,33 +93,32 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto(SampleWithRate1_OperatorDto dto)
 		{
-			return Process_OperatorDto_WithTargetChannelCount(dto);
+			return Process_SampleWithRate1_OperatorDto(dto);
 		}
 
 		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto)
 		{
-			return Process_OperatorDto_WithTargetChannelCount(dto);
+			return Process_SampleWithRate1_OperatorDto(dto);
 		}
 
 		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto)
 		{
-			return Process_OperatorDto_WithTargetChannelCount(dto);
+			return Process_SampleWithRate1_OperatorDto(dto);
 		}
 
 		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto)
 		{
-			return Process_OperatorDto_WithTargetChannelCount(dto);
+			return Process_SampleWithRate1_OperatorDto(dto);
 		}
 
 		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto)
 		{
-			return Process_OperatorDto_WithTargetChannelCount(dto);
+			return Process_SampleWithRate1_OperatorDto(dto);
 		}
 
-		private IOperatorDto Process_OperatorDto_WithTargetChannelCount(IOperatorDto_WithTargetChannelCount dto)
+		private IOperatorDto Process_SampleWithRate1_OperatorDto(SampleWithRate1_OperatorDto dto)
 		{
 			dto.TargetChannelCount = _targetChannelCount;
-
 			return dto;
 		}
 	}

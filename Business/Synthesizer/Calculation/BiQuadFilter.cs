@@ -33,6 +33,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Mathematics;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer.Calculation
 {

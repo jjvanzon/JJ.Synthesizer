@@ -5,10 +5,7 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 {
 	internal class OperatorDtoVisitor_MachineOptimization : OperatorDtoVisitorBase_AfterMathSimplification
 	{
-		public IOperatorDto Execute(IOperatorDto dto)
-		{
-			return Visit_OperatorDto_Polymorphic(dto);
-		}
+		public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
 
 		protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
 		{
@@ -21,16 +18,10 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 				return new Number_OperatorDto_NaN();
 			}
 
-			// ReSharper disable once CompareOfFloatsByEqualityOperator
-			if (value == 1.0)
+			switch (value)
 			{
-				return new Number_OperatorDto_One();
-			}
-
-			// ReSharper disable once CompareOfFloatsByEqualityOperator
-			if (value == 0.0)
-			{
-				return new Number_OperatorDto_Zero();
+				case 1.0: return new Number_OperatorDto_One();
+				case 0.0: return new Number_OperatorDto_Zero();
 			}
 
 			return dto;

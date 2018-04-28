@@ -116,12 +116,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Create Presenters
 			_audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_audioFileOutputFacade, _repositories.DocumentRepository);
-			_audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(_audioFileOutputFacade, _repositories.AudioFileOutputRepository);
+			_audioFileOutputPropertiesPresenter =
+				new AudioFileOutputPropertiesPresenter(_audioFileOutputFacade, _repositories.AudioFileOutputRepository);
 			_audioOutputPropertiesPresenter = new AudioOutputPropertiesPresenter(
 				_repositories.AudioOutputRepository,
 				_repositories.SpeakerSetupRepository,
 				_repositories.IDRepository);
-			_instrumentBarPresenter = new InstrumentBarPresenter(_autoPatcher, _systemFacade, _repositories.DocumentRepository, _repositories.MidiMappingGroupRepository, _repositories.PatchRepository, _repositories.ScaleRepository);
+			_instrumentBarPresenter = new InstrumentBarPresenter(
+				_autoPatcher,
+				_systemFacade,
+				_repositories.DocumentRepository,
+				_repositories.MidiMappingGroupRepository,
+				_repositories.PatchRepository,
+				_repositories.ScaleRepository);
 			_curveDetailsPresenter = new CurveDetailsPresenter(_repositories.CurveRepository, _repositories.NodeRepository, _curveFacade);
 			_documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
 			_documentDeletedPresenter = new DocumentDeletedPresenter();
@@ -282,7 +289,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			//  And you require an ORM query, because it Operator.Curve does not have an inverse property Curve.Operator.
 			//  And the inverse property is not there, because inverse properties are hacky for 1-to-1 relationships with ORM.
 			//  And an intermediate flush would not work, if the there are integrity problems, that cannot be persisted to the database.)
-			OperatorPropertiesViewModel_ForCurve propertiesViewModel = ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByCurveID(MainViewModel.Document, curveID);
+			OperatorPropertiesViewModel_ForCurve propertiesViewModel =
+				ViewModelSelector.GetOperatorPropertiesViewModel_ForCurve_ByCurveID(MainViewModel.Document, curveID);
 			int operatorID = propertiesViewModel.ID;
 			return operatorID;
 		}
@@ -290,14 +298,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// <summary> Includes the owned operators' IDs. </summary>
 		private IList<int> GetOperatorIDsToDelete(int patchID, int? operatorID)
 		{
-			if (!operatorID.HasValue)
+			switch (operatorID)
 			{
-				return new int[0];
-			}
-
-			if (operatorID == 0)
-			{
-				return new int[0];
+				case null: return new int[0];
+				case 0: return new int[0];
 			}
 
 			OperatorViewModel operatorViewModel = ViewModelSelector.GetOperatorViewModel(MainViewModel.Document, patchID, operatorID.Value);

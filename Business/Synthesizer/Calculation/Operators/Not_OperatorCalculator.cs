@@ -21,8 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			// ReSharper disable once CompareOfFloatsByEqualityOperator
 			bool isFalse = number == 0.0;
 
-			if (isFalse) return 1.0;
-			else return 0.0;
+			return isFalse ? 1.0 : 0.0;
 		}
 	}
 }

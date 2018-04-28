@@ -10,8 +10,6 @@ namespace JJ.Business.Synthesizer.Helpers
 		public ISampleDataTypeRepository SampleDataTypeRepository { get; }
 		public ISpeakerSetupRepository SpeakerSetupRepository { get; }
 		public IOutletRepository OutletRepository { get; }
-		public ICurveRepository CurveRepository { get; }
-		public ISampleRepository SampleRepository { get; }
 		public IIDRepository IDRepository { get; }
 
 		public AudioFileOutputRepositories(RepositoryWrapper repositoryWrapper)
@@ -23,13 +21,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			SampleDataTypeRepository = repositoryWrapper.SampleDataTypeRepository;
 			SpeakerSetupRepository = repositoryWrapper.SpeakerSetupRepository;
 			OutletRepository = repositoryWrapper.OutletRepository;
-			CurveRepository = repositoryWrapper.CurveRepository;
-			SampleRepository = repositoryWrapper.SampleRepository;
 			IDRepository = repositoryWrapper.IDRepository;
 		}
-
-		public void Commit() => AudioFileOutputRepository.Commit();
-		public void Rollback() => AudioFileOutputRepository.Rollback();
-		public void Flush() => AudioFileOutputRepository.Flush();
 	}
 }

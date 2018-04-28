@@ -128,19 +128,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Inlet
 
-		public static InletViewModel ToViewModel(this Inlet entity, ICurveRepository curveRepository)
+		public static InletViewModel ToViewModel(this Inlet entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
 			var viewModel = new InletViewModel();
 
-			entity.ToViewModel(viewModel, curveRepository);
+			entity.ToViewModel(viewModel);
 
 			return viewModel;
 		}
 
 		/// <summary> Overload for in-place refreshing of a view model </summary>
-		public static void ToViewModel(this Inlet entity, InletViewModel viewModel, ICurveRepository curveRepository)
+		public static void ToViewModel(this Inlet entity, InletViewModel viewModel)
 		{
 			if (entity == null) throw new NullException(() => entity);
 			if (viewModel == null) throw new NullException(() => viewModel);
@@ -156,7 +156,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.IsRepeating = entity.IsRepeating;
 			viewModel.RepetitionPosition = entity.RepetitionPosition;
 			viewModel.Visible = ToViewModelHelper.GetInletVisible(entity);
-			viewModel.Caption = ToViewModelHelper.GetInletCaption(entity, curveRepository);
+			viewModel.Caption = ToViewModelHelper.GetInletCaption(entity);
 			viewModel.ConnectionDistance = ToViewModelHelper.TryGetConnectionDistance(entity);
 
 			if (entity.Dimension != null)

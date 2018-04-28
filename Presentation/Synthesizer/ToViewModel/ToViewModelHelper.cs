@@ -121,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					destOperatorViewModel.Inlets.Add(inletViewModel);
 				}
 
-				inlet.ToViewModel(inletViewModel, curveRepository);
+				inlet.ToViewModel(inletViewModel);
 
 				inletViewModelsToKeep.Add(inletViewModel);
 			}

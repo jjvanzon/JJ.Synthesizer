@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer
 			_idRepository = idRepository ?? throw new NullException(() => idRepository);
 		}
 
+		// ReSharper disable once UnusedMethodReturnValue.Global
 		public AudioOutput CreateWithDefaults(Document document)
 		{
 			if (document == null) throw new NullException(() => document);

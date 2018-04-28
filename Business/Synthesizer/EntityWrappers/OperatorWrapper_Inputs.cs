@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -77,8 +78,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
 		// Enumerable
 
-		public IEnumerator<Outlet> GetEnumerator() => InletOutletSelector.GetSortedInputOutlets(_operator).GetEnumerator();
-		IEnumerator IEnumerable.GetEnumerator() => InletOutletSelector.GetSortedInputOutlets(_operator).GetEnumerator();
+		public IEnumerator<Outlet> GetEnumerator() => InletOutletSelector.EnumerateSortedInputOutlets(_operator).GetEnumerator();
+		IEnumerator IEnumerable.GetEnumerator() => InletOutletSelector.EnumerateSortedInputOutlets(_operator).GetEnumerator();
 
 		// Helpers
 

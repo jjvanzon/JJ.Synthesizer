@@ -306,17 +306,15 @@ namespace JJ.Business.Synthesizer
 			{
 				return new Result<Outlet>(ResourceFormatter.PatchHasNoOutlets);
 			}
-			else
-			{
-				Outlet add = operatorFactory.Add(soundOutlets);
-				Outlet patchOutlet = operatorFactory.PatchOutlet(DimensionEnum.Sound, add);
 
-				return new Result<Outlet>
-				{
-					Successful = true,
-					Data = patchOutlet
-				};
-			}
+			Outlet add = operatorFactory.Add(soundOutlets);
+			Outlet patchOutlet = operatorFactory.PatchOutlet(DimensionEnum.Sound, add);
+
+			return new Result<Outlet>
+			{
+				Successful = true,
+				Data = patchOutlet
+			};
 		}
 
 		/// <summary> In case no sound outlets are present, all outlets are returned. </summary>
@@ -373,14 +371,12 @@ namespace JJ.Business.Synthesizer
 			{
 				return new Result<Outlet>(ResourceFormatter.NoSoundFound);
 			}
-			else
+
+			return new Result<Outlet>
 			{
-				return new Result<Outlet>
-				{
-					Successful = true,
-					Data = soundOutlet
-				};
-			}
+				Successful = true,
+				Data = soundOutlet
+			};
 		}
 
 		/// <summary> Can be used to for instance quickly generate an example sound from a document used as library. </summary>
@@ -396,14 +392,12 @@ namespace JJ.Business.Synthesizer
 			{
 				return new Result<Outlet>(ResourceFormatter.NoSoundFound);
 			}
-			else
+
+			return new Result<Outlet>
 			{
-				return new Result<Outlet>
-				{
-					Successful = true,
-					Data = soundOutlet
-				};
-			}
+				Successful = true,
+				Data = soundOutlet
+			};
 		}
 
 		/// <summary> Can be used to for instance quickly generate an example sound from a patch group. </summary>
@@ -418,14 +412,12 @@ namespace JJ.Business.Synthesizer
 			{
 				return new Result<Outlet>(ResourceFormatter.NoSoundFound);
 			}
-			else
+
+			return new Result<Outlet>
 			{
-				return new Result<Outlet>
-				{
-					Successful = true,
-					Data = soundOutlet
-				};
-			}
+				Successful = true,
+				Data = soundOutlet
+			};
 		}
 
 		// ReSharper disable once ReturnTypeCanBeEnumerable.Local
@@ -433,10 +425,10 @@ namespace JJ.Business.Synthesizer
 		{
 			IList<Outlet> patches2 = patches.Where(x => !x.Hidden || mustIncludeHidden)
 											.Where(
-												x => !x.EnumerateOperatorsOfType(OperatorTypeEnum.PatchInlet)
+				                                // ReSharper disable once SimplifyLinqExpression
+				                                x => !x.EnumerateOperatorsOfType(OperatorTypeEnum.PatchInlet)
 													   .Select(y => new PatchInletOrOutlet_OperatorWrapper(y))
-													   .Where(y => y.Inlet.GetDimensionEnumWithFallback() == DimensionEnum.Sound)
-													   .Any())
+													   .Any(y => y.Inlet.GetDimensionEnumWithFallback() == DimensionEnum.Sound))
 											.OrderBy(x => x.Name)
 											.SelectMany(
 												x => x.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)

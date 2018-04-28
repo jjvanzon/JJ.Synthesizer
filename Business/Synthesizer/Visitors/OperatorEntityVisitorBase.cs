@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ OperatorTypeEnum.MaxOverInlets, VisitMaxOverInletsInlet },
 				{ OperatorTypeEnum.MinOverInlets, VisitMinOverInletsInlet },
 				{ OperatorTypeEnum.Multiply, VisitMultiplyInlet },
-				{ OperatorTypeEnum.SortOverInlets, VisitSortOverInletsInlet },
+				{ OperatorTypeEnum.SortOverInlets, VisitSortOverInletsInlet }
 			};
 
 			_visitOutletDelegateDictionary = new Dictionary<OperatorTypeEnum, Action<Outlet>>
@@ -105,13 +105,13 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ OperatorTypeEnum.RangeOverOutlets, VisitRangeOverOutletsOutlet },
 				{ OperatorTypeEnum.SortOverInlets, VisitSortOverInletsOutlet },
 				{ OperatorTypeEnum.Sample, VisitSampleOutlet },
-				{ OperatorTypeEnum.Undefined, VisitDerivedOperatorOutlet },
+				{ OperatorTypeEnum.Undefined, VisitDerivedOperatorOutlet }
 			};
 		}
 
 		protected bool HasOutletVisitation(Outlet outlet) => HasOutletVisitation(outlet.Operator);
 		protected bool HasOutletVisitation(Operator op) => HasOutletVisitation(op.GetOperatorTypeEnum());
-		protected bool HasOutletVisitation(OperatorTypeEnum operatorTypeEnum) => _visitOutletDelegateDictionary.ContainsKey(operatorTypeEnum);
+		private bool HasOutletVisitation(OperatorTypeEnum operatorTypeEnum) => _visitOutletDelegateDictionary.ContainsKey(operatorTypeEnum);
 
 		// General
 
@@ -133,6 +133,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		}
 
 		/*[DebuggerHidden]*/
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual void VisitOperatorBase(Operator op)
 		{
 			if (op == null) throw new NullException(() => op);
@@ -147,6 +148,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		/// Usually this is the behavior that is needed.
 		/// </summary>
 		/*[DebuggerHidden]*/
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual void VisitInlets(IList<Inlet> inlets)
 		{
 			IEnumerable<Inlet> sortedInlets = inlets.Sort().Where(x => !x.IsObsolete).Reverse();
@@ -157,6 +159,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		}
 
 		/*[DebuggerHidden]*/
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual void VisitInletPolymorphic(Inlet inlet)
 		{
 			OperatorTypeEnum operatorTypeEnum = inlet.Operator.GetOperatorTypeEnum();
@@ -175,6 +178,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected virtual void VisitInletOther(Inlet inlet) => VisitInletBase(inlet);
 
 		/*[DebuggerHidden]*/
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual void VisitInletBase(Inlet inlet)
 		{
 			Outlet outlet = inlet.InputOutlet;
@@ -203,9 +207,11 @@ namespace JJ.Business.Synthesizer.Visitors
 		}
 
 		/*[DebuggerHidden]*/
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual void VisitOutletOther(Outlet outlet) => VisitOutletBase(outlet);
 
 		/*[DebuggerHidden]*/
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual void VisitOutletBase(Outlet outlet) => VisitOperatorPolymorphic(outlet.Operator);
 
 		// Operators
@@ -346,6 +352,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected virtual void VisitPatchInlet(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual void VisitPatchOutlet(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/

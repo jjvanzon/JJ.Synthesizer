@@ -1,7 +1,9 @@
-﻿namespace JJ.Business.Synthesizer.Configuration
+﻿
+namespace JJ.Business.Synthesizer.Configuration
 {
 	public enum CalculationMethodEnum
 	{
+		// ReSharper disable once UnusedMember.Global
 		Undefined,
 		CalculatorClasses,
 		Roslyn,

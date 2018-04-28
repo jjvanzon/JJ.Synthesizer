@@ -13,7 +13,6 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 		protected readonly double _maxPosition;
 		protected readonly double _length;
 		protected readonly double _rate;
-		protected readonly double _tickCount;
 
 		/// <param name="extraTicksBefore">You can let this base class add extra ticks _array for interpolation purposes.</param>
 		public ArrayCalculatorBase(
@@ -35,11 +34,10 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 			_array = array;
 
 			int tickCountInt = _array.Length;
-			_tickCount = tickCountInt;
 
 			_minPosition = minPosition;
 			_rate = rate;
-			_maxPosition = _minPosition + (_tickCount - 1) / _rate; // 11 positions = 10 pieces of length.
+			_maxPosition = _minPosition + (tickCountInt - 1) / _rate; // 11 positions = 10 pieces of length.
 
 			_length = _maxPosition - _minPosition;
 

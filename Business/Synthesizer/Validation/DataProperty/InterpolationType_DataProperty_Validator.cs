@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 			// ReSharper disable once InvertIf
 			if (DataPropertyParser.DataIsWellFormed(data))
 			{
-				string stringValue = DataPropertyParser.TryGetString(data, nameof(Cache_OperatorWrapper.InterpolationType));
+				string stringValue = DataPropertyParser.TryGetString(data, nameof(OperatorWrapper_WithInterpolation.InterpolationType));
 
 				For(stringValue, ResourceFormatter.InterpolationType)
 					.NotNullOrEmpty()

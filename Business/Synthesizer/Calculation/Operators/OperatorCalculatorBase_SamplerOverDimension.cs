@@ -5,12 +5,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	internal abstract class OperatorCalculatorBase_SamplerOverDimension
 		: OperatorCalculatorBase_WithChildCalculators
 	{
-		protected readonly OperatorCalculatorBase _collectionCalculator;
-		protected readonly OperatorCalculatorBase _fromCalculator;
-		protected readonly OperatorCalculatorBase _tillCalculator;
-		protected readonly OperatorCalculatorBase _stepCalculator;
+		private readonly OperatorCalculatorBase _collectionCalculator;
+		private readonly OperatorCalculatorBase _fromCalculator;
+		private readonly OperatorCalculatorBase _tillCalculator;
+		private readonly OperatorCalculatorBase _stepCalculator;
 		protected readonly OperatorCalculatorBase _positionInputCalculator;
-		protected readonly VariableInput_OperatorCalculator _positionOutputCalculator;
+		private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
 
 		protected double _step;
 		protected double _length;

@@ -1,7 +1,7 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
-using System;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		}
 
 		/// <summary>In case dimension is 'Inherit', the dimension is resolved from context.</summary>
-		public static Dimension GetStandardDimensionWithFallback(this Operator op)
+		private static Dimension GetStandardDimensionWithFallback(this Operator op)
 		{
 			if (op == null) throw new ArgumentNullException(nameof(op));
 

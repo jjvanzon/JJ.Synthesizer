@@ -92,13 +92,8 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected override void VisitAverageFollower(Operator op) => ProcessPolymorphicRecursive(op, new AverageFollower_OperatorDto());
 		protected override void VisitAverageOverDimension(Operator op) => ProcessPolymorphicRecursive(op, new AverageOverDimension_OperatorDto());
 		protected override void VisitAverageOverInlets(Operator op) => ProcessPolymorphicRecursive(op, new AverageOverInlets_OperatorDto());
-
-		protected override void VisitBandPassFilterConstantPeakGain(Operator op)
-			=> ProcessPolymorphicRecursive(op, new BandPassFilterConstantPeakGain_OperatorDto());
-
-		protected override void VisitBandPassFilterConstantTransitionGain(Operator op)
-			=> ProcessPolymorphicRecursive(op, new BandPassFilterConstantTransitionGain_OperatorDto());
-
+		protected override void VisitBandPassFilterConstantPeakGain(Operator op) => ProcessPolymorphicRecursive(op, new BandPassFilterConstantPeakGain_OperatorDto());
+		protected override void VisitBandPassFilterConstantTransitionGain(Operator op) => ProcessPolymorphicRecursive(op, new BandPassFilterConstantTransitionGain_OperatorDto());
 		protected override void VisitChangeTrigger(Operator op) => ProcessPolymorphicRecursive(op, new ChangeTrigger_OperatorDto());
 		protected override void VisitClosestOverInlets(Operator op) => ProcessPolymorphicRecursive(op, new ClosestOverInlets_OperatorDto());
 		protected override void VisitClosestOverInletsExp(Operator op) => ProcessPolymorphicRecursive(op, new ClosestOverInletsExp_OperatorDto());
@@ -229,7 +224,6 @@ namespace JJ.Business.Synthesizer.Visitors
 		}
 
 		protected override void VisitRandomStripe(Operator op) => ProcessPolymorphicRecursive(op, new Random_OperatorDto());
-
 		protected override void VisitRangeOverDimension(Operator op) => ProcessPolymorphicRecursive(op, new RangeOverDimension_OperatorDto());
 
 		protected override void VisitRangeOverOutletsOutlet(Outlet outlet)
@@ -278,23 +272,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		protected override void VisitSetPosition(Operator op) => ProcessPolymorphicRecursive(op, new SetPosition_OperatorDto());
 		protected override void VisitSineWithRate1(Operator op) => ProcessPolymorphicRecursive(op, new SineWithRate1_OperatorDto());
-
-		protected override void VisitSortOverInletsOutlet(Outlet outlet)
-		{
-			base.VisitSortOverInletsOutlet(outlet);
-
-			var dto = new SortOverInlets_Outlet_OperatorDto();
-
-			ProcessPolymorphic(outlet.Operator, dto);
-
-			if (!outlet.RepetitionPosition.HasValue)
-			{
-				throw new NullException(() => outlet.RepetitionPosition);
-			}
-
-			dto.OutletPosition = outlet.RepetitionPosition.Value;
-		}
-
+		protected override void VisitSortOverInletsOutlet(Outlet outlet) => ProcessPolymorphicRecursive(outlet, new SortOverInlets_Outlet_OperatorDto());
 		protected override void VisitSortOverDimension(Operator op) => ProcessPolymorphicRecursive(op, new SortOverDimension_OperatorDto());
 		protected override void VisitSpectrum(Operator op) => ProcessPolymorphicRecursive(op, new Spectrum_OperatorDto());
 		protected override void VisitSquash(Operator op) => ProcessPolymorphicRecursive(op, new Squash_OperatorDto());
@@ -310,8 +288,13 @@ namespace JJ.Business.Synthesizer.Visitors
 		private void ProcessPolymorphicRecursive(Operator op, IOperatorDto dto)
 		{
 			VisitOperatorBase(op);
-
 			ProcessPolymorphic(op, dto);
+		}
+
+		private void ProcessPolymorphicRecursive(Outlet outlet, IOperatorDto dto)
+		{
+			VisitOutletBase(outlet);
+			ProcessPolymorphic(outlet.Operator, dto);
 		}
 
 		/// <summary>
@@ -344,6 +327,14 @@ namespace JJ.Business.Synthesizer.Visitors
 				{
 					var wrapper = new OperatorWrapper_WithInterpolation(op);
 					castedDto.InterpolationTypeEnum = wrapper.InterpolationType;
+				}
+			}
+
+			{
+				if (dto is IOperatorDto_WithInterpolation_AndLookAheadOrLagBehind castedDto)
+				{
+					var wrapper = new OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind(op);
+					castedDto.LookAheadOrLagBehindEnum = wrapper.LookAheadOrLagBehind;
 				}
 			}
 

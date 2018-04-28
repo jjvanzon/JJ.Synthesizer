@@ -11,7 +11,6 @@ namespace JJ.Business.Synthesizer.Helpers
 		public IMidiMappingRepository MidiMappingRepository { get; }
 		public IMidiMappingGroupRepository MidiMappingGroupRepository { get; }
 		public IMidiMappingTypeRepository MidiMappingTypeRepository { get; }
-		public IScaleRepository ScaleRepository { get; }
 
 		public MidiMappingRepositories(RepositoryWrapper repositoryWrapper)
 		{
@@ -23,7 +22,6 @@ namespace JJ.Business.Synthesizer.Helpers
 			MidiMappingRepository = repositoryWrapper.MidiMappingRepository;
 			MidiMappingGroupRepository = repositoryWrapper.MidiMappingGroupRepository;
 			MidiMappingTypeRepository = repositoryWrapper.MidiMappingTypeRepository;
-			ScaleRepository = repositoryWrapper.ScaleRepository;
 		}
 	}
 }

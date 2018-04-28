@@ -4,13 +4,9 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class SortOverInlets_Outlet_OperatorDto
-		: OperatorDtoBase_PositionReader,
-		  IOperatorDto_WithOutletPosition
+	internal class SortOverInlets_Outlet_OperatorDto : OperatorDtoBase_PositionReader
 	{
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SortOverInlets;
-
-		public int OutletPosition { get; set; }
 
 		public override IReadOnlyList<InputDto> Inputs
 		{

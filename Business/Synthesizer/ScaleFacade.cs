@@ -36,21 +36,13 @@ namespace JJ.Business.Synthesizer
 		{
 			if (document == null) throw new NullException(() => document);
 
-			Scale scale = Create(scaleTypeEnum);
-			scale.LinkTo(document);
-
-			new Scale_SideEffect_GenerateName(scale).Execute();
-
-			return scale;
-		}
-
-		public Scale Create(ScaleTypeEnum scaleTypeEnum)
-		{
 			var scale = new Scale { ID = _repositories.IDRepository.GetID() };
 			scale.SetScaleTypeEnum(scaleTypeEnum, _repositories.ScaleTypeRepository);
+			scale.LinkTo(document);
 			_repositories.ScaleRepository.Insert(scale);
 
 			new Scale_SideEffect_SetDefaults(scale, _repositories.ScaleTypeRepository).Execute();
+			new Scale_SideEffect_GenerateName(scale).Execute();
 
 			return scale;
 		}
@@ -126,6 +118,7 @@ namespace JJ.Business.Synthesizer
 			return tone;
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		public VoidResult SaveTone(Tone tone)
 		{
 			if (tone == null) throw new NullException(() => tone);
@@ -140,6 +133,7 @@ namespace JJ.Business.Synthesizer
 			DeleteTone(tone);
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public void DeleteTone(Tone tone)
 		{
 			if (tone == null) throw new NullException(() => tone);

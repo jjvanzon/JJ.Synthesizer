@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer
 			_repositories.DocumentRepository.Delete(document);
 
 			// Order-Dependence:
-			// You need to postpone deleting this 1-to-1 related entity till after deleting the document, 
+			// You need to postpone deleting this 1-to-1 related entity till after deleting the document,
 			// or ORM will try to update Document.AudioOutputID to null and crash.
 			if (document.AudioOutput != null)
 			{

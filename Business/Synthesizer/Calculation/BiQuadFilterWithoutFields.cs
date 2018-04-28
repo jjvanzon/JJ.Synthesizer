@@ -34,6 +34,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer.Calculation
 {

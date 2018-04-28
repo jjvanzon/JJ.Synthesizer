@@ -2,10 +2,11 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 // ReSharper disable SuggestVarOrType_Elsewhere
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {
-	internal class RangeOverOutlets_Outlet_OperatorDto : OperatorDtoBase, IOperatorDto_WithOutletPosition
+	internal class RangeOverOutlets_Outlet_OperatorDto : OperatorDtoBase
 	{
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.RangeOverOutlets;
 

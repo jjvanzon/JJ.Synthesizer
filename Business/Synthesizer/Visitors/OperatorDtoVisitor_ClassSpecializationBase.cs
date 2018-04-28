@@ -322,21 +322,37 @@ namespace JJ.Business.Synthesizer.Visitors
 			{
 				dto2 = new Interpolate_OperatorDto_Block();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LagBehind)
 			{
 				dto2 = new Interpolate_OperatorDto_Stripe_LagBehind();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Stripe && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LookAhead)
+			{
+				dto2 = new Interpolate_OperatorDto_Stripe_LookAhead();
+			}
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LagBehind)
 			{
 				dto2 = new Interpolate_OperatorDto_Line_LagBehind();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Line && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LookAhead)
+			{
+				dto2 = new Interpolate_OperatorDto_Line_LookAhead();
+			}
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LagBehind)
 			{
 				dto2 = new Interpolate_OperatorDto_Cubic_LagBehind();
 			}
-			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite)
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Cubic && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LookAhead)
+			{
+				dto2 = new Interpolate_OperatorDto_Cubic_LookAhead();
+			}
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LagBehind)
 			{
 				dto2 = new Interpolate_OperatorDto_Hermite_LagBehind();
+			}
+			else if (dto.InterpolationTypeEnum == InterpolationTypeEnum.Hermite && dto.LookAheadOrLagBehindEnum == LookAheadOrLagBehindEnum.LookAhead)
+			{
+				dto2 = new Interpolate_OperatorDto_Hermite_LookAhead();
 			}
 			else
 			{

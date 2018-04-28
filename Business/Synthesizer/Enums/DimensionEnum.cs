@@ -1,4 +1,5 @@
-﻿namespace JJ.Business.Synthesizer.Enums
+﻿// ReSharper disable UnusedMember.Global
+namespace JJ.Business.Synthesizer.Enums
 {
 	public enum DimensionEnum
 	{

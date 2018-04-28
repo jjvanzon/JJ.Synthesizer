@@ -85,6 +85,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		public static IList<Operator> GetOwnedOperators(this Operator op) => EnumerateOwnedOperators(op).ToArray();
 
 		/// <summary> A Number Operator can be considered 'owned' by another operator if it is the only operator it is connected to. </summary>
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static IEnumerable<Operator> EnumerateOwnedOperators(this Operator ownerOperator)
 		{
 			if (ownerOperator == null) throw new ArgumentNullException(nameof(ownerOperator));
@@ -115,7 +116,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
 			// Move owned operators along with the owner.
 
-			IEnumerable<Operator> ownedOperators = op.GetOwnedOperators();
+			IList<Operator> ownedOperators = op.GetOwnedOperators();
 			foreach (Operator ownedOperator in ownedOperators)
 			{
 				EntityPosition entityPosition2 = ownedOperator.EntityPosition;

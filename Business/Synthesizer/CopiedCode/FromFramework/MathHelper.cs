@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 {

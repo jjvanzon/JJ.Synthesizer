@@ -13,27 +13,26 @@ namespace JJ.Business.Synthesizer.Roslyn.Helpers
 			{
 				return "double.NaN";
 			}
-			else if (double.IsPositiveInfinity(value))
+
+			if (double.IsPositiveInfinity(value))
 			{
 				return "double.PositiveInfinity";
 			}
-			else if (double.IsNegativeInfinity(value))
+
+			if (double.IsNegativeInfinity(value))
 			{
 				return "double.NegativeInfinity";
 			}
+
+			if (value <= MAXIMUM_VALUE_WITHOUT_SCIENTIFIC_NOTATION)
+			{
+				string formattedValue = value.ToString("0.0###############", _formattingCulture);
+				return formattedValue;
+			}
 			else
 			{
-				if (value <= MAXIMUM_VALUE_WITHOUT_SCIENTIFIC_NOTATION)
-				{
-					string formattedValue = value.ToString("0.0###############", _formattingCulture);
-					return formattedValue;
-				}
-				else
-				{
-
-					string formattedValue = value.ToString("0.0###############E0", _formattingCulture);
-					return formattedValue;
-				}
+				string formattedValue = value.ToString("0.0###############E0", _formattingCulture);
+				return formattedValue;
 			}
 		}
 	}

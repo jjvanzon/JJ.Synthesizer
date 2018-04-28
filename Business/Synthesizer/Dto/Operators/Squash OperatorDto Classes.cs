@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
-
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable SuggestVarOrType_Elsewhere
 
 namespace JJ.Business.Synthesizer.Dto.Operators

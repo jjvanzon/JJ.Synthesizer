@@ -5,10 +5,10 @@ namespace JJ.Business.Synthesizer.Helpers
 {
 	public class ScaleRepositories
 	{
-		public IScaleRepository ScaleRepository { get; set; }
-		public IScaleTypeRepository ScaleTypeRepository { get; set; }
-		public IToneRepository ToneRepository { get; set; }
-		public IIDRepository IDRepository { get; set; }
+		public IScaleRepository ScaleRepository { get; }
+		public IScaleTypeRepository ScaleTypeRepository { get; }
+		public IToneRepository ToneRepository { get; }
+		public IIDRepository IDRepository { get; }
 
 		public ScaleRepositories(RepositoryWrapper repositoryWrapper)
 		{
@@ -19,9 +19,5 @@ namespace JJ.Business.Synthesizer.Helpers
 			ScaleTypeRepository = repositoryWrapper.ScaleTypeRepository;
 			IDRepository = repositoryWrapper.IDRepository;
 		}
-
-		public void Commit() => ScaleRepository.Commit();
-		public void Rollback() => ScaleRepository.Rollback();
-		public void Flush() => ScaleRepository.Flush();
 	}
 }

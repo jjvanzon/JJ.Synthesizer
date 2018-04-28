@@ -33,6 +33,13 @@ namespace JJ.Business.Synthesizer.Helpers
 			{
 				InputDto constInputDto = constInputDtos.Single();
 				varsConsts_InputDto.Const = constInputDto;
+
+				// Do not fall into this trap:
+				// Only assign ConstIsZero and ConstIsOne if there is a single const.
+				// Do not assign ConstIsZero and ConstIsOne if all consts are zero or one.
+				// It depends on the specific aggregation function (Sum, Product, Average, etc.)
+				// how multiple constants coalesce to 1 or 0,
+				// which is handled by MathSimplification.
 				varsConsts_InputDto.ConstIsZero = constInputDto.IsConstZero;
 				varsConsts_InputDto.ConstIsOne = constInputDto.IsConstOne;
 			}

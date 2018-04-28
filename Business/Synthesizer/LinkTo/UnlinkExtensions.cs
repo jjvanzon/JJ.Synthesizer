@@ -1,6 +1,7 @@
 ﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.Interfaces;
 using JJ.Framework.Exceptions.Basic;
+// ReSharper disable UnusedMember.Global
 
 // ReSharper disable RedundantCast
 

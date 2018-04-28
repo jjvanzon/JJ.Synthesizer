@@ -16,6 +16,8 @@ using JJ.Framework.Business;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.IO;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer
 {
@@ -589,19 +591,21 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public OperatorWrapper_WithInterpolation Interpolate(
+		public OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind Interpolate(
 			Outlet signal = null,
 			Outlet samplingRate = null,
 			InterpolationTypeEnum interpolationType = InterpolationTypeEnum.Cubic,
-			DimensionEnum? standardDimension = null,
-			string customDimension = null)
+			DimensionEnum? standardDimension = DimensionEnum.Time,
+			string customDimension = null,
+			LookAheadOrLagBehindEnum lookAheadOrLagBehind = LookAheadOrLagBehindEnum.LagBehind)
 		{
 			Operator op = NewWithDimension(standardDimension, customDimension);
 
-			var wrapper = new OperatorWrapper_WithInterpolation(op);
+			var wrapper = new OperatorWrapper_WithInterpolation_AndLookAheadOrLagBehind(op);
 			wrapper.Inputs[DimensionEnum.Signal] = signal;
 			wrapper.Inputs[DimensionEnum.SamplingRate] = samplingRate;
 			wrapper.InterpolationType = interpolationType;
+			wrapper.LookAheadOrLagBehind = lookAheadOrLagBehind;
 
 			return wrapper;
 		}
@@ -827,7 +831,7 @@ namespace JJ.Business.Synthesizer
 			return wrapper;
 		}
 
-		public Number_OperatorWrapper Number(double number = 0)
+		public Number_OperatorWrapper Number(double number)
 		{
 			Operator op = NewBase();
 
@@ -1518,45 +1522,19 @@ namespace JJ.Business.Synthesizer
 		/// </summary>
 		public OperatorWrapper New(Patch underlyingPatch, int variableInletOrOutletCount = 16)
 		{
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Absolute))) return Absolute();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Add))) return Add(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(AllPassFilter))) return AllPassFilter();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(And))) return And();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(AverageFollower))) return AverageFollower();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(AverageOverDimension))) return AverageOverDimension();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(AverageOverInlets))) return AverageOverInlets(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(BandPassFilterConstantPeakGain))) return BandPassFilterConstantPeakGain();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(BandPassFilterConstantTransitionGain))) return BandPassFilterConstantTransitionGain();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Cache))) return Cache();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ChangeTrigger))) return ChangeTrigger();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverDimension))) return ClosestOverDimension();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverDimensionExp))) return ClosestOverDimensionExp();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverInlets)))
-				return ClosestOverInlets(null, new Outlet[variableInletOrOutletCount]);
-
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverInletsExp)))
-				return ClosestOverInletsExp(null, new Outlet[variableInletOrOutletCount]);
-
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverInlets))) return ClosestOverInlets(null, new Outlet[variableInletOrOutletCount]);
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ClosestOverInletsExp))) return ClosestOverInletsExp(null, new Outlet[variableInletOrOutletCount]);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Curve))) return Curve();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(DimensionToOutlets))) return DimensionToOutlets(null, variableInletOrOutletCount);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Divide))) return Divide();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(DivideWithOrigin))) return DivideWithOrigin();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Equal))) return Equal();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Exponent))) return Exponent();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(GetPosition))) return GetPosition();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(GreaterThan))) return GreaterThan();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(GreaterThanOrEqual))) return GreaterThanOrEqual();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(HighPassFilter))) return HighPassFilter();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(HighShelfFilter))) return HighShelfFilter();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Hold))) return Hold();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(If))) return If();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(InletsToDimension))) return InletsToDimension(new Outlet[variableInletOrOutletCount]);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Interpolate))) return Interpolate();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(LessThan))) return LessThan();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(LessThanOrEqual))) return LessThanOrEqual();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Loop))) return Loop();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(LowPassFilter))) return LowPassFilter();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(LowShelfFilter))) return LowShelfFilter();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MaxFollower))) return MaxFollower();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MaxOverDimension))) return MaxOverDimension();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MaxOverInlets))) return MaxOverInlets(new Outlet[variableInletOrOutletCount]);
@@ -1564,43 +1542,16 @@ namespace JJ.Business.Synthesizer
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MinOverDimension))) return MinOverDimension();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(MinOverInlets))) return MinOverInlets(new Outlet[variableInletOrOutletCount]);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Multiply))) return Multiply(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Negative))) return Negative();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Noise))) return Noise();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Not))) return Not();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(NotchFilter))) return NotchFilter();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(NotEqual))) return NotEqual();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Number))) return Number();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Or))) return Or();
+			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Number))) return Number(1);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(PatchInlet))) return PatchInlet();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(PatchOutlet))) return PatchOutlet();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(PeakingEQFilter))) return PeakingEQFilter();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Power))) return Power();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Pulse))) return Pulse();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(PulseTrigger))) return PulseTrigger();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Random))) return Random();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(RangeOverDimension))) return RangeOverDimension();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(RangeOverOutlets))) return RangeOverOutlets(outletCount: variableInletOrOutletCount);
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Reset))) return Reset();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Reverse))) return Reverse();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Round))) return Round();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SawDown))) return SawDown();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SawUp))) return SawUp();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Scaler))) return Scaler();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SetDimension))) return SetDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Shift))) return Shift();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Sine))) return Sine();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SortOverDimension))) return SortOverDimension();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SortOverInlets))) return SortOverInlets(new Outlet[variableInletOrOutletCount]);
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Spectrum))) return Spectrum();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Square))) return Square();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Squash))) return Squash();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Stretch))) return Stretch();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Subtract))) return Subtract();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SumFollower))) return SumFollower();
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(SumOverDimension))) return SumOverDimension();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(TimePower))) return TimePower();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(ToggleTrigger))) return ToggleTrigger();
-			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Triangle))) return Triangle();
 
 			if (NameHelper.AreEqual(underlyingPatch.Name, nameof(Sample)))
 			{

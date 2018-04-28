@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Framework.Common;
+
 // ReSharper disable CompareOfFloatsByEqualityOperator
 #pragma warning disable 618
 
@@ -12,21 +13,13 @@ namespace JJ.Business.Synthesizer.Helpers
 	{
 		/// <param name="operatorDto">nullable</param>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static InputDto TryCreateInputDto(IOperatorDto operatorDto)
-		{
-			if (operatorDto == null)
-			{
-				return null;
-			}
-			else
-			{
-				return CreateInputDto(operatorDto);
-			}
-		}
+		public static InputDto TryCreateInputDto(IOperatorDto operatorDto) 
+			=> operatorDto == null ? null : CreateInputDto(operatorDto);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static InputDto CreateInputDto(IOperatorDto operatorDto)
 		{
+			// ReSharper disable once ConvertIfStatementToSwitchStatement
 			if (operatorDto == null) throw new ArgumentNullException(nameof(operatorDto));
 
 			if (operatorDto is Number_OperatorDto number_OperatorDto)
@@ -47,10 +40,9 @@ namespace JJ.Business.Synthesizer.Helpers
 		{
 			bool isConstZero = @const == 0.0;
 			bool isConstOne = @const == 1.0;
-			bool isConstSpecialValue = DoubleHelper.IsSpecialValue(@const);
 			bool isConstNonZero = @const != 0.0 && !DoubleHelper.IsSpecialValue(@const);
 
-			var inputDto = new InputDto(true, isConstZero, isConstOne, isConstNonZero, isConstSpecialValue, @const);
+			var inputDto = new InputDto(true, isConstZero, isConstOne, isConstNonZero, @const);
 
 			return inputDto;
 		}

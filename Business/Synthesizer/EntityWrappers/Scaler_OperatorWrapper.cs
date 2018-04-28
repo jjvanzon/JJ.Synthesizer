@@ -4,6 +4,8 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

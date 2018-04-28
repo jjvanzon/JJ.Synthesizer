@@ -17,14 +17,8 @@ namespace JJ.Business.Synthesizer.Helpers
 		{
 			if (inputDto == null) throw new ArgumentNullException(nameof(inputDto));
 
-			if (inputDto.Var != null)
-			{
-				return GetDebuggerDisplay(inputDto.Var);
-			}
-			else
-			{
-				return inputDto.Const.ToString();
-			}
+			string debuggerDisplay = inputDto.Var != null ? GetDebuggerDisplay(inputDto.Var) : inputDto.Const.ToString();
+			return debuggerDisplay;
 		}
 
 		public static string GetDebuggerDisplay(OperatorCalculatorBase operatorCalculatorBase)
@@ -43,16 +37,9 @@ namespace JJ.Business.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		/// <summary>
-		/// Solves the ambiguity with GetDebuggerDisplay(InputDto) that was introduced due to the
-		/// implicit conversion from OperatorDtoBase to InputDto.
-		/// </summary>
-		public static string GetDebuggerDisplay(OperatorDtoBase operatorDto) => GetDebuggerDisplay((IOperatorDto)operatorDto);
-
 		public static string GetDebuggerDisplay(IOperatorDto operatorDto)
-		{
+		{ 
 			if (operatorDto == null) throw new NullException(() => operatorDto);
-
 			return operatorDto.GetType().Name;
 		}
 

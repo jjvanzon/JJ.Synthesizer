@@ -126,9 +126,9 @@ namespace JJ.Business.Synthesizer
 			}
 
 			bool repeatedInletIsInUse = inlet.IsRepeating &&
-										inlet.Operator.Inlets
-											 .Where(x => x.IsRepeating && x.InputOutlet != null)
-											 .Any();
+										inlet.Operator
+										     .Inlets
+										     .Any(x => x.IsRepeating && x.InputOutlet != null);
 
 			return repeatedInletIsInUse;
 		}

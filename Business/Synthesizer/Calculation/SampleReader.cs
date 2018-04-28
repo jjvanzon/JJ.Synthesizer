@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -11,7 +10,7 @@ using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-	internal class SampleReader
+	internal static class SampleReader
 	{
 		private const double BYTE_VALUE_DIVIDER = 128.0;
 		private const double INT16_VALUE_DIVIDER = -short.MinValue;
@@ -68,10 +67,12 @@ namespace JJ.Business.Synthesizer.Calculation
 
 		/// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
 		private static double[][] ReadSamplesTemplateMethod(
-			Sample sample, byte[] bytes, Func<BinaryReader, double> readValueDelegate)
+			Sample sample, 
+			byte[] bytes, 
+			Func<BinaryReader, double> readValueDelegate)
 		{
 			int channelCount = sample.GetChannelCount();
-			int bytesPerValue = SampleDataTypeHelper.SizeOf(sample.SampleDataType);
+			int bytesPerValue = sample.SampleDataType.SizeOf();
 			double amplifier = sample.Amplifier;
 
 			// First read out the doubles.
@@ -93,7 +94,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 						case AudioFileFormatEnum.Wav:
 							var wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
-							AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
+							AudioFileInfo audioFileInfo = WavHeaderFacade.GetAudioFileInfoFromWavHeaderStruct(wavHeaderStruct);
 							headerLength = WavHeaderConstants.WAV_HEADER_LENGTH;
 							dataLength = audioFileInfo.FrameCount * audioFileInfo.ChannelCount * audioFileInfo.BytesPerValue;
 							break;

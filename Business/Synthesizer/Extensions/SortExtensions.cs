@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		public static IEnumerable<Inlet> Sort(this IEnumerable<Inlet> list) => list.Cast<IInletOrOutlet>().Sort().Cast<Inlet>();
 		public static IEnumerable<Outlet> Sort(this IEnumerable<Outlet> list) => list.Cast<IInletOrOutlet>().Sort().Cast<Outlet>();
 		public static IEnumerable<Tone> Sort(this IEnumerable<Tone> tones) => ((IEnumerable<ITone>)tones).Sort().Cast<Tone>();
+		// ReSharper disable once UnusedMember.Global
 		public static IEnumerable<ToneDto> Sort(this IEnumerable<ToneDto> tones) => ((IEnumerable<ITone>)tones).Sort().Cast<ToneDto>();
 
 		public static IEnumerable<ITone> Sort(this IEnumerable<ITone> tones)

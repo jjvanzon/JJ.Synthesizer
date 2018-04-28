@@ -14,6 +14,6 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 
 		public string OperationIdentity { get; set; }
 
-		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay((IOperatorDto)this);
 	}
 }

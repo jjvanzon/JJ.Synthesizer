@@ -7,6 +7,7 @@ using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
+	// ReSharper disable once UnusedMember.Global
 	internal class SumOverDimension_OperatorCalculator_ByDimensionToOutletsAndAdd : OperatorCalculatorBase
 	{
 		private readonly OperatorCalculatorBase _addCalculator;

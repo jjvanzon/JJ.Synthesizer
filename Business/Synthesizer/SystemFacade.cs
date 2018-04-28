@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer
 				                                          .Where(x => _defaultCanonicalMidiMappingGroupNames.Contains(NameHelper.ToCanonical(x.Name)))
 				                                          .ToArray();
 				_systemMidiMappings = _systemMidiMappingGroups.SelectMany(x => x.MidiMappings).ToArray();
-				_systemScale = _systemDocument.Scales.Where(x => NameHelper.AreEqual(x.Name, _defaultScaleName)).FirstOrDefault();
+				_systemScale = _systemDocument.Scales.FirstOrDefault(x => NameHelper.AreEqual(x.Name, _defaultScaleName));
 			}
 		}
 
@@ -93,6 +93,7 @@ namespace JJ.Business.Synthesizer
 			return _systemMidiMappings;
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		public Patch GetSystemPatch(OperatorTypeEnum operatorTypeEnum) => GetSystemPatch($"{operatorTypeEnum}");
 
 		public Patch GetSystemPatch(string name)

@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			if (soundOutlet == null)
 			{
 				var operatorFactory = new OperatorFactory(patch, repositories);
-				soundOutlet = operatorFactory.Number();
+				soundOutlet = operatorFactory.Number(0);
 				soundOutlet.Operator.Name = "Dummy operator, because Auto-Patch has no signal outlets.";
 			}
 

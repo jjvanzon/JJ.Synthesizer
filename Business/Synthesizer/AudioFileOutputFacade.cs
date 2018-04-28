@@ -46,6 +46,7 @@ namespace JJ.Business.Synthesizer
 			Delete(audioFileOutput);
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public void Delete(AudioFileOutput entity)
 		{
 			if (entity == null) throw new NullException(() => entity);

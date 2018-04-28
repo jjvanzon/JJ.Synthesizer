@@ -1137,4 +1137,13 @@
   <data name="ToneValue" xml:space="preserve">
     <value>Toon getal</value>
   </data>
+  <data name="LagBehind" xml:space="preserve">
+    <value>Achterblijven</value>
+  </data>
+  <data name="LookAhead" xml:space="preserve">
+    <value>Vooruit kijken</value>
+  </data>
+  <data name="LookAheadOrLagBehind" xml:space="preserve">
+    <value>Vooruit kijken / achterblijven</value>
+  </data>
 </root>

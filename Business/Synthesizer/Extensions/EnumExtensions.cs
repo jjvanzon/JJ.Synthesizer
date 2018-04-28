@@ -6,6 +6,7 @@ using JJ.Data.Synthesizer.Interfaces;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer.Extensions
 {

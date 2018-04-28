@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

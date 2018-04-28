@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Framework.Exceptions.Basic;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Business.Synthesizer.Calculation
 {

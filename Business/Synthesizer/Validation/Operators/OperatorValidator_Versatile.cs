@@ -24,10 +24,13 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 					break;
 
 				case OperatorTypeEnum.InletsToDimension:
-				case OperatorTypeEnum.Interpolate:
 				case OperatorTypeEnum.Random:
 				case OperatorTypeEnum.RandomStripe:
 					ExecuteValidator(new OperatorValidator_WithInterpolation(op));
+					break;
+
+				case OperatorTypeEnum.Interpolate:
+					ExecuteValidator(new OperatorValidator_WithInterpolation_AndLookAheadOrLagBehind(op));
 					break;
 
 				case OperatorTypeEnum.Number:

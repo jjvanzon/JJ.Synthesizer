@@ -9,6 +9,8 @@ using JJ.Framework.Conversion;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Reflection;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Resources
 {
@@ -145,6 +147,7 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string IsObsolete => Resources.IsObsolete;
 		public static string IsRelative => Resources.IsRelative;
 		public static string IsRepeating => Resources.IsRepeating;
+		public static string LagBehind => Resources.LagBehind;
 		public static string Left => Resources.Left;
 		public static string LessThan => Resources.LessThan;
 		public static string LessThanOrEqual => Resources.LessThanOrEqual;
@@ -153,6 +156,8 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Line => Resources.Line;
 		public static string LiteralFrequencies => Resources.LiteralFrequencies;
 		public static string LiteralFrequency => Resources.LiteralFrequency;
+		public static string LookAheadOrLagBehind => Resources.LookAheadOrLagBehind;
+		public static string LookAhead => Resources.LookAhead;
 		public static string Loop => Resources.Loop;
 		public static string LoopEndMarker => Resources.LoopEndMarker;
 		public static string LoopStartMarker => Resources.LoopStartMarker;
@@ -497,14 +502,8 @@ namespace JJ.Business.Synthesizer.Resources
 		{
 			if (entity == null) throw new NullException(() => entity);
 
-			if (entity.IsSystemPatch())
-			{
-				return GetDisplayName(entity.Name);
-			}
-			else
-			{
-				return entity.Name;
-			}
+			string displayName = entity.IsSystemPatch() ? GetDisplayName(entity.Name) : entity.Name;
+			return displayName;
 		}
 
 		// SampleDataType

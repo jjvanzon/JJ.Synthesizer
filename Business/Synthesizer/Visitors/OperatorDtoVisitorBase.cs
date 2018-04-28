@@ -106,6 +106,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		/*[DebuggerHidden]*/
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual IOperatorDto Visit_OperatorDto_Base(IOperatorDto dto)
 		{
 			dto.Inputs = dto.Inputs.Reverse().Select(VisitInputDto).Reverse().ToArray();
@@ -114,29 +115,29 @@ namespace JJ.Business.Synthesizer.Visitors
 		}
 
 		/*[DebuggerHidden]*/
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual InputDto VisitInputDto(InputDto inputDto)
 		{
-			// ReSharper disable once InvertIf
 			if (inputDto.IsVar)
 			{
 				return VisitVarInputDto(inputDto);
 			}
-			else if (inputDto.IsConst)
+
+			if (inputDto.IsConst)
 			{
 				return VisitConstInputDto(inputDto);
 			}
-			else
-			{
-				throw new Exception(
-					$"{nameof(inputDto)}.{nameof(inputDto.IsVar)} and " +
-					$"{nameof(inputDto)}.{nameof(inputDto.IsConst)} cannot both be false.");
-			}
+
+			throw new Exception(
+				$"{nameof(inputDto)}.{nameof(inputDto.IsVar)} and " +
+				$"{nameof(inputDto)}.{nameof(inputDto.IsConst)} cannot both be false.");
 		}
 
 		/*[DebuggerHidden]*/
 		protected virtual InputDto VisitConstInputDto(InputDto inputDto) => inputDto;
 
 		/*[DebuggerHidden]*/
+		// ReSharper disable once VirtualMemberNeverOverridden.Global
 		protected virtual InputDto VisitVarInputDto(InputDto inputDto)
 		{
 			IOperatorDto var2 = Visit_OperatorDto_Polymorphic(inputDto.Var);
@@ -146,13 +147,14 @@ namespace JJ.Business.Synthesizer.Visitors
 				InputDto inputDto2 = InputDtoFactory.TryCreateInputDto(var2);
 				return inputDto2;
 			}
+			// ReSharper disable once RedundantIfElseBlock
 			else
 			{
 				return inputDto;
 			}
 		}
 
-		public OperatorDtoVisitorBase()
+		protected OperatorDtoVisitorBase()
 		{
 			_delegateDictionary = new Dictionary<Type, Func<IOperatorDto, IOperatorDto>>
 			{
@@ -163,6 +165,8 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ typeof(And_OperatorDto), x => Visit_And_OperatorDto((And_OperatorDto)x) },
 				{ typeof(AverageFollower_OperatorDto), x => Visit_AverageFollower_OperatorDto((AverageFollower_OperatorDto)x) },
 				{ typeof(AverageOverDimension_OperatorDto), x => Visit_AverageOverDimension_OperatorDto((AverageOverDimension_OperatorDto)x) },
+				{ typeof(AverageOverDimension_OperatorDto_CollectionRecalculationContinuous), x => Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous((AverageOverDimension_OperatorDto_CollectionRecalculationContinuous)x) },
+				{ typeof(AverageOverDimension_OperatorDto_CollectionRecalculationUponReset), x => Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset((AverageOverDimension_OperatorDto_CollectionRecalculationUponReset)x) },
 				{ typeof(AverageOverInlets_OperatorDto), x => Visit_AverageOverInlets_OperatorDto((AverageOverInlets_OperatorDto)x) },
 				{ typeof(BandPassFilterConstantPeakGain_OperatorDto), x => Visit_BandPassFilterConstantPeakGain_OperatorDto((BandPassFilterConstantPeakGain_OperatorDto)x) },
 				{ typeof(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar), x => Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar((BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar)x) },
@@ -185,7 +189,11 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ typeof(Cache_OperatorDto_MultiChannel_Stripe), x => Visit_Cache_OperatorDto_MultiChannel_Stripe((Cache_OperatorDto_MultiChannel_Stripe)x) },
 				{ typeof(ChangeTrigger_OperatorDto), x => Visit_ChangeTrigger_OperatorDto((ChangeTrigger_OperatorDto)x) },
 				{ typeof(ClosestOverDimension_OperatorDto), x => Visit_ClosestOverDimension_OperatorDto((ClosestOverDimension_OperatorDto)x) },
+				{ typeof(ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous), x => Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous((ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous)x) },
+				{ typeof(ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset), x => Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset((ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset)x) },
 				{ typeof(ClosestOverDimensionExp_OperatorDto), x => Visit_ClosestOverDimensionExp_OperatorDto((ClosestOverDimensionExp_OperatorDto)x) },
+				{ typeof(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous), x => Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous((ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous)x) },
+				{ typeof(ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset), x => Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset((ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset)x) },
 				{ typeof(ClosestOverInlets_OperatorDto), x => Visit_ClosestOverInlets_OperatorDto((ClosestOverInlets_OperatorDto)x) },
 				{ typeof(ClosestOverInletsExp_OperatorDto), x => Visit_ClosestOverInletsExp_OperatorDto((ClosestOverInletsExp_OperatorDto)x) },
 				{ typeof(Curve_OperatorDto), x => Visit_Curve_OperatorDto((Curve_OperatorDto)x) },
@@ -217,9 +225,13 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ typeof(Interpolate_OperatorDto_ConstSignal), x => Visit_Interpolate_OperatorDto_ConstSignal((Interpolate_OperatorDto_ConstSignal)x) },
 				{ typeof(Interpolate_OperatorDto_Block), x => Visit_Interpolate_OperatorDto_Block((Interpolate_OperatorDto_Block)x) },
 				{ typeof(Interpolate_OperatorDto_Cubic_LagBehind), x => Visit_Interpolate_OperatorDto_Cubic_LagBehind((Interpolate_OperatorDto_Cubic_LagBehind)x) },
+				{ typeof(Interpolate_OperatorDto_Cubic_LookAhead), x => Visit_Interpolate_OperatorDto_Cubic_LookAhead((Interpolate_OperatorDto_Cubic_LookAhead)x) },
 				{ typeof(Interpolate_OperatorDto_Hermite_LagBehind), x => Visit_Interpolate_OperatorDto_Hermite_LagBehind((Interpolate_OperatorDto_Hermite_LagBehind)x) },
+				{ typeof(Interpolate_OperatorDto_Hermite_LookAhead), x => Visit_Interpolate_OperatorDto_Hermite_LookAhead((Interpolate_OperatorDto_Hermite_LookAhead)x) },
 				{ typeof(Interpolate_OperatorDto_Line_LagBehind), x => Visit_Interpolate_OperatorDto_Line_LagBehind((Interpolate_OperatorDto_Line_LagBehind)x) },
+				{ typeof(Interpolate_OperatorDto_Line_LookAhead), x => Visit_Interpolate_OperatorDto_Line_LookAhead((Interpolate_OperatorDto_Line_LookAhead)x) },
 				{ typeof(Interpolate_OperatorDto_Stripe_LagBehind), x => Visit_Interpolate_OperatorDto_Stripe_LagBehind((Interpolate_OperatorDto_Stripe_LagBehind)x) },
+				{ typeof(Interpolate_OperatorDto_Stripe_LookAhead), x => Visit_Interpolate_OperatorDto_Stripe_LookAhead((Interpolate_OperatorDto_Stripe_LookAhead)x) },
 				{ typeof(LessThan_OperatorDto), x => Visit_LessThan_OperatorDto((LessThan_OperatorDto)x) },
 				{ typeof(LessThanOrEqual_OperatorDto), x => Visit_LessThanOrEqual_OperatorDto((LessThanOrEqual_OperatorDto)x) },
 				{ typeof(Loop_OperatorDto), x => Visit_Loop_OperatorDto((Loop_OperatorDto)x) },
@@ -301,7 +313,7 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ typeof(SumOverDimension_OperatorDto_CollectionRecalculationUponReset), x => Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset((SumOverDimension_OperatorDto_CollectionRecalculationUponReset)x) },
 				{ typeof(ToggleTrigger_OperatorDto), x => Visit_ToggleTrigger_OperatorDto((ToggleTrigger_OperatorDto)x) },
 				{ typeof(TriangleWithRate1_OperatorDto), x => Visit_TriangleWithRate1_OperatorDto((TriangleWithRate1_OperatorDto)x) },
-				{ typeof(VariableInput_OperatorDto), x => Visit_VariableInput_OperatorDto((VariableInput_OperatorDto)x) },
+				{ typeof(VariableInput_OperatorDto), x => Visit_VariableInput_OperatorDto((VariableInput_OperatorDto)x) }
 			};
 		}
 
@@ -372,9 +384,13 @@ namespace JJ.Business.Synthesizer.Visitors
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto) => Visit_OperatorDto_Base(dto);
+		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LookAhead(Interpolate_OperatorDto_Cubic_LookAhead dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto) => Visit_OperatorDto_Base(dto);
+		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LookAhead(Interpolate_OperatorDto_Hermite_LookAhead dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind(Interpolate_OperatorDto_Line_LagBehind dto) => Visit_OperatorDto_Base(dto);
+		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Line_LookAhead(Interpolate_OperatorDto_Line_LookAhead dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto) => Visit_OperatorDto_Base(dto);
+		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LookAhead(Interpolate_OperatorDto_Stripe_LookAhead dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => Visit_OperatorDto_Base(dto);
 		/*[DebuggerHidden]*/ protected virtual IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => Visit_OperatorDto_Base(dto);

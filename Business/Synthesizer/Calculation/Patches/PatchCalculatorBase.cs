@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Exceptions.Aggregates;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.Exceptions.TypeChecking;
@@ -26,7 +27,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 		public PatchCalculatorBase(int samplingRate, int channelCount, int channelIndex)
 		{
 			if (channelCount <= 0) throw new LessThanOrEqualException(() => channelCount, 0);
-			PatchCalculatorHelper.AssertChannelIndex(channelIndex, channelCount);
+			if (channelIndex < 0) throw new LessThanException(() => channelIndex, 0);
+			if (channelIndex > channelCount - 1) throw new InvalidIndexException(() => channelIndex, () => channelCount);
 
 			_channelCount = channelCount;
 			_channelIndex = channelIndex;

@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			base.Reset();
 		}
 
-		protected void ResetNonRecursive()
+		private void ResetNonRecursive()
 		{
 			double position = _positionCalculator.Calculate();
 
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		/// to the C# code generator.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected double? GetTransformedPosition(double position)
+		private double? GetTransformedPosition(double position)
 		{
 			double? nullableInputPosition;
 

@@ -3,6 +3,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Collections;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {

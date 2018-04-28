@@ -1294,6 +1294,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lag Behind.
+        /// </summary>
+        internal static string LagBehind {
+            get {
+                return ResourceManager.GetString("LagBehind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Left.
         /// </summary>
         internal static string Left {
@@ -1371,6 +1380,24 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string LiteralFrequency {
             get {
                 return ResourceManager.GetString("LiteralFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Look Ahead.
+        /// </summary>
+        internal static string LookAhead {
+            get {
+                return ResourceManager.GetString("LookAhead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Look Ahead / Lag Behind.
+        /// </summary>
+        internal static string LookAheadOrLagBehind {
+            get {
+                return ResourceManager.GetString("LookAheadOrLagBehind", resourceCulture);
             }
         }
         

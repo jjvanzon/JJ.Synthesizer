@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Configuration
 {

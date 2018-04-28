@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	internal class Noise_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
 	{
 		private readonly OperatorCalculatorBase _positionCalculator;
-		protected readonly NoiseCalculator _noiseCalculator;
+		private readonly NoiseCalculator _noiseCalculator;
 
 		public Noise_OperatorCalculator(OperatorCalculatorBase positionCalculator, NoiseCalculator noiseCalculator)
 			: base(new[] { positionCalculator })
@@ -23,9 +23,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			return value;
 		}
 
-		public override void Reset()
-		{
-			_noiseCalculator.Reseed();
-		}
+		public override void Reset() => _noiseCalculator.Reseed();
 	}
 }

@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			TryCloneCache(source, dest);
 			TryClonePositionReader(source, dest);
 			TryCloneInterpolation(source, dest);
+			TryCloneLookAheadOrLagBehind(source, dest);
 		}
 
 		// Type checks are done instead of overloads with different parameter types,
@@ -116,6 +117,17 @@ namespace JJ.Business.Synthesizer.Helpers
 			castedDest.InterpolationTypeEnum = castedSource.InterpolationTypeEnum;
 			castedDest.SpeakerSetupEnum = castedSource.SpeakerSetupEnum;
 			castedDest.ArrayDto = castedSource.ArrayDto;
+		}
+
+		private static void TryCloneLookAheadOrLagBehind(IOperatorDto source, IOperatorDto dest)
+		{
+			if (!(source is IOperatorDto_WithInterpolation_AndLookAheadOrLagBehind castedSource) ||
+			    !(dest is IOperatorDto_WithInterpolation_AndLookAheadOrLagBehind castedDest))
+			{
+				return;
+			}
+
+			castedDest.LookAheadOrLagBehindEnum = castedSource.LookAheadOrLagBehindEnum;
 		}
 
 		private static void TryCloneInterpolation(IOperatorDto source, IOperatorDto dest)

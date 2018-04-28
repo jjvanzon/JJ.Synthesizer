@@ -8,7 +8,6 @@ namespace JJ.Business.Synthesizer.Helpers
 		public ICurveRepository CurveRepository { get; }
 		public INodeRepository NodeRepository { get; }
 		public INodeTypeRepository NodeTypeRepository { get; }
-		public IDimensionRepository DimensionRepository { get; }
 		public IIDRepository IDRepository { get; }
 
 		public CurveRepositories(RepositoryWrapper repositories)
@@ -18,22 +17,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			CurveRepository = repositories.CurveRepository;
 			NodeRepository = repositories.NodeRepository;
 			NodeTypeRepository = repositories.NodeTypeRepository;
-			DimensionRepository = repositories.DimensionRepository;
 			IDRepository = repositories.IDRepository;
-		}
-
-		public CurveRepositories(
-			ICurveRepository curveRepository,
-			INodeRepository nodeRepository,
-			INodeTypeRepository nodeTypeRepository,
-			IDimensionRepository dimensionRepository,
-			IIDRepository idRepository)
-		{
-			CurveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-			NodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
-			NodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);
-			DimensionRepository = dimensionRepository ?? throw new NullException(() => dimensionRepository);
-			IDRepository = idRepository ?? throw new NullException(() => idRepository);
 		}
 	}
 }

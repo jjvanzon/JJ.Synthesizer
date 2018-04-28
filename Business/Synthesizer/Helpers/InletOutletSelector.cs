@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Aggregates;
 using JJ.Framework.Exceptions.Basic;
@@ -17,12 +14,14 @@ namespace JJ.Business.Synthesizer.Helpers
 
 		// Sort
 
+		// ReSharper disable once UnusedMember.Global
 		public static IList<Outlet> GetSortedInputOutlets(Operator op)
 		{
 			IList<Outlet> outlets = EnumerateSortedInputOutlets(op).ToArray();
 			return outlets;
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		public static IEnumerable<Outlet> EnumerateSortedInputOutlets(Operator op)
 		{
 			IEnumerable<Outlet> enumerable = op.Inlets.Sort().Select(x => x.InputOutlet);
@@ -75,7 +74,7 @@ namespace JJ.Business.Synthesizer.Helpers
 			Inlet inlet = TryGetInlet(op, name);
 			if (inlet == null)
 			{
-				throw new Exception($"Inlet '{name}' not found.");
+				throw new NotFoundException<Inlet>(new { name });
 			}
 			return inlet;
 		}
@@ -312,77 +311,6 @@ namespace JJ.Business.Synthesizer.Helpers
 			IList<Inlet> inlets = GetInlets(op, dimensionEnum);
 			IList<Outlet> outlets = inlets.Select(x => x.InputOutlet).Sort().ToArray();
 			return outlets;
-		}
-
-		/// <summary>
-		/// Gets the input outlet of a specific inlet.
-		/// If it is null, and the inlet has a default value, a fake Number Operator is created and its outlet returned.
-		/// If the inlet has no default value either, null is returned.
-		/// </summary>
-		public static Outlet GetInputOutletOrDefault(Operator op, string name)
-		{
-			Inlet inlet = GetInlet(op, name);
-			return GetInputOutletOrDefault(inlet);
-		}
-
-		/// <summary>
-		/// Gets the input outlet of a specific inlet.
-		/// If it is null, and the inlet has a default value, a fake Number Operator is created and its outlet returned.
-		/// If the inlet has no default value either, null is returned.
-		/// </summary>
-		public static Outlet GetInputOutletOrDefault(Operator op, int index)
-		{
-			Inlet inlet = GetInlet(op, index);
-			return GetInputOutletOrDefault(inlet);
-		}
-
-		/// <summary>
-		/// Gets the input outlet of a specific inlet.
-		/// If it is null, and the inlet has a default value, a fake Number Operator is created and its outlet returned.
-		/// If the inlet has no default value either, null is returned.
-		/// </summary>
-		public static Outlet GetInputOutletOrDefault(Operator op, DimensionEnum dimensionEnum)
-		{
-			Inlet inlet = GetInlet(op, dimensionEnum);
-			return GetInputOutletOrDefault(inlet);
-		}
-
-		/// <summary>
-		/// Gets the input outlet of a specific inlet.
-		/// If it is null, and the inlet has a default value, a fake Number Operator is created and its outlet returned.
-		/// If the inlet has no default value either, null is returned.
-		/// </summary>
-		public static Outlet GetInputOutletOrDefault(Inlet inlet)
-		{
-			if (inlet == null) throw new NullException(() => inlet);
-
-			if (inlet.InputOutlet != null)
-			{
-				return inlet.InputOutlet;
-			}
-
-			// ReSharper disable once InvertIf
-			if (inlet.DefaultValue.HasValue)
-			{
-				Number_OperatorWrapper dummyNumberOperator = CreateDummyNumberOperator(inlet.DefaultValue.Value);
-				return dummyNumberOperator;
-			}
-
-			return null;
-		}
-
-		// Private Methods
-
-		private static Number_OperatorWrapper CreateDummyNumberOperator(double number)
-		{
-			var op = new Operator();
-
-			var outlet = new Outlet();
-			outlet.LinkTo(op);
-
-			var wrapper = new Number_OperatorWrapper(op) { Number = number };
-
-			return wrapper;
 		}
 	}
 }

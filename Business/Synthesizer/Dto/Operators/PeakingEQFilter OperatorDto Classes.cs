@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 // ReSharper disable SuggestVarOrType_Elsewhere
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Business.Synthesizer.Dto.Operators
 {

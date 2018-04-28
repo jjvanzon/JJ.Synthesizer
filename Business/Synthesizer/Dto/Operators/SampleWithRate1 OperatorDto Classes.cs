@@ -6,8 +6,7 @@ namespace JJ.Business.Synthesizer.Dto.Operators
 {
 	internal class SampleWithRate1_OperatorDto
 		: OperatorDtoBase_PositionReader,
-		  IOperatorDto_WithAdditionalChannelDimension,
-		  IOperatorDto_WithTargetChannelCount
+		  IOperatorDto_WithAdditionalChannelDimension
 	{
 		public override OperatorTypeEnum OperatorTypeEnum => OperatorTypeEnum.SampleWithRate1;
 

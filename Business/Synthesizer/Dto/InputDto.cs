@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Dto
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
 	internal class InputDto
 	{
-		[Obsolete("Use InputDtoFactory instead.")]
+		[Obsolete("Only InputDtoFactory is supposed to use this. Use InputDtoFactory instead.")]
 		public InputDto(bool isVar = false, IOperatorDto var = null)
 		{
 			IsVar = isVar;
@@ -16,20 +16,18 @@ namespace JJ.Business.Synthesizer.Dto
 			VarOrConst = var;
 		}
 
-		[Obsolete("Use InputDtoFactory instead.")]
+		[Obsolete("Only InputDtoFactory is supposed to use this. Use InputDtoFactory instead.")]
 		public InputDto(
 			bool isConst = false,
 			bool isConstZero = false,
 			bool isConstOne = false,
 			bool isConstNonZero = false,
-			bool isConstSpecialValue = false,
 			double @const = 0)
 		{
 			IsConst = isConst;
 			IsConstZero = isConstZero;
 			IsConstOne = isConstOne;
 			IsConstNonZero = isConstNonZero;
-			IsConstSpecialValue = isConstSpecialValue;
 			Const = @const;
 			VarOrConst = new Number_OperatorDto(@const);
 		}
@@ -39,8 +37,6 @@ namespace JJ.Business.Synthesizer.Dto
 		public bool IsConstZero { get; }
 		public bool IsConstOne { get; }
 		public bool IsConstNonZero { get; }
-		/// <summary> Meaning it is NaN, PositiveInfinity or NegativeInfinity. </summary>
-		public bool IsConstSpecialValue { get; }
 		public double Const { get; }
 		public IOperatorDto Var { get; }
 		public IOperatorDto VarOrConst { get; }

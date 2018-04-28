@@ -395,6 +395,7 @@ namespace JJ.Business.Synthesizer.Tests
 				Outlet noise = x.MultiplyWithOrigin(x.Noise(), x.Number(amplification));
 				Outlet interpolatedNoise = x.Interpolate(noise, x.Number(alternativeSamplingRate));
 
+				// ReSharper disable once JoinDeclarationAndInitializer
 				IPatchCalculator patchCalculator;
 
 				AudioFileOutput audioFileOutput = audioFileOutputFacade.Create();
@@ -465,6 +466,7 @@ namespace JJ.Business.Synthesizer.Tests
 				const double newSamplingRate = 4;
 				Outlet interpolated = x.Interpolate(sine, x.Number(newSamplingRate));
 
+				// ReSharper disable once JoinDeclarationAndInitializer
 				IPatchCalculator patchCalculator;
 
 				AudioFileOutput audioFileOutput = audioFileOutputFacade.Create();

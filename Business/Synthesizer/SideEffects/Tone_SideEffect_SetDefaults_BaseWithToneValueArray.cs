@@ -41,9 +41,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 
 		private double GetNextToneValueOrDefault(double previousToneValue)
 		{
-			for (int i = 0; i < _toneValues.Length; i++)
+			// ReSharper disable once LoopCanBeConvertedToQuery
+			foreach (double toneValue in _toneValues)
 			{
-				double toneValue = _toneValues[i];
 				if (Math.Round(toneValue, 4) > Math.Round(previousToneValue, 4))
 				{
 					return toneValue;

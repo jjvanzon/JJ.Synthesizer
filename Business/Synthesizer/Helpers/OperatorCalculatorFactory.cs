@@ -29,12 +29,15 @@ namespace JJ.Business.Synthesizer.Helpers
 			}
 			else
 			{
-				OperatorCalculatorBase calculator = Create_Cache_OperatorCalculator_MultiChannel(arrayCalculators, dimensionCalculator, channelDimensionCalculator);
+				OperatorCalculatorBase calculator = Create_Cache_OperatorCalculator_MultiChannel(
+					arrayCalculators,
+					dimensionCalculator,
+					channelDimensionCalculator);
 				return calculator;
 			}
 		}
 
-		public static OperatorCalculatorBase Create_Cache_OperatorCalculator_MultiChannel(
+		private static OperatorCalculatorBase Create_Cache_OperatorCalculator_MultiChannel(
 			IList<ICalculatorWithPosition> arrayCalculators,
 			VariableInput_OperatorCalculator dimensionCalculator,
 			VariableInput_OperatorCalculator channelDimensionCalculator)
@@ -47,10 +50,11 @@ namespace JJ.Business.Synthesizer.Helpers
 				arrayCalculators,
 				dimensionCalculator,
 				channelDimensionCalculator);
+
 			return calculator;
 		}
 
-		public static OperatorCalculatorBase Create_Cache_OperatorCalculator_SingleChannel(
+		private static OperatorCalculatorBase Create_Cache_OperatorCalculator_SingleChannel(
 			ICalculatorWithPosition arrayCalculator,
 			VariableInput_OperatorCalculator dimensionCalculator)
 		{
@@ -68,35 +72,32 @@ namespace JJ.Business.Synthesizer.Helpers
 		{
 			if (positionCalculator == null) throw new ArgumentNullException(nameof(positionCalculator));
 
-			if (arrayDto == null)
+			if (arrayDto?.Array == null)
 			{
 				return new Number_OperatorCalculator(0);
 			}
 
-			ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
-
-			if (arrayCalculator is ArrayCalculator_MinPosition_Line arrayCalculator_MinPosition)
+			switch (arrayDto.Array.Length)
 			{
-				if (standardDimensionEnum == DimensionEnum.Time)
-				{
-					return new Curve_OperatorCalculator_MinX_WithOriginShifting(positionCalculator, arrayCalculator_MinPosition);
-				}
-				else
-				{
-					return new Curve_OperatorCalculator_MinX_NoOriginShifting(positionCalculator, arrayCalculator_MinPosition);
-				}
+				case 0: return new Number_OperatorCalculator(0);
+				case 1: return new Number_OperatorCalculator(arrayDto.ValueBefore);
 			}
 
-			if (arrayCalculator is ArrayCalculator_MinPositionZero_Line arrayCalculator_MinPositionZero)
+			ICalculatorWithPosition arrayCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
+
+			switch (arrayCalculator)
 			{
-				if (standardDimensionEnum == DimensionEnum.Time)
-				{
+				case ArrayCalculator_MinPosition_Line arrayCalculator_MinPosition when standardDimensionEnum == DimensionEnum.Time:
+					return new Curve_OperatorCalculator_MinX_WithOriginShifting(positionCalculator, arrayCalculator_MinPosition);
+
+				case ArrayCalculator_MinPosition_Line arrayCalculator_MinPosition:
+					return new Curve_OperatorCalculator_MinX_NoOriginShifting(positionCalculator, arrayCalculator_MinPosition);
+
+				case ArrayCalculator_MinPositionZero_Line arrayCalculator_MinPositionZero when standardDimensionEnum == DimensionEnum.Time:
 					return new Curve_OperatorCalculator_MinXZero_WithOriginShifting(positionCalculator, arrayCalculator_MinPositionZero);
-				}
-				else
-				{
+
+				case ArrayCalculator_MinPositionZero_Line arrayCalculator_MinPositionZero:
 					return new Curve_OperatorCalculator_MinXZero_NoOriginShifting(positionCalculator, arrayCalculator_MinPositionZero);
-				}
 			}
 
 			throw new CalculatorNotFoundException(MethodBase.GetCurrentMethod());

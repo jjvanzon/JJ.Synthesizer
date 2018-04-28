@@ -73,6 +73,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		private void CoalesceToDefaultValueOrZero(Inlet inlet)
 		{
+			// ReSharper disable once ConvertIfStatementToSwitchStatement
 			if (inlet.InputOutlet == null)
 			{
 				if (inlet.DefaultValue.HasValue)
@@ -80,6 +81,7 @@ namespace JJ.Business.Synthesizer.Visitors
 					InsertNumber(inlet.DefaultValue.Value);
 					return;
 				}
+				// ReSharper disable once RedundantIfElseBlock
 				else
 				{
 					InsertNumber(0.0);
