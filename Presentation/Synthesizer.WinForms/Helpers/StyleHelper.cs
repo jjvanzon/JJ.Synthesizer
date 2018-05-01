@@ -16,9 +16,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 		public static int DefaultSpacing { get; } = 4;
 		public static int SplitterWidth { get; } = 6;
 		public static int IconButtonSize { get; } = 24;
-		public static int DefaultMargin { get; } = 2;
 		public static int ButtonHeight { get; } = 32;
-		public static Color MediumGray { get; } = Color.Gray;
 		public static Color LightGray { get; } = Color.FromArgb(255, 196, 196, 196);
 		public static int TitleBarHeight { get; } = IconButtonSize + DefaultSpacing + DefaultSpacing;
 

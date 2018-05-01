@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			_noteInfos = CollectionHelper.Repeat(maxConcurrentNotes, CreateNoteInfo).ToArray();
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		public IList<NoteInfo> GetPlayingNoteInfos(double presentTime) => _noteInfos.Where(x => NoteIsPlaying(x.EndTime, presentTime)).ToArray();
 
 		public void SetMaxConcurrentNotes(int maxConcurrentNotes)
@@ -132,6 +133,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static bool NoteIsPlaying(double noteEndTime, double presentTime) => noteEndTime >= presentTime;
 
 		private static NoteInfo CreateNoteInfo(int listIndex)

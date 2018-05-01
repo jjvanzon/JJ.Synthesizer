@@ -1,5 +1,6 @@
 ﻿namespace JJ.Utilities.Synthesizer.DataMigration
 {
+	// ReSharper disable once UnusedMember.Global
 	internal class DataMigrationExecutor_Archive
 	{
 		//private class InletOrOutletTuple

@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new ScalePropertiesViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (ScalePropertiesViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

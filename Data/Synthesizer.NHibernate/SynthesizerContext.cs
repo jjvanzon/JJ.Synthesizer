@@ -1,9 +1,10 @@
-﻿using JJ.Data.Synthesizer.NHibernate.Helpers;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using JetBrains.Annotations;
+using JJ.Data.Synthesizer.Entities;
+using JJ.Data.Synthesizer.NHibernate.Helpers;
 using JJ.Data.Synthesizer.SqlClient;
 using JJ.Framework.Data.NHibernate;
-using System.Collections.Generic;
-using System.Reflection;
-using JJ.Data.Synthesizer.Entities;
 
 namespace JJ.Data.Synthesizer.NHibernate
 {
@@ -38,6 +39,7 @@ namespace JJ.Data.Synthesizer.NHibernate
 	/// 
 	/// This also improves performance preventing needless SQL statements when bytes were already read.
 	/// </summary>
+	[UsedImplicitly]
 	public class SynthesizerContext : NHibernateContext
 	{
 		public SynthesizerContext(string connectionString, Assembly modelAssembly, Assembly mappingAssembly, string dialect)

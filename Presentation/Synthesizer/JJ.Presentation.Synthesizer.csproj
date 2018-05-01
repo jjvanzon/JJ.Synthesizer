@@ -37,6 +37,9 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -50,7 +53,6 @@
     <Compile Include="Helpers\RefreshIDProvider.cs" />
     <Compile Include="Helpers\StyleGradeEnum.cs" />
     <Compile Include="Helpers\ToPatchWithRelatedEntitiesResult.cs" />
-    <Compile Include="Helpers\ViewModelNotFoundByIDException.cs" />
     <Compile Include="Presenters\AudioOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\Bases\EntityPresenterBase.cs" />
     <Compile Include="Presenters\InstrumentBarPresenter.cs" />
@@ -182,7 +184,6 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchInlet.cs" />
     <Compile Include="ViewModels\Partials\PatchesTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\PatchGroupTreeNodeViewModel.cs" />
-    <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
     <Compile Include="ViewModels\Items\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Partials\LibraryTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\LibrariesTreeNodeViewModel.cs" />

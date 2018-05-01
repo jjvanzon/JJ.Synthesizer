@@ -408,7 +408,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		{
 			var label = new Label(diagram.Background)
 			{
-				TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone(),
+				TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone()
 			};
 
 			label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Bottom;

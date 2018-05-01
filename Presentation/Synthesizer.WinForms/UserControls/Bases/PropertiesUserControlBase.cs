@@ -14,6 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		private readonly TableLayoutPanel _tableLayoutPanel;
 
+		// ReSharper disable once MemberCanBeProtected.Global
 		public PropertiesUserControlBase()
 		{
 			_tableLayoutPanel = CreateTableLayoutPanel();

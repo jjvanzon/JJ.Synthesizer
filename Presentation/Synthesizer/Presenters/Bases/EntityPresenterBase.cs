@@ -59,6 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 			return ExecuteAction(userInput, getEntityDelegate, _defaultBusinessFunc, _defaultNonPersistedDelegate);
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		protected TViewModel ExecuteAction(
 			TViewModel userInput,
 			Func<TEntity> getEntityDelegate,
@@ -73,6 +74,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 		/// You can extend this with more logic using the delegates over overrides.
 		/// </summary>
 		/// <param name="businessDelegate">Can return null.</param>
+		// ReSharper disable once MemberCanBePrivate.Global
 		protected TViewModel ExecuteAction(
 			TViewModel userInput,
 			Func<TEntity> getEntityDelegate,

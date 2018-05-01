@@ -223,6 +223,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 			return viewModel;
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static OperatorPropertiesViewModelBase TryGetOperatorPropertiesViewModelPolymorphic(
 			DocumentViewModel documentViewModel,
 			int operatorID)
@@ -356,6 +357,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 			return viewModel;
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static OperatorPropertiesViewModel_ForCurve TryGetOperatorPropertiesViewModel_ForCurve_ByCurveID(
 			DocumentViewModel documentViewModel,
 			int curveID)

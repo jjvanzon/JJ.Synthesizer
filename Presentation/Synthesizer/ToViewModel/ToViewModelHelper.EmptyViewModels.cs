@@ -3,6 +3,7 @@ using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -118,7 +119,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				PatchPropertiesDictionary = new Dictionary<int, PatchPropertiesViewModel>(),
 				SampleFileBrowser = CreateEmptySampleFileBrowserViewModel(),
 				SaveChangesPopup = CreateEmptySaveChangesPopupViewModel(),
-				ScaleLookup = new List<IDAndName>(),
 				ScalePropertiesDictionary = new Dictionary<int, ScalePropertiesViewModel>(),
 				ToneGridEditDictionary = new Dictionary<int, ToneGridEditViewModel>(),
 				UnderlyingPatchLookup = new List<IDAndName>(),

@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return viewModel;
 		}
 
-		public override void CopyNonPersistedProperties(SampleFileBrowserViewModel sourceViewModel, SampleFileBrowserViewModel destViewModel)
+		protected override void CopyNonPersistedProperties(SampleFileBrowserViewModel sourceViewModel, SampleFileBrowserViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 

@@ -49,8 +49,6 @@ namespace JJ.Data.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		internal static string TryGetDebuggerDisplay(Dimension entity) => entity == null ? null : GetDebuggerDisplay(entity);
-
 		internal static string GetDebuggerDisplay(Dimension entity)
 		{
 			if (entity == null) throw new NullException(() => entity);

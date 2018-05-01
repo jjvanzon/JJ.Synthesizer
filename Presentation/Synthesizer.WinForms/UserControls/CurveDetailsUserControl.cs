@@ -101,6 +101,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new CurveDetailsViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (CurveDetailsViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

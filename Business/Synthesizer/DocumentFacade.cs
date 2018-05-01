@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer
 			return document;
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		public Document Get(string name)
 		{
 			Document document = _repositories.DocumentRepository.GetByNameComplete(name);

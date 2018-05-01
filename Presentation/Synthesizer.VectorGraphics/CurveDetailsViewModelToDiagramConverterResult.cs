@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 	public class CurveDetailsViewModelToDiagramConverterResult
 	{
 		public Diagram Diagram { get; }
-		public ClickGesture BackgroundClickGesture { get; set; }
+		public ClickGesture BackgroundClickGesture { get; }
 		public DoubleClickGesture BackgroundDoubleClickGesture { get; }
 		public ChangeNodeTypeGesture ChangeNodeTypeGesture { get; }
 		public DeleteGesture DeleteGesture { get; }

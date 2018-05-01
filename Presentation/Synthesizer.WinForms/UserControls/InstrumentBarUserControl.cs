@@ -72,6 +72,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public InstrumentBarViewModel ViewModel
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => _instrumentBarElement.ViewModel;
 			set
 			{

@@ -15,6 +15,7 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Mathematics;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable MemberCanBePrivate.Global
 
 // ReSharper disable RedundantCaseLabel
 
@@ -736,18 +737,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			float aggregate = 0f;
 
+			// ReSharper disable once LoopCanBeConvertedToQuery
 			foreach (Inlet connectedInlet in entity.ConnectedInlets)
 			{
 				Operator operator2 = connectedInlet.Operator;
 
-				EntityPosition entityPosition1 = operator1.EntityPosition;
-				EntityPosition entityPosition2 = operator2.EntityPosition;
-
 				float distance = Geometry.AbsoluteDistance(
-					entityPosition1.X,
-					entityPosition1.Y,
-					entityPosition2.X,
-					entityPosition2.Y);
+					operator1.EntityPosition.X,
+					operator1.EntityPosition.Y,
+					operator2.EntityPosition.X,
+					operator2.EntityPosition.Y);
 
 				aggregate += distance;
 			}

@@ -38,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new AudioOutputPropertiesViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (AudioOutputPropertiesViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

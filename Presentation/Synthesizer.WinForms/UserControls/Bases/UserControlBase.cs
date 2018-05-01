@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		public ScreenViewModelBase ViewModel
 		{
 			get => _viewModel;
-			set
+			protected set
 			{
 				bool mustApplyViewModel = value != null &&
 										  (value != _viewModel ||

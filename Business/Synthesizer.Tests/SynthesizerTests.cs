@@ -15,6 +15,7 @@ using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 // ReSharper disable SuggestVarOrType_SimpleTypes
 // ReSharper disable UnusedVariable
 // ReSharper disable RedundantAssignment
@@ -66,8 +67,10 @@ namespace JJ.Business.Synthesizer.Tests
 				CultureHelper.SetCurrentCultureName("nl-NL");
 
 				add.Inlets.First().InputOutlet = null;
-				var valueOperatorWrapper = new Number_OperatorWrapper(subtract.Inputs[DimensionEnum.B].Operator);
-				valueOperatorWrapper.Number = 0;
+				var valueOperatorWrapper = new Number_OperatorWrapper(subtract.Inputs[DimensionEnum.B].Operator)
+				{
+					Number = 0
+				};
 				subtract.WrappedOperator.Inlets[0].Name = "134";
 
 				//IValidator validator2 = new OperatorValidator_Recursive(subtract.Operator, repositories.CurveRepository, repositories.SampleRepository, repositories.DocumentRepository, alreadyDone: new HashSet<object>());
@@ -172,7 +175,7 @@ namespace JJ.Business.Synthesizer.Tests
 				Patch patch = patchFacade.CreatePatch();
 				var x = new OperatorFactory(patch, repositories);
 
-				var outlet = x.MultiplyWithOrigin(x.Curve(1, DimensionEnum.Time, "",  0, 1, 0.8, null, null, 0.8, 0), x.Sine(x.Number(440)));
+				var outlet = x.MultiplyWithOrigin(x.Curve(1, DimensionEnum.Time, "", 0, 1, 0.8, null, null, 0.8, 0), x.Sine(x.Number(440)));
 
 				CultureHelper.SetCurrentCultureName("nl-NL");
 
@@ -190,7 +193,12 @@ namespace JJ.Business.Synthesizer.Tests
 					throw new Exception(messages);
 				}
 
-				var calculator = patchFacade.CreateCalculator(outlet, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+				var calculator = patchFacade.CreateCalculator(
+					outlet,
+					DEFAULT_SAMPLING_RATE,
+					DEFAULT_CHANNEL_COUNT,
+					DEFAULT_CHANNEL_INDEX,
+					new CalculatorCache());
 
 				var times = new[]
 				{
@@ -404,13 +412,23 @@ namespace JJ.Business.Synthesizer.Tests
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise_Input.wav";
 				audioFileOutput.SamplingRate = outputSamplingRate;
 				audioFileOutput.LinkTo(noise);
-				patchCalculator = patchFacade.CreateCalculator(noise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+				patchCalculator = patchFacade.CreateCalculator(
+					noise,
+					DEFAULT_SAMPLING_RATE,
+					DEFAULT_CHANNEL_COUNT,
+					DEFAULT_CHANNEL_INDEX,
+					new CalculatorCache());
 				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise_WithLowerSamplingRate.wav";
 				audioFileOutput.SamplingRate = alternativeSamplingRate;
 				audioFileOutput.LinkTo(noise);
-				patchCalculator = patchFacade.CreateCalculator(noise, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+				patchCalculator = patchFacade.CreateCalculator(
+					noise,
+					DEFAULT_SAMPLING_RATE,
+					DEFAULT_CHANNEL_COUNT,
+					DEFAULT_CHANNEL_INDEX,
+					new CalculatorCache());
 				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_ConstantSamplingRate_Noise_WithInterpolateOperator.wav";
@@ -475,7 +493,12 @@ namespace JJ.Business.Synthesizer.Tests
 
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_Sine_Input.wav";
 				audioFileOutput.LinkTo(sine);
-				patchCalculator = patchFacade.CreateCalculator(sine, DEFAULT_SAMPLING_RATE, DEFAULT_CHANNEL_COUNT, DEFAULT_CHANNEL_INDEX, new CalculatorCache());
+				patchCalculator = patchFacade.CreateCalculator(
+					sine,
+					DEFAULT_SAMPLING_RATE,
+					DEFAULT_CHANNEL_COUNT,
+					DEFAULT_CHANNEL_INDEX,
+					new CalculatorCache());
 				audioFileOutputFacade.WriteFile(audioFileOutput, patchCalculator);
 
 				audioFileOutput.FilePath = "Test_Synthesizer_InterpolateOperator_Sine_Interpolated.wav";
@@ -509,7 +532,7 @@ namespace JJ.Business.Synthesizer.Tests
 					DEFAULT_CHANNEL_INDEX,
 					new CalculatorCache());
 
-				var times = new[]
+				double[] times =
 				{
 					0.00,
 					0.25,
@@ -522,13 +545,7 @@ namespace JJ.Business.Synthesizer.Tests
 					2.00
 				};
 
-				var values = new List<double>(times.Length);
-
-				foreach (double time in times)
-				{
-					double value = TestHelper.CalculateOneValue(patchCalculator);
-					values.Add(value);
-				}
+				double[] values = times.Select(time => TestHelper.CalculateOneValue(patchCalculator, time)).ToArray();
 			}
 		}
 
@@ -571,12 +588,7 @@ namespace JJ.Business.Synthesizer.Tests
 					2.000
 				};
 
-				var values = new List<double>(times.Length);
-				foreach (double time in times)
-				{
-					double value = TestHelper.CalculateOneValue(patchCalculator, time);
-					values.Add(value);
-				}
+				double[] values = times.Select(time => TestHelper.CalculateOneValue(patchCalculator, time)).ToArray();
 			}
 		}
 

@@ -16,7 +16,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		/// <summary> Do not show in the UI. Is there to persist along with the document create action. </summary>
 		public IDAndName Patch { get; set; }
 
+		// ReSharper disable once UnusedAutoPropertyAccessor.Global
 		public bool CanDelete { get; set; }
+
+		// ReSharper disable once UnusedAutoPropertyAccessor.Global
 		public bool IDVisible { get; set; }
 	}
 }

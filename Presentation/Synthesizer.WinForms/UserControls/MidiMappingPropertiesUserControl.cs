@@ -64,6 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new MidiMappingPropertiesViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (MidiMappingPropertiesViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

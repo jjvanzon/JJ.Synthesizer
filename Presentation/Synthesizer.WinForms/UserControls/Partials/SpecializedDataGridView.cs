@@ -29,6 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
 		public new object DataSource
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => base.DataSource;
 			set
 			{

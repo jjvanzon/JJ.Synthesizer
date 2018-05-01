@@ -209,7 +209,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorPropertiesDictionary_Refresh();
 			PatchDetailsDictionary_Refresh();
 			PatchPropertiesDictionary_Refresh();
-			ScaleLookup_Refresh();
 			ScalePropertiesDictionary_Refresh();
 			ToneGridEditDictionary_Refresh();
 			UnderylingPatchLookup_Refresh();
@@ -561,7 +560,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				OperatorPropertiesViewModel_ForCurve viewModel = ViewModelSelector.TryGetOperatorPropertiesViewModel_ForCurve_ByOperatorID(MainViewModel.Document, op.ID);
 				if (viewModel == null)
 				{
-					viewModel = op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+					viewModel = op.ToPropertiesViewModel_ForCurve();
 					viewModel.Successful = true;
 					viewModelDictionary[op.ID] = viewModel;
 				}
@@ -888,10 +887,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private void PatchDetails_RefreshOperator(Operator entity, OperatorViewModel operatorViewModel)
 		{
-			ToViewModelHelper.RefreshViewModel_WithInletsAndOutlets(
-				entity,
-				operatorViewModel,
-				_repositories.CurveRepository);
+			ToViewModelHelper.RefreshViewModel_WithInletsAndOutlets(entity, operatorViewModel);
 		}
 
 		private void PatchDetailsDictionary_Refresh()
@@ -907,7 +903,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				PatchDetailsViewModel viewModel = ViewModelSelector.TryGetPatchDetailsViewModel(MainViewModel.Document, entity.ID);
 				if (viewModel == null)
 				{
-					viewModel = entity.ToDetailsViewModel(_repositories.CurveRepository);
+					viewModel = entity.ToDetailsViewModel();
 
 					viewModel.Successful = true;
 					viewModelDictionary[entity.ID] = viewModel;
@@ -982,12 +978,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			PatchPropertiesViewModel viewModel = _patchPropertiesPresenter.Refresh(userInput);
 			DispatchViewModel(viewModel);
-		}
-
-		private void ScaleLookup_Refresh()
-		{
-			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-			MainViewModel.Document.ScaleLookup = document.Scales.ToLookupViewModel();
 		}
 
 		private void ScalePropertiesDictionary_Refresh()

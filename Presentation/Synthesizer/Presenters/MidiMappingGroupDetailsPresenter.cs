@@ -135,7 +135,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.SelectedMidiMapping = selectedElementViewModel;
 		}
 
-		public override void CopyNonPersistedProperties(MidiMappingGroupDetailsViewModel sourceViewModel, MidiMappingGroupDetailsViewModel destViewModel)
+		protected override void CopyNonPersistedProperties(MidiMappingGroupDetailsViewModel sourceViewModel, MidiMappingGroupDetailsViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 

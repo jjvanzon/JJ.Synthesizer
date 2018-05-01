@@ -1,4 +1,5 @@
-﻿namespace JJ.Presentation.Synthesizer.Helpers
+﻿// ReSharper disable UnusedMember.Global
+namespace JJ.Presentation.Synthesizer.Helpers
 {
 	public enum StyleGradeEnum
 	{
@@ -23,6 +24,6 @@
 		StyleGrade17,
 		StyleGrade18,
 		StyleGrade19,
-		StyleGrade20,
+		StyleGrade20
 	}
 }

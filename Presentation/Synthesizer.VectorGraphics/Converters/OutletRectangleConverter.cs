@@ -71,11 +71,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			{
 				destOutletRectangle = new Rectangle(destOperatorRectangle)
 				{
-					Tag = outletID
+					Tag = outletID,
+					Style = 
+					{
+						BackStyle = StyleHelper.BackStyleInvisible,
+						LineStyle = StyleHelper.BorderStyleInvisible
+					}
 				};
 
-				destOutletRectangle.Style.BackStyle = StyleHelper.BackStyleInvisible;
-				destOutletRectangle.Style.LineStyle = StyleHelper.BorderStyleInvisible;
 
 				_destOutletRectangleDictionary.Add(outletID, destOutletRectangle);
 				_destOutletRectangleHashSet.Add(destOutletRectangle);

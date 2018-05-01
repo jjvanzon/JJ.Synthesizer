@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Basic;
@@ -12,6 +11,8 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -71,15 +72,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static DocumentOrPatchNotFoundPopupViewModel CreateDocumentOrPatchNotFoundPopupViewModel(string message = null)
-		{
-			DocumentOrPatchNotFoundPopupViewModel viewModel = CreateEmptyDocumentOrPatchNotFoundPopupViewModel();
-
-			viewModel.NotFoundMessage = message;
-
-			return viewModel;
-		}
-
 		// Menu
 
 		public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
@@ -103,10 +95,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		/// Is used to be able to update an existing operator view model in-place
 		/// without having to re-establish the intricate relations with other operators.
 		/// </summary>
-		public static void RefreshInletViewModels(
-			IList<Inlet> sourceInlets,
-			OperatorViewModel destOperatorViewModel,
-			ICurveRepository curveRepository)
+		public static void RefreshInletViewModels(IList<Inlet> sourceInlets, OperatorViewModel destOperatorViewModel)
 		{
 			if (sourceInlets == null) throw new NullException(() => sourceInlets);
 			if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -114,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var inletViewModelsToKeep = new List<InletViewModel>(sourceInlets.Count);
 			foreach (Inlet inlet in sourceInlets)
 			{
-				InletViewModel inletViewModel = destOperatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
+				InletViewModel inletViewModel = destOperatorViewModel.Inlets.FirstOrDefault(x => x.ID == inlet.ID);
 				if (inletViewModel == null)
 				{
 					inletViewModel = new InletViewModel();
@@ -148,10 +137,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		/// Is used to be able to update an existing operator view model in-place
 		/// without having to re-establish the intricate relations with other operators.
 		/// </summary>
-		public static void RefreshOutletViewModels(
-			IList<Outlet> sourceOutlets,
-			OperatorViewModel destOperatorViewModel,
-			ICurveRepository curveRepository)
+		public static void RefreshOutletViewModels(IList<Outlet> sourceOutlets, OperatorViewModel destOperatorViewModel)
 		{
 			if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
 			if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -159,7 +145,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var outletViewModelsToKeep = new List<OutletViewModel>(sourceOutlets.Count);
 			foreach (Outlet outlet in sourceOutlets)
 			{
-				OutletViewModel outletViewModel = destOperatorViewModel.Outlets.Where(x => x.ID == outlet.ID).FirstOrDefault();
+				OutletViewModel outletViewModel = destOperatorViewModel.Outlets.FirstOrDefault(x => x.ID == outlet.ID);
 				if (outletViewModel == null)
 				{
 					outletViewModel = new OutletViewModel();
@@ -169,7 +155,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 					outletViewModel.Operator = destOperatorViewModel;
 				}
 
-				outlet.ToViewModel(outletViewModel, curveRepository);
+				outlet.ToViewModel(outletViewModel);
 
 				outletViewModelsToKeep.Add(outletViewModel);
 			}
@@ -198,21 +184,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		/// Is used to be able to update an existing operator view model in-place
 		/// without having to re-establish the intricate relations with other operators.
 		/// </summary>
-		public static void RefreshViewModel_WithInletsAndOutlets(
-			Operator entity,
-			OperatorViewModel operatorViewModel,
-			ICurveRepository curveRepository)
+		public static void RefreshViewModel_WithInletsAndOutlets(Operator entity, OperatorViewModel operatorViewModel)
 		{
-			RefreshViewModel(entity, operatorViewModel, curveRepository);
-			RefreshInletViewModels(entity.Inlets, operatorViewModel, curveRepository);
-			RefreshOutletViewModels(entity.Outlets, operatorViewModel, curveRepository);
+			RefreshViewModel(entity, operatorViewModel);
+			RefreshInletViewModels(entity.Inlets, operatorViewModel);
+			RefreshOutletViewModels(entity.Outlets, operatorViewModel);
 		}
 
 		/// <summary>
 		/// Is used to be able to update an existing operator view model in-place
 		/// without having to re-establish the intricate relations with other operators.
 		/// </summary>
-		public static void RefreshViewModel(Operator entity, OperatorViewModel viewModel, ICurveRepository curveRepository)
+		public static void RefreshViewModel(Operator entity, OperatorViewModel viewModel)
 		{
 			if (entity == null) throw new NullException(() => entity);
 			if (viewModel == null) throw new NullException(() => viewModel);

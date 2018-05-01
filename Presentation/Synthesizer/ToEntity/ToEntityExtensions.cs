@@ -18,6 +18,8 @@ using JJ.Framework.Conversion;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMethodReturnValue.Global
 
 // ReSharper disable ObjectCreationAsStatement
 

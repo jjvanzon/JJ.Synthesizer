@@ -140,7 +140,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		public override void CopyNonPersistedProperties(CurveDetailsViewModel sourceViewModel, CurveDetailsViewModel destViewModel)
+		protected override void CopyNonPersistedProperties(CurveDetailsViewModel sourceViewModel, CurveDetailsViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 

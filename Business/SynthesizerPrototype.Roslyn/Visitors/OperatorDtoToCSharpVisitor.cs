@@ -57,8 +57,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Visitors
 			_phaseVariableCounter = FIRST_VARIABLE_NUMBER;
 			_previousPositionVariableCounter = FIRST_VARIABLE_NUMBER;
 
-			_sb = new StringBuilderWithIndentation(TAB_STRING);
-			_sb.IndentLevel = intialIndentLevel;
+			_sb = new StringBuilderWithIndentation(TAB_STRING) { IndentLevel = intialIndentLevel };
 
 			Visit_OperatorDto_Polymorphic(dto);
 

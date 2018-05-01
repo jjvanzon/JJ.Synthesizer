@@ -3,6 +3,7 @@ using JJ.Data.Synthesizer.Helpers;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 // ReSharper disable VirtualMemberCallInConstructor
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace JJ.Data.Synthesizer.Entities
 {

@@ -6,6 +6,9 @@ using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedMethodReturnValue.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
@@ -90,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 				PlayButtonVisible = false,
 				Dock = DockStyle.Fill,
 				Margin = new Padding(0),
-				Name = nameof(_titleBarUserControl),
+				Name = nameof(_titleBarUserControl)
 			};
 
 			titleBarUserControl.AddClicked += _titleBarUserControl_AddClicked;

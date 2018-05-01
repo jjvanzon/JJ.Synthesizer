@@ -1,5 +1,5 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -29,6 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new OperatorPropertiesViewModel_ForNumber ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (OperatorPropertiesViewModel_ForNumber)base.ViewModel;
 			set => base.ViewModel = value;
 		}

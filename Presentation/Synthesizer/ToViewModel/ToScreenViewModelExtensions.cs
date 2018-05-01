@@ -42,15 +42,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			// TODO: Delegate to something in ViewModelHelper_Lookups.cs?
 			IList<Outlet> outlets = entity.Document.Patches
-												   .SelectMany(x => x.Operators)
-												   .Where(x => x.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
-												   .SelectMany(x => x.Outlets)
-												   .ToArray();
+			                              .SelectMany(x => x.Operators)
+			                              .Where(x => x.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
+			                              .SelectMany(x => x.Outlets)
+			                              .ToArray();
 
 			// TODO: This will not cut it, because you only see the operator name on screen, not the patch name.
 			viewModel.OutletLookup = outlets.Select(x => x.ToIDAndName())
-											.OrderBy(x => x.Name)
-											.ToArray();
+			                                .OrderBy(x => x.Name)
+			                                .ToArray();
 			return viewModel;
 		}
 
@@ -82,14 +82,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static AudioOutputPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this AudioOutput entity)
-		{
-			return new AudioOutputPropertiesViewModel
+			=> new AudioOutputPropertiesViewModel
 			{
 				Entity = entity.ToViewModel(),
 				SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel(),
 				ValidationMessages = new List<string>()
 			};
-		}
 
 		// Curve
 
@@ -105,12 +103,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		private static CurveDetailsViewModel ToDetailsViewModel_WithoutOriginalState(this Curve entity)
 		{
-
 			var viewModel = new CurveDetailsViewModel
 			{
 				Curve = entity.ToIDAndName(),
 				Nodes = entity.Nodes.ToViewModelDictionary(),
-				NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel(),
 				ValidationMessages = new List<string>()
 			};
 
@@ -127,15 +123,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static NodePropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Node entity)
-		{
-			return new NodePropertiesViewModel
+			=> new NodePropertiesViewModel
 			{
 				CurveID = entity.Curve?.ID ?? default, // Null after delete action.
 				Entity = entity.ToViewModel(),
 				ValidationMessages = new List<string>(),
 				NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel()
 			};
-		}
 
 		// Document
 
@@ -164,13 +158,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static DocumentPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Document document)
-		{
-			return new DocumentPropertiesViewModel
+			=> new DocumentPropertiesViewModel
 			{
 				Entity = document.ToIDAndName(),
 				ValidationMessages = new List<string>()
 			};
-		}
 
 		public static DocumentDeleteViewModel ToDeleteViewModel(this Document entity)
 		{
@@ -182,7 +174,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				Document = new IDAndName
 				{
 					ID = entity.ID,
-					Name = entity.Name,
+					Name = entity.Name
 				}
 			};
 
@@ -250,32 +242,36 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			// Lookup for Aliases (of DocumentReference by Document).
 			Dictionary<int, DocumentReference> documentReferenceDictionary = higherDocument.LowerDocumentReferences
-																						   .ToDictionary(x => x.LowerDocument.ID);
+			                                                                               .ToDictionary(x => x.LowerDocument.ID);
 			int lastPatchIndex = patches.Count - 1;
 
-			viewModel.Patches = patches.Select((x, i) => new InstrumentItemViewModel
-			{
-				EntityID = x.ID,
-				Name = getName(x),
-				CanGoBackward = i != 0,
-				CanGoForward = i != lastPatchIndex,
-				CanPlay = true,
-				CanDelete = true,
-				CanExpand = true,
-			}).ToList();
+			viewModel.Patches = patches.Select(
+				                           (x, i) => new InstrumentItemViewModel
+				                           {
+					                           EntityID = x.ID,
+					                           Name = getName(x),
+					                           CanGoBackward = i != 0,
+					                           CanGoForward = i != lastPatchIndex,
+					                           CanPlay = true,
+					                           CanDelete = true,
+					                           CanExpand = true
+				                           })
+			                           .ToList();
 
 			int lastMidiMappingGroupIndex = midiMappings.Count - 1;
 
-			viewModel.MidiMappingGroups = midiMappings.Select((x, i) => new InstrumentItemViewModel
-			{
-				EntityID = x.ID,
-				Name = x.Name,
-				CanGoBackward = i != 0,
-				CanGoForward = i != lastMidiMappingGroupIndex,
-				CanPlay = false,
-				CanDelete = true,
-				CanExpand = true
-			}).ToList();
+			viewModel.MidiMappingGroups = midiMappings.Select(
+				                                          (x, i) => new InstrumentItemViewModel
+				                                          {
+					                                          EntityID = x.ID,
+					                                          Name = x.Name,
+					                                          CanGoBackward = i != 0,
+					                                          CanGoForward = i != lastMidiMappingGroupIndex,
+					                                          CanPlay = false,
+					                                          CanDelete = true,
+					                                          CanExpand = true
+				                                          })
+			                                          .ToList();
 
 			string getName(Patch patch)
 			{
@@ -283,7 +279,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 				// Not using Document Name or Alias
 				bool mustHideDocumentAliasOrName = lowerDocument.ID == higherDocument.ID ||
-												   lowerDocument.IsSystemDocument();
+				                                   lowerDocument.IsSystemDocument();
 				if (mustHideDocumentAliasOrName)
 				{
 					return ResourceFormatter.GetDisplayName(patch);
@@ -318,8 +314,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static LibraryPropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this DocumentReference documentReference)
-		{
-			return new LibraryPropertiesViewModel
+			=> new LibraryPropertiesViewModel
 			{
 				DocumentReferenceID = documentReference.ID,
 				LowerDocumentID = documentReference.LowerDocument?.ID ?? default, // Null after delete action.
@@ -327,10 +322,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				Alias = documentReference.Alias,
 				ValidationMessages = new List<string>()
 			};
-		}
 
 		public static LibrarySelectionPopupViewModel ToLibrarySelectionPopupViewModel(
-			this Document higherDocument, 
+			this Document higherDocument,
 			IList<Document> lowerDocumentCandidates)
 		{
 			if (higherDocument == null) throw new ArgumentNullException(nameof(higherDocument));
@@ -474,19 +468,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.GetOperatorsOfType(OperatorTypeEnum.Cache)
-						.Select(x => x.ToPropertiesViewModel_ForCache(interpolationTypeRepository))
-						.ToList();
+			            .Select(x => x.ToPropertiesViewModel_ForCache(interpolationTypeRepository))
+			            .ToList();
 		}
 
-		public static IList<OperatorPropertiesViewModel_ForCurve> ToPropertiesViewModelList_ForCurves(
-			this Patch patch,
-			ICurveRepository curveRepository)
+		public static IList<OperatorPropertiesViewModel_ForCurve> ToPropertiesViewModelList_ForCurves(this Patch patch)
 		{
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.GetOperatorsOfType(OperatorTypeEnum.Curve)
-						.Select(x => x.ToPropertiesViewModel_ForCurve(curveRepository))
-						.ToList();
+			            .Select(x => x.ToPropertiesViewModel_ForCurve())
+			            .ToList();
 		}
 
 		public static IList<OperatorPropertiesViewModel_ForInletsToDimension> ToPropertiesViewModelList_ForInletsToDimension(
@@ -496,8 +488,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.GetOperatorsOfType(OperatorTypeEnum.InletsToDimension)
-						.Select(x => x.ToPropertiesViewModel_ForInletsToDimension(interpolationTypeRepository))
-						.ToList();
+			            .Select(x => x.ToPropertiesViewModel_ForInletsToDimension(interpolationTypeRepository))
+			            .ToList();
 		}
 
 		public static IList<OperatorPropertiesViewModel_ForNumber> ToPropertiesViewModelList_ForNumbers(this Patch patch)
@@ -505,8 +497,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.GetOperatorsOfType(OperatorTypeEnum.Number)
-						.Select(x => x.ToPropertiesViewModel_ForNumber())
-						.ToList();
+			            .Select(x => x.ToPropertiesViewModel_ForNumber())
+			            .ToList();
 		}
 
 		public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(this Patch patch)
@@ -514,8 +506,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-						.Select(x => x.ToPropertiesViewModel_ForPatchInlet())
-						.ToList();
+			            .Select(x => x.ToPropertiesViewModel_ForPatchInlet())
+			            .ToList();
 		}
 
 		public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(this Patch patch)
@@ -523,8 +515,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-						.Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
-						.ToList();
+			            .Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
+			            .ToList();
 		}
 
 		public static IList<OperatorPropertiesViewModel_ForSample> ToPropertiesViewModelList_ForSamples(
@@ -535,8 +527,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.GetOperatorsOfType(OperatorTypeEnum.Sample)
-						.Select(x => x.ToPropertiesViewModel_ForSample(sampleRepository, interpolationTypeRepository))
-						.ToList();
+			            .Select(x => x.ToPropertiesViewModel_ForSample(sampleRepository, interpolationTypeRepository))
+			            .ToList();
 		}
 
 		public static IList<OperatorPropertiesViewModel_WithInterpolation> ToPropertiesViewModelList_WithInterpolation(
@@ -546,18 +538,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
 			return patch.Operators
-						.Where(x => ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
-						.Select(x => x.ToPropertiesViewModel_WithInterpolation(interpolationTypeRepository))
-						.ToList();
+			            .Where(x => ToViewModelHelper.OperatorTypeEnums_WithInterpolationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+			            .Select(x => x.ToPropertiesViewModel_WithInterpolation(interpolationTypeRepository))
+			            .ToList();
 		}
 
-		public static IList<OperatorPropertiesViewModel_WithCollectionRecalculation> ToPropertiesViewModelList_WithCollectionRecalculation(this Patch patch)
+		public static IList<OperatorPropertiesViewModel_WithCollectionRecalculation> ToPropertiesViewModelList_WithCollectionRecalculation(
+			this Patch patch)
 		{
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 
-			return patch.Operators.Where(x => ToViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
-						.Select(x => x.ToPropertiesViewModel_WithCollectionRecalculation())
-						.ToList();
+			return patch.Operators.Where(
+				            x => ToViewModelHelper.OperatorTypeEnums_WithCollectionRecalculationPropertyViews.Contains(x.GetOperatorTypeEnum()))
+			            .Select(x => x.ToPropertiesViewModel_WithCollectionRecalculation())
+			            .ToList();
 		}
 
 		// Items
@@ -581,7 +575,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache(this Operator entity, IInterpolationTypeRepository interpolationTypeRepository)
+		public static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache(
+			this Operator entity,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -590,7 +586,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		private static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache_WithoutOriginalState(this Operator entity, IInterpolationTypeRepository interpolationTypeRepository)
+		private static OperatorPropertiesViewModel_ForCache ToPropertiesViewModel_ForCache_WithoutOriginalState(
+			this Operator entity,
+			IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForCache>(entity);
 
@@ -604,7 +602,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static OperatorPropertiesViewModel_ForCurve ToPropertiesViewModel_ForCurve(this Operator entity, ICurveRepository curveRepository)
+		public static OperatorPropertiesViewModel_ForCurve ToPropertiesViewModel_ForCurve(this Operator entity)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
@@ -633,7 +631,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			OperatorPropertiesViewModel_ForInletsToDimension viewModel = entity.ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(interpolationTypeRepository);
+			OperatorPropertiesViewModel_ForInletsToDimension viewModel =
+				entity.ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(interpolationTypeRepository);
 			viewModel.OriginalState = entity.ToPropertiesViewModel_ForInletsToDimension_WithoutOriginalState(interpolationTypeRepository);
 			return viewModel;
 		}
@@ -721,7 +720,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		private static OperatorPropertiesViewModel_ForPatchOutlet ToPropertiesViewModel_ForPatchOutlet_WithoutOriginalViewModel(this Operator entity)
+		private static OperatorPropertiesViewModel_ForPatchOutlet ToPropertiesViewModel_ForPatchOutlet_WithoutOriginalViewModel(
+			this Operator entity)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_ForPatchOutlet>(entity);
 
@@ -754,7 +754,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			if (op == null) throw new ArgumentNullException(nameof(op));
 
-			OperatorPropertiesViewModel_ForSample viewModel = op.OperatorPropertiesViewModel_ForSample_WithoutOriginalState(sampleRepository, interpolationTypeRepository);
+			OperatorPropertiesViewModel_ForSample viewModel =
+				op.OperatorPropertiesViewModel_ForSample_WithoutOriginalState(sampleRepository, interpolationTypeRepository);
 			viewModel.OriginalState = op.OperatorPropertiesViewModel_ForSample_WithoutOriginalState(sampleRepository, interpolationTypeRepository);
 			return viewModel;
 		}
@@ -785,7 +786,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			OperatorPropertiesViewModel_WithInterpolation viewModel = entity.ToPropertiesViewModel_WithInterpolation_WithoutOriginalState(interpolationTypeRepository);
+			OperatorPropertiesViewModel_WithInterpolation viewModel =
+				entity.ToPropertiesViewModel_WithInterpolation_WithoutOriginalState(interpolationTypeRepository);
 			viewModel.OriginalState = entity.ToPropertiesViewModel_WithInterpolation_WithoutOriginalState(interpolationTypeRepository);
 			return viewModel;
 		}
@@ -809,12 +811,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			OperatorPropertiesViewModel_WithCollectionRecalculation viewModel = entity.ToPropertiesViewModel_WithCollectionRecalculation_WithoutOriginalState();
+			OperatorPropertiesViewModel_WithCollectionRecalculation viewModel =
+				entity.ToPropertiesViewModel_WithCollectionRecalculation_WithoutOriginalState();
 			viewModel.OriginalState = entity.ToPropertiesViewModel_WithCollectionRecalculation_WithoutOriginalState();
 			return viewModel;
 		}
 
-		private static OperatorPropertiesViewModel_WithCollectionRecalculation ToPropertiesViewModel_WithCollectionRecalculation_WithoutOriginalState(this Operator entity)
+		private static OperatorPropertiesViewModel_WithCollectionRecalculation
+			ToPropertiesViewModel_WithCollectionRecalculation_WithoutOriginalState(this Operator entity)
 		{
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithCollectionRecalculation>(entity);
 
@@ -875,9 +879,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Patch
 
-		public static PatchDetailsViewModel ToDetailsViewModel(this Patch patch, ICurveRepository curveRepository)
+		public static PatchDetailsViewModel ToDetailsViewModel(this Patch patch)
 		{
-			var converter = new RecursiveToPatchViewModelConverter(curveRepository);
+			var converter = new RecursiveToPatchViewModelConverter();
 
 			PatchDetailsViewModel viewModel = converter.ConvertToDetailsViewModel(patch);
 			viewModel.OriginalState = converter.ConvertToDetailsViewModel(patch);
@@ -934,14 +938,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static ScalePropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Scale entity)
-		{
-			return new ScalePropertiesViewModel
+			=> new ScalePropertiesViewModel
 			{
 				Entity = entity.ToViewModel(),
 				ScaleTypeLookup = ToViewModelHelper.GetScaleTypeLookupViewModel(),
 				ValidationMessages = new List<string>()
 			};
-		}
 
 		// Tone
 
@@ -955,8 +957,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		}
 
 		private static ToneGridEditViewModel ToToneGridEditViewModel_WithoutOriginalState(this Scale entity)
-		{
-			return new ToneGridEditViewModel
+			=> new ToneGridEditViewModel
 			{
 				ScaleID = entity.ID,
 				ValueTitle = ToViewModelHelper.GetToneGridEditValueTitle(entity),
@@ -964,6 +965,5 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				FrequencyVisible = entity.GetScaleTypeEnum() != ScaleTypeEnum.LiteralFrequency,
 				ValidationMessages = new List<string>()
 			};
-		}
 	}
 }

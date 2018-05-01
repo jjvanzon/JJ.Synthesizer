@@ -1,4 +1,5 @@
 ﻿using JJ.Data.Synthesizer.Entities;
+// ReSharper disable UnusedMemberInSuper.Global
 
 namespace JJ.Data.Synthesizer.Interfaces
 {

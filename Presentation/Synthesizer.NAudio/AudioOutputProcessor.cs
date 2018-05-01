@@ -39,16 +39,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
 			}
 		}
 
-		public Thread StartThread()
+		public void StartThread()
 		{
 			var thread = new Thread(Start);
 			thread.Start();
 
 			// Starting AudioOutputProcessor on another thread seems to 
-			// start and keep alive a new Windows message loop,
-			// but that does not mean that the thread keeps running.
-
-			return thread;
+			// start and keep alive a new Windows message loop.
+			// The thread keeps running too.
 		}
 
 		private void Start()

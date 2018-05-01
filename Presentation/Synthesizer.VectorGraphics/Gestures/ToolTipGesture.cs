@@ -94,6 +94,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 		}
 
 		/// <summary> Sets the tool tip text, positions the tooltip and shows it on the provided element. </summary>
+		// ReSharper disable once MemberCanBePrivate.Global
 		public void ShowToolTipText(Element element, string text)
 		{
 			if (element == null) throw new NullException(() => element);

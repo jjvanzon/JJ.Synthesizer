@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 // ReSharper disable LocalizableElement
+// ReSharper disable UnusedMember.Global
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials

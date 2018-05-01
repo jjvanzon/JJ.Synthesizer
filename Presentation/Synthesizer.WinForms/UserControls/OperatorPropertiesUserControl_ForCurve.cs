@@ -18,6 +18,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new OperatorPropertiesViewModel_ForCurve ViewModel
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => (OperatorPropertiesViewModel_ForCurve)base.ViewModel;
 			set => base.ViewModel = value;
 		}

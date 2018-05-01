@@ -23,6 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		protected readonly Label _labelOutletCount;
 		protected readonly NumericUpDown _numericUpDownOutletCount;
 
+		// ReSharper disable once MemberCanBeProtected.Global
 		public OperatorPropertiesUserControlBase()
 		{
 			Name = GetType().Name;
@@ -59,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			DeleteButtonVisible = true;
 		}
 
-		public new OperatorPropertiesViewModelBase ViewModel
+		protected new OperatorPropertiesViewModelBase ViewModel
 		{
 			get => (OperatorPropertiesViewModelBase)base.ViewModel;
 			set => base.ViewModel = value;

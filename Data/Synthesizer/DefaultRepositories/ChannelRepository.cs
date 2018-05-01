@@ -1,11 +1,10 @@
-﻿using JetBrains.Annotations;
-using JJ.Framework.Data;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Data;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-	[UsedImplicitly]
 	public class ChannelRepository : RepositoryBase<Channel, int>, IChannelRepository
 	{
 		public ChannelRepository(IContext context)
@@ -15,9 +14,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 		/// <summary>
 		/// Does not get the related entities immediately unless you override it in a specialized repository.
 		/// </summary>
-		public virtual Channel GetWithRelatedEntities(int id)
-		{
-			return Get(id);
-		}
+		public virtual Channel GetWithRelatedEntities(int id) => Get(id);
 	}
 }

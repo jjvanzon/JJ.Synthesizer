@@ -461,7 +461,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// NOTE: CanCreate is set in the MainPresenter instead, because it depends on another view's visibility (PatchDetails).
 		}
 
-		public override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
+		protected override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
@@ -537,8 +537,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					// ReSharper disable once SimplifyLinqExpression
 					bool nodeExists = viewModel.LibrariesNode.List
 					                           .SelectMany(x => x.PatchGroupNodes)
-					                           .Where(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroupName))
-					                           .Any();
+					                           .Any(x => string.Equals(x.CanonicalGroupName, viewModel.SelectedCanonicalPatchGroupName));
 					if (!nodeExists)
 					{
 						ClearSelection(viewModel);

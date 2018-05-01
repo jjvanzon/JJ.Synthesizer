@@ -75,16 +75,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.titleBarUserControl.TabIndex = 3;
 			this.titleBarUserControl.TitleLabelVisible = false;
 			this.titleBarUserControl.UndoButtonVisible = true;
-			this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.titleBarUserControl_AddToInstrumentClicked);
-			this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
-			this.titleBarUserControl.NewClicked += new System.EventHandler(this.titleBarUserControl_NewClicked);
-			this.titleBarUserControl.ExpandClicked += new System.EventHandler(this.titleBarUserControl_OpenClicked);
-			this.titleBarUserControl.PlayClicked += new System.EventHandler(this.titleBarUserControl_PlayClicked);
-			this.titleBarUserControl.RedoClicked += new System.EventHandler(this.titleBarUserControl_RedoClicked);
-			this.titleBarUserControl.RefreshClicked += new System.EventHandler(this.titleBarUserControl_RefreshClicked);
-			this.titleBarUserControl.DeleteClicked += new System.EventHandler(this.titleBarUserControl_DeleteClicked);
-			this.titleBarUserControl.SaveClicked += new System.EventHandler(this.titleBarUserControl_SaveClicked);
-			this.titleBarUserControl.UndoClicked += new System.EventHandler(this.titleBarUserControl_UndoClicked);
+			this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.TitleBarUserControl_AddToInstrumentClicked);
+			this.titleBarUserControl.CloseClicked += new System.EventHandler(this.TitleBarUserControl_CloseClicked);
+			this.titleBarUserControl.NewClicked += new System.EventHandler(this.TitleBarUserControl_NewClicked);
+			this.titleBarUserControl.ExpandClicked += new System.EventHandler(this.TitleBarUserControl_OpenClicked);
+			this.titleBarUserControl.PlayClicked += new System.EventHandler(this.TitleBarUserControl_PlayClicked);
+			this.titleBarUserControl.RedoClicked += new System.EventHandler(this.TitleBarUserControl_RedoClicked);
+			this.titleBarUserControl.RefreshClicked += new System.EventHandler(this.TitleBarUserControl_RefreshClicked);
+			this.titleBarUserControl.DeleteClicked += new System.EventHandler(this.TitleBarUserControl_DeleteClicked);
+			this.titleBarUserControl.SaveClicked += new System.EventHandler(this.TitleBarUserControl_SaveClicked);
+			this.titleBarUserControl.UndoClicked += new System.EventHandler(this.TitleBarUserControl_UndoClicked);
 			// 
 			// treeView
 			// 
@@ -98,9 +98,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.treeView.ShowLines = false;
 			this.treeView.Size = new System.Drawing.Size(269, 468);
 			this.treeView.TabIndex = 4;
-			this.treeView.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.treeView_NodeMouseHover);
-			this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
-			this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
+			this.treeView.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.TreeView_NodeMouseHover);
+			this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_AfterSelect);
+			this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_NodeMouseDoubleClick);
 			// 
 			// toolTip
 			// 

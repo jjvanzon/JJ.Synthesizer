@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using JJ.Framework.Data;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Data;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
@@ -11,7 +10,5 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 		public CurveRepository(IContext context)
 			: base(context)
 		{ }
-
-		public virtual IList<Curve> GetAll() => throw new RepositoryMethodNotImplementedException();
 	}
 }

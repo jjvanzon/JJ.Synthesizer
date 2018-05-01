@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 			return ContextFactory.CreateContextFromConfiguration();
 		}
 
-		public static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context)
+		private static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context)
 		{
 			return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context);
 		}

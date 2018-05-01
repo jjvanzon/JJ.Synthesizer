@@ -1,7 +1,7 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -36,6 +36,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new OperatorPropertiesViewModel_ForPatchOutlet ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (OperatorPropertiesViewModel_ForPatchOutlet)base.ViewModel;
 			set => base.ViewModel = value;
 		}

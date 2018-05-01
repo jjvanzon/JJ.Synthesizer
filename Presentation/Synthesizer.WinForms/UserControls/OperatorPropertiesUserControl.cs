@@ -9,6 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new OperatorPropertiesViewModel ViewModel
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => (OperatorPropertiesViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

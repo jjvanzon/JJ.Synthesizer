@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return _midiMappingFacade.SaveMidiMapping(entity);
 		}
 
-		public override void CopyNonPersistedProperties(MidiMappingPropertiesViewModel sourceViewModel, MidiMappingPropertiesViewModel destViewModel)
+		protected override void CopyNonPersistedProperties(MidiMappingPropertiesViewModel sourceViewModel, MidiMappingPropertiesViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 

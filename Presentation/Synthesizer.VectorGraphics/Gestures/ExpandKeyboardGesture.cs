@@ -3,6 +3,7 @@ using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.EventArg;
 using JJ.Framework.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {

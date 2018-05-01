@@ -5,9 +5,9 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -244,13 +244,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Operator
 
-		public static OperatorViewModel ToViewModel(this Operator entity, ICurveRepository curveRepository)
+		public static OperatorViewModel ToViewModel(this Operator entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
 			var viewModel = new OperatorViewModel();
 
-			ToViewModelHelper.RefreshViewModel(entity, viewModel, curveRepository);
+			ToViewModelHelper.RefreshViewModel(entity, viewModel);
 
 			return viewModel;
 		}
@@ -260,17 +260,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Outlet
 
-		public static OutletViewModel ToViewModel(this Outlet entity, ICurveRepository curveRepository)
+		public static OutletViewModel ToViewModel(this Outlet entity)
 		{
 			if (entity == null) throw new NullException(() => entity);
 
 			var viewModel = new OutletViewModel();
-			entity.ToViewModel(viewModel, curveRepository);
+			entity.ToViewModel(viewModel);
 			return viewModel;
 		}
 
 		/// <summary> Overload for in-place refreshing of a view model. </summary>
-		public static void ToViewModel(this Outlet entity, OutletViewModel viewModel, ICurveRepository curveRepository)
+		public static void ToViewModel(this Outlet entity, OutletViewModel viewModel)
 		{
 			if (entity == null) throw new NullException(() => entity);
 			if (viewModel == null) throw new NullException(() => viewModel);

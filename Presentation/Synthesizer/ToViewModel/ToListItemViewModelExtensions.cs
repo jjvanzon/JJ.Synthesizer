@@ -1,10 +1,11 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Items;
-using System.Collections.Generic;
-using System.Linq;
 using JJ.Framework.Exceptions.Basic;
+using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

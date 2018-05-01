@@ -146,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			                                          .ToList();
 
 			string aliasOrName = lowerDocumentReference.GetAliasOrName();
-			int visiblePatchCount = lowerDocument.Patches.Where(x => !x.Hidden).Count();
+			int visiblePatchCount = lowerDocument.Patches.Count(x => !x.Hidden);
 			viewModel.Caption = GetTreeNodeText(aliasOrName, visiblePatchCount);
 
 			return viewModel;

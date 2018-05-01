@@ -23,6 +23,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		public PictureStyle PictureStyle
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => _picture.Style;
 			set => _picture.Style = value;
 		}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using JetBrains.Annotations;
 using JJ.Business.Canonical;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.EntityWrappers;
@@ -23,6 +24,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 
 		public static bool MustAssertWarningIncrease { get; set; } = true;
 
+		[UsedImplicitly]
 		public static void AssertAllDocuments(Action<string> progressCallback)
 		{
 			if (progressCallback == null) throw new NullException(() => progressCallback);
@@ -38,6 +40,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 			progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
 		}
 
+		[UsedImplicitly]
 		public static void ShowAllWarnings(Action<string> progressCallback)
 		{
 			if (progressCallback == null) throw new NullException(() => progressCallback);
@@ -66,6 +69,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 			progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
 		}
 
+		[UsedImplicitly]
 		public static void ReapplyAllPatches(Action<string> progressCallback)
 		{
 			if (progressCallback == null) throw new NullException(() => progressCallback);
@@ -408,6 +412,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 		//	return clonedCurve;
 		//}
 
+		[UsedImplicitly]
 		public static void Migrate_RandomStripeOperators_AddInterpolationTypeDataKey(Action<string> progressCallback)
 		{
 			if (progressCallback == null) throw new NullException(() => progressCallback);
@@ -448,6 +453,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 			progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
 		}
 
+		[UsedImplicitly]
 		public static void Migrate_OperatorDataKeys_ResampleInterpolationTypes_To_InterpolationType(Action<string> progressCallback)
 		{
 			if (progressCallback == null) throw new NullException(() => progressCallback);

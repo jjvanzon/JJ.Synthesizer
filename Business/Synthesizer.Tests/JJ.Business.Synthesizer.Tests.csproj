@@ -72,8 +72,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CurveTests.cs" />
-    <Compile Include="Helpers\ITestOperatorCalculator.cs" />
-    <Compile Include="Helpers\EntityFactory.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="PatchCalculator_Interpolate_Line_Tests.cs" />
@@ -160,13 +158,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />
+    <Folder Include="TestResources\" />
   </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

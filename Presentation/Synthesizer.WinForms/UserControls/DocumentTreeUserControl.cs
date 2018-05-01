@@ -96,7 +96,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Gui
 
-		public void ApplyStyling()
+		private void ApplyStyling()
 		{
 			tableLayoutPanel.RowStyles[0].Height = StyleHelper.TitleBarHeight;
 		}
@@ -105,6 +105,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new DocumentTreeViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (DocumentTreeViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}
@@ -409,8 +410,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			TreeNode treeNode = treeNodes.Cast<TreeNode>()
 			                             .Where(x => x.Tag is int)
-			                             .Where(x => (int)x.Tag == viewModel.LowerDocumentReferenceID)
-			                             .SingleOrDefault();
+			                             .SingleOrDefault(x => (int)x.Tag == viewModel.LowerDocumentReferenceID);
 			isNewOrIsDirtyName = false;
 			if (treeNode == null)
 			{
@@ -575,8 +575,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			TreeNode treeNode = treeNodes.Cast<TreeNode>()
 			                             .Where(x => x.Tag is string)
-			                             .Where(x => NameHelper.AreEqual((string)x.Tag, tag))
-			                             .SingleOrDefault();
+			                             .SingleOrDefault(x => NameHelper.AreEqual((string)x.Tag, tag));
 			if (treeNode == null)
 			{
 				isNewOrIsDirtyName = true;
@@ -781,7 +780,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					string tag = FormatLibraryPatchGroupTag(
 						ViewModel.SelectedPatchGroupLowerDocumentReferenceID.Value,
 						ViewModel.SelectedCanonicalPatchGroupName);
-					treeView.SelectedNode = _libraryPatchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, tag)).First();
+					treeView.SelectedNode = _libraryPatchGroupTreeNodes.First(x => NameHelper.AreEqual((string)x.Tag, tag));
 					break;
 
 				case DocumentTreeNodeTypeEnum.LibraryScales:
@@ -818,26 +817,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					break;
 
 				case DocumentTreeNodeTypeEnum.PatchGroup:
-					treeView.SelectedNode = _patchGroupTreeNodes.Where(x => NameHelper.AreEqual((string)x.Tag, ViewModel.SelectedCanonicalPatchGroupName))
-					                                            .First();
+					treeView.SelectedNode = _patchGroupTreeNodes.First(x => NameHelper.AreEqual((string)x.Tag, ViewModel.SelectedCanonicalPatchGroupName));
 					break;
 			}
 		}
 
 		// Events
 
-		private void titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested(this, EventArgs.Empty);
-		private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
-		private void titleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested(sender, EventArgs.Empty);
-		private void titleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested(sender, EventArgs.Empty);
-		private void titleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
-		private void titleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested(sender, EventArgs.Empty);
-		private void titleBarUserControl_RedoClicked(object sender, EventArgs e) => RedoRequested(sender, EventArgs.Empty);
-		private void titleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteRequested(this, EventArgs.Empty);
-		private void titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested(sender, EventArgs.Empty);
-		private void titleBarUserControl_UndoClicked(object sender, EventArgs e) => UndoRequested(sender, EventArgs.Empty);
-
-		private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);
+		private void TitleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested(this, EventArgs.Empty);
+		private void TitleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
+		private void TitleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested(sender, EventArgs.Empty);
+		private void TitleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested(sender, EventArgs.Empty);
+		private void TitleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
+		private void TitleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested(sender, EventArgs.Empty);
+		private void TitleBarUserControl_RedoClicked(object sender, EventArgs e) => RedoRequested(sender, EventArgs.Empty);
+		private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteRequested(this, EventArgs.Empty);
+		private void TitleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested(sender, EventArgs.Empty);
+		private void TitleBarUserControl_UndoClicked(object sender, EventArgs e) => UndoRequested(sender, EventArgs.Empty);
+		private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
@@ -858,7 +855,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
-		private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+		private void TreeView_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			bool notByUser = e.Action == TreeViewAction.Unknown;
 			if (notByUser)
@@ -952,7 +949,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private void treeView_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
+		private void TreeView_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
 		{
 			if (_patchTreeNodes.Contains(e.Node))
 			{

@@ -22,6 +22,7 @@ namespace JJ.Data.Synthesizer.RepositoryInterfaces
 		Document GetComplete(int id);
 
 		Document TryGetByName(string name);
+		// ReSharper disable once UnusedMemberInSuper.Global
 		Document GetByName(string name);
 
 		Document GetByNameComplete(string name);

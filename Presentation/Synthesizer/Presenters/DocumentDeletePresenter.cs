@@ -40,6 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				DocumentCannotDeleteViewModel viewModel2 = presenter2.Show(id, result.Messages);
 				return viewModel2;
 			}
+			// ReSharper disable once RedundantIfElseBlock
 			else
 			{
 				// ToViewModel

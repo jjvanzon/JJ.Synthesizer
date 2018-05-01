@@ -46,8 +46,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 			Outlet soundOutlet = patch.EnumerateOperatorsOfType(OperatorTypeEnum.PatchOutlet)
 									  .SelectMany(x => x.Outlets)
-									  .Where(x => x.GetDimensionEnumWithFallback() == DimensionEnum.Sound)
-									  .SingleOrDefault();
+									  .SingleOrDefault(x => x.GetDimensionEnumWithFallback() == DimensionEnum.Sound);
 			if (soundOutlet == null)
 			{
 				var operatorFactory = new OperatorFactory(patch, repositories);
@@ -184,7 +183,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		{
 			base.CloneValues(sourceCalculator);
 
-			// ReSharper disable once UsePatternMatching
+			// ReSharper disable once UseNegatedPatternMatching
 			var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator;
 			if (castedSourceCalculator == null)
 			{

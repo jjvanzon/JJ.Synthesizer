@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 		where TViewModel : OperatorPropertiesViewModelBase
 	{
 		protected readonly RepositoryWrapper _repositories;
-		protected readonly PatchFacade _patchFacade;
+		private readonly PatchFacade _patchFacade;
 		private readonly AutoPatcher _autoPatcher;
 
 		public OperatorPropertiesPresenterBase(RepositoryWrapper repositories)
@@ -50,6 +50,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 			return _patchFacade.SaveOperator(entity);
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public TViewModel Play(TViewModel userInput)
 		{
 			Outlet outlet = null;
@@ -72,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 				});
 		}
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public TViewModel Delete(TViewModel userInput)
 		{
 			return ExecuteAction(

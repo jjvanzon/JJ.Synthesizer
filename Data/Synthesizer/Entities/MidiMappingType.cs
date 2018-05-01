@@ -1,4 +1,7 @@
-﻿namespace JJ.Data.Synthesizer.Entities
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+
+namespace JJ.Data.Synthesizer.Entities
 {
 	public class MidiMappingType
 	{

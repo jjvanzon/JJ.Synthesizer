@@ -38,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
 		public LibrarySelectionPopupViewModel ViewModel
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => librarySelectionPopupUserControl.ViewModel;
 			set => librarySelectionPopupUserControl.ViewModel = value;
 		}

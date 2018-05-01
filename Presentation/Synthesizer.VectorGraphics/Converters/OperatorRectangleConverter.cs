@@ -84,6 +84,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			{
 				return StyleHelper.SMALLER_OBJECT_SIZE;
 			}
+			// ReSharper disable once RedundantIfElseBlock
 			else
 			{
 				return StyleHelper.DEFAULT_OBJECT_SIZE;
@@ -96,6 +97,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			{
 				return GetNumberOperatorWidth(sourceOperatorViewModel);
 			}
+			// ReSharper disable once RedundantIfElseBlock
 			else
 			{
 				return GetOtherOperatorWidth(sourceOperatorViewModel);

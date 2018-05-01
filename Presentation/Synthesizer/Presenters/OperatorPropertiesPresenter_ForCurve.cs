@@ -1,8 +1,8 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Presentation.Synthesizer.Presenters.Bases;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override OperatorPropertiesViewModel_ForCurve ToViewModel(Operator entity)
 		{
-			return entity.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+			return entity.ToPropertiesViewModel_ForCurve();
 		}
 	}
 }

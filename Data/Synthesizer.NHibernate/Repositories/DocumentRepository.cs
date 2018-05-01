@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Data;
 using JJ.Framework.Data.NHibernate;
-
+// ReSharper disable ImplicitlyCapturedClosure
 // ReSharper disable SuggestVarOrType_Elsewhere
-
 // ReSharper disable UnusedVariable
 
 namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
+	[UsedImplicitly]
 	public class DocumentRepository : DefaultRepositories.DocumentRepository
 	{
 		private new readonly NHibernateContext _context;

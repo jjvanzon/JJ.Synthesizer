@@ -6,6 +6,8 @@ using JJ.Framework.Common;
 using JJ.Framework.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 {
@@ -28,6 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			remove => _titleBarUserControl.AddClicked -= value;
 		}
 
+		// ReSharper disable once MemberCanBeProtected.Global
 		public DetailsOrPropertiesUserControlBase()
 		{
 			Name = GetType().Name;

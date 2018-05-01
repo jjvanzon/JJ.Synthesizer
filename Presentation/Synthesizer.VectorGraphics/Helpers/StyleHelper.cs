@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		public const float DEFAULT_OBJECT_SIZE = 40f;
 		public const float SMALLER_OBJECT_SIZE = 30f;
 		public const float ROW_HEIGHT = 24;
+		// ReSharper disable once UnusedMember.Global
 		public const float ROW_HEIGHT_SMALL = 16;
 		public const float PICTURE_BUTTON_SIZE = 24;
 		public const float PICTURE_BUTTON_MARGIN = 4;
@@ -56,6 +57,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Size = DEFAULT_FONT_SIZE
 		};
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static Font TitleFont { get; } = new Font
 		{
 			Name = DEFAULT_FONT_NAME,
@@ -69,12 +71,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Size = SMALLER_FONT_SIZE
 		};
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static Font DimensionFont { get; } = new Font
 		{
 			Name = DEFAULT_FONT_NAME,
 			Size = SMALLER_FONT_SIZE
 		};
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static Font WaterMarkFont { get; } = new Font
 		{
 			Name = DEFAULT_FONT_NAME,
@@ -115,7 +119,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Color = DarkGray
 		};
 
-		public static TextStyle CenterWaterMarkTextStyle { get; set; } = new TextStyle
+		public static TextStyle CenterWaterMarkTextStyle { get; } = new TextStyle
 		{
 			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
@@ -123,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			Color = LighterGray
 		};
 
-		public static TextStyle TopWaterMarkTextStyle { get; set; } = new TextStyle
+		public static TextStyle TopWaterMarkTextStyle { get; } = new TextStyle
 		{
 			HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left,
 			VerticalAlignmentEnum = VerticalAlignmentEnum.Top,
@@ -355,6 +359,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 		}
 
 		// Order-Dependence: Do after _gradedBackStyleDictionary declaration
+		// ReSharper disable once MemberCanBePrivate.Global
 		public static BackStyle NeutralBackStyle { get; } = GetGradedBackStyle(StyleGradeEnum.StyleGradeNeutral);
 
 		public static BackStyle CircleBackStyle { get; } = NeutralBackStyle;

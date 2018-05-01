@@ -1,8 +1,8 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
+﻿using System.Linq;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Resources;
-using System.Linq;
 using JJ.Data.Canonical;
+using JJ.Framework.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -46,6 +46,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new AudioFileOutputPropertiesViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (AudioFileOutputPropertiesViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

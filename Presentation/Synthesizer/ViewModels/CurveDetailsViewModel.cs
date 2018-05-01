@@ -9,7 +9,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 		public IDAndName Curve { get; set; }
 		public Dictionary<int, NodeViewModel> Nodes { get; set; }
 		public int? SelectedNodeID { get; set; }
-		public IList<IDAndName> NodeTypeLookup { get; set; }
 		public int CreatedNodeID { get; set; }
 	}
 }

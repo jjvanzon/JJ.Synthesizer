@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new OperatorPropertiesViewModel_ForInletsToDimension ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (OperatorPropertiesViewModel_ForInletsToDimension)base.ViewModel;
 			set => base.ViewModel = value;
 		}

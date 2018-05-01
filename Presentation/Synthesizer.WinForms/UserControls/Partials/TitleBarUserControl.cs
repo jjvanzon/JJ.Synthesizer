@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
@@ -200,6 +201,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
 		public bool UndoButtonVisible
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => buttonBarUserControl.UndoButtonVisible;
 			set
 			{

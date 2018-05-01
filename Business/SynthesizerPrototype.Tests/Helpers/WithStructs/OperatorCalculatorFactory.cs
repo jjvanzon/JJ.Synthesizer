@@ -20,22 +20,21 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStructs
 				>
 			> CreateOperatorCalculatorStructure_SinglePartial(DimensionStack dimensionStack)
 		{
-			if (dimensionStack == null) throw new NullException(() => dimensionStack);
-
 			const double frequency = 440.0;
 			const double volume = 10.0;
 			const double phaseShift = 0.25;
 
-			var variableInputCalculator = new VariableInput_OperatorCalculator();
-			variableInputCalculator._value = frequency;
+			var variableInputCalculator = new VariableInput_OperatorCalculator { _value = frequency };
 
 			var sineCalculator =
 				new Sine_OperatorCalculator_VarFrequency_WithPhaseTracking
 				<
 					VariableInput_OperatorCalculator
-				>();
-			sineCalculator.FrequencyCalculator = variableInputCalculator;
-			sineCalculator.DimensionStack = dimensionStack;
+				>
+				{
+					FrequencyCalculator = variableInputCalculator,
+					DimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack)
+				};
 
 			var shiftCalculator =
 				new Shift_OperatorCalculator_VarSignal_ConstDistance
@@ -44,10 +43,12 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStructs
 					<
 						VariableInput_OperatorCalculator
 					>
-				>();
-			shiftCalculator.SignalCalculator = sineCalculator;
-			shiftCalculator.Distance = phaseShift;
-			shiftCalculator.DimensionStack = dimensionStack;
+				>
+				{
+					SignalCalculator = sineCalculator,
+					Distance = phaseShift,
+					DimensionStack = dimensionStack
+				};
 
 			var multiplyCalculator =
 				new Multiply_OperatorCalculator_VarA_ConstB
@@ -59,9 +60,11 @@ namespace JJ.Business.SynthesizerPrototype.Tests.Helpers.WithStructs
 							VariableInput_OperatorCalculator
 						>
 					>
-				>();
-			multiplyCalculator.ACalculator = shiftCalculator;
-			multiplyCalculator.B = volume;
+				>
+				{
+					ACalculator = shiftCalculator,
+					B = volume
+				};
 
 			return multiplyCalculator;
 		}

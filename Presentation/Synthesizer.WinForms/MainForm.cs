@@ -115,8 +115,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		public void DocumentOpen(string name) => TemplateActionHandler(() => _mainPresenter.Document_Open(name));
-
 		public void PatchShow(string patchName)
 		{
 			// TODO: Delegate to presenter layer.

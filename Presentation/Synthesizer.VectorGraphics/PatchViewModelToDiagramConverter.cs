@@ -289,8 +289,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			curve = _result.Diagram.Background.Children
 											  .OfType<Curve>()
-											  .Where(x => (int)x.Tag == id)
-											  .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
+											  .FirstOrDefault(x => (int)x.Tag == id); // First instead of Single will result in excessive ones being cleaned up.
 			if (curve != null)
 			{
 				_inletID_Curve_Dictionary.Add(id, curve);

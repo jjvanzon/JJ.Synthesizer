@@ -24,6 +24,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		public IDAndName ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => _viewModel;
 			set
 			{

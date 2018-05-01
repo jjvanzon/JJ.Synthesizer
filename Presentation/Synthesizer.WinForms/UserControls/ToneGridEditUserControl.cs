@@ -44,6 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new ToneGridEditViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (ToneGridEditViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

@@ -46,6 +46,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new DocumentCannotDeleteViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (DocumentCannotDeleteViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

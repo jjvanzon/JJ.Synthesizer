@@ -75,7 +75,6 @@
     <Compile Include="Gestures\ExpandMouseGesture.cs" />
     <Compile Include="Gestures\ExpandKeyboardGesture.cs" />
     <Compile Include="Helpers\LineGestureHelper.cs" />
-    <Compile Include="Helpers\PositionHelper.cs" />
     <Compile Include="Helpers\ToolTipPositioningEnum.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />
     <Compile Include="CurveDetailsViewModelToDiagramConverterResult.cs" />

@@ -18,6 +18,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		private double _frameDuration;
 		private int _channelCount;
 
+		// ReSharper disable once MemberCanBePrivate.Global
 		public bool IsRunning { get; set; }
 
 		public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer, TimeProvider timeProvider, int samplingRate, int channelCount)

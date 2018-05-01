@@ -67,9 +67,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 		public SampleFileBrowserViewModel SampleFileBrowser { get; set; }
 		public SaveChangesPopupViewModel SaveChangesPopup { get; set; }
 
-		/// <summary> This lookup is used by multiple view instances. </summary>
-		public IList<IDAndName> ScaleLookup { get; set; }
-
 		public ScalePropertiesViewModel VisibleScaleProperties { get; set; }
 		public Dictionary<int, ScalePropertiesViewModel> ScalePropertiesDictionary { get; set; }
 		public ToneGridEditViewModel VisibleToneGridEdit { get; set; }

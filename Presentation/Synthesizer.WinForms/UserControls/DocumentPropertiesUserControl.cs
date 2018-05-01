@@ -28,6 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new DocumentPropertiesViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (DocumentPropertiesViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

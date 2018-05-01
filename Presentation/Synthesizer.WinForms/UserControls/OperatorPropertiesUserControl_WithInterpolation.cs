@@ -1,6 +1,6 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -32,6 +32,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new OperatorPropertiesViewModel_WithInterpolation ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (OperatorPropertiesViewModel_WithInterpolation)base.ViewModel;
 			set => base.ViewModel = value;
 		}

@@ -31,7 +31,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 			IList<InletViewModel> sourceInletViewModelsToConvert = sourceOperatorViewModel.Inlets
 			                                                                              .Where(inlet => inlet.Visible)
 			                                                                              .ToArray();
-
 			if (sourceInletViewModelsToConvert.Count == 0)
 			{
 				return new Rectangle[0];

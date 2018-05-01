@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 			viewModel.Successful = true;
 		}
 
-		public virtual void CopyNonPersistedProperties(TViewModel sourceViewModel, TViewModel destViewModel)
+		protected virtual void CopyNonPersistedProperties(TViewModel sourceViewModel, TViewModel destViewModel)
 		{
 			if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
 			if (destViewModel == null) throw new NullException(() => destViewModel);

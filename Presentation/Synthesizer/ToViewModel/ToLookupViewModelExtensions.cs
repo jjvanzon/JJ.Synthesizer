@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
@@ -58,17 +57,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 
 			return list;
-		}
-
-		public static IList<IDAndName> ToLookupViewModel(this IList<Scale> entities)
-		{
-			if (entities == null) throw new ArgumentNullException(nameof(entities));
-
-			var idsAndNames = new List<IDAndName> { ToViewModelHelper.CreateEmptyIDAndName() };
-
-			idsAndNames.AddRange(entities.Select(x => x.ToIDAndName()).OrderBy(x => x.Name));
-
-			return idsAndNames;
 		}
 	}
 }

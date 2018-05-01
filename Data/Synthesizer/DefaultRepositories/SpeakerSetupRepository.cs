@@ -1,7 +1,8 @@
 ﻿using JetBrains.Annotations;
-using JJ.Framework.Data;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Data;
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
@@ -15,9 +16,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 		/// <summary>
 		/// Does not get the related entities immediately unless you override it in a specialized repository.
 		/// </summary>
-		public virtual SpeakerSetup GetWithRelatedEntities(int id)
-		{
-			return Get(id);
-		}
+		public virtual SpeakerSetup GetWithRelatedEntities(int id) => Get(id);
 	}
 }

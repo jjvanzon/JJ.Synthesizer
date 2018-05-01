@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		public PatchDetailsPresenter(RepositoryWrapper repositories)
 		{
 			_repositories = repositories ?? throw new NullException(() => repositories);
-			_patchFacade = new PatchFacade(repositories);
+			_patchFacade = new PatchFacade(_repositories);
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
 
@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override PatchDetailsViewModel ToViewModel(Patch patch)
 		{
-			return patch.ToDetailsViewModel(_repositories.CurveRepository);
+			return patch.ToDetailsViewModel();
 		}
 
 		public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
@@ -72,6 +72,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 				return userInput;
 			}
+			// ReSharper disable once RedundantIfElseBlock
 			else
 			{
 				// GetEntities
@@ -183,7 +184,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			viewModel.SelectedOperator = selectedOperatorViewModel;
 		}
 
-		public override void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)
+		protected override void CopyNonPersistedProperties(PatchDetailsViewModel sourceViewModel, PatchDetailsViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 

@@ -1,6 +1,6 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Bases;
 
@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new AudioFileOutputGridViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (AudioFileOutputGridViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}

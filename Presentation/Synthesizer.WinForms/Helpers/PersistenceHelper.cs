@@ -5,24 +5,18 @@ using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
-	internal class PersistenceHelper
+	internal static class PersistenceHelper
 	{
-		public static IContext CreateContext()
-		{
-			return ContextFactory.CreateContextFromConfiguration();
-		}
+		public static IContext CreateContext() => ContextFactory.CreateContextFromConfiguration();
 
-		public static TRepository CreateRepository<TRepository>(IContext context)
-		{
-			return RepositoryFactory.CreateRepositoryFromConfiguration<TRepository>(context);
-		}
-		
+		private static TRepository CreateRepository<TRepository>(IContext context)
+			=> RepositoryFactory.CreateRepositoryFromConfiguration<TRepository>(context);
+
 		public static RepositoryWrapper CreateRepositoryWrapper(IContext context)
 		{
 			if (context == null) throw new NullException(() => context);
 
-			var repositories = new RepositoryWrapper
-			(
+			var repositories = new RepositoryWrapper(
 				CreateRepository<IAudioFileFormatRepository>(context),
 				CreateRepository<IAudioFileOutputRepository>(context),
 				CreateRepository<IAudioOutputRepository>(context),

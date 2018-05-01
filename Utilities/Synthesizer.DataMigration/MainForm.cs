@@ -85,7 +85,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 				Name = "radioButton" + methodName,
 				Size = new Size(191, 18),
 				Text = methodName,
-				UseVisualStyleBackColor = true,
+				UseVisualStyleBackColor = true
 			};
 
 			return radioButton;
@@ -95,7 +95,7 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 		{
 			DataMigrationExecutor.MustAssertWarningIncrease = checkBoxMustAssertWarningIncrease.Checked;
 
-			MethodTuple methodTuple = _methodTuples.Where(x => x.RadioButton.Checked).SingleOrDefault();
+			MethodTuple methodTuple = _methodTuples.SingleOrDefault(x => x.RadioButton.Checked);
 
 			if (methodTuple != null)
 			{

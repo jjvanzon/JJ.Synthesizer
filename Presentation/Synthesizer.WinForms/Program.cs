@@ -94,17 +94,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			}
 		}
 
-		public static int MainWindowCount
-		{
-			get
-			{
-				lock (_documentNameToMainWindowDictionaryLock)
-				{
-					return _documentNameToMainWindowDictionary.Count;
-				}
-			}
-		}
-
 		private static ParsedCommandLineArguments ParseCommandLineArguments(IList<string> args)
 		{
 			var parsedCommandLineArguments = new ParsedCommandLineArguments();

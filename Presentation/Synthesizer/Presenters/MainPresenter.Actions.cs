@@ -730,13 +730,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DocumentGrid_Show();
 		}
 
-		public void Document_Open(string name)
-		{
-			Document document = _documentFacade.Get(name);
-
-			Document_Open(document);
-		}
-
 		public void Document_Open(int id)
 		{
 			Document document = _documentFacade.Get(id);
@@ -1682,6 +1675,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			Patch_Expand(patchID);
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		public void InstrumentBar_MoveMidiMappingGroup(int midiMappingGroupID, int newPosition)
 		{
 			InstrumentBarViewModel viewModel = MainViewModel.Document.InstrumentBar;
@@ -1703,6 +1697,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(viewModel, () => _instrumentBarPresenter.MoveMidiMappingGroupForward(viewModel, midiMappingGroupID));
 		}
 
+		// ReSharper disable once UnusedMember.Global
 		public void InstrumentBar_MovePatch(int patchID, int newPosition)
 		{
 			InstrumentBarViewModel viewModel = MainViewModel.Document.InstrumentBar;
@@ -3207,7 +3202,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				// Refresh
 				ToneGridEdit_Refresh(userInput.Entity.ID);
 				DocumentTree_Refresh();
-				ScaleLookup_Refresh();
 			}
 		}
 
@@ -3246,7 +3240,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			{
 				ToneGridEdit_Refresh(userInput.Entity.ID);
 				DocumentTree_Refresh();
-				ScaleLookup_Refresh();
 			}
 		}
 
@@ -3375,13 +3368,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					// GetEntities
 					Tone tone = _repositories.ToneRepository.Get(toneID);
 
-					var underlyingPatches = new List<Patch>(MainViewModel.Document.InstrumentBar.Patches.Count);
-					foreach (InstrumentItemViewModel itemViewModel in MainViewModel.Document.InstrumentBar.Patches)
-					{
-						Patch underlyingPatch = _repositories.PatchRepository.Get(itemViewModel.EntityID);
-						underlyingPatches.Add(underlyingPatch);
-					}
-
+					IList<Patch> underlyingPatches = MainViewModel.Document.InstrumentBar.Patches
+					                                              .Select(x => _repositories.PatchRepository.Get(x.EntityID))
+					                                              .ToList();
 					// Business
 					Outlet outlet = null;
 					if (underlyingPatches.Count != 0)

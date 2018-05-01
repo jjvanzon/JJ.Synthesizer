@@ -39,6 +39,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private IList<CurveDetailsViewModel> _viewModels;
 		public IList<CurveDetailsViewModel> ViewModels
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => _viewModels;
 			set
 			{

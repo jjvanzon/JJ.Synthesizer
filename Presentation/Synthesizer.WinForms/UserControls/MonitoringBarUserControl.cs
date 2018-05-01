@@ -49,6 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public MonitoringBarViewModel ViewModel
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => _monitoringBarElement.ViewModel;
 			set
 			{

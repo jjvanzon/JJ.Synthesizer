@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 		private AutoPatchPopupViewModel _viewModel;
 		public AutoPatchPopupViewModel ViewModel
 		{
+			// ReSharper disable once UnusedMember.Global
 			get => _viewModel;
 			set
 			{

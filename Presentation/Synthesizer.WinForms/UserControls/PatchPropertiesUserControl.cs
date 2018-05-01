@@ -52,6 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new PatchPropertiesViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (PatchPropertiesViewModel)base.ViewModel;
 			set => base.ViewModel = value;
 		}
@@ -78,8 +79,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 					comboBoxStandardDimension.DataSource = ViewModel.StandardDimensionLookup;
 				}
 				comboBoxStandardDimension.SelectedValue = ViewModel.StandardDimension?.ID ?? 0;
-				comboBoxStandardDimension.Enabled = ViewModel.CustomDimensionNameEnabled;
-				labelStandardDimension.Enabled = ViewModel.CustomDimensionNameEnabled;
+				comboBoxStandardDimension.Enabled = ViewModel.StandardDimensionEnabled;
+				labelStandardDimension.Enabled = ViewModel.StandardDimensionEnabled;
 			}
 			finally
 			{

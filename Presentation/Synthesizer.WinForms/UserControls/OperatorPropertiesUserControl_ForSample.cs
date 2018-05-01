@@ -62,6 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		public new OperatorPropertiesViewModel_ForSample ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => (OperatorPropertiesViewModel_ForSample)base.ViewModel;
 			set => base.ViewModel = value;
 		}

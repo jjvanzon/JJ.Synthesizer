@@ -14,12 +14,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 	{
 		private readonly Line _line;
 
+		// ReSharper disable once UnusedMember.Global
 		public DropLineGesture(Diagram diagram, params DragLineGesture[] dragLineGestures)
 			: this(diagram, (IList<DragLineGesture>)dragLineGestures)
-		{ }
-
-		public DropLineGesture(Diagram diagram, IList<DragLineGesture> dragLineGestures = null)
-			: this(diagram, dragLineGestures, null)
 		{ }
 
 		public DropLineGesture(Diagram diagram,

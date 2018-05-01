@@ -44,6 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
 		public InstrumentBarViewModel ViewModel
 		{
+			// ReSharper disable once MemberCanBePrivate.Global
 			get => _viewModel;
 			set
 			{

@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
-using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Basic;
@@ -26,14 +25,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		private static readonly string _timeDimensionKey = ToViewModelHelper.GetDimensionKey(DimensionEnum.Time);
 		private static readonly IList<StyleGradeEnum> _styleGradesNonNeutral = GetStyleGradesNonNeutral();
 
-		private readonly ICurveRepository _curveRepository;
-
 		private Dictionary<Operator, OperatorViewModel> _dictionary;
-
-		public RecursiveToPatchViewModelConverter(ICurveRepository curveRepository)
-		{
-			_curveRepository = curveRepository ?? throw new NullException(() => curveRepository);
-		}
 
 		public PatchDetailsViewModel ConvertToDetailsViewModel(Patch patch)
 		{
@@ -44,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new PatchDetailsViewModel
 			{
 				Entity = ConvertToViewModelRecursive(patch),
-				ValidationMessages = new List<string>(),
+				ValidationMessages = new List<string>()
 			};
 
 			return viewModel;
@@ -136,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				return viewModel;
 			}
 
-			viewModel = op.ToViewModel(_curveRepository);
+			viewModel = op.ToViewModel();
 
 			_dictionary.Add(op, viewModel);
 
@@ -178,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		private OutletViewModel ConvertToViewModelRecursive(Outlet outlet)
 		{
-			OutletViewModel viewModel = outlet.ToViewModel(_curveRepository);
+			OutletViewModel viewModel = outlet.ToViewModel();
 
 			// Recursive call
 			viewModel.Operator = ConvertToViewModelRecursive(outlet.Operator);
