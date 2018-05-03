@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Dto.Operators;
@@ -21,40 +22,6 @@ namespace JJ.Business.Synthesizer.Helpers
 			return debuggerDisplay;
 		}
 
-		public static string GetDebuggerDisplay(OperatorCalculatorBase operatorCalculatorBase)
-		{
-			if (operatorCalculatorBase == null) throw new NullException(() => operatorCalculatorBase);
-
-			return operatorCalculatorBase.GetType().Name;
-		}
-
-		public static string GetDebuggerDisplay(OperatorWrapper operatorWrapperBase)
-		{
-			if (operatorWrapperBase == null) throw new NullException(() => operatorWrapperBase);
-
-			string debuggerDisplay = DebuggerDisplayFormatter_Data.GetDebuggerDisplay(operatorWrapperBase.WrappedOperator);
-
-			return debuggerDisplay;
-		}
-
-		public static string GetDebuggerDisplay(IOperatorDto operatorDto)
-		{ 
-			if (operatorDto == null) throw new NullException(() => operatorDto);
-			return operatorDto.GetType().Name;
-		}
-
-		public static string GetDebuggerDisplay(MidiMappingDto dto)
-		{
-			if (dto == null) throw new ArgumentNullException(nameof(dto));
-
-			string debuggerDisplay =
-				$"{{{nameof(MidiMappingDto)}}} " +
-				$"{new { dto.DimensionEnum, dto.CanonicalName, dto.Position, dto.FromDimensionValue, dto.TillDimensionValue }} " +
-				$"{new { dto.MidiMappingTypeEnum, dto.FromMidiValue, dto.TillMidiValue, dto.MidiControllerCode }}";
-
-			return debuggerDisplay;
-		}
-
 		public static string GetDebuggerDisplay(InputVariableInfo variableInfo)
 		{
 			if (variableInfo == null) throw new NullException(() => variableInfo);
@@ -66,8 +33,8 @@ namespace JJ.Business.Synthesizer.Helpers
 			bool nameIsFilledIn = !string.IsNullOrEmpty(variableInfo.VariableNameCamelCase);
 			bool valueIsFilledIn = variableInfo.Value.HasValue;
 			bool miscPropertiesAreFilledIn = variableInfo.DimensionEnum != DimensionEnum.Undefined ||
-											 variableInfo.Position != 0 ||
-											 variableInfo.DefaultValue.HasValue;
+			                                 variableInfo.Position != 0 ||
+			                                 variableInfo.DefaultValue.HasValue;
 			if (nameIsFilledIn)
 			{
 				sb.Append(' ');
@@ -93,6 +60,46 @@ namespace JJ.Business.Synthesizer.Helpers
 			}
 
 			return sb.ToString();
+		}
+
+		public static string GetDebuggerDisplay(MidiMappingDto dto)
+		{
+			if (dto == null) throw new ArgumentNullException(nameof(dto));
+
+			string debuggerDisplay =
+				$"{{{nameof(MidiMappingDto)}}} " +
+				$"{new { dto.DimensionEnum, dto.CanonicalName, dto.Position, dto.FromDimensionValue, dto.TillDimensionValue }} " +
+				$"{new { dto.MidiMappingTypeEnum, dto.FromMidiValue, dto.TillMidiValue, dto.MidiControllerCode }}";
+
+			return debuggerDisplay;
+		}
+
+		public static string GetDebuggerDisplay(OperatorCalculatorBase operatorCalculatorBase)
+		{
+			if (operatorCalculatorBase == null) throw new NullException(() => operatorCalculatorBase);
+
+			return operatorCalculatorBase.GetType().Name;
+		}
+
+		public static string GetDebuggerDisplay(OperatorWrapper operatorWrapperBase)
+		{
+			if (operatorWrapperBase == null) throw new NullException(() => operatorWrapperBase);
+
+			string debuggerDisplay = DebuggerDisplayFormatter_Data.GetDebuggerDisplay(operatorWrapperBase.WrappedOperator);
+
+			return debuggerDisplay;
+		}
+
+		public static string GetDebuggerDisplay(IOperatorDto operatorDto)
+		{ 
+			if (operatorDto == null) throw new NullException(() => operatorDto);
+			return operatorDto.GetType().Name;
+		}
+
+		public static string GetDebuggerDisplay([NotNull] DataPropertyParser.ParsedKeyValuePair obj)
+		{
+			if (obj == null) throw new ArgumentNullException(nameof(obj));
+			return $"{obj.Key}={obj.Value}";
 		}
 	}
 }

@@ -16,6 +16,7 @@ using JJ.Framework.Business;
 using JJ.Framework.Collections;
 using JJ.Framework.Conversion;
 using JJ.Framework.Exceptions.Basic;
+using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
 // ReSharper disable MemberCanBePrivate.Global
@@ -1017,6 +1018,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			{
 				InterpolationType = (InterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0)
 			};
+
+			if (ToViewModelHelper.OperatorTypeEnums_WithFollowingMode.Contains(entity.GetOperatorTypeEnum()))
+			{
+				new OperatorWrapper_WithInterpolation_AndFollowingMode(entity)
+				{
+					FollowingMode = (FollowingModeEnum)(viewModel.FollowingMode?.ID ?? 0)
+				};
+			}
 
 			return entity;
 		}

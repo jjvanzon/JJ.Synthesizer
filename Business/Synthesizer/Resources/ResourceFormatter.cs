@@ -9,6 +9,7 @@ using JJ.Framework.Conversion;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Reflection;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -342,14 +343,25 @@ namespace JJ.Business.Synthesizer.Resources
 
 		// Resource texts with placeholders
 
-		public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber) => string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
-		public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber) => string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
-		public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem) => string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);
+		public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber)
+			=> string.Format(Resources.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
+
+		public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber)
+			=> string.Format(Resources.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
+
+		public static string CannotHide_WithName_AndDependentItem(string name, string dependentItem)
+			=> string.Format(Resources.CannotHide_WithName_AndDependentItem, name, dependentItem);
+
 		public static string GetPositionWithPlaceholder(string dimension) => string.Format(Resources.GetPositionWithPlaceholder, dimension);
 		public static string LibraryAlreadyAdded_WithName(string name) => string.Format(Resources.LibraryAlreadyAdded_WithName, name);
 		public static string MustBePowerOf2(string name) => string.Format(Resources.MustBePowerOf2, name);
-		public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName) => string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
-		public static string RepetitionPositionsNotConsecutive(string concatinatedRepetitionPositions) => string.Format(Resources.RepetitionPositionsNotConsecutive, concatinatedRepetitionPositions);
+
+		public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName)
+			=> string.Format(Resources.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
+
+		public static string RepetitionPositionsNotConsecutive(string concatinatedRepetitionPositions)
+			=> string.Format(Resources.RepetitionPositionsNotConsecutive, concatinatedRepetitionPositions);
+
 		public static string SetPositionWithPlaceholder(string dimension) => string.Format(Resources.SetPositionWithPlaceholder, dimension);
 
 		// Generic methods that could return several different resource text
@@ -383,10 +395,7 @@ namespace JJ.Business.Synthesizer.Resources
 
 		// CollectionRecalculation
 
-		public static string GetDisplayName(CollectionRecalculationEnum enumValue)
-		{
-			return GetDisplayName(enumValue.ToString());
-		}
+		public static string GetDisplayName(CollectionRecalculationEnum enumValue) => GetDisplayName(enumValue.ToString());
 
 		// Dimension
 
@@ -399,10 +408,11 @@ namespace JJ.Business.Synthesizer.Resources
 			return GetDisplayName(dimensionEnum);
 		}
 
-		public static string GetDisplayName(DimensionEnum enumValue)
-		{
-			return GetDisplayName(enumValue.ToString());
-		}
+		public static string GetDisplayName(DimensionEnum enumValue) => GetDisplayName(enumValue.ToString());
+
+		// FollwoingModeEnum
+
+		public static string GetDisplayName(FollowingModeEnum enumValue) => GetDisplayName(enumValue.ToString());
 
 		// Inlet
 
@@ -434,10 +444,7 @@ namespace JJ.Business.Synthesizer.Resources
 			return GetDisplayName(dimensionEnum);
 		}
 
-		public static string GetDisplayName(InterpolationTypeEnum enumValue)
-		{
-			return GetDisplayName(enumValue.ToString());
-		}
+		public static string GetDisplayName(InterpolationTypeEnum enumValue) => GetDisplayName(enumValue.ToString());
 
 		// MidiDimensionType
 
@@ -450,10 +457,7 @@ namespace JJ.Business.Synthesizer.Resources
 			return GetDisplayName(dimensionEnum);
 		}
 
-		public static string GetDisplayName(MidiMappingTypeEnum enumValue)
-		{
-			return GetDisplayName(enumValue.ToString());
-		}
+		public static string GetDisplayName(MidiMappingTypeEnum enumValue) => GetDisplayName(enumValue.ToString());
 
 		// Operator
 
@@ -532,16 +536,10 @@ namespace JJ.Business.Synthesizer.Resources
 			return GetDisplayNameSingular(enumValue);
 		}
 
-		public static string GetDisplayNameSingular(ScaleTypeEnum enumValue)
-		{
-			return GetDisplayName(enumValue.ToString());
-		}
+		public static string GetDisplayNameSingular(ScaleTypeEnum enumValue) => GetDisplayName(enumValue.ToString());
 
 		// TODO: Perhaps remove this overload.
-		internal static string GetScaleTypeDisplayNameSingular(string scaleTypeName)
-		{
-			return Resources.ResourceManager.GetString(scaleTypeName);
-		}
+		internal static string GetScaleTypeDisplayNameSingular(string scaleTypeName) => Resources.ResourceManager.GetString(scaleTypeName);
 
 		// ScaleType Plural
 
@@ -609,9 +607,6 @@ namespace JJ.Business.Synthesizer.Resources
 			return GetDisplayName(dimensionEnum);
 		}
 
-		public static string GetDisplayName(SpeakerSetupEnum enumValue)
-		{
-			return GetDisplayName(enumValue.ToString());
-		}
+		public static string GetDisplayName(SpeakerSetupEnum enumValue) => GetDisplayName(enumValue.ToString());
 	}
 }

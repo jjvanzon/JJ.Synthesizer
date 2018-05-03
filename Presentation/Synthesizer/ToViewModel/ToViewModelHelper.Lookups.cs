@@ -23,7 +23,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			IList<IDAndName> idAndNames = CreateEnumLookupViewModel<AudioFileFormatEnum>(mustIncludeUndefined: false);
 			idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
-
 			return idAndNames;
 		}
 
@@ -51,6 +50,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
 			return idAndNames;
 		}
+
+		// FollowingMode
+
+		private static readonly IList<IDAndName> _followingModeLookupViewModel = CreateFollowingModeLookupViewModel();
+
+		public static IList<IDAndName> GetFollowingModeLookupViewModel() => _followingModeLookupViewModel;
+
+		private static IList<IDAndName> CreateFollowingModeLookupViewModel() => CreateEnumLookupViewModel<FollowingModeEnum>(mustIncludeUndefined: false);
 
 		// InterpolationType
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -14,8 +15,11 @@ namespace JJ.Business.Synthesizer.Helpers
 {
 	public static class DataPropertyParser
 	{
-		private class ParsedKeyValuePair
+		[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+		internal class ParsedKeyValuePair
 		{
+			private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+
 			public ParsedKeyValuePair(string key, string value)
 			{
 				Key = key;

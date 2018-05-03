@@ -2,6 +2,7 @@
 {
 	public enum FollowingModeEnum
 	{
+		Undefined,
 		LagBehind,
 		LookAhead
 	}

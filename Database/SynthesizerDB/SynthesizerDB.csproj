@@ -377,6 +377,7 @@
     <Content Include="2017-06-03 040 SynthesizerDB Dimension 73 - Radians.sql" />
     <Content Include="2017-06-03 050 SynthesizerDB Dimension 74 - HighestFrequency.sql" />
     <Content Include="2017-06-11 030 SynthesizerDB RUN UTILITY - Copy.sql" />
+    <Content Include="2018-05-01 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2018-04-22 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2018-04-17 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2017-11-05 030 SynthesizerDB Patch rename DefaultStandardDimension to StandardDimension.sql" />

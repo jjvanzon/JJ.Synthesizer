@@ -16,9 +16,9 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 				string stringValue = DataPropertyParser.TryGetString(data, nameof(OperatorWrapper_WithInterpolation_AndFollowingMode.FollowingMode));
 
 				For(stringValue, ResourceFormatter.FollowingMode)
-					//.NotNullOrEmpty()
-					.IsEnum<FollowingModeEnum>();
-					//.IsNot(FollowingModeEnum.Undefined);
+					.NotNullOrEmpty()
+					.IsEnum<FollowingModeEnum>()
+					.IsNot(FollowingModeEnum.Undefined);
 			}
 		}
 	}

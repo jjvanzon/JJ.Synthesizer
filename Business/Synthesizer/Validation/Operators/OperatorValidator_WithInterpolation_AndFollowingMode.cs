@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Validation.Operators
 				op,
 				expectedDataKeys: new[]
 				{
-					nameof(OperatorWrapper_WithInterpolation.InterpolationType)
-					//nameof(OperatorWrapper_WithInterpolation_AndFollowingMode.FollowingMode)
+					nameof(OperatorWrapper_WithInterpolation.InterpolationType),
+					nameof(OperatorWrapper_WithInterpolation_AndFollowingMode.FollowingMode)
 				})
 		{
 			ExecuteValidator(new InterpolationType_DataProperty_Validator(op.Data));

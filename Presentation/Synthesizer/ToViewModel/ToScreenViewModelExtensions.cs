@@ -799,9 +799,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = CreateOperatorPropertiesViewModel_Generic<OperatorPropertiesViewModel_WithInterpolation>(entity);
 
 			var wrapper = new OperatorWrapper_WithInterpolation(entity);
-
 			viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
 			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationLookupViewModel(interpolationTypeRepository);
+
+			if (ToViewModelHelper.OperatorTypeEnums_WithFollowingMode.Contains(entity.GetOperatorTypeEnum()))
+			{
+				var wrapper2 = new OperatorWrapper_WithInterpolation_AndFollowingMode(entity);
+				viewModel.CanEditFollowingMode = true;
+				viewModel.FollowingMode = wrapper2.FollowingMode.ToIDAndDisplayName();
+				viewModel.FollowingModeLookup = ToViewModelHelper.GetFollowingModeLookupViewModel();
+			}
 
 			return viewModel;
 		}

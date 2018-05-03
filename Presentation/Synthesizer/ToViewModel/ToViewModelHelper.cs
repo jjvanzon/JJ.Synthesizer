@@ -41,6 +41,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				OperatorTypeEnum.Interpolate
 			};
 
+		public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithFollowingMode { get; } =
+			new HashSet<OperatorTypeEnum>
+			{
+				OperatorTypeEnum.Interpolate
+			};
+
 		public static HashSet<OperatorTypeEnum> OperatorTypeEnums_WithSpecializedPropertiesViews { get; } =
 			new HashSet<OperatorTypeEnum>
 			{

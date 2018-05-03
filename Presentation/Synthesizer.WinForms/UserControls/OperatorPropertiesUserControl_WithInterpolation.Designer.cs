@@ -31,6 +31,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			this.labelInterpolation = new System.Windows.Forms.Label();
 			this.comboBoxInterpolation = new System.Windows.Forms.ComboBox();
+			this.labelFollowingMode = new System.Windows.Forms.Label();
+			this.comboBoxFollowingMode = new System.Windows.Forms.ComboBox();
+			((System.ComponentModel.ISupportInitialize)(this._numericUpDownInletCount)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._numericUpDownOutletCount)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// _labelName
@@ -42,6 +46,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// 
 			this._textBoxName.TabIndex = 10;
 			// 
+			// _labelUnderlyingPatch
+			// 
+			this._labelUnderlyingPatch.TabIndex = 3;
+			this._labelUnderlyingPatch.Text = "Type";
+			// 
+			// _comboBoxUnderlyingPatch
+			// 
+			this._comboBoxUnderlyingPatch.TabIndex = 4;
+			// 
 			// _labelStandardDimension
 			// 
 			this._labelStandardDimension.TabIndex = 5;
@@ -49,17 +62,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			// 
 			// _comboBoxStandardDimension
 			// 
-			this._comboBoxStandardDimension.Size = new System.Drawing.Size(121, 24);
 			this._comboBoxStandardDimension.TabIndex = 6;
-			// 
-			// _textBoxCustomDimensionName
-			// 
-			this._textBoxCustomDimensionName.TabIndex = 8;
 			// 
 			// _labelCustomDimensionName
 			// 
 			this._labelCustomDimensionName.TabIndex = 7;
 			this._labelCustomDimensionName.Text = "Custom Dimension";
+			// 
+			// _textBoxCustomDimensionName
+			// 
+			this._textBoxCustomDimensionName.TabIndex = 8;
+			// 
+			// _labelInletCount
+			// 
+			this._labelInletCount.Text = "Number of Inputs";
+			// 
+			// _labelOutletCount
+			// 
+			this._labelOutletCount.Text = "Number of Outputs";
 			// 
 			// labelInterpolation
 			// 
@@ -78,8 +98,28 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.comboBoxInterpolation.Location = new System.Drawing.Point(147, 60);
 			this.comboBoxInterpolation.Margin = new System.Windows.Forms.Padding(0);
 			this.comboBoxInterpolation.Name = "comboBoxInterpolation";
-			this.comboBoxInterpolation.Size = new System.Drawing.Size(10, 24);
+			this.comboBoxInterpolation.Size = new System.Drawing.Size(100, 24);
 			this.comboBoxInterpolation.TabIndex = 21;
+			// 
+			// labelFollowingMode
+			// 
+			this.labelFollowingMode.Location = new System.Drawing.Point(98, 131);
+			this.labelFollowingMode.Margin = new System.Windows.Forms.Padding(0);
+			this.labelFollowingMode.Name = "labelFollowingMode";
+			this.labelFollowingMode.Size = new System.Drawing.Size(147, 30);
+			this.labelFollowingMode.TabIndex = 22;
+			this.labelFollowingMode.Text = "labelFollowingMode";
+			this.labelFollowingMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// comboBoxFollowingMode
+			// 
+			this.comboBoxFollowingMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxFollowingMode.FormattingEnabled = true;
+			this.comboBoxFollowingMode.Location = new System.Drawing.Point(245, 131);
+			this.comboBoxFollowingMode.Margin = new System.Windows.Forms.Padding(0);
+			this.comboBoxFollowingMode.Name = "comboBoxFollowingMode";
+			this.comboBoxFollowingMode.Size = new System.Drawing.Size(100, 24);
+			this.comboBoxFollowingMode.TabIndex = 23;
 			// 
 			// OperatorPropertiesUserControl_WithInterpolation
 			// 
@@ -87,12 +127,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.Controls.Add(this.labelFollowingMode);
+			this.Controls.Add(this.comboBoxFollowingMode);
 			this.Controls.Add(this.labelInterpolation);
 			this.Controls.Add(this.comboBoxInterpolation);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "OperatorPropertiesUserControl_WithInterpolation";
-			this.Size = new System.Drawing.Size(10, 10);
+			this.Size = new System.Drawing.Size(352, 292);
 			this.TitleBarText = "Operator Properties";
+			this.Controls.SetChildIndex(this._comboBoxUnderlyingPatch, 0);
+			this.Controls.SetChildIndex(this._labelUnderlyingPatch, 0);
 			this.Controls.SetChildIndex(this._textBoxName, 0);
 			this.Controls.SetChildIndex(this._labelName, 0);
 			this.Controls.SetChildIndex(this._textBoxCustomDimensionName, 0);
@@ -101,6 +145,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.Controls.SetChildIndex(this._labelStandardDimension, 0);
 			this.Controls.SetChildIndex(this.comboBoxInterpolation, 0);
 			this.Controls.SetChildIndex(this.labelInterpolation, 0);
+			this.Controls.SetChildIndex(this.comboBoxFollowingMode, 0);
+			this.Controls.SetChildIndex(this.labelFollowingMode, 0);
+			((System.ComponentModel.ISupportInitialize)(this._numericUpDownInletCount)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._numericUpDownOutletCount)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -109,5 +157,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		#endregion
 		private System.Windows.Forms.Label labelInterpolation;
 		private System.Windows.Forms.ComboBox comboBoxInterpolation;
+		private System.Windows.Forms.Label labelFollowingMode;
+		private System.Windows.Forms.ComboBox comboBoxFollowingMode;
 	}
 }

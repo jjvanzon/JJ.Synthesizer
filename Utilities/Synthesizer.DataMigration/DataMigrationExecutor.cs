@@ -493,5 +493,45 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 
 			progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
 		}
+
+		[UsedImplicitly]
+		public static void Migrate_OperatorDataKeys_InitializeFollowingMode(Action<string> progressCallback)
+		{
+			if (progressCallback == null) throw new NullException(() => progressCallback);
+
+			progressCallback($"Starting {MethodBase.GetCurrentMethod().Name}...");
+
+			using (IContext context = PersistenceHelper.CreateContext())
+			{
+				RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+				var documentFacade = new SystemFacade(repositories.DocumentRepository);
+
+				Patch systemPatch = documentFacade.GetSystemPatch(nameof(SystemPatchNames.Interpolate));
+				IList<Operator> operators = repositories.OperatorRepository.GetManyByUnderlyingPatchID(systemPatch.ID);
+
+				for (int i = 0; i < operators.Count; i++)
+				{
+					Operator op = operators[i];
+
+					string value = DataPropertyParser.TryGetString(op, "FollowingMode");
+					if (string.IsNullOrEmpty(value))
+					{
+						DataPropertyParser.SetValue(op, "FollowingMode", FollowingModeEnum.LagBehind);
+					}
+
+					string progressMessage = $"Migrated Operator {i + 1}/{operators.Count}.";
+					progressCallback(progressMessage);
+				}
+
+				AssertDocuments_AndReapplyUnderlyingPatches(repositories, progressCallback);
+
+				//throw new Exception("Temporarily not committing, for debugging.");
+
+				context.Commit();
+			}
+
+			progressCallback($"{MethodBase.GetCurrentMethod().Name} finished.");
+		}
 	}
 }

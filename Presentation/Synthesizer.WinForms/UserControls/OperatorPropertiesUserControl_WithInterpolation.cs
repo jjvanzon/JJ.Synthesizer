@@ -17,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			base.SetTitles();
 
 			labelInterpolation.Text = ResourceFormatter.Interpolation;
+			labelFollowingMode.Text = ResourceFormatter.FollowingMode;
 		}
 
 		protected override void AddProperties()
@@ -26,6 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			AddProperty(_labelStandardDimension, _comboBoxStandardDimension);
 			AddProperty(_labelCustomDimensionName, _textBoxCustomDimensionName);
 			AddProperty(_labelName, _textBoxName);
+			AddProperty(labelFollowingMode, comboBoxFollowingMode);
 		}
 
 		// Binding
@@ -49,6 +51,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				comboBoxInterpolation.DataSource = ViewModel.InterpolationLookup;
 			}
 			comboBoxInterpolation.SelectedValue = ViewModel.Interpolation?.ID ?? 0;
+
+			// FollowingMode
+			labelFollowingMode.Visible = ViewModel.CanEditFollowingMode;
+			comboBoxFollowingMode.Visible = ViewModel.CanEditFollowingMode;
+			if (comboBoxFollowingMode.DataSource == null)
+			{
+				comboBoxFollowingMode.ValueMember = nameof(IDAndName.ID);
+				comboBoxFollowingMode.DisplayMember = nameof(IDAndName.Name);
+				comboBoxFollowingMode.DataSource = ViewModel.FollowingModeLookup;
+			}
+			comboBoxFollowingMode.SelectedValue = ViewModel.FollowingMode?.ID ?? 0;
 		}
 
 		protected override void ApplyControlsToViewModel()
@@ -56,6 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			base.ApplyControlsToViewModel();
 
 			ViewModel.Interpolation = (IDAndName)comboBoxInterpolation.SelectedItem;
+			ViewModel.FollowingMode = (IDAndName)comboBoxFollowingMode.SelectedItem;
 		}
 	}
 }
