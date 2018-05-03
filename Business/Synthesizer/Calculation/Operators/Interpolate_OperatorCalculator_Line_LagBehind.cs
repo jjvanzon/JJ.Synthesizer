@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			// TODO: What if _x0 or _x1 are way off? How will it correct itself?
 			if (x > _x1)
 			{
-				// Shift samples to the left
+				// Shift samples.
 				_x0 = _x1;
 				_y0 = _y1;
 
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			{
 				// Going in reverse.
 
-				// Shift samples to the right
+				// Shift samples.
 				_x1 = _x0;
 				_y1 = _y0;
 

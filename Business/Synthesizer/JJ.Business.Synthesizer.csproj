@@ -157,7 +157,10 @@
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\HighShelfFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_4Point.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_4Point_LagBehind.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_4Point_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Cubic_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LookAhead.cs" />
