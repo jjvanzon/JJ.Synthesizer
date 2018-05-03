@@ -11,20 +11,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private readonly OperatorCalculatorBase _samplingRateCalculator;
 		protected readonly OperatorCalculatorBase _positionInputCalculator;
 
-
 		public Interpolate_OperatorCalculator_Base(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator
-			)
+			OperatorCalculatorBase positionInputCalculator)
 			: base(new[] { signalCalculator, samplingRateCalculator, positionInputCalculator })
 		{
 			_signalCalculator = signalCalculator;
 			_samplingRateCalculator = samplingRateCalculator;
 			_positionInputCalculator = positionInputCalculator;
-
-			// ReSharper disable once VirtualMemberCallInConstructor
-			ResetNonRecursive();
 		}
 
 		/// <summary> Gets the sampling rate, converts it to an absolute number, ensures a minimum value and returns dx. </summary>

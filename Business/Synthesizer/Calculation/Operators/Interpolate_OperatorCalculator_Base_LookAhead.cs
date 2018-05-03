@@ -14,9 +14,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
 		{
 			_positionOutputCalculator = positionOutputCalculator ?? throw new ArgumentNullException(nameof(positionOutputCalculator));
-
-			// ReSharper disable once VirtualMemberCallInConstructor
-			ResetNonRecursive();
 		}
 	}
 }

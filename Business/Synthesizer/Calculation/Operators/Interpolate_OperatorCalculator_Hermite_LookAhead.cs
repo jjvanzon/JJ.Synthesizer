@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal class Interpolate_OperatorCalculator_Hermite_LookAhead : Interpolate_OperatorCalculator_Base_LookAhead
+	internal sealed class Interpolate_OperatorCalculator_Hermite_LookAhead : Interpolate_OperatorCalculator_Base_LookAhead
 	{
 		private double _xMinus1;
 		private double _x0;
@@ -26,7 +26,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase positionInputCalculator,
 			VariableInput_OperatorCalculator positionOutputCalculator)
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
-		{ }
+		{
+			ResetNonRecursive();
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate()

@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal class Interpolate_OperatorCalculator_Cubic_LagBehind : Interpolate_OperatorCalculator_Base
+	internal sealed class Interpolate_OperatorCalculator_Cubic_LagBehind : Interpolate_OperatorCalculator_Base
 	{
 		private double _xMinus1;
 		private double _x0;
@@ -22,7 +22,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
-		{ }
+		{
+			ResetNonRecursive();
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate()

@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal class Interpolate_OperatorCalculator_Stripe_LagBehind : Interpolate_OperatorCalculator_Base
+	internal sealed class Interpolate_OperatorCalculator_Stripe_LagBehind : Interpolate_OperatorCalculator_Base
 	{
 		private double _xAtMinusHalf;
 		private double _xAtHalf;
@@ -13,7 +13,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
-		{ }
+		{
+			ResetNonRecursive();
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate()

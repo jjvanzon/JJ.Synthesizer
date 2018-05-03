@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal class Interpolate_OperatorCalculator_Stripe_LookAhead : Interpolate_OperatorCalculator_Base_LookAhead
+	internal sealed class Interpolate_OperatorCalculator_Stripe_LookAhead : Interpolate_OperatorCalculator_Base_LookAhead
 	{
 		private double _xAtMinusHalf;
 		private double _xAtHalf;
@@ -15,15 +14,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase positionInputCalculator,
 			VariableInput_OperatorCalculator positionOutputCalculator)
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
-		{ }
+		{
+			ResetNonRecursive();
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate()
 		{
-			throw new NotImplementedException();
-
 			double x = _positionInputCalculator.Calculate();
-	 
+
 			// TODO: What if _x1 is way off? How will it correct itself?
 			if (x > _xAtHalf)
 			{
@@ -32,7 +31,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_xAtMinusHalf += dx;
 				_xAtHalf += dx;
 
+				double x0 = _xAtMinusHalf + dx / 2.0;
+
+				double originalValue = _positionOutputCalculator._value;
+				_positionOutputCalculator._value = x0;
+
 				_y0 = _signalCalculator.Calculate();
+
+				_positionOutputCalculator._value = originalValue;
+
 			}
 			else if (x < _xAtMinusHalf)
 			{
@@ -41,7 +48,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 				_xAtMinusHalf -= dx;
 				_xAtHalf -= dx;
 
+
+				double x0 = _xAtMinusHalf + dx / 2.0;
+
+				double originalValue = _positionOutputCalculator._value;
+				_positionOutputCalculator._value = x0;
+
 				_y0 = _signalCalculator.Calculate();
+
+				_positionOutputCalculator._value = originalValue;
 			}
 
 			return _y0;
@@ -49,8 +64,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 		protected override void ResetNonRecursive()
 		{
-			throw new NotImplementedException();
-
 			double x = _positionInputCalculator.Calculate();
 			double y = _signalCalculator.Calculate();
 

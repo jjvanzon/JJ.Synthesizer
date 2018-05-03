@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	/// A weakness though is, that the sampling rate is remembered until the next sample,
 	/// which may work poorly when a very low sampling rate is provided.
 	/// </summary>
-	internal class Interpolate_OperatorCalculator_Line_LagBehind : Interpolate_OperatorCalculator_Base
+	internal sealed class Interpolate_OperatorCalculator_Line_LagBehind : Interpolate_OperatorCalculator_Base
 	{
 		private double _x0;
 		private double _x1;
@@ -20,7 +20,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
-		{ }
+		{
+			ResetNonRecursive();
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate()
