@@ -38,6 +38,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			_positionOutputCalculator._value = originalPosition;
 		}
 
-		// TODO: ResetNonRecursive is still an issue.
+		protected override void ResetNonRecursive()
+		{
+			double dx = Dx();
+
+			_x0 = _positionInputCalculator.Calculate();
+			_y0 = _signalCalculator.Calculate();
+
+			double originalPosition = _positionOutputCalculator._value;
+
+			_xMinus1 = _x0 - dx;
+			_positionOutputCalculator._value = _xMinus1;
+			_yMinus1 = _signalCalculator.Calculate();
+
+			_x1 = _x0 + dx;
+			_positionOutputCalculator._value = _x1;
+			_y1 = _signalCalculator.Calculate();
+
+			_x2 = _x1 + dx;
+			_positionOutputCalculator._value = _x2;
+			_y2 = _signalCalculator.Calculate();
+
+			_positionOutputCalculator._value = originalPosition;
+
+			Precalculate();
+		}
 	}
 }

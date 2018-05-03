@@ -69,24 +69,5 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		protected abstract void Precalculate();
 
 		protected abstract double Calculate(double x);
-
-		protected override void ResetNonRecursive()
-		{
-			double x = _positionInputCalculator.Calculate();
-			double y = _signalCalculator.Calculate();
-			double dx = Dx();
-
-			_xMinus1 = x - dx - dx;
-			_x0 = x - dx;
-			_x1 = x;
-			_x2 = x + dx;
-
-			_yMinus1 = y;
-			_y0 = y;
-			_y1 = y;
-			_y2 = y;
-
-			Precalculate();
-		}
 	}
 }
