@@ -157,9 +157,12 @@
     <Compile Include="Calculation\NoiseCalculatorHelper.cs" />
     <Compile Include="Calculation\Operators\HighShelfFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2Point.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_4Point.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2Point_LagBehind.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_4Point_LagBehind.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2Point_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_4Point_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Cubic_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LookAhead.cs" />
@@ -369,7 +372,6 @@
     <Compile Include="Validation\Patches\PatchValidator_HiddenButInUse.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchOutlet.cs" />
     <Compile Include="Validation\Patches\PatchValidator_ZeroOrOneRepeatingPatchInlet.cs" />
-    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_LookAhead.cs" />
     <Compile Include="Visitors\OperatorDtoToCalculatorVisitor_WithCacheOperators.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterDtoPreprocessing.cs" />
     <Compile Include="Visitors\OperatorDtoVisitorBase_AfterRewriting.cs" />

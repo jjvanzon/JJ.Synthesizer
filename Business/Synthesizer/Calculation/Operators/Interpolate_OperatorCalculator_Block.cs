@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace JJ.Business.Synthesizer.Calculation.Operators
+﻿namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 	internal sealed class Interpolate_OperatorCalculator_Block : Interpolate_OperatorCalculator_Base
 	{
@@ -17,36 +15,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			ResetNonRecursive();
 		}
 
+		protected override bool MustShiftForward(double x) => x > _x1;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override double Calculate()
+		protected override void ShiftForward() => _x0 = _x1;
+
+		protected override void SetNextSample()
 		{
-			double x = _positionInputCalculator.Calculate();
-	 
-			// TODO: What if _x1 is way off? How will it correct itself?
-			if (x > _x1)
-			{
-				// Shift samples.
-				_x0 = _x1;
-
-				// Determine next sample
-				_x1 += Dx();
-				_y0 = _signalCalculator.Calculate();
-			}
-			else if (x < _x0)
-			{
-				// Going in reverse.
-
-				// Shift samples.
-				_x1 = _x0;
-
-				// Determine previous sample
-				_x0 -= Dx();
-				_y0 = _signalCalculator.Calculate();
-			}
-
-			return _y0;
+			_x1 += Dx();
+			_y0 = _signalCalculator.Calculate();
 		}
+
+		protected override bool MustShiftBackward(double x) => x < _x0;
+
+		protected override void ShiftBackward() => _x1 = _x0;
+
+		protected override void SetPreviousSample()
+		{
+			_x0 -= Dx();
+			_y0 = _signalCalculator.Calculate();
+		}
+
+		protected override void Precalculate() { }
+
+		protected override double Calculate(double x) => _y0;
 
 		protected override void ResetNonRecursive()
 		{

@@ -1,9 +1,13 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal sealed class Interpolate_OperatorCalculator_Stripe_LookAhead : Interpolate_OperatorCalculator_Base_LookAhead
+	internal sealed class Interpolate_OperatorCalculator_Stripe_LookAhead 
+		: Interpolate_OperatorCalculator_Base
+
 	{
+		private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
+
 		private double _xAtMinusHalf;
 		private double _xAtHalf;
 		private double _y0;
@@ -13,54 +17,52 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator,
 			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
+			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
 		{
+			_positionOutputCalculator = positionOutputCalculator ?? throw new ArgumentNullException(nameof(positionOutputCalculator));
 			ResetNonRecursive();
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override double Calculate()
+		protected override bool MustShiftForward(double x) => x > _xAtHalf;
+
+		protected override void ShiftForward()
 		{
-			double x = _positionInputCalculator.Calculate();
+			double dx = Dx();
 
-			// TODO: What if _x1 is way off? How will it correct itself?
-			if (x > _xAtHalf)
-			{
-				double dx = Dx();
-
-				_xAtMinusHalf += dx;
-				_xAtHalf += dx;
-
-				double x0 = _xAtMinusHalf + dx / 2.0;
-
-				double originalValue = _positionOutputCalculator._value;
-				_positionOutputCalculator._value = x0;
-
-				_y0 = _signalCalculator.Calculate();
-
-				_positionOutputCalculator._value = originalValue;
-
-			}
-			else if (x < _xAtMinusHalf)
-			{
-				double dx = Dx();
-
-				_xAtMinusHalf -= dx;
-				_xAtHalf -= dx;
-
-
-				double x0 = _xAtMinusHalf + dx / 2.0;
-
-				double originalValue = _positionOutputCalculator._value;
-				_positionOutputCalculator._value = x0;
-
-				_y0 = _signalCalculator.Calculate();
-
-				_positionOutputCalculator._value = originalValue;
-			}
-
-			return _y0;
+			_xAtMinusHalf += dx;
+			_xAtHalf += dx;
 		}
+
+		protected override void SetNextSample() => SetSample();
+
+		protected override bool MustShiftBackward(double x) => x < _xAtMinusHalf;
+
+		protected override void ShiftBackward()
+		{
+			double dx = Dx();
+			_xAtMinusHalf -= dx;
+			_xAtHalf -= dx;
+		}
+
+		protected override void SetPreviousSample() => SetSample();
+
+		private void SetSample()
+		{
+			double dx = Dx();
+
+			double x0 = _xAtMinusHalf + dx / 2.0;
+
+			double originalValue = _positionOutputCalculator._value;
+			_positionOutputCalculator._value = x0;
+
+			_y0 = _signalCalculator.Calculate();
+
+			_positionOutputCalculator._value = originalValue;
+		}
+
+		protected override void Precalculate() { }
+
+		protected override double Calculate(double x) => _y0;
 
 		protected override void ResetNonRecursive()
 		{
