@@ -2,15 +2,10 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal sealed class Interpolate_OperatorCalculator_Stripe_LookAhead 
-		: Interpolate_OperatorCalculator_Base
-
+	internal sealed class Interpolate_OperatorCalculator_Stripe_LookAhead
+		: Interpolate_OperatorCalculator_Base_2X1Y
 	{
 		private readonly VariableInput_OperatorCalculator _positionOutputCalculator;
-
-		private double _xAtMinusHalf;
-		private double _xAtHalf;
-		private double _y0;
 
 		public Interpolate_OperatorCalculator_Stripe_LookAhead(
 			OperatorCalculatorBase signalCalculator,
@@ -23,57 +18,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			ResetNonRecursive();
 		}
 
-		protected override bool MustShiftForward(double x) => x > _xAtHalf;
-
-		protected override void ShiftForward()
+		protected override void SetNextSample()
 		{
-			double dx = Dx();
-
-			_xAtMinusHalf += dx;
-			_xAtHalf += dx;
+			_x1 += Dx();
+			SetY0();
 		}
 
-		protected override void SetNextSample() => SetSample();
-
-		protected override bool MustShiftBackward(double x) => x < _xAtMinusHalf;
-
-		protected override void ShiftBackward()
+		protected override void SetPreviousSample()
 		{
-			double dx = Dx();
-			_xAtMinusHalf -= dx;
-			_xAtHalf -= dx;
+			_x0 -= Dx();
+			SetY0();
 		}
 
-		protected override void SetPreviousSample() => SetSample();
-
-		private void SetSample()
+		private void SetY0()
 		{
-			double dx = Dx();
-
-			double x0 = _xAtMinusHalf + dx / 2.0;
+			// For Stripe interpolation x0 is really xMinusHalf,
+			// but for LookAhead we need the actual x0.
+			double xMinusHalf = _x0;
+			double x0 = xMinusHalf + Dx() / 2.0;
 
 			double originalValue = _positionOutputCalculator._value;
 			_positionOutputCalculator._value = x0;
-
 			_y0 = _signalCalculator.Calculate();
-
 			_positionOutputCalculator._value = originalValue;
 		}
 
-		protected override void Precalculate() { }
-
-		protected override double Calculate(double x) => _y0;
-
-		protected override void ResetNonRecursive()
-		{
-			double x = _positionInputCalculator.Calculate();
-			double y = _signalCalculator.Calculate();
-
-			double halfDx = Dx() / 2.0;
-
-			_xAtMinusHalf = x - halfDx;
-			_xAtHalf = x + halfDx;
-			_y0 = y;
-		}
+		protected override void ResetNonRecursive() => Interpolate_OperatorCalculator_Stripe_Helper.ResetNonRecursive(this);
 	}
 }

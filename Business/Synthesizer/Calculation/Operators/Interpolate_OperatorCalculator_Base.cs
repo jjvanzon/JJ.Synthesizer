@@ -6,9 +6,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	{
 		private const double MINIMUM_SAMPLING_RATE = 1.0 / 60.0; // Once a minute
 
-		protected readonly OperatorCalculatorBase _signalCalculator;
+		protected internal readonly OperatorCalculatorBase _signalCalculator;
 		private readonly OperatorCalculatorBase _samplingRateCalculator;
-		protected readonly OperatorCalculatorBase _positionInputCalculator;
+		protected internal readonly OperatorCalculatorBase _positionInputCalculator;
 
 		public Interpolate_OperatorCalculator_Base(
 			OperatorCalculatorBase signalCalculator,
@@ -42,7 +42,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			return Calculate(x);
 		}
 
-
 		protected abstract bool MustShiftForward(double x);
 		protected abstract void ShiftForward();
 		protected abstract void SetNextSample();
@@ -62,7 +61,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		protected abstract void ResetNonRecursive();
 
 		/// <summary> Gets the sampling rate, converts it to an absolute number, ensures a minimum value and returns dx. </summary>
-		protected double Dx()
+		protected internal double Dx()
 		{
 			double samplingRate = _samplingRateCalculator.Calculate();
 

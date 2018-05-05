@@ -158,6 +158,8 @@
     <Compile Include="Calculation\Operators\HighShelfFilter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\InletsToDimension_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2Point.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2X1Y_LagBehind.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2X1Y.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_4Point.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Base_2Point_LagBehind.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Cubic_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Hermite_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LookAhead.cs" />
+    <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe_Helper.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Random_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Remainder_OperatorCalculator.cs" />
