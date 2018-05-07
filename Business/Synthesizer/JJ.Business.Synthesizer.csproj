@@ -742,7 +742,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
-    <None Include="Calculation\Operators\OperatorCalculator Inheritance.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
