@@ -44,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 			Func<TEntity, IResult> businessDelegate = null,
 			Action<TViewModel> nonPersistedDelegate = null)
 		{
-			
 			return ExecuteAction(
 				userInput,
 				() => GetEntity(userInput),
@@ -52,21 +51,12 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 				nonPersistedDelegate ?? _defaultNonPersistedDelegate);
 		}
 
-		protected TViewModel ExecuteAction(
-			TViewModel userInput,
-			Func<TEntity> getEntityDelegate)
-		{
-			return ExecuteAction(userInput, getEntityDelegate, _defaultBusinessFunc, _defaultNonPersistedDelegate);
-		}
+		protected TViewModel ExecuteAction(TViewModel userInput, Func<TEntity> getEntityDelegate)
+			=> ExecuteAction(userInput, getEntityDelegate, _defaultBusinessFunc, _defaultNonPersistedDelegate);
 
 		// ReSharper disable once UnusedMember.Global
-		protected TViewModel ExecuteAction(
-			TViewModel userInput,
-			Func<TEntity> getEntityDelegate,
-			Func<TEntity, IResult> businessDelegate)
-		{
-			return ExecuteAction(userInput, getEntityDelegate, businessDelegate, _defaultNonPersistedDelegate);
-		}
+		protected TViewModel ExecuteAction(TViewModel userInput, Func<TEntity> getEntityDelegate, Func<TEntity, IResult> businessDelegate)
+			=> ExecuteAction(userInput, getEntityDelegate, businessDelegate, _defaultNonPersistedDelegate);
 
 		/// <summary>
 		/// Manages the RefreshCounter, basics around the Successful flag,
