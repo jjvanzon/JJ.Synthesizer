@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace JJ.Business.Synthesizer.Calculation.Operators
+﻿namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 	internal class AverageFollower_OperatorCalculator : SumFollower_OperatorCalculator
 	{
@@ -12,7 +10,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			: base(signalCalculator, sliceLengthCalculator, sampleCountCalculator, positionCalculator)
 		{ }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected override double PostProcessAggregate() => _sum / _sampleCountDouble;
+		protected override double Aggregate(double sample)
+		{
+			double sum = base.Aggregate(sample);
+			double average = sum / _sampleCountDouble;
+			return average;
+		}
 	}
 }

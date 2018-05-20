@@ -1,6 +1,4 @@
-﻿using JJ.Framework.Collections;
-
-namespace JJ.Business.Synthesizer.Calculation.Operators
+﻿namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 	internal class MaxFollower_OperatorCalculator : MaxOrMinFollower_OperatorCalculatorBase
 	{
@@ -8,19 +6,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase sliceLengthCalculator,
 			OperatorCalculatorBase sampleCountCalculator,
-			OperatorCalculatorBase positionInputCalculator,
-			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(
-				signalCalculator,
-				sliceLengthCalculator,
-				sampleCountCalculator,
-				positionInputCalculator,
-				positionOutputCalculator)
-		{ }
+			OperatorCalculatorBase positionInputCalculator)
+			: base(signalCalculator, sliceLengthCalculator, sampleCountCalculator, positionInputCalculator) { }
 
-		protected override double GetMaxOrMin(RedBlackTree<double, double> redBlackTree)
+		protected override double Aggregate(double sample)
 		{
-			return redBlackTree.GetMaximum();
+			base.Aggregate(sample);
+
+			return _redBlackTree.GetMaximum();
 		}
 	}
 }

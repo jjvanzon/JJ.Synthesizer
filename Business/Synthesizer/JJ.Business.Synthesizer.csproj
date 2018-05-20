@@ -171,6 +171,7 @@
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Line_LookAhead.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe_Helper.cs" />
     <Compile Include="Calculation\Operators\Interpolate_OperatorCalculator_Stripe_LookAhead.cs" />
+    <Compile Include="Calculation\Operators\OperatorCalculatorBase_Follower.cs" />
     <Compile Include="Calculation\Operators\Random_OperatorCalculator_Stripe.cs" />
     <Compile Include="Calculation\Operators\Remainder_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SineWithRate1_OperatorCalculator.cs" />

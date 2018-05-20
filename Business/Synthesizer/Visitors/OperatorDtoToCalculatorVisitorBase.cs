@@ -504,7 +504,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			return ProcessOperatorDto(
 				dto,
-				() => new MaxFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
+				() => new MaxFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 		}
 
 		protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(
@@ -544,7 +544,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		{
 			return ProcessOperatorDto(
 				dto,
-				() => new MinFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
+				() => new MinFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 		}
 
 		protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(
