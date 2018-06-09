@@ -183,7 +183,6 @@
     <Content Include="CopiedCode\From_JJ_Business_SynthesizerPrototype\README.TXT" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -825,7 +825,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
     <Compile Include="Validation\ValidationHelper.Unicity.cs" />
     <None Include="packages.config">
