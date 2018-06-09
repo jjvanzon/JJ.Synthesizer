@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Dto;
+﻿using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
@@ -24,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 			return calculator;
 		}
 
-		[UsedImplicitly]
+        // Do not use JetBrains annotations, because this file is used in run-time compilation without referencing JetBrains.
 		public static ICalculatorWithPosition CreateArrayCalculator(
 			double[] array,
 			double rate,

@@ -6,7 +6,7 @@
 <# int minVarOperands = 1; #>
 <# int maxVarOperands = 31; #>
 
-using JJ.Framework.Exceptions;
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {

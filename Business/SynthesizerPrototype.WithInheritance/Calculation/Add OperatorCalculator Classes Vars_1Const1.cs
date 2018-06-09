@@ -1,9 +1,12 @@
-﻿using JJ.Framework.Exceptions.Basic;
+﻿
+
+
+using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 {
 
-	internal class Add_OperatorCalculator_1Vars_1Const : OperatorCalculatorBase
+		internal class Add_OperatorCalculator_1Vars_1Const : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
 			private readonly double _constValue;
