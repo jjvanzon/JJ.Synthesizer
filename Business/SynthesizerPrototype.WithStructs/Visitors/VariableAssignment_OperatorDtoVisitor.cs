@@ -14,12 +14,9 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 		private readonly DimensionStack _dimensionStack;
 		private readonly Stack<IOperatorCalculator> _stack = new Stack<IOperatorCalculator>();
 
-		public VariableAssignment_OperatorDtoVisitor(DimensionStack dimensionStack)
-		{
-			_dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
-		}
+		public VariableAssignment_OperatorDtoVisitor(DimensionStack dimensionStack) => _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
 
-		// Execute
+	    // Execute
 
 		public IOperatorCalculator Execute(IOperatorDto sourceDto, IOperatorCalculator destCalculator)
 		{

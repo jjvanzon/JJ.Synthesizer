@@ -11,12 +11,9 @@ namespace JJ.Data.Synthesizer.Entities
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
 	public class Curve
 	{
-		public Curve()
-		{
-			Nodes = new List<Node>();
-		}
+		public Curve() => Nodes = new List<Node>();
 
-		public virtual int ID { get; set; }
+	    public virtual int ID { get; set; }
 		public virtual string Name { get; set; }
 		public virtual IList<Node> Nodes { get; set; }
 

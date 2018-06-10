@@ -9,15 +9,9 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.CopiedCode.From_JJ_Bu
 	internal static class OperatorCalculatorHelper
 	{
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static double Add(double a, double b)
-		{
-			return a + b;
-		}
+		public static double Add(double a, double b) => a + b;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static double Multiply(double a, double b)
-		{
-			return a * b;
-		}
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static double Multiply(double a, double b) => a * b;
 	}
 }

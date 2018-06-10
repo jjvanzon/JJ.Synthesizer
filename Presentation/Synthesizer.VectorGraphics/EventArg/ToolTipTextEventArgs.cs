@@ -9,9 +9,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.EventArg
 		public Element Element { get; }
 		public string ToolTipText { get; set; }
 
-		public ToolTipTextEventArgs(Element element)
-		{
-			Element = element ?? throw new NullException(() => element);
-		}
+		public ToolTipTextEventArgs(Element element) => Element = element ?? throw new NullException(() => element);
 	}
 }

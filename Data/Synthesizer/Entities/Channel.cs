@@ -12,12 +12,9 @@ namespace JJ.Data.Synthesizer.Entities
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
 	public class Channel
 	{
-		public Channel()
-		{
-			SpeakerSetupChannels = new List<SpeakerSetupChannel>();
-		}
+		public Channel() => SpeakerSetupChannels = new List<SpeakerSetupChannel>();
 
-		public virtual int ID { get; set; }
+	    public virtual int ID { get; set; }
 		public virtual string Name { get; set; }
 
 		/// <summary> bridge entity </summary>

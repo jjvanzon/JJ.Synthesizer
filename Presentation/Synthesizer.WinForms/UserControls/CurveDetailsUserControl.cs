@@ -49,12 +49,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			_textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 		}
 
-		private void CurveDetailsUserControl_Load(object sender, EventArgs e)
-		{
-			diagramControl.Diagram = _converter.Result.Diagram;
-		}
+		private void CurveDetailsUserControl_Load(object sender, EventArgs e) => diagramControl.Diagram = _converter.Result.Diagram;
 
-		/// <summary>
+	    /// <summary>
 		/// It is exceptional to pass a business logic object to a UI element,
 		/// but the Curve editors use the calculation of the business layer,
 		/// in order to plot the curve exactly as used in the sound calculations.
@@ -82,12 +79,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Gui
 
-		protected override void SetTitles()
-		{
-			TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Curve);
-		}
+		protected override void SetTitles() => TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Curve);
 
-		protected override void PositionControls()
+	    protected override void PositionControls()
 		{
 			base.PositionControls();
 
@@ -135,13 +129,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			}
 		}
 
-		private void CurveDetailsUserControl_AddClicked(object sender, EventArgs e)
-		{
-			CreateNode();
+		private void CurveDetailsUserControl_AddClicked(object sender, EventArgs e) => CreateNode();
 
-		}
-
-		private void DeleteGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
+	    private void DeleteGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
 
 		// ReSharper disable once RedundantNameQualifier
 		private void Diagram_KeyDown(object sender, KeyEventArgs e)

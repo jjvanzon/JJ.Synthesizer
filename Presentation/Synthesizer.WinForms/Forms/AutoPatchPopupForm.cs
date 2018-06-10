@@ -37,13 +37,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
 		private void PatchDetailsForm_Load(object sender, EventArgs e) => SetTitles();
 
-		private void SetTitles()
-		{
-			// ReSharper disable once LocalizableElement
-			Text = ResourceFormatter.AutoPatch + " - " + ResourceFormatter.ApplicationName;
-		}
+		private void SetTitles() => Text = ResourceFormatter.AutoPatch + " - " + ResourceFormatter.ApplicationName;
 
-		private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => Close();
+	    private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => Close();
 
 		private void PatchDetailsForm_FormClosing(object sender, FormClosingEventArgs e)
 		{

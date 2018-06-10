@@ -79,12 +79,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 
 		// Gui
 
-		protected virtual void ApplyStyling()
-		{
-			BackColor = SystemColors.ButtonFace;
-		}
+		protected virtual void ApplyStyling() => BackColor = SystemColors.ButtonFace;
 
-		/// <summary> does nothing </summary>
+	    /// <summary> does nothing </summary>
 		protected virtual void SetTitles() { }
 
 		public string TitleBarText
@@ -176,20 +173,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			}
 		}
 
-		private void Base_Resize(object sender, EventArgs e)
-		{
-			PositionControls();
-		}
+		private void Base_Resize(object sender, EventArgs e) => PositionControls();
 
-		// Binding
+	    // Binding
 
 		/// <summary> does nothing </summary>
-		protected virtual int GetID()
-		{
-			return default;
-		}
+		protected virtual int GetID() => default;
 
-		/// <summary> does nothing </summary>
+	    /// <summary> does nothing </summary>
 		protected virtual void ApplyControlsToViewModel() { }
 
 		// Actions
@@ -221,12 +212,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			PlayRequested?.Invoke(this, new EventArgs<int>(GetID()));
 		}
 
-		protected void Delete()
-		{
-			DeleteRequested?.Invoke(this, new EventArgs<int>(GetID()));
-		}
+		protected void Delete() => DeleteRequested?.Invoke(this, new EventArgs<int>(GetID()));
 
-		// Events
+	    // Events
 
 		private void _titleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 		private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();

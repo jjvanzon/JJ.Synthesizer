@@ -32,12 +32,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			Dropped += this_Dropped;
 		}
 
-		~DropLineGesture()
-		{
-			Dispose();
-		}
+		~DropLineGesture() => Dispose();
 
-		public void Dispose()
+	    public void Dispose()
 		{
 			Dropped -= this_Dropped;
 
@@ -46,9 +43,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		// Events
 
-		private void this_Dropped(object sender, DroppedEventArgs e)
-		{
-			_line.Visible = false;
-		}
+		private void this_Dropped(object sender, DroppedEventArgs e) => _line.Visible = false;
 	}
 }

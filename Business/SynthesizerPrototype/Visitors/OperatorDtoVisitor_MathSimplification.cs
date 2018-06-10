@@ -12,12 +12,9 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 	{
 		// General
 
-		public IOperatorDto Execute(IOperatorDto dto)
-		{
-			return Visit_OperatorDto_Polymorphic(dto);
-		}
+		public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
 
-		[DebuggerHidden]
+	    [DebuggerHidden]
 		protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
 		{
 			// NaN / Infinity
@@ -35,22 +32,13 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 
 		// Add
 
-		protected override IOperatorDto Visit_Add_OperatorDto_NoVars_Consts(Add_OperatorDto_NoVars_Consts dto)
-		{
-			return Process_NoVars_Consts(dto, Enumerable.Sum);
-		}
+		protected override IOperatorDto Visit_Add_OperatorDto_NoVars_Consts(Add_OperatorDto_NoVars_Consts dto) => Process_NoVars_Consts(dto, Enumerable.Sum);
 
-		protected override IOperatorDto Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto)
-		{
-			return Process_NoVars_NoConsts(dto);
-		}
+	    protected override IOperatorDto Visit_Add_OperatorDto_NoVars_NoConsts(Add_OperatorDto_NoVars_NoConsts dto) => Process_NoVars_NoConsts(dto);
 
-		protected override IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto)
-		{
-			return Process_Vars_NoConsts(dto);
-		}
+	    protected override IOperatorDto Visit_Add_OperatorDto_Vars_NoConsts(Add_OperatorDto_Vars_NoConsts dto) => Process_Vars_NoConsts(dto);
 
-		protected override IOperatorDto Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto)
+	    protected override IOperatorDto Visit_Add_OperatorDto_Vars_Consts(Add_OperatorDto_Vars_Consts dto)
 		{
 			base.Visit_Add_OperatorDto_Vars_Consts(dto);
 
@@ -115,17 +103,11 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 
 		// Shift
 
-		protected override IOperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto)
-		{
-			return Process_ConstSignal_Identity(dto.Signal);
-		}
+		protected override IOperatorDto Visit_Shift_OperatorDto_ConstSignal_ConstDistance(Shift_OperatorDto_ConstSignal_ConstDistance dto) => Process_ConstSignal_Identity(dto.Signal);
 
-		protected override IOperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto)
-		{
-			return Process_ConstSignal_Identity(dto.Signal);
-		}
+	    protected override IOperatorDto Visit_Shift_OperatorDto_ConstSignal_VarDistance(Shift_OperatorDto_ConstSignal_VarDistance dto) => Process_ConstSignal_Identity(dto.Signal);
 
-		protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
+	    protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_ConstDistance(Shift_OperatorDto_VarSignal_ConstDistance dto)
 		{
 			base.Visit_Shift_OperatorDto_VarSignal_ConstDistance(dto);
 
@@ -140,12 +122,9 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto)
-		{
-			return Process_Nothing(dto);
-		}
+		protected override IOperatorDto Visit_Shift_OperatorDto_VarSignal_VarDistance(Shift_OperatorDto_VarSignal_VarDistance dto) => Process_Nothing(dto);
 
-		// Sine
+	    // Sine
 
 		protected override IOperatorDto Visit_Sine_OperatorDto_ZeroFrequency(Sine_OperatorDto_ZeroFrequency dto)
 		{
@@ -163,12 +142,9 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 		/// so only new virtual methods show up when typing 'override'.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private IOperatorDto Process_Nothing(IOperatorDto dto)
-		{
-			return Visit_OperatorDto_Base(dto);
-		}
+		private IOperatorDto Process_Nothing(IOperatorDto dto) => Visit_OperatorDto_Base(dto);
 
-		private IOperatorDto Process_NoVars_Consts(
+	    private IOperatorDto Process_NoVars_Consts(
 			OperatorDtoBase_Consts dto,
 			Func<IEnumerable<double>, double> aggregationDelegate)
 		{
@@ -206,10 +182,6 @@ namespace JJ.Business.SynthesizerPrototype.Visitors
 			}
 		}
 
-		private IOperatorDto Process_ConstSignal_Identity(double signal)
-		{
-			// Identity
-			return new Number_OperatorDto { Number = signal };
-		}
+		private IOperatorDto Process_ConstSignal_Identity(double signal) => new Number_OperatorDto { Number = signal };
 	}
 }

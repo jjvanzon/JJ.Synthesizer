@@ -77,12 +77,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			_previousElement = e.Element;
 		}
 
-		private void _mouseLeaveGesture_MouseLeave(object sender, MouseEventArgs e)
-		{
-			HideToolTip(e.Element);
-		}
+		private void _mouseLeaveGesture_MouseLeave(object sender, MouseEventArgs e) => HideToolTip(e.Element);
 
-		/// <summary> Only shows the new tool tip text if the tool tip was already visible. </summary>
+	    /// <summary> Only shows the new tool tip text if the tool tip was already visible. </summary>
 		public void ChangeToolTipText(string text)
 		{
 			if (_previousElement == null)
@@ -284,39 +281,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		// Note it is an assumption that the tool tip height will be similar to the mouse arrow height.
 
-		private static void PositionToTheLeft(Element toolTipElement)
-		{
-			toolTipElement.Position.Right = 0;
-		}
+		private static void PositionToTheLeft(Element toolTipElement) => toolTipElement.Position.Right = 0;
 
-		private static void PositionToTheRight(Element toolTipElement)
-		{
-			toolTipElement.Position.X = toolTipElement.Parent.Position.Width;
-		}
+	    private static void PositionToTheRight(Element toolTipElement) => toolTipElement.Position.X = toolTipElement.Parent.Position.Width;
 
-		private static void PositionLeftAligned(Element toolTipElement)
-		{
-			toolTipElement.Position.X = toolTipElement.Parent.Position.Width / 2f - toolTipElement.Position.Width;
-		}
+	    private static void PositionLeftAligned(Element toolTipElement) => toolTipElement.Position.X = toolTipElement.Parent.Position.Width / 2f - toolTipElement.Position.Width;
 
-		private static void PositionRightAligned(Element toolTipElement)
-		{
-			toolTipElement.Position.X = toolTipElement.Parent.Position.Width / 2f;
-		}
+	    private static void PositionRightAligned(Element toolTipElement) => toolTipElement.Position.X = toolTipElement.Parent.Position.Width / 2f;
 
-		private static void PositionOnTop(Element toolTipElement)
-		{
-			toolTipElement.Position.Y = -toolTipElement.Position.Height;
-		}
+	    private static void PositionOnTop(Element toolTipElement) => toolTipElement.Position.Y = -toolTipElement.Position.Height;
 
-		private static void PositionOnBottom(Element toolTipElement)
-		{
-			toolTipElement.Position.Y = toolTipElement.Position.Height + toolTipElement.Position.Height;
-		}
+	    private static void PositionOnBottom(Element toolTipElement) => toolTipElement.Position.Y = toolTipElement.Position.Height + toolTipElement.Position.Height;
 
-		private static void PositionInCenterY(Element toolTipElement)
-		{
-			toolTipElement.Position.CenterY = toolTipElement.Parent.Position.Height / 2f;
-		}
+	    private static void PositionInCenterY(Element toolTipElement) => toolTipElement.Position.CenterY = toolTipElement.Parent.Position.Height / 2f;
 	}
 }

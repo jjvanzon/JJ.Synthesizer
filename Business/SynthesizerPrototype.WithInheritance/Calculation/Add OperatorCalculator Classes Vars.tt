@@ -56,26 +56,24 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
+				=>
 <#
-					for (int j = 1; j <= i; j++)
-					{
+				for (int j = 1; j <= i; j++)
+				{
 #>
-						_operandCalculator<#= j #>.Calculate()
+					_operandCalculator<#= j #>.Calculate()
 <#
-						if (j != i)
-						{
-							Write("+");
-						}
-						else
-						{
-							Write(";");
-						}
+					if (j != i)
+					{
+						Write("+");
 					}
+					else
+					{
+						Write(";");
+					}
+				}
 #>
 			}
-		}
 <# 
 	}
 #>

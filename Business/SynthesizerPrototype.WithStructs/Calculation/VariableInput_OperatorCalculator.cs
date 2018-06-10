@@ -15,11 +15,8 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 		public double _value;
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public double Calculate()
-		{
-			return _value;
-		}
+		public double Calculate() => _value;
 
-		private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+	    private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
 	}
 }

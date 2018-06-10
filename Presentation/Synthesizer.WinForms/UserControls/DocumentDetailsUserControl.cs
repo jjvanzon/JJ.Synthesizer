@@ -70,12 +70,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			SaveRequested?.Invoke(this, EventArgs.Empty);
 		}
 
-		private void Close()
-		{
-			CloseRequested?.Invoke(this, EventArgs.Empty);
-		}
+		private void Close() => CloseRequested?.Invoke(this, EventArgs.Empty);
 
-		private void Delete()
+	    private void Delete()
 		{
 			if (ViewModel == null) return;
 
@@ -85,22 +82,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Events
 
-		private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
-		{
-			Close();
-		}
+		private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
 
-		private void buttonSave_Click(object sender, EventArgs e)
-		{
-			Save();
-		}
+	    private void buttonSave_Click(object sender, EventArgs e) => Save();
 
-		private void buttonDelete_Click(object sender, EventArgs e)
-		{
-			Delete();
-		}
+	    private void buttonDelete_Click(object sender, EventArgs e) => Delete();
 
-		private void DocumentDetailsUserControl_VisibleChanged(object sender, EventArgs e)
+	    private void DocumentDetailsUserControl_VisibleChanged(object sender, EventArgs e)
 		{
 			// ReSharper disable once InvertIf
 			if (Visible)

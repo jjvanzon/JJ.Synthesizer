@@ -12,12 +12,9 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Visitors
 	{
 		private readonly DimensionStack _dimensionStack;
 
-		public OperatorDtoToOperatorCalculatorVisitor(DimensionStack dimensionStack)
-		{
-			_dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
-		}
+		public OperatorDtoToOperatorCalculatorVisitor(DimensionStack dimensionStack) => _dimensionStack = dimensionStack ?? throw new NullException(() => dimensionStack);
 
-		public IOperatorCalculator Execute(IOperatorDto sourceOperatorDto)
+	    public IOperatorCalculator Execute(IOperatorDto sourceOperatorDto)
 		{
 			var preProcessingVisitor = new OperatorDtoPreProcessingExecutor();
 			sourceOperatorDto = preProcessingVisitor.Execute(sourceOperatorDto);

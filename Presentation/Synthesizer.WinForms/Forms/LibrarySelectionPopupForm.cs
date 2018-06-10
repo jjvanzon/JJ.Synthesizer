@@ -52,9 +52,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 			CloseRequested(this, EventArgs.Empty);
 		}
 
-		private void librarySelectionPopupUserControl_CancelRequested(object sender, EventArgs e)
-		{
-			CancelRequested.Invoke(this, EventArgs.Empty);
-		}
+		private void librarySelectionPopupUserControl_CancelRequested(object sender, EventArgs e) => CancelRequested.Invoke(this, EventArgs.Empty);
 	}
 }

@@ -75,17 +75,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			OKRequested?.Invoke(sender, new EventArgs<int?>(id));
 		}
 
-		private void librarySelectionGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
-		{
-			OKRequested?.Invoke(sender, new EventArgs<int?>(e.Value));
-		}
+		private void librarySelectionGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => OKRequested?.Invoke(sender, new EventArgs<int?>(e.Value));
 
-		private void librarySelectionGridUserControl_PlayRequested(object sender, EventArgs<int> e)
-		{
-			PlayRequested?.Invoke(sender, new EventArgs<int>(e.Value));
-		}
+	    private void librarySelectionGridUserControl_PlayRequested(object sender, EventArgs<int> e) => PlayRequested?.Invoke(sender, new EventArgs<int>(e.Value));
 
-		private void Base_Load(object sender, EventArgs e) => PositionControls();
+	    private void Base_Load(object sender, EventArgs e) => PositionControls();
 		private void Base_Resize(object sender, EventArgs e) => PositionControls();
 	}
 }

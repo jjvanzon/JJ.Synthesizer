@@ -112,14 +112,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
 		// Values
 
-		public override void SetValue(int noteIndex, double value)
-		{
-			base.SetValue(noteIndex, value);
+		public override void SetValue(int noteIndex, double value) => base.SetValue(noteIndex, value);
 
-			// TODO: Figure out why nothing is done here. If you figured it out, document the reason here.
-		}
-
-		public override void SetValue(string name, double value)
+	    public override void SetValue(string name, double value)
 		{
 			base.SetValue(name, value);
 

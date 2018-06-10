@@ -26,12 +26,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			DragCanceled += this_DragCancelled;
 		}
 
-		~DragLineGesture()
-		{
-			Dispose();
-		}
+		~DragLineGesture() => Dispose();
 
-		public void Dispose()
+	    public void Dispose()
 		{
 			Dragging -= this_Dragging;
 			DragCanceled -= this_DragCancelled;
@@ -57,12 +54,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			_line.Visible = true;
 		}
 
-		private void this_DragCancelled(object sender, EventArgs e)
-		{
-			_line.Visible = false;
-		}
+		private void this_DragCancelled(object sender, EventArgs e) => _line.Visible = false;
 
-		private void GetSourceCoordinates(Element element, out float x, out float y)
+	    private void GetSourceCoordinates(Element element, out float x, out float y)
 		{
 			// Right now this only works if the OutletRectangle's center is the same as the OutletPoint,
 			// but it would perform worse to query for the OutletPoint.

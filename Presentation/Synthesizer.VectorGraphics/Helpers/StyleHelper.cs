@@ -353,12 +353,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			return dictionary;
 		}
 
-		public static BackStyle GetGradedBackStyle(StyleGradeEnum styleGradeEnum)
-		{
-			return _gradedBackStyleDictionary[styleGradeEnum];
-		}
+		public static BackStyle GetGradedBackStyle(StyleGradeEnum styleGradeEnum) => _gradedBackStyleDictionary[styleGradeEnum];
 
-		// Order-Dependence: Do after _gradedBackStyleDictionary declaration
+	    // Order-Dependence: Do after _gradedBackStyleDictionary declaration
 		// ReSharper disable once MemberCanBePrivate.Global
 		public static BackStyle NeutralBackStyle { get; } = GetGradedBackStyle(StyleGradeEnum.StyleGradeNeutral);
 

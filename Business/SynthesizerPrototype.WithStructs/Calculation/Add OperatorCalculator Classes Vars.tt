@@ -71,25 +71,23 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return 
+				=> 
 <#
-					for (int j = 1; j <= i; j++)
+				for (int j = 1; j <= i; j++)
+				{
+#>
+					_calculator<#= j #>.Calculate()
+<#
+					if (j != i)
 					{
-#>
-						_calculator<#= j #>.Calculate()
-<#
-						if (j != i)
-						{
-							Write("+");
-						}
-						else
-						{
-							Write(";");
-						}
+						Write("+");
 					}
+					else
+					{
+						Write(";");
+					}
+				}
 #>
-			}
 		}
 <# 
 	}

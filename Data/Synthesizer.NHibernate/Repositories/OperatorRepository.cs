@@ -15,11 +15,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
 		public override IList<Operator> GetAll() => _context.Session.QueryOver<Operator>().List();
 
-		public override IList<Operator> GetManyByUnderlyingPatchID(int underlyingPatchID)
-		{
-			return _context.Session.QueryOver<Operator>()
-			               .Where(x => x.UnderlyingPatch.ID == underlyingPatchID)
-			               .List();
-		}
+		public override IList<Operator> GetManyByUnderlyingPatchID(int underlyingPatchID) => _context.Session.QueryOver<Operator>()
+		                                                                                             .Where(x => x.UnderlyingPatch.ID == underlyingPatchID)
+		                                                                                             .List();
 	}
 }

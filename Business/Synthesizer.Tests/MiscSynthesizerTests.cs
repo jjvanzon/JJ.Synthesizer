@@ -79,35 +79,9 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void Test_Synthesizer_AddValidator_IsValidTrue()
-		{
-			//var op = new Operator
-			//{
-			//	Inlets = new Inlet[]
-			//	{ 
-			//		new Inlet { Name = "qwer"},
-			//		new Inlet { Name = "asdf" },
-			//	},
-			//	Outlets = new Outlet[]
-			//	{
-			//		new Outlet { Name = "zxcv" }
-			//	}
-			//});
+		public void Test_Synthesizer_AddValidator_IsValidTrue() => Assert.Inconclusive("Test method was outcommented");
 
-			//var op2 = new Operator();
-
-			//IValidator validator1 = new OperatorValidator_Add(
-			//IValidator validator2 = new OperatorValidator_Add(new Operator());
-
-			//bool isValid = validator1.IsValid &&
-			//			   validator2.IsValid;
-
-			//Assert.IsTrue(isValid);
-
-			Assert.Inconclusive("Test method was outcommented");
-		}
-
-		[TestMethod]
+	    [TestMethod]
 		public void Test_Synthesizer_Add()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())

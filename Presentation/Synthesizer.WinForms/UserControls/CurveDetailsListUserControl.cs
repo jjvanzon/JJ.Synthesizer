@@ -31,12 +31,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private CurveFacade _curveFacade;
 
 		/// <see cref="CurveDetailsUserControl.SetCurveFacade"/>
-		public void SetCurveFacade(CurveFacade curveFacade)
-		{
-			_curveFacade = curveFacade ?? throw new ArgumentNullException(nameof(curveFacade));
-		}
+		public void SetCurveFacade(CurveFacade curveFacade) => _curveFacade = curveFacade ?? throw new ArgumentNullException(nameof(curveFacade));
 
-		private IList<CurveDetailsViewModel> _viewModels;
+	    private IList<CurveDetailsViewModel> _viewModels;
 		public IList<CurveDetailsViewModel> ViewModels
 		{
 			// ReSharper disable once UnusedMember.Global

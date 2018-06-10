@@ -37,12 +37,10 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return 
-						_calculator1.Calculate()
-+						_calculator2.Calculate()
-;			}
-		}
+				=> 
+					_calculator1.Calculate()
++					_calculator2.Calculate()
+;		}
 		public struct Add_OperatorCalculator_3Vars
 			<
 					TChildCalculator1
@@ -81,13 +79,11 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return 
-						_calculator1.Calculate()
-+						_calculator2.Calculate()
-+						_calculator3.Calculate()
-;			}
-		}
+				=> 
+					_calculator1.Calculate()
++					_calculator2.Calculate()
++					_calculator3.Calculate()
+;		}
 		public struct Add_OperatorCalculator_4Vars
 			<
 					TChildCalculator1
@@ -133,14 +129,12 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return 
-						_calculator1.Calculate()
-+						_calculator2.Calculate()
-+						_calculator3.Calculate()
-+						_calculator4.Calculate()
-;			}
-		}
+				=> 
+					_calculator1.Calculate()
++					_calculator2.Calculate()
++					_calculator3.Calculate()
++					_calculator4.Calculate()
+;		}
 		public struct Add_OperatorCalculator_5Vars
 			<
 					TChildCalculator1
@@ -193,15 +187,13 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return 
-						_calculator1.Calculate()
-+						_calculator2.Calculate()
-+						_calculator3.Calculate()
-+						_calculator4.Calculate()
-+						_calculator5.Calculate()
-;			}
-		}
+				=> 
+					_calculator1.Calculate()
++					_calculator2.Calculate()
++					_calculator3.Calculate()
++					_calculator4.Calculate()
++					_calculator5.Calculate()
+;		}
 		public struct Add_OperatorCalculator_6Vars
 			<
 					TChildCalculator1
@@ -261,16 +253,14 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return 
-						_calculator1.Calculate()
-+						_calculator2.Calculate()
-+						_calculator3.Calculate()
-+						_calculator4.Calculate()
-+						_calculator5.Calculate()
-+						_calculator6.Calculate()
-;			}
-		}
+				=> 
+					_calculator1.Calculate()
++					_calculator2.Calculate()
++					_calculator3.Calculate()
++					_calculator4.Calculate()
++					_calculator5.Calculate()
++					_calculator6.Calculate()
+;		}
 		public struct Add_OperatorCalculator_7Vars
 			<
 					TChildCalculator1
@@ -337,17 +327,15 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return 
-						_calculator1.Calculate()
-+						_calculator2.Calculate()
-+						_calculator3.Calculate()
-+						_calculator4.Calculate()
-+						_calculator5.Calculate()
-+						_calculator6.Calculate()
-+						_calculator7.Calculate()
-;			}
-		}
+				=> 
+					_calculator1.Calculate()
++					_calculator2.Calculate()
++					_calculator3.Calculate()
++					_calculator4.Calculate()
++					_calculator5.Calculate()
++					_calculator6.Calculate()
++					_calculator7.Calculate()
+;		}
 		public struct Add_OperatorCalculator_8Vars
 			<
 					TChildCalculator1
@@ -421,16 +409,14 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return 
-						_calculator1.Calculate()
-+						_calculator2.Calculate()
-+						_calculator3.Calculate()
-+						_calculator4.Calculate()
-+						_calculator5.Calculate()
-+						_calculator6.Calculate()
-+						_calculator7.Calculate()
-+						_calculator8.Calculate()
-;			}
-		}
+				=> 
+					_calculator1.Calculate()
++					_calculator2.Calculate()
++					_calculator3.Calculate()
++					_calculator4.Calculate()
++					_calculator5.Calculate()
++					_calculator6.Calculate()
++					_calculator7.Calculate()
++					_calculator8.Calculate()
+;		}
 }

@@ -115,54 +115,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				});
 		}
 
-		public void PatchShow(string patchName)
-		{
-			// TODO: Delegate to presenter layer.
-			TemplateActionHandler(
-				() =>
-				{
-					Document document = _repositories.DocumentRepository.Get(_mainPresenter.MainViewModel.Document.ID);
-					Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleWithClearException(new { patchName });
-					_mainPresenter.PatchDetails_Show(patch.ID);
-				});
-		}
+		public void PatchShow(string patchName) => TemplateActionHandler(
+		    () =>
+		    {
+		        Document document = _repositories.DocumentRepository.Get(_mainPresenter.MainViewModel.Document.ID);
+		        Patch patch = document.Patches.Where(x => string.Equals(x.Name, patchName)).SingleWithClearException(new { patchName });
+		        _mainPresenter.PatchDetails_Show(patch.ID);
+		    });
 
-		// Helpers
+	    // Helpers
 
-		private void SetTreePanelVisible(bool visible)
-		{
-			splitContainerTreeAndRightSide.Panel1Collapsed = !visible;
-		}
+		private void SetTreePanelVisible(bool visible) => splitContainerTreeAndRightSide.Panel1Collapsed = !visible;
 
-		private void SetPropertiesPanelVisible(bool visible)
-		{
-			splitContainerCenterAndProperties.Panel2Collapsed = !visible;
-		}
+	    private void SetPropertiesPanelVisible(bool visible) => splitContainerCenterAndProperties.Panel2Collapsed = !visible;
 
-		private void SetCurveDetailsPanelVisible(bool visible)
-		{
-			splitContainerCurvesAndTopSide.Panel2Collapsed = !visible;
-		}
+	    private void SetCurveDetailsPanelVisible(bool visible) => splitContainerCurvesAndTopSide.Panel2Collapsed = !visible;
 
-		private void ApplyStyling()
+	    private void ApplyStyling()
 		{
 			splitContainerCenterAndProperties.SplitterWidth = StyleHelper.SplitterWidth;
 			splitContainerTreeAndRightSide.SplitterWidth = StyleHelper.SplitterWidth;
 			splitContainerCurvesAndTopSide.SplitterWidth = StyleHelper.SplitterWidth;
 		}
 
-		private void ForceLoseFocus()
-		{
-			// Quite a hack, and making the method name lie,
-			// but the ForceLoseFocus is there to make LoseFocus go off
-			// when doing actions on controls that do not trigger a LoseFocus themselves (such as the Menu control).
-			// The control that has to loose focus, is one in which you enter data (e.g. a Properties view).
-			// No data is entered in the DocumentTree view at the moment,
-			// so if another control is focused, focusing the DocumentTree control would do the trick.
-			documentTreeUserControl.Focus();
-		}
+		private void ForceLoseFocus() => documentTreeUserControl.Focus();
 
-		private readonly IList<UserControlBase> _userControls;
+	    private readonly IList<UserControlBase> _userControls;
 
 		private IList<UserControlBase> CreateUserControlsCollection()
 		{

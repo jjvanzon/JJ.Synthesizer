@@ -321,23 +321,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ModalPopupHelper.SaveChangesPopupYesRequested += ModalPopupHelper_SaveChangesPopupYesRequested;
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Close();
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.Close();
 
-                    if (_mainPresenter.MainViewModel.MustClose)
-                    {
-                        Program.RemoveMainWindow(this);
-                    }
-                    else
-                    {
-                        e.Cancel = true;
-                    }
-                });
-        }
+                if (_mainPresenter.MainViewModel.MustClose)
+                {
+                    Program.RemoveMainWindow(this);
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            });
 
         /// <summary>
         ///     This will among other things reclaim ownership of the Midi device when switching between document windows.
@@ -359,441 +356,235 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // AudioFileOutput
 
-        private void AudioFileOutputGridUserControl_AddRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Create);
-        }
+        private void AudioFileOutputGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Create);
 
-        private void AudioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Close);
-        }
+        private void AudioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Close);
 
-        private void AudioFileOutputGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.AudioFileOutputGrid_Delete(e.Value));
-        }
+        private void AudioFileOutputGridUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.AudioFileOutputGrid_Delete(e.Value));
 
-        private void AudioFileOutputGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Show(e.Value));
-        }
+        private void AudioFileOutputGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Show(e.Value));
 
-        private void AudioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Close(e.Value));
-        }
+        private void AudioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Close(e.Value));
 
-        private void AudioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_LoseFocus(e.Value));
-        }
+        private void AudioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_LoseFocus(e.Value));
 
-        private void AudioFileOutputPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Delete(e.Value));
-        }
+        private void AudioFileOutputPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.AudioFileOutputProperties_Delete(e.Value));
 
         // AudioOutput
 
-        private void AudioOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.AudioOutputProperties_Close();
+        private void AudioOutputPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.AudioOutputProperties_Close();
 
-                    RecreatePatchCalculatorIfSuccessful();
-                    SetAudioOutputIfNeeded();
-                });
-        }
+                RecreatePatchCalculatorIfSuccessful();
+                SetAudioOutputIfNeeded();
+            });
 
-        private void AudioOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.AudioOutputProperties_LoseFocus();
+        private void AudioOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.AudioOutputProperties_LoseFocus();
 
-                    RecreatePatchCalculatorIfSuccessful();
-                    SetAudioOutputIfNeeded();
-                });
-        }
+                RecreatePatchCalculatorIfSuccessful();
+                SetAudioOutputIfNeeded();
+            });
 
-        private void AudioOutputPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(_mainPresenter.AudioOutputProperties_Play);
-        }
+        private void AudioOutputPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e) => TemplateActionHandler(_mainPresenter.AudioOutputProperties_Play);
 
         // AutoPatchPopup
 
-        private void _autoPatchPopupForm_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.AutoPatchPopup_Close);
-        }
+        private void _autoPatchPopupForm_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.AutoPatchPopup_Close);
 
-        private void _autoPatchPopupForm_SaveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(_mainPresenter.AutoPatchPopup_Save);
-        }
+        private void _autoPatchPopupForm_SaveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(_mainPresenter.AutoPatchPopup_Save);
 
         // Curve
 
-        private void CurveDetailsListUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Node_ChangeSelectedNodeType(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void CurveDetailsListUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.Node_ChangeSelectedNodeType(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void CurveDetailsListUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.CurveDetails_Close(e.Value));
-        }
+        private void CurveDetailsListUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.CurveDetails_Close(e.Value));
 
-        private void CurveDetailsListUserControl_CreateNodeRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Node_Create(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void CurveDetailsListUserControl_CreateNodeRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.Node_Create(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void CurveDetailsListUserControl_DeleteSelectedNodeRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Node_DeleteSelected(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void CurveDetailsListUserControl_DeleteSelectedNodeRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.Node_DeleteSelected(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void CurveDetailsListUserControl_ExpandCurveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.CurveDetails_Expand(e.Value));
-        }
+        private void CurveDetailsListUserControl_ExpandCurveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.CurveDetails_Expand(e.Value));
 
-        private void CurveDetailsListUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.CurveDetails_LoseFocus(e.Value));
-        }
+        private void CurveDetailsListUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.CurveDetails_LoseFocus(e.Value));
 
         private void CurveDetailsListUserControl_NodeMoving(object sender, MoveNodeEventArgs e)
             => TemplateActionHandler(() => _mainPresenter.Node_Moving(e.CurveID, e.NodeID, e.X, e.Y));
 
-        private void CurveDetailsListUserControl_NodeMoved(object sender, MoveNodeEventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Node_Moved(e.CurveID, e.NodeID, e.X, e.Y);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void CurveDetailsListUserControl_NodeMoved(object sender, MoveNodeEventArgs e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.Node_Moved(e.CurveID, e.NodeID, e.X, e.Y);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void CurveDetailsListUserControl_SelectCurveRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.Curve_Select(e.Value));
-        }
+        private void CurveDetailsListUserControl_SelectCurveRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.Curve_Select(e.Value));
 
-        private void CurveDetailsListUserControl_SelectNodeRequested(object sender, NodeEventArgs e)
-        {
-            TemplateActionHandler(() => _mainPresenter.Node_Select(e.CurveID, e.NodeID));
-        }
+        private void CurveDetailsListUserControl_SelectNodeRequested(object sender, NodeEventArgs e) => TemplateActionHandler(() => _mainPresenter.Node_Select(e.CurveID, e.NodeID));
 
-        private void CurveDetailsListUserControl_ExpandNodeRequested(object sender, NodeEventArgs e)
-        {
-            TemplateActionHandler(() => _mainPresenter.CurveDetails_ExpandNode(e.CurveID, e.NodeID));
-        }
+        private void CurveDetailsListUserControl_ExpandNodeRequested(object sender, NodeEventArgs e) => TemplateActionHandler(() => _mainPresenter.CurveDetails_ExpandNode(e.CurveID, e.NodeID));
 
         // Document Grid
 
-        private void DocumentGridUserControl_AddRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.Document_Create);
-        }
+        private void DocumentGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Document_Create);
 
-        private void DocumentGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentGrid_Close);
-        }
+        private void DocumentGridUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentGrid_Close);
 
-        private void DocumentGridUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentGrid_Play(e.Value));
-        }
+        private void DocumentGridUserControl_PlayRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentGrid_Play(e.Value));
 
-        private void DocumentGridUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
-        }
+        private void DocumentGridUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
 
-        private void DocumentGridUserControl_ShowItemRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    ForceLoseFocus();
+        private void DocumentGridUserControl_ShowItemRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                ForceLoseFocus();
 
-                    _mainPresenter.Document_Open(e.Value);
+                _mainPresenter.Document_Open(e.Value);
 
-                    SetAudioOutputIfNeeded();
-                });
-        }
+                SetAudioOutputIfNeeded();
+            });
 
         // Document Details
 
-        private void DocumentDetailsUserControl_SaveRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentDetails_Save);
-        }
+        private void DocumentDetailsUserControl_SaveRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentDetails_Save);
 
-        private void DocumentDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
-        }
+        private void DocumentDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
 
-        private void DocumentDetailsUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentDetails_Close);
-        }
+        private void DocumentDetailsUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentDetails_Close);
 
         // Document Tree
 
-        private void documentTreeUserControl_AddToInstrumentRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.DocumentTree_AddToInstrument();
-                    RecreatePatchCalculatorIfSuccessful();
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void documentTreeUserControl_AddToInstrumentRequested(object sender, EventArgs e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.DocumentTree_AddToInstrument();
+                RecreatePatchCalculatorIfSuccessful();
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void documentTreeUserControl_AudioFileOutputsNodeSelected(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioFileOutputs);
-        }
+        private void documentTreeUserControl_AudioFileOutputsNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioFileOutputs);
 
-        private void documentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioOutput);
-        }
+        private void documentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioOutput);
 
-        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_Close);
-        }
+        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Close);
 
-        private void documentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_SelectLibraries);
-        }
+        private void documentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectLibraries);
 
-        private void documentTreeUserControl_LibraryScalesNodeSelected(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScales(e.Value));
-        }
+        private void documentTreeUserControl_LibraryScalesNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScales(e.Value));
 
-        private void documentTreeUserControl_LibraryScaleNodeSelected(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScale(e.Value));
-        }
+        private void documentTreeUserControl_LibraryScaleNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScale(e.Value));
 
-        private void documentTreeUserControl_LibraryNodeSelected(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibrary(e.Value));
-        }
+        private void documentTreeUserControl_LibraryNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibrary(e.Value));
 
-        private void documentTreeUserControl_LibraryPatchNodeSelected(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryPatch(e.Value));
-        }
+        private void documentTreeUserControl_LibraryPatchNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryPatch(e.Value));
 
-        private void documentTreeUserControl_LibraryPatchGroupNodeSelected(object sender, LibraryPatchGroupEventArgs e)
-        {
-            TemplateActionHandler(
-                () => _mainPresenter.DocumentTree_SelectLibraryPatchGroup(e.LowerDocumentReferenceID, e.PatchGroup));
-        }
+        private void documentTreeUserControl_LibraryPatchGroupNodeSelected(object sender, LibraryPatchGroupEventArgs e) => TemplateActionHandler(
+            () => _mainPresenter.DocumentTree_SelectLibraryPatchGroup(e.LowerDocumentReferenceID, e.PatchGroup));
 
-        private void documentTreeUserControl_LibraryMidiNodeSelected(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidi(e.Value));
-        }
+        private void documentTreeUserControl_LibraryMidiNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidi(e.Value));
 
-        private void DocumentTreeUserControl_LibraryMidiMappingGroupNodeSelected(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidiMappingGroup(e.Value));
-        }
+        private void DocumentTreeUserControl_LibraryMidiMappingGroupNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidiMappingGroup(e.Value));
 
-        private void documentTreeUserControl_MidiNodeSelected(object sender, EventArgs e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidi());
-        }
+        private void documentTreeUserControl_MidiNodeSelected(object sender, EventArgs e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidi());
 
-        private void DocumentTreeUserControl_MidiMappingGroupNodeSelected(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidiMappingGroup(e.Value));
-        }
+        private void DocumentTreeUserControl_MidiMappingGroupNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidiMappingGroup(e.Value));
 
-        private void documentTreeUserControl_NewRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_Create);
-        }
+        private void documentTreeUserControl_NewRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Create);
 
-        private void documentTreeUserControl_OpenItemExternallyRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_OpenItemExternally);
-        }
+        private void documentTreeUserControl_OpenItemExternallyRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_OpenItemExternally);
 
-        private void documentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatchGroup(e.Value));
-        }
+        private void documentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatchGroup(e.Value));
 
-        private void documentTreeUserControl_PatchHovered(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_HoverPatch(e.Value));
-        }
+        private void documentTreeUserControl_PatchHovered(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_HoverPatch(e.Value));
 
-        private void documentTreeUserControl_PatchNodeSelected(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatch(e.Value));
-        }
+        private void documentTreeUserControl_PatchNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatch(e.Value));
 
-        private void documentTreeUserControl_PlayRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_Play());
-        }
+        private void documentTreeUserControl_PlayRequested(object sender, EventArgs e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_Play());
 
-        private void documentTreeUserControl_RefreshRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Document_Refresh();
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void documentTreeUserControl_RefreshRequested(object sender, EventArgs e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.Document_Refresh();
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void documentTreeUserControl_RedoRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.Redo);
-        }
+        private void documentTreeUserControl_RedoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Redo);
 
-        private void DocumentTreeUserControl_DeleteRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_Delete);
-        }
+        private void DocumentTreeUserControl_DeleteRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Delete);
 
-        private void documentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_SelectScales);
-        }
+        private void documentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectScales);
 
-        private void documentTreeUserControl_ScaleNodeSelected(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectScale(e.Value));
-        }
+        private void documentTreeUserControl_ScaleNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectScale(e.Value));
 
-        private void documentTreeUserControl_SaveRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.Document_Save);
-        }
+        private void documentTreeUserControl_SaveRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Document_Save);
 
-        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Show);
-        }
+        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Show);
 
-        private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_ShowAudioOutput);
-        }
+        private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_ShowAudioOutput);
 
-        private void documentTreeUserControl_ShowLibraryRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowLibrary(e.Value));
-        }
+        private void documentTreeUserControl_ShowLibraryRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowLibrary(e.Value));
 
-        private void DocumentTreeUserControl_ShowMidiMappingGroupRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowMidiMappingGroup(e.Value));
-        }
+        private void DocumentTreeUserControl_ShowMidiMappingGroupRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowMidiMappingGroup(e.Value));
 
-        private void documentTreeUserControl_ShowPatchRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowPatch(e.Value));
-        }
+        private void documentTreeUserControl_ShowPatchRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowPatch(e.Value));
 
-        private void documentTreeUserControl_ShowScaleRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowScale(e.Value));
-        }
+        private void documentTreeUserControl_ShowScaleRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowScale(e.Value));
 
-        private void documentTreeUserControl_UndoRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.Undo);
-        }
+        private void documentTreeUserControl_UndoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Undo);
 
         // Document Properties
 
-        private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentProperties_Close);
-        }
+        private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentProperties_Close);
 
-        private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentProperties_LoseFocus);
-        }
+        private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentProperties_LoseFocus);
 
-        private void documentPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentProperties_Play);
-        }
+        private void documentPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e) => TemplateActionHandler(_mainPresenter.DocumentProperties_Play);
 
         // Infrastructure 
 
         private void InfrastructureFacade_MidiDimensionValuesChanged(
             object sender,
             EventArgs<IList<(DimensionEnum dimensionEnum, string name, int? position, double value)>> e)
-        {
-            _infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker.InvokeWithDelay(
+            => _infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker.InvokeWithDelay(
                 () => TemplateActionHandler(() => _mainPresenter.Monitoring_DimensionValuesChanged(e.Value)));
-        }
 
         private void _infrastructureFacade_MidiNoteOnOccurred(
             object sender,
             EventArgs<(int midiNoteNumber, int midiVelocity, int midiChannel)> e)
-        {
-            _infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker.InvokeWithDelay(
+            => _infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker.InvokeWithDelay(
                 () => TemplateActionHandler(
                     () => _mainPresenter.Monitoring_MidiNoteOnOccurred(
                         e.Value.midiNoteNumber,
                         e.Value.midiVelocity,
                         e.Value.midiChannel)));
-        }
 
-        private void _infrastructureFacade_ExceptionOnMidiThreadOcurred(object sender, EventArgs<Exception> e)
-        {
-            _infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker.InvokeWithDelay(
-                () => UnhandledExceptionMessageBoxShower.ShowMessageBox(e.Value));
-        }
+        private void _infrastructureFacade_ExceptionOnMidiThreadOcurred(object sender, EventArgs<Exception> e) => _infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker.InvokeWithDelay(
+            () => UnhandledExceptionMessageBoxShower.ShowMessageBox(e.Value));
 
         private void _infrastructureFacade_MidiControllerValueChanged(
             object sender,
             EventArgs<(int midiControllerCode, int absoluteMidiControllerValue, int relativeMidiControllerValue, int
                 midiChannel)> e)
-        {
-            _infrastructureFacade_MidiControllerValueChanged_DelayedInvoker.InvokeWithDelay(
+            => _infrastructureFacade_MidiControllerValueChanged_DelayedInvoker.InvokeWithDelay(
                 () =>
                     TemplateActionHandler(
                         () => _mainPresenter.Monitoring_MidiControllerValueChanged(
@@ -801,831 +592,523 @@ namespace JJ.Presentation.Synthesizer.WinForms
                             e.Value.absoluteMidiControllerValue,
                             e.Value.relativeMidiControllerValue,
                             e.Value.midiChannel)));
-        }
 
         // InstrumentBar
 
-        private void patchPropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.PatchProperties_AddToInstrument(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void patchPropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.PatchProperties_AddToInstrument(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void InstrumentBarUserControl_ExpandRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.InstrumentBar_Expand);
-        }
+        private void InstrumentBarUserControl_ExpandRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.InstrumentBar_Expand);
 
-        private void InstrumentBarUserControl_ExpandMidiMappingGroupRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandMidiMappingGroup(e.Value));
-        }
+        private void InstrumentBarUserControl_ExpandMidiMappingGroupRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandMidiMappingGroup(e.Value));
 
-        private void InstrumentBarUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandPatch(e.Value));
-        }
+        private void InstrumentBarUserControl_ExpandPatchRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandPatch(e.Value));
 
-        private void InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.InstrumentBar_MoveMidiMappingGroupBackward(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.InstrumentBar_MoveMidiMappingGroupBackward(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.InstrumentBar_MoveMidiMappingGroupForward(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.InstrumentBar_MoveMidiMappingGroupForward(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void InstrumentBarUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.InstrumentBar_MovePatchBackward(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void InstrumentBarUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.InstrumentBar_MovePatchBackward(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void InstrumentBarUserControl_MovePatchForwardRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.InstrumentBar_MovePatchForward(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void InstrumentBarUserControl_MovePatchForwardRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.InstrumentBar_MovePatchForward(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void InstrumentBarUserControl_PlayRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.InstrumentBar_Play);
-        }
+        private void InstrumentBarUserControl_PlayRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.InstrumentBar_Play);
 
-        private void InstrumentBarUserControl_PlayPatchRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.InstrumentBar_PlayPatch(e.Value));
-        }
+        private void InstrumentBarUserControl_PlayPatchRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.InstrumentBar_PlayPatch(e.Value));
 
-        private void InstrumentBarUserControl_DeleteMidiMappingGroupRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.InstrumentBar_DeleteMidiMappingGroup(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void InstrumentBarUserControl_DeleteMidiMappingGroupRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.InstrumentBar_DeleteMidiMappingGroup(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void InstrumentBarUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.InstrumentBar_RemovePatch(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void InstrumentBarUserControl_DeletePatchRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.InstrumentBar_RemovePatch(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
         private void InstrumentBarUserControl_HeightChanged(object sender, EventArgs e) => PositionControls();
 
         // Library
 
-        private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.LibraryProperties_Close(e.Value));
-        }
+        private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.LibraryProperties_Close(e.Value));
 
-        private void libraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.LibraryProperties_LoseFocus(e.Value));
-        }
+        private void libraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.LibraryProperties_LoseFocus(e.Value));
 
-        private void libraryPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.LibraryProperties_Play(e.Value));
-        }
+        private void libraryPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.LibraryProperties_Play(e.Value));
 
-        private void libraryPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.LibraryProperties_OpenExternally(e.Value));
-        }
+        private void libraryPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.LibraryProperties_OpenExternally(e.Value));
 
-        private void LibraryPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.LibraryProperties_Remove(e.Value));
-        }
+        private void LibraryPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.LibraryProperties_Remove(e.Value));
 
-        private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.LibrarySelectionPopup_Cancel);
-        }
+        private void _librarySelectionPopupForm_CancelRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.LibrarySelectionPopup_Cancel);
 
-        private void _librarySelectionPopupForm_CloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.LibrarySelectionPopup_Close);
-        }
+        private void _librarySelectionPopupForm_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.LibrarySelectionPopup_Close);
 
-        private void _librarySelectionPopupForm_OKRequested(object sender, EventArgs<int?> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_OK(e.Value));
-        }
+        private void _librarySelectionPopupForm_OKRequested(object sender, EventArgs<int?> e) => TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_OK(e.Value));
 
-        private void _librarySelectionPopupForm_OpenItemExternallyRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_OpenItemExternally(e.Value));
-        }
+        private void _librarySelectionPopupForm_OpenItemExternallyRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_OpenItemExternally(e.Value));
 
-        private void _librarySelectionPopupForm_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_Play(e.Value));
-        }
+        private void _librarySelectionPopupForm_PlayRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.LibrarySelectionPopup_Play(e.Value));
 
         // MidiMapping
 
-        private void MidiMappingGroupDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.MidiMappingGroupDetails_AddToInstrument(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void MidiMappingGroupDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.MidiMappingGroupDetails_AddToInstrument(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void midiMappingGroupDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.MidiMappingGroupDetails_Close(e.Value));
-        }
+        private void midiMappingGroupDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.MidiMappingGroupDetails_Close(e.Value));
 
         private void MidiMappingGroupDetailsUserControl_MoveMidiMappingRequested(
             object sender,
             EventArgs<(int midiMappingGroupID, int midiMappingID, float x, float y)> e)
-        {
-            TemplateActionHandler(
+            => TemplateActionHandler(
                 () => _mainPresenter.MidiMappingGroupDetails_MoveMidiMapping(
                     e.Value.midiMappingGroupID,
                     e.Value.midiMappingID,
                     e.Value.x,
                     e.Value.y));
-        }
 
-        private void midiMappingGroupDetailsUserControl_NewRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.MidiMappingGroupDetails_CreateMidiMapping(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void midiMappingGroupDetailsUserControl_NewRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.MidiMappingGroupDetails_CreateMidiMapping(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
         private void MidiMappingGroupDetailsUserControl_SelectMidiMappingRequested(
             object sender,
             EventArgs<(int midiMappingGroupID, int midiMappingID)> e)
-        {
-            TemplateActionHandler(
+            => TemplateActionHandler(
                 () => _mainPresenter.MidiMapping_Select(e.Value.midiMappingGroupID, e.Value.midiMappingID));
-        }
 
-        private void midiMappingGroupDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.MidiMappingGroupDetails_DeleteSelectedMidiMapping(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void midiMappingGroupDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.MidiMappingGroupDetails_DeleteSelectedMidiMapping(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void MidiMappingGroupDetailsUserControl_ExpandMidiMappingRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.MidiMappingGroupDetails_ExpandMidiMapping(e.Value));
-        }
+        private void MidiMappingGroupDetailsUserControl_ExpandMidiMappingRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.MidiMappingGroupDetails_ExpandMidiMapping(e.Value));
 
-        private void MidiMappingPropertiesUserControl_MidiMappingTypeChanged(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.MidiMappingProperties_ChangeMidiMappingType(e.Value));
-        }
+        private void MidiMappingPropertiesUserControl_MidiMappingTypeChanged(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.MidiMappingProperties_ChangeMidiMappingType(e.Value));
 
-        private void MidiMappingPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.MidiMappingProperties_Close(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void MidiMappingPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.MidiMappingProperties_Close(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void MidiMappingPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.MidiMappingProperties_Delete(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void MidiMappingPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.MidiMappingProperties_Delete(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void MidiMappingPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.MidiMappingProperties_Expand(e.Value));
-        }
+        private void MidiMappingPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.MidiMappingProperties_Expand(e.Value));
 
-        private void MidiMappingPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.MidiMappingProperties_LoseFocus(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void MidiMappingPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.MidiMappingProperties_LoseFocus(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
         // Menu
 
-        private void menuUserControl_ShowDocumentGridRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentGrid_Show);
-        }
+        private void menuUserControl_ShowDocumentGridRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentGrid_Show);
 
-        private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentTree_Show);
-        }
+        private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Show);
 
-        private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    ForceLoseFocus();
-                    _mainPresenter.Document_Close();
-                });
-        }
+        private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e) => TemplateActionHandler(
+            () =>
+            {
+                ForceLoseFocus();
+                _mainPresenter.Document_Close();
+            });
 
-        private void MenuUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentProperties_Show);
-        }
+        private void MenuUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentProperties_Show);
 
         private void MonitoringBarUserControl_HeightChanged(object sender, EventArgs e) => PositionControls();
 
         // Node
 
-        private void nodePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.NodeProperties_Close(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void nodePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.NodeProperties_Close(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void nodePropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.NodeProperties_Expand(e.Value));
-        }
+        private void nodePropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.NodeProperties_Expand(e.Value));
 
-        private void nodePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.NodeProperties_LoseFocus(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void nodePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.NodeProperties_LoseFocus(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void NodePropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.NodeProperties_Delete(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void NodePropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.NodeProperties_Delete(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
         // Operator
 
-        private void operatorPropertiesUserControlBase_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.OperatorProperties_Play(e.Value));
-        }
+        private void operatorPropertiesUserControlBase_PlayRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.OperatorProperties_Play(e.Value));
 
-        private void OperatorPropertiesUserControlBase_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Delete(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void OperatorPropertiesUserControlBase_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Delete(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControlBase_ExpandRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.OperatorProperties_Expand(e.Value));
-        }
+        private void operatorPropertiesUserControlBase_ExpandRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.OperatorProperties_Expand(e.Value));
 
-        private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_LoseFocus(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_LoseFocus(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Close(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Close(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_LoseFocus_ForCache(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForCache_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_LoseFocus_ForCache(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForCache_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Close_ForCache(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForCache_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Close_ForCache(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_LoseFocus_ForCurve(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_LoseFocus_ForCurve(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForCurve_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Close_ForCurve(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForCurve_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Close_ForCurve(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
         private void operatorPropertiesUserControl_ForInletsToDimension_LoseFocusRequested(
             object sender,
             EventArgs<int> e)
-        {
-            TemplateActionHandler(
+            => TemplateActionHandler(
                 () =>
                 {
                     _mainPresenter.OperatorProperties_LoseFocus_ForInletsToDimension(e.Value);
                     RecreatePatchCalculatorIfSuccessful();
                 });
-        }
 
-        private void operatorPropertiesUserControl_ForInletsToDimension_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Close_ForInletsToDimension(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForInletsToDimension_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Close_ForInletsToDimension(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_LoseFocus_ForNumber(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_LoseFocus_ForNumber(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Close_ForNumber(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Close_ForNumber(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_LoseFocus_ForPatchInlet(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_LoseFocus_ForPatchInlet(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForPatchInlet_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Close_ForPatchInlet(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForPatchInlet_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Close_ForPatchInlet(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_LoseFocus_ForPatchOutlet(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_LoseFocus_ForPatchOutlet(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Close_ForPatchOutlet(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Close_ForPatchOutlet(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_LoseFocus_ForSample(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_LoseFocus_ForSample(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Close_ForSample(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Close_ForSample(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_LoseFocus_WithInterpolation(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_LoseFocus_WithInterpolation(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void operatorPropertiesUserControl_WithInterpolation_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.OperatorProperties_Close_WithInterpolation(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void operatorPropertiesUserControl_WithInterpolation_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.OperatorProperties_Close_WithInterpolation(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
         private void operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested(
             object sender,
             EventArgs<int> e)
-        {
-            TemplateActionHandler(
+            => TemplateActionHandler(
                 () =>
                 {
                     _mainPresenter.OperatorProperties_LoseFocus_WithCollectionRecalculation(e.Value);
                     RecreatePatchCalculatorIfSuccessful();
                 });
-        }
 
         private void operatorPropertiesUserControl_WithCollectionRecalculation_CloseRequested(
             object sender,
             EventArgs<int> e)
-        {
-            TemplateActionHandler(
+            => TemplateActionHandler(
                 () =>
                 {
                     _mainPresenter.OperatorProperties_Close_WithCollectionRecalculation(e.Value);
                     RecreatePatchCalculatorIfSuccessful();
                 });
-        }
 
         // Patch
 
-        private void patchDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.PatchDetails_AddToInstrument(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void patchDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.PatchDetails_AddToInstrument(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Operator_ChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.Operator_ChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchDetails_Close(e.Value));
-        }
+        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchDetails_Close(e.Value));
 
-        private void PatchDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.PatchDetails_DeleteSelectedOperator(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void PatchDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.PatchDetails_DeleteSelectedOperator(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
-        {
-            TemplateActionHandler(() => _mainPresenter.Operator_Move(e.PatchID, e.OperatorID, e.X, e.Y));
-        }
+        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e) => TemplateActionHandler(() => _mainPresenter.Operator_Move(e.PatchID, e.OperatorID, e.X, e.Y));
 
-        private void patchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchDetails_Play(e.Value));
-        }
+        private void patchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchDetails_Play(e.Value));
 
-        private void patchDetailsUserControl_SelectOperatorRequested(object sender, PatchAndOperatorEventArgs e)
-        {
-            TemplateActionHandler(() => _mainPresenter.Operator_Select(e.PatchID, e.OperatorID));
-        }
+        private void patchDetailsUserControl_SelectOperatorRequested(object sender, PatchAndOperatorEventArgs e) => TemplateActionHandler(() => _mainPresenter.Operator_Select(e.PatchID, e.OperatorID));
 
-        private void patchDetailsUserControl_ExpandOperatorRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.Operator_Expand(e.Value));
-        }
+        private void patchDetailsUserControl_ExpandOperatorRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.Operator_Expand(e.Value));
 
         /// <summary> This is for the background double click. </summary>
-        private void patchDetailsUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchDetails_Expand(e.Value));
-        }
+        private void patchDetailsUserControl_ExpandPatchRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchDetails_Expand(e.Value));
 
         /// <summary> This is for the tool bar button click. </summary>
-        private void patchDetailsUserControl_ExpandRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchDetails_Expand(e.Value));
-        }
+        private void patchDetailsUserControl_ExpandRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchDetails_Expand(e.Value));
 
-        private void patchDetailsUserControl_SelectPatchRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchDetails_Select(e.Value));
-        }
+        private void patchDetailsUserControl_SelectPatchRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchDetails_Select(e.Value));
 
-        private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchProperties_Close(e.Value));
-        }
+        private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchProperties_Close(e.Value));
 
-        private void patchPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchProperties_Expand(e.Value));
-        }
+        private void patchPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchProperties_Expand(e.Value));
 
-        private void patchPropertiesUserControl_HasDimensionChanged(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchProperties_ChangeHasDimension(e.Value));
-        }
+        private void patchPropertiesUserControl_HasDimensionChanged(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchProperties_ChangeHasDimension(e.Value));
 
-        private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchProperties_LoseFocus(e.Value));
-        }
+        private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchProperties_LoseFocus(e.Value));
 
-        private void patchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(() => _mainPresenter.PatchProperties_Play(e.Value));
-        }
+        private void patchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.PatchProperties_Play(e.Value));
 
-        private void PatchPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.PatchProperties_Delete(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void PatchPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.PatchProperties_Delete(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
         // Tone
 
-        private void ToneGridEditUserControl_SetInstrumentScaleRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.ToneGridEdit_SetInstrumentScale(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void ToneGridEditUserControl_SetInstrumentScaleRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.ToneGridEdit_SetInstrumentScale(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void toneGridEditUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.ToneGridEdit_Close(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void toneGridEditUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.ToneGridEdit_Close(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void toneGridEditUserControl_Edited(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.ToneGridEdit_Edit(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void toneGridEditUserControl_Edited(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.ToneGridEdit_Edit(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.ToneGridEdit_LoseFocus(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.ToneGridEdit_LoseFocus(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void toneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Tone_Create(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void toneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.Tone_Create(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void toneGridEditUserControl_DeleteToneRequested(object sender, ScaleAndToneEventArgs e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Tone_Delete(e.ScaleID, e.ToneID);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void toneGridEditUserControl_DeleteToneRequested(object sender, ScaleAndToneEventArgs e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.Tone_Delete(e.ScaleID, e.ToneID);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void toneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e)
-        {
-            TemplateActionHandler(() => _mainPresenter.Tone_Play(e.ScaleID, e.ToneID));
-        }
+        private void toneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e) => TemplateActionHandler(() => _mainPresenter.Tone_Play(e.ScaleID, e.ToneID));
 
         // Scale
 
-        private void ScalePropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.ScaleProperties_SetInstrumentScale(e.Value);
-                    UpdateInfrastructureIfSuccessful();
-                });
-        }
+        private void ScalePropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.ScaleProperties_SetInstrumentScale(e.Value);
+                UpdateInfrastructureIfSuccessful();
+            });
 
-        private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.ScaleProperties_Close(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.ScaleProperties_Close(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void scalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.ScaleProperties_LoseFocus(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void scalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.ScaleProperties_LoseFocus(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
-        private void ScalePropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.ScaleProperties_Delete(e.Value);
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-        }
+        private void ScalePropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+            () =>
+            {
+                _mainPresenter.ScaleProperties_Delete(e.Value);
+                RecreatePatchCalculatorIfSuccessful();
+            });
 
         // Message Boxes
 
-        private void ModalPopupHelper_DocumentDeleteCanceled(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentDelete_Cancel);
-        }
+        private void ModalPopupHelper_DocumentDeleteCanceled(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentDelete_Cancel);
 
-        private void ModalPopupHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentDelete_Confirm);
-        }
+        private void ModalPopupHelper_DocumentDeleteConfirmed(object sender, EventArgs<int> e) => TemplateActionHandler(_mainPresenter.DocumentDelete_Confirm);
 
-        private void ModalPopupHelper_DocumentDeletedOKRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentDeleted_OK);
-        }
+        private void ModalPopupHelper_DocumentDeletedOKRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentDeleted_OK);
 
-        private void ModalPopupHelper_DocumentOrPatchNotFoundOKRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentOrPatchNotFound_OK);
-        }
+        private void ModalPopupHelper_DocumentOrPatchNotFoundOKRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentOrPatchNotFound_OK);
 
-        private void ModalPopupHelper_PopupMessagesOKRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.PopupMessages_OK);
-        }
+        private void ModalPopupHelper_PopupMessagesOKRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.PopupMessages_OK);
 
-        private void ModalPopupHelper_SampleFileBrowserCanceled(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.SampleFileBrowser_Cancel);
-        }
+        private void ModalPopupHelper_SampleFileBrowserCanceled(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SampleFileBrowser_Cancel);
 
-        private void ModalPopupHelper_SampleFileBrowserOKRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.SampleFileBrowser_OK);
-        }
+        private void ModalPopupHelper_SampleFileBrowserOKRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SampleFileBrowser_OK);
 
-        private void ModalPopupHelper_SaveChangesPopupYesRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.SaveChangesPopup_Yes);
-        }
+        private void ModalPopupHelper_SaveChangesPopupYesRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SaveChangesPopup_Yes);
 
-        private void ModalPopupHelper_SaveChangesPopupNoRequested(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.SaveChangesPopup_No);
-        }
+        private void ModalPopupHelper_SaveChangesPopupNoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SaveChangesPopup_No);
 
-        private void ModalPopupHelper_SaveChangesPopupCanceled(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.SaveChangesPopup_Cancel);
-        }
+        private void ModalPopupHelper_SaveChangesPopupCanceled(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.SaveChangesPopup_Cancel);
 
         // DocumentCannotDeleteForm
 
-        private void _documentCannotDeleteForm_OKClicked(object sender, EventArgs e)
-        {
-            TemplateActionHandler(_mainPresenter.DocumentCannotDelete_OK);
-        }
+        private void _documentCannotDeleteForm_OKClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentCannotDelete_OK);
 
         // Template Method
 

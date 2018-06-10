@@ -21,12 +21,10 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_3Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -45,13 +43,11 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_4Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -73,14 +69,12 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_5Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -105,15 +99,13 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_6Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -141,16 +133,14 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_7Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -181,17 +171,15 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_8Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -225,18 +213,16 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_9Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -273,19 +259,17 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_10Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -325,20 +309,18 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_11Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -381,21 +363,19 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_12Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -441,22 +421,20 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_13Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -505,23 +483,21 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_14Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -573,24 +549,22 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_15Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -645,25 +619,23 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_16Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -721,26 +693,24 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_17Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -801,27 +771,25 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_18Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -885,28 +853,26 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_19Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -973,29 +939,27 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_20Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -1065,30 +1029,28 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_21Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -1161,31 +1123,29 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_22Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -1261,32 +1221,30 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_23Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -1365,33 +1323,31 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_24Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -1473,34 +1429,32 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
++					_operandCalculator24.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_25Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -1585,35 +1539,33 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
++					_operandCalculator24.Calculate()
++					_operandCalculator25.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_26Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -1701,36 +1653,34 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
++					_operandCalculator24.Calculate()
++					_operandCalculator25.Calculate()
++					_operandCalculator26.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_27Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -1821,37 +1771,35 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
++					_operandCalculator24.Calculate()
++					_operandCalculator25.Calculate()
++					_operandCalculator26.Calculate()
++					_operandCalculator27.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_28Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -1945,38 +1893,36 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
++					_operandCalculator24.Calculate()
++					_operandCalculator25.Calculate()
++					_operandCalculator26.Calculate()
++					_operandCalculator27.Calculate()
++					_operandCalculator28.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_29Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -2073,39 +2019,37 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
++					_operandCalculator24.Calculate()
++					_operandCalculator25.Calculate()
++					_operandCalculator26.Calculate()
++					_operandCalculator27.Calculate()
++					_operandCalculator28.Calculate()
++					_operandCalculator29.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_30Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -2205,40 +2149,38 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
-+						_operandCalculator30.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
++					_operandCalculator24.Calculate()
++					_operandCalculator25.Calculate()
++					_operandCalculator26.Calculate()
++					_operandCalculator27.Calculate()
++					_operandCalculator28.Calculate()
++					_operandCalculator29.Calculate()
++					_operandCalculator30.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_31Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -2341,41 +2283,39 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
-+						_operandCalculator30.Calculate()
-+						_operandCalculator31.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
++					_operandCalculator24.Calculate()
++					_operandCalculator25.Calculate()
++					_operandCalculator26.Calculate()
++					_operandCalculator27.Calculate()
++					_operandCalculator28.Calculate()
++					_operandCalculator29.Calculate()
++					_operandCalculator30.Calculate()
++					_operandCalculator31.Calculate()
 ;			}
-		}
 		internal class Add_OperatorCalculator_32Vars : OperatorCalculatorBase
 		{
 				private readonly OperatorCalculatorBase _operandCalculator1;
@@ -2481,40 +2421,38 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Calculation
 			 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public override double Calculate()
-			{
-				return 
-						_operandCalculator1.Calculate()
-+						_operandCalculator2.Calculate()
-+						_operandCalculator3.Calculate()
-+						_operandCalculator4.Calculate()
-+						_operandCalculator5.Calculate()
-+						_operandCalculator6.Calculate()
-+						_operandCalculator7.Calculate()
-+						_operandCalculator8.Calculate()
-+						_operandCalculator9.Calculate()
-+						_operandCalculator10.Calculate()
-+						_operandCalculator11.Calculate()
-+						_operandCalculator12.Calculate()
-+						_operandCalculator13.Calculate()
-+						_operandCalculator14.Calculate()
-+						_operandCalculator15.Calculate()
-+						_operandCalculator16.Calculate()
-+						_operandCalculator17.Calculate()
-+						_operandCalculator18.Calculate()
-+						_operandCalculator19.Calculate()
-+						_operandCalculator20.Calculate()
-+						_operandCalculator21.Calculate()
-+						_operandCalculator22.Calculate()
-+						_operandCalculator23.Calculate()
-+						_operandCalculator24.Calculate()
-+						_operandCalculator25.Calculate()
-+						_operandCalculator26.Calculate()
-+						_operandCalculator27.Calculate()
-+						_operandCalculator28.Calculate()
-+						_operandCalculator29.Calculate()
-+						_operandCalculator30.Calculate()
-+						_operandCalculator31.Calculate()
-+						_operandCalculator32.Calculate()
+				=>
+					_operandCalculator1.Calculate()
++					_operandCalculator2.Calculate()
++					_operandCalculator3.Calculate()
++					_operandCalculator4.Calculate()
++					_operandCalculator5.Calculate()
++					_operandCalculator6.Calculate()
++					_operandCalculator7.Calculate()
++					_operandCalculator8.Calculate()
++					_operandCalculator9.Calculate()
++					_operandCalculator10.Calculate()
++					_operandCalculator11.Calculate()
++					_operandCalculator12.Calculate()
++					_operandCalculator13.Calculate()
++					_operandCalculator14.Calculate()
++					_operandCalculator15.Calculate()
++					_operandCalculator16.Calculate()
++					_operandCalculator17.Calculate()
++					_operandCalculator18.Calculate()
++					_operandCalculator19.Calculate()
++					_operandCalculator20.Calculate()
++					_operandCalculator21.Calculate()
++					_operandCalculator22.Calculate()
++					_operandCalculator23.Calculate()
++					_operandCalculator24.Calculate()
++					_operandCalculator25.Calculate()
++					_operandCalculator26.Calculate()
++					_operandCalculator27.Calculate()
++					_operandCalculator28.Calculate()
++					_operandCalculator29.Calculate()
++					_operandCalculator30.Calculate()
++					_operandCalculator31.Calculate()
++					_operandCalculator32.Calculate()
 ;			}
-		}
 }

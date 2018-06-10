@@ -108,14 +108,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			}
 		}
 
-		private string FormatItemViewModels(string title, params MonitoringItemViewModel[] viewModels)
-		{
-			return FormatItemViewModels(title, (IList<MonitoringItemViewModel>)viewModels);
-		}
+		private string FormatItemViewModels(string title, params MonitoringItemViewModel[] viewModels) => FormatItemViewModels(title, (IList<MonitoringItemViewModel>)viewModels);
 
-		private string FormatItemViewModels(string title, IList<MonitoringItemViewModel> viewModels)
-		{
-			return title + ": " + string.Join(" | ", viewModels.Where(x => x.Visible).Select(x => $"{x.Name} = {x.Value}"));
-		}
+	    private string FormatItemViewModels(string title, IList<MonitoringItemViewModel> viewModels) => title + ": " + string.Join(" | ", viewModels.Where(x => x.Visible).Select(x => $"{x.Name} = {x.Value}"));
 	}
 }

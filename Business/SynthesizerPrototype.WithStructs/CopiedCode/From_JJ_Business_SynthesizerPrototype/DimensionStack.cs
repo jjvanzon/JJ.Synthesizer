@@ -66,12 +66,9 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Busine
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Pop()
-		{
-			_count--;
-		}
+		public void Pop() => _count--;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public double Get()
 		{
 			double value = _array[_count - 1];
@@ -91,20 +88,14 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Busine
 		/// or when you know you are at the top level of the stack.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Set(double value)
-		{
-			_array[_count - 1] = value;
-		}
+		public void Set(double value) => _array[_count - 1] = value;
 
-		/// <summary>
+	    /// <summary>
 		/// A slightly quicker alternative to a subsequent Pop and Push,
 		/// when you know there will not be any stack operations in between,
 		/// or when you know you are at the top level of the stack.
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Set(int i, double value)
-		{
-			_array[i] = value;
-		}
+		public void Set(int i, double value) => _array[i] = value;
 	}
 }

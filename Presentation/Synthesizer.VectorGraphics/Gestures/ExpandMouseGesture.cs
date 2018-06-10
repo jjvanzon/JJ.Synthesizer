@@ -29,22 +29,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 			}
 		}
 
-		protected override void HandleMouseDown(object sender, MouseEventArgs e)
-		{
-			_doubleClickGesture.Internals.HandleMouseDown(sender, e);
-		}
+		protected override void HandleMouseDown(object sender, MouseEventArgs e) => _doubleClickGesture.Internals.HandleMouseDown(sender, e);
 
-		protected override void HandleMouseMove(object sender, MouseEventArgs e)
-		{
-			_doubleClickGesture.Internals.HandleMouseMove(sender, e);
-		}
+	    protected override void HandleMouseMove(object sender, MouseEventArgs e) => _doubleClickGesture.Internals.HandleMouseMove(sender, e);
 
-		protected override void HandleMouseUp(object sender, MouseEventArgs e)
-		{
-			_doubleClickGesture.Internals.HandleMouseUp(sender, e);
-		}
+	    protected override void HandleMouseUp(object sender, MouseEventArgs e) => _doubleClickGesture.Internals.HandleMouseUp(sender, e);
 
-		private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
+	    private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
 		{
 			int id = (int)e.Element.Tag;
 			ExpandRequested?.Invoke(this, new IDEventArgs(id));

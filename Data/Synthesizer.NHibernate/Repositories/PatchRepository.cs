@@ -10,11 +10,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
 		public PatchRepository(IContext context) : base(context) => _context = (NHibernateContext)context;
 
-		public override Patch TryGetByName(string name)
-		{
-			return _context.Session.QueryOver<Patch>()
-			               .Where(x => x.Name == name)
-			               .SingleOrDefault();
-		}
+		public override Patch TryGetByName(string name) => _context.Session.QueryOver<Patch>()
+		                                                           .Where(x => x.Name == name)
+		                                                           .SingleOrDefault();
 	}
 }

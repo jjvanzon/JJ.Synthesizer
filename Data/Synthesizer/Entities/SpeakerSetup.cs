@@ -12,12 +12,9 @@ namespace JJ.Data.Synthesizer.Entities
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
 	public class SpeakerSetup
 	{
-		public SpeakerSetup()
-		{
-			SpeakerSetupChannels = new List<SpeakerSetupChannel>();
-		}
+		public SpeakerSetup() => SpeakerSetupChannels = new List<SpeakerSetupChannel>();
 
-		public virtual int ID { get; set; }
+	    public virtual int ID { get; set; }
 		public virtual string Name { get; set; }
 
 		/// <summary>

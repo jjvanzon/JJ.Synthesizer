@@ -61,12 +61,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Actions
 
-		private void CreateTone()
-		{
-			CreateToneRequested.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
-		}
+		private void CreateTone() => CreateToneRequested.Invoke(this, new EventArgs<int>(ViewModel.ScaleID));
 
-		private void DeleteTone()
+	    private void DeleteTone()
 		{
 			if (ViewModel == null) return;
 
@@ -105,16 +102,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
 
-		private void specializedDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-		{
-			// Without an Invoke, WinForms will complain with
-			// 'Operation is not valid because it results in a reentrant call to the SetCurrentCellAddressCore function.'
-			// when we try to reassign the data source.
+		private void specializedDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e) => BeginInvoke(new Action(() => Edited.Invoke(this, new EventArgs<int>(ViewModel.ScaleID))));
 
-			BeginInvoke(new Action(() => Edited.Invoke(this, new EventArgs<int>(ViewModel.ScaleID))));
-		}
-
-		private void specializedDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+	    private void specializedDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (ViewModel == null) return;
 

@@ -68,9 +68,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Events
 
-		private void buttonOK_Click(object sender, EventArgs e)
-		{
-			CloseRequested?.Invoke(this, EventArgs.Empty);
-		}
+		private void buttonOK_Click(object sender, EventArgs e) => CloseRequested?.Invoke(this, EventArgs.Empty);
 	}
 }

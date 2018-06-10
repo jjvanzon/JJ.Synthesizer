@@ -11,12 +11,9 @@ namespace JJ.Data.Synthesizer.Entities
 	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
 	public class Scale
 	{
-		public Scale()
-		{
-			Tones = new List<Tone>();
-		}
+		public Scale() => Tones = new List<Tone>();
 
-		public virtual int ID { get; set; }
+	    public virtual int ID { get; set; }
 		public virtual string Name { get; set; }
 		public virtual Document Document { get; set; }
 		public virtual ScaleType ScaleType { get; set; }

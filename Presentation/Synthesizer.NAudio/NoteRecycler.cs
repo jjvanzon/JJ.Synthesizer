@@ -136,15 +136,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
 		// ReSharper disable once MemberCanBePrivate.Global
 		public static bool NoteIsPlaying(double noteEndTime, double presentTime) => noteEndTime >= presentTime;
 
-		private static NoteInfo CreateNoteInfo(int listIndex)
+		private static NoteInfo CreateNoteInfo(int listIndex) => new NoteInfo
 		{
-			return new NoteInfo
-			{
-				ListIndex = listIndex,
-				EndTime = CalculationHelper.VERY_LOW_VALUE,
-				ReleaseTime = CalculationHelper.VERY_LOW_VALUE,
-				StartTime = CalculationHelper.VERY_LOW_VALUE
-			};
-		}
+		    ListIndex = listIndex,
+		    EndTime = CalculationHelper.VERY_LOW_VALUE,
+		    ReleaseTime = CalculationHelper.VERY_LOW_VALUE,
+		    StartTime = CalculationHelper.VERY_LOW_VALUE
+		};
 	}
 }

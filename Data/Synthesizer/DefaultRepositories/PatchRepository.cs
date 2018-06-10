@@ -25,9 +25,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 			return patch;
 		}
 
-		public virtual Patch TryGetByName(string name)
-		{
-			throw new RepositoryMethodNotImplementedException();
-		}
+		public virtual Patch TryGetByName(string name) => throw new RepositoryMethodNotImplementedException();
 	}
 }

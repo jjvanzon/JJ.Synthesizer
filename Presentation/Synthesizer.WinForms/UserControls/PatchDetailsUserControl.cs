@@ -198,22 +198,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private void DeleteOperatorGesture_DeleteSelectionRequested(object sender, EventArgs e) => Delete();
 
-		private void ExpandMouseGesture_ExpandRequested(object sender, IDEventArgs e)
-		{
-			ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
-		}
+		private void ExpandMouseGesture_ExpandRequested(object sender, IDEventArgs e) => ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
 
-		private void ExpandKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)
-		{
-			ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
-		}
+	    private void ExpandKeyboardGesture_ExpandRequested(object sender, IDEventArgs e) => ExpandOperatorRequested(this, new EventArgs<int>(e.ID));
 
-		private void ExpandPatchGesture_DoubleClick(object sender, EventArgs e)
-		{
-			ExpandPatchRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
-		}
+	    private void ExpandPatchGesture_DoubleClick(object sender, EventArgs e) => ExpandPatchRequested(this, new EventArgs<int>(ViewModel.Entity.ID));
 
-		// TODO: Lower priority: You might want to use the presenter for the the following 3 things.
+	    // TODO: Lower priority: You might want to use the presenter for the the following 3 things.
 
 		private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
 		{

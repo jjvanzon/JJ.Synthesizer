@@ -5,57 +5,48 @@ using JJ.Framework.Exceptions.Basic;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-	internal static class PersistenceHelper
-	{
-		public static IContext CreateContext()
-		{
-			return ContextFactory.CreateContextFromConfiguration();
-		}
+    internal static class PersistenceHelper
+    {
+        public static IContext CreateContext() => ContextFactory.CreateContextFromConfiguration();
 
-		private static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context)
-		{
-			return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context);
-		}
+        private static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context)
+            => RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context);
 
-		public static RepositoryWrapper CreateRepositories(IContext context)
-		{
-			if (context == null) throw new NullException(() => context);
+        public static RepositoryWrapper CreateRepositories(IContext context)
+        {
+            if (context == null) throw new NullException(() => context);
 
-			var repositories = new RepositoryWrapper
-			(
-				CreateRepository<IAudioFileFormatRepository>(context),
-				CreateRepository<IAudioFileOutputRepository>(context),
-				CreateRepository<IAudioOutputRepository>(context),
-				CreateRepository<ICurveRepository>(context),
-				CreateRepository<IDimensionRepository>(context),
-				CreateRepository<IDocumentReferenceRepository>(context),
-				CreateRepository<IDocumentRepository>(context),
-				CreateRepository<IEntityPositionRepository>(context),
-				CreateRepository<IIDRepository>(context),
-				CreateRepository<IInletRepository>(context),
-				CreateRepository<IInterpolationTypeRepository>(context),
-				CreateRepository<IMidiMappingRepository>(context),
-				CreateRepository<IMidiMappingGroupRepository>(context),
-				CreateRepository<IMidiMappingTypeRepository>(context),
-				CreateRepository<INodeRepository>(context),
-				CreateRepository<INodeTypeRepository>(context),
-				CreateRepository<IOperatorRepository>(context),
-				CreateRepository<IOutletRepository>(context),
-				CreateRepository<IPatchRepository>(context),
-				CreateRepository<ISampleDataTypeRepository>(context),
-				CreateRepository<ISampleRepository>(context),
-				CreateRepository<IScaleRepository>(context),
-				CreateRepository<IScaleTypeRepository>(context),
-				CreateRepository<ISpeakerSetupRepository>(context),
-				CreateRepository<IToneRepository>(context)
-			);
+            var repositories = new RepositoryWrapper(
+                CreateRepository<IAudioFileFormatRepository>(context),
+                CreateRepository<IAudioFileOutputRepository>(context),
+                CreateRepository<IAudioOutputRepository>(context),
+                CreateRepository<ICurveRepository>(context),
+                CreateRepository<IDimensionRepository>(context),
+                CreateRepository<IDocumentReferenceRepository>(context),
+                CreateRepository<IDocumentRepository>(context),
+                CreateRepository<IEntityPositionRepository>(context),
+                CreateRepository<IIDRepository>(context),
+                CreateRepository<IInletRepository>(context),
+                CreateRepository<IInterpolationTypeRepository>(context),
+                CreateRepository<IMidiMappingRepository>(context),
+                CreateRepository<IMidiMappingGroupRepository>(context),
+                CreateRepository<IMidiMappingTypeRepository>(context),
+                CreateRepository<INodeRepository>(context),
+                CreateRepository<INodeTypeRepository>(context),
+                CreateRepository<IOperatorRepository>(context),
+                CreateRepository<IOutletRepository>(context),
+                CreateRepository<IPatchRepository>(context),
+                CreateRepository<ISampleDataTypeRepository>(context),
+                CreateRepository<ISampleRepository>(context),
+                CreateRepository<IScaleRepository>(context),
+                CreateRepository<IScaleTypeRepository>(context),
+                CreateRepository<ISpeakerSetupRepository>(context),
+                CreateRepository<IToneRepository>(context)
+            );
 
-			return repositories;
-		}
+            return repositories;
+        }
 
-		public static CurveRepositories CreateCurveRepositories(IContext context)
-		{
-			return new CurveRepositories(CreateRepositories(context));
-		}
-	}
+        public static CurveRepositories CreateCurveRepositories(IContext context) => new CurveRepositories(CreateRepositories(context));
+    }
 }
