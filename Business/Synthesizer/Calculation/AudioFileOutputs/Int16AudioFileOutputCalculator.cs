@@ -20,9 +20,6 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 			binaryWriter.Write(convertedValue);
 		}
 
-		protected override double GetAmplifierAdjustedToSampleDataType(AudioFileOutput audioFileOutput)
-		{
-			return audioFileOutput.Amplifier * short.MaxValue;
-		}
+		protected override double GetAmplifierAdjustedToSampleDataType(AudioFileOutput audioFileOutput) => audioFileOutput.Amplifier * short.MaxValue;
 	}
 }

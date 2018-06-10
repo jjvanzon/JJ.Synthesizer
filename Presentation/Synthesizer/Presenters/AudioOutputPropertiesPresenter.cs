@@ -24,19 +24,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_audioOutputFacade = new AudioOutputFacade(_audioOutputRepository, speakerSetupRepository, idRepository);
 		}
 
-		protected override AudioOutput GetEntity(AudioOutputPropertiesViewModel userInput)
-		{
-			return _audioOutputRepository.Get(userInput.Entity.ID);
-		}
+		protected override AudioOutput GetEntity(AudioOutputPropertiesViewModel userInput) => _audioOutputRepository.Get(userInput.Entity.ID);
 
-		protected override IResult Save(AudioOutput entity, AudioOutputPropertiesViewModel userInput)
-		{
-			return _audioOutputFacade.Save(entity);
-		}
+	    protected override IResult Save(AudioOutput entity, AudioOutputPropertiesViewModel userInput) => _audioOutputFacade.Save(entity);
 
-		protected override AudioOutputPropertiesViewModel ToViewModel(AudioOutput entity)
-		{
-			return entity.ToPropertiesViewModel();
-		}
+	    protected override AudioOutputPropertiesViewModel ToViewModel(AudioOutput entity) => entity.ToPropertiesViewModel();
 	}
 }

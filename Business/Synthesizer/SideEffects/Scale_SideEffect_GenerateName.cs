@@ -10,12 +10,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 	{
 		private readonly Scale _entity;
 
-		public Scale_SideEffect_GenerateName(Scale entity)
-		{
-			_entity = entity ?? throw new NullException(() => entity);
-		}
+		public Scale_SideEffect_GenerateName(Scale entity) => _entity = entity ?? throw new NullException(() => entity);
 
-		public void Execute()
+	    public void Execute()
 		{
 			bool mustExecute = _entity.Document != null;
 			// ReSharper disable once InvertIf

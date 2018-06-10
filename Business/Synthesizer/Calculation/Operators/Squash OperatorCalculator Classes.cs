@@ -151,10 +151,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			ResetNonRecursive();
 		}
 
-		private void ResetNonRecursive()
-		{
-			// Origin Shifting
-			_origin = _positionCalculator.Calculate();
-		}
+		private void ResetNonRecursive() => _origin = _positionCalculator.Calculate();
 	}
 }

@@ -106,837 +106,577 @@ namespace JJ.Business.Synthesizer.Visitors
 			return inputDto;
 		}
 
-		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Add_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
-		}
+		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => ProcessOperatorDto(dto, () => new Add_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
 
-		protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new AllPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new AllPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new AllPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new AllPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new And_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => ProcessOperatorDto(dto, () => new And_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new AverageFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => ProcessOperatorDto(dto, () => new AverageFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			AverageOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new AverageOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			AverageOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new AverageOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new AverageOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
-		}
+	    protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto) => ProcessOperatorDto(dto, () => new AverageOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
 
-		protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new BandPassFilterConstantPeakGain_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new BandPassFilterConstantPeakGain_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new BandPassFilterConstantPeakGain_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new BandPassFilterConstantPeakGain_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new BandPassFilterConstantTransitionGain_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new BandPassFilterConstantTransitionGain_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new BandPassFilterConstantTransitionGain_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new BandPassFilterConstantTransitionGain_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new ChangeTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto) => ProcessOperatorDto(dto, () => new ChangeTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(
 			ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationContinuous(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(
 			ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new ClosestOverDimensionExp_OperatorCalculator_CollectionRecalculationUponReset(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new ClosestOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new ClosestOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new ClosestOverInlets_OperatorCalculator(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
-		}
+	    protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto) => ProcessOperatorDto(
+	        dto,
+	        () => new ClosestOverInlets_OperatorCalculator(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
 
-		protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new ClosestOverInletsExp_OperatorCalculator(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
-		}
+	    protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto) => ProcessOperatorDto(
+	        dto,
+	        () => new ClosestOverInletsExp_OperatorCalculator(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
 
-		protected override IOperatorDto Visit_Curve_OperatorDto_NoOriginShifting(Curve_OperatorDto_NoOriginShifting dto)
+	    protected override IOperatorDto Visit_Curve_OperatorDto_NoOriginShifting(Curve_OperatorDto_NoOriginShifting dto)
 			=> ProcessCurveOperator(dto);
 
 		protected override IOperatorDto Visit_Curve_OperatorDto_WithOriginShifting(Curve_OperatorDto_WithOriginShifting dto)
 			=> ProcessCurveOperator(dto);
 
-		private IOperatorDto ProcessCurveOperator(Curve_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => OperatorCalculatorFactory.Create_Curve_OperatorCalculator(_stack.Pop(), dto.ArrayDto, dto.StandardDimensionEnum));
-		}
+		private IOperatorDto ProcessCurveOperator(Curve_OperatorDto dto) => ProcessOperatorDto(
+		    dto,
+		    () => OperatorCalculatorFactory.Create_Curve_OperatorCalculator(_stack.Pop(), dto.ArrayDto, dto.StandardDimensionEnum));
 
-		protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Divide_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => ProcessOperatorDto(dto, () => new Divide_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Equal_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => ProcessOperatorDto(dto, () => new Equal_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new GreaterThanOrEqual_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => ProcessOperatorDto(dto, () => new GreaterThanOrEqual_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new GreaterThan_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => ProcessOperatorDto(dto, () => new GreaterThan_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new HighPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new HighPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new HighPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new HighPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new HighShelfFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new HighShelfFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new HighShelfFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new HighShelfFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Hold_OperatorCalculator(_stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto) => ProcessOperatorDto(dto, () => new Hold_OperatorCalculator(_stack.Pop()));
 
-		protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new If_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto) => ProcessOperatorDto(dto, () => new If_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new InletsToDimension_OperatorCalculator_Block(dto.InputsExceptPosition.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto) => ProcessOperatorDto(
+	        dto,
+	        () => new InletsToDimension_OperatorCalculator_Block(dto.InputsExceptPosition.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new InletsToDimension_OperatorCalculator_Stripe(dto.InputsExceptPosition.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto) => ProcessOperatorDto(
+	        dto,
+	        () => new InletsToDimension_OperatorCalculator_Stripe(dto.InputsExceptPosition.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Block(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Interpolate_OperatorCalculator_Block(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Cubic_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Interpolate_OperatorCalculator_Cubic_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LookAhead(Interpolate_OperatorDto_Cubic_LookAhead dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Cubic_LookAhead(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LookAhead(Interpolate_OperatorDto_Cubic_LookAhead dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Interpolate_OperatorCalculator_Cubic_LookAhead(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Hermite_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Interpolate_OperatorCalculator_Hermite_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LookAhead(Interpolate_OperatorDto_Hermite_LookAhead dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Hermite_LookAhead(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LookAhead(Interpolate_OperatorDto_Hermite_LookAhead dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Interpolate_OperatorCalculator_Hermite_LookAhead(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind(Interpolate_OperatorDto_Line_LagBehind dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Line_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind(Interpolate_OperatorDto_Line_LagBehind dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Interpolate_OperatorCalculator_Line_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LookAhead(Interpolate_OperatorDto_Line_LookAhead dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Line_LookAhead(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LookAhead(Interpolate_OperatorDto_Line_LookAhead dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Interpolate_OperatorCalculator_Line_LookAhead(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Stripe_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Interpolate_OperatorCalculator_Stripe_LagBehind(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LookAhead(Interpolate_OperatorDto_Stripe_LookAhead dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Interpolate_OperatorCalculator_Stripe_LookAhead(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LookAhead(Interpolate_OperatorDto_Stripe_LookAhead dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Interpolate_OperatorCalculator_Stripe_LookAhead(_stack.Pop(), _stack.Pop(), _stack.Pop(), GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new LessThanOrEqual_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => ProcessOperatorDto(dto, () => new LessThanOrEqual_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new LessThan_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => ProcessOperatorDto(dto, () => new LessThan_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					// ReSharper disable once UnusedVariable
-					OperatorCalculatorBase signalCalculator = _stack.Pop();
-					OperatorCalculatorBase skipCalculator = _stack.Pop();
-					OperatorCalculatorBase loopStartMarkerCalculator = _stack.Pop();
-					OperatorCalculatorBase loopEndMarkerCalculator = _stack.Pop();
-					OperatorCalculatorBase releaseEndMarkerCalculator = _stack.Pop();
-					OperatorCalculatorBase noteDurationCalculator = _stack.Pop();
-					OperatorCalculatorBase positionCalculator = _stack.Pop();
+	    protected override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            // ReSharper disable once UnusedVariable
+	            OperatorCalculatorBase signalCalculator = _stack.Pop();
+	            OperatorCalculatorBase skipCalculator = _stack.Pop();
+	            OperatorCalculatorBase loopStartMarkerCalculator = _stack.Pop();
+	            OperatorCalculatorBase loopEndMarkerCalculator = _stack.Pop();
+	            OperatorCalculatorBase releaseEndMarkerCalculator = _stack.Pop();
+	            OperatorCalculatorBase noteDurationCalculator = _stack.Pop();
+	            OperatorCalculatorBase positionCalculator = _stack.Pop();
 
-					return new Loop_OperatorCalculator_WithPositionOutput(
-						positionCalculator,
-						skipCalculator,
-						loopStartMarkerCalculator,
-						loopEndMarkerCalculator,
-						releaseEndMarkerCalculator,
-						noteDurationCalculator);
-				});
-		}
+	            return new Loop_OperatorCalculator_WithPositionOutput(
+	                positionCalculator,
+	                skipCalculator,
+	                loopStartMarkerCalculator,
+	                loopEndMarkerCalculator,
+	                releaseEndMarkerCalculator,
+	                noteDurationCalculator);
+	        });
 
-		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new LowPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new LowPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new LowPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new LowPassFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new LowShelfFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new LowShelfFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new LowShelfFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new LowShelfFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new MaxFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto) => ProcessOperatorDto(
+	        dto,
+	        () => new MaxFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			MaxOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new MaxOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			MaxOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new MaxOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
-		}
+	    protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto) => ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
 
-		protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new MinFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => ProcessOperatorDto(
+	        dto,
+	        () => new MinFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			MinOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new MinOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			MinOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new MinOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
-		}
+	    protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto) => ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
 
-		protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Multiply_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
-		}
+	    protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => ProcessOperatorDto(dto, () => new Multiply_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
 
-		protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Negative_OperatorCalculator(_stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto) => ProcessOperatorDto(dto, () => new Negative_OperatorCalculator(_stack.Pop()));
 
-		protected override IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(dto.OperationIdentity);
-					return new Noise_OperatorCalculator(_stack.Pop(), noiseCalculator);
-				});
-		}
+	    protected override IOperatorDto Visit_Noise_OperatorDto(Noise_OperatorDto dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            NoiseCalculator noiseCalculator = _calculatorCache.GetNoiseCalculator(dto.OperationIdentity);
+	            return new Noise_OperatorCalculator(_stack.Pop(), noiseCalculator);
+	        });
 
-		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(dto, () => new NotchFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new NotEqual_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => ProcessOperatorDto(dto, () => new NotEqual_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Not_OperatorCalculator(_stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Not_OperatorDto(Not_OperatorDto dto) => ProcessOperatorDto(dto, () => new Not_OperatorCalculator(_stack.Pop()));
 
-		protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Number_OperatorCalculator(dto.Number));
-		}
+	    protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto) => ProcessOperatorDto(dto, () => new Number_OperatorCalculator(dto.Number));
 
-		protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Or_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => ProcessOperatorDto(dto, () => new Or_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new PeakingEQFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new PeakingEQFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new PeakingEQFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new PeakingEQFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-		protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Power_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto) => ProcessOperatorDto(dto, () => new Power_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new PulseTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto) => ProcessOperatorDto(dto, () => new PulseTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					RandomCalculator_Block randomCalculator = _calculatorCache.GetRandomCalculator_Block(dto.OperationIdentity);
-					return new Random_OperatorCalculator_Block(randomCalculator, _stack.Pop(), _stack.Pop());
-				});
-		}
+	    protected override IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            RandomCalculator_Block randomCalculator = _calculatorCache.GetRandomCalculator_Block(dto.OperationIdentity);
+	            return new Random_OperatorCalculator_Block(randomCalculator, _stack.Pop(), _stack.Pop());
+	        });
 
-		protected override IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					RandomCalculator_Stripe randomCalculator = _calculatorCache.GetRandomCalculator_Stripe(dto.OperationIdentity);
-					return new Random_OperatorCalculator_Stripe(randomCalculator, _stack.Pop(), _stack.Pop());
-				});
-		}
+	    protected override IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            RandomCalculator_Stripe randomCalculator = _calculatorCache.GetRandomCalculator_Stripe(dto.OperationIdentity);
+	            return new Random_OperatorCalculator_Stripe(randomCalculator, _stack.Pop(), _stack.Pop());
+	        });
 
-		protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto)
-		{
-			return ProcessOperatorDto(dto, () => new RangeOverDimension_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyConsts(RangeOverDimension_OperatorDto_OnlyConsts dto) => ProcessOperatorDto(dto, () => new RangeOverDimension_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto)
-		{
-			return ProcessOperatorDto(dto, () => new RangeOverDimension_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_OnlyVars(RangeOverDimension_OperatorDto_OnlyVars dto) => ProcessOperatorDto(dto, () => new RangeOverDimension_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(
+	    protected override IOperatorDto Visit_RangeOverDimension_OperatorDto_WithConsts_AndStepOne(
 			RangeOverDimension_OperatorDto_WithConsts_AndStepOne dto)
-		{
-			return ProcessOperatorDto(dto, () => new RangeOverDimension_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	        => ProcessOperatorDto(dto, () => new RangeOverDimension_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Remainder_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto) => ProcessOperatorDto(dto, () => new Remainder_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					OperatorCalculatorBase calculator = _stack.Peek();
-					_resettableOperatorTuples.Add(new ResettableOperatorTuple(calculator, dto.Name, dto.Position));
-					return calculator;
-				});
-		}
+	    protected override IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            OperatorCalculatorBase calculator = _stack.Peek();
+	            _resettableOperatorTuples.Add(new ResettableOperatorTuple(calculator, dto.Name, dto.Position));
+	            return calculator;
+	        });
 
-		protected override IOperatorDto Visit_Round_OperatorDto_StepOne_ZeroOffset(Round_OperatorDto_StepOne_ZeroOffset dto)
-		{
-			return ProcessOperatorDto(dto, () => new Round_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Round_OperatorDto_StepOne_ZeroOffset(Round_OperatorDto_StepOne_ZeroOffset dto) => ProcessOperatorDto(dto, () => new Round_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Round_OperatorDto_WithOffset(Round_OperatorDto_WithOffset dto)
-		{
-			return ProcessOperatorDto(dto, () => new Round_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Round_OperatorDto_WithOffset(Round_OperatorDto_WithOffset dto) => ProcessOperatorDto(dto, () => new Round_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Round_OperatorDto_ZeroOffset(Round_OperatorDto_ZeroOffset dto)
-		{
-			return ProcessOperatorDto(dto, () => new Round_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Round_OperatorDto_ZeroOffset(Round_OperatorDto_ZeroOffset dto) => ProcessOperatorDto(dto, () => new Round_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					ArrayDto arrayDto = dto.ArrayDtos.Single();
-					ICalculatorWithPosition underlyingCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
-					return new SampleWithRate1_OperatorCalculator_MonoToStereo(_stack.Pop(), underlyingCalculator);
-				});
-		}
+	    protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_MonoToStereo(SampleWithRate1_OperatorDto_MonoToStereo dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            ArrayDto arrayDto = dto.ArrayDtos.Single();
+	            ICalculatorWithPosition underlyingCalculator = ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
+	            return new SampleWithRate1_OperatorCalculator_MonoToStereo(_stack.Pop(), underlyingCalculator);
+	        });
 
-		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
-					return new SampleWithRate1_OperatorCalculator_NoChannelConversion(_stack.Pop(), _stack.Pop(), underlyingCalculators);
-				});
-		}
+	    protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoChannelConversion(SampleWithRate1_OperatorDto_NoChannelConversion dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
+	            return new SampleWithRate1_OperatorCalculator_NoChannelConversion(_stack.Pop(), _stack.Pop(), underlyingCalculators);
+	        });
 
-		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
-					return new SampleWithRate1_OperatorCalculator_StereoToMono(_stack.Pop(), underlyingCalculators);
-				});
-		}
+	    protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_StereoToMono(SampleWithRate1_OperatorDto_StereoToMono dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            IList<ICalculatorWithPosition> underlyingCalculators = dto.ArrayDtos.Select(ArrayCalculatorFactory.CreateArrayCalculator).ToArray();
+	            return new SampleWithRate1_OperatorCalculator_StereoToMono(_stack.Pop(), underlyingCalculators);
+	        });
 
-		protected override IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new SineWithRate1_OperatorCalculator(_stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_SineWithRate1_OperatorDto(SineWithRate1_OperatorDto dto) => ProcessOperatorDto(dto, () => new SineWithRate1_OperatorCalculator(_stack.Pop()));
 
-		protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			SortOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new SortOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			SortOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new SortOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new SortOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto) => ProcessOperatorDto(dto, () => new SortOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new Spectrum_OperatorCalculator(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	    protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto) => ProcessOperatorDto(
+	        dto,
+	        () => new Spectrum_OperatorCalculator(
+	            _stack.Pop(),
+	            _stack.Pop(),
+	            _stack.Pop(),
+	            _stack.Pop(),
+	            _stack.Pop(),
+	            GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					OperatorCalculatorBase signalCalculator = _stack.Pop();
-					OperatorCalculatorBase factorCalculator = _stack.Pop();
-					OperatorCalculatorBase originCalculator = _stack.Pop();
-					OperatorCalculatorBase positionCalculator = _stack.Pop();
+	    protected override IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            OperatorCalculatorBase signalCalculator = _stack.Pop();
+	            OperatorCalculatorBase factorCalculator = _stack.Pop();
+	            OperatorCalculatorBase originCalculator = _stack.Pop();
+	            OperatorCalculatorBase positionCalculator = _stack.Pop();
 
-					return new Squash_OperatorCalculator_WithOrigin_WithPositionOutput(positionCalculator, factorCalculator, originCalculator);
-				});
-		}
+	            return new Squash_OperatorCalculator_WithOrigin_WithPositionOutput(positionCalculator, factorCalculator, originCalculator);
+	        });
 
-		protected override IOperatorDto Visit_Squash_OperatorDto_ZeroOrigin(Squash_OperatorDto_ZeroOrigin dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					OperatorCalculatorBase signalCalculator = _stack.Pop();
-					OperatorCalculatorBase factorCalculator = _stack.Pop();
-					OperatorCalculatorBase originCalculator = _stack.Pop();
-					OperatorCalculatorBase positionCalculator = _stack.Pop();
+	    protected override IOperatorDto Visit_Squash_OperatorDto_ZeroOrigin(Squash_OperatorDto_ZeroOrigin dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            OperatorCalculatorBase signalCalculator = _stack.Pop();
+	            OperatorCalculatorBase factorCalculator = _stack.Pop();
+	            OperatorCalculatorBase originCalculator = _stack.Pop();
+	            OperatorCalculatorBase positionCalculator = _stack.Pop();
 
-					return new Squash_OperatorCalculator_ZeroOrigin_WithPositionOutput(positionCalculator, factorCalculator);
-				});
-		}
+	            return new Squash_OperatorCalculator_ZeroOrigin_WithPositionOutput(positionCalculator, factorCalculator);
+	        });
 
-		protected override IOperatorDto Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting(
+	    protected override IOperatorDto Visit_Squash_OperatorDto_ConstFactor_WithOriginShifting(
 			Squash_OperatorDto_ConstFactor_WithOriginShifting dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					OperatorCalculatorBase signalCalculator = _stack.Pop();
-					OperatorCalculatorBase factorCalculator = _stack.Pop();
-					OperatorCalculatorBase originCalculator = _stack.Pop();
-					OperatorCalculatorBase positionCalculator = _stack.Pop();
+	        => ProcessOperatorDto(
+	            dto,
+	            () =>
+	            {
+	                OperatorCalculatorBase signalCalculator = _stack.Pop();
+	                OperatorCalculatorBase factorCalculator = _stack.Pop();
+	                OperatorCalculatorBase originCalculator = _stack.Pop();
+	                OperatorCalculatorBase positionCalculator = _stack.Pop();
 
-					return new Squash_OperatorCalculator_ConstFactor_WithOriginShifting_WithPositionOutput(positionCalculator, factorCalculator);
-				});
-		}
+	                return new Squash_OperatorCalculator_ConstFactor_WithOriginShifting_WithPositionOutput(positionCalculator, factorCalculator);
+	            });
 
-		protected override IOperatorDto Visit_Squash_OperatorDto_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarFactor_WithPhaseTracking dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					OperatorCalculatorBase signalCalculator = _stack.Pop();
-					OperatorCalculatorBase factorCalculator = _stack.Pop();
-					OperatorCalculatorBase originCalculator = _stack.Pop();
-					OperatorCalculatorBase positionCalculator = _stack.Pop();
+	    protected override IOperatorDto Visit_Squash_OperatorDto_VarFactor_WithPhaseTracking(Squash_OperatorDto_VarFactor_WithPhaseTracking dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            OperatorCalculatorBase signalCalculator = _stack.Pop();
+	            OperatorCalculatorBase factorCalculator = _stack.Pop();
+	            OperatorCalculatorBase originCalculator = _stack.Pop();
+	            OperatorCalculatorBase positionCalculator = _stack.Pop();
 
-					return new Squash_OperatorCalculator_VarFactor_WithPhaseTracking_WithPositionOutput(positionCalculator, factorCalculator);
-				});
-		}
+	            return new Squash_OperatorCalculator_VarFactor_WithPhaseTracking_WithPositionOutput(positionCalculator, factorCalculator);
+	        });
 
-		protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new Subtract_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => ProcessOperatorDto(dto, () => new Subtract_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
-		{
-			return ProcessOperatorDto(dto, () => new SumFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => ProcessOperatorDto(dto, () => new SumFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new SumOverDimension_OperatorCalculator_CollectionRecalculationContinuous(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			SumOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() => new SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					_stack.Pop(),
-					GetPositionOutputCalculator(dto)));
-		}
+	        => ProcessOperatorDto(
+	            dto,
+	            () => new SumOverDimension_OperatorCalculator_CollectionRecalculationUponReset(
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                _stack.Pop(),
+	                GetPositionOutputCalculator(dto)));
 
-		protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new ToggleTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => ProcessOperatorDto(dto, () => new ToggleTrigger_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-		protected override IOperatorDto Visit_TriangleWithRate1_OperatorDto(TriangleWithRate1_OperatorDto dto)
-		{
-			return ProcessOperatorDto(dto, () => new TriangleWithRate1_OperatorCalculator(_stack.Pop()));
-		}
+	    protected override IOperatorDto Visit_TriangleWithRate1_OperatorDto(TriangleWithRate1_OperatorDto dto) => ProcessOperatorDto(dto, () => new TriangleWithRate1_OperatorCalculator(_stack.Pop()));
 
-		protected override IOperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto)
-		{
-			return ProcessOperatorDto(
-				dto,
-				() =>
-				{
-					var calculator = new VariableInput_OperatorCalculator(
-						dto.StandardDimensionEnum,
-						dto.CanonicalCustomDimensionName,
-						dto.Position,
-						dto.DefaultValue);
-					_dimensionToVariableInputCalculatorDictionary[(dto.StandardDimensionEnum, dto.CanonicalCustomDimensionName)] = calculator;
-					return calculator;
-				});
-		}
+	    protected override IOperatorDto Visit_VariableInput_OperatorDto(VariableInput_OperatorDto dto) => ProcessOperatorDto(
+	        dto,
+	        () =>
+	        {
+	            var calculator = new VariableInput_OperatorCalculator(
+	                dto.StandardDimensionEnum,
+	                dto.CanonicalCustomDimensionName,
+	                dto.Position,
+	                dto.DefaultValue);
+	            _dimensionToVariableInputCalculatorDictionary[(dto.StandardDimensionEnum, dto.CanonicalCustomDimensionName)] = calculator;
+	            return calculator;
+	        });
 	}
 }

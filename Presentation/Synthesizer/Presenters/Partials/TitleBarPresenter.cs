@@ -26,9 +26,6 @@ namespace JJ.Presentation.Synthesizer.Presenters.Partials
 			return sb.ToString();
 		}
 
-		private static string GetTitleBarExtraText()
-		{
-			return CustomConfigurationManager.GetSection<ConfigurationSection>().TitleBarExtraText;
-		}
+		private static string GetTitleBarExtraText() => CustomConfigurationManager.GetSection<ConfigurationSection>().TitleBarExtraText;
 	}
 }

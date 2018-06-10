@@ -8,10 +8,8 @@
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
-		{
-			ResetNonRecursive();
-		}
+		    => ResetNonRecursive();
 
-		protected override void ResetNonRecursive() => Interpolate_OperatorCalculator_Stripe_Helper.ResetNonRecursive(this);
+	    protected override void ResetNonRecursive() => Interpolate_OperatorCalculator_Stripe_Helper.ResetNonRecursive(this);
 	}
 }

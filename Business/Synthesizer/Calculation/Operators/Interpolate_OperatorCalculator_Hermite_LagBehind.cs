@@ -16,11 +16,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
-		{
-			ResetNonRecursive();
-		}
+		    => ResetNonRecursive();
 
-		protected override void Precalculate()
+	    protected override void Precalculate()
 		{
 			_dx = Dx();
 			(_c0, _c1, _c2, _c3) = Interpolator.Hermite_4pt3oX_PrecalculateVariables(_yMinus1, _y0, _y1, _y2);

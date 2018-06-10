@@ -227,15 +227,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return states;
 		}
 
-		private IList<ScreenViewModelBase> GetMidiMappingGroupStates(int midiMappingGroupID)
-		{
-			return ViewModelSelector
-			       .EnumerateMidiMappingPropertiesViewModel_ByMidiMappingGroupID(MainViewModel.Document,midiMappingGroupID)
-			       .Union<ScreenViewModelBase>(ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document,midiMappingGroupID))
-			       .ToArray();
-		}
+		private IList<ScreenViewModelBase> GetMidiMappingGroupStates(int midiMappingGroupID) => ViewModelSelector
+		                                                                                        .EnumerateMidiMappingPropertiesViewModel_ByMidiMappingGroupID(MainViewModel.Document,midiMappingGroupID)
+		                                                                                        .Union<ScreenViewModelBase>(ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document,midiMappingGroupID))
+		                                                                                        .ToArray();
 
-		private IList<ScreenViewModelBase> GetNodeStates(int id)
+	    private IList<ScreenViewModelBase> GetNodeStates(int id)
 		{
 			NodePropertiesViewModel nodePropertiesViewModel = ViewModelSelector.GetNodePropertiesViewModel(MainViewModel.Document, id);
 			CurveDetailsViewModel curveDetailsViewModel =

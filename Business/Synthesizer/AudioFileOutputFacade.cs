@@ -18,12 +18,9 @@ namespace JJ.Business.Synthesizer
 	{
 		private readonly AudioFileOutputRepositories _repositories;
 
-		public AudioFileOutputFacade(AudioFileOutputRepositories repositories)
-		{
-			_repositories = repositories ?? throw new NullException(() => repositories);
-		}
+		public AudioFileOutputFacade(AudioFileOutputRepositories repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
 
-		/// <summary> Create an AudioFileOutput and initializes it with defaults. </summary>
+	    /// <summary> Create an AudioFileOutput and initializes it with defaults. </summary>
 		public AudioFileOutput Create(Document document = null)
 		{
 			var audioFileOutput = new AudioFileOutput { ID = _repositories.IDRepository.GetID() };

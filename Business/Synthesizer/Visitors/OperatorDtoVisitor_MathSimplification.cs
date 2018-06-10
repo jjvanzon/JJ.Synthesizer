@@ -30,12 +30,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		public IOperatorDto Execute(IOperatorDto dto) => Visit_OperatorDto_Polymorphic(dto);
 
-		protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
-		{
-			return WithAlreadyProcessedCheck(dto, () => base.Visit_OperatorDto_Polymorphic(dto));
-		}
+		protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto) => WithAlreadyProcessedCheck(dto, () => base.Visit_OperatorDto_Polymorphic(dto));
 
-		// Operation-Specific
+	    // Operation-Specific
 
 		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
 		{
@@ -53,17 +50,11 @@ namespace JJ.Business.Synthesizer.Visitors
 			return ProcessAggregateOverInlets(dto, Enumerable.Sum);
 		}
 
-		protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
-		}
+		protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
-		protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetAllPassFilterVariables);
-		}
+	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetAllPassFilterVariables);
 
-		protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto)
+	    protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto)
 		{
 			base.Visit_And_OperatorDto(dto);
 
@@ -98,54 +89,30 @@ namespace JJ.Business.Synthesizer.Visitors
 			}
 		}
 
-		protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
-		{
-			return ProcessWithSignal(dto);
-		}
+		protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => ProcessWithSignal(dto);
 
-		protected override IOperatorDto Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto)
-		{
-			return ProcessWithSignal(dto);
-		}
+	    protected override IOperatorDto Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto) => ProcessWithSignal(dto);
 
-		protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
+	    protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
 		{
 			base.Visit_AverageOverInlets_OperatorDto(dto);
 
 			return ProcessAggregateOverInlets(dto, Enumerable.Average);
 		}
 
-		protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables);
-		}
+		protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables);
 
-		protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
-		}
+	    protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
-		protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables);
-		}
+	    protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables);
 
-		protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
-		}
+	    protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar(BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto)
-		{
-			return ProcessWithSignal(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_ConstSignal(Cache_OperatorDto_ConstSignal dto) => ProcessWithSignal(dto);
 
-		protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
-		{
-			return Process_Trigger(dto);
-		}
+	    protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto) => Process_Trigger(dto);
 
-		protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
+	    protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
 		{
 			base.Visit_ClosestOverInlets_OperatorDto(dto);
 
@@ -223,17 +190,11 @@ namespace JJ.Business.Synthesizer.Visitors
 			}
 		}
 
-		protected override IOperatorDto Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto)
-		{
-			return ProcessZero(dto);
-		}
+		protected override IOperatorDto Visit_Curve_OperatorDto_NoCurve(Curve_OperatorDto_NoCurve dto) => ProcessZero(dto);
 
-		protected override IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto)
-		{
-			return ProcessIdentity(dto.OutletPosition);
-		}
+	    protected override IOperatorDto Visit_DimensionToOutlets_Outlet_OperatorDto(DimensionToOutlets_Outlet_OperatorDto dto) => ProcessIdentity(dto.OutletPosition);
 
-		protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto)
+	    protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto)
 		{
 			base.Visit_Divide_OperatorDto(dto);
 
@@ -378,32 +339,17 @@ namespace JJ.Business.Synthesizer.Visitors
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
-		}
+		protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
-		protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetHighPassFilterVariables);
-		}
+	    protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetHighPassFilterVariables);
 
-		protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
-		}
+	    protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
-		protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_ShelfFilter_SoundVarOrConst_OtherInputsConst(dto, BiQuadFilterWithoutFields.SetHighShelfFilterVariables);
-		}
+	    protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_ShelfFilter_SoundVarOrConst_OtherInputsConst(dto, BiQuadFilterWithoutFields.SetHighShelfFilterVariables);
 
-		protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto)
-		{
-			return ProcessWithSignal(dto);
-		}
+	    protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto) => ProcessWithSignal(dto);
 
-		protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto)
+	    protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto)
 		{
 			base.Visit_If_OperatorDto(dto);
 
@@ -474,12 +420,9 @@ namespace JJ.Business.Synthesizer.Visitors
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto)
-		{
-			return ProcessIdentity(dto);
-		}
+		protected override IOperatorDto Visit_Interpolate_OperatorDto_ConstSignal(Interpolate_OperatorDto_ConstSignal dto) => ProcessIdentity(dto);
 
-		protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
+	    protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
 		{
 			base.Visit_LessThan_OperatorDto(dto);
 
@@ -537,54 +480,30 @@ namespace JJ.Business.Synthesizer.Visitors
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
-		}
+		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
-		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetLowPassFilterVariables);
-		}
+	    protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetLowPassFilterVariables);
 
-		protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
-		}
+	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
-		protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_ShelfFilter_SoundVarOrConst_OtherInputsConst(dto, BiQuadFilterWithoutFields.SetHighShelfFilterVariables);
-		}
+	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_ShelfFilter_SoundVarOrConst_OtherInputsConst(dto, BiQuadFilterWithoutFields.SetHighShelfFilterVariables);
 
-		protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
-		{
-			return ProcessWithSignal(dto);
-		}
+	    protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto) => ProcessWithSignal(dto);
 
-		protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_ConstSignal(MaxOverDimension_OperatorDto_ConstSignal dto)
-		{
-			return ProcessIdentity(dto);
-		}
+	    protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_ConstSignal(MaxOverDimension_OperatorDto_ConstSignal dto) => ProcessIdentity(dto);
 
-		protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
+	    protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
 		{
 			base.Visit_MaxOverInlets_OperatorDto(dto);
 
 			return ProcessAggregateOverInlets(dto, Enumerable.Min);
 		}
 
-		protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
-		{
-			return ProcessWithSignal(dto);
-		}
+		protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => ProcessWithSignal(dto);
 
-		protected override IOperatorDto Visit_MinOverDimension_OperatorDto_ConstSignal(MinOverDimension_OperatorDto_ConstSignal dto)
-		{
-			return ProcessIdentity(dto);
-		}
+	    protected override IOperatorDto Visit_MinOverDimension_OperatorDto_ConstSignal(MinOverDimension_OperatorDto_ConstSignal dto) => ProcessIdentity(dto);
 
-		protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
+	    protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
 		{
 			base.Visit_MinOverInlets_OperatorDto(dto);
 
@@ -627,17 +546,11 @@ namespace JJ.Business.Synthesizer.Visitors
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
-		}
+		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
-		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetNotchFilterVariables);
-		}
+	    protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_SoundVarOrConst_OtherInputsConst_WithWidthOrBlobVolume(dto, BiQuadFilterWithoutFields.SetNotchFilterVariables);
 
-		protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
+	    protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
 		{
 			base.Visit_NotEqual_OperatorDto(dto);
 
@@ -717,12 +630,9 @@ namespace JJ.Business.Synthesizer.Visitors
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
-		}
+		protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_SoundVarOrConst_OtherInputsVar(dto);
 
-		protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
+	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
 		{
 			base.Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
@@ -782,12 +692,9 @@ namespace JJ.Business.Synthesizer.Visitors
 			}
 		}
 
-		protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
-		{
-			return Process_Trigger(dto);
-		}
+		protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto) => Process_Trigger(dto);
 
-		protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto)
+	    protected override IOperatorDto Visit_RangeOverOutlets_Outlet_OperatorDto(RangeOverOutlets_Outlet_OperatorDto dto)
 		{
 			base.Visit_RangeOverOutlets_Outlet_OperatorDto(dto);
 
@@ -825,25 +732,13 @@ namespace JJ.Business.Synthesizer.Visitors
 			return new Number_OperatorDto { Number = result };
 		}
 
-		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto)
-		{
-			return ProcessZero(dto);
-		}
+		protected override IOperatorDto Visit_SampleWithRate1_OperatorDto_NoSample(SampleWithRate1_OperatorDto_NoSample dto) => ProcessZero(dto);
 
-		protected override IOperatorDto Visit_SetPosition_OperatorDto(SetPosition_OperatorDto dto)
-		{
-			// SetDimension just outputs a transformed dimension after 'TransformationsToPositionInputs' has run.
+	    protected override IOperatorDto Visit_SetPosition_OperatorDto(SetPosition_OperatorDto dto) => dto.Position.VarOrConst;
 
-			// Identity
-			return dto.Position.VarOrConst;
-		}
+	    protected override IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto) => ProcessIdentity(dto);
 
-		protected override IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto)
-		{
-			return ProcessIdentity(dto);
-		}
-
-		protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
+	    protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
 		{
 			base.Visit_Spectrum_OperatorDto(dto);
 
@@ -858,12 +753,9 @@ namespace JJ.Business.Synthesizer.Visitors
 			}
 		}
 
-		protected override IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto)
-		{
-			return ProcessZero(dto);
-		}
+		protected override IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto) => ProcessZero(dto);
 
-		protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
+	    protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
 		{
 			base.Visit_Subtract_OperatorDto(dto);
 
@@ -917,12 +809,9 @@ namespace JJ.Business.Synthesizer.Visitors
 			return new Number_OperatorDto { Number = result };
 		}
 
-		protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
-		{
-			return Process_Trigger(dto);
-		}
+		protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => Process_Trigger(dto);
 
-		// Helpers
+	    // Helpers
 
 		private static IOperatorDto Commute(OperatorDtoBase_WithAAndB dto)
 		{
@@ -935,13 +824,9 @@ namespace JJ.Business.Synthesizer.Visitors
 			return dto;
 		}
 
-		private IOperatorDto ProcessIdentity(double number)
-		{
-			// Identity
-			return new Number_OperatorDto { Number = number };
-		}
+		private IOperatorDto ProcessIdentity(double number) => new Number_OperatorDto { Number = number };
 
-		private IOperatorDto Process_Filter_SoundVarOrConst_OtherInputsVar(IOperatorDto_WithSound dto)
+	    private IOperatorDto Process_Filter_SoundVarOrConst_OtherInputsVar(IOperatorDto_WithSound dto)
 		{
 			Visit_OperatorDto_Base(dto);
 
@@ -1082,25 +967,13 @@ namespace JJ.Business.Synthesizer.Visitors
 			return dto;
 		}
 
-		private IOperatorDto Process_Trigger_ConstPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto)
-		{
-			// Identity
-			return new Number_OperatorDto { Number = dto.PassThroughInput };
-		}
+		private IOperatorDto Process_Trigger_ConstPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto) => new Number_OperatorDto { Number = dto.PassThroughInput };
 
-		private IOperatorDto Process_Trigger_ConstPassThrough_VarReset_Identity(OperatorDtoBase_Trigger dto)
-		{
-			// Identity
-			return new Number_OperatorDto { Number = dto.PassThroughInput };
-		}
+	    private IOperatorDto Process_Trigger_ConstPassThrough_VarReset_Identity(OperatorDtoBase_Trigger dto) => new Number_OperatorDto { Number = dto.PassThroughInput };
 
-		private IOperatorDto Process_Trigger_VarPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto)
-		{
-			// Identity
-			return dto.PassThroughInput.Var;
-		}
+	    private IOperatorDto Process_Trigger_VarPassThrough_ConstReset_Identity(OperatorDtoBase_Trigger dto) => dto.PassThroughInput.Var;
 
-		private IOperatorDto ProcessZero(IOperatorDto dto)
+	    private IOperatorDto ProcessZero(IOperatorDto dto)
 		{
 			Visit_OperatorDto_Base(dto);
 

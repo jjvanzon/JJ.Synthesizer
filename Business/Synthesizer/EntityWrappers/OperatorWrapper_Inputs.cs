@@ -15,12 +15,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 	{
 		private readonly Operator _operator;
 
-		internal OperatorWrapper_Inputs(Operator op)
-		{
-			_operator = op ?? throw new NullException(() => op);
-		}
+		internal OperatorWrapper_Inputs(Operator op) => _operator = op ?? throw new NullException(() => op);
 
-		// TODO: Composite keys Name-Position and DimensionEnum-Position have also become normal.
+	    // TODO: Composite keys Name-Position and DimensionEnum-Position have also become normal.
 
 		// By Name
 

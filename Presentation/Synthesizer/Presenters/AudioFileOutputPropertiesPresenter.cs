@@ -21,30 +21,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_audioFileOutputFacade = audioFileOutputFacade ?? throw new ArgumentNullException(nameof(audioFileOutputFacade));
 		}
 
-		protected override AudioFileOutput GetEntity(AudioFileOutputPropertiesViewModel userInput)
-		{
-			return _audioFileOutputRepository.Get(userInput.Entity.ID);
-		}
+		protected override AudioFileOutput GetEntity(AudioFileOutputPropertiesViewModel userInput) => _audioFileOutputRepository.Get(userInput.Entity.ID);
 
-		protected override IResult Save(AudioFileOutput entity, AudioFileOutputPropertiesViewModel userInput)
-		{
-			return _audioFileOutputFacade.Save(entity);
-		}
+	    protected override IResult Save(AudioFileOutput entity, AudioFileOutputPropertiesViewModel userInput) => _audioFileOutputFacade.Save(entity);
 
-		protected override AudioFileOutputPropertiesViewModel ToViewModel(AudioFileOutput entity)
-		{
-			return entity.ToPropertiesViewModel();
-		}
+	    protected override AudioFileOutputPropertiesViewModel ToViewModel(AudioFileOutput entity) => entity.ToPropertiesViewModel();
 
-		public AudioFileOutputPropertiesViewModel Delete(AudioFileOutputPropertiesViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				entity =>
-				{
-					_audioFileOutputFacade.Delete(entity.ID);
-					return null;
-				});
-		}
+	    public AudioFileOutputPropertiesViewModel Delete(AudioFileOutputPropertiesViewModel userInput) => ExecuteAction(
+	        userInput,
+	        entity =>
+	        {
+	            _audioFileOutputFacade.Delete(entity.ID);
+	            return null;
+	        });
 	}
 }

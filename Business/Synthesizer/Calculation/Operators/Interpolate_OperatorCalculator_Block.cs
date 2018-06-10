@@ -8,11 +8,9 @@
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
-		{
-			ResetNonRecursive();
-		}
+		    => ResetNonRecursive();
 
-		protected override void ResetNonRecursive()
+	    protected override void ResetNonRecursive()
 		{
 			double x = _positionInputCalculator.Calculate();
 			double y = _signalCalculator.Calculate();

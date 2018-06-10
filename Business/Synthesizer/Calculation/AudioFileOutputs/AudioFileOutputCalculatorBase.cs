@@ -24,12 +24,9 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
 		private readonly IPatchCalculator[] _patchCalculators;
 
-		public AudioFileOutputCalculatorBase(IList<IPatchCalculator> patchCalculators)
-		{
-			_patchCalculators = patchCalculators?.ToArray() ?? throw new NullException(() => patchCalculators);
-		}
+		public AudioFileOutputCalculatorBase(IList<IPatchCalculator> patchCalculators) => _patchCalculators = patchCalculators?.ToArray() ?? throw new NullException(() => patchCalculators);
 
-		protected abstract double GetAmplifierAdjustedToSampleDataType(AudioFileOutput audioFileOutput);
+	    protected abstract double GetAmplifierAdjustedToSampleDataType(AudioFileOutput audioFileOutput);
 		protected abstract void WriteValue(BinaryWriter binaryWriter, double value);
 
 		public void WriteFile(AudioFileOutput audioFileOutput)

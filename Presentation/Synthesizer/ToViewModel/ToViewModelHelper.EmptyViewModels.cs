@@ -28,18 +28,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		private static AudioOutputPropertiesViewModel CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState()
+		private static AudioOutputPropertiesViewModel CreateEmptyAudioOutputPropertiesViewModel_WithoutOriginalState() => new AudioOutputPropertiesViewModel
 		{
-			return new AudioOutputPropertiesViewModel
-			{
-				Entity = CreateEmptyAudioOutputViewModel(),
-				ValidationMessages = new List<string>(),
-				SpeakerSetupLookup = GetSpeakerSetupLookupViewModel(),
-				Successful = true
-			};
-		}
+		    Entity = CreateEmptyAudioOutputViewModel(),
+		    ValidationMessages = new List<string>(),
+		    SpeakerSetupLookup = GetSpeakerSetupLookupViewModel(),
+		    Successful = true
+		};
 
-		public static AudioOutputViewModel CreateEmptyAudioOutputViewModel()
+	    public static AudioOutputViewModel CreateEmptyAudioOutputViewModel()
 		{
 			var viewModel = new AudioOutputViewModel
 			{
@@ -206,17 +203,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		private static DocumentPropertiesViewModel CreateEmptyDocumentPropertiesViewModel_WithoutOriginalState()
+		private static DocumentPropertiesViewModel CreateEmptyDocumentPropertiesViewModel_WithoutOriginalState() => new DocumentPropertiesViewModel
 		{
-			return new DocumentPropertiesViewModel
-			{
-				Entity = new IDAndName(),
-				ValidationMessages = new List<string>(),
-				Successful = true
-			};
-		}
+		    Entity = new IDAndName(),
+		    ValidationMessages = new List<string>(),
+		    Successful = true
+		};
 
-		public static IDAndName CreateEmptyIDAndName()
+	    public static IDAndName CreateEmptyIDAndName()
 		{
 			var idAndName = new IDAndName();
 			return idAndName;
@@ -234,27 +228,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static MainViewModel CreateEmptyMainViewModel()
+		public static MainViewModel CreateEmptyMainViewModel() => new MainViewModel
 		{
-			return new MainViewModel
-			{
-				Menu = CreateEmptyMenuViewModel(),
-				MonitoringBar = CreateEmptyMonitoringBarViewModel(),
-				ValidationMessages = new List<string>(),
-				WarningMessages = new List<string>(),
-				PopupMessages = new List<string>(),
-				Document = CreateEmptyDocumentViewModel(),
-				DocumentCannotDelete = CreateEmptyDocumentCannotDeleteViewModel(),
-				DocumentDelete = CreateEmptyDocumentDeleteViewModel(),
-				DocumentDeleted = CreateEmptyDocumentDeletedViewModel(),
-				DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
-				DocumentGrid = CreateEmptyDocumentGridViewModel(),
-				DocumentOrPatchNotFound = CreateEmptyDocumentOrPatchNotFoundPopupViewModel(),
-				Successful = true
-			};
-		}
+		    Menu = CreateEmptyMenuViewModel(),
+		    MonitoringBar = CreateEmptyMonitoringBarViewModel(),
+		    ValidationMessages = new List<string>(),
+		    WarningMessages = new List<string>(),
+		    PopupMessages = new List<string>(),
+		    Document = CreateEmptyDocumentViewModel(),
+		    DocumentCannotDelete = CreateEmptyDocumentCannotDeleteViewModel(),
+		    DocumentDelete = CreateEmptyDocumentDeleteViewModel(),
+		    DocumentDeleted = CreateEmptyDocumentDeletedViewModel(),
+		    DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
+		    DocumentGrid = CreateEmptyDocumentGridViewModel(),
+		    DocumentOrPatchNotFound = CreateEmptyDocumentOrPatchNotFoundPopupViewModel(),
+		    Successful = true
+		};
 
-		public static MenuViewModel CreateEmptyMenuViewModel()
+	    public static MenuViewModel CreateEmptyMenuViewModel()
 		{
 			MenuViewModel viewModel = CreateMenuViewModel(documentIsOpen: false);
 			return viewModel;
@@ -308,33 +299,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		private static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel_WithoutOriginalState()
+		private static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel_WithoutOriginalState() => new PatchDetailsViewModel
 		{
-			return new PatchDetailsViewModel
-			{
-				Entity = CreateEmptyPatchViewModel(),
-				ValidationMessages = new List<string>(),
-				Successful = true
-			};
-		}
+		    Entity = CreateEmptyPatchViewModel(),
+		    ValidationMessages = new List<string>(),
+		    Successful = true
+		};
 
-		public static PatchPropertiesViewModel CreateEmptyPatchPropertiesViewModel()
+	    public static PatchPropertiesViewModel CreateEmptyPatchPropertiesViewModel()
 		{
 			PatchPropertiesViewModel viewModel = CreateEmptyPatchPropertiesViewModel_WithoutOriginalState();
 			viewModel.OriginalState = CreateEmptyPatchPropertiesViewModel_WithoutOriginalState();
 			return viewModel;
 		}
 
-		private static PatchPropertiesViewModel CreateEmptyPatchPropertiesViewModel_WithoutOriginalState()
+		private static PatchPropertiesViewModel CreateEmptyPatchPropertiesViewModel_WithoutOriginalState() => new PatchPropertiesViewModel
 		{
-			return new PatchPropertiesViewModel
-			{
-				ValidationMessages = new List<string>(),
-				Successful = true
-			};
-		}
+		    ValidationMessages = new List<string>(),
+		    Successful = true
+		};
 
-		public static PatchViewModel CreateEmptyPatchViewModel()
+	    public static PatchViewModel CreateEmptyPatchViewModel()
 		{
 			var viewModel = new PatchViewModel
 			{
@@ -356,12 +341,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static SaveChangesPopupViewModel CreateEmptySaveChangesPopupViewModel()
+		public static SaveChangesPopupViewModel CreateEmptySaveChangesPopupViewModel() => new SaveChangesPopupViewModel
 		{
-			return new SaveChangesPopupViewModel
-			{
-				ValidationMessages = new List<string>()
-			};
-		}
+		    ValidationMessages = new List<string>()
+		};
 	}
 }

@@ -10,12 +10,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 	{
 		private readonly MidiMappingGroup _entity;
 
-		public MidiMappingGroup_SideEffect_GenerateName(MidiMappingGroup entity)
-		{
-			_entity = entity ?? throw new NullException(() => entity);
-		}
+		public MidiMappingGroup_SideEffect_GenerateName(MidiMappingGroup entity) => _entity = entity ?? throw new NullException(() => entity);
 
-		public void Execute()
+	    public void Execute()
 		{
 			bool mustExecute = _entity.Document != null;
 			if (mustExecute)

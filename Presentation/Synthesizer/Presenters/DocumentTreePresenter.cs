@@ -40,12 +40,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
-		public void Close(DocumentTreeViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
-		}
+		public void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 
-		public DocumentTreeViewModel Create(DocumentTreeViewModel userInput)
+	    public DocumentTreeViewModel Create(DocumentTreeViewModel userInput)
 		{
 			switch (userInput.SelectedNodeType)
 			{
@@ -63,59 +60,50 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private DocumentTreeViewModel CreatePatch(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					// GetEntity
-					Document document = _repositories.DocumentRepository.Get(userInput.ID);
+		private DocumentTreeViewModel CreatePatch(DocumentTreeViewModel userInput) => ExecuteAction(
+		    userInput,
+		    viewModel =>
+		    {
+		        // GetEntity
+		        Document document = _repositories.DocumentRepository.Get(userInput.ID);
 
-					// Business
-					Patch patch = _patchFacade.CreatePatch(document);
-					patch.GroupName = userInput.SelectedFriendlyPatchGroupName;
+		        // Business
+		        Patch patch = _patchFacade.CreatePatch(document);
+		        patch.GroupName = userInput.SelectedFriendlyPatchGroupName;
 
-					// Non-Persisted
-					viewModel.CreatedEntityID = patch.ID;
-				});
-		}
+		        // Non-Persisted
+		        viewModel.CreatedEntityID = patch.ID;
+		    });
 
-		private DocumentTreeViewModel CreateMidiMappingGroup(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					// GetEntity
-					Document document = _repositories.DocumentRepository.Get(userInput.ID);
+	    private DocumentTreeViewModel CreateMidiMappingGroup(DocumentTreeViewModel userInput) => ExecuteAction(
+	        userInput,
+	        viewModel =>
+	        {
+	            // GetEntity
+	            Document document = _repositories.DocumentRepository.Get(userInput.ID);
 
-					// Business
-					MidiMappingGroup midiMapping = _midiMappingFacade.CreateMidiMappingGroupWithDefaults(document);
+	            // Business
+	            MidiMappingGroup midiMapping = _midiMappingFacade.CreateMidiMappingGroupWithDefaults(document);
 
-					// Non-Persisted
-					viewModel.CreatedEntityID = midiMapping.ID;
-				});
-		}
+	            // Non-Persisted
+	            viewModel.CreatedEntityID = midiMapping.ID;
+	        });
 
-		private DocumentTreeViewModel CreateScale(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					// GetEntity
-					Document document = _repositories.DocumentRepository.Get(userInput.ID);
+	    private DocumentTreeViewModel CreateScale(DocumentTreeViewModel userInput) => ExecuteAction(
+	        userInput,
+	        viewModel =>
+	        {
+	            // GetEntity
+	            Document document = _repositories.DocumentRepository.Get(userInput.ID);
 
-					// Business
-					Scale scale = _scaleFacade.Create(document);
+	            // Business
+	            Scale scale = _scaleFacade.Create(document);
 
-					// Non-Persisted
-					viewModel.CreatedEntityID = scale.ID;
-				});
-		}
+	            // Non-Persisted
+	            viewModel.CreatedEntityID = scale.ID;
+	        });
 
-		public DocumentTreeViewModel Delete(DocumentTreeViewModel userInput)
+	    public DocumentTreeViewModel Delete(DocumentTreeViewModel userInput)
 		{
 			switch (userInput.SelectedNodeType)
 			{
@@ -136,275 +124,200 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private DocumentTreeViewModel DeleteLibrary(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
+		private DocumentTreeViewModel DeleteLibrary(DocumentTreeViewModel userInput) => ExecuteAction(
+		    userInput,
+		    viewModel =>
+		    {
+		        if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
-					return _documentFacade.DeleteDocumentReference(userInput.SelectedItemID.Value);
-				});
-		}
+		        return _documentFacade.DeleteDocumentReference(userInput.SelectedItemID.Value);
+		    });
 
-		private DocumentTreeViewModel DeleteMidiMappingGroup(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
+	    private DocumentTreeViewModel DeleteMidiMappingGroup(DocumentTreeViewModel userInput) => ExecuteAction(
+	        userInput,
+	        viewModel =>
+	        {
+	            if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
-					_midiMappingFacade.DeleteMidiMappingGroup(userInput.SelectedItemID.Value);
-				});
-		}
+	            _midiMappingFacade.DeleteMidiMappingGroup(userInput.SelectedItemID.Value);
+	        });
 
-		private DocumentTreeViewModel DeletePatch(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
+	    private DocumentTreeViewModel DeletePatch(DocumentTreeViewModel userInput) => ExecuteAction(
+	        userInput,
+	        viewModel =>
+	        {
+	            if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
-					return _patchFacade.DeletePatchWithRelatedEntities(userInput.SelectedItemID.Value);
-				});
-		}
+	            return _patchFacade.DeletePatchWithRelatedEntities(userInput.SelectedItemID.Value);
+	        });
 
-		private DocumentTreeViewModel DeleteScale(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
+	    private DocumentTreeViewModel DeleteScale(DocumentTreeViewModel userInput) => ExecuteAction(
+	        userInput,
+	        viewModel =>
+	        {
+	            if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
-					_scaleFacade.DeleteWithRelatedEntities(userInput.SelectedItemID.Value);
-				});
-		}
+	            _scaleFacade.DeleteWithRelatedEntities(userInput.SelectedItemID.Value);
+	        });
 
-		public DocumentTreeViewModel HoverPatch(DocumentTreeViewModel userInput, int id)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					// GetEntity
-					Document currentDocument = _repositories.DocumentRepository.Get(userInput.ID);
-					Patch underlyingPatch = _repositories.PatchRepository.Get(id);
+	    public DocumentTreeViewModel HoverPatch(DocumentTreeViewModel userInput, int id) => ExecuteAction(
+	        userInput,
+	        viewModel =>
+	        {
+	            // GetEntity
+	            Document currentDocument = _repositories.DocumentRepository.Get(userInput.ID);
+	            Patch underlyingPatch = _repositories.PatchRepository.Get(id);
 
-					// Business
-					IList<IDAndName> usedInDtos = _documentFacade.GetUsedIn(currentDocument, underlyingPatch);
+	            // Business
+	            IList<IDAndName> usedInDtos = _documentFacade.GetUsedIn(currentDocument, underlyingPatch);
 
-					// ToViewModel
-					viewModel.PatchToolTipText = ToViewModelHelper.GetPatchNodeToolTipText(underlyingPatch, usedInDtos);
-				});
-		}
+	            // ToViewModel
+	            viewModel.PatchToolTipText = ToViewModelHelper.GetPatchNodeToolTipText(underlyingPatch, usedInDtos);
+	        });
 
-		public DocumentTreeViewModel OpenItemExternally(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				viewModel =>
-				{
-					if (!viewModel.SelectedItemID.HasValue)
-					{
-						throw new NullException(() => viewModel.SelectedItemID);
-					}
+	    public DocumentTreeViewModel OpenItemExternally(DocumentTreeViewModel userInput) => ExecuteAction(
+	        userInput,
+	        viewModel =>
+	        {
+	            if (!viewModel.SelectedItemID.HasValue)
+	            {
+	                throw new NullException(() => viewModel.SelectedItemID);
+	            }
 
-					switch (viewModel.SelectedNodeType)
-					{
-						case DocumentTreeNodeTypeEnum.Library:
-							DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedItemID.Value);
-							viewModel.DocumentToOpenExternally = documentReference.LowerDocument.ToIDAndName();
-							break;
+	            switch (viewModel.SelectedNodeType)
+	            {
+	                case DocumentTreeNodeTypeEnum.Library:
+	                    DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedItemID.Value);
+	                    viewModel.DocumentToOpenExternally = documentReference.LowerDocument.ToIDAndName();
+	                    break;
 
-						case DocumentTreeNodeTypeEnum.LibraryPatch:
-							Patch patch = _repositories.PatchRepository.Get(viewModel.SelectedItemID.Value);
-							viewModel.DocumentToOpenExternally = patch.Document.ToIDAndName();
-							viewModel.PatchToOpenExternally = patch.ToIDAndName();
-							break;
+	                case DocumentTreeNodeTypeEnum.LibraryPatch:
+	                    Patch patch = _repositories.PatchRepository.Get(viewModel.SelectedItemID.Value);
+	                    viewModel.DocumentToOpenExternally = patch.Document.ToIDAndName();
+	                    viewModel.PatchToOpenExternally = patch.ToIDAndName();
+	                    break;
 
-						default:
-							throw new ValueNotSupportedException(viewModel.SelectedNodeType);
-					}
-				});
-		}
+	                default:
+	                    throw new ValueNotSupportedException(viewModel.SelectedNodeType);
+	            }
+	        });
 
-		public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput)
-		{
-			return ExecuteAction(userInput, x => { });
-		}
+	    public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => ExecuteAction(userInput, x => { });
 
-		public void Show(DocumentTreeViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
-		}
+	    public void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
-		public void SelectAudioFileOutputs(DocumentTreeViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputList);
-		}
+	    public void SelectAudioFileOutputs(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputList);
 
-		public void SelectAudioOutput(DocumentTreeViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioOutput);
-		}
+	    public void SelectAudioOutput(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioOutput);
 
-		public void SelectLibraries(DocumentTreeViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Libraries);
-		}
+	    public void SelectLibraries(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Libraries);
 
-		public void SelectLibrary(DocumentTreeViewModel viewModel, int documentReferenceID)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = documentReferenceID;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Library;
-				});
-		}
+	    public void SelectLibrary(DocumentTreeViewModel viewModel, int documentReferenceID) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedItemID = documentReferenceID;
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Library;
+	        });
 
-		public void SelectLibraryMidi(DocumentTreeViewModel viewModel, int documentReferenceID)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = documentReferenceID;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryMidi;
-				});
-		}
+	    public void SelectLibraryMidi(DocumentTreeViewModel viewModel, int documentReferenceID) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedItemID = documentReferenceID;
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryMidi;
+	        });
 
-		public void SelectLibraryMidiMappingGroup(DocumentTreeViewModel viewModel, int id)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = id;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup;
-				});
-		}
+	    public void SelectLibraryMidiMappingGroup(DocumentTreeViewModel viewModel, int id) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedItemID = id;
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup;
+	        });
 
-		public void SelectLibraryPatch(DocumentTreeViewModel viewModel, int id)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = id;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatch;
-				});
-		}
+	    public void SelectLibraryPatch(DocumentTreeViewModel viewModel, int id) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedItemID = id;
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatch;
+	        });
 
-		public void SelectLibraryPatchGroup(DocumentTreeViewModel viewModel, int lowerDocumentReferenceID, string patchGroup)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedPatchGroupLowerDocumentReferenceID = lowerDocumentReferenceID;
-					viewModel.SelectedFriendlyPatchGroupName = patchGroup;
-					viewModel.SelectedCanonicalPatchGroupName = NameHelper.ToCanonical(patchGroup);
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatchGroup;
-				});
-		}
+	    public void SelectLibraryPatchGroup(DocumentTreeViewModel viewModel, int lowerDocumentReferenceID, string patchGroup) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedPatchGroupLowerDocumentReferenceID = lowerDocumentReferenceID;
+	            viewModel.SelectedFriendlyPatchGroupName = patchGroup;
+	            viewModel.SelectedCanonicalPatchGroupName = NameHelper.ToCanonical(patchGroup);
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryPatchGroup;
+	        });
 
-		public void SelectLibraryScales(DocumentTreeViewModel viewModel, int documentReferenceID)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = documentReferenceID;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryScales;
-				});
-		}
+	    public void SelectLibraryScales(DocumentTreeViewModel viewModel, int documentReferenceID) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedItemID = documentReferenceID;
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryScales;
+	        });
 
-		public void SelectLibraryScale(DocumentTreeViewModel viewModel, int id)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = id;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryScale;
-				});
-		}
+	    public void SelectLibraryScale(DocumentTreeViewModel viewModel, int id) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedItemID = id;
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.LibraryScale;
+	        });
 
-		public void SelectMidi(DocumentTreeViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Midi);
-		}
+	    public void SelectMidi(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Midi);
 
-		public void SelectMidiMappingGroup(DocumentTreeViewModel viewModel, int id)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = id;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.MidiMappingGroup;
-				});
-		}
+	    public void SelectMidiMappingGroup(DocumentTreeViewModel viewModel, int id) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedItemID = id;
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.MidiMappingGroup;
+	        });
 
-		public void SelectPatch(DocumentTreeViewModel viewModel, int id)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = id;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Patch;
-				});
-		}
+	    public void SelectPatch(DocumentTreeViewModel viewModel, int id) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedItemID = id;
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Patch;
+	        });
 
-		public void SelectPatchGroup(DocumentTreeViewModel viewModel, string friendlyPatchGroupName)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedFriendlyPatchGroupName = friendlyPatchGroupName;
-					viewModel.SelectedCanonicalPatchGroupName = NameHelper.ToCanonical(friendlyPatchGroupName);
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
-				});
-		}
+	    public void SelectPatchGroup(DocumentTreeViewModel viewModel, string friendlyPatchGroupName) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedFriendlyPatchGroupName = friendlyPatchGroupName;
+	            viewModel.SelectedCanonicalPatchGroupName = NameHelper.ToCanonical(friendlyPatchGroupName);
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.PatchGroup;
+	        });
 
-		public void SelectScale(DocumentTreeViewModel viewModel, int id)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					viewModel.SelectedItemID = id;
-					viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scale;
-				});
-		}
+	    public void SelectScale(DocumentTreeViewModel viewModel, int id) => ExecuteNonPersistedAction(
+	        viewModel,
+	        () =>
+	        {
+	            viewModel.SelectedItemID = id;
+	            viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scale;
+	        });
 
-		public void SelectScales(DocumentTreeViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales);
-		}
+	    public void SelectScales(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.Scales);
 
-		// Helpers
+	    // Helpers
 
-		private DocumentTreeViewModel ExecuteAction(DocumentTreeViewModel userInput, Action<DocumentTreeViewModel> action)
-		{
-			return ExecuteAction(
-				userInput,
-				x =>
-				{
-					action(x);
-					return ResultHelper.Successful;
-				});
-		}
+		private DocumentTreeViewModel ExecuteAction(DocumentTreeViewModel userInput, Action<DocumentTreeViewModel> action) => ExecuteAction(
+		    userInput,
+		    x =>
+		    {
+		        action(x);
+		        return ResultHelper.Successful;
+		    });
 
-		private DocumentTreeViewModel ExecuteAction(DocumentTreeViewModel userInput, Func<DocumentTreeViewModel, IResult> action)
+	    private DocumentTreeViewModel ExecuteAction(DocumentTreeViewModel userInput, Func<DocumentTreeViewModel, IResult> action)
 		{
 			if (userInput == null) throw new NullException(() => userInput);
 

@@ -23,10 +23,7 @@ namespace JJ.Business.Synthesizer.Validation.DocumentReferences
 			}
 		}
 
-		private static bool MustValidate(DocumentReference documentReference)
-		{
-			return documentReference.HigherDocument != null &&
-				   documentReference.LowerDocument != null;
-		}
+		private static bool MustValidate(DocumentReference documentReference) => documentReference.HigherDocument != null &&
+		                                                                         documentReference.LowerDocument != null;
 	}
 }

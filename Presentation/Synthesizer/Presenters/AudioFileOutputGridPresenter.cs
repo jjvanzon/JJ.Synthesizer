@@ -20,22 +20,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
 		}
 
-		protected override Document GetEntity(AudioFileOutputGridViewModel userInput)
-		{
-			return _documentRepository.Get(userInput.DocumentID);
-		}
+		protected override Document GetEntity(AudioFileOutputGridViewModel userInput) => _documentRepository.Get(userInput.DocumentID);
 
-		protected override AudioFileOutputGridViewModel ToViewModel(Document entity)
-		{
-			return entity.ToAudioFileOutputGridViewModel();
-		}
+	    protected override AudioFileOutputGridViewModel ToViewModel(Document entity) => entity.ToAudioFileOutputGridViewModel();
 
-		public AudioFileOutputGridViewModel Delete(AudioFileOutputGridViewModel userInput, int id)
-		{
-			return ExecuteAction(userInput, _ => _audioFileOutputFacade.Delete(id));
-		}
+	    public AudioFileOutputGridViewModel Delete(AudioFileOutputGridViewModel userInput, int id) => ExecuteAction(userInput, _ => _audioFileOutputFacade.Delete(id));
 
-		public AudioFileOutputGridViewModel Create(AudioFileOutputGridViewModel userInput)
+	    public AudioFileOutputGridViewModel Create(AudioFileOutputGridViewModel userInput)
 		{
 			AudioFileOutput audioFileOutput = null;
 			return ExecuteAction(

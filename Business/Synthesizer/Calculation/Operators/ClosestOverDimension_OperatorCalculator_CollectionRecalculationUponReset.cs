@@ -23,9 +23,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected override void ResetNonRecursive()
-		{
-			RecalculateCollection();
-		}
+		protected override void ResetNonRecursive() => RecalculateCollection();
 	}
 }

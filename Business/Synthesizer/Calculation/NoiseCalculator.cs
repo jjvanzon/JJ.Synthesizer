@@ -13,12 +13,9 @@ namespace JJ.Business.Synthesizer.Calculation
 	/// </summary>
 	internal class NoiseCalculator : ICalculatorWithPosition
 	{
-		public NoiseCalculator()
-		{
-			Reseed();
-		}
+		public NoiseCalculator() => Reseed();
 
-		private double _offset;
+	    private double _offset;
 
 		/// <summary>
 		/// Block interpolation should be enough,
@@ -34,9 +31,6 @@ namespace JJ.Business.Synthesizer.Calculation
 			return _arrayCalculator.Calculate(transformedTime);
 		}
 
-		public void Reseed()
-		{
-			_offset = NoiseCalculatorHelper.GenerateOffset();
-		}
+		public void Reseed() => _offset = NoiseCalculatorHelper.GenerateOffset();
 	}
 }

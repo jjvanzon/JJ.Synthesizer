@@ -102,12 +102,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 		{
 			if (parentForm == null) throw new NullException(() => parentForm);
 
-			parentForm.BeginInvoke(
-				new Action(
-					() =>
-					{
-						MessageBox.Show(text);
-					}));
+			parentForm.BeginInvoke(new Action(() => MessageBox.Show(text)));
 		}
 
 		public static void ShowPopupMessages(Form parentForm, IList<string> popupMessages)

@@ -37,9 +37,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			_addCalculator = new Add_OperatorCalculator(dimensionToOutletsCalculators);
 		}
 
-		public override double Calculate()
-		{
-			return _addCalculator.Calculate();
-		}
+		public override double Calculate() => _addCalculator.Calculate();
 	}
 }

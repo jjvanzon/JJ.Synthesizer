@@ -20,30 +20,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_scaleFacade = scaleFacade ?? throw new ArgumentNullException(nameof(scaleFacade));
 		}
 
-		protected override Scale GetEntity(ScalePropertiesViewModel userInput)
-		{
-			return _scaleRepository.Get(userInput.Entity.ID);
-		}
+		protected override Scale GetEntity(ScalePropertiesViewModel userInput) => _scaleRepository.Get(userInput.Entity.ID);
 
-		protected override ScalePropertiesViewModel ToViewModel(Scale entity)
-		{
-			return entity.ToPropertiesViewModel();
-		}
+	    protected override ScalePropertiesViewModel ToViewModel(Scale entity) => entity.ToPropertiesViewModel();
 
-		protected override IResult Save(Scale entity, ScalePropertiesViewModel userInput)
-		{
-			return _scaleFacade.SaveWithoutTones(entity);
-		}
+	    protected override IResult Save(Scale entity, ScalePropertiesViewModel userInput) => _scaleFacade.SaveWithoutTones(entity);
 
-		public ScalePropertiesViewModel Delete(ScalePropertiesViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				entity =>
-				{
-					_scaleFacade.DeleteWithRelatedEntities(entity);
-					return null;
-				});
-		}
+	    public ScalePropertiesViewModel Delete(ScalePropertiesViewModel userInput) => ExecuteAction(
+	        userInput,
+	        entity =>
+	        {
+	            _scaleFacade.DeleteWithRelatedEntities(entity);
+	            return null;
+	        });
 	}
 }

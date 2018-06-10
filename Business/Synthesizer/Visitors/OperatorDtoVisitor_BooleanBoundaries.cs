@@ -38,28 +38,25 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected override IOperatorDto Visit_If_OperatorDto(If_OperatorDto dto)
 			=> ProcessIf(dto);
 
-		protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto)
+		protected override IOperatorDto Visit_OperatorDto_Polymorphic(IOperatorDto dto) => WithAlreadyProcessedCheck(dto, () =>
 		{
-			return WithAlreadyProcessedCheck(dto, () =>
-			{
-				dto = base.Visit_OperatorDto_Polymorphic(dto);
+		    dto = base.Visit_OperatorDto_Polymorphic(dto);
 
-				// ReSharper disable once InvertIf
-				if (dto.OperatorTypeEnum != OperatorTypeEnum.And &&
-					dto.OperatorTypeEnum != OperatorTypeEnum.Or &&
-					dto.OperatorTypeEnum != OperatorTypeEnum.If &&
-					dto.OperatorTypeEnum != OperatorTypeEnum.Not &&
-					dto.OperatorTypeEnum != OperatorTypeEnum.BooleanToDouble &&
-					dto.OperatorTypeEnum != OperatorTypeEnum.DoubleToBoolean)
-				{
-					dto.Inputs = dto.Inputs.Select(TryInsertBooleanToDouble).ToList();
-				}
+		    // ReSharper disable once InvertIf
+		    if (dto.OperatorTypeEnum != OperatorTypeEnum.And &&
+		        dto.OperatorTypeEnum != OperatorTypeEnum.Or &&
+		        dto.OperatorTypeEnum != OperatorTypeEnum.If &&
+		        dto.OperatorTypeEnum != OperatorTypeEnum.Not &&
+		        dto.OperatorTypeEnum != OperatorTypeEnum.BooleanToDouble &&
+		        dto.OperatorTypeEnum != OperatorTypeEnum.DoubleToBoolean)
+		    {
+		        dto.Inputs = dto.Inputs.Select(TryInsertBooleanToDouble).ToList();
+		    }
 
-				return dto;
-			});
-		}
+		    return dto;
+		});
 
-		// Process
+	    // Process
 
 		private IOperatorDto ProcessIf(If_OperatorDto dto)
 		{
@@ -90,12 +87,9 @@ namespace JJ.Business.Synthesizer.Visitors
 			return inputDto;
 		}
 
-		private static InputDto InsertDoubleToBoolean(InputDto inputDto)
-		{
-			return new DoubleToBoolean_OperatorDto { Number = inputDto };
-		}
+		private static InputDto InsertDoubleToBoolean(InputDto inputDto) => new DoubleToBoolean_OperatorDto { Number = inputDto };
 
-		private InputDto TryInsertBooleanToDouble(InputDto inputDto)
+	    private InputDto TryInsertBooleanToDouble(InputDto inputDto)
 		{
 			bool mustConvert = OutputIsAlwaysBoolean(inputDto);
 			if (mustConvert)
@@ -106,17 +100,11 @@ namespace JJ.Business.Synthesizer.Visitors
 			return inputDto;
 		}
 
-		private static IOperatorDto InsertBooleanToDouble(IOperatorDto inputOperatorDto)
-		{
-			return new BooleanToDouble_OperatorDto { Input = InputDtoFactory.CreateInputDto(inputOperatorDto) };
-		}
+		private static IOperatorDto InsertBooleanToDouble(IOperatorDto inputOperatorDto) => new BooleanToDouble_OperatorDto { Input = InputDtoFactory.CreateInputDto(inputOperatorDto) };
 
-		private static InputDto InsertBooleanToDouble(InputDto inputDto)
-		{
-			return new BooleanToDouble_OperatorDto { Input = inputDto };
-		}
+	    private static InputDto InsertBooleanToDouble(InputDto inputDto) => new BooleanToDouble_OperatorDto { Input = inputDto };
 
-		private static bool OutputIsAlwaysBoolean(InputDto inputDto)
+	    private static bool OutputIsAlwaysBoolean(InputDto inputDto)
 		{
 			if (!inputDto.IsVar)
 			{

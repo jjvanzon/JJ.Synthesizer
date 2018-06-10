@@ -185,12 +185,9 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static double ScaleLinearly(double input, double sourceValueA, double targetValueA, double slope)
-		{
-			return (input - sourceValueA) * slope + targetValueA;
-		}
+		public static double ScaleLinearly(double input, double sourceValueA, double targetValueA, double slope) => (input - sourceValueA) * slope + targetValueA;
 
-		/// <summary> Equally spreads out a number indices over a different number of indices. </summary>
+	    /// <summary> Equally spreads out a number indices over a different number of indices. </summary>
 		public static Dictionary<int, int> SpreadIntegers(int sourceIndex1, int sourceIndex2, int destIndex1, int destIndex2)
 		{
 			// TODO: There seem to be a lot of repeated principles here, compared to the overload that takes 2 int's.

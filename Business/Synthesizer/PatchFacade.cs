@@ -42,12 +42,9 @@ namespace JJ.Business.Synthesizer
 
 		// Constructors
 
-		public PatchFacade(RepositoryWrapper repositories)
-		{
-			_repositories = repositories ?? throw new NullException(() => repositories);
-		}
+		public PatchFacade(RepositoryWrapper repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
 
-		// Create
+	    // Create
 
 		/// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>
 		public Patch CreatePatch(Document document = null)

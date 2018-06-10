@@ -397,17 +397,11 @@ namespace JJ.Business.Synthesizer.Visitors
 
 		// Special Visitation
 
-		protected override void InsertNumber(double number)
-		{
-			_stack.Push(new Number_OperatorDto { Number = number });
-		}
+		protected override void InsertNumber(double number) => _stack.Push(new Number_OperatorDto { Number = number });
 
-		protected override void InsertEmptyInput()
-		{
-			_stack.Push(null);
-		}
+	    protected override void InsertEmptyInput() => _stack.Push(null);
 
-		/// <summary> As soon as you encounter a Derived Operator's Outlet, the evaluation has to take a completely different course. </summary>
+	    /// <summary> As soon as you encounter a Derived Operator's Outlet, the evaluation has to take a completely different course. </summary>
 		protected override void VisitDerivedOperatorOutlet(Outlet customOperatorOutlet)
 		{
 			// NOTE: Do not try to separate this concept into a different visitor class.

@@ -15,11 +15,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 		/// <inheritdoc />
 		public Tone_SideEffect_SetDefaults_BaseWithToneValueArray(Tone tone, Tone previousTone, double[] toneValues)
 			: base(tone, previousTone)
-		{
-			_toneValues = toneValues ?? throw new ArgumentNullException(nameof(toneValues));
-		}
+		    => _toneValues = toneValues ?? throw new ArgumentNullException(nameof(toneValues));
 
-		public override void Execute()
+	    public override void Execute()
 		{
 			if (_previousTone != null)
 			{

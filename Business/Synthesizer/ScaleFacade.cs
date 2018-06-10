@@ -25,12 +25,9 @@ namespace JJ.Business.Synthesizer
 		private readonly ToneToDtoConverter _toneToDtoConverter = new ToneToDtoConverter();
 		private readonly ToneCalculator _toneCalculator = new ToneCalculator();
 
-		public ScaleFacade(ScaleRepositories repositories)
-		{
-			_repositories = repositories ?? throw new NullException(() => repositories);
-		}
+		public ScaleFacade(ScaleRepositories repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
 
-		// Create
+	    // Create
 
 		public Scale Create(Document document, ScaleTypeEnum scaleTypeEnum = default)
 		{

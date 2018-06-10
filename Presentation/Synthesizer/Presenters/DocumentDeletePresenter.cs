@@ -92,9 +92,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void Cancel(DocumentDeleteViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
-		}
+		public void Cancel(DocumentDeleteViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 	}
 }

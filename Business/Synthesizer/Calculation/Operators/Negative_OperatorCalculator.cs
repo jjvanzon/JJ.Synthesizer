@@ -9,11 +9,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 		public Negative_OperatorCalculator(OperatorCalculatorBase numberCalculator)
 			: base(new[] { numberCalculator })
-		{
-			_numberCalculator = numberCalculator ?? throw new NullException(() => numberCalculator);
-		}
+		    => _numberCalculator = numberCalculator ?? throw new NullException(() => numberCalculator);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate()
 		{
 			double number = _numberCalculator.Calculate();

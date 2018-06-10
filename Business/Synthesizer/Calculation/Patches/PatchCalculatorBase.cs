@@ -48,23 +48,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 			return value;
 		}
 
-		public virtual void SetValue(int position, double value)
-		{
-			_position_To_Value_Dictionary[position] = value;
-		}
+		public virtual void SetValue(int position, double value) => _position_To_Value_Dictionary[position] = value;
 
-		public double GetValue(DimensionEnum dimensionEnum)
+	    public double GetValue(DimensionEnum dimensionEnum)
 		{
 			_dimensionEnum_To_Value_Dictionary.TryGetValue(dimensionEnum, out double value);
 			return value;
 		}
 
-		public virtual void SetValue(DimensionEnum dimensionEnum, double value)
-		{
-			_dimensionEnum_To_Value_Dictionary[dimensionEnum] = value;
-		}
+		public virtual void SetValue(DimensionEnum dimensionEnum, double value) => _dimensionEnum_To_Value_Dictionary[dimensionEnum] = value;
 
-		public double GetValue(string name)
+	    public double GetValue(string name)
 		{
 			string canonicalName = NameHelper.ToCanonical(name);
 

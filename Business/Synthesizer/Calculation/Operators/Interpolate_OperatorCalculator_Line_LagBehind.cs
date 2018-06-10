@@ -14,11 +14,9 @@
 			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
-		{
-			ResetNonRecursive();
-		}
+		    => ResetNonRecursive();
 
-		protected override void Precalculate()
+	    protected override void Precalculate()
 		{
 			double dy = _y1 - _y0;
 			_a = dy / Dx();

@@ -59,9 +59,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected override void FinalizeSampling()
-		{
-			Array.Sort(_samples);
-		}
+		protected override void FinalizeSampling() => Array.Sort(_samples);
 	}
 }

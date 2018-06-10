@@ -14,12 +14,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 	{
 		private readonly Operator _entity;
 
-		public Operator_SideEffect_GeneratePatchOutletPosition(Operator entity)
-		{
-			_entity = entity ?? throw new NullException(() => entity);
-		}
+		public Operator_SideEffect_GeneratePatchOutletPosition(Operator entity) => _entity = entity ?? throw new NullException(() => entity);
 
-		public void Execute()
+	    public void Execute()
 		{
 			if (_entity.Patch == null) throw new NullException(() => _entity.Patch);
 

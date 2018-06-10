@@ -137,44 +137,25 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
-		{
-			return ProcessMultiVarOperator(dto, PLUS_SYMBOL);
-		}
+		protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto) => ProcessMultiVarOperator(dto, PLUS_SYMBOL);
 
-		protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetAllPassFilterVariables));
-		}
+	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetAllPassFilterVariables));
 
-		protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
-		}
+	    protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-		protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto)
-		{
-			return ProcessBinaryBoolOperator(dto, AND_SYMBOL);
-		}
+	    protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => ProcessBinaryBoolOperator(dto, AND_SYMBOL);
 
-		protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			AverageOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			AverageOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
+	    protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
 		{
 			IList<string> items = dto.Inputs.Select(GetLiteralFromInputDto).ToArray();
 			string sum = GetVariableName(nameof(sum));
@@ -191,29 +172,21 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
-		}
+		    => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-		protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables));
-		}
+	        => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantPeakGainVariables));
 
-		protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst(
+	    protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst(
 			BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
-		}
+	        => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-		protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar(
+	    protected override IOperatorDto Visit_BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar(
 			BandPassFilterConstantTransitionGain_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
-		}
+	        => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetBandPassFilterConstantTransitionGainVariables));
 
-		protected override IOperatorDto Visit_BooleanToDouble_OperatorDto(BooleanToDouble_OperatorDto dto)
+	    protected override IOperatorDto Visit_BooleanToDouble_OperatorDto(BooleanToDouble_OperatorDto dto)
 		{
 			string input = GetLiteralFromInputDto(dto.Input);
 			string output = GetVariableName(dto.OperatorTypeEnum);
@@ -224,96 +197,49 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto)
-		{
-			throw new NotImplementedException();
-		}
+		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Cubic(Cache_OperatorDto_MultiChannel_Cubic dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Cubic(Cache_OperatorDto_MultiChannel_Cubic dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Hermite(Cache_OperatorDto_MultiChannel_Hermite dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Hermite(Cache_OperatorDto_MultiChannel_Hermite dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Line(Cache_OperatorDto_MultiChannel_Line dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Line(Cache_OperatorDto_MultiChannel_Line dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Stripe(Cache_OperatorDto_MultiChannel_Stripe dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Stripe(Cache_OperatorDto_MultiChannel_Stripe dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Block(Cache_OperatorDto_SingleChannel_Block dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Block(Cache_OperatorDto_SingleChannel_Block dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Cubic(Cache_OperatorDto_SingleChannel_Cubic dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Cubic(Cache_OperatorDto_SingleChannel_Cubic dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Hermite(Cache_OperatorDto_SingleChannel_Hermite dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Hermite(Cache_OperatorDto_SingleChannel_Hermite dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Line(Cache_OperatorDto_SingleChannel_Line dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Line(Cache_OperatorDto_SingleChannel_Line dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Stripe(Cache_OperatorDto_SingleChannel_Stripe dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Stripe(Cache_OperatorDto_SingleChannel_Stripe dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_ChangeTrigger_OperatorDto(ChangeTrigger_OperatorDto dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			ClosestOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			ClosestOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous(
 			ClosestOverDimensionExp_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset(
 			ClosestOverDimensionExp_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
-		{
-			return Process_ClosestOverInlets(dto, isExp: false);
-		}
+	    protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto) => Process_ClosestOverInlets(dto, isExp: false);
 
-		protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
-		{
-			return Process_ClosestOverInlets(dto, isExp: true);
-		}
+	    protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto) => Process_ClosestOverInlets(dto, isExp: true);
 
-		private IOperatorDto Process_ClosestOverInlets(ClosestOverInlets_OperatorDto dto, bool isExp)
+	    private IOperatorDto Process_ClosestOverInlets(ClosestOverInlets_OperatorDto dto, bool isExp)
 		{
 			string input = GetLiteralFromInputDto(dto.Input);
 			IList<string> items = dto.Items.Select(GetLiteralFromInputDto).ToArray();
@@ -412,12 +338,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto)
-		{
-			return ProcessBinaryDoubleOperator(dto, DIVIDE_SYMBOL);
-		}
+		protected override IOperatorDto Visit_Divide_OperatorDto(Divide_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, DIVIDE_SYMBOL);
 
-		protected override IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto)
+	    protected override IOperatorDto Visit_DoubleToBoolean_OperatorDto(DoubleToBoolean_OperatorDto dto)
 		{
 			string number = GetLiteralFromInputDto(dto.Number);
 			string output = GetVariableName(dto.OperatorTypeEnum);
@@ -428,42 +351,21 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto)
-		{
-			return ProcessBinaryBoolOperator(dto, EQUALS_SYMBOL);
-		}
+		protected override IOperatorDto Visit_Equal_OperatorDto(Equal_OperatorDto dto) => ProcessBinaryBoolOperator(dto, EQUALS_SYMBOL);
 
-		protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto)
-		{
-			return ProcessBinaryBoolOperator(dto, GREATER_THAN_SYMBOL);
-		}
+	    protected override IOperatorDto Visit_GreaterThan_OperatorDto(GreaterThan_OperatorDto dto) => ProcessBinaryBoolOperator(dto, GREATER_THAN_SYMBOL);
 
-		protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto)
-		{
-			return ProcessBinaryBoolOperator(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
-		}
+	    protected override IOperatorDto Visit_GreaterThanOrEqual_OperatorDto(GreaterThanOrEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, GREATER_THAN_OR_EQUAL_SYMBOL);
 
-		protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetHighPassFilterVariables));
-		}
+	    protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetHighPassFilterVariables));
 
-		protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
-		}
+	    protected override IOperatorDto Visit_HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-		protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetHighShelfFilterVariables));
-		}
+	    protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetHighShelfFilterVariables));
 
-		protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
-		}
+	    protected override IOperatorDto Visit_HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(HighShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-		protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto)
+	    protected override IOperatorDto Visit_Hold_OperatorDto(Hold_OperatorDto dto)
 		{
 			// The calculate procedure should only use the held variable. 
 			// The Reset procedure should do a calculation of that held variable. 
@@ -515,17 +417,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
-		{
-			return Process_InletsToDimension(dto, isStripe: false);
-		}
+		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto) => Process_InletsToDimension(dto, isStripe: false);
 
-		protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
-		{
-			return Process_InletsToDimension(dto, isStripe: true);
-		}
+	    protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto) => Process_InletsToDimension(dto, isStripe: true);
 
-		// ReSharper disable once SuggestBaseTypeForParameter
+	    // ReSharper disable once SuggestBaseTypeForParameter
 		private IOperatorDto Process_InletsToDimension(InletsToDimension_OperatorDto dto, bool isStripe)
 		{
 			string position = GetLiteralFromInputDto(dto.Position);
@@ -571,47 +467,23 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto)
-		{
-			throw new NotImplementedException();
-		}
+		protected override IOperatorDto Visit_Interpolate_OperatorDto_Block(Interpolate_OperatorDto_Block dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Cubic_LagBehind(Interpolate_OperatorDto_Cubic_LagBehind dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Hermite_LagBehind(Interpolate_OperatorDto_Hermite_LagBehind dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind(Interpolate_OperatorDto_Line_LagBehind dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Line_LagBehind(Interpolate_OperatorDto_Line_LagBehind dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Interpolate_OperatorDto_Stripe_LagBehind(Interpolate_OperatorDto_Stripe_LagBehind dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto)
-		{
-			return ProcessBinaryBoolOperator(dto, LESS_THAN_SYMBOL);
-		}
+	    protected override IOperatorDto Visit_LessThan_OperatorDto(LessThan_OperatorDto dto) => ProcessBinaryBoolOperator(dto, LESS_THAN_SYMBOL);
 
-		protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto)
-		{
-			return ProcessBinaryBoolOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
-		}
+	    protected override IOperatorDto Visit_LessThanOrEqual_OperatorDto(LessThanOrEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, LESS_THAN_OR_EQUAL_SYMBOL);
 
-		protected override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto)
-		{
-			return Process_Loop_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Loop_OperatorDto(Loop_OperatorDto dto) => Process_Loop_OperatorDto(dto);
 
-		private IOperatorDto Process_Loop_OperatorDto(Loop_OperatorDto dto)
+	    private IOperatorDto Process_Loop_OperatorDto(Loop_OperatorDto dto)
 		{
 			string output = GetVariableName(dto.OperatorTypeEnum);
 			string sourcePosition = GetLiteralFromInputDto(dto.Position);
@@ -767,44 +639,25 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables));
-		}
+		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetLowPassFilterVariables));
 
-		protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
-		}
+	    protected override IOperatorDto Visit_LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-		protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetLowShelfFilterVariables));
-		}
+	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetLowShelfFilterVariables));
 
-		protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
-		}
+	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-		protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			MaxOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			MaxOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
+	    protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
 		{
 			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (dto.Inputs.Count == 2)
@@ -818,24 +671,17 @@ namespace JJ.Business.Synthesizer.Roslyn
 			}
 		}
 
-		protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
-		{
-			throw new NotImplementedException();
-		}
+		protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			MinOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			MinOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
+	    protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
 		{
 			// ReSharper disable once ConvertIfStatementToReturnStatement
 			if (dto.Inputs.Count == 2)
@@ -849,12 +695,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 			}
 		}
 
-		protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
-		{
-			return ProcessMultiVarOperator(dto, MULTIPLY_SYMBOL);
-		}
+		protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto) => ProcessMultiVarOperator(dto, MULTIPLY_SYMBOL);
 
-		protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
+	    protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
 		{
 			string number = GetLiteralFromInputDto(dto.Number);
 			string output = GetVariableName(dto.OperatorTypeEnum);
@@ -897,44 +740,26 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetNotchFilterVariables));
-		}
+		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetNotchFilterVariables));
 
-		protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
-		}
+	    protected override IOperatorDto Visit_NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(NotchFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-		protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto)
-		{
-			return ProcessBinaryBoolOperator(dto, NOT_EQUAL_SYMBOL);
-		}
+	    protected override IOperatorDto Visit_NotEqual_OperatorDto(NotEqual_OperatorDto dto) => ProcessBinaryBoolOperator(dto, NOT_EQUAL_SYMBOL);
 
-		protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
+	    protected override IOperatorDto Visit_Number_OperatorDto(Number_OperatorDto dto)
 		{
 			_stack.Push(CompilationHelper.FormatValue(dto.Number));
 
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto)
-		{
-			return ProcessBinaryBoolOperator(dto, OR_SYMBOL);
-		}
+		protected override IOperatorDto Visit_Or_OperatorDto(Or_OperatorDto dto) => ProcessBinaryBoolOperator(dto, OR_SYMBOL);
 
-		protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetPeakingEQFilterVariables));
-		}
+	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsVar dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsVar(dto, nameof(BiQuadFilterWithoutFields.SetPeakingEQFilterVariables));
 
-		protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
-		{
-			return Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
-		}
+	    protected override IOperatorDto Visit_PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(PeakingEQFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-		protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
+	    protected override IOperatorDto Visit_Power_OperatorDto(Power_OperatorDto dto)
 		{
 			string @base = GetLiteralFromInputDto(dto.Base);
 			string exponent = GetLiteralFromInputDto(dto.Exponent);
@@ -947,22 +772,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto)
-		{
-			throw new NotImplementedException();
-		}
+		protected override IOperatorDto Visit_PulseTrigger_OperatorDto(PulseTrigger_OperatorDto dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto)
-		{
-			return Process_Random_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Random_OperatorDto_Block(Random_OperatorDto_Block dto) => Process_Random_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto)
-		{
-			return Process_Random_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Random_OperatorDto_Stripe_LagBehind(Random_OperatorDto_Stripe_LagBehind dto) => Process_Random_OperatorDto(dto);
 
-		private IOperatorDto Process_Random_OperatorDto(Random_OperatorDto dto)
+	    private IOperatorDto Process_Random_OperatorDto(Random_OperatorDto dto)
 		{
 			string rate = GetLiteralFromInputDto(dto.Rate);
 			string output = GetVariableName(dto.OperatorTypeEnum);
@@ -1162,17 +978,11 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto)
-		{
-			return ProcessBinaryDoubleOperator(dto, REMAINDER_SYMBOL);
-		}
+		protected override IOperatorDto Visit_Remainder_OperatorDto(Remainder_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, REMAINDER_SYMBOL);
 
-		protected override IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_Reset_OperatorDto(Reset_OperatorDto dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Round_OperatorDto_StepOne_ZeroOffset(Round_OperatorDto_StepOne_ZeroOffset dto)
+	    protected override IOperatorDto Visit_Round_OperatorDto_StepOne_ZeroOffset(Round_OperatorDto_StepOne_ZeroOffset dto)
 		{
 			string signal = GetLiteralFromInputDto(dto.Signal);
 			string output = GetVariableName(dto.OperatorTypeEnum);
@@ -1302,17 +1112,13 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			SortOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			throw new NotImplementedException();
-		}
+		    => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_SortOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			SortOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
+	    protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
 		{
 			string position = GetLiteralFromInputDto(dto.Position);
 			string items = GetLongLivedDoubleArrayVariableName(dto.Inputs.Count);
@@ -1349,12 +1155,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, output);
 		}
 
-		protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
-		{
-			throw new NotImplementedException();
-		}
+		protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto)
+	    protected override IOperatorDto Visit_Squash_OperatorDto_WithOrigin(Squash_OperatorDto_WithOrigin dto)
 		{
 			string factor = GetLiteralFromInputDto(dto.Factor);
 			string origin = GetLiteralFromInputDto(dto.Origin);
@@ -1416,34 +1219,21 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return GenerateOperatorWrapUp(dto, destPosition);
 		}
 
-		protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto)
-		{
-			return ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
-		}
+		protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
 
-		protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(
+	    protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(
+	    protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationUponReset(
 			SumOverDimension_OperatorDto_CollectionRecalculationUponReset dto)
-		{
-			throw new NotImplementedException();
-		}
+	        => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto)
-		{
-			throw new NotImplementedException();
-		}
+	    protected override IOperatorDto Visit_ToggleTrigger_OperatorDto(ToggleTrigger_OperatorDto dto) => throw new NotImplementedException();
 
-		protected override IOperatorDto Visit_TriangleWithRate1_OperatorDto(TriangleWithRate1_OperatorDto dto)
+	    protected override IOperatorDto Visit_TriangleWithRate1_OperatorDto(TriangleWithRate1_OperatorDto dto)
 		{
 			string position = GetLiteralFromInputDto(dto.Position);
 

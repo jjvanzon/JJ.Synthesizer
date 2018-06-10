@@ -25,11 +25,9 @@ namespace GeneratedCSharp
 			int channelIndex,
 			Dictionary<string, ArrayDto> arrayDtoDictionary)
 			: base(samplingRate, channelCount, channelIndex)
-		{
-			Reset(time: 0.0);
-		}
+		    => Reset(time: 0.0);
 
-		// Calculate
+	    // Calculate
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override void Calculate(float[] buffer, int frameCount, double startTime)
@@ -156,13 +154,9 @@ namespace GeneratedCSharp
 
 		// Values
 
-		public override void SetValue(int position, double value)
-		{
-			base.SetValue(position, value);
+		public override void SetValue(int position, double value) => base.SetValue(position, value);
 
-		}
-
-		public override void SetValue(DimensionEnum dimensionEnum, double value)
+	    public override void SetValue(DimensionEnum dimensionEnum, double value)
 		{
 			base.SetValue(dimensionEnum, value);
 

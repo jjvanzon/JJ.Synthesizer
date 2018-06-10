@@ -5,33 +5,22 @@ using JJ.Business.SynthesizerPrototype.WithStructs.Helpers;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 {
-	[DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
-	public struct Sine_OperatorCalculator_ConstFrequency_NoOriginShifting : IOperatorCalculator
-	{
-		private double _frequency;
-		public double Frequency
-		{
-			get { return _frequency; }
-			set { _frequency = value; }
-		}
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + "}")]
+    public struct Sine_OperatorCalculator_ConstFrequency_NoOriginShifting : IOperatorCalculator
+    {
+        public double Frequency { get; set; }
 
-		private DimensionStack _dimensionStack;
-		public DimensionStack DimensionStack
-		{
-			get { return _dimensionStack; }
-			set { _dimensionStack = value; }
-		}
+        public DimensionStack DimensionStack { get; set; }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public double Calculate()
-		{
-			double position = _dimensionStack.Get();
-			double value = SineCalculator.Sin(position * _frequency);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double Calculate()
+        {
+            double position = DimensionStack.Get();
+            double value = SineCalculator.Sin(position * Frequency);
 
-			return value;
-		}
+            return value;
+        }
 
-		private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
-
-	}
+        private string DebuggerDisplay => DebugHelper.GetDebuggerDisplay(this);
+    }
 }

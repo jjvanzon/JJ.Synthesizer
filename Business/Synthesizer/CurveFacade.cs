@@ -26,12 +26,9 @@ namespace JJ.Business.Synthesizer
 	{
 		private readonly CurveRepositories _repositories;
 
-		public CurveFacade(CurveRepositories repositories)
-		{
-			_repositories = repositories ?? throw new NullException(() => repositories);
-		}
+		public CurveFacade(CurveRepositories repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
 
-		// Create
+	    // Create
 
 		// About the overloads:
 		// You would think you want to generate a Curve name any time you can.
@@ -261,12 +258,9 @@ namespace JJ.Business.Synthesizer
 		// Misc
 
 		/// <summary> Faster initialization, slower calculation. </summary>
-		public ICalculatorWithPosition CreateInterpretedCalculator(Curve curve)
-		{
-			return new InterpretedCurveCalculator(curve);
-		}
+		public ICalculatorWithPosition CreateInterpretedCalculator(Curve curve) => new InterpretedCurveCalculator(curve);
 
-		/// <summary> Slower initialization, faster calculation. </summary>
+	    /// <summary> Slower initialization, faster calculation. </summary>
 		// ReSharper disable once UnusedMember.Global
 		public ICalculatorWithPosition CreateOptimizedCalculator(Curve curve)
 		{

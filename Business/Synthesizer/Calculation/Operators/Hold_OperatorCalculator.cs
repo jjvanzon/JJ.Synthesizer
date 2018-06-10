@@ -19,16 +19,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate() => _value;
 
-		public override void Reset()
-		{
-			ResetPrivate();
+		public override void Reset() => ResetPrivate();
 
-			// Do not call base.Reset,
-			// because the Hold operator is special,
-			// in that it does not reset the calculation,
-			// but gets a value from it upon reset.
-		}
-
-		private void ResetPrivate() => _value = _signalCalculator.Calculate();
+	    private void ResetPrivate() => _value = _signalCalculator.Calculate();
 	}
 }

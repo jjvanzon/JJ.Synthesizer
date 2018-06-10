@@ -10,12 +10,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 	{
 		private readonly Patch _entity;
 
-		public Patch_SideEffect_GenerateName(Patch entity)
-		{
-			_entity = entity ?? throw new NullException(() => entity);
-		}
+		public Patch_SideEffect_GenerateName(Patch entity) => _entity = entity ?? throw new NullException(() => entity);
 
-		public void Execute()
+	    public void Execute()
 		{
 			bool mustExecute = _entity.Document != null;
 			// ReSharper disable once InvertIf

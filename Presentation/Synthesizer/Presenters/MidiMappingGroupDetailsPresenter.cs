@@ -23,28 +23,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
-		protected override MidiMappingGroup GetEntity(MidiMappingGroupDetailsViewModel userInput)
-		{
-			return _repositories.MidiMappingGroupRepository.Get(userInput.MidiMappingGroup.ID);
-		}
+		protected override MidiMappingGroup GetEntity(MidiMappingGroupDetailsViewModel userInput) => _repositories.MidiMappingGroupRepository.Get(userInput.MidiMappingGroup.ID);
 
-		protected override MidiMappingGroupDetailsViewModel ToViewModel(MidiMappingGroup entity)
-		{
-			return entity.ToDetailsViewModel();
-		}
+	    protected override MidiMappingGroupDetailsViewModel ToViewModel(MidiMappingGroup entity) => entity.ToDetailsViewModel();
 
-		protected override IResult Save(MidiMappingGroup entity, MidiMappingGroupDetailsViewModel userInput)
-		{
-			return _midiMappingFacade.SaveMidiMappingGroup(entity);
-		}
+	    protected override IResult Save(MidiMappingGroup entity, MidiMappingGroupDetailsViewModel userInput) => _midiMappingFacade.SaveMidiMappingGroup(entity);
 
-		public MidiMappingGroupDetailsViewModel CreateMidiMapping(MidiMappingGroupDetailsViewModel userInput)
+	    public MidiMappingGroupDetailsViewModel CreateMidiMapping(MidiMappingGroupDetailsViewModel userInput)
 		{
 			MidiMapping newMidiMapping = null;
 
 			return ExecuteAction(
 				userInput,
-				entity => { newMidiMapping = _midiMappingFacade.CreateMidiMappingWithDefaults(entity); },
+				entity => newMidiMapping = _midiMappingFacade.CreateMidiMappingWithDefaults(entity),
 				viewModel => viewModel.CreatedMidiMappingID = newMidiMapping.ID);
 		}
 
@@ -98,26 +89,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			int midiMappingID,
 			float centerX,
 			float centerY)
-		{
-			return ExecuteAction(
-				userInput,
-				x =>
-				{
-					// GetEntity
-					MidiMapping midiMapping = _repositories.MidiMappingRepository.Get(midiMappingID);
+		    => ExecuteAction(
+		        userInput,
+		        x =>
+		        {
+		            // GetEntity
+		            MidiMapping midiMapping = _repositories.MidiMappingRepository.Get(midiMappingID);
 
-					// Business
-					midiMapping.EntityPosition.X = centerX;
-					midiMapping.EntityPosition.Y = centerY;
-				});
-		}
+		            // Business
+		            midiMapping.EntityPosition.X = centerX;
+		            midiMapping.EntityPosition.Y = centerY;
+		        });
 
-		public void SelectMidiMapping(MidiMappingGroupDetailsViewModel viewModel, int operatorID)
-		{
-			ExecuteNonPersistedAction(viewModel, () => SetSelectedMidiMapping(viewModel, operatorID));
-		}
+	    public void SelectMidiMapping(MidiMappingGroupDetailsViewModel viewModel, int operatorID) => ExecuteNonPersistedAction(viewModel, () => SetSelectedMidiMapping(viewModel, operatorID));
 
-		// Helpers
+	    // Helpers
 
 		private void SetSelectedMidiMapping(MidiMappingGroupDetailsViewModel viewModel, int operatorID)
 		{

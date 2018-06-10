@@ -20,24 +20,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_curveFacade = curveFacade ?? throw new ArgumentNullException(nameof(curveFacade));
 		}
 
-		protected override Node GetEntity(NodePropertiesViewModel userInput)
-		{
-			return _nodeRepository.Get(userInput.Entity.ID);
-		}
+		protected override Node GetEntity(NodePropertiesViewModel userInput) => _nodeRepository.Get(userInput.Entity.ID);
 
-		protected override NodePropertiesViewModel ToViewModel(Node entity)
-		{
-			return entity.ToPropertiesViewModel();
-		}
+	    protected override NodePropertiesViewModel ToViewModel(Node entity) => entity.ToPropertiesViewModel();
 
-		protected override IResult Save(Node entity, NodePropertiesViewModel userInput)
-		{
-			return _curveFacade.SaveNode(entity);
-		}
+	    protected override IResult Save(Node entity, NodePropertiesViewModel userInput) => _curveFacade.SaveNode(entity);
 
-		public NodePropertiesViewModel Delete(NodePropertiesViewModel userInput)
-		{
-			return ExecuteAction(userInput, entity => _curveFacade.DeleteNode(entity));
-		}
+	    public NodePropertiesViewModel Delete(NodePropertiesViewModel userInput) => ExecuteAction(userInput, entity => _curveFacade.DeleteNode(entity));
 	}
 }

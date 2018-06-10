@@ -10,12 +10,9 @@ namespace JJ.Business.Synthesizer.SideEffects
 	{
 		private readonly AudioFileOutput _entity;
 
-		public AudioFileOutput_SideEffect_GenerateName(AudioFileOutput entity)
-		{
-			_entity = entity ?? throw new NullException(() => entity);
-		}
+		public AudioFileOutput_SideEffect_GenerateName(AudioFileOutput entity) => _entity = entity ?? throw new NullException(() => entity);
 
-		public void Execute()
+	    public void Execute()
 		{
 			bool mustExecute = _entity.Document != null;
 			// ReSharper disable once InvertIf

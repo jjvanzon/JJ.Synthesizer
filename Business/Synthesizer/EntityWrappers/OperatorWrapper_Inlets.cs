@@ -13,12 +13,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 	{
 		private readonly Operator _operator;
 
-		internal OperatorWrapper_Inlets(Operator op)
-		{
-			_operator = op ?? throw new NullException(() => op);
-		}
+		internal OperatorWrapper_Inlets(Operator op) => _operator = op ?? throw new NullException(() => op);
 
-		// TODO: Composite keys Name-Position and DimensionEnum-Position have also become supported.
+	    // TODO: Composite keys Name-Position and DimensionEnum-Position have also become supported.
 
 		public Inlet this[string name] => InletOutletSelector.GetInlet(_operator, name);
 		public Inlet TryGet(string name) => InletOutletSelector.TryGetInlet(_operator, name);

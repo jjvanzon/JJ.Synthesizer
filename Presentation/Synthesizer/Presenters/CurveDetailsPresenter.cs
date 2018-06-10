@@ -24,27 +24,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_curveFacade = curveFacade ?? throw new ArgumentNullException(nameof(curveFacade));
 		}
 
-		protected override Curve GetEntity(CurveDetailsViewModel userInput)
-		{
-			return _curveRepository.Get(userInput.Curve.ID);
-		}
+		protected override Curve GetEntity(CurveDetailsViewModel userInput) => _curveRepository.Get(userInput.Curve.ID);
 
-		protected override IResult Save(Curve entity, CurveDetailsViewModel userInput)
-		{
-			return _curveFacade.SaveCurveWithRelatedEntities(entity);
-		}
+	    protected override IResult Save(Curve entity, CurveDetailsViewModel userInput) => _curveFacade.SaveCurveWithRelatedEntities(entity);
 
-		protected override CurveDetailsViewModel ToViewModel(Curve entity)
-		{
-			return entity.ToDetailsViewModel();
-		}
+	    protected override CurveDetailsViewModel ToViewModel(Curve entity) => entity.ToDetailsViewModel();
 
-		public void SelectNode(CurveDetailsViewModel viewModel, int nodeID)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeID = nodeID);
-		}
+	    public void SelectNode(CurveDetailsViewModel viewModel, int nodeID) => ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeID = nodeID);
 
-		public CurveDetailsViewModel CreateNode(CurveDetailsViewModel userInput)
+	    public CurveDetailsViewModel CreateNode(CurveDetailsViewModel userInput)
 		{
 			Node newNode = null;
 
@@ -68,79 +56,61 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel => viewModel.CreatedNodeID = newNode.ID);
 		}
 
-		public CurveDetailsViewModel ChangeSelectedNodeType(CurveDetailsViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				_ =>
-				{
-					// ViewModel Validation
-					if (!userInput.SelectedNodeID.HasValue)
-					{
-						return;
-					}
+		public CurveDetailsViewModel ChangeSelectedNodeType(CurveDetailsViewModel userInput) => ExecuteAction(
+		    userInput,
+		    _ =>
+		    {
+		        // ViewModel Validation
+		        if (!userInput.SelectedNodeID.HasValue)
+		        {
+		            return;
+		        }
 
-					// GetEntity
-					int nodeID = userInput.SelectedNodeID.Value;
-					Node node = _nodeRepository.Get(nodeID);
+		        // GetEntity
+		        int nodeID = userInput.SelectedNodeID.Value;
+		        Node node = _nodeRepository.Get(nodeID);
 
-					// Business
-					_curveFacade.RotateNodeType(node);
-				});
-		}
+		        // Business
+		        _curveFacade.RotateNodeType(node);
+		    });
 
-		public CurveDetailsViewModel DeleteSelectedNode(CurveDetailsViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				entity =>
-				{
-					// ViewModel Validation
-					if (!userInput.SelectedNodeID.HasValue)
-					{
-						return new VoidResult(ResourceFormatter.SelectANodeFirst);
-					}
+	    public CurveDetailsViewModel DeleteSelectedNode(CurveDetailsViewModel userInput) => ExecuteAction(
+	        userInput,
+	        entity =>
+	        {
+	            // ViewModel Validation
+	            if (!userInput.SelectedNodeID.HasValue)
+	            {
+	                return new VoidResult(ResourceFormatter.SelectANodeFirst);
+	            }
 
-					// GetEntity
-					int nodeID = userInput.SelectedNodeID.Value;
-					Node node = _nodeRepository.Get(nodeID);
+	            // GetEntity
+	            int nodeID = userInput.SelectedNodeID.Value;
+	            Node node = _nodeRepository.Get(nodeID);
 
-					// Business
-					IResult result = _curveFacade.DeleteNode(node);
-					return result;
-				},
-				viewModel =>
-				{
-					viewModel.SelectedNodeID = null;
-				});
-		}
+	            // Business
+	            IResult result = _curveFacade.DeleteNode(node);
+	            return result;
+	        },
+	        viewModel => viewModel.SelectedNodeID = null);
 
-		public CurveDetailsViewModel NodeMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y)
-		{
-			return NodeMovedOrMoving(userInput, nodeID, x, y);
-		}
+	    public CurveDetailsViewModel NodeMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y) => NodeMovedOrMoving(userInput, nodeID, x, y);
 
-		public CurveDetailsViewModel NodeMoved(CurveDetailsViewModel userInput, int nodeID, double x, double y)
-		{
-			return NodeMovedOrMoving(userInput, nodeID, x, y);
-		}
+	    public CurveDetailsViewModel NodeMoved(CurveDetailsViewModel userInput, int nodeID, double x, double y) => NodeMovedOrMoving(userInput, nodeID, x, y);
 
-		private CurveDetailsViewModel NodeMovedOrMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y)
-		{
-			return ExecuteAction(
-				userInput,
-				entity =>
-				{
-					// ToEntity
-					Node node = _nodeRepository.Get(nodeID);
+	    private CurveDetailsViewModel NodeMovedOrMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y) => ExecuteAction(
+	        userInput,
+	        entity =>
+	        {
+	            // ToEntity
+	            Node node = _nodeRepository.Get(nodeID);
 
-					// Business
-					node.X = x;
-					node.Y = y;
-				});
-		}
+	            // Business
+	            node.X = x;
+	            node.Y = y;
+	        });
 
-		protected override void CopyNonPersistedProperties(CurveDetailsViewModel sourceViewModel, CurveDetailsViewModel destViewModel)
+	    protected override void CopyNonPersistedProperties(CurveDetailsViewModel sourceViewModel, CurveDetailsViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 

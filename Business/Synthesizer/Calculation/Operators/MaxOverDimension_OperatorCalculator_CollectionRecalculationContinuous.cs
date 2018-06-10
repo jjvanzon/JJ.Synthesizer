@@ -26,12 +26,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected override void ProcessFirstSample(double sample)
-		{
-			_aggregate = sample;
-		}
+		protected override void ProcessFirstSample(double sample) => _aggregate = sample;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected override void ProcessNextSample(double sample)
 		{
 			if (sample > _aggregate)

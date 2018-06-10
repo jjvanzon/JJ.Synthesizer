@@ -18,25 +18,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{ }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected override void ResetNonRecursive()
-		{
-			RecalculateCollection();
-		}
+		protected override void ResetNonRecursive() => RecalculateCollection();
 
-		/// <summary> Just returns _aggregate. </summary>
+	    /// <summary> Just returns _aggregate. </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override double Calculate()
-		{
-			return _aggregate;
-		}
+		public override double Calculate() => _aggregate;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		protected override void ProcessFirstSample(double sample)
-		{
-			_aggregate = sample;
-		}
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		protected override void ProcessFirstSample(double sample) => _aggregate = sample;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		protected override void ProcessNextSample(double sample)
 		{
 			if (sample > _aggregate)

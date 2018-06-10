@@ -88,9 +88,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void Close(DocumentDetailsViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
-		}
+		public void Close(DocumentDetailsViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 	}
 }

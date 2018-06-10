@@ -22,22 +22,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
 
-		protected override Patch GetEntity(PatchPropertiesViewModel userInput)
-		{
-			return _repositories.PatchRepository.Get(userInput.ID);
-		}
+		protected override Patch GetEntity(PatchPropertiesViewModel userInput) => _repositories.PatchRepository.Get(userInput.ID);
 
-		protected override PatchPropertiesViewModel ToViewModel(Patch entity)
-		{
-			return entity.ToPropertiesViewModel();
-		}
+	    protected override PatchPropertiesViewModel ToViewModel(Patch entity) => entity.ToPropertiesViewModel();
 
-		protected override IResult Save(Patch entity, PatchPropertiesViewModel userInput)
-		{
-			return _patchFacade.SavePatch(entity);
-		}
+	    protected override IResult Save(Patch entity, PatchPropertiesViewModel userInput) => _patchFacade.SavePatch(entity);
 
-		public PatchPropertiesViewModel Play(PatchPropertiesViewModel userInput)
+	    public PatchPropertiesViewModel Play(PatchPropertiesViewModel userInput)
 		{
 			Outlet outlet = null;
 
@@ -56,16 +47,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
-		public PatchPropertiesViewModel Delete(PatchPropertiesViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				entity => _patchFacade.DeletePatchWithRelatedEntities(entity));
-		}
+		public PatchPropertiesViewModel Delete(PatchPropertiesViewModel userInput) => ExecuteAction(
+		    userInput,
+		    entity => _patchFacade.DeletePatchWithRelatedEntities(entity));
 
-		public PatchPropertiesViewModel ChangeHasDimension(PatchPropertiesViewModel userInput)
-		{
-			return ExecuteAction(userInput, entity => Save(entity, userInput));
-		}
+	    public PatchPropertiesViewModel ChangeHasDimension(PatchPropertiesViewModel userInput) => ExecuteAction(userInput, entity => Save(entity, userInput));
 	}
 }

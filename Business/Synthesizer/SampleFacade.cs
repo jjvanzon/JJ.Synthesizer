@@ -22,12 +22,9 @@ namespace JJ.Business.Synthesizer
 	{
 		private readonly SampleRepositories _repositories;
 
-		public SampleFacade(SampleRepositories repositories)
-		{
-			_repositories = repositories ?? throw new NullException(() => repositories);
-		}
+		public SampleFacade(SampleRepositories repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
 
-		// Create
+	    // Create
 
 		public SampleInfo CreateSample(byte[] bytes, AudioFileFormatEnum audioFileFormatEnum = AudioFileFormatEnum.Undefined)
 		{

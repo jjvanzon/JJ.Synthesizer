@@ -16,12 +16,9 @@ namespace JJ.Business.Synthesizer.Extensions
 			return patch.Operators.Where(x => x.GetOperatorTypeEnum() == operatorTypeEnum);
 		}
 
-		public static IList<Operator> GetOperatorsOfType(this Patch patch, OperatorTypeEnum operatorTypeEnum)
-		{
-			return EnumerateOperatorsOfType(patch, operatorTypeEnum).ToArray();
-		}
+		public static IList<Operator> GetOperatorsOfType(this Patch patch, OperatorTypeEnum operatorTypeEnum) => EnumerateOperatorsOfType(patch, operatorTypeEnum).ToArray();
 
-		public static bool IsSystemPatch(this Patch patch)
+	    public static bool IsSystemPatch(this Patch patch)
 		{
 			if (patch == null) throw new NullException(() => patch);
 			if (patch.Document == null) throw new NullException(() => patch.Document);

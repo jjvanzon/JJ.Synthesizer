@@ -63,26 +63,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel => viewModel.CreatedToneID = tone.ID);
 		}
 
-		public ToneGridEditViewModel DeleteTone(ToneGridEditViewModel userInput, int toneID)
-		{
-			return ExecuteAction(
-				userInput,
-				scale =>
-				{
-					// ViewModelValidator
-					IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
-					if (!viewModelValidator.IsValid)
-					{
-						return viewModelValidator.ToResult();
-					}
+		public ToneGridEditViewModel DeleteTone(ToneGridEditViewModel userInput, int toneID) => ExecuteAction(
+		    userInput,
+		    scale =>
+		    {
+		        // ViewModelValidator
+		        IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+		        if (!viewModelValidator.IsValid)
+		        {
+		            return viewModelValidator.ToResult();
+		        }
 
-					// Business
-					_scaleFacade.DeleteTone(toneID);
-					return ResultHelper.Successful;
-				});
-		}
+		        // Business
+		        _scaleFacade.DeleteTone(toneID);
+		        return ResultHelper.Successful;
+		    });
 
-		// Refreshing upon edit is required to update the Frequency values.
+	    // Refreshing upon edit is required to update the Frequency values.
 		public ToneGridEditViewModel Edit(ToneGridEditViewModel userInput) => Refresh(userInput);
 	}
 }

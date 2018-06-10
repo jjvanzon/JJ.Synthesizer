@@ -7,12 +7,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	{
 		private readonly OperatorCalculatorBase _positionCalculator;
 
-		public SineWithRate1_OperatorCalculator(OperatorCalculatorBase positionCalculator)
-		{
-			_positionCalculator = positionCalculator ?? throw new ArgumentNullException(nameof(positionCalculator));
-		}
+		public SineWithRate1_OperatorCalculator(OperatorCalculatorBase positionCalculator) => _positionCalculator = positionCalculator ?? throw new ArgumentNullException(nameof(positionCalculator));
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override double Calculate()
 		{
 			double position = _positionCalculator.Calculate();

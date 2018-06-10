@@ -26,16 +26,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 		}
 
-		public void Cancel(SampleFileBrowserViewModel userInput)
+		public void Cancel(SampleFileBrowserViewModel userInput) => ExecuteNonPersistedAction(userInput, () =>
 		{
-			ExecuteNonPersistedAction(userInput, () =>
-			{
-				userInput.Visible = false;
-				userInput.Bytes = new byte[0];
-			});
-		}
+		    userInput.Visible = false;
+		    userInput.Bytes = new byte[0];
+		});
 
-		public SampleFileBrowserViewModel OK(SampleFileBrowserViewModel userInput)
+	    public SampleFileBrowserViewModel OK(SampleFileBrowserViewModel userInput)
 		{
 			if (userInput == null) throw new ArgumentNullException(nameof(userInput));
 

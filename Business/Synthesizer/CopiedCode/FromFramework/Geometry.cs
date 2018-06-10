@@ -10,20 +10,14 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 	internal static class Geometry
 	{
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool IsInRectangle(float x, float y, float x1, float y1, float x2, float y2)
-		{
-			return x >= x1 && x <= x2 &&
-				   y >= y1 && y <= y2;
-		}
+		public static bool IsInRectangle(float x, float y, float x1, float y1, float x2, float y2) => x >= x1 && x <= x2 &&
+		                                                                                              y >= y1 && y <= y2;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool IsInRectangle(double x, double y, double x1, double y1, double x2, double y2)
-		{
-			return x >= x1 && x <= x2 &&
-				   y >= y1 && y <= y2;
-		}
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static bool IsInRectangle(double x, double y, double x1, double y1, double x2, double y2) => x >= x1 && x <= x2 &&
+		                                                                                                    y >= y1 && y <= y2;
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void GetCenter(double x1, double y1, double x2, double y2, out double x, out double y)
 		{
 			x = (x1 + x2) / 2.0;

@@ -15,12 +15,9 @@ namespace JJ.Business.Synthesizer
 	{
 		private readonly MidiMappingRepositories _repositories;
 
-		public MidiMappingFacade(MidiMappingRepositories repositories)
-		{
-			_repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
-		}
+		public MidiMappingFacade(MidiMappingRepositories repositories) => _repositories = repositories ?? throw new ArgumentNullException(nameof(repositories));
 
-		public MidiMappingGroup CreateMidiMappingGroupWithDefaults(Document document)
+	    public MidiMappingGroup CreateMidiMappingGroupWithDefaults(Document document)
 		{
 			if (document == null) throw new ArgumentNullException(nameof(document));
 

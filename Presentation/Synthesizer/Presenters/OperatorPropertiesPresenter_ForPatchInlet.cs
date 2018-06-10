@@ -17,12 +17,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			: base(repositories)
 		{ }
 
-		protected override OperatorPropertiesViewModel_ForPatchInlet ToViewModel(Operator op)
-		{
-			return op.ToPropertiesViewModel_ForPatchInlet();
-		}
+		protected override OperatorPropertiesViewModel_ForPatchInlet ToViewModel(Operator op) => op.ToPropertiesViewModel_ForPatchInlet();
 
-		protected override IResult Save(Operator entity, OperatorPropertiesViewModel_ForPatchInlet userInput)
+	    protected override IResult Save(Operator entity, OperatorPropertiesViewModel_ForPatchInlet userInput)
 		{
 			IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(userInput);
 			if (!validator.IsValid)

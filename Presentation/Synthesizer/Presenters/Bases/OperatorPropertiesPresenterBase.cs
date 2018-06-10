@@ -67,26 +67,20 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 					}
 					return result;
 				},
-				viewModel =>
-				{
-					viewModel.OutletIDToPlay = outlet?.ID;
-				});
+				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
 		// ReSharper disable once MemberCanBePrivate.Global
-		public TViewModel Delete(TViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				entity =>
-				{
-					_patchFacade.DeleteOwnedNumberOperators(entity.ID);
-					_patchFacade.DeleteOperatorWithRelatedEntities(entity.ID);
-					return null;
-				});
-		}
+		public TViewModel Delete(TViewModel userInput) => ExecuteAction(
+		    userInput,
+		    entity =>
+		    {
+		        _patchFacade.DeleteOwnedNumberOperators(entity.ID);
+		        _patchFacade.DeleteOperatorWithRelatedEntities(entity.ID);
+		        return null;
+		    });
 
-		// IOperatorPropertiesPresenter
+	    // IOperatorPropertiesPresenter
 
 		public OperatorPropertiesViewModelBase Play(OperatorPropertiesViewModelBase userInput) => Play((TViewModel)userInput);
 		public OperatorPropertiesViewModelBase Delete(OperatorPropertiesViewModelBase userInput) => Delete((TViewModel)userInput);

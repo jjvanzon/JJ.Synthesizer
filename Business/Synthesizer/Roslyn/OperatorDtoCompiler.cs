@@ -187,12 +187,9 @@ namespace JJ.Business.Synthesizer.Roslyn
 			return new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: optimizationLevel);
 		}
 
-		private static SyntaxTree[] CreateIncludedSyntaxTrees(params string[] codeFilesNames)
-		{
-			return codeFilesNames.Select(CreateSyntaxTree).ToArray();
-		}
+		private static SyntaxTree[] CreateIncludedSyntaxTrees(params string[] codeFilesNames) => codeFilesNames.Select(CreateSyntaxTree).ToArray();
 
-		private static SyntaxTree CreateSyntaxTree(string codeFileName)
+	    private static SyntaxTree CreateSyntaxTree(string codeFileName)
 		{
 			string codeFileCSharp = File.ReadAllText(codeFileName);
 

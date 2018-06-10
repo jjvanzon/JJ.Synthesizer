@@ -19,19 +19,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 		/// <summary> Just returns _aggregate. </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override double Calculate()
-		{
-			return _aggregate;
-		}
+		public override double Calculate() => _aggregate;
 
-		protected override void ProcessFirstSample(double sample)
-		{
-			_aggregate = sample;
-		}
+	    protected override void ProcessFirstSample(double sample) => _aggregate = sample;
 
-		protected override void ProcessNextSample(double sample)
-		{
-			_aggregate += sample;
-		}
+	    protected override void ProcessNextSample(double sample) => _aggregate += sample;
 	}
 }

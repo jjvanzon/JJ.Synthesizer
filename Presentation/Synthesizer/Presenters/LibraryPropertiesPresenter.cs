@@ -23,22 +23,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
 
-		protected override DocumentReference GetEntity(LibraryPropertiesViewModel userInput)
-		{
-			return _repositories.DocumentReferenceRepository.Get(userInput.DocumentReferenceID);
-		}
+		protected override DocumentReference GetEntity(LibraryPropertiesViewModel userInput) => _repositories.DocumentReferenceRepository.Get(userInput.DocumentReferenceID);
 
-		protected override LibraryPropertiesViewModel ToViewModel(DocumentReference entity)
-		{
-			return entity.ToPropertiesViewModel();
-		}
+	    protected override LibraryPropertiesViewModel ToViewModel(DocumentReference entity) => entity.ToPropertiesViewModel();
 
-		protected override IResult Save(DocumentReference entity, LibraryPropertiesViewModel userInput)
-		{
-			return _documentFacade.SaveDocumentReference(entity);
-		}
+	    protected override IResult Save(DocumentReference entity, LibraryPropertiesViewModel userInput) => _documentFacade.SaveDocumentReference(entity);
 
-		public void OpenExternally(LibraryPropertiesViewModel userInput)
+	    public void OpenExternally(LibraryPropertiesViewModel userInput)
 		{
 			Document lowerDocument = null;
 
@@ -64,15 +55,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					}
 					return null;
 				},
-				viewModel =>
-				{
-					viewModel.OutletIDToPlay = outlet?.ID;
-				});
+				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
-		public LibraryPropertiesViewModel Remove(LibraryPropertiesViewModel userInput)
-		{
-			return ExecuteAction(userInput, x => _documentFacade.DeleteDocumentReference(x));
-		}
+		public LibraryPropertiesViewModel Remove(LibraryPropertiesViewModel userInput) => ExecuteAction(userInput, x => _documentFacade.DeleteDocumentReference(x));
 	}
 }

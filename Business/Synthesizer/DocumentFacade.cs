@@ -22,12 +22,9 @@ namespace JJ.Business.Synthesizer
 	{
 		private readonly RepositoryWrapper _repositories;
 
-		public DocumentFacade(RepositoryWrapper repositories)
-		{
-			_repositories = repositories ?? throw new NullException(() => repositories);
-		}
+		public DocumentFacade(RepositoryWrapper repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
 
-		// Get
+	    // Get
 
 		public Document Get(int id)
 		{

@@ -46,12 +46,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.MustClose = true;
 		}
 
-		public void PopupMessages_OK()
-		{
-			MainViewModel.PopupMessages = new List<string>();
-		}
+		public void PopupMessages_OK() => MainViewModel.PopupMessages = new List<string>();
 
-		/// <param name="documentName">nullable</param>
+	    /// <param name="documentName">nullable</param>
 		/// <param name="patchName">nullable</param>
 		public void Show(string documentName, string patchName)
 		{
@@ -453,26 +450,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Curve
 
-		private void Curve_Expand(int id)
-		{
-			ExecuteReadAction(
-				null,
-				() =>
-				{
-					// GetEntity
-					int operatorID = GetOperatorIDByCurveID(id);
-					Operator op = _repositories.OperatorRepository.Get(operatorID);
-					int patchID = op.Patch.ID;
+		private void Curve_Expand(int id) => ExecuteReadAction(
+		    null,
+		    () =>
+		    {
+		        // GetEntity
+		        int operatorID = GetOperatorIDByCurveID(id);
+		        Operator op = _repositories.OperatorRepository.Get(operatorID);
+		        int patchID = op.Patch.ID;
 
-					// Redirect
-					OperatorProperties_Show(operatorID);
-					CurveDetails_Show(id);
-					PatchDetails_Show(patchID);
-					Operator_Select(patchID, operatorID);
-				});
-		}
+		        // Redirect
+		        OperatorProperties_Show(operatorID);
+		        CurveDetails_Show(id);
+		        PatchDetails_Show(patchID);
+		        Operator_Select(patchID, operatorID);
+		    });
 
-		private void CurveDetails_Show(int id)
+	    private void CurveDetails_Show(int id)
 		{
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
@@ -486,19 +480,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteUpdateAction(userInput, () => _curveDetailsPresenter.Close(userInput));
 		}
 
-		public void CurveDetails_Expand(int curveID)
-		{
-			// Redirect
-			Curve_Expand(curveID);
-		}
+		public void CurveDetails_Expand(int curveID) => Curve_Expand(curveID);
 
-		public void CurveDetails_ExpandNode(int curveID, int nodeID)
-		{
-			// Redirect
-			Node_Expand(curveID, nodeID);
-		}
+	    public void CurveDetails_ExpandNode(int curveID, int nodeID) => Node_Expand(curveID, nodeID);
 
-		public void CurveDetails_LoseFocus(int id)
+	    public void CurveDetails_LoseFocus(int id)
 		{
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, id);
 
@@ -512,24 +498,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(userInput, () => _curveDetailsPresenter.SelectNode(userInput, nodeID));
 		}
 
-		public void Curve_Select(int id)
-		{
-			ExecuteReadAction(
-				null,
-				() =>
-				{
-					// GetEntity
-					int operatorID = GetOperatorIDByCurveID(id);
-					Operator op = _repositories.OperatorRepository.Get(operatorID);
-					int patchID = op.Patch.ID;
+		public void Curve_Select(int id) => ExecuteReadAction(
+		    null,
+		    () =>
+		    {
+		        // GetEntity
+		        int operatorID = GetOperatorIDByCurveID(id);
+		        Operator op = _repositories.OperatorRepository.Get(operatorID);
+		        int patchID = op.Patch.ID;
 
-					// Redirect
-					OperatorProperties_Switch(operatorID);
-					PatchDetails_SelectOperator(patchID, operatorID);
-				});
-		}
+		        // Redirect
+		        OperatorProperties_Switch(operatorID);
+		        PatchDetails_SelectOperator(patchID, operatorID);
+		    });
 
-		// Document Grid
+	    // Document Grid
 
 		public void DocumentCannotDelete_OK()
 		{
@@ -696,12 +679,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// Document
 
-		public void Document_Activate()
-		{
-			Document_Refresh();
-		}
+		public void Document_Activate() => Document_Refresh();
 
-		public void Document_Close()
+	    public void Document_Close()
 		{
 			// Dirty Check
 			if (MainViewModel.Document.IsDirty)
@@ -823,17 +803,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(viewModel, () => _documentPropertiesPresenter.Show(viewModel));
 		}
 
-		public void DocumentProperties_Close()
-		{
-			DocumentProperties_CloseOrLoseFocus(_documentPropertiesPresenter.Close);
-		}
+		public void DocumentProperties_Close() => DocumentProperties_CloseOrLoseFocus(_documentPropertiesPresenter.Close);
 
-		public void DocumentProperties_LoseFocus()
-		{
-			DocumentProperties_CloseOrLoseFocus(_documentPropertiesPresenter.LoseFocus);
-		}
+	    public void DocumentProperties_LoseFocus() => DocumentProperties_CloseOrLoseFocus(_documentPropertiesPresenter.LoseFocus);
 
-		private void DocumentProperties_CloseOrLoseFocus(Func<DocumentPropertiesViewModel, DocumentPropertiesViewModel> partialAction)
+	    private void DocumentProperties_CloseOrLoseFocus(Func<DocumentPropertiesViewModel, DocumentPropertiesViewModel> partialAction)
 		{
 			// GetViewModel
 			DocumentPropertiesViewModel userInput = MainViewModel.Document.DocumentProperties;
@@ -1160,12 +1134,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentTree_Close()
-		{
-			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Close);
-		}
+		public void DocumentTree_Close() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Close);
 
-		public void DocumentTree_Delete()
+	    public void DocumentTree_Delete()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1435,12 +1406,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentTree_SelectAudioFileOutputs()
-		{
-			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioFileOutputs);
-		}
+		public void DocumentTree_SelectAudioFileOutputs() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioFileOutputs);
 
-		public void DocumentTree_SelectAudioOutput()
+	    public void DocumentTree_SelectAudioOutput()
 		{
 			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioOutput);
 
@@ -1448,12 +1416,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			AudioOutputProperties_Switch();
 		}
 
-		public void DocumentTree_SelectLibraries()
-		{
-			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectLibraries);
-		}
+		public void DocumentTree_SelectLibraries() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectLibraries);
 
-		public void DocumentTree_SelectLibrary(int documentReferenceID)
+	    public void DocumentTree_SelectLibrary(int documentReferenceID)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibrary(x, documentReferenceID));
 
@@ -1461,37 +1426,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			LibraryProperties_Switch(documentReferenceID);
 		}
 
-		public void DocumentTree_SelectLibraryMidi(int documentReferenceID)
-		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryMidi(x, documentReferenceID));
-		}
+		public void DocumentTree_SelectLibraryMidi(int documentReferenceID) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryMidi(x, documentReferenceID));
 
-		public void DocumentTree_SelectLibraryMidiMappingGroup(int id)
-		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryMidiMappingGroup(x, id));
-		}
+	    public void DocumentTree_SelectLibraryMidiMappingGroup(int id) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryMidiMappingGroup(x, id));
 
-		public void DocumentTree_SelectLibraryPatch(int id)
-		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatch(x, id));
-		}
+	    public void DocumentTree_SelectLibraryPatch(int id) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatch(x, id));
 
-		public void DocumentTree_SelectLibraryPatchGroup(int lowerDocumentReferenceID, string patchGroup)
-		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatchGroup(x, lowerDocumentReferenceID, patchGroup));
-		}
+	    public void DocumentTree_SelectLibraryPatchGroup(int lowerDocumentReferenceID, string patchGroup) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryPatchGroup(x, lowerDocumentReferenceID, patchGroup));
 
-		public void DocumentTree_SelectLibraryScale(int id)
-		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryScale(x, id));
-		}
+	    public void DocumentTree_SelectLibraryScale(int id) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryScale(x, id));
 
-		public void DocumentTree_SelectLibraryScales(int documentReferenceID)
-		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryScales(x, documentReferenceID));
-		}
+	    public void DocumentTree_SelectLibraryScales(int documentReferenceID) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectLibraryScales(x, documentReferenceID));
 
-		public void DocumentTree_SelectMidi() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectMidi);
+	    public void DocumentTree_SelectMidi() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectMidi);
 
 		public void DocumentTree_SelectMidiMappingGroup(int id)
 		{
@@ -1516,12 +1463,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentTree_SelectScales()
-		{
-			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectScales);
-		}
+		public void DocumentTree_SelectScales() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectScales);
 
-		public void DocumentTree_SelectPatch(int id)
+	    public void DocumentTree_SelectPatch(int id)
 		{
 			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatch(x, id));
 
@@ -1529,47 +1473,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchProperties_Switch(id);
 		}
 
-		public void DocumentTree_SelectPatchGroup(string friendlyPatchGroupName)
-		{
-			ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatchGroup(x, friendlyPatchGroupName));
-		}
+		public void DocumentTree_SelectPatchGroup(string friendlyPatchGroupName) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatchGroup(x, friendlyPatchGroupName));
 
-		public void DocumentTree_Show()
-		{
-			ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Show);
-		}
+	    public void DocumentTree_Show() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Show);
 
-		public void DocumentTree_ShowAudioOutput()
-		{
-			// Redirect
-			AudioOutputProperties_Show();
-		}
+	    public void DocumentTree_ShowAudioOutput() => AudioOutputProperties_Show();
 
-		public void DocumentTree_ShowLibrary(int documentReferenceID)
-		{
-			// Redirect
-			LibraryProperties_Show(documentReferenceID);
-		}
+	    public void DocumentTree_ShowLibrary(int documentReferenceID) => LibraryProperties_Show(documentReferenceID);
 
-		public void DocumentTree_ShowMidiMappingGroup(int id)
-		{
-			// Redirect
-			MidiMappingGroupDetails_Show(id);
-		}
+	    public void DocumentTree_ShowMidiMappingGroup(int id) => MidiMappingGroupDetails_Show(id);
 
-		public void DocumentTree_ShowPatch(int id)
-		{
-			// Redirect
-			PatchDetails_Show(id);
-		}
+	    public void DocumentTree_ShowPatch(int id) => PatchDetails_Show(id);
 
-		public void DocumentTree_ShowScale(int id)
-		{
-			// Redirect
-			Scale_Show(id);
-		}
+	    public void DocumentTree_ShowScale(int id) => Scale_Show(id);
 
-		/// <summary>
+	    /// <summary>
 		/// On top of the regular ExecuteNonPersistedAction,
 		/// will set CanCreate, which cannot be determined by entities or DocumentTreeViewModel alone.
 		/// </summary>
@@ -1663,19 +1581,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModel(autoPatchPopupViewModel);
 		}
 
-		public void InstrumentBar_ExpandMidiMappingGroup(int midiMappingGroupID)
-		{
-			// Redirect
-			MidiMappingGroup_Expand(midiMappingGroupID);
-		}
+		public void InstrumentBar_ExpandMidiMappingGroup(int midiMappingGroupID) => MidiMappingGroup_Expand(midiMappingGroupID);
 
-		public void InstrumentBar_ExpandPatch(int patchID)
-		{
-			// Redirect
-			Patch_Expand(patchID);
-		}
+	    public void InstrumentBar_ExpandPatch(int patchID) => Patch_Expand(patchID);
 
-		// ReSharper disable once UnusedMember.Global
+	    // ReSharper disable once UnusedMember.Global
 		public void InstrumentBar_MoveMidiMappingGroup(int midiMappingGroupID, int newPosition)
 		{
 			InstrumentBarViewModel viewModel = MainViewModel.Document.InstrumentBar;
@@ -1887,13 +1797,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		// MidiMapping
 
-		public void MidiMappingGroupDetails_AddToInstrument(int id)
-		{
-			// Redirect
-			InstrumentBar_AddMidiMappingGroup(id);
-		}
+		public void MidiMappingGroupDetails_AddToInstrument(int id) => InstrumentBar_AddMidiMappingGroup(id);
 
-		public void MidiMappingGroupDetails_Close(int id)
+	    public void MidiMappingGroupDetails_Close(int id)
 		{
 			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, id);
 
@@ -1955,13 +1861,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void MidiMappingGroupDetails_ExpandMidiMapping(int midiMappingID)
-		{
-			// Redirect
-			MidiMappingProperties_Show(midiMappingID);
-		}
+		public void MidiMappingGroupDetails_ExpandMidiMapping(int midiMappingID) => MidiMappingProperties_Show(midiMappingID);
 
-		public void MidiMappingGroupDetails_MoveMidiMapping(int midiMappingGroupID, int midiMappingID, float centerX, float centerY)
+	    public void MidiMappingGroupDetails_MoveMidiMapping(int midiMappingGroupID, int midiMappingID, float centerX, float centerY)
 		{
 			MidiMappingGroupDetailsViewModel userInput = ViewModelSelector.GetMidiMappingGroupDetailsViewModel(MainViewModel.Document, midiMappingGroupID);
 
@@ -2337,27 +2239,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			NodeProperties_Switch(nodeID);
 		}
 
-		private void Node_Expand(int curveID, int nodeID)
-		{
-			ExecuteReadAction(
-				null,
-				() =>
-				{
-					// GetEntity
-					int operatorID = GetOperatorIDByCurveID(curveID);
-					Operator op = _repositories.OperatorRepository.Get(operatorID);
-					int patchID = op.Patch.ID;
+		private void Node_Expand(int curveID, int nodeID) => ExecuteReadAction(
+		    null,
+		    () =>
+		    {
+		        // GetEntity
+		        int operatorID = GetOperatorIDByCurveID(curveID);
+		        Operator op = _repositories.OperatorRepository.Get(operatorID);
+		        int patchID = op.Patch.ID;
 
-					// Redirect
-					NodeProperties_Show(nodeID);
-					CurveDetails_Show(curveID);
-					CurveDetails_SelectNode(curveID, nodeID);
-					PatchDetails_Show(patchID);
-					PatchDetails_SelectOperator(patchID, operatorID);
-				});
-		}
+		        // Redirect
+		        NodeProperties_Show(nodeID);
+		        CurveDetails_Show(curveID);
+		        CurveDetails_SelectNode(curveID, nodeID);
+		        PatchDetails_Show(patchID);
+		        PatchDetails_SelectOperator(patchID, operatorID);
+		    });
 
-		// Operator
+	    // Operator
 
 		public void Operator_ChangeInputOutlet(int patchID, int inletID, int inputOutletID)
 		{
@@ -2573,13 +2472,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void OperatorProperties_Expand(int id)
-		{
-			// Redirect
-			Operator_Expand(id);
-		}
+		public void OperatorProperties_Expand(int id) => Operator_Expand(id);
 
-		public void OperatorProperties_LoseFocus(int id)
+	    public void OperatorProperties_LoseFocus(int id)
 		{
 			// GetViewModel
 			OperatorPropertiesViewModel userInput = ViewModelSelector.GetOperatorPropertiesViewModel(MainViewModel.Document, id);
@@ -2849,39 +2744,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			OperatorProperties_Switch(operatorID);
 		}
 
-		public void Operator_Expand(int operatorID)
-		{
-			ExecuteReadAction(
-				null,
-				() =>
-				{
-					// GetEntities
-					Operator op = _repositories.OperatorRepository.Get(operatorID);
-					Curve curve = op.Curve;
+		public void Operator_Expand(int operatorID) => ExecuteReadAction(
+		    null,
+		    () =>
+		    {
+		        // GetEntities
+		        Operator op = _repositories.OperatorRepository.Get(operatorID);
+		        Curve curve = op.Curve;
 
-					// Redirect
-					if (curve != null)
-					{
-						Curve_Expand(curve.ID);
-					}
-					else
-					{
-						int patchID = op.Patch.ID;
-						OperatorProperties_Show(operatorID);
-						PatchDetails_Show(patchID);
-					}
-				});
-		}
+		        // Redirect
+		        if (curve != null)
+		        {
+		            Curve_Expand(curve.ID);
+		        }
+		        else
+		        {
+		            int patchID = op.Patch.ID;
+		            OperatorProperties_Show(operatorID);
+		            PatchDetails_Show(patchID);
+		        }
+		    });
 
-		// Patch
+	    // Patch
 
-		public void PatchDetails_AddToInstrument(int id)
-		{
-			// Redirect
-			InstrumentBar_AddPatch(id);
-		}
+		public void PatchDetails_AddToInstrument(int id) => InstrumentBar_AddPatch(id);
 
-		public void PatchDetails_Close(int id)
+	    public void PatchDetails_Close(int id)
 		{
 			PatchDetailsViewModel userInput = ViewModelSelector.GetPatchDetailsViewModel(MainViewModel.Document, id);
 
@@ -2934,55 +2822,44 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(userInput, () => _patchDetailsPresenter.Show(userInput));
 		}
 
-		public void PatchDetails_Expand(int id)
-		{
-			// Redirect
-			Patch_Expand(id);
-		}
+		public void PatchDetails_Expand(int id) => Patch_Expand(id);
 
-		public void PatchDetails_Select(int id)
+	    public void PatchDetails_Select(int id)
 		{
 			// Redirect
 			PatchProperties_Switch(id);
 			DocumentTree_SelectPatch(id);
 		}
 
-		private void Patch_Expand(int id)
-		{
-			ExecuteReadAction(
-				null,
-				() =>
-				{
-					// GetEntities
-					Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
-					Patch patch = _repositories.PatchRepository.Get(id);
+		private void Patch_Expand(int id) => ExecuteReadAction(
+		    null,
+		    () =>
+		    {
+		        // GetEntities
+		        Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
+		        Patch patch = _repositories.PatchRepository.Get(id);
 
-					// Business
-					bool isExternal = patch.IsExternal(document);
+		        // Business
+		        bool isExternal = patch.IsExternal(document);
 
-					if (isExternal)
-					{
-						// Non-Persisted
-						MainViewModel.Document.DocumentToOpenExternally = patch.Document.ToIDAndName();
-						MainViewModel.Document.PatchToOpenExternally = patch.ToIDAndName();
-					}
-					else
-					{
-						// Redirect
-						PatchProperties_Show(id);
-						PatchDetails_Show(id);
-						DocumentTree_SelectPatch(id);
-					}
-				});
-		}
+		        if (isExternal)
+		        {
+		            // Non-Persisted
+		            MainViewModel.Document.DocumentToOpenExternally = patch.Document.ToIDAndName();
+		            MainViewModel.Document.PatchToOpenExternally = patch.ToIDAndName();
+		        }
+		        else
+		        {
+		            // Redirect
+		            PatchProperties_Show(id);
+		            PatchDetails_Show(id);
+		            DocumentTree_SelectPatch(id);
+		        }
+		    });
 
-		public void PatchProperties_AddToInstrument(int id)
-		{
-			// Redirect
-			InstrumentBar_AddPatch(id);
-		}
+	    public void PatchProperties_AddToInstrument(int id) => InstrumentBar_AddPatch(id);
 
-		public void PatchProperties_ChangeHasDimension(int id)
+	    public void PatchProperties_ChangeHasDimension(int id)
 		{
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
 
@@ -3028,13 +2905,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void PatchProperties_Expand(int id)
-		{
-			// Redirect
-			Patch_Expand(id);
-		}
+		public void PatchProperties_Expand(int id) => Patch_Expand(id);
 
-		public void PatchProperties_LoseFocus(int id)
+	    public void PatchProperties_LoseFocus(int id)
 		{
 			// GetViewModel
 			PatchPropertiesViewModel userInput = ViewModelSelector.GetPatchPropertiesViewModel(MainViewModel.Document, id);
@@ -3243,13 +3116,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void ScaleProperties_SetInstrumentScale(int scaleID)
-		{
-			// Redirect
-			InstrumentBar_SetScale(scaleID);
-		}
+		public void ScaleProperties_SetInstrumentScale(int scaleID) => InstrumentBar_SetScale(scaleID);
 
-		private void ScaleProperties_Switch(int id)
+	    private void ScaleProperties_Switch(int id)
 		{
 			if (MainViewModel.PropertiesPanelVisible)
 			{
@@ -3321,13 +3190,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteUpdateAction(userInput, () => _toneGridEditPresenter.LoseFocus(userInput));
 		}
 
-		public void ToneGridEdit_SetInstrumentScale(int scaleID)
-		{
-			// Redirect
-			InstrumentBar_SetScale(scaleID);
-		}
+		public void ToneGridEdit_SetInstrumentScale(int scaleID) => InstrumentBar_SetScale(scaleID);
 
-		private void ToneGridEdit_Show(int scaleID)
+	    private void ToneGridEdit_Show(int scaleID)
 		{
 			ToneGridEditViewModel viewModel = ViewModelSelector.GetToneGridEditViewModel(MainViewModel.Document, scaleID);
 
@@ -3508,65 +3373,57 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		private TViewModel ExecuteCreateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
 			where TViewModel : ScreenViewModelBase
-		{
-			return ExecuteWriteAction(userInput, partialAction, undoHistoryDelegate: () => MainViewModel.Document.RedoFuture.Clear());
-		}
+		    => ExecuteWriteAction(userInput, partialAction, undoHistoryDelegate: () => MainViewModel.Document.RedoFuture.Clear());
 
-		/// <summary>
+	    /// <summary>
 		/// Manages undo, but works only if userInput is the final state of the action, not if other data changes have to be applied,
 		/// before having the 'new state' of the undo action.
 		/// </summary>
 		private TViewModel ExecuteUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
 			where TViewModel : ScreenViewModelBase
-		{
-			return ExecuteWriteAction(
-				userInput,
-				partialAction,
-				undoHistoryDelegate: () =>
-				{
-					var undoItemViewModel = new UndoUpdateViewModel
-					{
-						OldStates = userInput.OriginalState.AsArray(),
-						NewStates = userInput.AsArray()
-					};
-					MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
+	        => ExecuteWriteAction(
+	            userInput,
+	            partialAction,
+	            undoHistoryDelegate: () =>
+	            {
+	                var undoItemViewModel = new UndoUpdateViewModel
+	                {
+	                    OldStates = userInput.OriginalState.AsArray(),
+	                    NewStates = userInput.AsArray()
+	                };
+	                MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
 
-					MainViewModel.Document.RedoFuture.Clear();
-				});
-		}
+	                MainViewModel.Document.RedoFuture.Clear();
+	            });
 
-		/// <summary>
+	    /// <summary>
 		/// The normal ExecuteUpdateAction will handle undo state for most update actions.
 		/// Too bad it is only suitable for when the userInput is the 'new state' for the undo history.
 		/// For instance for the ChangeSelectedNodeType action, the user input is not the final state of the action.
 		/// </summary>
 		private TViewModel ExecuteSpecialUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
 			where TViewModel : ScreenViewModelBase
-		{
-			return ExecuteWriteAction(
-				userInput,
-				partialAction,
-				undoHistoryDelegate: () => MainViewModel.Document.RedoFuture.Clear());
-		}
+	        => ExecuteWriteAction(
+	            userInput,
+	            partialAction,
+	            undoHistoryDelegate: () => MainViewModel.Document.RedoFuture.Clear());
 
-		/// <param name="undoItemViewModel">
+	    /// <param name="undoItemViewModel">
 		/// For delete actions the undo item must be created before executing this template method,
 		/// since afterwards the state to remember is already gone.
 		/// </param>
 		private TViewModel ExecuteDeleteAction<TViewModel>(TViewModel userInput, UndoDeleteViewModel undoItemViewModel, Func<TViewModel> partialAction)
 			where TViewModel : ScreenViewModelBase
-		{
-			return ExecuteWriteAction(
-				userInput,
-				partialAction,
-				undoHistoryDelegate: () =>
-				{
-					MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
-					MainViewModel.Document.RedoFuture.Clear();
-				});
-		}
+	        => ExecuteWriteAction(
+	            userInput,
+	            partialAction,
+	            undoHistoryDelegate: () =>
+	            {
+	                MainViewModel.Document.UndoHistory.Push(undoItemViewModel);
+	                MainViewModel.Document.RedoFuture.Clear();
+	            });
 
-		/// <summary>
+	    /// <summary>
 		/// A template method for a MainPresenter action method,
 		/// that will write to the document entity.
 		/// 

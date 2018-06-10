@@ -37,12 +37,9 @@ namespace JJ.Business.Synthesizer.Calculation
 		}
 
 		/// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
-		private static double[][] ReadInt16Samples(Sample sample, byte[] bytes)
-		{
-			return ReadSamplesTemplateMethod(sample, bytes, ReadInt16Value);
-		}
+		private static double[][] ReadInt16Samples(Sample sample, byte[] bytes) => ReadSamplesTemplateMethod(sample, bytes, ReadInt16Value);
 
-		/// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
+	    /// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
 		private static double ReadInt16Value(BinaryReader binaryReader)
 		{
 			short shrt = binaryReader.ReadInt16();
@@ -52,12 +49,9 @@ namespace JJ.Business.Synthesizer.Calculation
 		}
 
 		/// <summary> In the returned array, the first array index is channel index, the second array index is the frame. </summary>
-		private static double[][] ReadByteSamples(Sample sample, byte[] bytes)
-		{
-			return ReadSamplesTemplateMethod(sample, bytes, ReadByteValue);
-		}
+		private static double[][] ReadByteSamples(Sample sample, byte[] bytes) => ReadSamplesTemplateMethod(sample, bytes, ReadByteValue);
 
-		private static double ReadByteValue(BinaryReader binaryReader)
+	    private static double ReadByteValue(BinaryReader binaryReader)
 		{
 			byte b = binaryReader.ReadByte();
 			double value = b - 128.0;

@@ -24,57 +24,27 @@ namespace JJ.Business.Synthesizer.Visitors
 				  sampleRepository)
 		{ }
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Block(Cache_OperatorDto_MultiChannel_Block dto) => Process_Cache_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Cubic(Cache_OperatorDto_MultiChannel_Cubic dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Cubic(Cache_OperatorDto_MultiChannel_Cubic dto) => Process_Cache_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Hermite(Cache_OperatorDto_MultiChannel_Hermite dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Hermite(Cache_OperatorDto_MultiChannel_Hermite dto) => Process_Cache_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Line(Cache_OperatorDto_MultiChannel_Line dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Line(Cache_OperatorDto_MultiChannel_Line dto) => Process_Cache_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Stripe(Cache_OperatorDto_MultiChannel_Stripe dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_MultiChannel_Stripe(Cache_OperatorDto_MultiChannel_Stripe dto) => Process_Cache_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Block(Cache_OperatorDto_SingleChannel_Block dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Block(Cache_OperatorDto_SingleChannel_Block dto) => Process_Cache_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Cubic(Cache_OperatorDto_SingleChannel_Cubic dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Cubic(Cache_OperatorDto_SingleChannel_Cubic dto) => Process_Cache_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Hermite(Cache_OperatorDto_SingleChannel_Hermite dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Hermite(Cache_OperatorDto_SingleChannel_Hermite dto) => Process_Cache_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Line(Cache_OperatorDto_SingleChannel_Line dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Line(Cache_OperatorDto_SingleChannel_Line dto) => Process_Cache_OperatorDto(dto);
 
-		protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Stripe(Cache_OperatorDto_SingleChannel_Stripe dto)
-		{
-			return Process_Cache_OperatorDto(dto);
-		}
+	    protected override IOperatorDto Visit_Cache_OperatorDto_SingleChannel_Stripe(Cache_OperatorDto_SingleChannel_Stripe dto) => Process_Cache_OperatorDto(dto);
 
-		// Helpers
+	    // Helpers
 
 		/// <summary>
 		/// The Cache operator requires more lengthy code, while most methods are very short,

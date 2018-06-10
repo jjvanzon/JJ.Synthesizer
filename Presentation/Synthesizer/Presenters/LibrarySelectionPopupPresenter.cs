@@ -51,21 +51,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		/// Just to be clear there is both a Cancel button and a Close button in the window border,
 		/// we have two actions, but really they do the same.
 		/// </summary>
-		public override void Close(LibrarySelectionPopupViewModel userInput)
+		public override void Close(LibrarySelectionPopupViewModel userInput) => ExecuteNonPersistedAction(userInput, () =>
 		{
-			ExecuteNonPersistedAction(userInput, () =>
-			{
-				userInput.Visible = false;
-				userInput.List = new List<IDAndName>();
-			});
-		}
+		    userInput.Visible = false;
+		    userInput.List = new List<IDAndName>();
+		});
 
-		public LibrarySelectionPopupViewModel Load(LibrarySelectionPopupViewModel userInput)
-		{
-			return ExecuteAction(userInput, x => { }, x => x.Visible = true);
-		}
+	    public LibrarySelectionPopupViewModel Load(LibrarySelectionPopupViewModel userInput) => ExecuteAction(userInput, x => { }, x => x.Visible = true);
 
-		public LibrarySelectionPopupViewModel OK(LibrarySelectionPopupViewModel userInput, int? lowerDocumentID)
+	    public LibrarySelectionPopupViewModel OK(LibrarySelectionPopupViewModel userInput, int? lowerDocumentID)
 		{
 			DocumentReference documentReference = null;
 
@@ -101,21 +95,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		/// <see cref="PresenterBase{LibrarySelectionPopupViewModel}.ExecuteNonPersistedAction"/>
-		public void OpenItemExternally(LibrarySelectionPopupViewModel viewModel, int lowerDocumentID)
-		{
-			ExecuteNonPersistedAction(
-				viewModel,
-				() =>
-				{
-					// Business
-					Document potentialLowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID);
+		public void OpenItemExternally(LibrarySelectionPopupViewModel viewModel, int lowerDocumentID) => ExecuteNonPersistedAction(
+		    viewModel,
+		    () =>
+		    {
+		        // Business
+		        Document potentialLowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID);
 
-					// ToViewModel
-					viewModel.DocumentToOpenExternally = potentialLowerDocument.ToIDAndName();
-				});
-		}
+		        // ToViewModel
+		        viewModel.DocumentToOpenExternally = potentialLowerDocument.ToIDAndName();
+		    });
 
-		public LibrarySelectionPopupViewModel Play(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)
+	    public LibrarySelectionPopupViewModel Play(LibrarySelectionPopupViewModel userInput, int lowerDocumentID)
 		{
 			Outlet outlet = null;
 
@@ -134,31 +125,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 						_autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(outlet.Operator.Patch);
 					}
 				},
-				viewModel =>
-				{
-					// Non-Persisted
-					viewModel.OutletIDToPlay = outlet?.ID;
-				});
+				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
-		public override LibrarySelectionPopupViewModel Refresh(LibrarySelectionPopupViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				entity => { },
-				viewModel =>
-				{
-					if (viewModel.Successful)
-					{
-						viewModel.List = new List<IDAndName>();
-					}
-				});
-		}
+		public override LibrarySelectionPopupViewModel Refresh(LibrarySelectionPopupViewModel userInput) => ExecuteAction(
+		    userInput,
+		    entity => { },
+		    viewModel =>
+		    {
+		        if (viewModel.Successful)
+		        {
+		            viewModel.List = new List<IDAndName>();
+		        }
+		    });
 
-		[Obsolete("Use Load instead.", true)]
-		public override void Show(LibrarySelectionPopupViewModel viewModel)
-		{
-			throw new NotSupportedException("Call Load instead.");
-		}
+	    [Obsolete("Use Load instead.", true)]
+		public override void Show(LibrarySelectionPopupViewModel viewModel) => throw new NotSupportedException("Call Load instead.");
 	}
 }

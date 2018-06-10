@@ -20,9 +20,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return viewModel;
 		}
 
-		public void OK(DocumentDeletedViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
-		}
+		public void OK(DocumentDeletedViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 	}
 }

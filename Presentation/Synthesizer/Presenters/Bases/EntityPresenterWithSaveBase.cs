@@ -13,21 +13,15 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 		/// </param>
 		protected abstract IResult Save(TEntity entity, TViewModel userInput);
 
-		public TViewModel LoseFocus(TViewModel userInput)
-		{
-			return ExecuteAction(userInput, entity => Save(entity, userInput));
-		}
+		public TViewModel LoseFocus(TViewModel userInput) => ExecuteAction(userInput, entity => Save(entity, userInput));
 
-		public TViewModel Close(TViewModel userInput)
-		{
-			return ExecuteAction(
-				userInput,
-				entity => Save(entity, userInput),
-				viewModel =>
-				{
-					if (viewModel.Successful) viewModel.Visible = false;
-				}
-			);
-		}
+	    public TViewModel Close(TViewModel userInput) => ExecuteAction(
+	        userInput,
+	        entity => Save(entity, userInput),
+	        viewModel =>
+	        {
+	            if (viewModel.Successful) viewModel.Visible = false;
+	        }
+	    );
 	}
 }

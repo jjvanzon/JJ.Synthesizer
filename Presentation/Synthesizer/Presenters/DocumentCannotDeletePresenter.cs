@@ -12,12 +12,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	{
 		private readonly IDocumentRepository _documentRepository;
 
-		public DocumentCannotDeletePresenter(IDocumentRepository documentRepository)
-		{
-			_documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
-		}
+		public DocumentCannotDeletePresenter(IDocumentRepository documentRepository) => _documentRepository = documentRepository ?? throw new NullException(() => documentRepository);
 
-		/// <see cref="PresenterBase{DocumentCannotDeleteViewModel}.ExecuteNonPersistedAction"/>
+	    /// <see cref="PresenterBase{DocumentCannotDeleteViewModel}.ExecuteNonPersistedAction"/>
 		public DocumentCannotDeleteViewModel Show(int id, IList<string> messages)
 		{
 			// GetEntity
@@ -35,9 +32,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return viewModel;
 		}
 
-		public void OK(DocumentCannotDeleteViewModel viewModel)
-		{
-			ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
-		}
+		public void OK(DocumentCannotDeleteViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 	}
 }

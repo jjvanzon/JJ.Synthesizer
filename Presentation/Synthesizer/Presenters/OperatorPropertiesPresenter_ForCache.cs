@@ -13,9 +13,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			: base(repositories)
 		{ }
 
-		protected override OperatorPropertiesViewModel_ForCache ToViewModel(Operator op)
-		{
-			return op.ToPropertiesViewModel_ForCache(_repositories.InterpolationTypeRepository);
-		}
+		protected override OperatorPropertiesViewModel_ForCache ToViewModel(Operator op) => op.ToPropertiesViewModel_ForCache(_repositories.InterpolationTypeRepository);
 	}
 }

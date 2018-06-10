@@ -65,17 +65,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			return frequency;
 		}
 
-		public override void Reset()
-		{
-			ResetPrivate();
+		public override void Reset() => ResetPrivate();
 
-			// NOTE: Do not call base.
-			// The Spectrum Operator is an exception to the rule.
-			// Reset for spectrum means NOT resetting the calculation,
-			// but just recalculating the spectrum.
-		}
-
-		private void ResetPrivate()
+	    private void ResetPrivate()
 		{
 			_harmonicVolumes = CreateHarmonicVolumes();
 			_maxPosition = _harmonicVolumes.Length - 1;
@@ -139,17 +131,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			return harmonicVolumes;
 		}
 
-		private static bool StartIsValid(double start)
-		{
-			return !DoubleHelper.IsSpecialValue(start);
-		}
+		private static bool StartIsValid(double start) => !DoubleHelper.IsSpecialValue(start);
 
-		private static bool EndIsValid(double end)
-		{
-			return !DoubleHelper.IsSpecialValue(end);
-		}
+	    private static bool EndIsValid(double end) => !DoubleHelper.IsSpecialValue(end);
 
-		private static bool FrequencyCountIsValid(double frequencyCount)
+	    private static bool FrequencyCountIsValid(double frequencyCount)
 		{
 			if (!CalculationHelper.CanCastToInt32(frequencyCount))
 			{
@@ -169,9 +155,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			return true;
 		}
 
-		private double[] CreateNaNHarmonicVolumes()
-		{
-			return new[] { double.NaN };
-		}
+		private double[] CreateNaNHarmonicVolumes() => new[] { double.NaN };
 	}
 }

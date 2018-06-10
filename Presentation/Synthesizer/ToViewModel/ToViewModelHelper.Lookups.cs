@@ -168,8 +168,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		private static IList<IDAndName> CreateEnumLookupViewModel<TEnum>(bool mustIncludeUndefined)
 			where TEnum : struct
-		{
-			return EnumToIDAndNameConverter.Convert<TEnum>(ResourceFormatter.ResourceManager, mustIncludeUndefined);
-		}
+		    => EnumToIDAndNameConverter.Convert<TEnum>(ResourceFormatter.ResourceManager, mustIncludeUndefined);
 	}
 }

@@ -31,12 +31,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override DocumentGridViewModel ToViewModel(IList<Document> entities) => entities.ToGridViewModel();
 
-		public DocumentGridViewModel Load(DocumentGridViewModel viewModel)
-		{
-			return ExecuteAction(viewModel, x => { }, x => x.Visible = true);
-		}
+		public DocumentGridViewModel Load(DocumentGridViewModel viewModel) => ExecuteAction(viewModel, x => { }, x => x.Visible = true);
 
-		public DocumentGridViewModel Play(DocumentGridViewModel userInput, int id)
+	    public DocumentGridViewModel Play(DocumentGridViewModel userInput, int id)
 		{
 			Outlet outlet = null;
 
@@ -57,17 +54,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 					return result;
 				},
-				viewModel =>
-				{
-					// Non-Persisted
-					viewModel.OutletIDToPlay = outlet?.ID;
-				});
+				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
 		[Obsolete("Use Load instead.", true)]
-		public override void Show(DocumentGridViewModel viewModel)
-		{
-			throw new NotSupportedException("Call Load instead.");
-		}
+		public override void Show(DocumentGridViewModel viewModel) => throw new NotSupportedException("Call Load instead.");
 	}
 }

@@ -28,30 +28,26 @@ namespace JJ.Presentation.Synthesizer.Presenters.Bases
 			TViewModel userInput,
 			Action<TEntity> businessDelegate = null,
 			Action<TViewModel> nonPersistedDelegate = null)
-		{
-			return ExecuteAction(
-				userInput,
-				x =>
-				{
-					businessDelegate?.Invoke(x);
-					return ResultHelper.Successful;
-				},
-				nonPersistedDelegate ?? _defaultNonPersistedDelegate);
-		}
+		    => ExecuteAction(
+		        userInput,
+		        x =>
+		        {
+		            businessDelegate?.Invoke(x);
+		            return ResultHelper.Successful;
+		        },
+		        nonPersistedDelegate ?? _defaultNonPersistedDelegate);
 
-		protected TViewModel ExecuteAction(
+	    protected TViewModel ExecuteAction(
 			TViewModel userInput,
 			Func<TEntity, IResult> businessDelegate = null,
 			Action<TViewModel> nonPersistedDelegate = null)
-		{
-			return ExecuteAction(
-				userInput,
-				() => GetEntity(userInput),
-				x => businessDelegate?.Invoke(x),
-				nonPersistedDelegate ?? _defaultNonPersistedDelegate);
-		}
+	        => ExecuteAction(
+	            userInput,
+	            () => GetEntity(userInput),
+	            x => businessDelegate?.Invoke(x),
+	            nonPersistedDelegate ?? _defaultNonPersistedDelegate);
 
-		protected TViewModel ExecuteAction(TViewModel userInput, Func<TEntity> getEntityDelegate)
+	    protected TViewModel ExecuteAction(TViewModel userInput, Func<TEntity> getEntityDelegate)
 			=> ExecuteAction(userInput, getEntityDelegate, _defaultBusinessFunc, _defaultNonPersistedDelegate);
 
 		// ReSharper disable once UnusedMember.Global

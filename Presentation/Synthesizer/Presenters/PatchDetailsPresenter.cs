@@ -30,25 +30,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		protected override Patch GetEntity(PatchDetailsViewModel userInput) => _repositories.PatchRepository.Get(userInput.Entity.ID);
 
-		protected override PatchDetailsViewModel ToViewModel(Patch patch)
-		{
-			return patch.ToDetailsViewModel();
-		}
+		protected override PatchDetailsViewModel ToViewModel(Patch patch) => patch.ToDetailsViewModel();
 
-		public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID)
-		{
-			return ExecuteAction(userInput, x =>
-			{
-				// GetEntities
-				Inlet inlet = _repositories.InletRepository.Get(inletID);
-				Outlet inputOutlet = _repositories.OutletRepository.Get(inputOutletID);
+	    public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID) => ExecuteAction(userInput, x =>
+	    {
+	        // GetEntities
+	        Inlet inlet = _repositories.InletRepository.Get(inletID);
+	        Outlet inputOutlet = _repositories.OutletRepository.Get(inputOutletID);
 
-				// Business
-				inlet.LinkTo(inputOutlet);
-			});
-		}
+	        // Business
+	        inlet.LinkTo(inputOutlet);
+	    });
 
-		/// <summary>
+	    /// <summary>
 		/// NOTE: Has view model validation, which the base class's template method does not support.
 		/// Deletes the selected operator.
 		/// Produces a validation message if no operator is selected.
@@ -97,19 +91,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorID, float centerX, float centerY)
+		public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorID, float centerX, float centerY) => ExecuteAction(userInput, x =>
 		{
-			return ExecuteAction(userInput, x =>
-			{
-				// GetEntity
-				Operator op = _repositories.OperatorRepository.Get(operatorID);
+		    // GetEntity
+		    Operator op = _repositories.OperatorRepository.Get(operatorID);
 
-				// Business
-				op.Move(centerX, centerY);
-			});
-		}
+		    // Business
+		    op.Move(centerX, centerY);
+		});
 
-		/// <summary>
+	    /// <summary>
 		/// NOTE: Cannot use base class's ExecuteAction method,
 		/// because there is a hack. See the implementation.
 		/// </summary>
@@ -153,12 +144,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return viewModel;
 		}
 
-		public void SelectOperator(PatchDetailsViewModel viewModel, int operatorID)
-		{
-			ExecuteNonPersistedAction(viewModel, () => SetSelectedOperator(viewModel, operatorID));
-		}
+		public void SelectOperator(PatchDetailsViewModel viewModel, int operatorID) => ExecuteNonPersistedAction(viewModel, () => SetSelectedOperator(viewModel, operatorID));
 
-		// Helpers
+	    // Helpers
 
 		/// <summary>
 		/// The SelectedOperator is non-persisted data.

@@ -16,8 +16,8 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 			private double _constValue;
             public double ConstValue
             {
-				get { return _constValue; }
-                set { _constValue = value; }
+				get => _constValue;
+                set => _constValue = value;
             }
 				private TChildCalculator1 _calculator1;
 
@@ -37,11 +37,9 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return _constValue +
+				=> _constValue +
 						_calculator1.Calculate()
-;			}
-		}
+;		}
 		public struct Add_OperatorCalculator_2Vars_1Const
 			<
 					TChildCalculator1
@@ -54,8 +52,8 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 			private double _constValue;
             public double ConstValue
             {
-				get { return _constValue; }
-                set { _constValue = value; }
+				get => _constValue;
+                set => _constValue = value;
             }
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
@@ -80,12 +78,10 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return _constValue +
+				=> _constValue +
 						_calculator1.Calculate()
 +						_calculator2.Calculate()
-;			}
-		}
+;		}
 		public struct Add_OperatorCalculator_3Vars_1Const
 			<
 					TChildCalculator1
@@ -100,8 +96,8 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 			private double _constValue;
             public double ConstValue
             {
-				get { return _constValue; }
-                set { _constValue = value; }
+				get => _constValue;
+                set => _constValue = value;
             }
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
@@ -131,13 +127,11 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return _constValue +
+				=> _constValue +
 						_calculator1.Calculate()
 +						_calculator2.Calculate()
 +						_calculator3.Calculate()
-;			}
-		}
+;		}
 		public struct Add_OperatorCalculator_4Vars_1Const
 			<
 					TChildCalculator1
@@ -154,8 +148,8 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 			private double _constValue;
             public double ConstValue
             {
-				get { return _constValue; }
-                set { _constValue = value; }
+				get => _constValue;
+                set => _constValue = value;
             }
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
@@ -190,14 +184,12 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return _constValue +
+				=> _constValue +
 						_calculator1.Calculate()
 +						_calculator2.Calculate()
 +						_calculator3.Calculate()
 +						_calculator4.Calculate()
-;			}
-		}
+;		}
 		public struct Add_OperatorCalculator_5Vars_1Const
 			<
 					TChildCalculator1
@@ -216,8 +208,8 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 			private double _constValue;
             public double ConstValue
             {
-				get { return _constValue; }
-                set { _constValue = value; }
+				get => _constValue;
+                set => _constValue = value;
             }
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
@@ -257,15 +249,13 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return _constValue +
+				=> _constValue +
 						_calculator1.Calculate()
 +						_calculator2.Calculate()
 +						_calculator3.Calculate()
 +						_calculator4.Calculate()
 +						_calculator5.Calculate()
-;			}
-		}
+;		}
 		public struct Add_OperatorCalculator_6Vars_1Const
 			<
 					TChildCalculator1
@@ -286,8 +276,8 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 			private double _constValue;
             public double ConstValue
             {
-				get { return _constValue; }
-                set { _constValue = value; }
+				get => _constValue;
+                set => _constValue = value;
             }
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
@@ -332,16 +322,14 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return _constValue +
+				=> _constValue +
 						_calculator1.Calculate()
 +						_calculator2.Calculate()
 +						_calculator3.Calculate()
 +						_calculator4.Calculate()
 +						_calculator5.Calculate()
 +						_calculator6.Calculate()
-;			}
-		}
+;		}
 		public struct Add_OperatorCalculator_7Vars_1Const
 			<
 					TChildCalculator1
@@ -364,8 +352,8 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 			private double _constValue;
             public double ConstValue
             {
-				get { return _constValue; }
-                set { _constValue = value; }
+				get => _constValue;
+                set => _constValue = value;
             }
 				private TChildCalculator1 _calculator1;
 				private TChildCalculator2 _calculator2;
@@ -415,8 +403,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return _constValue +
+				=> _constValue +
 						_calculator1.Calculate()
 +						_calculator2.Calculate()
 +						_calculator3.Calculate()
@@ -424,6 +411,5 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 +						_calculator5.Calculate()
 +						_calculator6.Calculate()
 +						_calculator7.Calculate()
-;			}
-		}
+;		}
 }

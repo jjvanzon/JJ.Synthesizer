@@ -52,12 +52,9 @@ namespace JJ.Business.Synthesizer.Calculation
 		private double _y1;
 		private double _y2;
 
-		public BiQuadFilter()
-		{
-			ResetSamples();
-		}
+		public BiQuadFilter() => ResetSamples();
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private void SetCoefficients(double aa0, double aa1, double aa2, double b0, double b1, double b2)
 		{
 			// precompute the coefficients

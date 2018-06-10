@@ -32,12 +32,9 @@ namespace JJ.Business.Synthesizer
 	{
 		private readonly RepositoryWrapper _repositories;
 
-		public PatchToOperatorConverter(RepositoryWrapper repositories)
-		{
-			_repositories = repositories ?? throw new NullException(() => repositories);
-		}
+		public PatchToOperatorConverter(RepositoryWrapper repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
 
-		/// <param name="sourcePatch">nullable</param>
+	    /// <param name="sourcePatch">nullable</param>
 		public void Convert(Patch sourcePatch, Operator destOperator)
 		{
 			if (destOperator == null) throw new NullException(() => destOperator);

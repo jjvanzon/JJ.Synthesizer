@@ -72,44 +72,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return document.ToInstrumentBarViewModel(scale, midiMappings, patches);
 		}
 
-		public InstrumentBarViewModel AddMidiMappingGroup(InstrumentBarViewModel userInput, int midiMappingGroupID)
-		{
-			return ExecuteAction(
-				userInput,
-				entities =>
-				{
-					MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingGroupID);
-					entities.midiMappings.Add(midiMapping);
-				});
-		}
+		public InstrumentBarViewModel AddMidiMappingGroup(InstrumentBarViewModel userInput, int midiMappingGroupID) => ExecuteAction(
+		    userInput,
+		    entities =>
+		    {
+		        MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingGroupID);
+		        entities.midiMappings.Add(midiMapping);
+		    });
 
-		public InstrumentBarViewModel AddPatch(InstrumentBarViewModel userInput, int patchID)
-		{
-			return ExecuteAction(
-				userInput,
-				entities =>
-				{
-					Patch patch = _patchRepository.Get(patchID);
-					entities.patches.Add(patch);
-				});
-		}
+	    public InstrumentBarViewModel AddPatch(InstrumentBarViewModel userInput, int patchID) => ExecuteAction(
+	        userInput,
+	        entities =>
+	        {
+	            Patch patch = _patchRepository.Get(patchID);
+	            entities.patches.Add(patch);
+	        });
 
-		public InstrumentBarViewModel MoveMidiMappingGroup(InstrumentBarViewModel userInput, int midiMappingGroupID, int newPosition)
-		{
-			return ExecuteAction(
-				userInput,
-				entities =>
-				{
-					if (newPosition < 0) newPosition = 0;
-					if (newPosition > entities.midiMappings.Count - 1) newPosition = entities.midiMappings.Count - 1;
+	    public InstrumentBarViewModel MoveMidiMappingGroup(InstrumentBarViewModel userInput, int midiMappingGroupID, int newPosition) => ExecuteAction(
+	        userInput,
+	        entities =>
+	        {
+	            if (newPosition < 0) newPosition = 0;
+	            if (newPosition > entities.midiMappings.Count - 1) newPosition = entities.midiMappings.Count - 1;
 
-					MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingGroupID);
-					entities.midiMappings.Remove(midiMapping);
-					entities.midiMappings.Insert(newPosition, midiMapping);
-				});
-		}
+	            MidiMappingGroup midiMapping = _midiMappingGroupRepository.Get(midiMappingGroupID);
+	            entities.midiMappings.Remove(midiMapping);
+	            entities.midiMappings.Insert(newPosition, midiMapping);
+	        });
 
-		public InstrumentBarViewModel MoveMidiMappingGroupBackward(InstrumentBarViewModel userInput, int midiMappingGroupID)
+	    public InstrumentBarViewModel MoveMidiMappingGroupBackward(InstrumentBarViewModel userInput, int midiMappingGroupID)
 		{
 			int currentPosition = userInput.MidiMappingGroups.IndexOf(x => x.EntityID == midiMappingGroupID);
 
@@ -123,22 +114,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			return MoveMidiMappingGroup(userInput, midiMappingGroupID, currentPosition + 1);
 		}
 
-		public InstrumentBarViewModel MovePatch(InstrumentBarViewModel userInput, int patchID, int newPosition)
-		{
-			return ExecuteAction(
-				userInput,
-				entities =>
-				{
-					if (newPosition < 0) newPosition = 0;
-					if (newPosition > entities.patches.Count - 1) newPosition = entities.patches.Count - 1;
+		public InstrumentBarViewModel MovePatch(InstrumentBarViewModel userInput, int patchID, int newPosition) => ExecuteAction(
+		    userInput,
+		    entities =>
+		    {
+		        if (newPosition < 0) newPosition = 0;
+		        if (newPosition > entities.patches.Count - 1) newPosition = entities.patches.Count - 1;
 
-					Patch patch = _patchRepository.Get(patchID);
-					entities.patches.Remove(patch);
-					entities.patches.Insert(newPosition, patch);
-				});
-		}
+		        Patch patch = _patchRepository.Get(patchID);
+		        entities.patches.Remove(patch);
+		        entities.patches.Insert(newPosition, patch);
+		    });
 
-		public InstrumentBarViewModel MovePatchBackward(InstrumentBarViewModel userInput, int patchID)
+	    public InstrumentBarViewModel MovePatchBackward(InstrumentBarViewModel userInput, int patchID)
 		{
 			int currentPosition = userInput.Patches.IndexOf(x => x.EntityID == patchID);
 
@@ -189,31 +177,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 
-		public InstrumentBarViewModel DeleteMidiMappingGroup(InstrumentBarViewModel userInput, int midiMappingGroupID)
-		{
-			return ExecuteAction(userInput, entities => entities.midiMappings.RemoveFirst(x => x.ID == midiMappingGroupID));
-		}
+		public InstrumentBarViewModel DeleteMidiMappingGroup(InstrumentBarViewModel userInput, int midiMappingGroupID) => ExecuteAction(userInput, entities => entities.midiMappings.RemoveFirst(x => x.ID == midiMappingGroupID));
 
-		public InstrumentBarViewModel DeletePatch(InstrumentBarViewModel userInput, int patchID)
-		{
-			return ExecuteAction(userInput, entities => entities.patches.RemoveFirst(x => x.ID == patchID));
-		}
+	    public InstrumentBarViewModel DeletePatch(InstrumentBarViewModel userInput, int patchID) => ExecuteAction(userInput, entities => entities.patches.RemoveFirst(x => x.ID == patchID));
 
-		public InstrumentBarViewModel SetScale(InstrumentBarViewModel userInput, int scaleID)
-		{
-			return ExecuteAction(
-				userInput,
-				() =>
-				{
-					(Document document, _, IList<MidiMappingGroup> midiMappings, IList<Patch> patches) = GetEntity(userInput);
+	    public InstrumentBarViewModel SetScale(InstrumentBarViewModel userInput, int scaleID) => ExecuteAction(
+	        userInput,
+	        () =>
+	        {
+	            (Document document, _, IList<MidiMappingGroup> midiMappings, IList<Patch> patches) = GetEntity(userInput);
 
-					Scale scale = _scaleRepository.Get(scaleID);
+	            Scale scale = _scaleRepository.Get(scaleID);
 
-					return (document, scale, midiMappings, patches);
-				});
-		}
+	            return (document, scale, midiMappings, patches);
+	        });
 
-		[Obsolete("Call OpenDocument instead.", true)]
+	    [Obsolete("Call OpenDocument instead.", true)]
 		public override void Show(InstrumentBarViewModel viewModel) => throw new NotSupportedException("Call OpenDocument instead.");
 	}
 }

@@ -11,47 +11,23 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected abstract void InsertNumber(double number);
 		protected abstract void InsertEmptyInput();
 
-		protected override void VisitMultiplyInlet(Inlet inlet)
-		{
-			CoalesceToOne(inlet);
-		}
+		protected override void VisitMultiplyInlet(Inlet inlet) => CoalesceToOne(inlet);
 
-		protected override void VisitAverageOverInletsInlet(Inlet inlet)
-		{
-			CoalesceToEmptyInput(inlet);
-		}
+	    protected override void VisitAverageOverInletsInlet(Inlet inlet) => CoalesceToEmptyInput(inlet);
 
-		protected override void VisitClosestOverInletsExpInlet(Inlet inlet)
-		{
-			CoalesceToEmptyInput(inlet);
-		}
+	    protected override void VisitClosestOverInletsExpInlet(Inlet inlet) => CoalesceToEmptyInput(inlet);
 
-		protected override void VisitClosestOverInletsInlet(Inlet inlet)
-		{
-			CoalesceToEmptyInput(inlet);
-		}
+	    protected override void VisitClosestOverInletsInlet(Inlet inlet) => CoalesceToEmptyInput(inlet);
 
-		protected override void VisitMaxOverInletsInlet(Inlet inlet)
-		{
-			CoalesceToEmptyInput(inlet);
-		}
+	    protected override void VisitMaxOverInletsInlet(Inlet inlet) => CoalesceToEmptyInput(inlet);
 
-		protected override void VisitMinOverInletsInlet(Inlet inlet)
-		{
-			CoalesceToEmptyInput(inlet);
-		}
+	    protected override void VisitMinOverInletsInlet(Inlet inlet) => CoalesceToEmptyInput(inlet);
 
-		protected override void VisitSortOverInletsInlet(Inlet inlet)
-		{
-			CoalesceToEmptyInput(inlet);
-		}
+	    protected override void VisitSortOverInletsInlet(Inlet inlet) => CoalesceToEmptyInput(inlet);
 
-		protected override void VisitInletOther(Inlet inlet)
-		{
-			CoalesceToDefaultValueOrZero(inlet);
-		}
+	    protected override void VisitInletOther(Inlet inlet) => CoalesceToDefaultValueOrZero(inlet);
 
-		/// <summary>
+	    /// <summary>
 		/// Loop inlets have special coalescing: null ReleaseEndMarker or NoteDuration must coalesce to quasi-infinity.
 		/// </summary>
 		protected override void VisitLoopInlet(Inlet inlet)

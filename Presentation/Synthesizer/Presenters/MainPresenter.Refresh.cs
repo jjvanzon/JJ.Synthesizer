@@ -885,12 +885,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			detailsViewModel.RefreshID = RefreshIDProvider.GetRefreshID();
 		}
 
-		private void PatchDetails_RefreshOperator(Operator entity, OperatorViewModel operatorViewModel)
-		{
-			ToViewModelHelper.RefreshViewModel_WithInletsAndOutlets(entity, operatorViewModel);
-		}
+		private void PatchDetails_RefreshOperator(Operator entity, OperatorViewModel operatorViewModel) => ToViewModelHelper.RefreshViewModel_WithInletsAndOutlets(entity, operatorViewModel);
 
-		private void PatchDetailsDictionary_Refresh()
+	    private void PatchDetailsDictionary_Refresh()
 		{
 			// ReSharper disable once SuggestVarOrType_Elsewhere
 			var viewModelDictionary = MainViewModel.Document.PatchDetailsDictionary;

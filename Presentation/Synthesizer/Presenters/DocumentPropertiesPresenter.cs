@@ -22,22 +22,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_autoPatcher = new AutoPatcher(_repositories);
 		}
 
-		protected override Document GetEntity(DocumentPropertiesViewModel userInput)
-		{
-			return _repositories.DocumentRepository.Get(userInput.Entity.ID);
-		}
+		protected override Document GetEntity(DocumentPropertiesViewModel userInput) => _repositories.DocumentRepository.Get(userInput.Entity.ID);
 
-		protected override DocumentPropertiesViewModel ToViewModel(Document entity)
-		{
-			return entity.ToPropertiesViewModel();
-		}
+	    protected override DocumentPropertiesViewModel ToViewModel(Document entity) => entity.ToPropertiesViewModel();
 
-		protected override IResult Save(Document entity, DocumentPropertiesViewModel userInput)
-		{
-			return _documentFacade.Save(entity);
-		}
+	    protected override IResult Save(Document entity, DocumentPropertiesViewModel userInput) => _documentFacade.Save(entity);
 
-		public DocumentPropertiesViewModel Play(DocumentPropertiesViewModel userInput)
+	    public DocumentPropertiesViewModel Play(DocumentPropertiesViewModel userInput)
 		{
 			Outlet outlet = null;
 
@@ -53,10 +44,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 					}
 					return null;
 				},
-				viewModel =>
-				{
-					viewModel.OutletIDToPlay = outlet?.ID;
-				});
+				viewModel => viewModel.OutletIDToPlay = outlet?.ID);
 		}
 	}
 }

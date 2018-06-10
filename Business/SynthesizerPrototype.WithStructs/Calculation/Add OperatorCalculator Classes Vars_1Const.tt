@@ -43,8 +43,8 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 			private double _constValue;
             public double ConstValue
             {
-				get { return _constValue; }
-                set { _constValue = value; }
+				get => _constValue;
+                set => _constValue = value;
             }
 <# 
 			for (int j = 1; j <= i; j++)
@@ -78,8 +78,7 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 
 			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 			public double Calculate()
-			{
-				return _constValue +
+				=> _constValue +
 <#
 					for (int j = 1; j <= i; j++)
 					{
@@ -96,7 +95,6 @@ namespace JJ.Business.SynthesizerPrototype.WithStructs.Calculation
 						}
 					}
 #>
-			}
 		}
 <# 
 	}
