@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Common", "Framework\Common\JJ.Framework.Common.csproj", "{44FD9133-5FE7-4824-BD35-27273706D127}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.EntityFramework5", "Framework\Data.EntityFramework5\JJ.Framework.Data.EntityFramework5.csproj", "{9676E4C3-1A1F-45B8-8FFD-C398F14002E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.EntityFramework", "Framework\Data.EntityFramework\JJ.Framework.Data.EntityFramework.csproj", "{9676E4C3-1A1F-45B8-8FFD-C398F14002E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing", "Framework\Testing\JJ.Framework.Testing.csproj", "{369D4E9E-4EFF-4699-83B3-C4951EE0A3C3}"
 EndProject
@@ -1274,10 +1274,10 @@ Global
 		SccProjectTopLevelParentUniqueName5 = Synthesizer.sln
 		SccProjectName5 = Framework/Common
 		SccLocalPath5 = Framework\\Common
-		SccProjectUniqueName6 = Framework\\Data.EntityFramework5\\JJ.Framework.Data.EntityFramework5.csproj
+		SccProjectUniqueName6 = Framework\\Data.EntityFramework\\JJ.Framework.Data.EntityFramework.csproj
 		SccProjectTopLevelParentUniqueName6 = Synthesizer.sln
-		SccProjectName6 = Framework/Data.EntityFramework5
-		SccLocalPath6 = Framework\\Data.EntityFramework5
+		SccProjectName6 = Framework/Data.EntityFramework
+		SccLocalPath6 = Framework\\Data.EntityFramework
 		SccProjectUniqueName7 = Framework\\Testing\\JJ.Framework.Testing.csproj
 		SccProjectTopLevelParentUniqueName7 = Synthesizer.sln
 		SccProjectName7 = Framework/Testing
