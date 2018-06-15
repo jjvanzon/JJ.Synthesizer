@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
+// ReSharper disable LocalizableElement
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
