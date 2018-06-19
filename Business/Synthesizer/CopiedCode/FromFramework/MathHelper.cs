@@ -32,13 +32,13 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
 			return x;
 		}
 
-		/// <summary>
-		/// Integer variation of the Math.Log function.
-		/// It will only return integers,
-		/// but will prevent rounding erros such as
-		/// 1000 log 10 = 2.99999999996
-		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        /// <summary>
+        /// Integer variation of the Math.Log function.
+        /// It will only return integers,
+        /// but will prevent rounding errors such as
+        /// 1000 log 10 = 2.99999999996
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static int Log(int value, int n)
 		{
 			int temp = value;
