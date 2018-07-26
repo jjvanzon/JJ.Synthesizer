@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Tests
 		}
 
 		[TestMethod]
-		public void Test_Synthesizer_SineWithCurve_InterpretedMode()
+		public void Test_Synthesizer_SineWithCurve()
 		{
 			using (IContext context = PersistenceHelper.CreateContext())
 			{
