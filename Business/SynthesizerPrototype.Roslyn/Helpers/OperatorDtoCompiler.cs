@@ -6,8 +6,10 @@ using System.Reflection;
 using System.Text;
 using JJ.Business.SynthesizerPrototype.Dto;
 using JJ.Business.SynthesizerPrototype.Roslyn.Calculation;
+using JJ.Business.SynthesizerPrototype.Roslyn.CopiedCode.From_JJ_Business_SynthesizerPrototype;
 using JJ.Business.SynthesizerPrototype.Roslyn.Generators;
 using JJ.Business.SynthesizerPrototype.Visitors;
+using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.IO;
 using Microsoft.CodeAnalysis;
@@ -151,7 +153,10 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 
 		private static SyntaxTree CreateSineCalculatorSyntaxTree()
 		{
-			string sineCalculatorCodeFileCSharp = File.ReadAllText(SINE_CALCULATOR_CODE_FILE_NAME);
+		    string sineCalculatorCodeFileCSharp = EmbeddedResourceHelper.GetEmbeddedResourceText(
+		        typeof(SineCalculator).Assembly,
+		        "CopiedCode.From_JJ_Business_SynthesizerPrototype",
+                "SineCalculator_EmbeddedResource.cs");
 
 			return CSharpSyntaxTree.ParseText(sineCalculatorCodeFileCSharp, path: SINE_CALCULATOR_CODE_FILE_NAME, encoding: Encoding.UTF8);
 		}

@@ -126,9 +126,8 @@
     <Compile Include="Calculation\ExamplePatchCalculatorOutputCode.cs" />
     <Compile Include="Calculation\IOperatorCalculator.cs" />
     <Compile Include="Calculation\IPatchCalculator.cs" />
-    <Compile Include="CopiedCode\From_JJ_Business_SynthesizerPrototype\SineCalculator.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    <EmbeddedResource Include="CopiedCode\From_JJ_Business_SynthesizerPrototype\SineCalculator_EmbeddedResource.cs" />
+    <Compile Include="CopiedCode\From_JJ_Business_SynthesizerPrototype\SineCalculator.cs" />
     <Compile Include="Helpers\CompilationHelper.cs" />
     <Compile Include="Helpers\OperatorDtoCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +141,10 @@
     <ProjectReference Include="..\..\Framework\Collections\JJ.Framework.Collections.csproj">
       <Project>{5D06A212-5459-47F3-8109-E012C5FC9E3A}</Project>
       <Name>JJ.Framework.Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Common\JJ.Framework.Common.csproj">
+      <Project>{44FD9133-5FE7-4824-BD35-27273706D127}</Project>
+      <Name>JJ.Framework.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Exceptions\JJ.Framework.Exceptions.csproj">
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>

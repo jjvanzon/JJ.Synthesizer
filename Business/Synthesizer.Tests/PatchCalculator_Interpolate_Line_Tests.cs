@@ -19,6 +19,8 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_PatchCalculator_Interpolate_Line_Forward_StartPositionNegative()
         {
+            Assert.Inconclusive("The assertions are known to not be correct yet.");
+
             using (IContext context = PersistenceHelper.CreateContext())
             {
                 // Arrange
@@ -72,6 +74,8 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_PatchCalculator_Interpolate_Line_Backward_StartPositionNegative()
         {
+            Assert.Inconclusive("The assertions are known to not be correct yet.");
+
             using (IContext context = PersistenceHelper.CreateContext())
             {
                 // Arrange
