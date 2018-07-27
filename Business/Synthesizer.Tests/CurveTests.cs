@@ -7,115 +7,124 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
 using JJ.Framework.Data;
 using JJ.Framework.Testing;
+using JJ.Framework.Testing.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests
 {
-	[TestClass]
-	public class CurveTests
-	{
-		[TestMethod]
-		public void Test_Curve_Off()
-		{
-			using (IContext context = PersistenceHelper.CreateContext())
-			{
-				CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
-				var curveFacade = new CurveFacade(repositories);
+    [TestClass]
+    public class CurveTests
+    {
+        [TestMethod]
+        public void Test_Curve_Off()
+            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
+                () =>
+                {
+                    using (IContext context = PersistenceHelper.CreateContext())
+                    {
+                        CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
+                        var curveFacade = new CurveFacade(repositories);
 
-				Curve curve = CreateTestCurve(curveFacade);
-				curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Off, repositories.NodeTypeRepository));
+                        Curve curve = CreateTestCurve(curveFacade);
+                        curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Off, repositories.NodeTypeRepository));
 
-				ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
-				AssertHelper.AreEqual(0, () => calculator.Calculate(0.0));
-				AssertHelper.AreEqual(0, () => calculator.Calculate(0.5));
-				AssertHelper.AreEqual(0, () => calculator.Calculate(1.0));
-				AssertHelper.AreEqual(0, () => calculator.Calculate(1.5));
-				AssertHelper.AreEqual(0, () => calculator.Calculate(2.0));
-			}
-		}
+                        ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
+                        AssertHelper.AreEqual(0, () => calculator.Calculate(0.0));
+                        AssertHelper.AreEqual(0, () => calculator.Calculate(0.5));
+                        AssertHelper.AreEqual(0, () => calculator.Calculate(1.0));
+                        AssertHelper.AreEqual(0, () => calculator.Calculate(1.5));
+                        AssertHelper.AreEqual(0, () => calculator.Calculate(2.0));
+                    }
+                });
 
-		[TestMethod]
-		public void Test_Curve_Block()
-		{
-			using (IContext context = PersistenceHelper.CreateContext())
-			{
-				CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
-				var curveFacade = new CurveFacade(repositories);
+        [TestMethod]
+        public void Test_Curve_Block()
+            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
+                () =>
+                {
+                    using (IContext context = PersistenceHelper.CreateContext())
+                    {
+                        CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
+                        var curveFacade = new CurveFacade(repositories);
 
-				Curve curve = CreateTestCurve(curveFacade);
-				curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Block, repositories.NodeTypeRepository));
+                        Curve curve = CreateTestCurve(curveFacade);
+                        curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Block, repositories.NodeTypeRepository));
 
-				ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
-				AssertHelper.AreEqual(1, () => calculator.Calculate(0.0));
-				AssertHelper.AreEqual(1, () => calculator.Calculate(0.5));
-				AssertHelper.AreEqual(2, () => calculator.Calculate(1.0));
-				AssertHelper.AreEqual(2, () => calculator.Calculate(1.5));
-				AssertHelper.AreEqual(0, () => calculator.Calculate(2.0));
-			}
-		}
+                        ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
+                        AssertHelper.AreEqual(1, () => calculator.Calculate(0.0));
+                        AssertHelper.AreEqual(1, () => calculator.Calculate(0.5));
+                        AssertHelper.AreEqual(2, () => calculator.Calculate(1.0));
+                        AssertHelper.AreEqual(2, () => calculator.Calculate(1.5));
+                        AssertHelper.AreEqual(0, () => calculator.Calculate(2.0));
+                    }
+                });
 
-		[TestMethod]
-		public void Test_Curve_Line()
-		{
-			using (IContext context = PersistenceHelper.CreateContext())
-			{
-				CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
-				var curveFacade = new CurveFacade(repositories);
+        [TestMethod]
+        public void Test_Curve_Line()
+            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
+                () =>
+                {
+                    using (IContext context = PersistenceHelper.CreateContext())
+                    {
+                        CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
+                        var curveFacade = new CurveFacade(repositories);
 
-				Curve curve = CreateTestCurve(curveFacade);
-				curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Line, repositories.NodeTypeRepository));
+                        Curve curve = CreateTestCurve(curveFacade);
+                        curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Line, repositories.NodeTypeRepository));
 
-				ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
-				AssertHelper.AreEqual(1.0, () => calculator.Calculate(0.0));
-				AssertHelper.AreEqual(1.5, () => calculator.Calculate(0.5));
-				AssertHelper.AreEqual(2.0, () => calculator.Calculate(1.0));
-				AssertHelper.AreEqual(1.0, () => calculator.Calculate(1.5));
-				AssertHelper.AreEqual(0.0, () => calculator.Calculate(2.0));
-			}
-		}
+                        ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
+                        AssertHelper.AreEqual(1.0, () => calculator.Calculate(0.0));
+                        AssertHelper.AreEqual(1.5, () => calculator.Calculate(0.5));
+                        AssertHelper.AreEqual(2.0, () => calculator.Calculate(1.0));
+                        AssertHelper.AreEqual(1.0, () => calculator.Calculate(1.5));
+                        AssertHelper.AreEqual(0.0, () => calculator.Calculate(2.0));
+                    }
+                });
 
-		[TestMethod]
-		public void Test_Curve_MixedNodeTypes()
-		{
-			using (IContext context = PersistenceHelper.CreateContext())
-			{
-				CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
-				var curveFacade = new CurveFacade(repositories);
-				Curve curve = curveFacade.Create
-				(
-					3,
-					(0.5, NodeTypeEnum.Off),
-					(2.0, NodeTypeEnum.Block),
-					(1.0, NodeTypeEnum.Line),
-					(0.5, NodeTypeEnum.Off)
-				);
+        [TestMethod]
+        public void Test_Curve_MixedNodeTypes()
+            => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
+                () =>
+                {
+                    using (IContext context = PersistenceHelper.CreateContext())
+                    {
+                        CurveRepositories repositories = PersistenceHelper.CreateCurveRepositories(context);
+                        var curveFacade = new CurveFacade(repositories);
 
-				ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
+                        Curve curve = curveFacade.Create(
+                            3,
+                            (0.5, NodeTypeEnum.Off),
+                            (2.0, NodeTypeEnum.Block),
+                            (1.0, NodeTypeEnum.Line),
+                            (0.5, NodeTypeEnum.Off)
+                        );
 
-				// Off
-				AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.0));
-				AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.5));
-				// Block
-				AssertHelper.AreEqual(2.00, () => calculator.Calculate(1.0));
-				AssertHelper.AreEqual(2.00, () => calculator.Calculate(1.5));
-				// Line
-				AssertHelper.AreEqual(1.00, () => calculator.Calculate(2.0));
-				// Behavior is different in JJ code base compared to the Circle code base. 
-				// In the Circle code base, an Off node means value = 0.
-				// In the JJ code base, a previous linear node will use the non-zero the value of the Off node.
-				AssertHelper.AreEqual(0.75, () => calculator.Calculate(2.5));
-				// Off
-				AssertHelper.AreEqual(0.00, () => calculator.Calculate(3.0));
-			}
-		}
+                        ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
 
-		// Helpers
+                        // Off
+                        AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.0));
+                        AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.5));
+                        // Block
+                        AssertHelper.AreEqual(2.00, () => calculator.Calculate(1.0));
+                        AssertHelper.AreEqual(2.00, () => calculator.Calculate(1.5));
+                        // Line
+                        AssertHelper.AreEqual(1.00, () => calculator.Calculate(2.0));
+                        // Behavior is different in JJ code base compared to the Circle code base. 
+                        // In the Circle code base, an Off node means value = 0.
+                        // In the JJ code base, a previous linear node will use the non-zero the value of the Off node.
+                        AssertHelper.AreEqual(0.75, () => calculator.Calculate(2.5));
+                        // Off
+                        AssertHelper.AreEqual(0.00, () => calculator.Calculate(3.0));
+                    }
+                });
 
-		private static Curve CreateTestCurve(CurveFacade curveFacade)
-		{
-			Curve curve = curveFacade.Create(2, 1, 2, 0);
-			curve.Name = "Curve";
-			return curve;
-		}
-	}
+        // Helpers
+
+        private static Curve CreateTestCurve(CurveFacade curveFacade)
+        {
+            Curve curve = curveFacade.Create(2, 1, 2, 0);
+            curve.Name = "Curve";
+            return curve;
+        }
+    }
 }

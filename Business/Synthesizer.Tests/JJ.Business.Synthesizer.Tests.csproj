@@ -104,6 +104,10 @@
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Testing.Data\JJ.Framework.Testing.Data.csproj">
+      <Project>{f6e87698-b73b-43f5-aff2-54c2f219334e}</Project>
+      <Name>JJ.Framework.Testing.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
