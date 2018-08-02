@@ -1762,15 +1762,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Node Type.
-        /// </summary>
-        internal static string NodeType {
-            get {
-                return ResourceManager.GetString("NodeType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Noise.
         /// </summary>
         internal static string Noise {
@@ -1875,15 +1866,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Octave {
             get {
                 return ResourceManager.GetString("Octave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Off.
-        /// </summary>
-        internal static string Off {
-            get {
-                return ResourceManager.GetString("Off", resourceCulture);
             }
         }
         

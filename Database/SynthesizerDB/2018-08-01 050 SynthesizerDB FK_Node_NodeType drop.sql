@@ -1,0 +1,1 @@
+alter table Node drop constraint FK_Node_NodeType

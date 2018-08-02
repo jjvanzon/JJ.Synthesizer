@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			AddProperty(labelX, numericUpDownX);
 			AddProperty(labelY, numericUpDownY);
-			AddProperty(labelNodeType, comboBoxNodeType);
+			AddProperty(labelInterpolationType, comboBoxInterpolationType);
 		}
 
 		protected override void SetTitles()
@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			TitleBarText = CommonResourceFormatter.Properties_WithName(ResourceFormatter.Node);
 			labelX.Text = ResourceFormatter.X;
 			labelY.Text = ResourceFormatter.Y;
-			labelNodeType.Text = CommonResourceFormatter.Type;
+			labelInterpolationType.Text = ResourceFormatter.Interpolation;
 		}
 
 		// Binding
@@ -48,20 +48,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			numericUpDownX.Value = (decimal)ViewModel.Entity.X;
 			numericUpDownY.Value = (decimal)ViewModel.Entity.Y;
 
-			if (comboBoxNodeType.DataSource == null)
+			if (comboBoxInterpolationType.DataSource == null)
 			{
-				comboBoxNodeType.ValueMember = nameof(IDAndName.ID);
-				comboBoxNodeType.DisplayMember = nameof(IDAndName.Name);
-				comboBoxNodeType.DataSource = ViewModel.NodeTypeLookup;
+				comboBoxInterpolationType.ValueMember = nameof(IDAndName.ID);
+				comboBoxInterpolationType.DisplayMember = nameof(IDAndName.Name);
+				comboBoxInterpolationType.DataSource = ViewModel.InterpolationTypeLookup;
 			}
 
-			if (ViewModel.Entity.NodeType != null)
+			if (ViewModel.Entity.Interpolation != null)
 			{
-				comboBoxNodeType.SelectedValue = ViewModel.Entity.NodeType.ID;
+				comboBoxInterpolationType.SelectedValue = ViewModel.Entity.Interpolation.ID;
 			}
 			else
 			{
-				comboBoxNodeType.SelectedValue = 0;
+				comboBoxInterpolationType.SelectedValue = 0;
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		{
 			ViewModel.Entity.X = (double)numericUpDownX.Value;
 			ViewModel.Entity.Y = (double)numericUpDownY.Value;
-			ViewModel.Entity.NodeType = (IDAndName)comboBoxNodeType.SelectedItem;
+			ViewModel.Entity.Interpolation = (IDAndName)comboBoxInterpolationType.SelectedItem;
 		}
 	}
 }

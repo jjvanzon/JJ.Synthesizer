@@ -519,9 +519,6 @@
   <data name="Nodes" xml:space="preserve">
     <value>Knooppunten</value>
   </data>
-  <data name="NodeType" xml:space="preserve">
-    <value>Knooppunt soort</value>
-  </data>
   <data name="Noise" xml:space="preserve">
     <value>Ruis</value>
   </data>
@@ -545,9 +542,6 @@
   </data>
   <data name="Octave" xml:space="preserve">
     <value>Octaaf</value>
-  </data>
-  <data name="Off" xml:space="preserve">
-    <value>Uit</value>
   </data>
   <data name="Offset" xml:space="preserve">
     <value>Begin</value>

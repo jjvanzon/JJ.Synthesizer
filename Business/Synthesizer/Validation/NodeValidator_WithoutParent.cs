@@ -13,7 +13,6 @@ namespace JJ.Business.Synthesizer.Validation
 
 			ExecuteValidator(new IDValidator(entity.ID));
 
-			For(entity.NodeType, ResourceFormatter.NodeType).NotNull();
 			For(entity.X, ResourceFormatter.X).NotNaN().NotInfinity();
 			For(entity.Y, ResourceFormatter.Y).NotNaN().NotInfinity();
 		}

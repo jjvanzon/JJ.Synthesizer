@@ -146,22 +146,14 @@ namespace JJ.Data.Synthesizer.Helpers
 
 			sb.Append($"x={entity.X} y={entity.Y} ");
 
-			if (!string.IsNullOrEmpty(entity.NodeType?.Name))
+			if (!string.IsNullOrEmpty(entity.InterpolationType?.Name))
 			{
-				sb.Append($"({entity.NodeType.Name}) ");
+				sb.Append($"({entity.InterpolationType.Name}) ");
 			}
 
 			sb.Append($"({entity.ID})");
 
 			return sb.ToString();
-		}
-
-		internal static string GetDebuggerDisplay(NodeType entity)
-		{
-			if (entity == null) throw new NullException(() => entity);
-
-			string debuggerDisplay = CommonDebuggerDisplayFormatter.GetDebuggerDisplayWithIDAndName<NodeType>(entity.ID, entity.Name);
-			return debuggerDisplay;
 		}
 
 		public static string GetDebuggerDisplay(Operator op)

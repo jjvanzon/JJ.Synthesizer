@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
 	internal partial class CurveDetailsUserControl : DetailsOrPropertiesUserControlBase
 	{
-		public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
+		public event EventHandler<EventArgs<int>> ChangeInterpolationOfSelectedNodeRequested;
 		public event EventHandler<EventArgs<int>> CreateNodeRequested;
 		public event EventHandler<EventArgs<int>> ExpandCurveRequested;
 		public event EventHandler<MoveNodeEventArgs> NodeMoving;
@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			_converter.Result.BackgroundClickGesture.Click += BackgroundClickGesture_Click;
 			_converter.Result.BackgroundDoubleClickGesture.DoubleClick += BackgroundDoubleClickGesture_DoubleClick;
-			_converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
+			_converter.Result.ChangeInterpolationTypeGesture.ChangeInterpolationOfSelectedNodeRequested += ChangeInterpolationOfSelectedNodeGesture_ChangeInterpolationOfSelectedNodeRequested;
 			_converter.Result.KeyDownGesture.KeyDown += Diagram_KeyDown;
 			_converter.Result.DeleteGesture.DeleteSelectionRequested += DeleteGesture_DeleteSelectionRequested;
 			_converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
@@ -221,10 +221,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			ExpandCurveRequested(sender, new EventArgs<int>(ViewModel.Curve.ID));
 		}
 
-		private void ChangeNodeTypeGesture_ChangeNodeTypeRequested(object sender, EventArgs e)
+		private void ChangeInterpolationOfSelectedNodeGesture_ChangeInterpolationOfSelectedNodeRequested(object sender, EventArgs e)
 		{
 			if (ViewModel == null) return;
-			ChangeSelectedNodeTypeRequested(this, new EventArgs<int>(ViewModel.Curve.ID));
+			ChangeInterpolationOfSelectedNodeRequested(this, new EventArgs<int>(ViewModel.Curve.ID));
 		}
 
 		private void ExpandNodeKeyboardGesture_ExpandRequested(object sender, IDEventArgs e)

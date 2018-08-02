@@ -363,7 +363,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			// Order-Dependence: OperatorPropertiesViewModel_ForCurve should be converted before CurveDetails.
 			viewModel.CurveDetailsDictionary.Values.ToEntitiesWithNodes(destDocument.GetCurves(), curveRepositories);
 			// Order-Dependence: NodeProperties are leading over the CurveDetails Nodes.
-			viewModel.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository));
+			viewModel.NodePropertiesDictionary.Values.ForEach(x => x.ToEntity(repositories.NodeRepository, repositories.InterpolationTypeRepository));
 
 			viewModel.MidiMappingGroupDetailsDictionary.Values.ToEntitiesWithRelatedEntities(destDocument, midiMappingRepositories);
 			// Order-Dependence: MidiMappingProperties are leading over MidiMappingGroupDetails items.
@@ -755,7 +755,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
 			foreach (NodeViewModel viewModel in viewModelList)
 			{
-				Node entity = viewModel.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository);
+				Node entity = viewModel.ToEntity(repositories.NodeRepository, repositories.InterpolationTypeRepository);
 				entity.LinkTo(destCurve);
 
 				idsToKeep.Add(entity.ID);
@@ -771,11 +771,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			}
 		}
 
-		public static Node ToEntity(this NodeViewModel viewModel, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
+		public static Node ToEntity(this NodeViewModel viewModel, INodeRepository nodeRepository, IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 			if (nodeRepository == null) throw new NullException(() => nodeRepository);
-			if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+			if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
 
 			Node entity = nodeRepository.TryGet(viewModel.ID);
 			if (entity == null)
@@ -787,17 +787,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 			entity.X = viewModel.X;
 			entity.Y = viewModel.Y;
 
-			var nodeTypeEnum = (NodeTypeEnum)(viewModel.NodeType?.ID ?? 0);
-			entity.SetNodeTypeEnum(nodeTypeEnum, nodeTypeRepository);
+			var interpolationTypeEnum = (InterpolationTypeEnum)(viewModel.Interpolation?.ID ?? 0);
+			entity.SetInterpolationTypeEnum(interpolationTypeEnum, interpolationTypeRepository);
 
 			return entity;
 		}
 
-		public static Node ToEntity(this NodePropertiesViewModel viewModel, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
+		public static Node ToEntity(this NodePropertiesViewModel viewModel, INodeRepository nodeRepository, IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (viewModel == null) throw new NullException(() => viewModel);
 
-			Node entity = viewModel.Entity.ToEntity(nodeRepository, nodeTypeRepository);
+			Node entity = viewModel.Entity.ToEntity(nodeRepository, interpolationTypeRepository);
 			return entity;
 		}
 

@@ -34,10 +34,10 @@ namespace JJ.Business.Synthesizer.Tests
                 var curve = o.Curve(
                     dimensionEnum,
                     "",
-                    (-1.5, 1, NodeTypeEnum.Block),
-                    (-0.5, -1, NodeTypeEnum.Block),
-                    (0.5, 2, NodeTypeEnum.Block),
-                    (1.5, -2, NodeTypeEnum.Block));
+                    (-1.5, 1, InterpolationTypeEnum.Block),
+                    (-0.5, -1, InterpolationTypeEnum.Block),
+                    (0.5, 2, InterpolationTypeEnum.Block),
+                    (1.5, -2, InterpolationTypeEnum.Block));
 
                 var interpolate = o.Interpolate(curve, o.Number(1), InterpolationTypeEnum.Line, dimensionEnum);
 
@@ -89,10 +89,10 @@ namespace JJ.Business.Synthesizer.Tests
                 var curve = o.Curve(
                     dimensionEnum,
                     "",
-                    (-1.5, 1, NodeTypeEnum.Block),
-                    (-0.5, -1, NodeTypeEnum.Block),
-                    (0.5, 2, NodeTypeEnum.Block),
-                    (1.5, -2, NodeTypeEnum.Block));
+                    (-1.5, 1, InterpolationTypeEnum.Block),
+                    (-0.5, -1, InterpolationTypeEnum.Block),
+                    (0.5, 2, InterpolationTypeEnum.Block),
+                    (1.5, -2, InterpolationTypeEnum.Block));
 
                 var interpolate = o.Interpolate(curve, o.Number(1), InterpolationTypeEnum.Line, dimensionEnum);
 

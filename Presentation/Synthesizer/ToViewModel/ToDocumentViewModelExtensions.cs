@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				LibraryPropertiesDictionary = document.LowerDocumentReferences.Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.DocumentReferenceID),
 				MidiMappingGroupDetailsDictionary = document.MidiMappingGroups.Select(x => x.ToDetailsViewModel()).ToDictionary(x => x.MidiMappingGroup.ID),
 				MidiMappingPropertiesDictionary = document.MidiMappingGroups.SelectMany(x => x.MidiMappings).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.ID),
-				NodePropertiesDictionary = document.GetCurves().SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel()).ToDictionary(x => x.Entity.ID),
+				NodePropertiesDictionary = document.GetCurves().SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel(repositories.InterpolationTypeRepository)).ToDictionary(x => x.Entity.ID),
 				OperatorPropertiesDictionary = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_WitStandardPropertiesView()).ToDictionary(x => x.ID),
 				OperatorPropertiesDictionary_ForCaches = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCaches(repositories.InterpolationTypeRepository)).ToDictionary(x => x.ID),
 				OperatorPropertiesDictionary_ForCurves = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForCurves()).ToDictionary(x => x.ID),

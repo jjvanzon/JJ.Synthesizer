@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Tests
     public class CurveTests
     {
         [TestMethod]
-        public void Test_Curve_Off()
+        public void Test_Curve_Interpolation_Undefined()
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
                 {
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests
                         var curveFacade = new CurveFacade(repositories);
 
                         Curve curve = CreateTestCurve(curveFacade);
-                        curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Off, repositories.NodeTypeRepository));
+                        curve.Nodes.ForEach(x => x.SetInterpolationTypeEnum(InterpolationTypeEnum.Undefined, repositories.InterpolationTypeRepository));
 
                         ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
                         AssertHelper.AreEqual(0, () => calculator.Calculate(0.0));
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Tests
                         var curveFacade = new CurveFacade(repositories);
 
                         Curve curve = CreateTestCurve(curveFacade);
-                        curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Block, repositories.NodeTypeRepository));
+                        curve.Nodes.ForEach(x => x.SetInterpolationTypeEnum(InterpolationTypeEnum.Block, repositories.InterpolationTypeRepository));
 
                         ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
                         AssertHelper.AreEqual(1, () => calculator.Calculate(0.0));
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Tests
                         var curveFacade = new CurveFacade(repositories);
 
                         Curve curve = CreateTestCurve(curveFacade);
-                        curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Line, repositories.NodeTypeRepository));
+                        curve.Nodes.ForEach(x => x.SetInterpolationTypeEnum(InterpolationTypeEnum.Line, repositories.InterpolationTypeRepository));
 
                         ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
                         AssertHelper.AreEqual(1.0, () => calculator.Calculate(0.0));
@@ -93,15 +93,15 @@ namespace JJ.Business.Synthesizer.Tests
 
                         Curve curve = curveFacade.Create(
                             3,
-                            (0.5, NodeTypeEnum.Off),
-                            (2.0, NodeTypeEnum.Block),
-                            (1.0, NodeTypeEnum.Line),
-                            (0.5, NodeTypeEnum.Off)
+                            (0.5, InterpolationTypeEnum.Undefined),
+                            (2.0, InterpolationTypeEnum.Block),
+                            (1.0, InterpolationTypeEnum.Line),
+                            (0.5, InterpolationTypeEnum.Undefined)
                         );
 
                         ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
 
-                        // Off
+                        // Undefined
                         AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.0));
                         AssertHelper.AreEqual(0.00, () => calculator.Calculate(0.5));
                         // Block
@@ -111,9 +111,9 @@ namespace JJ.Business.Synthesizer.Tests
                         AssertHelper.AreEqual(1.00, () => calculator.Calculate(2.0));
                         // Behavior is different in JJ code base compared to the Circle code base. 
                         // In the Circle code base, an Off node means value = 0.
-                        // In the JJ code base, a previous linear node will use the non-zero the value of the Off node.
+                        // In the JJ code base, a previous linear node will use the non-zero the value of the Undefined node.
                         AssertHelper.AreEqual(0.75, () => calculator.Calculate(2.5));
-                        // Off
+                        // Undefined
                         AssertHelper.AreEqual(0.00, () => calculator.Calculate(3.0));
                     }
                 });

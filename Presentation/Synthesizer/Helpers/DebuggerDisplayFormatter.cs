@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 		private static string GetIdentifier(NodeViewModel viewModel)
 		{
 			if (viewModel == null) throw new ArgumentNullException(nameof(viewModel));
-			string debuggerDisplay = $"{new { viewModel.X, viewModel.Y, NodeType = viewModel.NodeType?.Name }}";
+			string debuggerDisplay = $"{new { viewModel.X, viewModel.Y, Interpolation = viewModel.Interpolation?.Name }}";
 			return debuggerDisplay;
 		}
 

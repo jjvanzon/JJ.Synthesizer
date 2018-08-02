@@ -169,9 +169,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
 
 			Point previousPoint = null;
-			NodeViewModel previousNodeViewModel = null;
 
-			foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
+		    foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
 			{
 				// Coordinates are always relative. (Lowest x translates to x = 0, relative to the background.)
 				float x = Result.Diagram.Background.Position.AbsoluteToRelativeX((float)nodeViewModel.X);
@@ -215,10 +214,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 				point.Position.X = scaledNodeRectangleWidthOver2;
 				point.Position.Y = scaledNodeRectangleHeightOver2;
 
-				// TODO: Low priority: If NodeViewModel had a property IsSelected,
-				// you would not have had to pass the CurveDetailsViewModel to this converter,
-				// but only an IList<NodeViewModel>.
-				if (nodeViewModel.ID == curveDetailsViewModel.SelectedNodeID)
+                // TODO: Low priority: If NodeViewModel had a property IsSelected,
+                // you would not have had to pass the CurveDetailsViewModel to this converter,
+                // but only an IList<NodeViewModel>.
+                if (nodeViewModel.ID == curveDetailsViewModel.SelectedNodeID)
 				{
 					point.PointStyle = StyleHelper.PointStyleThickSelected;
 				}
@@ -229,12 +228,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 				if (previousPoint != null)
 				{
-					var nodeTypeEnum = (NodeTypeEnum)previousNodeViewModel.NodeType.ID;
-					CreateLines_WithRelatedElements(Result.Diagram, previousPoint, point, nodeTypeEnum);
+					CreateLines_WithRelatedElements(previousPoint, point);
 				}
 
 				previousPoint = point;
-				previousNodeViewModel = nodeViewModel;
 			}
 
 			// Delete accessory points and rectangles.
@@ -450,118 +447,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			_waterMarkTitleLabel.Position.Height = _waterMarkTitleLabel.Diagram.Position.ScaledHeight;
 		}
 
-		private void CreateLines_WithRelatedElements(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
-		{
-			switch (previousNodeTypeEnum)
-			{
-				case NodeTypeEnum.Line:
-					CreateLines_WithRelatedElements_ForNodeTypeLine(diagram, previousPoint, nextPoint);
-					break;
-
-				case NodeTypeEnum.Block:
-					CreateLines_WithRelatedElements_ForNodeTypeBlock(diagram, previousPoint, nextPoint);
-					break;
-
-				case NodeTypeEnum.Off:
-					CreateLines_WithRelatedElements_ForNodeTypeOff(diagram, previousPoint, nextPoint);
-					break;
-
-				case NodeTypeEnum.Curve:
-					CreateLines_WithRelatedElements_ForNodeTypeCurve(previousPoint, nextPoint);
-					break;
-
-				default:
-					throw new InvalidValueException(previousNodeTypeEnum);
-			}
-		}
-
-		private void CreateLines_WithRelatedElements_ForNodeTypeOff(Diagram diagram, Point previousPoint, Point nextPoint)
-		{
-			// ReSharper disable once UseObjectOrCollectionInitializer
-			var verticalLineTo0 = new Line(diagram.Background)
-			{
-				PointA = previousPoint,
-				LineStyle = StyleHelper.LineStyleThick,
-				Tag = HELPER_ELEMENT_TAG
-			};
-
-			verticalLineTo0.PointB = new Point(previousPoint)
-			{
-				PointStyle = StyleHelper.PointStyleInvisible,
-				Tag = HELPER_ELEMENT_TAG
-			};
-			verticalLineTo0.PointB.Position.X = 0;
-			verticalLineTo0.PointB.Position.Y = previousPoint.Position.AbsoluteToRelativeY(0);
-
-			// ReSharper disable once UseObjectOrCollectionInitializer
-			var horizontalLine = new Line(diagram.Background)
-			{
-				PointA = verticalLineTo0.PointB,
-				LineStyle = StyleHelper.LineStyleThick,
-				Tag = HELPER_ELEMENT_TAG
-			};
-
-			horizontalLine.PointB = new Point(nextPoint)
-			{
-				PointStyle = StyleHelper.PointStyleInvisible,
-				Tag = HELPER_ELEMENT_TAG
-			};
-			horizontalLine.PointB.Position.X = 0;
-			horizontalLine.PointB.Position.Y = nextPoint.Position.AbsoluteToRelativeY(0);
-
-			// ReSharper disable once UnusedVariable
-			var verticalLineToNextPoint = new Line(diagram.Background)
-			{
-				PointA = horizontalLine.PointB,
-				PointB = nextPoint,
-				LineStyle = StyleHelper.LineStyleThick,
-				Tag = HELPER_ELEMENT_TAG
-			};
-		}
-
-		private void CreateLines_WithRelatedElements_ForNodeTypeBlock(Diagram diagram, Point previousPoint, Point nextPoint)
-		{
-			// Create horizontal line to the next node.
-			// ReSharper disable once UseObjectOrCollectionInitializer
-			var line = new Line(diagram.Background)
-			{
-				PointA = previousPoint,
-				LineStyle = StyleHelper.LineStyleThick,
-				Tag = HELPER_ELEMENT_TAG
-			};
-
-			line.PointB = new Point(nextPoint)
-			{
-				PointStyle = StyleHelper.PointStyleInvisible,
-				Tag = HELPER_ELEMENT_TAG
-			};
-			line.PointB.Position.X = 0;
-			line.PointB.Position.Y = nextPoint.Position.AbsoluteToRelativeY(previousPoint.Position.AbsoluteY);
-
-			// Create vertical line down.
-			// ReSharper disable once UnusedVariable
-			var line2 = new Line(diagram.Background)
-			{
-				PointA = line.PointB,
-				PointB = nextPoint,
-				LineStyle = StyleHelper.LineStyleThick,
-				Tag = HELPER_ELEMENT_TAG
-			};
-		}
-
-		private void CreateLines_WithRelatedElements_ForNodeTypeLine(Diagram diagram, Point previousPoint, Point nextPoint)
-		{
-			// ReSharper disable once UnusedVariable
-			var line = new Line(diagram.Background)
-			{
-				PointA = previousPoint,
-				PointB = nextPoint,
-				LineStyle = StyleHelper.LineStyleThick,
-				Tag = HELPER_ELEMENT_TAG
-			};
-		}
-
-		private void CreateLines_WithRelatedElements_ForNodeTypeCurve(Point previousPoint, Point nextPoint)
+		private void CreateLines_WithRelatedElements(Point previousPoint, Point nextPoint)
 		{
 			Diagram diagram = previousPoint.Diagram;
 
@@ -620,11 +506,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 		private CurveInfo CreateCurveInfo(IList<NodeViewModel> nodeViewModels)
 		{
-			(double X, double Y, NodeTypeEnum)[] nodeTuples = nodeViewModels.Select(x => (x.X, x.Y, (NodeTypeEnum)x.NodeType.ID)).ToArray();
+		    (double X, double Y, InterpolationTypeEnum)[] nodeTuples =
+		        nodeViewModels.Select(x => (x.X, x.Y, (InterpolationTypeEnum)x.Interpolation.ID)).ToArray();
 
 			Curve mockCurve = _curveFacade.Create(nodeTuples);
 
-			IList<NodeInfo> noteInfos = mockCurve.Nodes.Zip(
+			IList<NodeInfo> nodeInfos = mockCurve.Nodes.Zip(
 				nodeViewModels,
 				(e, v) => new NodeInfo
 				{
@@ -635,7 +522,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			return new CurveInfo
 			{
 				MockCurve = mockCurve,
-				NodeInfos = noteInfos
+				NodeInfos = nodeInfos
 			};
 		}
 

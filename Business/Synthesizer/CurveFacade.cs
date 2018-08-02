@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer
 			new Curve_SideEffect_SetDefaults_Nodes(
 				curve,
 				_repositories.NodeRepository,
-				_repositories.NodeTypeRepository,
+				_repositories.InterpolationTypeRepository,
 				_repositories.IDRepository)
 				.Execute();
 
@@ -63,34 +63,34 @@ namespace JJ.Business.Synthesizer
 			return curve;
 		}
 
-		public Curve Create(params (double x, double y, NodeTypeEnum nodeTypeEnum)[] nodeTuples)
-				  => Create((IList<(double x, double y, NodeTypeEnum nodeTypeEnum)>)nodeTuples);
+		public Curve Create(params (double x, double y, InterpolationTypeEnum interpolationTypeEnum)[] nodeTuples)
+				  => Create((IList<(double x, double y, InterpolationTypeEnum interpolationTypeEnum)>)nodeTuples);
 
 		// ReSharper disable once MemberCanBePrivate.Global
-		public Curve Create(IList<(double x, double y, NodeTypeEnum nodeTypeEnum)> nodeTuples)
+		public Curve Create(IList<(double x, double y, InterpolationTypeEnum interpolationTypeEnum)> nodeTuples)
 		{
 			if (nodeTuples == null) throw new NullException(() => nodeTuples);
 
 			Curve curve = CreateWithoutNodes();
 
-			foreach ((double x, double y, NodeTypeEnum nodeTypeEnum) in nodeTuples)
+			foreach ((double x, double y, InterpolationTypeEnum interpolationTypeEnum) in nodeTuples)
 			{
 				Node node = CreateNode(curve);
 				node.X = x;
 				node.Y = y;
-				node.SetNodeTypeEnum(nodeTypeEnum, _repositories.NodeTypeRepository);
+				node.SetInterpolationTypeEnum(interpolationTypeEnum, _repositories.InterpolationTypeRepository);
 			}
 
 			return curve;
 		}
 
 		/// <param name="nodeTuples">When an item is null, a node will not be created at that point in time.</param>
-		public Curve Create(double xSpan, params (double y, NodeTypeEnum nodeTypeEnum)?[] nodeTuples) 
-			      => Create(xSpan, (IList<(double y, NodeTypeEnum nodeTypeEnum)?>)nodeTuples);
+		public Curve Create(double xSpan, params (double y, InterpolationTypeEnum interpolationTypeEnum)?[] nodeTuples) 
+			      => Create(xSpan, (IList<(double y, InterpolationTypeEnum interpolationTypeEnum)?>)nodeTuples);
 
 		/// <param name="nodeTuples">When an item is null, a node will not be created at that point in time.</param>
 		// ReSharper disable once MemberCanBePrivate.Global
-		public Curve Create(double xSpan, IList<(double y, NodeTypeEnum nodeTypeEnum)?> nodeTuples)
+		public Curve Create(double xSpan, IList<(double y, InterpolationTypeEnum interpolationTypeEnum)?> nodeTuples)
 		{
 			if (nodeTuples == null) throw new NullException(() => nodeTuples);
 
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer
 
 			for (int i = 0; i < count; i++)
 			{
-				(double y, NodeTypeEnum nodeTypeEnum)? tuple = nodeTuples[i];
+				(double y, InterpolationTypeEnum interpolationTypeEnum)? tuple = nodeTuples[i];
 				double x = xList[i];
 
 				if (tuple == null)
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer
 				Node node = CreateNode(curve);
 				node.X = x;
 				node.Y = tuple.Value.y;
-				node.SetNodeTypeEnum(tuple.Value.nodeTypeEnum, _repositories.NodeTypeRepository);
+				node.SetInterpolationTypeEnum(tuple.Value.interpolationTypeEnum, _repositories.InterpolationTypeRepository);
 			}
 
 			return curve;
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer
 				Node node = CreateNode(curve);
 				node.X = x;
 				node.Y = y.Value;
-				node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
+				node.SetInterpolationTypeEnum(InterpolationTypeEnum.Line, _repositories.InterpolationTypeRepository);
 			}
 
 			return curve;
@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer
 				Node previousNode = sortedNodes[afterNodeIndex - 1];
 
 				Node node = CreateNode(curve);
-				node.NodeType = afterNode.NodeType;
+				node.InterpolationType = afterNode.InterpolationType;
 				node.Y = afterNode.Y;
 
 				// Take the previous distance between nodes as the default for the next node.
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer
 				double y = CalculateIntermediateYValue(beforeNode, afterNode);
 
 				Node node = CreateNode(curve);
-				node.NodeType = afterNode.NodeType;
+				node.InterpolationType = afterNode.InterpolationType;
 				node.X = afterNode.X + (beforeNode.X - afterNode.X) / 2.0;
 				node.Y = y;
 
@@ -268,55 +268,64 @@ namespace JJ.Business.Synthesizer
 			return ArrayCalculatorFactory.CreateArrayCalculator(arrayDto);
 		}
 
-		public void RotateNodeType(Node node)
+		public void RotateInterpolationType(Node node)
 		{
 			if (node == null) throw new NullException(() => node);
 
-			NodeTypeEnum nodeTypeEnum = node.GetNodeTypeEnum();
+			InterpolationTypeEnum interpolationTypeEnum = node.GetInterpolationTypeEnum();
 
-			switch (nodeTypeEnum)
+			switch (interpolationTypeEnum)
 			{
-				case NodeTypeEnum.Off:
-					nodeTypeEnum = NodeTypeEnum.Block;
+				case InterpolationTypeEnum.Undefined:
+					interpolationTypeEnum = InterpolationTypeEnum.Block;
 					break;
 
-				case NodeTypeEnum.Block:
-					nodeTypeEnum = NodeTypeEnum.Line;
+			    case InterpolationTypeEnum.Block:
+			        interpolationTypeEnum = InterpolationTypeEnum.Stripe;
+			        break;
+
+			    case InterpolationTypeEnum.Stripe:
+			        interpolationTypeEnum = InterpolationTypeEnum.Line;
+			        break;
+
+                case InterpolationTypeEnum.Line:
+					interpolationTypeEnum = InterpolationTypeEnum.Cubic;
 					break;
 
-				case NodeTypeEnum.Line:
-					nodeTypeEnum = NodeTypeEnum.Curve;
-					break;
+			    case InterpolationTypeEnum.Cubic:
+			        interpolationTypeEnum = InterpolationTypeEnum.Hermite;
+			        break;
 
-				case NodeTypeEnum.Curve:
-					nodeTypeEnum = NodeTypeEnum.Off;
-					break;
+			    case InterpolationTypeEnum.Hermite:
+			        interpolationTypeEnum = InterpolationTypeEnum.Undefined;
+			        break;
 
-				default:
-					throw new InvalidValueException(nodeTypeEnum);
+                default:
+					throw new InvalidValueException(interpolationTypeEnum);
 			}
 
-			node.SetNodeTypeEnum(nodeTypeEnum, _repositories.NodeTypeRepository);
+			node.SetInterpolationTypeEnum(interpolationTypeEnum, _repositories.InterpolationTypeRepository);
 		}
 
 		// Helpers
 
 		private double CalculateIntermediateYValue(Node beforeNode, Node afterNode)
 		{
-			NodeTypeEnum nodeTypeEnum = afterNode.GetNodeTypeEnum();
-			switch (nodeTypeEnum)
+			InterpolationTypeEnum interpolationTypeEnum = afterNode.GetInterpolationTypeEnum();
+			switch (interpolationTypeEnum)
 			{
-				case NodeTypeEnum.Block:
-				case NodeTypeEnum.Off:
+				case InterpolationTypeEnum.Block:
+				case InterpolationTypeEnum.Undefined:
 					return afterNode.Y;
 
-				case NodeTypeEnum.Line:
+				case InterpolationTypeEnum.Line:
 					{
 						double y = (beforeNode.Y + afterNode.Y) / 2.0;
 						return y;
 					}
 
-				case NodeTypeEnum.Curve:
+				case InterpolationTypeEnum.Cubic:
+				case InterpolationTypeEnum.Hermite:
 					{
 						ICalculatorWithPosition calculator = CreateInterpretedCalculator(beforeNode.Curve);
 						double x = (beforeNode.X + afterNode.X) / 2;
@@ -325,7 +334,7 @@ namespace JJ.Business.Synthesizer
 					}
 
 				default:
-					throw new ValueNotSupportedException(nodeTypeEnum);
+					throw new ValueNotSupportedException(interpolationTypeEnum);
 			}
 		}
 	}

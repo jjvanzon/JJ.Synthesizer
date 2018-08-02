@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 		public Diagram Diagram { get; }
 		public ClickGesture BackgroundClickGesture { get; }
 		public DoubleClickGesture BackgroundDoubleClickGesture { get; }
-		public ChangeNodeTypeGesture ChangeNodeTypeGesture { get; }
+		public ChangeInterpolationTypeGesture ChangeInterpolationTypeGesture { get; }
 		public DeleteGesture DeleteGesture { get; }
 		public ExpandKeyboardGesture ExpandNodeKeyboardGesture { get; }
 		public ExpandMouseGesture ExpandNodeMouseGesture { get; }
@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
 			BackgroundClickGesture = new ClickGesture();
 			BackgroundDoubleClickGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
-			ChangeNodeTypeGesture = new ChangeNodeTypeGesture();
+			ChangeInterpolationTypeGesture = new ChangeInterpolationTypeGesture();
 			DeleteGesture = new DeleteGesture();
 			ExpandNodeKeyboardGesture = new ExpandKeyboardGesture();
 			ExpandNodeMouseGesture = new ExpandMouseGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 			Diagram.Background.Gestures.Add(BackgroundDoubleClickGesture);
 			//2017-11-02: TODO: Somehow adding BackgroundClickGesture makes BackgroundDoubleClickGesture not work anymore.
 			//Diagram.Background.Gestures.Add(BackgroundClickGesture);
-			Diagram.Background.Gestures.Add(ChangeNodeTypeGesture);
+			Diagram.Background.Gestures.Add(ChangeInterpolationTypeGesture);
 			Diagram.Background.Gestures.Add(ExpandNodeKeyboardGesture);
 		}
 	}

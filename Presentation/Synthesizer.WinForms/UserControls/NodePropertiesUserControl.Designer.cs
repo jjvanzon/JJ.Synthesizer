@@ -29,8 +29,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.labelNodeType = new System.Windows.Forms.Label();
-			this.comboBoxNodeType = new System.Windows.Forms.ComboBox();
+			this.labelInterpolationType = new System.Windows.Forms.Label();
+			this.comboBoxInterpolationType = new System.Windows.Forms.ComboBox();
 			this.labelY = new System.Windows.Forms.Label();
 			this.numericUpDownX = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDownY = new System.Windows.Forms.NumericUpDown();
@@ -38,28 +38,28 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// labelNodeType
-			// 
-			this.labelNodeType.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.labelNodeType.Location = new System.Drawing.Point(0, 0);
-			this.labelNodeType.Margin = new System.Windows.Forms.Padding(0);
-			this.labelNodeType.Name = "labelNodeType";
-			this.labelNodeType.Size = new System.Drawing.Size(13, 12);
-			this.labelNodeType.TabIndex = 15;
-			this.labelNodeType.Text = "labelNodeType";
-			this.labelNodeType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// comboBoxNodeType
-			// 
-			this.comboBoxNodeType.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.comboBoxNodeType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxNodeType.FormattingEnabled = true;
-			this.comboBoxNodeType.Location = new System.Drawing.Point(0, 0);
-			this.comboBoxNodeType.Margin = new System.Windows.Forms.Padding(0);
-			this.comboBoxNodeType.Name = "comboBoxNodeType";
-			this.comboBoxNodeType.Size = new System.Drawing.Size(13, 24);
-			this.comboBoxNodeType.TabIndex = 16;
+            // 
+		    // labelInterpolationType
+            // 
+            this.labelInterpolationType.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.labelInterpolationType.Location = new System.Drawing.Point(0, 0);
+			this.labelInterpolationType.Margin = new System.Windows.Forms.Padding(0);
+			this.labelInterpolationType.Name = "labelInterpolationType";
+			this.labelInterpolationType.Size = new System.Drawing.Size(13, 12);
+			this.labelInterpolationType.TabIndex = 15;
+			this.labelInterpolationType.Text = "labelInterpolationType";
+			this.labelInterpolationType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+		    // comboBoxInterpolationType
+            // 
+            this.comboBoxInterpolationType.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.comboBoxInterpolationType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxInterpolationType.FormattingEnabled = true;
+			this.comboBoxInterpolationType.Location = new System.Drawing.Point(0, 0);
+			this.comboBoxInterpolationType.Margin = new System.Windows.Forms.Padding(0);
+			this.comboBoxInterpolationType.Name = "comboBoxInterpolationType";
+			this.comboBoxInterpolationType.Size = new System.Drawing.Size(13, 24);
+			this.comboBoxInterpolationType.TabIndex = 16;
 			// 
 			// labelY
 			// 
@@ -139,21 +139,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.Controls.Add(this.comboBoxNodeType);
+			this.Controls.Add(this.comboBoxInterpolationType);
 			this.Controls.Add(this.labelY);
 			this.Controls.Add(this.numericUpDownX);
 			this.Controls.Add(this.numericUpDownY);
-			this.Controls.Add(this.labelNodeType);
+			this.Controls.Add(this.labelInterpolationType);
 			this.Controls.Add(this.labelX);
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "NodePropertiesUserControl";
 			this.Size = new System.Drawing.Size(13, 12);
 			this.Controls.SetChildIndex(this.labelX, 0);
-			this.Controls.SetChildIndex(this.labelNodeType, 0);
+			this.Controls.SetChildIndex(this.labelInterpolationType, 0);
 			this.Controls.SetChildIndex(this.numericUpDownY, 0);
 			this.Controls.SetChildIndex(this.numericUpDownX, 0);
 			this.Controls.SetChildIndex(this.labelY, 0);
-			this.Controls.SetChildIndex(this.comboBoxNodeType, 0);
+			this.Controls.SetChildIndex(this.comboBoxInterpolationType, 0);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).EndInit();
 			this.ResumeLayout(false);
@@ -163,8 +163,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		#endregion
 
 		private System.Windows.Forms.Label labelY;
-		private System.Windows.Forms.Label labelNodeType;
-		private System.Windows.Forms.ComboBox comboBoxNodeType;
+		private System.Windows.Forms.Label labelInterpolationType;
+		private System.Windows.Forms.ComboBox comboBoxInterpolationType;
 		private System.Windows.Forms.NumericUpDown numericUpDownX;
 		private System.Windows.Forms.NumericUpDown numericUpDownY;
 		private System.Windows.Forms.Label labelX;

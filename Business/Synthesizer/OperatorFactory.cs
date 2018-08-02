@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer
 		public OperatorWrapper Curve(
 			DimensionEnum? standardDimension = null,
 			string customDimension = null,
-			params (double x, double y, NodeTypeEnum nodeTypeEnum)[] nodeTuples)
+			params (double x, double y, InterpolationTypeEnum interpolationTypeEnum)[] nodeTuples)
 		{
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;
@@ -250,7 +250,7 @@ namespace JJ.Business.Synthesizer
 			double xSpan,
 			DimensionEnum? standardDimension = null,
 			string customDimension = null,
-			params (double y, NodeTypeEnum nodeTypeEnum)?[] nodeTuples)
+			params (double y, InterpolationTypeEnum interpolationTypeEnum)?[] nodeTuples)
 		{
 			OperatorWrapper wrapper = NewWithDimension(standardDimension, customDimension);
 			Operator op = wrapper.WrappedOperator;

@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
 			// Calculate the array.
 			var samples = new double[sampleCount];
-			ICalculatorWithPosition interpretedCurveCalculator = new InterpretedCurveCalculator(curve);
+		    ICalculatorWithPosition interpretedCurveCalculator = new InterpretedCurveCalculator(curve);
 			double x = minX;
 			for (int i = 0; i < sampleCount; i++)
 			{

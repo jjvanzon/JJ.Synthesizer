@@ -12,18 +12,18 @@ namespace JJ.Business.Synthesizer.SideEffects
 	{
 		private readonly Curve _curve;
 		private readonly INodeRepository _nodeRepository;
-		private readonly INodeTypeRepository _nodeTypeRepository;
+		private readonly IInterpolationTypeRepository _interpolationTypeRepository;
 		private readonly IIDRepository _idRepository;
 
 		public Curve_SideEffect_SetDefaults_Nodes(
 			Curve curve, 
-			INodeRepository nodeRepository, 
-			INodeTypeRepository nodeTypeRepository, 
+			INodeRepository nodeRepository,
+			IInterpolationTypeRepository interpolationTypeRepository, 
 			IIDRepository idRepository)
 		{
 			_curve = curve ?? throw new NullException(() => curve);
 			_nodeRepository = nodeRepository ?? throw new NullException(() => nodeRepository);
-			_nodeTypeRepository = nodeTypeRepository ?? throw new NullException(() => nodeTypeRepository);
+			_interpolationTypeRepository = interpolationTypeRepository ?? throw new NullException(() => interpolationTypeRepository);
 			_idRepository = idRepository ?? throw new NullException(() => idRepository);
 		}
 
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 					X = 0,
 					Y = 1
 				};
-				node.SetNodeTypeEnum(NodeTypeEnum.Curve, _nodeTypeRepository);
+				node.SetInterpolationTypeEnum(InterpolationTypeEnum.Cubic, _interpolationTypeRepository);
 				node.LinkTo(_curve);
 				_nodeRepository.Insert(node);
 			}
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 					Y = 0
 				};
 				node.LinkTo(_curve);
-				node.SetNodeTypeEnum(NodeTypeEnum.Curve, _nodeTypeRepository);
+				node.SetInterpolationTypeEnum(InterpolationTypeEnum.Cubic, _interpolationTypeRepository);
 				_nodeRepository.Insert(node);
 			}
 		}

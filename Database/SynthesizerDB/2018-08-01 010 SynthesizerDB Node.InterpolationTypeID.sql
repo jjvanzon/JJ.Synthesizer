@@ -1,0 +1,1 @@
+alter table Node add InterpolationTypeID int null;

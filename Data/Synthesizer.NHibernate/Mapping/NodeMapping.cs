@@ -15,7 +15,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 			Map(x => x.Slope);
 
 			References(x => x.Curve, ColumnNames.CurveID);
-			References(x => x.NodeType, ColumnNames.NodeTypeID);
+			References(x => x.InterpolationType, ColumnNames.InterpolationTypeID);
 		}
 	}
 }

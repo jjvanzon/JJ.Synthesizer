@@ -529,9 +529,6 @@
   <data name="Nodes" xml:space="preserve">
     <value>Nodes</value>
   </data>
-  <data name="NodeType" xml:space="preserve">
-    <value>Node Type</value>
-  </data>
   <data name="Noise" xml:space="preserve">
     <value>Noise</value>
   </data>
@@ -555,9 +552,6 @@
   </data>
   <data name="Octave" xml:space="preserve">
     <value>Octave</value>
-  </data>
-  <data name="Off" xml:space="preserve">
-    <value>Off</value>
   </data>
   <data name="Offset" xml:space="preserve">
     <value>Offset</value>

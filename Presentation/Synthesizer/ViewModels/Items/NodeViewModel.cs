@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 		public int ID { get; set; }
 		public double X { get; set; }
 		public double Y { get; set; }
-		public IDAndName NodeType { get; set; }
+		public IDAndName Interpolation { get; set; }
 		public string Caption { get; set; }
 
 		private string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);

@@ -450,11 +450,11 @@ namespace JJ.Business.Synthesizer.LinkTo
 			// No inverse property.
 		}
 
-		public static void LinkTo(this Node node, NodeType nodeType)
+		public static void LinkTo(this Node node, InterpolationType interpolationType)
 		{
 			if (node == null) throw new NullException(() => node);
 
-			node.NodeType = nodeType;
+			node.InterpolationType = interpolationType;
 
 			// No inverse property.
 		}

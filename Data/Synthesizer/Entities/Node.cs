@@ -16,7 +16,7 @@ namespace JJ.Data.Synthesizer.Entities
 
 		/// <summary> Currently not used. (2015-11-16) </summary>
 		public virtual double Slope { get; set; }
-		public virtual NodeType NodeType { get; set; }
+		public virtual InterpolationType InterpolationType { get; set; }
 
 		/// <summary> parent </summary>
 		public virtual Curve Curve { get; set; }

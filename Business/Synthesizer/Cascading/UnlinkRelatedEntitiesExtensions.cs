@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Cascading
 		{
 			if (node == null) throw new NullException(() => node);
 
-			node.UnlinkNodeType();
+			node.UnlinkInterpolationType();
 			node.UnlinkCurve();
 		}
 

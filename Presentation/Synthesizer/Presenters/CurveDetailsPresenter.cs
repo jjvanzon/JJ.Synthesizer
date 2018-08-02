@@ -56,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				viewModel => viewModel.CreatedNodeID = newNode.ID);
 		}
 
-		public CurveDetailsViewModel ChangeSelectedNodeType(CurveDetailsViewModel userInput) => ExecuteAction(
+		public CurveDetailsViewModel ChangeInterpolationOfSelectedNode(CurveDetailsViewModel userInput) => ExecuteAction(
 		    userInput,
 		    _ =>
 		    {
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		        Node node = _nodeRepository.Get(nodeID);
 
 		        // Business
-		        _curveFacade.RotateNodeType(node);
+		        _curveFacade.RotateInterpolationType(node);
 		    });
 
 	    public CurveDetailsViewModel DeleteSelectedNode(CurveDetailsViewModel userInput) => ExecuteAction(

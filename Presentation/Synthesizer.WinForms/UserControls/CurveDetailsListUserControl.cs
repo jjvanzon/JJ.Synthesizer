@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 	{
 		public CurveDetailsListUserControl() => InitializeComponent();
 
-		public event EventHandler<EventArgs<int>> ChangeSelectedNodeTypeRequested;
+		public event EventHandler<EventArgs<int>> ChangeInterpolationOfSelectedNodeRequested;
 		public event EventHandler<EventArgs<int>> CloseRequested;
 		public event EventHandler<EventArgs<int>> CreateNodeRequested;
 		public event EventHandler<EventArgs<int>> DeleteSelectedNodeRequested;
@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 				userControl.SetCurveFacade(_curveFacade);
 				userControl.ViewModel = viewModel;
 
-				userControl.ChangeSelectedNodeTypeRequested += CurveDetailsUserControl_ChangeSelectedNodeTypeRequested;
+				userControl.ChangeInterpolationOfSelectedNodeRequested += CurveDetailsUserControl_ChangeInterpolationOfSelectedNodeRequested;
 				userControl.CloseRequested += CurveDetailsUserControl_CloseRequested;
 				userControl.CreateNodeRequested += CurveDetailsUserControl_CreateNodeRequested;
 				userControl.ExpandCurveRequested += CurveDetailsUserControl_ExpandCurveRequested;
@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			{
 				CurveDetailsUserControl userControl = _userControls[i];
 
-				userControl.ChangeSelectedNodeTypeRequested -= CurveDetailsUserControl_ChangeSelectedNodeTypeRequested;
+				userControl.ChangeInterpolationOfSelectedNodeRequested -= CurveDetailsUserControl_ChangeInterpolationOfSelectedNodeRequested;
 				userControl.CloseRequested -= CurveDetailsUserControl_CloseRequested;
 				userControl.CreateNodeRequested -= CurveDetailsUserControl_CreateNodeRequested;
 				userControl.ExpandCurveRequested -= CurveDetailsUserControl_ExpandCurveRequested;
@@ -147,7 +147,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private void CurveDetailsListUserControl_SizeChanged(object sender, EventArgs e) => PositionControls();
 		private void CurveDetailsUserControl_CloseRequested(object sender, EventArgs<int> e) => CloseRequested(sender, e);
 		private void CurveDetailsUserControl_CreateNodeRequested(object sender, EventArgs<int> e) => CreateNodeRequested(sender, e);
-		private void CurveDetailsUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e) => ChangeSelectedNodeTypeRequested(sender, e);
+		private void CurveDetailsUserControl_ChangeInterpolationOfSelectedNodeRequested(object sender, EventArgs<int> e) => ChangeInterpolationOfSelectedNodeRequested(sender, e);
 		private void CurveDetailsUserControl_ExpandCurveRequested(object sender, EventArgs<int> e) => ExpandCurveRequested(sender, e);
 		private void CurveDetailsUserControl_LoseFocusRequested(object sender, EventArgs<int> e) => LoseFocusRequested(sender, e);
 		private void CurveDetailsUserControl_NodeMoving(object sender, MoveNodeEventArgs e) => NodeMoving(sender, e);

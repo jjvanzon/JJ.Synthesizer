@@ -234,7 +234,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			{
 				X = entity.X,
 				Y = entity.Y,
-				NodeType = entity.NodeType.ToIDAndDisplayName(),
+				Interpolation = entity.InterpolationType?.ToIDAndDisplayName() ?? ToViewModelHelper.CreateEmptyIDAndName(),
 				ID = entity.ID,
 				Caption = ToViewModelHelper.GetCaption(entity)
 			};

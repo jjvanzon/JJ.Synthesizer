@@ -47,8 +47,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             instrumentBarUserControl.PlayRequested += InstrumentBarUserControl_PlayRequested;
             instrumentBarUserControl.PlayPatchRequested += InstrumentBarUserControl_PlayPatchRequested;
 
-            curveDetailsListUserControl.ChangeSelectedNodeTypeRequested +=
-                CurveDetailsListUserControl_ChangeSelectedNodeTypeRequested;
+            curveDetailsListUserControl.ChangeInterpolationOfSelectedNodeRequested +=
+                CurveDetailsListUserControl_ChangeInterpolationOfSelectedNodeRequested;
             curveDetailsListUserControl.CloseRequested += CurveDetailsListUserControl_CloseRequested;
             curveDetailsListUserControl.CreateNodeRequested += CurveDetailsListUserControl_CreateNodeRequested;
             curveDetailsListUserControl.DeleteSelectedNodeRequested +=
@@ -400,10 +400,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve
 
-        private void CurveDetailsListUserControl_ChangeSelectedNodeTypeRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
+        private void CurveDetailsListUserControl_ChangeInterpolationOfSelectedNodeRequested(object sender, EventArgs<int> e) => TemplateActionHandler(
             () =>
             {
-                _mainPresenter.Node_ChangeSelectedNodeType(e.Value);
+                _mainPresenter.Node_ChangeInterpolationOfSelectedNode(e.Value);
                 RecreatePatchCalculatorIfSuccessful();
             });
 

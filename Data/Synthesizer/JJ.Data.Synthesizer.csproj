@@ -58,7 +58,6 @@
     <Compile Include="DefaultRepositories\InterpolationTypeRepository.cs" />
     <Compile Include="DefaultRepositories\MidiMappingRepository.cs" />
     <Compile Include="DefaultRepositories\NodeRepository.cs" />
-    <Compile Include="DefaultRepositories\NodeTypeRepository.cs" />
     <Compile Include="DefaultRepositories\OperatorRepository.cs" />
     <Compile Include="DefaultRepositories\OutletRepository.cs" />
     <Compile Include="DefaultRepositories\PatchRepository.cs" />
@@ -94,7 +93,6 @@
     <Compile Include="Entities\InterpolationType.cs" />
     <Compile Include="Entities\SpeakerSetup.cs" />
     <Compile Include="Entities\Node.cs" />
-    <Compile Include="Entities\NodeType.cs" />
     <Compile Include="Entities\Operator.cs" />
     <Compile Include="Entities\Outlet.cs" />
     <Compile Include="Entities\Patch.cs" />
@@ -114,7 +112,6 @@
     <Compile Include="RepositoryInterfaces\IMidiMappingRepository.cs" />
     <Compile Include="RepositoryInterfaces\IMidiMappingTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\INodeRepository.cs" />
-    <Compile Include="RepositoryInterfaces\INodeTypeRepository.cs" />
     <Compile Include="RepositoryInterfaces\IOperatorRepository.cs" />
     <Compile Include="RepositoryInterfaces\IOutletRepository.cs" />
     <Compile Include="RepositoryInterfaces\IPatchRepository.cs" />

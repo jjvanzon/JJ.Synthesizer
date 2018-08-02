@@ -32,7 +32,6 @@ namespace JJ.Utilities.Synthesizer.DataMigration
 				CreateRepository<IMidiMappingGroupRepository>(context),
 				CreateRepository<IMidiMappingTypeRepository>(context),
 				CreateRepository<INodeRepository>(context),
-				CreateRepository<INodeTypeRepository>(context),
 				CreateRepository<IOperatorRepository>(context),
 				CreateRepository<IOutletRepository>(context),
 				CreateRepository<IPatchRepository>(context),

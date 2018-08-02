@@ -113,22 +113,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		public static NodePropertiesViewModel ToPropertiesViewModel(this Node entity)
+		public static NodePropertiesViewModel ToPropertiesViewModel(this Node entity, IInterpolationTypeRepository interpolationTypeRepository)
 		{
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-			NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState();
-			viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState();
+			NodePropertiesViewModel viewModel = entity.ToPropertiesViewModel_WithoutOriginalState(interpolationTypeRepository);
+			viewModel.OriginalState = entity.ToPropertiesViewModel_WithoutOriginalState(interpolationTypeRepository);
 			return viewModel;
 		}
 
-		private static NodePropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Node entity)
+		private static NodePropertiesViewModel ToPropertiesViewModel_WithoutOriginalState(this Node entity, IInterpolationTypeRepository interpolationTypeRepository)
 			=> new NodePropertiesViewModel
 			{
 				CurveID = entity.Curve?.ID ?? default, // Null after delete action.
 				Entity = entity.ToViewModel(),
 				ValidationMessages = new List<string>(),
-				NodeTypeLookup = ToViewModelHelper.GetNodeTypeLookupViewModel()
+				InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModelWithEmpty(interpolationTypeRepository),
 			};
 
 		// Document
@@ -595,7 +595,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var wrapper = new Cache_OperatorWrapper(entity);
 
 			viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
-			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationLookupViewModel(interpolationTypeRepository);
+			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
 			viewModel.SpeakerSetup = wrapper.SpeakerSetup.ToIDAndDisplayName();
 			viewModel.SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel();
 
@@ -648,7 +648,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.InletCount = entity.Inlets.Count;
 			viewModel.CanEditInletCount = true;
 			viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
-			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationLookupViewModel(interpolationTypeRepository);
+			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
 
 			return viewModel;
 		}
@@ -772,7 +772,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			viewModel.AudioFileFormatLookup = ToViewModelHelper.GetAudioFileFormatLookupViewModel();
 			viewModel.SampleDataTypeLookup = ToViewModelHelper.GetSampleDataTypeLookupViewModel();
 			viewModel.SpeakerSetupLookup = ToViewModelHelper.GetSpeakerSetupLookupViewModel();
-			viewModel.InterpolationTypeLookup = ToViewModelHelper.GetInterpolationLookupViewModel(interpolationTypeRepository);
+			viewModel.InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
 
 			byte[] bytes = sampleRepository.GetBytes(op.Sample.ID);
 			viewModel.Sample = op.Sample.ToViewModel(bytes);
@@ -800,7 +800,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 			var wrapper = new OperatorWrapper_WithInterpolation(entity);
 			viewModel.Interpolation = wrapper.InterpolationType.ToIDAndDisplayName();
-			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationLookupViewModel(interpolationTypeRepository);
+			viewModel.InterpolationLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModel(interpolationTypeRepository);
 
 			if (ToViewModelHelper.OperatorTypeEnums_WithFollowingMode.Contains(entity.GetOperatorTypeEnum()))
 			{

@@ -68,7 +68,7 @@
     <Compile Include="Elements\PictureButtonElement.cs" />
     <Compile Include="Elements\ToolTipElement.cs" />
     <Compile Include="EventArg\IDEventArgs.cs" />
-    <Compile Include="Gestures\ChangeNodeTypeGesture.cs" />
+    <Compile Include="Gestures\ChangeInterpolationTypeGesture.cs" />
     <Compile Include="Gestures\SelectGesture.cs" />
     <Compile Include="CurveDetailsViewModelToDiagramConverter.cs" />
     <Compile Include="Gestures\DropLineGesture.cs" />

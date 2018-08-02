@@ -26,7 +26,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                        .Asc
                        .List();
 
-        /// <summary> TODO: Eager load the enum-like types too. </summary>
         public override Document TryGetComplete(int documentID)
         {
             Document document = null;

@@ -198,7 +198,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Negative => Resources.Negative;
 		public static string Node => Resources.Node;
 		public static string Nodes => Resources.Nodes;
-		public static string NodeType => Resources.NodeType;
 		public static string Noise => Resources.Noise;
 		public static string NoSoundFound => Resources.NoSoundFoundInLibrary;
 		public static string Not => Resources.Not;
@@ -211,7 +210,6 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Number => Resources.Number;
 		public static string ObsoleteButStillUsed => Resources.ObsoleteButStillUsed;
 		public static string Octave => Resources.Octave;
-		public static string Off => Resources.Off;
 		public static string Offset => Resources.Offset;
 		public static string OneOverX => Resources.OneOverX;
 		public static string Operator => Resources.Operator;

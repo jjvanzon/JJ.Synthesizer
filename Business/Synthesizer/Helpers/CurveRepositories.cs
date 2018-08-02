@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Helpers
 	{
 		public ICurveRepository CurveRepository { get; }
 		public INodeRepository NodeRepository { get; }
-		public INodeTypeRepository NodeTypeRepository { get; }
+		public IInterpolationTypeRepository InterpolationTypeRepository { get; }
 		public IIDRepository IDRepository { get; }
 
 		public CurveRepositories(RepositoryWrapper repositories)
@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
 			CurveRepository = repositories.CurveRepository;
 			NodeRepository = repositories.NodeRepository;
-			NodeTypeRepository = repositories.NodeTypeRepository;
+			InterpolationTypeRepository = repositories.InterpolationTypeRepository;
 			IDRepository = repositories.IDRepository;
 		}
 	}

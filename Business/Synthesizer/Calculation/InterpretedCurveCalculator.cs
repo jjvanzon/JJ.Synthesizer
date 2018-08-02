@@ -10,144 +10,186 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.Validation;
 
+// ReSharper disable CompareOfFloatsByEqualityOperator
+
 namespace JJ.Business.Synthesizer.Calculation
 {
-	internal class InterpretedCurveCalculator : ICalculatorWithPosition
-	{
-		private readonly Curve _curve;
+    internal class InterpretedCurveCalculator : ICalculatorWithPosition
+    {
+        private readonly Curve _curve;
 
-		/// <summary>
-		/// Contains the nodes of the curve and also additional nodes before and after,
-		/// to accomodate interpolation that requires 4 points to calculate a value.
-		/// </summary>
-		private readonly IList<Node> _sortedNodes;
+        /// <summary>
+        /// Contains the nodes of the curve and also additional nodes before and after,
+        /// to accomodate interpolation that requires 4 points to calculate a value.
+        /// </summary>
+        private readonly IList<Node> _sortedNodes;
 
-		public InterpretedCurveCalculator(Curve curve)
-		{
-			_curve = curve ?? throw new NullException(() => curve);
+        public InterpretedCurveCalculator(Curve curve)
+        {
+            _curve = curve ?? throw new NullException(() => curve);
 
-			IValidator validator1 = new CurveValidator_WithoutNodes(_curve);
-			validator1.Assert();
+            IValidator validator1 = new CurveValidator_WithoutNodes(_curve);
+            validator1.Assert();
 
-			IValidator validator2 = new CurveValidator_Nodes(_curve);
-			validator2.Assert();
+            IValidator validator2 = new CurveValidator_Nodes(_curve);
+            validator2.Assert();
 
-			_sortedNodes = CreateSortedNodes(_curve);
-		}
+            _sortedNodes = CreateSortedNodes(_curve);
+        }
 
-		private IList<Node> CreateSortedNodes(Curve curve)
-		{
-			IList<Node> sortedNodes = _curve.Nodes.OrderBy(n => n.X).ToArray();
+        private IList<Node> CreateSortedNodes(Curve curve)
+        {
+            IList<Node> sortedNodes = _curve.Nodes.OrderBy(n => n.X).ToArray();
 
-			Node firstNode = sortedNodes[0];
-			Node lastNode = sortedNodes.Last();
+            Node firstNode = sortedNodes[0];
+            Node lastNode = sortedNodes.Last();
 
-			var nodeMinus2 = new Node
-			{
-				X = CalculationHelper.VERY_LOW_VALUE,
-				Y = firstNode.Y,
-				NodeType = firstNode.NodeType
-			};
+            var nodeMinus2 = new Node
+            {
+                X = CalculationHelper.VERY_LOW_VALUE,
+                Y = firstNode.Y,
+                InterpolationType = firstNode.InterpolationType
+            };
 
-			double xSpanBeforeFirstNode = firstNode.X - CalculationHelper.VERY_LOW_VALUE;
-			var nodeMinus1 = new Node
-			{
-				X = CalculationHelper.VERY_LOW_VALUE + xSpanBeforeFirstNode / 2.0,
-				Y = firstNode.Y,
-				NodeType = firstNode.NodeType
-			};
+            double xSpanBeforeFirstNode = firstNode.X - CalculationHelper.VERY_LOW_VALUE;
 
-			double xSpanAfterLastNode = CalculationHelper.VERY_HIGH_VALUE - lastNode.X;
-			var nodePlus1 = new Node
-			{
-				X = CalculationHelper.VERY_HIGH_VALUE - xSpanAfterLastNode / 2.0,
-				Y = lastNode.Y,
-				NodeType = lastNode.NodeType
-			};
+            var nodeMinus1 = new Node
+            {
+                X = CalculationHelper.VERY_LOW_VALUE + xSpanBeforeFirstNode / 2.0,
+                Y = firstNode.Y,
+                InterpolationType = firstNode.InterpolationType
+            };
 
-			var nodePlus2 = new Node
-			{
-				X = CalculationHelper.VERY_HIGH_VALUE,
-				Y = lastNode.Y,
-				NodeType = lastNode.NodeType
-			};
+            double xSpanAfterLastNode = CalculationHelper.VERY_HIGH_VALUE - lastNode.X;
 
-			// ReSharper disable once UseObjectOrCollectionInitializer
-			var sortedNodesIncludingFakeNodes = new List<Node>(curve.Nodes.Count + 4);
-			sortedNodesIncludingFakeNodes.Add(nodeMinus2);
-			sortedNodesIncludingFakeNodes.Add(nodeMinus1);
-			sortedNodesIncludingFakeNodes.AddRange(sortedNodes);
-			sortedNodesIncludingFakeNodes.Add(nodePlus1);
-			sortedNodesIncludingFakeNodes.Add(nodePlus2);
-			return sortedNodesIncludingFakeNodes;
-		}
+            var nodePlus1 = new Node
+            {
+                X = CalculationHelper.VERY_HIGH_VALUE - xSpanAfterLastNode / 2.0,
+                Y = lastNode.Y,
+                InterpolationType = lastNode.InterpolationType
+            };
 
-		public double Calculate(double x)
-		{
-			// Find the node right after the time.
-			Node node1 = null;
-			int node1Index = 0;
-			for (int i = 0; i < _sortedNodes.Count; i++)
-			{
-				node1 = _sortedNodes[i];
+            var nodePlus2 = new Node
+            {
+                X = CalculationHelper.VERY_HIGH_VALUE,
+                Y = lastNode.Y,
+                InterpolationType = lastNode.InterpolationType
+            };
 
-				// ReSharper disable once InvertIf
-				if (node1.X > x)
-				{
-					node1Index = i;
-					break;
-				}
-			}
+            // ReSharper disable once UseObjectOrCollectionInitializer
+            var sortedNodesIncludingFakeNodes = new List<Node>(curve.Nodes.Count + 4);
+            sortedNodesIncludingFakeNodes.Add(nodeMinus2);
+            sortedNodesIncludingFakeNodes.Add(nodeMinus1);
+            sortedNodesIncludingFakeNodes.AddRange(sortedNodes);
+            sortedNodesIncludingFakeNodes.Add(nodePlus1);
+            sortedNodesIncludingFakeNodes.Add(nodePlus2);
+            return sortedNodesIncludingFakeNodes;
+        }
 
-			Node nodeMinus1 = _sortedNodes[node1Index - 2];
-			Node node0 = _sortedNodes[node1Index - 1];
-			Node node2 = _sortedNodes[node1Index + 1];
+        public double Calculate(double x)
+        {
+            // Find the node right after the time.
+            Node node1 = null;
+            var node1Index = 0;
+            int count = _sortedNodes.Count;
 
-			// Calculate the Value
-			NodeTypeEnum nodeTypeEnum = node0.GetNodeTypeEnum();
-			switch (nodeTypeEnum)
-			{
-				case NodeTypeEnum.Curve:
-					{
-						double value = CalculateY_ForNodeTypeCurve(nodeMinus1, node0, node1, node2, x);
-						return value;
-					}
+            for (var i = 0; i < count; i++)
+            {
+                node1 = _sortedNodes[i];
 
-				case NodeTypeEnum.Line:
-					{
-						double value = CalculateY_ForNodeTypeLine(node0, node1, x);
-						return value;
-					}
+                // ReSharper disable once InvertIf
+                if (node1.X > x)
+                {
+                    node1Index = i;
+                    break;
+                }
+            }
 
-				case NodeTypeEnum.Off:
-					return 0;
+            Node nodeMinus1 = _sortedNodes[node1Index - 2];
+            Node node0 = _sortedNodes[node1Index - 1];
+            Node node2 = _sortedNodes[node1Index + 1];
 
-				case NodeTypeEnum.Block:
-					return node0.Y;
+            // Stripe Interpolation has effect 'earlier' than the others.
+            if (node1.GetInterpolationTypeEnum() == InterpolationTypeEnum.Stripe)
+            {
+                // ReSharper disable once PossibleNullReferenceException
+                double delta = node1.X - node0.X;
+                double halfWay = node0.X + delta / 2.0;
 
-				default:
-					throw new ValueNotSupportedException(nodeTypeEnum);
-			}
-		}
+                if (x > halfWay)
+                {
+                    return node1.Y;
+                }
+            }
 
-		private static double CalculateY_ForNodeTypeCurve(Node nodeMinus1, Node node0, Node node1, Node node2, double time)
-		{
-			double y = Interpolator.Cubic_SmoothSlope(
-				nodeMinus1.X, node0.X, node1.X, node2.X,
-				nodeMinus1.Y, node0.Y, node1.Y, node2.Y,
-				time);
+            // Calculate the Value
+            InterpolationTypeEnum interpolationTypeEnum = node0.GetInterpolationTypeEnum();
 
-			return y;
-		}
+            switch (interpolationTypeEnum)
+            {
+                case InterpolationTypeEnum.Cubic:
+                {
+                    double value = CalculateY_ForInterpolationTypeCubic(nodeMinus1, node0, node1, node2, x);
+                    return value;
+                }
 
-		private static double CalculateY_ForNodeTypeLine(Node node0, Node node1, double x)
-		{
-			double dx = node1.X - node0.X;
-			double dy = node1.Y - node0.Y;
+                case InterpolationTypeEnum.Hermite:
+                {
+                    double value = CalculateY_ForInterpolationTypeHermite(nodeMinus1, node0, node1, node2, x);
+                    return value;
+                }
 
-			double y = node0.Y + dy * (x - node0.X) / dx;
+                case InterpolationTypeEnum.Line:
+                {
+                    double value = CalculateY_ForInterpolationTypeLine(node0, node1, x);
+                    return value;
+                }
 
-			return y;
-		}
-	}
+                case InterpolationTypeEnum.Block:
+                case InterpolationTypeEnum.Stripe:
+                    return node0.Y;
+
+                case InterpolationTypeEnum.Undefined:
+                    return 0;
+
+                default:
+                    throw new ValueNotSupportedException(interpolationTypeEnum);
+            }
+        }
+
+        private static double CalculateY_ForInterpolationTypeCubic(Node nodeMinus1, Node node0, Node node1, Node node2, double x)
+        {
+            double y = Interpolator.Cubic_SmoothSlope(
+                nodeMinus1.X,
+                node0.X,
+                node1.X,
+                node2.X,
+                nodeMinus1.Y,
+                node0.Y,
+                node1.Y,
+                node2.Y,
+                x);
+
+            return y;
+        }
+
+        private double CalculateY_ForInterpolationTypeHermite(Node nodeMinus1, Node node0, Node node1, Node node2, double x)
+        {
+            double dx = node1.X - node0.X;
+            double t = (x - node0.X) / dx;
+
+            double y = Interpolator.Hermite_4pt3oX(nodeMinus1.Y, node0.Y, node1.Y, node2.Y, t);
+            return y;
+        }
+
+        private static double CalculateY_ForInterpolationTypeLine(Node node0, Node node1, double x)
+        {
+            double dx = node1.X - node0.X;
+            double dy = node1.Y - node0.Y;
+
+            double y = node0.Y + dy * (x - node0.X) / dx;
+
+            return y;
+        }
+    }
 }

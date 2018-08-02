@@ -2024,10 +2024,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		// Node
 
 		/// <summary>
-		/// Rotates between node types for the selected node.
+		/// Rotates between interpolation types for the selected node.
 		/// If no node is selected, nothing happens.
 		/// </summary>
-		public void Node_ChangeSelectedNodeType(int curveID)
+		public void Node_ChangeInterpolationOfSelectedNode(int curveID)
 		{
 			// GetViewModel
 			CurveDetailsViewModel userInput = ViewModelSelector.GetCurveDetailsViewModel(MainViewModel.Document, curveID);
@@ -2040,7 +2040,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 
 			// Template Method
-			CurveDetailsViewModel viewModel = ExecuteSpecialUpdateAction(userInput, () => _curveDetailsPresenter.ChangeSelectedNodeType(userInput));
+			CurveDetailsViewModel viewModel = ExecuteSpecialUpdateAction(userInput, () => _curveDetailsPresenter.ChangeInterpolationOfSelectedNode(userInput));
 
 			if (viewModel.Successful && userInput.SelectedNodeID.HasValue)
 			{
@@ -3399,7 +3399,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	    /// <summary>
 		/// The normal ExecuteUpdateAction will handle undo state for most update actions.
 		/// Too bad it is only suitable for when the userInput is the 'new state' for the undo history.
-		/// For instance for the ChangeSelectedNodeType action, the user input is not the final state of the action.
+		/// For instance for the ChangeInterpolationOfSelectedNode action, the user input is not the final state of the action.
 		/// </summary>
 		private TViewModel ExecuteSpecialUpdateAction<TViewModel>(TViewModel userInput, Func<TViewModel> partialAction)
 			where TViewModel : ScreenViewModelBase

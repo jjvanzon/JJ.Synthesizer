@@ -606,7 +606,6 @@
     <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Cascading\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="EntityWrappers\PatchInletOrOutlet_OperatorWrapper.cs" />
-    <Compile Include="Enums\NodeTypeEnum.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
     <Compile Include="Helpers\RepositoryWrapper.cs" />

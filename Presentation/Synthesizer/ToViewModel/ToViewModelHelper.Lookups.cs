@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Canonical;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
+using JJ.Framework.Collections;
 using JJ.Framework.Common;
 using JJ.Framework.Exceptions.Basic;
 
@@ -59,33 +60,53 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		private static IList<IDAndName> CreateFollowingModeLookupViewModel() => CreateEnumLookupViewModel<FollowingModeEnum>(mustIncludeUndefined: false);
 
-		// InterpolationType
+        // InterpolationType
 
-		private static readonly object _interpolationLookupViewModelLock = new object();
+	    private static readonly object _interpolationTypeLookupViewModelLock = new object();
+	    private static readonly object _interpolationTypeLookupViewModelWithEmptyLock = new object();
 
-		private static IList<IDAndName> _interpolationLookupViewModel;
+        private static IList<IDAndName> _interpolationTypeLookupViewModel;
+        private static IList<IDAndName> _interpolationTypeLookupViewModelWithEmpty;
 
-		public static IList<IDAndName> GetInterpolationLookupViewModel(IInterpolationTypeRepository repository)
-		{
-			if (repository == null) throw new NullException(() => repository);
+	    public static IList<IDAndName> GetInterpolationTypeLookupViewModel(IInterpolationTypeRepository repository)
+	    {
+	        if (repository == null) throw new NullException(() => repository);
 
-			lock (_interpolationLookupViewModelLock)
-			{
-				// ReSharper disable once InvertIf
-				if (_interpolationLookupViewModel == null)
-				{
-					// Cannot delegate to CreateEnumLookupViewModel, because we need to order by SortOrder.
-					IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.SortOrder).ToArray();
-					_interpolationLookupViewModel = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
-				}
+	        lock (_interpolationTypeLookupViewModelLock)
+	        {
+	            // ReSharper disable once InvertIf
+	            if (_interpolationTypeLookupViewModel == null)
+	            {
+	                // Cannot delegate to CreateEnumLookupViewModel, because we need to order by SortOrder.
+	                IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.SortOrder).ToArray();
+	                _interpolationTypeLookupViewModel = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
+	            }
 
-				return _interpolationLookupViewModel;
-			}
-		}
+	            return _interpolationTypeLookupViewModel;
+	        }
+	    }
 
-		// MidiMappingType
+	    public static IList<IDAndName> GetInterpolationTypeLookupViewModelWithEmpty(IInterpolationTypeRepository repository)
+	    {
+	        if (repository == null) throw new NullException(() => repository);
 
-		private static readonly IList<IDAndName> _midiMappingTypeLookupViewModel = CreateMidiMappingTypeLookupViewModel();
+	        lock (_interpolationTypeLookupViewModelWithEmptyLock)
+	        {
+	            // ReSharper disable once InvertIf
+	            if (_interpolationTypeLookupViewModelWithEmpty == null)
+	            {
+                    // Cannot delegate to CreateEnumLookupViewModel, because we need to order by SortOrder.
+                    IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.SortOrder).ToArray();
+	                _interpolationTypeLookupViewModelWithEmpty = CreateEmptyIDAndName().Union(entities.Select(x => x.ToIDAndDisplayName())).ToArray();
+	            }
+
+	            return _interpolationTypeLookupViewModelWithEmpty;
+	        }
+	    }
+
+        // MidiMappingType
+
+        private static readonly IList<IDAndName> _midiMappingTypeLookupViewModel = CreateMidiMappingTypeLookupViewModel();
 
 		public static IList<IDAndName> GetMidiMappingTypeLookupViewModel() => _midiMappingTypeLookupViewModel;
 
@@ -93,18 +114,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 		{
 			IList<IDAndName> idAndNames = CreateEnumLookupViewModel<MidiMappingTypeEnum>(mustIncludeUndefined: false);
 			idAndNames = idAndNames.OrderBy(x => x.Name).ToArray();
-			return idAndNames;
-		}
-
-		// NodeType
-
-		private static readonly IList<IDAndName> _nodeTypeLookupViewModel = CreateNodeTypeLookupViewModel();
-
-		public static IList<IDAndName> GetNodeTypeLookupViewModel() => _nodeTypeLookupViewModel;
-
-		private static IList<IDAndName> CreateNodeTypeLookupViewModel()
-		{
-			IList<IDAndName> idAndNames = CreateEnumLookupViewModel<NodeTypeEnum>(mustIncludeUndefined: false);
 			return idAndNames;
 		}
 

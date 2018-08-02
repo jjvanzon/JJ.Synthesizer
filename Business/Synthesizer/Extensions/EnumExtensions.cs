@@ -230,36 +230,28 @@ namespace JJ.Business.Synthesizer.Extensions
 
 		// Node
 
-		public static NodeTypeEnum GetNodeTypeEnum(this Node node)
+		public static InterpolationTypeEnum GetInterpolationTypeEnum(this Node node)
 		{
 			if (node == null) throw new NullException(() => node);
 
-			if (node.NodeType == null) return NodeTypeEnum.Undefined;
+			if (node.InterpolationType == null) return InterpolationTypeEnum.Undefined;
 
-			return node.NodeType.ToEnum();
+			return node.InterpolationType.ToEnum();
 		}
 
-		public static void SetNodeTypeEnum(this Node entity, NodeTypeEnum enumValue, INodeTypeRepository repository)
+		public static void SetInterpolationTypeEnum(this Node entity, InterpolationTypeEnum enumValue, IInterpolationTypeRepository repository)
 		{
 			if (repository == null) throw new NullException(() => repository);
 
-			if (enumValue == NodeTypeEnum.Undefined)
+			if (enumValue == InterpolationTypeEnum.Undefined)
 			{
-				entity.UnlinkNodeType();
+				entity.UnlinkInterpolationType();
 			}
 			else
 			{
-				NodeType enumEntity = repository.Get((int)enumValue);
+				InterpolationType enumEntity = repository.Get((int)enumValue);
 				entity.LinkTo(enumEntity);
 			}
-		}
-
-		// NodeType
-
-		public static NodeTypeEnum ToEnum(this NodeType entity)
-		{
-			if (entity == null) throw new ArgumentNullException(nameof(entity));
-			return (NodeTypeEnum)entity.ID;
 		}
 
 		// Operator

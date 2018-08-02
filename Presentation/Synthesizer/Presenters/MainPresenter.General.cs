@@ -144,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_midiMappingDetailsPresenter = new MidiMappingGroupDetailsPresenter(midiMappingRepositories, _midiMappingFacade);
 			_midiMappingPropertiesPresenter = new MidiMappingPropertiesPresenter(midiMappingRepositories, _midiMappingFacade);
 			_monitoringBarPresenter = new MonitoringBarPresenter();
-			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _curveFacade);
+			_nodePropertiesPresenter = new NodePropertiesPresenter(_repositories.NodeRepository, _repositories.InterpolationTypeRepository, _curveFacade);
 			_operatorPropertiesPresenter = new OperatorPropertiesPresenter(_repositories);
 			_operatorPropertiesPresenter_ForCache = new OperatorPropertiesPresenter_ForCache(_repositories);
 			_operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_repositories);

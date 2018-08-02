@@ -1,0 +1,1 @@
+alter table Node drop column NodeTypeID

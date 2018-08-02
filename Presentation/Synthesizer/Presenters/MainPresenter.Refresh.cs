@@ -280,7 +280,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				NodePropertiesViewModel viewModel = ViewModelSelector.TryGetNodePropertiesViewModel(MainViewModel.Document, entity.ID);
 				if (viewModel == null)
 				{
-					viewModel = entity.ToPropertiesViewModel();
+					viewModel = entity.ToPropertiesViewModel(_repositories.InterpolationTypeRepository);
 					viewModel.Successful = true;
 					viewModelDictionary[entity.ID] = viewModel;
 				}

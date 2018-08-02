@@ -200,11 +200,11 @@ namespace JJ.Business.Synthesizer.LinkTo
 			midiMapping.LinkTo((Dimension)null);
 		}
 
-		public static void UnlinkNodeType(this Node node)
+		public static void UnlinkInterpolationType(this Node node)
 		{
 			if (node == null) throw new NullException(() => node);
 
-			node.LinkTo((NodeType)null);
+			node.LinkTo((InterpolationType)null);
 		}
 
 		public static void UnlinkStandardDimension(this Operator op)
