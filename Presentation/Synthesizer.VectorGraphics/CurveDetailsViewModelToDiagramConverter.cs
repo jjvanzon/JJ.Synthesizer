@@ -459,6 +459,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _waterMarkTitleLabel.Position.Height = _waterMarkTitleLabel.Diagram.Position.ScaledHeight;
         }
 
+        //private Point CreatePlottingPoint(double absoluteX, double absoluteY)
+        //{
+
+        //}
+
         private void CreateLines_WithRelatedElements(
             Point previousPoint,
             Point nextPoint,
@@ -488,13 +493,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             if (mustCreateVerticalLineAtTheStart)
             {
-                destPoint = new Point(previousPoint)
+                double absoluteX = previousPoint.Position.RelativeToAbsoluteX(0);
+
+                destPoint = new Point(diagram.Background)
                 {
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
 
-                destPoint.Position.X = 0;
+                destPoint.Position.AbsoluteX = (float)absoluteX;
                 destPoint.Position.AbsoluteY = 0;
                 destPoints.Add(destPoint);
             }
@@ -549,23 +556,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             if (mustCreateVerticalLineAtTheEnd)
             {
-                var extraPoint = new Point(nextPoint)
+                double absoluteX = nextPoint.Position.RelativeToAbsoluteX(0);
+                double absoluteY = 0;
+                if (interpolationTypeEnum != InterpolationTypeEnum.Undefined)
+                {
+                    absoluteY = previousPoint.Position.AbsoluteY;
+                }
+
+                destPoint = new Point(diagram.Background)
                 {
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
-                extraPoint.Position.X = 0;
 
-                if (interpolationTypeEnum != InterpolationTypeEnum.Undefined)
-                {
-                    extraPoint.Position.AbsoluteY = previousPoint.Position.AbsoluteY;
-                }
-                else
-                {
-                    extraPoint.Position.AbsoluteY = 0;
-                }
+                destPoint.Position.AbsoluteX = (float)absoluteX;
+                destPoint.Position.AbsoluteY = (float)absoluteY;
 
-                destPoints.Add(extraPoint);
+                destPoints.Add(destPoint);
             }
 
             destPoints.Add(nextPoint);
