@@ -96,7 +96,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             if (curveDetailsViewModel == null) throw new NullException(() => curveDetailsViewModel);
 
             if (curveDetailsViewModel.Nodes.Count < MINIMUM_NODE_COUNT)
+            {
                 throw new LessThanException(() => curveDetailsViewModel.Nodes.Count, MINIMUM_NODE_COUNT);
+            }
 
             _currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Nodes.Values.ToArray());
             _currentCurveCalculator = _curveFacade.CreateInterpretedCalculator(_currentCurveInfo.MockCurve);
@@ -459,18 +461,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _waterMarkTitleLabel.Position.Height = _waterMarkTitleLabel.Diagram.Position.ScaledHeight;
         }
 
-        //private Point CreatePlottingPoint(double absoluteX, double absoluteY)
-        //{
-
-        //}
-
         private void CreateLines_WithRelatedElements(
             Point previousPoint,
             Point nextPoint,
             InterpolationTypeEnum interpolationTypeEnum,
             InterpolationTypeEnum nextInterpolationTypeEnum)
         {
-            Diagram diagram = previousPoint.Diagram;
             Point destPoint;
 
             Node mockNode0 = _currentCurveInfo.NodeInfos
@@ -493,59 +489,39 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             if (mustCreateVerticalLineAtTheStart)
             {
-                double absoluteX = previousPoint.Position.RelativeToAbsoluteX(0);
-
-                destPoint = new Point(diagram.Background)
-                {
-                    PointStyle = StyleHelper.PointStyleInvisible,
-                    Tag = HELPER_ELEMENT_TAG
-                };
-
-                destPoint.Position.AbsoluteX = (float)absoluteX;
-                destPoint.Position.AbsoluteY = 0;
+                double x = previousPoint.Position.RelativeToAbsoluteX(0);
+                destPoint = CreatePlotPoint(x, 0);
                 destPoints.Add(destPoint);
             }
 
-            double step = (mockNode1.X - mockNode0.X) / _lineSegmentCount;
-            double x = mockNode0.X + step;
-
-            for (var i = 0; i < _lineSegmentPointCount - 2; i++)
             {
-                double y = _currentCurveCalculator.Calculate(x);
+                double step = (mockNode1.X - mockNode0.X) / _lineSegmentCount;
+                double x = mockNode0.X + step;
 
-                // Vertical line in the middle, for stripe interpolation.
-                bool mustCreateVerticalLineInTheMiddle = interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
-                                                         nextInterpolationTypeEnum == InterpolationTypeEnum.Stripe;
-
-                if (mustCreateVerticalLineInTheMiddle)
+                for (var i = 0; i < _lineSegmentPointCount - 2; i++)
                 {
-                    bool isHalfWay = i >= (_lineSegmentPointCount - 1) / 2;
+                    double y = _currentCurveCalculator.Calculate(x);
 
-                    if (isHalfWay)
+                    // Vertical line in the middle, for stripe interpolation.
+                    bool mustCreateVerticalLineInTheMiddle = interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
+                                                             nextInterpolationTypeEnum == InterpolationTypeEnum.Stripe;
+
+                    if (mustCreateVerticalLineInTheMiddle)
                     {
-                        destPoint = new Point(diagram.Background)
+                        bool isHalfWay = i >= (_lineSegmentPointCount - 1) / 2;
+
+                        if (isHalfWay)
                         {
-                            PointStyle = StyleHelper.PointStyleInvisible,
-                            Tag = HELPER_ELEMENT_TAG
-                        };
-
-                        destPoint.Position.AbsoluteX = (float)(x - step);
-                        destPoint.Position.AbsoluteY = (float)y;
-                        destPoints.Add(destPoint);
+                            destPoint = CreatePlotPoint(x - step, y);
+                            destPoints.Add(destPoint);
+                        }
                     }
+
+                    destPoint = CreatePlotPoint(x, y);
+                    destPoints.Add(destPoint);
+
+                    x += step;
                 }
-
-                destPoint = new Point(diagram.Background)
-                {
-                    PointStyle = StyleHelper.PointStyleInvisible,
-                    Tag = HELPER_ELEMENT_TAG
-                };
-
-                destPoint.Position.AbsoluteX = (float)x;
-                destPoint.Position.AbsoluteY = (float)y;
-                destPoints.Add(destPoint);
-
-                x += step;
             }
 
             // Vertical line at the end: point right under or above the next node.
@@ -556,22 +532,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             if (mustCreateVerticalLineAtTheEnd)
             {
-                double absoluteX = nextPoint.Position.RelativeToAbsoluteX(0);
-                double absoluteY = 0;
-                if (interpolationTypeEnum != InterpolationTypeEnum.Undefined)
-                {
-                    absoluteY = previousPoint.Position.AbsoluteY;
-                }
+                double x = nextPoint.Position.RelativeToAbsoluteX(0);
+                double y = interpolationTypeEnum == InterpolationTypeEnum.Undefined ? 0 : previousPoint.Position.AbsoluteY;
 
-                destPoint = new Point(diagram.Background)
-                {
-                    PointStyle = StyleHelper.PointStyleInvisible,
-                    Tag = HELPER_ELEMENT_TAG
-                };
-
-                destPoint.Position.AbsoluteX = (float)absoluteX;
-                destPoint.Position.AbsoluteY = (float)absoluteY;
-
+                destPoint = CreatePlotPoint(x, y);
                 destPoints.Add(destPoint);
             }
 
@@ -591,6 +555,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Tag = HELPER_ELEMENT_TAG
                 };
             }
+        }
+
+        private Point CreatePlotPoint(double absoluteX, double absoluteY)
+        {
+            var point = new Point(Result.Diagram.Background)
+            {
+                PointStyle = StyleHelper.PointStyleInvisible,
+                Tag = HELPER_ELEMENT_TAG
+            };
+
+            point.Position.AbsoluteX = (float)absoluteX;
+            point.Position.AbsoluteY = (float)absoluteY;
+
+            return point;
         }
 
         private CurveInfo CreateCurveInfo(IList<NodeViewModel> nodeViewModels)
