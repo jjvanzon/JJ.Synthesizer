@@ -467,8 +467,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             InterpolationTypeEnum interpolationTypeEnum,
             InterpolationTypeEnum nextInterpolationTypeEnum)
         {
-            Point destPoint;
-
             Node mockNode0 = _currentCurveInfo.NodeInfos
                                               .Where(nt => nt.NodeViewModel.ID == (int)previousPoint.Tag)
                                               .Select(nt => nt.MockNode)
@@ -490,8 +488,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             if (mustCreateVerticalLineAtTheStart)
             {
                 double x = previousPoint.Position.RelativeToAbsoluteX(0);
-                destPoint = CreatePlotPoint(x, 0);
-                destPoints.Add(destPoint);
+                destPoints.Add(CreatePlotPoint(x, 0));
             }
 
             {
@@ -512,13 +509,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                         if (isHalfWay)
                         {
-                            destPoint = CreatePlotPoint(x - step, y);
-                            destPoints.Add(destPoint);
+                            destPoints.Add(CreatePlotPoint(x - step, y));
                         }
                     }
 
-                    destPoint = CreatePlotPoint(x, y);
-                    destPoints.Add(destPoint);
+                    destPoints.Add(CreatePlotPoint(x, y));
 
                     x += step;
                 }
@@ -534,9 +529,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 double x = nextPoint.Position.RelativeToAbsoluteX(0);
                 double y = interpolationTypeEnum == InterpolationTypeEnum.Undefined ? 0 : previousPoint.Position.AbsoluteY;
-
-                destPoint = CreatePlotPoint(x, y);
-                destPoints.Add(destPoint);
+                destPoints.Add(CreatePlotPoint(x, y));
             }
 
             destPoints.Add(nextPoint);
