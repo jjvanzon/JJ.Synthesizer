@@ -495,7 +495,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 };
 
                 destPoint.Position.X = 0;
-                destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY(0);
+                destPoint.Position.AbsoluteY = 0;
                 destPoints.Add(destPoint);
             }
 
@@ -522,8 +522,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                             Tag = HELPER_ELEMENT_TAG
                         };
 
-                        destPoint.Position.X = destPoint.Parent.Position.AbsoluteToRelativeX((float)(x - step));
-                        destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY((float)y);
+                        destPoint.Position.AbsoluteX = (float)(x - step);
+                        destPoint.Position.AbsoluteY = (float)y;
                         destPoints.Add(destPoint);
                     }
                 }
@@ -534,8 +534,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Tag = HELPER_ELEMENT_TAG
                 };
 
-                destPoint.Position.X = destPoint.Parent.Position.AbsoluteToRelativeX((float)x);
-                destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY((float)y);
+                destPoint.Position.AbsoluteX = (float)x;
+                destPoint.Position.AbsoluteY = (float)y;
                 destPoints.Add(destPoint);
 
                 x += step;
@@ -554,16 +554,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
-
                 extraPoint.Position.X = 0;
 
                 if (interpolationTypeEnum != InterpolationTypeEnum.Undefined)
                 {
-                    extraPoint.Position.Y = extraPoint.Parent.Position.AbsoluteToRelativeY(previousPoint.Position.AbsoluteY);
+                    extraPoint.Position.AbsoluteY = previousPoint.Position.AbsoluteY;
                 }
                 else
                 {
-                    extraPoint.Position.Y = extraPoint.Parent.Position.AbsoluteToRelativeY(0);
+                    extraPoint.Position.AbsoluteY = 0;
                 }
 
                 destPoints.Add(extraPoint);
