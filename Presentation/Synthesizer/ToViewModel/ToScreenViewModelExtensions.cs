@@ -128,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				CurveID = entity.Curve?.ID ?? default, // Null after delete action.
 				Entity = entity.ToViewModel(),
 				ValidationMessages = new List<string>(),
-				InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModelWithEmpty(interpolationTypeRepository),
+				InterpolationTypeLookup = ToViewModelHelper.GetInterpolationTypeLookupViewModelWithInterpolationTypeOff(interpolationTypeRepository),
 			};
 
 		// Document

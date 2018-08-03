@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Tests
     public class CurveTests
     {
         [TestMethod]
-        public void Test_Curve_Interpolation_Undefined()
+        public void Test_Curve_Off()
             => AssertInconclusiveHelper.WithConnectionInconclusiveAssertion(
                 () =>
                 {
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests
                         var curveFacade = new CurveFacade(repositories);
 
                         Curve curve = CreateTestCurve(curveFacade);
-                        curve.Nodes.ForEach(x => x.SetInterpolationTypeEnum(InterpolationTypeEnum.Undefined, repositories.InterpolationTypeRepository));
+                        curve.Nodes.ForEach(x => x.SetInterpolationTypeEnum(InterpolationTypeEnum.Off, repositories.InterpolationTypeRepository));
 
                         ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);
                         AssertHelper.AreEqual(0, () => calculator.Calculate(0.0));
@@ -93,10 +93,10 @@ namespace JJ.Business.Synthesizer.Tests
 
                         Curve curve = curveFacade.Create(
                             3,
-                            (0.5, InterpolationTypeEnum.Undefined),
+                            (0.5, InterpolationTypeEnum.Off),
                             (2.0, InterpolationTypeEnum.Block),
                             (1.0, InterpolationTypeEnum.Line),
-                            (0.5, InterpolationTypeEnum.Undefined)
+                            (0.5, InterpolationTypeEnum.Off)
                         );
 
                         ICalculatorWithPosition calculator = curveFacade.CreateInterpretedCalculator(curve);

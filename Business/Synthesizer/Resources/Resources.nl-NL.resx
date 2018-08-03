@@ -1140,4 +1140,7 @@
   <data name="FollowingMode" xml:space="preserve">
     <value>Volgmodus</value>
   </data>
+  <data name="Off" xml:space="preserve">
+    <value>Uit</value>
+  </data>
 </root>

@@ -63,10 +63,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         // InterpolationType
 
 	    private static readonly object _interpolationTypeLookupViewModelLock = new object();
-	    private static readonly object _interpolationTypeLookupViewModelWithEmptyLock = new object();
+	    private static readonly object _interpolationTypeLookupViewModelWithInterpolationTypeOffLock = new object();
 
         private static IList<IDAndName> _interpolationTypeLookupViewModel;
-        private static IList<IDAndName> _interpolationTypeLookupViewModelWithEmpty;
+        private static IList<IDAndName> _interpolationTypeLookupViewModelWithInterpolationTypeOff;
 
 	    public static IList<IDAndName> GetInterpolationTypeLookupViewModel(IInterpolationTypeRepository repository)
 	    {
@@ -86,21 +86,25 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 	        }
 	    }
 
-	    public static IList<IDAndName> GetInterpolationTypeLookupViewModelWithEmpty(IInterpolationTypeRepository repository)
+	    public static IList<IDAndName> GetInterpolationTypeLookupViewModelWithInterpolationTypeOff(IInterpolationTypeRepository repository)
 	    {
 	        if (repository == null) throw new NullException(() => repository);
 
-	        lock (_interpolationTypeLookupViewModelWithEmptyLock)
+	        lock (_interpolationTypeLookupViewModelWithInterpolationTypeOffLock)
 	        {
 	            // ReSharper disable once InvertIf
-	            if (_interpolationTypeLookupViewModelWithEmpty == null)
+	            if (_interpolationTypeLookupViewModelWithInterpolationTypeOff == null)
 	            {
                     // Cannot delegate to CreateEnumLookupViewModel, because we need to order by SortOrder.
                     IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.SortOrder).ToArray();
-	                _interpolationTypeLookupViewModelWithEmpty = CreateEmptyIDAndName().Union(entities.Select(x => x.ToIDAndDisplayName())).ToArray();
+
+	                _interpolationTypeLookupViewModelWithInterpolationTypeOff = InterpolationTypeEnum.Off
+	                                                                                                 .ToIDAndDisplayName()
+	                                                                                                 .Union(entities.Select(x => x.ToIDAndDisplayName()))
+	                                                                                                 .ToArray();
 	            }
 
-	            return _interpolationTypeLookupViewModelWithEmpty;
+	            return _interpolationTypeLookupViewModelWithInterpolationTypeOff;
 	        }
 	    }
 

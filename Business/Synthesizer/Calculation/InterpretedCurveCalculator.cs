@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Calculation
                 case InterpolationTypeEnum.Stripe:
                     return node0.Y;
 
-                case InterpolationTypeEnum.Undefined:
+                case InterpolationTypeEnum.Off:
                     return 0;
 
                 default:

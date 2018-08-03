@@ -483,7 +483,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             destPoints.Add(previousPoint);
 
             // Vertical line at the start: straight down to 0.
-            bool mustCreateVerticalLineAtTheStart = interpolationTypeEnum == InterpolationTypeEnum.Undefined;
+            bool mustCreateVerticalLineAtTheStart = interpolationTypeEnum == InterpolationTypeEnum.Off;
             if (mustCreateVerticalLineAtTheStart)
             {
                 double x = previousPoint.Position.RelativeToAbsoluteX(0);
@@ -518,12 +518,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             // Vertical line at the end: point right under or above the next node.
             bool mustCreateVerticalLineAtTheEnd = (interpolationTypeEnum == InterpolationTypeEnum.Block ||
                                                    interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
-                                                   interpolationTypeEnum == InterpolationTypeEnum.Undefined) &&
+                                                   interpolationTypeEnum == InterpolationTypeEnum.Off) &&
                                                   nextInterpolationTypeEnum != InterpolationTypeEnum.Stripe;
             if (mustCreateVerticalLineAtTheEnd)
             {
                 double x = nextPoint.Position.RelativeToAbsoluteX(0);
-                double y = interpolationTypeEnum == InterpolationTypeEnum.Undefined ? 0 : previousPoint.Position.AbsoluteY;
+                double y = interpolationTypeEnum == InterpolationTypeEnum.Off ? 0 : previousPoint.Position.AbsoluteY;
                 destPoints.Add(CreatePlotPoint(x, y));
             }
             destPoints.Add(nextPoint);

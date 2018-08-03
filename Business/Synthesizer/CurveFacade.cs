@@ -276,7 +276,7 @@ namespace JJ.Business.Synthesizer
 
 			switch (interpolationTypeEnum)
 			{
-				case InterpolationTypeEnum.Undefined:
+				case InterpolationTypeEnum.Off:
 					interpolationTypeEnum = InterpolationTypeEnum.Block;
 					break;
 
@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer
 			        break;
 
 			    case InterpolationTypeEnum.Hermite:
-			        interpolationTypeEnum = InterpolationTypeEnum.Undefined;
+			        interpolationTypeEnum = InterpolationTypeEnum.Off;
 			        break;
 
                 default:
@@ -315,7 +315,7 @@ namespace JJ.Business.Synthesizer
 			switch (interpolationTypeEnum)
 			{
 				case InterpolationTypeEnum.Block:
-				case InterpolationTypeEnum.Undefined:
+				case InterpolationTypeEnum.Off:
 					return afterNode.Y;
 
 				case InterpolationTypeEnum.Line:
