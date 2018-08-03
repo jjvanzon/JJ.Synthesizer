@@ -455,10 +455,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private void CreateLines_WithRelatedElements(
             Point previousPoint,
             Point nextPoint,
-            InterpolationTypeEnum previousInterpolationTypeEnum,
+            InterpolationTypeEnum interpolationTypeEnum,
             InterpolationTypeEnum nextInterpolationTypeEnum)
         {
             Diagram diagram = previousPoint.Diagram;
+            Point destPoint;
 
             Node mockNode0 = _currentCurveInfo.NodeInfos
                                               .Where(nt => nt.NodeViewModel.ID == (int)previousPoint.Tag)
@@ -475,17 +476,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             destPoints.Add(previousPoint);
 
-            // Create Point straight down to 0.
-            if (previousInterpolationTypeEnum == InterpolationTypeEnum.Undefined)
+            // Fake a vertical line: at tehe start :straight down to 0.
+            if (interpolationTypeEnum == InterpolationTypeEnum.Undefined)
             {
-                var destPoint = new Point(parent: previousPoint)
+                destPoint = new Point(parent: previousPoint)
                 {
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
                 destPoint.Position.X = 0;
-                destPoint.Position.Y = previousPoint.Position.AbsoluteToRelativeY(0);
-
+                destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY(0);
                 destPoints.Add(destPoint);
             }
 
@@ -496,33 +496,56 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 double y = _currentCurveCalculator.Calculate(x);
 
-                var destPoint = new Point(diagram.Background)
+                // Fake a vertical line in the middle, for stripe interpolation.
+                if (interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
+                    nextInterpolationTypeEnum == InterpolationTypeEnum.Stripe)
+                {
+                    bool isHalfWay = i >= (_lineSegmentPointCount - 1) / 2;
+                    if (isHalfWay)
+                    {
+                        destPoint = new Point(diagram.Background)
+                        {
+                            PointStyle = StyleHelper.PointStyleInvisible,
+                            Tag = HELPER_ELEMENT_TAG
+                        };
+                        destPoint.Position.X = destPoint.Parent.Position.AbsoluteToRelativeX((float)(x - step));
+                        destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY((float)y);
+                        destPoints.Add(destPoint);
+                    }
+                }
+
+                destPoint = new Point(diagram.Background)
                 {
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
-
                 destPoint.Position.X = destPoint.Parent.Position.AbsoluteToRelativeX((float)x);
                 destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY((float)y);
-
                 destPoints.Add(destPoint);
 
                 x += step;
             }
 
-            // Create point right under or above the next node.
-            if (previousInterpolationTypeEnum == InterpolationTypeEnum.Block &&
+            // Fake a vertical line at the end: Create point right under or above the next node.
+            if ((interpolationTypeEnum == InterpolationTypeEnum.Block ||
+                interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
+                interpolationTypeEnum == InterpolationTypeEnum.Undefined) &&
                 nextInterpolationTypeEnum != InterpolationTypeEnum.Stripe)
             {
-                var destPoint = new Point(parent: nextPoint)
+                var extraPoint = new Point(parent: nextPoint)
                 {
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
-                destPoint.Position.X = 0;
-                destPoint.Position.Y = nextPoint.Position.AbsoluteToRelativeY(previousPoint.Position.AbsoluteY);
+                extraPoint.Position.X = 0;
+                extraPoint.Position.Y = extraPoint.Parent.Position.AbsoluteToRelativeY(previousPoint.Position.AbsoluteY);
 
-                destPoints.Add(destPoint);
+                if (interpolationTypeEnum == InterpolationTypeEnum.Undefined)
+                {
+                    extraPoint.Position.Y = extraPoint.Parent.Position.AbsoluteToRelativeY(0);
+                }
+
+                destPoints.Add(extraPoint);
             }
 
             destPoints.Add(nextPoint);
