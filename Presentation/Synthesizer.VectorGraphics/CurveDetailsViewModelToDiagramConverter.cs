@@ -476,8 +476,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             destPoints.Add(previousPoint);
 
-            // Fake a vertical line: at tehe start :straight down to 0.
-            if (interpolationTypeEnum == InterpolationTypeEnum.Undefined)
+            // Vertical line at the start: straight down to 0.
+            bool mustCreateVerticalLineAtTheStart = interpolationTypeEnum == InterpolationTypeEnum.Undefined;
+            if (mustCreateVerticalLineAtTheStart)
             {
                 destPoint = new Point(parent: previousPoint)
                 {
@@ -496,9 +497,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 double y = _currentCurveCalculator.Calculate(x);
 
-                // Fake a vertical line in the middle, for stripe interpolation.
-                if (interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
-                    nextInterpolationTypeEnum == InterpolationTypeEnum.Stripe)
+                // Vertical line in the middle, for stripe interpolation.
+                bool mustCreateVerticalLineInTheMiddle = interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
+                                                         nextInterpolationTypeEnum == InterpolationTypeEnum.Stripe;
+                if (mustCreateVerticalLineInTheMiddle)
                 {
                     bool isHalfWay = i >= (_lineSegmentPointCount - 1) / 2;
                     if (isHalfWay)
@@ -526,11 +528,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 x += step;
             }
 
-            // Fake a vertical line at the end: Create point right under or above the next node.
-            if ((interpolationTypeEnum == InterpolationTypeEnum.Block ||
-                interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
-                interpolationTypeEnum == InterpolationTypeEnum.Undefined) &&
-                nextInterpolationTypeEnum != InterpolationTypeEnum.Stripe)
+            // Vertical line at the end: point right under or above the next node.
+            bool mustCreateVerticalLineAtTheEnd = (interpolationTypeEnum == InterpolationTypeEnum.Block ||
+                                                   interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
+                                                   interpolationTypeEnum == InterpolationTypeEnum.Undefined) &&
+                                                  nextInterpolationTypeEnum != InterpolationTypeEnum.Stripe;
+            if (mustCreateVerticalLineAtTheEnd)
             {
                 var extraPoint = new Point(parent: nextPoint)
                 {
@@ -538,9 +541,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Tag = HELPER_ELEMENT_TAG
                 };
                 extraPoint.Position.X = 0;
-                extraPoint.Position.Y = extraPoint.Parent.Position.AbsoluteToRelativeY(previousPoint.Position.AbsoluteY);
 
-                if (interpolationTypeEnum == InterpolationTypeEnum.Undefined)
+                if (interpolationTypeEnum != InterpolationTypeEnum.Undefined)
+                {
+                    extraPoint.Position.Y = extraPoint.Parent.Position.AbsoluteToRelativeY(previousPoint.Position.AbsoluteY);
+                }
+                else
                 {
                     extraPoint.Position.Y = extraPoint.Parent.Position.AbsoluteToRelativeY(0);
                 }
