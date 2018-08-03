@@ -9,7 +9,6 @@ using JJ.Framework.Collections;
 using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
-using JJ.Framework.Exceptions.InvalidValues;
 using JJ.Framework.VectorGraphics.Enums;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
@@ -95,7 +94,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public void Execute(CurveDetailsViewModel curveDetailsViewModel)
         {
             if (curveDetailsViewModel == null) throw new NullException(() => curveDetailsViewModel);
-            if (curveDetailsViewModel.Nodes.Count < MINIMUM_NODE_COUNT) throw new LessThanException(() => curveDetailsViewModel.Nodes.Count, MINIMUM_NODE_COUNT);
+
+            if (curveDetailsViewModel.Nodes.Count < MINIMUM_NODE_COUNT)
+                throw new LessThanException(() => curveDetailsViewModel.Nodes.Count, MINIMUM_NODE_COUNT);
 
             _currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Nodes.Values.ToArray());
             _currentCurveCalculator = _curveFacade.CreateInterpretedCalculator(_currentCurveInfo.MockCurve);
@@ -111,12 +112,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
 
             IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Nodes.Values.OrderBy(x => x.X).ToArray();
-            float minX = (float)sortedNodeViewModels.First().X;
-            float maxX = (float)sortedNodeViewModels.Last().X;
-            float minY = (float)sortedNodeViewModels.Select(x => x.Y).Min();
-            float maxY = (float)sortedNodeViewModels.Select(x => x.Y).Max();
+            var minX = (float)sortedNodeViewModels.First().X;
+            var maxX = (float)sortedNodeViewModels.Last().X;
+            var minY = (float)sortedNodeViewModels.Select(x => x.Y).Min();
+            var maxY = (float)sortedNodeViewModels.Select(x => x.Y).Max();
 
             float xRange = maxX - minX;
+
             if (xRange < MINIMUM_X_RANGE)
             {
                 xRange = MINIMUM_X_RANGE;
@@ -124,6 +126,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             // NOTE: The direction of the y-axis is inverted, so range is negative.
             float yRange = minY - maxY;
+
             if (yRange > MINIMUM_Y_RANGE)
             {
                 yRange = MINIMUM_Y_RANGE;
@@ -195,6 +198,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                     _rectangleDictionary.Add(nodeViewModel.ID, rectangle);
                 }
+
                 rectangle.Position.X = x - scaledNodeRectangleWidthOver2;
                 rectangle.Position.Y = y - scaledNodeRectangleHeightOver2;
                 rectangle.Position.Width = scaledNodeRectangleWidth;
@@ -212,6 +216,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                     _pointDictionary.Add(nodeViewModel.ID, point);
                 }
+
                 point.Position.X = scaledNodeRectangleWidthOver2;
                 point.Position.Y = scaledNodeRectangleHeightOver2;
 
@@ -236,7 +241,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 }
 
                 previousPoint = point;
-				previousNodeViewModel = nodeViewModel;
+                previousNodeViewModel = nodeViewModel;
             }
 
             // Delete accessory points and rectangles.
@@ -372,6 +377,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 TextStyle = StyleHelper.TextStyleSmallerTransparent.Clone()
             };
+
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Right;
 #if DEBUG
@@ -435,6 +441,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 ZIndex = -1,
                 TextStyle = StyleHelper.CenterWaterMarkTextStyle
             };
+
             label.Position.Y = 0;
 #if DEBUG
             label.Tag = "Title Label";
@@ -478,13 +485,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             // Vertical line at the start: straight down to 0.
             bool mustCreateVerticalLineAtTheStart = interpolationTypeEnum == InterpolationTypeEnum.Undefined;
+
             if (mustCreateVerticalLineAtTheStart)
             {
-                destPoint = new Point(parent: previousPoint)
+                destPoint = new Point(previousPoint)
                 {
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
+
                 destPoint.Position.X = 0;
                 destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY(0);
                 destPoints.Add(destPoint);
@@ -500,9 +509,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 // Vertical line in the middle, for stripe interpolation.
                 bool mustCreateVerticalLineInTheMiddle = interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
                                                          nextInterpolationTypeEnum == InterpolationTypeEnum.Stripe;
+
                 if (mustCreateVerticalLineInTheMiddle)
                 {
                     bool isHalfWay = i >= (_lineSegmentPointCount - 1) / 2;
+
                     if (isHalfWay)
                     {
                         destPoint = new Point(diagram.Background)
@@ -510,6 +521,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                             PointStyle = StyleHelper.PointStyleInvisible,
                             Tag = HELPER_ELEMENT_TAG
                         };
+
                         destPoint.Position.X = destPoint.Parent.Position.AbsoluteToRelativeX((float)(x - step));
                         destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY((float)y);
                         destPoints.Add(destPoint);
@@ -521,6 +533,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
+
                 destPoint.Position.X = destPoint.Parent.Position.AbsoluteToRelativeX((float)x);
                 destPoint.Position.Y = destPoint.Parent.Position.AbsoluteToRelativeY((float)y);
                 destPoints.Add(destPoint);
@@ -533,13 +546,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                                                    interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
                                                    interpolationTypeEnum == InterpolationTypeEnum.Undefined) &&
                                                   nextInterpolationTypeEnum != InterpolationTypeEnum.Stripe;
+
             if (mustCreateVerticalLineAtTheEnd)
             {
-                var extraPoint = new Point(parent: nextPoint)
+                var extraPoint = new Point(nextPoint)
                 {
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
                 };
+
                 extraPoint.Position.X = 0;
 
                 if (interpolationTypeEnum != InterpolationTypeEnum.Undefined)
@@ -556,7 +571,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             destPoints.Add(nextPoint);
 
-            for (int i = 0; i < destPoints.Count - 1; i++)
+            for (var i = 0; i < destPoints.Count - 1; i++)
             {
                 Point destPointA = destPoints[i];
                 Point destPointB = destPoints[i + 1];
@@ -580,12 +595,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             Curve mockCurve = _curveFacade.Create(nodeTuples);
 
             IList<NodeInfo> nodeInfos = mockCurve.Nodes.Zip(
-                 nodeViewModels,
-                 (e, v) => new NodeInfo
-                 {
-                     MockNode = e,
-                     NodeViewModel = v
-                 }).ToArray();
+                                                     nodeViewModels,
+                                                     (e, v) => new NodeInfo
+                                                     {
+                                                         MockNode = e,
+                                                         NodeViewModel = v
+                                                     })
+                                                 .ToArray();
 
             return new CurveInfo
             {
