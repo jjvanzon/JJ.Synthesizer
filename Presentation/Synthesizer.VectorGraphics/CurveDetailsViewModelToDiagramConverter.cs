@@ -484,7 +484,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             // Vertical line at the start: straight down to 0.
             bool mustCreateVerticalLineAtTheStart = interpolationTypeEnum == InterpolationTypeEnum.Undefined;
-
             if (mustCreateVerticalLineAtTheStart)
             {
                 double x = previousPoint.Position.RelativeToAbsoluteX(0);
@@ -502,17 +501,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     // Vertical line in the middle, for stripe interpolation.
                     bool mustCreateVerticalLineInTheMiddle = interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
                                                              nextInterpolationTypeEnum == InterpolationTypeEnum.Stripe;
-
                     if (mustCreateVerticalLineInTheMiddle)
                     {
                         bool isHalfWay = i >= (_lineSegmentPointCount - 1) / 2;
-
                         if (isHalfWay)
                         {
                             destPoints.Add(CreatePlotPoint(x - step, y));
                         }
                     }
-
                     destPoints.Add(CreatePlotPoint(x, y));
 
                     x += step;
@@ -524,14 +520,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                                                    interpolationTypeEnum == InterpolationTypeEnum.Stripe ||
                                                    interpolationTypeEnum == InterpolationTypeEnum.Undefined) &&
                                                   nextInterpolationTypeEnum != InterpolationTypeEnum.Stripe;
-
             if (mustCreateVerticalLineAtTheEnd)
             {
                 double x = nextPoint.Position.RelativeToAbsoluteX(0);
                 double y = interpolationTypeEnum == InterpolationTypeEnum.Undefined ? 0 : previousPoint.Position.AbsoluteY;
                 destPoints.Add(CreatePlotPoint(x, y));
             }
-
             destPoints.Add(nextPoint);
 
             for (var i = 0; i < destPoints.Count - 1; i++)
