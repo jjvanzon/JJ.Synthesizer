@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -8,6 +7,7 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Validation;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private static double CalculateY_ForInterpolationTypeCubic(Node nodeMinus1, Node node0, Node node1, Node node2, double x)
         {
-            double y = Interpolator.Cubic_SmoothSlope(
+            double y = Interpolator.CubicSmoothSlope(
                 nodeMinus1.X,
                 node0.X,
                 node1.X,
@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Calculation
             double dx = node1.X - node0.X;
             double t = (x - node0.X) / dx;
 
-            double y = Interpolator.Hermite_4pt3oX(nodeMinus1.Y, node0.Y, node1.Y, node2.Y, t);
+            double y = Interpolator.Hermite4pt3oX(nodeMinus1.Y, node0.Y, node1.Y, node2.Y, t);
             return y;
         }
 

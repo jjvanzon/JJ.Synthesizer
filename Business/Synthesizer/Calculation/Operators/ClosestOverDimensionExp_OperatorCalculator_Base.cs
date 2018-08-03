@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Framework.Collections;
+using JJ.Framework.Mathematics;
+
 // ReSharper disable ConvertIfStatementToReturnStatement
 // ReSharper disable RedundantIfElseBlock
 

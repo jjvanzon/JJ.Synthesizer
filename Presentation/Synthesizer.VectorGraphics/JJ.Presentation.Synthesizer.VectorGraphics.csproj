@@ -113,10 +113,6 @@
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Mathematics\JJ.Framework.Mathematics.csproj">
-      <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>
-      <Name>JJ.Framework.Mathematics</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>

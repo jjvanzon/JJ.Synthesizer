@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+﻿using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -21,13 +21,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	    protected override void Precalculate()
 		{
 			_dx = Dx();
-			(_c0, _c1, _c2, _c3) = Interpolator.Hermite_4pt3oX_PrecalculateVariables(_yMinus1, _y0, _y1, _y2);
+			(_c0, _c1, _c2, _c3) = Interpolator.Hermite4pt3oX_PrecalculateVariables(_yMinus1, _y0, _y1, _y2);
 		}
 
 		protected override double Calculate(double x)
 		{
 			double t = (x - _x0) / _dx;
-			double y = Interpolator.Hermite_4pt4oX_FromPrecalculatedVariables(_c0, _c1, _c2, _c3, t);
+			double y = Interpolator.Hermite4pt3oX_FromPrecalculatedVariables(_c0, _c1, _c2, _c3, t);
 			return y;
 		}
 	}

@@ -249,6 +249,7 @@
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
     <Compile Include="Converters\ToneToDtoConverter.cs" />
+    <Compile Include="CopiedCode\FromFramework\Randomizer.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
     <Compile Include="Dto\Operators\DoubleToBoolean_OperatorDto.cs" />
     <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
@@ -764,10 +765,6 @@
     <ProjectReference Include="..\..\Framework\IO\JJ.Framework.IO.csproj">
       <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
       <Name>JJ.Framework.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Mathematics\JJ.Framework.Mathematics.csproj">
-      <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>
-      <Name>JJ.Framework.Mathematics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>

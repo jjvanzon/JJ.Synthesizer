@@ -1,42 +1,39 @@
-﻿// 2016-06-25
-// Copied from JJ.Framework.Mathematics
-// to promote inlining and made class internal.
-
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable InconsistentNaming
 
-namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
+namespace JJ.Framework.Mathematics
 {
     /// <summary>
     /// NOTE: There are also separate methods for
     /// precalculating values once when you start interpolating between two numbers
     /// and then doing a faster calculation to derived the points in between.
     /// </summary>
-    internal static class Interpolator
+    public static class Interpolator
     {
         // Hermite (double)
 
         /// <summary>
         /// Pretty good sound interpolation.
-        /// Source:
+        /// Derived from:
         /// http://stackoverflow.com/questions/1125666/how-do-you-do-bicubic-or-other-non-linear-interpolation-of-re-sampled-audio-da
         /// </summary>
         /// <param name="t">The point between 0 and 1 between x0 and x1.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Hermite_4pt3oX(double yMinus1, double y0, double y1, double y2, double t)
+        public static double Hermite4pt3oX(double yMinus1, double y0, double y1, double y2, double t)
         {
-            (double c0, double c1, double c2, double c3) = Hermite_4pt3oX_PrecalculateVariables(yMinus1, y0, y1, y2);
-            return Hermite_4pt4oX_FromPrecalculatedVariables(c0, c1, c2, c3, t);
+            (double c0, double c1, double c2, double c3) = Hermite4pt3oX_PrecalculateVariables(yMinus1, y0, y1, y2);
+            return Hermite4pt3oX_FromPrecalculatedVariables(c0, c1, c2, c3, t);
         }
 
         /// <summary>
         /// Pretty good sound interpolation.
-        /// Source:
+        /// Derived from:
         /// http://stackoverflow.com/questions/1125666/how-do-you-do-bicubic-or-other-non-linear-interpolation-of-re-sampled-audio-da
         /// </summary>
-        public static (double c0, double c1, double c2, double c3) Hermite_4pt3oX_PrecalculateVariables(
+        public static (double c0, double c1, double c2, double c3) Hermite4pt3oX_PrecalculateVariables(
             double yMinus1,
             double y0,
             double y1,
@@ -50,31 +47,36 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
             return (c0, c1, c2, c3);
         }
 
+        /// <summary>
+        /// Pretty good sound interpolation.
+        /// Derived from:
+        /// http://stackoverflow.com/questions/1125666/how-do-you-do-bicubic-or-other-non-linear-interpolation-of-re-sampled-audio-da
+        /// </summary>
         /// <param name="t">The point between 0 and 1 between x0 and x1.</param>
-        public static double Hermite_4pt4oX_FromPrecalculatedVariables(double c0, double c1, double c2, double c3, double t)
+        public static double Hermite4pt3oX_FromPrecalculatedVariables(double c0, double c1, double c2, double c3, double t)
             => ((c3 * t + c2) * t + c1) * t + c0;
 
         // Hermite (float)
 
         /// <summary>
         /// Pretty good sound interpolation.
-        /// Source:
+        /// Derived from:
         /// http://stackoverflow.com/questions/1125666/how-do-you-do-bicubic-or-other-non-linear-interpolation-of-re-sampled-audio-da
         /// </summary>
         /// <param name="t">The point between 0 and 1 between x0 and x1.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Hermite_4pt3oX(float yMinus1, float y0, float y1, float y2, float t)
+        public static float Hermite4pt3oX(float yMinus1, float y0, float y1, float y2, float t)
         {
-            (float c0, float c1, float c2, float c3) = Hermite_4pt3oX_PrecalculateVariables(yMinus1, y0, y1, y2);
-            return Hermite_4pt4oX_FromPrecalculatedVariables(c0, c1, c2, c3, t);
+            (float c0, float c1, float c2, float c3) = Hermite4pt3oX_PrecalculateVariables(yMinus1, y0, y1, y2);
+            return Hermite4pt3oX_FromPrecalculatedVariables(c0, c1, c2, c3, t);
         }
 
         /// <summary>
         /// Pretty good sound interpolation.
-        /// Source:
+        /// Derived from:
         /// http://stackoverflow.com/questions/1125666/how-do-you-do-bicubic-or-other-non-linear-interpolation-of-re-sampled-audio-da
         /// </summary>
-        public static (float c0, float c1, float c2, float c3) Hermite_4pt3oX_PrecalculateVariables(
+        public static (float c0, float c1, float c2, float c3) Hermite4pt3oX_PrecalculateVariables(
             float yMinus1,
             float y0,
             float y1,
@@ -88,11 +90,16 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
             return (c0, c1, c2, c3);
         }
 
+        /// <summary>
+        /// Pretty good sound interpolation.
+        /// Derived from:
+        /// http://stackoverflow.com/questions/1125666/how-do-you-do-bicubic-or-other-non-linear-interpolation-of-re-sampled-audio-da
+        /// </summary>
         /// <param name="t">The point between 0 and 1 between x0 and x1.</param>
-        public static float Hermite_4pt4oX_FromPrecalculatedVariables(float c0, float c1, float c2, float c3, float t)
+        public static float Hermite4pt3oX_FromPrecalculatedVariables(float c0, float c1, float c2, float c3, float t)
             => ((c3 * t + c2) * t + c1) * t + c0;
 
-        // Cubic From T (Bezier Curves)
+        // CubicFromT (Bezier Curves)
 
         /// <summary>
         /// t values between 0 and 1 trace a curve
@@ -102,7 +109,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         /// This is called a Bezier curve.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cubic_FromT(
+        public static void CubicFromT(
             double x0,
             double x1,
             double x2,
@@ -145,7 +152,7 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         /// This is called a Bezier curve.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Cubic_FromT(
+        public static void CubicFromT(
             float x0,
             float x1,
             float x2,
@@ -180,10 +187,10 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
                 d * y3;
         }
 
-        // Cubic Smooth Slope
+        // Cubic Smooth Slope (double)
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Cubic_SmoothSlope(
+        public static double CubicSmoothSlope(
             double xMinus1,
             double x0,
             double x1,
@@ -194,12 +201,12 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
             double y2,
             double x)
         {
-            (double a, double b, double c) = Cubic_SmoothSlope_PrecalculateVariables(xMinus1, x0, x1, x2, yMinus1, y0, y1, y2);
-            return Cubic_SmoothSlope_FromPrecalculatedVariables(x0, y0, a, b, c, x);
+            (double a, double b, double c) = CubicSmoothSlope_PrecalculateVariables(xMinus1, x0, x1, x2, yMinus1, y0, y1, y2);
+            return CubicSmoothSlope_FromPrecalculatedVariables(x0, y0, a, b, c, x);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (double a, double b, double c) Cubic_SmoothSlope_PrecalculateVariables(
+        public static (double a, double b, double c) CubicSmoothSlope_PrecalculateVariables(
             double xMinus1,
             double x0,
             double x1,
@@ -223,25 +230,25 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Cubic_SmoothSlope_FromPrecalculatedVariables(double x0, double y0, double a, double b, double c, double x)
+        public static double CubicSmoothSlope_FromPrecalculatedVariables(double x0, double y0, double a, double b, double c, double x)
         {
             double ofs = x - x0;
             double y = y0 + ofs * (a + ofs * (b + ofs * c));
             return y;
         }
 
-        // Cubic Smooth Slope Distance 1
+        // Cubic Smooth Slope Distance 1 (double)
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double Cubic_SmoothSlope_Distance1(double x0, double yMinus1, double y0, double y1, double y2, double x)
+        public static double CubicSmoothSlopeDistance1(double x0, double yMinus1, double y0, double y1, double y2, double x)
         {
-            (double a, double b, double c) = Cubic_SmoothSlope_DistanceOne_PrecalculateVariables(yMinus1, y0, y1, y2);
-            double y = Cubic_SmoothSlope_FromPrecalculatedVariables(x0, y0, a, b, c, x);
+            (double a, double b, double c) = CubicSmoothSlopeDistance1_PrecalculateVariables(yMinus1, y0, y1, y2);
+            double y = CubicSmoothSlope_FromPrecalculatedVariables(x0, y0, a, b, c, x);
             return y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (double a, double b, double c) Cubic_SmoothSlope_DistanceOne_PrecalculateVariables(
+        public static (double a, double b, double c) CubicSmoothSlopeDistance1_PrecalculateVariables(
             double yMinus1,
             double y0,
             double y1,
@@ -253,6 +260,83 @@ namespace JJ.Business.Synthesizer.CopiedCode.FromFramework
             double a = slope0;
             double b = 3 * dy - slope1 - 2 * a;
             double c = dy - a - b;
+
+            return (a, b, c);
+        }
+
+        // Cubic Smooth Slope (float)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float CubicSmoothSlope(
+            float xMinus1,
+            float x0,
+            float x1,
+            float x2,
+            float yMinus1,
+            float y0,
+            float y1,
+            float y2,
+            float x)
+        {
+            (float a, float b, float c) = CubicSmoothSlope_PrecalculateVariables(xMinus1, x0, x1, x2, yMinus1, y0, y1, y2);
+            return CubicSmoothSlope_FromPrecalculatedVariables(x0, y0, a, b, c, x);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (float a, float b, float c) CubicSmoothSlope_PrecalculateVariables(
+            float xMinus1,
+            float x0,
+            float x1,
+            float x2,
+            float yMinus1,
+            float y0,
+            float y1,
+            float y2)
+        {
+            float dx = x1 - x0;
+            float dy = y1 - y0;
+            float dx2 = dx * dx;
+            float slope0 = (y1 - yMinus1) / (x1 - xMinus1);
+            float slope1 = (y2 - y0) / (x2 - x0);
+            float a = slope0;
+            float b = (3 * dy - dx * slope1 - 2 * a * dx) / dx2;
+            float dx3 = dx2 * dx;
+            float c = (dy - a * dx - b * dx2) / dx3;
+
+            return (a, b, c);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float CubicSmoothSlope_FromPrecalculatedVariables(float x0, float y0, float a, float b, float c, float x)
+        {
+            float ofs = x - x0;
+            float y = y0 + ofs * (a + ofs * (b + ofs * c));
+            return y;
+        }
+
+        // Cubic Smooth Slope Distance 1 (float)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float CubicSmoothSlopeDistance1(float x0, float yMinus1, float y0, float y1, float y2, float x)
+        {
+            (float a, float b, float c) = CubicSmoothSlopeDistance1_PrecalculateVariables(yMinus1, y0, y1, y2);
+            float y = CubicSmoothSlope_FromPrecalculatedVariables(x0, y0, a, b, c, x);
+            return y;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (float a, float b, float c) CubicSmoothSlopeDistance1_PrecalculateVariables(
+            float yMinus1,
+            float y0,
+            float y1,
+            float y2)
+        {
+            float dy = y1 - y0;
+            float slope1 = (y2 - y0) / 2;
+            float slope0 = (y1 - yMinus1) / 2;
+            float a = slope0;
+            float b = 3 * dy - slope1 - 2 * a;
+            float c = dy - a - b;
 
             return (a, b, c);
         }
