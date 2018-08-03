@@ -475,9 +475,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             destPoints.Add(previousPoint);
 
+            // Create Point straight down to 0.
             if (previousInterpolationTypeEnum == InterpolationTypeEnum.Undefined)
             {
-                var destPoint = new Point(previousPoint)
+                var destPoint = new Point(parent: previousPoint)
                 {
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_ELEMENT_TAG
@@ -507,6 +508,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 destPoints.Add(destPoint);
 
                 x += step;
+            }
+
+            // Create point right under or above the next node.
+            if (previousInterpolationTypeEnum == InterpolationTypeEnum.Block &&
+                nextInterpolationTypeEnum != InterpolationTypeEnum.Stripe)
+            {
+                var destPoint = new Point(parent: nextPoint)
+                {
+                    PointStyle = StyleHelper.PointStyleInvisible,
+                    Tag = HELPER_ELEMENT_TAG
+                };
+                destPoint.Position.X = 0;
+                destPoint.Position.Y = nextPoint.Position.AbsoluteToRelativeY(previousPoint.Position.AbsoluteY);
+
+                destPoints.Add(destPoint);
             }
 
             destPoints.Add(nextPoint);
