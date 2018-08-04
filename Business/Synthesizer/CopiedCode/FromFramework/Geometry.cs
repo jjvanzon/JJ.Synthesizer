@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+// ReSharper disable UnusedMember.Global
 
 namespace JJ.Framework.Mathematics
 {
+    // Do not use JetBrains.Annotations, because this code is statically compiled into code that does not support it.
     public static class Geometry
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
