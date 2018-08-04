@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		/// <summary> base returns default </summary>
 		protected override double Aggregate(double sample)
 		{
+            // ShiftForward
 			double oldValue = _queue.Dequeue();
 
 			_redBlackTree.Insert(sample, sample);

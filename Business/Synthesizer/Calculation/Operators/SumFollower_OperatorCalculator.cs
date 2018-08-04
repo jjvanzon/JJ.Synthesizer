@@ -13,11 +13,14 @@
 
 		protected override double Aggregate(double sample)
 		{
+            // ShiftForward
+
 			// Use a queueing trick to update the average without traversing a whole list.
 			// This also makes the average update more continually.
 			double oldSample = _queue.Dequeue();
-			_sum -= oldSample;
 
+            // Precalculate
+			_sum -= oldSample;
 			_sum += sample;
 
 			return _sum;

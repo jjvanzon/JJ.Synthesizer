@@ -13,6 +13,7 @@
 		{
 			base.Aggregate(sample);
 
+            // Precalculate
 			return _redBlackTree.GetMaximum();
 		}
 	}

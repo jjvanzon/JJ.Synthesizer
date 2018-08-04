@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		private readonly OperatorCalculatorBase _positionCalculator;
 
 		private double _sampleDistance;
-		private double _previousPosition;
-		private double _passedSamplingLength;
+		private double _previousX;
+		private double _passedDx;
 
 		private double _aggregate;
 		protected double _sampleCountDouble;
@@ -45,36 +45,41 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 		public sealed override double Calculate()
 		{
-			double position = _positionCalculator.Calculate();
+            // Calculate (base)
+			double x = _positionCalculator.Calculate();
 
-			// Update _passedSamplingLength
-			double positionChange = position - _previousPosition;
-			if (positionChange >= 0)
+		    // MustShiftForward
+            double dx = x - _previousX;
+			if (dx >= 0)
 			{
-				_passedSamplingLength += positionChange;
+				_passedDx += dx;
 			}
 			else
 			{
 				// Substitute for Math.Abs().
 				// This makes it work for changes that go in reverse and even position changes that quickly goes back and forth.
-				_passedSamplingLength -= positionChange;
+				_passedDx -= dx;
 			}
 
-			if (_passedSamplingLength >= _sampleDistance)
+		    if (_passedDx >= _sampleDistance)
 			{
-				double sample = _signalCalculator.Calculate();
+                // SetNextSample
+				double y = _signalCalculator.Calculate();
+				_queue.Enqueue(y);
 
-				_queue.Enqueue(sample);
+                // ShiftForward/Precalculate
+                _aggregate = Aggregate(y);
 
-				_aggregate = Aggregate(sample);
-
+			    // Phase tracking
 				// It may not be arithmetically perfect, that we ignore the fact that
-				// _passedSampleLength may be significantly greater than _sampleDuration,
-				// but in practice for this application it might not matter very much.
-				_passedSamplingLength = 0.0;
+                // _passedSampleLength may be significantly greater than _sampleDuration,
+                // but in practice for this application it might not matter very much.
+                _passedDx = 0.0;
 			}
 
-			_previousPosition = position;
+            // Calculate (abstract)
+            // Phase tracking
+			_previousX = x;
 
 			return _aggregate;
 		}
@@ -90,10 +95,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		{
 			double position = _positionCalculator.Calculate();
 
-			_previousPosition = position;
+			_previousX = position;
 
 			_aggregate = 0.0;
-			_passedSamplingLength = 0.0;
+			_passedDx = 0.0;
 
 			double sliceLength = _sliceLengthCalculator.Calculate();
 			_sampleCountDouble = _sampleCountCalculator.Calculate();
