@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 	    protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => ProcessOperatorDto(dto, () => new And_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-	    protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => ProcessOperatorDto(dto, () => new AverageFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
+	    protected override IOperatorDto Visit_AverageFollowerWithSamplingRate_OperatorDto(AverageFollowerWithSamplingRate_OperatorDto dto) => ProcessOperatorDto(dto, () => new AverageFollowerWithSamplingRate_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
 	    protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			AverageOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -376,9 +376,9 @@ namespace JJ.Business.Synthesizer.Visitors
 	            dto,
 	            () => new LowShelfFilter_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop(), dto.TargetSamplingRate));
 
-	    protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto) => ProcessOperatorDto(
+	    protected override IOperatorDto Visit_MaxFollowerWithSamplingRate_OperatorDto(MaxFollowerWithSamplingRate_OperatorDto dto) => ProcessOperatorDto(
 	        dto,
-	        () => new MaxFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
+	        () => new MaxFollowerWithSamplingRate_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
 	    protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			MaxOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -406,9 +406,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
 	    protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto) => ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
 
-	    protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => ProcessOperatorDto(
+	    protected override IOperatorDto Visit_MinFollowerWithSamplingRate_OperatorDto(MinFollowerWithSamplingRate_OperatorDto dto) => ProcessOperatorDto(
 	        dto,
-	        () => new MinFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
+	        () => new MinFollowerWithSamplingRate_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
 	    protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			MinOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -636,7 +636,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 	    protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => ProcessOperatorDto(dto, () => new Subtract_OperatorCalculator(_stack.Pop(), _stack.Pop()));
 
-	    protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => ProcessOperatorDto(dto, () => new SumFollower_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
+	    protected override IOperatorDto Visit_SumFollowerWithSamplingRate_OperatorDto_AllVars(SumFollowerWithSamplingRate_OperatorDto_AllVars dto) => ProcessOperatorDto(dto, () => new SumFollowerWithSamplingRate_OperatorCalculator(_stack.Pop(), _stack.Pop(), _stack.Pop(), _stack.Pop()));
 
 	    protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto)

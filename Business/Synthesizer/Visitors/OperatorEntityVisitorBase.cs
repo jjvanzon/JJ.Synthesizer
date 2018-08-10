@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ OperatorTypeEnum.Add, VisitAdd },
 				{ OperatorTypeEnum.AllPassFilter, VisitAllPassFilter },
 				{ OperatorTypeEnum.And, VisitAnd },
-				{ OperatorTypeEnum.AverageFollower, VisitAverageFollower },
+				{ OperatorTypeEnum.AverageFollowerWithSamplingRate, VisitAverageFollowerWithSamplingRate },
 				{ OperatorTypeEnum.AverageOverDimension, VisitAverageOverDimension },
 				{ OperatorTypeEnum.AverageOverInlets, VisitAverageOverInlets },
 				{ OperatorTypeEnum.BandPassFilterConstantPeakGain, VisitBandPassFilterConstantPeakGain },
@@ -49,10 +49,10 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ OperatorTypeEnum.LowShelfFilter, VisitLowShelfFilter },
 				{ OperatorTypeEnum.InletsToDimension, VisitInletsToDimension },
 				{ OperatorTypeEnum.MaxOverInlets, VisitMaxOverInlets },
-				{ OperatorTypeEnum.MaxFollower, VisitMaxFollower },
+				{ OperatorTypeEnum.MaxFollowerWithSamplingRate, VisitMaxFollowerWithSamplingRate },
 				{ OperatorTypeEnum.MaxOverDimension, VisitMaxOverDimension },
 				{ OperatorTypeEnum.MinOverInlets, VisitMinOverInlets },
-				{ OperatorTypeEnum.MinFollower, VisitMinFollower },
+				{ OperatorTypeEnum.MinFollowerWithSamplingRate, VisitMinFollowerWithSamplingRate },
 				{ OperatorTypeEnum.MinOverDimension, VisitMinOverDimension },
 				{ OperatorTypeEnum.Multiply, VisitMultiply },
 				{ OperatorTypeEnum.Negative, VisitNegative },
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Visitors
 				{ OperatorTypeEnum.Squash, VisitSquash },
 				{ OperatorTypeEnum.Subtract, VisitSubtract },
 				{ OperatorTypeEnum.SumOverDimension, VisitSumOverDimension },
-				{ OperatorTypeEnum.SumFollower, VisitSumFollower },
+				{ OperatorTypeEnum.SumFollowerWithSamplingRate, VisitSumFollowerWithSamplingRate },
 				{ OperatorTypeEnum.ToggleTrigger, VisitToggleTrigger },
 				{ OperatorTypeEnum.TriangleWithRate1, VisitTriangleWithRate1 }
 			};
@@ -226,7 +226,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected virtual void VisitAnd(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/
-		protected virtual void VisitAverageFollower(Operator op) => VisitOperatorBase(op);
+		protected virtual void VisitAverageFollowerWithSamplingRate(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/
 		protected virtual void VisitAverageOverDimension(Operator op) => VisitOperatorBase(op);
@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected virtual void VisitMaxOverInlets(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/
-		protected virtual void VisitMaxFollower(Operator op) => VisitOperatorBase(op);
+		protected virtual void VisitMaxFollowerWithSamplingRate(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/
 		protected virtual void VisitMinOverDimension(Operator op) => VisitOperatorBase(op);
@@ -322,7 +322,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected virtual void VisitMinOverInlets(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/
-		protected virtual void VisitMinFollower(Operator op) => VisitOperatorBase(op);
+		protected virtual void VisitMinFollowerWithSamplingRate(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/
 		protected virtual void VisitMultiply(Operator op) => VisitOperatorBase(op);
@@ -417,7 +417,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected virtual void VisitSumOverDimension(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/
-		protected virtual void VisitSumFollower(Operator op) => VisitOperatorBase(op);
+		protected virtual void VisitSumFollowerWithSamplingRate(Operator op) => VisitOperatorBase(op);
 
 		/*[DebuggerHidden]*/
 		protected virtual void VisitTriangleWithRate1(Operator op) => VisitOperatorBase(op);

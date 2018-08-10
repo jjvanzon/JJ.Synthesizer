@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			}
 		}
 
-		protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => ProcessWithSignal(dto);
+		protected override IOperatorDto Visit_AverageFollowerWithSamplingRate_OperatorDto(AverageFollowerWithSamplingRate_OperatorDto dto) => ProcessWithSignal(dto);
 
 	    protected override IOperatorDto Visit_AverageOverDimension_OperatorDto(AverageOverDimension_OperatorDto dto) => ProcessWithSignal(dto);
 
@@ -488,7 +488,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
 	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_ShelfFilter_SoundVarOrConst_OtherInputsConst(dto, BiQuadFilterWithoutFields.SetHighShelfFilterVariables);
 
-	    protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto) => ProcessWithSignal(dto);
+	    protected override IOperatorDto Visit_MaxFollowerWithSamplingRate_OperatorDto(MaxFollowerWithSamplingRate_OperatorDto dto) => ProcessWithSignal(dto);
 
 	    protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_ConstSignal(MaxOverDimension_OperatorDto_ConstSignal dto) => ProcessIdentity(dto);
 
@@ -499,7 +499,7 @@ namespace JJ.Business.Synthesizer.Visitors
 			return ProcessAggregateOverInlets(dto, Enumerable.Min);
 		}
 
-		protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => ProcessWithSignal(dto);
+		protected override IOperatorDto Visit_MinFollowerWithSamplingRate_OperatorDto(MinFollowerWithSamplingRate_OperatorDto dto) => ProcessWithSignal(dto);
 
 	    protected override IOperatorDto Visit_MinOverDimension_OperatorDto_ConstSignal(MinOverDimension_OperatorDto_ConstSignal dto) => ProcessIdentity(dto);
 
@@ -781,20 +781,26 @@ namespace JJ.Business.Synthesizer.Visitors
 			return dto;
 		}
 
-		protected override IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount(SumFollower_OperatorDto_ConstSignal_ConstSampleCount dto)
+		protected override IOperatorDto Visit_SumFollowerWithSamplingRate_OperatorDto_AllConsts(SumFollowerWithSamplingRate_OperatorDto_AllConsts dto)
 		{
-			base.Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount(dto);
+			base.Visit_SumFollowerWithSamplingRate_OperatorDto_AllConsts(dto);
 
 			// Pre-calculate
-			return new Number_OperatorDto { Number = dto.Signal * dto.SampleCount };
+			return new Number_OperatorDto { Number = dto.Signal * dto.SamplingRate / dto.SliceLength};
 		}
 
-		protected override IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto)
+		protected override IOperatorDto Visit_SumFollowerWithSamplingRate_OperatorDto_ConstSignal_VarSamplingRate(SumFollowerWithSamplingRate_OperatorDto_ConstSignal_VarSamplingRate dto)
 		{
-			base.Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(dto);
+			base.Visit_SumFollowerWithSamplingRate_OperatorDto_ConstSignal_VarSamplingRate(dto);
 
 			// Simplify
-			var dto2 = new Multiply_OperatorDto { Inputs = new [] { dto.Signal, dto.SampleCount } };
+		    var dto2 = new Multiply_OperatorDto
+		    {
+		        Inputs = new[] { dto.Signal, new Divide_OperatorDto
+		        {
+		            Inputs = new[] { dto.SamplingRate, dto.SliceLength } }
+		        }
+		    };
 
 			return dto2;
 		}

@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-	internal sealed class Interpolate_OperatorCalculator_Cubic_LookAhead : Interpolate_OperatorCalculator_Base_4Point_LookAhead
+	internal sealed class Interpolate_OperatorCalculator_Cubic_LookAhead : OperatorCalculatorBase_FollowingSampler_4Point_LookAhead
 	{
 		private double _a;
 		private double _b;
@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		public Interpolate_OperatorCalculator_Cubic_LookAhead(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator,
+			OperatorCalculatorBase positionCalculator,
 			VariableInput_OperatorCalculator positionOutputCalculator)
-			: base(signalCalculator, samplingRateCalculator, positionInputCalculator, positionOutputCalculator)
+			: base(signalCalculator, samplingRateCalculator, positionCalculator, positionOutputCalculator)
 		    => ResetNonRecursive();
 
 	    protected override void Precalculate() => (_a, _b, _c) = Interpolator.CubicSmoothSlope_PrecalculateVariables(

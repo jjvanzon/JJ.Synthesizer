@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Resources;
@@ -12,8 +14,12 @@ namespace JJ.Business.Synthesizer.Warnings
 		{
 			if (obj == null) throw new NullException(() => obj);
 
-			For(obj.BaseFrequency, ResourceFormatter.BaseFrequency).IsNull();
-			For(obj.Tones.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Tone)).GreaterThan(0);
+		    if (obj.GetScaleTypeEnum() == ScaleTypeEnum.LiteralFrequency)
+		    {
+		        For(obj.BaseFrequency, ResourceFormatter.BaseFrequency).IsNull();
+		    }
+
+		    For(obj.Tones.Count, CommonResourceFormatter.Count_WithNamePlural(ResourceFormatter.Tone)).GreaterThan(0);
 		}
 	}
 }

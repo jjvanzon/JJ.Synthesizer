@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected override void VisitAdd(Operator op) => ProcessPolymorphicRecursive(op, new Add_OperatorDto());
 		protected override void VisitAllPassFilter(Operator op) => ProcessPolymorphicRecursive(op, new AllPassFilter_OperatorDto());
 		protected override void VisitAnd(Operator op) => ProcessPolymorphicRecursive(op, new And_OperatorDto());
-		protected override void VisitAverageFollower(Operator op) => ProcessPolymorphicRecursive(op, new AverageFollower_OperatorDto());
+		protected override void VisitAverageFollowerWithSamplingRate(Operator op) => ProcessPolymorphicRecursive(op, new AverageFollowerWithSamplingRate_OperatorDto());
 		protected override void VisitAverageOverDimension(Operator op) => ProcessPolymorphicRecursive(op, new AverageOverDimension_OperatorDto());
 		protected override void VisitAverageOverInlets(Operator op) => ProcessPolymorphicRecursive(op, new AverageOverInlets_OperatorDto());
 		protected override void VisitBandPassFilterConstantPeakGain(Operator op) => ProcessPolymorphicRecursive(op, new BandPassFilterConstantPeakGain_OperatorDto());
@@ -180,10 +180,10 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected override void VisitLowShelfFilter(Operator op) => ProcessPolymorphicRecursive(op, new LowShelfFilter_OperatorDto());
 		protected override void VisitMaxOverDimension(Operator op) => ProcessPolymorphicRecursive(op, new MaxOverDimension_OperatorDto());
 		protected override void VisitMaxOverInlets(Operator op) => ProcessPolymorphicRecursive(op, new MaxOverInlets_OperatorDto());
-		protected override void VisitMaxFollower(Operator op) => ProcessPolymorphicRecursive(op, new MaxFollower_OperatorDto());
+		protected override void VisitMaxFollowerWithSamplingRate(Operator op) => ProcessPolymorphicRecursive(op, new MaxFollowerWithSamplingRate_OperatorDto());
 		protected override void VisitMinOverDimension(Operator op) => ProcessPolymorphicRecursive(op, new MinOverDimension_OperatorDto());
 		protected override void VisitMinOverInlets(Operator op) => ProcessPolymorphicRecursive(op, new MinOverInlets_OperatorDto());
-		protected override void VisitMinFollower(Operator op) => ProcessPolymorphicRecursive(op, new MinFollower_OperatorDto());
+		protected override void VisitMinFollowerWithSamplingRate(Operator op) => ProcessPolymorphicRecursive(op, new MinFollowerWithSamplingRate_OperatorDto());
 		protected override void VisitMultiply(Operator op) => ProcessPolymorphicRecursive(op, new Multiply_OperatorDto());
 		protected override void VisitNegative(Operator op) => ProcessPolymorphicRecursive(op, new Negative_OperatorDto());
 		protected override void VisitNoise(Operator op) => ProcessPolymorphicRecursive(op, new Noise_OperatorDto());
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected override void VisitSquash(Operator op) => ProcessPolymorphicRecursive(op, new Squash_OperatorDto());
 		protected override void VisitSubtract(Operator op) => ProcessPolymorphicRecursive(op, new Subtract_OperatorDto());
 		protected override void VisitSumOverDimension(Operator op) => ProcessPolymorphicRecursive(op, new SumOverDimension_OperatorDto());
-		protected override void VisitSumFollower(Operator op) => ProcessPolymorphicRecursive(op, new SumFollower_OperatorDto());
+		protected override void VisitSumFollowerWithSamplingRate(Operator op) => ProcessPolymorphicRecursive(op, new SumFollowerWithSamplingRate_OperatorDto());
 		protected override void VisitTriangleWithRate1(Operator op) => ProcessPolymorphicRecursive(op, new TriangleWithRate1_OperatorDto());
 		protected override void VisitToggleTrigger(Operator op) => ProcessPolymorphicRecursive(op, new ToggleTrigger_OperatorDto());
 

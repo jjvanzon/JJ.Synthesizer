@@ -590,6 +590,10 @@
       <Project>{fa44aba2-8e13-402c-a5a0-8d73c74b5181}</Project>
       <Name>JJ.Framework.Exceptions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Reflection\JJ.Framework.Reflection.csproj">
+      <Project>{1A8E047C-7893-4918-B415-CE3928E815D8}</Project>
+      <Name>JJ.Framework.Reflection</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Resources\JJ.Framework.Resources.csproj">
       <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
       <Name>JJ.Framework.Resources</Name>

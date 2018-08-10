@@ -58,8 +58,6 @@ namespace JJ.Business.Synthesizer.Visitors
 						arguments.Add($"{nameof(castedDto.SampleID)}={castedDto.SampleID}");
 						break;
 					}
-
-					// TODO: There might be more operator types that need this.
 				}
 
 				{

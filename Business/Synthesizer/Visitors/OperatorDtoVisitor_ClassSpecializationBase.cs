@@ -695,23 +695,23 @@ namespace JJ.Business.Synthesizer.Visitors
 			return dto2;
 		}
 
-		protected override IOperatorDto Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto)
+		protected override IOperatorDto Visit_SumFollowerWithSamplingRate_OperatorDto(SumFollowerWithSamplingRate_OperatorDto dto)
 		{
-			base.Visit_SumFollower_OperatorDto(dto);
+			base.Visit_SumFollowerWithSamplingRate_OperatorDto(dto);
 
 			IOperatorDto dto2;
 
-			if (dto.Signal.IsConst && dto.SampleCount.IsConst)
+			if (dto.Signal.IsConst && dto.SliceLength.IsConst && dto.SamplingRate.IsConst)
 			{
-				dto2 = new SumFollower_OperatorDto_ConstSignal_ConstSampleCount();
+				dto2 = new SumFollowerWithSamplingRate_OperatorDto_AllConsts();
 			}
-			else if (dto.Signal.IsConst && dto.SampleCount.IsVar)
+			else if (dto.Signal.IsConst && dto.SamplingRate.IsVar)
 			{
-				dto2 = new SumFollower_OperatorDto_ConstSignal_VarSampleCount();
+				dto2 = new SumFollowerWithSamplingRate_OperatorDto_ConstSignal_VarSamplingRate();
 			}
 			else
 			{
-				dto2 = new SumFollower_OperatorDto_AllVars();
+				dto2 = new SumFollowerWithSamplingRate_OperatorDto_AllVars();
 			}
 
 			DtoCloner.CloneProperties(dto, dto2);

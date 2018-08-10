@@ -145,7 +145,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_And_OperatorDto(And_OperatorDto dto) => ProcessBinaryBoolOperator(dto, AND_SYMBOL);
 
-	    protected override IOperatorDto Visit_AverageFollower_OperatorDto(AverageFollower_OperatorDto dto) => throw new NotImplementedException();
+	    protected override IOperatorDto Visit_AverageFollowerWithSamplingRate_OperatorDto(AverageFollowerWithSamplingRate_OperatorDto dto) => throw new NotImplementedException();
 
 	    protected override IOperatorDto Visit_AverageOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			AverageOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -647,7 +647,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 	    protected override IOperatorDto Visit_LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(LowShelfFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto) => Process_Filter_OperatorDto_SoundVarOrConst_OtherInputsConst(dto);
 
-	    protected override IOperatorDto Visit_MaxFollower_OperatorDto(MaxFollower_OperatorDto dto) => throw new NotImplementedException();
+	    protected override IOperatorDto Visit_MaxFollowerWithSamplingRate_OperatorDto(MaxFollowerWithSamplingRate_OperatorDto dto) => throw new NotImplementedException();
 
 	    protected override IOperatorDto Visit_MaxOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			MaxOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -671,7 +671,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			}
 		}
 
-		protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto) => throw new NotImplementedException();
+		protected override IOperatorDto Visit_MinFollowerWithSamplingRate_OperatorDto(MinFollowerWithSamplingRate_OperatorDto dto) => throw new NotImplementedException();
 
 	    protected override IOperatorDto Visit_MinOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			MinOverDimension_OperatorDto_CollectionRecalculationContinuous dto)
@@ -1221,7 +1221,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
 		protected override IOperatorDto Visit_Subtract_OperatorDto(Subtract_OperatorDto dto) => ProcessBinaryDoubleOperator(dto, SUBTRACT_SYMBOL);
 
-	    protected override IOperatorDto Visit_SumFollower_OperatorDto_AllVars(SumFollower_OperatorDto_AllVars dto) => throw new NotImplementedException();
+	    protected override IOperatorDto Visit_SumFollowerWithSamplingRate_OperatorDto_AllVars(SumFollowerWithSamplingRate_OperatorDto_AllVars dto) => throw new NotImplementedException();
 
 	    protected override IOperatorDto Visit_SumOverDimension_OperatorDto_CollectionRecalculationContinuous(
 			SumOverDimension_OperatorDto_CollectionRecalculationContinuous dto)

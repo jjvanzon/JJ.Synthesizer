@@ -30,6 +30,6 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected sealed override IOperatorDto Visit_SortOverDimension_OperatorDto(SortOverDimension_OperatorDto dto) => throw new NotSupportedException();
 		protected sealed override IOperatorDto Visit_Squash_OperatorDto(Squash_OperatorDto dto) => throw new NotSupportedException();
 		protected sealed override IOperatorDto Visit_SumOverDimension_OperatorDto(SumOverDimension_OperatorDto dto) => throw new NotSupportedException();
-		protected sealed override IOperatorDto Visit_SumFollower_OperatorDto(SumFollower_OperatorDto dto) => throw new NotSupportedException();
+		protected sealed override IOperatorDto Visit_SumFollowerWithSamplingRate_OperatorDto(SumFollowerWithSamplingRate_OperatorDto dto) => throw new NotSupportedException();
 	}
 }

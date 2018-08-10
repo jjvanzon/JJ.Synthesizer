@@ -3,7 +3,7 @@
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 	internal sealed class Interpolate_OperatorCalculator_Hermite_LagBehind 
-		: Interpolate_OperatorCalculator_Base_4Point_LagBehind
+		: OperatorCalculatorBase_FollowingSampler_4Point_LagBehind
 	{
 		private double _dx;
 		private double _c0;
@@ -14,13 +14,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		public Interpolate_OperatorCalculator_Hermite_LagBehind(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase samplingRateCalculator,
-			OperatorCalculatorBase positionInputCalculator)
-			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
+			OperatorCalculatorBase positionCalculator)
+			: base(signalCalculator, samplingRateCalculator, positionCalculator)
 		    => ResetNonRecursive();
 
 	    protected override void Precalculate()
 		{
-			_dx = Dx();
+			_dx = GetLargeDx();
 			(_c0, _c1, _c2, _c3) = Interpolator.Hermite4pt3oX_PrecalculateVariables(_yMinus1, _y0, _y1, _y2);
 		}
 

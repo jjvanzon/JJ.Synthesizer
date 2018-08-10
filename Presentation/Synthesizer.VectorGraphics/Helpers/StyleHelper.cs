@@ -6,10 +6,11 @@ using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Framework.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.Helpers;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {
-	internal static class StyleHelper
+	public static class StyleHelper
 	{
 		private const string DEFAULT_FONT_NAME = "Verdana";
 
@@ -40,16 +41,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
 		public const float MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS = 12;
 
-		private static int AlmostBlack { get; } = ColorHelper.GetColor(20, 20, 20);
-		private static int DarkGray { get; } = ColorHelper.GetColor(80, 80, 80);
-		private static int MediumGray { get; } = ColorHelper.GetColor(120, 120, 120);
-		private static int MediumLightGray { get; } = ColorHelper.GetColor(160, 160, 160);
-		private static int LightGray { get; } = ColorHelper.GetColor(200, 200, 200);
-		private static int LighterGray { get; } = ColorHelper.GetColor(220, 220, 220);
-		private static int TransparentGray { get; } = ColorHelper.GetColor(128, 45, 45, 45);
-		private static int Blue { get; } = ColorHelper.GetColor(0xFF99C9F7);
-		private static int DarkerBlue { get; } = ColorHelper.SetBrightness(Blue, 0.8);
-		private static int Orange { get; } = ColorHelper.GetColor(0xFFDB8E00);
+	    public static int AlmostBlack { get; } = ColorHelper.GetColor(20, 20, 20);
+	    public static int DarkGray { get; } = ColorHelper.GetColor(80, 80, 80);
+		public static int MediumGray { get; } = ColorHelper.GetColor(120, 120, 120);
+		public static int MediumLightGray { get; } = ColorHelper.GetColor(160, 160, 160);
+		public static int LightGray { get; } = ColorHelper.GetColor(200, 200, 200);
+		public static int LighterGray { get; } = ColorHelper.GetColor(220, 220, 220);
+		public static int TransparentGray { get; } = ColorHelper.GetColor(128, 45, 45, 45);
+		public static int Blue { get; } = ColorHelper.GetColor(0xFF99C9F7);
+		public static int DarkerBlue { get; } = ColorHelper.SetBrightness(Blue, 0.8);
+        public static int Orange { get; } = ColorHelper.GetColor(0xFFDB8E00);
 
 		public static Font DefaultFont { get; } = new Font
 		{
@@ -403,7 +404,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 			BackStyle destStyle = sourceStyle.Clone();
 			destStyle.Color = ColorHelper.SetOpacity(destStyle.Color, ColorHelper.GetOpacity(destStyle.Color) / 2);
 			return destStyle;
-
 		}
 	}
 }

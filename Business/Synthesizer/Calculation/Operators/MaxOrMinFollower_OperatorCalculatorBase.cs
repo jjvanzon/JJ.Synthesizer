@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	/// <summary>
 	/// Base class for MaxFollower_OperatorCalculator and MinFollower_OperatorCalculator that have almost the same implementation.
 	/// </summary>
-	internal abstract class MaxOrMinFollower_OperatorCalculatorBase : OperatorCalculatorBase_Follower
+	internal abstract class MaxOrMinFollower_OperatorCalculatorBase : OperatorCalculatorBase_FollowingSampler_Aggregate
 	{
 		/// <summary>
 		/// Even though the RedBlackTree does not store duplicates,
@@ -16,20 +16,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 		public MaxOrMinFollower_OperatorCalculatorBase(
 			OperatorCalculatorBase signalCalculator,
 			OperatorCalculatorBase sliceLengthCalculator,
-			OperatorCalculatorBase sampleCountCalculator,
+			OperatorCalculatorBase samplingRateCalculator,
 			OperatorCalculatorBase positionInputCalculator)
-			: base(signalCalculator, sliceLengthCalculator, sampleCountCalculator, positionInputCalculator) { }
+			: base(signalCalculator, sliceLengthCalculator, samplingRateCalculator, positionInputCalculator) { }
 
-		/// <summary> base returns default </summary>
-		protected override double Aggregate(double sample)
+		protected override void Precalculate()
 		{
-            // ShiftForward
-			double oldValue = _queue.Dequeue();
-
-			_redBlackTree.Insert(sample, sample);
-			_redBlackTree.Delete(oldValue);
-
-			return default;
+		    _redBlackTree.Insert(_yFirst, _yFirst);
+		    _redBlackTree.Delete(_yLast);
 		}
 
 		protected override void ResetNonRecursive()

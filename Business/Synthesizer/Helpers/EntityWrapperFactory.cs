@@ -27,7 +27,6 @@ namespace JJ.Business.Synthesizer.Helpers
 				case OperatorTypeEnum.MaxOverDimension:
 				case OperatorTypeEnum.MinOverDimension:
 				case OperatorTypeEnum.SortOverDimension:
-				case OperatorTypeEnum.SumFollower:
 				case OperatorTypeEnum.SumOverDimension:
 					return new OperatorWrapper_WithCollectionRecalculation(op);
 

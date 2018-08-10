@@ -83,9 +83,9 @@
 		Or = 45,
 		Not = 46,
 		If = 47,
-		MinFollower = 48,
-		MaxFollower = 49,
-		AverageFollower = 50,
+		//MinFollower = 48,
+		//MaxFollower = 49,
+		//AverageFollower = 50,
 		//Scaler = 51,
 		//SawDown = 52,
 		//Absolute = 53,
@@ -111,7 +111,7 @@
 		MinOverDimension = 73,
 		AverageOverDimension = 74,
 		SumOverDimension = 75,
-		SumFollower = 76,
+		//SumFollower = 76,
 		Multiply = 77,
 		ClosestOverInlets = 78,
 		ClosestOverDimension = 79,
@@ -134,6 +134,10 @@
 		SineWithRate1 = 96,
 		TriangleWithRate1 = 97,
 		VariableInput = 98,
-		RandomStripe = 99
+		RandomStripe = 99,
+        AverageFollowerWithSamplingRate = 100,
+        MaxFollowerWithSamplingRate = 101,
+        MinFollowerWithSamplingRate = 102,
+        SumFollowerWithSamplingRate = 103
 	}
 }

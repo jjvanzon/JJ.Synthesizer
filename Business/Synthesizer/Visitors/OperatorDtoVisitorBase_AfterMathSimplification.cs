@@ -17,8 +17,8 @@ namespace JJ.Business.Synthesizer.Visitors
 		protected sealed override IOperatorDto Visit_SetPosition_OperatorDto(SetPosition_OperatorDto dto) => throw new NotSupportedException();
 		protected sealed override IOperatorDto Visit_SortOverDimension_OperatorDto_ConstSignal(SortOverDimension_OperatorDto_ConstSignal dto) => throw new NotSupportedException();
 		protected sealed override IOperatorDto Visit_Squash_OperatorDto_FactorZero(Squash_OperatorDto_FactorZero dto) => throw new NotSupportedException();
-		protected sealed override IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_ConstSampleCount(SumFollower_OperatorDto_ConstSignal_ConstSampleCount dto) => throw new NotSupportedException();
+		protected sealed override IOperatorDto Visit_SumFollowerWithSamplingRate_OperatorDto_AllConsts(SumFollowerWithSamplingRate_OperatorDto_AllConsts dto) => throw new NotSupportedException();
 		protected sealed override IOperatorDto Visit_SumOverDimension_OperatorDto_AllConsts(SumOverDimension_OperatorDto_AllConsts dto) => throw new NotSupportedException();
-		protected sealed override IOperatorDto Visit_SumFollower_OperatorDto_ConstSignal_VarSampleCount(SumFollower_OperatorDto_ConstSignal_VarSampleCount dto) => throw new NotSupportedException();
+		protected sealed override IOperatorDto Visit_SumFollowerWithSamplingRate_OperatorDto_ConstSignal_VarSamplingRate(SumFollowerWithSamplingRate_OperatorDto_ConstSignal_VarSamplingRate dto) => throw new NotSupportedException();
 	}
 }
