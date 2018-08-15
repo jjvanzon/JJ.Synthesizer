@@ -63,7 +63,7 @@
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="PatchCalculator_Interpolate_Line_Tests.cs" />
+    <Compile Include="InterpolateTests.cs" />
     <Compile Include="MiscSynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
