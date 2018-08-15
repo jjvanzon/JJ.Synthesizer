@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         [TestMethod]
         public void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0()
-            => Test_PatchCalculator_Interpolate_Base(
+            => Test_Interpolate_Base(
                 InterpolationTypeEnum.Stripe,
                 FollowingModeEnum.LookAhead,
                 DimensionEnum.Number,
