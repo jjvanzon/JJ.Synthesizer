@@ -20,8 +20,6 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class InterpolateTests
     {
-        //Assert.Inconclusive("The assertions are known to not be correct yet.");
-
         [TestMethod]
         public void Test_Interpolate_Stripe_LookAhead_DimensionNotTime_Forward_StartPosition0()
             => Test_Interpolate_Base(
