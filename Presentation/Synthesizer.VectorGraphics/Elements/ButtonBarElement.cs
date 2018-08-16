@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Resources;
 using JJ.Framework.VectorGraphics.Models.Elements;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
@@ -18,6 +19,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         public event EventHandler RefreshClicked;
         public event EventHandler SaveClicked;
         public event EventHandler UndoClicked;
+
+        private const float HEIGHT = StyleHelper.SPACING + StyleHelper.PICTURE_BUTTON_SIZE + StyleHelper.SPACING;
 
         private readonly PictureButtonElement _pictureButtonAdd;
         private readonly PictureButtonElement _pictureButtonAddToInstrument;
@@ -185,6 +188,65 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         public override void PositionElements()
         {
             base.PositionElements();
+
+            int visibleButtonCount = GetVisibleButtonCount();
+
+            Position.Width = visibleButtonCount * (StyleHelper.PICTURE_BUTTON_SIZE + StyleHelper.SPACING);
+
+            Position.Height = HEIGHT;
+
+            float x = Position.Width;
+
+            x -= StyleHelper.SPACING;
+            x -= StyleHelper.PICTURE_BUTTON_SIZE;
+
+            var pictureButtonsInReverseOrder = new[]
+            {
+                _pictureButtonClose,
+                _pictureButtonDelete,
+                _pictureButtonAdd,
+                _pictureButtonNew,
+                _pictureButtonExpand,
+                _pictureButtonRefresh,
+                _pictureButtonSave,
+                _pictureButtonAddToInstrument,
+                _pictureButtonPlay,
+                _pictureButtonRedo,
+                _pictureButtonUndo
+            };
+
+            foreach (PictureButtonElement _pictureButton in pictureButtonsInReverseOrder)
+            {
+                if (_pictureButton.Visible)
+                {
+                    _pictureButton.Position.X = x;
+                    _pictureButton.Position.Y = StyleHelper.SPACING;
+                    _pictureButton.Position.Width = StyleHelper.PICTURE_BUTTON_SIZE;
+                    _pictureButton.Position.Height = StyleHelper.PICTURE_BUTTON_SIZE;
+
+                    x -= StyleHelper.SPACING;
+                    x -= StyleHelper.PICTURE_BUTTON_SIZE;
+                }
+            }
+        }
+
+        // Helpers
+
+        private int GetVisibleButtonCount()
+        {
+            int count = 0;
+            if (AddButtonVisible) count++;
+            if (AddToInstrumentButtonVisible) count++;
+            if (CloseButtonVisible) count++;
+            if (NewButtonVisible) count++;
+            if (ExpandButtonVisible) count++;
+            if (PlayButtonVisible) count++;
+            if (RedoButtonVisible) count++;
+            if (RefreshButtonVisible) count++;
+            if (DeleteButtonVisible) count++;
+            if (SaveButtonVisible) count++;
+            if (UndoButtonVisible) count++;
+            return count;
         }
 
         private void _pictureButtonAdd_MouseDown(object sender, EventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
