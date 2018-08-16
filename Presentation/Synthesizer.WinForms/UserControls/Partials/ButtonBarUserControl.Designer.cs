@@ -89,7 +89,7 @@
 			this.buttonExpand.Size = new System.Drawing.Size(21, 23);
 			this.buttonExpand.TabIndex = 19;
 			this.buttonExpand.UseVisualStyleBackColor = true;
-			this.buttonExpand.Click += new System.EventHandler(this.buttonOpen_Click);
+			this.buttonExpand.Click += new System.EventHandler(this.buttonExpand_Click);
 			// 
 			// buttonRefresh
 			// 

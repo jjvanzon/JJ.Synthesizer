@@ -56,6 +56,7 @@
     <Compile Include="Converters\OutletControlPointConverter.cs" />
     <Compile Include="Converters\OutletPointConverter.cs" />
     <Compile Include="Converters\OutletRectangleConverter.cs" />
+    <Compile Include="Elements\ButtonBarElement.cs" />
     <Compile Include="Elements\InstrumentBarButtonsElement.cs" />
     <Compile Include="Elements\InstrumentBarElement.cs" />
     <Compile Include="Elements\InstrumentBarItemsElement.cs" />

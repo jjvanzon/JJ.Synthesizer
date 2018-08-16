@@ -256,7 +256,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		private void buttonAddToInstrument_Click(object sender, EventArgs e) => AddToInstrumentClicked?.Invoke(sender, EventArgs.Empty);
 		private void buttonClose_Click(object sender, EventArgs e) => CloseClicked?.Invoke(sender, EventArgs.Empty);
 		private void buttonNew_Click(object sender, EventArgs e) => NewClicked?.Invoke(sender, EventArgs.Empty);
-		private void buttonOpen_Click(object sender, EventArgs e) => ExpandClicked?.Invoke(sender, EventArgs.Empty);
+		private void buttonExpand_Click(object sender, EventArgs e) => ExpandClicked?.Invoke(sender, EventArgs.Empty);
 		private void buttonPlay_Click(object sender, EventArgs e) => PlayClicked?.Invoke(sender, EventArgs.Empty);
 		private void buttonRedo_Click(object sender, EventArgs e) => RedoClicked?.Invoke(sender, EventArgs.Empty);
 		private void buttonRefresh_Click(object sender, EventArgs e) => RefreshClicked?.Invoke(sender, EventArgs.Empty);
