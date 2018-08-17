@@ -228,7 +228,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		{
 			Height = buttonBarUserControl.Height;
 
-			if (_titleLabelVisible)
+            if (_titleLabelVisible)
 			{
 				labelTitle.Top = 0;
 				labelTitle.Left = 0;

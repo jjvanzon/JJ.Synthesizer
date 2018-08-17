@@ -1,12 +1,13 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Resources;
+using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-    internal class ButtonBarElement : ElementBaseWithOpaqueBack
+    public class ButtonBarElement : ElementBaseWithOpaqueBack
     {
         public event EventHandler AddClicked;
         public event EventHandler AddToInstrumentClicked;
@@ -20,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         public event EventHandler SaveClicked;
         public event EventHandler UndoClicked;
 
-        private const float HEIGHT = StyleHelper.SPACING + StyleHelper.PICTURE_BUTTON_SIZE + StyleHelper.SPACING;
+        private const float HEIGHT = StyleHelper.ROW_HEIGHT;
 
         private readonly PictureButtonElement _pictureButtonAdd;
         private readonly PictureButtonElement _pictureButtonAddToInstrument;
@@ -33,6 +34,40 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         private readonly PictureButtonElement _pictureButtonRefresh;
         private readonly PictureButtonElement _pictureButtonSave;
         private readonly PictureButtonElement _pictureButtonUndo;
+
+        public ButtonBarElement(
+            Element parent,
+            ITextMeasurer textMeasurer,
+            object underlyingPictureAdd,
+            object underlyingPictureAddToInstrument,
+            object underlyingPictureClose,
+            object underlyingPictureDelete,
+            object underlyingPictureExpand,
+            object underlyingPictureNew,
+            object underlyingPicturePlay,
+            object underlyingPictureRedo,
+            object underlyingPictureRefresh,
+            object underlyingPictureSave,
+            object underlyingPictureUndo)
+            : this(
+                parent,
+                new ToolTipElement(
+                    parent?.Diagram?.Background,
+                    StyleHelper.ToolTipBackStyle,
+                    StyleHelper.ToolTipLineStyle,
+                    StyleHelper.ToolTipTextStyle,
+                    textMeasurer),
+                underlyingPictureAdd,
+                underlyingPictureAddToInstrument,
+                underlyingPictureClose,
+                underlyingPictureDelete,
+                underlyingPictureExpand,
+                underlyingPictureNew,
+                underlyingPicturePlay,
+                underlyingPictureRedo,
+                underlyingPictureRefresh,
+                underlyingPictureSave,
+                underlyingPictureUndo) { }
 
         public ButtonBarElement(
             Element parent,
@@ -73,6 +108,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonRefresh.MouseDown += _pictureButtonRefresh_MouseDown;
             _pictureButtonSave.MouseDown += _pictureButtonSave_MouseDown;
             _pictureButtonUndo.MouseDown += _pictureButtonUndo_MouseDown;
+
+            // Magic Defaults
+            _pictureButtonAdd.Visible = false;
+            _pictureButtonAddToInstrument.Visible = false;
+            _pictureButtonClose.Visible = true;
+            _pictureButtonDelete.Visible = false;
+            _pictureButtonExpand.Visible = false;
+            _pictureButtonNew.Visible = false;
+            _pictureButtonPlay.Visible = false;
+            _pictureButtonRedo.Visible = false;
+            _pictureButtonRefresh.Visible = false;
+            _pictureButtonSave.Visible = false;
+            _pictureButtonUndo.Visible = false;
         }
 
         public bool AddButtonVisible
@@ -191,13 +239,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
             int visibleButtonCount = GetVisibleButtonCount();
 
-            Position.Width = visibleButtonCount * (StyleHelper.PICTURE_BUTTON_SIZE + StyleHelper.SPACING);
+            Position.Width = visibleButtonCount * (StyleHelper.PICTURE_BUTTON_SIZE + StyleHelper.SPACING_SMALL) - StyleHelper.SPACING_SMALL;
 
             Position.Height = HEIGHT;
 
             float x = Position.Width;
 
-            x -= StyleHelper.SPACING;
             x -= StyleHelper.PICTURE_BUTTON_SIZE;
 
             var pictureButtonsInReverseOrder = new[]
@@ -215,16 +262,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                 _pictureButtonUndo
             };
 
-            foreach (PictureButtonElement _pictureButton in pictureButtonsInReverseOrder)
+            foreach (PictureButtonElement pictureButton in pictureButtonsInReverseOrder)
             {
-                if (_pictureButton.Visible)
+                if (pictureButton.Visible)
                 {
-                    _pictureButton.Position.X = x;
-                    _pictureButton.Position.Y = StyleHelper.SPACING;
-                    _pictureButton.Position.Width = StyleHelper.PICTURE_BUTTON_SIZE;
-                    _pictureButton.Position.Height = StyleHelper.PICTURE_BUTTON_SIZE;
+                    pictureButton.Position.X = x;
+                    pictureButton.Position.Y = 0;
+                    pictureButton.Position.Width = StyleHelper.PICTURE_BUTTON_SIZE;
+                    pictureButton.Position.Height = StyleHelper.PICTURE_BUTTON_SIZE;
 
-                    x -= StyleHelper.SPACING;
+                    x -= StyleHelper.SPACING_SMALL;
                     x -= StyleHelper.PICTURE_BUTTON_SIZE;
                 }
             }
