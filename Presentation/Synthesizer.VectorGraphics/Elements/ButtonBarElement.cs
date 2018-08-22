@@ -1,5 +1,6 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Collections;
 using JJ.Framework.Resources;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
@@ -272,6 +273,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                     x -= StyleHelper.PICTURE_BUTTON_SIZE;
                 }
             }
+
+            pictureButtonsInReverseOrder.ForEach(e => e.PositionElements());
         }
 
         // Helpers

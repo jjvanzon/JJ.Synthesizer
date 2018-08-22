@@ -59,7 +59,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_pictureButtonExpand.Visible = ViewModel.CanExpand;
 		}
 
-		private void _pictureButtonExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
+	    public override void PositionElements()
+	    {
+	        base.PositionElements();
+
+	        _pictureButtonExpand.PositionElements();
+	        _pictureButtonPlay.PositionElements();
+	    }
+
+	    private void _pictureButtonExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
 		private void _pictureButtonPlay_MouseDown(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
 	}
 }

@@ -136,6 +136,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			Position.Width = x;
 			Position.Height = StyleHelper.PICTURE_BUTTON_SIZE;
 
+	        _pictureButtonDelete.PositionElements();
+	        _pictureButtonMoveBackward.PositionElements();
+	        _pictureButtonMoveForward.PositionElements();
+	        _pictureButtonPlay.PositionElements();
+	        _pictureButtonExpand.PositionElements();
+
 			base.PositionElements();
 		}
 

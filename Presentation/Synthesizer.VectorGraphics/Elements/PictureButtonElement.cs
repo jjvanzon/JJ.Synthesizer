@@ -42,20 +42,25 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		}
 
 		private Picture CreatePicture(object underlyingPicture, MouseDownGesture mouseDownGesture)
-		{
-			var picture = new Picture(this)
-			{
-				UnderlyingPicture = underlyingPicture,
-				Style = StyleHelper.IconPictureStyle
-			};
+        {
+            var picture = new Picture(this)
+            {
+                UnderlyingPicture = underlyingPicture,
+                Style = StyleHelper.IconPictureStyle
+            };
 
-			picture.Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
-			picture.Position.Height = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
-			picture.Position.Y = StyleHelper.PICTURE_BUTTON_MARGIN;
+            picture.Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
+            picture.Position.Height = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
-			picture.Gestures.Add(mouseDownGesture);
+            picture.Gestures.Add(mouseDownGesture);
 
-			return picture;
-		}
-	}
+            return picture;
+        }
+
+        public void PositionElements()
+        {
+            _picture.Position.CenterX = Position.Width / 2;
+            _picture.Position.CenterY = Position.Height / 2;
+        }
+    }
 }
