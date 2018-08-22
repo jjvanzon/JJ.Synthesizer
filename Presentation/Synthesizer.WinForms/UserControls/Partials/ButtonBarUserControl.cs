@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             InitializeComponent();
 
             var diagram = new Diagram();
-            diagram.Background.Style.BackStyle.Color = SystemColors.Control.ToArgb();
+            diagram.Background.Style.BackStyle.Color = BackColor.ToVectorGrahics();
 
             ITextMeasurer textMeasurer = new TextMeasurer(diagramControl.CreateGraphics());
 
@@ -154,6 +154,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 _buttonBarElement.UndoButtonVisible = value;
                 PositionControls();
+            }
+        }
+
+        public override Color BackColor
+        {
+            get => base.BackColor;
+            set
+            {
+                base.BackColor = value;
+
+                if (diagramControl.Diagram != null)
+                {
+                    diagramControl.Diagram.Background.Style.BackStyle.Color = value.ToVectorGrahics();
+                }
             }
         }
 

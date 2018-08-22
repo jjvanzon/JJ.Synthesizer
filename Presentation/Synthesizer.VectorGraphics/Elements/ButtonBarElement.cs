@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-    public class ButtonBarElement : ElementBaseWithOpaqueBack
+    public class ButtonBarElement : ElementBase
     {
         public event EventHandler AddClicked;
         public event EventHandler AddToInstrumentClicked;
@@ -233,10 +233,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             }
         }
 
-        public override void PositionElements()
+        public void PositionElements()
         {
-            base.PositionElements();
-
             int visibleButtonCount = GetVisibleButtonCount();
 
             Position.Width = visibleButtonCount * StyleHelper.PICTURE_BUTTON_SIZE;
