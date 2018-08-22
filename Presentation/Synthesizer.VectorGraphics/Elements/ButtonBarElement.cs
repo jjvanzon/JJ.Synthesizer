@@ -239,7 +239,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
             int visibleButtonCount = GetVisibleButtonCount();
 
-            Position.Width = visibleButtonCount * (StyleHelper.PICTURE_BUTTON_SIZE + StyleHelper.SPACING_SMALL) - StyleHelper.SPACING_SMALL;
+            Position.Width = visibleButtonCount * StyleHelper.PICTURE_BUTTON_SIZE;
 
             Position.Height = HEIGHT;
 
@@ -271,7 +271,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                     pictureButton.Position.Width = StyleHelper.PICTURE_BUTTON_SIZE;
                     pictureButton.Position.Height = StyleHelper.PICTURE_BUTTON_SIZE;
 
-                    x -= StyleHelper.SPACING_SMALL;
                     x -= StyleHelper.PICTURE_BUTTON_SIZE;
                 }
             }
