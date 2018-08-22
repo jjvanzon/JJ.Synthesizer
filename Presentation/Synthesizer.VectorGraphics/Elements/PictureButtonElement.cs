@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			Gestures.Add(toolTipGesture);
 
 			Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
-			Position.Height = StyleHelper.PICTURE_BUTTON_MARGIN + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_MARGIN;
+			Position.Height = StyleHelper.PICTURE_BUTTON_SPACING_SMALL + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
 		}
 
 		private Picture CreatePicture(object underlyingPicture, MouseDownGesture mouseDownGesture)

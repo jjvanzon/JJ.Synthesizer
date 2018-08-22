@@ -238,13 +238,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         {
             int visibleButtonCount = GetVisibleButtonCount();
 
-            Position.Width = visibleButtonCount * StyleHelper.PICTURE_BUTTON_SIZE;
+            Position.Width = visibleButtonCount * StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
+                             (visibleButtonCount - 1) * StyleHelper.PICTURE_BUTTON_SPACING_LARGE +
+                             StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
 
             Position.Height = HEIGHT;
 
             float x = Position.Width;
 
-            x -= StyleHelper.PICTURE_BUTTON_SIZE;
+            x -= StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
+            x -= StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
             var pictureButtonsInReverseOrder = new[]
             {
@@ -266,11 +269,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                 if (pictureButton.Visible)
                 {
                     pictureButton.Position.X = x;
-                    pictureButton.Position.Y = 0;
-                    pictureButton.Position.Width = StyleHelper.PICTURE_BUTTON_SIZE;
-                    pictureButton.Position.Height = StyleHelper.PICTURE_BUTTON_SIZE;
 
-                    x -= StyleHelper.PICTURE_BUTTON_SIZE;
+                    x -= StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
+                    x -= StyleHelper.PICTURE_BUTTON_SPACING_LARGE;
                 }
             }
 
