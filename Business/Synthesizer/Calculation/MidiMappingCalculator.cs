@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Converters;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.Entities;
 using JJ.Framework.Collections;
+using JJ.Framework.Mathematics;
 
 // ReSharper disable SuggestBaseTypeForParameter
 // ReSharper disable PossibleInvalidOperationException

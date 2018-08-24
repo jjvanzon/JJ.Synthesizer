@@ -28,6 +28,7 @@
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <LangVersion>latest</LangVersion>
+    <NoWarn>0436</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,6 +40,7 @@
     <LangVersion>latest</LangVersion>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <NoWarn>436</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
@@ -249,6 +251,7 @@
     <Compile Include="Configuration\CalculationMethodEnum.cs" />
     <Compile Include="Converters\MidiMappingToDtoConverter.cs" />
     <Compile Include="Converters\ToneToDtoConverter.cs" />
+    <Compile Include="CopiedCode\FromFramework\Randomizer.cs" />
     <Compile Include="Dto\MidiMappingDto.cs" />
     <Compile Include="Dto\Operators\DoubleToBoolean_OperatorDto.cs" />
     <Compile Include="Dto\Operators\BooleanToDouble_OperatorDto.cs" />
@@ -765,10 +768,6 @@
       <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
       <Name>JJ.Framework.IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Mathematics\JJ.Framework.Mathematics.csproj">
-      <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>
-      <Name>JJ.Framework.Mathematics</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
@@ -819,12 +818,16 @@
     <Content Include="Roslyn\README.TXT" />
     <Content Include="CopiedCode\FromFramework\README.TXT" />
     <Content Include="CopiedCode\FromNAudio\README.TXT" />
+    <None Include="CopyFrameworkCode.bat" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.2.6.1\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>"$(ProjectDir)CopyFrameworkCode.bat"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation.DataProperty
 				For(stringValue, ResourceFormatter.InterpolationType)
 					.NotNullOrEmpty()
 					.IsEnum<InterpolationTypeEnum>()
-					.IsNot(InterpolationTypeEnum.Undefined);
+					.IsNot(InterpolationTypeEnum.Off);
 			}
 		}
 	}

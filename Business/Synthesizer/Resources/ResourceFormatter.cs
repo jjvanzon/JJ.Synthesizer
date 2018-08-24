@@ -210,8 +210,9 @@ namespace JJ.Business.Synthesizer.Resources
 		public static string Number => Resources.Number;
 		public static string ObsoleteButStillUsed => Resources.ObsoleteButStillUsed;
 		public static string Octave => Resources.Octave;
+		public static string Off => Resources.Off;
 		public static string Offset => Resources.Offset;
-		public static string OneOverX => Resources.OneOverX;
+        public static string OneOverX => Resources.OneOverX;
 		public static string Operator => Resources.Operator;
 		public static string OperatorIsInGraphButNotInList => Resources.OperatorIsInGraphButNotInList;
 		public static string Or => Resources.Or;

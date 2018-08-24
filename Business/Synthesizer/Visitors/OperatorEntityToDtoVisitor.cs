@@ -12,8 +12,8 @@ using JJ.Data.Synthesizer.Entities;
 using JJ.Data.Synthesizer.RepositoryInterfaces;
 using JJ.Framework.Collections;
 using JJ.Framework.Exceptions.Basic;
-using CollectionHelper = JJ.Business.Synthesizer.CopiedCode.FromFramework.CollectionHelper;
 // ReSharper disable ObjectCreationAsStatement
+
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -304,8 +304,8 @@ namespace JJ.Business.Synthesizer.Visitors
 		/// </summary>
 		private void ProcessPolymorphic(Operator op, IOperatorDto dto)
 		{
-			dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, PopInputDto)
-			                             .Where(x => x != null)
+            dto.Inputs = CollectionHelper.Repeat(op.Inlets.Count, PopInputDto)
+                                         .Where(x => x != null)
 			                             .ToArray();
 			{
 				if (dto is IOperatorDto_WithDimension castedDto)

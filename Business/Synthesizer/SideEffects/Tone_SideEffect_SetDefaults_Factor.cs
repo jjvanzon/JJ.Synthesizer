@@ -1,5 +1,5 @@
-﻿using JJ.Business.Synthesizer.CopiedCode.FromFramework;
-using JJ.Data.Synthesizer.Entities;
+﻿using JJ.Data.Synthesizer.Entities;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {

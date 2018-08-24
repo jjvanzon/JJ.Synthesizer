@@ -234,7 +234,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		{
 			if (node == null) throw new NullException(() => node);
 
-			if (node.InterpolationType == null) return InterpolationTypeEnum.Undefined;
+			if (node.InterpolationType == null) return InterpolationTypeEnum.Off;
 
 			return node.InterpolationType.ToEnum();
 		}
@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		{
 			if (repository == null) throw new NullException(() => repository);
 
-			if (enumValue == InterpolationTypeEnum.Undefined)
+			if (enumValue == InterpolationTypeEnum.Off)
 			{
 				entity.UnlinkInterpolationType();
 			}
@@ -336,7 +336,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		{
 			if (sample == null) throw new NullException(() => sample);
 
-			if (sample.InterpolationType == null) return InterpolationTypeEnum.Undefined;
+			if (sample.InterpolationType == null) return InterpolationTypeEnum.Off;
 
 			return sample.InterpolationType.ToEnum();
 		}
@@ -345,7 +345,7 @@ namespace JJ.Business.Synthesizer.Extensions
 		{
 			if (repository == null) throw new NullException(() => repository);
 
-			if (enumValue == InterpolationTypeEnum.Undefined)
+			if (enumValue == InterpolationTypeEnum.Off)
 			{
 				entity.UnlinkInterpolationType();
 			}

@@ -1159,4 +1159,7 @@
   <data name="FollowingMode" xml:space="preserve">
     <value>Following Mode</value>
   </data>
+  <data name="Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
 </root>

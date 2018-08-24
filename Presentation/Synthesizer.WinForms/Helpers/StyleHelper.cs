@@ -15,10 +15,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 		public static Font DefaultFont { get; } = new Font("Verdana", 10);
 		public static int DefaultSpacing { get; } = 4;
 		public static int SplitterWidth { get; } = 6;
-		public static int IconButtonSize { get; } = 24;
 		public static int ButtonHeight { get; } = 32;
 		public static Color LightGray { get; } = Color.FromArgb(255, 196, 196, 196);
-		public static int TitleBarHeight { get; } = IconButtonSize + DefaultSpacing + DefaultSpacing;
+		public static int TitleBarHeight { get; } = 24;
 
 		/// <summary>
 		/// Sets the first column of the TableLayoutPanel to accommodate the width of all its Labels' Texts.

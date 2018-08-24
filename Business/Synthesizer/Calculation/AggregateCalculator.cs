@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Framework.Exceptions.Basic;
+using JJ.Framework.Mathematics;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 

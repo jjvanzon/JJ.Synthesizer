@@ -4,7 +4,6 @@ using JJ.Business.Canonical;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Cascading;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -17,6 +16,7 @@ using JJ.Framework.Business;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.Exceptions.InvalidValues;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer
@@ -276,7 +276,7 @@ namespace JJ.Business.Synthesizer
 
 			switch (interpolationTypeEnum)
 			{
-				case InterpolationTypeEnum.Undefined:
+				case InterpolationTypeEnum.Off:
 					interpolationTypeEnum = InterpolationTypeEnum.Block;
 					break;
 
@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer
 			        break;
 
 			    case InterpolationTypeEnum.Hermite:
-			        interpolationTypeEnum = InterpolationTypeEnum.Undefined;
+			        interpolationTypeEnum = InterpolationTypeEnum.Off;
 			        break;
 
                 default:
@@ -315,7 +315,7 @@ namespace JJ.Business.Synthesizer
 			switch (interpolationTypeEnum)
 			{
 				case InterpolationTypeEnum.Block:
-				case InterpolationTypeEnum.Undefined:
+				case InterpolationTypeEnum.Off:
 					return afterNode.Y;
 
 				case InterpolationTypeEnum.Line:

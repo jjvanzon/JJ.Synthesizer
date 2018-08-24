@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 
 			double offset = x - x0;
 
-			double y = Interpolator.Hermite_4pt3oX(yMinus1, y0, y1, y2, offset);
+			double y = Interpolator.Hermite4pt3oX(yMinus1, y0, y1, y2, offset);
 			return y;
 		}
 	}

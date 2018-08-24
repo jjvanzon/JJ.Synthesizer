@@ -41,7 +41,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			InitializeComponent();
 
 			TitleBarBackColor = SystemColors.Window;
-			TitleLabelVisible = false;
 
 			// Make sure the base's button bar is in front of the diagramControl.
 			diagramControl.SendToBack();
@@ -78,8 +77,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		}
 
 		// Gui
-
-		protected override void SetTitles() => TitleBarText = CommonResourceFormatter.Details_WithName(ResourceFormatter.Curve);
 
 	    protected override void PositionControls()
 		{

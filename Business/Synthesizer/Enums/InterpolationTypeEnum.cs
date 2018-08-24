@@ -2,7 +2,7 @@
 {
 	public enum InterpolationTypeEnum
 	{
-		Undefined = 0,
+		Off = 0,
 		Block = 1,
 		Line = 2,
 		Stripe = 3,

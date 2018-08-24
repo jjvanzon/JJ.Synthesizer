@@ -5,7 +5,6 @@ using System.Linq;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Random;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Business.Synthesizer.Enums;
@@ -16,6 +15,7 @@ using JJ.Business.Synthesizer.Visitors;
 // for which the copy from JJ.Business.Synthesizer.CopiedCode.FromFramework should be used.
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.InvalidValues;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Text;
 
 // ReSharper disable RedundantArgumentDefaultValue

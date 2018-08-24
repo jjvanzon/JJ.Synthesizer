@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+﻿using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -15,13 +15,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			: base(signalCalculator, samplingRateCalculator, positionInputCalculator)
 		    => ResetNonRecursive();
 
-	    protected override void Precalculate() => (_a, _b, _c) = Interpolator.Cubic_SmoothSlope_PrecalculateVariables(
+	    protected override void Precalculate() => (_a, _b, _c) = Interpolator.CubicSmoothSlope_PrecalculateVariables(
 	                                                  _xMinus1, _x0, _x1, _x2,
 	                                                  _yMinus1, _y0, _y1, _y2);
 
 	    protected override double Calculate(double x)
 		{
-			double y = Interpolator.Cubic_SmoothSlope_FromPrecalculatedVariables(_x0, _y0, _a, _b, _c, x);
+			double y = Interpolator.CubicSmoothSlope_FromPrecalculatedVariables(_x0, _y0, _a, _b, _c, x);
 			return y;
 		}
 	}

@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Arrays;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Configuration;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Dto.Operators;
 using JJ.Business.Synthesizer.Helpers;
@@ -20,6 +19,7 @@ using JJ.Framework.Configuration;
 using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.Exceptions.Comparative;
 using JJ.Framework.IO;
+using JJ.Framework.Mathematics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 			// NOTE: Referencing JJ.Framework.Mathematics is a little 'dangerous', since then you could more easily fall into the trap
 			// of not using the classes copied from JJ.Framework.Mathematics to JJ.Business.Synthesizer, copied to promote inlining.
 			// Inlining is a big deal in this calculation engine.
-			MetadataReference.CreateFromFile(typeof(Framework.Mathematics.Randomizer).Assembly.Location)
+			MetadataReference.CreateFromFile(typeof(Randomizer).Assembly.Location)
 		};
 
 		[Obsolete("Consider using CompileToPatchCalculatorActivationInfo instead, to compile once and instantiate multiple times.")]

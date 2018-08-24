@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Arrays
 {
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Calculation.Arrays
 			double y1 = _array[x1];
 			double y2 = _array[x2];
 
-			double y = Interpolator.Cubic_SmoothSlope_Distance1(x0, yMinus1, y0, y1, y2, x);
+			double y = Interpolator.CubicSmoothSlopeDistance1(x0, yMinus1, y0, y1, y2, x);
 			return y;
 		}
 	}

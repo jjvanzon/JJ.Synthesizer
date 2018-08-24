@@ -6,3 +6,4 @@ obj
 packages
 !Archive/**
 TestResults
+*.cache

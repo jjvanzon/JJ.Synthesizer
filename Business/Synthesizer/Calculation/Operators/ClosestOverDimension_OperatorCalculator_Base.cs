@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.CopiedCode.FromFramework;
 using JJ.Framework.Collections;
-using CollectionHelper = JJ.Business.Synthesizer.CopiedCode.FromFramework.CollectionHelper;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
