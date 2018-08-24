@@ -25,14 +25,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			: base(parent)
 		{
 			_pictureButtonExpand = new PictureButtonElement(this, underlyingPictureExpand, CommonResourceFormatter.Open, toolTipElement);
-			_pictureButtonExpand.MouseDown += _pictureExpand_MouseDown;
-			_pictureButtonExpand.Position.X = StyleHelper.PICTURE_BUTTON_MARGIN + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
+			_pictureButtonExpand.MouseDown += _pictureButtonExpand_MouseDown;
+			_pictureButtonExpand.Position.X = StyleHelper.PICTURE_BUTTON_SPACING_SMALL + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
 			_pictureButtonPlay = new PictureButtonElement(this, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
-			_pictureButtonPlay.MouseDown += _picturePlay_MouseDown;
+			_pictureButtonPlay.MouseDown += _pictureButtonPlay_MouseDown;
 
 			Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
-			                 StyleHelper.PICTURE_BUTTON_MARGIN +
+			                 StyleHelper.PICTURE_BUTTON_SPACING_SMALL +
 			                 StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
 			Position.Height = StyleHelper.ROW_HEIGHT;
@@ -59,7 +59,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			_pictureButtonExpand.Visible = ViewModel.CanExpand;
 		}
 
-		private void _pictureExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
-		private void _picturePlay_MouseDown(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
+	    public override void PositionElements()
+	    {
+	        base.PositionElements();
+
+	        _pictureButtonExpand.PositionElements();
+	        _pictureButtonPlay.PositionElements();
+	    }
+
+	    private void _pictureButtonExpand_MouseDown(object sender, EventArgs e) => ExpandRequested(sender, EventArgs.Empty);
+		private void _pictureButtonPlay_MouseDown(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
 	}
 }
