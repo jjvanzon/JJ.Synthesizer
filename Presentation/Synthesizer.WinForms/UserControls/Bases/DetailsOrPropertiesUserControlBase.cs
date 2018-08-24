@@ -6,6 +6,7 @@ using JJ.Framework.Common;
 using JJ.Framework.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -152,21 +153,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			set => _titleBarUserControl.BackColor = value;
 		}
 
-		protected bool TitleLabelVisible
-		{
-			get => _titleBarUserControl.TitleLabelVisible;
-			set => _titleBarUserControl.TitleLabelVisible = value;
-		}
-
 		protected int TitleBarHeight => _titleBarUserControl.Height;
 
 		protected virtual void PositionControls()
 		{
-			if (TitleLabelVisible)
+            if (!string.IsNullOrEmpty(_titleBarUserControl.Text))
 			{
 				_titleBarUserControl.Width = Width;
+			    _titleBarUserControl.Left = 0;
 			}
-			else
+            else
 			{
 				_titleBarUserControl.Width = _titleBarUserControl.ButtonBarWidth;
 				_titleBarUserControl.Left = Width - _titleBarUserControl.ButtonBarWidth;

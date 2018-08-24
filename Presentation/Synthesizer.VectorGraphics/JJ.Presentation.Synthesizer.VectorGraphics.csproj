@@ -67,6 +67,7 @@
     <Compile Include="Elements\ElementBaseWithScreenViewModel.cs" />
     <Compile Include="Elements\MonitoringBarElement.cs" />
     <Compile Include="Elements\PictureButtonElement.cs" />
+    <Compile Include="Elements\TitleBarElement.cs" />
     <Compile Include="Elements\ToolTipElement.cs" />
     <Compile Include="EventArg\IDEventArgs.cs" />
     <Compile Include="Gestures\ChangeInterpolationTypeGesture.cs" />

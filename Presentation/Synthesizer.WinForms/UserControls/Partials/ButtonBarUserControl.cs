@@ -8,6 +8,8 @@ using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.WinForms.Properties;
 using Point = System.Drawing.Point;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable VirtualMemberCallInConstructor
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {

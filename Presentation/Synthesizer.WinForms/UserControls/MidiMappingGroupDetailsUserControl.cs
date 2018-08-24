@@ -44,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		private void MidiMappingGroupDetailsUserControl_Load(object sender, EventArgs e)
 		{
 			TitleBarBackColor = SystemColors.Window;
-			TitleLabelVisible = false;
 
 			AddToInstrumentButtonVisible = true;
 			PlayButtonVisible = false;

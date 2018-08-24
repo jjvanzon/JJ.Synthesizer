@@ -73,7 +73,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 			this.titleBarUserControl.SaveButtonVisible = true;
 			this.titleBarUserControl.Size = new System.Drawing.Size(269, 32);
 			this.titleBarUserControl.TabIndex = 3;
-			this.titleBarUserControl.TitleLabelVisible = false;
 			this.titleBarUserControl.UndoButtonVisible = true;
 			this.titleBarUserControl.AddToInstrumentClicked += new System.EventHandler(this.TitleBarUserControl_AddToInstrumentClicked);
 			this.titleBarUserControl.CloseClicked += new System.EventHandler(this.TitleBarUserControl_CloseClicked);
