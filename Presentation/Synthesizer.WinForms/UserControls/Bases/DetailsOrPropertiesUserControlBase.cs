@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 			_titleBarUserControl.NewClicked += _titleBarUserControl_NewClicked;
 			_titleBarUserControl.SaveClicked += _titleBarUserControl_SaveClicked;
 			_titleBarUserControl.PlayClicked += _titleBarUserControl_PlayClicked;
-			_titleBarUserControl.DeleteClicked += TitleBarUserControl_DeleteClicked;
+			_titleBarUserControl.DeleteClicked += _titleBarUserControl_DeleteClicked;
 
 			_titleBarUserControl.DeleteButtonVisible = true;
 		}
@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 				_titleBarUserControl.NewClicked -= _titleBarUserControl_NewClicked;
 				_titleBarUserControl.SaveClicked -= _titleBarUserControl_SaveClicked;
 				_titleBarUserControl.PlayClicked -= _titleBarUserControl_PlayClicked;
-				_titleBarUserControl.DeleteClicked -= TitleBarUserControl_DeleteClicked;
+				_titleBarUserControl.DeleteClicked -= _titleBarUserControl_DeleteClicked;
 			}
 		}
 
@@ -220,7 +220,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Bases
 		private void _titleBarUserControl_CloseClicked(object sender, EventArgs e) => Close();
 		private void _titleBarUserControl_ExpandClicked(object sender, EventArgs e) => ExpandRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 		private void _titleBarUserControl_PlayClicked(object sender, EventArgs e) => Play();
-		private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => Delete();
+		private void _titleBarUserControl_DeleteClicked(object sender, EventArgs e) => Delete();
 		private void _titleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 		private void _titleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested?.Invoke(sender, new EventArgs<int>(GetID()));
 

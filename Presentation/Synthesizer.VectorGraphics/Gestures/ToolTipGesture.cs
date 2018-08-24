@@ -121,13 +121,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
 		private void HideToolTip(Element parentElement)
 		{
-			if (parentElement == null) throw new NullException(() => parentElement);
-
 			_toolTipElement.Visible = false;
 
-			parentElement.Gestures.Remove(_mouseLeaveGesture);
+		    parentElement?.Gestures.Remove(_mouseLeaveGesture);
 
-			_previousElement?.Gestures.Remove(_mouseLeaveGesture);
+		    _previousElement?.Gestures.Remove(_mouseLeaveGesture);
 			_previousElement = null;
 		}
 
