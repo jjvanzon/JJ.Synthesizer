@@ -296,10 +296,6 @@
     <Compile Include="UserControls\Partials\LibrarySelectionGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\Partials\2018-08-26 Backup of ButtonBarUserControl.cs" />
-    <Compile Include="UserControls\Partials\2018-08-26 Backup of ButtonBarUserControl.Designer.cs">
-      <DependentUpon>2018-08-26 Backup of ButtonBarUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MidiMappingGroupDetailsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -478,9 +474,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioOutputPropertiesUserControl.resx">
       <DependentUpon>AudioOutputPropertiesUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\2018-08-26 Backup of ButtonBarUserControl.resx">
-      <DependentUpon>2018-08-26 Backup of ButtonBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MidiMappingGroupDetailsUserControl.resx">
       <DependentUpon>MidiMappingGroupDetailsUserControl.cs</DependentUpon>
