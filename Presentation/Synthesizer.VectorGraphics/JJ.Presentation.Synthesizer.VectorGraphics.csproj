@@ -69,6 +69,7 @@
     <Compile Include="Elements\PictureButtonElement.cs" />
     <Compile Include="Elements\TitleBarElement.cs" />
     <Compile Include="Elements\ToolTipElement.cs" />
+    <Compile Include="Elements\TopBarElement.cs" />
     <Compile Include="EventArg\IDEventArgs.cs" />
     <Compile Include="Gestures\ChangeInterpolationTypeGesture.cs" />
     <Compile Include="Gestures\SelectGesture.cs" />

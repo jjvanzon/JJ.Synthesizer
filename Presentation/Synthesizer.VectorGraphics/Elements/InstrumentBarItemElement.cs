@@ -110,31 +110,31 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			if (_viewModel.CanGoForward)
 			{
 				_pictureButtonMoveForward.Position.X = x;
-				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
+				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.SPACING_SMALL;
 			}
 
 			if (_viewModel.CanPlay)
 			{
 				_pictureButtonPlay.Position.X = x;
-				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
+				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.SPACING_SMALL;
 			}
 
 			if (_viewModel.CanExpand)
 			{
 				_pictureButtonExpand.Position.X = x;
-				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
+				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.SPACING_SMALL;
 			}
 
 			if (_viewModel.CanDelete)
 			{
 				_pictureButtonDelete.Position.X = x;
-				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
+				x += StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.SPACING_SMALL;
 			}
 
-			x -= StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
+			x -= StyleHelper.SPACING_SMALL;
 
 			Position.Width = x;
-			Position.Height = StyleHelper.PICTURE_BUTTON_SPACING_SMALL + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
+			Position.Height = StyleHelper.SPACING_SMALL + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE + StyleHelper.SPACING_SMALL;
 
 	        _pictureButtonDelete.PositionElements();
 	        _pictureButtonMoveBackward.PositionElements();

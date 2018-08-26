@@ -8,7 +8,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-    public class ButtonBarElement : ElementBase
+    public sealed class ButtonBarElement : ElementBase
     {
         public event EventHandler AddClicked;
         public event EventHandler AddToInstrumentClicked;
@@ -24,8 +24,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         public event EventHandler SaveClicked;
         public event EventHandler TreeStructureClicked;
         public event EventHandler UndoClicked;
-
-        private const float HEIGHT = StyleHelper.ROW_HEIGHT;
 
         private readonly PictureButtonElement _pictureButtonAdd;
         private readonly PictureButtonElement _pictureButtonAddToInstrument;
@@ -78,6 +76,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonTreeStructure = new PictureButtonElement(this, underlyingPictureTreeStructure, CommonResourceFormatter.TreeStructure, toolTipElement);
             _pictureButtonUndo = new PictureButtonElement(this, underlyingPictureUndo, CommonResourceFormatter.Undo, toolTipElement);
 
+            MaxWidth = Children.OfType<PictureButtonElement>().Count();
+
             _pictureButtonsInReverseOrder = new[]
                 {
                     _pictureButtonTreeStructure,
@@ -115,6 +115,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonSave.MouseDown += _pictureButtonSave_MouseDown;
             _pictureButtonTreeStructure.MouseDown += _pictureButtonTreeStructure_MouseDown;
             _pictureButtonUndo.MouseDown += _pictureButtonUndo_MouseDown;
+
+            Position.Height = StyleHelper.ROW_HEIGHT;
 
             // Magic Defaults
             _pictureButtonAdd.Visible = false;
@@ -273,19 +275,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             }
         }
 
+        // Positioning
+
         public void PositionElements()
         {
             int visibleButtonCount = GetVisibleButtonCount();
 
-            Position.Width = visibleButtonCount * StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
-                             (visibleButtonCount - 1) * StyleHelper.PICTURE_BUTTON_SPACING_LARGE +
-                             StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
-
-            Position.Height = HEIGHT;
+            Position.Width = GetWidth(visibleButtonCount);
 
             float x = Position.Width;
 
-            x -= StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
+            x -= StyleHelper.SPACING_SMALL;
             x -= StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
             foreach (PictureButtonElement pictureButton in _pictureButtonsInReverseOrder)
@@ -295,14 +295,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                     pictureButton.Position.X = x;
 
                     x -= StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
-                    x -= StyleHelper.PICTURE_BUTTON_SPACING_LARGE;
+                    x -= StyleHelper.SPACING_LARGE;
                 }
             }
 
             _pictureButtonsInReverseOrder.ForEach(e => e.PositionElements());
         }
 
-        // Helpers
+        private float GetWidth(int buttonCount)
+            => buttonCount * StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
+               (buttonCount - 1) * StyleHelper.SPACING_LARGE +
+               StyleHelper.SPACING_SMALL;
+
+        /// <summary> Returns the width that the button bar would be if the maximum amount of buttons were visible. </summary>
+        public float MaxWidth { get; }
 
         private int GetVisibleButtonCount()
         {
@@ -323,6 +329,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             if (UndoButtonVisible) count++;
             return count;
         }
+
+        // Events
 
         private void _pictureButtonAdd_MouseDown(object sender, EventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonAddToInstrument_MouseDown(object sender, EventArgs e) => AddToInstrumentClicked?.Invoke(sender, EventArgs.Empty);
