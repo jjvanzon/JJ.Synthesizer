@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		        diagram.Background,
 		        textMeasurer,
 		        Resources.AddIcon,
-		        Resources.PianoIconUniformLongerKeys,
+		        Resources.PianoIcon,
 		        Resources.CloseIcon,
 		        Resources.RemoveIcon,
 		        Resources.OpenWindowIcon,
