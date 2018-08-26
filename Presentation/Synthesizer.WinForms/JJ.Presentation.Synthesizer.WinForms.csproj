@@ -296,12 +296,6 @@
     <Compile Include="UserControls\Partials\LibrarySelectionGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\Partials\ButtonBarUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\Partials\ButtonBarUserControl.Designer.cs">
-      <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MidiMappingGroupDetailsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -430,8 +424,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\InstrumentBarUserControl.resx">
       <DependentUpon>InstrumentBarUserControl.cs</DependentUpon>
@@ -480,9 +474,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioOutputPropertiesUserControl.resx">
       <DependentUpon>AudioOutputPropertiesUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\ButtonBarUserControl.resx">
-      <DependentUpon>ButtonBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MidiMappingGroupDetailsUserControl.resx">
       <DependentUpon>MidiMappingGroupDetailsUserControl.cs</DependentUpon>
@@ -678,17 +669,17 @@
     <None Include="Resources\PlayIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\TextBoxIcon.png" />
+    <Content Include="Resources\TreeStructureIcon.png" />
     <None Include="Resources\UndoIcon.png" />
     <None Include="Resources\OpenWindowIconThinner.png" />
     <None Include="Resources\PlayIconThinner.png" />
     <None Include="Resources\NewIcon.png" />
     <None Include="Resources\PianoIcon.png" />
-    <None Include="Resources\PianoIconLighter.png" />
-    <None Include="Resources\PianoIconUniform.png" />
-    <None Include="Resources\PianoIconUniformLongerKeys.png" />
     <None Include="Resources\GreaterThanIcon.png" />
     <None Include="Resources\LessThanIcon.png" />
     <None Include="Resources\RedoIcon.png" />
+    <Content Include="Resources\FolderIcon.png" />
     <Content Include="Resources\RefreshIcon.png" />
   </ItemGroup>
   <ItemGroup>

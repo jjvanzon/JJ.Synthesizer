@@ -75,45 +75,48 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             documentPropertiesUserControl.PlayRequested += documentPropertiesUserControl_PlayRequested;
 
-            documentTreeUserControl.AddToInstrumentRequested += documentTreeUserControl_AddToInstrumentRequested;
+            documentTreeUserControl.AddToInstrumentRequested += DocumentTreeUserControl_AddToInstrumentRequested;
             documentTreeUserControl.AudioFileOutputsNodeSelected +=
-                documentTreeUserControl_AudioFileOutputsNodeSelected;
-            documentTreeUserControl.AudioOutputNodeSelected += documentTreeUserControl_AudioOutputNodeSelected;
-            documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
+                DocumentTreeUserControl_AudioFileOutputsNodeSelected;
+            documentTreeUserControl.AudioOutputNodeSelected += DocumentTreeUserControl_AudioOutputNodeSelected;
+            documentTreeUserControl.CloseRequested += DocumentTreeUserControl_CloseRequested;
             documentTreeUserControl.DeleteRequested += DocumentTreeUserControl_DeleteRequested;
-            documentTreeUserControl.LibrariesNodeSelected += documentTreeUserControl_LibrariesNodeSelected;
+            documentTreeUserControl.DocumentGridShowRequested += DocumentTreeUserControl_DocumentGridShowRequested;
+            documentTreeUserControl.DocumentPropertiesShowRequested += DocumentTreeUserControl_DocumentPropertiesShowRequested;
+            documentTreeUserControl.DocumentTreeShowOrCloseRequested += DocumentTreeUserControl_DocumentTreeShowOrCloseRequested;
+            documentTreeUserControl.LibrariesNodeSelected += DocumentTreeUserControl_LibrariesNodeSelected;
             documentTreeUserControl.LibraryMidiMappingGroupNodeSelected +=
                 DocumentTreeUserControl_LibraryMidiMappingGroupNodeSelected;
-            documentTreeUserControl.LibraryMidiNodeSelected += documentTreeUserControl_LibraryMidiNodeSelected;
-            documentTreeUserControl.LibraryNodeSelected += documentTreeUserControl_LibraryNodeSelected;
-            documentTreeUserControl.LibraryPatchNodeSelected += documentTreeUserControl_LibraryPatchNodeSelected;
+            documentTreeUserControl.LibraryMidiNodeSelected += DocumentTreeUserControl_LibraryMidiNodeSelected;
+            documentTreeUserControl.LibraryNodeSelected += DocumentTreeUserControl_LibraryNodeSelected;
+            documentTreeUserControl.LibraryPatchNodeSelected += DocumentTreeUserControl_LibraryPatchNodeSelected;
             documentTreeUserControl.LibraryPatchGroupNodeSelected +=
-                documentTreeUserControl_LibraryPatchGroupNodeSelected;
-            documentTreeUserControl.LibraryScaleNodeSelected += documentTreeUserControl_LibraryScaleNodeSelected;
-            documentTreeUserControl.LibraryScalesNodeSelected += documentTreeUserControl_LibraryScalesNodeSelected;
-            documentTreeUserControl.MidiNodeSelected += documentTreeUserControl_MidiNodeSelected;
+                DocumentTreeUserControl_LibraryPatchGroupNodeSelected;
+            documentTreeUserControl.LibraryScaleNodeSelected += DocumentTreeUserControl_LibraryScaleNodeSelected;
+            documentTreeUserControl.LibraryScalesNodeSelected += DocumentTreeUserControl_LibraryScalesNodeSelected;
+            documentTreeUserControl.MidiNodeSelected += DocumentTreeUserControl_MidiNodeSelected;
             documentTreeUserControl.MidiMappingGroupNodeSelected +=
                 DocumentTreeUserControl_MidiMappingGroupNodeSelected;
-            documentTreeUserControl.NewRequested += documentTreeUserControl_NewRequested;
-            documentTreeUserControl.PatchGroupNodeSelected += documentTreeUserControl_PatchGroupNodeSelected;
-            documentTreeUserControl.PatchHovered += documentTreeUserControl_PatchHovered;
-            documentTreeUserControl.PatchNodeSelected += documentTreeUserControl_PatchNodeSelected;
-            documentTreeUserControl.PlayRequested += documentTreeUserControl_PlayRequested;
-            documentTreeUserControl.OpenItemExternallyRequested += documentTreeUserControl_OpenItemExternallyRequested;
-            documentTreeUserControl.RedoRequested += documentTreeUserControl_RedoRequested;
-            documentTreeUserControl.RefreshRequested += documentTreeUserControl_RefreshRequested;
-            documentTreeUserControl.SaveRequested += documentTreeUserControl_SaveRequested;
-            documentTreeUserControl.ScalesNodeSelected += documentTreeUserControl_ScalesNodeSelected;
-            documentTreeUserControl.ScaleNodeSelected += documentTreeUserControl_ScaleNodeSelected;
+            documentTreeUserControl.NewRequested += DocumentTreeUserControl_NewRequested;
+            documentTreeUserControl.PatchGroupNodeSelected += DocumentTreeUserControl_PatchGroupNodeSelected;
+            documentTreeUserControl.PatchHovered += DocumentTreeUserControl_PatchHovered;
+            documentTreeUserControl.PatchNodeSelected += DocumentTreeUserControl_PatchNodeSelected;
+            documentTreeUserControl.PlayRequested += DocumentTreeUserControl_PlayRequested;
+            documentTreeUserControl.OpenItemExternallyRequested += DocumentTreeUserControl_OpenItemExternallyRequested;
+            documentTreeUserControl.RedoRequested += DocumentTreeUserControl_RedoRequested;
+            documentTreeUserControl.RefreshRequested += DocumentTreeUserControl_RefreshRequested;
+            documentTreeUserControl.SaveRequested += DocumentTreeUserControl_SaveRequested;
+            documentTreeUserControl.ScalesNodeSelected += DocumentTreeUserControl_ScalesNodeSelected;
+            documentTreeUserControl.ScaleNodeSelected += DocumentTreeUserControl_ScaleNodeSelected;
             documentTreeUserControl.ShowAudioFileOutputsRequested +=
-                documentTreeUserControl_ShowAudioFileOutputsRequested;
-            documentTreeUserControl.ShowAudioOutputRequested += documentTreeUserControl_ShowAudioOutputRequested;
-            documentTreeUserControl.ShowLibraryRequested += documentTreeUserControl_ShowLibraryRequested;
+                DocumentTreeUserControl_ShowAudioFileOutputsRequested;
+            documentTreeUserControl.ShowAudioOutputRequested += DocumentTreeUserControl_ShowAudioOutputRequested;
+            documentTreeUserControl.ShowLibraryRequested += DocumentTreeUserControl_ShowLibraryRequested;
             documentTreeUserControl.ShowMidiMappingGroupRequested +=
                 DocumentTreeUserControl_ShowMidiMappingGroupRequested;
-            documentTreeUserControl.ShowPatchRequested += documentTreeUserControl_ShowPatchRequested;
-            documentTreeUserControl.ShowScaleRequested += documentTreeUserControl_ShowScaleRequested;
-            documentTreeUserControl.UndoRequested += documentTreeUserControl_UndoRequested;
+            documentTreeUserControl.ShowPatchRequested += DocumentTreeUserControl_ShowPatchRequested;
+            documentTreeUserControl.ShowScaleRequested += DocumentTreeUserControl_ShowScaleRequested;
+            documentTreeUserControl.UndoRequested += DocumentTreeUserControl_UndoRequested;
 
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
@@ -473,7 +476,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document Tree
 
-        private void documentTreeUserControl_AddToInstrumentRequested(object sender, EventArgs e) => TemplateActionHandler(
+        private void DocumentTreeUserControl_AddToInstrumentRequested(object sender, EventArgs e) => TemplateActionHandler(
             () =>
             {
                 _mainPresenter.DocumentTree_AddToInstrument();
@@ -481,75 +484,81 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 UpdateInfrastructureIfSuccessful();
             });
 
-        private void documentTreeUserControl_AudioFileOutputsNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioFileOutputs);
+        private void DocumentTreeUserControl_AudioFileOutputsNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioFileOutputs);
 
-        private void documentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioOutput);
+        private void DocumentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioOutput);
 
-        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Close);
+        private void DocumentTreeUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Close);
 
-        private void documentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectLibraries);
+        private void DocumentTreeUserControl_DeleteRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Delete);
 
-        private void documentTreeUserControl_LibraryScalesNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScales(e.Value));
+        private void DocumentTreeUserControl_DocumentTreeShowOrCloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_ShowOrClose);
 
-        private void documentTreeUserControl_LibraryScaleNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScale(e.Value));
+        private void DocumentTreeUserControl_DocumentGridShowRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentGrid_Show);
 
-        private void documentTreeUserControl_LibraryNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibrary(e.Value));
+        private void DocumentTreeUserControl_DocumentPropertiesShowRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentProperties_Show);
 
-        private void documentTreeUserControl_LibraryPatchNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryPatch(e.Value));
+        private void DocumentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectLibraries);
 
-        private void documentTreeUserControl_LibraryPatchGroupNodeSelected(object sender, LibraryPatchGroupEventArgs e) => TemplateActionHandler(
+        private void DocumentTreeUserControl_LibraryScalesNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScales(e.Value));
+
+        private void DocumentTreeUserControl_LibraryScaleNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryScale(e.Value));
+
+        private void DocumentTreeUserControl_LibraryNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibrary(e.Value));
+
+        private void DocumentTreeUserControl_LibraryPatchNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryPatch(e.Value));
+
+        private void DocumentTreeUserControl_LibraryPatchGroupNodeSelected(object sender, LibraryPatchGroupEventArgs e) => TemplateActionHandler(
             () => _mainPresenter.DocumentTree_SelectLibraryPatchGroup(e.LowerDocumentReferenceID, e.PatchGroup));
 
-        private void documentTreeUserControl_LibraryMidiNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidi(e.Value));
+        private void DocumentTreeUserControl_LibraryMidiNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidi(e.Value));
 
         private void DocumentTreeUserControl_LibraryMidiMappingGroupNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectLibraryMidiMappingGroup(e.Value));
 
-        private void documentTreeUserControl_MidiNodeSelected(object sender, EventArgs e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidi());
+        private void DocumentTreeUserControl_MidiNodeSelected(object sender, EventArgs e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidi());
 
         private void DocumentTreeUserControl_MidiMappingGroupNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidiMappingGroup(e.Value));
 
-        private void documentTreeUserControl_NewRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Create);
+        private void DocumentTreeUserControl_NewRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Create);
 
-        private void documentTreeUserControl_OpenItemExternallyRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_OpenItemExternally);
+        private void DocumentTreeUserControl_OpenItemExternallyRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_OpenItemExternally);
 
-        private void documentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatchGroup(e.Value));
+        private void DocumentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatchGroup(e.Value));
 
-        private void documentTreeUserControl_PatchHovered(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_HoverPatch(e.Value));
+        private void DocumentTreeUserControl_PatchHovered(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_HoverPatch(e.Value));
 
-        private void documentTreeUserControl_PatchNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatch(e.Value));
+        private void DocumentTreeUserControl_PatchNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatch(e.Value));
 
-        private void documentTreeUserControl_PlayRequested(object sender, EventArgs e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_Play());
+        private void DocumentTreeUserControl_PlayRequested(object sender, EventArgs e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_Play());
 
-        private void documentTreeUserControl_RefreshRequested(object sender, EventArgs e) => TemplateActionHandler(
+        private void DocumentTreeUserControl_RefreshRequested(object sender, EventArgs e) => TemplateActionHandler(
             () =>
             {
                 _mainPresenter.Document_Refresh();
                 RecreatePatchCalculatorIfSuccessful();
             });
 
-        private void documentTreeUserControl_RedoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Redo);
+        private void DocumentTreeUserControl_RedoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Redo);
 
-        private void DocumentTreeUserControl_DeleteRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Delete);
+        private void DocumentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectScales);
 
-        private void documentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_SelectScales);
+        private void DocumentTreeUserControl_ScaleNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectScale(e.Value));
 
-        private void documentTreeUserControl_ScaleNodeSelected(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectScale(e.Value));
+        private void DocumentTreeUserControl_SaveRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Document_Save);
 
-        private void documentTreeUserControl_SaveRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Document_Save);
+        private void DocumentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Show);
 
-        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Show);
+        private void DocumentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_ShowAudioOutput);
 
-        private void documentTreeUserControl_ShowAudioOutputRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_ShowAudioOutput);
-
-        private void documentTreeUserControl_ShowLibraryRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowLibrary(e.Value));
+        private void DocumentTreeUserControl_ShowLibraryRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowLibrary(e.Value));
 
         private void DocumentTreeUserControl_ShowMidiMappingGroupRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowMidiMappingGroup(e.Value));
 
-        private void documentTreeUserControl_ShowPatchRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowPatch(e.Value));
+        private void DocumentTreeUserControl_ShowPatchRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowPatch(e.Value));
 
-        private void documentTreeUserControl_ShowScaleRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowScale(e.Value));
+        private void DocumentTreeUserControl_ShowScaleRequested(object sender, EventArgs<int> e) => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowScale(e.Value));
 
-        private void documentTreeUserControl_UndoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Undo);
+        private void DocumentTreeUserControl_UndoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Undo);
 
         // Document Properties
 

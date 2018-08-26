@@ -31,7 +31,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		        diagram.Background,
 		        textMeasurer,
 		        Resources.AddIcon,
-		        Resources.PianoIconUniformLongerKeys,
+		        Resources.PianoIcon,
+		        Resources.FolderIcon,
 		        Resources.CloseIcon,
 		        Resources.RemoveIcon,
 		        Resources.OpenWindowIcon,
@@ -39,7 +40,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 		        Resources.PlayIcon,
 		        Resources.RedoIcon,
 		        Resources.RefreshIcon,
+		        Resources.TextBoxIcon,
 		        Resources.SaveIcon,
+		        Resources.TreeStructureIcon,
 		        Resources.UndoIcon);
 
 		    diagramControl.Location = new Point(0, 0);
@@ -86,7 +89,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			}
 		}
 
-		public bool CloseButtonVisible
+	    public bool BrowseButtonVisible
+	    {
+	        get => _titleBarElement.BrowseButtonVisible;
+	        set
+	        {
+	            _titleBarElement.BrowseButtonVisible = value;
+	            PositionControls();
+	        }
+	    }
+
+        public bool CloseButtonVisible
 		{
 			get => _titleBarElement.CloseButtonVisible;
 			set
@@ -96,7 +109,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			}
 		}
 
-		public bool ExpandButtonVisible
+	    public bool DeleteButtonVisible
+	    {
+	        get => _titleBarElement.DeleteButtonVisible;
+	        set
+	        {
+	            _titleBarElement.DeleteButtonVisible = value;
+	            PositionControls();
+	        }
+	    }
+
+        public bool ExpandButtonVisible
 		{
 			get => _titleBarElement.ExpandButtonVisible;
 			set
@@ -147,17 +170,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			}
 		}
 
-		public bool DeleteButtonVisible
-		{
-			get => _titleBarElement.DeleteButtonVisible;
-			set
-			{
-				_titleBarElement.DeleteButtonVisible = value;
-				PositionControls();
-			}
-		}
+	    public bool RenameButtonVisible
+	    {
+	        get => _titleBarElement.RenameButtonVisible;
+	        set
+	        {
+	            _titleBarElement.RenameButtonVisible = value;
+	            PositionControls();
+	        }
+	    }
 
-		public bool SaveButtonVisible
+        public bool SaveButtonVisible
 		{
 			get => _titleBarElement.SaveButtonVisible;
 			set
@@ -167,7 +190,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 			}
 		}
 
-		public bool UndoButtonVisible
+	    public bool TreeStructureButtonVisible
+	    {
+	        get => _titleBarElement.TreeStructureButtonVisible;
+	        set
+	        {
+	            _titleBarElement.TreeStructureButtonVisible = value;
+	            PositionControls();
+	        }
+	    }
+
+        public bool UndoButtonVisible
 		{
 			get => _titleBarElement.UndoButtonVisible;
 			set
@@ -212,23 +245,35 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 	        add => _titleBarElement.AddToInstrumentClicked += value;
 	        remove => _titleBarElement.AddToInstrumentClicked -= value;
 	    }
+        
+	    public event EventHandler BrowseClicked
+	    {
+	        add => _titleBarElement.BrowseClicked += value;
+	        remove => _titleBarElement.BrowseClicked -= value;
+	    }
 
-	    public event EventHandler CloseClicked
+        public event EventHandler CloseClicked
 	    {
 	        add => _titleBarElement.CloseClicked += value;
 	        remove => _titleBarElement.CloseClicked -= value;
 	    }
 
-	    public event EventHandler NewClicked
+	    public event EventHandler DeleteClicked
 	    {
-	        add => _titleBarElement.NewClicked += value;
-	        remove => _titleBarElement.NewClicked -= value;
+	        add => _titleBarElement.DeleteClicked += value;
+	        remove => _titleBarElement.DeleteClicked -= value;
 	    }
 
 	    public event EventHandler ExpandClicked
 	    {
 	        add => _titleBarElement.ExpandClicked += value;
 	        remove => _titleBarElement.ExpandClicked -= value;
+	    }
+
+        public event EventHandler NewClicked
+	    {
+	        add => _titleBarElement.NewClicked += value;
+	        remove => _titleBarElement.NewClicked -= value;
 	    }
 
 	    public event EventHandler PlayClicked
@@ -249,10 +294,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 	        remove => _titleBarElement.RefreshClicked -= value;
 	    }
 
-	    public event EventHandler DeleteClicked
+	    public event EventHandler RenameClicked
 	    {
-	        add => _titleBarElement.DeleteClicked += value;
-	        remove => _titleBarElement.DeleteClicked -= value;
+	        add => _titleBarElement.RenameClicked += value;
+	        remove => _titleBarElement.RenameClicked -= value;
 	    }
 
 	    public event EventHandler SaveClicked
@@ -261,7 +306,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 	        remove => _titleBarElement.SaveClicked -= value;
 	    }
 
-	    public event EventHandler UndoClicked
+	    public event EventHandler TreeStructureClicked
+	    {
+	        add => _titleBarElement.TreeStructureClicked += value;
+	        remove => _titleBarElement.TreeStructureClicked -= value;
+	    }
+
+        public event EventHandler UndoClicked
 	    {
 	        add => _titleBarElement.UndoClicked += value;
 	        remove => _titleBarElement.UndoClicked -= value;
