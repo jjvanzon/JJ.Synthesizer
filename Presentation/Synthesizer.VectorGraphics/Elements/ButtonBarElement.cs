@@ -249,7 +249,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             x -= StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
             x -= StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
-            var pictureButtonsInReverseOrder = new[]
+            PictureButtonElement[] pictureButtonsInReverseOrder = 
             {
                 _pictureButtonClose,
                 _pictureButtonDelete,

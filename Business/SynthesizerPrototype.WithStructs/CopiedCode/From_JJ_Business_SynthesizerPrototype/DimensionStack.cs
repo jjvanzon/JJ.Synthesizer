@@ -3,99 +3,101 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.SynthesizerPrototype.WithStructs.CopiedCode.From_JJ_Business_SynthesizerPrototype
 {
-	public class DimensionStack
-	{
-		private const int DEFAULT_CAPACITY = 128;
+    public class DimensionStack
+    {
+        private const int DEFAULT_CAPACITY = 128;
 
-		private int _count;
-		private double[] _array;
+        private double[] _array;
 
-		public DimensionStack()
-		{
-			_array = new double[DEFAULT_CAPACITY];
-			_count = 0;
-		}
+        public DimensionStack()
+        {
+            _array = new double[DEFAULT_CAPACITY];
+            Count = 0;
+        }
 
-		public int Count
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return _count; }
-		}
+        public int Count
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get;
+            private set;
+        }
 
-		public int CurrentIndex
-		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get { return _count - 1; }
-		}
+        public int CurrentIndex
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Count - 1;
+        }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Push(double value)
-		{
-			bool mustIncreaseCapacity = _array.Length == _count;
-			if (mustIncreaseCapacity)
-			{
-				int newCapacity;
-				if (_count == 0)
-				{
-					newCapacity = DEFAULT_CAPACITY;
-				}
-				else
-				{
-					newCapacity = _count * 2;
-				}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Push(double value)
+        {
+            bool mustIncreaseCapacity = _array.Length == Count;
 
-				var array2 = new double[newCapacity];
+            if (mustIncreaseCapacity)
+            {
+                int newCapacity;
 
-				Array.Copy(_array, 0, array2, 0, _count);
+                if (Count == 0)
+                {
+                    newCapacity = DEFAULT_CAPACITY;
+                }
+                else
+                {
+                    newCapacity = Count * 2;
+                }
 
-				_array = array2;
-			}
+                var array2 = new double[newCapacity];
 
-			_array[_count] = value;
+                Array.Copy(_array, 0, array2, 0, Count);
 
-			_count++;
-		}
+                _array = array2;
+            }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public double PopAndGet()
-		{
-			_count--;
+            _array[Count] = value;
 
-			double value = _array[_count];
-			return value;
-		}
+            Count++;
+        }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Pop() => _count--;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double PopAndGet()
+        {
+            Count--;
 
-	    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public double Get()
-		{
-			double value = _array[_count - 1];
-			return value;
-		}
+            double value = _array[Count];
+            return value;
+        }
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public double Get(int i)
-		{
-			double value = _array[i];
-			return value;
-		}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Pop() => Count--;
 
-		/// <summary>
-		/// A slightly quicker alternative to a subsequent Pop and Push,
-		/// when you know there will not be any stack operations in between,
-		/// or when you know you are at the top level of the stack.
-		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Set(double value) => _array[_count - 1] = value;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double Get()
+        {
+            double value = _array[Count - 1];
+            return value;
+        }
 
-	    /// <summary>
-		/// A slightly quicker alternative to a subsequent Pop and Push,
-		/// when you know there will not be any stack operations in between,
-		/// or when you know you are at the top level of the stack.
-		/// </summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public void Set(int i, double value) => _array[i] = value;
-	}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public double Get(int i)
+        {
+            double value = _array[i];
+            return value;
+        }
+
+        /// <summary>
+        /// A slightly quicker alternative to a subsequent Pop and Push,
+        /// when you know there will not be any stack operations in between,
+        /// or when you know you are at the top level of the stack.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(double value) => _array[Count - 1] = value;
+
+        /// <summary>
+        /// A slightly quicker alternative to a subsequent Pop and Push,
+        /// when you know there will not be any stack operations in between,
+        /// or when you know you are at the top level of the stack.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Set(int i, double value) => _array[i] = value;
+    }
 }
