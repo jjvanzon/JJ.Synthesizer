@@ -124,6 +124,9 @@
   <data name="CloseIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CloseIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="FolderIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FolderIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="GreaterThanIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GreaterThanIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -142,15 +145,6 @@
   <data name="PianoIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PianoIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PianoIconLighter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PianoIconLighter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PianoIconUniform" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PianoIconUniform.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PianoIconUniformLongerKeys" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PianoIconUniformLongerKeys.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="PlayIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PlayIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -168,6 +162,12 @@
   </data>
   <data name="SaveIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SaveIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TextBoxIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TextBoxIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TreeStructureIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TreeStructureIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UndoIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UndoIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

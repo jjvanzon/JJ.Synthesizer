@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Collections;
 using JJ.Framework.Resources;
-using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
@@ -12,20 +12,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
     {
         public event EventHandler AddClicked;
         public event EventHandler AddToInstrumentClicked;
+        public event EventHandler BrowseClicked;
         public event EventHandler CloseClicked;
         public event EventHandler DeleteClicked;
+        public event EventHandler RenameClicked;
         public event EventHandler ExpandClicked;
         public event EventHandler NewClicked;
         public event EventHandler PlayClicked;
         public event EventHandler RedoClicked;
         public event EventHandler RefreshClicked;
         public event EventHandler SaveClicked;
+        public event EventHandler TreeStructureClicked;
         public event EventHandler UndoClicked;
 
         private const float HEIGHT = StyleHelper.ROW_HEIGHT;
 
         private readonly PictureButtonElement _pictureButtonAdd;
         private readonly PictureButtonElement _pictureButtonAddToInstrument;
+        private readonly PictureButtonElement _pictureButtonBrowse;
         private readonly PictureButtonElement _pictureButtonClose;
         private readonly PictureButtonElement _pictureButtonDelete;
         private readonly PictureButtonElement _pictureButtonExpand;
@@ -33,48 +37,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         private readonly PictureButtonElement _pictureButtonPlay;
         private readonly PictureButtonElement _pictureButtonRedo;
         private readonly PictureButtonElement _pictureButtonRefresh;
+        private readonly PictureButtonElement _pictureButtonRename;
         private readonly PictureButtonElement _pictureButtonSave;
+        private readonly PictureButtonElement _pictureButtonTreeStructure;
         private readonly PictureButtonElement _pictureButtonUndo;
 
-        public ButtonBarElement(
-            Element parent,
-            ITextMeasurer textMeasurer,
-            object underlyingPictureAdd,
-            object underlyingPictureAddToInstrument,
-            object underlyingPictureClose,
-            object underlyingPictureDelete,
-            object underlyingPictureExpand,
-            object underlyingPictureNew,
-            object underlyingPicturePlay,
-            object underlyingPictureRedo,
-            object underlyingPictureRefresh,
-            object underlyingPictureSave,
-            object underlyingPictureUndo)
-            : this(
-                parent,
-                new ToolTipElement(
-                    parent?.Diagram?.Background,
-                    StyleHelper.ToolTipBackStyle,
-                    StyleHelper.ToolTipLineStyle,
-                    StyleHelper.ToolTipTextStyle,
-                    textMeasurer),
-                underlyingPictureAdd,
-                underlyingPictureAddToInstrument,
-                underlyingPictureClose,
-                underlyingPictureDelete,
-                underlyingPictureExpand,
-                underlyingPictureNew,
-                underlyingPicturePlay,
-                underlyingPictureRedo,
-                underlyingPictureRefresh,
-                underlyingPictureSave,
-                underlyingPictureUndo) { }
+        private readonly PictureButtonElement[] _pictureButtonsInReverseOrder;
 
         public ButtonBarElement(
             Element parent,
             ToolTipElement toolTipElement,
             object underlyingPictureAdd,
             object underlyingPictureAddToInstrument,
+            object underlyingPictureBrowse,
             object underlyingPictureClose,
             object underlyingPictureDelete,
             object underlyingPictureExpand,
@@ -82,12 +57,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             object underlyingPicturePlay,
             object underlyingPictureRedo,
             object underlyingPictureRefresh,
+            object underlyingPictureRename,
             object underlyingPictureSave,
+            object underlyingPictureTreeStructure,
             object underlyingPictureUndo)
             : base(parent)
         {
             _pictureButtonAdd = new PictureButtonElement(this, underlyingPictureAdd, CommonResourceFormatter.Add, toolTipElement);
             _pictureButtonAddToInstrument = new PictureButtonElement(this, underlyingPictureAddToInstrument, ResourceFormatter.AddToInstrument, toolTipElement);
+            _pictureButtonBrowse = new PictureButtonElement(this, underlyingPictureBrowse, ResourceFormatter.DocumentList, toolTipElement);
             _pictureButtonClose = new PictureButtonElement(this, underlyingPictureClose, CommonResourceFormatter.Close, toolTipElement);
             _pictureButtonDelete = new PictureButtonElement(this, underlyingPictureDelete, CommonResourceFormatter.Delete, toolTipElement);
             _pictureButtonExpand = new PictureButtonElement(this, underlyingPictureExpand, CommonResourceFormatter.Open, toolTipElement);
@@ -95,11 +73,37 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonPlay = new PictureButtonElement(this, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
             _pictureButtonRedo = new PictureButtonElement(this, underlyingPictureRedo, CommonResourceFormatter.Redo, toolTipElement);
             _pictureButtonRefresh = new PictureButtonElement(this, underlyingPictureRefresh, CommonResourceFormatter.Refresh, toolTipElement);
+            _pictureButtonRename = new PictureButtonElement(this, underlyingPictureRename, CommonResourceFormatter.Rename_WithName(ResourceFormatter.Document), toolTipElement);
             _pictureButtonSave = new PictureButtonElement(this, underlyingPictureSave, CommonResourceFormatter.Save, toolTipElement);
+            _pictureButtonTreeStructure = new PictureButtonElement(this, underlyingPictureTreeStructure, CommonResourceFormatter.TreeStructure, toolTipElement);
             _pictureButtonUndo = new PictureButtonElement(this, underlyingPictureUndo, CommonResourceFormatter.Undo, toolTipElement);
 
-			_pictureButtonAdd.MouseDown += _pictureButtonAdd_MouseDown;
+            _pictureButtonsInReverseOrder = new[]
+                {
+                    _pictureButtonTreeStructure,
+
+                    _pictureButtonExpand,
+                    _pictureButtonPlay,
+                    _pictureButtonAddToInstrument,
+
+                    _pictureButtonRename,
+
+                    _pictureButtonNew,
+                    _pictureButtonAdd,
+                    _pictureButtonDelete,
+
+                    _pictureButtonBrowse,
+                    _pictureButtonSave,
+                    _pictureButtonRedo,
+                    _pictureButtonUndo,
+                    _pictureButtonRefresh,
+                    _pictureButtonClose,
+                }.Reverse()
+                 .ToArray();
+
+            _pictureButtonAdd.MouseDown += _pictureButtonAdd_MouseDown;
 			_pictureButtonAddToInstrument.MouseDown += _pictureButtonAddToInstrument_MouseDown;
+            _pictureButtonBrowse.MouseDown += _pictureButtonBrowse_MouseDown;
             _pictureButtonClose.MouseDown += _pictureButtonClose_MouseDown;
             _pictureButtonDelete.MouseDown += _pictureButtonDelete_MouseDown;
             _pictureButtonExpand.MouseDown += _pictureButtonExpand_MouseDown;
@@ -107,12 +111,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonPlay.MouseDown += _pictureButtonPlay_MouseDown;
             _pictureButtonRedo.MouseDown += _pictureButtonRedo_MouseDown;
             _pictureButtonRefresh.MouseDown += _pictureButtonRefresh_MouseDown;
+            _pictureButtonRename.MouseDown += _pictureButtonRename_MouseDown;
             _pictureButtonSave.MouseDown += _pictureButtonSave_MouseDown;
+            _pictureButtonTreeStructure.MouseDown += _pictureButtonTreeStructure_MouseDown;
             _pictureButtonUndo.MouseDown += _pictureButtonUndo_MouseDown;
 
             // Magic Defaults
             _pictureButtonAdd.Visible = false;
             _pictureButtonAddToInstrument.Visible = false;
+            _pictureButtonBrowse.Visible = false;
             _pictureButtonClose.Visible = true;
             _pictureButtonDelete.Visible = false;
             _pictureButtonExpand.Visible = false;
@@ -120,7 +127,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonPlay.Visible = false;
             _pictureButtonRedo.Visible = false;
             _pictureButtonRefresh.Visible = false;
+            _pictureButtonRename.Visible = false;
             _pictureButtonSave.Visible = false;
+            _pictureButtonTreeStructure.Visible = false;
             _pictureButtonUndo.Visible = false;
         }
 
@@ -160,6 +169,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             set
             {
                 _pictureButtonDelete.Visible = value;
+                PositionElements();
+            }
+        }
+
+        public bool BrowseButtonVisible
+        {
+            get => _pictureButtonBrowse.Visible;
+            set
+            {
+                _pictureButtonBrowse.Visible = value;
                 PositionElements();
             }
         }
@@ -214,12 +233,32 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             }
         }
 
+        public bool RenameButtonVisible
+        {
+            get => _pictureButtonRename.Visible;
+            set
+            {
+                _pictureButtonRename.Visible = value;
+                PositionElements();
+            }
+        }
+
         public bool SaveButtonVisible
         {
             get => _pictureButtonSave.Visible;
             set
             {
                 _pictureButtonSave.Visible = value;
+                PositionElements();
+            }
+        }
+
+        public bool TreeStructureButtonVisible
+        {
+            get => _pictureButtonTreeStructure.Visible;
+            set
+            {
+                _pictureButtonTreeStructure.Visible = value;
                 PositionElements();
             }
         }
@@ -249,22 +288,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             x -= StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
             x -= StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
-            var pictureButtonsInReverseOrder = new[]
-            {
-                _pictureButtonClose,
-                _pictureButtonDelete,
-                _pictureButtonAdd,
-                _pictureButtonNew,
-                _pictureButtonExpand,
-                _pictureButtonRefresh,
-                _pictureButtonSave,
-                _pictureButtonAddToInstrument,
-                _pictureButtonPlay,
-                _pictureButtonRedo,
-                _pictureButtonUndo
-            };
-
-            foreach (PictureButtonElement pictureButton in pictureButtonsInReverseOrder)
+            foreach (PictureButtonElement pictureButton in _pictureButtonsInReverseOrder)
             {
                 if (pictureButton.Visible)
                 {
@@ -275,7 +299,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                 }
             }
 
-            pictureButtonsInReverseOrder.ForEach(e => e.PositionElements());
+            _pictureButtonsInReverseOrder.ForEach(e => e.PositionElements());
         }
 
         // Helpers
@@ -285,20 +309,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             int count = 0;
             if (AddButtonVisible) count++;
             if (AddToInstrumentButtonVisible) count++;
+            if (BrowseButtonVisible) count++;
             if (CloseButtonVisible) count++;
             if (NewButtonVisible) count++;
             if (ExpandButtonVisible) count++;
             if (PlayButtonVisible) count++;
             if (RedoButtonVisible) count++;
             if (RefreshButtonVisible) count++;
+            if (RenameButtonVisible) count++;
             if (DeleteButtonVisible) count++;
             if (SaveButtonVisible) count++;
+            if (TreeStructureButtonVisible) count++;
             if (UndoButtonVisible) count++;
             return count;
         }
 
         private void _pictureButtonAdd_MouseDown(object sender, EventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonAddToInstrument_MouseDown(object sender, EventArgs e) => AddToInstrumentClicked?.Invoke(sender, EventArgs.Empty);
+        private void _pictureButtonBrowse_MouseDown(object sender, EventArgs e) => BrowseClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonClose_MouseDown(object sender, EventArgs e) => CloseClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonDelete_MouseDown(object sender, EventArgs e) => DeleteClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonExpand_MouseDown(object sender, EventArgs e) => ExpandClicked?.Invoke(sender, EventArgs.Empty);
@@ -306,7 +334,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         private void _pictureButtonPlay_MouseDown(object sender, EventArgs e) => PlayClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonRedo_MouseDown(object sender, EventArgs e) => RedoClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonRefresh_MouseDown(object sender, EventArgs e) => RefreshClicked?.Invoke(sender, EventArgs.Empty);
+        private void _pictureButtonRename_MouseDown(object sender, EventArgs e) => RenameClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonSave_MouseDown(object sender, EventArgs e) => SaveClicked?.Invoke(sender, EventArgs.Empty);
+        private void _pictureButtonTreeStructure_MouseDown(object sender, EventArgs e) => TreeStructureClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonUndo_MouseDown(object sender, EventArgs e) => UndoClicked?.Invoke(sender, EventArgs.Empty);
     }
 }

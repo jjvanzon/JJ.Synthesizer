@@ -30,18 +30,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		// Button Events
 		public event EventHandler AddToInstrumentRequested;
 		public event EventHandler CloseRequested;
+		public event EventHandler DeleteRequested;
+	    public event EventHandler DocumentGridShowRequested;
+	    public event EventHandler DocumentPropertiesShowRequested;
+	    public event EventHandler DocumentTreeShowOrCloseRequested;
 		public event EventHandler NewRequested;
 		public event EventHandler OpenItemExternallyRequested;
 		public event EventHandler<EventArgs<int>> PatchHovered;
 		public event EventHandler PlayRequested;
 		public event EventHandler RefreshRequested;
-		public event EventHandler DeleteRequested;
 		public event EventHandler RedoRequested;
 		public event EventHandler SaveRequested;
 		public event EventHandler UndoRequested;
 
-		// Show Events
-		public event EventHandler ShowAudioOutputRequested;
+	    // Show Events
+        public event EventHandler ShowAudioOutputRequested;
 		public event EventHandler ShowAudioFileOutputsRequested;
 		public event EventHandler<EventArgs<int>> ShowLibraryRequested;
 		public event EventHandler<EventArgs<int>> ShowPatchRequested;
@@ -822,18 +825,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		// Events
 
 		private void TitleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested(this, EventArgs.Empty);
-		private void TitleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
+	    private void TitleBarUserControl_BrowseClicked(object sender, EventArgs e) => DocumentGridShowRequested(this, EventArgs.Empty);
+	    private void TitleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
 		private void TitleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested(sender, EventArgs.Empty);
 		private void TitleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested(sender, EventArgs.Empty);
 		private void TitleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
 		private void TitleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested(sender, EventArgs.Empty);
 		private void TitleBarUserControl_RedoClicked(object sender, EventArgs e) => RedoRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteRequested(this, EventArgs.Empty);
+	    private void TitleBarUserControl_RenameClicked(object sender, EventArgs e) => DocumentPropertiesShowRequested(this, EventArgs.Empty);
+	    private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteRequested(this, EventArgs.Empty);
 		private void TitleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested(sender, EventArgs.Empty);
+	    private void TitleBarUserControl_TreeStructureClicked(object sender, EventArgs e) => DocumentTreeShowOrCloseRequested(this, EventArgs.Empty);
 		private void TitleBarUserControl_UndoClicked(object sender, EventArgs e) => UndoRequested(sender, EventArgs.Empty);
 		private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);
 
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
 			// Use ProcessCmdKey,because OnKeyDown produces an annoying Ding sound.
 			// every time you hit enter.
@@ -1045,5 +1051,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		}
 
 		private object GetSimpleTreeNodeKeyIndicator() => new { ViewModel.SelectedNodeType, ViewModel.SelectedItemID };
-	}
+    }
 }
