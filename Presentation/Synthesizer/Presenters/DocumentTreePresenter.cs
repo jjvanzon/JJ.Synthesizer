@@ -206,7 +206,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 	    public void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
-	    public void SelectAudioFileOutputs(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputList);
+	    public void ShowOrClose(DocumentTreeViewModel viewModel)
+	    { 
+            // Redirect
+            if (viewModel.Visible)
+            {
+                Close(viewModel);
+            }
+            else
+            {
+                Show(viewModel);
+            }
+	    }
+
+        public void SelectAudioFileOutputs(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioFileOutputList);
 
 	    public void SelectAudioOutput(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.SelectedNodeType = DocumentTreeNodeTypeEnum.AudioOutput);
 

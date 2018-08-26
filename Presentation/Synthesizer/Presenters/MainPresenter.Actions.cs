@@ -1477,7 +1477,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 	    public void DocumentTree_Show() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Show);
 
-	    public void DocumentTree_ShowAudioOutput() => AudioOutputProperties_Show();
+	    public void DocumentTree_ShowOrClose() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.ShowOrClose);
+
+        public void DocumentTree_ShowAudioOutput() => AudioOutputProperties_Show();
 
 	    public void DocumentTree_ShowLibrary(int documentReferenceID) => LibraryProperties_Show(documentReferenceID);
 
