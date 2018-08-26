@@ -15,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             ITextMeasurer textMeasurer,
             object underlyingPictureAdd,
             object underlyingPictureAddToInstrument,
+            object underlyingPictureBrowse,
             object underlyingPictureClose,
             object underlyingPictureDelete,
             object underlyingPictureExpand,
@@ -22,7 +23,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             object underlyingPicturePlay,
             object underlyingPictureRedo,
             object underlyingPictureRefresh,
+            object underlyingPictureRename,
             object underlyingPictureSave,
+            object underlyingPictureTreeStructure,
             object underlyingPictureUndo)
             : base(parent)
         {
@@ -45,6 +48,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                 toolTipElement,
                 underlyingPictureAdd,
                 underlyingPictureAddToInstrument,
+                underlyingPictureBrowse,
                 underlyingPictureClose,
                 underlyingPictureDelete,
                 underlyingPictureExpand,
@@ -52,7 +56,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                 underlyingPicturePlay,
                 underlyingPictureRedo,
                 underlyingPictureRefresh,
+                underlyingPictureRename,
                 underlyingPictureSave,
+                underlyingPictureTreeStructure,
                 underlyingPictureUndo);
 
             Position.Height = StyleHelper.ROW_HEIGHT;
@@ -84,12 +90,32 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             }
         }
 
+        public bool BrowseButtonVisible
+        {
+            get => _buttonBarElement.BrowseButtonVisible;
+            set
+            {
+                _buttonBarElement.BrowseButtonVisible = value;
+                PositionElements();
+            }
+        }
+
         public bool CloseButtonVisible
         {
             get => _buttonBarElement.CloseButtonVisible;
             set
             {
                 _buttonBarElement.CloseButtonVisible = value;
+                PositionElements();
+            }
+        }
+
+        public bool DeleteButtonVisible
+        {
+            get => _buttonBarElement.DeleteButtonVisible;
+            set
+            {
+                _buttonBarElement.DeleteButtonVisible = value;
                 PositionElements();
             }
         }
@@ -144,12 +170,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             }
         }
 
-        public bool DeleteButtonVisible
+        public bool RenameButtonVisible
         {
-            get => _buttonBarElement.DeleteButtonVisible;
+            get => _buttonBarElement.RenameButtonVisible;
             set
             {
-                _buttonBarElement.DeleteButtonVisible = value;
+                _buttonBarElement.RenameButtonVisible = value;
                 PositionElements();
             }
         }
@@ -160,6 +186,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             set
             {
                 _buttonBarElement.SaveButtonVisible = value;
+                PositionElements();
+            }
+        }
+
+        public bool TreeStructureButtonVisible
+        {
+            get => _buttonBarElement.TreeStructureButtonVisible;
+            set
+            {
+                _buttonBarElement.TreeStructureButtonVisible = value;
                 PositionElements();
             }
         }
@@ -200,10 +236,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             remove => _buttonBarElement.AddToInstrumentClicked -= value;
         }
 
+        public event EventHandler BrowseClicked
+        {
+            add => _buttonBarElement.BrowseClicked += value;
+            remove => _buttonBarElement.BrowseClicked -= value;
+        }
+
         public event EventHandler CloseClicked
         {
             add => _buttonBarElement.CloseClicked += value;
             remove => _buttonBarElement.CloseClicked -= value;
+        }
+
+        public event EventHandler DeleteClicked
+        {
+            add => _buttonBarElement.DeleteClicked += value;
+            remove => _buttonBarElement.DeleteClicked -= value;
         }
 
         public event EventHandler NewClicked
@@ -236,16 +284,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             remove => _buttonBarElement.RefreshClicked -= value;
         }
 
-        public event EventHandler DeleteClicked
+        public event EventHandler RenameClicked
         {
-            add => _buttonBarElement.DeleteClicked += value;
-            remove => _buttonBarElement.DeleteClicked -= value;
+            add => _buttonBarElement.RenameClicked += value;
+            remove => _buttonBarElement.RenameClicked -= value;
         }
 
         public event EventHandler SaveClicked
         {
             add => _buttonBarElement.SaveClicked += value;
             remove => _buttonBarElement.SaveClicked -= value;
+        }
+
+        public event EventHandler TreeStructureClicked
+        {
+            add => _buttonBarElement.TreeStructureClicked += value;
+            remove => _buttonBarElement.TreeStructureClicked -= value;
         }
 
         public event EventHandler UndoClicked
