@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Collections;
 using JJ.Framework.Resources;
@@ -41,6 +42,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         private readonly PictureButtonElement _pictureButtonTreeStructure;
         private readonly PictureButtonElement _pictureButtonUndo;
 
+        private readonly PictureButtonElement[] _pictureButtonsInReverseOrder;
+
         public ButtonBarElement(
             Element parent,
             ToolTipElement toolTipElement,
@@ -75,7 +78,30 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonTreeStructure = new PictureButtonElement(this, underlyingPictureTreeStructure, CommonResourceFormatter.TreeStructure, toolTipElement);
             _pictureButtonUndo = new PictureButtonElement(this, underlyingPictureUndo, CommonResourceFormatter.Undo, toolTipElement);
 
-			_pictureButtonAdd.MouseDown += _pictureButtonAdd_MouseDown;
+            _pictureButtonsInReverseOrder = new[]
+                {
+                    _pictureButtonTreeStructure,
+
+                    _pictureButtonExpand,
+                    _pictureButtonPlay,
+                    _pictureButtonAddToInstrument,
+
+                    _pictureButtonRename,
+
+                    _pictureButtonNew,
+                    _pictureButtonAdd,
+                    _pictureButtonDelete,
+
+                    _pictureButtonBrowse,
+                    _pictureButtonSave,
+                    _pictureButtonRedo,
+                    _pictureButtonUndo,
+                    _pictureButtonRefresh,
+                    _pictureButtonClose,
+                }.Reverse()
+                 .ToArray();
+
+            _pictureButtonAdd.MouseDown += _pictureButtonAdd_MouseDown;
 			_pictureButtonAddToInstrument.MouseDown += _pictureButtonAddToInstrument_MouseDown;
             _pictureButtonBrowse.MouseDown += _pictureButtonBrowse_MouseDown;
             _pictureButtonClose.MouseDown += _pictureButtonClose_MouseDown;
@@ -262,25 +288,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             x -= StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
             x -= StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
-            PictureButtonElement[] pictureButtonsInReverseOrder = 
-            {
-                _pictureButtonClose,
-                _pictureButtonDelete,
-                _pictureButtonAdd,
-                _pictureButtonNew,
-                _pictureButtonExpand,
-                _pictureButtonRefresh,
-                _pictureButtonSave,
-                _pictureButtonAddToInstrument,
-                _pictureButtonPlay,
-                _pictureButtonRedo,
-                _pictureButtonUndo,
-                _pictureButtonTreeStructure,
-                _pictureButtonBrowse,
-                _pictureButtonRename
-            };
-
-            foreach (PictureButtonElement pictureButton in pictureButtonsInReverseOrder)
+            foreach (PictureButtonElement pictureButton in _pictureButtonsInReverseOrder)
             {
                 if (pictureButton.Visible)
                 {
@@ -291,7 +299,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                 }
             }
 
-            pictureButtonsInReverseOrder.ForEach(e => e.PositionElements());
+            _pictureButtonsInReverseOrder.ForEach(e => e.PositionElements());
         }
 
         // Helpers

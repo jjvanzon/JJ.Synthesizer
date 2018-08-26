@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(269, 494);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(333, 494);
             this.tableLayoutPanel.TabIndex = 3;
             // 
             // titleBarUserControl
@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.RefreshButtonVisible = true;
             this.titleBarUserControl.RenameButtonVisible = true;
             this.titleBarUserControl.SaveButtonVisible = true;
-            this.titleBarUserControl.Size = new System.Drawing.Size(269, 24);
+            this.titleBarUserControl.Size = new System.Drawing.Size(333, 24);
             this.titleBarUserControl.TabIndex = 3;
             this.titleBarUserControl.TreeStructureButtonVisible = true;
             this.titleBarUserControl.UndoButtonVisible = true;
@@ -101,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.treeView.Margin = new System.Windows.Forms.Padding(0);
             this.treeView.Name = "treeView";
             this.treeView.ShowLines = false;
-            this.treeView.Size = new System.Drawing.Size(269, 468);
+            this.treeView.Size = new System.Drawing.Size(333, 468);
             this.treeView.TabIndex = 4;
             this.treeView.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.TreeView_NodeMouseHover);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_AfterSelect);
@@ -121,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "DocumentTreeUserControl";
-            this.Size = new System.Drawing.Size(269, 494);
+            this.Size = new System.Drawing.Size(333, 494);
             this.tableLayoutPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
