@@ -537,12 +537,10 @@
             // 
             // topBarUserControl
             // 
-            this.topBarUserControl.InstrumentBarViewModel = null;
             this.topBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.topBarUserControl.Name = "topBarUserControl";
             this.topBarUserControl.Size = new System.Drawing.Size(150, 0);
             this.topBarUserControl.TabIndex = 19;
-            this.topBarUserControl.TopButtonBarViewModel = null;
             // 
             // MainForm
             // 

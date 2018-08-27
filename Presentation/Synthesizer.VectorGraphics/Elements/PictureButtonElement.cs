@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-	internal class PictureButtonElement : ElementBase
+    public class PictureButtonElement : ElementBase
 	{
 		private readonly MouseDownGesture _mouseDownGesture;
 		private readonly Picture _picture;

@@ -192,12 +192,6 @@
     <Compile Include="UserControls\TopBarUserControl.Designer.cs">
       <DependentUpon>TopBarUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\InstrumentBarUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\InstrumentBarUserControl.Designer.cs">
-      <DependentUpon>InstrumentBarUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\CurveDetailsListUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -436,9 +430,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\TopBarUserControl.resx">
       <DependentUpon>TopBarUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\InstrumentBarUserControl.resx">
-      <DependentUpon>InstrumentBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsListUserControl.resx">
       <DependentUpon>CurveDetailsListUserControl.cs</DependentUpon>

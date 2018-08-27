@@ -70,8 +70,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			patchPropertiesUserControl.ViewModel = documentViewModel.VisiblePatchProperties;
 			scalePropertiesUserControl.ViewModel = documentViewModel.VisibleScaleProperties;
 			toneGridEditUserControl.ViewModel = documentViewModel.VisibleToneGridEdit;
-		    topBarUserControl.InstrumentBarViewModel = documentViewModel.InstrumentBar;
-		    topBarUserControl.TopButtonBarViewModel = documentViewModel.TopButtonBar;
+		    topBarUserControl.TopBarElement.InstrumentBarElement.ViewModel = documentViewModel.InstrumentBar;
+		    topBarUserControl.TopBarElement.TopButtonBarElement.ViewModel = documentViewModel.TopButtonBar;
+		    topBarUserControl.Refresh();
 
             // Applying Visible = true first and then Visible = false prevents flickering.
             foreach (UserControlBase userControl in _userControls)

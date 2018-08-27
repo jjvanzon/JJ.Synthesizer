@@ -4,8 +4,10 @@ using System.Windows.Forms;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Framework.WinForms.Helpers;
+using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using MouseEventArgs = JJ.Framework.VectorGraphics.EventArg.MouseEventArgs;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -13,6 +15,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
     {
         private void BindEvents()
         {
+            InstrumentBarElement instrumentBarElement = topBarUserControl.TopBarElement.InstrumentBarElement;
+            TopButtonBarElement topButtonBarElement = topBarUserControl.TopBarElement.TopButtonBarElement;
+
             FormClosing += MainForm_FormClosing;
 
             audioFileOutputGridUserControl.CloseRequested += AudioFileOutputGridUserControl_CloseRequested;
@@ -27,33 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioOutputPropertiesUserControl.CloseRequested += AudioOutputPropertiesUserControl_CloseRequested;
             audioOutputPropertiesUserControl.LoseFocusRequested += AudioOutputPropertiesUserControl_LoseFocusRequested;
             audioOutputPropertiesUserControl.PlayRequested += AudioOutputPropertiesUserControl_PlayRequested;
-
-            topBarUserControl.InstrumentBar_ExpandRequested += InstrumentBarUserControl_ExpandRequested;
-            topBarUserControl.InstrumentBar_ExpandMidiMappingGroupRequested += InstrumentBarUserControl_ExpandMidiMappingGroupRequested;
-            topBarUserControl.InstrumentBar_ExpandPatchRequested += InstrumentBarUserControl_ExpandPatchRequested;
-            topBarUserControl.InstrumentBar_DeleteMidiMappingGroupRequested += InstrumentBarUserControl_DeleteMidiMappingGroupRequested;
-            topBarUserControl.InstrumentBar_DeletePatchRequested += InstrumentBarUserControl_DeletePatchRequested;
-            topBarUserControl.HeightChanged += InstrumentBarUserControl_HeightChanged;
-            topBarUserControl.InstrumentBar_MoveMidiMappingGroupBackwardRequested += InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested;
-            topBarUserControl.InstrumentBar_MoveMidiMappingGroupForwardRequested += InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested;
-            topBarUserControl.InstrumentBar_MovePatchBackwardRequested += InstrumentBarUserControl_MovePatchBackwardRequested;
-            topBarUserControl.InstrumentBar_MovePatchForwardRequested += InstrumentBarUserControl_MovePatchForwardRequested;
-            topBarUserControl.InstrumentBar_PlayRequested += InstrumentBarUserControl_PlayRequested;
-            topBarUserControl.InstrumentBar_PlayPatchRequested += InstrumentBarUserControl_PlayPatchRequested;
-
-            topBarUserControl.TopButtonBar_AddToInstrumentRequested += DocumentTreeUserControl_AddToInstrumentRequested;
-            topBarUserControl.TopButtonBar_CloseRequested += menuUserControl_DocumentCloseRequested;
-            topBarUserControl.TopButtonBar_DeleteRequested += DocumentTreeUserControl_DeleteRequested;
-            topBarUserControl.TopButtonBar_DocumentGridShowRequested += DocumentTreeUserControl_DocumentGridShowRequested;
-            topBarUserControl.TopButtonBar_DocumentPropertiesShowRequested += DocumentTreeUserControl_DocumentPropertiesShowRequested;
-            topBarUserControl.TopButtonBar_DocumentTreeShowOrCloseRequested += DocumentTreeUserControl_DocumentTreeShowOrCloseRequested;
-            topBarUserControl.TopButtonBar_NewRequested += DocumentTreeUserControl_NewRequested;
-            topBarUserControl.TopButtonBar_OpenItemExternallyRequested += DocumentTreeUserControl_OpenItemExternallyRequested;
-            topBarUserControl.TopButtonBar_PlayRequested += DocumentTreeUserControl_PlayRequested;
-            topBarUserControl.TopButtonBar_RedoRequested += DocumentTreeUserControl_RedoRequested;
-            topBarUserControl.TopButtonBar_RefreshRequested += DocumentTreeUserControl_RefreshRequested;
-            topBarUserControl.TopButtonBar_SaveRequested += DocumentTreeUserControl_SaveRequested;
-            topBarUserControl.TopButtonBar_UndoRequested += DocumentTreeUserControl_UndoRequested;
 
             curveDetailsListUserControl.ChangeInterpolationOfSelectedNodeRequested +=
                 CurveDetailsListUserControl_ChangeInterpolationOfSelectedNodeRequested;
@@ -108,6 +86,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowPatchRequested += DocumentTreeUserControl_ShowPatchRequested;
             documentTreeUserControl.ShowScaleRequested += DocumentTreeUserControl_ShowScaleRequested;
 
+            instrumentBarElement.ExpandRequested += InstrumentBarUserControl_ExpandRequested;
+            instrumentBarElement.ExpandMidiMappingGroupRequested += InstrumentBarUserControl_ExpandMidiMappingGroupRequested;
+            instrumentBarElement.ExpandPatchRequested += InstrumentBarUserControl_ExpandPatchRequested;
+            instrumentBarElement.DeleteMidiMappingGroupRequested += InstrumentBarUserControl_DeleteMidiMappingGroupRequested;
+            instrumentBarElement.DeletePatchRequested += InstrumentBarUserControl_DeletePatchRequested;
+            instrumentBarElement.HeightChanged += InstrumentBarUserControl_HeightChanged;
+            instrumentBarElement.MoveMidiMappingGroupBackwardRequested += InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested;
+            instrumentBarElement.MoveMidiMappingGroupForwardRequested += InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested;
+            instrumentBarElement.MovePatchBackwardRequested += InstrumentBarUserControl_MovePatchBackwardRequested;
+            instrumentBarElement.MovePatchForwardRequested += InstrumentBarUserControl_MovePatchForwardRequested;
+            instrumentBarElement.PlayRequested += InstrumentBarUserControl_PlayRequested;
+            instrumentBarElement.PlayPatchRequested += InstrumentBarUserControl_PlayPatchRequested;
+
             libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
             libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
             libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
@@ -153,108 +144,55 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForCurve.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_ForCurve.DeleteRequested += OperatorPropertiesUserControlBase_DeleteRequested;
 
-            operatorPropertiesUserControl_ForInletsToDimension.CloseRequested +=
-                operatorPropertiesUserControl_ForInletsToDimension_CloseRequested;
-
-            operatorPropertiesUserControl_ForInletsToDimension.ExpandRequested +=
-                operatorPropertiesUserControlBase_ExpandRequested;
+            operatorPropertiesUserControl_ForInletsToDimension.CloseRequested += operatorPropertiesUserControl_ForInletsToDimension_CloseRequested;
+            operatorPropertiesUserControl_ForInletsToDimension.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
 
             operatorPropertiesUserControl_ForInletsToDimension.LoseFocusRequested +=
                 operatorPropertiesUserControl_ForInletsToDimension_LoseFocusRequested;
 
-            operatorPropertiesUserControl_ForInletsToDimension.PlayRequested +=
-                operatorPropertiesUserControlBase_PlayRequested;
+            operatorPropertiesUserControl_ForInletsToDimension.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
+            operatorPropertiesUserControl_ForInletsToDimension.DeleteRequested += OperatorPropertiesUserControlBase_DeleteRequested;
 
-            operatorPropertiesUserControl_ForInletsToDimension.DeleteRequested +=
-                OperatorPropertiesUserControlBase_DeleteRequested;
-
-            operatorPropertiesUserControl_ForNumber.CloseRequested +=
-                operatorPropertiesUserControl_ForNumber_CloseRequested;
-
-            operatorPropertiesUserControl_ForNumber.ExpandRequested +=
-                operatorPropertiesUserControlBase_ExpandRequested;
-
-            operatorPropertiesUserControl_ForNumber.LoseFocusRequested +=
-                operatorPropertiesUserControl_ForNumber_LoseFocusRequested;
-
+            operatorPropertiesUserControl_ForNumber.CloseRequested += operatorPropertiesUserControl_ForNumber_CloseRequested;
+            operatorPropertiesUserControl_ForNumber.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
+            operatorPropertiesUserControl_ForNumber.LoseFocusRequested += operatorPropertiesUserControl_ForNumber_LoseFocusRequested;
             operatorPropertiesUserControl_ForNumber.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
+            operatorPropertiesUserControl_ForNumber.DeleteRequested += OperatorPropertiesUserControlBase_DeleteRequested;
 
-            operatorPropertiesUserControl_ForNumber.DeleteRequested +=
-                OperatorPropertiesUserControlBase_DeleteRequested;
+            operatorPropertiesUserControl_ForPatchInlet.CloseRequested += operatorPropertiesUserControl_ForPatchInlet_CloseRequested;
+            operatorPropertiesUserControl_ForPatchInlet.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
+            operatorPropertiesUserControl_ForPatchInlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested;
+            operatorPropertiesUserControl_ForPatchInlet.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
+            operatorPropertiesUserControl_ForPatchInlet.DeleteRequested += OperatorPropertiesUserControlBase_DeleteRequested;
 
-            operatorPropertiesUserControl_ForPatchInlet.CloseRequested +=
-                operatorPropertiesUserControl_ForPatchInlet_CloseRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.CloseRequested += operatorPropertiesUserControl_ForPatchOutlet_CloseRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.DeleteRequested += OperatorPropertiesUserControlBase_DeleteRequested;
 
-            operatorPropertiesUserControl_ForPatchInlet.ExpandRequested +=
-                operatorPropertiesUserControlBase_ExpandRequested;
-
-            operatorPropertiesUserControl_ForPatchInlet.LoseFocusRequested +=
-                operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested;
-
-            operatorPropertiesUserControl_ForPatchInlet.PlayRequested +=
-                operatorPropertiesUserControlBase_PlayRequested;
-
-            operatorPropertiesUserControl_ForPatchInlet.DeleteRequested +=
-                OperatorPropertiesUserControlBase_DeleteRequested;
-
-            operatorPropertiesUserControl_ForPatchOutlet.CloseRequested +=
-                operatorPropertiesUserControl_ForPatchOutlet_CloseRequested;
-
-            operatorPropertiesUserControl_ForPatchOutlet.ExpandRequested +=
-                operatorPropertiesUserControlBase_ExpandRequested;
-
-            operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested +=
-                operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
-
-            operatorPropertiesUserControl_ForPatchOutlet.PlayRequested +=
-                operatorPropertiesUserControlBase_PlayRequested;
-
-            operatorPropertiesUserControl_ForPatchOutlet.DeleteRequested +=
-                OperatorPropertiesUserControlBase_DeleteRequested;
-
-            operatorPropertiesUserControl_ForSample.CloseRequested +=
-                operatorPropertiesUserControl_ForSample_CloseRequested;
-
-            operatorPropertiesUserControl_ForSample.ExpandRequested +=
-                operatorPropertiesUserControlBase_ExpandRequested;
-
-            operatorPropertiesUserControl_ForSample.LoseFocusRequested +=
-                operatorPropertiesUserControl_ForSample_LoseFocusRequested;
-
+            operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
+            operatorPropertiesUserControl_ForSample.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
+            operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
             operatorPropertiesUserControl_ForSample.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
+            operatorPropertiesUserControl_ForSample.DeleteRequested += OperatorPropertiesUserControlBase_DeleteRequested;
 
-            operatorPropertiesUserControl_ForSample.DeleteRequested +=
-                OperatorPropertiesUserControlBase_DeleteRequested;
-
-            operatorPropertiesUserControl_WithInterpolation.CloseRequested +=
-                operatorPropertiesUserControl_WithInterpolation_CloseRequested;
-
-            operatorPropertiesUserControl_WithInterpolation.ExpandRequested +=
-                operatorPropertiesUserControlBase_ExpandRequested;
-
-            operatorPropertiesUserControl_WithInterpolation.LoseFocusRequested +=
-                operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested;
-
-            operatorPropertiesUserControl_WithInterpolation.PlayRequested +=
-                operatorPropertiesUserControlBase_PlayRequested;
-
-            operatorPropertiesUserControl_WithInterpolation.DeleteRequested +=
-                OperatorPropertiesUserControlBase_DeleteRequested;
+            operatorPropertiesUserControl_WithInterpolation.CloseRequested += operatorPropertiesUserControl_WithInterpolation_CloseRequested;
+            operatorPropertiesUserControl_WithInterpolation.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
+            operatorPropertiesUserControl_WithInterpolation.LoseFocusRequested += operatorPropertiesUserControl_WithInterpolation_LoseFocusRequested;
+            operatorPropertiesUserControl_WithInterpolation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
+            operatorPropertiesUserControl_WithInterpolation.DeleteRequested += OperatorPropertiesUserControlBase_DeleteRequested;
 
             operatorPropertiesUserControl_WithCollectionRecalculation.CloseRequested +=
                 operatorPropertiesUserControl_WithCollectionRecalculation_CloseRequested;
 
-            operatorPropertiesUserControl_WithCollectionRecalculation.ExpandRequested +=
-                operatorPropertiesUserControlBase_ExpandRequested;
+            operatorPropertiesUserControl_WithCollectionRecalculation.ExpandRequested += operatorPropertiesUserControlBase_ExpandRequested;
 
             operatorPropertiesUserControl_WithCollectionRecalculation.LoseFocusRequested +=
                 operatorPropertiesUserControl_WithCollectionRecalculation_LoseFocusRequested;
 
-            operatorPropertiesUserControl_WithCollectionRecalculation.PlayRequested +=
-                operatorPropertiesUserControlBase_PlayRequested;
-
-            operatorPropertiesUserControl_WithCollectionRecalculation.DeleteRequested +=
-                OperatorPropertiesUserControlBase_DeleteRequested;
+            operatorPropertiesUserControl_WithCollectionRecalculation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
+            operatorPropertiesUserControl_WithCollectionRecalculation.DeleteRequested += OperatorPropertiesUserControlBase_DeleteRequested;
 
             patchDetailsUserControl.AddToInstrumentRequested += patchDetailsUserControl_AddToInstrumentRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
@@ -289,26 +227,34 @@ namespace JJ.Presentation.Synthesizer.WinForms
             toneGridEditUserControl.LoseFocusRequested += toneGridEditUserControl_LoseFocusRequested;
             toneGridEditUserControl.PlayToneRequested += toneGridEditUserControl_PlayToneRequested;
 
+            topBarUserControl.TopBarElement.PictureButtonDocumentClose.MouseDown += PictureButtonDocumentClose_MouseDown;
+
+            topButtonBarElement.ButtonBarElement.AddToInstrumentClicked += DocumentTreeUserControl_AddToInstrumentRequested;
+            topButtonBarElement.ButtonBarElement.DeleteClicked += DocumentTreeUserControl_DeleteRequested;
+            topButtonBarElement.ButtonBarElement.BrowseClicked += DocumentTreeUserControl_DocumentGridShowRequested;
+            topButtonBarElement.ButtonBarElement.RenameClicked += DocumentTreeUserControl_DocumentPropertiesShowRequested;
+            topButtonBarElement.ButtonBarElement.TreeStructureClicked += DocumentTreeUserControl_DocumentTreeShowOrCloseRequested;
+            topButtonBarElement.ButtonBarElement.NewClicked += DocumentTreeUserControl_NewRequested;
+            topButtonBarElement.ButtonBarElement.ExpandClicked += DocumentTreeUserControl_OpenItemExternallyRequested;
+            topButtonBarElement.ButtonBarElement.PlayClicked += DocumentTreeUserControl_PlayRequested;
+            topButtonBarElement.ButtonBarElement.RedoClicked += DocumentTreeUserControl_RedoRequested;
+            topButtonBarElement.ButtonBarElement.RefreshClicked += DocumentTreeUserControl_RefreshRequested;
+            topButtonBarElement.ButtonBarElement.SaveClicked += DocumentTreeUserControl_SaveRequested;
+            topButtonBarElement.ButtonBarElement.UndoClicked += DocumentTreeUserControl_UndoRequested;
+
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
             _autoPatchPopupForm.CloseRequested += _autoPatchPopupForm_CloseRequested;
             _autoPatchPopupForm.SaveRequested += _autoPatchPopupForm_SaveRequested;
 
-            _autoPatchPopupForm.patchDetailsUserControl.MoveOperatorRequested +=
-                patchDetailsUserControl_MoveOperatorRequested;
-
-            _autoPatchPopupForm.patchDetailsUserControl.SelectOperatorRequested +=
-                patchDetailsUserControl_SelectOperatorRequested;
-
+            _autoPatchPopupForm.patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
+            _autoPatchPopupForm.patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
             _autoPatchPopupForm.patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
 
             _librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
             _librarySelectionPopupForm.CloseRequested += _librarySelectionPopupForm_CloseRequested;
             _librarySelectionPopupForm.OKRequested += _librarySelectionPopupForm_OKRequested;
-
-            _librarySelectionPopupForm.OpenItemExternallyRequested +=
-                _librarySelectionPopupForm_OpenItemExternallyRequested;
-
+            _librarySelectionPopupForm.OpenItemExternallyRequested += _librarySelectionPopupForm_OpenItemExternallyRequested;
             _librarySelectionPopupForm.PlayRequested += _librarySelectionPopupForm_PlayRequested;
 
             _infrastructureFacade.ExceptionOnMidiThreadOcurred += _infrastructureFacade_ExceptionOnMidiThreadOcurred;
@@ -527,7 +473,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioOutput);
 
-        private void DocumentTreeUserControl_CloseRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Close);
+        private void PictureButtonDocumentClose_MouseDown(object sender, MouseEventArgs e)
+            => TemplateActionHandler(_mainPresenter.DocumentTree_Close);
 
         private void DocumentTreeUserControl_DeleteRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Delete);
 
@@ -858,10 +805,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Menu
 
-        private void menuUserControl_ShowDocumentGridRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentGrid_Show);
-
-        private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Show);
-
         private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e)
             => TemplateActionHandler(
                 () =>
@@ -869,9 +812,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     ForceLoseFocus();
                     _mainPresenter.Document_Close();
                 });
-
-        private void MenuUserControl_ShowDocumentPropertiesRequested(object sender, EventArgs e)
-            => TemplateActionHandler(_mainPresenter.DocumentProperties_Show);
 
         private void MonitoringBarUserControl_HeightChanged(object sender, EventArgs e) => PositionControls();
 
