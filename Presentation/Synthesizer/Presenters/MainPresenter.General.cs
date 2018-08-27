@@ -61,7 +61,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly InstrumentBarPresenter _instrumentBarPresenter;
 		private readonly LibraryPropertiesPresenter _libraryPropertiesPresenter;
 		private readonly LibrarySelectionPopupPresenter _librarySelectionPopupPresenter;
-		private readonly MenuPresenter _menuPresenter;
 		private readonly MidiMappingGroupDetailsPresenter _midiMappingDetailsPresenter;
 		private readonly MidiMappingPropertiesPresenter _midiMappingPropertiesPresenter;
 		private readonly MonitoringBarPresenter _monitoringBarPresenter;
@@ -141,7 +140,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_documentTreePresenter = new DocumentTreePresenter(_documentFacade, _midiMappingFacade, _patchFacade, _scaleFacade, _repositories);
 			_libraryPropertiesPresenter = new LibraryPropertiesPresenter(_repositories);
 			_librarySelectionPopupPresenter = new LibrarySelectionPopupPresenter(_repositories);
-			_menuPresenter = new MenuPresenter();
 			_midiMappingDetailsPresenter = new MidiMappingGroupDetailsPresenter(midiMappingRepositories, _midiMappingFacade);
 			_midiMappingPropertiesPresenter = new MidiMappingPropertiesPresenter(midiMappingRepositories, _midiMappingFacade);
 			_monitoringBarPresenter = new MonitoringBarPresenter();

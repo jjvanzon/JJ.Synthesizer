@@ -19,7 +19,6 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 // ReSharper disable InvertIf
 // ReSharper disable RedundantCaseLabel
@@ -78,14 +77,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Partial Actions
 			string titleBar = _titleBarPresenter.Show();
-			MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
-			DocumentGridViewModel documentGridViewModel = MainViewModel.DocumentGrid;
+            DocumentGridViewModel documentGridViewModel = MainViewModel.DocumentGrid;
 			documentGridViewModel = _documentGridPresenter.Load(documentGridViewModel);
 			_monitoringBarPresenter.Load(MainViewModel.MonitoringBar);
 
 			// DispatchViewModel
 			MainViewModel.TitleBar = titleBar;
-			DispatchViewModel(menuViewModel);
 			DispatchViewModel(documentGridViewModel);
 			DispatchViewModel(MainViewModel.MonitoringBar);
 		}
@@ -670,7 +667,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _documentGridPresenter.Play(userInput, id));
 		}
 
-		public void DocumentGrid_Show()
+		public void TopButtonBar_ShowDocumentGrid()
 		{
 			DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
 
@@ -698,16 +695,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		{
 			// Partial Actions
 			string titleBar = _titleBarPresenter.Show();
-			MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
 			DocumentViewModel documentViewModel = ToViewModelHelper.CreateEmptyDocumentViewModel();
 
 			// DispatchViewModel
 			MainViewModel.TitleBar = titleBar;
-			MainViewModel.Menu = menuViewModel;
 			MainViewModel.Document = documentViewModel;
 
 			// Redirect
-			DocumentGrid_Show();
+			TopButtonBar_ShowDocumentGrid();
 		}
 
 		public void Document_Open(int id)
@@ -771,14 +766,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Partials
 			string titleBar = _titleBarPresenter.Show(document);
-			MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: true);
 			viewModel.InstrumentBar = _instrumentBarPresenter.OpenDocument(viewModel.InstrumentBar);
 			_monitoringBarPresenter.Load(MainViewModel.MonitoringBar);
 
 			// DispatchViewModel
 			MainViewModel.Document = viewModel;
 			MainViewModel.TitleBar = titleBar;
-			DispatchViewModel(menuViewModel);
 			DispatchViewModel(MainViewModel.MonitoringBar);
 
 			// Redirect
@@ -796,7 +789,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(userInput, () => _documentOrPatchNotFoundPresenter.OK(userInput));
 		}
 
-		public void DocumentProperties_Show()
+	    public void TopButtonBar_DocumentPropertiesShow() => DocumentProperties_Show();
+
+        public void DocumentProperties_Show()
 		{
 			DocumentPropertiesViewModel viewModel = MainViewModel.Document.DocumentProperties;
 
@@ -891,7 +886,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.WarningMessages = warningsResult.Messages;
 		}
 
-		public void DocumentTree_AddToInstrument()
+		public void TopButtonBar_AddToInstrument()
 		{
 			// Involves both DocumentTree and Instrument view,
 			// so cannot be handled by a single sub-presenter.
@@ -929,7 +924,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentTree_Create()
+		public void TopButtonBar_Create()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1134,9 +1129,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void DocumentTree_Close() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Close);
-
-	    public void DocumentTree_Delete()
+	    public void TopButtonBar_Delete()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -1264,14 +1257,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(viewModel, () => _documentTreePresenter.HoverPatch(viewModel, id));
 		}
 
-		public void DocumentTree_OpenItemExternally()
+		public void TopButtonBar_OpenItemExternally()
 		{
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 
 			ExecuteReadAction(userInput, () => _documentTreePresenter.OpenItemExternally(userInput));
 		}
 
-		public void DocumentTree_Play()
+		public void TopButtonBar_Play()
 		{
 			// GetViewModel
 			DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
@@ -1475,9 +1468,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 		public void DocumentTree_SelectPatchGroup(string friendlyPatchGroupName) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatchGroup(x, friendlyPatchGroupName));
 
-	    public void DocumentTree_Show() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.Show);
-
-	    public void DocumentTree_ShowOrClose() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.ShowOrClose);
+	    public void TopButtonBar_ShowOrCloseDocumentTree() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.ShowOrClose);
 
         public void DocumentTree_ShowAudioOutput() => AudioOutputProperties_Show();
 
@@ -1502,7 +1493,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				() =>
 				{
 					partialAction(viewModel);
-					TopButtonBar_Refresh();
+
+                    TopButtonBar_Refresh();
 				});
 		}
 

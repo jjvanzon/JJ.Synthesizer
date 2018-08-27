@@ -390,12 +390,6 @@
     <Compile Include="UserControls\Partials\TitleBarUserControl.Designer.cs">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Partials\MenuUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\Partials\MenuUserControl.Designer.cs">
-      <DependentUpon>MenuUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\DocumentGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -523,9 +517,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Partials\TitleBarUserControl.resx">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\MenuUserControl.resx">
-      <DependentUpon>MenuUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentGridUserControl.resx">
       <DependentUpon>DocumentGridUserControl.cs</DependentUpon>

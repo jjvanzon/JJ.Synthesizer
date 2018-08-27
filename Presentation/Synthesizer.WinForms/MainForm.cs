@@ -21,6 +21,7 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Framework.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Presentation.Synthesizer.Presenters;
+using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
@@ -46,19 +47,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 		private readonly DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
 		private readonly LibrarySelectionPopupForm _librarySelectionPopupForm = new LibrarySelectionPopupForm();
 
-		private readonly DelayedControlInvoker _infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker;
+	    private readonly InstrumentBarElement _instrumentBarElement;
+	    private readonly TopButtonBarElement _topButtonBarElement;
+
+        private readonly DelayedControlInvoker _infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker;
 		private readonly DelayedControlInvoker _infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker;
-		private readonly DelayedControlInvoker _infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker;
+		private readonly DelayedControlInvoker _infrastructureFacade_ExceptionOnMidiThreadOccurred_DelayedInvoker;
 		private readonly DelayedControlInvoker _infrastructureFacade_MidiControllerValueChanged_DelayedInvoker;
 
-		public MainForm()
+        public MainForm()
 		{
 			InitializeComponent();
 
 			_userControls = CreateUserControlsCollection();
 			_infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker = new DelayedControlInvoker(this);
 			_infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker = new DelayedControlInvoker(this);
-			_infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker = new DelayedControlInvoker(this);
+			_infrastructureFacade_ExceptionOnMidiThreadOccurred_DelayedInvoker = new DelayedControlInvoker(this);
 			_infrastructureFacade_MidiControllerValueChanged_DelayedInvoker = new DelayedControlInvoker(this);
 
 			_context = PersistenceHelper.CreateContext();
@@ -74,7 +78,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			curveDetailsListUserControl.SetCurveFacade(new CurveFacade(new CurveRepositories(_repositories)));
 
-		    topBarUserControl.Location = new System.Drawing.Point(0, 0);
+		    _instrumentBarElement = topBarUserControl.TopBarElement.InstrumentBarElement;
+		    _topButtonBarElement = topBarUserControl.TopBarElement.TopButtonBarElement;
+
+            topBarUserControl.Location = new System.Drawing.Point(0, 0);
 
             BindEvents();
 			ApplyStyling();
@@ -92,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 				components?.Dispose();
 				_infrastructureFacade_MidiDimensionValuesChanged_DelayedInvoker?.Dispose();
 				_infrastructureFacade_MidiNoteOnOccurred_DelayedInvoker?.Dispose();
-				_infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker?.Dispose();
+				_infrastructureFacade_ExceptionOnMidiThreadOccurred_DelayedInvoker?.Dispose();
 				_infrastructureFacade_MidiControllerValueChanged_DelayedInvoker?.Dispose();
 				_infrastructureFacade?.Dispose();
 				_context?.Dispose();

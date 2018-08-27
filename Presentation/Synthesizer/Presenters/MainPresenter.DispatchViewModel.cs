@@ -6,7 +6,6 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -34,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
 				{ typeof(LibraryPropertiesViewModel), DispatchLibraryPropertiesViewModel },
 				{ typeof(LibrarySelectionPopupViewModel), DispatchLibrarySelectionPopupViewModel },
-				{ typeof(MenuViewModel), DispatchMenuViewModel },
 				{ typeof(MidiMappingGroupDetailsViewModel), DispatchMidiMappingGroupDetailsViewModel },
 				{ typeof(MidiMappingPropertiesViewModel), DispatchMidiMappingPropertiesViewModel },
 				{ typeof(MonitoringBarViewModel), DispatchMonitoringBarViewModel },
@@ -348,14 +346,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				MainViewModel.Document.DocumentToOpenExternally = castedViewModel.DocumentToOpenExternally;
 				castedViewModel.DocumentToOpenExternally = null;
 			}
-
-			DispatchViewModelBase(castedViewModel);
-		}
-
-		private void DispatchMenuViewModel(ScreenViewModelBase viewModel)
-		{
-			var castedViewModel = (MenuViewModel)viewModel;
-			MainViewModel.Menu = castedViewModel;
 
 			DispatchViewModelBase(castedViewModel);
 		}

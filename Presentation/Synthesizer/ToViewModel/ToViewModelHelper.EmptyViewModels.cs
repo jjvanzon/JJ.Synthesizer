@@ -237,7 +237,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static MainViewModel CreateEmptyMainViewModel()
             => new MainViewModel
             {
-                Menu = CreateEmptyMenuViewModel(),
                 MonitoringBar = CreateEmptyMonitoringBarViewModel(),
                 ValidationMessages = new List<string>(),
                 WarningMessages = new List<string>(),
@@ -251,12 +250,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentOrPatchNotFound = CreateEmptyDocumentOrPatchNotFoundPopupViewModel(),
                 Successful = true
             };
-
-        public static MenuViewModel CreateEmptyMenuViewModel()
-        {
-            MenuViewModel viewModel = CreateMenuViewModel(false);
-            return viewModel;
-        }
 
         public static MonitoringBarViewModel CreateEmptyMonitoringBarViewModel()
         {

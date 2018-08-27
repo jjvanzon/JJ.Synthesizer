@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-using JJ.Framework.Common;
+﻿using System.Linq;
 using JJ.Framework.Resources;
 using JJ.Framework.VectorGraphics.Helpers;
 using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
-using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
@@ -13,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
     {
         public TopButtonBarElement TopButtonBarElement { get; }
         public InstrumentBarElement InstrumentBarElement { get; }
-        public PictureButtonElement PictureButtonDocumentClose { get; }
+        public PictureButtonElement DocumentClosePictureButton { get; }
 
         public TopBarElement(Element parent, UnderlyingPictureWrapper underlyingPictureWrapper, ITextMeasurer textMeasurer)
             : base(parent)
@@ -27,23 +24,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
             TopButtonBarElement = new TopButtonBarElement(this, toolTipElement, underlyingPictureWrapper);
             InstrumentBarElement = new InstrumentBarElement(this, underlyingPictureWrapper, textMeasurer);
-            PictureButtonDocumentClose = new PictureButtonElement(this, underlyingPictureWrapper.PictureClose, CommonResourceFormatter.Close, toolTipElement);
+            DocumentClosePictureButton = new PictureButtonElement(this, underlyingPictureWrapper.PictureClose, CommonResourceFormatter.Close, toolTipElement);
         }
 
         public void PositionElements()
         {
             TopButtonBarElement.PositionElements();
 
-            PictureButtonDocumentClose.Position.Right = Position.Width - StyleHelper.SPACING_SMALL;
+            DocumentClosePictureButton.Position.Right = Position.Width - StyleHelper.SPACING_SMALL;
 
-            InstrumentBarElement.Position.Width = PictureButtonDocumentClose.Position.X -
+            InstrumentBarElement.Position.Width = DocumentClosePictureButton.Position.X -
                                                    TopButtonBarElement.MaxWidth -
                                                    StyleHelper.SPACING_SMALL_TIMES_2;
 
             InstrumentBarElement.Position.X = TopButtonBarElement.MaxWidth + StyleHelper.SPACING_SMALL;
             InstrumentBarElement.PositionElements();
 
-            Position.Height = new[] { InstrumentBarElement.Position.Height, PictureButtonDocumentClose.Position.Height, TopButtonBarElement.Position.Height }.Max();
+            Position.Height = new[] { InstrumentBarElement.Position.Height, DocumentClosePictureButton.Position.Height, TopButtonBarElement.Position.Height }.Max();
         }
     }
 }

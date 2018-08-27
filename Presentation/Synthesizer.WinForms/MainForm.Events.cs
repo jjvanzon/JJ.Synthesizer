@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Framework.WinForms.Helpers;
-using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using MouseEventArgs = JJ.Framework.VectorGraphics.EventArg.MouseEventArgs;
@@ -15,9 +14,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
     {
         private void BindEvents()
         {
-            InstrumentBarElement instrumentBarElement = topBarUserControl.TopBarElement.InstrumentBarElement;
-            TopButtonBarElement topButtonBarElement = topBarUserControl.TopBarElement.TopButtonBarElement;
-
             FormClosing += MainForm_FormClosing;
 
             audioFileOutputGridUserControl.CloseRequested += AudioFileOutputGridUserControl_CloseRequested;
@@ -73,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.LibraryScalesNodeSelected += DocumentTreeUserControl_LibraryScalesNodeSelected;
             documentTreeUserControl.MidiNodeSelected += DocumentTreeUserControl_MidiNodeSelected;
             documentTreeUserControl.MidiMappingGroupNodeSelected += DocumentTreeUserControl_MidiMappingGroupNodeSelected;
-            documentTreeUserControl.NewRequested += DocumentTreeUserControl_NewRequested;
+            documentTreeUserControl.NewRequested += TopButtonBarElement_NewClicked;
             documentTreeUserControl.PatchGroupNodeSelected += DocumentTreeUserControl_PatchGroupNodeSelected;
             documentTreeUserControl.PatchHovered += DocumentTreeUserControl_PatchHovered;
             documentTreeUserControl.PatchNodeSelected += DocumentTreeUserControl_PatchNodeSelected;
@@ -86,31 +82,31 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowPatchRequested += DocumentTreeUserControl_ShowPatchRequested;
             documentTreeUserControl.ShowScaleRequested += DocumentTreeUserControl_ShowScaleRequested;
 
-            instrumentBarElement.ExpandRequested += InstrumentBarUserControl_ExpandRequested;
-            instrumentBarElement.ExpandMidiMappingGroupRequested += InstrumentBarUserControl_ExpandMidiMappingGroupRequested;
-            instrumentBarElement.ExpandPatchRequested += InstrumentBarUserControl_ExpandPatchRequested;
-            instrumentBarElement.DeleteMidiMappingGroupRequested += InstrumentBarUserControl_DeleteMidiMappingGroupRequested;
-            instrumentBarElement.DeletePatchRequested += InstrumentBarUserControl_DeletePatchRequested;
-            instrumentBarElement.HeightChanged += InstrumentBarUserControl_HeightChanged;
-            instrumentBarElement.MoveMidiMappingGroupBackwardRequested += InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested;
-            instrumentBarElement.MoveMidiMappingGroupForwardRequested += InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested;
-            instrumentBarElement.MovePatchBackwardRequested += InstrumentBarUserControl_MovePatchBackwardRequested;
-            instrumentBarElement.MovePatchForwardRequested += InstrumentBarUserControl_MovePatchForwardRequested;
-            instrumentBarElement.PlayRequested += InstrumentBarUserControl_PlayRequested;
-            instrumentBarElement.PlayPatchRequested += InstrumentBarUserControl_PlayPatchRequested;
+            _instrumentBarElement.ExpandRequested += InstrumentBarElement_ExpandRequested;
+            _instrumentBarElement.ExpandMidiMappingGroupRequested += InstrumentBarElement_ExpandMidiMappingGroupRequested;
+            _instrumentBarElement.ExpandPatchRequested += InstrumentBarElement_ExpandPatchRequested;
+            _instrumentBarElement.DeleteMidiMappingGroupRequested += InstrumentBarElement_DeleteMidiMappingGroupRequested;
+            _instrumentBarElement.DeletePatchRequested += InstrumentBarElement_DeletePatchRequested;
+            _instrumentBarElement.HeightChanged += InstrumentBarElement_HeightChanged;
+            _instrumentBarElement.MoveMidiMappingGroupBackwardRequested += InstrumentBarElement_MoveMidiMappingGroupBackwardRequested;
+            _instrumentBarElement.MoveMidiMappingGroupForwardRequested += InstrumentBarElement_MoveMidiMappingGroupForwardRequested;
+            _instrumentBarElement.MovePatchBackwardRequested += InstrumentBarElement_MovePatchBackwardRequested;
+            _instrumentBarElement.MovePatchForwardRequested += InstrumentBarElement_MovePatchForwardRequested;
+            _instrumentBarElement.PlayRequested += InstrumentBarElement_PlayRequested;
+            _instrumentBarElement.PlayPatchRequested += InstrumentBarElement_PlayPatchRequested;
 
-            libraryPropertiesUserControl.CloseRequested += libraryPropertiesUserControl_CloseRequested;
-            libraryPropertiesUserControl.LoseFocusRequested += libraryPropertiesUserControl_LoseFocusRequested;
-            libraryPropertiesUserControl.PlayRequested += libraryPropertiesUserControl_PlayRequested;
-            libraryPropertiesUserControl.ExpandRequested += libraryPropertiesUserControl_ExpandRequested;
+            libraryPropertiesUserControl.CloseRequested += LibraryPropertiesUserControl_CloseRequested;
+            libraryPropertiesUserControl.LoseFocusRequested += LibraryPropertiesUserControl_LoseFocusRequested;
+            libraryPropertiesUserControl.PlayRequested += LibraryPropertiesUserControl_PlayRequested;
+            libraryPropertiesUserControl.ExpandRequested += LibraryPropertiesUserControl_ExpandRequested;
             libraryPropertiesUserControl.DeleteRequested += LibraryPropertiesUserControl_DeleteRequested;
 
             midiMappingDetailsUserControl.AddToInstrumentRequested += MidiMappingGroupDetailsUserControl_AddToInstrumentRequested;
-            midiMappingDetailsUserControl.CloseRequested += midiMappingGroupDetailsUserControl_CloseRequested;
-            midiMappingDetailsUserControl.DeleteRequested += midiMappingGroupDetailsUserControl_DeleteRequested;
+            midiMappingDetailsUserControl.CloseRequested += MidiMappingGroupDetailsUserControl_CloseRequested;
+            midiMappingDetailsUserControl.DeleteRequested += MidiMappingGroupDetailsUserControl_DeleteRequested;
             midiMappingDetailsUserControl.ExpandMidiMappingRequested += MidiMappingGroupDetailsUserControl_ExpandMidiMappingRequested;
             midiMappingDetailsUserControl.MoveMidiMappingRequested += MidiMappingGroupDetailsUserControl_MoveMidiMappingRequested;
-            midiMappingDetailsUserControl.NewRequested += midiMappingGroupDetailsUserControl_NewRequested;
+            midiMappingDetailsUserControl.NewRequested += MidiMappingGroupDetailsUserControl_NewRequested;
             midiMappingDetailsUserControl.SelectMidiMappingRequested += MidiMappingGroupDetailsUserControl_SelectMidiMappingRequested;
 
             midiMappingPropertiesUserControl.MidiMappingTypeChanged += MidiMappingPropertiesUserControl_MidiMappingTypeChanged;
@@ -194,17 +190,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_WithCollectionRecalculation.PlayRequested += operatorPropertiesUserControlBase_PlayRequested;
             operatorPropertiesUserControl_WithCollectionRecalculation.DeleteRequested += OperatorPropertiesUserControlBase_DeleteRequested;
 
-            patchDetailsUserControl.AddToInstrumentRequested += patchDetailsUserControl_AddToInstrumentRequested;
-            patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
-            patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
+            patchDetailsUserControl.AddToInstrumentRequested += PatchDetailsUserControl_AddToInstrumentRequested;
+            patchDetailsUserControl.ChangeInputOutletRequested += PatchDetailsUserControl_ChangeInputOutletRequested;
+            patchDetailsUserControl.CloseRequested += PatchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.DeleteRequested += PatchDetailsUserControl_DeleteRequested;
-            patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
-            patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
-            patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
-            patchDetailsUserControl.ExpandOperatorRequested += patchDetailsUserControl_ExpandOperatorRequested;
-            patchDetailsUserControl.ExpandPatchRequested += patchDetailsUserControl_ExpandPatchRequested;
-            patchDetailsUserControl.ExpandRequested += patchDetailsUserControl_ExpandRequested;
-            patchDetailsUserControl.SelectPatchRequested += patchDetailsUserControl_SelectPatchRequested;
+            patchDetailsUserControl.MoveOperatorRequested += PatchDetailsUserControl_MoveOperatorRequested;
+            patchDetailsUserControl.PlayRequested += PatchDetailsUserControl_PlayRequested;
+            patchDetailsUserControl.SelectOperatorRequested += PatchDetailsUserControl_SelectOperatorRequested;
+            patchDetailsUserControl.ExpandOperatorRequested += PatchDetailsUserControl_ExpandOperatorRequested;
+            patchDetailsUserControl.ExpandPatchRequested += PatchDetailsUserControl_ExpandPatchRequested;
+            patchDetailsUserControl.ExpandRequested += PatchDetailsUserControl_ExpandRequested;
+            patchDetailsUserControl.SelectPatchRequested += PatchDetailsUserControl_SelectPatchRequested;
 
             patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
@@ -215,9 +211,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchPropertiesUserControl.DeleteRequested += PatchPropertiesUserControl_DeleteRequested;
 
             scalePropertiesUserControl.AddToInstrumentRequested += ScalePropertiesUserControl_AddToInstrumentRequested;
-            scalePropertiesUserControl.CloseRequested += scalePropertiesUserControl_CloseRequested;
+            scalePropertiesUserControl.CloseRequested += ScalePropertiesUserControl_CloseRequested;
             scalePropertiesUserControl.DeleteRequested += ScalePropertiesUserControl_DeleteRequested;
-            scalePropertiesUserControl.LoseFocusRequested += scalePropertiesUserControl_LoseFocusRequested;
+            scalePropertiesUserControl.LoseFocusRequested += ScalePropertiesUserControl_LoseFocusRequested;
 
             toneGridEditUserControl.SetInstrumentScaleRequested += ToneGridEditUserControl_SetInstrumentScaleRequested;
             toneGridEditUserControl.CloseRequested += toneGridEditUserControl_CloseRequested;
@@ -227,29 +223,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
             toneGridEditUserControl.LoseFocusRequested += toneGridEditUserControl_LoseFocusRequested;
             toneGridEditUserControl.PlayToneRequested += toneGridEditUserControl_PlayToneRequested;
 
-            topBarUserControl.TopBarElement.PictureButtonDocumentClose.MouseDown += PictureButtonDocumentClose_MouseDown;
+            topBarUserControl.TopBarElement.DocumentClosePictureButton.MouseDown += DocumentClosePictureButton_MouseDown;
 
-            topButtonBarElement.ButtonBarElement.AddToInstrumentClicked += DocumentTreeUserControl_AddToInstrumentRequested;
-            topButtonBarElement.ButtonBarElement.DeleteClicked += DocumentTreeUserControl_DeleteRequested;
-            topButtonBarElement.ButtonBarElement.BrowseClicked += DocumentTreeUserControl_DocumentGridShowRequested;
-            topButtonBarElement.ButtonBarElement.RenameClicked += DocumentTreeUserControl_DocumentPropertiesShowRequested;
-            topButtonBarElement.ButtonBarElement.TreeStructureClicked += DocumentTreeUserControl_DocumentTreeShowOrCloseRequested;
-            topButtonBarElement.ButtonBarElement.NewClicked += DocumentTreeUserControl_NewRequested;
-            topButtonBarElement.ButtonBarElement.ExpandClicked += DocumentTreeUserControl_OpenItemExternallyRequested;
-            topButtonBarElement.ButtonBarElement.PlayClicked += DocumentTreeUserControl_PlayRequested;
-            topButtonBarElement.ButtonBarElement.RedoClicked += DocumentTreeUserControl_RedoRequested;
-            topButtonBarElement.ButtonBarElement.RefreshClicked += DocumentTreeUserControl_RefreshRequested;
-            topButtonBarElement.ButtonBarElement.SaveClicked += DocumentTreeUserControl_SaveRequested;
-            topButtonBarElement.ButtonBarElement.UndoClicked += DocumentTreeUserControl_UndoRequested;
+            _topButtonBarElement.ButtonBarElement.AddToInstrumentClicked += TopButtonBarElement_AddToInstrumentClicked;
+            _topButtonBarElement.ButtonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
+            _topButtonBarElement.ButtonBarElement.BrowseClicked += TopButtonBarElement_BrowseClicked;
+            _topButtonBarElement.ButtonBarElement.RenameClicked += TopButtonBarElement_RenameClicked;
+            _topButtonBarElement.ButtonBarElement.TreeStructureClicked += TopButtonBarElement_TreeStructureClicked;
+            _topButtonBarElement.ButtonBarElement.NewClicked += TopButtonBarElement_NewClicked;
+            _topButtonBarElement.ButtonBarElement.ExpandClicked += TopButtonBarElement_ExpandClicked;
+            _topButtonBarElement.ButtonBarElement.PlayClicked += TopButtonBarElement_PlayClicked;
+            _topButtonBarElement.ButtonBarElement.RedoClicked += TopButtonBarElement_RedoClicked;
+            _topButtonBarElement.ButtonBarElement.RefreshClicked += TopButtonBarElement_RefreshClicked;
+            _topButtonBarElement.ButtonBarElement.SaveClicked += TopButtonBarElement_SaveClicked;
+            _topButtonBarElement.ButtonBarElement.UndoClicked += TopButtonBarElement_UndoClicked;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
             _autoPatchPopupForm.CloseRequested += _autoPatchPopupForm_CloseRequested;
             _autoPatchPopupForm.SaveRequested += _autoPatchPopupForm_SaveRequested;
 
-            _autoPatchPopupForm.patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
-            _autoPatchPopupForm.patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
-            _autoPatchPopupForm.patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
+            _autoPatchPopupForm.patchDetailsUserControl.MoveOperatorRequested += PatchDetailsUserControl_MoveOperatorRequested;
+            _autoPatchPopupForm.patchDetailsUserControl.SelectOperatorRequested += PatchDetailsUserControl_SelectOperatorRequested;
+            _autoPatchPopupForm.patchDetailsUserControl.PlayRequested += PatchDetailsUserControl_PlayRequested;
 
             _librarySelectionPopupForm.CancelRequested += _librarySelectionPopupForm_CancelRequested;
             _librarySelectionPopupForm.CloseRequested += _librarySelectionPopupForm_CloseRequested;
@@ -422,6 +418,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void CurveDetailsListUserControl_ExpandNodeRequested(object sender, NodeEventArgs e)
             => TemplateActionHandler(() => _mainPresenter.CurveDetails_ExpandNode(e.CurveID, e.NodeID));
 
+        // DocumentClosePictureButton
+
+        private void DocumentClosePictureButton_MouseDown(object sender, MouseEventArgs e)
+            => TemplateActionHandler(
+                () =>
+                {
+                    ForceLoseFocus();
+                    _mainPresenter.Document_Close();
+                });
+
+        // Document Details
+
+        private void DocumentDetailsUserControl_SaveRequested(object sender, EventArgs e)
+            => TemplateActionHandler(_mainPresenter.DocumentDetails_Save);
+
+        private void DocumentDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
+            => TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
+
+        private void DocumentDetailsUserControl_CloseRequested(object sender, EventArgs e)
+            => TemplateActionHandler(_mainPresenter.DocumentDetails_Close);
+
         // Document Grid
 
         private void DocumentGridUserControl_AddRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Document_Create);
@@ -445,47 +462,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     SetAudioOutputIfNeeded();
                 });
 
-        // Document Details
-
-        private void DocumentDetailsUserControl_SaveRequested(object sender, EventArgs e)
-            => TemplateActionHandler(_mainPresenter.DocumentDetails_Save);
-
-        private void DocumentDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
-            => TemplateActionHandler(() => _mainPresenter.DocumentDelete_Show(e.Value));
-
-        private void DocumentDetailsUserControl_CloseRequested(object sender, EventArgs e)
-            => TemplateActionHandler(_mainPresenter.DocumentDetails_Close);
-
         // Document Tree
-
-        private void DocumentTreeUserControl_AddToInstrumentRequested(object sender, EventArgs e)
-            => TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.DocumentTree_AddToInstrument();
-                    RecreatePatchCalculatorIfSuccessful();
-                    UpdateInfrastructureIfSuccessful();
-                });
 
         private void DocumentTreeUserControl_AudioFileOutputsNodeSelected(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioFileOutputs);
 
         private void DocumentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioOutput);
-
-        private void PictureButtonDocumentClose_MouseDown(object sender, MouseEventArgs e)
-            => TemplateActionHandler(_mainPresenter.DocumentTree_Close);
-
-        private void DocumentTreeUserControl_DeleteRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Delete);
-
-        private void DocumentTreeUserControl_DocumentTreeShowOrCloseRequested(object sender, EventArgs e)
-            => TemplateActionHandler(_mainPresenter.DocumentTree_ShowOrClose);
-
-        private void DocumentTreeUserControl_DocumentGridShowRequested(object sender, EventArgs e)
-            => TemplateActionHandler(_mainPresenter.DocumentGrid_Show);
-
-        private void DocumentTreeUserControl_DocumentPropertiesShowRequested(object sender, EventArgs e)
-            => TemplateActionHandler(_mainPresenter.DocumentProperties_Show);
 
         private void DocumentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.DocumentTree_SelectLibraries);
@@ -518,11 +501,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentTreeUserControl_MidiMappingGroupNodeSelected(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectMidiMappingGroup(e.Value));
 
-        private void DocumentTreeUserControl_NewRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Create);
-
-        private void DocumentTreeUserControl_OpenItemExternallyRequested(object sender, EventArgs e)
-            => TemplateActionHandler(_mainPresenter.DocumentTree_OpenItemExternally);
-
         private void DocumentTreeUserControl_PatchGroupNodeSelected(object sender, EventArgs<string> e)
             => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatchGroup(e.Value));
 
@@ -532,26 +510,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentTreeUserControl_PatchNodeSelected(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectPatch(e.Value));
 
-        private void DocumentTreeUserControl_PlayRequested(object sender, EventArgs e)
-            => TemplateActionHandler(() => _mainPresenter.DocumentTree_Play());
-
-        private void DocumentTreeUserControl_RefreshRequested(object sender, EventArgs e)
-            => TemplateActionHandler(
-                () =>
-                {
-                    _mainPresenter.Document_Refresh();
-                    RecreatePatchCalculatorIfSuccessful();
-                });
-
-        private void DocumentTreeUserControl_RedoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Redo);
-
         private void DocumentTreeUserControl_ScalesNodeSelected(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.DocumentTree_SelectScales);
 
         private void DocumentTreeUserControl_ScaleNodeSelected(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.DocumentTree_SelectScale(e.Value));
-
-        private void DocumentTreeUserControl_SaveRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Document_Save);
 
         private void DocumentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.AudioFileOutputGrid_Show);
@@ -570,8 +533,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentTreeUserControl_ShowScaleRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.DocumentTree_ShowScale(e.Value));
-
-        private void DocumentTreeUserControl_UndoRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Undo);
 
         // Document Properties
 
@@ -603,7 +564,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                         e.Value.midiChannel)));
 
         private void _infrastructureFacade_ExceptionOnMidiThreadOcurred(object sender, EventArgs<Exception> e)
-            => _infrastructureFacade_ExceptionOnMidiThreadOcurred_DelayedInvoker.InvokeWithDelay(
+            => _infrastructureFacade_ExceptionOnMidiThreadOccurred_DelayedInvoker.InvokeWithDelay(
                 () => UnhandledExceptionMessageBoxShower.ShowMessageBox(e.Value));
 
         private void _infrastructureFacade_MidiControllerValueChanged(
@@ -629,16 +590,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void InstrumentBarUserControl_ExpandRequested(object sender, EventArgs e)
+        private void InstrumentBarElement_ExpandRequested(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.InstrumentBar_Expand);
 
-        private void InstrumentBarUserControl_ExpandMidiMappingGroupRequested(object sender, EventArgs<int> e)
+        private void InstrumentBarElement_ExpandMidiMappingGroupRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandMidiMappingGroup(e.Value));
 
-        private void InstrumentBarUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
+        private void InstrumentBarElement_ExpandPatchRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.InstrumentBar_ExpandPatch(e.Value));
 
-        private void InstrumentBarUserControl_MoveMidiMappingGroupBackwardRequested(object sender, EventArgs<int> e)
+        private void InstrumentBarElement_MoveMidiMappingGroupBackwardRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -646,7 +607,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void InstrumentBarUserControl_MoveMidiMappingGroupForwardRequested(object sender, EventArgs<int> e)
+        private void InstrumentBarElement_MoveMidiMappingGroupForwardRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -654,7 +615,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void InstrumentBarUserControl_MovePatchBackwardRequested(object sender, EventArgs<int> e)
+        private void InstrumentBarElement_MovePatchBackwardRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -662,7 +623,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void InstrumentBarUserControl_MovePatchForwardRequested(object sender, EventArgs<int> e)
+        private void InstrumentBarElement_MovePatchForwardRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -670,12 +631,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void InstrumentBarUserControl_PlayRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.InstrumentBar_Play);
+        private void InstrumentBarElement_PlayRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.InstrumentBar_Play);
 
-        private void InstrumentBarUserControl_PlayPatchRequested(object sender, EventArgs<int> e)
+        private void InstrumentBarElement_PlayPatchRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.InstrumentBar_PlayPatch(e.Value));
 
-        private void InstrumentBarUserControl_DeleteMidiMappingGroupRequested(object sender, EventArgs<int> e)
+        private void InstrumentBarElement_DeleteMidiMappingGroupRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -683,7 +644,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void InstrumentBarUserControl_DeletePatchRequested(object sender, EventArgs<int> e)
+        private void InstrumentBarElement_DeletePatchRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -691,20 +652,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void InstrumentBarUserControl_HeightChanged(object sender, EventArgs e) => PositionControls();
+        private void InstrumentBarElement_HeightChanged(object sender, EventArgs e) => PositionControls();
 
         // Library
 
-        private void libraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+        private void LibraryPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.LibraryProperties_Close(e.Value));
 
-        private void libraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void LibraryPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.LibraryProperties_LoseFocus(e.Value));
 
-        private void libraryPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
+        private void LibraryPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.LibraryProperties_Play(e.Value));
 
-        private void libraryPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
+        private void LibraryPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.LibraryProperties_OpenExternally(e.Value));
 
         private void LibraryPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
@@ -735,7 +696,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void midiMappingGroupDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
+        private void MidiMappingGroupDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.MidiMappingGroupDetails_Close(e.Value));
 
         private void MidiMappingGroupDetailsUserControl_MoveMidiMappingRequested(
@@ -748,7 +709,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     e.Value.x,
                     e.Value.y));
 
-        private void midiMappingGroupDetailsUserControl_NewRequested(object sender, EventArgs<int> e)
+        private void MidiMappingGroupDetailsUserControl_NewRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -762,7 +723,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             => TemplateActionHandler(
                 () => _mainPresenter.MidiMapping_Select(e.Value.midiMappingGroupID, e.Value.midiMappingID));
 
-        private void midiMappingGroupDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
+        private void MidiMappingGroupDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -803,15 +764,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        // Menu
-
-        private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e)
-            => TemplateActionHandler(
-                () =>
-                {
-                    ForceLoseFocus();
-                    _mainPresenter.Document_Close();
-                });
+        // MonitoringBar
 
         private void MonitoringBarUserControl_HeightChanged(object sender, EventArgs e) => PositionControls();
 
@@ -1028,7 +981,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Patch
 
-        private void patchDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
+        private void PatchDetailsUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1036,7 +989,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
+        private void PatchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1044,7 +997,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
+        private void PatchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchDetails_Close(e.Value));
 
         private void PatchDetailsUserControl_DeleteRequested(object sender, EventArgs<int> e)
@@ -1055,27 +1008,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
+        private void PatchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
             => TemplateActionHandler(() => _mainPresenter.Operator_Move(e.PatchID, e.OperatorID, e.X, e.Y));
 
-        private void patchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e)
+        private void PatchDetailsUserControl_PlayRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchDetails_Play(e.Value));
 
-        private void patchDetailsUserControl_SelectOperatorRequested(object sender, PatchAndOperatorEventArgs e)
+        private void PatchDetailsUserControl_SelectOperatorRequested(object sender, PatchAndOperatorEventArgs e)
             => TemplateActionHandler(() => _mainPresenter.Operator_Select(e.PatchID, e.OperatorID));
 
-        private void patchDetailsUserControl_ExpandOperatorRequested(object sender, EventArgs<int> e)
+        private void PatchDetailsUserControl_ExpandOperatorRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.Operator_Expand(e.Value));
 
         /// <summary> This is for the background double click. </summary>
-        private void patchDetailsUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
+        private void PatchDetailsUserControl_ExpandPatchRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchDetails_Expand(e.Value));
 
         /// <summary> This is for the tool bar button click. </summary>
-        private void patchDetailsUserControl_ExpandRequested(object sender, EventArgs<int> e)
+        private void PatchDetailsUserControl_ExpandRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchDetails_Expand(e.Value));
 
-        private void patchDetailsUserControl_SelectPatchRequested(object sender, EventArgs<int> e)
+        private void PatchDetailsUserControl_SelectPatchRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchDetails_Select(e.Value));
 
         private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
@@ -1154,6 +1107,52 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void toneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e)
             => TemplateActionHandler(() => _mainPresenter.Tone_Play(e.ScaleID, e.ToneID));
 
+
+        // TopButtonBar
+
+        private void TopButtonBarElement_AddToInstrumentClicked(object sender, EventArgs e)
+            => TemplateActionHandler(
+                () =>
+                {
+                    _mainPresenter.TopButtonBar_AddToInstrument();
+                    RecreatePatchCalculatorIfSuccessful();
+                    UpdateInfrastructureIfSuccessful();
+                });
+
+        private void TopButtonBarElement_DeleteClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Delete);
+
+        private void TopButtonBarElement_TreeStructureClicked(object sender, EventArgs e)
+            => TemplateActionHandler(_mainPresenter.TopButtonBar_ShowOrCloseDocumentTree);
+
+        private void TopButtonBarElement_BrowseClicked(object sender, EventArgs e)
+            => TemplateActionHandler(_mainPresenter.TopButtonBar_ShowDocumentGrid);
+
+        private void TopButtonBarElement_RenameClicked(object sender, EventArgs e)
+            => TemplateActionHandler(_mainPresenter.TopButtonBar_DocumentPropertiesShow);
+
+        private void TopButtonBarElement_NewClicked(object sender, EventArgs e) 
+            => TemplateActionHandler(_mainPresenter.TopButtonBar_Create);
+
+        private void TopButtonBarElement_ExpandClicked(object sender, EventArgs e)
+            => TemplateActionHandler(_mainPresenter.TopButtonBar_OpenItemExternally);
+
+        private void TopButtonBarElement_PlayClicked(object sender, EventArgs e)
+            => TemplateActionHandler(() => _mainPresenter.TopButtonBar_Play());
+
+        private void TopButtonBarElement_RefreshClicked(object sender, EventArgs e)
+            => TemplateActionHandler(
+                () =>
+                {
+                    _mainPresenter.Document_Refresh();
+                    RecreatePatchCalculatorIfSuccessful();
+                });
+
+        private void TopButtonBarElement_RedoClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Redo);
+
+        private void TopButtonBarElement_SaveClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Document_Save);
+
+        private void TopButtonBarElement_UndoClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Undo);
+
         // Scale
 
         private void ScalePropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
@@ -1164,7 +1163,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+        private void ScalePropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1172,7 +1171,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void scalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void ScalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {

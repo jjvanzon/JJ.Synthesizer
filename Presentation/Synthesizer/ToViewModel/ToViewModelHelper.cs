@@ -10,7 +10,6 @@ using JJ.Framework.Exceptions.Basic;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Items;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -73,23 +72,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			var viewModel = new DocumentDeletedViewModel
 			{
 				ValidationMessages = new List<string>()
-			};
-
-			return viewModel;
-		}
-
-		// Menu
-
-		public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
-		{
-			var viewModel = new MenuViewModel
-			{
-				DocumentList = new MenuItemViewModel { Visible = true },
-				DocumentTree = new MenuItemViewModel { Visible = documentIsOpen },
-				DocumentClose = new MenuItemViewModel { Visible = documentIsOpen },
-				DocumentProperties = new MenuItemViewModel { Visible = documentIsOpen },
-				ValidationMessages = new List<string>(),
-				Successful = true
 			};
 
 			return viewModel;
