@@ -972,5 +972,5 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 				FrequencyVisible = entity.GetScaleTypeEnum() != ScaleTypeEnum.LiteralFrequency,
 				ValidationMessages = new List<string>()
 			};
-	}
+    }
 }

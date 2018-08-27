@@ -1502,14 +1502,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				() =>
 				{
 					partialAction(viewModel);
-					SetCanCreate(viewModel);
+					TopButtonBar_Refresh();
 				});
-		}
-
-		private void SetCanCreate(DocumentTreeViewModel viewModel)
-		{
-			bool patchDetailsVisible = MainViewModel.Document.VisiblePatchDetails != null;
-			viewModel.CanCreate = ToViewModelHelper.GetCanCreate(viewModel.SelectedNodeType, patchDetailsVisible);
 		}
 
 		// InstrumentBar

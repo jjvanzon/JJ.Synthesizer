@@ -67,6 +67,7 @@
     <Compile Include="Presenters\MidiMappingGroupDetailsPresenter.cs" />
     <Compile Include="Presenters\MidiMappingPropertiesPresenter.cs" />
     <Compile Include="Presenters\MonitoringBarPresenter.cs" />
+    <Compile Include="Presenters\TopButtonBarPresenter.cs" />
     <Compile Include="ToViewModel\ToLookupViewModelExtensions.cs" />
     <Compile Include="Validators\MidiMappingPropertiesViewModel_Validator.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithCollectionRecalculation.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModelBase.cs" />
     <Compile Include="ViewModels\ScreenViewModelBase.cs" />
+    <Compile Include="ViewModels\TopButtonBarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\Canonical\JJ.Business.Canonical.csproj">

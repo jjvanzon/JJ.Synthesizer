@@ -26,8 +26,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public const float DEFAULT_OBJECT_SIZE = 40f;
 		public const float SMALLER_OBJECT_SIZE = 30f;
 		public const float ROW_HEIGHT = 24;
-		// ReSharper disable once UnusedMember.Global
-		public const float ROW_HEIGHT_SMALL = 16;
 		public const float PICTURE_BUTTON_PICTURE_SIZE = 16;
 		public const int DRAG_DROP_LINE_ZINDEX = 100;
 

@@ -31,8 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
 	internal partial class MainForm : Form
 	{
-		private const int MIN_TOP_BAR_HEIGHT = 16;
-
 		private static readonly double _patchPlayDuration = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionDurationInSeconds;
 		private static readonly string _patchPlayOutputFilePath = CustomConfigurationManager.GetSection<ConfigurationSection>().PlayActionOutputFilePath;
 		private static readonly bool _mustHandleMainFormActivated = CustomConfigurationManager.GetSection<ConfigurationSection>().MustHandleMainFormActivated;
@@ -76,7 +74,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			curveDetailsListUserControl.SetCurveFacade(new CurveFacade(new CurveRepositories(_repositories)));
 
-			BindEvents();
+		    topBarUserControl.Location = new System.Drawing.Point(0, 0);
+
+            BindEvents();
 			ApplyStyling();
 			PositionControls();
 		}
@@ -347,25 +347,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 		private void PositionControls()
 		{
-			instrumentBarUserControl.Width = ClientSize.Width - instrumentBarUserControl.Location.X;
-			instrumentBarUserControl.PositionControls();
+            topBarUserControl.Width = ClientSize.Width;
+		    topBarUserControl.PositionControls();
 
 			monitoringBarUserControl.Width = ClientSize.Width;
 			monitoringBarUserControl.PositionControls();
 			monitoringBarUserControl.Left = 0;
 			monitoringBarUserControl.Top = ClientSize.Height - monitoringBarUserControl.Height;
 
-			int topBarHeight = Math.Max(instrumentBarUserControl.Height, MIN_TOP_BAR_HEIGHT);
-
 			splitContainerCurvesAndTopSide.Left = 0;
-			splitContainerCurvesAndTopSide.Top = topBarHeight;
-			splitContainerCurvesAndTopSide.Height = ClientSize.Height - topBarHeight - monitoringBarUserControl.Height;
+			splitContainerCurvesAndTopSide.Top = topBarUserControl.Height;
+			splitContainerCurvesAndTopSide.Height = ClientSize.Height - topBarUserControl.Height - monitoringBarUserControl.Height;
 			splitContainerCurvesAndTopSide.Width = ClientSize.Width;
-		}
-
-		private void MainForm_Load(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

@@ -27,32 +27,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		private readonly HorizontalAlignmentEnum _horizontalAlignmentEnum;
 		private readonly ToolTipElement _toolTipElement;
 		private readonly IList<InstrumentBarItemElement> _itemElements = new List<InstrumentBarItemElement>();
-		private readonly object _underlyingPictureDelete;
-		private readonly object _underlyingPictureExpand;
-		private readonly object _underlyingPictureMoveBackward;
-		private readonly object _underlyingPictureMoveForward;
-		private readonly object _underlyingPicturePlay;
+	    private readonly UnderlyingPictureWrapper _underlyingPictureWrapper;
 		private readonly ITextMeasurer _textMeasurer;
 
 		public InstrumentBarItemsElement(
 			Element parent,
 			HorizontalAlignmentEnum horizontalAlignmentEnum,
 			ToolTipElement toolTipElement,
-			object underlyingPictureDelete,
-			object underlyingPictureExpand,
-			object underlyingPictureMoveBackward,
-			object underlyingPictureMoveForward,
-			object underlyingPicturePlay,
+			UnderlyingPictureWrapper underlyingPictureWrapper,
 			ITextMeasurer textMeasurer)
 			: base(parent)
 		{
 			_horizontalAlignmentEnum = horizontalAlignmentEnum;
 			_toolTipElement = toolTipElement ?? throw new ArgumentNullException(nameof(toolTipElement));
-			_underlyingPictureDelete = underlyingPictureDelete ?? throw new ArgumentNullException(nameof(underlyingPictureDelete));
-			_underlyingPictureExpand = underlyingPictureExpand ?? throw new ArgumentNullException(nameof(underlyingPictureExpand));
-			_underlyingPictureMoveBackward = underlyingPictureMoveBackward ?? throw new ArgumentNullException(nameof(underlyingPictureMoveBackward));
-			_underlyingPictureMoveForward = underlyingPictureMoveForward ?? throw new ArgumentNullException(nameof(underlyingPictureMoveForward));
-			_underlyingPicturePlay = underlyingPicturePlay ?? throw new ArgumentNullException(nameof(underlyingPicturePlay));
+		    _underlyingPictureWrapper = underlyingPictureWrapper ?? throw new ArgumentNullException(nameof(underlyingPictureWrapper));
 			_textMeasurer = textMeasurer ?? throw new ArgumentNullException(nameof(textMeasurer));
 
 			Position.Height = StyleHelper.ROW_HEIGHT;
@@ -173,11 +161,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 			var itemElement = new InstrumentBarItemElement(
 				this,
 				_toolTipElement,
-				_underlyingPictureDelete,
-				_underlyingPictureExpand,
-				_underlyingPictureMoveBackward,
-				_underlyingPictureMoveForward,
-				_underlyingPicturePlay,
+				_underlyingPictureWrapper,
 				_textMeasurer)
 			{
 				ViewModel = itemViewModel

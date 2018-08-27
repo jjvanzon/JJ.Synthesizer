@@ -54,7 +54,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				{ typeof(SampleFileBrowserViewModel), DispatchSampleFileBrowserViewModel },
 				{ typeof(SaveChangesPopupViewModel), DispatchSaveChangesPopupViewModel },
 				{ typeof(ScalePropertiesViewModel), DispatchScalePropertiesViewModel },
-				{ typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel }
+				{ typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel },
+				{ typeof(TopButtonBarViewModel), DispatchTopButtonBarViewModel }
 			};
 
 			return dictionary;
@@ -723,11 +724,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DispatchViewModelBase(castedViewModel);
 		}
 
-		/// <summary>
-		/// Note that this does not assign the view model to the right MainViewModel property.
-		/// You have to do that yourself.
-		/// </summary>
-		private void DispatchViewModelBase(ScreenViewModelBase castedViewModel)
+	    private void DispatchTopButtonBarViewModel(ScreenViewModelBase viewModel)
+	    {
+	        var castedViewModel = (TopButtonBarViewModel)viewModel;
+
+	        DispatchViewModelBase(castedViewModel);
+	    }
+
+        /// <summary>
+        /// Note that this does not assign the view model to the right MainViewModel property.
+        /// You have to do that yourself.
+        /// </summary>
+        private void DispatchViewModelBase(ScreenViewModelBase castedViewModel)
 		{
 			MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
 			castedViewModel.ValidationMessages.Clear();

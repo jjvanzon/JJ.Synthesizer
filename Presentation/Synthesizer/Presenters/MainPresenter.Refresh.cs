@@ -176,7 +176,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			DocumentTreeViewModel viewModel = _documentTreePresenter.Refresh(MainViewModel.Document.DocumentTree);
 
 			// Non-Persisted
-			SetCanCreate(viewModel);
+			TopButtonBar_Refresh();
 
 			// DispatchViewModel
 			DispatchViewModel(viewModel);
@@ -211,7 +211,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			PatchPropertiesDictionary_Refresh();
 			ScalePropertiesDictionary_Refresh();
 			ToneGridEditDictionary_Refresh();
-			UnderylingPatchLookup_Refresh();
+			UnderlyingPatchLookup_Refresh();
 
 			// Note that AutoPatchDetails cannot be refreshed.
 		}
@@ -1079,7 +1079,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ToneGridEdit_Refresh(viewModel);
 		}
 
-		private void UnderylingPatchLookup_Refresh()
+        private void TopButtonBar_Refresh()
+        {
+            TopButtonBarViewModel viewModel = MainViewModel.Document.TopButtonBar;
+            DocumentTreeNodeTypeEnum selectedNodeType = MainViewModel.Document.DocumentTree.SelectedNodeType;
+            bool patchDetailsVisible = MainViewModel.Document.VisiblePatchDetails != null;
+
+            _topButtonBarPresenter.Refresh(viewModel, selectedNodeType, patchDetailsVisible);
+        }
+
+		private void UnderlyingPatchLookup_Refresh()
 		{
 			Document document = _repositories.DocumentRepository.Get(MainViewModel.Document.ID);
 			MainViewModel.Document.UnderlyingPatchLookup = document.ToUnderlyingPatchLookupViewModel();

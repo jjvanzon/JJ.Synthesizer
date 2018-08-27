@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="Helpers\DelayedControlInvoker.cs" />
     <Compile Include="Helpers\ModalPopupHelper.cs" />
+    <Compile Include="Helpers\UnderlyingPictureHelper.cs" />
     <Compile Include="MainForm.ApplyViewModel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -184,6 +185,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TopBarUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\TopBarUserControl.Designer.cs">
+      <DependentUpon>TopBarUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\InstrumentBarUserControl.cs">
       <SubType>UserControl</SubType>
@@ -426,6 +433,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\TopBarUserControl.resx">
+      <DependentUpon>TopBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\InstrumentBarUserControl.resx">
       <DependentUpon>InstrumentBarUserControl.cs</DependentUpon>

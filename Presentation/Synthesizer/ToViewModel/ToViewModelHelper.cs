@@ -229,9 +229,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			return viewModel;
 		}
 
-		// UsedIn
+        // TopButtonBar
 
-		public static string FormatUsedInList(IList<IDAndName> idAndNames)
+	    public static TopButtonBarViewModel CreateTopButtonBarViewModel(bool documentIsOpen)
+	    {
+	        TopButtonBarViewModel viewModel = CreateEmptyTopButtonBarViewModel();
+	        viewModel.Visible = documentIsOpen;
+	        return viewModel;
+	    }
+
+        // UsedIn
+
+        public static string FormatUsedInList(IList<IDAndName> idAndNames)
 		{
 			if (idAndNames == null) throw new NullException(() => idAndNames);
 

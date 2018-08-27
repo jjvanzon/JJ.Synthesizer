@@ -83,6 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		private readonly ScalePropertiesPresenter _scalePropertiesPresenter;
 		private readonly ToneGridEditPresenter _toneGridEditPresenter;
 		private readonly TitleBarPresenter _titleBarPresenter;
+	    private readonly TopButtonBarPresenter _topButtonBarPresenter;
 
 		private readonly AutoPatcher _autoPatcher;
 		private readonly AudioFileOutputFacade _audioFileOutputFacade;
@@ -162,6 +163,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_scalePropertiesPresenter = new ScalePropertiesPresenter(_repositories.ScaleRepository, _scaleFacade);
 			_toneGridEditPresenter = new ToneGridEditPresenter(_repositories.ScaleRepository, _scaleFacade);
 			_titleBarPresenter = new TitleBarPresenter();
+		    _topButtonBarPresenter = new TopButtonBarPresenter();
 
 			_dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
 		}

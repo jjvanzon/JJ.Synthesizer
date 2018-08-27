@@ -27,21 +27,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private static readonly string _separator = Guid.NewGuid().ToString();
 
-		// Button Events
-		public event EventHandler AddToInstrumentRequested;
-		public event EventHandler CloseRequested;
-		public event EventHandler DeleteRequested;
-	    public event EventHandler DocumentGridShowRequested;
-	    public event EventHandler DocumentPropertiesShowRequested;
-	    public event EventHandler DocumentTreeShowOrCloseRequested;
-		public event EventHandler NewRequested;
-		public event EventHandler OpenItemExternallyRequested;
-		public event EventHandler<EventArgs<int>> PatchHovered;
-		public event EventHandler PlayRequested;
-		public event EventHandler RefreshRequested;
-		public event EventHandler RedoRequested;
-		public event EventHandler SaveRequested;
-		public event EventHandler UndoRequested;
 
 	    // Show Events
         public event EventHandler ShowAudioOutputRequested;
@@ -69,8 +54,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler ScalesNodeSelected;
 		public event EventHandler<EventArgs<int>> ScaleNodeSelected;
 
-		// TreeNodes
-		private TreeNode _audioFileOutputListTreeNode;
+        // Other Events
+	    public event EventHandler NewRequested;
+	    public event EventHandler<EventArgs<int>> PatchHovered;
+
+        // TreeNodes
+        private TreeNode _audioFileOutputListTreeNode;
 		private TreeNode _audioOutputNode;
 		private TreeNode _librariesTreeNode;
 		private HashSet<TreeNode> _libraryMidiMappingGroupTreeNodes;
@@ -92,14 +81,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public DocumentTreeUserControl()
 		{
 			InitializeComponent();
-
-			ApplyStyling();
 			AddInvariantNodes();
 		}
-
-		// Gui
-
-		private void ApplyStyling() => tableLayoutPanel.RowStyles[0].Height = StyleHelper.TitleBarHeight;
 
 	    // Binding
 
@@ -112,12 +95,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		protected override void ApplyViewModelToControls()
 		{
-			titleBarUserControl.AddToInstrumentButtonVisible = ViewModel.CanAddToInstrument;
-			titleBarUserControl.NewButtonVisible = ViewModel.CanCreate;
-			titleBarUserControl.ExpandButtonVisible = ViewModel.CanOpenExternally;
-			titleBarUserControl.PlayButtonVisible = ViewModel.CanPlay;
-			titleBarUserControl.DeleteButtonVisible = ViewModel.CanDelete;
-
 			_libraryMidiTreeNodes = new HashSet<TreeNode>();
 			_libraryMidiMappingGroupTreeNodes = new HashSet<TreeNode>();
 			_libraryPatchTreeNodes = new HashSet<TreeNode>();
@@ -824,19 +801,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		// Events
 
-		private void TitleBarUserControl_AddToInstrumentClicked(object sender, EventArgs e) => AddToInstrumentRequested(this, EventArgs.Empty);
-	    private void TitleBarUserControl_BrowseClicked(object sender, EventArgs e) => DocumentGridShowRequested(this, EventArgs.Empty);
-	    private void TitleBarUserControl_CloseClicked(object sender, EventArgs e) => CloseRequested(this, EventArgs.Empty);
-		private void TitleBarUserControl_NewClicked(object sender, EventArgs e) => NewRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_OpenClicked(object sender, EventArgs e) => OpenItemExternallyRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_PlayClicked(object sender, EventArgs e) => PlayRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_RefreshClicked(object sender, EventArgs e) => RefreshRequested(sender, EventArgs.Empty);
-		private void TitleBarUserControl_RedoClicked(object sender, EventArgs e) => RedoRequested(sender, EventArgs.Empty);
-	    private void TitleBarUserControl_RenameClicked(object sender, EventArgs e) => DocumentPropertiesShowRequested(this, EventArgs.Empty);
-	    private void TitleBarUserControl_DeleteClicked(object sender, EventArgs e) => DeleteRequested(this, EventArgs.Empty);
-		private void TitleBarUserControl_SaveClicked(object sender, EventArgs e) => SaveRequested(sender, EventArgs.Empty);
-	    private void TitleBarUserControl_TreeStructureClicked(object sender, EventArgs e) => DocumentTreeShowOrCloseRequested(this, EventArgs.Empty);
-		private void TitleBarUserControl_UndoClicked(object sender, EventArgs e) => UndoRequested(sender, EventArgs.Empty);
 		private void TreeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e) => HandleNodeKeyEnterOrDoubleClick(e.Node);
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
