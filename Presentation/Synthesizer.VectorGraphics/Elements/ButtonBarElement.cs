@@ -81,8 +81,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
                     _pictureButtonBrowse,
                     _pictureButtonSave,
-                    _pictureButtonRedo,
                     _pictureButtonUndo,
+                    _pictureButtonRedo,
                     _pictureButtonRefresh,
                     _pictureButtonClose,
                 }.Reverse()

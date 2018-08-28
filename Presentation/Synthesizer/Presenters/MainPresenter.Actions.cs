@@ -1044,7 +1044,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		private void DocumentTree_DeleteMidiMappingGroup()
+	    public void DocumentTree_Delete()
+	    {
+	        DocumentTreeNodeTypeEnum selectedNodeType = MainViewModel.Document.DocumentTree.SelectedNodeType;
+
+	        // Redirect
+	        switch (selectedNodeType)
+	        {
+	            case DocumentTreeNodeTypeEnum.MidiMappingGroup:
+	                DocumentTree_DeleteMidiMappingGroup();
+	                break;
+
+	            case DocumentTreeNodeTypeEnum.Library:
+	                DocumentTree_DeleteLibrary();
+	                break;
+
+	            case DocumentTreeNodeTypeEnum.Patch:
+	                DocumentTree_DeletePatch();
+	                break;
+
+	            case DocumentTreeNodeTypeEnum.Scale:
+	                DocumentTree_DeleteScale();
+	                break;
+
+	            default:
+	                throw new ValueNotSupportedException(selectedNodeType);
+	        }
+	    }
+
+        private void DocumentTree_DeleteMidiMappingGroup()
 		{
 			// GetViewModel
 			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
@@ -3043,13 +3071,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void TopButtonBar_Create()
         {
-            // GetViewModel
-            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+            DocumentTreeNodeTypeEnum selectedNodeType = MainViewModel.Document.DocumentTree.SelectedNodeType;
 
-            switch (userInput.SelectedNodeType)
+            // Redirect
+            switch (selectedNodeType)
             {
                 case DocumentTreeNodeTypeEnum.Libraries:
-                    // Redirect
                     DocumentTree_CreateLibrary();
                     break;
 
@@ -3075,40 +3102,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     break;
 
                 default:
-                    throw new ValueNotSupportedException(userInput.SelectedNodeType);
+                    throw new ValueNotSupportedException(selectedNodeType);
             }
         }
 
-        public void TopButtonBar_Delete()
-        {
-            // GetViewModel
-            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+        public void TopButtonBar_Delete() => DocumentTree_Delete();
 
-            // Redirect
-            switch (userInput.SelectedNodeType)
-            {
-                case DocumentTreeNodeTypeEnum.MidiMappingGroup:
-                    DocumentTree_DeleteMidiMappingGroup();
-                    break;
-
-                case DocumentTreeNodeTypeEnum.Library:
-                    DocumentTree_DeleteLibrary();
-                    break;
-
-                case DocumentTreeNodeTypeEnum.Patch:
-                    DocumentTree_DeletePatch();
-                    break;
-
-                case DocumentTreeNodeTypeEnum.Scale:
-                    DocumentTree_DeleteScale();
-                    break;
-
-                default:
-                    throw new ValueNotSupportedException(userInput.SelectedNodeType);
-            }
-        }
-
-        public void TopButtonBar_OpenItemExternally()
+	    public void TopButtonBar_OpenItemExternally()
         {
             DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
 

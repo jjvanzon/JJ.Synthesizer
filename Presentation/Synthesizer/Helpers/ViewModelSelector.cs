@@ -165,20 +165,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
 			return viewModel;
 		}
 
-		public static Dictionary<int, NodePropertiesViewModel> GetNodePropertiesViewModelDictionary_ByCurveID(
-			DocumentViewModel documentViewModel,
-			int curveID)
-		{
-			if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-			if (documentViewModel.CurveDetailsDictionary.ContainsKey(curveID))
-			{
-				return documentViewModel.NodePropertiesDictionary;
-			}
-
-			throw new NotFoundException<Dictionary<int, NodePropertiesViewModel>>(new { curveID });
-		}
-
 		// Operator
 
 		public static IEnumerable<OperatorPropertiesViewModelBase> EnumerateAllOperatorPropertiesViewModels(DocumentViewModel documentViewModel)

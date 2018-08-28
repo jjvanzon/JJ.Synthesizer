@@ -27,7 +27,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 		private static readonly string _separator = Guid.NewGuid().ToString();
 
-
 	    // Show Events
         public event EventHandler ShowAudioOutputRequested;
 		public event EventHandler ShowAudioFileOutputsRequested;
@@ -56,6 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Other Events
 	    public event EventHandler NewRequested;
+	    public event EventHandler DeleteRequested;
 	    public event EventHandler<EventArgs<int>> PatchHovered;
 
         // TreeNodes
@@ -805,19 +805,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			// Use ProcessCmdKey,because OnKeyDown produces an annoying Ding sound.
-			// every time you hit enter.
+            // Use ProcessCmdKey,because OnKeyDown produces an annoying Ding sound.
+            // every time you hit enter.
 
-			// ReSharper disable once InvertIf
-			if (keyData == Keys.Enter)
-			{
-				// ReSharper disable once InvertIf
-				if (treeView.SelectedNode != null)
-				{
-					HandleNodeKeyEnterOrDoubleClick(treeView.SelectedNode);
-					return true;
-				}
-			}
+		    if (treeView.SelectedNode != null)
+		    {
+		        switch (keyData) {
+		            case Keys.Enter:
+		                HandleNodeKeyEnterOrDoubleClick(treeView.SelectedNode);
+		                return true;
+
+                    case Keys.Delete:
+                        DeleteRequested(this, EventArgs.Empty);
+                        return true;
+                }
+            }
 
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
@@ -945,7 +947,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_libraryTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
+				var id = (int)node.Tag;
 				ShowLibraryRequested(this, new EventArgs<int>(id));
 			}
 
@@ -956,19 +958,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_patchTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
+				var id = (int)node.Tag;
 				ShowPatchRequested(this, new EventArgs<int>(id));
 			}
 
 			if (_midiMappingGroupTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
+				var id = (int)node.Tag;
 				ShowMidiMappingGroupRequested(this, new EventArgs<int>(id));
 			}
 
 			if (_scaleTreeNodes.Contains(node))
 			{
-				int id = (int)node.Tag;
+				var id = (int)node.Tag;
 				ShowScaleRequested(this, new EventArgs<int>(id));
 			}
 		}

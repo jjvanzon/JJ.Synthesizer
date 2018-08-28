@@ -60,6 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             documentTreeUserControl.AudioFileOutputsNodeSelected += DocumentTreeUserControl_AudioFileOutputsNodeSelected;
             documentTreeUserControl.AudioOutputNodeSelected += DocumentTreeUserControl_AudioOutputNodeSelected;
+            documentTreeUserControl.DeleteRequested += DocumentTreeUserControl_DeleteRequested;
             documentTreeUserControl.LibrariesNodeSelected += DocumentTreeUserControl_LibrariesNodeSelected;
             documentTreeUserControl.LibraryMidiMappingGroupNodeSelected += DocumentTreeUserControl_LibraryMidiMappingGroupNodeSelected;
             documentTreeUserControl.LibraryMidiNodeSelected += DocumentTreeUserControl_LibraryMidiNodeSelected;
@@ -226,19 +227,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             topBarUserControl.TopBarElement.DocumentClosePictureButton.MouseDown += DocumentClosePictureButton_MouseDown;
 
-            ButtonBarElement buttonBarElement = _topButtonBarElement.ButtonBarElement;
-            buttonBarElement.AddToInstrumentClicked += TopButtonBarElement_AddToInstrumentClicked;
-            buttonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
-            buttonBarElement.BrowseClicked += TopButtonBarElement_BrowseClicked;
-            buttonBarElement.RenameClicked += TopButtonBarElement_RenameClicked;
-            buttonBarElement.TreeStructureClicked += TopButtonBarElement_TreeStructureClicked;
-            buttonBarElement.NewClicked += TopButtonBarElement_NewClicked;
-            buttonBarElement.ExpandClicked += TopButtonBarElement_ExpandClicked;
-            buttonBarElement.PlayClicked += TopButtonBarElement_PlayClicked;
-            buttonBarElement.RedoClicked += TopButtonBarElement_RedoClicked;
-            buttonBarElement.RefreshClicked += TopButtonBarElement_RefreshClicked;
-            buttonBarElement.SaveClicked += TopButtonBarElement_SaveClicked;
-            buttonBarElement.UndoClicked += TopButtonBarElement_UndoClicked;
+            _topButtonBarElement.ButtonBarElement.AddToInstrumentClicked += TopButtonBarElement_AddToInstrumentClicked;
+            _topButtonBarElement.ButtonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
+            _topButtonBarElement.ButtonBarElement.BrowseClicked += TopButtonBarElement_BrowseClicked;
+            _topButtonBarElement.ButtonBarElement.RenameClicked += TopButtonBarElement_RenameClicked;
+            _topButtonBarElement.ButtonBarElement.TreeStructureClicked += TopButtonBarElement_TreeStructureClicked;
+            _topButtonBarElement.ButtonBarElement.NewClicked += TopButtonBarElement_NewClicked;
+            _topButtonBarElement.ButtonBarElement.ExpandClicked += TopButtonBarElement_ExpandClicked;
+            _topButtonBarElement.ButtonBarElement.PlayClicked += TopButtonBarElement_PlayClicked;
+            _topButtonBarElement.ButtonBarElement.RedoClicked += TopButtonBarElement_RedoClicked;
+            _topButtonBarElement.ButtonBarElement.RefreshClicked += TopButtonBarElement_RefreshClicked;
+            _topButtonBarElement.ButtonBarElement.SaveClicked += TopButtonBarElement_SaveClicked;
+            _topButtonBarElement.ButtonBarElement.UndoClicked += TopButtonBarElement_UndoClicked;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
@@ -471,6 +471,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioOutput);
+
+        private void DocumentTreeUserControl_DeleteRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Delete);
 
         private void DocumentTreeUserControl_LibrariesNodeSelected(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.DocumentTree_SelectLibraries);
