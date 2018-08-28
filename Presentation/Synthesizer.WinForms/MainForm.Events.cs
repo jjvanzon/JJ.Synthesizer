@@ -228,8 +228,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             topBarUserControl.TopBarElement.DocumentClosePictureButton.MouseDown += DocumentClosePictureButton_MouseDown;
 
             _topButtonBarElement.ButtonBarElement.AddToInstrumentClicked += TopButtonBarElement_AddToInstrumentClicked;
-            _topButtonBarElement.ButtonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
             _topButtonBarElement.ButtonBarElement.BrowseClicked += TopButtonBarElement_BrowseClicked;
+            _topButtonBarElement.ButtonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
             _topButtonBarElement.ButtonBarElement.RenameClicked += TopButtonBarElement_RenameClicked;
             _topButtonBarElement.ButtonBarElement.TreeStructureClicked += TopButtonBarElement_TreeStructureClicked;
             _topButtonBarElement.ButtonBarElement.NewClicked += TopButtonBarElement_NewClicked;

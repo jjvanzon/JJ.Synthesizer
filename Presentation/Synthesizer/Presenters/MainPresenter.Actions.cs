@@ -667,9 +667,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _documentGridPresenter.Play(userInput, id));
 		}
 
-		// Document
+	    private void DocumentGrid_Show()
+	    {
+	        DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
 
-		public void Document_Activate() => Document_Refresh();
+	        ExecuteReadAction(viewModel, () => _documentGridPresenter.Load(viewModel));
+	    }
+
+        // Document
+
+        public void Document_Activate() => Document_Refresh();
 
 	    public void Document_Close()
 		{
@@ -3254,12 +3261,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 	    public void TopButtonBar_ShowDocumentProperties() => DocumentProperties_Show();
 
-        public void TopButtonBar_ShowDocumentGrid()
-	    {
-	        DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
-
-	        ExecuteReadAction(viewModel, () => _documentGridPresenter.Load(viewModel));
-	    }
+        public void TopButtonBar_ShowDocumentGrid() => DocumentGrid_Show();
 
         public void TopButtonBar_ShowOrCloseDocumentTree() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.ShowOrClose);
 
