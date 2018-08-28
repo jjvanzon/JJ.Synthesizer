@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Framework.WinForms.Helpers;
+using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using MouseEventArgs = JJ.Framework.VectorGraphics.EventArg.MouseEventArgs;
@@ -202,12 +203,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.ExpandRequested += PatchDetailsUserControl_ExpandRequested;
             patchDetailsUserControl.SelectPatchRequested += PatchDetailsUserControl_SelectPatchRequested;
 
-            patchPropertiesUserControl.AddToInstrumentRequested += patchPropertiesUserControl_AddToInstrumentRequested;
-            patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
-            patchPropertiesUserControl.ExpandRequested += patchPropertiesUserControl_ExpandRequested;
-            patchPropertiesUserControl.HasDimensionChanged += patchPropertiesUserControl_HasDimensionChanged;
-            patchPropertiesUserControl.LoseFocusRequested += patchPropertiesUserControl_LoseFocusRequested;
-            patchPropertiesUserControl.PlayRequested += patchPropertiesUserControl_PlayRequested;
+            patchPropertiesUserControl.AddToInstrumentRequested += PatchPropertiesUserControl_AddToInstrumentRequested;
+            patchPropertiesUserControl.CloseRequested += PatchPropertiesUserControl_CloseRequested;
+            patchPropertiesUserControl.ExpandRequested += PatchPropertiesUserControl_ExpandRequested;
+            patchPropertiesUserControl.HasDimensionChanged += PatchPropertiesUserControl_HasDimensionChanged;
+            patchPropertiesUserControl.LoseFocusRequested += PatchPropertiesUserControl_LoseFocusRequested;
+            patchPropertiesUserControl.PlayRequested += PatchPropertiesUserControl_PlayRequested;
             patchPropertiesUserControl.DeleteRequested += PatchPropertiesUserControl_DeleteRequested;
 
             scalePropertiesUserControl.AddToInstrumentRequested += ScalePropertiesUserControl_AddToInstrumentRequested;
@@ -216,27 +217,28 @@ namespace JJ.Presentation.Synthesizer.WinForms
             scalePropertiesUserControl.LoseFocusRequested += ScalePropertiesUserControl_LoseFocusRequested;
 
             toneGridEditUserControl.SetInstrumentScaleRequested += ToneGridEditUserControl_SetInstrumentScaleRequested;
-            toneGridEditUserControl.CloseRequested += toneGridEditUserControl_CloseRequested;
-            toneGridEditUserControl.CreateToneRequested += toneGridEditUserControl_CreateToneRequested;
-            toneGridEditUserControl.DeleteToneRequested += toneGridEditUserControl_DeleteToneRequested;
-            toneGridEditUserControl.Edited += toneGridEditUserControl_Edited;
-            toneGridEditUserControl.LoseFocusRequested += toneGridEditUserControl_LoseFocusRequested;
-            toneGridEditUserControl.PlayToneRequested += toneGridEditUserControl_PlayToneRequested;
+            toneGridEditUserControl.CloseRequested += ToneGridEditUserControl_CloseRequested;
+            toneGridEditUserControl.CreateToneRequested += ToneGridEditUserControl_CreateToneRequested;
+            toneGridEditUserControl.DeleteToneRequested += ToneGridEditUserControl_DeleteToneRequested;
+            toneGridEditUserControl.Edited += ToneGridEditUserControl_Edited;
+            toneGridEditUserControl.LoseFocusRequested += ToneGridEditUserControl_LoseFocusRequested;
+            toneGridEditUserControl.PlayToneRequested += ToneGridEditUserControl_PlayToneRequested;
 
             topBarUserControl.TopBarElement.DocumentClosePictureButton.MouseDown += DocumentClosePictureButton_MouseDown;
 
-            _topButtonBarElement.ButtonBarElement.AddToInstrumentClicked += TopButtonBarElement_AddToInstrumentClicked;
-            _topButtonBarElement.ButtonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
-            _topButtonBarElement.ButtonBarElement.BrowseClicked += TopButtonBarElement_BrowseClicked;
-            _topButtonBarElement.ButtonBarElement.RenameClicked += TopButtonBarElement_RenameClicked;
-            _topButtonBarElement.ButtonBarElement.TreeStructureClicked += TopButtonBarElement_TreeStructureClicked;
-            _topButtonBarElement.ButtonBarElement.NewClicked += TopButtonBarElement_NewClicked;
-            _topButtonBarElement.ButtonBarElement.ExpandClicked += TopButtonBarElement_ExpandClicked;
-            _topButtonBarElement.ButtonBarElement.PlayClicked += TopButtonBarElement_PlayClicked;
-            _topButtonBarElement.ButtonBarElement.RedoClicked += TopButtonBarElement_RedoClicked;
-            _topButtonBarElement.ButtonBarElement.RefreshClicked += TopButtonBarElement_RefreshClicked;
-            _topButtonBarElement.ButtonBarElement.SaveClicked += TopButtonBarElement_SaveClicked;
-            _topButtonBarElement.ButtonBarElement.UndoClicked += TopButtonBarElement_UndoClicked;
+            ButtonBarElement buttonBarElement = _topButtonBarElement.ButtonBarElement;
+            buttonBarElement.AddToInstrumentClicked += TopButtonBarElement_AddToInstrumentClicked;
+            buttonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
+            buttonBarElement.BrowseClicked += TopButtonBarElement_BrowseClicked;
+            buttonBarElement.RenameClicked += TopButtonBarElement_RenameClicked;
+            buttonBarElement.TreeStructureClicked += TopButtonBarElement_TreeStructureClicked;
+            buttonBarElement.NewClicked += TopButtonBarElement_NewClicked;
+            buttonBarElement.ExpandClicked += TopButtonBarElement_ExpandClicked;
+            buttonBarElement.PlayClicked += TopButtonBarElement_PlayClicked;
+            buttonBarElement.RedoClicked += TopButtonBarElement_RedoClicked;
+            buttonBarElement.RefreshClicked += TopButtonBarElement_RefreshClicked;
+            buttonBarElement.SaveClicked += TopButtonBarElement_SaveClicked;
+            buttonBarElement.UndoClicked += TopButtonBarElement_UndoClicked;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
@@ -582,7 +584,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // InstrumentBar
 
-        private void patchPropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
+        private void PatchPropertiesUserControl_AddToInstrumentRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1031,19 +1033,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void PatchDetailsUserControl_SelectPatchRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchDetails_Select(e.Value));
 
-        private void patchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
+        private void PatchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchProperties_Close(e.Value));
 
-        private void patchPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
+        private void PatchPropertiesUserControl_ExpandRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchProperties_Expand(e.Value));
 
-        private void patchPropertiesUserControl_HasDimensionChanged(object sender, EventArgs<int> e)
+        private void PatchPropertiesUserControl_HasDimensionChanged(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchProperties_ChangeHasDimension(e.Value));
 
-        private void patchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void PatchPropertiesUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchProperties_LoseFocus(e.Value));
 
-        private void patchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
+        private void PatchPropertiesUserControl_PlayRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchProperties_Play(e.Value));
 
         private void PatchPropertiesUserControl_DeleteRequested(object sender, EventArgs<int> e)
@@ -1064,7 +1066,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void toneGridEditUserControl_CloseRequested(object sender, EventArgs<int> e)
+        private void ToneGridEditUserControl_CloseRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1072,7 +1074,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void toneGridEditUserControl_Edited(object sender, EventArgs<int> e)
+        private void ToneGridEditUserControl_Edited(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1080,7 +1082,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
+        private void ToneGridEditUserControl_LoseFocusRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1088,7 +1090,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void toneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e)
+        private void ToneGridEditUserControl_CreateToneRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1096,7 +1098,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void toneGridEditUserControl_DeleteToneRequested(object sender, ScaleAndToneEventArgs e)
+        private void ToneGridEditUserControl_DeleteToneRequested(object sender, ScaleAndToneEventArgs e)
             => TemplateActionHandler(
                 () =>
                 {
@@ -1104,7 +1106,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
-        private void toneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e)
+        private void ToneGridEditUserControl_PlayToneRequested(object sender, ScaleAndToneEventArgs e)
             => TemplateActionHandler(() => _mainPresenter.Tone_Play(e.ScaleID, e.ToneID));
 
 
@@ -1128,7 +1130,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             => TemplateActionHandler(_mainPresenter.TopButtonBar_ShowDocumentGrid);
 
         private void TopButtonBarElement_RenameClicked(object sender, EventArgs e)
-            => TemplateActionHandler(_mainPresenter.TopButtonBar_DocumentPropertiesShow);
+            => TemplateActionHandler(_mainPresenter.TopButtonBar_ShowDocumentProperties);
 
         private void TopButtonBarElement_NewClicked(object sender, EventArgs e) 
             => TemplateActionHandler(_mainPresenter.TopButtonBar_Create);

@@ -667,13 +667,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(userInput, () => _documentGridPresenter.Play(userInput, id));
 		}
 
-		public void TopButtonBar_ShowDocumentGrid()
-		{
-			DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
-
-			ExecuteReadAction(viewModel, () => _documentGridPresenter.Load(viewModel));
-		}
-
 		// Document
 
 		public void Document_Activate() => Document_Refresh();
@@ -789,8 +782,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteNonPersistedAction(userInput, () => _documentOrPatchNotFoundPresenter.OK(userInput));
 		}
 
-	    public void TopButtonBar_DocumentPropertiesShow() => DocumentProperties_Show();
-
         public void DocumentProperties_Show()
 		{
 			DocumentPropertiesViewModel viewModel = MainViewModel.Document.DocumentProperties;
@@ -884,82 +875,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// ToViewModel
 			MainViewModel.ValidationMessages = validationResult.Messages;
 			MainViewModel.WarningMessages = warningsResult.Messages;
-		}
-
-		public void TopButtonBar_AddToInstrument()
-		{
-			// Involves both DocumentTree and Instrument view,
-			// so cannot be handled by a single sub-presenter.
-
-			DocumentTreeViewModel documentTreeViewModel = MainViewModel.Document.DocumentTree;
-
-			if (!documentTreeViewModel.SelectedItemID.HasValue)
-			{
-				throw new NotHasValueException(() => documentTreeViewModel.SelectedItemID);
-			}
-			int entityID = documentTreeViewModel.SelectedItemID.Value;
-
-			switch (documentTreeViewModel.SelectedNodeType)
-			{
-				case DocumentTreeNodeTypeEnum.Patch:
-				case DocumentTreeNodeTypeEnum.LibraryPatch:
-					// Redirect
-					InstrumentBar_AddPatch(entityID);
-					break;
-
-				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
-				case DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup:
-					// Redirect
-					InstrumentBar_AddMidiMappingGroup(entityID);
-					break;
-
-				case DocumentTreeNodeTypeEnum.Scale:
-				case DocumentTreeNodeTypeEnum.LibraryScale:
-					// Redirect
-					InstrumentBar_SetScale(entityID);
-					break;
-
-				default:
-					throw new ValueNotSupportedException(documentTreeViewModel.SelectedNodeType);
-			}
-		}
-
-		public void TopButtonBar_Create()
-		{
-			// GetViewModel
-			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-			switch (userInput.SelectedNodeType)
-			{
-				case DocumentTreeNodeTypeEnum.Libraries:
-					// Redirect
-					DocumentTree_CreateLibrary();
-					break;
-
-				case DocumentTreeNodeTypeEnum.Midi:
-					// Redirect
-					DocumentTree_CreateMidiMappingGroup();
-					break;
-
-				case DocumentTreeNodeTypeEnum.PatchGroup:
-					// Redirect
-					DocumentTree_CreatePatch();
-					break;
-
-				case DocumentTreeNodeTypeEnum.Patch:
-				case DocumentTreeNodeTypeEnum.LibraryPatch:
-					// Redirect
-					DocumentTree_CreateOperator();
-					break;
-
-				case DocumentTreeNodeTypeEnum.Scales:
-					// Redirect
-					DocumentTree_CreateScale();
-					break;
-
-				default:
-					throw new ValueNotSupportedException(userInput.SelectedNodeType);
-			}
 		}
 
 		private void DocumentTree_CreateLibrary()
@@ -1129,35 +1044,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-	    public void TopButtonBar_Delete()
-		{
-			// GetViewModel
-			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-			// Redirect
-			switch (userInput.SelectedNodeType)
-			{
-				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
-					DocumentTree_DeleteMidiMappingGroup();
-					break;
-
-				case DocumentTreeNodeTypeEnum.Library:
-					DocumentTree_DeleteLibrary();
-					break;
-
-				case DocumentTreeNodeTypeEnum.Patch:
-					DocumentTree_DeletePatch();
-					break;
-
-				case DocumentTreeNodeTypeEnum.Scale:
-					DocumentTree_DeleteScale();
-					break;
-
-				default:
-					throw new ValueNotSupportedException(userInput.SelectedNodeType);
-			}
-		}
-
 		private void DocumentTree_DeleteMidiMappingGroup()
 		{
 			// GetViewModel
@@ -1257,148 +1143,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ExecuteReadAction(viewModel, () => _documentTreePresenter.HoverPatch(viewModel, id));
 		}
 
-		public void TopButtonBar_OpenItemExternally()
-		{
-			DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-			ExecuteReadAction(userInput, () => _documentTreePresenter.OpenItemExternally(userInput));
-		}
-
-		public void TopButtonBar_Play()
-		{
-			// GetViewModel
-			DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
-
-			// TemplateMethod
-			ExecuteReadAction(viewModel, func);
-
-			DocumentTreeViewModel func()
-			{
-				// RefreshCounter
-				viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
-
-				// Set !Successful
-				viewModel.Successful = false;
-
-				// GetEntities
-				Document document = _repositories.DocumentRepository.Get(viewModel.ID);
-
-				Result<Outlet> result;
-				switch (viewModel.SelectedNodeType)
-				{
-					case DocumentTreeNodeTypeEnum.AudioOutput:
-					{
-						// GetEntities
-						IList<Patch> entities = MainViewModel.Document.InstrumentBar.Patches
-															 .Select(x => _repositories.PatchRepository.Get(x.EntityID))
-															 .ToArray();
-						// Business
-						Patch autoPatch = _autoPatcher.AutoPatch(entities);
-						_autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
-						result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
-
-						break;
-					}
-
-					case DocumentTreeNodeTypeEnum.Library:
-					{
-						if (!viewModel.SelectedItemID.HasValue) throw new NullException(() => viewModel.SelectedItemID);
-
-						// GetEntity
-						DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedItemID.Value);
-
-						// Business
-						result = _autoPatcher.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
-						if (result.Data != null)
-						{
-							_autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
-						}
-
-						break;
-					}
-
-					case DocumentTreeNodeTypeEnum.Patch:
-					case DocumentTreeNodeTypeEnum.LibraryPatch:
-					{
-						if (!viewModel.SelectedItemID.HasValue) throw new NullException(() => viewModel.SelectedItemID);
-
-						// GetEntities
-						Patch patch = _repositories.PatchRepository.Get(viewModel.SelectedItemID.Value);
-
-						// Business
-						result = _autoPatcher.AutoPatch_TryCombineSounds(patch);
-						if (result.Data != null)
-						{
-							_autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
-						}
-
-						break;
-					}
-
-					case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
-					{
-						if (!viewModel.SelectedPatchGroupLowerDocumentReferenceID.HasValue) throw new NullException(() => viewModel.SelectedPatchGroupLowerDocumentReferenceID);
-
-						// GetEntities
-						DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedPatchGroupLowerDocumentReferenceID.Value);
-
-						// Business
-						result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(
-							lowerDocumentReference.LowerDocument,
-							viewModel.SelectedCanonicalPatchGroupName,
-							mustIncludeHidden: false);
-						if (result.Data != null)
-						{
-							_autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
-						}
-
-						break;
-					}
-
-					case DocumentTreeNodeTypeEnum.PatchGroup:
-					{
-						// Business
-						result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(document, viewModel.SelectedCanonicalPatchGroupName, mustIncludeHidden: false);
-
-						break;
-					}
-
-					case DocumentTreeNodeTypeEnum.Libraries:
-					{
-						// Business
-						IList<Document> lowerDocuments = document.LowerDocumentReferences.Select(x => x.LowerDocument).ToArray();
-						result = _autoPatcher.TryAutoPatchFromDocumentsRandomly(lowerDocuments, mustIncludeHidden: false);
-						if (result.Data != null)
-						{
-							_autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
-						}
-
-						break;
-					}
-
-					case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-					case DocumentTreeNodeTypeEnum.Scales:
-					default:
-					{
-						// Successful
-						viewModel.Successful = true;
-
-						return viewModel;
-					}
-				}
-
-				// Business
-				Outlet outlet = result.Data;
-
-				// Non-Persisted
-				viewModel.OutletIDToPlay = outlet?.ID;
-				viewModel.Successful = result.Successful;
-				viewModel.ValidationMessages.AddRange(result.Messages);
-
-				return viewModel;
-			}
-		}
-
 		public void DocumentTree_SelectAudioFileOutputs() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioFileOutputs);
 
 	    public void DocumentTree_SelectAudioOutput()
@@ -1467,8 +1211,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 		}
 
 		public void DocumentTree_SelectPatchGroup(string friendlyPatchGroupName) => ExecuteNonPersistedDocumentTreeAction(x => _documentTreePresenter.SelectPatchGroup(x, friendlyPatchGroupName));
-
-	    public void TopButtonBar_ShowOrCloseDocumentTree() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.ShowOrClose);
 
         public void DocumentTree_ShowAudioOutput() => AudioOutputProperties_Show();
 
@@ -3257,22 +2999,284 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				});
 		}
 
-		// Helpers
+        // TopButtonBar
 
-		/// <summary>
-		/// A template method for a MainPresenter action method,
-		/// that will not read or write the entity model,
-		/// but works with non-entity model data only.
-		///
-		/// Most steps otherwise needed in for instance write actions are not needed.
-		/// 
-		/// Executes a sub-presenter's action and surrounds it with:
-		/// a) Dispatching the view model (for instance needed to hide other view models if a new view model is displayed over it).
-		/// 
-		/// All you need to do is provide the right sub-viewmodel,
-		/// provide a delegate to the sub-presenter's action method.
-		/// </summary>
-		private void ExecuteNonPersistedAction<TViewModel>(TViewModel viewModelToDispatch, Action partialAction)
+        /// <summary>
+        /// Initiated from TopButtonBar.
+        /// Involves the DocumentTree for the selected item.
+        /// Then redirects to InstrumentBar actions.
+        /// </summary>
+        public void TopButtonBar_AddToInstrument()
+        {
+            DocumentTreeViewModel documentTreeViewModel = MainViewModel.Document.DocumentTree;
+
+            if (!documentTreeViewModel.SelectedItemID.HasValue)
+            {
+                throw new NotHasValueException(() => documentTreeViewModel.SelectedItemID);
+            }
+            int entityID = documentTreeViewModel.SelectedItemID.Value;
+
+            switch (documentTreeViewModel.SelectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.Patch:
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                    // Redirect
+                    InstrumentBar_AddPatch(entityID);
+                    break;
+
+                case DocumentTreeNodeTypeEnum.MidiMappingGroup:
+                case DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup:
+                    // Redirect
+                    InstrumentBar_AddMidiMappingGroup(entityID);
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Scale:
+                case DocumentTreeNodeTypeEnum.LibraryScale:
+                    // Redirect
+                    InstrumentBar_SetScale(entityID);
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(documentTreeViewModel.SelectedNodeType);
+            }
+        }
+
+        public void TopButtonBar_Create()
+        {
+            // GetViewModel
+            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+            switch (userInput.SelectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.Libraries:
+                    // Redirect
+                    DocumentTree_CreateLibrary();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Midi:
+                    // Redirect
+                    DocumentTree_CreateMidiMappingGroup();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.PatchGroup:
+                    // Redirect
+                    DocumentTree_CreatePatch();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Patch:
+                case DocumentTreeNodeTypeEnum.LibraryPatch:
+                    // Redirect
+                    DocumentTree_CreateOperator();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Scales:
+                    // Redirect
+                    DocumentTree_CreateScale();
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(userInput.SelectedNodeType);
+            }
+        }
+
+        public void TopButtonBar_Delete()
+        {
+            // GetViewModel
+            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+            // Redirect
+            switch (userInput.SelectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.MidiMappingGroup:
+                    DocumentTree_DeleteMidiMappingGroup();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Library:
+                    DocumentTree_DeleteLibrary();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Patch:
+                    DocumentTree_DeletePatch();
+                    break;
+
+                case DocumentTreeNodeTypeEnum.Scale:
+                    DocumentTree_DeleteScale();
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(userInput.SelectedNodeType);
+            }
+        }
+
+        public void TopButtonBar_OpenItemExternally()
+        {
+            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+            ExecuteReadAction(userInput, () => _documentTreePresenter.OpenItemExternally(userInput));
+        }
+
+        public void TopButtonBar_Play()
+        {
+            // GetViewModel
+            DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
+
+            // TemplateMethod
+            ExecuteReadAction(viewModel, func);
+
+            DocumentTreeViewModel func()
+            {
+                // RefreshCounter
+                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+
+                // Set !Successful
+                viewModel.Successful = false;
+
+                // GetEntities
+                Document document = _repositories.DocumentRepository.Get(viewModel.ID);
+
+                Result<Outlet> result;
+                switch (viewModel.SelectedNodeType)
+                {
+                    case DocumentTreeNodeTypeEnum.AudioOutput:
+                        {
+                            // GetEntities
+                            IList<Patch> entities = MainViewModel.Document.InstrumentBar.Patches
+                                                                 .Select(x => _repositories.PatchRepository.Get(x.EntityID))
+                                                                 .ToArray();
+                            // Business
+                            Patch autoPatch = _autoPatcher.AutoPatch(entities);
+                            _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
+                            result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.Library:
+                        {
+                            if (!viewModel.SelectedItemID.HasValue) throw new NullException(() => viewModel.SelectedItemID);
+
+                            // GetEntity
+                            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedItemID.Value);
+
+                            // Business
+                            result = _autoPatcher.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
+                            if (result.Data != null)
+                            {
+                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                            }
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.Patch:
+                    case DocumentTreeNodeTypeEnum.LibraryPatch:
+                        {
+                            if (!viewModel.SelectedItemID.HasValue) throw new NullException(() => viewModel.SelectedItemID);
+
+                            // GetEntities
+                            Patch patch = _repositories.PatchRepository.Get(viewModel.SelectedItemID.Value);
+
+                            // Business
+                            result = _autoPatcher.AutoPatch_TryCombineSounds(patch);
+                            if (result.Data != null)
+                            {
+                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                            }
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+                        {
+                            if (!viewModel.SelectedPatchGroupLowerDocumentReferenceID.HasValue) throw new NullException(() => viewModel.SelectedPatchGroupLowerDocumentReferenceID);
+
+                            // GetEntities
+                            DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedPatchGroupLowerDocumentReferenceID.Value);
+
+                            // Business
+                            result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(
+                                lowerDocumentReference.LowerDocument,
+                                viewModel.SelectedCanonicalPatchGroupName,
+                                mustIncludeHidden: false);
+                            if (result.Data != null)
+                            {
+                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                            }
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.PatchGroup:
+                        {
+                            // Business
+                            result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(document, viewModel.SelectedCanonicalPatchGroupName, mustIncludeHidden: false);
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.Libraries:
+                        {
+                            // Business
+                            IList<Document> lowerDocuments = document.LowerDocumentReferences.Select(x => x.LowerDocument).ToArray();
+                            result = _autoPatcher.TryAutoPatchFromDocumentsRandomly(lowerDocuments, mustIncludeHidden: false);
+                            if (result.Data != null)
+                            {
+                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                            }
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                    case DocumentTreeNodeTypeEnum.Scales:
+                    default:
+                        {
+                            // Successful
+                            viewModel.Successful = true;
+
+                            return viewModel;
+                        }
+                }
+
+                // Business
+                Outlet outlet = result.Data;
+
+                // Non-Persisted
+                viewModel.OutletIDToPlay = outlet?.ID;
+                viewModel.Successful = result.Successful;
+                viewModel.ValidationMessages.AddRange(result.Messages);
+
+                return viewModel;
+            }
+        }
+
+	    public void TopButtonBar_ShowDocumentProperties() => DocumentProperties_Show();
+
+        public void TopButtonBar_ShowDocumentGrid()
+	    {
+	        DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
+
+	        ExecuteReadAction(viewModel, () => _documentGridPresenter.Load(viewModel));
+	    }
+
+        public void TopButtonBar_ShowOrCloseDocumentTree() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.ShowOrClose);
+
+        // Helpers
+
+        /// <summary>
+        /// A template method for a MainPresenter action method,
+        /// that will not read or write the entity model,
+        /// but works with non-entity model data only.
+        ///
+        /// Most steps otherwise needed in for instance write actions are not needed.
+        /// 
+        /// Executes a sub-presenter's action and surrounds it with:
+        /// a) Dispatching the view model (for instance needed to hide other view models if a new view model is displayed over it).
+        /// 
+        /// All you need to do is provide the right sub-viewmodel,
+        /// provide a delegate to the sub-presenter's action method.
+        /// </summary>
+        private void ExecuteNonPersistedAction<TViewModel>(TViewModel viewModelToDispatch, Action partialAction)
 			where TViewModel : ScreenViewModelBase
 		{
 			if (viewModelToDispatch == null) throw new ArgumentNullException(nameof(viewModelToDispatch));
