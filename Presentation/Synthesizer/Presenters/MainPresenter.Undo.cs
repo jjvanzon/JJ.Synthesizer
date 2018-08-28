@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
 	public partial class MainPresenter
 	{
-		public void Undo()
+		private void Undo()
 		{
 			UndoItemViewModelBase undoItemViewModel = MainViewModel.Document.UndoHistory.PopOrDefault();
 
@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			}
 		}
 
-		public void Redo()
+        private void Redo()
 		{
 			UndoItemViewModelBase undoItemViewModel = MainViewModel.Document.RedoFuture.PopOrDefault();
 

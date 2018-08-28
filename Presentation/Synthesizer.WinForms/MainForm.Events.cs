@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Framework.WinForms.Helpers;
-using JJ.Presentation.Synthesizer.VectorGraphics.Elements;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using MouseEventArgs = JJ.Framework.VectorGraphics.EventArg.MouseEventArgs;
@@ -1149,15 +1148,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             => TemplateActionHandler(
                 () =>
                 {
-                    _mainPresenter.Document_Refresh();
+                    _mainPresenter.TopButtonBar_RefreshDocument();
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
-        private void TopButtonBarElement_RedoClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Redo);
+        private void TopButtonBarElement_RedoClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Redo);
 
-        private void TopButtonBarElement_SaveClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Document_Save);
+        private void TopButtonBarElement_SaveClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Save);
 
-        private void TopButtonBarElement_UndoClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.Undo);
+        private void TopButtonBarElement_UndoClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Undo);
 
         // Scale
 

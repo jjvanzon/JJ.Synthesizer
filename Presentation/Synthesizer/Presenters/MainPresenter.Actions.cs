@@ -702,7 +702,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             MainViewModel.Document = documentViewModel;
 
             // Redirect
-            TopButtonBar_ShowDocumentGrid();
+            DocumentGrid_Show();
         }
 
         public void Document_Open(int id)
@@ -829,7 +829,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// (The private Refresh methods do not.)
         /// Will also apply (external) UnderlyingPatches.
         /// </summary>
-        public void Document_Refresh()
+        private void Document_Refresh()
         {
             if (MainViewModel.Document.IsOpen)
             {
@@ -844,7 +844,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void Document_Save()
+        private void Document_Save()
         {
             // ToEntity
             // Get rid of AutoPatch view model temporarily from the DocumentViewModel.
@@ -1222,6 +1222,141 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteReadAction(userInput, () => _documentTreePresenter.OpenItemExternally(userInput));
         }
 
+        private void DocumentTree_Play()
+        {
+            // GetViewModel
+            DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
+
+            // TemplateMethod
+            ExecuteReadAction(viewModel, func);
+
+            DocumentTreeViewModel func()
+            {
+                // RefreshCounter
+                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+
+                // Set !Successful
+                viewModel.Successful = false;
+
+                // GetEntities
+                Document document = _repositories.DocumentRepository.Get(viewModel.ID);
+
+                Result<Outlet> result;
+                switch (viewModel.SelectedNodeType)
+                {
+                    case DocumentTreeNodeTypeEnum.AudioOutput:
+                        {
+                            // GetEntities
+                            IList<Patch> entities = MainViewModel.Document.InstrumentBar.Patches
+                                                                 .Select(x => _repositories.PatchRepository.Get(x.EntityID))
+                                                                 .ToArray();
+                            // Business
+                            Patch autoPatch = _autoPatcher.AutoPatch(entities);
+                            _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
+                            result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.Library:
+                        {
+                            if (!viewModel.SelectedItemID.HasValue) throw new NullException(() => viewModel.SelectedItemID);
+
+                            // GetEntity
+                            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedItemID.Value);
+
+                            // Business
+                            result = _autoPatcher.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
+                            if (result.Data != null)
+                            {
+                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                            }
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.Patch:
+                    case DocumentTreeNodeTypeEnum.LibraryPatch:
+                        {
+                            if (!viewModel.SelectedItemID.HasValue) throw new NullException(() => viewModel.SelectedItemID);
+
+                            // GetEntities
+                            Patch patch = _repositories.PatchRepository.Get(viewModel.SelectedItemID.Value);
+
+                            // Business
+                            result = _autoPatcher.AutoPatch_TryCombineSounds(patch);
+                            if (result.Data != null)
+                            {
+                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                            }
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
+                        {
+                            if (!viewModel.SelectedPatchGroupLowerDocumentReferenceID.HasValue) throw new NullException(() => viewModel.SelectedPatchGroupLowerDocumentReferenceID);
+
+                            // GetEntities
+                            DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedPatchGroupLowerDocumentReferenceID.Value);
+
+                            // Business
+                            result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(
+                                lowerDocumentReference.LowerDocument,
+                                viewModel.SelectedCanonicalPatchGroupName,
+                                mustIncludeHidden: false);
+                            if (result.Data != null)
+                            {
+                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                            }
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.PatchGroup:
+                        {
+                            // Business
+                            result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(document, viewModel.SelectedCanonicalPatchGroupName, mustIncludeHidden: false);
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.Libraries:
+                        {
+                            // Business
+                            IList<Document> lowerDocuments = document.LowerDocumentReferences.Select(x => x.LowerDocument).ToArray();
+                            result = _autoPatcher.TryAutoPatchFromDocumentsRandomly(lowerDocuments, mustIncludeHidden: false);
+                            if (result.Data != null)
+                            {
+                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
+                            }
+
+                            break;
+                        }
+
+                    case DocumentTreeNodeTypeEnum.AudioFileOutputList:
+                    case DocumentTreeNodeTypeEnum.Scales:
+                    default:
+                        {
+                            // Successful
+                            viewModel.Successful = true;
+
+                            return viewModel;
+                        }
+                }
+
+                // Business
+                Outlet outlet = result.Data;
+
+                // Non-Persisted
+                viewModel.OutletIDToPlay = outlet?.ID;
+                viewModel.Successful = result.Successful;
+                viewModel.ValidationMessages.AddRange(result.Messages);
+
+                return viewModel;
+            }
+        }
+
         public void DocumentTree_SelectAudioFileOutputs() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioFileOutputs);
 
         public void DocumentTree_SelectAudioOutput()
@@ -1317,7 +1452,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     partialAction(viewModel);
 
-                    TopButtonBar_Refresh();
+                    TopButtonBar_RefreshPartial();
                 });
         }
 
@@ -3128,146 +3263,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void TopButtonBar_OpenItemExternally() => DocumentTree_OpenItemExternally();
 
-        public void TopButtonBar_Play()
-        {
-            // GetViewModel
-            DocumentTreeViewModel viewModel = MainViewModel.Document.DocumentTree;
+        public void TopButtonBar_Play() => DocumentTree_Play();
 
-            // TemplateMethod
-            ExecuteReadAction(viewModel, func);
+        public void TopButtonBar_Redo() => Redo();
 
-            DocumentTreeViewModel func()
-            {
-                // RefreshCounter
-                viewModel.RefreshID = RefreshIDProvider.GetRefreshID();
+        /// <summary> The Refresh user action, that can be executed from the TopButtonBar as opposed to just refreshing the TopButtonBar partial. </summary>
+        public void TopButtonBar_RefreshDocument() => Document_Refresh();
 
-                // Set !Successful
-                viewModel.Successful = false;
-
-                // GetEntities
-                Document document = _repositories.DocumentRepository.Get(viewModel.ID);
-
-                Result<Outlet> result;
-                switch (viewModel.SelectedNodeType)
-                {
-                    case DocumentTreeNodeTypeEnum.AudioOutput:
-                        {
-                            // GetEntities
-                            IList<Patch> entities = MainViewModel.Document.InstrumentBar.Patches
-                                                                 .Select(x => _repositories.PatchRepository.Get(x.EntityID))
-                                                                 .ToArray();
-                            // Business
-                            Patch autoPatch = _autoPatcher.AutoPatch(entities);
-                            _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(autoPatch);
-                            result = _autoPatcher.AutoPatch_TryCombineSounds(autoPatch);
-
-                            break;
-                        }
-
-                    case DocumentTreeNodeTypeEnum.Library:
-                        {
-                            if (!viewModel.SelectedItemID.HasValue) throw new NullException(() => viewModel.SelectedItemID);
-
-                            // GetEntity
-                            DocumentReference documentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedItemID.Value);
-
-                            // Business
-                            result = _autoPatcher.TryAutoPatchFromDocumentRandomly(documentReference.LowerDocument, mustIncludeHidden: false);
-                            if (result.Data != null)
-                            {
-                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
-                            }
-
-                            break;
-                        }
-
-                    case DocumentTreeNodeTypeEnum.Patch:
-                    case DocumentTreeNodeTypeEnum.LibraryPatch:
-                        {
-                            if (!viewModel.SelectedItemID.HasValue) throw new NullException(() => viewModel.SelectedItemID);
-
-                            // GetEntities
-                            Patch patch = _repositories.PatchRepository.Get(viewModel.SelectedItemID.Value);
-
-                            // Business
-                            result = _autoPatcher.AutoPatch_TryCombineSounds(patch);
-                            if (result.Data != null)
-                            {
-                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
-                            }
-
-                            break;
-                        }
-
-                    case DocumentTreeNodeTypeEnum.LibraryPatchGroup:
-                        {
-                            if (!viewModel.SelectedPatchGroupLowerDocumentReferenceID.HasValue) throw new NullException(() => viewModel.SelectedPatchGroupLowerDocumentReferenceID);
-
-                            // GetEntities
-                            DocumentReference lowerDocumentReference = _repositories.DocumentReferenceRepository.Get(viewModel.SelectedPatchGroupLowerDocumentReferenceID.Value);
-
-                            // Business
-                            result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(
-                                lowerDocumentReference.LowerDocument,
-                                viewModel.SelectedCanonicalPatchGroupName,
-                                mustIncludeHidden: false);
-                            if (result.Data != null)
-                            {
-                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
-                            }
-
-                            break;
-                        }
-
-                    case DocumentTreeNodeTypeEnum.PatchGroup:
-                        {
-                            // Business
-                            result = _autoPatcher.TryAutoPatchFromPatchGroupRandomly(document, viewModel.SelectedCanonicalPatchGroupName, mustIncludeHidden: false);
-
-                            break;
-                        }
-
-                    case DocumentTreeNodeTypeEnum.Libraries:
-                        {
-                            // Business
-                            IList<Document> lowerDocuments = document.LowerDocumentReferences.Select(x => x.LowerDocument).ToArray();
-                            result = _autoPatcher.TryAutoPatchFromDocumentsRandomly(lowerDocuments, mustIncludeHidden: false);
-                            if (result.Data != null)
-                            {
-                                _autoPatcher.SubstituteSineForUnfilledInSoundPatchInlets(result.Data.Operator.Patch);
-                            }
-
-                            break;
-                        }
-
-                    case DocumentTreeNodeTypeEnum.AudioFileOutputList:
-                    case DocumentTreeNodeTypeEnum.Scales:
-                    default:
-                        {
-                            // Successful
-                            viewModel.Successful = true;
-
-                            return viewModel;
-                        }
-                }
-
-                // Business
-                Outlet outlet = result.Data;
-
-                // Non-Persisted
-                viewModel.OutletIDToPlay = outlet?.ID;
-                viewModel.Successful = result.Successful;
-                viewModel.ValidationMessages.AddRange(result.Messages);
-
-                return viewModel;
-            }
-        }
+        public void TopButtonBar_Save() => Document_Save();
 
         public void TopButtonBar_ShowDocumentProperties() => DocumentProperties_Show();
 
         public void TopButtonBar_ShowDocumentGrid() => DocumentGrid_Show();
 
         public void TopButtonBar_ShowOrCloseDocumentTree() => DocumentTree_ShowOrClose();
+
+        public void TopButtonBar_Undo() => Undo();
 
         // Helpers
 

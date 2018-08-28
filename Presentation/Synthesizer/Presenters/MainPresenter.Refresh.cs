@@ -175,9 +175,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			// Partial Action
 			DocumentTreeViewModel viewModel = _documentTreePresenter.Refresh(MainViewModel.Document.DocumentTree);
 
-			// Non-Persisted
-			TopButtonBar_Refresh();
-
 			// DispatchViewModel
 			DispatchViewModel(viewModel);
 		}
@@ -1079,7 +1076,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			ToneGridEdit_Refresh(viewModel);
 		}
 
-        private void TopButtonBar_Refresh()
+        /// <summary> Just refreshes the TopButtonBar partial. Not the Refresh user action, that can be executed from the TopButtonBar. </summary>
+        private void TopButtonBar_RefreshPartial()
         {
             TopButtonBarViewModel viewModel = MainViewModel.Document.TopButtonBar;
             DocumentTreeNodeTypeEnum selectedNodeType = MainViewModel.Document.DocumentTree.SelectedNodeType;
