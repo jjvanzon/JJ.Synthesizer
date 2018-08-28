@@ -1215,6 +1215,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ExecuteReadAction(viewModel, () => _documentTreePresenter.HoverPatch(viewModel, id));
         }
 
+        private void DocumentTree_OpenItemExternally()
+        {
+            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+            ExecuteReadAction(userInput, () => _documentTreePresenter.OpenItemExternally(userInput));
+        }
+
         public void DocumentTree_SelectAudioFileOutputs() => ExecuteNonPersistedDocumentTreeAction(_documentTreePresenter.SelectAudioFileOutputs);
 
         public void DocumentTree_SelectAudioOutput()
@@ -3119,12 +3126,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void TopButtonBar_Delete() => DocumentTree_Delete();
 
-        public void TopButtonBar_OpenItemExternally()
-        {
-            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
-
-            ExecuteReadAction(userInput, () => _documentTreePresenter.OpenItemExternally(userInput));
-        }
+        public void TopButtonBar_OpenItemExternally() => DocumentTree_OpenItemExternally();
 
         public void TopButtonBar_Play()
         {
