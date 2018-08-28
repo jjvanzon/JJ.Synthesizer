@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
-		public void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
+	    private void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 
 	    public DocumentTreeViewModel Create(DocumentTreeViewModel userInput)
 		{
@@ -204,7 +204,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 	    public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => ExecuteAction(userInput, x => { });
 
-	    public void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
+	    private void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
 	    public void ShowOrClose(DocumentTreeViewModel viewModel)
 	    { 
