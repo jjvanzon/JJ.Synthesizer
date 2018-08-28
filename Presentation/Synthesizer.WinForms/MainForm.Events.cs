@@ -60,6 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             documentTreeUserControl.AudioFileOutputsNodeSelected += DocumentTreeUserControl_AudioFileOutputsNodeSelected;
             documentTreeUserControl.AudioOutputNodeSelected += DocumentTreeUserControl_AudioOutputNodeSelected;
+            documentTreeUserControl.CreateRequested += DocumentTreeUserControl_CreateRequested;
             documentTreeUserControl.DeleteRequested += DocumentTreeUserControl_DeleteRequested;
             documentTreeUserControl.LibrariesNodeSelected += DocumentTreeUserControl_LibrariesNodeSelected;
             documentTreeUserControl.LibraryMidiMappingGroupNodeSelected += DocumentTreeUserControl_LibraryMidiMappingGroupNodeSelected;
@@ -71,7 +72,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.LibraryScalesNodeSelected += DocumentTreeUserControl_LibraryScalesNodeSelected;
             documentTreeUserControl.MidiNodeSelected += DocumentTreeUserControl_MidiNodeSelected;
             documentTreeUserControl.MidiMappingGroupNodeSelected += DocumentTreeUserControl_MidiMappingGroupNodeSelected;
-            documentTreeUserControl.NewRequested += TopButtonBarElement_NewClicked;
             documentTreeUserControl.PatchGroupNodeSelected += DocumentTreeUserControl_PatchGroupNodeSelected;
             documentTreeUserControl.PatchHovered += DocumentTreeUserControl_PatchHovered;
             documentTreeUserControl.PatchNodeSelected += DocumentTreeUserControl_PatchNodeSelected;
@@ -471,6 +471,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentTreeUserControl_AudioOutputNodeSelected(object sender, EventArgs e)
             => TemplateActionHandler(_mainPresenter.DocumentTree_SelectAudioOutput);
+
+        private void DocumentTreeUserControl_CreateRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Create);
 
         private void DocumentTreeUserControl_DeleteRequested(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.DocumentTree_Delete);
 

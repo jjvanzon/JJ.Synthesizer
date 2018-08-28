@@ -877,7 +877,44 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			MainViewModel.WarningMessages = warningsResult.Messages;
 		}
 
-		private void DocumentTree_CreateLibrary()
+	    public void DocumentTree_Create()
+	    {
+	        DocumentTreeNodeTypeEnum selectedNodeType = MainViewModel.Document.DocumentTree.SelectedNodeType;
+
+	        // Redirect
+	        switch (selectedNodeType)
+	        {
+	            case DocumentTreeNodeTypeEnum.Libraries:
+	                DocumentTree_CreateLibrary();
+	                break;
+
+	            case DocumentTreeNodeTypeEnum.Midi:
+	                // Redirect
+	                DocumentTree_CreateMidiMappingGroup();
+	                break;
+
+	            case DocumentTreeNodeTypeEnum.PatchGroup:
+	                // Redirect
+	                DocumentTree_CreatePatch();
+	                break;
+
+	            case DocumentTreeNodeTypeEnum.Patch:
+	            case DocumentTreeNodeTypeEnum.LibraryPatch:
+	                // Redirect
+	                DocumentTree_CreateOperator();
+	                break;
+
+	            case DocumentTreeNodeTypeEnum.Scales:
+	                // Redirect
+	                DocumentTree_CreateScale();
+	                break;
+
+	            default:
+	                throw new ValueNotSupportedException(selectedNodeType);
+	        }
+	    }
+
+        private void DocumentTree_CreateLibrary()
 		{
 			LibrarySelectionPopupViewModel userInput = MainViewModel.Document.LibrarySelectionPopup;
 
@@ -3069,42 +3106,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void TopButtonBar_Create()
-        {
-            DocumentTreeNodeTypeEnum selectedNodeType = MainViewModel.Document.DocumentTree.SelectedNodeType;
-
-            // Redirect
-            switch (selectedNodeType)
-            {
-                case DocumentTreeNodeTypeEnum.Libraries:
-                    DocumentTree_CreateLibrary();
-                    break;
-
-                case DocumentTreeNodeTypeEnum.Midi:
-                    // Redirect
-                    DocumentTree_CreateMidiMappingGroup();
-                    break;
-
-                case DocumentTreeNodeTypeEnum.PatchGroup:
-                    // Redirect
-                    DocumentTree_CreatePatch();
-                    break;
-
-                case DocumentTreeNodeTypeEnum.Patch:
-                case DocumentTreeNodeTypeEnum.LibraryPatch:
-                    // Redirect
-                    DocumentTree_CreateOperator();
-                    break;
-
-                case DocumentTreeNodeTypeEnum.Scales:
-                    // Redirect
-                    DocumentTree_CreateScale();
-                    break;
-
-                default:
-                    throw new ValueNotSupportedException(selectedNodeType);
-            }
-        }
+        public void TopButtonBar_Create() => DocumentTree_Create();
 
         public void TopButtonBar_Delete() => DocumentTree_Delete();
 

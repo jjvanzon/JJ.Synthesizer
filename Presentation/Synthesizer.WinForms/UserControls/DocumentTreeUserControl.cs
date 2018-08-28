@@ -54,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 		public event EventHandler<EventArgs<int>> ScaleNodeSelected;
 
         // Other Events
-	    public event EventHandler NewRequested;
+	    public event EventHandler CreateRequested;
 	    public event EventHandler DeleteRequested;
 	    public event EventHandler<EventArgs<int>> PatchHovered;
 
@@ -953,7 +953,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			if (_libraryPatchTreeNodes.Contains(node))
 			{
-				NewRequested(this, EventArgs.Empty);
+				CreateRequested(this, EventArgs.Empty);
 			}
 
 			if (_patchTreeNodes.Contains(node))
