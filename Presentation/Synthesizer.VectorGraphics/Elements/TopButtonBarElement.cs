@@ -47,6 +47,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
         protected override void ApplyViewModelToElements()
         {
+            ButtonBarElement.Visible = ViewModel.Visible;
             ButtonBarElement.AddToInstrumentButtonVisible = ViewModel.CanAddToInstrument;
             ButtonBarElement.NewButtonVisible = ViewModel.CanCreate;
             ButtonBarElement.ExpandButtonVisible = ViewModel.CanOpenExternally;

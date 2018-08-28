@@ -31,13 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             diagramControl.Diagram = diagram;
         }
 
-        [Obsolete("Obsolete? Do I need to override in order ot make diagramControl.Refresh go off, or does that happen automatically.")]
-        public override void Refresh()
-        {
-            base.Refresh();
-            diagramControl.Refresh();
-        }
-
         public void PositionControls()
         {
             diagramControl.Size = new Size(Width, Height);

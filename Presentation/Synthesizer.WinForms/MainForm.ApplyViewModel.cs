@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			toneGridEditUserControl.ViewModel = documentViewModel.VisibleToneGridEdit;
 		    topBarUserControl.TopBarElement.InstrumentBarElement.ViewModel = documentViewModel.InstrumentBar;
 		    topBarUserControl.TopBarElement.TopButtonBarElement.ViewModel = documentViewModel.TopButtonBar;
-		    topBarUserControl.Refresh();
+            topBarUserControl.Refresh();
 
             // Applying Visible = true first and then Visible = false prevents flickering.
             foreach (UserControlBase userControl in _userControls)
