@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                 UndoButtonVisible = true
             };
 
-            // DIRTY: Low priorty: Coincidentally this is the max number of visible buttons in any given situation (currently).
+            // DIRTY: Low priority: Coincidentally this is the max number of visible buttons in any given situation (currently).
             const int maxVisibleButtonCount = 10;
             float width = ButtonBarElement.GetWidth(maxVisibleButtonCount);
             const float height = StyleHelper.ROW_HEIGHT;

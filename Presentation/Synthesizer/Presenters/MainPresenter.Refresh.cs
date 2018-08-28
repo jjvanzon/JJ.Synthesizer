@@ -1081,9 +1081,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             TopButtonBarViewModel viewModel = MainViewModel.Document.TopButtonBar;
             DocumentTreeNodeTypeEnum selectedNodeType = MainViewModel.Document.DocumentTree.SelectedNodeType;
+            bool documentTreeVisible = MainViewModel.Document.DocumentTree.Visible;
             bool patchDetailsVisible = MainViewModel.Document.VisiblePatchDetails != null;
 
-            _topButtonBarPresenter.Refresh(viewModel, selectedNodeType, patchDetailsVisible);
+            _topButtonBarPresenter.Refresh(viewModel, selectedNodeType, documentTreeVisible, patchDetailsVisible);
         }
 
 		private void UnderlyingPatchLookup_Refresh()
