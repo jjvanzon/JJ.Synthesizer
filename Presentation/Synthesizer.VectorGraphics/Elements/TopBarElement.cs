@@ -25,19 +25,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             TopButtonBarElement = new TopButtonBarElement(this, toolTipElement, underlyingPictureWrapper);
             InstrumentBarElement = new InstrumentBarElement(this, underlyingPictureWrapper, textMeasurer);
             DocumentClosePictureButton = new PictureButtonElement(this, underlyingPictureWrapper.PictureClose, CommonResourceFormatter.Close, toolTipElement);
+
+            TopButtonBarElement.Position.X = StyleHelper.SPACING_SMALL;
         }
 
         public void PositionElements()
         {
             TopButtonBarElement.PositionElements();
 
+            DocumentClosePictureButton.PositionElements();
             DocumentClosePictureButton.Position.Right = Position.Width - StyleHelper.SPACING_SMALL;
 
             InstrumentBarElement.Position.Width = DocumentClosePictureButton.Position.X -
-                                                   TopButtonBarElement.Position.Width -
-                                                   StyleHelper.SPACING_SMALL_TIMES_2;
+                                                  TopButtonBarElement.Position.Width -
+                                                  StyleHelper.SPACING_LARGE -
+                                                  StyleHelper.SPACING_LARGE;
 
-            InstrumentBarElement.Position.X = TopButtonBarElement.Position.Width + StyleHelper.SPACING_SMALL;
+            InstrumentBarElement.Position.X = TopButtonBarElement.Position.Width + StyleHelper.SPACING_LARGE;
             InstrumentBarElement.PositionElements();
 
             Position.Height = new[] { InstrumentBarElement.Position.Height, DocumentClosePictureButton.Position.Height, TopButtonBarElement.Position.Height }.Max();
