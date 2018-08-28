@@ -63,8 +63,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonTreeStructure = new PictureButtonElement(this, underlyingPictureWrapper.PictureTreeStructure, CommonResourceFormatter.TreeStructure, toolTipElement);
             _pictureButtonUndo = new PictureButtonElement(this, underlyingPictureWrapper.PictureUndo, CommonResourceFormatter.Undo, toolTipElement);
 
-            MaxWidth = GetWidth(Children.OfType<PictureButtonElement>().Count());
-
             _pictureButtonsInReverseOrder = new[]
                 {
                     _pictureButtonTreeStructure,
@@ -289,13 +287,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonsInReverseOrder.ForEach(e => e.PositionElements());
         }
 
-        private float GetWidth(int buttonCount)
+        public float GetWidth(int buttonCount)
             => buttonCount * StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
                (buttonCount - 1) * StyleHelper.SPACING_LARGE +
                StyleHelper.SPACING_SMALL;
-
-        /// <summary> Returns the width that the button bar would be if the maximum amount of buttons were visible. </summary>
-        public float MaxWidth { get; }
 
         private int GetVisibleButtonCount()
         {

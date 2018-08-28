@@ -34,10 +34,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             DocumentClosePictureButton.Position.Right = Position.Width - StyleHelper.SPACING_SMALL;
 
             InstrumentBarElement.Position.Width = DocumentClosePictureButton.Position.X -
-                                                   TopButtonBarElement.MaxWidth -
+                                                   TopButtonBarElement.Position.Width -
                                                    StyleHelper.SPACING_SMALL_TIMES_2;
 
-            InstrumentBarElement.Position.X = TopButtonBarElement.MaxWidth + StyleHelper.SPACING_SMALL;
+            InstrumentBarElement.Position.X = TopButtonBarElement.Position.Width + StyleHelper.SPACING_SMALL;
             InstrumentBarElement.PositionElements();
 
             Position.Height = new[] { InstrumentBarElement.Position.Height, DocumentClosePictureButton.Position.Height, TopButtonBarElement.Position.Height }.Max();

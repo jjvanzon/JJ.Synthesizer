@@ -1,10 +1,11 @@
 ﻿using JJ.Framework.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-    public class TopButtonBarElement : ElementBaseWithScreenViewModel
+    public sealed class TopButtonBarElement : ElementBaseWithScreenViewModel
     {
         public ButtonBarElement ButtonBarElement { get; }
 
@@ -27,8 +28,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                 UndoButtonVisible = true
             };
 
-            ButtonBarElement.Position.Width = ButtonBarElement.MaxWidth;
-            ButtonBarElement.Position.Height = StyleHelper.ROW_HEIGHT;
+            // DIRTY: Low priorty: Coincidentally this is the max number of visible buttons in any given situation (currently).
+            const int maxVisibleButtonCount = 10;
+            float width = ButtonBarElement.GetWidth(maxVisibleButtonCount);
+            const float height = StyleHelper.ROW_HEIGHT;
+
+            ButtonBarElement.Position.Width = width;
+            ButtonBarElement.Position.Height = height;
+            Position.Width = width;
+            Position.Height = height;
         }
 
         public new TopButtonBarViewModel ViewModel
@@ -45,8 +53,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             ButtonBarElement.PlayButtonVisible = ViewModel.CanPlay;
             ButtonBarElement.DeleteButtonVisible = ViewModel.CanDelete;
         }
-
-        public float MaxWidth => ButtonBarElement.MaxWidth;
 
         public override void PositionElements() => ButtonBarElement.PositionElements();
     }
