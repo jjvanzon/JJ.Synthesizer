@@ -67,6 +67,7 @@
     <Compile Include="Presenters\MidiMappingGroupDetailsPresenter.cs" />
     <Compile Include="Presenters\MidiMappingPropertiesPresenter.cs" />
     <Compile Include="Presenters\MonitoringBarPresenter.cs" />
+    <Compile Include="Presenters\TopButtonBarPresenter.cs" />
     <Compile Include="ToViewModel\ToLookupViewModelExtensions.cs" />
     <Compile Include="Validators\MidiMappingPropertiesViewModel_Validator.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_WithCollectionRecalculation.cs" />
@@ -149,7 +150,6 @@
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeletedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
-    <Compile Include="Presenters\Partials\MenuPresenter.cs" />
     <Compile Include="Presenters\CurveDetailsPresenter.cs" />
     <Compile Include="Presenters\DocumentGridPresenter.cs" />
     <Compile Include="Presenters\PatchDetailsPresenter.cs" />
@@ -177,7 +177,6 @@
     <Compile Include="ViewModels\Items\PatchViewModel.cs" />
     <Compile Include="ViewModels\Items\SampleViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\Partials\MenuViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCurve.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSample.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForNumber.cs" />
@@ -185,7 +184,6 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchInlet.cs" />
     <Compile Include="ViewModels\Partials\PatchesTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\PatchGroupTreeNodeViewModel.cs" />
-    <Compile Include="ViewModels\Items\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Partials\LibraryTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\LibrariesTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
@@ -195,6 +193,7 @@
     <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModelBase.cs" />
     <Compile Include="ViewModels\ScreenViewModelBase.cs" />
+    <Compile Include="ViewModels\TopButtonBarViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\Canonical\JJ.Business.Canonical.csproj">

@@ -21,8 +21,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 		/// <summary> nullable, but only temporarily in the DocumentSave action. </summary>
 		public AutoPatchPopupViewModel AutoPatchPopup { get; set; }
 
-		public InstrumentBarViewModel InstrumentBar { get; set; }
-
 		/// <summary>
 		/// Multiple of them can be visible.
 		/// It is suggested that they be shown at the bottom of the screen.
@@ -31,8 +29,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 
 		public DocumentPropertiesViewModel DocumentProperties { get; set; }
 		public DocumentTreeViewModel DocumentTree { get; set; }
-		public LibrarySelectionPopupViewModel LibrarySelectionPopup { get; set; }
-		public Dictionary<int, LibraryPropertiesViewModel> LibraryPropertiesDictionary { get; set; }
+
+	    public InstrumentBarViewModel InstrumentBar { get; set; }
+
+	    public LibrarySelectionPopupViewModel LibrarySelectionPopup { get; set; }
+        
+        public Dictionary<int, LibraryPropertiesViewModel> LibraryPropertiesDictionary { get; set; }
 		public LibraryPropertiesViewModel VisibleLibraryProperties { get; set; }
 		public MidiMappingGroupDetailsViewModel VisibleMidiMappingGroupDetails { get; set; }
 		public Dictionary<int, MidiMappingGroupDetailsViewModel> MidiMappingGroupDetailsDictionary { get; set; }
@@ -73,6 +75,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Items
 
 		/// <summary> Key is Scale ID. </summary>
 		public Dictionary<int, ToneGridEditViewModel> ToneGridEditDictionary { get; set; }
+
+        public TopButtonBarViewModel TopButtonBar { get; set; }
 
 		/// <summary> This lookup is used by OperatorProperties views. </summary>
 		public IList<IDAndName> UnderlyingPatchLookup { get; set; }

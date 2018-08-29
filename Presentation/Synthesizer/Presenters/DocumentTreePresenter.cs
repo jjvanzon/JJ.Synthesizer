@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			_midiMappingFacade = midiMappingFacade ?? throw new ArgumentNullException(nameof(midiMappingFacade));
 		}
 
-		public void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
+	    private void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 
 	    public DocumentTreeViewModel Create(DocumentTreeViewModel userInput)
 		{
@@ -204,7 +204,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 	    public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => ExecuteAction(userInput, x => { });
 
-	    public void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
+	    private void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 
 	    public void ShowOrClose(DocumentTreeViewModel viewModel)
 	    { 
@@ -360,9 +360,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 			// Non-Persisted
 			viewModel.ValidationMessages.AddRange(result.Messages);
-			SetSelectedNodeType(viewModel, viewModel.SelectedNodeType);
+		    viewModel.SelectedNodeType = viewModel.SelectedNodeType;
 
-			// Successful?
+		    // Successful?
 			viewModel.Successful = result.Successful;
 
 			return viewModel;
@@ -373,36 +373,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 			base.ExecuteNonPersistedAction(viewModel, action);
 
 			// Non-Persisted
-			SetSelectedNodeType(viewModel, viewModel.SelectedNodeType);
+		    viewModel.SelectedNodeType = viewModel.SelectedNodeType;
 		}
 
-		private static void SetSelectedNodeType(DocumentTreeViewModel viewModel, DocumentTreeNodeTypeEnum nodeType)
-		{
-			viewModel.SelectedNodeType = nodeType;
-
-			viewModel.CanAddToInstrument = ToViewModelHelper.GetCanAddToInstrument(nodeType);
-			viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(nodeType);
-			viewModel.CanPlay = ToViewModelHelper.GetCanPlay(nodeType);
-			viewModel.CanDelete = ToViewModelHelper.GetCanDelete(nodeType);
-			// NOTE: CanCreate is set in the MainPresenter instead, because it depends on another view's visibility (PatchDetails).
-		}
-
-		protected override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
+	    protected override void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
 		{
 			base.CopyNonPersistedProperties(sourceViewModel, destViewModel);
 
-			destViewModel.CanAddToInstrument = sourceViewModel.CanAddToInstrument;
-			destViewModel.CanCreate = sourceViewModel.CanCreate;
-			destViewModel.CanOpenExternally = sourceViewModel.CanOpenExternally;
-			destViewModel.CanPlay = sourceViewModel.CanPlay;
-			destViewModel.CanDelete = sourceViewModel.CanDelete;
 			destViewModel.OutletIDToPlay = sourceViewModel.OutletIDToPlay;
 			destViewModel.SelectedFriendlyPatchGroupName = sourceViewModel.SelectedFriendlyPatchGroupName;
 			destViewModel.SelectedCanonicalPatchGroupName = sourceViewModel.SelectedCanonicalPatchGroupName;
 			destViewModel.SelectedItemID = sourceViewModel.SelectedItemID;
 			destViewModel.SelectedNodeType = sourceViewModel.SelectedNodeType;
 			destViewModel.SelectedPatchGroupLowerDocumentReferenceID = sourceViewModel.SelectedPatchGroupLowerDocumentReferenceID;
-			destViewModel.Visible = destViewModel.Visible;
 		}
 
 		private void ClearSelectedItemIfDeleted(DocumentTreeViewModel viewModel)

@@ -13,20 +13,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         public TitleBarElement(
             Element parent,
             ITextMeasurer textMeasurer,
-            object underlyingPictureAdd,
-            object underlyingPictureAddToInstrument,
-            object underlyingPictureBrowse,
-            object underlyingPictureClose,
-            object underlyingPictureDelete,
-            object underlyingPictureExpand,
-            object underlyingPictureNew,
-            object underlyingPicturePlay,
-            object underlyingPictureRedo,
-            object underlyingPictureRefresh,
-            object underlyingPictureRename,
-            object underlyingPictureSave,
-            object underlyingPictureTreeStructure,
-            object underlyingPictureUndo)
+            UnderlyingPictureWrapper underlyingPictureWrapper)
             : base(parent)
         {
             var toolTipElement = new ToolTipElement(
@@ -43,23 +30,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
             _titleLabel.Position.Height = StyleHelper.ROW_HEIGHT;
 
-            _buttonBarElement = new ButtonBarElement(
-                this,
-                toolTipElement,
-                underlyingPictureAdd,
-                underlyingPictureAddToInstrument,
-                underlyingPictureBrowse,
-                underlyingPictureClose,
-                underlyingPictureDelete,
-                underlyingPictureExpand,
-                underlyingPictureNew,
-                underlyingPicturePlay,
-                underlyingPictureRedo,
-                underlyingPictureRefresh,
-                underlyingPictureRename,
-                underlyingPictureSave,
-                underlyingPictureTreeStructure,
-                underlyingPictureUndo);
+            _buttonBarElement = new ButtonBarElement(this, toolTipElement, underlyingPictureWrapper);
 
             Position.Height = StyleHelper.ROW_HEIGHT;
         }

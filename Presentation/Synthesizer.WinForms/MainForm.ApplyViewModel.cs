@@ -20,13 +20,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
 			Text = mainViewModel.TitleBar;
 
-			menuUserControl.Show(mainViewModel.Menu);
 			_autoPatchPopupForm.ViewModel = documentViewModel.AutoPatchPopup;
 			audioFileOutputGridUserControl.ViewModel = documentViewModel.AudioFileOutputGrid;
 			audioFileOutputPropertiesUserControl.ViewModel = documentViewModel.VisibleAudioFileOutputProperties;
 			audioOutputPropertiesUserControl.ViewModel = documentViewModel.AudioOutputProperties;
-			instrumentBarUserControl.ViewModel = documentViewModel.InstrumentBar;
-			curveDetailsListUserControl.ViewModels = documentViewModel.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
+            curveDetailsListUserControl.ViewModels = documentViewModel.CurveDetailsDictionary.Values.OrderBy(x => x.Curve.Name).ToArray();
 			documentDetailsUserControl.ViewModel = mainViewModel.DocumentDetails;
 			documentGridUserControl.ViewModel = mainViewModel.DocumentGrid;
 			documentPropertiesUserControl.ViewModel = documentViewModel.DocumentProperties;
@@ -34,47 +32,50 @@ namespace JJ.Presentation.Synthesizer.WinForms
 			libraryPropertiesUserControl.ViewModel = documentViewModel.VisibleLibraryProperties;
 			_librarySelectionPopupForm.ViewModel = documentViewModel.LibrarySelectionPopup;
 			midiMappingDetailsUserControl.ViewModel = documentViewModel.VisibleMidiMappingGroupDetails;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			midiMappingPropertiesUserControl.ViewModel = documentViewModel.VisibleMidiMappingProperties;
 			monitoringBarUserControl.ViewModel = mainViewModel.MonitoringBar;
 			nodePropertiesUserControl.ViewModel = documentViewModel.VisibleNodeProperties;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl.ViewModel = documentViewModel.VisibleOperatorProperties;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForCache.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_ForCache.ViewModel = documentViewModel.VisibleOperatorProperties_ForCache;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForCurve.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_ForCurve.ViewModel = documentViewModel.VisibleOperatorProperties_ForCurve;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForInletsToDimension.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_ForInletsToDimension.ViewModel = documentViewModel.VisibleOperatorProperties_ForInletsToDimension;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForNumber.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_ForNumber.ViewModel = documentViewModel.VisibleOperatorProperties_ForNumber;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForPatchInlet.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_ForPatchInlet.ViewModel = documentViewModel.VisibleOperatorProperties_ForPatchInlet;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForPatchOutlet.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_ForPatchOutlet.ViewModel = documentViewModel.VisibleOperatorProperties_ForPatchOutlet;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_ForSample.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_ForSample.ViewModel = documentViewModel.VisibleOperatorProperties_ForSample;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_WithCollectionRecalculation.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_WithCollectionRecalculation.ViewModel = documentViewModel.VisibleOperatorProperties_WithCollectionRecalculation;
-			// Order-Depedence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
+			// Order-Dependence: Always set lookups before setting view model, otherwise the selected value from the lookup isn't there.
 			operatorPropertiesUserControl_WithInterpolation.SetUnderlyingPatchLookup(documentViewModel.UnderlyingPatchLookup);
 			operatorPropertiesUserControl_WithInterpolation.ViewModel = documentViewModel.VisibleOperatorProperties_WithInterpolation;
 			patchDetailsUserControl.ViewModel = documentViewModel.VisiblePatchDetails;
 			patchPropertiesUserControl.ViewModel = documentViewModel.VisiblePatchProperties;
 			scalePropertiesUserControl.ViewModel = documentViewModel.VisibleScaleProperties;
 			toneGridEditUserControl.ViewModel = documentViewModel.VisibleToneGridEdit;
+		    topBarUserControl.TopBarElement.InstrumentBarElement.ViewModel = documentViewModel.InstrumentBar;
+		    topBarUserControl.TopBarElement.TopButtonBarElement.ViewModel = documentViewModel.TopButtonBar;
+            topBarUserControl.Refresh();
 
-			// Applying Visible = true first and then Visible = false prevents flickering.
-			foreach (UserControlBase userControl in _userControls)
+            // Applying Visible = true first and then Visible = false prevents flickering.
+            foreach (UserControlBase userControl in _userControls)
 			{
 				if (MustBecomeVisible(userControl))
 				{
