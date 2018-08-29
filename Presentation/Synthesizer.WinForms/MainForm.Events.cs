@@ -228,6 +228,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             _topButtonBarElement.ButtonBarElement.AddToInstrumentClicked += TopButtonBarElement_AddToInstrumentClicked;
             _topButtonBarElement.ButtonBarElement.BrowseClicked += TopButtonBarElement_BrowseClicked;
+            _topButtonBarElement.ButtonBarElement.CloneClicked += TopButtonBarElement_CloneClicked;
             _topButtonBarElement.ButtonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
             _topButtonBarElement.ButtonBarElement.RenameClicked += TopButtonBarElement_RenameClicked;
             _topButtonBarElement.ButtonBarElement.TreeStructureClicked += TopButtonBarElement_TreeStructureClicked;
@@ -1124,6 +1125,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     UpdateInfrastructureIfSuccessful();
                 });
 
+        private void TopButtonBarElement_CloneClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Clone);
+
         private void TopButtonBarElement_DeleteClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Delete);
 
         private void TopButtonBarElement_TreeStructureClicked(object sender, EventArgs e)
@@ -1241,14 +1244,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 PlayOutletIfNeeded();
                 OpenDocumentExternallyAndOptionallyPatchIfNeeded();
+                ApplyViewModel();
             }
             finally
             {
                 _repositories.Rollback();
-
-                // This is done in the finally block,
-                // so that upon an exception, focus is set to the original control again.
-                ApplyViewModel();
             }
         }
     }

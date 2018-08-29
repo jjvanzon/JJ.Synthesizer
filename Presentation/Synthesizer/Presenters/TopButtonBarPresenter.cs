@@ -14,6 +14,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     viewModel.CanAddToInstrument = ToViewModelHelper.GetCanAddToInstrument(selectedNodeType, documentTreeVisible);
                     viewModel.CanCreate = ToViewModelHelper.GetCanCreate(selectedNodeType, documentTreeVisible, patchDetailsVisible);
+                    viewModel.CanClone = ToViewModelHelper.GetCanClone(selectedNodeType, documentTreeVisible);
                     viewModel.CanDelete = ToViewModelHelper.GetCanDelete(selectedNodeType, documentTreeVisible);
                     viewModel.CanOpenExternally = ToViewModelHelper.GetCanOpenExternally(selectedNodeType, documentTreeVisible);
                     viewModel.CanPlay = ToViewModelHelper.GetCanPlay(selectedNodeType, documentTreeVisible);
@@ -25,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             destViewModel.CanAddToInstrument = sourceViewModel.CanAddToInstrument;
             destViewModel.CanCreate = sourceViewModel.CanCreate;
+            destViewModel.CanClone = sourceViewModel.CanClone;
             destViewModel.CanDelete = sourceViewModel.CanDelete;
             destViewModel.CanOpenExternally = sourceViewModel.CanOpenExternally;
             destViewModel.CanPlay = sourceViewModel.CanPlay;

@@ -13,6 +13,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         public event EventHandler AddClicked;
         public event EventHandler AddToInstrumentClicked;
         public event EventHandler BrowseClicked;
+        public event EventHandler CloneClicked;
         public event EventHandler CloseClicked;
         public event EventHandler DeleteClicked;
         public event EventHandler RenameClicked;
@@ -28,6 +29,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         private readonly PictureButtonElement _pictureButtonAdd;
         private readonly PictureButtonElement _pictureButtonAddToInstrument;
         private readonly PictureButtonElement _pictureButtonBrowse;
+        private readonly PictureButtonElement _pictureButtonClone;
         private readonly PictureButtonElement _pictureButtonClose;
         private readonly PictureButtonElement _pictureButtonDelete;
         private readonly PictureButtonElement _pictureButtonExpand;
@@ -51,6 +53,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonAdd = new PictureButtonElement(this, underlyingPictureWrapper.PictureAdd, CommonResourceFormatter.Add, toolTipElement);
             _pictureButtonAddToInstrument = new PictureButtonElement(this, underlyingPictureWrapper.PictureAddToInstrument, ResourceFormatter.AddToInstrument, toolTipElement);
             _pictureButtonBrowse = new PictureButtonElement(this, underlyingPictureWrapper.PictureBrowse, ResourceFormatter.DocumentList, toolTipElement);
+            _pictureButtonClone = new PictureButtonElement(this, underlyingPictureWrapper.PictureClone, CommonResourceFormatter.Clone, toolTipElement);
             _pictureButtonClose = new PictureButtonElement(this, underlyingPictureWrapper.PictureClose, CommonResourceFormatter.Close, toolTipElement);
             _pictureButtonDelete = new PictureButtonElement(this, underlyingPictureWrapper.PictureDelete, CommonResourceFormatter.Delete, toolTipElement);
             _pictureButtonExpand = new PictureButtonElement(this, underlyingPictureWrapper.PictureExpand, CommonResourceFormatter.Open, toolTipElement);
@@ -76,6 +79,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                     _pictureButtonNew,
                     _pictureButtonAdd,
                     _pictureButtonDelete,
+                    _pictureButtonClone,
 
                     _pictureButtonBrowse,
                     _pictureButtonSave,
@@ -89,6 +93,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonAdd.MouseDown += _pictureButtonAdd_MouseDown;
 			_pictureButtonAddToInstrument.MouseDown += _pictureButtonAddToInstrument_MouseDown;
             _pictureButtonBrowse.MouseDown += _pictureButtonBrowse_MouseDown;
+            _pictureButtonClone.MouseDown += _pictureButtonClone_MouseDown;
             _pictureButtonClose.MouseDown += _pictureButtonClose_MouseDown;
             _pictureButtonDelete.MouseDown += _pictureButtonDelete_MouseDown;
             _pictureButtonExpand.MouseDown += _pictureButtonExpand_MouseDown;
@@ -107,6 +112,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonAdd.Visible = false;
             _pictureButtonAddToInstrument.Visible = false;
             _pictureButtonBrowse.Visible = false;
+            _pictureButtonClone.Visible = false;
             _pictureButtonClose.Visible = true;
             _pictureButtonDelete.Visible = false;
             _pictureButtonExpand.Visible = false;
@@ -136,6 +142,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             set
             {
                 _pictureButtonAddToInstrument.Visible = value;
+                PositionElements();
+            }
+        }
+
+        public bool CloneButtonVisible
+        {
+            get => _pictureButtonClone.Visible;
+            set
+            {
+                _pictureButtonClone.Visible = value;
                 PositionElements();
             }
         }
@@ -287,7 +303,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonsInReverseOrder.ForEach(e => e.PositionElements());
         }
 
-        public float GetWidth(int buttonCount)
+        public static float GetWidth(int buttonCount)
             => buttonCount * StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
                (buttonCount - 1) * StyleHelper.SPACING_LARGE +
                StyleHelper.SPACING_SMALL;
@@ -298,6 +314,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             if (AddButtonVisible) count++;
             if (AddToInstrumentButtonVisible) count++;
             if (BrowseButtonVisible) count++;
+            if (CloneButtonVisible) count++;
             if (CloseButtonVisible) count++;
             if (NewButtonVisible) count++;
             if (ExpandButtonVisible) count++;
@@ -317,6 +334,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         private void _pictureButtonAdd_MouseDown(object sender, EventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonAddToInstrument_MouseDown(object sender, EventArgs e) => AddToInstrumentClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonBrowse_MouseDown(object sender, EventArgs e) => BrowseClicked?.Invoke(sender, EventArgs.Empty);
+        private void _pictureButtonClone_MouseDown(object sender, EventArgs e) => CloneClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonClose_MouseDown(object sender, EventArgs e) => CloseClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonDelete_MouseDown(object sender, EventArgs e) => DeleteClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonExpand_MouseDown(object sender, EventArgs e) => ExpandClicked?.Invoke(sender, EventArgs.Empty);

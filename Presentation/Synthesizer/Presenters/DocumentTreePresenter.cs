@@ -42,9 +42,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
 	    private void Close(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = false);
 
-	    public DocumentTreeViewModel Create(DocumentTreeViewModel userInput)
-		{
-			switch (userInput.SelectedNodeType)
+	    public DocumentTreeViewModel Clone(DocumentTreeViewModel userInput)
+	    {
+	        if (userInput == null) throw new ArgumentNullException(nameof(userInput));
+
+	        switch (userInput.SelectedNodeType)
+	        {
+	            case DocumentTreeNodeTypeEnum.Patch:
+	                return ClonePatch(userInput);
+
+	            default:
+	                throw new ValueNotSupportedException(userInput.SelectedNodeType);
+	        }
+	    }
+
+	    private DocumentTreeViewModel ClonePatch(DocumentTreeViewModel userInput) => ExecuteAction(
+	            userInput,
+	            viewModel =>
+	            {
+	                // GetEntity
+	                if (!userInput.SelectedItemID.HasValue) throw new NotHasValueException(() => userInput.SelectedItemID);
+	                int patchID = userInput.SelectedItemID.Value;
+	                Patch sourcePatch = _repositories.PatchRepository.Get(patchID);
+
+	                // Business
+	                Patch destPatch = _patchFacade.ClonePatch(sourcePatch);
+
+	                // Non-Persisted
+	                viewModel.CreatedEntityID = destPatch.ID;
+	            });
+
+        public DocumentTreeViewModel Create(DocumentTreeViewModel userInput)
+        {
+            if (userInput == null) throw new ArgumentNullException(nameof(userInput));
+
+            switch (userInput.SelectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Midi:
 					return CreateMidiMappingGroup(userInput);
@@ -58,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				default:
 					throw new ValueNotSupportedException(userInput.SelectedNodeType);
 			}
-		}
+        }
 
 		private DocumentTreeViewModel CreatePatch(DocumentTreeViewModel userInput) => ExecuteAction(
 		    userInput,
@@ -104,8 +136,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 	        });
 
 	    public DocumentTreeViewModel Delete(DocumentTreeViewModel userInput)
-		{
-			switch (userInput.SelectedNodeType)
+	    {
+	        if (userInput == null) throw new ArgumentNullException(nameof(userInput));
+
+	        switch (userInput.SelectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Library:
 					return DeleteLibrary(userInput);
@@ -122,7 +156,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 				default:
 					throw new ValueNotSupportedException(userInput.SelectedNodeType);
 			}
-		}
+	    }
 
 		private DocumentTreeViewModel DeleteLibrary(DocumentTreeViewModel userInput) => ExecuteAction(
 		    userInput,

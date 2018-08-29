@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 TopButtonBar = ToViewModelHelper.CreateTopButtonBarViewModel(documentIsOpen: true),
 				UnderlyingPatchLookup = document.ToUnderlyingPatchLookupViewModel(),
 				UndoHistory = new Stack<UndoItemViewModelBase>(),
-				RedoFuture = new Stack<UndoItemViewModelBase>(),
+				RedoFuture = new Stack<UndoItemViewModelBase>()
 			};
 
 			var converter = new RecursiveDocumentTreeViewModelFactory();

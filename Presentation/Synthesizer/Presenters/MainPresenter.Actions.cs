@@ -509,7 +509,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchDetails_SelectOperator(patchID, operatorID);
             });
 
-        // Document Grid
+        // Document
+
+        public void Document_Activate() => Document_Refresh();
 
         public void DocumentCannotDelete_OK()
         {
@@ -518,6 +520,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Partial Action
             ExecuteNonPersistedAction(userInput, () => _documentCannotDeletePresenter.OK(userInput));
+        }
+
+        public void Document_Close()
+        {
+            // Dirty Check
+            if (MainViewModel.Document.IsDirty)
+            {
+                SaveChangesPopup_Show();
+                return;
+            }
+
+            // Redirect
+            Document_CloseConfirmed();
+        }
+
+        private void Document_CloseConfirmed()
+        {
+            // Partial Actions
+            string titleBar = _titleBarPresenter.Show();
+            DocumentViewModel documentViewModel = ToViewModelHelper.CreateEmptyDocumentViewModel();
+
+            // DispatchViewModel
+            MainViewModel.TitleBar = titleBar;
+            MainViewModel.Document = documentViewModel;
+
+            // Redirect
+            DocumentGrid_Show();
         }
 
         public void DocumentDelete_Cancel()
@@ -672,37 +701,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentGridViewModel viewModel = MainViewModel.DocumentGrid;
 
             ExecuteReadAction(viewModel, () => _documentGridPresenter.Load(viewModel));
-        }
-
-        // Document
-
-        public void Document_Activate() => Document_Refresh();
-
-        public void Document_Close()
-        {
-            // Dirty Check
-            if (MainViewModel.Document.IsDirty)
-            {
-                SaveChangesPopup_Show();
-                return;
-            }
-
-            // Redirect
-            Document_CloseConfirmed();
-        }
-
-        private void Document_CloseConfirmed()
-        {
-            // Partial Actions
-            string titleBar = _titleBarPresenter.Show();
-            DocumentViewModel documentViewModel = ToViewModelHelper.CreateEmptyDocumentViewModel();
-
-            // DispatchViewModel
-            MainViewModel.TitleBar = titleBar;
-            MainViewModel.Document = documentViewModel;
-
-            // Redirect
-            DocumentGrid_Show();
         }
 
         public void Document_Open(int id)
@@ -882,6 +880,47 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToViewModel
             MainViewModel.ValidationMessages = validationResult.Messages;
             MainViewModel.WarningMessages = warningsResult.Messages;
+        }
+
+        private void DocumentTree_Clone()
+        {
+            DocumentTreeNodeTypeEnum selectedNodeType = MainViewModel.Document.DocumentTree.SelectedNodeType;
+
+            switch (selectedNodeType)
+            {
+                case DocumentTreeNodeTypeEnum.Patch:
+                    DocumentTree_ClonePatch();
+                    return;
+
+                default:
+                    throw new ValueNotSupportedException(selectedNodeType);
+            }
+        }
+
+        private void DocumentTree_ClonePatch()
+        {
+            // GetViewModel
+            DocumentTreeViewModel userInput = MainViewModel.Document.DocumentTree;
+
+            // Template Method
+            DocumentTreeViewModel viewModel = ExecuteCreateAction(userInput, () => _documentTreePresenter.Clone(userInput));
+
+            if (viewModel.Successful)
+            {
+                // Refresh
+                DocumentViewModel_Refresh();
+
+                // Undo History
+                var undoItem = new UndoCreateViewModel
+                {
+                    EntityTypesAndIDs = (EntityTypeEnum.Patch, viewModel.CreatedEntityID).ToViewModel().AsArray(),
+                    States = GetPatchStates(viewModel.CreatedEntityID)
+                };
+                MainViewModel.Document.UndoHistory.Push(undoItem);
+
+                // Redirect
+                Patch_Expand(viewModel.CreatedEntityID);
+            }
         }
 
         public void DocumentTree_Create()
@@ -3256,6 +3295,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     throw new ValueNotSupportedException(documentTreeViewModel.SelectedNodeType);
             }
         }
+
+        public void TopButtonBar_Clone() => DocumentTree_Clone();
 
         public void TopButtonBar_Create() => DocumentTree_Create();
 

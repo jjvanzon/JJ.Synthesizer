@@ -9,6 +9,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             Resources.AddIcon,
             Resources.PianoIcon,
             Resources.FolderIcon,
+            Resources.CloneIcon,
             Resources.CloseIcon,
             Resources.RemoveIcon,
             Resources.OpenWindowIcon,
