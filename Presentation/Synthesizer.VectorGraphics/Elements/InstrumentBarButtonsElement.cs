@@ -26,13 +26,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 		{
 			_pictureButtonExpand = new PictureButtonElement(this, underlyingPictureExpand, CommonResourceFormatter.Open, toolTipElement);
 			_pictureButtonExpand.MouseDown += _pictureButtonExpand_MouseDown;
-			_pictureButtonExpand.Position.X = StyleHelper.PICTURE_BUTTON_SPACING_SMALL + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
+			_pictureButtonExpand.Position.X = StyleHelper.SPACING_SMALL + StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
 			_pictureButtonPlay = new PictureButtonElement(this, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
 			_pictureButtonPlay.MouseDown += _pictureButtonPlay_MouseDown;
 
 			Position.Width = StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
-			                 StyleHelper.PICTURE_BUTTON_SPACING_SMALL +
+			                 StyleHelper.SPACING_SMALL +
 			                 StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
 			Position.Height = StyleHelper.ROW_HEIGHT;

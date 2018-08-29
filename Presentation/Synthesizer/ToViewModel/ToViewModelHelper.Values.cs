@@ -95,9 +95,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
 		// Document
 
-		public static bool GetCanAddToInstrument(DocumentTreeNodeTypeEnum selectedNodeType)
+		public static bool GetCanAddToInstrument(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible)
 		{
-			switch (selectedNodeType)
+		    if (!documentTreeVisible)
+		    {
+		        return false;
+		    }
+
+		    switch (selectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.LibraryMidiMappingGroup:
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
@@ -112,9 +117,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		public static bool GetCanCreate(DocumentTreeNodeTypeEnum selectedNodeType, bool patchDetailsVisible)
+		public static bool GetCanCreate(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible, bool patchDetailsVisible)
 		{
-			switch (selectedNodeType)
+		    if (!documentTreeVisible)
+		    {
+		        return false;
+		    }
+
+		    switch (selectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Midi:
 				case DocumentTreeNodeTypeEnum.Libraries:
@@ -131,9 +141,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		public static bool GetCanPlay(DocumentTreeNodeTypeEnum selectedNodeType)
+		public static bool GetCanPlay(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible)
 		{
-			switch (selectedNodeType)
+		    if (!documentTreeVisible)
+		    {
+		        return false;
+		    }
+
+		    switch (selectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.AudioOutput:
 				case DocumentTreeNodeTypeEnum.Libraries:
@@ -149,9 +164,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		public static bool GetCanOpenExternally(DocumentTreeNodeTypeEnum selectedNodeType)
+		public static bool GetCanOpenExternally(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible)
 		{
-			switch (selectedNodeType)
+		    if (!documentTreeVisible)
+		    {
+		        return false;
+		    }
+
+		    switch (selectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.Library:
 				case DocumentTreeNodeTypeEnum.LibraryPatch:
@@ -162,9 +182,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 			}
 		}
 
-		public static bool GetCanDelete(DocumentTreeNodeTypeEnum selectedNodeType)
+		public static bool GetCanDelete(DocumentTreeNodeTypeEnum selectedNodeType, bool documentTreeVisible)
 		{
-			switch (selectedNodeType)
+		    if (!documentTreeVisible)
+		    {
+		        return false;
+		    }
+
+		    switch (selectedNodeType)
 			{
 				case DocumentTreeNodeTypeEnum.MidiMappingGroup:
 				case DocumentTreeNodeTypeEnum.Library:

@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="Helpers\DelayedControlInvoker.cs" />
     <Compile Include="Helpers\ModalPopupHelper.cs" />
+    <Compile Include="Helpers\UnderlyingPictureHelper.cs" />
     <Compile Include="MainForm.ApplyViewModel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,11 +186,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\InstrumentBarUserControl.cs">
+    <Compile Include="UserControls\TopBarUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\InstrumentBarUserControl.Designer.cs">
-      <DependentUpon>InstrumentBarUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\TopBarUserControl.Designer.cs">
+      <DependentUpon>TopBarUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\CurveDetailsListUserControl.cs">
       <SubType>UserControl</SubType>
@@ -389,12 +390,6 @@
     <Compile Include="UserControls\Partials\TitleBarUserControl.Designer.cs">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Partials\MenuUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\Partials\MenuUserControl.Designer.cs">
-      <DependentUpon>MenuUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\DocumentGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -427,8 +422,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\InstrumentBarUserControl.resx">
-      <DependentUpon>InstrumentBarUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\TopBarUserControl.resx">
+      <DependentUpon>TopBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsListUserControl.resx">
       <DependentUpon>CurveDetailsListUserControl.cs</DependentUpon>
@@ -522,9 +517,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\Partials\TitleBarUserControl.resx">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\MenuUserControl.resx">
-      <DependentUpon>MenuUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentGridUserControl.resx">
       <DependentUpon>DocumentGridUserControl.cs</DependentUpon>

@@ -8,7 +8,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 {
-    public class ButtonBarElement : ElementBase
+    public sealed class ButtonBarElement : ElementBase
     {
         public event EventHandler AddClicked;
         public event EventHandler AddToInstrumentClicked;
@@ -24,8 +24,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         public event EventHandler SaveClicked;
         public event EventHandler TreeStructureClicked;
         public event EventHandler UndoClicked;
-
-        private const float HEIGHT = StyleHelper.ROW_HEIGHT;
 
         private readonly PictureButtonElement _pictureButtonAdd;
         private readonly PictureButtonElement _pictureButtonAddToInstrument;
@@ -47,36 +45,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
         public ButtonBarElement(
             Element parent,
             ToolTipElement toolTipElement,
-            object underlyingPictureAdd,
-            object underlyingPictureAddToInstrument,
-            object underlyingPictureBrowse,
-            object underlyingPictureClose,
-            object underlyingPictureDelete,
-            object underlyingPictureExpand,
-            object underlyingPictureNew,
-            object underlyingPicturePlay,
-            object underlyingPictureRedo,
-            object underlyingPictureRefresh,
-            object underlyingPictureRename,
-            object underlyingPictureSave,
-            object underlyingPictureTreeStructure,
-            object underlyingPictureUndo)
+            UnderlyingPictureWrapper underlyingPictureWrapper)
             : base(parent)
         {
-            _pictureButtonAdd = new PictureButtonElement(this, underlyingPictureAdd, CommonResourceFormatter.Add, toolTipElement);
-            _pictureButtonAddToInstrument = new PictureButtonElement(this, underlyingPictureAddToInstrument, ResourceFormatter.AddToInstrument, toolTipElement);
-            _pictureButtonBrowse = new PictureButtonElement(this, underlyingPictureBrowse, ResourceFormatter.DocumentList, toolTipElement);
-            _pictureButtonClose = new PictureButtonElement(this, underlyingPictureClose, CommonResourceFormatter.Close, toolTipElement);
-            _pictureButtonDelete = new PictureButtonElement(this, underlyingPictureDelete, CommonResourceFormatter.Delete, toolTipElement);
-            _pictureButtonExpand = new PictureButtonElement(this, underlyingPictureExpand, CommonResourceFormatter.Open, toolTipElement);
-            _pictureButtonNew = new PictureButtonElement(this, underlyingPictureNew, CommonResourceFormatter.New, toolTipElement);
-            _pictureButtonPlay = new PictureButtonElement(this, underlyingPicturePlay, ResourceFormatter.Play, toolTipElement);
-            _pictureButtonRedo = new PictureButtonElement(this, underlyingPictureRedo, CommonResourceFormatter.Redo, toolTipElement);
-            _pictureButtonRefresh = new PictureButtonElement(this, underlyingPictureRefresh, CommonResourceFormatter.Refresh, toolTipElement);
-            _pictureButtonRename = new PictureButtonElement(this, underlyingPictureRename, CommonResourceFormatter.Rename_WithName(ResourceFormatter.Document), toolTipElement);
-            _pictureButtonSave = new PictureButtonElement(this, underlyingPictureSave, CommonResourceFormatter.Save, toolTipElement);
-            _pictureButtonTreeStructure = new PictureButtonElement(this, underlyingPictureTreeStructure, CommonResourceFormatter.TreeStructure, toolTipElement);
-            _pictureButtonUndo = new PictureButtonElement(this, underlyingPictureUndo, CommonResourceFormatter.Undo, toolTipElement);
+            _pictureButtonAdd = new PictureButtonElement(this, underlyingPictureWrapper.PictureAdd, CommonResourceFormatter.Add, toolTipElement);
+            _pictureButtonAddToInstrument = new PictureButtonElement(this, underlyingPictureWrapper.PictureAddToInstrument, ResourceFormatter.AddToInstrument, toolTipElement);
+            _pictureButtonBrowse = new PictureButtonElement(this, underlyingPictureWrapper.PictureBrowse, ResourceFormatter.DocumentList, toolTipElement);
+            _pictureButtonClose = new PictureButtonElement(this, underlyingPictureWrapper.PictureClose, CommonResourceFormatter.Close, toolTipElement);
+            _pictureButtonDelete = new PictureButtonElement(this, underlyingPictureWrapper.PictureDelete, CommonResourceFormatter.Delete, toolTipElement);
+            _pictureButtonExpand = new PictureButtonElement(this, underlyingPictureWrapper.PictureExpand, CommonResourceFormatter.Open, toolTipElement);
+            _pictureButtonNew = new PictureButtonElement(this, underlyingPictureWrapper.PictureNew, CommonResourceFormatter.New, toolTipElement);
+            _pictureButtonPlay = new PictureButtonElement(this, underlyingPictureWrapper.PicturePlay, ResourceFormatter.Play, toolTipElement);
+            _pictureButtonRedo = new PictureButtonElement(this, underlyingPictureWrapper.PictureRedo, CommonResourceFormatter.Redo, toolTipElement);
+            _pictureButtonRefresh = new PictureButtonElement(this, underlyingPictureWrapper.PictureRefresh, CommonResourceFormatter.Refresh, toolTipElement);
+            _pictureButtonRename = new PictureButtonElement(this, underlyingPictureWrapper.PictureRename, CommonResourceFormatter.Rename_WithName(ResourceFormatter.Document), toolTipElement);
+            _pictureButtonSave = new PictureButtonElement(this, underlyingPictureWrapper.PictureSave, CommonResourceFormatter.Save, toolTipElement);
+            _pictureButtonTreeStructure = new PictureButtonElement(this, underlyingPictureWrapper.PictureTreeStructure, CommonResourceFormatter.TreeStructure, toolTipElement);
+            _pictureButtonUndo = new PictureButtonElement(this, underlyingPictureWrapper.PictureUndo, CommonResourceFormatter.Undo, toolTipElement);
 
             _pictureButtonsInReverseOrder = new[]
                 {
@@ -94,8 +79,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
 
                     _pictureButtonBrowse,
                     _pictureButtonSave,
-                    _pictureButtonRedo,
                     _pictureButtonUndo,
+                    _pictureButtonRedo,
                     _pictureButtonRefresh,
                     _pictureButtonClose,
                 }.Reverse()
@@ -115,6 +100,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             _pictureButtonSave.MouseDown += _pictureButtonSave_MouseDown;
             _pictureButtonTreeStructure.MouseDown += _pictureButtonTreeStructure_MouseDown;
             _pictureButtonUndo.MouseDown += _pictureButtonUndo_MouseDown;
+
+            Position.Height = StyleHelper.ROW_HEIGHT;
 
             // Magic Defaults
             _pictureButtonAdd.Visible = false;
@@ -273,19 +260,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             }
         }
 
+        // Positioning
+
         public void PositionElements()
         {
             int visibleButtonCount = GetVisibleButtonCount();
 
-            Position.Width = visibleButtonCount * StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
-                             (visibleButtonCount - 1) * StyleHelper.PICTURE_BUTTON_SPACING_LARGE +
-                             StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
-
-            Position.Height = HEIGHT;
+            Position.Width = GetWidth(visibleButtonCount);
 
             float x = Position.Width;
 
-            x -= StyleHelper.PICTURE_BUTTON_SPACING_SMALL;
+            x -= StyleHelper.SPACING_SMALL;
             x -= StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
 
             foreach (PictureButtonElement pictureButton in _pictureButtonsInReverseOrder)
@@ -295,14 +280,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
                     pictureButton.Position.X = x;
 
                     x -= StyleHelper.PICTURE_BUTTON_PICTURE_SIZE;
-                    x -= StyleHelper.PICTURE_BUTTON_SPACING_LARGE;
+                    x -= StyleHelper.SPACING_LARGE;
                 }
             }
 
             _pictureButtonsInReverseOrder.ForEach(e => e.PositionElements());
         }
 
-        // Helpers
+        public float GetWidth(int buttonCount)
+            => buttonCount * StyleHelper.PICTURE_BUTTON_PICTURE_SIZE +
+               (buttonCount - 1) * StyleHelper.SPACING_LARGE +
+               StyleHelper.SPACING_SMALL;
 
         private int GetVisibleButtonCount()
         {
@@ -323,6 +311,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Elements
             if (UndoButtonVisible) count++;
             return count;
         }
+
+        // Events
 
         private void _pictureButtonAdd_MouseDown(object sender, EventArgs e) => AddClicked?.Invoke(sender, EventArgs.Empty);
         private void _pictureButtonAddToInstrument_MouseDown(object sender, EventArgs e) => AddToInstrumentClicked?.Invoke(sender, EventArgs.Empty);
