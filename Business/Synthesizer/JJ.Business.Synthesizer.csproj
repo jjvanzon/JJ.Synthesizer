@@ -383,6 +383,7 @@
     <Compile Include="Helpers\InletTuple.cs" />
     <Compile Include="Helpers\SystemPatchNames.cs" />
     <Compile Include="Calculation\MidiMappingCalculator.cs" />
+    <Compile Include="Helpers\PatchCloner.cs" />
     <Compile Include="PatchGrouper.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator.cs" />
     <Compile Include="Roslyn\Calculation\GeneratedPatchCalculator2.cs" />

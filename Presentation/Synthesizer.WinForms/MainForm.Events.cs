@@ -193,6 +193,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             patchDetailsUserControl.AddToInstrumentRequested += PatchDetailsUserControl_AddToInstrumentRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += PatchDetailsUserControl_ChangeInputOutletRequested;
+            patchDetailsUserControl.CloneRequested += PatchDetailsUserControl_CloneRequested;
             patchDetailsUserControl.CloseRequested += PatchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.DeleteRequested += PatchDetailsUserControl_DeleteRequested;
             patchDetailsUserControl.MoveOperatorRequested += PatchDetailsUserControl_MoveOperatorRequested;
@@ -204,6 +205,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.SelectPatchRequested += PatchDetailsUserControl_SelectPatchRequested;
 
             patchPropertiesUserControl.AddToInstrumentRequested += PatchPropertiesUserControl_AddToInstrumentRequested;
+            patchPropertiesUserControl.CloneRequested += PatchPropertiesUserControl_CloneRequested;
             patchPropertiesUserControl.CloseRequested += PatchPropertiesUserControl_CloseRequested;
             patchPropertiesUserControl.ExpandRequested += PatchPropertiesUserControl_ExpandRequested;
             patchPropertiesUserControl.HasDimensionChanged += PatchPropertiesUserControl_HasDimensionChanged;
@@ -228,6 +230,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             _topButtonBarElement.ButtonBarElement.AddToInstrumentClicked += TopButtonBarElement_AddToInstrumentClicked;
             _topButtonBarElement.ButtonBarElement.BrowseClicked += TopButtonBarElement_BrowseClicked;
+            _topButtonBarElement.ButtonBarElement.CloneClicked += TopButtonBarElement_CloneClicked;
             _topButtonBarElement.ButtonBarElement.DeleteClicked += TopButtonBarElement_DeleteClicked;
             _topButtonBarElement.ButtonBarElement.RenameClicked += TopButtonBarElement_RenameClicked;
             _topButtonBarElement.ButtonBarElement.TreeStructureClicked += TopButtonBarElement_TreeStructureClicked;
@@ -1002,6 +1005,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                 });
 
+        private void PatchDetailsUserControl_CloneRequested(object sender, EventArgs<int> e)
+            => TemplateActionHandler(() => _mainPresenter.PatchDetails_Clone(e.Value));
+
         private void PatchDetailsUserControl_CloseRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchDetails_Close(e.Value));
 
@@ -1035,6 +1041,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void PatchDetailsUserControl_SelectPatchRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchDetails_Select(e.Value));
+
+        private void PatchPropertiesUserControl_CloneRequested(object sender, EventArgs<int> e)
+            => TemplateActionHandler(() => _mainPresenter.PatchProperties_Clone(e.Value));
 
         private void PatchPropertiesUserControl_CloseRequested(object sender, EventArgs<int> e)
             => TemplateActionHandler(() => _mainPresenter.PatchProperties_Close(e.Value));
@@ -1123,6 +1132,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     RecreatePatchCalculatorIfSuccessful();
                     UpdateInfrastructureIfSuccessful();
                 });
+
+        private void TopButtonBarElement_CloneClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Clone);
 
         private void TopButtonBarElement_DeleteClicked(object sender, EventArgs e) => TemplateActionHandler(_mainPresenter.TopButtonBar_Delete);
 
@@ -1241,14 +1252,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 PlayOutletIfNeeded();
                 OpenDocumentExternallyAndOptionallyPatchIfNeeded();
+                ApplyViewModel();
             }
             finally
             {
                 _repositories.Rollback();
-
-                // This is done in the finally block,
-                // so that upon an exception, focus is set to the original control again.
-                ApplyViewModel();
             }
         }
     }

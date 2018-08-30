@@ -661,6 +661,7 @@
     <None Include="Resources\PlayIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\CloneIcon.png" />
     <Content Include="Resources\TextBoxIcon.png" />
     <Content Include="Resources\TreeStructureIcon.png" />
     <None Include="Resources\UndoIcon.png" />

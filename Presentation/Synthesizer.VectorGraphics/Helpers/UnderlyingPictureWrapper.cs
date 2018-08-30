@@ -7,6 +7,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public object PictureAdd { get; }
         public object PictureAddToInstrument { get; }
         public object PictureBrowse { get; }
+        public object PictureClone { get; }
         public object PictureClose { get; }
         public object PictureDelete { get; }
         public object PictureExpand { get; }
@@ -25,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             object pictureAdd,
             object pictureAddToInstrument,
             object pictureBrowse,
+            object pictureClone,
             object pictureClose,
             object pictureDelete,
             object pictureExpand,
@@ -45,6 +47,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 pictureAddToInstrument ?? throw new ArgumentNullException(nameof(pictureAddToInstrument));
 
             PictureBrowse = pictureBrowse ?? throw new ArgumentNullException(nameof(pictureBrowse));
+            PictureClone = pictureClone ?? throw new ArgumentNullException(nameof(pictureClone));
             PictureClose = pictureClose ?? throw new ArgumentNullException(nameof(pictureClose));
             PictureDelete = pictureDelete ?? throw new ArgumentNullException(nameof(pictureDelete));
             PictureExpand = pictureExpand ?? throw new ArgumentNullException(nameof(pictureExpand));

@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
 			AddToInstrumentButtonVisible = true;
 			ExpandButtonVisible = true;
+		    CloneButtonVisible = true;
 		}
 
 		// Gui

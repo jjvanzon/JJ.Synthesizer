@@ -39,10 +39,15 @@ namespace JJ.Business.Synthesizer
 		private static readonly CalculationMethodEnum _calculationMethodEnum = CustomConfigurationManager.GetSection<ConfigurationSection>().CalculationMethod;
 
 		private readonly RepositoryWrapper _repositories;
+	    private readonly PatchCloner _patchCloner;
 
 		// Constructors
 
-		public PatchFacade(RepositoryWrapper repositories) => _repositories = repositories ?? throw new NullException(() => repositories);
+		public PatchFacade(RepositoryWrapper repositories)
+	    {
+	        _repositories = repositories ?? throw new NullException(() => repositories);
+	        _patchCloner = new PatchCloner(repositories);
+	    }
 
 	    // Create
 
@@ -289,75 +294,18 @@ namespace JJ.Business.Synthesizer
 			return validator.ToResult();
 		}
 
-		// Misc
+        // Misc
 
-		/// <summary> Validates for instance that no operator connections are lost. </summary>
-		public VoidResult SetOperatorInletCount(Operator op, int inletCount)
-		{
-			if (op == null) throw new NullException(() => op);
+	    public Patch ClonePatch(Patch sourcePatch)
+	    {
+	        Patch destPatch = _patchCloner.CloneWithRelatedEntities(sourcePatch);
 
-			IValidator validator = new OperatorValidator_SetInletCount(op, inletCount);
-			if (!validator.IsValid)
-			{
-				return validator.ToResult();
-			}
+	        new Patch_SideEffect_GenerateName(destPatch).Execute();
 
-			IList<Inlet> sortedInlets = op.Inlets.Sort().ToArray();
+	        return destPatch;
+	    }
 
-			// Create additional inlets
-			for (int i = sortedInlets.Count; i < inletCount; i++)
-			{
-				Inlet inlet = CreateInlet(op);
-				// This should be just enough to let Operator_SideEffect_ApplyUnderlyingPatch do the rest of the properties.
-				inlet.IsRepeating = true;
-			}
-
-			// Delete excessive inlets
-			for (int i = sortedInlets.Count - 1; i >= inletCount; i--)
-			{
-				Inlet inlet = sortedInlets[i];
-				DeleteInlet(inlet);
-			}
-
-			new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
-
-			return new VoidResult { Successful = true };
-		}
-
-		/// <summary> Validates for instance that no operator connections are lost. </summary>
-		public VoidResult SetOperatorOutletCount(Operator op, int outletCount)
-		{
-			if (op == null) throw new NullException(() => op);
-
-			IValidator validator = new OperatorValidator_SetOutletCount(op, outletCount);
-			if (!validator.IsValid)
-			{
-				return validator.ToResult();
-			}
-
-			IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
-
-			// Create additional outlets
-			for (int i = sortedOutlets.Count; i < outletCount; i++)
-			{
-				Outlet outlet = CreateOutlet(op);
-				// This should be just enough to let Operator_SideEffect_ApplyUnderlyingPatch do the rest of the properties.
-				outlet.IsRepeating = true;
-			}
-
-			// Delete excessive outlets
-			for (int i = sortedOutlets.Count - 1; i >= outletCount; i--)
-			{
-				Outlet outlet = sortedOutlets[i];
-				DeleteOutlet(outlet);
-			}
-
-			new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
-
-			return new VoidResult { Successful = true };
-		}
-
-		/// <summary>
+	    /// <summary>
 		/// Does work, that is shared for creating multiple calculators, only once.
 		/// In particular in compiled mode, this means it compiles the calculation only once.
 		/// Note that you are still going to have to call it once for each channel, unfortunately,
@@ -465,5 +413,71 @@ namespace JJ.Business.Synthesizer
 				DeleteOperatorWithRelatedEntities(ownedOperator);
 			}
 		}
-	}
+
+        /// <summary> Validates for instance that no operator connections are lost. </summary>
+        public VoidResult SetOperatorInletCount(Operator op, int inletCount)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IValidator validator = new OperatorValidator_SetInletCount(op, inletCount);
+            if (!validator.IsValid)
+            {
+                return validator.ToResult();
+            }
+
+            IList<Inlet> sortedInlets = op.Inlets.Sort().ToArray();
+
+            // Create additional inlets
+            for (int i = sortedInlets.Count; i < inletCount; i++)
+            {
+                Inlet inlet = CreateInlet(op);
+                // This should be just enough to let Operator_SideEffect_ApplyUnderlyingPatch do the rest of the properties.
+                inlet.IsRepeating = true;
+            }
+
+            // Delete excessive inlets
+            for (int i = sortedInlets.Count - 1; i >= inletCount; i--)
+            {
+                Inlet inlet = sortedInlets[i];
+                DeleteInlet(inlet);
+            }
+
+            new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
+
+            return new VoidResult { Successful = true };
+        }
+
+        /// <summary> Validates for instance that no operator connections are lost. </summary>
+        public VoidResult SetOperatorOutletCount(Operator op, int outletCount)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IValidator validator = new OperatorValidator_SetOutletCount(op, outletCount);
+            if (!validator.IsValid)
+            {
+                return validator.ToResult();
+            }
+
+            IList<Outlet> sortedOutlets = op.Outlets.Sort().ToArray();
+
+            // Create additional outlets
+            for (int i = sortedOutlets.Count; i < outletCount; i++)
+            {
+                Outlet outlet = CreateOutlet(op);
+                // This should be just enough to let Operator_SideEffect_ApplyUnderlyingPatch do the rest of the properties.
+                outlet.IsRepeating = true;
+            }
+
+            // Delete excessive outlets
+            for (int i = sortedOutlets.Count - 1; i >= outletCount; i--)
+            {
+                Outlet outlet = sortedOutlets[i];
+                DeleteOutlet(outlet);
+            }
+
+            new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories).Execute();
+
+            return new VoidResult { Successful = true };
+        }
+    }
 }
